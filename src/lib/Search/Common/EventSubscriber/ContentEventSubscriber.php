@@ -33,7 +33,7 @@ class ContentEventSubscriber extends AbstractSearchEventSubscriber implements Ev
         ];
     }
 
-    public function onCopyContent(CopyContentEvent $event)
+    public function onCopyContent(CopyContentEvent $event): void
     {
         $this->searchHandler->indexContent(
             $this->persistenceHandler->contentHandler()->load(
@@ -51,7 +51,7 @@ class ContentEventSubscriber extends AbstractSearchEventSubscriber implements Ev
         }
     }
 
-    public function onDeleteContent(DeleteContentEvent $event)
+    public function onDeleteContent(DeleteContentEvent $event): void
     {
         $this->searchHandler->deleteContent($event->getContentInfo()->id);
 
@@ -60,7 +60,7 @@ class ContentEventSubscriber extends AbstractSearchEventSubscriber implements Ev
         }
     }
 
-    public function onDeleteTranslation(DeleteTranslationEvent $event)
+    public function onDeleteTranslation(DeleteTranslationEvent $event): void
     {
         $contentInfo = $this->persistenceHandler->contentHandler()->loadContentInfo(
             $event->getContentInfo()->id
@@ -93,7 +93,7 @@ class ContentEventSubscriber extends AbstractSearchEventSubscriber implements Ev
         }
     }
 
-    public function onHideContent(HideContentEvent $event)
+    public function onHideContent(HideContentEvent $event): void
     {
         $locations = $this->persistenceHandler->locationHandler()->loadLocationsByContent($event->getContentInfo()->id);
         foreach ($locations as $location) {
@@ -101,7 +101,7 @@ class ContentEventSubscriber extends AbstractSearchEventSubscriber implements Ev
         }
     }
 
-    public function onPublishVersion(PublishVersionEvent $event)
+    public function onPublishVersion(PublishVersionEvent $event): void
     {
         $this->searchHandler->indexContent(
             $this->persistenceHandler->contentHandler()->load($event->getContent()->id, $event->getContent()->getVersionInfo()->versionNo)
@@ -113,7 +113,7 @@ class ContentEventSubscriber extends AbstractSearchEventSubscriber implements Ev
         }
     }
 
-    public function onRevealContent(RevealContentEvent $event)
+    public function onRevealContent(RevealContentEvent $event): void
     {
         $locations = $this->persistenceHandler->locationHandler()->loadLocationsByContent($event->getContentInfo()->id);
         foreach ($locations as $location) {
@@ -121,7 +121,7 @@ class ContentEventSubscriber extends AbstractSearchEventSubscriber implements Ev
         }
     }
 
-    public function onUpdateContentMetadata(UpdateContentMetadataEvent $event)
+    public function onUpdateContentMetadata(UpdateContentMetadataEvent $event): void
     {
         $contentInfo = $this->persistenceHandler->contentHandler()->loadContentInfo($event->getContent()->id);
         if ($contentInfo->status !== ContentInfo::STATUS_PUBLISHED) {

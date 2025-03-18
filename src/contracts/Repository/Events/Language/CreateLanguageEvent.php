@@ -14,11 +14,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct;
 
 final class CreateLanguageEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Language */
-    private $language;
+    private Language $language;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct */
-    private $languageCreateStruct;
+    private LanguageCreateStruct $languageCreateStruct;
 
     public function __construct(
         Language $language,

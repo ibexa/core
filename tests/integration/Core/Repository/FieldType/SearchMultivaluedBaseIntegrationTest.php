@@ -224,7 +224,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedEqualsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedEqualsOne($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::EQ);
 
@@ -248,7 +248,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedNotEqualsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotEqualsOne($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::EQ);
 
@@ -272,7 +272,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedInOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedInOne($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::IN);
 
@@ -294,7 +294,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedNotInOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotInOne($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::IN);
 
@@ -318,7 +318,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedInOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedInOneTwo($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::IN);
 
@@ -340,7 +340,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedNotInOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotInOneTwo($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::IN);
 
@@ -364,7 +364,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedContainsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedContainsOne($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::CONTAINS);
 
@@ -388,7 +388,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedNotContainsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotContainsOne($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::CONTAINS);
 
@@ -412,7 +412,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedGreaterThanOneFindsOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedGreaterThanOneFindsOneTwo($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::GT);
 
@@ -434,7 +434,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedGreaterThanOneFindsTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedGreaterThanOneFindsTwo($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::GT);
 
@@ -456,7 +456,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedNotGreaterThanOneFindsOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotGreaterThanOneFindsOneTwo($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::GT);
 
@@ -478,7 +478,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedNotGreaterThanOneFindsTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotGreaterThanOneFindsTwo($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::GT);
 
@@ -500,7 +500,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedGreaterThanOrEqualOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedGreaterThanOrEqualOne($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::GTE);
 
@@ -524,7 +524,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedNotGreaterThanOrEqual($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotGreaterThanOrEqual($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::GTE);
 
@@ -548,7 +548,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedLowerThanOneEmpty($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedLowerThanOneEmpty($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::LT);
 
@@ -570,7 +570,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedLowerThanOneFindsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedLowerThanOneFindsOne($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::LT);
 
@@ -592,7 +592,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedNotLowerThanOneEmpty($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotLowerThanOneEmpty($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::LT);
 
@@ -614,7 +614,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedNotLowerThanOneFindsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotLowerThanOneFindsOne($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::LT);
 
@@ -636,7 +636,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedLowerThanOrEqualOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedLowerThanOrEqualOne($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::LTE);
 
@@ -660,7 +660,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedNotLowerThanOrEqualOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotLowerThanOrEqualOne($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::LTE);
 
@@ -684,7 +684,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedBetweenOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedBetweenOneTwo($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::BETWEEN);
 
@@ -717,7 +717,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedNotBetweenOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotBetweenOneTwo($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::BETWEEN);
 
@@ -752,7 +752,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedBetweenTwoOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedBetweenTwoOne($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::BETWEEN);
 
@@ -785,7 +785,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      *
      * @depends testCreateMultivaluedTestContent
      */
-    public function testFindMultivaluedNotBetweenTwoOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
+    public function testFindMultivaluedNotBetweenTwoOne($valuesOne, $valuesTwo, bool $filter, bool $content, ?string $modifyField, array $context): void
     {
         $this->checkOperatorSupport(Operator::BETWEEN);
 

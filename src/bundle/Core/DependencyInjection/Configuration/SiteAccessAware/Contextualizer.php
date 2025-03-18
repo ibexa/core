@@ -12,8 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Contextualizer implements ContextualizerInterface
 {
-    /** @var \Symfony\Component\DependencyInjection\ContainerInterface */
-    private $container;
+    private ContainerInterface $container;
 
     /** @var string */
     private $namespace;
@@ -25,14 +24,11 @@ class Contextualizer implements ContextualizerInterface
      */
     private $siteAccessNodeName;
 
-    /** @var array */
-    private $availableSiteAccesses;
+    private array $availableSiteAccesses;
 
-    /** @var array */
-    private $availableSiteAccessGroups;
+    private array $availableSiteAccessGroups;
 
-    /** @var array */
-    private $groupsBySiteAccess;
+    private array $groupsBySiteAccess;
 
     public function __construct(
         ContainerInterface $containerBuilder,
@@ -50,12 +46,12 @@ class Contextualizer implements ContextualizerInterface
         $this->groupsBySiteAccess = $groupsBySiteAccess;
     }
 
-    public function setContextualParameter($parameterName, $scope, $value)
+    public function setContextualParameter($parameterName, $scope, $value): void
     {
         $this->container->setParameter("$this->namespace.$scope.$parameterName", $value);
     }
 
-    public function mapSetting($id, array $config)
+    public function mapSetting($id, array $config): void
     {
         foreach ($config[$this->siteAccessNodeName] as $currentScope => $scopeSettings) {
             if (isset($scopeSettings[$id])) {
@@ -64,7 +60,7 @@ class Contextualizer implements ContextualizerInterface
         }
     }
 
-    public function mapConfigArray($id, array $config, $options = 0)
+    public function mapConfigArray($id, array $config, $options = 0): void
     {
         $this->mapReservedScopeArray($id, $config, ConfigResolver::SCOPE_DEFAULT);
         $this->mapReservedScopeArray($id, $config, ConfigResolver::SCOPE_GLOBAL);
@@ -157,7 +153,7 @@ class Contextualizer implements ContextualizerInterface
      *
      * @return array
      */
-    private function groupsArraySetting(array $groups, $id, array $config, $options = 0)
+    private function groupsArraySetting(array $groups, $id, array $config, int $options = 0): array
     {
         $groupsSettings = [];
         sort($groups);
@@ -197,7 +193,7 @@ class Contextualizer implements ContextualizerInterface
      * @param string $id
      * @param string $scope
      */
-    private function mapReservedScopeArray($id, array $config, $scope)
+    private function mapReservedScopeArray($id, array $config, string $scope): void
     {
         if (
             isset($config[$this->siteAccessNodeName][$scope][$id])
@@ -215,7 +211,7 @@ class Contextualizer implements ContextualizerInterface
         }
     }
 
-    public function setContainer(ContainerInterface $container)
+    public function setContainer(ContainerInterface $container): void
     {
         $this->container = $container;
     }
@@ -225,7 +221,7 @@ class Contextualizer implements ContextualizerInterface
         return $this->container;
     }
 
-    public function setSiteAccessNodeName($scopeNodeName)
+    public function setSiteAccessNodeName($scopeNodeName): void
     {
         $this->siteAccessNodeName = $scopeNodeName;
     }
@@ -235,7 +231,7 @@ class Contextualizer implements ContextualizerInterface
         return $this->siteAccessNodeName;
     }
 
-    public function setNamespace($namespace)
+    public function setNamespace($namespace): void
     {
         $this->namespace = $namespace;
     }
@@ -245,7 +241,7 @@ class Contextualizer implements ContextualizerInterface
         return $this->namespace;
     }
 
-    public function setAvailableSiteAccesses(array $availableSiteAccesses)
+    public function setAvailableSiteAccesses(array $availableSiteAccesses): void
     {
         $this->availableSiteAccesses = $availableSiteAccesses;
     }
@@ -255,7 +251,7 @@ class Contextualizer implements ContextualizerInterface
         return $this->availableSiteAccesses;
     }
 
-    public function setGroupsBySiteAccess(array $groupsBySiteAccess)
+    public function setGroupsBySiteAccess(array $groupsBySiteAccess): void
     {
         $this->groupsBySiteAccess = $groupsBySiteAccess;
     }

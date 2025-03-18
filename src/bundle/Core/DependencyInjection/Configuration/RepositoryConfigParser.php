@@ -14,7 +14,7 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 final class RepositoryConfigParser implements RepositoryConfigParserInterface
 {
     /** @var iterable<\Ibexa\Bundle\Core\DependencyInjection\Configuration\RepositoryConfigParserInterface> */
-    private $configParsers;
+    private iterable $configParsers;
 
     /**
      * @param \Ibexa\Bundle\Core\DependencyInjection\Configuration\RepositoryConfigParserInterface[] $configParsers

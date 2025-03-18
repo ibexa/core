@@ -122,7 +122,7 @@ abstract class BaseNonRedundantFieldSetTest extends BaseTest
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
-    protected function createTestContent($mainLanguageCode, array $fieldValues)
+    protected function createTestContent(string $mainLanguageCode, array $fieldValues)
     {
         $repository = $this->getRepository();
 

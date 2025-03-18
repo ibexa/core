@@ -22,7 +22,7 @@ class EZP21771EzStringTest extends BaseTest
      * It shouldn't throw a fatal error when inserting 11 consecutive digits
      * into an eZString field
      */
-    public function test11NumbersOnEzString()
+    public function test11NumbersOnEzString(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();

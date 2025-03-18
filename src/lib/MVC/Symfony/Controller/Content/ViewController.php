@@ -28,11 +28,9 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class ViewController extends Controller
 {
-    /** @var \Ibexa\Core\MVC\Symfony\View\ViewManagerInterface */
-    protected $viewManager;
+    protected ViewManagerInterface $viewManager;
 
-    /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface */
-    private $authorizationChecker;
+    private AuthorizationCheckerInterface $authorizationChecker;
 
     public function __construct(ViewManagerInterface $viewManager, AuthorizationCheckerInterface $authorizationChecker)
     {
@@ -56,7 +54,7 @@ class ViewController extends Controller
      *
      * @return \Ibexa\Core\MVC\Symfony\View\ContentView
      */
-    public function viewAction(ContentView $view)
+    public function viewAction(ContentView $view): ContentView
     {
         return $view;
     }
@@ -69,7 +67,7 @@ class ViewController extends Controller
      *
      * @return \Ibexa\Core\MVC\Symfony\View\ContentView
      */
-    public function embedAction(ContentView $view)
+    public function embedAction(ContentView $view): ContentView
     {
         return $view;
     }
@@ -82,7 +80,7 @@ class ViewController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    protected function buildResponse($etag = null, DateTime $lastModified = null)
+    protected function buildResponse($etag = null, DateTime $lastModified = null): Response
     {
         $request = $this->getRequest();
         $response = new Response();
@@ -113,7 +111,7 @@ class ViewController extends Controller
         return $response;
     }
 
-    protected function handleViewException(Response $response, $params, Exception $e, $viewType, $contentId = null, $locationId = null)
+    protected function handleViewException(Response $response, array $params, Exception $e, $viewType, $contentId = null, $locationId = null): Response
     {
         $event = new APIContentExceptionEvent(
             $e,

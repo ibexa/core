@@ -8,6 +8,7 @@
 namespace Ibexa\Core\MVC\Symfony\Templating;
 
 use Ibexa\Contracts\Core\Repository\LocationService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Helper\TranslationHelper;
 use Ibexa\Core\MVC\Symfony\RequestStackAware;
@@ -22,17 +23,13 @@ class GlobalHelper
 {
     use RequestStackAware;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    protected $configResolver;
+    protected ConfigResolverInterface $configResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
-    protected $locationService;
+    protected LocationService $locationService;
 
-    /** @var \Symfony\Component\Routing\RouterInterface */
-    protected $router;
+    protected RouterInterface $router;
 
-    /** @var \Ibexa\Core\Helper\TranslationHelper */
-    protected $translationHelper;
+    protected TranslationHelper $translationHelper;
 
     public function __construct(
         ConfigResolverInterface $configResolver,
@@ -133,7 +130,7 @@ class GlobalHelper
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location
      */
-    public function getRootLocation()
+    public function getRootLocation(): Location
     {
         return $this->locationService->loadLocation(
             $this->configResolver->getParameter('content.tree_root.location_id')
@@ -157,7 +154,7 @@ class GlobalHelper
      *
      * @return array
      */
-    public function getAvailableLanguages()
+    public function getAvailableLanguages(): array
     {
         return $this->translationHelper->getAvailableLanguages();
     }

@@ -16,6 +16,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\FieldType\User\Type;
 use Ibexa\Core\FieldType\User\Type as UserType;
+use Ibexa\Core\FieldType\User\Value;
 use Ibexa\Core\FieldType\User\Value as UserValue;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\Persistence\Cache\UserHandler;
@@ -61,7 +62,7 @@ class UserTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getValidatorConfigurationSchemaExpectation()
+    protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return (new UserValidatorConfigurationSchemaProvider())
             ->getExpectedValidatorConfigurationSchema();
@@ -72,7 +73,7 @@ class UserTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [
             UserType::PASSWORD_TTL_SETTING => [
@@ -97,12 +98,12 @@ class UserTest extends FieldTypeTest
     /**
      * Returns the empty value expected from the field type.
      */
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): Value
     {
         return new UserValue();
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): array
     {
         return [
             [
@@ -141,7 +142,7 @@ class UserTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): array
     {
         return [
             [
@@ -224,7 +225,7 @@ class UserTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): array
     {
         $passwordUpdatedAt = new DateTimeImmutable();
 
@@ -292,7 +293,7 @@ class UserTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): array
     {
         return [
             [
@@ -688,7 +689,7 @@ class UserTest extends FieldTypeTest
                         'email'
                     ),
                 ],
-                static function (InvocationMocker $loadByLoginInvocationMocker) {
+                static function (InvocationMocker $loadByLoginInvocationMocker): void {
                     $loadByLoginInvocationMocker->willThrowException(
                         new NotFoundException('user', 'user')
                     );
@@ -716,7 +717,7 @@ class UserTest extends FieldTypeTest
                         'username'
                     ),
                 ],
-                function (InvocationMocker $loadByLoginInvocationMocker) {
+                function (InvocationMocker $loadByLoginInvocationMocker): void {
                     $loadByLoginInvocationMocker->willReturn(
                         $this->createMock(UserValue::class)
                     );

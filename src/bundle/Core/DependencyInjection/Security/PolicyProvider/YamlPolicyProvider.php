@@ -16,7 +16,7 @@ use Symfony\Component\Yaml\Yaml;
  */
 abstract class YamlPolicyProvider implements PolicyProviderInterface
 {
-    public function addPolicies(ConfigBuilderInterface $configBuilder)
+    public function addPolicies(ConfigBuilderInterface $configBuilder): void
     {
         $policiesConfig = [];
         foreach ($this->getFiles() as $file) {

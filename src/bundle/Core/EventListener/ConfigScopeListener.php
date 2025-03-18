@@ -18,13 +18,13 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class ConfigScopeListener implements EventSubscriberInterface, ConfigScopeChangeSubscriber
 {
     /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface[] */
-    private $configResolvers;
+    private iterable $configResolvers;
 
     /** @var \Ibexa\Core\MVC\Symfony\View\ViewManagerInterface|\Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware */
-    private $viewManager;
+    private ViewManagerInterface $viewManager;
 
     /** @var \Ibexa\Core\MVC\Symfony\View\ViewProvider[]|\Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware[] */
-    private $viewProviders;
+    private ?array $viewProviders = null;
 
     public function __construct(
         iterable $configResolvers,
@@ -66,7 +66,7 @@ class ConfigScopeListener implements EventSubscriberInterface, ConfigScopeChange
     /**
      * Sets the complete list of view providers.
      */
-    public function setViewProviders(array $viewProviders)
+    public function setViewProviders(array $viewProviders): void
     {
         $this->viewProviders = $viewProviders;
     }

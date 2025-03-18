@@ -23,8 +23,7 @@ class PersistenceLogger
         'memory' => 0,
     ];
 
-    /** @var bool */
-    protected $logCalls = true;
+    protected bool $logCalls;
 
     /** @var array */
     protected $calls = [];
@@ -131,7 +130,7 @@ class PersistenceLogger
      * @param array $trimmedBacktrace
      * @param string $type
      */
-    private function collectCacheCallData($method, array $arguments, array $trimmedBacktrace, string $type): void
+    private function collectCacheCallData(string $method, array $arguments, array $trimmedBacktrace, string $type): void
     {
         // simplest/fastests hash possible to identify if we have already collected this before to save on memory use
         $callHash = \hash('adler32', $method . \serialize($arguments));

@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class OriginalDirectoryVariationPathGeneratorTest extends TestCase
 {
-    public function testGetVariationPath()
+    public function testGetVariationPath(): void
     {
         $generator = new OriginalDirectoryVariationPathGenerator();
         self::assertEquals(

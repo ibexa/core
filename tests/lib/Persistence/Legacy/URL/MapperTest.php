@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 class MapperTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\URL\Mapper */
-    private $mapper;
+    private Mapper $mapper;
 
     protected function setUp(): void
     {
@@ -23,7 +23,7 @@ class MapperTest extends TestCase
         $this->mapper = new Mapper();
     }
 
-    public function testCreateURLFromUpdateStruct()
+    public function testCreateURLFromUpdateStruct(): void
     {
         $urlUpdateStruct = new URLUpdateStruct();
         $urlUpdateStruct->url = 'https://ibexa.co';
@@ -42,7 +42,7 @@ class MapperTest extends TestCase
         self::assertEquals($expected, $this->mapper->createURLFromUpdateStruct($urlUpdateStruct));
     }
 
-    public function testExtractURLsFromRows()
+    public function testExtractURLsFromRows(): void
     {
         $rows = [
             [

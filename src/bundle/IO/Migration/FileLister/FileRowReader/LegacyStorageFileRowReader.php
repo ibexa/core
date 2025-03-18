@@ -12,8 +12,7 @@ use Ibexa\Bundle\IO\Migration\FileLister\FileRowReaderInterface;
 
 abstract class LegacyStorageFileRowReader implements FileRowReaderInterface
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
     /** @var \Doctrine\DBAL\Driver\Statement */
     private $statement;
@@ -23,7 +22,7 @@ abstract class LegacyStorageFileRowReader implements FileRowReaderInterface
         $this->connection = $connection;
     }
 
-    final public function init()
+    final public function init(): void
     {
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
@@ -59,7 +58,7 @@ abstract class LegacyStorageFileRowReader implements FileRowReaderInterface
      *
      * @return string
      */
-    private function prependMimeToPath($path, $mimeType): string
+    private function prependMimeToPath(string $path, $mimeType): string
     {
         return substr($mimeType, 0, strpos($mimeType, '/')) . '/' . $path;
     }

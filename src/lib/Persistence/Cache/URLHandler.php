@@ -8,6 +8,7 @@
 namespace Ibexa\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence\URL\Handler as URLHandlerInterface;
+use Ibexa\Contracts\Core\Persistence\URL\URL;
 use Ibexa\Contracts\Core\Persistence\URL\URLUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
 
@@ -33,7 +34,7 @@ class URLHandler extends AbstractHandler implements URLHandlerInterface
         ]);
 
         if ($struct->url !== null) {
-            $this->cache->invalidateTags(array_map(function ($id) {
+            $this->cache->invalidateTags(array_map(function ($id): string {
                 return $this->cacheIdentifierGenerator->generateTag(self::CONTENT_IDENTIFIER, [$id]);
             }, $this->persistenceHandler->urlHandler()->findUsages($id)));
         }
@@ -82,7 +83,7 @@ class URLHandler extends AbstractHandler implements URLHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function loadByUrl($url)
+    public function loadByUrl($url): URL
     {
         $this->logger->logCall(__METHOD__, ['url' => $url]);
 

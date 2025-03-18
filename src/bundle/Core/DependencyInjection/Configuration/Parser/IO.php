@@ -15,15 +15,14 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class IO extends AbstractParser
 {
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\ComplexSettings\ComplexSettingParserInterface */
-    private $complexSettingParser;
+    private ComplexSettingParserInterface $complexSettingParser;
 
     public function __construct(ComplexSettingParserInterface $complexSettingParser)
     {
         $this->complexSettingParser = $complexSettingParser;
     }
 
-    public function addSemanticConfig(NodeBuilder $nodeBuilder)
+    public function addSemanticConfig(NodeBuilder $nodeBuilder): void
     {
         $nodeBuilder
             ->arrayNode('io')
@@ -56,7 +55,7 @@ class IO extends AbstractParser
             ->end();
     }
 
-    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer)
+    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer): void
     {
         if (!isset($scopeSettings['io'])) {
             return;
@@ -85,7 +84,7 @@ class IO extends AbstractParser
     /**
      * Post process configuration to add io_root_dir and io_prefix.
      */
-    public function postMap(array $config, ContextualizerInterface $contextualizer)
+    public function postMap(array $config, ContextualizerInterface $contextualizer): void
     {
         $container = $contextualizer->getContainer();
 
@@ -100,7 +99,7 @@ class IO extends AbstractParser
     /**
      * Applies dependencies of complex $parameter in $scope.
      */
-    private function addComplexParametersDependencies($parameter, $scope, ContainerBuilder $container)
+    private function addComplexParametersDependencies(string $parameter, $scope, ContainerBuilder $container): void
     {
         // The complex setting exists in this scope, we don't need to do anything
         if ($container->hasParameter("ibexa.site_access.config.$scope.$parameter")) {

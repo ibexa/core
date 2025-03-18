@@ -20,8 +20,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
  */
 final class LogicalNotQueryBuilder implements CriterionQueryBuilder
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor */
-    private $criterionVisitor;
+    private CriterionVisitor $criterionVisitor;
 
     public function __construct(CriterionVisitor $criterionVisitor)
     {

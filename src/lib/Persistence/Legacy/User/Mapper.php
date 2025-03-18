@@ -25,7 +25,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\User
      */
-    public function mapUser(array $data)
+    public function mapUser(array $data): User
     {
         $user = new User();
         $user->id = (int)$data['contentobject_id'];
@@ -47,7 +47,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\User[]
      */
-    public function mapUsers(array $data)
+    public function mapUsers(array $data): array
     {
         $users = [];
         foreach ($data as $row) {
@@ -111,7 +111,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\User\Role
      */
-    public function mapRole(array $data)
+    public function mapRole(array $data): Role
     {
         $role = new Role();
 
@@ -135,7 +135,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\User\Role[]
      */
-    public function mapRoles(array $data)
+    public function mapRoles(array $data): array
     {
         $roleData = [];
         foreach ($data as $row) {
@@ -157,7 +157,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\User\RoleAssignment[]
      */
-    public function mapRoleAssignments(array $data)
+    public function mapRoleAssignments(array $data): array
     {
         $roleAssignmentData = [];
         foreach ($data as $row) {
@@ -195,7 +195,7 @@ class Mapper
         $roleAssignments = [];
         array_walk_recursive(
             $roleAssignmentData,
-            static function ($roleAssignment) use (&$roleAssignments) {
+            static function ($roleAssignment) use (&$roleAssignments): void {
                 $roleAssignments[] = $roleAssignment;
             }
         );
@@ -210,7 +210,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\User\RoleCreateStruct
      */
-    public function createCreateStructFromRole(Role $role)
+    public function createCreateStructFromRole(Role $role): RoleCreateStruct
     {
         $createStruct = new RoleCreateStruct();
 
@@ -227,7 +227,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\User\Role
      */
-    public function createRoleFromCreateStruct(RoleCreateStruct $createStruct)
+    public function createRoleFromCreateStruct(RoleCreateStruct $createStruct): Role
     {
         $role = new Role();
 

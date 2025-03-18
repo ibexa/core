@@ -26,7 +26,7 @@ class UserPreferenceServiceDecoratorTest extends TestCase
         return $this->createMock(UserPreferenceService::class);
     }
 
-    public function testSetUserPreferenceDecorator()
+    public function testSetUserPreferenceDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -38,7 +38,7 @@ class UserPreferenceServiceDecoratorTest extends TestCase
         $decoratedService->setUserPreference(...$parameters);
     }
 
-    public function testGetUserPreferenceDecorator()
+    public function testGetUserPreferenceDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -50,7 +50,7 @@ class UserPreferenceServiceDecoratorTest extends TestCase
         $decoratedService->getUserPreference(...$parameters);
     }
 
-    public function testLoadUserPreferencesDecorator()
+    public function testLoadUserPreferencesDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -65,7 +65,7 @@ class UserPreferenceServiceDecoratorTest extends TestCase
         $decoratedService->loadUserPreferences(...$parameters);
     }
 
-    public function testGetUserPreferenceCountDecorator()
+    public function testGetUserPreferenceCountDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);

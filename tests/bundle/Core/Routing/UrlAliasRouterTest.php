@@ -18,13 +18,14 @@ use Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator;
 use Ibexa\Core\MVC\Symfony\View\Manager as ViewManager;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Tests\Core\MVC\Symfony\Routing\UrlAliasRouterTest as BaseUrlAliasRouterTest;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\RequestContext;
 
 class UrlAliasRouterTest extends BaseUrlAliasRouterTest
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $configResolver;
+    private MockObject $configResolver;
 
     protected function setUp(): void
     {
@@ -44,7 +45,7 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         parent::setUp();
     }
 
-    protected function getRouter(LocationService $locationService, URLAliasService $urlAliasService, ContentService $contentService, UrlAliasGenerator $urlAliasGenerator, RequestContext $requestContext)
+    protected function getRouter(LocationService $locationService, URLAliasService $urlAliasService, ContentService $contentService, UrlAliasGenerator $urlAliasGenerator, RequestContext $requestContext): UrlAliasRouter
     {
         $router = new UrlAliasRouter($locationService, $urlAliasService, $contentService, $urlAliasGenerator, $requestContext);
         $router->setConfigResolver($this->configResolver);
@@ -61,7 +62,7 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         $this->router->setConfigResolver($this->configResolver);
     }
 
-    public function testMatchRequestDeactivatedUrlAlias()
+    public function testMatchRequestDeactivatedUrlAlias(): void
     {
         $this->expectException(ResourceNotFoundException::class);
 
@@ -79,7 +80,7 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         $this->router->matchRequest($this->getRequestByPathInfo('/foo'));
     }
 
-    public function testMatchRequestWithRootLocation()
+    public function testMatchRequestWithRootLocation(): void
     {
         $rootLocationId = 123;
         $this->resetConfigResolver();
@@ -135,7 +136,7 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         self::assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testMatchRequestLocationCaseRedirectWithRootLocation()
+    public function testMatchRequestLocationCaseRedirectWithRootLocation(): void
     {
         $rootLocationId = 123;
         $this->resetConfigResolver();
@@ -193,7 +194,7 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         self::assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testMatchRequestLocationCaseRedirectWithRootRootLocation()
+    public function testMatchRequestLocationCaseRedirectWithRootRootLocation(): void
     {
         $rootLocationId = 123;
         $this->resetConfigResolver();
@@ -251,7 +252,7 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         self::assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testMatchRequestResourceCaseRedirectWithRootLocation()
+    public function testMatchRequestResourceCaseRedirectWithRootLocation(): void
     {
         $rootLocationId = 123;
         $this->resetConfigResolver();
@@ -299,7 +300,7 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         self::assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testMatchRequestVirtualCaseRedirectWithRootLocation()
+    public function testMatchRequestVirtualCaseRedirectWithRootLocation(): void
     {
         $rootLocationId = 123;
         $this->resetConfigResolver();
@@ -345,7 +346,7 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         self::assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testMatchRequestWithRootLocationAndExclusion()
+    public function testMatchRequestWithRootLocationAndExclusion(): void
     {
         $this->resetConfigResolver();
         $this->configResolver
@@ -373,7 +374,7 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         $urlAlias = new URLAlias(
             [
                 'path' => $pathInfo,
-                'type' => UrlAlias::LOCATION,
+                'type' => URLAlias::LOCATION,
                 'destination' => $destinationId,
                 'isHistory' => false,
             ]

@@ -19,15 +19,20 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler as CommonCr
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler as CommonSortClauseHandler;
 use Ibexa\Core\Search\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Search\Legacy\Content\Handler;
 use Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler as LocationCriterionHandler;
 use Ibexa\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler as LocationSortClauseHandler;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Location Search test case for ContentSearchHandler.
  */
 class HandlerLocationSortTest extends AbstractTestCase
 {
-    protected function getIds($searchResult)
+    /**
+     * @return mixed[]
+     */
+    protected function getIds($searchResult): array
     {
         $ids = array_map(
             static function ($hit) {
@@ -46,11 +51,11 @@ class HandlerLocationSortTest extends AbstractTestCase
      *
      * @return \Ibexa\Core\Search\Legacy\Content\Handler
      */
-    protected function getContentSearchHandler()
+    protected function getContentSearchHandler(): Handler
     {
         $connection = $this->getDatabaseConnection();
 
-        return new Content\Handler(
+        return new Handler(
             $this->createMock(ContentGateway::class),
             new Content\Location\Gateway\DoctrineDatabase(
                 $connection,
@@ -110,7 +115,7 @@ class HandlerLocationSortTest extends AbstractTestCase
      *
      * @return \Ibexa\Core\Persistence\Legacy\Content\Location\Mapper
      */
-    protected function getLocationMapperMock()
+    protected function getLocationMapperMock(): MockObject
     {
         $mapperMock = $this->getMockBuilder(LocationMapper::class)
             ->setMethods(['createLocationsFromRows'])
@@ -139,7 +144,7 @@ class HandlerLocationSortTest extends AbstractTestCase
         return $mapperMock;
     }
 
-    public function testNoSorting()
+    public function testNoSorting(): void
     {
         $handler = $this->getContentSearchHandler();
 
@@ -161,7 +166,7 @@ class HandlerLocationSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortLocationPath()
+    public function testSortLocationPath(): void
     {
         $handler = $this->getContentSearchHandler();
 
@@ -182,7 +187,7 @@ class HandlerLocationSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortLocationDepth()
+    public function testSortLocationDepth(): void
     {
         $handler = $this->getContentSearchHandler();
 
@@ -203,7 +208,7 @@ class HandlerLocationSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortLocationDepthAndPath()
+    public function testSortLocationDepthAndPath(): void
     {
         $handler = $this->getContentSearchHandler();
 
@@ -227,7 +232,7 @@ class HandlerLocationSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortLocationPriority()
+    public function testSortLocationPriority(): void
     {
         $handler = $this->getContentSearchHandler();
 
@@ -250,7 +255,7 @@ class HandlerLocationSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortDateModified()
+    public function testSortDateModified(): void
     {
         $handler = $this->getContentSearchHandler();
 
@@ -273,7 +278,7 @@ class HandlerLocationSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortDatePublished()
+    public function testSortDatePublished(): void
     {
         $handler = $this->getContentSearchHandler();
 
@@ -296,7 +301,7 @@ class HandlerLocationSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortSectionIdentifier()
+    public function testSortSectionIdentifier(): void
     {
         $handler = $this->getContentSearchHandler();
 
@@ -338,7 +343,7 @@ class HandlerLocationSortTest extends AbstractTestCase
         }
     }
 
-    public function testSortContentName()
+    public function testSortContentName(): void
     {
         $handler = $this->getContentSearchHandler();
 
@@ -361,7 +366,7 @@ class HandlerLocationSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortContentId()
+    public function testSortContentId(): void
     {
         $handler = $this->getContentSearchHandler();
 
@@ -384,7 +389,7 @@ class HandlerLocationSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortLocationId()
+    public function testSortLocationId(): void
     {
         $handler = $this->getContentSearchHandler();
 
@@ -407,7 +412,7 @@ class HandlerLocationSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortLocationVisibilityAscending()
+    public function testSortLocationVisibilityAscending(): void
     {
         $handler = $this->getContentSearchHandler();
 
@@ -430,7 +435,7 @@ class HandlerLocationSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortLocationVisibilityDescending()
+    public function testSortLocationVisibilityDescending(): void
     {
         $handler = $this->getContentSearchHandler();
 
@@ -453,7 +458,7 @@ class HandlerLocationSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortSectionName()
+    public function testSortSectionName(): void
     {
         $handler = $this->getContentSearchHandler();
 
@@ -506,7 +511,7 @@ class HandlerLocationSortTest extends AbstractTestCase
         }
     }
 
-    public function testSortFieldText()
+    public function testSortFieldText(): void
     {
         $handler = $this->getContentSearchHandler();
 
@@ -575,7 +580,7 @@ class HandlerLocationSortTest extends AbstractTestCase
         }
     }
 
-    public function testSortFieldNumeric()
+    public function testSortFieldNumeric(): void
     {
         $handler = $this->getContentSearchHandler();
 
@@ -608,7 +613,7 @@ class HandlerLocationSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortIsMainLocationAscending()
+    public function testSortIsMainLocationAscending(): void
     {
         $handler = $this->getContentSearchHandler();
 
@@ -631,7 +636,7 @@ class HandlerLocationSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortIsMainLocationDescending()
+    public function testSortIsMainLocationDescending(): void
     {
         $handler = $this->getContentSearchHandler();
 

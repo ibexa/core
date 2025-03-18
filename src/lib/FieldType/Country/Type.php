@@ -31,8 +31,7 @@ class Type extends FieldType implements TranslationContainerInterface
         ],
     ];
 
-    /** @var array */
-    protected $countriesInfo;
+    protected array $countriesInfo;
 
     /**
      * @param array $countriesInfo Array of countries data
@@ -66,7 +65,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\Country\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
@@ -117,7 +116,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue)
+    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue): array
     {
         $validationErrors = [];
 
@@ -232,7 +231,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings($fieldSettings): array
     {
         $validationErrors = [];
 

@@ -27,23 +27,17 @@ class DirectFragmentRenderer extends InlineFragmentRenderer implements FragmentR
 {
     public const NAME = 'direct';
 
-    /** @var \Symfony\Component\HttpKernel\KernelInterface */
-    protected $kernel;
+    protected KernelInterface $kernel;
 
-    /** @var \Ibexa\Bundle\Core\EventListener\ViewControllerListener */
-    protected $controllerListener;
+    protected ViewControllerListener $controllerListener;
 
-    /** @var \Symfony\Component\HttpKernel\Controller\ControllerResolverInterface */
-    protected $controllerResolver;
+    protected ControllerResolverInterface $controllerResolver;
 
-    /** @var \Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadataFactoryInterface */
-    protected $argumentMetadataFactory;
+    protected ArgumentMetadataFactoryInterface $argumentMetadataFactory;
 
-    /** @var \Symfony\Component\HttpKernel\Controller\ValueResolverInterface */
-    protected $argumentValueResolver;
+    protected ValueResolverInterface $argumentValueResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\Renderer\TemplateRenderer */
-    protected $viewTemplateRenderer;
+    protected TemplateRenderer $viewTemplateRenderer;
 
     public function __construct(
         FragmentRendererInterface $innerRenderer,

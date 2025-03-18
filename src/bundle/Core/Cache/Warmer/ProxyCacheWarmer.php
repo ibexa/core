@@ -34,8 +34,7 @@ final class ProxyCacheWarmer implements CacheWarmerInterface
         Thumbnail::class,
     ];
 
-    /** @var \Ibexa\Core\Repository\ProxyFactory\ProxyGeneratorInterface */
-    private $proxyGenerator;
+    private ProxyGeneratorInterface $proxyGenerator;
 
     public function __construct(ProxyGeneratorInterface $proxyGenerator)
     {

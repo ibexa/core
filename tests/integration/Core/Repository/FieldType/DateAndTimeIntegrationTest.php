@@ -11,6 +11,7 @@ use DateTime;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
+use Ibexa\Core\FieldType\DateAndTime\Value;
 use Ibexa\Core\FieldType\DateAndTime\Value as DateAndTimeValue;
 
 /**
@@ -46,7 +47,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function getSettingsSchema()
+    public function getSettingsSchema(): array
     {
         return [
             'useSeconds' => [
@@ -69,7 +70,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidFieldSettings()
+    public function getValidFieldSettings(): array
     {
         return [
             'useSeconds' => false,
@@ -83,7 +84,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidFieldSettings()
+    public function getInvalidFieldSettings(): array
     {
         return [
             'somethingUnknown' => 0,
@@ -95,7 +96,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function getValidatorSchema()
+    public function getValidatorSchema(): array
     {
         return [];
     }
@@ -105,7 +106,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidValidatorConfiguration()
+    public function getValidValidatorConfiguration(): array
     {
         return [];
     }
@@ -115,7 +116,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidValidatorConfiguration()
+    public function getInvalidValidatorConfiguration(): array
     {
         return [
             'unknown' => ['value' => 42],
@@ -127,7 +128,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidCreationFieldData()
+    public function getValidCreationFieldData(): Value
     {
         // We may only create times from timestamps here, since storing will
         // loose information about the timezone.
@@ -152,7 +153,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertFieldDataLoadedCorrect(Field $field)
+    public function assertFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             DateAndTimeValue::class,
@@ -160,7 +161,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
         );
 
         $expectedData = [
-            'value' => new \DateTime('@123456'),
+            'value' => new DateTime('@123456'),
         ];
         $this->assertPropertiesCorrect(
             $expectedData,
@@ -168,7 +169,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public function provideInvalidCreationFieldData(): array
     {
         return [
             [
@@ -182,7 +183,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function getValidUpdateFieldData()
+    public function getValidUpdateFieldData(): Value
     {
         return DateAndTimeValue::fromTimestamp(12345678);
     }
@@ -194,7 +195,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function assertUpdatedFieldDataLoadedCorrect(Field $field)
+    public function assertUpdatedFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             DateAndTimeValue::class,
@@ -202,7 +203,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
         );
 
         $expectedData = [
-            'value' => new \DateTime('@12345678'),
+            'value' => new DateTime('@12345678'),
         ];
         $this->assertPropertiesCorrect(
             $expectedData,
@@ -223,7 +224,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
      *
      * @dataProvider provideInvalidUpdateFieldData
      */
-    public function testUpdateContentFails($failingValue, $expectedException)
+    public function testUpdateContentFails($failingValue, $expectedException): array
     {
         return [
             [
@@ -240,7 +241,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertCopiedFieldDataLoadedCorrectly(Field $field)
+    public function assertCopiedFieldDataLoadedCorrectly(Field $field): void
     {
         self::assertInstanceOf(
             DateAndTimeValue::class,
@@ -248,7 +249,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
         );
 
         $expectedData = [
-            'value' => new \DateTime('@123456'),
+            'value' => new DateTime('@123456'),
         ];
         $this->assertPropertiesCorrect(
             $expectedData,
@@ -276,7 +277,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function provideToHashData()
+    public function provideToHashData(): array
     {
         return [
             [
@@ -296,7 +297,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function provideFromHashData()
+    public function provideFromHashData(): array
     {
         return [
             [
@@ -309,14 +310,14 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public function providerForTestIsEmptyValue(): array
     {
         return [
             [new DateAndTimeValue()],
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public function providerForTestIsNotEmptyValue(): array
     {
         return [
             [

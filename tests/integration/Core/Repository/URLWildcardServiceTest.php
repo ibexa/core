@@ -58,7 +58,7 @@ class URLWildcardServiceTest extends BaseTest
      *
      * @depends testCreate
      */
-    public function testCreateSetsIdPropertyOnURLWildcard(URLWildcard $urlWildcard)
+    public function testCreateSetsIdPropertyOnURLWildcard(URLWildcard $urlWildcard): void
     {
         self::assertNotNull($urlWildcard->id);
     }
@@ -72,7 +72,7 @@ class URLWildcardServiceTest extends BaseTest
      *
      * @depends testCreate
      */
-    public function testCreateSetsPropertiesOnURLWildcard(URLWildcard $urlWildcard)
+    public function testCreateSetsPropertiesOnURLWildcard(URLWildcard $urlWildcard): void
     {
         $this->assertPropertiesCorrect(
             [
@@ -91,7 +91,7 @@ class URLWildcardServiceTest extends BaseTest
      *
      * @depends testCreate
      */
-    public function testCreateWithOptionalForwardParameter()
+    public function testCreateWithOptionalForwardParameter(): void
     {
         $repository = $this->getRepository();
 
@@ -119,7 +119,7 @@ class URLWildcardServiceTest extends BaseTest
      *
      * @depends testCreate
      */
-    public function testCreateThrowsInvalidArgumentExceptionOnDuplicateSourceUrl()
+    public function testCreateThrowsInvalidArgumentExceptionOnDuplicateSourceUrl(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -144,7 +144,7 @@ class URLWildcardServiceTest extends BaseTest
      *
      * @depends testCreate
      */
-    public function testCreateThrowsContentValidationExceptionWhenPatternsAndPlaceholdersNotMatch()
+    public function testCreateThrowsContentValidationExceptionWhenPatternsAndPlaceholdersNotMatch(): void
     {
         $this->expectException(ContentValidationException::class);
 
@@ -166,7 +166,7 @@ class URLWildcardServiceTest extends BaseTest
      *
      * @depends testCreate
      */
-    public function testCreateThrowsContentValidationExceptionWhenPlaceholdersNotValidNumberSequence()
+    public function testCreateThrowsContentValidationExceptionWhenPlaceholdersNotValidNumberSequence(): void
     {
         $this->expectException(ContentValidationException::class);
 
@@ -221,7 +221,7 @@ class URLWildcardServiceTest extends BaseTest
      *
      * @depends testLoad
      */
-    public function testLoadSetsPropertiesOnURLWildcard(URLWildcard $urlWildcard)
+    public function testLoadSetsPropertiesOnURLWildcard(URLWildcard $urlWildcard): void
     {
         $this->assertPropertiesCorrect(
             [
@@ -242,7 +242,7 @@ class URLWildcardServiceTest extends BaseTest
      *
      * @depends testLoad
      */
-    public function testLoadThrowsNotFoundException(URLWildcard $urlWildcard)
+    public function testLoadThrowsNotFoundException(URLWildcard $urlWildcard): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -307,7 +307,7 @@ class URLWildcardServiceTest extends BaseTest
      *
      * @depends testLoad
      */
-    public function testRemove()
+    public function testRemove(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -337,7 +337,7 @@ class URLWildcardServiceTest extends BaseTest
      *
      * @depends testCreate
      */
-    public function testLoadAll()
+    public function testLoadAll(): void
     {
         $repository = $this->getRepository();
 
@@ -368,7 +368,7 @@ class URLWildcardServiceTest extends BaseTest
      *
      * @depends testLoadAll
      */
-    public function testLoadAllWithOffsetParameter()
+    public function testLoadAllWithOffsetParameter(): void
     {
         $repository = $this->getRepository();
 
@@ -393,7 +393,7 @@ class URLWildcardServiceTest extends BaseTest
      *
      * @depends testLoadAll
      */
-    public function testLoadAllWithOffsetAndLimitParameter()
+    public function testLoadAllWithOffsetAndLimitParameter(): void
     {
         $repository = $this->getRepository();
 
@@ -418,7 +418,7 @@ class URLWildcardServiceTest extends BaseTest
      *
      * @depends testLoadAll
      */
-    public function testLoadAllReturnsEmptyArrayByDefault()
+    public function testLoadAllReturnsEmptyArrayByDefault(): void
     {
         $repository = $this->getRepository();
 
@@ -472,7 +472,7 @@ class URLWildcardServiceTest extends BaseTest
      *
      * @depends testTranslate
      */
-    public function testTranslateSetsPropertiesOnTranslationResult(URLWildcardTranslationResult $result)
+    public function testTranslateSetsPropertiesOnTranslationResult(URLWildcardTranslationResult $result): void
     {
         $this->assertPropertiesCorrect(
             [
@@ -490,7 +490,7 @@ class URLWildcardServiceTest extends BaseTest
      *
      * @depends testTranslate
      */
-    public function testTranslateWithForwardSetToTrue()
+    public function testTranslateWithForwardSetToTrue(): void
     {
         $repository = $this->getRepository();
 
@@ -520,7 +520,7 @@ class URLWildcardServiceTest extends BaseTest
      *
      * @depends testTranslate
      */
-    public function testTranslateReturnsLongestMatchingWildcard()
+    public function testTranslateReturnsLongestMatchingWildcard(): void
     {
         $repository = $this->getRepository();
 
@@ -545,7 +545,7 @@ class URLWildcardServiceTest extends BaseTest
      *
      * @depends testTranslate
      */
-    public function testTranslateThrowsNotFoundExceptionWhenNotAliasOrWildcardMatches()
+    public function testTranslateThrowsNotFoundExceptionWhenNotAliasOrWildcardMatches(): void
     {
         $this->expectException(NotFoundException::class);
 

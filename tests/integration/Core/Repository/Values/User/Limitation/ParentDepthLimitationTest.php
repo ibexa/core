@@ -19,7 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentDepthLimitation
  */
 class ParentDepthLimitationTest extends BaseLimitationTest
 {
-    public function testParentDepthLimitationForbid()
+    public function testParentDepthLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -59,7 +59,7 @@ class ParentDepthLimitationTest extends BaseLimitationTest
         );
     }
 
-    public function testParentDepthLimitationAllow()
+    public function testParentDepthLimitationAllow(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();
@@ -104,7 +104,7 @@ class ParentDepthLimitationTest extends BaseLimitationTest
      *
      * @depends testParentDepthLimitationAllow
      */
-    public function testParentDepthLimitationAllowPublish()
+    public function testParentDepthLimitationAllowPublish(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();

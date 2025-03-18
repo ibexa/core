@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 final class LocationServiceTest extends TestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\LocationService */
-    private $locationService;
+    private LocationService $locationService;
 
     protected function setUp(): void
     {

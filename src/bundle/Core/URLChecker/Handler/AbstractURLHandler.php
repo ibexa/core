@@ -20,8 +20,7 @@ abstract class AbstractURLHandler implements URLHandlerInterface
 {
     use LoggerAwareTrait;
 
-    /** @var \Ibexa\Contracts\Core\Repository\URLService */
-    protected $urlService;
+    protected URLService $urlService;
 
     public function __construct(URLService $urlService)
     {

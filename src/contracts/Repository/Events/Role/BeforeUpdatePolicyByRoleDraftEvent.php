@@ -16,17 +16,13 @@ use UnexpectedValueException;
 
 final class BeforeUpdatePolicyByRoleDraftEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft */
-    private $roleDraft;
+    private RoleDraft $roleDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft */
-    private $policy;
+    private PolicyDraft $policy;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyUpdateStruct */
-    private $policyUpdateStruct;
+    private PolicyUpdateStruct $policyUpdateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft|null */
-    private $updatedPolicyDraft;
+    private ?PolicyDraft $updatedPolicyDraft = null;
 
     public function __construct(RoleDraft $roleDraft, PolicyDraft $policy, PolicyUpdateStruct $policyUpdateStruct)
     {

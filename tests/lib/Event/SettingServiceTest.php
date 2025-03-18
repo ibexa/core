@@ -57,7 +57,7 @@ class SettingServiceTest extends AbstractServiceTest
 
         $traceableEventDispatcher->addListener(
             BeforeUpdateSettingEvent::class,
-            static function (BeforeUpdateSettingEvent $event) use ($eventUpdatedSetting) {
+            static function (BeforeUpdateSettingEvent $event) use ($eventUpdatedSetting): void {
                 $event->setUpdatedSetting($eventUpdatedSetting);
             },
             10
@@ -91,7 +91,7 @@ class SettingServiceTest extends AbstractServiceTest
         $eventUpdatedSetting = $this->createMock(Setting::class);
         $traceableEventDispatcher->addListener(
             BeforeUpdateSettingEvent::class,
-            static function (BeforeUpdateSettingEvent $event) use ($eventUpdatedSetting) {
+            static function (BeforeUpdateSettingEvent $event) use ($eventUpdatedSetting): void {
                 $event->setUpdatedSetting($eventUpdatedSetting);
                 $event->stopPropagation();
             },
@@ -169,7 +169,7 @@ class SettingServiceTest extends AbstractServiceTest
 
         $traceableEventDispatcher->addListener(
             BeforeDeleteSettingEvent::class,
-            static function (BeforeDeleteSettingEvent $event) {
+            static function (BeforeDeleteSettingEvent $event): void {
                 $event->stopPropagation();
             },
             10
@@ -235,7 +235,7 @@ class SettingServiceTest extends AbstractServiceTest
         $setting = $this->createMock(Setting::class);
         $traceableEventDispatcher->addListener(
             BeforeCreateSettingEvent::class,
-            static function (BeforeCreateSettingEvent $event) use ($eventSetting) {
+            static function (BeforeCreateSettingEvent $event) use ($eventSetting): void {
                 $event->setSetting($eventSetting);
             },
             10
@@ -269,7 +269,7 @@ class SettingServiceTest extends AbstractServiceTest
         $setting = $this->createMock(Setting::class);
         $traceableEventDispatcher->addListener(
             BeforeCreateSettingEvent::class,
-            static function (BeforeCreateSettingEvent $event) use ($eventSetting) {
+            static function (BeforeCreateSettingEvent $event) use ($eventSetting): void {
                 $event->setSetting($eventSetting);
                 $event->stopPropagation();
             },

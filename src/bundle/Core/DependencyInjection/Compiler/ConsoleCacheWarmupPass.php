@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class ConsoleCacheWarmupPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         // This pass is CLI only as CLI class cache warmup conflicts with web access, see EZP-29034
         if (\PHP_SAPI !== 'cli' ||

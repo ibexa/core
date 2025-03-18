@@ -24,7 +24,7 @@ class LimitationValidationException extends APILimitationValidationException imp
      *
      * @var \Ibexa\Core\FieldType\ValidationError[]
      */
-    protected $errors;
+    protected array $errors;
 
     /**
      * Generates: Limitations did not validate.

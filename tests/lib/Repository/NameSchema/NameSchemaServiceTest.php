@@ -327,7 +327,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
-    protected function buildTestContentObject()
+    protected function buildTestContentObject(): Content
     {
         return new Content(
             [

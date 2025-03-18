@@ -20,7 +20,7 @@ use function sprintf;
 final class CriterionVisitor implements FilteringCriterionVisitor
 {
     /** @var \Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder[] */
-    private $criterionQueryBuilders;
+    private iterable $criterionQueryBuilders;
 
     public function __construct(iterable $criterionQueryBuilders)
     {

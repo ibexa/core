@@ -15,13 +15,11 @@ use Ibexa\Core\IO\IOBinarydataHandler;
 /**
  * @internal
  */
-final class SiteAccessDependentBinaryDataHandler implements IOBinaryDataHandler
+final class SiteAccessDependentBinaryDataHandler implements IOBinarydataHandler
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry */
-    private $dataHandlerRegistry;
+    private HandlerRegistry $dataHandlerRegistry;
 
     public function __construct(
         ConfigResolverInterface $configResolver,

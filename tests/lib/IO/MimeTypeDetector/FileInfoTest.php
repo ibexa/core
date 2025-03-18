@@ -25,7 +25,7 @@ class FileInfoTest extends TestCase
         return __DIR__ . '/../../_fixtures/squirrel-developers.jpg';
     }
 
-    public function testGetFromPath()
+    public function testGetFromPath(): void
     {
         self::assertEquals(
             $this->mimeTypeDetector->getFromPath(
@@ -35,7 +35,7 @@ class FileInfoTest extends TestCase
         );
     }
 
-    public function testGetFromBuffer()
+    public function testGetFromBuffer(): void
     {
         self::assertEquals(
             $this->mimeTypeDetector->getFromBuffer(

@@ -32,7 +32,7 @@ class CheckboxTest extends TestCase
      * @group fieldType
      * @group ezboolean
      */
-    public function testToStorageValue()
+    public function testToStorageValue(): void
     {
         $value = new FieldValue();
         $value->data = true;
@@ -49,7 +49,7 @@ class CheckboxTest extends TestCase
      * @group fieldType
      * @group ezboolean
      */
-    public function testToFieldValue()
+    public function testToFieldValue(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->dataInt = 1;
@@ -66,7 +66,7 @@ class CheckboxTest extends TestCase
      * @group fieldType
      * @group ezboolean
      */
-    public function testToStorageFieldDefinition()
+    public function testToStorageFieldDefinition(): void
     {
         $defaultBool = false;
         $storageFieldDef = new StorageFieldDefinition();
@@ -89,7 +89,7 @@ class CheckboxTest extends TestCase
      * @group fieldType
      * @group ezboolean
      */
-    public function testToFieldDefinition()
+    public function testToFieldDefinition(): void
     {
         $defaultBool = true;
         $fieldDef = new PersistenceFieldDefinition();

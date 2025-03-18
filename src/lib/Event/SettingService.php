@@ -23,8 +23,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class SettingService extends SettingServiceDecorator
 {
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
-    private $eventDispatcher;
+    private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         SettingServiceInterface $innerService,

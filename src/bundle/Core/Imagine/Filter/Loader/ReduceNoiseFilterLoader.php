@@ -22,8 +22,7 @@ class ReduceNoiseFilterLoader implements LoaderInterface
 {
     public const IDENTIFIER = 'filter/noise';
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\FilterInterface */
-    private $filter;
+    private FilterInterface $filter;
 
     public function __construct(FilterInterface $filter)
     {

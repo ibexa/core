@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Handler;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Mapper;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class HandlerTest extends TestCase
@@ -20,13 +21,13 @@ class HandlerTest extends TestCase
     public const BOOKMARK_ID = 7;
 
     /** @var \Ibexa\Core\Persistence\Legacy\Bookmark\Gateway|\PHPUnit\Framework\MockObject\MockObject */
-    private $gateway;
+    private MockObject $gateway;
 
     /** @var \Ibexa\Core\Persistence\Legacy\Bookmark\Mapper|\PHPUnit\Framework\MockObject\MockObject */
-    private $mapper;
+    private MockObject $mapper;
 
     /** @var \Ibexa\Core\Persistence\Legacy\Bookmark\Handler */
-    private $handler;
+    private Handler $handler;
 
     protected function setUp(): void
     {
@@ -35,7 +36,7 @@ class HandlerTest extends TestCase
         $this->handler = new Handler($this->gateway, $this->mapper);
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $createStruct = new CreateStruct([
             'locationId' => 54,
@@ -64,7 +65,7 @@ class HandlerTest extends TestCase
         self::assertEquals($bookmark->id, self::BOOKMARK_ID);
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $this->gateway
             ->expects(self::once())
@@ -74,7 +75,7 @@ class HandlerTest extends TestCase
         $this->handler->delete(self::BOOKMARK_ID);
     }
 
-    public function testLoadByUserIdAndLocationIdExistingBookmark()
+    public function testLoadByUserIdAndLocationIdExistingBookmark(): void
     {
         $userId = 87;
         $locationId = 54;
@@ -107,7 +108,7 @@ class HandlerTest extends TestCase
         self::assertEquals([$locationId => $object], $this->handler->loadByUserIdAndLocationId($userId, [$locationId]));
     }
 
-    public function testLoadByUserIdAndLocationIdNonExistingBookmark()
+    public function testLoadByUserIdAndLocationIdNonExistingBookmark(): void
     {
         $userId = 87;
         $locationId = 54;
@@ -127,7 +128,7 @@ class HandlerTest extends TestCase
         self::assertEmpty($this->handler->loadByUserIdAndLocationId($userId, [$locationId]));
     }
 
-    public function testLoadUserBookmarks()
+    public function testLoadUserBookmarks(): void
     {
         $userId = 87;
         $offset = 50;
@@ -176,7 +177,7 @@ class HandlerTest extends TestCase
         self::assertEquals($objects, $this->handler->loadUserBookmarks($userId, $offset, $limit));
     }
 
-    public function testLocationSwapped()
+    public function testLocationSwapped(): void
     {
         $location1Id = 1;
         $location2Id = 2;

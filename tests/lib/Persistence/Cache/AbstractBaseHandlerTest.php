@@ -33,6 +33,7 @@ use Ibexa\Core\Persistence\Cache\URLHandler as CacheUrlHandler;
 use Ibexa\Core\Persistence\Cache\UrlWildcardHandler as CacheUrlWildcardHandler;
 use Ibexa\Core\Persistence\Cache\UserHandler as CacheUserHandler;
 use Ibexa\Core\Persistence\Cache\UserPreferenceHandler as CacheUserPreferenceHandler;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\CacheItem;
 
@@ -42,25 +43,25 @@ use Symfony\Component\Cache\CacheItem;
 abstract class AbstractBaseHandlerTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter|\PHPUnit\Framework\MockObject\MockObject */
-    protected $cacheMock;
+    protected MockObject $cacheMock;
 
     /** @var \Ibexa\Contracts\Core\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    protected $persistenceHandlerMock;
+    protected MockObject $persistenceHandlerMock;
 
     /** @var \Ibexa\Core\Persistence\Cache\Handler */
     protected $persistenceCacheHandler;
 
     /** @var \Ibexa\Core\Persistence\Cache\PersistenceLogger|\PHPUnit\Framework\MockObject\MockObject */
-    protected $loggerMock;
+    protected MockObject $loggerMock;
 
     /** @var \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache|\PHPUnit\Framework\MockObject\MockObject */
-    protected $inMemoryMock;
+    protected MockObject $inMemoryMock;
 
     /** @var \Closure */
     protected $cacheItemsClosure;
 
     /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $cacheIdentifierGeneratorMock;
+    protected MockObject $cacheIdentifierGeneratorMock;
 
     /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierSanitizer */
     protected $cacheIdentifierSanitizer;
@@ -69,7 +70,7 @@ abstract class AbstractBaseHandlerTest extends TestCase
     protected $locationPathConverter;
 
     /** @var \Ibexa\Core\Persistence\Cache\CacheIndicesValidatorInterface */
-    protected $cacheIndicesValidator;
+    protected MockObject $cacheIndicesValidator;
 
     /**
      * Setup the HandlerTest.
@@ -112,7 +113,7 @@ abstract class AbstractBaseHandlerTest extends TestCase
         );
 
         $this->cacheItemsClosure = \Closure::bind(
-            static function ($key, $value, $isHit, $defaultLifetime = 0) {
+            static function ($key, $value, $isHit, $defaultLifetime = 0): CacheItem {
                 $item = new CacheItem();
                 $item->key = $key;
                 $item->value = $value;

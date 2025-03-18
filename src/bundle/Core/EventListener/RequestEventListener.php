@@ -22,17 +22,14 @@ use Symfony\Component\Routing\RouterInterface;
 
 class RequestEventListener implements EventSubscriberInterface
 {
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private ?LoggerInterface $logger;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
     /** @var string */
     private $defaultSiteAccess;
 
-    /** @var \Symfony\Component\Routing\RouterInterface */
-    private $router;
+    private RouterInterface $router;
 
     public function __construct(ConfigResolverInterface $configResolver, RouterInterface $router, $defaultSiteAccess, LoggerInterface $logger = null)
     {
@@ -55,7 +52,7 @@ class RequestEventListener implements EventSubscriberInterface
     /**
      * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
      */
-    public function onKernelRequestForward(RequestEvent $event)
+    public function onKernelRequestForward(RequestEvent $event): void
     {
         if ($event->getRequestType() === HttpKernelInterface::MAIN_REQUEST) {
             $request = $event->getRequest();
@@ -106,7 +103,7 @@ class RequestEventListener implements EventSubscriberInterface
      *
      * @see \Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter
      */
-    public function onKernelRequestRedirect(RequestEvent $event)
+    public function onKernelRequestRedirect(RequestEvent $event): void
     {
         if ($event->getRequestType() == HttpKernelInterface::MAIN_REQUEST) {
             $request = $event->getRequest();

@@ -20,13 +20,11 @@ use Psr\Log\LoggerInterface;
 class ImageFileLister extends MigrationHandler implements FileListerInterface
 {
     /** @var \Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileList */
-    private $imageFileList;
+    private Iterator $imageFileList;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationPathGenerator */
-    private $variationPathGenerator;
+    private VariationPathGenerator $variationPathGenerator;
 
-    /** @var \Liip\ImagineBundle\Imagine\Filter\FilterConfiguration */
-    private $filterConfiguration;
+    private FilterConfiguration $filterConfiguration;
 
     /** @var string Directory where images are stored, within the storage dir. Example: 'images' */
     private $imagesDir;
@@ -64,7 +62,10 @@ class ImageFileLister extends MigrationHandler implements FileListerInterface
         return count($this->imageFileList);
     }
 
-    public function loadMetadataList($limit = null, $offset = null)
+    /**
+     * @return mixed[]
+     */
+    public function loadMetadataList($limit = null, $offset = null): array
     {
         $metadataList = [];
         $imageLimitList = new LimitIterator($this->imageFileList, $offset, $limit);

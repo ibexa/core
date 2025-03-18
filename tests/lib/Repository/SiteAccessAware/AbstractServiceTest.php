@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\Repository\SiteAccessAware;
 
 use Closure;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
@@ -32,13 +33,13 @@ abstract class AbstractServiceTest extends TestCase
     public const LANG_ARG = 0;
 
     /** @var \object|\PHPUnit\Framework\MockObject\MockObject */
-    protected $innerApiServiceMock;
+    protected MockObject $innerApiServiceMock;
 
     /** @var object */
     protected $service;
 
     /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver|\PHPUnit\Framework\MockObject\MockObject */
-    protected $languageResolverMock;
+    protected MockObject $languageResolverMock;
 
     abstract public function getAPIServiceClassName();
 
@@ -83,7 +84,7 @@ abstract class AbstractServiceTest extends TestCase
      * @param array $arguments
      * @param mixed $return
      */
-    final public function testForPassTrough($method, array $arguments, $return = true)
+    final public function testForPassTrough($method, array $arguments, $return = true): void
     {
         if ($return) {
             $this->innerApiServiceMock
@@ -152,7 +153,7 @@ abstract class AbstractServiceTest extends TestCase
      * @param mixed|null $return
      * @param int $languageArgumentIndex From 0 and up, so the array index on $arguments.
      */
-    final public function testForLanguagesLookup($method, array $arguments, $return, $languageArgumentIndex, callable $callback = null, int $alwaysAvailableArgumentIndex = null)
+    final public function testForLanguagesLookup($method, array $arguments, $return, $languageArgumentIndex, callable $callback = null, int $alwaysAvailableArgumentIndex = null): void
     {
         $languages = ['eng-GB', 'eng-US'];
 
@@ -219,7 +220,7 @@ abstract class AbstractServiceTest extends TestCase
      * @param mixed|null $return
      * @param int $languageArgumentIndex From 0 and up, so the array index on $arguments.
      */
-    final public function testForLanguagesPassTrough($method, array $arguments, $return, $languageArgumentIndex, callable $callback = null, int $alwaysAvailableArgumentIndex = null)
+    final public function testForLanguagesPassTrough($method, array $arguments, $return, $languageArgumentIndex, callable $callback = null, int $alwaysAvailableArgumentIndex = null): void
     {
         $languages = ['eng-GB', 'eng-US'];
         $arguments = $this->setLanguagesPassTroughArguments($arguments, $languageArgumentIndex, $languages);

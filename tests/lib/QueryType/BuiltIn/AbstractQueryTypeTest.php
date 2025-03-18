@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\QueryType\BuiltIn\SortClausesFactoryInterface;
 use Ibexa\Core\QueryType\QueryType;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractQueryTypeTest extends TestCase
@@ -23,16 +24,16 @@ abstract class AbstractQueryTypeTest extends TestCase
     protected const ROOT_LOCATION_PATH_STRING = '/1/2/';
 
     /** @var \Ibexa\Contracts\Core\Repository\Repository|\PHPUnit\Framework\MockObject\MockObject */
-    private $repository;
+    private MockObject $repository;
 
     /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $configResolver;
+    private MockObject $configResolver;
 
     /** @var \Ibexa\Core\QueryType\BuiltIn\SortClausesFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $sortClausesFactory;
+    private MockObject $sortClausesFactory;
 
     /** @var \Ibexa\Core\QueryType\QueryType */
-    private $queryType;
+    private QueryType $queryType;
 
     protected function setUp(): void
     {

@@ -24,19 +24,17 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 final class MigrateFilesCommand extends Command
 {
     /** @var mixed Configuration for metadata handlers */
-    private $configuredMetadataHandlers;
+    private array $configuredMetadataHandlers;
 
     /** @var mixed Configuration for binary data handlers */
-    private $configuredBinarydataHandlers;
+    private array $configuredBinarydataHandlers;
 
-    /** @var \Ibexa\Bundle\IO\Migration\FileListerRegistry */
-    private $fileListerRegistry;
+    private FileListerRegistry $fileListerRegistry;
 
     /** @var \Ibexa\Bundle\IO\Migration\FileListerInterface[] */
-    private $fileListers;
+    private ?array $fileListers = null;
 
-    /** @var \Ibexa\Bundle\IO\Migration\FileMigratorInterface */
-    private $fileMigrator;
+    private FileMigratorInterface $fileMigrator;
 
     public function __construct(
         array $configuredMetadataHandlers,
@@ -63,7 +61,7 @@ final class MigrateFilesCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addOption('from', null, InputOption::VALUE_REQUIRED, 'Migrate from <from_metadata_handler>,<from_binarydata_handler>')
@@ -192,7 +190,7 @@ EOT
      *
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      */
-    protected function outputConfiguredHandlers(OutputInterface $output)
+    protected function outputConfiguredHandlers(OutputInterface $output): void
     {
         $output->writeln(
             'Configured metadata handlers: ' . implode(', ', array_keys($this->configuredMetadataHandlers))
@@ -261,7 +259,7 @@ EOT
         $bulkCount,
         $dryRun,
         OutputInterface $output
-    ) {
+    ): void {
         $progress = new ProgressBar($output, $totalFileCount);
         if ($totalFileCount) {
             $progress->setFormat("%message%\n %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s%");

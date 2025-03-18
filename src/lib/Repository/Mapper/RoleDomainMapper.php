@@ -32,8 +32,7 @@ use Ibexa\Core\Repository\Values\User\UserRoleAssignment;
  */
 class RoleDomainMapper
 {
-    /** @var \Ibexa\Core\Repository\Permission\LimitationService */
-    protected $limitationService;
+    protected LimitationService $limitationService;
 
     /**
      * @param \Ibexa\Core\Repository\Permission\LimitationService $limitationService
@@ -50,7 +49,7 @@ class RoleDomainMapper
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\Role
      */
-    public function buildDomainRoleObject(SPIRole $role)
+    public function buildDomainRoleObject(SPIRole $role): Role
     {
         $rolePolicies = [];
         foreach ($role->policies as $spiPolicy) {
@@ -75,7 +74,7 @@ class RoleDomainMapper
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft
      */
-    public function buildDomainRoleDraftObject(SPIRole $spiRole)
+    public function buildDomainRoleDraftObject(SPIRole $spiRole): RoleDraft
     {
         return new RoleDraft(
             [
@@ -91,7 +90,7 @@ class RoleDomainMapper
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\Policy|\Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft
      */
-    public function buildDomainPolicyObject(SPIPolicy $spiPolicy)
+    public function buildDomainPolicyObject(SPIPolicy $spiPolicy): Policy|PolicyDraft
     {
         $policyLimitations = [];
         if ($spiPolicy->module !== '*' && $spiPolicy->function !== '*' && $spiPolicy->limitations !== '*') {
@@ -127,7 +126,7 @@ class RoleDomainMapper
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\UserRoleAssignment
      */
-    public function buildDomainUserRoleAssignmentObject(SPIRoleAssignment $spiRoleAssignment, User $user, APIRole $role)
+    public function buildDomainUserRoleAssignmentObject(SPIRoleAssignment $spiRoleAssignment, User $user, APIRole $role): UserRoleAssignment
     {
         $limitation = null;
         if (!empty($spiRoleAssignment->limitationIdentifier)) {
@@ -156,7 +155,7 @@ class RoleDomainMapper
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroupRoleAssignment
      */
-    public function buildDomainUserGroupRoleAssignmentObject(SPIRoleAssignment $spiRoleAssignment, UserGroup $userGroup, APIRole $role)
+    public function buildDomainUserGroupRoleAssignmentObject(SPIRoleAssignment $spiRoleAssignment, UserGroup $userGroup, APIRole $role): UserGroupRoleAssignment
     {
         $limitation = null;
         if (!empty($spiRoleAssignment->limitationIdentifier)) {
@@ -231,7 +230,7 @@ class RoleDomainMapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\User\Policy
      */
-    public function buildPersistencePolicyObject($module, $function, array $limitations)
+    public function buildPersistencePolicyObject($module, $function, array $limitations): SPIPolicy
     {
         $limitationsToCreate = '*';
         if ($module !== '*' && $function !== '*' && !empty($limitations)) {

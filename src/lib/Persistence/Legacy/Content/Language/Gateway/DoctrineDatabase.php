@@ -26,10 +26,8 @@ final class DoctrineDatabase extends Gateway
 {
     /**
      * The native Doctrine connection.
-     *
-     * @var \Doctrine\DBAL\Connection
      */
-    private $connection;
+    private Connection $connection;
 
     /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
     private $dbPlatform;

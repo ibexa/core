@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Core\MVC\Symfony\FieldType\ImageAsset;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\FieldTypeService;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
@@ -16,14 +18,12 @@ use Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderInterface;
 
 class ParameterProvider implements ParameterProviderInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    private $repository;
+    private Repository $repository;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    private $permissionsResolver;
+    private PermissionResolver $permissionsResolver;
 
     /** @var \Ibexa\Core\Repository\FieldTypeService */
-    private $fieldTypeService;
+    private FieldTypeService $fieldTypeService;
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Repository $repository
@@ -73,7 +73,7 @@ class ParameterProvider implements ParameterProviderInterface
     private function loadContentInfo(int $id): ContentInfo
     {
         return $this->repository->sudo(
-            static function (Repository $repository) use ($id) {
+            static function (Repository $repository) use ($id): \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo {
                 return $repository->getContentService()->loadContentInfo($id);
             }
         );

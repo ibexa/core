@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
 use RuntimeException;
 
@@ -87,13 +88,13 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
      * @return mixed
      */
     protected function createContent(
-        $contentType,
+        ContentType $contentType,
         array $searchValuesMap,
-        $mainLanguageCode,
+        ?string $mainLanguageCode,
         $alwaysAvailable,
         $sortValue,
         array $parentLocationIds
-    ) {
+    ): array {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
@@ -128,7 +129,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
      *
      * @return array
      */
-    public function createTestContent(array $parentLocationIds)
+    public function createTestContent(array $parentLocationIds): array
     {
         $repository = $this->getRepository();
         $languageService = $repository->getContentLanguageService();
@@ -194,7 +195,10 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
         return $this->createTestContent([2, 12]);
     }
 
-    public function providerForTestFind()
+    /**
+     * @return mixed[]
+     */
+    public function providerForTestFind(): array
     {
         $data = [
             0 => [
@@ -1679,7 +1683,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
         return $data;
     }
 
-    protected function getSetupType()
+    protected function getSetupType(): string
     {
         if (getenv('SOLR_CLOUD')) {
             return self::SETUP_CLOUD;
@@ -1729,7 +1733,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
         array $languageSettings,
         array $contentDataList,
         array $context
-    ) {
+    ): void {
         /** @var \Ibexa\Contracts\Core\Repository\Repository $repository */
         list($repository, $data) = $context;
 
@@ -1779,7 +1783,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
         array $languageSettings,
         array $contentDataList,
         array $context
-    ) {
+    ): void {
         /** @var \Ibexa\Contracts\Core\Repository\Repository $repository */
         list($repository, $data) = $context;
 
@@ -1834,7 +1838,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
         array $languageSettings,
         array $contentDataList,
         array $context
-    ) {
+    ): void {
         /** @var \Ibexa\Contracts\Core\Repository\Repository $repository */
         list($repository, $data) = $context;
 

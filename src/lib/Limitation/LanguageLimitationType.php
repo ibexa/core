@@ -11,6 +11,7 @@ namespace Ibexa\Core\Limitation;
 use Ibexa\Contracts\Core\Limitation\Target;
 use Ibexa\Contracts\Core\Limitation\Target\DestinationLocation as DestinationLocationTarget;
 use Ibexa\Contracts\Core\Limitation\TargetAwareType as SPITargetAwareLimitationType;
+use Ibexa\Contracts\Core\Persistence\Content\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIPersistenceContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as SPIPersistenceLanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo as SPIVersionInfo;
@@ -34,14 +35,12 @@ use Ibexa\Core\FieldType\ValidationError;
  */
 class LanguageLimitationType implements SPITargetAwareLimitationType
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler */
-    private $persistenceLanguageHandler;
+    private SPIPersistenceLanguageHandler $persistenceLanguageHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler */
-    private $persistenceContentHandler;
+    private Handler $persistenceContentHandler;
 
     /** @var \Ibexa\Core\Limitation\LanguageLimitation\VersionTargetEvaluator[] */
-    private $versionTargetEvaluators;
+    private iterable $versionTargetEvaluators;
 
     /**
      * @param \Ibexa\Contracts\Core\Persistence\Content\Language\Handler $persistenceLanguageHandler

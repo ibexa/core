@@ -31,7 +31,7 @@ class IbexaIOExtensionTest extends AbstractExtensionTestCase
         return [$extension];
     }
 
-    public function testParametersWithoutConfiguration()
+    public function testParametersWithoutConfiguration(): void
     {
         $this->load();
 
@@ -39,7 +39,7 @@ class IbexaIOExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasParameter('ibexa.io.binarydata_handlers', []);
     }
 
-    public function testParametersWithMetadataHandler()
+    public function testParametersWithMetadataHandler(): void
     {
         $config = [
             'metadata_handlers' => [
@@ -55,7 +55,7 @@ class IbexaIOExtensionTest extends AbstractExtensionTestCase
         );
     }
 
-    public function testParametersWithBinarydataHandler()
+    public function testParametersWithBinarydataHandler(): void
     {
         $config = [
             'binarydata_handlers' => [

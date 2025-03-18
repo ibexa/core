@@ -9,13 +9,14 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Id;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentType;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentType as ContentTypeIdMatcher;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTest;
 
 class ContentTypeTest extends BaseTest
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentType */
-    private $matcher;
+    private ContentType $matcher;
 
     protected function setUp(): void
     {
@@ -33,13 +34,13 @@ class ContentTypeTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
      * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Location $location, $expectedResult)
+    public function testMatchLocation($matchingConfig, Location $location, $expectedResult): void
     {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchLocation($location));
     }
 
-    public function matchLocationProvider()
+    public function matchLocationProvider(): array
     {
         $data = [];
 
@@ -77,7 +78,7 @@ class ContentTypeTest extends BaseTest
      *
      * @return \PHPUnit\Framework\MockObject\MockObject
      */
-    private function generateLocationForContentType($contentTypeId)
+    private function generateLocationForContentType(int $contentTypeId)
     {
         $location = $this->getLocationMock();
         $location
@@ -114,13 +115,13 @@ class ContentTypeTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      * @param bool $expectedResult
      */
-    public function testMatchContentInfo($matchingConfig, ContentInfo $contentInfo, $expectedResult)
+    public function testMatchContentInfo($matchingConfig, ContentInfo $contentInfo, $expectedResult): void
     {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchContentInfo($contentInfo));
     }
 
-    public function matchContentInfoProvider()
+    public function matchContentInfoProvider(): array
     {
         $data = [];
 

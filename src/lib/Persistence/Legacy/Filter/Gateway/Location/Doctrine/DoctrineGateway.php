@@ -26,14 +26,11 @@ use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway;
  */
 final class DoctrineGateway implements Gateway
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor */
-    private $criterionVisitor;
+    private CriterionVisitor $criterionVisitor;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Filter\SortClauseVisitor */
-    private $sortClauseVisitor;
+    private SortClauseVisitor $sortClauseVisitor;
 
     public function __construct(
         Connection $connection,

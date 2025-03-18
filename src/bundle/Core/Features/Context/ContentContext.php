@@ -21,8 +21,7 @@ class ContentContext implements Context, SnippetAcceptingContext
     /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content */
     private $currentDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    private $repository;
+    private Repository $repository;
 
     public function __construct(Repository $repository)
     {
@@ -32,7 +31,7 @@ class ContentContext implements Context, SnippetAcceptingContext
     /**
      * @Given /^I create an folder draft$/
      */
-    public function iCreateAnFolderDraft()
+    public function iCreateAnFolderDraft(): void
     {
         $this->currentDraft = $this->createDraft(
             'folder',
@@ -46,7 +45,7 @@ class ContentContext implements Context, SnippetAcceptingContext
     /**
      * @Given /^I create a draft of an existing content item$/
      */
-    public function iCreateADraftOfAnExistingContentItem()
+    public function iCreateADraftOfAnExistingContentItem(): void
     {
         $this->currentContent = $this->createContentItem(
             'folder',
@@ -128,7 +127,7 @@ class ContentContext implements Context, SnippetAcceptingContext
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content the created draft.
      */
-    public function createDraft($contentTypeIdentifier, array $fields)
+    public function createDraft(string $contentTypeIdentifier, array $fields)
     {
         $contentService = $this->repository->getContentService();
 

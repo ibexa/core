@@ -14,18 +14,19 @@ use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Tests\Bundle\Core\EventListener\Stubs\ViewManager;
 use Ibexa\Tests\Bundle\Core\EventListener\Stubs\ViewProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ConfigScopeListenerTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $configResolver;
+    private MockObject $configResolver;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $viewManager;
+    private MockObject $viewManager;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $viewProviders;
+    private array $viewProviders;
 
     protected function setUp(): void
     {
@@ -38,7 +39,7 @@ class ConfigScopeListenerTest extends TestCase
         ];
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         self::assertSame(
             [
@@ -49,7 +50,7 @@ class ConfigScopeListenerTest extends TestCase
         );
     }
 
-    public function testOnConfigScopeChange()
+    public function testOnConfigScopeChange(): void
     {
         $siteAccess = new SiteAccess('test');
         $event = new ScopeChangeEvent($siteAccess);

@@ -10,6 +10,7 @@ namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
@@ -24,17 +25,13 @@ class Field extends SortClauseHandler
 {
     /**
      * Language handler.
-     *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
      */
-    protected $languageHandler;
+    protected Handler $languageHandler;
 
     /**
      * Content type handler.
-     *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
      */
-    protected $contentTypeHandler;
+    protected ContentTypeHandler $contentTypeHandler;
 
     public function __construct(
         Connection $connection,
@@ -158,7 +155,7 @@ class Field extends SortClauseHandler
     protected function getFieldCondition(
         QueryBuilder $query,
         array $languageSettings,
-        $fieldTableName
+        string $fieldTableName
     ) {
         // 1. Use main language(s) by default
         if (empty($languageSettings['languages'])) {

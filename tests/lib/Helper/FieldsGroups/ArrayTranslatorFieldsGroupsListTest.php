@@ -27,7 +27,7 @@ class ArrayTranslatorFieldsGroupsListTest extends TestCase
     private const DEFAULT_GROUP_ID = self::SECOND_GROUP_ID;
     private const DEFAULT_GROUP_NAME = self::SECOND_GROUP_NAME;
 
-    private $translatorMock;
+    private ?MockObject $translatorMock = null;
 
     public function testTranslatesGroups(): void
     {

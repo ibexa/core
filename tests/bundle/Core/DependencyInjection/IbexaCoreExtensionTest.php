@@ -35,10 +35,9 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
 {
     private $minimalConfig = [];
 
-    private $siteaccessConfig = [];
+    private array $siteaccessConfig = [];
 
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension */
-    private $extension;
+    private ?IbexaCoreExtension $extension = null;
 
     protected function setUp(): void
     {
@@ -87,7 +86,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         return $this->minimalConfig = Yaml::parse(file_get_contents(__DIR__ . '/Fixtures/ezpublish_minimal_no_siteaccess.yml'));
     }
 
-    public function testSiteAccessConfiguration()
+    public function testSiteAccessConfiguration(): void
     {
         $this->load($this->siteaccessConfig);
         $this->assertContainerBuilderHasParameter(
@@ -120,7 +119,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         }
     }
 
-    public function testSiteAccessNoConfiguration()
+    public function testSiteAccessNoConfiguration(): void
     {
         $this->load();
         $this->assertContainerBuilderHasParameter('ibexa.site_access.list', ['setup']);
@@ -130,7 +129,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasParameter('ibexa.site_access.match_config', null);
     }
 
-    public function testImageMagickConfigurationBasic()
+    public function testImageMagickConfigurationBasic(): void
     {
         if (!isset($_ENV['imagemagickConvertPath']) || !is_executable($_ENV['imagemagickConvertPath'])) {
             self::markTestSkipped('Missing or mis-configured Imagemagick convert path.');
@@ -187,7 +186,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    public function testImageMagickConfigurationFilters()
+    public function testImageMagickConfigurationFilters(): void
     {
         if (!isset($_ENV['imagemagickConvertPath']) || !is_executable($_ENV['imagemagickConvertPath'])) {
             self::markTestSkipped('Missing or mis-configured Imagemagick convert path.');
@@ -214,7 +213,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         self::assertSame($customFilters['wow'], $filters['wow']);
     }
 
-    public function testImagePlaceholderConfiguration()
+    public function testImagePlaceholderConfiguration(): void
     {
         $this->load([
             'image_placeholder' => [
@@ -249,7 +248,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         ], $this->container->getParameter('ibexa.io.images.alias.placeholder_provider'));
     }
 
-    public function testRoutingConfiguration()
+    public function testRoutingConfiguration(): void
     {
         $this->load();
         $this->assertContainerBuilderHasAlias('router', ChainRouter::class);
@@ -267,14 +266,14 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
      * @param array $customCacheConfig
      * @param string $expectedPurgeType
      */
-    public function testCacheConfiguration(array $customCacheConfig, $expectedPurgeType)
+    public function testCacheConfiguration(array $customCacheConfig, string $expectedPurgeType): void
     {
         $this->load($customCacheConfig);
 
         $this->assertContainerBuilderHasParameter('ibexa.http_cache.purge_type', $expectedPurgeType);
     }
 
-    public function cacheConfigurationProvider()
+    public function cacheConfigurationProvider(): array
     {
         return [
             [[], 'local'],
@@ -311,7 +310,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    public function testCacheConfigurationCustomPurgeService()
+    public function testCacheConfigurationCustomPurgeService(): void
     {
         $serviceId = 'foobar';
         $this->setDefinition($serviceId, new Definition());
@@ -324,7 +323,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasParameter('ibexa.http_cache.purge_type', 'foobar');
     }
 
-    public function testLocaleConfiguration()
+    public function testLocaleConfiguration(): void
     {
         $this->load(['locale_conversion' => ['foo' => 'bar']]);
         $conversionMap = $this->container->getParameter('ibexa.locale.conversion_map');
@@ -332,7 +331,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         self::assertSame('bar', $conversionMap['foo']);
     }
 
-    public function testRepositoriesConfiguration()
+    public function testRepositoriesConfiguration(): void
     {
         $repositories = [
             'main' => [
@@ -385,7 +384,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
     /**
      * @dataProvider repositoriesConfigurationFieldGroupsProvider
      */
-    public function testRepositoriesConfigurationFieldGroups($repositories, $expectedRepositories)
+    public function testRepositoriesConfigurationFieldGroups(array $repositories, array $expectedRepositories): void
     {
         $this->load(['repositories' => $repositories]);
         self::assertTrue($this->container->hasParameter('ibexa.repositories'));
@@ -400,7 +399,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         }
     }
 
-    public function repositoriesConfigurationFieldGroupsProvider()
+    public function repositoriesConfigurationFieldGroupsProvider(): array
     {
         return [
             //empty config
@@ -520,7 +519,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    public function testRepositoriesConfigurationEmpty()
+    public function testRepositoriesConfigurationEmpty(): void
     {
         $repositories = [
             'main' => null,
@@ -556,7 +555,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         );
     }
 
-    public function testRepositoriesConfigurationStorageEmpty()
+    public function testRepositoriesConfigurationStorageEmpty(): void
     {
         $repositories = [
             'main' => [
@@ -597,7 +596,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         );
     }
 
-    public function testRepositoriesConfigurationSearchEmpty()
+    public function testRepositoriesConfigurationSearchEmpty(): void
     {
         $repositories = [
             'main' => [
@@ -638,7 +637,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         );
     }
 
-    public function testRepositoriesConfigurationCompatibility()
+    public function testRepositoriesConfigurationCompatibility(): void
     {
         $repositories = [
             'main' => [
@@ -709,7 +708,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         );
     }
 
-    public function testRepositoriesConfigurationCompatibility2()
+    public function testRepositoriesConfigurationCompatibility2(): void
     {
         $repositories = [
             'main' => [
@@ -748,7 +747,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         );
     }
 
-    public function testRegisteredPolicies()
+    public function testRegisteredPolicies(): void
     {
         $this->load();
         $this->assertContainerBuilderHasParameter('ibexa.api.role.policy_map');
@@ -800,7 +799,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         self::assertEquals($expectedPolicies, $this->container->getParameter('ibexa.api.role.policy_map'));
     }
 
-    public function testUrlAliasConfiguration()
+    public function testUrlAliasConfiguration(): void
     {
         $configuration = [
             'transformation' => 'urlalias_lowercase',

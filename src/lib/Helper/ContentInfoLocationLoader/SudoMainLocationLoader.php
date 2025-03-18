@@ -18,8 +18,7 @@ use Ibexa\Core\Helper\ContentInfoLocationLoader;
  */
 class SudoMainLocationLoader implements ContentInfoLocationLoader
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository|\Ibexa\Core\Repository\Repository */
-    private $repository;
+    private Repository $repository;
 
     public function __construct(Repository $repository)
     {
@@ -34,7 +33,7 @@ class SudoMainLocationLoader implements ContentInfoLocationLoader
 
         try {
             return $this->repository->sudo(
-                static function (Repository $repository) use ($contentInfo) {
+                static function (Repository $repository) use ($contentInfo): \Ibexa\Contracts\Core\Repository\Values\Content\Location {
                     return $repository->getLocationService()->loadLocation($contentInfo->mainLocationId);
                 }
             );

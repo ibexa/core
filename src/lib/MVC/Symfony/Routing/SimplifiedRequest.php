@@ -86,7 +86,7 @@ class SimplifiedRequest extends ValueObject
     /**
      * @param array $headers
      */
-    public function setHeaders(array $headers)
+    public function setHeaders(array $headers): void
     {
         $this->headers = $headers;
     }
@@ -94,7 +94,7 @@ class SimplifiedRequest extends ValueObject
     /**
      * @param string $host
      */
-    public function setHost($host)
+    public function setHost(?string $host): void
     {
         $this->host = $host;
     }
@@ -102,7 +102,7 @@ class SimplifiedRequest extends ValueObject
     /**
      * @param array $languages
      */
-    public function setLanguages(array $languages)
+    public function setLanguages(array $languages): void
     {
         $this->languages = $languages;
     }
@@ -110,7 +110,7 @@ class SimplifiedRequest extends ValueObject
     /**
      * @param string $pathinfo
      */
-    public function setPathinfo($pathinfo)
+    public function setPathinfo(?string $pathinfo): void
     {
         $this->pathinfo = $pathinfo;
     }
@@ -118,7 +118,7 @@ class SimplifiedRequest extends ValueObject
     /**
      * @param int $port
      */
-    public function setPort($port)
+    public function setPort(?int $port): void
     {
         $this->port = $port;
     }
@@ -126,7 +126,7 @@ class SimplifiedRequest extends ValueObject
     /**
      * @param array $queryParams
      */
-    public function setQueryParams(array $queryParams)
+    public function setQueryParams(array $queryParams): void
     {
         $this->queryParams = $queryParams;
     }
@@ -134,7 +134,7 @@ class SimplifiedRequest extends ValueObject
     /**
      * @param string $scheme
      */
-    public function setScheme($scheme)
+    public function setScheme(?string $scheme): void
     {
         $this->scheme = $scheme;
     }
@@ -148,7 +148,7 @@ class SimplifiedRequest extends ValueObject
      *
      * @return \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest
      */
-    public static function fromUrl($url)
+    public static function fromUrl($url): static
     {
         $elements = parse_url($url);
         $elements['pathinfo'] = isset($elements['path']) ? $elements['path'] : '';

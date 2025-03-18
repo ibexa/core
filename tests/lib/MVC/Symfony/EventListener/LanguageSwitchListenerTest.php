@@ -12,13 +12,14 @@ use Ibexa\Core\MVC\Symfony\Event\RouteReferenceGenerationEvent;
 use Ibexa\Core\MVC\Symfony\EventListener\LanguageSwitchListener;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\Routing\RouteReference;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 class LanguageSwitchListenerTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $translationHelper;
+    private MockObject $translationHelper;
 
     protected function setUp(): void
     {
@@ -28,7 +29,7 @@ class LanguageSwitchListenerTest extends TestCase
             ->getMock();
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         self::assertSame(
             [MVCEvents::ROUTE_REFERENCE_GENERATION => 'onRouteReferenceGeneration'],
@@ -36,7 +37,7 @@ class LanguageSwitchListenerTest extends TestCase
         );
     }
 
-    public function testOnRouteReferenceGenerationNoLanguage()
+    public function testOnRouteReferenceGenerationNoLanguage(): void
     {
         $this->translationHelper
             ->expects(self::never())
@@ -47,7 +48,7 @@ class LanguageSwitchListenerTest extends TestCase
         $listener->onRouteReferenceGeneration($event);
     }
 
-    public function testOnRouteReferenceGeneration()
+    public function testOnRouteReferenceGeneration(): void
     {
         $language = 'fre-FR';
         $routeReference = new RouteReference('foo', ['language' => $language]);
@@ -66,7 +67,7 @@ class LanguageSwitchListenerTest extends TestCase
         self::assertSame($expectedSiteAccess, $routeReference->get('siteaccess'));
     }
 
-    public function testOnRouteReferenceGenerationNoTranslationSiteAccess()
+    public function testOnRouteReferenceGenerationNoTranslationSiteAccess(): void
     {
         $language = 'fre-FR';
         $routeReference = new RouteReference('foo', ['language' => $language]);

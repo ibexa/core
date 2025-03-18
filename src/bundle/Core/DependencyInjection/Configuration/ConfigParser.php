@@ -18,7 +18,7 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 class ConfigParser implements ParserInterface
 {
     /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\ParserInterface[] */
-    private $configParsers;
+    private array $configParsers;
 
     public function __construct(array $configParsers = [])
     {
@@ -38,7 +38,7 @@ class ConfigParser implements ParserInterface
     /**
      * @param \Ibexa\Bundle\Core\DependencyInjection\Configuration\ParserInterface[] $configParsers
      */
-    public function setConfigParsers($configParsers)
+    public function setConfigParsers($configParsers): void
     {
         $this->configParsers = $configParsers;
     }
@@ -51,28 +51,28 @@ class ConfigParser implements ParserInterface
         return $this->configParsers;
     }
 
-    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer)
+    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer): void
     {
         foreach ($this->configParsers as $parser) {
             $parser->mapConfig($scopeSettings, $currentScope, $contextualizer);
         }
     }
 
-    public function preMap(array $config, ContextualizerInterface $contextualizer)
+    public function preMap(array $config, ContextualizerInterface $contextualizer): void
     {
         foreach ($this->configParsers as $parser) {
             $parser->preMap($config, $contextualizer);
         }
     }
 
-    public function postMap(array $config, ContextualizerInterface $contextualizer)
+    public function postMap(array $config, ContextualizerInterface $contextualizer): void
     {
         foreach ($this->configParsers as $parser) {
             $parser->postMap($config, $contextualizer);
         }
     }
 
-    public function addSemanticConfig(NodeBuilder $nodeBuilder)
+    public function addSemanticConfig(NodeBuilder $nodeBuilder): void
     {
         $fieldTypeNodeBuilder = $nodeBuilder
             ->arrayNode('fieldtypes')

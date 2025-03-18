@@ -15,8 +15,7 @@ namespace Ibexa\Tests\Core\Base\Container\Compiler\TaggedServiceIdsIterator;
  */
 final class DeprecationErrorCollector
 {
-    /** @var array */
-    private $errors = [];
+    private array $errors = [];
 
     /** @var callable|null */
     private $previousErrorHandler;

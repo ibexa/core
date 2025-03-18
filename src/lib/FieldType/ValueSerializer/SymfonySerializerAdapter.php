@@ -22,20 +22,15 @@ final class SymfonySerializerAdapter implements ValueSerializerInterface
 {
     private const DEFAULT_FORMAT = 'json';
 
-    /** @var \Symfony\Component\Serializer\Normalizer\NormalizerInterface */
-    private $normalizer;
+    private NormalizerInterface $normalizer;
 
-    /** @var \Symfony\Component\Serializer\Normalizer\DenormalizerInterface */
-    private $denormalizer;
+    private DenormalizerInterface $denormalizer;
 
-    /** @var \Symfony\Component\Serializer\Encoder\EncoderInterface */
-    private $encoder;
+    private EncoderInterface $encoder;
 
-    /** @var \Symfony\Component\Serializer\Encoder\DecoderInterface */
-    private $decoder;
+    private DecoderInterface $decoder;
 
-    /** @var string */
-    private $format;
+    private string $format;
 
     /**
      * @param \Symfony\Component\Serializer\Normalizer\NormalizerInterface $normalizer

@@ -28,12 +28,12 @@ class ContentLanguageHandler extends AbstractInMemoryPersistenceHandler implemen
      */
     protected function init(): void
     {
-        $this->getTags = function (Language $language) {
+        $this->getTags = function (Language $language): array {
             return [
                 $this->cacheIdentifierGenerator->generateTag(self::LANGUAGE_IDENTIFIER, [$language->id]),
             ];
         };
-        $this->getKeys = function (Language $language) {
+        $this->getKeys = function (Language $language): array {
             return [
                 $this->cacheIdentifierGenerator->generateKey(self::LANGUAGE_IDENTIFIER, [$language->id], true),
                 $this->cacheIdentifierGenerator->generateKey(

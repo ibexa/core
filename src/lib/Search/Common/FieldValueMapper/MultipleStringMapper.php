@@ -32,7 +32,7 @@ class MultipleStringMapper extends StringMapper
      *
      * @return array
      */
-    public function map(Field $field)
+    public function map(Field $field): array
     {
         $values = [];
 

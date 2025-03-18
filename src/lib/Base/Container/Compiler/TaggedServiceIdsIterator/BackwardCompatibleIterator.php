@@ -17,14 +17,11 @@ use Symfony\Component\DependencyInjection\TaggedContainerInterface;
  */
 final class BackwardCompatibleIterator implements IteratorAggregate
 {
-    /** @var \Symfony\Component\DependencyInjection\TaggedContainerInterface */
-    private $container;
+    private TaggedContainerInterface $container;
 
-    /** @var string */
-    private $serviceTag;
+    private string $serviceTag;
 
-    /** @var string */
-    private $deprecatedServiceTag;
+    private string $deprecatedServiceTag;
 
     public function __construct(TaggedContainerInterface $container, string $serviceTag, string $deprecatedServiceTag)
     {

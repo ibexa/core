@@ -14,6 +14,9 @@ use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub\Exception;
+use PHPUnit\Framework\MockObject\Stub\ReturnStub;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\ConsoleEvents;
@@ -25,10 +28,10 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
     protected $listener;
 
     /** @var \Ibexa\Contracts\Core\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    protected $persistenceMock;
+    protected MockObject $persistenceMock;
 
     /** @var \Ibexa\Contracts\Core\Search\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    protected $searchMock;
+    protected MockObject $searchMock;
 
     protected function setUp(): void
     {
@@ -47,7 +50,7 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
         parent::tearDown();
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         self::assertSame(
             [
@@ -59,7 +62,7 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
         );
     }
 
-    public function indexingProvider()
+    public function indexingProvider(): array
     {
         $info = new ContentInfo(['id' => 33]);
         $location = new Location(['id' => 44, 'contentId' => 33]);
@@ -82,7 +85,7 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
      * @param array|null $value
      * @param \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject|null $logger
      */
-    public function testIndexing(array $values = null, $logger = null)
+    public function testIndexing(array $values = null, MockObject&LoggerInterface $logger = null): void
     {
         $contentHandlerMock = $this->createMock(Content\Handler::class);
         $this->persistenceMock
@@ -140,7 +143,7 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
         $this->listener->reindex();
     }
 
-    public function indexDeleteProvider()
+    public function indexDeleteProvider(): array
     {
         $location = new Location(['id' => 44, 'contentId' => 33]);
         $info = new ContentInfo(['id' => 33, 'currentVersionNo' => 2, 'status' => ContentInfo::STATUS_PUBLISHED]);
@@ -167,7 +170,7 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
      * @param \PHPUnit\Framework\MockObject\Stub $infoReturn
      * @param \PHPUnit\Framework\MockObject\Stub|null $contentReturn
      */
-    public function testIndexDelete($value, $infoReturn, $contentReturn = null)
+    public function testIndexDelete(Location|ContentInfo $value, ReturnStub|Exception $infoReturn, Exception $contentReturn = null): void
     {
         $contentHandlerMock = $this->createMock(Content\Handler::class);
         $this->persistenceMock

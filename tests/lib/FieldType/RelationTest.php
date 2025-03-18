@@ -14,19 +14,21 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\Relation\Type;
 use Ibexa\Core\FieldType\Relation\Type as RelationType;
 use Ibexa\Core\FieldType\Relation\Value;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\Repository\Validator\TargetContentValidatorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class RelationTest extends FieldTypeTest
 {
     private const DESTINATION_CONTENT_ID = 14;
 
-    private $contentHandler;
+    private MockObject $contentHandler;
 
     /** @var \Ibexa\Core\Repository\Validator\TargetContentValidatorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $targetContentValidator;
+    private MockObject $targetContentValidator;
 
     protected function setUp(): void
     {
@@ -73,7 +75,7 @@ class RelationTest extends FieldTypeTest
      *
      * @return \Ibexa\Core\FieldType\Relation\Type
      */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): Type
     {
         $fieldType = new RelationType(
             $this->contentHandler,
@@ -89,7 +91,7 @@ class RelationTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getValidatorConfigurationSchemaExpectation()
+    protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [];
     }
@@ -99,7 +101,7 @@ class RelationTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [
             'selectionMethod' => [
@@ -126,12 +128,12 @@ class RelationTest extends FieldTypeTest
      *
      * @return \Ibexa\Core\FieldType\Relation\Value
      */
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): Value
     {
         return new Value();
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): array
     {
         return [
             [
@@ -170,7 +172,7 @@ class RelationTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): array
     {
         return [
             [
@@ -223,7 +225,7 @@ class RelationTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): array
     {
         return [
             [
@@ -272,7 +274,7 @@ class RelationTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): array
     {
         return [
             [
@@ -308,7 +310,7 @@ class RelationTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidFieldSettings()
+    public function provideValidFieldSettings(): array
     {
         return [
             [
@@ -349,7 +351,7 @@ class RelationTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInValidFieldSettings()
+    public function provideInValidFieldSettings(): array
     {
         return [
             [
@@ -380,7 +382,7 @@ class RelationTest extends FieldTypeTest
     /**
      * @covers \Ibexa\Core\FieldType\Relation\Type::getRelations
      */
-    public function testGetRelations()
+    public function testGetRelations(): void
     {
         $ft = $this->createFieldTypeUnderTest();
         self::assertEquals(

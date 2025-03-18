@@ -14,11 +14,9 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeUpdateStruct;
 
 final class BeforeUpdateContentTypeDraftEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft */
-    private $contentTypeDraft;
+    private ContentTypeDraft $contentTypeDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeUpdateStruct */
-    private $contentTypeUpdateStruct;
+    private ContentTypeUpdateStruct $contentTypeUpdateStruct;
 
     public function __construct(ContentTypeDraft $contentTypeDraft, ContentTypeUpdateStruct $contentTypeUpdateStruct)
     {

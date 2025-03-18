@@ -18,7 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewObjectStateLimitat
  */
 class NewObjectStateLimitationTest extends BaseLimitationTest
 {
-    public function testNewObjectStateLimitationAllow()
+    public function testNewObjectStateLimitationAllow(): void
     {
         $repository = $this->getRepository();
         $notLockedState = $this->generateId('objectstate', 2);
@@ -62,7 +62,7 @@ class NewObjectStateLimitationTest extends BaseLimitationTest
      *
      * @throws \ErrorException if a mandatory test fixture not exists.
      */
-    public function testNewObjectStateLimitationForbid()
+    public function testNewObjectStateLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 

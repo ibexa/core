@@ -10,10 +10,12 @@ namespace Ibexa\Tests\Core\Repository\Service\Mock;
 use Exception;
 use Ibexa\Contracts\Core\Persistence\User\Handler as PersistenceUserHandler;
 use Ibexa\Contracts\Core\Persistence\User\RoleAssignment;
+use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\ContentService as APIContentService;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\UserService as APIUserService;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo as APIContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
@@ -22,6 +24,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Repository\User\PasswordValidatorInterface;
 use Ibexa\Core\Repository\UserService;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @covers \Ibexa\Core\Repository\UserService
@@ -116,10 +119,10 @@ class UserTest extends BaseServiceMockTest
      */
     private function mockDeleteUserFlow(
         Repository $repository,
-        APIUserService $userService,
-        APIContentService $contentService,
+        APIUserService&MockObject $userService,
+        ContentService&MockObject $contentService,
         User $user,
-        APIContentInfo $contentInfo,
+        ContentInfo&MockObject $contentInfo,
         PersistenceUserHandler $userHandler
     ): void {
         $loadedUser = $this->createMock(APIUser::class);

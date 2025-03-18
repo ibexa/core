@@ -32,11 +32,9 @@ final class SortSpecParser implements SortSpecParserInterface
 {
     private const DEFAULT_SORT_DIRECTION = Query::SORT_ASC;
 
-    /** @var \Ibexa\Core\QueryType\BuiltIn\SortSpec\SortSpecLexerInterface */
-    private $lexer;
+    private ?SortSpecLexerInterface $lexer;
 
-    /** @var \Ibexa\Core\QueryType\BuiltIn\SortSpec\SortClauseParserInterface */
-    private $sortClauseParser;
+    private SortClauseParserInterface $sortClauseParser;
 
     public function __construct(SortClauseParserInterface $sortClauseParser, SortSpecLexerInterface $lexer = null)
     {

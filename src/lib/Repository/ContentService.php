@@ -27,6 +27,7 @@ use Ibexa\Contracts\Core\Repository\ContentService as ContentServiceInterface;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionService;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\Validator\ContentValidator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
@@ -60,6 +61,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
+use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
 use Ibexa\Core\Repository\Mapper\ContentMapper;
 use Ibexa\Core\Repository\Values\Content\Content;
@@ -75,42 +77,34 @@ use function sprintf;
 class ContentService implements ContentServiceInterface
 {
     /** @var \Ibexa\Core\Repository\Repository */
-    protected $repository;
+    protected Repository $repository;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
-    protected $persistenceHandler;
+    protected Handler $persistenceHandler;
 
     /** @var array */
     protected $settings;
 
-    /** @var \Ibexa\Core\Repository\Mapper\ContentDomainMapper */
-    protected $contentDomainMapper;
+    protected ContentDomainMapper $contentDomainMapper;
 
-    /** @var \Ibexa\Core\Repository\Helper\RelationProcessor */
-    protected $relationProcessor;
+    protected RelationProcessor $relationProcessor;
 
     protected NameSchemaServiceInterface $nameSchemaService;
 
-    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
-    protected $fieldTypeRegistry;
+    protected FieldTypeRegistry $fieldTypeRegistry;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    private $permissionResolver;
+    private PermissionService $permissionResolver;
 
-    /** @var \Ibexa\Core\Repository\Mapper\ContentMapper */
-    private $contentMapper;
+    private ContentMapper $contentMapper;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Validator\ContentValidator */
-    private $contentValidator;
+    private ContentValidator $contentValidator;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Filter\Content\Handler */
-    private $contentFilteringHandler;
+    private ContentFilteringHandler $contentFilteringHandler;
 
     public function __construct(
         RepositoryInterface $repository,
         Handler $handler,
         ContentDomainMapper $contentDomainMapper,
-        Helper\RelationProcessor $relationProcessor,
+        RelationProcessor $relationProcessor,
         NameSchemaServiceInterface $nameSchemaService,
         FieldTypeRegistry $fieldTypeRegistry,
         PermissionService $permissionService,

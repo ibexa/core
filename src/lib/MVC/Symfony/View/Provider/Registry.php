@@ -17,7 +17,7 @@ class Registry
      *
      * @var \Ibexa\Core\MVC\Symfony\View\ViewProvider[][]
      */
-    private $viewProviders;
+    private ?array $viewProviders = null;
 
     /**
      * @param \Ibexa\Core\MVC\Symfony\View\View $view
@@ -41,7 +41,7 @@ class Registry
      *
      * @param array $viewProviders ['type' => [ViewProvider1, ViewProvider2]]
      */
-    public function setViewProviders(array $viewProviders)
+    public function setViewProviders(array $viewProviders): void
     {
         $this->viewProviders = $viewProviders;
     }

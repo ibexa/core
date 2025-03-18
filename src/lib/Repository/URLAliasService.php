@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\URLAliasService as URLAliasServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
@@ -28,19 +29,15 @@ use Ibexa\Core\Base\Exceptions\UnauthorizedException;
  */
 class URLAliasService implements URLAliasServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    protected $repository;
+    protected Repository $repository;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\UrlAlias\Handler */
-    protected $urlAliasHandler;
+    protected Handler $urlAliasHandler;
 
     protected NameSchemaServiceInterface $nameSchemaService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    private $permissionResolver;
+    private PermissionResolver $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
-    private $languageResolver;
+    private LanguageResolver $languageResolver;
 
     public function __construct(
         RepositoryInterface $repository,
@@ -321,10 +318,10 @@ class URLAliasService implements URLAliasServiceInterface
      */
     protected function extractPath(
         SPIURLAlias $spiUrlAlias,
-        $languageCode,
+        ?string $languageCode,
         $showAllTranslations,
         array $prioritizedLanguageList
-    ) {
+    ): false|string {
         $pathData = [];
         $pathLevels = count($spiUrlAlias->pathData);
 
@@ -394,7 +391,7 @@ class URLAliasService implements URLAliasServiceInterface
      *
      * @return array
      */
-    protected function matchPath(SPIURLAlias $spiUrlAlias, $path, $languageCode)
+    protected function matchPath(SPIURLAlias $spiUrlAlias, $path, ?string $languageCode): array
     {
         $matchedPathElements = [];
         $matchedPathLanguageCodes = [];
@@ -449,7 +446,7 @@ class URLAliasService implements URLAliasServiceInterface
      *
      * @return array
      */
-    private function sortTranslationsByPrioritizedLanguages(array $translations)
+    private function sortTranslationsByPrioritizedLanguages(array $translations): array
     {
         $sortedTranslations = [];
         foreach ($this->languageResolver->getPrioritizedLanguages() as $languageCode) {
@@ -623,7 +620,7 @@ class URLAliasService implements URLAliasServiceInterface
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\UrlAlias
      */
-    protected function buildSPIUrlAlias(URLAlias $urlAlias)
+    protected function buildSPIUrlAlias(URLAlias $urlAlias): SPIURLAlias
     {
         return new SPIURLAlias(
             [

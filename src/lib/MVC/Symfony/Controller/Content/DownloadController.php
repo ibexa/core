@@ -21,14 +21,11 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class DownloadController extends Controller
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    private $contentService;
+    private ContentService $contentService;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
-    private $ioService;
+    private IOServiceInterface $ioService;
 
-    /** @var \Ibexa\Core\Helper\TranslationHelper */
-    private $translationHelper;
+    private TranslationHelper $translationHelper;
 
     public function __construct(ContentService $contentService, IOServiceInterface $ioService, TranslationHelper $translationHelper)
     {

@@ -14,8 +14,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\UserMetadata;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\UserGroupLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\UserGroupLimitation as APIUserGroupLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
@@ -38,7 +40,7 @@ class UserGroupLimitationType extends AbstractPersistenceLimitationType implemen
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
      */
-    public function acceptValue(APILimitationValue $limitationValue)
+    public function acceptValue(APILimitationValue $limitationValue): void
     {
         if (!$limitationValue instanceof APIUserGroupLimitation) {
             throw new InvalidArgumentType('$limitationValue', 'APIUserGroupLimitation', $limitationValue);
@@ -68,7 +70,7 @@ class UserGroupLimitationType extends AbstractPersistenceLimitationType implemen
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(APILimitationValue $limitationValue)
+    public function validate(APILimitationValue $limitationValue): array
     {
         $validationErrors = [];
         foreach ($limitationValue->limitationValues as $key => $value) {
@@ -94,7 +96,7 @@ class UserGroupLimitationType extends AbstractPersistenceLimitationType implemen
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
      */
-    public function buildValue(array $limitationValues)
+    public function buildValue(array $limitationValues): UserGroupLimitation
     {
         return new APIUserGroupLimitation(['limitationValues' => $limitationValues]);
     }
@@ -177,7 +179,7 @@ class UserGroupLimitationType extends AbstractPersistenceLimitationType implemen
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
      */
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser)
+    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser): UserMetadata
     {
         if (empty($value->limitationValues)) {
             // A Policy should not have empty limitationValues stored
@@ -204,8 +206,8 @@ class UserGroupLimitationType extends AbstractPersistenceLimitationType implemen
             }
         }
 
-        return new Criterion\UserMetadata(
-            Criterion\UserMetadata::GROUP,
+        return new UserMetadata(
+            UserMetadata::GROUP,
             Criterion\Operator::IN,
             $groupIds
         );
@@ -217,7 +219,7 @@ class UserGroupLimitationType extends AbstractPersistenceLimitationType implemen
      * @return mixed[]|int In case of array, a hash with key as valid limitations value and value as human readable name
      *                     of that option, in case of int on of VALUE_SCHEMA_ constants.
      */
-    public function valueSchema()
+    public function valueSchema(): never
     {
         throw new NotImplementedException(__METHOD__);
     }

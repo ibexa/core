@@ -35,7 +35,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testInsertSection()
+    public function testInsertSection(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -63,7 +63,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testUpdateSection()
+    public function testUpdateSection(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -85,7 +85,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testLoadSectionData()
+    public function testLoadSectionData(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -103,7 +103,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testLoadAllSectionData()
+    public function testLoadAllSectionData(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -152,7 +152,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testLoadSectionDataByIdentifier()
+    public function testLoadSectionDataByIdentifier(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -170,7 +170,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testCountContentObjectsInSection()
+    public function testCountContentObjectsInSection(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../../_fixtures/contentobjects.php'
@@ -186,7 +186,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testCountRoleAssignmentsUsingSection()
+    public function testCountRoleAssignmentsUsingSection(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../../../User/_fixtures/roles.php'
@@ -202,7 +202,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testDeleteSection()
+    public function testDeleteSection(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -235,7 +235,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @depends testCountContentObjectsInSection
      */
-    public function testAssignSectionToContent()
+    public function testAssignSectionToContent(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../../_fixtures/contentobjects.php'

@@ -13,6 +13,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Core\Base\Exceptions\BadStateException;
+use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
 use RuntimeException;
@@ -46,18 +47,14 @@ final class DoctrineDatabase extends Gateway
         'text_md5' => ParameterType::STRING,
     ];
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
-    private $languageMaskGenerator;
+    private MaskGenerator $languageMaskGenerator;
 
     /**
      * Main URL database table name.
-     *
-     * @var string
      */
-    private $table;
+    private string $table;
 
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
     /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
     private $dbPlatform;
@@ -1346,7 +1343,7 @@ final class DoctrineDatabase extends Gateway
     {
         $originalUrlAliases = array_filter(
             $urlAliasesData,
-            static function ($urlAliasData): bool {
+            static function (array $urlAliasData): bool {
                 // filter is_original=true ignoring broken parent records (cleaned up elsewhere)
                 return (bool)$urlAliasData['is_original'] && $urlAliasData['existing_parent'] !== null;
             }

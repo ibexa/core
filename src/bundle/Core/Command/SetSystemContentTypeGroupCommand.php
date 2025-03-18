@@ -31,14 +31,11 @@ final class SetSystemContentTypeGroupCommand extends Command
 {
     private const DEFAULT_REPOSITORY_USER = 'admin';
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
-    private $contentTypeService;
+    private ContentTypeService $contentTypeService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    private $permissionResolver;
+    private PermissionResolver $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
-    private $userService;
+    private UserService $userService;
 
     public function __construct(
         ContentTypeService $contentTypeService,
@@ -52,7 +49,7 @@ final class SetSystemContentTypeGroupCommand extends Command
         $this->userService = $userService;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addArgument('content-type-group-identifier', InputArgument::REQUIRED, 'ContentTypGroup identifier')

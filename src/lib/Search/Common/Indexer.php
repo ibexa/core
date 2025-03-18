@@ -10,6 +10,7 @@ namespace Ibexa\Core\Search\Common;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Statement;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
+use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
@@ -21,17 +22,13 @@ use Psr\Log\LoggerInterface;
  */
 abstract class Indexer
 {
-    /** @var \Psr\Log\LoggerInterface */
-    protected $logger;
+    protected LoggerInterface $logger;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
-    protected $persistenceHandler;
+    protected Handler $persistenceHandler;
 
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
+    protected Connection $connection;
 
-    /** @var \Ibexa\Contracts\Core\Search\Handler */
-    protected $searchHandler;
+    protected SearchHandler $searchHandler;
 
     public function __construct(
         LoggerInterface $logger,

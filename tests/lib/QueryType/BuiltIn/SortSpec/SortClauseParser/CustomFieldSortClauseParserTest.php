@@ -20,7 +20,7 @@ final class CustomFieldSortClauseParserTest extends TestCase
     private const EXAMPLE_SEARCH_INDEX_FIELD = 'custom_field_s';
 
     /** @var \Ibexa\Core\QueryType\BuiltIn\SortSpec\SortClauseParser\CustomFieldSortClauseParser */
-    private $parser;
+    private CustomFieldSortClauseParser $parser;
 
     protected function setUp(): void
     {

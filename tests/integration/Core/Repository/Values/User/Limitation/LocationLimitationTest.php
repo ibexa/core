@@ -23,7 +23,7 @@ class LocationLimitationTest extends BaseLimitationTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation
      */
-    public function testLocationLimitationAllow()
+    public function testLocationLimitationAllow(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();
@@ -56,7 +56,7 @@ class LocationLimitationTest extends BaseLimitationTest
         );
     }
 
-    public function testLocationLimitationForbid()
+    public function testLocationLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 

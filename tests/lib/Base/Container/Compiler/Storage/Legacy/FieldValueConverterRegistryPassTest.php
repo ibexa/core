@@ -33,7 +33,7 @@ class FieldValueConverterRegistryPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new FieldValueConverterRegistryPass());
     }
 
-    public function testRegisterConverterNoLazy()
+    public function testRegisterConverterNoLazy(): void
     {
         $fieldTypeIdentifier = 'fieldtype_identifier';
         $serviceId = 'some_service_id';

@@ -22,13 +22,11 @@ final class Filter
     private $criterion;
 
     /** @var \Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause[] */
-    private $sortClauses = [];
+    private array $sortClauses = [];
 
-    /** @var int */
-    private $offset = 0;
+    private int $offset = 0;
 
-    /** @var int */
-    private $limit = 0;
+    private int $limit = 0;
 
     /**
      * Build Filter.

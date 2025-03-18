@@ -24,12 +24,12 @@ class MapLocationStorage extends GatewayBasedStorage
         return $this->gateway->storeFieldData($versionInfo, $field);
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field)
+    public function getFieldData(VersionInfo $versionInfo, Field $field): void
     {
         $this->gateway->getFieldData($versionInfo, $field);
     }
 
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): void
     {
         $this->gateway->deleteFieldData($versionInfo, $fieldIds);
     }

@@ -32,7 +32,7 @@ class TemplatesTest extends AbstractParserTestCase
         return $this->config = Yaml::parse(file_get_contents(__DIR__ . '/../../Fixtures/ezpublish_templates.yml'));
     }
 
-    public function testFieldTemplates()
+    public function testFieldTemplates(): void
     {
         $this->load();
         $fixedUpConfig = $this->getExpectedConfigFieldTemplates($this->config);
@@ -95,7 +95,7 @@ class TemplatesTest extends AbstractParserTestCase
      *
      * @return array
      */
-    private function getExpectedConfigFieldTemplates(array $config)
+    private function getExpectedConfigFieldTemplates(array $config): array
     {
         foreach ($config['system']['ibexa_demo_frontend_group']['field_templates'] as &$block) {
             if (!isset($block['priority'])) {
@@ -106,7 +106,7 @@ class TemplatesTest extends AbstractParserTestCase
         return $config;
     }
 
-    public function testFieldDefinitionSettingsTemplates()
+    public function testFieldDefinitionSettingsTemplates(): void
     {
         $this->load();
         $fixedUpConfig = $this->getExpectedConfigFieldDefinitionSettingsTemplates($this->config);
@@ -149,7 +149,7 @@ class TemplatesTest extends AbstractParserTestCase
      *
      * @return array
      */
-    private function getExpectedConfigFieldDefinitionSettingsTemplates(array $config)
+    private function getExpectedConfigFieldDefinitionSettingsTemplates(array $config): array
     {
         foreach ($config['system']['ibexa_demo_frontend_group']['fielddefinition_settings_templates'] as &$block) {
             if (!isset($block['priority'])) {

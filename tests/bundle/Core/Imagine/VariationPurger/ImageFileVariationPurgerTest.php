@@ -12,15 +12,16 @@ use Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileVariationPurger;
 use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ImageFileVariationPurgerTest extends TestCase
 {
     /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $ioServiceMock;
+    protected MockObject $ioServiceMock;
 
     /** @var \Ibexa\Contracts\Core\Variation\VariationPathGenerator|\PHPUnit\Framework\MockObject\MockObject */
-    protected $pathGeneratorMock;
+    protected MockObject $pathGeneratorMock;
 
     /** @var \Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileVariationPurger */
     protected $purger;
@@ -31,7 +32,7 @@ class ImageFileVariationPurgerTest extends TestCase
         $this->pathGeneratorMock = $this->createMock(VariationPathGenerator::class);
     }
 
-    public function testIteratesOverItems()
+    public function testIteratesOverItems(): void
     {
         $purger = $this->createPurger(
             [
@@ -53,7 +54,7 @@ class ImageFileVariationPurgerTest extends TestCase
         $purger->purge(['large', 'gallery']);
     }
 
-    public function testPurgesExistingItem()
+    public function testPurgesExistingItem(): void
     {
         $purger = $this->createPurger(
             ['path/to/file.png']
@@ -82,7 +83,7 @@ class ImageFileVariationPurgerTest extends TestCase
         $purger->purge(['large']);
     }
 
-    public function testDoesNotPurgeNotExistingItem()
+    public function testDoesNotPurgeNotExistingItem(): void
     {
         $purger = $this->createPurger(
             ['path/to/file.png']
@@ -109,7 +110,7 @@ class ImageFileVariationPurgerTest extends TestCase
         $purger->purge(['large']);
     }
 
-    private function createPurger(array $fileList)
+    private function createPurger(array $fileList): ImageFileVariationPurger
     {
         return new ImageFileVariationPurger(new ArrayIterator($fileList), $this->ioServiceMock, $this->pathGeneratorMock);
     }

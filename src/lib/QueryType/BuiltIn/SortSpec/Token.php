@@ -20,14 +20,11 @@ final class Token
     public const TYPE_FLOAT = '<float>';
     public const TYPE_EOF = '<eof>';
 
-    /** @var string */
-    private $type;
+    private string $type;
 
-    /** @var string */
-    private $value;
+    private string $value;
 
-    /** @var int */
-    private $position;
+    private int $position;
 
     public function __construct(string $type, string $value = '', int $position = -1)
     {

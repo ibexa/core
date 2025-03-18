@@ -14,8 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 
 final class CreateUrlAliasEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-    private $location;
+    private Location $location;
 
     private $path;
 
@@ -25,8 +24,7 @@ final class CreateUrlAliasEvent extends AfterEvent
 
     private $alwaysAvailable;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias */
-    private $urlAlias;
+    private URLAlias $urlAlias;
 
     public function __construct(
         URLAlias $urlAlias,

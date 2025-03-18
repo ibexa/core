@@ -24,12 +24,12 @@ use Traversable;
 class AllValidationErrorsOccur extends AbstractPHPUnitConstraint
 {
     /** @var string[] */
-    private $expectedValidationErrorMessages;
+    private array $expectedValidationErrorMessages;
 
     /**
      * @var string[]
      */
-    private $missingValidationErrorMessages = [];
+    private array $missingValidationErrorMessages = [];
 
     /**
      * @param string[] $expectedValidationErrorMessages

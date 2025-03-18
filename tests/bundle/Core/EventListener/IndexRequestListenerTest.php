@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Bundle\Core\EventListener;
 
 use Ibexa\Bundle\Core\EventListener\IndexRequestListener;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -18,19 +19,19 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class IndexRequestListenerTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $configResolver;
+    private MockObject $configResolver;
 
     /** @var \Ibexa\Bundle\Core\EventListener\IndexRequestListener */
-    private $indexRequestEventListener;
+    private IndexRequestListener $indexRequestEventListener;
 
     /** @var \Symfony\Component\HttpFoundation\Request */
-    private $request;
+    private MockObject $request;
 
     /** @var \Symfony\Component\HttpKernel\Event\RequestEvent */
-    private $event;
+    private RequestEvent $event;
 
     /** @var \Symfony\Component\HttpKernel\HttpKernelInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $httpKernel;
+    private MockObject $httpKernel;
 
     protected function setUp(): void
     {
@@ -53,7 +54,7 @@ class IndexRequestListenerTest extends TestCase
         );
     }
 
-    public function testSubscribedEvents()
+    public function testSubscribedEvents(): void
     {
         self::assertSame(
             [
@@ -68,7 +69,7 @@ class IndexRequestListenerTest extends TestCase
     /**
      * @dataProvider indexPageProvider
      */
-    public function testOnKernelRequestIndexOnIndexPage($requestPath, $configuredIndexPath, $expectedIndexPath)
+    public function testOnKernelRequestIndexOnIndexPage(string $requestPath, string $configuredIndexPath, string $expectedIndexPath): void
     {
         $this->configResolver
             ->expects(self::once())
@@ -81,7 +82,7 @@ class IndexRequestListenerTest extends TestCase
         self::assertTrue($this->request->attributes->get('needsRedirect'));
     }
 
-    public function indexPageProvider()
+    public function indexPageProvider(): array
     {
         return [
             ['/', '/foo', '/foo'],
@@ -94,7 +95,7 @@ class IndexRequestListenerTest extends TestCase
         ];
     }
 
-    public function testOnKernelRequestIndexNotOnIndexPage()
+    public function testOnKernelRequestIndexNotOnIndexPage(): void
     {
         $this->request->attributes->set('semanticPathinfo', '/anyContent');
         $this->indexRequestEventListener->onKernelRequestIndex($this->event);

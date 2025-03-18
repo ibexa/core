@@ -22,7 +22,7 @@ class Host extends Map
      *
      * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
      */
-    public function setRequest(SimplifiedRequest $request)
+    public function setRequest(SimplifiedRequest $request): void
     {
         if (!$this->key) {
             $this->setMapKey((string)$request->getHost());

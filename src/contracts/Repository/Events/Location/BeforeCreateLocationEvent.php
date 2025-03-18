@@ -16,14 +16,11 @@ use UnexpectedValueException;
 
 final class BeforeCreateLocationEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
-    private $contentInfo;
+    private ContentInfo $contentInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct */
-    private $locationCreateStruct;
+    private LocationCreateStruct $locationCreateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location|null */
-    private $location;
+    private ?Location $location = null;
 
     public function __construct(ContentInfo $contentInfo, LocationCreateStruct $locationCreateStruct)
     {

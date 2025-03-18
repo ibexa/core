@@ -18,7 +18,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\MatchNone;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewSectionLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewSectionLimitation as APINewSectionLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
@@ -40,7 +42,7 @@ class NewSectionLimitationType extends AbstractPersistenceLimitationType impleme
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
      */
-    public function acceptValue(APILimitationValue $limitationValue)
+    public function acceptValue(APILimitationValue $limitationValue): void
     {
         if (!$limitationValue instanceof APINewSectionLimitation) {
             throw new InvalidArgumentType('$limitationValue', 'APINewSectionLimitation', $limitationValue);
@@ -64,7 +66,7 @@ class NewSectionLimitationType extends AbstractPersistenceLimitationType impleme
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(APILimitationValue $limitationValue)
+    public function validate(APILimitationValue $limitationValue): array
     {
         $validationErrors = [];
         foreach ($limitationValue->limitationValues as $key => $id) {
@@ -92,7 +94,7 @@ class NewSectionLimitationType extends AbstractPersistenceLimitationType impleme
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
      */
-    public function buildValue(array $limitationValues)
+    public function buildValue(array $limitationValues): NewSectionLimitation
     {
         return new APINewSectionLimitation(['limitationValues' => $limitationValues]);
     }
@@ -143,7 +145,7 @@ class NewSectionLimitationType extends AbstractPersistenceLimitationType impleme
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
      */
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser)
+    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser): never
     {
         throw new NotImplementedException(__METHOD__);
     }
@@ -154,7 +156,7 @@ class NewSectionLimitationType extends AbstractPersistenceLimitationType impleme
      * @return mixed[]|int In case of array, a hash with key as valid limitations value and value as human readable name
      *                     of that option, in case of int on of VALUE_SCHEMA_ constants.
      */
-    public function valueSchema()
+    public function valueSchema(): never
     {
         throw new NotImplementedException(__METHOD__);
     }
@@ -185,7 +187,7 @@ class NewSectionLimitationType extends AbstractPersistenceLimitationType impleme
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      */
-    private function doEvaluate(APILimitationValue $value, array $targets): bool
+    private function doEvaluate(NewSectionLimitation|Limitation $value, array $targets): bool
     {
         foreach ($targets as $target) {
             if (!$target instanceof Section && !$target instanceof SPISection) {

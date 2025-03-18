@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Core\FieldType\Checkbox\Value;
 use Ibexa\Core\FieldType\Checkbox\Value as CheckboxValue;
 
 /**
@@ -42,7 +43,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function getSettingsSchema()
+    public function getSettingsSchema(): array
     {
         return [];
     }
@@ -52,7 +53,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidFieldSettings()
+    public function getValidFieldSettings(): array
     {
         return [];
     }
@@ -62,7 +63,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidFieldSettings()
+    public function getInvalidFieldSettings(): array
     {
         return [
             'somethingUnknown' => 0,
@@ -74,7 +75,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function getValidatorSchema()
+    public function getValidatorSchema(): array
     {
         return [];
     }
@@ -84,7 +85,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidValidatorConfiguration()
+    public function getValidValidatorConfiguration(): array
     {
         return [];
     }
@@ -94,7 +95,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidValidatorConfiguration()
+    public function getInvalidValidatorConfiguration(): array
     {
         return [
             'unknown' => ['value' => 42],
@@ -106,7 +107,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidCreationFieldData()
+    public function getValidCreationFieldData(): Value
     {
         return new CheckboxValue(true);
     }
@@ -129,7 +130,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertFieldDataLoadedCorrect(Field $field)
+    public function assertFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             CheckboxValue::class,
@@ -145,7 +146,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public function provideInvalidCreationFieldData(): array
     {
         return [
             [
@@ -160,7 +161,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function getValidUpdateFieldData()
+    public function getValidUpdateFieldData(): Value
     {
         return new CheckboxValue(false);
     }
@@ -172,7 +173,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function assertUpdatedFieldDataLoadedCorrect(Field $field)
+    public function assertUpdatedFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             CheckboxValue::class,
@@ -201,7 +202,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertCopiedFieldDataLoadedCorrectly(Field $field)
+    public function assertCopiedFieldDataLoadedCorrectly(Field $field): void
     {
         self::assertInstanceOf(
             CheckboxValue::class,
@@ -237,7 +238,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function provideToHashData()
+    public function provideToHashData(): array
     {
         return [
             [
@@ -254,7 +255,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function provideFromHashData()
+    public function provideFromHashData(): array
     {
         return [
             [
@@ -264,12 +265,12 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public function providerForTestIsEmptyValue(): array
     {
         return [];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public function providerForTestIsNotEmptyValue(): array
     {
         return [
             [$this->getValidCreationFieldData()],

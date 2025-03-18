@@ -62,7 +62,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\ISBN\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
@@ -125,7 +125,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue)
+    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue): array
     {
         $validationErrors = [];
         if ($this->isEmptyValue($fieldValue)) {
@@ -230,7 +230,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings($fieldSettings): array
     {
         $validationErrors = [];
 
@@ -275,7 +275,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return bool
      */
-    private function validateISBNChecksum($isbnNr): bool
+    private function validateISBNChecksum(string|array|null $isbnNr): bool
     {
         $result = 0;
         $isbnNr = strtoupper($isbnNr);
@@ -303,7 +303,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return bool
      */
-    private function validateISBN13Checksum($isbnNr, &$error): bool
+    private function validateISBN13Checksum(string|array|null $isbnNr, &$error): bool
     {
         if (!$isbnNr) {
             return false;

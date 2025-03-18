@@ -12,6 +12,7 @@ use Exception;
 use Ibexa\Contracts\Core\Limitation\Target;
 use Ibexa\Contracts\Core\Limitation\TargetAwareType;
 use Ibexa\Contracts\Core\Limitation\Type as LimitationType;
+use Ibexa\Contracts\Core\Persistence\User\Handler;
 use Ibexa\Contracts\Core\Persistence\User\Handler as UserHandler;
 use Ibexa\Contracts\Core\Repository\PermissionResolver as PermissionResolverInterface;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
@@ -32,36 +33,26 @@ class PermissionResolver implements PermissionResolverInterface
 {
     /**
      * Counter for the current sudo nesting level {@see sudo()}.
-     *
-     * @var int
      */
-    private $sudoNestingLevel = 0;
+    private int $sudoNestingLevel = 0;
 
-    /** @var \Ibexa\Core\Repository\Mapper\RoleDomainMapper */
-    private $roleDomainMapper;
+    private RoleDomainMapper $roleDomainMapper;
 
-    /** @var \Ibexa\Core\Repository\Permission\LimitationService */
-    private $limitationService;
+    private LimitationService $limitationService;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\User\Handler */
-    private $userHandler;
+    private Handler $userHandler;
 
     /**
      * Currently logged in user reference for permission purposes.
-     *
-     * @var \Ibexa\Contracts\Core\Repository\Values\User\UserReference
      */
-    private $currentUserRef;
+    private \Ibexa\Core\Repository\Values\User\UserReference|\Ibexa\Contracts\Core\Repository\Values\User\UserReference|null $currentUserRef = null;
 
     /**
      * Map of system configured policies, for validation usage.
-     *
-     * @var array
      */
-    private $policyMap;
+    private array $policyMap;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
     /**
      * @param array $policyMap Map of system configured policies, for validation usage.

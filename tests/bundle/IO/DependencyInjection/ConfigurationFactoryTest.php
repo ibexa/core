@@ -35,7 +35,7 @@ abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
         }
     }
 
-    public function testGetParentServiceId()
+    public function testGetParentServiceId(): void
     {
         self::assertEquals(
             $this->provideExpectedParentServiceId(),
@@ -43,7 +43,7 @@ abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
         );
     }
 
-    public function testAddConfiguration()
+    public function testAddConfiguration(): void
     {
         $node = new ArrayNodeDefinition('handler');
         $this->factory->addConfiguration($node);
@@ -52,7 +52,7 @@ abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
         // @todo customized testing of configuration node ?
     }
 
-    public function testConfigureHandler()
+    public function testConfigureHandler(): void
     {
         $handlerConfiguration =
             $this->provideHandlerConfiguration($this->container) +

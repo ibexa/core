@@ -15,7 +15,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 final class RenderStrategy implements SPIRenderStrategy
 {
     /** @var \Ibexa\Contracts\Core\MVC\Templating\RenderStrategy[] */
-    private $strategies;
+    private iterable $strategies;
 
     public function __construct(iterable $strategies)
     {

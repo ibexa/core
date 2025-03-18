@@ -14,19 +14,20 @@ use Ibexa\Core\IO\UrlRedecoratorInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bridge\PhpUnit\ClockMock;
 
 final class ImageConverterTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageConverter */
-    private $imageConverter;
+    private ImageConverter $imageConverter;
 
     /** @var \Ibexa\Core\IO\UrlRedecoratorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $urlRedecorator;
+    private MockObject $urlRedecorator;
 
     /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $ioService;
+    private MockObject $ioService;
 
     protected function setUp(): void
     {

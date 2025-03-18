@@ -89,7 +89,7 @@ class ServiceContainer implements Container
      *
      * @return \Ibexa\Contracts\Core\Repository\Repository
      */
-    public function getRepository()
+    public function getRepository(): ?object
     {
         return $this->innerContainer->get('ibexa.api.repository');
     }
@@ -109,7 +109,7 @@ class ServiceContainer implements Container
      *
      * @return object
      */
-    public function get($id)
+    public function get(string $id): ?object
     {
         return $this->innerContainer->get($id);
     }
@@ -121,7 +121,7 @@ class ServiceContainer implements Container
      *
      * @return mixed
      */
-    public function getParameter($name)
+    public function getParameter(string $name)
     {
         return $this->innerContainer->getParameter($name);
     }

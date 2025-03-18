@@ -36,7 +36,7 @@ class PermissionResolverTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::getCurrentUserReference()
      */
-    public function testGetCurrentUserReferenceReturnsAnonymousUserReference()
+    public function testGetCurrentUserReferenceReturnsAnonymousUserReference(): void
     {
         $repository = $this->getRepository();
         $anonymousUserId = $this->generateId('user', 10);
@@ -66,7 +66,7 @@ class PermissionResolverTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      */
-    public function testSetCurrentUserReference()
+    public function testSetCurrentUserReference(): void
     {
         $repository = $this->getRepository();
         $repository->getPermissionResolver()->setCurrentUserReference(
@@ -109,7 +109,7 @@ class PermissionResolverTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      */
-    public function testHasAccessWithAnonymousUserNo()
+    public function testHasAccessWithAnonymousUserNo(): void
     {
         $repository = $this->getRepository();
 
@@ -141,7 +141,7 @@ class PermissionResolverTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      * @depends testHasAccessWithAnonymousUserNo
      */
-    public function testHasAccessForCurrentUserNo()
+    public function testHasAccessForCurrentUserNo(): void
     {
         $repository = $this->getRepository();
 
@@ -175,7 +175,7 @@ class PermissionResolverTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      */
-    public function testHasAccessWithAdministratorUser()
+    public function testHasAccessWithAdministratorUser(): void
     {
         $repository = $this->getRepository();
 
@@ -206,7 +206,7 @@ class PermissionResolverTest extends BaseTest
      * @depends testSetCurrentUserReference
      * @depends testHasAccessWithAdministratorUser
      */
-    public function testHasAccessForCurrentUserYes()
+    public function testHasAccessForCurrentUserYes(): void
     {
         $repository = $this->getRepository();
 
@@ -239,7 +239,7 @@ class PermissionResolverTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      * @depends testSetCurrentUserReference
      */
-    public function testHasAccessLimited()
+    public function testHasAccessLimited(): void
     {
         $repository = $this->getRepository();
 
@@ -271,7 +271,7 @@ class PermissionResolverTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
      * @depends testHasAccessForCurrentUserNo
      */
-    public function testCanUserForAnonymousUserNo()
+    public function testCanUserForAnonymousUserNo(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -318,7 +318,7 @@ class PermissionResolverTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
      * @depends testHasAccessForCurrentUserYes
      */
-    public function testCanUserForAdministratorUser()
+    public function testCanUserForAdministratorUser(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -364,7 +364,7 @@ class PermissionResolverTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
      * @depends testHasAccessLimited
      */
-    public function testCanUserWithLimitationYes()
+    public function testCanUserWithLimitationYes(): void
     {
         $repository = $this->getRepository();
 
@@ -401,7 +401,7 @@ class PermissionResolverTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
      * @depends testHasAccessLimited
      */
-    public function testCanUserWithLimitationNo()
+    public function testCanUserWithLimitationNo(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -447,7 +447,7 @@ class PermissionResolverTest extends BaseTest
      * @depends testSetCurrentUserReference
      * @depends testHasAccessLimited
      */
-    public function testCanUserThrowsInvalidArgumentException()
+    public function testCanUserThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -487,7 +487,7 @@ class PermissionResolverTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentTypeService
      * @depends testHasAccessLimited
      */
-    public function testCanUserWithTargetYes()
+    public function testCanUserWithTargetYes(): void
     {
         $repository = $this->getRepository();
 
@@ -549,7 +549,7 @@ class PermissionResolverTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentTypeService
      * @depends testHasAccessLimited
      */
-    public function testCanUserWithTargetNo()
+    public function testCanUserWithTargetNo(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -610,7 +610,7 @@ class PermissionResolverTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentTypeService
      * @depends testHasAccessLimited
      */
-    public function testCanUserWithMultipleTargetsYes()
+    public function testCanUserWithMultipleTargetsYes(): void
     {
         $repository = $this->getRepository();
 
@@ -673,7 +673,7 @@ class PermissionResolverTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentTypeService
      * @depends testHasAccessLimited
      */
-    public function testCanUserWithMultipleTargetsNo()
+    public function testCanUserWithMultipleTargetsNo(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -737,7 +737,7 @@ class PermissionResolverTest extends BaseTest
      * @depends testSetCurrentUserReference
      * @depends testHasAccessLimited
      */
-    public function testCanUserWithTargetThrowsInvalidArgumentException()
+    public function testCanUserWithTargetThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -780,7 +780,7 @@ class PermissionResolverTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
      */
-    public function testCanUserThrowsBadStateException()
+    public function testCanUserThrowsBadStateException(): void
     {
         $this->expectException(BadStateException::class);
 
@@ -808,12 +808,12 @@ class PermissionResolverTest extends BaseTest
      */
     public function testCanUserWithLimitations(
         Limitation $limitation,
-        $module,
-        $function,
+        string $module,
+        string $function,
         ValueObject $object,
         array $targets,
-        $expectedResult
-    ) {
+        bool $expectedResult
+    ): void {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
         $roleService = $repository->getRoleService();
@@ -847,7 +847,7 @@ class PermissionResolverTest extends BaseTest
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function getDataForTestCanUserWithLimitations()
+    public function getDataForTestCanUserWithLimitations(): array
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();

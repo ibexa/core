@@ -20,8 +20,7 @@ use PDO;
  */
 abstract class DoctrineStorage extends Gateway
 {
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
+    protected Connection $connection;
 
     public function __construct(Connection $connection)
     {
@@ -299,7 +298,7 @@ abstract class DoctrineStorage extends Gateway
      *
      * @return string
      */
-    public function prependMimeToPath($path, $mimeType)
+    public function prependMimeToPath(string $path, $mimeType)
     {
         $res = substr($mimeType, 0, strpos($mimeType, '/')) . '/' . $path;
 
@@ -312,7 +311,7 @@ abstract class DoctrineStorage extends Gateway
      * @param array $fieldIds
      * @param int $versionNo
      */
-    public function removeFileReferences(array $fieldIds, $versionNo)
+    public function removeFileReferences(array $fieldIds, $versionNo): void
     {
         if (empty($fieldIds)) {
             return;
@@ -346,7 +345,7 @@ abstract class DoctrineStorage extends Gateway
      * @param int $fieldId
      * @param int $versionNo
      */
-    public function removeFileReference($fieldId, $versionNo)
+    public function removeFileReference($fieldId, $versionNo): void
     {
         $deleteQuery = $this->connection->createQueryBuilder();
         $deleteQuery
@@ -409,7 +408,7 @@ abstract class DoctrineStorage extends Gateway
         $statement = $selectQuery->execute();
 
         return array_map(
-            function ($row) {
+            function (array $row) {
                 return $this->prependMimeToPath($row['filename'], $row['mime_type']);
             },
             $statement->fetchAll(PDO::FETCH_ASSOC)

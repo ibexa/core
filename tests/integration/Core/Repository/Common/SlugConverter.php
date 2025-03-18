@@ -20,7 +20,7 @@ class SlugConverter extends LegacySlugConverter
      * @param string $key
      * @param string $value
      */
-    public function setConfigurationValue($key, $value)
+    public function setConfigurationValue($key, $value): void
     {
         $this->configuration[$key] = $value;
     }

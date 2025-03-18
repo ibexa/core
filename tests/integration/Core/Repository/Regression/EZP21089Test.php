@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use DateTime;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 
 /**
@@ -23,7 +24,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 class EZP21089Test extends BaseTest
 {
     /** @var \Ibexa\Core\Repository\Values\ContentType\ContentType */
-    private $contentType;
+    private ContentType $contentType;
 
     protected function setUp(): void
     {
@@ -107,7 +108,7 @@ class EZP21089Test extends BaseTest
         $this->contentType = $contentTypeService->loadContentType($type->id);
     }
 
-    public function testCreateContent()
+    public function testCreateContent(): void
     {
         $repository = $this->getRepository();
 

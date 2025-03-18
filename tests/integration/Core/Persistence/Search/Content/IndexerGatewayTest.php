@@ -20,7 +20,7 @@ use Ibexa\Tests\Integration\Core\BaseGatewayTest;
 final class IndexerGatewayTest extends BaseGatewayTest
 {
     /** @var \Ibexa\Core\Search\Legacy\Content\IndexerGateway */
-    private $gateway;
+    private IndexerGateway $gateway;
 
     /**
      * @throws \ErrorException

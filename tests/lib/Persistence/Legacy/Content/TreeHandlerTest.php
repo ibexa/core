@@ -17,13 +17,14 @@ use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\TreeHandler;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test case for Tree Handler.
  */
 class TreeHandlerTest extends TestCase
 {
-    public function testLoadContentInfoByRemoteId()
+    public function testLoadContentInfoByRemoteId(): void
     {
         $contentInfoData = [new ContentInfo()];
 
@@ -45,7 +46,7 @@ class TreeHandlerTest extends TestCase
         );
     }
 
-    public function testListVersions()
+    public function testListVersions(): void
     {
         $this->getContentGatewayMock()
             ->expects(self::once())
@@ -73,7 +74,7 @@ class TreeHandlerTest extends TestCase
         );
     }
 
-    public function testRemoveRawContent()
+    public function testRemoveRawContent(): void
     {
         $treeHandler = $this->getPartlyMockedTreeHandler(
             [
@@ -125,7 +126,7 @@ class TreeHandlerTest extends TestCase
         $treeHandler->removeRawContent(23);
     }
 
-    public function testRemoveSubtree()
+    public function testRemoveSubtree(): void
     {
         $treeHandler = $this->getPartlyMockedTreeHandler(
             [
@@ -259,7 +260,7 @@ class TreeHandlerTest extends TestCase
         $treeHandler->removeSubtree(42);
     }
 
-    public function testSetSectionForSubtree()
+    public function testSetSectionForSubtree(): void
     {
         $treeHandler = $this->getTreeHandler();
 
@@ -285,7 +286,7 @@ class TreeHandlerTest extends TestCase
         $treeHandler->setSectionForSubtree(69, 3);
     }
 
-    public function testChangeMainLocation()
+    public function testChangeMainLocation(): void
     {
         $treeHandler = $this->getPartlyMockedTreeHandler(
             [
@@ -332,7 +333,7 @@ class TreeHandlerTest extends TestCase
         $treeHandler->changeMainLocation(12, 34);
     }
 
-    public function testChangeMainLocationToLocationWithoutContentInfo()
+    public function testChangeMainLocationToLocationWithoutContentInfo(): void
     {
         $treeHandler = $this->getPartlyMockedTreeHandler(
             [
@@ -374,7 +375,7 @@ class TreeHandlerTest extends TestCase
         $treeHandler->changeMainLocation(12, 34);
     }
 
-    public function testLoadLocation()
+    public function testLoadLocation(): void
     {
         $treeHandler = $this->getTreeHandler();
 
@@ -457,7 +458,7 @@ class TreeHandlerTest extends TestCase
     }
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Location\Gateway */
-    protected $locationGatewayMock;
+    protected ?MockObject $locationGatewayMock = null;
 
     /**
      * Returns Location Gateway mock.
@@ -474,7 +475,7 @@ class TreeHandlerTest extends TestCase
     }
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Location\Mapper */
-    protected $locationMapperMock;
+    protected ?MockObject $locationMapperMock = null;
 
     /**
      * Returns a Location Mapper mock.
@@ -491,7 +492,7 @@ class TreeHandlerTest extends TestCase
     }
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Gateway */
-    protected $contentGatewayMock;
+    protected ?MockObject $contentGatewayMock = null;
 
     /**
      * Returns Content Gateway mock.
@@ -508,7 +509,7 @@ class TreeHandlerTest extends TestCase
     }
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Mapper */
-    protected $contentMapper;
+    protected ?MockObject $contentMapper = null;
 
     /**
      * Returns a Content Mapper mock.
@@ -525,7 +526,7 @@ class TreeHandlerTest extends TestCase
     }
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\FieldHandler */
-    protected $fieldHandlerMock;
+    protected ?MockObject $fieldHandlerMock = null;
 
     /**
      * Returns a FieldHandler mock.
@@ -546,7 +547,7 @@ class TreeHandlerTest extends TestCase
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\TreeHandler
      */
-    protected function getPartlyMockedTreeHandler(array $methods)
+    protected function getPartlyMockedTreeHandler(array $methods): MockObject
     {
         return $this->getMockBuilder(TreeHandler::class)
             ->setMethods($methods)
@@ -565,7 +566,7 @@ class TreeHandlerTest extends TestCase
     /**
      * @return \Ibexa\Core\Persistence\Legacy\Content\TreeHandler
      */
-    protected function getTreeHandler()
+    protected function getTreeHandler(): TreeHandler
     {
         return new TreeHandler(
             $this->getLocationGatewayMock(),

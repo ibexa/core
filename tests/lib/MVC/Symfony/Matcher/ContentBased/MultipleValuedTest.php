@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased;
 
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class MultipleValuedTest extends BaseTest
 {
@@ -17,7 +18,7 @@ class MultipleValuedTest extends BaseTest
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::getValues
      */
-    public function testSetMatchingConfig($matchingConfig)
+    public function testSetMatchingConfig(string $matchingConfig): void
     {
         $matcher = $this->getMultipleValuedMatcherMock();
         $matcher->setMatchingConfig($matchingConfig);
@@ -35,7 +36,7 @@ class MultipleValuedTest extends BaseTest
      *
      * @return array
      */
-    public function matchingConfigProvider()
+    public function matchingConfigProvider(): array
     {
         return [
             [
@@ -51,14 +52,14 @@ class MultipleValuedTest extends BaseTest
      * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::getRepository
      */
-    public function testInjectRepository()
+    public function testInjectRepository(): void
     {
         $matcher = $this->getMultipleValuedMatcherMock();
         $matcher->setRepository($this->repositoryMock);
         self::assertSame($this->repositoryMock, $matcher->getRepository());
     }
 
-    private function getMultipleValuedMatcherMock()
+    private function getMultipleValuedMatcherMock(): MockObject
     {
         return $this->getMockForAbstractClass(MultipleValued::class);
     }

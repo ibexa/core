@@ -77,7 +77,7 @@ final class UserWrappedTest extends TestCase
         self::assertSame($originalUser, $user->getWrappedUser());
     }
 
-    public function testIsEqualTo()
+    public function testIsEqualTo(): void
     {
         $originalUser = $this->createMock(UserEquatableInterface::class);
         $user = new UserWrapped($originalUser, $this->apiUser);

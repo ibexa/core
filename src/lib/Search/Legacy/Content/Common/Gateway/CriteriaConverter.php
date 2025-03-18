@@ -39,7 +39,7 @@ class CriteriaConverter
      *
      * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler $handler
      */
-    public function addHandler(CriterionHandler $handler)
+    public function addHandler(CriterionHandler $handler): void
     {
         $this->handlers[] = $handler;
     }

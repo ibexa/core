@@ -15,14 +15,11 @@ use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup;
 
 final class BeforeSetContentStateEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
-    private $contentInfo;
+    private ContentInfo $contentInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup */
-    private $objectStateGroup;
+    private ObjectStateGroup $objectStateGroup;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState */
-    private $objectState;
+    private ObjectState $objectState;
 
     public function __construct(ContentInfo $contentInfo, ObjectStateGroup $objectStateGroup, ObjectState $objectState)
     {

@@ -43,7 +43,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateValidatorConfiguration($validatorConfiguration)
+    public function validateValidatorConfiguration($validatorConfiguration): array
     {
         $validationErrors = [];
         $validator = new EmailAddressValidator();
@@ -114,7 +114,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\EmailAddress\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }

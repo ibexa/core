@@ -19,7 +19,7 @@ use Traversable;
 final class ContentFieldStrategy implements ThumbnailStrategy
 {
     /** @var \Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\Field\FieldTypeBasedThumbnailStrategy[] */
-    private $strategies = [];
+    private array $strategies = [];
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\Field\FieldTypeBasedThumbnailStrategy[]|\Traversable $strategies

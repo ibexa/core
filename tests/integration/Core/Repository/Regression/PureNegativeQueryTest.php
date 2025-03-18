@@ -10,6 +10,8 @@ namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOr;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 
 /**
@@ -20,7 +22,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
  */
 class PureNegativeQueryTest extends BaseTest
 {
-    public function providerForTestMatchAll()
+    public function providerForTestMatchAll(): array
     {
         $query = new Query(['filter' => new Criterion\MatchAll()]);
         $result = $this->getRepository()->getSearchService()->findContent($query);
@@ -31,7 +33,7 @@ class PureNegativeQueryTest extends BaseTest
 
         return [
             [
-                new Criterion\LogicalOr(
+                new LogicalOr(
                     [
                         new Criterion\ContentId($contentId),
                         new Criterion\MatchNone(),
@@ -40,7 +42,7 @@ class PureNegativeQueryTest extends BaseTest
                 1,
             ],
             [
-                new Criterion\LogicalAnd(
+                new LogicalAnd(
                     [
                         new Criterion\ContentId($contentId),
                         new Criterion\MatchNone(),
@@ -49,7 +51,7 @@ class PureNegativeQueryTest extends BaseTest
                 0,
             ],
             [
-                new Criterion\LogicalOr(
+                new LogicalOr(
                     [
                         new Criterion\ContentId($contentId),
                         new Criterion\LogicalNot(
@@ -60,7 +62,7 @@ class PureNegativeQueryTest extends BaseTest
                 1,
             ],
             [
-                new Criterion\LogicalAnd(
+                new LogicalAnd(
                     [
                         new Criterion\ContentId($contentId),
                         new Criterion\LogicalNot(
@@ -71,7 +73,7 @@ class PureNegativeQueryTest extends BaseTest
                 0,
             ],
             [
-                new Criterion\LogicalOr(
+                new LogicalOr(
                     [
                         new Criterion\ContentId($contentId),
                         new Criterion\MatchAll(),
@@ -80,7 +82,7 @@ class PureNegativeQueryTest extends BaseTest
                 $totalCount,
             ],
             [
-                new Criterion\LogicalAnd(
+                new LogicalAnd(
                     [
                         new Criterion\ContentId($contentId),
                         new Criterion\MatchAll(),
@@ -89,7 +91,7 @@ class PureNegativeQueryTest extends BaseTest
                 1,
             ],
             [
-                new Criterion\LogicalOr(
+                new LogicalOr(
                     [
                         new Criterion\MatchAll(),
                         new Criterion\MatchNone(),
@@ -98,7 +100,7 @@ class PureNegativeQueryTest extends BaseTest
                 $totalCount,
             ],
             [
-                new Criterion\LogicalAnd(
+                new LogicalAnd(
                     [
                         new Criterion\MatchAll(),
                         new Criterion\MatchNone(),
@@ -107,7 +109,7 @@ class PureNegativeQueryTest extends BaseTest
                 0,
             ],
             [
-                new Criterion\LogicalOr(
+                new LogicalOr(
                     [
                         new Criterion\ContentId($contentId),
                         new Criterion\LogicalNot(
@@ -118,7 +120,7 @@ class PureNegativeQueryTest extends BaseTest
                 $totalCount,
             ],
             [
-                new Criterion\LogicalOr(
+                new LogicalOr(
                     [
                         new Criterion\ContentId($contentId),
                         new Criterion\LogicalNot(
@@ -131,7 +133,7 @@ class PureNegativeQueryTest extends BaseTest
                 1,
             ],
             [
-                new Criterion\LogicalOr(
+                new LogicalOr(
                     [
                         new Criterion\LogicalNot(
                             new Criterion\ContentId($contentId)
@@ -146,7 +148,7 @@ class PureNegativeQueryTest extends BaseTest
                 $totalCount,
             ],
             [
-                new Criterion\LogicalOr(
+                new LogicalOr(
                     [
                         new Criterion\LogicalNot(
                             new Criterion\ContentId($contentId)
@@ -159,7 +161,7 @@ class PureNegativeQueryTest extends BaseTest
                 $totalCount - 1,
             ],
             [
-                new Criterion\LogicalAnd(
+                new LogicalAnd(
                     [
                         new Criterion\ContentId($contentId),
                         new Criterion\LogicalNot(
@@ -170,7 +172,7 @@ class PureNegativeQueryTest extends BaseTest
                 0,
             ],
             [
-                new Criterion\LogicalAnd(
+                new LogicalAnd(
                     [
                         new Criterion\ContentId($contentId),
                         new Criterion\LogicalNot(
@@ -183,7 +185,7 @@ class PureNegativeQueryTest extends BaseTest
                 1,
             ],
             [
-                new Criterion\LogicalAnd(
+                new LogicalAnd(
                     [
                         new Criterion\LogicalNot(
                             new Criterion\ContentId($contentId)
@@ -198,7 +200,7 @@ class PureNegativeQueryTest extends BaseTest
                 0,
             ],
             [
-                new Criterion\LogicalAnd(
+                new LogicalAnd(
                     [
                         new Criterion\LogicalNot(
                             new Criterion\ContentId($contentId)
@@ -219,7 +221,7 @@ class PureNegativeQueryTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
      * @param int $totalCount
      */
-    public function testMatchAllContentInfoQuery($criterion, $totalCount)
+    public function testMatchAllContentInfoQuery(LogicalOr|LogicalAnd $criterion, ?int $totalCount): void
     {
         $query = new Query(
             [
@@ -238,7 +240,7 @@ class PureNegativeQueryTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
      * @param int $totalCount
      */
-    public function testMatchAllContentInfoFilter($criterion, $totalCount)
+    public function testMatchAllContentInfoFilter(LogicalOr|LogicalAnd $criterion, ?int $totalCount): void
     {
         $query = new Query(
             [
@@ -257,7 +259,7 @@ class PureNegativeQueryTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
      * @param int $totalCount
      */
-    public function testMatchAllLocationQuery($criterion, $totalCount)
+    public function testMatchAllLocationQuery(LogicalOr|LogicalAnd $criterion, ?int $totalCount): void
     {
         $query = new LocationQuery(
             [
@@ -276,7 +278,7 @@ class PureNegativeQueryTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
      * @param int $totalCount
      */
-    public function testMatchAllLocationFilter($criterion, $totalCount)
+    public function testMatchAllLocationFilter(LogicalOr|LogicalAnd $criterion, ?int $totalCount): void
     {
         $query = new LocationQuery(
             [

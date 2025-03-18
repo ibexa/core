@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Bundle\Core\ApiLoader;
 
 use Ibexa\Bundle\Core\ApiLoader\CacheFactory;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapter;
@@ -17,10 +18,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class CacheFactoryTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $configResolver;
+    private MockObject $configResolver;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $container;
+    private MockObject $container;
 
     protected function setUp(): void
     {
@@ -32,7 +33,7 @@ class CacheFactoryTest extends TestCase
     /**
      * @return array
      */
-    public function providerGetService()
+    public function providerGetService(): array
     {
         return [
             ['default', 'default'],
@@ -44,7 +45,7 @@ class CacheFactoryTest extends TestCase
     /**
      * @dataProvider providerGetService
      */
-    public function testGetService($name, $expected)
+    public function testGetService(string $name, string $expected): void
     {
         $this->configResolver
             ->expects(self::once())

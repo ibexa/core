@@ -25,10 +25,9 @@ use Ibexa\Core\FieldType\FieldTypeRegistry;
 class ContentMapper
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\Handler */
-    private $contentLanguageHandler;
+    private Handler $contentLanguageHandler;
 
-    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
-    private $fieldTypeRegistry;
+    private FieldTypeRegistry $fieldTypeRegistry;
 
     public function __construct(
         Handler $contentLanguageHandler,
@@ -308,7 +307,7 @@ class ContentMapper
                 !in_array($updatedField->languageCode, $content->versionInfo->languageCodes, true)
             );
 
-            if (!empty($field)) {
+            if ($field instanceof Field) {
                 $updatedFieldHash = md5(json_encode($fieldType->toHash($updatedFieldValue)));
                 $contentFieldHash = md5(json_encode($fieldType->toHash($field->value)));
 

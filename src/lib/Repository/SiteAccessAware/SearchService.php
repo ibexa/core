@@ -21,11 +21,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
  */
 class SearchService implements SearchServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
-    protected $service;
+    protected SearchServiceInterface $service;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
-    protected $languageResolver;
+    protected LanguageResolver $languageResolver;
 
     /**
      * Construct service object from aggregated service and LanguageResolver.

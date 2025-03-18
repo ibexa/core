@@ -48,17 +48,13 @@ class UpdateTimestampsToUTCCommand extends Command
     /** @var string */
     private $mode;
 
-    /** @var string */
-    private $from;
+    private ?int $from = null;
 
-    /** @var string */
-    private $to;
+    private ?int $to = null;
 
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
-    /** @var string */
-    private $phpPath;
+    private string|bool|null $phpPath = null;
 
     /** @var bool */
     private $dryRun;
@@ -441,7 +437,7 @@ EOT
      *
      * @return \Symfony\Component\Console\Helper\ProgressBar
      */
-    protected function getProgressBar($maxSteps, OutputInterface $output)
+    protected function getProgressBar($maxSteps, OutputInterface $output): ProgressBar
     {
         $progressBar = new ProgressBar($output, $maxSteps);
         $progressBar->setFormat(

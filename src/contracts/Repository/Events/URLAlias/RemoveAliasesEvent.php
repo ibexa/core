@@ -12,8 +12,7 @@ use Ibexa\Contracts\Core\Repository\Event\AfterEvent;
 
 final class RemoveAliasesEvent extends AfterEvent
 {
-    /** @var array */
-    private $aliasList;
+    private array $aliasList;
 
     public function __construct(
         array $aliasList

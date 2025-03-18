@@ -25,10 +25,8 @@ class Collection extends Handler
 {
     /**
      * Character separating indexed values.
-     *
-     * @var string
      */
-    protected $separator;
+    protected string $separator;
 
     public function __construct(
         Connection $connection,

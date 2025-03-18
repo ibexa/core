@@ -28,7 +28,7 @@ class NotificationServiceDecoratorTest extends TestCase
         return $this->createMock(NotificationService::class);
     }
 
-    public function testLoadNotificationsDecorator()
+    public function testLoadNotificationsDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -43,7 +43,7 @@ class NotificationServiceDecoratorTest extends TestCase
         $decoratedService->loadNotifications(...$parameters);
     }
 
-    public function testGetNotificationDecorator()
+    public function testGetNotificationDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -55,7 +55,7 @@ class NotificationServiceDecoratorTest extends TestCase
         $decoratedService->getNotification(...$parameters);
     }
 
-    public function testMarkNotificationAsReadDecorator()
+    public function testMarkNotificationAsReadDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -67,7 +67,7 @@ class NotificationServiceDecoratorTest extends TestCase
         $decoratedService->markNotificationAsRead(...$parameters);
     }
 
-    public function testGetPendingNotificationCountDecorator()
+    public function testGetPendingNotificationCountDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -79,7 +79,7 @@ class NotificationServiceDecoratorTest extends TestCase
         $decoratedService->getPendingNotificationCount(...$parameters);
     }
 
-    public function testGetNotificationCountDecorator()
+    public function testGetNotificationCountDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -91,7 +91,7 @@ class NotificationServiceDecoratorTest extends TestCase
         $decoratedService->getNotificationCount(...$parameters);
     }
 
-    public function testCreateNotificationDecorator()
+    public function testCreateNotificationDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -103,7 +103,7 @@ class NotificationServiceDecoratorTest extends TestCase
         $decoratedService->createNotification(...$parameters);
     }
 
-    public function testDeleteNotificationDecorator()
+    public function testDeleteNotificationDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);

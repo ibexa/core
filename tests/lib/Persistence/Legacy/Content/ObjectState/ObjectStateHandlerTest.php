@@ -16,6 +16,7 @@ use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest as APIBaseTest;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler
@@ -34,16 +35,16 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway
      */
-    protected $gatewayMock;
+    protected ?MockObject $gatewayMock = null;
 
     /**
      * Object state mapper mock.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper
      */
-    protected $mapperMock;
+    protected ?MockObject $mapperMock = null;
 
-    public function testCreateGroup()
+    public function testCreateGroup(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -67,7 +68,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadGroup()
+    public function testLoadGroup(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -91,7 +92,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadGroupThrowsNotFoundException()
+    public function testLoadGroupThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -106,7 +107,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         $handler->loadGroup(APIBaseTest::DB_INT_MAX);
     }
 
-    public function testLoadGroupByIdentifier()
+    public function testLoadGroupByIdentifier(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -130,7 +131,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadGroupByIdentifierThrowsNotFoundException()
+    public function testLoadGroupByIdentifierThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -145,7 +146,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         $handler->loadGroupByIdentifier('unknown');
     }
 
-    public function testLoadAllGroups()
+    public function testLoadAllGroups(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -171,7 +172,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         }
     }
 
-    public function testLoadObjectStates()
+    public function testLoadObjectStates(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -197,7 +198,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         }
     }
 
-    public function testUpdateGroup()
+    public function testUpdateGroup(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -230,7 +231,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteGroup()
+    public function testDeleteGroup(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -282,7 +283,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         $handler->deleteGroup(2);
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -306,7 +307,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -330,7 +331,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadThrowsNotFoundException()
+    public function testLoadThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -345,7 +346,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         $handler->load(APIBaseTest::DB_INT_MAX);
     }
 
-    public function testLoadByIdentifier()
+    public function testLoadByIdentifier(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -369,7 +370,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadByIdentifierThrowsNotFoundException()
+    public function testLoadByIdentifierThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -384,7 +385,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         $handler->loadByIdentifier('unknown', 2);
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -417,7 +418,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testSetPriority()
+    public function testSetPriority(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -469,7 +470,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         $handler->setPriority(2, 0);
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -510,7 +511,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         $handler->delete(1);
     }
 
-    public function testDeleteThrowsNotFoundException()
+    public function testDeleteThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -525,7 +526,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         $handler->delete(APIBaseTest::DB_INT_MAX);
     }
 
-    public function testSetContentState()
+    public function testSetContentState(): void
     {
         $handler = $this->getObjectStateHandler();
         $gatewayMock = $this->getGatewayMock();
@@ -539,7 +540,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         self::assertTrue($result);
     }
 
-    public function testGetContentState()
+    public function testGetContentState(): void
     {
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
@@ -563,7 +564,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testGetContentCount()
+    public function testGetContentCount(): void
     {
         $handler = $this->getObjectStateHandler();
         $gatewayMock = $this->getGatewayMock();
@@ -583,7 +584,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState
      */
-    protected function getObjectStateFixture()
+    protected function getObjectStateFixture(): ObjectState
     {
         return new ObjectState();
     }
@@ -593,7 +594,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group
      */
-    protected function getObjectStateGroupFixture()
+    protected function getObjectStateGroupFixture(): Group
     {
         return new Group();
     }
@@ -603,7 +604,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct
      */
-    protected function getInputStructFixture()
+    protected function getInputStructFixture(): InputStruct
     {
         return new InputStruct();
     }

@@ -24,22 +24,22 @@ class FileSizeExtension extends AbstractExtension
     /**
      * @param \Symfony\Contracts\Translation\TranslatorInterface $translator
      */
-    protected $translator;
+    protected TranslatorInterface $translator;
 
     /**
      * @param array $suffixes
      */
-    protected $suffixes;
+    protected array $suffixes;
 
     /**
      * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
      */
-    protected $configResolver;
+    protected ConfigResolverInterface $configResolver;
 
     /**
      * @param  \Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface $localeConverter
      */
-    protected $localeConverter;
+    protected LocaleConverterInterface $localeConverter;
 
     /**
      * @param \Symfony\Contracts\Translation\TranslatorInterface $translator

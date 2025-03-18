@@ -21,7 +21,7 @@ class HandlerRegistry
      */
     private $handlersMap = [];
 
-    public function setHandlersMap($handlersMap)
+    public function setHandlersMap($handlersMap): void
     {
         $this->handlersMap = $handlersMap;
     }

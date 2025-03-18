@@ -32,59 +32,41 @@ use Ibexa\Core\Persistence\Cache\UserPreferenceHandler as CacheUserPreferenceHan
  */
 class Handler implements PersistenceHandlerInterface
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
-    protected $persistenceHandler;
+    protected PersistenceHandlerInterface $persistenceHandler;
 
-    /** @var \Ibexa\Core\Persistence\Cache\SectionHandler */
-    protected $sectionHandler;
+    protected CacheSectionHandler $sectionHandler;
 
-    /** @var \Ibexa\Core\Persistence\Cache\ContentHandler */
-    protected $contentHandler;
+    protected CacheContentHandler $contentHandler;
 
-    /** @var \Ibexa\Core\Persistence\Cache\ContentLanguageHandler */
-    protected $contentLanguageHandler;
+    protected CacheContentLanguageHandler $contentLanguageHandler;
 
-    /** @var \Ibexa\Core\Persistence\Cache\ContentTypeHandler */
-    protected $contentTypeHandler;
+    protected CacheContentTypeHandler $contentTypeHandler;
 
-    /** @var \Ibexa\Core\Persistence\Cache\LocationHandler */
-    protected $locationHandler;
+    protected CacheLocationHandler $locationHandler;
 
-    /** @var \Ibexa\Core\Persistence\Cache\UserHandler */
-    protected $userHandler;
+    protected CacheUserHandler $userHandler;
 
-    /** @var \Ibexa\Core\Persistence\Cache\TrashHandler */
-    protected $trashHandler;
+    protected CacheTrashHandler $trashHandler;
 
-    /** @var \Ibexa\Core\Persistence\Cache\UrlAliasHandler */
-    protected $urlAliasHandler;
+    protected CacheUrlAliasHandler $urlAliasHandler;
 
-    /** @var \Ibexa\Core\Persistence\Cache\ObjectStateHandler */
-    protected $objectStateHandler;
+    protected CacheObjectStateHandler $objectStateHandler;
 
-    /** @var \Ibexa\Core\Persistence\Cache\TransactionHandler */
-    protected $transactionHandler;
+    protected CacheTransactionHandler $transactionHandler;
 
-    /** @var \Ibexa\Core\Persistence\Cache\URLHandler */
-    protected $urlHandler;
+    protected CacheUrlHandler $urlHandler;
 
-    /** @var \Ibexa\Core\Persistence\Cache\BookmarkHandler */
-    protected $bookmarkHandler;
+    protected CacheBookmarkHandler $bookmarkHandler;
 
-    /** @var \Ibexa\Core\Persistence\Cache\NotificationHandler */
-    protected $notificationHandler;
+    protected CacheNotificationHandler $notificationHandler;
 
-    /** @var \Ibexa\Core\Persistence\Cache\UserPreferenceHandler */
-    protected $userPreferenceHandler;
+    protected CacheUserPreferenceHandler $userPreferenceHandler;
 
-    /** @var \Ibexa\Core\Persistence\Cache\UrlWildcardHandler */
-    private $urlWildcardHandler;
+    private CacheUrlWildcardHandler $urlWildcardHandler;
 
-    /** @var \Ibexa\Core\Persistence\Cache\PersistenceLogger */
-    protected $logger;
+    protected PersistenceLogger $logger;
 
-    /** @var \Ibexa\Core\Persistence\Cache\SettingHandler */
-    private $settingHandler;
+    private SettingHandler $settingHandler;
 
     public function __construct(
         PersistenceHandlerInterface $persistenceHandler,

@@ -23,7 +23,7 @@ class SiteAccessGroupConfigResolver extends SiteAccessConfigResolver
     use ContainerAwareTrait;
 
     /** @var string[][] */
-    protected $siteAccessGroups;
+    protected array $siteAccessGroups;
 
     public function __construct(
         SiteAccess\SiteAccessProviderInterface $siteAccessProvider,

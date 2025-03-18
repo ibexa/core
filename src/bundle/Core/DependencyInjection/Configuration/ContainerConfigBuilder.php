@@ -11,8 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 abstract class ContainerConfigBuilder implements ConfigBuilderInterface
 {
-    /** @var \Symfony\Component\DependencyInjection\ContainerBuilder */
-    protected $containerBuilder;
+    protected ContainerBuilder $containerBuilder;
 
     public function __construct(ContainerBuilder $containerBuilder)
     {

@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Event\BeforeEvent;
 final class BeforeSetUserPreferenceEvent extends BeforeEvent
 {
     /** @var \Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreferenceSetStruct[] */
-    private $userPreferenceSetStructs;
+    private array $userPreferenceSetStructs;
 
     public function __construct(array $userPreferenceSetStructs)
     {

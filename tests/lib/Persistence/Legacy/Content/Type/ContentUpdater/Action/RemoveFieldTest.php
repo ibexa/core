@@ -8,10 +8,12 @@
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
 
 use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\RemoveField;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -24,17 +26,17 @@ class RemoveFieldTest extends TestCase
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
      */
-    protected $contentGatewayMock;
+    protected ?MockObject $contentGatewayMock = null;
 
     /**
      * Content gateway mock.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
      */
-    protected $contentStorageHandlerMock;
+    protected ?MockObject $contentStorageHandlerMock = null;
 
     /** @var \Ibexa\Core\Persistence\Legacy\Content\Mapper */
-    protected $contentMapperMock;
+    protected ?MockObject $contentMapperMock = null;
 
     /**
      * RemoveField action to test.
@@ -43,7 +45,7 @@ class RemoveFieldTest extends TestCase
      */
     protected $removeFieldAction;
 
-    public function testApplySingleVersionSingleTranslation()
+    public function testApplySingleVersionSingleTranslation(): void
     {
         $contentId = 42;
         $versionNumbers = [1];
@@ -91,7 +93,7 @@ class RemoveFieldTest extends TestCase
         $action->apply($contentId);
     }
 
-    public function testApplyMultipleVersionsSingleTranslation()
+    public function testApplyMultipleVersionsSingleTranslation(): void
     {
         $contentId = 42;
         $versionNumbers = [1, 2];
@@ -162,7 +164,7 @@ class RemoveFieldTest extends TestCase
         $action->apply($contentId);
     }
 
-    public function testApplyMultipleVersionsMultipleTranslations()
+    public function testApplyMultipleVersionsMultipleTranslations(): void
     {
         $contentId = 42;
         $versionNumbers = [1, 2];
@@ -323,9 +325,9 @@ class RemoveFieldTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition
      */
-    protected function getFieldDefinitionFixture()
+    protected function getFieldDefinitionFixture(): FieldDefinition
     {
-        $fieldDef = new Content\Type\FieldDefinition();
+        $fieldDef = new FieldDefinition();
         $fieldDef->id = 42;
         $fieldDef->fieldType = 'ezstring';
         $fieldDef->defaultValue = new Content\FieldValue();

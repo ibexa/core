@@ -51,13 +51,10 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
      *     )
      * )
      * </code>
-     *
-     * @var array
      */
-    protected $siteAccessesConfiguration;
+    protected array $siteAccessesConfiguration;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface */
-    protected $siteAccessProvider;
+    protected SiteAccessProviderInterface $siteAccessProvider;
 
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
     protected $siteAccess;
@@ -65,14 +62,11 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
     /** @var string */
     protected $siteAccessClass;
 
-    /** @var \Psr\Log\LoggerInterface */
-    protected $logger;
+    protected LoggerInterface $logger;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilderInterface */
-    protected $matcherBuilder;
+    protected MatcherBuilderInterface $matcherBuilder;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest */
-    protected $request;
+    protected SimplifiedRequest $request;
 
     /** @var bool */
     protected $debug;
@@ -266,7 +260,7 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
     /**
      * @param \Ibexa\Core\MVC\Symfony\SiteAccess|null $siteAccess
      */
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(SiteAccess $siteAccess = null): void
     {
         $this->siteAccess = $siteAccess;
     }

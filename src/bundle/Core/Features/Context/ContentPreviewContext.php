@@ -18,7 +18,7 @@ class ContentPreviewContext extends RawMinkContext
     private $contentContext;
 
     /** @BeforeScenario */
-    public function gatherContexts(BeforeScenarioScope $scope)
+    public function gatherContexts(BeforeScenarioScope $scope): void
     {
         $environment = $scope->getEnvironment();
 
@@ -28,7 +28,7 @@ class ContentPreviewContext extends RawMinkContext
     /**
      * @Given /^I create a draft for a content type that uses a custom location controller$/
      */
-    public function iCreateDraftOfContentTypeWithCustomLocationController()
+    public function iCreateDraftOfContentTypeWithCustomLocationController(): void
     {
         $this->contentContext->createDraft(
             'blog_post',
@@ -42,7 +42,7 @@ class ContentPreviewContext extends RawMinkContext
     /**
      * @When /^I preview this draft$/
      */
-    public function iPreviewThisDraft()
+    public function iPreviewThisDraft(): void
     {
         $this->getSession()->getDriver()->visit($this->mapToVersionViewUri($this->contentContext->getCurrentDraft()->versionInfo));
     }
@@ -63,7 +63,7 @@ class ContentPreviewContext extends RawMinkContext
     /**
      * @Then /^the output is valid$/
      */
-    public function theOutputIsValid()
+    public function theOutputIsValid(): void
     {
         $this->checkForExceptions();
     }
@@ -93,7 +93,7 @@ class ContentPreviewContext extends RawMinkContext
     /**
      * @Then /^I see a preview of this draft$/
      */
-    public function iSeeAPreviewOfTheCurrentDraft()
+    public function iSeeAPreviewOfTheCurrentDraft(): void
     {
         $this->assertSession()->elementContains(
             'xpath',
@@ -107,7 +107,7 @@ class ContentPreviewContext extends RawMinkContext
      *
      * @Given /^I modify a field from the draft$/
      */
-    public function iModifyAFieldFromTheDraft()
+    public function iModifyAFieldFromTheDraft(): void
     {
         $this->contentContext->updateDraft(
             ['name' => 'MODIFIED - ' . $this->contentContext->getCurrentDraft()->getFieldValue('name')->text]

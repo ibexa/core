@@ -23,7 +23,7 @@ class UserPreferenceServiceTest extends BaseTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\UserPreferenceService::loadUserPreferences()
      */
-    public function testLoadUserPreferences()
+    public function testLoadUserPreferences(): void
     {
         $repository = $this->getRepository();
 
@@ -41,7 +41,7 @@ class UserPreferenceServiceTest extends BaseTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\UserPreferenceService::getUserPreference()
      */
-    public function testGetUserPreference()
+    public function testGetUserPreference(): void
     {
         $repository = $this->getRepository();
 
@@ -62,7 +62,7 @@ class UserPreferenceServiceTest extends BaseTest
      *
      * @depends testGetUserPreference
      */
-    public function testSetUserPreference()
+    public function testSetUserPreference(): void
     {
         $repository = $this->getRepository();
 
@@ -89,7 +89,7 @@ class UserPreferenceServiceTest extends BaseTest
      *
      * @depends testSetUserPreference
      */
-    public function testSetUserPreferenceThrowsInvalidArgumentExceptionOnInvalidValue()
+    public function testSetUserPreferenceThrowsInvalidArgumentExceptionOnInvalidValue(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -113,7 +113,7 @@ class UserPreferenceServiceTest extends BaseTest
      *
      * @depends testSetUserPreference
      */
-    public function testSetUserPreferenceThrowsInvalidArgumentExceptionOnEmptyName()
+    public function testSetUserPreferenceThrowsInvalidArgumentExceptionOnEmptyName(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -134,7 +134,7 @@ class UserPreferenceServiceTest extends BaseTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\UserPreferenceService::getUserPreferenceCount()
      */
-    public function testGetUserPreferenceCount()
+    public function testGetUserPreferenceCount(): void
     {
         $repository = $this->getRepository();
 

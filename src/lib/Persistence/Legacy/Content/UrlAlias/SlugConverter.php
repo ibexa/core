@@ -174,10 +174,8 @@ class SlugConverter
 
     /**
      * Transformation processor to normalize URL strings.
-     *
-     * @var \Ibexa\Core\Persistence\TransformationProcessor
      */
-    protected $transformationProcessor;
+    protected TransformationProcessor $transformationProcessor;
 
     /** @var array */
     protected $configuration;
@@ -262,7 +260,7 @@ class SlugConverter
      *
      * @return int
      */
-    public function getUniqueCounterValue($text, $isRootLevel = true)
+    public function getUniqueCounterValue($text, $isRootLevel = true): int
     {
         if ($isRootLevel) {
             foreach ($this->configuration['reservedNames'] as $reservedName) {
@@ -367,7 +365,7 @@ class SlugConverter
      *
      * @return string
      */
-    protected function getWordSeparator()
+    protected function getWordSeparator(): string
     {
         switch ($this->configuration['wordSeparatorName']) {
             case 'dash':

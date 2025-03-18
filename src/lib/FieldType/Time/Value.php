@@ -48,7 +48,7 @@ class Value extends BaseValue
      *
      * @return \Ibexa\Core\FieldType\Time\Value
      */
-    public static function fromDateTime(DateTime $dateTime)
+    public static function fromDateTime(DateTime $dateTime): static
     {
         $dateTime = clone $dateTime;
 
@@ -93,7 +93,7 @@ class Value extends BaseValue
         }
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         if ($this->time === null) {
             return '';

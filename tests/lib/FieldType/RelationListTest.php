@@ -17,6 +17,7 @@ use Ibexa\Core\FieldType\RelationList\Type as RelationList;
 use Ibexa\Core\FieldType\RelationList\Value;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\Repository\Validator\TargetContentValidatorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class RelationListTest extends FieldTypeTest
 {
@@ -24,10 +25,10 @@ class RelationListTest extends FieldTypeTest
     private const DESTINATION_CONTENT_ID_22 = 22;
 
     /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler */
-    private $contentHandler;
+    private MockObject $contentHandler;
 
     /** @var \Ibexa\Core\Repository\Validator\TargetContentValidatorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $targetContentValidator;
+    private MockObject $targetContentValidator;
 
     protected function setUp(): void
     {
@@ -107,7 +108,7 @@ class RelationListTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getValidatorConfigurationSchemaExpectation()
+    protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [
             'RelationListValueValidator' => [
@@ -124,7 +125,7 @@ class RelationListTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [
             'selectionMethod' => [
@@ -151,13 +152,13 @@ class RelationListTest extends FieldTypeTest
      *
      * @return \Ibexa\Core\FieldType\RelationList\Value
      */
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): Value
     {
         // @todo FIXME: Is this correct?
         return new Value();
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): array
     {
         return [
             [
@@ -196,7 +197,7 @@ class RelationListTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): array
     {
         return [
             [
@@ -253,7 +254,7 @@ class RelationListTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): array
     {
         return [
             [
@@ -302,7 +303,7 @@ class RelationListTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): array
     {
         return [
             [
@@ -338,7 +339,7 @@ class RelationListTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidFieldSettings()
+    public function provideValidFieldSettings(): array
     {
         return [
             [
@@ -424,7 +425,7 @@ class RelationListTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInValidFieldSettings()
+    public function provideInValidFieldSettings(): array
     {
         return [
             [
@@ -488,7 +489,7 @@ class RelationListTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidValidatorConfiguration()
+    public function provideValidValidatorConfiguration(): array
     {
         return [
             [
@@ -553,7 +554,7 @@ class RelationListTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInvalidValidatorConfiguration()
+    public function provideInvalidValidatorConfiguration(): array
     {
         return [
             [
@@ -630,7 +631,7 @@ class RelationListTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidDataForValidate()
+    public function provideValidDataForValidate(): array
     {
         return [
             [
@@ -740,7 +741,7 @@ class RelationListTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInvalidDataForValidate()
+    public function provideInvalidDataForValidate(): array
     {
         return [
             [
@@ -839,7 +840,7 @@ class RelationListTest extends FieldTypeTest
     /**
      * @covers \Ibexa\Core\FieldType\Relation\Type::getRelations
      */
-    public function testGetRelations()
+    public function testGetRelations(): void
     {
         $ft = $this->createFieldTypeUnderTest();
         self::assertEquals(

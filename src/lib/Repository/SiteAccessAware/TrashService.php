@@ -23,8 +23,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\TrashItem;
  */
 class TrashService implements TrashServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\TrashService */
-    protected $service;
+    protected TrashServiceInterface $service;
 
     /**
      * Construct service object from aggregated service.

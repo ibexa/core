@@ -157,7 +157,7 @@ final class RoleLimitationTypeTest extends Base
         self::assertCount($errorCount, $validationErrors);
     }
 
-    public function providerForTestValidateError()
+    public function providerForTestValidateError(): array
     {
         return [
             [
@@ -204,7 +204,7 @@ final class RoleLimitationTypeTest extends Base
         self::assertEquals($expected, $value);
     }
 
-    public function providerForTestEvaluate()
+    public function providerForTestEvaluate(): array
     {
         return [
             'valid_role_limitation' => [

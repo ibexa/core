@@ -21,7 +21,7 @@ class UrlConverter implements Converter
      * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $value
      * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $storageFieldValue
      */
-    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
+    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue): void
     {
         $storageFieldValue->dataText = isset($value->data['text'])
             ? $value->data['text']
@@ -37,7 +37,7 @@ class UrlConverter implements Converter
      * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $value
      * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
      */
-    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue)
+    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue): void
     {
         $fieldValue->data = [
             'urlId' => $value->dataInt,
@@ -62,7 +62,7 @@ class UrlConverter implements Converter
      * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
      * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
      */
-    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef)
+    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef): void
     {
         // @todo: Is it possible to store a default value in the DB?
         $fieldDef->defaultValue = new FieldValue();

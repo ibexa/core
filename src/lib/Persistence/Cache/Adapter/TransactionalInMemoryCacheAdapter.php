@@ -60,7 +60,7 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
         $this->deferredItemsDeletion = empty($deferredItemsDeletion) ? [] : \array_fill_keys($deferredItemsDeletion, true);
         // To modify protected $isHit when items are a "miss" based on deferred delete/invalidation during transactions
         $this->setCacheItemAsMiss = \Closure::bind(
-            static function (CacheItem $item) {
+            static function (CacheItem $item): void {
                 // ... Might not work for anything but new items
                 $item->isHit = false;
             },

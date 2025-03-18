@@ -12,18 +12,19 @@ use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\Repository\Validator\TargetContentValidator;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class TargetContentValidatorTest extends TestCase
 {
     /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler|\PHPUnit_Framework_MockObject_MockObject */
-    private $contentHandler;
+    private MockObject $contentHandler;
 
     /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler|\PHPUnit_Framework_MockObject_MockObject */
-    private $contentTypeHandler;
+    private MockObject $contentTypeHandler;
 
     /** @var \Ibexa\Core\Repository\Validator\TargetContentValidator */
-    private $targetContentValidator;
+    private TargetContentValidator $targetContentValidator;
 
     public function setUp(): void
     {

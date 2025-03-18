@@ -38,7 +38,7 @@ abstract class AbstractCacheHandlerTest extends AbstractBaseHandlerTest
         array $tags = null,
         $key = null,
         $returnValue = null
-    ) {
+    ): void {
         $handlerMethodName = $this->getHandlerMethodName();
 
         $this->loggerMock->expects(self::once())->method('logCall');
@@ -136,7 +136,7 @@ abstract class AbstractCacheHandlerTest extends AbstractBaseHandlerTest
         $data = null,
         bool $multi = false,
         array $additionalCalls = []
-    ) {
+    ): void {
         $cacheItem = $this->getCacheItem($key, $multi ? reset($data) : $data);
         $handlerMethodName = $this->getHandlerMethodName();
 
@@ -215,7 +215,7 @@ abstract class AbstractCacheHandlerTest extends AbstractBaseHandlerTest
         $data = null,
         bool $multi = false,
         array $additionalCalls = []
-    ) {
+    ): void {
         $cacheItem = $this->getCacheItem($key, null);
         $handlerMethodName = $this->getHandlerMethodName();
 

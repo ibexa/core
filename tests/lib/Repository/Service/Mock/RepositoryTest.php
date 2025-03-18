@@ -19,7 +19,7 @@ class RepositoryTest extends BaseServiceMockTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\Repository::beginTransaction
      */
-    public function testBeginTransaction()
+    public function testBeginTransaction(): void
     {
         $mockedRepository = $this->getRepository();
         $transactionHandlerMock = $this->getTransactionHandlerMock();
@@ -38,7 +38,7 @@ class RepositoryTest extends BaseServiceMockTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\Repository::commit
      */
-    public function testCommit()
+    public function testCommit(): void
     {
         $mockedRepository = $this->getRepository();
         $transactionHandlerMock = $this->getTransactionHandlerMock();
@@ -57,7 +57,7 @@ class RepositoryTest extends BaseServiceMockTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\Repository::commit
      */
-    public function testCommitThrowsRuntimeException()
+    public function testCommitThrowsRuntimeException(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -80,7 +80,7 @@ class RepositoryTest extends BaseServiceMockTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\Repository::rollback
      */
-    public function testRollback()
+    public function testRollback(): void
     {
         $mockedRepository = $this->getRepository();
         $transactionHandlerMock = $this->getTransactionHandlerMock();
@@ -99,7 +99,7 @@ class RepositoryTest extends BaseServiceMockTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\Repository::rollback
      */
-    public function testRollbackThrowsRuntimeException()
+    public function testRollbackThrowsRuntimeException(): void
     {
         $this->expectException(\RuntimeException::class);
 

@@ -15,8 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\NotificationList;
 
 class NotificationService implements NotificationServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\NotificationService */
-    protected $service;
+    protected NotificationServiceInterface $service;
 
     /**
      * Construct service object from aggregated service.

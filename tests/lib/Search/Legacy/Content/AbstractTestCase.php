@@ -14,6 +14,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper\ResolveVirtualFieldSubscriber;
 use Ibexa\Core\Persistence\Legacy\Content\StorageRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase as ContentTypeGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Type\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Mapper as ContentTypeMapper;
 use Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface;
@@ -28,17 +29,14 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class AbstractTestCase extends LanguageAwareTestCase
 {
     /** @var bool */
-    private static $databaseInitialized = false;
+    private static bool $databaseInitialized = false;
 
     /**
      * Field registry mock.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
      */
-    private $converterRegistry;
+    private ?ConverterRegistry $converterRegistry = null;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler */
-    private $contentTypeHandler;
+    private ?Handler $contentTypeHandler = null;
 
     /**
      * Only set up once for these read only tests on a large fixture.
@@ -65,7 +63,10 @@ class AbstractTestCase extends LanguageAwareTestCase
         self::assertEquals($expectedIds, $ids);
     }
 
-    protected function getIds($searchResult)
+    /**
+     * @return mixed[]
+     */
+    protected function getIds($searchResult): array
     {
         $ids = array_map(
             static function ($hit) {

@@ -20,8 +20,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
  */
 final class VersionBuilder
 {
-    /** @var array */
-    private $targetVersionProperties = [];
+    private array $targetVersionProperties = [];
 
     public function build(): Target\Version
     {

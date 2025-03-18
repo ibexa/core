@@ -14,11 +14,9 @@ use UnexpectedValueException;
 
 final class BeforeDeleteUserGroupEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup */
-    private $userGroup;
+    private UserGroup $userGroup;
 
-    /** @var array|null */
-    private $locations;
+    private ?array $locations = null;
 
     public function __construct(UserGroup $userGroup)
     {

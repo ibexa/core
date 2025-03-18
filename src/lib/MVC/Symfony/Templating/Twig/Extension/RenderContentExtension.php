@@ -22,11 +22,9 @@ use Twig\TwigFunction;
  */
 final class RenderContentExtension extends AbstractExtension
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Templating\RenderContentStrategy */
-    private $renderContentStrategy;
+    private RenderContentStrategy $renderContentStrategy;
 
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
-    private $eventDispatcher;
+    private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         RenderContentStrategy $renderContentStrategy,

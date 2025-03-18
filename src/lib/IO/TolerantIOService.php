@@ -26,7 +26,7 @@ class TolerantIOService extends IOService
     /** @var \Psr\Log\LoggerInterface */
     protected $logger;
 
-    public function setLogger(LoggerInterface $logger = null)
+    public function setLogger(LoggerInterface $logger = null): void
     {
         $this->logger = $logger;
     }
@@ -39,7 +39,7 @@ class TolerantIOService extends IOService
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue If the binary file is invalid
      * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException If the binary file isn't found
      */
-    public function deleteBinaryFile(BinaryFile $binaryFile)
+    public function deleteBinaryFile(BinaryFile $binaryFile): void
     {
         $this->checkBinaryFileId($binaryFile->id);
         $spiUri = $this->getPrefixedUri($binaryFile->id);
@@ -121,7 +121,7 @@ class TolerantIOService extends IOService
         }
     }
 
-    private function logMissingFile($id)
+    private function logMissingFile($id): void
     {
         if (!isset($this->logger)) {
             return;

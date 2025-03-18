@@ -25,9 +25,9 @@ class MultipleIdentifierMapper extends IdentifierMapper
      *
      * @param \Ibexa\Contracts\Core\Search\Field $field
      *
-     * @return mixed
+     * @return mixed[]
      */
-    public function map(Field $field)
+    public function map(Field $field): array
     {
         $values = [];
 

@@ -29,11 +29,9 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserUpdateStruct;
  */
 class UserService implements UserServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
-    protected $service;
+    protected UserServiceInterface $service;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
-    protected $languageResolver;
+    protected LanguageResolver $languageResolver;
 
     /**
      * Construct service object from aggregated service.

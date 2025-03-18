@@ -41,11 +41,9 @@ class RegenerateUrlAliasesCommand extends Command
 - Manually clear HTTP cache after running this command.
 EOT;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    private $repository;
+    private Repository $repository;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Repository $repository
@@ -167,7 +165,7 @@ EOT
      *
      * @return \Symfony\Component\Console\Helper\ProgressBar
      */
-    protected function getProgressBar($maxSteps, OutputInterface $output)
+    protected function getProgressBar($maxSteps, OutputInterface $output): ProgressBar
     {
         $progressBar = new ProgressBar($output, $maxSteps);
         $progressBar->setFormat(
@@ -186,7 +184,7 @@ EOT
     private function processLocations(array $locations, ProgressBar $progressBar): void
     {
         $contentList = $this->repository->sudo(
-            static function (Repository $repository) use ($locations) {
+            static function (Repository $repository) use ($locations): iterable {
                 $contentInfoList = array_map(
                     static function (Location $location) {
                         return $location->contentInfo;
@@ -211,7 +209,7 @@ EOT
                 }
 
                 $this->repository->sudo(
-                    static function (Repository $repository) use ($location) {
+                    static function (Repository $repository) use ($location): void {
                         $repository->getURLAliasService()->refreshSystemUrlAliasesForLocation(
                             $location
                         );
@@ -247,7 +245,7 @@ EOT
     private function loadAllLocations(int $offset, int $iterationCount): array
     {
         return $this->repository->sudo(
-            static function (Repository $repository) use ($offset, $iterationCount) {
+            static function (Repository $repository) use ($offset, $iterationCount): array {
                 return $repository->getLocationService()->loadAllLocations($offset, $iterationCount);
             }
         );
@@ -267,7 +265,7 @@ EOT
         $locationIds = array_slice($locationIds, $offset, $iterationCount);
 
         return $this->repository->sudo(
-            static function (Repository $repository) use ($locationIds) {
+            static function (Repository $repository) use ($locationIds): iterable {
                 return $repository->getLocationService()->loadLocationList($locationIds);
             }
         );
@@ -283,7 +281,7 @@ EOT
     private function getFilteredLocationList(array $locationIds): array
     {
         $locations = $this->repository->sudo(
-            static function (Repository $repository) use ($locationIds) {
+            static function (Repository $repository) use ($locationIds): iterable {
                 $locationService = $repository->getLocationService();
 
                 return $locationService->loadLocationList($locationIds);

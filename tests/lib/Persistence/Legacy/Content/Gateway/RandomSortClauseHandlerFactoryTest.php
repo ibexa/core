@@ -25,7 +25,7 @@ class RandomSortClauseHandlerFactoryTest extends TestCase
      * @throws \Doctrine\DBAL\DBALException
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      */
-    public function testGetGateway(array $gateways)
+    public function testGetGateway(array $gateways): void
     {
         $platform = $this->createMock(AbstractPlatform::class);
 
@@ -54,7 +54,7 @@ class RandomSortClauseHandlerFactoryTest extends TestCase
      * @throws \Doctrine\DBAL\DBALException
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      */
-    public function testGetGatewayNotImplemented(array $gateways)
+    public function testGetGatewayNotImplemented(array $gateways): void
     {
         $platform = $this->createMock(AbstractPlatform::class);
 

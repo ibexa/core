@@ -17,8 +17,7 @@ final class DateMetadataRangeAggregation extends AbstractRangeAggregation
     public const CREATED = 'created';
     public const PUBLISHED = 'published';
 
-    /** @var string */
-    private $type;
+    private string $type;
 
     public function __construct(string $name, string $type, array $ranges = [])
     {

@@ -24,8 +24,7 @@ class DoctrineStorage extends Gateway
     public const USER_TABLE = 'ezuser';
     public const USER_SETTING_TABLE = 'ezuser_setting';
 
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
+    protected Connection $connection;
 
     /**
      * Default values for user fields.
@@ -79,7 +78,7 @@ class DoctrineStorage extends Gateway
      *
      * @return array
      */
-    protected function getPropertyMap()
+    protected function getPropertyMap(): array
     {
         return [
             'has_stored_login' => [
@@ -110,7 +109,7 @@ class DoctrineStorage extends Gateway
             ],
             'password_updated_at' => [
                 'name' => 'passwordUpdatedAt',
-                'cast' => static function ($timestamp) {
+                'cast' => static function ($timestamp): ?int {
                     return $timestamp ? (int)$timestamp : null;
                 },
             ],
@@ -134,7 +133,7 @@ class DoctrineStorage extends Gateway
      *
      * @return array
      */
-    protected function convertColumnsToProperties(array $databaseValues)
+    protected function convertColumnsToProperties(array $databaseValues): array
     {
         $propertyValues = [];
         $propertyMap = $this->getPropertyMap();

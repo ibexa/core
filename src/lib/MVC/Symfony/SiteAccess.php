@@ -63,7 +63,7 @@ class SiteAccess extends ValueObject implements JsonSerializable
         $this->groups = $groups;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return "$this->name (matched by '$this->matchingType')";
     }

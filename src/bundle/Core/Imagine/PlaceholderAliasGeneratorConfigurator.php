@@ -11,14 +11,11 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 
 class PlaceholderAliasGeneratorConfigurator
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\PlaceholderProviderRegistry */
-    private $providerRegistry;
+    private PlaceholderProviderRegistry $providerRegistry;
 
-    /** @var array */
-    private $providersConfig;
+    private array $providersConfig;
 
     public function __construct(
         ConfigResolverInterface $configResolver,
@@ -30,7 +27,7 @@ class PlaceholderAliasGeneratorConfigurator
         $this->providersConfig = $providersConfig;
     }
 
-    public function configure(PlaceholderAliasGenerator $generator)
+    public function configure(PlaceholderAliasGenerator $generator): void
     {
         $binaryHandlerName = $this->configResolver->getParameter('io.binarydata_handler');
 

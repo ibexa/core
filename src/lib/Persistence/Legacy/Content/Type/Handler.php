@@ -24,22 +24,17 @@ use Ibexa\Core\Persistence\Legacy\Exception;
 
 class Handler implements BaseContentTypeHandler
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway */
-    protected $contentTypeGateway;
+    protected Gateway $contentTypeGateway;
 
     /**
      * Mapper for Type objects.
-     *
-     * @var Mapper
      */
-    protected $mapper;
+    protected Mapper $mapper;
 
     /**
      * Content type update handler.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler
      */
-    protected $updateHandler;
+    protected UpdateHandler $updateHandler;
 
     private StorageDispatcherInterface $storageDispatcher;
 
@@ -100,7 +95,7 @@ class Handler implements BaseContentTypeHandler
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If type group contains types
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If type group with id is not found
      */
-    public function deleteGroup($groupId)
+    public function deleteGroup($groupId): void
     {
         if ($this->contentTypeGateway->countTypesInGroup($groupId) !== 0) {
             throw new Exception\GroupNotEmpty($groupId);
@@ -130,8 +125,10 @@ class Handler implements BaseContentTypeHandler
 
     /**
      * {@inheritdoc}
+     *
+     * @return mixed[]
      */
-    public function loadGroups(array $groupIds)
+    public function loadGroups(array $groupIds): array
     {
         $groups = $this->mapper->extractGroupsFromRows(
             $this->contentTypeGateway->loadGroupData($groupIds)
@@ -302,7 +299,7 @@ class Handler implements BaseContentTypeHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type
      */
-    protected function internalCreate(CreateStruct $createStruct, $contentTypeId = null)
+    protected function internalCreate(CreateStruct $createStruct, ?int $contentTypeId = null)
     {
         foreach ($createStruct->fieldDefinitions as $fieldDef) {
             if (!is_int($fieldDef->position)) {
@@ -538,7 +535,7 @@ class Handler implements BaseContentTypeHandler
      *
      * @return int
      */
-    public function getContentCount($contentTypeId)
+    public function getContentCount($contentTypeId): int
     {
         return $this->contentTypeGateway->countInstancesOfType($contentTypeId);
     }
@@ -554,7 +551,7 @@ class Handler implements BaseContentTypeHandler
      * @param int $status One of Type::STATUS_DEFINED|Type::STATUS_DRAFT|Type::STATUS_MODIFIED
      * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDefinition
      */
-    public function addFieldDefinition($contentTypeId, $status, FieldDefinition $fieldDefinition)
+    public function addFieldDefinition($contentTypeId, $status, FieldDefinition $fieldDefinition): void
     {
         $storageFieldDef = new StorageFieldDefinition();
         $this->mapper->toStorageFieldDefinition($fieldDefinition, $storageFieldDef);
@@ -609,7 +606,7 @@ class Handler implements BaseContentTypeHandler
      * @param mixed $contentTypeId
      * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDefinition
      */
-    public function updateFieldDefinition($contentTypeId, $status, FieldDefinition $fieldDefinition)
+    public function updateFieldDefinition($contentTypeId, $status, FieldDefinition $fieldDefinition): void
     {
         $storageFieldDef = new StorageFieldDefinition();
         $this->mapper->toStorageFieldDefinition($fieldDefinition, $storageFieldDef);
@@ -629,7 +626,7 @@ class Handler implements BaseContentTypeHandler
      *
      * @param mixed $contentTypeId
      */
-    public function publish($contentTypeId)
+    public function publish($contentTypeId): void
     {
         $toType = $this->load($contentTypeId, Type::STATUS_DRAFT);
 
@@ -647,7 +644,10 @@ class Handler implements BaseContentTypeHandler
         }
     }
 
-    public function getSearchableFieldMap()
+    /**
+     * @return non-empty-array<array{field_type_identifier: mixed, field_definition_id: mixed}>[]
+     */
+    public function getSearchableFieldMap(): array
     {
         $fieldMap = [];
         $rows = $this->contentTypeGateway->getSearchableFieldMapData();

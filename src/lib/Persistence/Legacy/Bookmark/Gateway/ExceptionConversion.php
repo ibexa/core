@@ -17,10 +17,7 @@ use PDOException;
 
 class ExceptionConversion extends Gateway
 {
-    /**
-     * @var \Ibexa\Core\Persistence\Legacy\Bookmark\Gateway
-     */
-    protected $innerGateway;
+    protected Gateway $innerGateway;
 
     /**
      * @param \Ibexa\Core\Persistence\Legacy\Bookmark\Gateway $innerGateway

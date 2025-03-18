@@ -16,7 +16,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
  */
 class EZP26327UrlAliasHistorizationTest extends BaseTest
 {
-    public function testHistorization()
+    public function testHistorization(): void
     {
         $contentService = $this->getRepository()->getContentService();
         $contentTypeService = $this->getRepository()->getContentTypeService();

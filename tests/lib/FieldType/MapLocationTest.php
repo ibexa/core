@@ -8,7 +8,8 @@
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
-use Ibexa\Core\FieldType\MapLocation;
+use Ibexa\Core\FieldType\MapLocation\Type;
+use Ibexa\Core\FieldType\MapLocation\Value;
 
 class MapLocationTest extends FieldTypeTest
 {
@@ -23,9 +24,9 @@ class MapLocationTest extends FieldTypeTest
      *
      * @return \Ibexa\Core\FieldType\FieldType
      */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): Type
     {
-        $fieldType = new MapLocation\Type();
+        $fieldType = new Type();
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
 
         return $fieldType;
@@ -36,7 +37,7 @@ class MapLocationTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getValidatorConfigurationSchemaExpectation()
+    protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [];
     }
@@ -46,7 +47,7 @@ class MapLocationTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [];
     }
@@ -54,12 +55,12 @@ class MapLocationTest extends FieldTypeTest
     /**
      * Returns the empty value expected from the field type.
      */
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): Value
     {
-        return new MapLocation\Value();
+        return new Value();
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): array
     {
         return [
             [
@@ -67,7 +68,7 @@ class MapLocationTest extends FieldTypeTest
                 InvalidArgumentException::class,
             ],
             [
-                new MapLocation\Value(
+                new Value(
                     [
                         'latitude' => 'foo',
                     ]
@@ -75,7 +76,7 @@ class MapLocationTest extends FieldTypeTest
                 InvalidArgumentException::class,
             ],
             [
-                new MapLocation\Value(
+                new Value(
                     [
                         'latitude' => 23.42,
                         'longitude' => 'bar',
@@ -84,7 +85,7 @@ class MapLocationTest extends FieldTypeTest
                 InvalidArgumentException::class,
             ],
             [
-                new MapLocation\Value(
+                new Value(
                     [
                         'latitude' => 23.42,
                         'longitude' => 42.23,
@@ -125,20 +126,20 @@ class MapLocationTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): array
     {
         return [
             [
                 null,
-                new MapLocation\Value(),
+                new Value(),
             ],
             [
                 [],
-                new MapLocation\Value(),
+                new Value(),
             ],
             [
-                new MapLocation\Value(),
-                new MapLocation\Value(),
+                new Value(),
+                new Value(),
             ],
             [
                 [
@@ -146,7 +147,7 @@ class MapLocationTest extends FieldTypeTest
                     'longitude' => 42.23,
                     'address' => 'Nowhere',
                 ],
-                new MapLocation\Value(
+                new Value(
                     [
                         'latitude' => 23.42,
                         'longitude' => 42.23,
@@ -160,7 +161,7 @@ class MapLocationTest extends FieldTypeTest
                     'longitude' => 42,
                     'address' => 'Somewhere',
                 ],
-                new MapLocation\Value(
+                new Value(
                     [
                         'latitude' => 23,
                         'longitude' => 42,
@@ -169,14 +170,14 @@ class MapLocationTest extends FieldTypeTest
                 ),
             ],
             [
-                new MapLocation\Value(
+                new Value(
                     [
                         'latitude' => 23.42,
                         'longitude' => 42.23,
                         'address' => 'Nowhere',
                     ]
                 ),
-                new MapLocation\Value(
+                new Value(
                     [
                         'latitude' => 23.42,
                         'longitude' => 42.23,
@@ -222,15 +223,15 @@ class MapLocationTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): array
     {
         return [
             [
-                new MapLocation\Value(),
+                new Value(),
                 null,
             ],
             [
-                new MapLocation\Value(
+                new Value(
                     [
                         'latitude' => 23.42,
                         'longitude' => 42.23,
@@ -283,12 +284,12 @@ class MapLocationTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): array
     {
         return [
             [
                 null,
-                new MapLocation\Value(),
+                new Value(),
             ],
             [
                 [
@@ -296,7 +297,7 @@ class MapLocationTest extends FieldTypeTest
                     'longitude' => 42.23,
                     'address' => 'Nowhere',
                 ],
-                new MapLocation\Value(
+                new Value(
                     [
                         'latitude' => 23.42,
                         'longitude' => 42.23,
@@ -316,7 +317,7 @@ class MapLocationTest extends FieldTypeTest
     {
         return [
             [$this->getEmptyValueExpectation(), '', [], 'en_GB'],
-            [new MapLocation\Value(['address' => 'Bag End, The Shire']), 'Bag End, The Shire', [], 'en_GB'],
+            [new Value(['address' => 'Bag End, The Shire']), 'Bag End, The Shire', [], 'en_GB'],
         ];
     }
 }

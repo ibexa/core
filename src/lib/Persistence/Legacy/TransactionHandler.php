@@ -10,7 +10,9 @@ namespace Ibexa\Core\Persistence\Legacy;
 use Doctrine\DBAL\Connection;
 use Exception;
 use Ibexa\Contracts\Core\Persistence\TransactionHandler as TransactionHandlerInterface;
+use Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler as CachingLanguageHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler as CachingContentTypeHandler;
 use RuntimeException;
 
@@ -21,14 +23,11 @@ use RuntimeException;
  */
 class TransactionHandler implements TransactionHandlerInterface
 {
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
+    protected Connection $connection;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler */
-    protected $contentTypeHandler;
+    protected ?MemoryCachingHandler $contentTypeHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler */
-    protected $languageHandler;
+    protected ?CachingHandler $languageHandler;
 
     public function __construct(
         Connection $connection,
@@ -43,7 +42,7 @@ class TransactionHandler implements TransactionHandlerInterface
     /**
      * Begin transaction.
      */
-    public function beginTransaction()
+    public function beginTransaction(): void
     {
         $this->connection->beginTransaction();
     }
@@ -55,7 +54,7 @@ class TransactionHandler implements TransactionHandlerInterface
      *
      * @throws \RuntimeException If no transaction has been started
      */
-    public function commit()
+    public function commit(): void
     {
         try {
             $this->connection->commit();
@@ -71,7 +70,7 @@ class TransactionHandler implements TransactionHandlerInterface
      *
      * @throws \RuntimeException If no transaction has been started
      */
-    public function rollback()
+    public function rollback(): void
     {
         try {
             $this->connection->rollback();

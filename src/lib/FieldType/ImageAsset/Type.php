@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\FieldType\ImageAsset;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Contracts\Core\Persistence\Content\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
@@ -27,14 +28,11 @@ class Type extends FieldType implements TranslationContainerInterface
 {
     public const FIELD_TYPE_IDENTIFIER = 'ezimageasset';
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    private $contentService;
+    private ContentService $contentService;
 
-    /** @var \Ibexa\Core\FieldType\ImageAsset\AssetMapper */
-    private $assetMapper;
+    private AssetMapper $assetMapper;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler */
-    private $handler;
+    private Handler $handler;
 
     public function __construct(
         ContentService $contentService,

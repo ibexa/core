@@ -18,6 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Limitation\ObjectStateLimitationType;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test Case for LimitationType.
@@ -25,13 +26,13 @@ use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
 class ObjectStateLimitationTypeTest extends Base
 {
     /** @var \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private $objectStateHandlerMock;
+    private MockObject $objectStateHandlerMock;
 
     /** @var \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group[] */
-    private $allObjectStateGroups;
+    private array $allObjectStateGroups;
 
     /** @var array */
-    private $loadObjectStatesMap;
+    private array $loadObjectStatesMap;
 
     /**
      * Setup Handler mock.
@@ -78,7 +79,7 @@ class ObjectStateLimitationTypeTest extends Base
     /**
      * @return \Ibexa\Core\Limitation\ObjectStateLimitationType
      */
-    public function testConstruct()
+    public function testConstruct(): ObjectStateLimitationType
     {
         return new ObjectStateLimitationType($this->getPersistenceMock());
     }
@@ -153,8 +154,8 @@ class ObjectStateLimitationTypeTest extends Base
     public function testEvaluate(
         ObjectStateLimitation $limitation,
         ValueObject $object,
-        $expected
-    ) {
+        bool $expected
+    ): void {
         $getContentStateMap = [
             [
                 1,
@@ -212,7 +213,7 @@ class ObjectStateLimitationTypeTest extends Base
      *
      * @param \Ibexa\Core\Limitation\ObjectStateLimitationType $limitationType
      */
-    public function testGetCriterionInvalidValue(ObjectStateLimitationType $limitationType)
+    public function testGetCriterionInvalidValue(ObjectStateLimitationType $limitationType): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -227,7 +228,7 @@ class ObjectStateLimitationTypeTest extends Base
      *
      * @param \Ibexa\Core\Limitation\ObjectStateLimitationType $limitationType
      */
-    public function testGetCriterionSingleValue(ObjectStateLimitationType $limitationType)
+    public function testGetCriterionSingleValue(ObjectStateLimitationType $limitationType): void
     {
         $criterion = $limitationType->getCriterion(
             new ObjectStateLimitation(['limitationValues' => [2]]),
@@ -241,7 +242,7 @@ class ObjectStateLimitationTypeTest extends Base
         self::assertEquals([2], $criterion->value);
     }
 
-    public function testGetCriterionMultipleValuesFromSingleGroup()
+    public function testGetCriterionMultipleValuesFromSingleGroup(): void
     {
         $this->getPersistenceMock()
              ->method('objectStateHandler')
@@ -270,7 +271,7 @@ class ObjectStateLimitationTypeTest extends Base
         self::assertEquals([1, 2], $criterion->value);
     }
 
-    public function testGetCriterionMultipleValuesFromMultipleGroups()
+    public function testGetCriterionMultipleValuesFromMultipleGroups(): void
     {
         $this->getPersistenceMock()
              ->method('objectStateHandler')

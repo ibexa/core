@@ -19,8 +19,7 @@ final class CreateEvent extends AfterEvent
 
     private $forward;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard */
-    private $urlWildcard;
+    private URLWildcard $urlWildcard;
 
     public function __construct(
         URLWildcard $urlWildcard,

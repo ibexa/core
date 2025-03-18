@@ -33,6 +33,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway as UrlAliasGateway;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use ReflectionException;
 
 /**
@@ -54,63 +55,63 @@ class ContentHandlerTest extends TestCase
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
      */
-    protected $gatewayMock;
+    protected ?MockObject $gatewayMock = null;
 
     /**
      * Location gateway mock.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
      */
-    protected $locationGatewayMock;
+    protected ?MockObject $locationGatewayMock = null;
 
     /**
      * Type gateway mock.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway
      */
-    protected $typeGatewayMock;
+    protected ?MockObject $typeGatewayMock = null;
 
     /**
      * Mapper mock.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Mapper
      */
-    protected $mapperMock;
+    protected ?MockObject $mapperMock = null;
 
     /**
      * Field handler mock.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\FieldHandler
      */
-    protected $fieldHandlerMock;
+    protected ?MockObject $fieldHandlerMock = null;
 
     /**
      * Location handler mock.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\TreeHandler
      */
-    protected $treeHandlerMock;
+    protected ?MockObject $treeHandlerMock = null;
 
     /**
      * Slug converter mock.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter
      */
-    protected $slugConverterMock;
+    protected ?MockObject $slugConverterMock = null;
 
     /**
      * Location handler mock.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway
      */
-    protected $urlAliasGatewayMock;
+    protected ?MockObject $urlAliasGatewayMock = null;
 
     /**
      * ContentType handler mock.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Handler
      */
-    protected $contentTypeHandlerMock;
+    protected ?MockObject $contentTypeHandlerMock = null;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Core\Persistence\Legacy\Content\Language\Handler
@@ -120,7 +121,7 @@ class ContentHandlerTest extends TestCase
     /**
      * @todo Current method way to complex to test, refactor!
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         $handler = $this->getContentHandler();
 
@@ -215,7 +216,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testPublishFirstVersion()
+    public function testPublishFirstVersion(): void
     {
         $handler = $this->getPartlyMockedHandler(['loadVersionInfo']);
 
@@ -292,7 +293,7 @@ class ContentHandlerTest extends TestCase
         $handler->publish(23, 1, $metadataUpdateStruct);
     }
 
-    public function testPublish()
+    public function testPublish(): void
     {
         $handler = $this->getPartlyMockedHandler(['loadVersionInfo', 'setStatus']);
 
@@ -375,7 +376,7 @@ class ContentHandlerTest extends TestCase
         $handler->publish(23, 2, $metadataUpdateStruct);
     }
 
-    public function testCreateDraftFromVersion()
+    public function testCreateDraftFromVersion(): void
     {
         $handler = $this->getPartlyMockedHandler(['load']);
 
@@ -472,7 +473,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $handler = $this->getContentHandler();
 
@@ -517,7 +518,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testLoadContentList()
+    public function testLoadContentList(): void
     {
         $handler = $this->getContentHandler();
 
@@ -569,7 +570,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testLoadContentInfoByRemoteId()
+    public function testLoadContentInfoByRemoteId(): void
     {
         $contentInfoData = [new ContentInfo()];
         $this->getGatewayMock()->expects(self::once())
@@ -591,7 +592,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testLoadErrorNotFound()
+    public function testLoadErrorNotFound(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -616,7 +617,7 @@ class ContentHandlerTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content
      */
-    protected function getContentFixtureForDraft(int $id = 23, int $versionNo = 2)
+    protected function getContentFixtureForDraft(int $id = 23, int $versionNo = 2): Content
     {
         $content = new Content();
         $content->versionInfo = new VersionInfo();
@@ -632,7 +633,7 @@ class ContentHandlerTest extends TestCase
         return $content;
     }
 
-    public function testUpdateContent()
+    public function testUpdateContent(): void
     {
         $handler = $this->getPartlyMockedHandler(['load', 'loadContentInfo']);
 
@@ -730,7 +731,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testUpdateMetadata()
+    public function testUpdateMetadata(): void
     {
         $handler = $this->getPartlyMockedHandler(['load', 'loadContentInfo']);
 
@@ -765,7 +766,7 @@ class ContentHandlerTest extends TestCase
         self::assertInstanceOf(ContentInfo::class, $resultContentInfo);
     }
 
-    public function testUpdateMetadataUpdatesPathIdentificationString()
+    public function testUpdateMetadataUpdatesPathIdentificationString(): void
     {
         $handler = $this->getPartlyMockedHandler(['load', 'loadContentInfo']);
         $locationGatewayMock = $this->getLocationGatewayMock();
@@ -888,7 +889,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testLoadReverseRelations()
+    public function testLoadReverseRelations(): void
     {
         $handler = $this->getContentHandler();
 
@@ -917,7 +918,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testAddRelation()
+    public function testAddRelation(): void
     {
         // expected relation object after creation
         $expectedRelationObject = new Relation();
@@ -928,7 +929,7 @@ class ContentHandlerTest extends TestCase
         $expectedRelationObject->type = RelationValue::COMMON;
 
         // relation create struct
-        $relationCreateStruct = new Relation\CreateStruct();
+        $relationCreateStruct = new RelationCreateStruct();
         $relationCreateStruct->destinationContentId = 66;
         $relationCreateStruct->sourceContentId = 23;
         $relationCreateStruct->sourceContentVersionNo = 1;
@@ -961,7 +962,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testRemoveRelation()
+    public function testRemoveRelation(): void
     {
         $gatewayMock = $this->getGatewayMock();
 
@@ -975,7 +976,7 @@ class ContentHandlerTest extends TestCase
         $this->getContentHandler()->removeRelation(1, RelationValue::COMMON);
     }
 
-    protected function getRelationFixture()
+    protected function getRelationFixture(): Relation
     {
         $relation = new Relation();
         $relation->id = self::RELATION_ID;
@@ -991,7 +992,7 @@ class ContentHandlerTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\CreateStruct
      */
-    public function getCreateStructFixture()
+    public function getCreateStructFixture(): CreateStruct
     {
         $struct = new CreateStruct();
 
@@ -1020,7 +1021,7 @@ class ContentHandlerTest extends TestCase
         return $struct;
     }
 
-    public function testLoadDraftsForUser()
+    public function testLoadDraftsForUser(): void
     {
         $handler = $this->getContentHandler();
         $rows = [['ezcontentobject_version_contentobject_id' => 42, 'ezcontentobject_version_version' => 2]];
@@ -1051,7 +1052,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testListVersions()
+    public function testListVersions(): void
     {
         $handler = $this->getContentHandler();
 
@@ -1071,7 +1072,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testRemoveRawContent()
+    public function testRemoveRawContent(): void
     {
         $handler = $this->getContentHandler();
         $treeHandlerMock = $this->getTreeHandlerMock();
@@ -1087,7 +1088,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Test for the deleteContent() method.
      */
-    public function testDeleteContentWithLocations()
+    public function testDeleteContentWithLocations(): void
     {
         $handlerMock = $this->getPartlyMockedHandler(['getAllLocationIds']);
         $gatewayMock = $this->getGatewayMock();
@@ -1112,7 +1113,7 @@ class ContentHandlerTest extends TestCase
     /**
      * Test for the deleteContent() method.
      */
-    public function testDeleteContentWithoutLocations()
+    public function testDeleteContentWithoutLocations(): void
     {
         $handlerMock = $this->getPartlyMockedHandler(['removeRawContent']);
         $gatewayMock = $this->getGatewayMock();
@@ -1128,7 +1129,7 @@ class ContentHandlerTest extends TestCase
         $handlerMock->deleteContent(23);
     }
 
-    public function testDeleteVersion()
+    public function testDeleteVersion(): void
     {
         $handler = $this->getContentHandler();
 
@@ -1190,7 +1191,7 @@ class ContentHandlerTest extends TestCase
         $handler->deleteVersion(225, 2);
     }
 
-    public function testCopySingleVersion()
+    public function testCopySingleVersion(): void
     {
         $handler = $this->getPartlyMockedHandler(['load', 'internalCreate']);
         $gatewayMock = $this->getGatewayMock();
@@ -1251,7 +1252,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testCopyAllVersions()
+    public function testCopyAllVersions(): void
     {
         $handler = $this->getPartlyMockedHandler(
             [
@@ -1403,7 +1404,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testCopyThrowsNotFoundExceptionContentNotFound()
+    public function testCopyThrowsNotFoundExceptionContentNotFound(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -1421,7 +1422,7 @@ class ContentHandlerTest extends TestCase
         $handler->copy(23);
     }
 
-    public function testCopyThrowsNotFoundExceptionVersionNotFound()
+    public function testCopyThrowsNotFoundExceptionVersionNotFound(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -1439,7 +1440,7 @@ class ContentHandlerTest extends TestCase
         $result = $handler->copy(23, 32);
     }
 
-    public function testSetStatus()
+    public function testSetStatus(): void
     {
         $handler = $this->getContentHandler();
 
@@ -1544,7 +1545,7 @@ class ContentHandlerTest extends TestCase
      *
      * @return \Ibexa\Core\Persistence\Legacy\Content\Handler
      */
-    protected function getPartlyMockedHandler(array $methods)
+    protected function getPartlyMockedHandler(array $methods): MockObject
     {
         return $this->getMockBuilder(Handler::class)
             ->setMethods($methods)

@@ -28,7 +28,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentTypeGroup
      */
-    public function testCreateContentTypeGroupThrowsUnauthorizedException()
+    public function testCreateContentTypeGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -70,7 +70,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testUpdateContentTypeGroup
      */
-    public function testUpdateContentTypeGroupThrowsUnauthorizedException()
+    public function testUpdateContentTypeGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -121,7 +121,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testDeleteContentTypeGroup
      */
-    public function testDeleteContentTypeGroupThrowsUnauthorizedException()
+    public function testDeleteContentTypeGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -159,7 +159,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      */
-    public function testCreateContentTypeThrowsUnauthorizedException()
+    public function testCreateContentTypeThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -217,7 +217,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testUpdateContentTypeDraft
      */
-    public function testUpdateContentTypeDraftThrowsUnauthorizedException()
+    public function testUpdateContentTypeDraftThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -270,7 +270,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testAddFieldDefinition
      */
-    public function testAddFieldDefinitionThrowsUnauthorizedException()
+    public function testAddFieldDefinitionThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -327,7 +327,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testRemoveFieldDefinition
      */
-    public function testRemoveFieldDefinitionThrowsUnauthorizedException()
+    public function testRemoveFieldDefinitionThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -361,7 +361,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testUpdateFieldDefinition
      */
-    public function testUpdateFieldDefinitionThrowsUnauthorizedException()
+    public function testUpdateFieldDefinitionThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -420,7 +420,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testPublishContentTypeDraft
      */
-    public function testPublishContentTypeDraftThrowsUnauthorizedException()
+    public function testPublishContentTypeDraftThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -452,7 +452,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentTypeDraft
      */
-    public function testCreateContentTypeDraftThrowsUnauthorizedException()
+    public function testCreateContentTypeDraftThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -485,7 +485,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testDeleteContentType
      */
-    public function testDeleteContentTypeThrowsUnauthorizedException()
+    public function testDeleteContentTypeThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -518,7 +518,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCopyContentType
      */
-    public function testCopyContentTypeThrowsUnauthorizedException()
+    public function testCopyContentTypeThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -551,7 +551,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testAssignContentTypeGroup
      */
-    public function testAssignContentTypeGroupThrowsUnauthorizedException()
+    public function testAssignContentTypeGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -585,7 +585,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testUnassignContentTypeGroup
      */
-    public function testUnassignContentTypeGroupThrowsUnauthorizedException()
+    public function testUnassignContentTypeGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 

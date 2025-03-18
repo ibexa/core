@@ -24,8 +24,7 @@ final class BeforeCreateGlobalUrlAliasEvent extends BeforeEvent
 
     private $alwaysAvailable;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias|null */
-    private $urlAlias;
+    private ?URLAlias $urlAlias = null;
 
     public function __construct($resource, $path, $languageCode, $forwarding, $alwaysAvailable)
     {

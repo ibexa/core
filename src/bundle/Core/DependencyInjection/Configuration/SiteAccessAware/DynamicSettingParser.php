@@ -11,7 +11,7 @@ use OutOfBoundsException;
 
 class DynamicSettingParser implements DynamicSettingParserInterface
 {
-    public function isDynamicSetting($setting)
+    public function isDynamicSetting($setting): bool
     {
         // Checks if $setting begins and ends with appropriate delimiter.
         return
@@ -22,7 +22,7 @@ class DynamicSettingParser implements DynamicSettingParserInterface
             && substr_count($setting, static::INNER_DELIMITER) <= 2;
     }
 
-    public function parseDynamicSetting($setting)
+    public function parseDynamicSetting($setting): array
     {
         $params = explode(static::INNER_DELIMITER, $this->removeBoundaryDelimiter($setting));
         if (count($params) > 3) {

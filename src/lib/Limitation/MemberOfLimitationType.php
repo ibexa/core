@@ -55,7 +55,10 @@ final class MemberOfLimitationType extends AbstractPersistenceLimitationType imp
         }
     }
 
-    public function validate(APILimitationValue $limitationValue)
+    /**
+     * @return \Ibexa\Core\FieldType\ValidationError[]
+     */
+    public function validate(APILimitationValue $limitationValue): array
     {
         $validationErrors = [];
 
@@ -88,7 +91,7 @@ final class MemberOfLimitationType extends AbstractPersistenceLimitationType imp
         return new MemberOfLimitation(['limitationValues' => $limitationValues]);
     }
 
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null)
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null): ?bool
     {
         if (!$value instanceof MemberOfLimitation) {
             throw new InvalidArgumentException(
@@ -124,12 +127,12 @@ final class MemberOfLimitationType extends AbstractPersistenceLimitationType imp
         return self::ACCESS_DENIED;
     }
 
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser)
+    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser): never
     {
         throw new NotImplementedException('Member of Limitation Criterion');
     }
 
-    public function valueSchema()
+    public function valueSchema(): never
     {
         throw new NotImplementedException(__METHOD__);
     }

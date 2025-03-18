@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Persistence\Legacy\Content\Language;
 
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 
@@ -20,7 +21,7 @@ class MaskGenerator
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Language\Handler
      */
-    protected $languageHandler;
+    protected Handler $languageHandler;
 
     /**
      * Creates a new Language MaskGenerator.

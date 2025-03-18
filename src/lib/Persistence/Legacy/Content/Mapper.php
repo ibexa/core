@@ -86,7 +86,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\ContentInfo
      */
-    private function createContentInfoFromCreateStruct(CreateStruct $struct, $currentVersionNo = 1)
+    private function createContentInfoFromCreateStruct(CreateStruct $struct, $currentVersionNo = 1): ContentInfo
     {
         $contentInfo = new ContentInfo();
 
@@ -120,7 +120,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\VersionInfo
      */
-    public function createVersionInfoFromCreateStruct(CreateStruct $struct, $versionNo)
+    public function createVersionInfoFromCreateStruct(CreateStruct $struct, $versionNo): VersionInfo
     {
         $versionInfo = new VersionInfo();
 
@@ -155,7 +155,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\VersionInfo
      */
-    public function createVersionInfoForContent(Content $content, $versionNo, $userId, ?string $languageCode = null)
+    public function createVersionInfoForContent(Content $content, $versionNo, $userId, ?string $languageCode = null): VersionInfo
     {
         $versionInfo = new VersionInfo();
 
@@ -179,7 +179,7 @@ class Mapper
      *
      * @return \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue
      */
-    public function convertToStorageValue(Field $field)
+    public function convertToStorageValue(Field $field): StorageFieldValue
     {
         $converter = $this->converterRegistry->getConverter(
             $field->type
@@ -379,7 +379,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\ContentInfo
      */
-    public function extractContentInfoFromRow(array $row, $prefix = '', $treePrefix = 'ezcontentobject_tree_')
+    public function extractContentInfoFromRow(array $row, $prefix = '', $treePrefix = 'ezcontentobject_tree_'): ContentInfo
     {
         $contentInfo = new ContentInfo();
         $contentInfo->id = (int)$row["{$prefix}id"];
@@ -409,7 +409,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\ContentInfo[]
      */
-    public function extractContentInfoFromRows(array $rows, $prefix = '', $treePrefix = 'ezcontentobject_tree_')
+    public function extractContentInfoFromRows(array $rows, $prefix = '', $treePrefix = 'ezcontentobject_tree_'): array
     {
         $contentInfoObjects = [];
         foreach ($rows as $row) {
@@ -430,7 +430,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\VersionInfo
      */
-    private function extractVersionInfoFromRow(array $row, array $names = [])
+    private function extractVersionInfoFromRow(array $row, array $names = []): VersionInfo
     {
         $versionInfo = new VersionInfo();
         $versionInfo->id = (int)$row['ezcontentobject_version_id'];
@@ -528,7 +528,7 @@ class Mapper
      *
      * @return string[]
      */
-    private function extractLanguageCodesFromMask(int $languageMask, array $allLanguages, &$missing = [])
+    private function extractLanguageCodesFromMask(int $languageMask, array $allLanguages, &$missing = []): array
     {
         $exp = 2;
         $result = [];
@@ -553,7 +553,7 @@ class Mapper
     /**
      * @return \Ibexa\Contracts\Core\Persistence\Content\Language[]
      */
-    private function loadAllLanguagesWithIdKey()
+    private function loadAllLanguagesWithIdKey(): array
     {
         $languagesById = [];
         foreach ($this->languageHandler->loadAll() as $language) {
@@ -570,7 +570,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Field
      */
-    protected function extractFieldFromRow(array $row)
+    protected function extractFieldFromRow(array $row): Field
     {
         $field = new Field();
 
@@ -597,7 +597,7 @@ class Mapper
      * @throws \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\Exception\NotFound
      *         if the necessary converter for $type could not be found.
      */
-    protected function extractFieldValueFromRow(array $row, $type)
+    protected function extractFieldValueFromRow(array $row, $type): FieldValue
     {
         $storageValue = new StorageFieldValue();
 
@@ -629,7 +629,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\CreateStruct
      */
-    public function createCreateStructFromContent(Content $content)
+    public function createCreateStructFromContent(Content $content): CreateStruct
     {
         $struct = new CreateStruct();
         $struct->name = $content->versionInfo->names;
@@ -655,8 +655,10 @@ class Mapper
 
     /**
      * Extracts relation objects from $rows.
+     *
+     * @return mixed[]
      */
-    public function extractRelationsFromRows(array $rows)
+    public function extractRelationsFromRows(array $rows): array
     {
         $relations = [];
 
@@ -677,7 +679,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Relation
      */
-    public function extractRelationFromRow(array $row)
+    public function extractRelationFromRow(array $row): Relation
     {
         $relation = new Relation();
         $relation->id = (int)$row['ezcontentobject_link_id'];
@@ -701,7 +703,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Relation
      */
-    public function createRelationFromCreateStruct(RelationCreateStruct $struct)
+    public function createRelationFromCreateStruct(RelationCreateStruct $struct): Relation
     {
         $relation = new Relation();
 

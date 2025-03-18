@@ -23,7 +23,7 @@ class SelectionConverter implements Converter
      * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $value
      * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $storageFieldValue
      */
-    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
+    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue): void
     {
         $storageFieldValue->sortKeyString = $storageFieldValue->dataText = $value->sortKey;
     }
@@ -34,7 +34,7 @@ class SelectionConverter implements Converter
      * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $value
      * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
      */
-    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue)
+    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue): void
     {
         if ($value->dataText !== '') {
             $fieldValue->data = array_map(
@@ -53,7 +53,7 @@ class SelectionConverter implements Converter
      * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
      * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
      */
-    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef)
+    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef): void
     {
         $fieldSettings = $fieldDef->fieldTypeConstraints->fieldSettings;
 
@@ -87,7 +87,7 @@ class SelectionConverter implements Converter
      * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
      * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
      */
-    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef)
+    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef): void
     {
         $options = [];
         $multiLingualOptions = [$fieldDef->mainLanguageCode => []];

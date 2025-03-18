@@ -10,13 +10,14 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Id;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentLocation;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentLocation as ParentLocationIdMatcher;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTest;
 
 class ParentLocationTest extends BaseTest
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentLocation */
-    private $matcher;
+    private ParentLocation $matcher;
 
     protected function setUp(): void
     {
@@ -34,13 +35,13 @@ class ParentLocationTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
      * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Location $location, $expectedResult)
+    public function testMatchLocation(int|array $matchingConfig, Location $location, bool $expectedResult): void
     {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchLocation($location));
     }
 
-    public function matchLocationProvider()
+    public function matchLocationProvider(): array
     {
         return [
             [
@@ -77,7 +78,7 @@ class ParentLocationTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchContentInfo($matchingConfig, Repository $repository, $expectedResult)
+    public function testMatchContentInfo(int|array $matchingConfig, Repository $repository, bool $expectedResult): void
     {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
@@ -87,7 +88,7 @@ class ParentLocationTest extends BaseTest
         );
     }
 
-    public function matchContentInfoProvider()
+    public function matchContentInfoProvider(): array
     {
         return [
             [
@@ -120,7 +121,7 @@ class ParentLocationTest extends BaseTest
      *
      * @return \PHPUnit\Framework\MockObject\MockObject
      */
-    private function generateRepositoryMockForParentLocationId($parentLocationId)
+    private function generateRepositoryMockForParentLocationId(int $parentLocationId)
     {
         $locationServiceMock = $this->createMock(LocationService::class);
         $locationServiceMock->expects(self::once())

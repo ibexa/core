@@ -21,6 +21,7 @@ use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\Permission\PermissionResolver;
 use Ibexa\Core\Repository\Repository;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -28,28 +29,28 @@ use Symfony\Component\Routing\RouterInterface;
 class UrlAliasGeneratorTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $repository;
+    private MockObject $repository;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $urlAliasService;
+    private MockObject $urlAliasService;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $locationService;
+    private MockObject $locationService;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $router;
+    private MockObject $router;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $logger;
+    private MockObject $logger;
 
     /** @var \Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator */
-    private $urlAliasGenerator;
+    private UrlAliasGenerator $urlAliasGenerator;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $siteAccessRouter;
+    private MockObject $siteAccessRouter;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $configResolver;
+    private MockObject $configResolver;
 
     protected function setUp(): void
     {
@@ -100,7 +101,7 @@ class UrlAliasGeneratorTest extends TestCase
         $this->urlAliasGenerator->setSiteAccessRouter($this->siteAccessRouter);
     }
 
-    public function testGetPathPrefixByRootLocationId()
+    public function testGetPathPrefixByRootLocationId(): void
     {
         $rootLocationId = 123;
         $rootLocation = new Location(['id' => $rootLocationId]);
@@ -123,7 +124,7 @@ class UrlAliasGeneratorTest extends TestCase
     /**
      * @dataProvider providerTestIsPrefixExcluded
      */
-    public function testIsPrefixExcluded($uri, $expectedIsExcluded)
+    public function testIsPrefixExcluded(string $uri, bool $expectedIsExcluded): void
     {
         $this->urlAliasGenerator->setExcludedUriPrefixes(
             [
@@ -135,7 +136,7 @@ class UrlAliasGeneratorTest extends TestCase
         self::assertSame($expectedIsExcluded, $this->urlAliasGenerator->isUriPrefixExcluded($uri));
     }
 
-    public function providerTestIsPrefixExcluded()
+    public function providerTestIsPrefixExcluded(): array
     {
         return [
             ['/foo/bar', false],
@@ -152,7 +153,7 @@ class UrlAliasGeneratorTest extends TestCase
         ];
     }
 
-    public function testLoadLocation()
+    public function testLoadLocation(): void
     {
         $locationId = 123;
         $location = new Location(['id' => $locationId]);
@@ -167,7 +168,7 @@ class UrlAliasGeneratorTest extends TestCase
     /**
      * @dataProvider providerTestDoGenerate
      */
-    public function testDoGenerate(URLAlias $urlAlias, array $parameters, $expected)
+    public function testDoGenerate(URLAlias $urlAlias, array $parameters, string $expected): void
     {
         $location = new Location(['id' => 123]);
         $this->urlAliasService
@@ -181,7 +182,7 @@ class UrlAliasGeneratorTest extends TestCase
         self::assertSame($expected, $this->urlAliasGenerator->doGenerate($location, $parameters));
     }
 
-    public function providerTestDoGenerate()
+    public function providerTestDoGenerate(): array
     {
         return [
             'without_parameters' => [
@@ -212,7 +213,7 @@ class UrlAliasGeneratorTest extends TestCase
      *
      * @param array $parameters
      */
-    public function testDoGenerateWithSiteAccessParam(URLAlias $urlAlias, array $parameters, string $expected)
+    public function testDoGenerateWithSiteAccessParam(URLAlias $urlAlias, array $parameters, string $expected): void
     {
         $siteaccessName = 'foo';
         $parameters += ['siteaccess' => $siteaccessName];
@@ -258,7 +259,7 @@ class UrlAliasGeneratorTest extends TestCase
             ->method('loadLocation')
             ->will(
                 self::returnCallback(
-                    static function ($locationId) {
+                    static function ($locationId): Location {
                         return new Location(['id' => $locationId]);
                     }
                 )
@@ -268,7 +269,7 @@ class UrlAliasGeneratorTest extends TestCase
             ->method('reverseLookup')
             ->will(
                 self::returnCallback(
-                    static function ($location) use ($treeRootUrlAlias) {
+                    static function ($location) use ($treeRootUrlAlias): \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias {
                         return $treeRootUrlAlias[$location->id];
                     }
                 )
@@ -279,7 +280,7 @@ class UrlAliasGeneratorTest extends TestCase
         self::assertSame($expected, $this->urlAliasGenerator->doGenerate($location, $parameters));
     }
 
-    public function providerTestDoGenerateWithSiteaccess()
+    public function providerTestDoGenerateWithSiteaccess(): array
     {
         return [
             [
@@ -293,7 +294,7 @@ class UrlAliasGeneratorTest extends TestCase
                 '/baz',
             ],
             [
-                new UrlAlias(['path' => '/special-chars-"<>\'']),
+                new URLAlias(['path' => '/special-chars-"<>\'']),
                 [],
                 '/special-chars-%22%3C%3E%27',
             ],
@@ -308,12 +309,12 @@ class UrlAliasGeneratorTest extends TestCase
                 '/baz#qux',
             ],
             'fragment_and_special_chars' => [
-                new UrlAlias(['path' => '/special-chars-"<>\'']),
+                new URLAlias(['path' => '/special-chars-"<>\'']),
                 ['_fragment' => 'qux'],
                 '/special-chars-%22%3C%3E%27#qux',
             ],
             'fragment_site_siteaccess_and_params' => [
-                new UrlAlias(['path' => '/foo/bar/baz']),
+                new URLAlias(['path' => '/foo/bar/baz']),
                 ['_fragment' => 'qux', 'siteaccess' => 'bar', 'some' => 'foo'],
                 '/baz?some=foo#qux',
             ],
@@ -398,7 +399,7 @@ class UrlAliasGeneratorTest extends TestCase
         );
     }
 
-    public function testDoGenerateNoUrlAlias()
+    public function testDoGenerateNoUrlAlias(): void
     {
         $location = new Location(['id' => 123, 'contentInfo' => new ContentInfo(['id' => 456])]);
         $uri = "/content/location/$location->id";
@@ -422,7 +423,7 @@ class UrlAliasGeneratorTest extends TestCase
     /**
      * @dataProvider providerTestDoGenerateRootLocation
      */
-    public function testDoGenerateRootLocation(URLAlias $urlAlias, $isOutsideAndNotExcluded, $expected, $pathPrefix)
+    public function testDoGenerateRootLocation(URLAlias $urlAlias, bool $isOutsideAndNotExcluded, string $expected, string $pathPrefix): void
     {
         $excludedPrefixes = ['/products', '/shared'];
         $rootLocationId = 456;
@@ -458,65 +459,65 @@ class UrlAliasGeneratorTest extends TestCase
         self::assertSame($expected, $this->urlAliasGenerator->doGenerate($location, []));
     }
 
-    public function providerTestDoGenerateRootLocation()
+    public function providerTestDoGenerateRootLocation(): array
     {
         return [
             [
-                new UrlAlias(['path' => '/my/root-folder/foo/bar']),
+                new URLAlias(['path' => '/my/root-folder/foo/bar']),
                 false,
                 '/foo/bar',
                 '/my/root-folder',
             ],
             [
-                new UrlAlias(['path' => '/my/root-folder/something']),
+                new URLAlias(['path' => '/my/root-folder/something']),
                 false,
                 '/something',
                 '/my/root-folder',
             ],
             [
-                new UrlAlias(['path' => '/my/root-folder']),
+                new URLAlias(['path' => '/my/root-folder']),
                 false,
                 '/',
                 '/my/root-folder',
             ],
             [
-                new UrlAlias(['path' => '/foo/bar']),
+                new URLAlias(['path' => '/foo/bar']),
                 false,
                 '/foo/bar',
                 '/',
             ],
             [
-                new UrlAlias(['path' => '/something']),
+                new URLAlias(['path' => '/something']),
                 false,
                 '/something',
                 '/',
             ],
             [
-                new UrlAlias(['path' => '/']),
+                new URLAlias(['path' => '/']),
                 false,
                 '/',
                 '/',
             ],
             [
-                new UrlAlias(['path' => '/outside/tree/foo/bar']),
+                new URLAlias(['path' => '/outside/tree/foo/bar']),
                 true,
                 '/outside/tree/foo/bar',
                 '/my/root-folder',
             ],
             [
-                new UrlAlias(['path' => '/products/ibexa-dxp']),
+                new URLAlias(['path' => '/products/ibexa-dxp']),
                 false,
                 '/products/ibexa-dxp',
                 '/my/root-folder',
             ],
             [
-                new UrlAlias(['path' => '/shared/some-content']),
+                new URLAlias(['path' => '/shared/some-content']),
                 false,
                 '/shared/some-content',
                 '/my/root-folder',
             ],
             [
-                new UrlAlias(['path' => '/products/ibexa-dxp']),
+                new URLAlias(['path' => '/products/ibexa-dxp']),
                 false,
                 '/products/ibexa-dxp',
                 '/prod',
@@ -524,7 +525,7 @@ class UrlAliasGeneratorTest extends TestCase
         ];
     }
 
-    protected function getPermissionResolverMock()
+    protected function getPermissionResolverMock(): MockObject
     {
         $configResolverMock = $this->createMock(ConfigResolverInterface::class);
         $configResolverMock

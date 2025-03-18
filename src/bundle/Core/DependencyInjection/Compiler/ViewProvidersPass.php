@@ -25,7 +25,7 @@ class ViewProvidersPass implements CompilerPassInterface
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $rawViewProviders = [];
         foreach ($container->findTaggedServiceIds(self::VIEW_PROVIDER_TAG) as $serviceId => $tags) {

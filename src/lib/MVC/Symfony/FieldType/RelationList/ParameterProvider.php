@@ -13,8 +13,7 @@ use Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderInterface;
 
 class ParameterProvider implements ParameterProviderInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    private $contentService;
+    private ContentService $contentService;
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\ContentService $contentService
@@ -35,7 +34,7 @@ class ParameterProvider implements ParameterProviderInterface
      *
      * @return array
      */
-    public function getViewParameters(Field $field)
+    public function getViewParameters(Field $field): array
     {
         $ids = $field->value->destinationContentIds;
         $list = $this->contentService->loadContentInfoList($ids);

@@ -26,7 +26,7 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new CriteriaConverterPass());
     }
 
-    public function testAddContentHandlers()
+    public function testAddContentHandlers(): void
     {
         $this->setDefinition(
             'ibexa.search.legacy.gateway.criteria_converter.content',
@@ -47,7 +47,7 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function testAddLocationHandlers()
+    public function testAddLocationHandlers(): void
     {
         $this->setDefinition(
             'ibexa.search.legacy.gateway.criteria_converter.location',

@@ -12,20 +12,22 @@ use Ibexa\Contracts\Core\IO\BinaryFile as SPIBinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\IOMetadataHandler\Flysystem;
+use League\Flysystem\FilesystemOperator;
 use League\Flysystem\UnableToRetrieveMetadata;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class FlysystemTest extends TestCase
 {
     /** @var \Ibexa\Core\IO\IOMetadataHandler|\PHPUnit\Framework\MockObject\MockObject */
-    private $handler;
+    private Flysystem $handler;
 
     /** @var \League\Flysystem\FilesystemOperator|\PHPUnit\Framework\MockObject\MockObject */
-    private $filesystem;
+    private MockObject $filesystem;
 
     protected function setUp(): void
     {
-        $this->filesystem = $this->createMock(\League\Flysystem\FilesystemOperator::class);
+        $this->filesystem = $this->createMock(FilesystemOperator::class);
         $this->handler = new Flysystem($this->filesystem);
     }
 
@@ -63,7 +65,7 @@ class FlysystemTest extends TestCase
         self::assertEquals($expectedSpiBinaryFile, $spiBinaryFile);
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $this->filesystem->expects(self::never())->method('delete');
         $this->handler->delete('prefix/my/file.png');

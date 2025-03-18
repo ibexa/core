@@ -10,16 +10,17 @@ namespace Ibexa\Tests\Bundle\Core;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ConfigResolverTest extends TestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    private $siteAccess;
+    private SiteAccess $siteAccess;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $containerMock;
+    private MockObject $containerMock;
 
     protected function setUp(): void
     {
@@ -35,7 +36,7 @@ class ConfigResolverTest extends TestCase
      *
      * @return \Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver
      */
-    private function getResolver($defaultNS = 'ibexa.site_access.config', $undefinedStrategy = ConfigResolver::UNDEFINED_STRATEGY_EXCEPTION, array $groupsBySiteAccess = [])
+    private function getResolver(string $defaultNS = 'ibexa.site_access.config', int $undefinedStrategy = ConfigResolver::UNDEFINED_STRATEGY_EXCEPTION, array $groupsBySiteAccess = []): ConfigResolver
     {
         $configResolver = new ConfigResolver(
             null,
@@ -49,7 +50,7 @@ class ConfigResolverTest extends TestCase
         return $configResolver;
     }
 
-    public function testGetSetUndefinedStrategy()
+    public function testGetSetUndefinedStrategy(): void
     {
         $strategy = ConfigResolver::UNDEFINED_STRATEGY_NULL;
         $defaultNS = 'ibexa.site_access.config';
@@ -64,7 +65,7 @@ class ConfigResolverTest extends TestCase
         self::assertSame('anotherNamespace', $resolver->getDefaultNamespace());
     }
 
-    public function testGetParameterFailedWithException()
+    public function testGetParameterFailedWithException(): void
     {
         $this->expectException(ParameterNotFoundException::class);
 
@@ -72,13 +73,13 @@ class ConfigResolverTest extends TestCase
         $resolver->getParameter('foo');
     }
 
-    public function testGetParameterFailedNull()
+    public function testGetParameterFailedNull(): void
     {
         $resolver = $this->getResolver('ibexa.site_access.config', ConfigResolver::UNDEFINED_STRATEGY_NULL);
         self::assertNull($resolver->getParameter('foo'));
     }
 
-    public function parameterProvider()
+    public function parameterProvider(): array
     {
         return [
             ['foo', 'bar'],
@@ -108,7 +109,7 @@ class ConfigResolverTest extends TestCase
     /**
      * @dataProvider parameterProvider
      */
-    public function testGetParameterGlobalScope($paramName, $expectedValue)
+    public function testGetParameterGlobalScope(string $paramName, string|bool|array $expectedValue): void
     {
         $globalScopeParameter = "ibexa.site_access.config.global.$paramName";
         $this->containerMock
@@ -128,7 +129,7 @@ class ConfigResolverTest extends TestCase
     /**
      * @dataProvider parameterProvider
      */
-    public function testGetParameterRelativeScope($paramName, $expectedValue)
+    public function testGetParameterRelativeScope(string $paramName, string|bool|array $expectedValue): void
     {
         $relativeScopeParameter = "ibexa.site_access.config.{$this->siteAccess->name}.$paramName";
         $this->containerMock
@@ -154,7 +155,7 @@ class ConfigResolverTest extends TestCase
     /**
      * @dataProvider parameterProvider
      */
-    public function testGetParameterSpecificScope($paramName, $expectedValue)
+    public function testGetParameterSpecificScope(string $paramName, string|bool|array $expectedValue): void
     {
         $scope = 'some_siteaccess';
         $relativeScopeParameter = "ibexa.site_access.config.$scope.$paramName";
@@ -184,7 +185,7 @@ class ConfigResolverTest extends TestCase
     /**
      * @dataProvider parameterProvider
      */
-    public function testGetParameterDefaultScope($paramName, $expectedValue)
+    public function testGetParameterDefaultScope(string $paramName, string|bool|array $expectedValue): void
     {
         $defaultScopeParameter = "ibexa.site_access.config.default.$paramName";
         $relativeScopeParameter = "ibexa.site_access.config.{$this->siteAccess->name}.$paramName";
@@ -209,7 +210,7 @@ class ConfigResolverTest extends TestCase
         self::assertSame($expectedValue, $this->getResolver()->getParameter($paramName));
     }
 
-    public function hasParameterProvider()
+    public function hasParameterProvider(): array
     {
         return [
             [true, true, true, true, true],
@@ -226,7 +227,7 @@ class ConfigResolverTest extends TestCase
     /**
      * @dataProvider hasParameterProvider
      */
-    public function testHasParameterNoNamespace($defaultMatch, $groupMatch, $scopeMatch, $globalMatch, $expectedResult)
+    public function testHasParameterNoNamespace(bool $defaultMatch, bool $groupMatch, bool $scopeMatch, bool $globalMatch, bool $expectedResult): void
     {
         $paramName = 'foo.bar';
         $groupName = 'my_group';
@@ -255,7 +256,7 @@ class ConfigResolverTest extends TestCase
     /**
      * @dataProvider hasParameterProvider
      */
-    public function testHasParameterWithNamespaceAndScope($defaultMatch, $groupMatch, $scopeMatch, $globalMatch, $expectedResult)
+    public function testHasParameterWithNamespaceAndScope(bool $defaultMatch, bool $groupMatch, bool $scopeMatch, bool $globalMatch, bool $expectedResult): void
     {
         $paramName = 'foo.bar';
         $namespace = 'my.namespace';
@@ -286,7 +287,7 @@ class ConfigResolverTest extends TestCase
         self::assertSame($expectedResult, $configResolver->hasParameter($paramName, $namespace, $scope));
     }
 
-    public function testGetSetDefaultScope()
+    public function testGetSetDefaultScope(): void
     {
         $newDefaultScope = 'bar';
         $configResolver = $this->getResolver();

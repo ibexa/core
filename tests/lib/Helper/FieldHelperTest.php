@@ -18,18 +18,19 @@ use Ibexa\Core\FieldType\TextLine\Value;
 use Ibexa\Core\Helper\FieldHelper;
 use Ibexa\Core\Helper\TranslationHelper;
 use Ibexa\Core\Repository\Values\ContentType\FieldType;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class FieldHelperTest extends TestCase
 {
     /** @var \Ibexa\Core\Helper\FieldHelper */
-    private $fieldHelper;
+    private FieldHelper $fieldHelper;
 
     /** @var \Ibexa\Contracts\Core\Repository\FieldTypeService|\PHPUnit\Framework\MockObject\MockObject */
-    private $fieldTypeServiceMock;
+    private MockObject $fieldTypeServiceMock;
 
     /** @var \Ibexa\Core\Helper\TranslationHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $translationHelper;
+    private MockObject $translationHelper;
 
     protected function setUp(): void
     {
@@ -39,7 +40,7 @@ class FieldHelperTest extends TestCase
         $this->fieldHelper = new FieldHelper($this->translationHelper, $this->fieldTypeServiceMock);
     }
 
-    public function testIsFieldEmpty()
+    public function testIsFieldEmpty(): void
     {
         $contentTypeId = 123;
         $contentInfo = new ContentInfo(['contentTypeId' => $contentTypeId]);
@@ -85,7 +86,7 @@ class FieldHelperTest extends TestCase
         self::assertTrue($this->fieldHelper->isFieldEmpty($content, $fieldDefIdentifier));
     }
 
-    public function testIsFieldNotEmpty()
+    public function testIsFieldNotEmpty(): void
     {
         $contentTypeId = 123;
         $contentInfo = new ContentInfo(['contentTypeId' => $contentTypeId]);

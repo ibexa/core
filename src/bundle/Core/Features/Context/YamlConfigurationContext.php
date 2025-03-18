@@ -22,17 +22,16 @@ use Symfony\Component\Yaml\Yaml;
  */
 class YamlConfigurationContext implements Context
 {
-    /** @var \Symfony\Component\HttpKernel\KernelInterface */
-    private $kernel;
+    private KernelInterface $kernel;
 
-    private static $platformConfigurationFilePath = 'config/packages/%env%/ezplatform.yaml';
+    private static string $platformConfigurationFilePath = 'config/packages/%env%/ezplatform.yaml';
 
     public function __construct(KernelInterface $kernel)
     {
         $this->kernel = $kernel;
     }
 
-    public function addConfiguration(array $configuration)
+    public function addConfiguration(array $configuration): void
     {
         $env = $this->getEnvironment();
 

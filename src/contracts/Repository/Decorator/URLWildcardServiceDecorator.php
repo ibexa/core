@@ -17,8 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardUpdateStruct;
 
 abstract class URLWildcardServiceDecorator implements URLWildcardService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\URLWildcardService */
-    protected $innerService;
+    protected URLWildcardService $innerService;
 
     public function __construct(URLWildcardService $innerService)
     {
@@ -29,7 +28,7 @@ abstract class URLWildcardServiceDecorator implements URLWildcardService
         string $sourceUrl,
         string $destinationUrl,
         bool $forward = false
-    ): UrlWildcard {
+    ): URLWildcard {
         return $this->innerService->create($sourceUrl, $destinationUrl, $forward);
     }
 
@@ -45,7 +44,7 @@ abstract class URLWildcardServiceDecorator implements URLWildcardService
         $this->innerService->remove($urlWildcard);
     }
 
-    public function load(int $id): UrlWildcard
+    public function load(int $id): URLWildcard
     {
         return $this->innerService->load($id);
     }

@@ -27,7 +27,7 @@ class DataCollectorPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new DataCollectorPass());
     }
 
-    public function testAddCollector()
+    public function testAddCollector(): void
     {
         $panelTemplate = 'panel.html.twig';
         $toolbarTemplate = 'toolbar.html.twig';

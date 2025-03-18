@@ -15,17 +15,14 @@ use UnexpectedValueException;
 
 final class BeforeCreateContentEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct */
-    private $contentCreateStruct;
+    private ContentCreateStruct $contentCreateStruct;
 
-    /** @var array */
-    private $locationCreateStructs;
+    private array $locationCreateStructs;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content|null */
-    private $content;
+    private ?Content $content = null;
 
     /** @var string[]|null */
-    private $fieldIdentifiersToValidate;
+    private ?array $fieldIdentifiersToValidate;
 
     public function __construct(
         ContentCreateStruct $contentCreateStruct,

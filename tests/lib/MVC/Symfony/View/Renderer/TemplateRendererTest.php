@@ -12,6 +12,7 @@ use Ibexa\Core\MVC\Symfony\Event\PreContentViewEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
 use Ibexa\Core\MVC\Symfony\View\Renderer\TemplateRenderer;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Twig\Environment;
@@ -19,13 +20,13 @@ use Twig\Environment;
 class TemplateRendererTest extends TestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\View\Renderer\TemplateRenderer */
-    private $renderer;
+    private TemplateRenderer $renderer;
 
     /** @var \Twig\Environment|\PHPUnit\Framework\MockObject\MockObject */
-    private $templateEngineMock;
+    private MockObject $templateEngineMock;
 
     /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $eventDispatcherMock;
+    private MockObject $eventDispatcherMock;
 
     protected function setUp(): void
     {
@@ -37,7 +38,7 @@ class TemplateRendererTest extends TestCase
         );
     }
 
-    public function testRender()
+    public function testRender(): void
     {
         $view = $this->createView();
         $view->setTemplateIdentifier('path/to/template.html.twig');
@@ -61,7 +62,7 @@ class TemplateRendererTest extends TestCase
         $this->renderer->render($view);
     }
 
-    public function testRenderNoViewTemplate()
+    public function testRenderNoViewTemplate(): void
     {
         $this->expectException(NoViewTemplateException::class);
 
@@ -71,7 +72,7 @@ class TemplateRendererTest extends TestCase
     /**
      * @return \Ibexa\Core\MVC\Symfony\View\View
      */
-    protected function createView()
+    protected function createView(): ContentView
     {
         $view = new ContentView();
 

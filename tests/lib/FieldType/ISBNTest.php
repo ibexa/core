@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\ISBN\Type;
 use Ibexa\Core\FieldType\ISBN\Type as ISBN;
 use Ibexa\Core\FieldType\ISBN\Value as ISBNValue;
 use Ibexa\Core\FieldType\ValidationError;
@@ -29,7 +30,7 @@ class ISBNTest extends FieldTypeTest
      *
      * @return \Ibexa\Core\FieldType\FieldType
      */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): Type
     {
         $fieldType = new ISBN('9789722514095');
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
@@ -42,7 +43,7 @@ class ISBNTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getValidatorConfigurationSchemaExpectation()
+    protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [];
     }
@@ -52,7 +53,7 @@ class ISBNTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [
             'isISBN13' => [
@@ -67,7 +68,7 @@ class ISBNTest extends FieldTypeTest
         return new ISBNValue();
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): array
     {
         return [
             [
@@ -118,7 +119,7 @@ class ISBNTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): array
     {
         return [
             [
@@ -171,7 +172,7 @@ class ISBNTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): array
     {
         return [
             [
@@ -216,7 +217,7 @@ class ISBNTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): array
     {
         return [
             [
@@ -245,7 +246,7 @@ class ISBNTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidDataForValidate()
+    public function provideValidDataForValidate(): array
     {
         return [
             [
@@ -290,7 +291,7 @@ class ISBNTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInvalidDataForValidate()
+    public function provideInvalidDataForValidate(): array
     {
         return [
             [

@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 abstract class BaseCriterionVisitorQueryBuilderTestCase extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Filter\CriterionVisitor */
-    private $criterionVisitor;
+    private CriterionVisitor $criterionVisitor;
 
     /**
      * @return \Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder[]

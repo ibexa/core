@@ -18,7 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentOwnerLimitation
  */
 class ParentOwnerLimitationTest extends BaseLimitationTest
 {
-    public function testParentOwnerLimitationAllow()
+    public function testParentOwnerLimitationAllow(): void
     {
         $repository = $this->getRepository();
 
@@ -61,7 +61,7 @@ class ParentOwnerLimitationTest extends BaseLimitationTest
         );
     }
 
-    public function testParentOwnerLimitationForbid()
+    public function testParentOwnerLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 

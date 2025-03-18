@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Search;
  */
 class SearchField implements Indexable
 {
-    public function getIndexData(Field $field, FieldDefinition $fieldDefinition)
+    public function getIndexData(Field $field, FieldDefinition $fieldDefinition): array
     {
         $width = isset($field->value->data['width']) && $field->value->data['width'] !== null
             ? (int)$field->value->data['width']
@@ -66,7 +66,7 @@ class SearchField implements Indexable
         ];
     }
 
-    public function getIndexDefinition()
+    public function getIndexDefinition(): array
     {
         return [
             'filename' => new Search\FieldType\StringField(),
@@ -102,7 +102,7 @@ class SearchField implements Indexable
      *
      * @return string
      */
-    public function getDefaultSortField()
+    public function getDefaultSortField(): string
     {
         return $this->getDefaultMatchField();
     }

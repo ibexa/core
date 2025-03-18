@@ -12,7 +12,7 @@ use Symfony\Component\Config\Resource\ResourceInterface;
 
 class PoliciesConfigBuilder extends ContainerConfigBuilder
 {
-    public function addConfig(array $config)
+    public function addConfig(array $config): void
     {
         $previousPolicyMap = [];
 
@@ -39,7 +39,7 @@ class PoliciesConfigBuilder extends ContainerConfigBuilder
         );
     }
 
-    public function addResource(ResourceInterface $resource)
+    public function addResource(ResourceInterface $resource): void
     {
         $this->containerBuilder->addResource($resource);
     }
@@ -53,7 +53,7 @@ class PoliciesConfigBuilder extends ContainerConfigBuilder
      *
      * @return bool
      */
-    private function policyExists(array $policyMap, $module, $function): bool
+    private function policyExists(array $policyMap, int|string $module, $function): bool
     {
         return array_key_exists($module, $policyMap) && array_key_exists($function, $policyMap[$module]);
     }

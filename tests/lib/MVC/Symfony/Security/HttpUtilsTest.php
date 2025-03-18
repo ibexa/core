@@ -18,7 +18,7 @@ class HttpUtilsTest extends TestCase
     /**
      * @dataProvider generateUriStandardProvider
      */
-    public function testGenerateUriStandard($uri, $isUriRouteName, $expected)
+    public function testGenerateUriStandard(string $uri, bool $isUriRouteName, string $expected): void
     {
         $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
         $httpUtils = new HttpUtils($urlGenerator);
@@ -39,7 +39,7 @@ class HttpUtilsTest extends TestCase
         self::assertSame($expected, $httpUtils->generateUri($request, $uri));
     }
 
-    public function generateUriStandardProvider()
+    public function generateUriStandardProvider(): array
     {
         return [
             ['http://localhost/foo/bar', false, 'http://localhost/foo/bar'],
@@ -53,7 +53,7 @@ class HttpUtilsTest extends TestCase
     /**
      * @dataProvider generateUriProvider
      */
-    public function testGenerateUri($uri, $isUriRouteName, $siteAccessUri, $expected)
+    public function testGenerateUri(string $uri, bool $isUriRouteName, ?string $siteAccessUri, string $expected): void
     {
         $siteAccess = new SiteAccess('test', 'test');
         if ($uri[0] === '/') {
@@ -86,7 +86,7 @@ class HttpUtilsTest extends TestCase
         self::assertSame($expected, $res);
     }
 
-    public function generateUriProvider()
+    public function generateUriProvider(): array
     {
         return [
             ['http://localhost/foo/bar', false, null, 'http://localhost/foo/bar'],
@@ -97,7 +97,7 @@ class HttpUtilsTest extends TestCase
         ];
     }
 
-    public function testCheckRequestPathStandard()
+    public function testCheckRequestPathStandard(): void
     {
         $httpUtils = new HttpUtils();
         $httpUtils->setSiteAccess(new SiteAccess('test'));
@@ -108,7 +108,7 @@ class HttpUtilsTest extends TestCase
     /**
      * @dataProvider checkRequestPathProvider
      */
-    public function testCheckRequestPath($path, $siteAccessUri, $requestUri, $expected)
+    public function testCheckRequestPath(string $path, ?string $siteAccessUri, string $requestUri, bool $expected): void
     {
         $siteAccess = new SiteAccess('test', 'test');
         if ($siteAccessUri !== null) {
@@ -127,7 +127,7 @@ class HttpUtilsTest extends TestCase
         self::assertSame($expected, $httpUtils->checkRequestPath($request, $path));
     }
 
-    public function checkRequestPathProvider()
+    public function checkRequestPathProvider(): array
     {
         return [
             ['/foo/bar', null, 'http://localhost/foo/bar', true],

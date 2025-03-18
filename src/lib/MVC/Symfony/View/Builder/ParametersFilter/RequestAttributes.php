@@ -26,7 +26,7 @@ class RequestAttributes implements EventSubscriberInterface
      *
      * @param \Ibexa\Core\MVC\Symfony\View\Event\FilterViewBuilderParametersEvent $e
      */
-    public function addRequestAttributes(FilterViewBuilderParametersEvent $e)
+    public function addRequestAttributes(FilterViewBuilderParametersEvent $e): void
     {
         $parameterBag = $e->getParameters();
         $parameterBag->add($e->getRequest()->attributes->all());

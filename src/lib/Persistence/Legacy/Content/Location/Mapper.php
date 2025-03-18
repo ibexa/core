@@ -28,7 +28,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Location
      */
-    public function createLocationFromRow(array $data, $prefix = '', ?Location $location = null)
+    public function createLocationFromRow(array $data, string $prefix = '', ?Location $location = null)
     {
         $location = $location ?: new Location();
 
@@ -60,7 +60,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Location[]
      */
-    public function createLocationsFromRows(array $rows, $prefix = '', ?Location $location = null): array
+    public function createLocationsFromRows(array $rows, string $prefix = '', ?Location $location = null): array
     {
         $locations = [];
 
@@ -81,7 +81,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct
      */
-    public function getLocationCreateStruct(array $data)
+    public function getLocationCreateStruct(array $data): CreateStruct
     {
         $struct = new CreateStruct();
 

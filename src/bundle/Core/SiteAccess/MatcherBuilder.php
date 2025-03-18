@@ -15,8 +15,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilder as BaseMatcherBuilder;
  */
 final class MatcherBuilder extends BaseMatcherBuilder
 {
-    /** @var \Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface */
-    protected $siteAccessMatcherRegistry;
+    protected SiteAccessMatcherRegistryInterface $siteAccessMatcherRegistry;
 
     public function __construct(SiteAccessMatcherRegistryInterface $siteAccessMatcherRegistry)
     {

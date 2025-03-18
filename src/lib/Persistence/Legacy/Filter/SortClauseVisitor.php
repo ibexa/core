@@ -20,7 +20,7 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder;
 final class SortClauseVisitor implements FilteringSortClauseVisitor
 {
     /** @var \Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder[] */
-    private $sortClauseQueryBuilders;
+    private iterable $sortClauseQueryBuilders;
 
     /** @var \Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder[] */
     private static $queryBuildersForSortClauses = [];

@@ -14,11 +14,9 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupUpdateStr
 
 final class BeforeUpdateContentTypeGroupEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup */
-    private $contentTypeGroup;
+    private ContentTypeGroup $contentTypeGroup;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupUpdateStruct */
-    private $contentTypeGroupUpdateStruct;
+    private ContentTypeGroupUpdateStruct $contentTypeGroupUpdateStruct;
 
     public function __construct(ContentTypeGroup $contentTypeGroup, ContentTypeGroupUpdateStruct $contentTypeGroupUpdateStruct)
     {

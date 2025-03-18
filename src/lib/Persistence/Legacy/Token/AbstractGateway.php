@@ -18,7 +18,7 @@ abstract class AbstractGateway
         array $columns
     ): array {
         return array_map(
-            fn (string $column) => $this->getAliasedColumn($column, $alias),
+            fn (string $column): string => $this->getAliasedColumn($column, $alias),
             $columns
         );
     }

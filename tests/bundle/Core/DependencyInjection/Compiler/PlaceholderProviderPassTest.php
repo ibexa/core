@@ -30,7 +30,7 @@ class PlaceholderProviderPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new PlaceholderProviderPass());
     }
 
-    public function testAddProvider()
+    public function testAddProvider(): void
     {
         $definition = new Definition();
         $definition->addTag(PlaceholderProviderPass::TAG_NAME, ['type' => self::PROVIDER_TYPE]);
@@ -45,7 +45,7 @@ class PlaceholderProviderPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function testAddProviderWithoutType()
+    public function testAddProviderWithoutType(): void
     {
         $this->expectException(\LogicException::class);
 

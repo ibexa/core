@@ -19,14 +19,11 @@ final class ComplexConfigProcessor implements ConfigProcessor
 {
     private const DEFAULT_NAMESPACE = 'ibexa.site_access.config';
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService */
-    private $siteAccessService;
+    private SiteAccessService $siteAccessService;
 
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\ComplexSettings\ComplexSettingParserInterface */
-    private $complexSettingParser;
+    private ComplexSettingParser $complexSettingParser;
 
     public function __construct(
         ConfigResolverInterface $configResolver,

@@ -76,10 +76,10 @@ class UserPreferenceHandler extends AbstractInMemoryPersistenceHandler implement
                     return self::NOT_FOUND;
                 }
             },
-            static function () {
+            static function (): array {
                 return [];
             },
-            function () use ($userId, $name) {
+            function () use ($userId, $name): array {
                 return [
                     $this->cacheIdentifierGenerator->generateKey(
                         self::USER_PREFERENCE_WITH_SUFFIX_IDENTIFIER,

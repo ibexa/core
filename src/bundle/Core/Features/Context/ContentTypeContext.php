@@ -11,6 +11,8 @@ use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Exceptions as ApiExceptions;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup;
 use PHPUnit\Framework\Assert as Assertion;
 
 /**
@@ -28,8 +30,7 @@ class ContentTypeContext implements Context
      */
     public const DEFAULT_LANGUAGE = 'eng-GB';
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
-    protected $contentTypeService;
+    protected ContentTypeService $contentTypeService;
 
     public function __construct(ContentTypeService $contentTypeService)
     {
@@ -66,7 +67,7 @@ class ContentTypeContext implements Context
      * Makes sure a content type with $identifier does not exist.
      * If it exists deletes it.
      */
-    public function ensureContentTypeDoesntExist($identifier)
+    public function ensureContentTypeDoesntExist($identifier): void
     {
         $contentType = $this->loadContentTypeByIdentifier($identifier, false);
         if ($contentType) {
@@ -79,7 +80,7 @@ class ContentTypeContext implements Context
      *
      * Verifies that a content type with $identifier exists.
      */
-    public function assertContentTypeExistsByIdentifier($identifier)
+    public function assertContentTypeExistsByIdentifier($identifier): void
     {
         Assertion::assertTrue(
             $this->checkContentTypeExistenceByIdentifier($identifier),
@@ -92,7 +93,7 @@ class ContentTypeContext implements Context
      *
      * Verifies that a content type with $identifier does not exist.
      */
-    public function assertContentTypeDoesntExistsByIdentifier($identifier)
+    public function assertContentTypeDoesntExistsByIdentifier($identifier): void
     {
         Assertion::assertFalse(
             $this->checkContentTypeExistenceByIdentifier($identifier),
@@ -105,7 +106,7 @@ class ContentTypeContext implements Context
      *
      * Verifies that a content type with $identifier exists in group with identifier $groupIdentifier.
      */
-    public function assertContentTypeExistsByIdentifierOnGroup($identifier, $groupIdentifier)
+    public function assertContentTypeExistsByIdentifierOnGroup($identifier, $groupIdentifier): void
     {
         Assertion::assertTrue(
             $this->checkContentTypeExistenceByIdentifier($identifier, $groupIdentifier),
@@ -121,7 +122,7 @@ class ContentTypeContext implements Context
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup|null
      */
-    protected function loadContentTypeByIdentifier($identifier, $throwIfNotFound = true)
+    protected function loadContentTypeByIdentifier(string $identifier, $throwIfNotFound = true)
     {
         $contentType = null;
         try {
@@ -147,7 +148,7 @@ class ContentTypeContext implements Context
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
      */
-    public function createContentType($groupIdentifier, $identifier, $fields)
+    public function createContentType(string $groupIdentifier, string $identifier, $fields)
     {
         $contentTypeService = $this->contentTypeService;
         $contentTypeGroup = $contentTypeService->loadContentTypeGroupByIdentifier($groupIdentifier);
@@ -195,7 +196,7 @@ class ContentTypeContext implements Context
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
      */
-    protected function removeContentType($contentType)
+    protected function removeContentType(ContentType $contentType)
     {
         try {
             $this->contentTypeService->deleteContentType($contentType);
@@ -208,7 +209,7 @@ class ContentTypeContext implements Context
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup $contentTypeGroup
      */
-    protected function assignContentGroupTypeToContentType($contentType, $contentTypeGroup)
+    protected function assignContentGroupTypeToContentType(ContentType $contentType, ContentTypeGroup $contentTypeGroup)
     {
         try {
             $this->contentTypeService->assignContentTypeGroup($contentType, $contentTypeGroup);

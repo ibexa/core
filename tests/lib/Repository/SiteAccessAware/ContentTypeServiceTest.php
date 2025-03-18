@@ -33,7 +33,7 @@ class ContentTypeServiceTest extends AbstractServiceTest
         return ContentTypeService::class;
     }
 
-    public function providerForPassTroughMethods()
+    public function providerForPassTroughMethods(): array
     {
         $contentTypeGroupCreateStruct = new ContentTypeGroupCreateStruct();
         $contentTypeGroupUpdateStruct = new ContentTypeGroupUpdateStruct();
@@ -103,7 +103,7 @@ class ContentTypeServiceTest extends AbstractServiceTest
         ];
     }
 
-    public function providerForLanguagesLookupMethods()
+    public function providerForLanguagesLookupMethods(): array
     {
         $contentType = new ContentType();
         $contentTypeGroup = new ContentTypeGroup();

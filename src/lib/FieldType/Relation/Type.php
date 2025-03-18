@@ -8,6 +8,7 @@
 namespace Ibexa\Core\FieldType\Relation;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Contracts\Core\Persistence\Content\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
@@ -53,11 +54,9 @@ class Type extends FieldType implements TranslationContainerInterface
         ],
     ];
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler */
-    private $handler;
+    private Handler $handler;
 
-    /** @var \Ibexa\Core\Repository\Validator\TargetContentValidatorInterface */
-    private $targetContentValidator;
+    private TargetContentValidatorInterface $targetContentValidator;
 
     public function __construct(
         SPIContentHandler $handler,
@@ -67,7 +66,10 @@ class Type extends FieldType implements TranslationContainerInterface
         $this->targetContentValidator = $targetContentValidator;
     }
 
-    public function validateFieldSettings($fieldSettings)
+    /**
+     * @return \Ibexa\Core\FieldType\ValidationError[]
+     */
+    public function validateFieldSettings($fieldSettings): array
     {
         $validationErrors = [];
 
@@ -203,7 +205,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\Relation\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
@@ -296,7 +298,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return mixed
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): array
     {
         $destinationContentId = null;
         if ($value->destinationContentId !== null) {
@@ -343,7 +345,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *  )
      * </code>
      */
-    public function getRelations(SPIValue $fieldValue)
+    public function getRelations(SPIValue $fieldValue): array
     {
         $relations = [];
         if ($fieldValue->destinationContentId !== null) {

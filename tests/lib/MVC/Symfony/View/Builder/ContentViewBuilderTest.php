@@ -25,6 +25,7 @@ use Ibexa\Core\Repository\Repository;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -37,25 +38,25 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class ContentViewBuilderTest extends TestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\Repository|\PHPUnit\Framework\MockObject\MockObject */
-    private $repository;
+    private MockObject $repository;
 
     /** @var \Ibexa\Core\MVC\Symfony\View\Configurator|\PHPUnit\Framework\MockObject\MockObject */
-    private $viewConfigurator;
+    private MockObject $viewConfigurator;
 
     /** @var \Ibexa\Core\MVC\Symfony\View\ParametersInjector|\PHPUnit\Framework\MockObject\MockObject */
-    private $parametersInjector;
+    private MockObject $parametersInjector;
 
     /** @var \Ibexa\Core\Helper\ContentInfoLocationLoader|\PHPUnit\Framework\MockObject\MockObject */
-    private $contentInfoLocationLoader;
+    private MockObject $contentInfoLocationLoader;
 
     /** @var \Ibexa\Core\MVC\Symfony\View\Builder\ContentViewBuilder|\PHPUnit\Framework\MockObject\MockObject */
-    private $contentViewBuilder;
+    private ContentViewBuilder $contentViewBuilder;
 
     /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject */
-    private $permissionResolver;
+    private MockObject $permissionResolver;
 
     /** @var \Symfony\Component\HttpFoundation\RequestStack|\PHPUnit\Framework\MockObject\MockObject */
-    private $requestStack;
+    private MockObject $requestStack;
 
     protected function setUp(): void
     {

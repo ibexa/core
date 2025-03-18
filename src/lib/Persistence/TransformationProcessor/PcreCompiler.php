@@ -19,10 +19,8 @@ class PcreCompiler
 {
     /**
      * Class for converting UTF-8 characters.
-     *
-     * @var \Ibexa\Core\Persistence\Utf8Converter
      */
-    protected $converter;
+    protected Utf8Converter $converter;
 
     /**
      * Construct from UTF8Converter.
@@ -45,7 +43,7 @@ class PcreCompiler
      *
      * @return array
      */
-    public function compile(array $ast)
+    public function compile(array $ast): array
     {
         $transformations = [];
 
@@ -92,7 +90,7 @@ class PcreCompiler
      *
      * @return array
      */
-    protected function compileMap(array $rule)
+    protected function compileMap(array $rule): array
     {
         return [
             'regexp' => '(' . preg_quote($this->compileCharacter($rule['data']['src'])) . ')us',
@@ -107,7 +105,7 @@ class PcreCompiler
      *
      * @return array
      */
-    protected function compileReplace(array $rule)
+    protected function compileReplace(array $rule): array
     {
         return [
             'regexp' => '([' .
@@ -125,7 +123,7 @@ class PcreCompiler
      *
      * @return array
      */
-    protected function compileTranspose(array $rule)
+    protected function compileTranspose(array $rule): array
     {
         return [
             'regexp' => '([' .
@@ -143,7 +141,7 @@ class PcreCompiler
      *
      * @return array
      */
-    protected function compileTransposeModulo(array $rule)
+    protected function compileTransposeModulo(array $rule): array
     {
         return [
             'regexp' => '([' .
@@ -235,7 +233,7 @@ class PcreCompiler
                     substr($char, 1, -1)
                 );
 
-                return static function ($matches) use ($string) {
+                return static function ($matches) use ($string): array|string {
                     return $string;
                 };
 

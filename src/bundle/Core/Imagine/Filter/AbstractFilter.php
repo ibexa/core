@@ -12,15 +12,14 @@ namespace Ibexa\Bundle\Core\Imagine\Filter;
  */
 abstract class AbstractFilter implements FilterInterface
 {
-    /** @var array */
-    private $options;
+    private array $options;
 
     public function __construct(array $options = [])
     {
         $this->options = $options;
     }
 
-    public function setOption($optionName, $value)
+    public function setOption($optionName, $value): void
     {
         $this->options[$optionName] = $value;
     }
@@ -35,7 +34,7 @@ abstract class AbstractFilter implements FilterInterface
         return isset($this->options[$optionName]);
     }
 
-    public function setOptions(array $options)
+    public function setOptions(array $options): void
     {
         $this->options = $options;
     }

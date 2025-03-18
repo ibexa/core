@@ -18,7 +18,7 @@ trait ValueObjectTestTrait
      * @param mixed[] $expectedValues
      * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $actualValueObject
      */
-    public function assertPropertiesCorrect(array $expectedValues, ValueObject $actualValueObject)
+    public function assertPropertiesCorrect(array $expectedValues, ValueObject $actualValueObject): void
     {
         foreach ($expectedValues as $propertyName => $propertyValue) {
             self::assertSame(

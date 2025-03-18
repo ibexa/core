@@ -19,12 +19,12 @@ class LegacyDFSCluster implements ConfigurationFactory
         return \Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster::class;
     }
 
-    public function configureHandler(ServiceDefinition $definition, array $config)
+    public function configureHandler(ServiceDefinition $definition, array $config): void
     {
         $definition->replaceArgument(0, new Reference($config['connection']));
     }
 
-    public function addConfiguration(ArrayNodeDefinition $node)
+    public function addConfiguration(ArrayNodeDefinition $node): void
     {
         $node
             ->info(

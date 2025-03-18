@@ -17,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewObjectStateLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewObjectStateLimitation as APINewObjectStateLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
@@ -38,7 +39,7 @@ class NewObjectStateLimitationType extends AbstractPersistenceLimitationType imp
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
      */
-    public function acceptValue(APILimitationValue $limitationValue)
+    public function acceptValue(APILimitationValue $limitationValue): void
     {
         if (!$limitationValue instanceof APINewObjectStateLimitation) {
             throw new InvalidArgumentType('$limitationValue', 'NewObjectStateLimitation', $limitationValue);
@@ -62,7 +63,7 @@ class NewObjectStateLimitationType extends AbstractPersistenceLimitationType imp
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(APILimitationValue $limitationValue)
+    public function validate(APILimitationValue $limitationValue): array
     {
         $validationErrors = [];
         foreach ($limitationValue->limitationValues as $key => $id) {
@@ -90,7 +91,7 @@ class NewObjectStateLimitationType extends AbstractPersistenceLimitationType imp
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
      */
-    public function buildValue(array $limitationValues)
+    public function buildValue(array $limitationValues): NewObjectStateLimitation
     {
         return new APINewObjectStateLimitation(['limitationValues' => $limitationValues]);
     }
@@ -151,7 +152,7 @@ class NewObjectStateLimitationType extends AbstractPersistenceLimitationType imp
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
      */
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser)
+    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser): never
     {
         throw new NotImplementedException(__METHOD__);
     }
@@ -162,7 +163,7 @@ class NewObjectStateLimitationType extends AbstractPersistenceLimitationType imp
      * @return mixed[]|int In case of array, a hash with key as valid limitations value and value as human readable name
      *                     of that option, in case of int on of VALUE_SCHEMA_ constants.
      */
-    public function valueSchema()
+    public function valueSchema(): never
     {
         throw new NotImplementedException(__METHOD__);
     }

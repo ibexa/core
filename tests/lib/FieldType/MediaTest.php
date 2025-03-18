@@ -9,7 +9,9 @@ namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\BinaryFile\Value as BinaryFileValue;
+use Ibexa\Core\FieldType\Media\Type;
 use Ibexa\Core\FieldType\Media\Type as MediaType;
+use Ibexa\Core\FieldType\Media\Value;
 use Ibexa\Core\FieldType\Media\Value as MediaValue;
 use Ibexa\Core\FieldType\ValidationError;
 
@@ -30,7 +32,7 @@ class MediaTest extends BinaryBaseTest
      *
      * @return \Ibexa\Core\FieldType\FieldType
      */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): Type
     {
         $fieldType = new MediaType([$this->getBlackListValidatorMock()]);
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
@@ -38,12 +40,12 @@ class MediaTest extends BinaryBaseTest
         return $fieldType;
     }
 
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): Value
     {
         return new MediaValue();
     }
 
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [
             'mediaType' => [
@@ -53,7 +55,7 @@ class MediaTest extends BinaryBaseTest
         ];
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): array
     {
         $baseInput = parent::provideInvalidInputForAcceptValue();
         $binaryFileInput = [
@@ -86,7 +88,7 @@ class MediaTest extends BinaryBaseTest
         return array_merge($baseInput, $binaryFileInput);
     }
 
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): array
     {
         return [
             [
@@ -320,7 +322,7 @@ class MediaTest extends BinaryBaseTest
      *
      * @return array
      */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): array
     {
         return [
             [
@@ -490,7 +492,7 @@ class MediaTest extends BinaryBaseTest
      *
      * @return array
      */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): array
     {
         return [
             [
@@ -605,7 +607,7 @@ class MediaTest extends BinaryBaseTest
      *
      * @return array
      */
-    public function provideValidFieldSettings()
+    public function provideValidFieldSettings(): array
     {
         return [
             [
@@ -647,7 +649,7 @@ class MediaTest extends BinaryBaseTest
      *
      * @return array
      */
-    public function provideInValidFieldSettings()
+    public function provideInValidFieldSettings(): array
     {
         return [
             [
@@ -687,7 +689,7 @@ class MediaTest extends BinaryBaseTest
         ];
     }
 
-    public function provideValidDataForValidate()
+    public function provideValidDataForValidate(): array
     {
         return [
             [
@@ -711,7 +713,7 @@ class MediaTest extends BinaryBaseTest
         ];
     }
 
-    public function provideInvalidDataForValidate()
+    public function provideInvalidDataForValidate(): array
     {
         return [
             // File is too large

@@ -20,7 +20,7 @@ class RolePolicyLimitationTest extends BaseLimitationTest
     /**
      * Data provider for {@see testRolePoliciesWithOverlappingLimitations}.
      */
-    public function providerForTestRolePoliciesWithOverlappingLimitations()
+    public function providerForTestRolePoliciesWithOverlappingLimitations(): array
     {
         // get actual locations count for the given subtree when user is (by default) an admin
         $actualSubtreeLocationsCount = $this->getSubtreeLocationsCount('/1/2/');
@@ -45,10 +45,10 @@ class RolePolicyLimitationTest extends BaseLimitationTest
      * @param string $widePolicyFunction
      */
     public function testRolePoliciesWithOverlappingLimitations(
-        $expectedSubtreeLocationsCount,
-        $widePolicyModule,
-        $widePolicyFunction
-    ) {
+        ?int $expectedSubtreeLocationsCount,
+        string $widePolicyModule,
+        string $widePolicyFunction
+    ): void {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
         $permissionResolver = $repository->getPermissionResolver();
@@ -104,7 +104,7 @@ class RolePolicyLimitationTest extends BaseLimitationTest
      *
      * @return int|null
      */
-    protected function getSubtreeLocationsCount($subtreePathString)
+    protected function getSubtreeLocationsCount($subtreePathString): ?int
     {
         $criterion = new Criterion\Subtree($subtreePathString);
         $query = new LocationQuery(['filter' => $criterion]);
@@ -152,7 +152,7 @@ class RolePolicyLimitationTest extends BaseLimitationTest
      * @param string $function
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation[] $limitations
      */
-    protected function addPolicyToNewRole(RoleCreateStruct $roleCreateStruct, $module, $function, array $limitations)
+    protected function addPolicyToNewRole(RoleCreateStruct $roleCreateStruct, string $module, string $function, array $limitations)
     {
         $roleService = $this->getRepository()->getRoleService();
         $policyCreateStruct = $roleService->newPolicyCreateStruct($module, $function);
@@ -171,7 +171,7 @@ class RolePolicyLimitationTest extends BaseLimitationTest
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroup
      */
-    protected function createGroup($groupName, $mainLanguageCode, $parentGroupId)
+    protected function createGroup($groupName, string $mainLanguageCode, int $parentGroupId): UserGroup
     {
         $userService = $this->getRepository()->getUserService();
 

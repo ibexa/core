@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class ComplexSettingValueResolverTest extends TestCase
 {
-    public function testGetArgumentValue()
+    public function testGetArgumentValue(): void
     {
         $resolver = new ComplexSettingValueResolver();
         self::assertEquals(

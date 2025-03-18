@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion;
 final class CriteriaConverter
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriterionHandler[] */
-    private $handlers;
+    private iterable $handlers;
 
     /**
      * @param \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriterionHandler[] $handlers

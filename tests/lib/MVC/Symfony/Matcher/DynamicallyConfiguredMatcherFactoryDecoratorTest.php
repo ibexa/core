@@ -11,15 +11,16 @@ use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
 use Ibexa\Core\MVC\Symfony\Matcher\ClassNameMatcherFactory;
 use Ibexa\Core\MVC\Symfony\Matcher\DynamicallyConfiguredMatcherFactoryDecorator;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class DynamicallyConfiguredMatcherFactoryDecoratorTest extends TestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ConfigurableMatcherFactoryInterface */
-    private $innerMatcherFactory;
+    private MockObject $innerMatcherFactory;
 
     /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private MockObject $configResolver;
 
     public function setUp(): void
     {
@@ -33,7 +34,7 @@ class DynamicallyConfiguredMatcherFactoryDecoratorTest extends TestCase
     /**
      * @dataProvider matchConfigProvider
      */
-    public function testMatch($parameterName, $namespace, $scope, $viewsConfiguration, $matchedConfig): void
+    public function testMatch(string $parameterName, $namespace, $scope, array $viewsConfiguration, array $matchedConfig): void
     {
         $view = $this->createMock(ContentView::class);
         $this->configResolver->expects(self::atLeastOnce())->method('getParameter')->with(

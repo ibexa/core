@@ -8,7 +8,9 @@
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\EmailAddress\Type;
 use Ibexa\Core\FieldType\EmailAddress\Type as EmailAddressType;
+use Ibexa\Core\FieldType\EmailAddress\Value;
 use Ibexa\Core\FieldType\EmailAddress\Value as EmailAddressValue;
 use Ibexa\Core\FieldType\ValidationError;
 
@@ -29,7 +31,7 @@ class EmailAddressTest extends FieldTypeTest
      *
      * @return \Ibexa\Core\FieldType\FieldType
      */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): Type
     {
         $transformationProcessorMock = $this->getTransformationProcessorMock();
 
@@ -55,7 +57,7 @@ class EmailAddressTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getValidatorConfigurationSchemaExpectation()
+    protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [
             'EmailAddressValidator' => [],
@@ -67,7 +69,7 @@ class EmailAddressTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [];
     }
@@ -75,12 +77,12 @@ class EmailAddressTest extends FieldTypeTest
     /**
      * Returns the empty value expected from the field type.
      */
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): Value
     {
         return new EmailAddressValue();
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): array
     {
         return [
             [
@@ -123,7 +125,7 @@ class EmailAddressTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): array
     {
         return [
             [
@@ -176,7 +178,7 @@ class EmailAddressTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): array
     {
         return [
             [
@@ -225,7 +227,7 @@ class EmailAddressTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): array
     {
         return [
             [
@@ -271,7 +273,7 @@ class EmailAddressTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidValidatorConfiguration()
+    public function provideValidValidatorConfiguration(): array
     {
         return [
             [
@@ -334,7 +336,7 @@ class EmailAddressTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInvalidValidatorConfiguration()
+    public function provideInvalidValidatorConfiguration(): array
     {
         return [
             [
@@ -424,7 +426,7 @@ class EmailAddressTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidDataForValidate()
+    public function provideValidDataForValidate(): array
     {
         return [
             [
@@ -500,7 +502,7 @@ class EmailAddressTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInvalidDataForValidate()
+    public function provideInvalidDataForValidate(): array
     {
         return [
             [

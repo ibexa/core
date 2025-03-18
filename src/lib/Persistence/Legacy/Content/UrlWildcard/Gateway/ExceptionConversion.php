@@ -22,10 +22,8 @@ final class ExceptionConversion extends Gateway
 {
     /**
      * The wrapped gateway.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway
      */
-    private $innerGateway;
+    private Gateway $innerGateway;
 
     /**
      * Create a new exception conversion gateway around $innerGateway.

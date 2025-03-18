@@ -33,10 +33,8 @@ class FieldNameGenerator
      *      ...
      *  )
      * </code>
-     *
-     * @var array
      */
-    protected $fieldNameMapping;
+    protected array $fieldNameMapping;
 
     public function __construct(array $fieldNameMapping)
     {

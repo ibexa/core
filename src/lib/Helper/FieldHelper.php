@@ -12,11 +12,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 
 class FieldHelper
 {
-    /** @var \Ibexa\Contracts\Core\Repository\FieldTypeService */
-    private $fieldTypeService;
+    private FieldTypeService $fieldTypeService;
 
-    /** @var TranslationHelper */
-    private $translationHelper;
+    private TranslationHelper $translationHelper;
 
     public function __construct(TranslationHelper $translationHelper, FieldTypeService $fieldTypeService)
     {
@@ -33,7 +31,7 @@ class FieldHelper
      *
      * @return bool
      */
-    public function isFieldEmpty(Content $content, $fieldDefIdentifier, $forcedLanguage = null)
+    public function isFieldEmpty(Content $content, $fieldDefIdentifier, $forcedLanguage = null): bool
     {
         $field = $this->translationHelper->getTranslatedField($content, $fieldDefIdentifier, $forcedLanguage);
         $fieldDefinition = $content->getContentType()->getFieldDefinition($fieldDefIdentifier);

@@ -18,11 +18,9 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
  */
 class Handler implements HandlerInterface
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\URL\Gateway */
-    private $urlGateway;
+    private Gateway $urlGateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\URL\Mapper */
-    private $urlMapper;
+    private Mapper $urlMapper;
 
     /**
      * Handler constructor.
@@ -54,7 +52,7 @@ class Handler implements HandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function find(URLQuery $query)
+    public function find(URLQuery $query): array
     {
         $results = $this->urlGateway->find(
             $query->filter,

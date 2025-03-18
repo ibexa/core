@@ -31,7 +31,7 @@ class Value extends BaseValue
         $this->selection = $selection;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return implode(',', $this->selection);
     }

@@ -18,8 +18,7 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 
 final class SerializableConverter implements ConverterInterface
 {
-    /** @var \Ibexa\Contracts\Core\FieldType\ValueSerializerInterface */
-    private $serializer;
+    private ValueSerializerInterface $serializer;
 
     public function __construct(ValueSerializerInterface $serializer)
     {

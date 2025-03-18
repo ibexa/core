@@ -23,6 +23,7 @@ use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -33,13 +34,13 @@ use Psr\Log\LoggerInterface;
 class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService|\PHPUnit\Framework\MockObject\MockObject */
-    private $fieldHelperMock;
+    private ?MockObject $fieldHelperMock = null;
 
     /** @var array<int, \Ibexa\Core\Repository\Values\ContentType\FieldDefinition[]> */
-    private $fieldDefinitions = [];
+    private array $fieldDefinitions = [];
 
     /** @var int[] */
-    private $identityMap = [];
+    private array $identityMap = [];
 
     public function getExtensions()
     {
@@ -75,7 +76,7 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
      *
      * @return \Ibexa\Core\Repository\Values\Content\Content
      */
-    protected function getContent(string $contentTypeIdentifier, array $fieldsData, array $namesData = [])
+    protected function getContent(string $contentTypeIdentifier, array $fieldsData, array $namesData = []): Content
     {
         if (!array_key_exists($contentTypeIdentifier, $this->identityMap)) {
             $this->identityMap[$contentTypeIdentifier] = count($this->identityMap) + 1;
@@ -142,7 +143,7 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
         return $mock;
     }
 
-    private function getConfigResolverMock()
+    private function getConfigResolverMock(): MockObject
     {
         $mock = $this->createMock(ConfigResolverInterface::class);
         // Signature: ConfigResolverInterface->getParameter( $paramName, $namespace = null, $scope = null )
@@ -174,7 +175,7 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
         return $fieldsGroupsList;
     }
 
-    protected function getField($isEmpty)
+    protected function getField($isEmpty): Field
     {
         $field = new Field(['fieldDefIdentifier' => 'testfield', 'value' => null]);
 
@@ -189,7 +190,7 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getRepositoryMock()
+    protected function getRepositoryMock(): MockObject
     {
         $mock = $this->createMock(Repository::class);
 
@@ -203,7 +204,7 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getContentTypeServiceMock()
+    protected function getContentTypeServiceMock(): MockObject
     {
         $mock = $this->createMock(ContentTypeService::class);
 
@@ -211,7 +212,7 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
             ->method('loadContentType')
             ->will(
                 self::returnCallback(
-                    function ($contentTypeId) {
+                    function ($contentTypeId): ContentType {
                         return new ContentType(
                             [
                                 'identifier' => $contentTypeId,

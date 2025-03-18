@@ -36,12 +36,12 @@ class LocationEventSubscriber extends AbstractSearchEventSubscriber implements E
         ];
     }
 
-    public function onCopySubtree(CopySubtreeEvent $event)
+    public function onCopySubtree(CopySubtreeEvent $event): void
     {
         $this->indexSubtree($event->getLocation()->id);
     }
 
-    public function onCreateLocation(CreateLocationEvent $event)
+    public function onCreateLocation(CreateLocationEvent $event): void
     {
         $contentInfo = $this->persistenceHandler->contentHandler()->loadContentInfo(
             $event->getContentInfo()->id
@@ -61,7 +61,7 @@ class LocationEventSubscriber extends AbstractSearchEventSubscriber implements E
         );
     }
 
-    public function onDeleteLocation(DeleteLocationEvent $event)
+    public function onDeleteLocation(DeleteLocationEvent $event): void
     {
         $this->searchHandler->deleteLocation(
             $event->getLocation()->id,
@@ -69,24 +69,24 @@ class LocationEventSubscriber extends AbstractSearchEventSubscriber implements E
         );
     }
 
-    public function onHideLocation(HideLocationEvent $event)
+    public function onHideLocation(HideLocationEvent $event): void
     {
         $this->indexSubtree($event->getHiddenLocation()->id);
     }
 
-    public function onMoveSubtree(MoveSubtreeEvent $event)
+    public function onMoveSubtree(MoveSubtreeEvent $event): void
     {
         $this->indexSubtree($event->getLocation()->id);
     }
 
-    public function onSwapLocation(SwapLocationEvent $event)
+    public function onSwapLocation(SwapLocationEvent $event): void
     {
         $locations = [
             $event->getLocation1(),
             $event->getLocation2(),
         ];
 
-        array_walk($locations, function (Location $location) {
+        array_walk($locations, function (Location $location): void {
             $contentInfo = $this->persistenceHandler->contentHandler()->loadContentInfo($location->contentId);
 
             $this->searchHandler->indexContent(
@@ -102,12 +102,12 @@ class LocationEventSubscriber extends AbstractSearchEventSubscriber implements E
         });
     }
 
-    public function onUnhideLocation(UnhideLocationEvent $event)
+    public function onUnhideLocation(UnhideLocationEvent $event): void
     {
         $this->indexSubtree($event->getRevealedLocation()->id);
     }
 
-    public function onUpdateLocation(UpdateLocationEvent $event)
+    public function onUpdateLocation(UpdateLocationEvent $event): void
     {
         $contentInfo = $this->persistenceHandler->contentHandler()->loadContentInfo(
             $event->getLocation()->contentId

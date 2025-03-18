@@ -74,7 +74,7 @@ class RouterURIElement2Test extends RouterBaseTest
      *
      * @dataProvider analyseProvider
      */
-    public function testAnalyseURI($level, $uri, $expectedFixedUpURI)
+    public function testAnalyseURI(int $level, string $uri, string $expectedFixedUpURI): void
     {
         $matcher = new URIElementMatcher([$level]);
         $matcher->setRequest(
@@ -90,7 +90,7 @@ class RouterURIElement2Test extends RouterBaseTest
      *
      * @dataProvider analyseProvider
      */
-    public function testAnalyseURILevelAsInt($level, $uri, $expectedFixedUpURI)
+    public function testAnalyseURILevelAsInt(int $level, string $uri, string $expectedFixedUpURI): void
     {
         $matcher = new URIElementMatcher($level);
         $matcher->setRequest(
@@ -106,7 +106,7 @@ class RouterURIElement2Test extends RouterBaseTest
      *
      * @dataProvider analyseProvider
      */
-    public function testAnalyseLink($level, $fullUri, $linkUri)
+    public function testAnalyseLink(int $level, string $fullUri, string $linkUri): void
     {
         $matcher = new URIElementMatcher([$level]);
         $matcher->setRequest(
@@ -115,7 +115,7 @@ class RouterURIElement2Test extends RouterBaseTest
         self::assertSame($fullUri, $matcher->analyseLink($linkUri));
     }
 
-    public function analyseProvider()
+    public function analyseProvider(): array
     {
         return [
             [2, '/my/siteaccess/foo/bar', '/foo/bar'],
@@ -136,7 +136,7 @@ class RouterURIElement2Test extends RouterBaseTest
     /**
      * @dataProvider reverseMatchProvider
      */
-    public function testReverseMatch($siteAccessName, $originalPathinfo)
+    public function testReverseMatch(string $siteAccessName, string $originalPathinfo): void
     {
         $expectedSiteAccessPath = str_replace('_', '/', $siteAccessName);
         $matcher = new URIElementMatcher([2]);
@@ -149,7 +149,7 @@ class RouterURIElement2Test extends RouterBaseTest
         self::assertSame('/foo/bar/baz', $result->analyseURI("/$expectedSiteAccessPath/foo/bar/baz"));
     }
 
-    public function reverseMatchProvider()
+    public function reverseMatchProvider(): array
     {
         return [
             ['some_thing', '/foo/bar'],
@@ -157,14 +157,14 @@ class RouterURIElement2Test extends RouterBaseTest
         ];
     }
 
-    public function testReverseMatchFail()
+    public function testReverseMatchFail(): void
     {
         $matcher = new URIElementMatcher([2]);
         $matcher->setRequest(new SimplifiedRequest('http', '', 80, '/my/siteaccess/foo/bar'));
         self::assertNull($matcher->reverseMatch('another_siteaccess_again_dont_tell_me'));
     }
 
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $matcher = new URIElementMatcher([2]);
         $matcher->setRequest(new SimplifiedRequest('http', '', 80, '/foo/bar'));

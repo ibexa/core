@@ -18,7 +18,7 @@ use Ibexa\Contracts\Core\Search;
  */
 class SearchField implements Indexable
 {
-    public function getIndexData(Field $field, FieldDefinition $fieldDefinition)
+    public function getIndexData(Field $field, FieldDefinition $fieldDefinition): array
     {
         if ($field->value->data !== null) {
             $dateTime = new DateTime("@{$field->value->data['timestamp']}");
@@ -37,7 +37,7 @@ class SearchField implements Indexable
         ];
     }
 
-    public function getIndexDefinition()
+    public function getIndexDefinition(): array
     {
         return [
             'value' => new Search\FieldType\DateField(),
@@ -67,7 +67,7 @@ class SearchField implements Indexable
      *
      * @return string
      */
-    public function getDefaultSortField()
+    public function getDefaultSortField(): string
     {
         return $this->getDefaultMatchField();
     }

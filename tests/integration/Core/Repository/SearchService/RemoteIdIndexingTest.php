@@ -16,7 +16,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 final class RemoteIdIndexingTest extends BaseTest
 {
     /** @var int[] */
-    private static $contentIdByRemoteIdIndex = [];
+    private static array $contentIdByRemoteIdIndex = [];
 
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException

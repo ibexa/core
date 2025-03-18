@@ -25,7 +25,7 @@ class ObjectStateGroupTest extends TestCase
     /**
      * Test a new class and default values on properties.
      */
-    public function testNewClass()
+    public function testNewClass(): void
     {
         $objectStateGroup = new ObjectStateGroup();
 
@@ -47,7 +47,7 @@ class ObjectStateGroupTest extends TestCase
      *
      * @return \Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup
      */
-    public function testNewClassWithMultiLanguageProperties()
+    public function testNewClassWithMultiLanguageProperties(): ObjectStateGroup
     {
         $properties = [
             'names' => [
@@ -77,7 +77,7 @@ class ObjectStateGroupTest extends TestCase
      *
      * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::__get
      */
-    public function testMissingProperty()
+    public function testMissingProperty(): void
     {
         $this->expectException(PropertyNotFoundException::class);
 
@@ -91,7 +91,7 @@ class ObjectStateGroupTest extends TestCase
      *
      * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::__set
      */
-    public function testReadOnlyProperty()
+    public function testReadOnlyProperty(): void
     {
         $this->expectException(PropertyReadOnlyException::class);
 
@@ -103,7 +103,7 @@ class ObjectStateGroupTest extends TestCase
     /**
      * Test if property exists.
      */
-    public function testIsPropertySet()
+    public function testIsPropertySet(): void
     {
         $objectStateGroup = new ObjectStateGroup();
         $value = isset($objectStateGroup->notDefined);
@@ -118,7 +118,7 @@ class ObjectStateGroupTest extends TestCase
      *
      * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::__unset
      */
-    public function testUnsetProperty()
+    public function testUnsetProperty(): void
     {
         $this->expectException(PropertyReadOnlyException::class);
 

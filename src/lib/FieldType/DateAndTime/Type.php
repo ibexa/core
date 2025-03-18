@@ -75,7 +75,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\DateAndTime\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
@@ -129,7 +129,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return int|null
      */
-    protected function getSortInfo(BaseValue $value)
+    protected function getSortInfo(BaseValue $value): ?int
     {
         if ($value->value === null) {
             return null;
@@ -172,7 +172,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return mixed
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): ?array
     {
         if ($this->isEmptyValue($value)) {
             return null;
@@ -208,7 +208,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings($fieldSettings): array
     {
         $validationErrors = [];
 

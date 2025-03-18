@@ -20,8 +20,7 @@ class LocaleParameterProvider implements ParameterProviderInterface
 {
     use RequestStackAware;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface */
-    protected $localeConverter;
+    protected LocaleConverterInterface $localeConverter;
 
     public function __construct(LocaleConverterInterface $localeConverter)
     {
@@ -38,7 +37,7 @@ class LocaleParameterProvider implements ParameterProviderInterface
      *
      * @return array
      */
-    public function getViewParameters(Field $field)
+    public function getViewParameters(Field $field): array
     {
         $parameters = [];
 

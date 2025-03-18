@@ -19,14 +19,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 final class ArrayTranslatorFieldsGroupsList implements FieldsGroupsList
 {
-    /** @var array */
-    private $groups;
+    private array $groups;
 
-    /** @var string */
-    private $defaultGroup;
+    private string $defaultGroup;
 
-    /** @var \Symfony\Contracts\Translation\TranslatorInterface */
-    private $translator;
+    private TranslatorInterface $translator;
 
     public function __construct(TranslatorInterface $translator, string $defaultGroup, array $groups)
     {
@@ -35,7 +32,10 @@ final class ArrayTranslatorFieldsGroupsList implements FieldsGroupsList
         $this->translator = $translator;
     }
 
-    public function getGroups()
+    /**
+     * @return mixed[]
+     */
+    public function getGroups(): array
     {
         $translatedGroups = [];
 

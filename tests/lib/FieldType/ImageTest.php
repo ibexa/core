@@ -10,11 +10,14 @@ namespace Ibexa\Tests\Core\FieldType;
 use Ibexa\Contracts\Core\IO\MimeTypeDetector;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\Image\Type;
 use Ibexa\Core\FieldType\Image\Type as ImageType;
+use Ibexa\Core\FieldType\Image\Value;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator;
 use Ibexa\Core\FieldType\Validator\ImageValidator;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @group fieldType
@@ -66,7 +69,7 @@ class ImageTest extends FieldTypeTest
      *
      * @return \Ibexa\Core\FieldType\FieldType
      */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): Type
     {
         $fieldType = new ImageType(
             [
@@ -80,7 +83,7 @@ class ImageTest extends FieldTypeTest
         return $fieldType;
     }
 
-    private function getBlackListValidatorMock()
+    private function getBlackListValidatorMock(): MockObject
     {
         return $this
             ->getMockBuilder(FileExtensionBlackListValidator::class)
@@ -91,7 +94,7 @@ class ImageTest extends FieldTypeTest
             ->getMock();
     }
 
-    private function getImageValidatorMock()
+    private function getImageValidatorMock(): MockObject
     {
         return $this
             ->getMockBuilder(ImageValidator::class)
@@ -99,7 +102,7 @@ class ImageTest extends FieldTypeTest
             ->getMock();
     }
 
-    private function getConfigResolverMock()
+    private function getConfigResolverMock(): MockObject
     {
         $configResolver = $this
             ->createMock(ConfigResolverInterface::class);
@@ -117,7 +120,7 @@ class ImageTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getValidatorConfigurationSchemaExpectation()
+    protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [
             'FileSizeValidator' => [
@@ -140,7 +143,7 @@ class ImageTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [
             'mimeTypes' => [
@@ -155,12 +158,12 @@ class ImageTest extends FieldTypeTest
      *
      * @return \Ibexa\Core\FieldType\Image\Value
      */
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): Value
     {
         return new ImageValue();
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): array
     {
         return [
             [
@@ -237,7 +240,7 @@ class ImageTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): array
     {
         return [
             [
@@ -333,7 +336,7 @@ class ImageTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): array
     {
         return [
             [
@@ -432,7 +435,7 @@ class ImageTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): array
     {
         return [
             [
@@ -566,7 +569,7 @@ class ImageTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidDataForValidate()
+    public function provideValidDataForValidate(): array
     {
         return [
             [
@@ -654,7 +657,7 @@ class ImageTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInvalidDataForValidate()
+    public function provideInvalidDataForValidate(): array
     {
         return [
             'file is too large' => [

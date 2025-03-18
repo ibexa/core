@@ -21,17 +21,14 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class ViewControllerListener implements EventSubscriberInterface
 {
-    /** @var \Symfony\Component\HttpKernel\Controller\ControllerResolverInterface */
-    private $controllerResolver;
+    private ControllerResolverInterface $controllerResolver;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilderRegistry */
-    private $viewBuilderRegistry;
+    private ViewBuilderRegistry $viewBuilderRegistry;
 
     /** @var \Symfony\Component\EventDispatcher\EventDispatcher */
-    private $eventDispatcher;
+    private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         ControllerResolverInterface $controllerResolver,
@@ -57,7 +54,7 @@ class ViewControllerListener implements EventSubscriberInterface
      *
      * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
      */
-    public function getController(ControllerEvent $event)
+    public function getController(ControllerEvent $event): void
     {
         $request = $event->getRequest();
 

@@ -22,8 +22,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\SectionUpdateStruct;
  */
 class SectionService implements SectionServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\SectionService */
-    protected $service;
+    protected SectionServiceInterface $service;
 
     /**
      * Construct service object from aggregated service.

@@ -33,11 +33,9 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  */
 class ContentService implements ContentServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    protected $service;
+    protected ContentServiceInterface $service;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
-    protected $languageResolver;
+    protected LanguageResolver $languageResolver;
 
     /**
      * Construct service object from aggregated service and LanguageResolver.

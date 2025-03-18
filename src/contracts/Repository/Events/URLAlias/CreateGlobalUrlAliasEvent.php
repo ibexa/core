@@ -23,8 +23,7 @@ final class CreateGlobalUrlAliasEvent extends AfterEvent
 
     private $alwaysAvailable;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias */
-    private $urlAlias;
+    private URLAlias $urlAlias;
 
     public function __construct(
         URLAlias $urlAlias,

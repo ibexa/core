@@ -8,6 +8,7 @@
 namespace Ibexa\Core\Persistence\Legacy\Content\UrlAlias;
 
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias;
+use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 
 /**
@@ -17,10 +18,8 @@ class Mapper
 {
     /**
      * Language mask generator.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
      */
-    protected $languageMaskGenerator;
+    protected MaskGenerator $languageMaskGenerator;
 
     /**
      * Creates a new UrlWildcard Handler.
@@ -39,7 +38,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\UrlAlias
      */
-    public function extractUrlAliasFromData($data)
+    public function extractUrlAliasFromData($data): UrlAlias
     {
         $urlAlias = new UrlAlias();
 
@@ -64,7 +63,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\UrlAlias[]
      */
-    public function extractUrlAliasListFromData(array $rows)
+    public function extractUrlAliasListFromData(array $rows): array
     {
         $urlAliases = [];
         foreach ($rows as $row) {
@@ -103,7 +102,7 @@ class Mapper
      *
      * @return array
      */
-    protected function matchTypeAndDestination($action)
+    protected function matchTypeAndDestination($action): array
     {
         if (preg_match('#^([a-zA-Z0-9_]+):(.+)?$#', $action, $matches)) {
             $actionType = $matches[1];
@@ -142,7 +141,7 @@ class Mapper
      *
      * @return array
      */
-    protected function normalizePathData(array $pathData)
+    protected function normalizePathData(array $pathData): array
     {
         $normalizedPathData = [];
         foreach ($pathData as $level => $rows) {

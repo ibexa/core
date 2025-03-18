@@ -18,7 +18,7 @@ use IteratorAggregate;
 final class RangeAggregationResult extends AggregationResult implements IteratorAggregate, Countable
 {
     /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\RangeAggregationResultEntry[] */
-    private $entries;
+    private iterable $entries;
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\RangeAggregationResultEntry[] $entries

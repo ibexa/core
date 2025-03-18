@@ -18,7 +18,7 @@ class URI extends Map implements URILexer
      *
      * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
      */
-    public function setRequest(SimplifiedRequest $request)
+    public function setRequest(SimplifiedRequest $request): void
     {
         if (!$this->key) {
             sscanf((string)$request->getPathInfo(), '/%[^/]', $key);
