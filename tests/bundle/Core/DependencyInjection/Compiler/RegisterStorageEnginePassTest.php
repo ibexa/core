@@ -34,7 +34,7 @@ class RegisterStorageEnginePassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new RegisterStorageEnginePass());
     }
 
-    public function testRegisterStorageEngine()
+    public function testRegisterStorageEngine(): void
     {
         $storageEngineDef = new Definition();
         $storageEngineIdentifier = 'i_am_a_storage_engine';
@@ -51,7 +51,7 @@ class RegisterStorageEnginePassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function testRegisterDefaultStorageEngine()
+    public function testRegisterDefaultStorageEngine(): void
     {
         $storageEngineDef = new Definition();
         $storageEngineIdentifier = 'i_am_a_storage_engine';
@@ -70,7 +70,7 @@ class RegisterStorageEnginePassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function testRegisterStorageEngineNoAlias()
+    public function testRegisterStorageEngineNoAlias(): void
     {
         $this->expectException(\LogicException::class);
 

@@ -21,7 +21,7 @@ class Image extends AbstractParser
      *
      * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $nodeBuilder Node just under ezpublish.system.<siteaccess>
      */
-    public function addSemanticConfig(NodeBuilder $nodeBuilder)
+    public function addSemanticConfig(NodeBuilder $nodeBuilder): void
     {
         $nodeBuilder
             ->arrayNode('image_variations')
@@ -75,7 +75,7 @@ class Image extends AbstractParser
                                         }
                                     )
                                     ->then(
-                                        static function ($v) {
+                                        static function (array $v) {
                                             // If we have the "params" key, just use the value.
                                             return $v['params'];
                                         }
@@ -105,7 +105,7 @@ class Image extends AbstractParser
             ->end();
     }
 
-    public function preMap(array $config, ContextualizerInterface $contextualizer)
+    public function preMap(array $config, ContextualizerInterface $contextualizer): void
     {
         $contextualizer->mapConfigArray('image_variations', $config);
         $contextualizer->mapSetting('image_host', $config);

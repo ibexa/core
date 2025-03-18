@@ -20,12 +20,12 @@ class Configuration implements ConfigurationInterface
     /** @var ConfigurationFactory[]|\ArrayObject */
     private $binarydataHandlerFactories = [];
 
-    public function setMetadataHandlerFactories(ArrayObject $factories)
+    public function setMetadataHandlerFactories(ArrayObject $factories): void
     {
         $this->metadataHandlerFactories = $factories;
     }
 
-    public function setBinarydataHandlerFactories(ArrayObject $factories)
+    public function setBinarydataHandlerFactories(ArrayObject $factories): void
     {
         $this->binarydataHandlerFactories = $factories;
     }
@@ -60,7 +60,7 @@ class Configuration implements ConfigurationInterface
      * @param string $info block info line
      * @param ConfigurationFactory[]|\ArrayObject $factories
      */
-    private function addHandlersSection(NodeDefinition $node, $name, $info, ArrayObject $factories)
+    private function addHandlersSection(NodeDefinition $node, string $name, string $info, ArrayObject $factories): void
     {
         $handlersNodeBuilder = $node
             ->children()

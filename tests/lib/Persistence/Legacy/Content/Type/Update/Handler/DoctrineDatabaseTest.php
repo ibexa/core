@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler\DoctrineDatabase;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -23,16 +24,16 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway
      */
-    protected $gatewayMock;
+    protected ?MockObject $gatewayMock = null;
 
     /**
      * Content Updater mock.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater
      */
-    protected $contentUpdaterMock;
+    protected ?MockObject $contentUpdaterMock = null;
 
-    public function testUpdateContentObjects()
+    public function testUpdateContentObjects(): void
     {
         $handler = $this->getUpdateHandler();
 
@@ -49,7 +50,7 @@ class DoctrineDatabaseTest extends TestCase
         $handler->updateContentObjects($types['from'], $types['to']);
     }
 
-    public function testDeleteOldType()
+    public function testDeleteOldType(): void
     {
         $handler = $this->getUpdateHandler();
 
@@ -67,7 +68,7 @@ class DoctrineDatabaseTest extends TestCase
         $handler->deleteOldType($types['from'], $types['to']);
     }
 
-    public function testPublishNewType()
+    public function testPublishNewType(): void
     {
         $handler = $this->getUpdateHandler();
 
@@ -88,7 +89,7 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type[]
      */
-    protected function getTypeFixtures()
+    protected function getTypeFixtures(): array
     {
         $types = [];
 
@@ -108,7 +109,7 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler\DoctrineDatabase
      */
-    protected function getUpdateHandler()
+    protected function getUpdateHandler(): DoctrineDatabase
     {
         return new DoctrineDatabase($this->getGatewayMock());
     }

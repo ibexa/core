@@ -25,7 +25,7 @@ class MailToHandler extends AbstractConfigResolverBasedURLHandler
     /**
      * {@inheritdoc}
      */
-    public function validate(array $urls)
+    public function validate(array $urls): void
     {
         $options = $this->getOptions();
 

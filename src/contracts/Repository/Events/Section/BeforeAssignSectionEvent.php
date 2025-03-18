@@ -14,11 +14,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 
 final class BeforeAssignSectionEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
-    private $contentInfo;
+    private ContentInfo $contentInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Section */
-    private $section;
+    private Section $section;
 
     public function __construct(ContentInfo $contentInfo, Section $section)
     {

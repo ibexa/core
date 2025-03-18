@@ -17,7 +17,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class OriginalRequestListenerTest extends TestCase
 {
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         self::assertSame(
             [
@@ -27,7 +27,7 @@ class OriginalRequestListenerTest extends TestCase
         );
     }
 
-    public function testOnKernelRequestNotMaster()
+    public function testOnKernelRequestNotMaster(): void
     {
         $request = new Request();
         $event = new RequestEvent(
@@ -41,7 +41,7 @@ class OriginalRequestListenerTest extends TestCase
         self::assertFalse($request->attributes->has('_ez_original_request'));
     }
 
-    public function testOnKernelRequestNoOriginalRequest()
+    public function testOnKernelRequestNoOriginalRequest(): void
     {
         $request = new Request();
         $event = new RequestEvent(
@@ -55,7 +55,7 @@ class OriginalRequestListenerTest extends TestCase
         self::assertFalse($request->attributes->has('_ez_original_request'));
     }
 
-    public function testOnKernelRequestWithOriginalRequest()
+    public function testOnKernelRequestWithOriginalRequest(): void
     {
         ClockMock::withClockMock(true);
 

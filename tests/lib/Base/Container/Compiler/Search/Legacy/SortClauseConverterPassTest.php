@@ -26,7 +26,7 @@ class SortClauseConverterPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new SortClauseConverterPass());
     }
 
-    public function testAddContentHandlers()
+    public function testAddContentHandlers(): void
     {
         $this->setDefinition(
             'ibexa.search.legacy.gateway.sort_clause_converter.content',
@@ -47,7 +47,7 @@ class SortClauseConverterPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function testAddLocationHandlers()
+    public function testAddLocationHandlers(): void
     {
         $this->setDefinition(
             'ibexa.search.legacy.gateway.sort_clause_converter.location',
@@ -68,7 +68,7 @@ class SortClauseConverterPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function testAddLocationAndContentHandlers()
+    public function testAddLocationAndContentHandlers(): void
     {
         $this->setDefinition(
             'ibexa.search.legacy.gateway.sort_clause_converter.content',

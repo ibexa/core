@@ -17,11 +17,9 @@ abstract class ContainerConfigResolver implements ConfigResolverInterface, Conta
 {
     use ContainerAwareTrait;
 
-    /** @var string */
-    private $scope;
+    private string $scope;
 
-    /** @var string */
-    private $defaultNamespace;
+    private string $defaultNamespace;
 
     public function __construct(string $scope, string $defaultNamespace)
     {

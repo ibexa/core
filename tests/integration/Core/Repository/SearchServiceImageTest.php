@@ -255,7 +255,7 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
     /**
      * @param string|array<string> $value
      */
-    private function createMimeTypeCriterion($value): Query\Criterion\Image\MimeType
+    private function createMimeTypeCriterion(string|array $value): Query\Criterion\Image\MimeType
     {
         return new Query\Criterion\Image\MimeType(
             self::IMAGE_FIELD_DEF_IDENTIFIER,
@@ -268,7 +268,7 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
      * @param numeric|null $max
      */
     private function createFileSizeCriterion(
-        $min = 0,
+        int|string|float|null $min = 0,
         $max = null
     ): Query\Criterion\Image\FileSize {
         return new Query\Criterion\Image\FileSize(
@@ -324,7 +324,7 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
     /**
      * @param string|array<string> $value
      */
-    private function createOrientationCriterion($value): Query\Criterion\Image\Orientation
+    private function createOrientationCriterion(string|array $value): Query\Criterion\Image\Orientation
     {
         return new Query\Criterion\Image\Orientation(
             self::IMAGE_FIELD_DEF_IDENTIFIER,

@@ -15,14 +15,11 @@ use UnexpectedValueException;
 
 final class BeforeCopyContentTypeEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType */
-    private $contentType;
+    private ContentType $contentType;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
-    private $creator;
+    private ?User $creator;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType|null */
-    private $contentTypeCopy;
+    private ?ContentType $contentTypeCopy = null;
 
     public function __construct(ContentType $contentType, ?User $creator = null)
     {

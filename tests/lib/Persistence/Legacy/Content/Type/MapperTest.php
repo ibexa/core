@@ -22,13 +22,14 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Content\Type\Mapper
  */
 class MapperTest extends TestCase
 {
-    public function testCreateGroupFromCreateStruct()
+    public function testCreateGroupFromCreateStruct(): void
     {
         $createStruct = $this->getGroupCreateStructFixture();
 
@@ -66,7 +67,7 @@ class MapperTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct
      */
-    protected function getGroupCreateStructFixture()
+    protected function getGroupCreateStructFixture(): GroupCreateStruct
     {
         $struct = new GroupCreateStruct();
 
@@ -83,7 +84,7 @@ class MapperTest extends TestCase
         return $struct;
     }
 
-    public function testTypeFromCreateStruct()
+    public function testTypeFromCreateStruct(): void
     {
         $struct = $this->getContentTypeCreateStructFixture();
 
@@ -103,7 +104,7 @@ class MapperTest extends TestCase
         }
     }
 
-    public function testTypeFromUpdateStruct()
+    public function testTypeFromUpdateStruct(): void
     {
         $struct = $this->getContentTypeUpdateStructFixture();
 
@@ -125,7 +126,7 @@ class MapperTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type\CreateStruct
      */
-    protected function getContentTypeCreateStructFixture()
+    protected function getContentTypeCreateStructFixture(): CreateStruct
     {
         // Taken from example DB
         $struct = new CreateStruct();
@@ -192,7 +193,7 @@ class MapperTest extends TestCase
         return $struct;
     }
 
-    public function testCreateStructFromType()
+    public function testCreateStructFromType(): void
     {
         $type = $this->getContentTypeFixture();
 
@@ -218,7 +219,7 @@ class MapperTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type
      */
-    protected function getContentTypeFixture()
+    protected function getContentTypeFixture(): Type
     {
         // Taken from example DB
         $type = new Type();
@@ -259,7 +260,7 @@ class MapperTest extends TestCase
         return $type;
     }
 
-    public function testExtractGroupsFromRows()
+    public function testExtractGroupsFromRows(): void
     {
         $rows = $this->getLoadGroupFixture();
 
@@ -294,7 +295,7 @@ class MapperTest extends TestCase
         );
     }
 
-    public function testExtractTypesFromRowsSingle()
+    public function testExtractTypesFromRowsSingle(): void
     {
         $rows = $this->getLoadTypeFixture();
 
@@ -375,7 +376,7 @@ class MapperTest extends TestCase
         );
     }
 
-    public function testToStorageFieldDefinition()
+    public function testToStorageFieldDefinition(): void
     {
         $converterMock = $this->createMock(Converter::class);
         $converterMock->expects(self::once())
@@ -408,7 +409,7 @@ class MapperTest extends TestCase
         $mapper->toStorageFieldDefinition($fieldDef, $storageFieldDef);
     }
 
-    public function testToFieldDefinition()
+    public function testToFieldDefinition(): void
     {
         $storageFieldDef = new StorageFieldDefinition();
 
@@ -441,7 +442,7 @@ class MapperTest extends TestCase
      *
      * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Mapper
      */
-    protected function getNonConvertingMapper()
+    protected function getNonConvertingMapper(): MockObject
     {
         $mapper = $this->getMockBuilder(Mapper::class)
             ->setMethods(['toFieldDefinition'])
@@ -461,7 +462,7 @@ class MapperTest extends TestCase
                 )
             )->will(
                 self::returnCallback(
-                    static function () {
+                    static function (): FieldDefinition {
                         return new FieldDefinition();
                     }
                 )
@@ -475,7 +476,7 @@ class MapperTest extends TestCase
      *
      * @return \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
      */
-    protected function getConverterRegistryMock()
+    protected function getConverterRegistryMock(): MockObject
     {
         return $this->createMock(ConverterRegistry::class);
     }
@@ -500,7 +501,7 @@ class MapperTest extends TestCase
         return require __DIR__ . '/_fixtures/map_load_group.php';
     }
 
-    protected function getMaskGeneratorMock()
+    protected function getMaskGeneratorMock(): MockObject
     {
         return $this->createMock(MaskGenerator::class);
     }

@@ -20,14 +20,11 @@ use Symfony\Component\Routing\RouterInterface;
 
 class DownloadRedirectionController extends Controller
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    private $contentService;
+    private ContentService $contentService;
 
-    /** @var \Symfony\Component\Routing\RouterInterface */
-    private $router;
+    private RouterInterface $router;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator */
-    private $routeReferenceGenerator;
+    private RouteReferenceGenerator $routeReferenceGenerator;
 
     public function __construct(ContentService $contentService, RouterInterface $router, RouteReferenceGenerator $routeReferenceGenerator)
     {
@@ -47,7 +44,7 @@ class DownloadRedirectionController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function redirectToContentDownloadAction($contentId, $fieldId, Request $request)
+    public function redirectToContentDownloadAction(int $contentId, $fieldId, Request $request): RedirectResponse
     {
         $content = $this->contentService->loadContent($contentId);
         $field = $this->findFieldInContent($fieldId, $content);

@@ -16,7 +16,7 @@ use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias as UrlAliasMatcher;
 class UrlAliasTest extends BaseTest
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias */
-    private $matcher;
+    private UrlAliasMatcher $matcher;
 
     protected function setUp(): void
     {
@@ -33,7 +33,7 @@ class UrlAliasTest extends BaseTest
      * @param string $matchingConfig
      * @param string[] $expectedValues
      */
-    public function testSetMatchingConfig($matchingConfig, $expectedValues)
+    public function testSetMatchingConfig(string|array $matchingConfig, array $expectedValues): void
     {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame(
@@ -42,7 +42,7 @@ class UrlAliasTest extends BaseTest
         );
     }
 
-    public function setMatchingConfigProvider()
+    public function setMatchingConfigProvider(): array
     {
         return [
             ['/foo/bar/', ['foo/bar']],
@@ -60,7 +60,7 @@ class UrlAliasTest extends BaseTest
      *
      * @return \PHPUnit\Framework\MockObject\MockObject
      */
-    private function generateRepositoryMockForUrlAlias($path)
+    private function generateRepositoryMockForUrlAlias(string $path)
     {
         // First an url alias that will never match, then the right url alias.
         // This ensures to test even if the location has several url aliases.
@@ -108,7 +108,7 @@ class UrlAliasTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Repository $repository, $expectedResult)
+    public function testMatchLocation(string|array $matchingConfig, Repository $repository, bool $expectedResult): void
     {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
@@ -118,7 +118,7 @@ class UrlAliasTest extends BaseTest
         );
     }
 
-    public function matchLocationProvider()
+    public function matchLocationProvider(): array
     {
         return [
             [
@@ -153,7 +153,7 @@ class UrlAliasTest extends BaseTest
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias::matchContentInfo
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias::setMatchingConfig
      */
-    public function testMatchContentInfo()
+    public function testMatchContentInfo(): void
     {
         $this->expectException(\RuntimeException::class);
 

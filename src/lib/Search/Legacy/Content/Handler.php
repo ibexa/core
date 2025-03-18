@@ -21,6 +21,7 @@ use Ibexa\Contracts\Core\Search\VersatileHandler as SearchHandlerInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
+use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Search\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Search\Legacy\Content\Mapper\FullTextMapper;
@@ -53,52 +54,38 @@ class Handler implements SearchHandlerInterface
 {
     /**
      * Content locator gateway.
-     *
-     * @var \Ibexa\Core\Search\Legacy\Content\Gateway
      */
-    protected $gateway;
+    protected Gateway $gateway;
 
     /**
      * Location locator gateway.
-     *
-     * @var \Ibexa\Core\Search\Legacy\Content\Location\Gateway
      */
-    protected $locationGateway;
+    protected LocationGateway $locationGateway;
 
     /**
      * Word indexer gateway.
-     *
-     * @var \Ibexa\Core\Search\Legacy\Content\WordIndexer\Gateway
      */
-    protected $indexerGateway;
+    protected WordIndexerGateway $indexerGateway;
 
     /**
      * Content mapper.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Mapper
      */
-    protected $contentMapper;
+    protected Mapper $contentMapper;
 
     /**
      * Location locationMapper.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Mapper
      */
-    protected $locationMapper;
+    protected LocationMapper $locationMapper;
 
     /**
      * Language handler.
-     *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
      */
-    protected $languageHandler;
+    protected LanguageHandler $languageHandler;
 
     /**
      * FullText mapper.
-     *
-     * @var \Ibexa\Core\Search\Legacy\Content\Mapper\FullTextMapper
      */
-    protected $mapper;
+    protected FullTextMapper $mapper;
 
     public function __construct(
         Gateway $gateway,
@@ -257,7 +244,7 @@ class Handler implements SearchHandlerInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
-    public function suggest($prefix, $fieldPaths = [], $limit = 10, Criterion $filter = null)
+    public function suggest($prefix, $fieldPaths = [], $limit = 10, Criterion $filter = null): never
     {
         throw new NotImplementedException('Suggestions are not supported by Legacy search engine.');
     }
@@ -267,7 +254,7 @@ class Handler implements SearchHandlerInterface
      *
      * @param \Ibexa\Contracts\Core\Persistence\Content $content
      */
-    public function indexContent(Content $content)
+    public function indexContent(Content $content): void
     {
         $fullTextValue = $this->mapper->mapContent($content);
 
@@ -280,7 +267,7 @@ class Handler implements SearchHandlerInterface
      * @param \Ibexa\Contracts\Core\Persistence\Content[] $contentList
      * @param callable $errorCallback (Content $content, NotFoundException $e)
      */
-    public function bulkIndex(array $contentList, callable $errorCallback)
+    public function bulkIndex(array $contentList, callable $errorCallback): void
     {
         $fullTextBulkData = [];
         foreach ($contentList as $content) {
@@ -297,7 +284,7 @@ class Handler implements SearchHandlerInterface
     /**
      * @param \Ibexa\Contracts\Core\Persistence\Content\Location $location
      */
-    public function indexLocation(Location $location)
+    public function indexLocation(Location $location): void
     {
         // Not needed with Legacy Storage/Search Engine
     }
@@ -308,7 +295,7 @@ class Handler implements SearchHandlerInterface
      * @param int $contentId
      * @param int|null $versionId
      */
-    public function deleteContent($contentId, $versionId = null)
+    public function deleteContent($contentId, $versionId = null): void
     {
         $this->indexerGateway->remove($contentId, $versionId);
     }
@@ -324,7 +311,7 @@ class Handler implements SearchHandlerInterface
      * @param mixed $locationId
      * @param mixed $contentId
      */
-    public function deleteLocation($locationId, $contentId)
+    public function deleteLocation($locationId, $contentId): void
     {
         // Not needed with Legacy Storage/Search Engine
     }
@@ -332,7 +319,7 @@ class Handler implements SearchHandlerInterface
     /**
      * Purges all contents from the index.
      */
-    public function purgeIndex()
+    public function purgeIndex(): void
     {
         $this->indexerGateway->purgeIndex();
     }
@@ -342,7 +329,7 @@ class Handler implements SearchHandlerInterface
      *
      * @param bool $flush
      */
-    public function commit($flush = false)
+    public function commit($flush = false): void
     {
         // Not needed with Legacy Storage/Search Engine
     }

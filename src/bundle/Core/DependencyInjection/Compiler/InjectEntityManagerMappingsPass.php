@@ -64,7 +64,7 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
         }
     }
 
-    private function createMetadataDriverDefinition($driverType, $driverPaths): Definition
+    private function createMetadataDriverDefinition(int|string $driverType, $driverPaths): Definition
     {
         $metadataDriver = new Definition("%doctrine.orm.metadata.{$driverType}.class%");
         $arguments = [];

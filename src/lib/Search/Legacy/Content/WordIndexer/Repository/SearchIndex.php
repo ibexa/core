@@ -20,7 +20,7 @@ class SearchIndex
     public const SEARCH_WORD_TABLE = 'ezsearch_word';
     public const SEARCH_OBJECT_WORD_LINK_TABLE = 'ezsearch_object_word_link';
 
-    protected $connection;
+    protected Connection $connection;
 
     public function __construct(Connection $connection)
     {

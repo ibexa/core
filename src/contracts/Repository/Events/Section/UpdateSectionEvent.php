@@ -14,14 +14,11 @@ use Ibexa\Contracts\Core\Repository\Values\Content\SectionUpdateStruct;
 
 final class UpdateSectionEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Section */
-    private $section;
+    private Section $section;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\SectionUpdateStruct */
-    private $sectionUpdateStruct;
+    private SectionUpdateStruct $sectionUpdateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Section */
-    private $updatedSection;
+    private Section $updatedSection;
 
     public function __construct(
         Section $updatedSection,

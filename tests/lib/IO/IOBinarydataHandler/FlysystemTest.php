@@ -59,7 +59,7 @@ class FlysystemTest extends TestCase
         $this->handler->create($spiBinaryFileCreateStruct);
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $this->filesystem
             ->expects(self::once())

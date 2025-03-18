@@ -15,14 +15,11 @@ use UnexpectedValueException;
 
 final class BeforeCreateUserEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct */
-    private $userCreateStruct;
+    private UserCreateStruct $userCreateStruct;
 
-    /** @var array */
-    private $parentGroups;
+    private array $parentGroups;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User|null */
-    private $user;
+    private ?User $user = null;
 
     public function __construct(UserCreateStruct $userCreateStruct, array $parentGroups)
     {

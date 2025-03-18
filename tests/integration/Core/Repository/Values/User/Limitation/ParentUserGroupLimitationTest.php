@@ -18,7 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentUserGroupLimita
  */
 class ParentUserGroupLimitationTest extends BaseLimitationTest
 {
-    public function testParentUserGroupLimitationAllow()
+    public function testParentUserGroupLimitationAllow(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -80,7 +80,7 @@ class ParentUserGroupLimitationTest extends BaseLimitationTest
         );
     }
 
-    public function testParentUserGroupLimitationForbid()
+    public function testParentUserGroupLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 

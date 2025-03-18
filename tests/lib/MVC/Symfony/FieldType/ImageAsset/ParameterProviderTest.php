@@ -17,21 +17,22 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\FieldType\ImageAsset\Value as ImageAssetValue;
 use Ibexa\Core\MVC\Symfony\FieldType\ImageAsset\ParameterProvider;
 use Ibexa\Core\Repository\SiteAccessAware\Repository;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ParameterProviderTest extends TestCase
 {
     /** @var \Ibexa\Core\Repository\SiteAccessAware\Repository|\PHPUnit\Framework\MockObject\MockObject */
-    private $repository;
+    private MockObject $repository;
 
     /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject */
-    private $permissionsResolver;
+    private MockObject $permissionsResolver;
 
     /** @var \Ibexa\Core\MVC\Symfony\FieldType\ImageAsset\ParameterProvider */
-    private $parameterProvider;
+    private ParameterProvider $parameterProvider;
 
     /** @var \Ibexa\Contracts\Core\Repository\FieldType|\PHPUnit\Framework\MockObject\MockObject */
-    private $fieldType;
+    private MockObject $fieldType;
 
     protected function setUp(): void
     {
@@ -68,7 +69,7 @@ class ParameterProviderTest extends TestCase
     /**
      * @dataProvider dataProviderForTestGetViewParameters
      */
-    public function testGetViewParameters($status, array $expected): void
+    public function testGetViewParameters(int $status, array $expected): void
     {
         $destinationContentId = 1;
 
@@ -76,7 +77,7 @@ class ParameterProviderTest extends TestCase
             ->method('isEmptyValue')
             ->willReturn(false);
 
-        $closure = static function (Repository $repository) use ($destinationContentId) {
+        $closure = static function (Repository $repository) use ($destinationContentId): \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo {
             return $repository->getContentService()->loadContentInfo($destinationContentId);
         };
 
@@ -104,7 +105,7 @@ class ParameterProviderTest extends TestCase
             ->method('isEmptyValue')
             ->willReturn(false);
 
-        $closure = static function (Repository $repository) use ($destinationContentId) {
+        $closure = static function (Repository $repository) use ($destinationContentId): \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo {
             return $repository->getContentService()->loadContentInfo($destinationContentId);
         };
 

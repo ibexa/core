@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\FieldType;
 use Ibexa\Contracts\Core\FieldType\BinaryBase\RouteAwarePathGenerator;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\FieldType\BinaryFile\Type as BinaryFileType;
+use Ibexa\Core\FieldType\BinaryFile\Value;
 use Ibexa\Core\FieldType\BinaryFile\Value as BinaryFileValue;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\ValidationError;
@@ -44,12 +45,12 @@ class BinaryFileTest extends BinaryBaseTest
         return $fieldType;
     }
 
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): Value
     {
         return new BinaryFileValue();
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): array
     {
         $baseInput = parent::provideInvalidInputForAcceptValue();
         $binaryFileInput = [
@@ -62,7 +63,7 @@ class BinaryFileTest extends BinaryBaseTest
         return array_merge($baseInput, $binaryFileInput);
     }
 
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): array
     {
         return [
             [
@@ -206,7 +207,7 @@ class BinaryFileTest extends BinaryBaseTest
      *
      * @return array
      */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): array
     {
         return [
             [
@@ -388,7 +389,7 @@ class BinaryFileTest extends BinaryBaseTest
      *
      * @return array
      */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): array
     {
         return [
             [
@@ -519,7 +520,7 @@ class BinaryFileTest extends BinaryBaseTest
         ];
     }
 
-    public function provideValidDataForValidate()
+    public function provideValidDataForValidate(): array
     {
         return [
             [
@@ -543,7 +544,7 @@ class BinaryFileTest extends BinaryBaseTest
         ];
     }
 
-    public function provideInvalidDataForValidate()
+    public function provideInvalidDataForValidate(): array
     {
         return [
             // File is too large

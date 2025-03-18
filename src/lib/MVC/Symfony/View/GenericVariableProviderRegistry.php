@@ -15,7 +15,7 @@ use Traversable;
 final class GenericVariableProviderRegistry implements VariableProviderRegistry
 {
     /** @var \Ibexa\Contracts\Core\MVC\View\VariableProvider[] */
-    private $twigVariableProviders;
+    private ?array $twigVariableProviders = null;
 
     public function __construct(Traversable $twigVariableProviders)
     {

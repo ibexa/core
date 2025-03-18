@@ -14,8 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 
 abstract class BookmarkServiceDecorator implements BookmarkService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\BookmarkService */
-    protected $innerService;
+    protected BookmarkService $innerService;
 
     public function __construct(BookmarkService $innerService)
     {

@@ -17,8 +17,7 @@ use JMS\TranslationBundle\Translation\ExtractorInterface;
  */
 class FieldTypesTranslationExtractor implements ExtractorInterface
 {
-    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
-    private $fieldTypeRegistry;
+    private FieldTypeRegistry $fieldTypeRegistry;
 
     public function __construct(FieldTypeRegistry $fieldTypeRegistry)
     {

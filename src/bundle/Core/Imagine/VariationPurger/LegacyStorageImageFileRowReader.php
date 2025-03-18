@@ -11,8 +11,7 @@ use Doctrine\DBAL\Connection;
 
 class LegacyStorageImageFileRowReader implements ImageFileRowReader
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
     /** @var \Doctrine\DBAL\Driver\Statement */
     private $statement;
@@ -22,7 +21,7 @@ class LegacyStorageImageFileRowReader implements ImageFileRowReader
         $this->connection = $connection;
     }
 
-    public function init()
+    public function init(): void
     {
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery->select('filepath')->from('ezimagefile');

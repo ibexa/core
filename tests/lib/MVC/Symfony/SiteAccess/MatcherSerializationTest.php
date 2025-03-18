@@ -9,6 +9,8 @@ namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
 use Ibexa\Core\MVC\Symfony\Component\Serializer\SerializerTrait;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
+use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound\LogicalAnd;
+use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound\LogicalOr;
 use PHPUnit\Framework\TestCase;
 
 class MatcherSerializationTest extends TestCase
@@ -20,7 +22,7 @@ class MatcherSerializationTest extends TestCase
      *
      * @dataProvider matcherProvider
      */
-    public function testDeserialize(Matcher $matcher, $expected = null): void
+    public function testDeserialize(Matcher $matcher, LogicalAnd|LogicalOr $expected = null): void
     {
         $serializedMatcher = $this->serializeMatcher($matcher);
 
@@ -42,7 +44,7 @@ class MatcherSerializationTest extends TestCase
     /**
      * @return string
      */
-    private function serializeMatcher(Matcher $matcher)
+    private function serializeMatcher(Matcher $matcher): string
     {
         return $this->getSerializer()->serialize(
             $matcher,
@@ -77,7 +79,7 @@ class MatcherSerializationTest extends TestCase
             Matcher\Map\URI::class => new Matcher\Map\URI([]),
             Matcher\Map\Host::class => new Matcher\Map\Host([]),
         ];
-        $logicalAnd = new Matcher\Compound\LogicalAnd(
+        $logicalAnd = new LogicalAnd(
             [
                 [
                     'match' => 'site_access_name',
@@ -85,10 +87,10 @@ class MatcherSerializationTest extends TestCase
             ]
         );
         $logicalAnd->setSubMatchers($subMatchers);
-        $expectedLogicalAnd = new Matcher\Compound\LogicalAnd([]);
+        $expectedLogicalAnd = new LogicalAnd([]);
         $expectedLogicalAnd->setSubMatchers($expectedSubMatchers);
 
-        $logicalOr = new Matcher\Compound\LogicalOr(
+        $logicalOr = new LogicalOr(
             [
                 [
                     'match' => 'site_access_name',
@@ -96,7 +98,7 @@ class MatcherSerializationTest extends TestCase
             ]
         );
         $logicalOr->setSubMatchers($subMatchers);
-        $expectedLogicalOr = new Matcher\Compound\LogicalOr([]);
+        $expectedLogicalOr = new LogicalOr([]);
         $expectedLogicalOr->setSubMatchers($expectedSubMatchers);
 
         $expectedMapURI = new Matcher\Map\URI([]);

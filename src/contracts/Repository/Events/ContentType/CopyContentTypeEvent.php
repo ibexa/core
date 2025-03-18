@@ -14,14 +14,11 @@ use Ibexa\Contracts\Core\Repository\Values\User\User;
 
 final class CopyContentTypeEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType */
-    private $contentTypeCopy;
+    private ContentType $contentTypeCopy;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType */
-    private $contentType;
+    private ContentType $contentType;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
-    private $creator;
+    private ?User $creator;
 
     public function __construct(
         ContentType $contentTypeCopy,

@@ -18,7 +18,7 @@ use Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface;
 final class ViewMatcherRegistry implements ViewMatcherRegistryInterface
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface[] */
-    private $matchers;
+    private array $matchers;
 
     /**
      * @param iterable<\Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface> $matchers

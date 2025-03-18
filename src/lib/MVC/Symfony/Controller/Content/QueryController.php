@@ -25,11 +25,9 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class QueryController
 {
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
-    private $searchService;
+    private SearchService $searchService;
 
-    /** @var \Ibexa\Core\QueryType\ContentViewQueryTypeMapper */
-    private $contentViewQueryTypeMapper;
+    private ContentViewQueryTypeMapper $contentViewQueryTypeMapper;
 
     public function __construct(
         ContentViewQueryTypeMapper $contentViewQueryTypeMapper,
@@ -46,7 +44,7 @@ class QueryController
      *
      * @return \Ibexa\Core\MVC\Symfony\View\ContentView
      */
-    public function contentQueryAction(ContentView $view)
+    public function contentQueryAction(ContentView $view): ContentView
     {
         $this->runQuery($view, 'findContent');
 
@@ -60,7 +58,7 @@ class QueryController
      *
      * @return \Ibexa\Core\MVC\Symfony\View\ContentView
      */
-    public function locationQueryAction(ContentView $view)
+    public function locationQueryAction(ContentView $view): ContentView
     {
         $this->runQuery($view, 'findLocations');
 
@@ -74,7 +72,7 @@ class QueryController
      *
      * @return \Ibexa\Core\MVC\Symfony\View\ContentView
      */
-    public function contentInfoQueryAction(ContentView $view)
+    public function contentInfoQueryAction(ContentView $view): ContentView
     {
         $this->runQuery($view, 'findContentInfo');
 
@@ -87,7 +85,7 @@ class QueryController
      * @param \Ibexa\Core\MVC\Symfony\View\ContentView $view
      * @param string $method Name of the SearchService method to run.
      */
-    private function runQuery(ContentView $view, $method)
+    private function runQuery(ContentView $view, string $method): void
     {
         $searchResults = $this->searchService->$method(
             $this->contentViewQueryTypeMapper->map($view)
@@ -101,7 +99,7 @@ class QueryController
      *
      * @return \Ibexa\Core\MVC\Symfony\View\ContentView
      */
-    public function pagingQueryAction(ContentView $view, Request $request)
+    public function pagingQueryAction(ContentView $view, Request $request): ContentView
     {
         $this->runPagingQuery($view, $request);
 
@@ -112,7 +110,7 @@ class QueryController
      * @param \Ibexa\Core\MVC\Symfony\View\ContentView $view
      * @param \Symfony\Component\HttpFoundation\Request $request
      */
-    private function runPagingQuery(ContentView $view, Request $request)
+    private function runPagingQuery(ContentView $view, Request $request): void
     {
         $queryParameters = $view->getParameter('query');
 

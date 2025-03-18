@@ -31,7 +31,7 @@ class Value extends BaseValue
         $this->authors = new AuthorCollection($authors);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         if (empty($this->authors)) {
             return '';

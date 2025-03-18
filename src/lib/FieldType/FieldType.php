@@ -67,7 +67,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
     /**
      * @param \Ibexa\Core\Persistence\TransformationProcessor $transformationProcessor
      */
-    public function setTransformationProcessor(TransformationProcessor $transformationProcessor)
+    public function setTransformationProcessor(TransformationProcessor $transformationProcessor): void
     {
         $this->transformationProcessor = $transformationProcessor;
     }
@@ -178,7 +178,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * @param mixed $validatorConfiguration
      */
-    public function applyDefaultValidatorConfiguration(&$validatorConfiguration)
+    public function applyDefaultValidatorConfiguration(&$validatorConfiguration): void
     {
         if ($validatorConfiguration !== null && !is_array($validatorConfiguration)) {
             throw new InvalidArgumentType('$validatorConfiguration', 'array|null', $validatorConfiguration);
@@ -237,7 +237,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * @param mixed $fieldSettings
      */
-    public function applyDefaultSettings(&$fieldSettings)
+    public function applyDefaultSettings(&$fieldSettings): void
     {
         if ($fieldSettings !== null && !is_array($fieldSettings)) {
             throw new InvalidArgumentType('$fieldSettings', 'array|null', $fieldSettings);

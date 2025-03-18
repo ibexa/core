@@ -23,8 +23,7 @@ class DoctrineDatabase extends Gateway
     public const COLUMN_USER_ID = 'user_id';
     public const COLUMN_VALUE = 'value';
 
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
+    protected Connection $connection;
 
     public function __construct(Connection $connection)
     {

@@ -17,8 +17,7 @@ use Ibexa\Contracts\Core\Search;
  */
 class SearchField implements Indexable
 {
-    /** @var array */
-    protected $countriesInfo;
+    protected array $countriesInfo;
 
     /**
      * @param array $countriesInfo Array of countries data
@@ -28,7 +27,10 @@ class SearchField implements Indexable
         $this->countriesInfo = $countriesInfo;
     }
 
-    public function getIndexData(Field $field, FieldDefinition $fieldDefinition)
+    /**
+     * @return \Ibexa\Contracts\Core\Search\Field[]
+     */
+    public function getIndexData(Field $field, FieldDefinition $fieldDefinition): array
     {
         if (empty($field->value->data)) {
             return [];
@@ -82,7 +84,7 @@ class SearchField implements Indexable
         ];
     }
 
-    public function getIndexDefinition()
+    public function getIndexDefinition(): array
     {
         return [
             'idc' => new Search\FieldType\MultipleIntegerField(),

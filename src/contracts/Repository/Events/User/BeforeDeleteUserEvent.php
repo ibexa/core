@@ -14,11 +14,9 @@ use UnexpectedValueException;
 
 final class BeforeDeleteUserEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
-    private $user;
+    private User $user;
 
-    /** @var array|null */
-    private $locations;
+    private ?array $locations = null;
 
     public function __construct(User $user)
     {

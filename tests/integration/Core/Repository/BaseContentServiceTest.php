@@ -70,8 +70,8 @@ abstract class BaseContentServiceTest extends BaseTest
      */
     protected function createContentDraftVersion1(
         $locationId = 56,
-        $contentTypeIdentifier = 'forum',
-        $contentFieldNameIdentifier = 'name',
+        string $contentTypeIdentifier = 'forum',
+        string $contentFieldNameIdentifier = 'name',
         User $contentOwner = null
     ) {
         $repository = $this->getRepository();
@@ -345,9 +345,9 @@ abstract class BaseContentServiceTest extends BaseTest
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content Content Draft
      */
     protected function createMultilingualContentDraft(
-        $contentTypeIdentifier,
+        string $contentTypeIdentifier,
         $parentLocationId,
-        $mainLanguageCode,
+        string $mainLanguageCode,
         array $multilingualFieldValues
     ) {
         $repository = $this->getRepository();
@@ -397,7 +397,7 @@ abstract class BaseContentServiceTest extends BaseTest
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content Content Draft
      */
     protected function createContentDraft(
-        $contentTypeIdentifier,
+        string $contentTypeIdentifier,
         $parentLocationId,
         array $fieldValues
     ) {

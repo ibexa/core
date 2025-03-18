@@ -20,17 +20,13 @@ use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
  */
 class IOVariationPurger implements VariationPurger
 {
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
-    private $io;
+    private IOServiceInterface $io;
 
-    /** @var \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface */
-    private $cache;
+    private TagAwareAdapterInterface $cache;
 
-    /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface */
-    private $cacheIdentifierGenerator;
+    private CacheIdentifierGeneratorInterface $cacheIdentifierGenerator;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Cache\AliasGeneratorDecorator */
-    private $aliasGeneratorDecorator;
+    private AliasGeneratorDecorator $aliasGeneratorDecorator;
 
     /** @var \Psr\Log\LoggerInterface */
     private $logger;
@@ -50,12 +46,12 @@ class IOVariationPurger implements VariationPurger
     /**
      * @param \Psr\Log\LoggerInterface $logger
      */
-    public function setLogger($logger)
+    public function setLogger($logger): void
     {
         $this->logger = $logger;
     }
 
-    public function purge(array $aliasNames)
+    public function purge(array $aliasNames): void
     {
         $variationNameTag = $this->aliasGeneratorDecorator->getVariationNameTag();
 

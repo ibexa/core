@@ -15,8 +15,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 
 final class SubtreeTermAggregation extends AbstractTermAggregation implements LocationAggregation
 {
-    /** @var string */
-    private $pathString;
+    private string $pathString;
 
     public function __construct(string $name, string $pathString)
     {

@@ -14,8 +14,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class SearchService extends SearchServiceDecorator
 {
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
-    protected $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         SearchServiceInterface $innerService,

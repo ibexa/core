@@ -50,7 +50,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Test for the loadUrlWildcardData() method.
      */
-    public function testLoadUrlWildcardData()
+    public function testLoadUrlWildcardData(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlwildcards.php');
         $gateway = $this->getGateway();
@@ -66,7 +66,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Test for the loadUrlWildcardsData() method.
      */
-    public function testLoadUrlWildcardsData()
+    public function testLoadUrlWildcardsData(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlwildcards.php');
         $gateway = $this->getGateway();
@@ -82,7 +82,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Test for the loadUrlWildcardsData() method.
      */
-    public function testLoadUrlWildcardsDataWithOffset()
+    public function testLoadUrlWildcardsDataWithOffset(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlwildcards.php');
         $gateway = $this->getGateway();
@@ -101,7 +101,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Test for the loadUrlWildcardsData() method.
      */
-    public function testLoadUrlWildcardsDataWithOffsetAndLimit()
+    public function testLoadUrlWildcardsDataWithOffsetAndLimit(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlwildcards.php');
         $gateway = $this->getGateway();
@@ -121,7 +121,7 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @depends testLoadUrlWildcardData
      */
-    public function testInsertUrlWildcard()
+    public function testInsertUrlWildcard(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlwildcards.php');
         $gateway = $this->getGateway();
@@ -152,7 +152,7 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @depends testLoadUrlWildcardData
      */
-    public function testDeleteUrlWildcard()
+    public function testDeleteUrlWildcard(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlwildcards.php');
         $gateway = $this->getGateway();

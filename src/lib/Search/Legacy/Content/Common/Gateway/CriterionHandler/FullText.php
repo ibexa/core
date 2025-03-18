@@ -26,10 +26,8 @@ class FullText extends CriterionHandler
 {
     /**
      * Full text search configuration options.
-     *
-     * @var array
      */
-    protected $configuration = [
+    protected array $configuration = [
         // @see getStopWordThresholdValue()
         'stopWordThresholdFactor' => 0.66,
         'enableWildcards' => true,
@@ -70,21 +68,16 @@ class FullText extends CriterionHandler
     ];
 
     /**
-     * @var int|null
-     *
      * @see getStopWordThresholdValue()
      */
-    private $stopWordThresholdValue;
+    private ?int $stopWordThresholdValue = null;
 
     /**
      * Transformation processor to normalize search strings.
-     *
-     * @var \Ibexa\Core\Persistence\TransformationProcessor
      */
-    protected $processor;
+    protected TransformationProcessor $processor;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
-    private $languageMaskGenerator;
+    private MaskGenerator $languageMaskGenerator;
 
     /**
      * @param array $configuration

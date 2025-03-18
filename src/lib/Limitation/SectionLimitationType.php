@@ -14,9 +14,11 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\SectionId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation as APISectionLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
@@ -38,7 +40,7 @@ class SectionLimitationType extends AbstractPersistenceLimitationType implements
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
      */
-    public function acceptValue(APILimitationValue $limitationValue)
+    public function acceptValue(APILimitationValue $limitationValue): void
     {
         if (!$limitationValue instanceof APISectionLimitation) {
             throw new InvalidArgumentType('$limitationValue', 'APISectionLimitation', $limitationValue);
@@ -62,7 +64,7 @@ class SectionLimitationType extends AbstractPersistenceLimitationType implements
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(APILimitationValue $limitationValue)
+    public function validate(APILimitationValue $limitationValue): array
     {
         $validationErrors = [];
         foreach ($limitationValue->limitationValues as $key => $id) {
@@ -90,7 +92,7 @@ class SectionLimitationType extends AbstractPersistenceLimitationType implements
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
      */
-    public function buildValue(array $limitationValues)
+    public function buildValue(array $limitationValues): SectionLimitation
     {
         return new APISectionLimitation(['limitationValues' => $limitationValues]);
     }
@@ -110,7 +112,7 @@ class SectionLimitationType extends AbstractPersistenceLimitationType implements
      *
      * @return bool
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null)
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null): ?bool
     {
         if (!$value instanceof APISectionLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: APISectionLimitation');
@@ -157,7 +159,7 @@ class SectionLimitationType extends AbstractPersistenceLimitationType implements
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
      */
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser)
+    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser): SectionId
     {
         if (empty($value->limitationValues)) {
             // A Policy should not have empty limitationValues stored
@@ -166,11 +168,11 @@ class SectionLimitationType extends AbstractPersistenceLimitationType implements
 
         if (!isset($value->limitationValues[1])) {
             // 1 limitation value: EQ operation
-            return new Criterion\SectionId($value->limitationValues[0]);
+            return new SectionId($value->limitationValues[0]);
         }
 
         // several limitation values: IN operation
-        return new Criterion\SectionId($value->limitationValues);
+        return new SectionId($value->limitationValues);
     }
 
     /**
@@ -179,7 +181,7 @@ class SectionLimitationType extends AbstractPersistenceLimitationType implements
      * @return mixed[]|int In case of array, a hash with key as valid limitations value and value as human readable name
      *                     of that option, in case of int on of VALUE_SCHEMA_ constants.
      */
-    public function valueSchema()
+    public function valueSchema(): never
     {
         throw new NotImplementedException(__METHOD__);
     }

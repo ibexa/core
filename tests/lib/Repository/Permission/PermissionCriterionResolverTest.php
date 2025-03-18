@@ -10,12 +10,15 @@ namespace Ibexa\Tests\Core\Repository\Permission;
 use Ibexa\Contracts\Core\Limitation\Type;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOr;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Core\Limitation\TargetOnlyLimitationType;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\Permission\PermissionCriterionResolver;
 use Ibexa\Core\Repository\Values\User\Policy;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -23,7 +26,7 @@ use PHPUnit\Framework\TestCase;
  */
 class PermissionCriterionResolverTest extends TestCase
 {
-    public function providerForTestGetPermissionsCriterion()
+    public function providerForTestGetPermissionsCriterion(): array
     {
         $criterionMock = $this
             ->getMockBuilder(Criterion::class)
@@ -68,7 +71,7 @@ class PermissionCriterionResolverTest extends TestCase
                         'policies' => [$policy1, $policy1],
                     ],
                 ],
-                new Criterion\LogicalOr([$criterionMock, $criterionMock]),
+                new LogicalOr([$criterionMock, $criterionMock]),
             ],
             [
                 $criterionMock,
@@ -90,7 +93,7 @@ class PermissionCriterionResolverTest extends TestCase
                         'policies' => [$policy2],
                     ],
                 ],
-                new Criterion\LogicalAnd([$criterionMock, $criterionMock]),
+                new LogicalAnd([$criterionMock, $criterionMock]),
             ],
             [
                 $criterionMock,
@@ -101,10 +104,10 @@ class PermissionCriterionResolverTest extends TestCase
                         'policies' => [$policy1, $policy2],
                     ],
                 ],
-                new Criterion\LogicalOr(
+                new LogicalOr(
                     [
                         $criterionMock,
-                        new Criterion\LogicalAnd([$criterionMock, $criterionMock]),
+                        new LogicalAnd([$criterionMock, $criterionMock]),
                     ]
                 ),
             ],
@@ -121,7 +124,7 @@ class PermissionCriterionResolverTest extends TestCase
                         'policies' => [$policy1],
                     ],
                 ],
-                new Criterion\LogicalOr([$criterionMock, $criterionMock]),
+                new LogicalOr([$criterionMock, $criterionMock]),
             ],
             [
                 $criterionMock,
@@ -136,7 +139,7 @@ class PermissionCriterionResolverTest extends TestCase
                         'policies' => [$policy1, $policy1],
                     ],
                 ],
-                new Criterion\LogicalOr([$criterionMock, $criterionMock, $criterionMock]),
+                new LogicalOr([$criterionMock, $criterionMock, $criterionMock]),
             ],
             [
                 $criterionMock,
@@ -151,9 +154,9 @@ class PermissionCriterionResolverTest extends TestCase
                         'policies' => [$policy1],
                     ],
                 ],
-                new Criterion\LogicalOr(
+                new LogicalOr(
                     [
-                        new Criterion\LogicalAnd([$criterionMock, $criterionMock]),
+                        new LogicalAnd([$criterionMock, $criterionMock]),
                         $criterionMock,
                     ]
                 ),
@@ -167,7 +170,7 @@ class PermissionCriterionResolverTest extends TestCase
                         'policies' => [$policy1],
                     ],
                 ],
-                new Criterion\LogicalAnd([$criterionMock, $criterionMock]),
+                new LogicalAnd([$criterionMock, $criterionMock]),
             ],
             [
                 $criterionMock,
@@ -182,10 +185,10 @@ class PermissionCriterionResolverTest extends TestCase
                         'policies' => [$policy1],
                     ],
                 ],
-                new Criterion\LogicalOr(
+                new LogicalOr(
                     [
-                        new Criterion\LogicalAnd([$criterionMock, $criterionMock]),
-                        new Criterion\LogicalAnd([$criterionMock, $criterionMock]),
+                        new LogicalAnd([$criterionMock, $criterionMock]),
+                        new LogicalAnd([$criterionMock, $criterionMock]),
                     ]
                 ),
             ],
@@ -213,7 +216,7 @@ class PermissionCriterionResolverTest extends TestCase
                         'policies' => [new Policy(['limitations' => []])],
                     ],
                 ],
-                new Criterion\LogicalOr([$criterionMock, $criterionMock]),
+                new LogicalOr([$criterionMock, $criterionMock]),
             ],
             [
                 $criterionMock,
@@ -224,12 +227,12 @@ class PermissionCriterionResolverTest extends TestCase
                         'policies' => [$policy3],
                     ],
                 ],
-                new Criterion\LogicalAnd([$criterionMock, $criterionMock]),
+                new LogicalAnd([$criterionMock, $criterionMock]),
             ],
         ];
     }
 
-    protected function mockServices($criterionMock, $limitationCount, $permissionSets)
+    protected function mockServices($criterionMock, int $limitationCount, $permissionSets)
     {
         $userMock = $this->getMockBuilder(User::class)->getMockForAbstractClass();
         $limitationServiceMock = $this->getLimitationServiceMock(['getLimitationType']);
@@ -291,11 +294,11 @@ class PermissionCriterionResolverTest extends TestCase
      * @dataProvider providerForTestGetPermissionsCriterion
      */
     public function testGetPermissionsCriterion(
-        $criterionMock,
-        $limitationCount,
-        $permissionSets,
-        $expectedCriterion
-    ) {
+        MockObject&Criterion $criterionMock,
+        int $limitationCount,
+        array $permissionSets,
+        (Criterion&MockObject)|LogicalOr|bool|LogicalAnd $expectedCriterion
+    ): void {
         $this->mockServices($criterionMock, $limitationCount, $permissionSets);
         $criterionResolver = $this->getPermissionCriterionResolverMock(null);
 
@@ -304,7 +307,7 @@ class PermissionCriterionResolverTest extends TestCase
         self::assertEquals($expectedCriterion, $permissionsCriterion);
     }
 
-    public function providerForTestGetPermissionsCriterionBooleanPermissionSets()
+    public function providerForTestGetPermissionsCriterionBooleanPermissionSets(): array
     {
         return [
             [true],
@@ -317,7 +320,7 @@ class PermissionCriterionResolverTest extends TestCase
      *
      * @dataProvider providerForTestGetPermissionsCriterionBooleanPermissionSets
      */
-    public function testGetPermissionsCriterionBooleanPermissionSets($permissionSets)
+    public function testGetPermissionsCriterionBooleanPermissionSets(bool $permissionSets): void
     {
         $permissionResolverMock = $this->getPermissionResolverMock(['hasAccess']);
         $permissionResolverMock
@@ -340,7 +343,7 @@ class PermissionCriterionResolverTest extends TestCase
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Permission\PermissionCriterionResolver
      */
-    protected function getPermissionCriterionResolverMock($methods = [])
+    protected function getPermissionCriterionResolverMock(?array $methods = []): MockObject
     {
         return $this
             ->getMockBuilder(PermissionCriterionResolver::class)
@@ -354,9 +357,9 @@ class PermissionCriterionResolverTest extends TestCase
             ->getMock();
     }
 
-    protected $permissionResolverMock;
+    protected ?MockObject $permissionResolverMock = null;
 
-    protected function getPermissionResolverMock($methods = [])
+    protected function getPermissionResolverMock(?array $methods = [])
     {
         // Tests first calls here with methods set before initiating PermissionCriterionResolver with same instance.
         if ($this->permissionResolverMock !== null) {
@@ -370,9 +373,9 @@ class PermissionCriterionResolverTest extends TestCase
             ->getMockForAbstractClass();
     }
 
-    protected $limitationServiceMock;
+    protected ?MockObject $limitationServiceMock = null;
 
-    protected function getLimitationServiceMock($methods = [])
+    protected function getLimitationServiceMock(?array $methods = [])
     {
         // Tests first calls here with methods set before initiating PermissionCriterionResolver with same instance.
         if ($this->limitationServiceMock !== null) {

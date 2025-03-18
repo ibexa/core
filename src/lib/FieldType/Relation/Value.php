@@ -34,7 +34,7 @@ class Value extends BaseValue
     /**
      * Returns the related content's name.
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string)$this->destinationContentId;
     }

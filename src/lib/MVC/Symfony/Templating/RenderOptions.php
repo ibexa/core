@@ -12,8 +12,7 @@ use Ibexa\Contracts\Core\Options\MutableOptionsBag;
 
 final class RenderOptions implements MutableOptionsBag
 {
-    /** @var array */
-    private $options;
+    private array $options;
 
     public function __construct(array $options = [])
     {

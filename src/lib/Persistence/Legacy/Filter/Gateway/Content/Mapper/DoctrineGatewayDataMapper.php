@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
@@ -25,17 +26,13 @@ use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\GatewayDataMapper;
  */
 final class DoctrineGatewayDataMapper implements GatewayDataMapper
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry */
-    private $converterRegistry;
+    private ConverterRegistry $converterRegistry;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
-    private $languageMaskGenerator;
+    private MaskGenerator $languageMaskGenerator;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler */
-    private $languageHandler;
+    private Handler $languageHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler */
-    private $contentTypeHandler;
+    private ContentTypeHandler $contentTypeHandler;
 
     public function __construct(
         LanguageHandler $languageHandler,
@@ -92,7 +89,7 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    private function mapVersionDataToPersistenceVersionInfo(array $row): Content\VersionInfo
+    private function mapVersionDataToPersistenceVersionInfo(array $row): VersionInfo
     {
         $versionInfo = new VersionInfo();
         $versionInfo->id = (int)$row['content_version_id'];
@@ -124,7 +121,7 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
         int $versionNo
     ): array {
         return array_map(
-            function (array $row) use ($versionNo) {
+            function (array $row) use ($versionNo): \Ibexa\Contracts\Core\Persistence\Content\Field {
                 $field = new Field();
                 $field->id = (int)$row['field_id'];
                 $field->fieldDefinitionId = (int)$row['field_definition_id'];

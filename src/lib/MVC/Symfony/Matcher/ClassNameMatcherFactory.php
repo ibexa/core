@@ -21,16 +21,13 @@ use SplObjectStorage;
  */
 class ClassNameMatcherFactory implements ConfigurableMatcherFactoryInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    protected $repository;
+    protected Repository $repository;
 
     /**
      * The view configuration this matcher should use for matching.
      * Typically, one of the *_view siteaccess aware settings array.
-     *
-     * @var array
      */
-    protected $matchConfig;
+    protected array $matchConfig;
 
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface[] */
     protected $matchers = [];

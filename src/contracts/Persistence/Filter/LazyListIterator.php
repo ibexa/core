@@ -19,11 +19,9 @@ use RuntimeException;
  */
 abstract class LazyListIterator implements IteratorAggregate
 {
-    /** @var int */
-    private $totalCount;
+    private int $totalCount;
 
-    /** @var iterable|null */
-    private $iterator;
+    private ?iterable $iterator;
 
     /** @var callable|null */
     private $iterationCallback;

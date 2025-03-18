@@ -12,15 +12,12 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
 
 class HostElement implements VersatileMatcher
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest */
-    private $request;
+    private ?SimplifiedRequest $request = null;
 
     /**
      * Number of elements to take into account.
-     *
-     * @var int
      */
-    private $elementNumber;
+    private int $elementNumber;
 
     /**
      * Host elements used for matching as an array.
@@ -71,7 +68,7 @@ class HostElement implements VersatileMatcher
      *
      * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
      */
-    public function setRequest(SimplifiedRequest $request)
+    public function setRequest(SimplifiedRequest $request): void
     {
         $this->request = $request;
     }
@@ -81,7 +78,7 @@ class HostElement implements VersatileMatcher
         return $this->request;
     }
 
-    public function reverseMatch($siteAccessName)
+    public function reverseMatch($siteAccessName): ?self
     {
         $hostElements = explode('.', (string)$this->request->getHost());
         $elementNumber = $this->elementNumber - 1;

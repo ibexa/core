@@ -26,11 +26,9 @@ use Ibexa\Contracts\Core\Repository\Values\User\User;
  */
 class ContentTypeService implements ContentTypeServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
-    protected $service;
+    protected ContentTypeServiceInterface $service;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
-    protected $languageResolver;
+    protected LanguageResolver $languageResolver;
 
     /**
      * Construct service object from aggregated service and LanguageResolver.

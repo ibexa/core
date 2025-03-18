@@ -24,17 +24,13 @@ class Handler implements BaseUrlWildcardHandler
 
     /**
      * UrlWildcard Gateway.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway
      */
-    protected $gateway;
+    protected Gateway $gateway;
 
     /**
      * UrlWildcard Mapper.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper
      */
-    protected $mapper;
+    protected Mapper $mapper;
 
     /**
      * Creates a new UrlWildcard Handler.
@@ -101,7 +97,7 @@ class Handler implements BaseUrlWildcardHandler
      *
      * @param mixed $id
      */
-    public function remove($id)
+    public function remove($id): void
     {
         $this->gateway->deleteUrlWildcard($id);
     }
@@ -183,7 +179,7 @@ class Handler implements BaseUrlWildcardHandler
         $rows = $this->gateway->loadUrlWildcardsData();
         uasort(
             $rows,
-            static function ($row1, $row2): int {
+            static function (array $row1, array $row2): int {
                 return strlen($row2['source_url']) - strlen($row1['source_url']);
             }
         );

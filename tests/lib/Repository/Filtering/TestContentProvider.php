@@ -28,11 +28,9 @@ class TestContentProvider
         'article3' => 'remote-id-article-3',
     ];
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    private $repository;
+    private Repository $repository;
 
-    /** @var \Ibexa\Tests\Integration\Core\Repository\BaseTest */
-    private $testInstance;
+    private BaseTest $testInstance;
 
     public function __construct(Repository $repository, BaseTest $testInstance)
     {

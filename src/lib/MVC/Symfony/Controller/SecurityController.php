@@ -14,14 +14,11 @@ use Twig\Environment;
 
 class SecurityController
 {
-    /** @var \Twig\Environment */
-    protected $templateEngine;
+    protected Environment $templateEngine;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    protected $configResolver;
+    protected ConfigResolverInterface $configResolver;
 
-    /** @var \Symfony\Component\Security\Http\Authentication\AuthenticationUtils */
-    protected $authenticationUtils;
+    protected AuthenticationUtils $authenticationUtils;
 
     public function __construct(Environment $templateEngine, ConfigResolverInterface $configResolver, AuthenticationUtils $authenticationUtils)
     {
@@ -30,7 +27,7 @@ class SecurityController
         $this->authenticationUtils = $authenticationUtils;
     }
 
-    public function loginAction()
+    public function loginAction(): LoginFormView
     {
         $view = new LoginFormView($this->configResolver->getParameter('security.login_template'));
         $view->setLastUsername($this->authenticationUtils->getLastUsername());

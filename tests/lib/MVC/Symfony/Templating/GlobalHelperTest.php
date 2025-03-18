@@ -14,6 +14,7 @@ use Ibexa\Core\Helper\TranslationHelper;
 use Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\Templating\GlobalHelper;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,19 +27,19 @@ class GlobalHelperTest extends TestCase
     protected $helper;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    protected $container;
+    protected MockObject $container;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    protected $locationService;
+    protected MockObject $locationService;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    protected $configResolver;
+    protected MockObject $configResolver;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    protected $router;
+    protected MockObject $router;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    protected $translationHelper;
+    protected MockObject $translationHelper;
 
     protected function setUp(): void
     {
@@ -52,7 +53,7 @@ class GlobalHelperTest extends TestCase
         $this->helper = new GlobalHelper($this->configResolver, $this->locationService, $this->router, $this->translationHelper);
     }
 
-    public function testGetSiteaccess()
+    public function testGetSiteaccess(): void
     {
         $request = new Request();
         $requestStack = new RequestStack();
@@ -64,7 +65,7 @@ class GlobalHelperTest extends TestCase
         self::assertSame($siteAccess, $this->helper->getSiteaccess());
     }
 
-    public function testGetViewParameters()
+    public function testGetViewParameters(): void
     {
         $request = Request::create('/foo');
         $viewParameters = [
@@ -80,7 +81,7 @@ class GlobalHelperTest extends TestCase
         self::assertSame($viewParameters, $this->helper->getViewParameters());
     }
 
-    public function testGetViewParametersString()
+    public function testGetViewParametersString(): void
     {
         $request = Request::create('/foo');
         $viewParametersString = '/(foo)/bar/(toto)/tata/(somethingelse)/héhé-høhø';
@@ -92,7 +93,7 @@ class GlobalHelperTest extends TestCase
         self::assertSame($viewParametersString, $this->helper->getViewParametersString());
     }
 
-    public function testGetRequestedUriString()
+    public function testGetRequestedUriString(): void
     {
         $request = Request::create('/ibexa_demo_site/foo/bar');
         $semanticPathinfo = '/foo/bar';
@@ -104,7 +105,7 @@ class GlobalHelperTest extends TestCase
         self::assertSame($semanticPathinfo, $this->helper->getRequestedUriString());
     }
 
-    public function testGetSystemUriStringNoUrlAlias()
+    public function testGetSystemUriStringNoUrlAlias(): void
     {
         $request = Request::create('/ibexa_demo_site/foo/bar');
         $semanticPathinfo = '/foo/bar';
@@ -116,7 +117,7 @@ class GlobalHelperTest extends TestCase
         self::assertSame($semanticPathinfo, $this->helper->getSystemUriString());
     }
 
-    public function testGetSystemUriString()
+    public function testGetSystemUriString(): void
     {
         $locationId = 123;
         $contentId = 456;
@@ -145,12 +146,12 @@ class GlobalHelperTest extends TestCase
         self::assertSame($expectedSystemUriString, $this->helper->getSystemUriString());
     }
 
-    public function testGetConfigResolver()
+    public function testGetConfigResolver(): void
     {
         self::assertSame($this->configResolver, $this->helper->getConfigResolver());
     }
 
-    public function testGetRootLocation()
+    public function testGetRootLocation(): void
     {
         $rootLocationId = 2;
         $this->configResolver
@@ -173,7 +174,7 @@ class GlobalHelperTest extends TestCase
         self::assertSame($rootLocation, $this->helper->getRootLocation());
     }
 
-    public function testGetTranslationSiteAccess()
+    public function testGetTranslationSiteAccess(): void
     {
         $language = 'fre-FR';
         $siteaccess = 'fre';
@@ -186,7 +187,7 @@ class GlobalHelperTest extends TestCase
         self::assertSame($siteaccess, $this->helper->getTranslationSiteAccess($language));
     }
 
-    public function testGetAvailableLanguages()
+    public function testGetAvailableLanguages(): void
     {
         $languages = ['fre-FR', 'eng-GB', 'esl-ES'];
         $this->translationHelper

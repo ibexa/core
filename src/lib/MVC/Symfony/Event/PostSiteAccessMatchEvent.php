@@ -16,11 +16,9 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class PostSiteAccessMatchEvent extends Event
 {
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    private $siteAccess;
+    private SiteAccess $siteAccess;
 
-    /** @var \Symfony\Component\HttpFoundation\Request */
-    private $request;
+    private Request $request;
 
     /**
      * The request type the kernel is currently processing.  One of

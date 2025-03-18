@@ -15,11 +15,9 @@ use UnexpectedValueException;
 
 final class BeforeDeleteTrashItemEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\TrashItem */
-    private $trashItem;
+    private TrashItem $trashItem;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult|null */
-    private $result;
+    private ?TrashItemDeleteResult $result = null;
 
     public function __construct(TrashItem $trashItem)
     {

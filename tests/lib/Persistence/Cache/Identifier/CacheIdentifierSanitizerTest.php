@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 final class CacheIdentifierSanitizerTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierSanitizer */
-    private $cacheIdentifierSanitizer;
+    private CacheIdentifierSanitizer $cacheIdentifierSanitizer;
 
     public function setUp(): void
     {

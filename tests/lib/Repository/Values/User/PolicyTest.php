@@ -22,7 +22,7 @@ class PolicyTest extends TestCase
      *
      * @covers \Ibexa\Core\Repository\Values\User\Policy::__construct
      */
-    public function testNewClass()
+    public function testNewClass(): void
     {
         $this->assertPropertiesCorrect(
             [
@@ -41,7 +41,7 @@ class PolicyTest extends TestCase
      *
      * @covers \Ibexa\Core\Repository\Values\User\Policy::__get
      */
-    public function testMissingProperty()
+    public function testMissingProperty(): void
     {
         $this->expectException(PropertyNotFoundException::class);
 
@@ -55,7 +55,7 @@ class PolicyTest extends TestCase
      *
      * @covers \Ibexa\Core\Repository\Values\User\Policy::__set
      */
-    public function testReadOnlyProperty()
+    public function testReadOnlyProperty(): void
     {
         $this->expectException(PropertyReadOnlyException::class);
 
@@ -69,7 +69,7 @@ class PolicyTest extends TestCase
      *
      * @covers \Ibexa\Core\Repository\Values\User\Policy::__isset
      */
-    public function testIsPropertySet()
+    public function testIsPropertySet(): void
     {
         $policy = new Policy();
         $value = isset($policy->notDefined);
@@ -84,7 +84,7 @@ class PolicyTest extends TestCase
      *
      * @covers \Ibexa\Core\Repository\Values\User\Policy::__unset
      */
-    public function testUnsetProperty()
+    public function testUnsetProperty(): void
     {
         $this->expectException(PropertyReadOnlyException::class);
 

@@ -22,8 +22,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class NotificationService extends NotificationServiceDecorator
 {
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
-    protected $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         NotificationServiceInterface $innerService,

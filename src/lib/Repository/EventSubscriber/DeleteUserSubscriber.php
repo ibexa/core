@@ -14,8 +14,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class DeleteUserSubscriber implements EventSubscriberInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
-    private $contentTypeService;
+    private ContentTypeService $contentTypeService;
 
     public function __construct(ContentTypeService $contentTypeService)
     {

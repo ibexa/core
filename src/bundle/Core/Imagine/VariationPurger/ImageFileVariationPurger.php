@@ -21,13 +21,11 @@ use Iterator;
 class ImageFileVariationPurger implements VariationPurger
 {
     /** @var ImageFileList */
-    private $imageFileList;
+    private Iterator $imageFileList;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
-    private $ioService;
+    private IOServiceInterface $ioService;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationPathGenerator */
-    private $variationPathGenerator;
+    private VariationPathGenerator $variationPathGenerator;
 
     /** @var \Psr\Log\LoggerInterface */
     private $logger;
@@ -44,7 +42,7 @@ class ImageFileVariationPurger implements VariationPurger
      *
      * @param array $aliasNames
      */
-    public function purge(array $aliasNames)
+    public function purge(array $aliasNames): void
     {
         foreach ($this->imageFileList as $originalImageId) {
             foreach ($aliasNames as $aliasName) {
@@ -65,7 +63,7 @@ class ImageFileVariationPurger implements VariationPurger
     /**
      * @param \Psr\Log\LoggerInterface $logger
      */
-    public function setLogger($logger)
+    public function setLogger($logger): void
     {
         $this->logger = $logger;
     }

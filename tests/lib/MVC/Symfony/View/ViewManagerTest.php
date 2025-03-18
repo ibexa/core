@@ -18,6 +18,7 @@ use Ibexa\Core\Repository\ContentService;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Twig\Environment;
@@ -28,24 +29,24 @@ use Twig\Environment;
 class ViewManagerTest extends TestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\View\Manager */
-    private $viewManager;
+    private Manager $viewManager;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Twig\Environment */
-    private $templateEngineMock;
+    private MockObject $templateEngineMock;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\EventDispatcher\EventDispatcherInterface */
-    private $eventDispatcherMock;
+    private MockObject $eventDispatcherMock;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Repository\Repository */
-    private $repositoryMock;
+    private MockObject $repositoryMock;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolverMock;
+    private MockObject $configResolverMock;
 
     /** @var \Ibexa\Core\MVC\Symfony\View\Configurator|\PHPUnit\Framework\MockObject\MockObject */
-    private $viewConfigurator;
+    private MockObject $viewConfigurator;
 
-    private $viewBaseLayout = 'IbexaCoreBundle::viewbase.html.twig';
+    private string $viewBaseLayout = 'IbexaCoreBundle::viewbase.html.twig';
 
     protected function setUp(): void
     {
@@ -65,7 +66,7 @@ class ViewManagerTest extends TestCase
         );
     }
 
-    public function testRenderContent()
+    public function testRenderContent(): void
     {
         $content = new Content(
             ['versionInfo' => new VersionInfo(['contentInfo' => new ContentInfo()])]
@@ -78,7 +79,7 @@ class ViewManagerTest extends TestCase
             ->method('configure')
             ->will(
                 self::returnCallback(
-                    static function (View $view) use ($templateIdentifier) {
+                    static function (View $view) use ($templateIdentifier): void {
                         $view->setTemplateIdentifier($templateIdentifier);
                     }
                 )
@@ -98,7 +99,7 @@ class ViewManagerTest extends TestCase
         self::assertSame($expectedTemplateResult, $this->viewManager->renderContent($content, 'customViewType', $params));
     }
 
-    public function testRenderContentWithClosure()
+    public function testRenderContentWithClosure(): void
     {
         $content = new Content(
             ['versionInfo' => new VersionInfo(['contentInfo' => new ContentInfo()])]
@@ -114,7 +115,7 @@ class ViewManagerTest extends TestCase
             ->method('configure')
             ->will(
                 self::returnCallback(
-                    static function (View $view) use ($closure) {
+                    static function (View $view) use ($closure): void {
                         $view->setTemplateIdentifier($closure);
                     }
                 )
@@ -132,7 +133,7 @@ class ViewManagerTest extends TestCase
         self::assertEqualsCanonicalizing($expectedTemplateResult, $templateResult);
     }
 
-    public function testRenderLocation()
+    public function testRenderLocation(): void
     {
         $content = new Content(['versionInfo' => new VersionInfo(['contentInfo' => new ContentInfo()])]);
         $location = new Location(['contentInfo' => new ContentInfo()]);
@@ -145,7 +146,7 @@ class ViewManagerTest extends TestCase
             ->method('configure')
             ->will(
                 self::returnCallback(
-                    static function (View $view) use ($templateIdentifier) {
+                    static function (View $view) use ($templateIdentifier): void {
                         $view->setTemplateIdentifier($templateIdentifier);
                     }
                 )
@@ -181,7 +182,7 @@ class ViewManagerTest extends TestCase
         self::assertSame($expectedTemplateResult, $this->viewManager->renderLocation($location, 'customViewType', $params));
     }
 
-    public function testRenderLocationWithContentPassed()
+    public function testRenderLocationWithContentPassed(): void
     {
         $content = new Content(['versionInfo' => new VersionInfo(['contentInfo' => new ContentInfo()])]);
         $location = new Location(['contentInfo' => new ContentInfo()]);
@@ -194,7 +195,7 @@ class ViewManagerTest extends TestCase
             ->method('configure')
             ->will(
                 self::returnCallback(
-                    static function (View $view) use ($templateIdentifier) {
+                    static function (View $view) use ($templateIdentifier): void {
                         $view->setTemplateIdentifier($templateIdentifier);
                     }
                 )
@@ -232,7 +233,7 @@ class ViewManagerTest extends TestCase
         self::assertSame($expectedTemplateResult, $this->viewManager->renderLocation($location, 'customViewType', $params));
     }
 
-    public function testRenderLocationWithClosure()
+    public function testRenderLocationWithClosure(): void
     {
         $content = new Content(['versionInfo' => new VersionInfo(['contentInfo' => new ContentInfo()])]);
         $location = new Location(['contentInfo' => new ContentInfo()]);
@@ -247,7 +248,7 @@ class ViewManagerTest extends TestCase
             ->method('configure')
             ->will(
                 self::returnCallback(
-                    static function (View $view) use ($closure) {
+                    static function (View $view) use ($closure): void {
                         $view->setTemplateIdentifier($closure);
                     }
                 )

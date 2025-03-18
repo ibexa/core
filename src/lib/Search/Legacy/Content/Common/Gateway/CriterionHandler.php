@@ -30,8 +30,7 @@ abstract class CriterionHandler
         Operator::LIKE => 'like',
     ];
 
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
+    protected Connection $connection;
 
     /** @var \Doctrine\DBAL\Platforms\AbstractPlatform|null */
     protected $dbPlatform;

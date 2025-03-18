@@ -23,7 +23,7 @@ class ContentTypeLimitationTest extends BaseLimitationTest
      *
      * @throws \ErrorException
      */
-    public function testContentTypeLimitationAllow()
+    public function testContentTypeLimitationAllow(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();
@@ -93,7 +93,7 @@ class ContentTypeLimitationTest extends BaseLimitationTest
      *
      * @throws \ErrorException
      */
-    public function testContentTypeLimitationForbid()
+    public function testContentTypeLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -151,7 +151,7 @@ class ContentTypeLimitationTest extends BaseLimitationTest
     /**
      * @throws \ErrorException
      */
-    public function testContentTypeLimitationForbidVariant()
+    public function testContentTypeLimitationForbidVariant(): void
     {
         $this->expectException(UnauthorizedException::class);
 

@@ -42,7 +42,7 @@ class ChainConfigResolverPassTest extends AbstractCompilerPassTestCase
      *
      * @dataProvider addResolverProvider
      */
-    public function testAddResolver($declaredPriority, $expectedPriority)
+    public function testAddResolver(?int $declaredPriority, int $expectedPriority): void
     {
         $resolverDef = new Definition();
         $serviceId = 'some_service_id';
@@ -63,7 +63,7 @@ class ChainConfigResolverPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function addResolverProvider()
+    public function addResolverProvider(): array
     {
         return [
             [null, 0],

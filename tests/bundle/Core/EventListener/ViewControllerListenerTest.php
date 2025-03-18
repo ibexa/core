@@ -15,6 +15,7 @@ use Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilderRegistry;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
 use Ibexa\Core\MVC\Symfony\View\Event\FilterViewBuilderParametersEvent;
 use Ibexa\Core\MVC\Symfony\View\ViewEvents;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -28,31 +29,31 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class ViewControllerListenerTest extends TestCase
 {
     /** @var \Symfony\Component\HttpKernel\Controller\ControllerResolver|\PHPUnit\Framework\MockObject\MockObject */
-    private $controllerResolver;
+    private MockObject $controllerResolver;
 
     /** @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $logger;
+    private MockObject $logger;
 
     /** @var \Ibexa\Bundle\Core\EventListener\ViewControllerListener */
-    private $controllerListener;
+    private ViewControllerListener $controllerListener;
 
     /** @var \Symfony\Component\HttpKernel\Event\ControllerEvent */
     private $event;
 
     /** @var \Symfony\Component\HttpFoundation\Request */
-    private $request;
+    private Request $request;
 
     /** @var \Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilderRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $viewBuilderRegistry;
+    private MockObject $viewBuilderRegistry;
 
     /** @var \Ibexa\Core\MVC\Symfony\View\Configurator|\PHPUnit\Framework\MockObject\MockObject */
     private $viewConfigurator;
 
     /** @var \Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilder|\PHPUnit\Framework\MockObject\MockObject */
-    private $viewBuilderMock;
+    private MockObject $viewBuilderMock;
 
     /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $eventDispatcher;
+    private MockObject $eventDispatcher;
 
     protected function setUp(): void
     {
@@ -74,7 +75,7 @@ class ViewControllerListenerTest extends TestCase
         $this->viewBuilderMock = $this->createMock(ViewBuilder::class);
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         self::assertSame(
             [KernelEvents::CONTROLLER => ['getController', 10]],
@@ -82,7 +83,7 @@ class ViewControllerListenerTest extends TestCase
         );
     }
 
-    public function testGetControllerNoBuilder()
+    public function testGetControllerNoBuilder(): void
     {
         $initialController = 'Foo::bar';
         $this->request->attributes->set('_controller', $initialController);
@@ -96,9 +97,9 @@ class ViewControllerListenerTest extends TestCase
         $this->controllerListener->getController($this->event);
     }
 
-    public function testGetControllerWithClosure()
+    public function testGetControllerWithClosure(): void
     {
-        $initialController = static function () {};
+        $initialController = static function (): void {};
         $this->request->attributes->set('_controller', $initialController);
 
         $this->viewBuilderRegistry
@@ -110,7 +111,7 @@ class ViewControllerListenerTest extends TestCase
         $this->controllerListener->getController($this->event);
     }
 
-    public function testGetControllerMatchedView()
+    public function testGetControllerMatchedView(): void
     {
         $contentId = 12;
         $locationId = 123;
@@ -144,7 +145,7 @@ class ViewControllerListenerTest extends TestCase
         $this->controllerResolver
             ->expects(self::once())
             ->method('getController')
-            ->will(self::returnValue(static function () {}));
+            ->will(self::returnValue(static function (): void {}));
 
         $this->controllerListener->getController($this->event);
         self::assertEquals($customController, $this->request->attributes->get('_controller'));
@@ -192,11 +193,11 @@ class ViewControllerListenerTest extends TestCase
     /**
      * @return \Symfony\Component\HttpKernel\Event\ControllerEvent
      */
-    protected function createEvent()
+    protected function createEvent(): ControllerEvent
     {
         return new ControllerEvent(
             $this->createMock(HttpKernelInterface::class),
-            static function () {},
+            static function (): void {},
             $this->request,
             HttpKernelInterface::MAIN_REQUEST
         );

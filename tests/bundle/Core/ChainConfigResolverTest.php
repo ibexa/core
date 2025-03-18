@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\Core;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,14 +19,14 @@ use PHPUnit\Framework\TestCase;
 class ChainConfigResolverTest extends TestCase
 {
     /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver */
-    private $chainResolver;
+    private ChainConfigResolver $chainResolver;
 
     protected function setUp(): void
     {
         $this->chainResolver = new ChainConfigResolver();
     }
 
-    public function testPriority()
+    public function testPriority(): void
     {
         self::assertEquals([], $this->chainResolver->getAllResolvers());
 
@@ -47,7 +48,7 @@ class ChainConfigResolverTest extends TestCase
      * Resolvers are supposed to be sorted only once.
      * This test will check that by trying to get all resolvers several times.
      */
-    public function testSortResolvers()
+    public function testSortResolvers(): void
     {
         list($low, $medium, $high) = $this->createResolverMocks();
         // We're using a mock here and not $this->chainResolver because we need to ensure that the sorting operation is done only once.
@@ -77,7 +78,7 @@ class ChainConfigResolverTest extends TestCase
     /**
      * This test ensures that if a resolver is being added on the fly, the sorting is reset.
      */
-    public function testReSortResolvers()
+    public function testReSortResolvers(): void
     {
         list($low, $medium, $high) = $this->createResolverMocks();
         $highest = clone $high;
@@ -120,14 +121,14 @@ class ChainConfigResolverTest extends TestCase
         );
     }
 
-    public function testGetDefaultNamespace()
+    public function testGetDefaultNamespace(): void
     {
         $this->expectException(\LogicException::class);
 
         $this->chainResolver->getDefaultNamespace();
     }
 
-    public function testSetDefaultNamespace()
+    public function testSetDefaultNamespace(): void
     {
         $namespace = 'foo';
         foreach ($this->createResolverMocks() as $i => $resolver) {
@@ -141,7 +142,7 @@ class ChainConfigResolverTest extends TestCase
         $this->chainResolver->setDefaultNamespace($namespace);
     }
 
-    public function testGetParameterInvalid()
+    public function testGetParameterInvalid(): void
     {
         $this->expectException(ParameterNotFoundException::class);
 
@@ -168,7 +169,7 @@ class ChainConfigResolverTest extends TestCase
      * @param string $scope
      * @param mixed $expectedValue
      */
-    public function testGetParameter($paramName, $namespace, $scope, $expectedValue)
+    public function testGetParameter(string $paramName, string $namespace, string $scope, string|bool|array $expectedValue): void
     {
         $resolver = $this->createMock(ConfigResolverInterface::class);
         $resolver
@@ -181,7 +182,7 @@ class ChainConfigResolverTest extends TestCase
         self::assertSame($expectedValue, $this->chainResolver->getParameter($paramName, $namespace, $scope));
     }
 
-    public function getParameterProvider()
+    public function getParameterProvider(): array
     {
         return [
             ['foo', 'namespace', 'scope', 'someValue'],
@@ -191,7 +192,7 @@ class ChainConfigResolverTest extends TestCase
         ];
     }
 
-    public function testHasParameterTrue()
+    public function testHasParameterTrue(): void
     {
         $paramName = 'foo';
         $namespace = 'yetAnotherNamespace';
@@ -222,7 +223,7 @@ class ChainConfigResolverTest extends TestCase
         self::assertTrue($this->chainResolver->hasParameter($paramName, $namespace, $scope));
     }
 
-    public function testHasParameterFalse()
+    public function testHasParameterFalse(): void
     {
         $paramName = 'foo';
         $namespace = 'yetAnotherNamespace';
@@ -242,7 +243,7 @@ class ChainConfigResolverTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject[]
      */
-    private function createResolverMocks()
+    private function createResolverMocks(): array
     {
         return [
             $this->createMock(ConfigResolverInterface::class),
@@ -251,7 +252,7 @@ class ChainConfigResolverTest extends TestCase
         ];
     }
 
-    private function buildMock($class, array $methods = [])
+    private function buildMock(string $class, array $methods = []): MockObject
     {
         return $this
             ->getMockBuilder($class)
