@@ -179,12 +179,12 @@ jobs:
             -   name: Verify Collation and Run integration test suite vs MySQL
                 run: |
                     echo "Waiting for MySQL to be ready..."
-                    until mysql -h127.0.0.1 -umysql -pmysql -e "SELECT 1" &> /dev/null; do
+                    until mysql -h localhost -umysql -pmysql -e "SELECT 1" &> /dev/null; do
                         echo "Waiting for MySQL..."
                         sleep 2
                     done
                     echo "Verifying table collations..."
-                    mysql -h127.0.0.1 -umysql -pmysql -e "SELECT table_name, table_collation FROM information_schema.tables WHERE table_schema = 'testdb';"
+                    mysql -h localhost -umysql -pmysql -e "SELECT table_name, table_collation FROM information_schema.tables WHERE table_schema = 'testdb';"
                     echo "Running integration tests..."
                     composer run-script integration
                 env:
