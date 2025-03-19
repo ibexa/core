@@ -179,7 +179,7 @@ jobs:
             -   name: Verify Collation and Run integration test suite vs MySQL
                 run: |
                     echo "Verifying table collations..."
-                    mysql -hmysql -umysql -pmysql -e "SELECT table_name, table_collation FROM information_schema.tables WHERE table_schema = 'testdb';"
+                    mysql -umysql -pmysql -e "SELECT table_name, table_collation FROM information_schema.tables WHERE table_schema = 'testdb';"
                     echo "Running integration tests..."
                     composer run-script integration
                 env:
