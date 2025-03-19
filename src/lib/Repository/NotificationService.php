@@ -112,7 +112,7 @@ class NotificationService implements NotificationServiceInterface
         }
 
         if ($notification->ownerId !== $currentUserId) {
-            throw new UnauthorizedException($notification->id, 'Notification');
+            throw new UnauthorizedException('notification', 'update', ['id' => $notification->id]);
         }
 
         if (!$notification->isPending) {
@@ -121,6 +121,28 @@ class NotificationService implements NotificationServiceInterface
 
         $updateStruct = new UpdateStruct();
         $updateStruct->isPending = false;
+
+        $this->persistenceHandler->updateNotification($notification, $updateStruct);
+    }
+
+    public function markNotificationAsUnread(APINotification $notification): void
+    {
+        $currentUserId = $this->getCurrentUserId();
+
+        if (!$notification->id) {
+            throw new NotFoundException('Notification', $notification->id);
+        }
+
+        if ($notification->ownerId !== $currentUserId) {
+            throw new UnauthorizedException('notification', 'update', ['id' => $notification->id]);
+        }
+
+        if ($notification->isPending) {
+            return;
+        }
+
+        $updateStruct = new UpdateStruct();
+        $updateStruct->isPending = true;
 
         $this->persistenceHandler->updateNotification($notification, $updateStruct);
     }

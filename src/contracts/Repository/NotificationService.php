@@ -50,6 +50,14 @@ interface NotificationService
     public function markNotificationAsRead(Notification $notification): void;
 
     /**
+     * Marks the given notification as unread so it is shown again as new to the user.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
+    public function markNotificationAsUnread(Notification $notification): void;
+
+    /**
      * Get count of unread users notifications.
      *
      * @return int
