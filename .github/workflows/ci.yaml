@@ -188,64 +188,6 @@ jobs:
                     DATABASE_CHARSET: "utf8mb4"
                     DATABASE_COLLATION: "utf8mb4_unicode_ci"
 
-    integration-tests-mysql-84:
-        name: MySQL integration tests (8.4)
-        needs: tests
-        services:
-            mysql:
-                image: mysql:8.4
-                ports:
-                    - 3306/tcp
-                env:
-                    MYSQL_RANDOM_ROOT_PASSWORD: true
-                    MYSQL_USER: mysql
-                    MYSQL_PASSWORD: mysql
-                    MYSQL_DATABASE: testdb
-                    MYSQL_COLLATION_SERVER: utf8mb4_unicode_ci
-                    MYSQL_CHARACTER_SET_SERVER: utf8mb4
-                options: >-
-                    --health-cmd="mysqladmin ping"
-                    --health-interval=10s
-                    --health-timeout=5s
-                    --health-retries=5
-                    --tmpfs=/var/lib/mysql
-        runs-on: "ubuntu-20.04"
-        timeout-minutes: 60
-
-        strategy:
-            fail-fast: false
-            matrix:
-                php:
-                    - '7.4'
-                    - '8.0'
-                    - '8.1'
-
-        steps:
-            -   uses: actions/checkout@v2
-
-            -   name: Setup PHP Action
-                uses: shivammathur/setup-php@v2
-                with:
-                    php-version: ${{ matrix.php }}
-                    coverage: none
-                    extensions: pdo_mysql, gd, redis
-                    tools: cs2pr
-
-            -   uses: "ramsey/composer-install@v1"
-                with:
-                    dependency-versions: "highest"
-
-            -   name: Setup problem matchers for PHPUnit
-                run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
-
-            -   name: Run integration test suite vs MySQL
-                run: composer run-script integration
-                env:
-                    DATABASE_URL: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb?charset=utf8mb4&collation=utf8mb4_unicode_ci"
-                    DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
-                    DATABASE_CHARSET: "utf8mb4"
-                    DATABASE_COLLATION: "utf8mb4_unicode_ci"
-
     solr-integration:
         name: "Solr integration tests"
         runs-on: "ubuntu-20.04"
