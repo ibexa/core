@@ -70843,12 +70843,6 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:getPartlyMockedContentService\(\) invoked with 2 parameters, 0\-1 required\.$#'
-			identifier: arguments.count
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:getPartlyMockedContentService\(\) should return Ibexa\\Core\\Repository\\ContentService&PHPUnit\\Framework\\MockObject\\MockObject but returns Ibexa\\Core\\Repository\\ContentService\.$#'
 			identifier: return.type
 			count: 1
