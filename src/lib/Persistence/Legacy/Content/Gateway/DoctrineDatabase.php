@@ -916,7 +916,7 @@ final class DoctrineDatabase extends Gateway
     public function loadVersionNoArchivedWithin(int $contentId, int $seconds): array
     {
         $cutoffTimestamp = strtotime(sprintf('-%d seconds', $seconds));
-        if (!$cutoffTimestamp) {
+        if (false === $cutoffTimestamp) {
             return [];
         }
         $queryBuilder = $this->queryBuilder->createVersionInfoFindQueryBuilder();
