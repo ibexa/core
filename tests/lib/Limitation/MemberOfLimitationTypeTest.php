@@ -349,8 +349,6 @@ final class MemberOfLimitationTypeTest extends Base
 
     /**
      * @param \Ibexa\Core\Repository\Values\User\User|\Ibexa\Core\Repository\Values\User\UserRoleAssignment $object
-     * @param array<int, mixed> $currentUserGroupLocations
-     *
      * @dataProvider providerForTestEvaluateSelfGroup
      */
     public function testEvaluateSelfGroup(

@@ -55495,6 +55495,12 @@ parameters:
 			path: tests/lib/Limitation/MemberOfLimitationTypeTest.php
 
 		-
+			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\MemberOfLimitationTypeTest\:\:testEvaluateSelfGroup\(\) has parameter \$currentUserGroupLocations with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/lib/Limitation/MemberOfLimitationTypeTest.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\NewObjectStateLimitationTypeTest\:\:providerForTestAcceptValue\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
