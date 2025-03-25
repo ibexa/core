@@ -30061,7 +30061,7 @@ parameters:
 			path: tests/bundle/Core/EventListener/BackgroundIndexingTerminateListenerTest.php
 
 		-
-			message: '#^Parameter \#1 \$stub of method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\<Ibexa\\Contracts\\Core\\Persistence\\Content\\Handler\>\:\:will\(\) expects PHPUnit\\Framework\\MockObject\\Stub\\Stub, PHPUnit\\Framework\\MockObject\\Stub given\.$#'
+			message: '#^Parameter \#1 \$stub of method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:will\(\) expects PHPUnit\\Framework\\MockObject\\Stub\\Stub, PHPUnit\\Framework\\MockObject\\Stub given\.$#'
 			identifier: argument.type
 			count: 2
 			path: tests/bundle/Core/EventListener/BackgroundIndexingTerminateListenerTest.php
@@ -46555,6 +46555,12 @@ parameters:
 			path: tests/integration/Core/Repository/SearchServiceTest.php
 
 		-
+			message: '#^Parameter \#1 \$query of method Ibexa\\Contracts\\Core\\Repository\\SearchService\:\:findLocations\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\LocationQuery, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceTest.php
+
+		-
 			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\SearchHit\:\:\$valueObject \(Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject\) does not accept array\<string, int\|string\>\.$#'
 			identifier: assign.propertyType
 			count: 2
@@ -55484,12 +55490,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\MemberOfLimitationTypeTest\:\:providerForTestValidateError\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Limitation/MemberOfLimitationTypeTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\MemberOfLimitationTypeTest\:\:testEvaluateSelfGroup\(\) has parameter \$currentUserGroupLocations with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/lib/Limitation/MemberOfLimitationTypeTest.php
