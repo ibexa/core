@@ -26767,7 +26767,7 @@ parameters:
 			path: tests/bundle/Core/EventListener/BackgroundIndexingTerminateListenerTest.php
 
 		-
-			message: '#^Parameter \#1 \$stub of method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\<Ibexa\\Contracts\\Core\\Persistence\\Content\\Handler\>\:\:will\(\) expects PHPUnit\\Framework\\MockObject\\Stub\\Stub, PHPUnit\\Framework\\MockObject\\Stub given\.$#'
+			message: '#^Parameter \#1 \$stub of method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:will\(\) expects PHPUnit\\Framework\\MockObject\\Stub\\Stub, PHPUnit\\Framework\\MockObject\\Stub given\.$#'
 			identifier: argument.type
 			count: 2
 			path: tests/bundle/Core/EventListener/BackgroundIndexingTerminateListenerTest.php
@@ -42361,6 +42361,12 @@ parameters:
 			path: tests/integration/Core/Repository/SearchServiceTest.php
 
 		-
+			message: '#^Parameter \#1 \$query of method Ibexa\\Contracts\\Core\\Repository\\SearchService\:\:findLocations\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\LocationQuery, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceTest.php
+
+		-
 			message: '#^Unreachable statement \- code above always terminates\.$#'
 			identifier: deadCode.unreachable
 			count: 3
@@ -50401,6 +50407,12 @@ parameters:
 			path: tests/lib/Limitation/MemberOfLimitationTypeTest.php
 
 		-
+			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:willReturnOnConsecutiveCalls\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
+			identifier: argument.named
+			count: 1
+			path: tests/lib/Limitation/MemberOfLimitationTypeTest.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Core\\Limitation\\NewObjectStateLimitationTypeTest\:\:providerForTestAcceptValue\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -54403,6 +54415,24 @@ parameters:
 			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
 
 		-
+			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:willReturnOnConsecutiveCalls\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
+			identifier: argument.named
+			count: 6
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+
+		-
+			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:with\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
+			identifier: argument.named
+			count: 2
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+
+		-
+			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:withConsecutive\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
+			identifier: argument.named
+			count: 6
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+
+		-
 			message: '#^Only iterables can be unpacked, array\|null given in argument \#1\.$#'
 			identifier: argument.unpackNonIterable
 			count: 5
@@ -54562,6 +54592,24 @@ parameters:
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:testUnCachedMethods\(\) has parameter \$tags with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+
+		-
+			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:willReturnOnConsecutiveCalls\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
+			identifier: argument.named
+			count: 6
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+
+		-
+			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:with\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
+			identifier: argument.named
+			count: 2
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+
+		-
+			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:withConsecutive\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
+			identifier: argument.named
+			count: 6
 			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
 
 		-
@@ -67741,6 +67789,12 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/UrlTest.php
 
 		-
+			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:withConsecutive\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
+			identifier: argument.named
+			count: 1
+			path: tests/lib/Repository/Service/Mock/UrlTest.php
+
+		-
 			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\URL\\URLQuery\:\:\$limit \(int\) does not accept string\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -68146,6 +68200,12 @@ parameters:
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTest\:\:testForPassTrough\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+
+		-
+			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:with\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
+			identifier: argument.named
+			count: 4
 			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
 
 		-
