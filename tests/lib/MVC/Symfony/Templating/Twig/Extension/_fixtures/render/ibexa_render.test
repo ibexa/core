@@ -1,0 +1,13 @@
+--TEST--
+"ibexa_render" function
+--TEMPLATE--
+{{ ibexa_render(content) }}
+{{ ibexa_render(content_aware) }}
+--DATA--
+return [
+    'content' => $this->getExampleContent('Example content'),
+    'content_aware' => $this->getExampleContentAware('Example content aware'),
+];
+--EXPECT--
+Example content
+Example content aware
