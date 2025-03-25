@@ -34,7 +34,7 @@ class DataCollectorPass implements CompilerPassInterface
             }
         }
 
-        usort($collectors, fn($a, $b) => $b['priority'] <=> $a['priority']);
+        usort($collectors, static fn ($a, $b) => $b['priority'] <=> $a['priority']);
 
         foreach ($collectors as $collector) {
             $dataCollectorDef->addMethodCall('addCollector', [
