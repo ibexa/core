@@ -15,6 +15,7 @@ services:
                 id: "ezpublish.debug.siteaccess"
                 panelTemplate: '@IbexaDebug/Profiler/siteaccess/panel.html.twig'
                 toolbarTemplate: '@IbexaDebug/Profiler/siteaccess/toolbar.html.twig'
+                priority: 200
 
     Ibexa\Bundle\Debug\Collector\PersistenceCacheCollector:
         class: Ibexa\Bundle\Debug\Collector\PersistenceCacheCollector
@@ -25,3 +26,4 @@ services:
                 id: "ezpublish.debug.persistence"
                 panelTemplate: '@IbexaDebug/Profiler/persistence/panel.html.twig'
                 toolbarTemplate: '@IbexaDebug/Profiler/persistence/toolbar.html.twig'
+                priority: 100
