@@ -30061,7 +30061,7 @@ parameters:
 			path: tests/bundle/Core/EventListener/BackgroundIndexingTerminateListenerTest.php
 
 		-
-			message: '#^Parameter \#1 \$stub of method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\<Ibexa\\Contracts\\Core\\Persistence\\Content\\Handler\>\:\:will\(\) expects PHPUnit\\Framework\\MockObject\\Stub\\Stub, PHPUnit\\Framework\\MockObject\\Stub given\.$#'
+			message: '#^Parameter \#1 \$stub of method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:will\(\) expects PHPUnit\\Framework\\MockObject\\Stub\\Stub, PHPUnit\\Framework\\MockObject\\Stub given\.$#'
 			identifier: argument.type
 			count: 2
 			path: tests/bundle/Core/EventListener/BackgroundIndexingTerminateListenerTest.php
@@ -46550,6 +46550,12 @@ parameters:
 
 		-
 			message: '#^Parameter \#1 \$parentLocationId of method Ibexa\\Contracts\\Core\\Repository\\LocationService\:\:newLocationCreateStruct\(\) expects int, int\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceTest.php
+
+		-
+			message: '#^Parameter \#1 \$query of method Ibexa\\Contracts\\Core\\Repository\\SearchService\:\:findLocations\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\LocationQuery, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query given\.$#'
 			identifier: argument.type
 			count: 1
 			path: tests/integration/Core/Repository/SearchServiceTest.php
