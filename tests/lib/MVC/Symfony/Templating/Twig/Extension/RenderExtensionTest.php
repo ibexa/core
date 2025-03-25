@@ -11,9 +11,12 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Templating\Twig\Extension;
 use Ibexa\Contracts\Core\MVC\Templating\RenderStrategy;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface;
+use Ibexa\Contracts\Core\Repository\Values\Setting\Setting;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\MVC\Symfony\Event\ResolveRenderOptionsEvent;
 use Ibexa\Core\MVC\Symfony\Templating\RenderOptions;
 use Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\RenderExtension;
+use stdClass;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Twig\Test\IntegrationTestCase;
 
@@ -28,7 +31,9 @@ final class RenderExtensionTest extends IntegrationTestCase
     protected function setUp(): void
     {
         $this->renderStrategy = $this->createMock(RenderStrategy::class);
-        $this->renderStrategy->method('supports')->willReturn(true);
+        $this->renderStrategy->method('supports')->willReturnCallback(
+            static fn (ValueObject $vo): bool => !$vo instanceof Setting
+        );
         $this->renderStrategy->method('render')->willReturnCallback(
             static function (Content $valueObject): ?string {
                 return $valueObject->getName();
@@ -70,5 +75,15 @@ final class RenderExtensionTest extends IntegrationTestCase
         $contentAware->method('getContent')->willReturn($this->getExampleContent($name));
 
         return $contentAware;
+    }
+
+    public function getExampleNonValueObject(): object
+    {
+        return new stdClass();
+    }
+
+    public function getExampleUnsupportedValueObject(): Setting
+    {
+        return new Setting();
     }
 }

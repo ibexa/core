@@ -1,0 +1,10 @@
+--TEST--
+ "ibexa_render" function
+--TEMPLATE--
+{{ ibexa_render(non_vo) }}
+--DATA--
+return [
+    'non_vo' => $this->getExampleNonValueObject(),
+];
+--EXPECT--
+Twig\Error\Error: Twig\Error\RuntimeError: An exception has been thrown during the rendering of a template ("Argument 'valueObject' is invalid: stdClass is not a valid value object.") in "index.twig" at line 2.

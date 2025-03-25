@@ -1,0 +1,10 @@
+--TEST--
+"ibexa_render" function with unsupported value object
+--TEMPLATE--
+{{ ibexa_render(unsupported_vo) }}
+--DATA--
+return [
+    'unsupported_vo' => $this->getExampleUnsupportedValueObject(),
+];
+--EXPECT--
+Twig\Error\Error: Twig\Error\RuntimeError: An exception has been thrown during the rendering of a template ("Argument 'valueObject' is invalid: Ibexa\Contracts\Core\Repository\Values\Setting\Setting is not supported.") in "index.twig" at line 2.
