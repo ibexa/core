@@ -491,12 +491,8 @@ class ContentTest extends BaseServiceMockTest
         $contentService->loadContent($contentId);
     }
 
-    public function testLoadContentNotPublishedStatusUnauthorized(bool $expectException = true)
+    public function testLoadContentNotPublishedStatusUnauthorized()
     {
-        if ($expectException) {
-            $this->expectException(UnauthorizedException::class);
-        }
-
         $permissionResolver = $this->getPermissionResolverMock();
         $contentService = $this->getPartlyMockedContentService(['internalLoadContentById']);
         $content = $this->createMock(APIContent::class);
@@ -526,6 +522,7 @@ class ContentTest extends BaseServiceMockTest
                 )
             );
 
+        $this->expectException(UnauthorizedException::class);
         $contentService->loadContent($contentId);
     }
 

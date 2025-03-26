@@ -127,6 +127,7 @@ class RepositoryFactory implements ContainerAwareInterface
                 'content' => [
                     'default_version_archive_limit' => $config['options']['default_version_archive_limit'],
                     'remove_archived_versions_on_publish' => $config['options']['remove_archived_versions_on_publish'],
+                    'grace_period_in_seconds' => $config['options']['grace_period_in_seconds'] ?? (int) ini_get('max_execution_time'),
                 ],
             ],
             $this->logger
