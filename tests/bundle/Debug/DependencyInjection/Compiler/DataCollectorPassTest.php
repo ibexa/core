@@ -46,13 +46,13 @@ class DataCollectorPassTest extends AbstractCompilerPassTestCase
 
         $this->compile();
 
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+        self::assertContainerBuilderHasServiceDefinitionWithMethodCall(
             IbexaCoreCollector::class,
             'addCollector',
             [new Reference('collector_b'), 'panel_b.html.twig', 'toolbar_b.html.twig']
         );
 
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+        self::assertContainerBuilderHasServiceDefinitionWithMethodCall(
             IbexaCoreCollector::class,
             'addCollector',
             [new Reference('collector_a'), 'panel_a.html.twig', 'toolbar_a.html.twig']
@@ -60,12 +60,12 @@ class DataCollectorPassTest extends AbstractCompilerPassTestCase
 
         $calls = $this->container->getDefinition(IbexaCoreCollector::class)->getMethodCalls();
 
-        $this->assertCount(2, $calls);
-        $this->assertSame('addCollector', $calls[0][0]);
-        $this->assertEquals(new Reference('collector_b'), $calls[0][1][0]);
+        self::assertCount(2, $calls);
+        self::assertSame('addCollector', $calls[0][0]);
+        self::assertEquals(new Reference('collector_b'), $calls[0][1][0]);
 
-        $this->assertSame('addCollector', $calls[1][0]);
-        $this->assertEquals(new Reference('collector_a'), $calls[1][1][0]);
+        self::assertSame('addCollector', $calls[1][0]);
+        self::assertEquals(new Reference('collector_a'), $calls[1][1][0]);
     }
 }
 
