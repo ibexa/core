@@ -34,7 +34,7 @@ class DataCollectorPass implements CompilerPassInterface
             }
         }
 
-        /** @var array<int, mixed> $collectors */
+        /** @var list<array{id: string, priority: int, panelTemplate: string|null, toolbarTemplate: string|null}> $collectors */
         usort($collectors, static fn (array $a, array $b): int => $b['priority'] <=> $a['priority']);
 
         foreach ($collectors as $collector) {
