@@ -13591,12 +13591,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Templating/Twig/Extension/RenderContentExtension.php
 
 		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Templating\\Twig\\Extension\\RenderExtension\:\:render\(\) has parameter \$options with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/Templating/Twig/Extension/RenderExtension.php
-
-		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Templating\\Twig\\Extension\\RenderLocationExtension\:\:renderLocation\(\) has parameter \$options with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
