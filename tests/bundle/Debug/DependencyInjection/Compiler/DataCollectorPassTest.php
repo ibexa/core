@@ -28,23 +28,44 @@ class DataCollectorPassTest extends AbstractCompilerPassTestCase
 
     public function testAddCollector()
     {
-        $panelTemplate = 'panel.html.twig';
-        $toolbarTemplate = 'toolbar.html.twig';
-        $definition = new Definition();
-        $definition->addTag(
-            'ibexa.debug.data_collector',
-            ['panelTemplate' => $panelTemplate, 'toolbarTemplate' => $toolbarTemplate]
-        );
+        $defA = new Definition();
+        $defA->addTag('ibexa.debug.data_collector', [
+            'panelTemplate' => 'panel_a.html.twig',
+            'toolbarTemplate' => 'toolbar_a.html.twig',
+            'priority' => 5,
+        ]);
+        $this->setDefinition('collector_a', $defA);
 
-        $serviceId = 'service_id';
-        $this->setDefinition($serviceId, $definition);
+        $defB = new Definition();
+        $defB->addTag('ibexa.debug.data_collector', [
+            'panelTemplate' => 'panel_b.html.twig',
+            'toolbarTemplate' => 'toolbar_b.html.twig',
+            'priority' => 10,
+        ]);
+        $this->setDefinition('collector_b', $defB);
+
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             IbexaCoreCollector::class,
             'addCollector',
-            [new Reference($serviceId), $panelTemplate, $toolbarTemplate]
+            [new Reference('collector_b'), 'panel_b.html.twig', 'toolbar_b.html.twig']
         );
+
+        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+            IbexaCoreCollector::class,
+            'addCollector',
+            [new Reference('collector_a'), 'panel_a.html.twig', 'toolbar_a.html.twig']
+        );
+
+        $calls = $this->container->getDefinition(IbexaCoreCollector::class)->getMethodCalls();
+
+        $this->assertCount(2, $calls);
+        $this->assertSame('addCollector', $calls[0][0]);
+        $this->assertEquals(new Reference('collector_b'), $calls[0][1][0]);
+
+        $this->assertSame('addCollector', $calls[1][0]);
+        $this->assertEquals(new Reference('collector_a'), $calls[1][1][0]);
     }
 }
 
