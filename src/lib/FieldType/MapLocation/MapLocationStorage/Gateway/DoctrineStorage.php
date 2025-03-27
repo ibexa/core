@@ -7,7 +7,9 @@
 
 namespace Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway;
@@ -15,7 +17,12 @@ use PDO;
 
 class DoctrineStorage extends Gateway
 {
-    public const MAP_LOCATION_TABLE = 'ezgmaplocation';
+    public const string MAP_LOCATION_TABLE = 'ezgmaplocation';
+    private const string LATITUDE_PARAM_NAME = ':latitude';
+    private const string LONGITUDE_PARAM_NAME = ':longitude';
+    private const string ADDRESS_PARAM_NAME = ':address';
+    private const string FIELD_ID_PARAM_NAME = ':fieldId';
+    private const string VERSION_NO_PARAM_NAME = ':versionNo';
 
     protected Connection $connection;
 
@@ -25,15 +32,7 @@ class DoctrineStorage extends Gateway
     }
 
     /**
-     * Store the data stored in the given $field.
-     *
-     * Potentially rewrites data in $field and returns true, if the $field
-     * needs to be updated in the database.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     *
-     * @return bool If restoring of the internal field data is required
+     * @throws \Doctrine\DBAL\Exception
      */
     public function storeFieldData(VersionInfo $versionInfo, Field $field): bool
     {
@@ -63,76 +62,62 @@ class DoctrineStorage extends Gateway
     }
 
     /**
-     * Perform an update on the field data.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @throws \Doctrine\DBAL\Exception
      */
-    protected function updateFieldData(VersionInfo $versionInfo, Field $field)
+    protected function updateFieldData(VersionInfo $versionInfo, Field $field): void
     {
         $updateQuery = $this->connection->createQueryBuilder();
         $updateQuery->update($this->connection->quoteIdentifier(self::MAP_LOCATION_TABLE))
-            ->set($this->connection->quoteIdentifier('latitude'), ':latitude')
-            ->set($this->connection->quoteIdentifier('longitude'), ':longitude')
-            ->set($this->connection->quoteIdentifier('address'), ':address')
+            ->set($this->connection->quoteIdentifier('latitude'), self::LATITUDE_PARAM_NAME)
+            ->set($this->connection->quoteIdentifier('longitude'), self::LONGITUDE_PARAM_NAME)
+            ->set($this->connection->quoteIdentifier('address'), self::ADDRESS_PARAM_NAME)
             ->where(
-                $updateQuery->expr()->andX(
+                $updateQuery->expr()->and(
                     $updateQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
-                        ':fieldId'
+                        self::FIELD_ID_PARAM_NAME
                     ),
                     $updateQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_version'),
-                        ':versionNo'
+                        self::VERSION_NO_PARAM_NAME
                     )
                 )
             )
-            ->setParameter(':latitude', $field->value->externalData['latitude'])
-            ->setParameter(':longitude', $field->value->externalData['longitude'])
-            ->setParameter(':address', $field->value->externalData['address'])
-            ->setParameter(':fieldId', $field->id, PDO::PARAM_INT)
-            ->setParameter(':versionNo', $versionInfo->versionNo, PDO::PARAM_INT)
+            ->setParameter(self::LATITUDE_PARAM_NAME, $field->value->externalData['latitude'])
+            ->setParameter(self::LONGITUDE_PARAM_NAME, $field->value->externalData['longitude'])
+            ->setParameter(self::ADDRESS_PARAM_NAME, $field->value->externalData['address'])
+            ->setParameter(self::FIELD_ID_PARAM_NAME, $field->id, ParameterType::INTEGER)
+            ->setParameter(self::VERSION_NO_PARAM_NAME, $versionInfo->versionNo, ParameterType::INTEGER)
         ;
 
-        $updateQuery->execute();
+        $updateQuery->executeStatement();
     }
 
     /**
-     * Store new field data.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @throws \Doctrine\DBAL\Exception
      */
-    protected function storeNewFieldData(VersionInfo $versionInfo, Field $field)
+    protected function storeNewFieldData(VersionInfo $versionInfo, Field $field): void
     {
         $insertQuery = $this->connection->createQueryBuilder();
         $insertQuery
             ->insert($this->connection->quoteIdentifier(self::MAP_LOCATION_TABLE))
             ->values([
-                'latitude' => ':latitude',
-                'longitude' => ':longitude',
-                'address' => ':address',
-                'contentobject_attribute_id' => ':fieldId',
-                'contentobject_version' => ':versionNo',
+                'latitude' => self::LATITUDE_PARAM_NAME,
+                'longitude' => self::LONGITUDE_PARAM_NAME,
+                'address' => self::ADDRESS_PARAM_NAME,
+                'contentobject_attribute_id' => self::FIELD_ID_PARAM_NAME,
+                'contentobject_version' => self::VERSION_NO_PARAM_NAME,
             ])
-            ->setParameter(':latitude', $field->value->externalData['latitude'])
-            ->setParameter(':longitude', $field->value->externalData['longitude'])
-            ->setParameter(':address', $field->value->externalData['address'])
-            ->setParameter(':fieldId', $field->id)
-            ->setParameter(':versionNo', $versionInfo->versionNo)
+            ->setParameter(self::LATITUDE_PARAM_NAME, $field->value->externalData['latitude'])
+            ->setParameter(self::LONGITUDE_PARAM_NAME, $field->value->externalData['longitude'])
+            ->setParameter(self::ADDRESS_PARAM_NAME, $field->value->externalData['address'])
+            ->setParameter(self::FIELD_ID_PARAM_NAME, $field->id)
+            ->setParameter(self::VERSION_NO_PARAM_NAME, $versionInfo->versionNo)
         ;
 
-        $insertQuery->execute();
+        $insertQuery->executeStatement();
     }
 
-    /**
-     * Set the loaded field data into $field->externalData.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     *
-     * @return array
-     */
     public function getFieldData(VersionInfo $versionInfo, Field $field): void
     {
         $field->value->externalData = $this->loadFieldData($field->id, $versionInfo->versionNo);
@@ -143,12 +128,11 @@ class DoctrineStorage extends Gateway
      *
      * If no data is found, null is returned.
      *
-     * @param int $fieldId
-     * @param int $versionNo
+     * @return array{latitude: float, longitude: float}|null
      *
-     * @return array|null
+     * @throws \Doctrine\DBAL\Exception
      */
-    protected function loadFieldData($fieldId, $versionNo)
+    protected function loadFieldData(int $fieldId, int $versionNo): ?array
     {
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
@@ -159,24 +143,24 @@ class DoctrineStorage extends Gateway
             )
             ->from($this->connection->quoteIdentifier('ezgmaplocation'))
             ->where(
-                $selectQuery->expr()->andX(
+                $selectQuery->expr()->and(
                     $selectQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
-                        ':fieldId'
+                        self::FIELD_ID_PARAM_NAME
                     ),
                     $selectQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_version'),
-                        ':versionNo'
+                        self::VERSION_NO_PARAM_NAME
                     )
                 )
             )
-            ->setParameter(':fieldId', $fieldId, PDO::PARAM_INT)
-            ->setParameter(':versionNo', $versionNo, PDO::PARAM_INT)
+            ->setParameter(self::FIELD_ID_PARAM_NAME, $fieldId, PDO::PARAM_INT)
+            ->setParameter(self::VERSION_NO_PARAM_NAME, $versionNo, PDO::PARAM_INT)
         ;
 
-        $statement = $selectQuery->execute();
+        $statement = $selectQuery->executeQuery();
 
-        $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $statement->fetchAllAssociative();
         if (!isset($rows[0])) {
             return null;
         }
@@ -202,10 +186,7 @@ class DoctrineStorage extends Gateway
     }
 
     /**
-     * Delete the data for all given $fieldIds.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param int[] $fieldIds
+     * @throws \Doctrine\DBAL\Exception
      */
     public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): void
     {
@@ -218,21 +199,21 @@ class DoctrineStorage extends Gateway
         $deleteQuery
             ->delete($this->connection->quoteIdentifier(self::MAP_LOCATION_TABLE))
             ->where(
-                $deleteQuery->expr()->andX(
+                $deleteQuery->expr()->and(
                     $deleteQuery->expr()->in(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
                         ':fieldIds'
                     ),
                     $deleteQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_version'),
-                        ':versionNo'
+                        self::VERSION_NO_PARAM_NAME
                     )
                 )
             )
-            ->setParameter(':fieldIds', $fieldIds, Connection::PARAM_INT_ARRAY)
-            ->setParameter(':versionNo', $versionInfo->versionNo, PDO::PARAM_INT)
+            ->setParameter(':fieldIds', $fieldIds, ArrayParameterType::INTEGER)
+            ->setParameter(self::VERSION_NO_PARAM_NAME, $versionInfo->versionNo, ParameterType::INTEGER)
         ;
 
-        $deleteQuery->execute();
+        $deleteQuery->executeStatement();
     }
 }

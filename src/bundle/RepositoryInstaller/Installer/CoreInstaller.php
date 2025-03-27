@@ -40,7 +40,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
      * @see \Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent
      * @see \Ibexa\Bundle\RepositoryInstaller\Event\Subscriber\BuildSchemaSubscriber
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function importSchema(): void
     {
@@ -66,7 +66,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
         $progressBar->start($queriesCount);
 
         foreach ($queries as $query) {
-            $this->db->exec($query);
+            $this->db->executeStatement($query);
             $progressBar->advance(1);
         }
 
@@ -78,7 +78,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function importData(): void

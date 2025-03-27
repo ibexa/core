@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Persistence\Filter\Doctrine;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
@@ -166,7 +166,7 @@ final class FilteringQueryBuilder extends QueryBuilder
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function buildOperatorBasedCriterionConstraint(
         string $columnName,
@@ -177,7 +177,7 @@ final class FilteringQueryBuilder extends QueryBuilder
             case Operator::IN:
                 return $this->expr()->in(
                     $columnName,
-                    $this->createNamedParameter($criterionValue, Connection::PARAM_INT_ARRAY)
+                    $this->createNamedParameter($criterionValue, ArrayParameterType::INTEGER)
                 );
 
             case Query\Criterion\Operator::BETWEEN:
@@ -215,7 +215,7 @@ final class FilteringQueryBuilder extends QueryBuilder
             'content',
             ContentGateway::CONTENT_VERSION_TABLE,
             'version',
-            (string)$expressionBuilder->andX(
+            (string)$expressionBuilder->and(
                 'content.id = version.contentobject_id',
                 'content.current_version = version.version',
                 $expressionBuilder->eq(

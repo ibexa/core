@@ -39,7 +39,7 @@ class ObjectStateIdentifier extends CriterionHandler
 
         if (null !== $criterion->target) {
             $criterionTarget = (array)$criterion->target;
-            $constraints = $queryBuilder->expr()->andX(
+            $constraints = $queryBuilder->expr()->and(
                 $queryBuilder->expr()->in(
                     't3.identifier',
                     $queryBuilder->createNamedParameter(

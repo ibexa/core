@@ -16,7 +16,7 @@ use Throwable;
  */
 final class DatabaseException extends RuntimeException
 {
-    public const DEFAULT_MESSAGE = 'Database error';
+    public const string DEFAULT_MESSAGE = 'Database error';
 
     public static function wrap(
         Throwable $previous,

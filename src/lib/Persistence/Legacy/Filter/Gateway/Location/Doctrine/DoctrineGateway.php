@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Filter\Gateway\Location\Doctrine;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor;
@@ -86,37 +86,32 @@ final class DoctrineGateway implements Gateway
         $queryBuilder = new FilteringQueryBuilder($this->connection);
         $queryBuilder
             ->select(
-                [
-                    // Location
-                    'location.node_id AS location_node_id',
-                    'location.priority AS location_priority',
-                    'location.is_hidden AS location_is_hidden',
-                    'location.is_invisible AS location_is_invisible',
-                    'location.remote_id AS location_remote_id',
-                    'location.contentobject_id AS location_contentobject_id',
-                    'location.parent_node_id AS location_parent_node_id',
-                    'location.path_identification_string AS location_path_identification_string',
-                    'location.path_string AS location_path_string',
-                    'location.depth AS location_depth',
-                    'location.sort_field AS location_sort_field',
-                    'location.sort_order AS location_sort_order',
-                    // Main Location (nullable)
-                    'location.main_node_id AS content_main_location_id',
-                    // Content Info
-                    'content.id AS content_id',
-                    'content.contentclass_id AS content_type_id',
-                    'content.current_version AS content_current_version',
-                    'content.initial_language_id AS content_initial_language_id',
-                    'content.language_mask AS content_language_mask',
-                    'content.modified AS content_modified',
-                    'content.name AS content_name',
-                    'content.owner_id AS content_owner_id',
-                    'content.published AS content_published',
-                    'content.remote_id AS content_remote_id',
-                    'content.section_id AS content_section_id',
-                    'content.status AS content_status',
-                    'content.is_hidden AS content_is_hidden',
-                ]
+                'location.node_id AS location_node_id',
+                'location.priority AS location_priority',
+                'location.is_hidden AS location_is_hidden',
+                'location.is_invisible AS location_is_invisible',
+                'location.remote_id AS location_remote_id',
+                'location.contentobject_id AS location_contentobject_id',
+                'location.parent_node_id AS location_parent_node_id',
+                'location.path_identification_string AS location_path_identification_string',
+                'location.path_string AS location_path_string',
+                'location.depth AS location_depth',
+                'location.sort_field AS location_sort_field',
+                'location.sort_order AS location_sort_order',
+                'location.main_node_id AS content_main_location_id',
+                'content.id AS content_id',
+                'content.contentclass_id AS content_type_id',
+                'content.current_version AS content_current_version',
+                'content.initial_language_id AS content_initial_language_id',
+                'content.language_mask AS content_language_mask',
+                'content.modified AS content_modified',
+                'content.name AS content_name',
+                'content.owner_id AS content_owner_id',
+                'content.published AS content_published',
+                'content.remote_id AS content_remote_id',
+                'content.section_id AS content_section_id',
+                'content.status AS content_status',
+                'content.is_hidden AS content_is_hidden'
             )
             ->distinct()
             ->from(LocationGateway::CONTENT_TREE_TABLE, 'location')

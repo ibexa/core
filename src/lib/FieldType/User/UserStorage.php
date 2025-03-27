@@ -25,16 +25,11 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
  *  - is_locked
  *  - last_visit
  *  - login_count
+ *
+ * @extends  \Ibexa\Contracts\Core\FieldType\GatewayBasedStorage<\Ibexa\Core\FieldType\User\UserStorage\Gateway>
  */
 class UserStorage extends GatewayBasedStorage
 {
-    /**
-     * Field Type External Storage Gateway.
-     *
-     * @var \Ibexa\Core\FieldType\User\UserStorage\Gateway
-     */
-    protected $gateway;
-
     public function storeFieldData(VersionInfo $versionInfo, Field $field): bool
     {
         return $this->gateway->storeFieldData($versionInfo, $field);
@@ -50,7 +45,7 @@ class UserStorage extends GatewayBasedStorage
      *
      * @return bool
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): bool
     {

@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\User\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\User;
@@ -28,18 +27,14 @@ final class DoctrineDatabase extends Gateway
 {
     private Connection $connection;
 
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
-    private $dbPlatform;
-
-    /**
-     * @throws \Doctrine\DBAL\DBALException
-     */
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
-        $this->dbPlatform = $this->connection->getDatabasePlatform();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function load(int $userId): array
     {
         $query = $this->getLoadUserQueryBuilder();
@@ -51,11 +46,12 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $statement = $query->execute();
-
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadByLogin(string $login): array
     {
         $query = $this->getLoadUserQueryBuilder();
@@ -63,7 +59,7 @@ final class DoctrineDatabase extends Gateway
         $query
             ->where(
                 $expr->eq(
-                    $this->dbPlatform->getLowerExpression('u.login'),
+                    'LOWER(u.login)',
                     // Index is case in-sensitive, on some db's lowercase, so we lowercase $login
                     $query->createPositionalParameter(
                         mb_strtolower($login, 'UTF-8'),
@@ -72,9 +68,12 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadByEmail(string $email): array
     {
         $query = $this->getLoadUserQueryBuilder();
@@ -85,11 +84,12 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->execute();
-
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadUserByToken(string $hash): array
     {
         $query = $this->getLoadUserQueryBuilder();
@@ -116,11 +116,12 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $statement = $query->execute();
-
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function updateUserPassword(User $user): void
     {
         $queryBuilder = $this->connection->createQueryBuilder();
@@ -141,9 +142,12 @@ final class DoctrineDatabase extends Gateway
             )
             ->setParameter(':userId', $user->id, ParameterType::INTEGER);
 
-        $queryBuilder->execute();
+        $queryBuilder->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function updateUserToken(UserTokenUpdateStruct $userTokenUpdateStruct): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -169,9 +173,12 @@ final class DoctrineDatabase extends Gateway
         $query->setParameter('time', $userTokenUpdateStruct->time, ParameterType::INTEGER);
         $query->setParameter('user_id', $userTokenUpdateStruct->userId, ParameterType::INTEGER);
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function expireUserToken(string $hash): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -186,9 +193,12 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($hash, ParameterType::STRING)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function assignRole(int $contentId, int $roleId, array $limitation): void
     {
         foreach ($limitation as $identifier => $values) {
@@ -216,11 +226,14 @@ final class DoctrineDatabase extends Gateway
                             ),
                         ]
                     );
-                $query->execute();
+                $query->executeStatement();
             }
         }
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function removeRole(int $contentId, int $roleId): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -239,9 +252,12 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($roleId, ParameterType::INTEGER)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function removeRoleAssignmentById(int $roleAssignmentId): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -253,7 +269,7 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($roleAssignmentId, ParameterType::INTEGER)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     private function getLoadUserQueryBuilder(): QueryBuilder
@@ -285,6 +301,9 @@ final class DoctrineDatabase extends Gateway
         return $query;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function userHasToken(int $userId): bool
     {
         $query = $this->connection->createQueryBuilder();
@@ -302,6 +321,6 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return !empty($query->execute()->fetch(FetchMode::ASSOCIATIVE));
+        return !empty($query->executeQuery()->fetchAssociative());
     }
 }

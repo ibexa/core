@@ -7,19 +7,26 @@
 
 namespace Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway;
-use PDO;
 
 /**
  * Base class for binary files external storage DoctrineStorage gateways.
  */
 abstract class DoctrineStorage extends Gateway
 {
+    private const string FIELD_ID_PARAM_NAME = ':fieldId';
+    private const string FILENAME_PARAM_NAME = ':filename';
+    private const string MIME_TYPE_PARAM_NAME = ':mimeType';
+    private const string ORIGINAL_FILENAME_PARAM_NAME = ':originalFilename';
+    private const string VERSION_NO_PARAM_NAME = ':versionNo';
+    private const string FIELD_ID_LIST_PARAMETER_NAME = ':fieldIds';
+
     protected Connection $connection;
 
     public function __construct(Connection $connection)
@@ -91,16 +98,16 @@ abstract class DoctrineStorage extends Gateway
     protected function setInsertColumns(QueryBuilder $queryBuilder, VersionInfo $versionInfo, Field $field)
     {
         $queryBuilder
-            ->setValue('contentobject_attribute_id', ':fieldId')
-            ->setValue('filename', ':filename')
-            ->setValue('mime_type', ':mimeType')
-            ->setValue('original_filename', ':originalFilename')
-            ->setValue('version', ':versionNo')
-            ->setParameter(':fieldId', $field->id, PDO::PARAM_INT)
-            ->setParameter(':filename', $this->removeMimeFromPath($field->value->externalData['id']))
-            ->setParameter(':mimeType', $field->value->externalData['mimeType'])
-            ->setParameter(':originalFilename', $field->value->externalData['fileName'])
-            ->setParameter(':versionNo', $versionInfo->versionNo, PDO::PARAM_INT)
+            ->setValue('contentobject_attribute_id', self::FIELD_ID_PARAM_NAME)
+            ->setValue('filename', self::FILENAME_PARAM_NAME)
+            ->setValue('mime_type', self::MIME_TYPE_PARAM_NAME)
+            ->setValue('original_filename', self::ORIGINAL_FILENAME_PARAM_NAME)
+            ->setValue('version', self::VERSION_NO_PARAM_NAME)
+            ->setParameter(self::FIELD_ID_PARAM_NAME, $field->id, ParameterType::INTEGER)
+            ->setParameter(self::FILENAME_PARAM_NAME, $this->removeMimeFromPath($field->value->externalData['id']))
+            ->setParameter(self::MIME_TYPE_PARAM_NAME, $field->value->externalData['mimeType'])
+            ->setParameter(self::ORIGINAL_FILENAME_PARAM_NAME, $field->value->externalData['fileName'])
+            ->setParameter(self::VERSION_NO_PARAM_NAME, $versionInfo->versionNo, ParameterType::INTEGER)
         ;
     }
 
@@ -112,16 +119,16 @@ abstract class DoctrineStorage extends Gateway
     protected function setUpdateColumns(QueryBuilder $queryBuilder, VersionInfo $versionInfo, Field $field)
     {
         $queryBuilder
-            ->set('contentobject_attribute_id', ':fieldId')
-            ->set('filename', ':filename')
-            ->set('mime_type', ':mimeType')
-            ->set('original_filename', ':originalFilename')
-            ->set('version', ':versionNo')
-            ->setParameter(':fieldId', $field->id, ParameterType::INTEGER)
-            ->setParameter(':filename', $this->removeMimeFromPath($field->value->externalData['id']))
-            ->setParameter(':mimeType', $field->value->externalData['mimeType'])
-            ->setParameter(':originalFilename', $field->value->externalData['fileName'])
-            ->setParameter(':versionNo', $versionInfo->versionNo, ParameterType::INTEGER)
+            ->set('contentobject_attribute_id', self::FIELD_ID_PARAM_NAME)
+            ->set('filename', self::FILENAME_PARAM_NAME)
+            ->set('mime_type', self::MIME_TYPE_PARAM_NAME)
+            ->set('original_filename', self::ORIGINAL_FILENAME_PARAM_NAME)
+            ->set('version', self::VERSION_NO_PARAM_NAME)
+            ->setParameter(self::FIELD_ID_PARAM_NAME, $field->id, ParameterType::INTEGER)
+            ->setParameter(self::FILENAME_PARAM_NAME, $this->removeMimeFromPath($field->value->externalData['id']))
+            ->setParameter(self::MIME_TYPE_PARAM_NAME, $field->value->externalData['mimeType'])
+            ->setParameter(self::ORIGINAL_FILENAME_PARAM_NAME, $field->value->externalData['fileName'])
+            ->setParameter(self::VERSION_NO_PARAM_NAME, $versionInfo->versionNo, ParameterType::INTEGER)
         ;
     }
 
@@ -160,22 +167,22 @@ abstract class DoctrineStorage extends Gateway
         $this->setUpdateColumns($updateQuery, $versionInfo, $field);
         $updateQuery
             ->where(
-                $updateQuery->expr()->andX(
+                $updateQuery->expr()->and(
                     $updateQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
-                        ':fieldId'
+                        self::FIELD_ID_PARAM_NAME
                     ),
                     $updateQuery->expr()->eq(
                         $this->connection->quoteIdentifier('version'),
-                        ':versionNo'
+                        self::VERSION_NO_PARAM_NAME
                     )
                 )
             )
-            ->setParameter(':fieldId', $field->id, ParameterType::INTEGER)
-            ->setParameter(':versionNo', $versionInfo->versionNo, ParameterType::INTEGER)
+            ->setParameter(self::FIELD_ID_PARAM_NAME, $field->id, ParameterType::INTEGER)
+            ->setParameter(self::VERSION_NO_PARAM_NAME, $versionInfo->versionNo, ParameterType::INTEGER)
         ;
 
-        $updateQuery->execute();
+        $updateQuery->executeStatement();
     }
 
     /**
@@ -191,7 +198,7 @@ abstract class DoctrineStorage extends Gateway
 
         $this->setInsertColumns($insertQuery, $versionInfo, $field);
 
-        $insertQuery->execute();
+        $insertQuery->executeStatement();
     }
 
     /**
@@ -225,24 +232,24 @@ abstract class DoctrineStorage extends Gateway
         $selectQuery
             ->from($this->connection->quoteIdentifier($this->getStorageTable()))
             ->where(
-                $selectQuery->expr()->andX(
+                $selectQuery->expr()->and(
                     $selectQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
-                        ':fieldId'
+                        self::FIELD_ID_PARAM_NAME
                     ),
                     $selectQuery->expr()->eq(
                         $this->connection->quoteIdentifier('version'),
-                        ':versionNo'
+                        self::VERSION_NO_PARAM_NAME
                     )
                 )
             )
-            ->setParameter(':fieldId', $fieldId, PDO::PARAM_INT)
-            ->setParameter(':versionNo', $versionNo, PDO::PARAM_INT)
+            ->setParameter(self::FIELD_ID_PARAM_NAME, $fieldId, ParameterType::INTEGER)
+            ->setParameter(self::VERSION_NO_PARAM_NAME, $versionNo, ParameterType::INTEGER)
         ;
 
-        $statement = $selectQuery->execute();
+        $statement = $selectQuery->executeQuery();
 
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAllAssociative();
 
         if (count($result) < 1) {
             return null;
@@ -300,9 +307,7 @@ abstract class DoctrineStorage extends Gateway
      */
     public function prependMimeToPath(string $path, $mimeType)
     {
-        $res = substr($mimeType, 0, strpos($mimeType, '/')) . '/' . $path;
-
-        return $res;
+        return substr($mimeType, 0, strpos($mimeType, '/')) . '/' . $path;
     }
 
     /**
@@ -321,22 +326,22 @@ abstract class DoctrineStorage extends Gateway
         $deleteQuery
             ->delete($this->connection->quoteIdentifier($this->getStorageTable()))
             ->where(
-                $deleteQuery->expr()->andX(
+                $deleteQuery->expr()->and(
                     $deleteQuery->expr()->in(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
-                        ':fieldIds'
+                        self::FIELD_ID_LIST_PARAMETER_NAME
                     ),
                     $deleteQuery->expr()->eq(
                         $this->connection->quoteIdentifier('version'),
-                        ':versionNo'
+                        self::VERSION_NO_PARAM_NAME
                     )
                 )
             )
-            ->setParameter(':fieldIds', $fieldIds, Connection::PARAM_INT_ARRAY)
-            ->setParameter(':versionNo', $versionNo, PDO::PARAM_INT)
+            ->setParameter(self::FIELD_ID_LIST_PARAMETER_NAME, $fieldIds, ArrayParameterType::INTEGER)
+            ->setParameter(self::VERSION_NO_PARAM_NAME, $versionNo, ParameterType::INTEGER)
         ;
 
-        $deleteQuery->execute();
+        $deleteQuery->executeStatement();
     }
 
     /**
@@ -351,22 +356,22 @@ abstract class DoctrineStorage extends Gateway
         $deleteQuery
             ->delete($this->connection->quoteIdentifier($this->getStorageTable()))
             ->where(
-                $deleteQuery->expr()->andX(
+                $deleteQuery->expr()->and(
                     $deleteQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
-                        ':fieldId'
+                        self::FIELD_ID_PARAM_NAME
                     ),
                     $deleteQuery->expr()->eq(
                         $this->connection->quoteIdentifier('version'),
-                        ':versionNo'
+                        self::VERSION_NO_PARAM_NAME
                     )
                 )
             )
-            ->setParameter(':fieldId', $fieldId, PDO::PARAM_INT)
-            ->setParameter(':versionNo', $versionNo, PDO::PARAM_INT)
+            ->setParameter(self::FIELD_ID_PARAM_NAME, $fieldId, ParameterType::INTEGER)
+            ->setParameter(self::VERSION_NO_PARAM_NAME, $versionNo, ParameterType::INTEGER)
         ;
 
-        $deleteQuery->execute();
+        $deleteQuery->executeStatement();
     }
 
     /**
@@ -390,28 +395,28 @@ abstract class DoctrineStorage extends Gateway
             )
             ->from($this->connection->quoteIdentifier($this->getStorageTable()))
             ->where(
-                $selectQuery->expr()->andX(
+                $selectQuery->expr()->and(
                     $selectQuery->expr()->in(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
-                        ':fieldIds'
+                        self::FIELD_ID_LIST_PARAMETER_NAME
                     ),
                     $selectQuery->expr()->eq(
                         $this->connection->quoteIdentifier('version'),
-                        ':versionNo'
+                        self::VERSION_NO_PARAM_NAME
                     )
                 )
             )
-            ->setParameter(':fieldIds', $fieldIds, Connection::PARAM_INT_ARRAY)
-            ->setParameter(':versionNo', $versionNo, PDO::PARAM_INT)
+            ->setParameter(self::FIELD_ID_LIST_PARAMETER_NAME, $fieldIds, Connection::PARAM_INT_ARRAY)
+            ->setParameter(self::VERSION_NO_PARAM_NAME, $versionNo, ParameterType::INTEGER)
         ;
 
-        $statement = $selectQuery->execute();
+        $statement = $selectQuery->executeQuery();
 
         return array_map(
             function (array $row) {
                 return $this->prependMimeToPath($row['filename'], $row['mime_type']);
             },
-            $statement->fetchAll(PDO::FETCH_ASSOC)
+            $statement->fetchAllAssociative()
         );
     }
 
@@ -459,10 +464,10 @@ abstract class DoctrineStorage extends Gateway
             )
         ;
 
-        $statement = $selectQuery->execute();
+        $statement = $selectQuery->executeQuery();
 
         $countMap = [];
-        foreach ($statement->fetchAll(PDO::FETCH_ASSOC) as $row) {
+        foreach ($statement->fetchAllAssociative() as $row) {
             $path = $this->prependMimeToPath($row['filename'], $row['mime_type']);
             $countMap[$path] = (int)$row['count'];
         }
