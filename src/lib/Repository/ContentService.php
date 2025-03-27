@@ -10,6 +10,7 @@ namespace Ibexa\Core\Repository;
 
 use function count;
 use Exception;
+use Ibexa\Bundle\Core\EventSubscriber\ClearContentCacheInGracePeriodSubscriber;
 use Ibexa\Contracts\Core\FieldType\Comparable;
 use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\Value;
@@ -105,6 +106,8 @@ class ContentService implements ContentServiceInterface
     /** @var \Ibexa\Contracts\Core\Persistence\Filter\Content\Handler */
     private $contentFilteringHandler;
 
+    private ClearContentCacheInGracePeriodSubscriber $clearContentCacheInGracePeriodSubscriber;
+
     public function __construct(
         RepositoryInterface $repository,
         Handler $handler,
@@ -116,6 +119,7 @@ class ContentService implements ContentServiceInterface
         ContentMapper $contentMapper,
         ContentValidator $contentValidator,
         ContentFilteringHandler $contentFilteringHandler,
+        ClearContentCacheInGracePeriodSubscriber $clearContentCacheInGracePeriodSubscriber,
         array $settings = []
     ) {
         $this->repository = $repository;
@@ -135,6 +139,7 @@ class ContentService implements ContentServiceInterface
         $this->permissionResolver = $permissionService;
         $this->contentMapper = $contentMapper;
         $this->contentValidator = $contentValidator;
+        $this->clearContentCacheInGracePeriodSubscriber = $clearContentCacheInGracePeriodSubscriber;
     }
 
     /**
@@ -391,6 +396,8 @@ class ContentService implements ContentServiceInterface
         ) {
             if (!$this->isInGracePeriod($content, $this->settings['grace_period_in_seconds'], $versionNo)) {
                 throw new UnauthorizedException('content', 'versionread', ['contentId' => $contentId, 'versionNo' => $versionNo]);
+            } else {
+                $this->clearContentCacheInGracePeriodSubscriber->addContentToClear($content);
             }
         }
 

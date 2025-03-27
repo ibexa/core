@@ -38,6 +38,7 @@ services:
             - '@Ibexa\Core\Repository\User\PasswordValidatorInterface'
             - '@ibexa.config.resolver'
             - '@Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface'
+            - '@Ibexa\Bundle\Core\EventSubscriber\ClearContentCacheInGracePeriodSubscriber'
             - '%languages%'
 
     Ibexa\Core\Repository\ContentService:
