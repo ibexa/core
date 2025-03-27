@@ -17,6 +17,9 @@ class DoctrineStorage extends Gateway
 {
     public const URL_TABLE = DoctrineDatabase::URL_TABLE;
     public const URL_LINK_TABLE = DoctrineDatabase::URL_LINK_TABLE;
+    private const string CONTENT_ITEM_ATTRIBUTE_ID_PARAM_NAME = ':contentobject_attribute_id';
+    private const string CONTENT_ITEM_ATTRIBUTE_VERSION_PARAM_NAME = ':contentobject_attribute_version';
+    private const string URL_ID_PARAM_NAME = ':url_id';
 
     protected Connection $connection;
 
@@ -49,8 +52,8 @@ class DoctrineStorage extends Gateway
                 ->where('id IN (:ids)')
                 ->setParameter(':ids', $ids, Connection::PARAM_INT_ARRAY);
 
-            $statement = $query->execute();
-            foreach ($statement->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $result = $query->executeQuery();
+            foreach ($result->fetchAllAssociative() as $row) {
                 $map[$row['id']] = $row['url'];
             }
         }
@@ -84,8 +87,8 @@ class DoctrineStorage extends Gateway
                 )
                 ->setParameter(':urls', $urls, Connection::PARAM_STR_ARRAY);
 
-            $statement = $query->execute();
-            foreach ($statement->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $result = $query->executeQuery();
+            foreach ($result->fetchAllAssociative() as $row) {
                 $map[$row['url']] = $row['id'];
             }
         }
@@ -122,7 +125,7 @@ class DoctrineStorage extends Gateway
             ->setParameter(':url', $url)
         ;
 
-        $query->execute();
+        $query->executeStatement();
 
         return (int)$this->connection->lastInsertId(
             $this->getSequenceName(self::URL_TABLE, 'id')
@@ -130,11 +133,7 @@ class DoctrineStorage extends Gateway
     }
 
     /**
-     * Create link to URL with $urlId for field with $fieldId in $versionNo.
-     *
-     * @param int $urlId
-     * @param int $fieldId
-     * @param int $versionNo
+     * @throws \Doctrine\DBAL\Exception
      */
     public function linkUrl($urlId, $fieldId, $versionNo): void
     {
@@ -144,25 +143,21 @@ class DoctrineStorage extends Gateway
             ->insert($this->connection->quoteIdentifier(self::URL_LINK_TABLE))
             ->values(
                 [
-                    'contentobject_attribute_id' => ':contentobject_attribute_id',
-                    'contentobject_attribute_version' => ':contentobject_attribute_version',
-                    'url_id' => ':url_id',
+                    'contentobject_attribute_id' => self::CONTENT_ITEM_ATTRIBUTE_ID_PARAM_NAME,
+                    'contentobject_attribute_version' => self::CONTENT_ITEM_ATTRIBUTE_VERSION_PARAM_NAME,
+                    'url_id' => self::URL_ID_PARAM_NAME,
                 ]
             )
-            ->setParameter(':contentobject_attribute_id', $fieldId, PDO::PARAM_INT)
-            ->setParameter(':contentobject_attribute_version', $versionNo, PDO::PARAM_INT)
-            ->setParameter(':url_id', $urlId, PDO::PARAM_INT)
+            ->setParameter(self::CONTENT_ITEM_ATTRIBUTE_ID_PARAM_NAME, $fieldId, PDO::PARAM_INT)
+            ->setParameter(self::CONTENT_ITEM_ATTRIBUTE_VERSION_PARAM_NAME, $versionNo, PDO::PARAM_INT)
+            ->setParameter(self::URL_ID_PARAM_NAME, $urlId, PDO::PARAM_INT)
         ;
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
-     * Remove link to URL for $fieldId in $versionNo and cleans up possibly orphaned URLs.
-     *
-     * @param int $fieldId
-     * @param int $versionNo
-     * @param int[] $excludeUrlIds
+     * @throws \Doctrine\DBAL\Exception
      */
     public function unlinkUrl($fieldId, $versionNo, array $excludeUrlIds = []): void
     {
@@ -171,21 +166,21 @@ class DoctrineStorage extends Gateway
             ->select('link.url_id')
             ->from($this->connection->quoteIdentifier(self::URL_LINK_TABLE), 'link')
             ->where(
-                $selectQuery->expr()->andX(
+                $selectQuery->expr()->and(
                     $selectQuery->expr()->in(
                         'link.contentobject_attribute_id',
-                        ':contentobject_attribute_id'
+                        self::CONTENT_ITEM_ATTRIBUTE_ID_PARAM_NAME
                     ),
                     $selectQuery->expr()->in(
                         'link.contentobject_attribute_version',
-                        ':contentobject_attribute_version'
+                        self::CONTENT_ITEM_ATTRIBUTE_VERSION_PARAM_NAME
                     )
                 )
             )
-            ->setParameter(':contentobject_attribute_id', $fieldId, ParameterType::INTEGER)
-            ->setParameter(':contentobject_attribute_version', $versionNo, ParameterType::INTEGER);
+            ->setParameter(self::CONTENT_ITEM_ATTRIBUTE_ID_PARAM_NAME, $fieldId, ParameterType::INTEGER)
+            ->setParameter(self::CONTENT_ITEM_ATTRIBUTE_VERSION_PARAM_NAME, $versionNo, ParameterType::INTEGER);
 
-        $statement = $selectQuery->execute();
+        $statement = $selectQuery->executeQuery();
         $potentiallyOrphanedUrls = $statement->fetchFirstColumn();
 
         if (empty($potentiallyOrphanedUrls)) {
@@ -199,16 +194,16 @@ class DoctrineStorage extends Gateway
                 $deleteQuery->expr()->and(
                     $deleteQuery->expr()->in(
                         'contentobject_attribute_id',
-                        ':contentobject_attribute_id'
+                        self::CONTENT_ITEM_ATTRIBUTE_ID_PARAM_NAME
                     ),
                     $deleteQuery->expr()->in(
                         'contentobject_attribute_version',
-                        ':contentobject_attribute_version'
+                        self::CONTENT_ITEM_ATTRIBUTE_VERSION_PARAM_NAME
                     )
                 )
             )
-            ->setParameter(':contentobject_attribute_id', $fieldId, ParameterType::INTEGER)
-            ->setParameter(':contentobject_attribute_version', $versionNo, ParameterType::INTEGER);
+            ->setParameter(self::CONTENT_ITEM_ATTRIBUTE_ID_PARAM_NAME, $fieldId, ParameterType::INTEGER)
+            ->setParameter(self::CONTENT_ITEM_ATTRIBUTE_VERSION_PARAM_NAME, $versionNo, ParameterType::INTEGER);
 
         if (empty($excludeUrlIds) === false) {
             $deleteQuery
@@ -221,7 +216,7 @@ class DoctrineStorage extends Gateway
                 ->setParameter('url_ids', $excludeUrlIds, Connection::PARAM_INT_ARRAY);
         }
 
-        $deleteQuery->execute();
+        $deleteQuery->executeStatement();
 
         $this->deleteOrphanedUrls($potentiallyOrphanedUrls);
     }
@@ -234,6 +229,8 @@ class DoctrineStorage extends Gateway
      * URL is orphaned if it is not linked to a content attribute through ezurl_object_link table.
      *
      * @param int[] $potentiallyOrphanedUrls
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function deleteOrphanedUrls(array $potentiallyOrphanedUrls): void
     {
@@ -257,9 +254,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('url_ids', $potentiallyOrphanedUrls, Connection::PARAM_INT_ARRAY)
         ;
 
-        $statement = $query->execute();
-
-        $ids = $statement->fetchAll(PDO::FETCH_COLUMN);
+        $ids = $query->executeQuery()->fetchFirstColumn();
         if (empty($ids)) {
             return;
         }
@@ -271,6 +266,6 @@ class DoctrineStorage extends Gateway
             ->setParameter(':ids', $ids, Connection::PARAM_STR_ARRAY)
         ;
 
-        $deleteQuery->execute();
+        $deleteQuery->executeStatement();
     }
 }

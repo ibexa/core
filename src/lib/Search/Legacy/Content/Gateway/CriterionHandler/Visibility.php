@@ -36,7 +36,7 @@ class Visibility extends CriterionHandler
         $subSelect = $this->connection->createQueryBuilder();
 
         if ($criterion->value[0] === Criterion\Visibility::VISIBLE) {
-            $expression = $queryBuilder->expr()->andX(
+            $expression = $queryBuilder->expr()->and(
                 $queryBuilder->expr()->eq(
                     'subquery_location.is_hidden',
                     0
@@ -47,7 +47,7 @@ class Visibility extends CriterionHandler
                 )
             );
         } else {
-            $expression = $queryBuilder->expr()->orX(
+            $expression = $queryBuilder->expr()->or(
                 $queryBuilder->expr()->eq(
                     'subquery_location.is_hidden',
                     1

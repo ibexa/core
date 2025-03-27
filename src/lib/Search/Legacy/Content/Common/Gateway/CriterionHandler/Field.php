@@ -143,7 +143,7 @@ class Field extends FieldBase
                 $fieldsInfo['column']
             );
 
-            $whereExpressions[] = $subSelect->expr()->andX(
+            $whereExpressions[] = $subSelect->expr()->and(
                 $subSelect->expr()->in(
                     'contentclassattribute_id',
                     $queryBuilder->createNamedParameter(

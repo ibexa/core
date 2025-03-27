@@ -49,6 +49,6 @@ final class LogicalAndQueryBuilder implements CriterionQueryBuilder
             return null;
         }
 
-        return (string)$queryBuilder->expr()->andX(...$constraints);
+        return (string)$queryBuilder->expr()->and(...$constraints);
     }
 }

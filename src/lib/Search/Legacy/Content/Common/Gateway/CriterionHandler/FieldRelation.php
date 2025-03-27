@@ -90,7 +90,7 @@ class FieldRelation extends FieldBase
                         $fieldDefinitionIds
                     );
 
-                    return $queryBuilder->expr()->andX(...$subRequest);
+                    return $queryBuilder->expr()->and(...$subRequest);
                 }
                 // Intentionally omitting break
 
@@ -129,7 +129,7 @@ class FieldRelation extends FieldBase
                 ->from(ContentGateway::CONTENT_RELATION_TABLE, 'c_rel');
 
             $subSelect->where(
-                $expr->andX(
+                $expr->and(
                     $expr->eq(
                         'c_rel.from_contentobject_version',
                         'c.current_version'

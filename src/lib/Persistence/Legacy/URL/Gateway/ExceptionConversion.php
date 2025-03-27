@@ -7,7 +7,7 @@
 
 namespace Ibexa\Core\Persistence\Legacy\URL\Gateway;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as DBALException;
 use Ibexa\Contracts\Core\Persistence\URL\URL;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 use Ibexa\Core\Base\Exceptions\DatabaseException;

@@ -46,6 +46,8 @@ final class DoctrineDatabase extends Gateway
         'parent' => ParameterType::INTEGER,
         'text_md5' => ParameterType::STRING,
     ];
+    private const string ACTION_PARAMETER_NAME = ':action';
+    private const string LANGUAGE_MASK_PARAMETER_NAME = ':languageMask';
 
     private MaskGenerator $languageMaskGenerator;
 
@@ -60,7 +62,7 @@ final class DoctrineDatabase extends Gateway
     private $dbPlatform;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct(
         Connection $connection,
@@ -91,7 +93,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('action', "eznode:{$locationId}", ParameterType::STRING)
             ->setParameter('is_original', 1, ParameterType::INTEGER);
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadLocationEntries(
@@ -152,7 +154,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function listGlobalEntries(
@@ -222,7 +224,7 @@ final class DoctrineDatabase extends Gateway
         }
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function isRootEntry(int $id): bool
@@ -295,7 +297,7 @@ final class DoctrineDatabase extends Gateway
             ->andWhere(
                 sprintf(
                     'NOT (%s)',
-                    $expr->andX(
+                    $expr->and(
                         $expr->eq(
                             'parent',
                             $query->createPositionalParameter($parentId, ParameterType::INTEGER)
@@ -363,7 +365,7 @@ final class DoctrineDatabase extends Gateway
                 )
             )
             ->where(
-                $query->expr()->andX(
+                $query->expr()->and(
                     $query->expr()->eq(
                         'action',
                         $query->createPositionalParameter($action, ParameterType::STRING)
@@ -421,7 +423,7 @@ final class DoctrineDatabase extends Gateway
                 )
             )
             ->where(
-                $query->expr()->andX(
+                $query->expr()->and(
                     $query->expr()->eq(
                         'parent',
                         $query->createPositionalParameter($parentId, ParameterType::INTEGER)
@@ -490,7 +492,7 @@ final class DoctrineDatabase extends Gateway
         )->from(
             $this->connection->quoteIdentifier($this->table)
         )->where(
-            $query->expr()->andX(
+            $query->expr()->and(
                 $query->expr()->eq(
                     'is_alias',
                     $query->createPositionalParameter(0, ParameterType::INTEGER)
@@ -515,7 +517,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        $rows = $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        $rows = $statement->fetchAllAssociative();
 
         foreach ($rows as $row) {
             $this->historize((int)$row['parent'], $row['text_md5'], $link);
@@ -644,7 +646,7 @@ final class DoctrineDatabase extends Gateway
         $query->select('*')->from(
             $this->connection->quoteIdentifier($this->table)
         )->where(
-            $query->expr()->andX(
+            $query->expr()->and(
                 $query->expr()->eq(
                     'parent',
                     $query->createPositionalParameter(
@@ -727,7 +729,7 @@ final class DoctrineDatabase extends Gateway
         )->from(
             $this->connection->quoteIdentifier($this->table)
         )->where(
-            $query->expr()->andX(
+            $query->expr()->and(
                 $query->expr()->eq(
                     'action',
                     $query->createPositionalParameter($action, ParameterType::STRING)
@@ -781,7 +783,7 @@ final class DoctrineDatabase extends Gateway
 
             $statement = $query->execute();
 
-            $rows = $statement->fetchAll(FetchMode::ASSOCIATIVE);
+            $rows = $statement->fetchAllAssociative();
             if (empty($rows)) {
                 // Normally this should never happen
                 $pathDataArray = [];
@@ -814,7 +816,7 @@ final class DoctrineDatabase extends Gateway
 
         $hierarchyConditions = [];
         foreach ($hierarchyData as $levelData) {
-            $hierarchyConditions[] = $query->expr()->andX(
+            $hierarchyConditions[] = $query->expr()->and(
                 $query->expr()->eq(
                     'parent',
                     $query->createPositionalParameter(
@@ -846,12 +848,12 @@ final class DoctrineDatabase extends Gateway
         )->from(
             $this->connection->quoteIdentifier($this->table)
         )->where(
-            $query->expr()->orX(...$hierarchyConditions)
+            $query->expr()->or(...$hierarchyConditions)
         );
 
         $statement = $query->execute();
 
-        $rows = $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        $rows = $statement->fetchAllAssociative();
         $rowsMap = [];
         foreach ($rows as $row) {
             $rowsMap[$row['action']][] = $row;
@@ -875,7 +877,7 @@ final class DoctrineDatabase extends Gateway
         $query->delete(
             $this->connection->quoteIdentifier($this->table)
         )->where(
-            $query->expr()->andX(
+            $query->expr()->and(
                 $query->expr()->eq(
                     'parent',
                     $query->createPositionalParameter(
@@ -978,7 +980,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function getLocationContentMainLanguageId(int $locationId): int
@@ -1096,16 +1098,16 @@ final class DoctrineDatabase extends Gateway
             ->where('action = :action')
             // fetch rows matching any of the given Languages
             ->andWhere('lang_mask & :languageMask <> 0')
-            ->setParameter(':action', 'eznode:' . $locationId)
-            ->setParameter(':languageMask', $languageMask);
+            ->setParameter(self::ACTION_PARAMETER_NAME, 'eznode:' . $locationId)
+            ->setParameter(self::LANGUAGE_MASK_PARAMETER_NAME, $languageMask);
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function deleteUrlAliasesWithoutLocation(): int
     {
@@ -1142,7 +1144,7 @@ final class DoctrineDatabase extends Gateway
                 sprintf('NOT EXISTS (%s)', $subQuery->getSQL())
             );
 
-        return $deleteQuery->execute();
+        return $deleteQuery->executeStatement();
     }
 
     public function deleteUrlAliasesWithoutParent(): int
@@ -1206,7 +1208,7 @@ final class DoctrineDatabase extends Gateway
             ->set('link', ':linkId')
             ->set('parent', ':newParentId')
             ->where(
-                $expr->eq('action', ':action')
+                $expr->eq('action', self::ACTION_PARAMETER_NAME)
             )
             ->andWhere(
                 $expr->eq(
@@ -1220,7 +1222,7 @@ final class DoctrineDatabase extends Gateway
             ->andWhere(
                 $expr->eq('text_md5', ':textMD5')
             )
-            ->setParameter(':action', "eznode:{$locationId}");
+            ->setParameter(self::ACTION_PARAMETER_NAME, "eznode:{$locationId}");
 
         foreach ($urlAliasesData as $urlAliasData) {
             if ($urlAliasData['is_original'] === 1 || !isset($originalUrlAliases[$urlAliasData['lang_mask']])) {
@@ -1256,7 +1258,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function deleteUrlNopAliasesWithoutChildren(): int
     {
@@ -1307,7 +1309,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function getAllChildrenAliases(int $parentId): array
     {
@@ -1329,7 +1331,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $queryBuilder->execute()->fetchAll();
+        return $queryBuilder->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -1416,7 +1418,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $queryBuilder->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $queryBuilder->executeQuery()->fetchAllAssociative();
     }
 
     /**

@@ -25,6 +25,9 @@ use Ibexa\Core\IO\UrlDecorator;
  */
 class LegacyDFSCluster implements IOMetadataHandler
 {
+    private const string NAME_HASH_PARAM_NAME = ':name_hash';
+    private const string DFS_IS_EXPIRED_COMPARISON = 'e.expired != true';
+
     private Connection $db;
 
     private ?UrlDecorator $urlDecorator;
@@ -114,7 +117,7 @@ class LegacyDFSCluster implements IOMetadataHandler
      * @return \Ibexa\Contracts\Core\IO\BinaryFile
      *
      * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException if no row is found for $spiBinaryFileId
-     * @throws \Doctrine\DBAL\DBALException Any unhandled DBAL exception
+     * @throws \Doctrine\DBAL\Exception Any unhandled DBAL exception
      */
     public function load($spiBinaryFileId)
     {
@@ -134,8 +137,8 @@ class LegacyDFSCluster implements IOMetadataHandler
                 'e.status',
             )
             ->from('ezdfsfile', 'e')
-            ->andWhere('e.name_hash = :name_hash')
-            ->andWhere('e.expired != true')
+            ->andWhere('e.name_hash = ' . self::NAME_HASH_PARAM_NAME)
+            ->andWhere(self::DFS_IS_EXPIRED_COMPARISON)
             ->andWhere('e.mtime > 0')
             ->setParameter('name_hash', md5($path))
             ->execute()
@@ -156,7 +159,7 @@ class LegacyDFSCluster implements IOMetadataHandler
      * @param string $spiBinaryFileId
      *
      * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
-     * @throws \Doctrine\DBAL\DBALException Any unhandled DBAL exception
+     * @throws \Doctrine\DBAL\Exception Any unhandled DBAL exception
      *
      * @return bool
      */
@@ -179,7 +182,7 @@ class LegacyDFSCluster implements IOMetadataHandler
             )
             ->from('ezdfsfile', 'e')
             ->andWhere('e.name_hash = :name_hash')
-            ->andWhere('e.expired != true')
+            ->andWhere(self::DFS_IS_EXPIRED_COMPARISON)
             ->andWhere('e.mtime > 0')
             ->setParameter('name_hash', md5($path))
             ->execute()
@@ -256,7 +259,7 @@ class LegacyDFSCluster implements IOMetadataHandler
             ->select('e.datatype')
             ->from('ezdfsfile', 'e')
             ->andWhere('e.name_hash = :name_hash')
-            ->andWhere('e.expired != true')
+            ->andWhere(self::DFS_IS_EXPIRED_COMPARISON)
             ->andWhere('e.mtime > 0')
             ->setParameter('name_hash', md5($this->addPrefix($spiBinaryFileId)))
             ->execute()
@@ -275,6 +278,8 @@ class LegacyDFSCluster implements IOMetadataHandler
      * Delete directory and all the content under specified directory.
      *
      * @param string $spiPath SPI Path, not prefixed by URL decoration
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function deleteDirectory($spiPath): void
     {
@@ -287,11 +292,11 @@ class LegacyDFSCluster implements IOMetadataHandler
                 ':spiPath',
                 addcslashes($this->addPrefix(rtrim($spiPath, '/')), '%_') . '/%'
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
-     * Maps an array of data base properties (id, size, mtime, datatype, md5_path, path...) to an SPIBinaryFile object.
+     * Maps an array of database properties (id, size, mtime, datatype, md5_path, path...) to an SPIBinaryFile object.
      *
      * @param array $properties database properties array
      *

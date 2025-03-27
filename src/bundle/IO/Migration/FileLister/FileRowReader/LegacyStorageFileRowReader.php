@@ -8,14 +8,14 @@
 namespace Ibexa\Bundle\IO\Migration\FileLister\FileRowReader;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Result;
 use Ibexa\Bundle\IO\Migration\FileLister\FileRowReaderInterface;
 
 abstract class LegacyStorageFileRowReader implements FileRowReaderInterface
 {
     private Connection $connection;
 
-    /** @var \Doctrine\DBAL\Driver\Statement */
-    private $statement;
+    private Result $result;
 
     public function __construct(Connection $connection)
     {
@@ -28,7 +28,7 @@ abstract class LegacyStorageFileRowReader implements FileRowReaderInterface
         $selectQuery
             ->select('filename', 'mime_type')
             ->from($this->getStorageTable());
-        $this->statement = $selectQuery->execute();
+        $this->result = $selectQuery->executeQuery();
     }
 
     /**
@@ -40,14 +40,14 @@ abstract class LegacyStorageFileRowReader implements FileRowReaderInterface
 
     final public function getRow()
     {
-        $row = $this->statement->fetch();
+        $row = $this->result->fetchAssociative();
 
         return false !== $row ? $this->prependMimeToPath($row['filename'], $row['mime_type']) : null;
     }
 
     final public function getCount()
     {
-        return $this->statement->rowCount();
+        return $this->result->rowCount();
     }
 
     /**

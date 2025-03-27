@@ -34,6 +34,6 @@ class LogicalAnd implements CriterionHandler
             $subexpressions[] = $converter->convertCriteria($queryBuilder, $subCriterion);
         }
 
-        return $queryBuilder->expr()->andX(...$subexpressions);
+        return $queryBuilder->expr()->and(...$subexpressions);
     }
 }

@@ -10,7 +10,7 @@ namespace Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Doctrine;
 
 use function array_filter;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -149,7 +149,7 @@ final class DoctrineGateway implements Gateway
                 'content',
                 LocationGateway::CONTENT_TREE_TABLE,
                 'main_location',
-                $expressionBuilder->andX(
+                $expressionBuilder->and(
                     'content.id = main_location.contentobject_id',
                     'main_location.main_node_id = main_location.node_id'
                 )
@@ -215,7 +215,7 @@ final class DoctrineGateway implements Gateway
                 'content',
                 ContentGateway::CONTENT_NAME_TABLE,
                 'content_name',
-                (string)$query->expr()->andX(
+                (string)$query->expr()->and(
                     'content.id = content_name.contentobject_id',
                     'version.version = content_name.content_version',
                     'version.language_mask & content_name.language_id > 0'
@@ -226,7 +226,7 @@ final class DoctrineGateway implements Gateway
             ->setFirstResult(null)
             ->resetQueryPart('orderBy');
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     private function bulkFetchFieldValues(FilteringQueryBuilder $query): array
@@ -251,7 +251,7 @@ final class DoctrineGateway implements Gateway
                 'content',
                 ContentGateway::CONTENT_FIELD_TABLE,
                 'content_field',
-                (string)$query->expr()->andX(
+                (string)$query->expr()->and(
                     'content.id = content_field.contentobject_id',
                     'version.version = content_field.version',
                     'version.language_mask & content_field.language_id = content_field.language_id'
@@ -262,7 +262,7 @@ final class DoctrineGateway implements Gateway
             ->setFirstResult(null)
             ->resetQueryPart('orderBy');
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     private function getColumns(): Traversable

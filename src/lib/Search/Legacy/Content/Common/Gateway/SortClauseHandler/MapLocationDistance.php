@@ -43,8 +43,8 @@ class MapLocationDistance extends Field
         $latitudePlaceholder = $query->createNamedParameter($target->latitude);
         $longitudePlaceholder = $query->createNamedParameter($target->longitude);
 
-        // note: can have literal name for all visits of this Criterion because it's constant
-        $query->setParameter(':longitude_correction', cos(deg2rad($target->latitude)) ** 2);
+        // note: can have a literal name for all visits of this Criterion because it's constant
+        $query->setParameter('longitude_correction', cos(deg2rad($target->latitude)) ** 2);
 
         // build: (latitude1 - latitude2)^2 + (longitude2 - longitude2)^2 * longitude_correction)
         $latitudeSubstrExpr = "({$externalTable}.latitude - {$latitudePlaceholder})";
@@ -89,7 +89,7 @@ class MapLocationDistance extends Field
                 'c',
                 ContentGateway::CONTENT_FIELD_TABLE,
                 $tableAlias,
-                $query->expr()->andX(
+                $query->expr()->and(
                     $query->expr()->eq(
                         $query->createNamedParameter($fieldDefinitionId, ParameterType::INTEGER),
                         $tableAlias . '.contentclassattribute_id'
@@ -109,7 +109,7 @@ class MapLocationDistance extends Field
                 $tableAlias,
                 'ezgmaplocation',
                 $externalTableAlias,
-                $query->expr()->andX(
+                $query->expr()->and(
                     $query->expr()->eq(
                         $externalTableAlias . '.contentobject_version',
                         $tableAlias . '.version'

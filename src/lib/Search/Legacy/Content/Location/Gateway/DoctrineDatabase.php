@@ -8,8 +8,8 @@
 namespace Ibexa\Core\Search\Legacy\Content\Location\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
@@ -21,14 +21,15 @@ use RuntimeException;
 
 /**
  * Location gateway implementation using the Doctrine database.
+ *
+ * @phpstan-import-type TSearchLanguageFilter from \Ibexa\Contracts\Core\Repository\SearchService
  */
 final class DoctrineDatabase extends Gateway
 {
     /**
-     * 2^30, since PHP_INT_MAX can cause overflows in DB systems, if PHP is run
-     * on 64 bit systems.
+     * 2^30, since PHP_INT_MAX can cause overflows in DB systems, if PHP is run on 64-bit systems.
      */
-    public const MAX_LIMIT = 1073741824;
+    public const int MAX_LIMIT = 1073741824;
 
     private Connection $connection;
 
@@ -36,19 +37,8 @@ final class DoctrineDatabase extends Gateway
 
     private SortClauseConverter $sortClauseConverter;
 
-    /**
-     * Language handler.
-     */
     private Handler $languageHandler;
 
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
-    private $dbPlatform;
-
-    /**
-     * Construct from database handler.
-     *
-     * @throws \Doctrine\DBAL\DBALException
-     */
     public function __construct(
         Connection $connection,
         CriteriaConverter $criteriaConverter,
@@ -56,19 +46,23 @@ final class DoctrineDatabase extends Gateway
         LanguageHandler $languageHandler
     ) {
         $this->connection = $connection;
-        $this->dbPlatform = $connection->getDatabasePlatform();
         $this->criteriaConverter = $criteriaConverter;
         $this->sortClauseConverter = $sortClauseConverter;
         $this->languageHandler = $languageHandler;
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function find(
         CriterionInterface $criterion,
-        $offset,
-        $limit,
+        int $offset,
+        int $limit,
         array $sortClauses = null,
         array $languageFilter = [],
-        $doCount = true
+        bool $doCount = true
     ): array {
         $count = $doCount ? $this->getTotalCount($criterion, $languageFilter) : null;
 
@@ -110,39 +104,7 @@ final class DoctrineDatabase extends Gateway
             $this->sortClauseConverter->applyJoin($selectQuery, $sortClauses, $languageFilter);
         }
 
-        $selectQuery->where(
-            $this->criteriaConverter->convertCriteria($selectQuery, $criterion, $languageFilter),
-            $selectQuery->expr()->eq(
-                'c.status',
-                //ContentInfo::STATUS_PUBLISHED
-                $selectQuery->createNamedParameter(1, ParameterType::INTEGER)
-            ),
-            $selectQuery->expr()->eq(
-                'v.status',
-                //VersionInfo::STATUS_PUBLISHED
-                $selectQuery->createNamedParameter(1, ParameterType::INTEGER)
-            ),
-            $selectQuery->expr()->neq(
-                't.depth',
-                $selectQuery->createNamedParameter(0, ParameterType::INTEGER)
-            )
-        );
-
-        // If not main-languages query
-        if (!empty($languageFilter['languages'])) {
-            $selectQuery->andWhere(
-                $selectQuery->expr()->gt(
-                    $this->dbPlatform->getBitAndComparisonExpression(
-                        'c.language_mask',
-                        $selectQuery->createNamedParameter(
-                            $this->getLanguageMask($languageFilter),
-                            ParameterType::INTEGER
-                        )
-                    ),
-                    $selectQuery->createNamedParameter(0, ParameterType::INTEGER)
-                )
-            );
-        }
+        $this->addFindConstraints($selectQuery, $criterion, $languageFilter);
 
         if ($sortClauses !== null) {
             $this->sortClauseConverter->applyOrderBy($selectQuery);
@@ -151,27 +113,28 @@ final class DoctrineDatabase extends Gateway
         $selectQuery->setMaxResults($limit);
         $selectQuery->setFirstResult($offset);
 
-        $statement = $selectQuery->execute();
+        $statement = $selectQuery->executeQuery();
 
         return [
             'count' => $count,
-            'rows' => $statement->fetchAll(FetchMode::ASSOCIATIVE),
+            'rows' => $statement->fetchAllAssociative(),
         ];
     }
 
     /**
      * Returns total results count for $criterion and $sortClauses.
      *
-     * @param array $languageFilter
+     * @phpstan-param TSearchLanguageFilter $languageFilter
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
     private function getTotalCount(CriterionInterface $criterion, array $languageFilter): int
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select($this->dbPlatform->getCountExpression('*'))
+            ->select('COUNT(t.node_id)')
             ->from('ezcontentobject_tree', 't')
             ->innerJoin(
                 't',
@@ -186,49 +149,17 @@ final class DoctrineDatabase extends Gateway
                 'c.id = v.contentobject_id'
             );
 
-        $query->where(
-            $this->criteriaConverter->convertCriteria($query, $criterion, $languageFilter),
-            $query->expr()->eq(
-                'c.status',
-                //ContentInfo::STATUS_PUBLISHED
-                $query->createNamedParameter(1, ParameterType::INTEGER)
-            ),
-            $query->expr()->eq(
-                'v.status',
-                //VersionInfo::STATUS_PUBLISHED
-                $query->createNamedParameter(1, ParameterType::INTEGER)
-            ),
-            $query->expr()->neq(
-                't.depth',
-                $query->createNamedParameter(0, ParameterType::INTEGER)
-            )
-        );
+        $this->addFindConstraints($query, $criterion, $languageFilter);
 
-        // If not main-languages query
-        if (!empty($languageFilter['languages'])) {
-            $query->andWhere(
-                $query->expr()->gt(
-                    $this->dbPlatform->getBitAndComparisonExpression(
-                        'c.language_mask',
-                        $query->createNamedParameter(
-                            $this->getLanguageMask($languageFilter),
-                            ParameterType::INTEGER
-                        )
-                    ),
-                    $query->createNamedParameter(0, ParameterType::INTEGER)
-                )
-            );
-        }
+        $statement = $query->executeQuery();
 
-        $statement = $query->execute();
-
-        return (int)$statement->fetchColumn();
+        return (int)$statement->fetchOne();
     }
 
     /**
      * Generates a language mask from the given $languageFilter.
      *
-     * @param array $languageFilter
+     * @phpstan-param TSearchLanguageFilter $languageFilter
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
@@ -252,5 +183,56 @@ final class DoctrineDatabase extends Gateway
         }
 
         return $mask;
+    }
+
+    /**
+     * @phpstan-param TSearchLanguageFilter $languageFilter
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
+     */
+    private function addFindConstraints(
+        QueryBuilder $selectQuery,
+        CriterionInterface $criterion,
+        array $languageFilter
+    ): void {
+        $selectQuery->where(
+            $this->criteriaConverter->convertCriteria($selectQuery, $criterion, $languageFilter),
+            $selectQuery->expr()->eq(
+                'c.status',
+                //ContentInfo::STATUS_PUBLISHED
+                $selectQuery->createNamedParameter(1, ParameterType::INTEGER)
+            ),
+            $selectQuery->expr()->eq(
+                'v.status',
+                //VersionInfo::STATUS_PUBLISHED
+                $selectQuery->createNamedParameter(1, ParameterType::INTEGER)
+            ),
+            $selectQuery->expr()->neq(
+                't.depth',
+                $selectQuery->createNamedParameter(0, ParameterType::INTEGER)
+            )
+        );
+
+        // If not main-languages query
+        if (!empty($languageFilter['languages'])) {
+            $databasePlatform = $this->connection->getDatabasePlatform();
+            if (null === $databasePlatform) {
+                throw new \LogicException('Unable to determine DBMS');
+            }
+            $selectQuery->andWhere(
+                $selectQuery->expr()->gt(
+                    $databasePlatform->getBitAndComparisonExpression(
+                        'c.language_mask',
+                        $selectQuery->createNamedParameter(
+                            $this->getLanguageMask($languageFilter),
+                            ParameterType::INTEGER
+                        )
+                    ),
+                    $selectQuery->createNamedParameter(0, ParameterType::INTEGER)
+                )
+            );
+        }
     }
 }

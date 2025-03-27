@@ -8,7 +8,6 @@
 namespace Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use DOMDocument;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
@@ -297,7 +296,7 @@ class RelationListConverter implements Converter
                 'c',
                 LocationGateway::CONTENT_TREE_TABLE,
                 't',
-                $query->expr()->andX(
+                $query->expr()->and(
                     't.contentobject_id = c.id',
                     't.node_id = t.main_node_id'
                 )
@@ -306,7 +305,7 @@ class RelationListConverter implements Converter
                 'c',
                 ContentTypeGateway::CONTENT_TYPE_TABLE,
                 'ct',
-                $query->expr()->andX(
+                $query->expr()->and(
                     'ct.id = c.contentclass_id',
                     // in Legacy Storage ezcontentclass.version contains status (draft, defined)
                     'ct.version = :content_type_status'
@@ -325,9 +324,9 @@ class RelationListConverter implements Converter
             )
             ->setParameter('content_ids', $destinationContentIds, Connection::PARAM_INT_ARRAY);
 
-        $stmt = $query->execute();
+        $stmt = $query->executeQuery();
 
-        return $this->groupResultSetById($stmt->fetchAll(FetchMode::ASSOCIATIVE));
+        return $this->groupResultSetById($stmt->fetchAllAssociative());
     }
 
     private static function dbAttributeMap(): array

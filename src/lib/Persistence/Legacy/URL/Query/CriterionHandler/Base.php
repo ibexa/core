@@ -55,7 +55,7 @@ abstract class Base implements CriterionHandler
                 'u_lnk',
                 ContentGateway::CONTENT_FIELD_TABLE,
                 'f_def',
-                $query->expr()->andX(
+                $query->expr()->and(
                     'u_lnk.contentobject_attribute_id = f_def.id',
                     'u_lnk.contentobject_attribute_version = f_def.version'
                 )

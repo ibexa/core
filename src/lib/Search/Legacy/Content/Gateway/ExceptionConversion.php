@@ -7,7 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Gateway;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as DBALException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Search\Legacy\Content\Gateway;

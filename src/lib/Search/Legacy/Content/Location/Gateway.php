@@ -11,29 +11,29 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 
 /**
  * Base class for location search gateways.
+ *
+ * @phpstan-import-type TSearchLanguageFilter from \Ibexa\Contracts\Core\Repository\SearchService
  */
 abstract class Gateway
 {
     /**
      * Returns total count and data for all Locations satisfying the parameters.
      *
-     * @param int $offset
-     * @param int $limit
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sortClauses
-     * @param array $languageFilter
-     * @param bool $doCount
      *
-     * @return mixed[][]
+     * @phpstan-param TSearchLanguageFilter $languageFilter
+     *
+     * @return array{count: int|null, rows: list<array<string,mixed>>|array{}}
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if Criterion is not applicable to its target
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException if a given Criterion Handler or Sort Clause is not implemented
      */
     abstract public function find(
         CriterionInterface $criterion,
-        $offset,
-        $limit,
+        int $offset,
+        int $limit,
         array $sortClauses = null,
         array $languageFilter = [],
-        $doCount = true
+        bool $doCount = true
     ): array;
 }

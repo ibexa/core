@@ -8,6 +8,7 @@
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 
@@ -18,11 +19,10 @@ abstract class SortClauseHandler
 {
     protected Connection $connection;
 
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform|null */
-    protected $dbPlatform;
+    protected AbstractPlatform $dbPlatform;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct(Connection $connection)
     {
@@ -68,14 +68,10 @@ abstract class SortClauseHandler
 
     /**
      * Returns the quoted sort column name.
-     *
-     * @param int $number
-     *
-     * @return string
      */
-    protected function getSortColumnName($number)
+    protected function getSortColumnName(string $columnNameExpressions): string
     {
-        return $this->connection->quoteIdentifier('sort_column_' . $number);
+        return $this->connection->quoteIdentifier('sort_column_' . $columnNameExpressions);
     }
 
     /**

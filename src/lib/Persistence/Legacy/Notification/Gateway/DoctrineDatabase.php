@@ -74,7 +74,7 @@ class DoctrineDatabase extends Gateway
 
         $query->setParameter(':id', $notificationId, PDO::PARAM_INT);
 
-        return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -148,7 +148,7 @@ class DoctrineDatabase extends Gateway
         $query->orderBy(self::COLUMN_ID, 'DESC');
         $query->setParameter(':user_id', $userId, PDO::PARAM_INT);
 
-        return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**

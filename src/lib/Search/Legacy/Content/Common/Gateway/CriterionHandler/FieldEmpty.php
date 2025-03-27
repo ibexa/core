@@ -122,7 +122,7 @@ class FieldEmpty extends FieldBase
                 ? $subSelect->expr()->eq($fieldsInfo['column'], $filterPlaceholder)
                 : $subSelect->expr()->neq($fieldsInfo['column'], $filterPlaceholder);
 
-            $whereExpressions[] = $subSelect->expr()->andX(
+            $whereExpressions[] = $subSelect->expr()->and(
                 $subSelect->expr()->in(
                     'contentclassattribute_id',
                     $queryBuilder->createNamedParameter($fieldsInfo['ids'], Connection::PARAM_INT_ARRAY)

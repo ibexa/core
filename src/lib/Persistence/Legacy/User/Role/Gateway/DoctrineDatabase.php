@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\User\Role\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\User\Policy;
@@ -27,20 +26,14 @@ use Ibexa\Core\Persistence\Legacy\User\Role\Gateway;
  */
 final class DoctrineDatabase extends Gateway
 {
+    private const string POLICY_TO_LIMITATION_JOIN_CONDITION = 'l.policy_id = p.id';
+    private const string LIMITATION_TO_VALUE_JOIN_CONDITION = 'v.limitation_id = l.id';
+
     private Connection $connection;
 
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
-    private $dbPlatform;
-
-    /**
-     * Construct from database handler.
-     *
-     * @throws \Doctrine\DBAL\DBALException
-     */
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
-        $this->dbPlatform = $this->connection->getDatabasePlatform();
     }
 
     public function createRole(Role $role): Role
@@ -132,8 +125,8 @@ final class DoctrineDatabase extends Gateway
             )
             ->from(self::ROLE_TABLE, 'r')
             ->leftJoin('r', self::POLICY_TABLE, 'p', 'p.role_id = r.id')
-            ->leftJoin('p', self::POLICY_LIMITATION_TABLE, 'l', 'l.policy_id = p.id')
-            ->leftJoin('l', self::POLICY_LIMITATION_VALUE_TABLE, 'v', 'v.limitation_id = l.id');
+            ->leftJoin('p', self::POLICY_LIMITATION_TABLE, 'l', self::POLICY_TO_LIMITATION_JOIN_CONDITION)
+            ->leftJoin('l', self::POLICY_LIMITATION_VALUE_TABLE, 'v', self::LIMITATION_TO_VALUE_JOIN_CONDITION);
 
         return $query;
     }
@@ -203,7 +196,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadRoles(int $status = Role::STATUS_DEFINED): array
@@ -215,7 +208,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadRolesForContentObjects(
@@ -250,8 +243,8 @@ final class DoctrineDatabase extends Gateway
             )
             ->leftJoin('r', self::USER_ROLE_TABLE, 'ur', 'ur.role_id = r.id')
             ->leftJoin('r', self::POLICY_TABLE, 'p', 'p.role_id = r.id')
-            ->leftJoin('p', self::POLICY_LIMITATION_TABLE, 'l', 'l.policy_id = p.id')
-            ->leftJoin('l', self::POLICY_LIMITATION_VALUE_TABLE, 'v', 'v.limitation_id = l.id')
+            ->leftJoin('p', self::POLICY_LIMITATION_TABLE, 'l', self::POLICY_TO_LIMITATION_JOIN_CONDITION)
+            ->leftJoin('l', self::POLICY_LIMITATION_VALUE_TABLE, 'v', self::LIMITATION_TO_VALUE_JOIN_CONDITION)
             ->where(
                 $expr->in(
                     'urs.contentobject_id',
@@ -259,7 +252,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadRoleAssignment(int $roleAssignmentId): array
@@ -282,7 +275,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadRoleAssignmentsByGroupId(int $groupId, bool $inherited = false): array
@@ -318,7 +311,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadRoleAssignmentsByRoleId(int $roleId): array
@@ -341,7 +334,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -449,9 +442,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $statement = $query->execute();
-
-        return $statement->fetchAll(FetchMode::COLUMN);
+        return $query->executeQuery()->fetchFirstColumn();
     }
 
     public function updateRole(RoleUpdateStruct $role): void
@@ -645,8 +636,8 @@ final class DoctrineDatabase extends Gateway
                 'v.id AS ezpolicy_limitation_value_id'
             )
             ->from(self::POLICY_TABLE, 'p')
-            ->leftJoin('p', self::POLICY_LIMITATION_TABLE, 'l', 'l.policy_id = p.id')
-            ->leftJoin('l', self::POLICY_LIMITATION_VALUE_TABLE, 'v', 'v.limitation_id = l.id')
+            ->leftJoin('p', self::POLICY_LIMITATION_TABLE, 'l', self::POLICY_TO_LIMITATION_JOIN_CONDITION)
+            ->leftJoin('l', self::POLICY_LIMITATION_VALUE_TABLE, 'v', self::LIMITATION_TO_VALUE_JOIN_CONDITION)
             ->where(
                 $query->expr()->eq(
                     'p.id',
@@ -654,7 +645,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function removePolicyLimitations(int $policyId): void
@@ -716,7 +707,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $paths = $query->execute()->fetchAll(FetchMode::COLUMN);
+        $paths = $query->executeQuery()->fetchFirstColumn();
         $nodeIds = array_unique(
             array_reduce(
                 array_map(

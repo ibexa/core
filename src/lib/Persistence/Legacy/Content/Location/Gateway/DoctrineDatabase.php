@@ -36,6 +36,11 @@ use function time;
  */
 final class DoctrineDatabase extends Gateway
 {
+    private const string CONTENT_ITEM_TO_TREE_JOIN_EXPRESSION = 't.contentobject_id = c.id';
+    private const string CONTENT_ID_PARAM_NAME = ':contentId';
+    private const string VERSION_NO_PARAM_NAME = ':versionNo';
+    private const string MAIN_NODE_ID_PARAM_NAME = ':mainNodeId';
+
     private Connection $connection;
 
     private MaskGenerator $languageMaskGenerator;
@@ -48,7 +53,7 @@ final class DoctrineDatabase extends Gateway
     private SortClauseConverter $trashSortClauseConverter;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct(
         Connection $connection,
@@ -90,7 +95,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function getBasicNodeDataByRemoteId(
@@ -133,7 +138,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -158,7 +163,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadParentLocationsDataForDraftContent(int $contentId): array
@@ -172,7 +177,7 @@ final class DoctrineDatabase extends Gateway
                 't',
                 'eznode_assignment',
                 'a',
-                $expr->andX(
+                $expr->and(
                     $expr->eq(
                         't.node_id',
                         'a.parent_node'
@@ -194,7 +199,7 @@ final class DoctrineDatabase extends Gateway
                 'a',
                 'ezcontentobject',
                 'c',
-                $expr->andX(
+                $expr->and(
                     $expr->eq(
                         'a.contentobject_id',
                         'c.id'
@@ -211,7 +216,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function getSubtreeContent(int $sourceId, bool $onlyIds = false): array
@@ -223,7 +228,7 @@ final class DoctrineDatabase extends Gateway
             ->where($this->getSubtreeLimitationExpression($query, $sourceId))
             ->orderBy('t.depth')
             ->addOrderBy('t.node_id');
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         $results = $statement->fetchAll($onlyIds ? (FetchMode::COLUMN | PDO::FETCH_GROUP) : FetchMode::ASSOCIATIVE);
 
@@ -302,7 +307,7 @@ final class DoctrineDatabase extends Gateway
         );
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     private function getSubtreeNodesData(string $pathString): array
@@ -323,9 +328,8 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($pathString . '%', ParameterType::STRING)
                 )
             );
-        $statement = $query->execute();
 
-        return $statement->fetchAll();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -638,9 +642,8 @@ final class DoctrineDatabase extends Gateway
                     )
                 )
             );
-        $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::COLUMN);
+        return $query->executeQuery()->fetchFirstColumn();
     }
 
     private function buildHiddenSubtreeQuery(string $selectExpr): QueryBuilder
@@ -650,9 +653,9 @@ final class DoctrineDatabase extends Gateway
         $query
             ->select($selectExpr)
             ->from(self::CONTENT_TREE_TABLE, 't')
-            ->leftJoin('t', 'ezcontentobject', 'c', 't.contentobject_id = c.id')
+            ->leftJoin('t', 'ezcontentobject', 'c', self::CONTENT_ITEM_TO_TREE_JOIN_EXPRESSION)
             ->where(
-                $expr->orX(
+                $expr->or(
                     $expr->eq(
                         't.is_hidden',
                         $query->createPositionalParameter(1, ParameterType::INTEGER)
@@ -689,7 +692,7 @@ final class DoctrineDatabase extends Gateway
         ;
         $statement = $queryBuilder->execute();
         $contentObjects = [];
-        foreach ($statement->fetchAll(FetchMode::ASSOCIATIVE) as $row) {
+        foreach ($statement->fetchAllAssociative() as $row) {
             $row['is_main_node'] = (int)$row['main_node_id'] === (int)$row['node_id'];
             $contentObjects[$row['node_id']] = $row;
         }
@@ -710,18 +713,18 @@ final class DoctrineDatabase extends Gateway
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder
             ->update(self::CONTENT_TREE_TABLE)
-            ->set('contentobject_id', ':contentId')
-            ->set('contentobject_version', ':versionNo')
-            ->set('main_node_id', ':mainNodeId')
+            ->set('contentobject_id', self::CONTENT_ID_PARAM_NAME)
+            ->set('contentobject_version', self::VERSION_NO_PARAM_NAME)
+            ->set('main_node_id', self::MAIN_NODE_ID_PARAM_NAME)
             ->where(
                 $expr->eq('node_id', ':locationId')
             );
 
         $queryBuilder
-            ->setParameter(':contentId', $content2data['contentobject_id'])
-            ->setParameter(':versionNo', $content2data['contentobject_version'])
+            ->setParameter(self::CONTENT_ID_PARAM_NAME, $content2data['contentobject_id'])
+            ->setParameter(self::VERSION_NO_PARAM_NAME, $content2data['contentobject_version'])
             ->setParameter(
-                ':mainNodeId',
+                self::MAIN_NODE_ID_PARAM_NAME,
                 // make main Location main again, preserve main Location id of non-main one
                 $content2data['is_main_node']
                     ? $content1data['node_id']
@@ -733,10 +736,10 @@ final class DoctrineDatabase extends Gateway
         $queryBuilder->execute();
 
         $queryBuilder
-            ->setParameter(':contentId', $content1data['contentobject_id'])
-            ->setParameter(':versionNo', $content1data['contentobject_version'])
+            ->setParameter(self::CONTENT_ID_PARAM_NAME, $content1data['contentobject_id'])
+            ->setParameter(self::VERSION_NO_PARAM_NAME, $content1data['contentobject_version'])
             ->setParameter(
-                ':mainNodeId',
+                self::MAIN_NODE_ID_PARAM_NAME,
                 $content1data['is_main_node']
                     // make main Location main again, preserve main Location id of non-main one
                     ? $content2data['node_id']
@@ -998,7 +1001,7 @@ final class DoctrineDatabase extends Gateway
             ->select('node_id')
             ->from(self::CONTENT_TREE_TABLE)
             ->where(
-                $query->expr()->andX(
+                $query->expr()->and(
                     $query->expr()->eq(
                         'contentobject_id',
                         $query->createPositionalParameter($contentId, ParameterType::INTEGER)
@@ -1240,7 +1243,7 @@ final class DoctrineDatabase extends Gateway
         $query
             ->select('t.*')
             ->from(self::TRASH_TABLE, 't')
-            ->leftJoin('t', ContentGateway::CONTENT_ITEM_TABLE, 'c', 't.contentobject_id = c.id');
+            ->leftJoin('t', ContentGateway::CONTENT_ITEM_TABLE, 'c', self::CONTENT_ITEM_TO_TREE_JOIN_EXPRESSION);
 
         $this->addSort($sort, $query);
         $this->addConditionsByCriterion($criterion, $query);
@@ -1252,7 +1255,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function countTrashed(?CriterionInterface $criterion = null): int
@@ -1260,7 +1263,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder()
             ->select($this->dbPlatform->getCountExpression(1))
             ->from(self::TRASH_TABLE, 't')
-            ->innerJoin('t', ContentGateway::CONTENT_ITEM_TABLE, 'c', 't.contentobject_id = c.id');
+            ->innerJoin('t', ContentGateway::CONTENT_ITEM_TABLE, 'c', self::CONTENT_ITEM_TO_TREE_JOIN_EXPRESSION);
 
         $this->addConditionsByCriterion($criterion, $query);
 
@@ -1309,7 +1312,7 @@ final class DoctrineDatabase extends Gateway
 
         $contentIds = array_map(
             'intval',
-            $selectContentIdsQuery->execute()->fetchAll(FetchMode::COLUMN)
+            $selectContentIdsQuery->executeQuery()->fetchFirstColumn()
         );
 
         if (empty($contentIds)) {
@@ -1425,7 +1428,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -1478,7 +1481,7 @@ final class DoctrineDatabase extends Gateway
         );
 
         $queryBuilder->andWhere(
-            $expr->orX(
+            $expr->or(
                 $expr->gt(
                     $this->dbPlatform->getBitAndComparisonExpression('c.language_mask', $mask),
                     0

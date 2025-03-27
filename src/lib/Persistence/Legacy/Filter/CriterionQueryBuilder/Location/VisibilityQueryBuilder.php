@@ -38,8 +38,8 @@ final class VisibilityQueryBuilder extends BaseLocationCriterionQueryBuilder
         );
 
         return $criterion->value[0] === Visibility::VISIBLE
-            ? (string)$expressionBuilder->andX(...$columnsExpressions)
-            : (string)$expressionBuilder->orX(...$columnsExpressions);
+            ? (string)$expressionBuilder->and(...$columnsExpressions)
+            : (string)$expressionBuilder->or(...$columnsExpressions);
     }
 
     private function getVisibilityColumnsExpressions(

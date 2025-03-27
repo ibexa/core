@@ -189,7 +189,7 @@ class Legacy extends SetupFactory
     /**
      * Insert the database data.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function insertData(): void
     {

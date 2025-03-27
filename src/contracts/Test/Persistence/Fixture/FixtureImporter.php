@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Test\Persistence\Fixture;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\PDOException;
+use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\DBAL\Schema\Column;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture;
 
@@ -32,7 +32,7 @@ final class FixtureImporter
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function import(Fixture $fixture): void
     {
@@ -62,7 +62,7 @@ final class FixtureImporter
     /**
      * @param string[] $tables a list of table names
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     private function truncateTables(array $tables): void
     {
@@ -71,7 +71,7 @@ final class FixtureImporter
         foreach ($tables as $table) {
             try {
                 // Cleanup before inserting (using TRUNCATE for speed, however not possible to rollback)
-                $this->connection->executeUpdate(
+                $this->connection->executeStatement(
                     $dbPlatform->getTruncateTableSql($this->connection->quoteIdentifier($table))
                 );
             } catch (DBALException | PDOException $e) {
@@ -86,12 +86,12 @@ final class FixtureImporter
      *
      * @param string[] $affectedTables
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     private function resetSequences(array $affectedTables): void
     {
         foreach ($this->getSequenceResetStatements($affectedTables) as $statement) {
-            $this->connection->exec($statement);
+            $this->connection->executeStatement($statement);
         }
     }
 
