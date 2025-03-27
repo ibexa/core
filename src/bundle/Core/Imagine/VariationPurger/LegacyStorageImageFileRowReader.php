@@ -8,33 +8,44 @@
 namespace Ibexa\Bundle\Core\Imagine\VariationPurger;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Result;
 
 class LegacyStorageImageFileRowReader implements ImageFileRowReader
 {
     private Connection $connection;
 
-    /** @var \Doctrine\DBAL\Driver\Statement */
-    private $statement;
+    private Result $result;
 
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function init(): void
     {
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery->select('filepath')->from('ezimagefile');
-        $this->statement = $selectQuery->execute();
+        $this->result = $selectQuery->executeQuery();
     }
 
-    public function getRow()
+    /**
+     * @phpstan-return array<string, scalar>
+     *
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function getRow(): array
     {
-        return $this->statement->fetchColumn(0);
+        return $this->result->fetchOne();
     }
 
-    public function getCount()
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function getCount(): int
     {
-        return $this->statement->rowCount();
+        return $this->result->rowCount();
     }
 }

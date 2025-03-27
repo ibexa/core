@@ -83,7 +83,7 @@ class FullText extends CriterionHandler
      * @param array $configuration
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException On invalid $configuration values
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct(
         Connection $connection,
@@ -170,11 +170,11 @@ class FullText extends CriterionHandler
         // Search for provided string itself as well
         $wordExpressions[] = $this->getWordExpression($query, $string);
 
-        $whereCondition = $subQuery->expr()->orX(...$wordExpressions);
+        $whereCondition = $subQuery->expr()->or(...$wordExpressions);
 
         // If stop word threshold is below 100%, make it part of $whereCondition
         if ($this->configuration['stopWordThresholdFactor'] < 1) {
-            $whereCondition = $subQuery->expr()->andX(
+            $whereCondition = $subQuery->expr()->and(
                 $whereCondition,
                 $subQuery->expr()->lt(
                     'object_count',

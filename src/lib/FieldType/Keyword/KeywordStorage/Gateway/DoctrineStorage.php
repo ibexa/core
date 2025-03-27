@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\FieldType\Keyword\KeywordStorage\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
@@ -17,6 +18,7 @@ class DoctrineStorage extends Gateway
 {
     public const KEYWORD_TABLE = 'ezkeyword';
     public const KEYWORD_ATTRIBUTE_LINK_TABLE = 'ezkeyword_attribute_link';
+    private const string CONTENT_TYPE_ID_PARAM_NAME = ':contentTypeId';
 
     protected Connection $connection;
 
@@ -28,7 +30,6 @@ class DoctrineStorage extends Gateway
     /**
      * Stores the keyword list from $field->value->externalData.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field
      * @param int $contentTypeId
      */
     public function storeFieldData(Field $field, $contentTypeId): void
@@ -130,7 +131,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('field_id', $fieldId, ParameterType::INTEGER)
             ->setParameter('version_no', $versionNo, ParameterType::INTEGER);
 
-        return $query->execute()->fetchFirstColumn();
+        return $query->executeQuery()->fetchFirstColumn();
     }
 
     /**
@@ -151,9 +152,9 @@ class DoctrineStorage extends Gateway
             )
             ->setParameter(':fieldDefinitionId', $fieldDefinitionId);
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        $row = $statement->fetch(\PDO::FETCH_ASSOC);
+        $row = $statement->fetchAssociative();
 
         if ($row === false) {
             throw new RuntimeException(
@@ -182,6 +183,8 @@ class DoctrineStorage extends Gateway
      * @param int $contentTypeId
      *
      * @return int[]
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function getExistingKeywords($keywordList, $contentTypeId): array
     {
@@ -194,24 +197,24 @@ class DoctrineStorage extends Gateway
             )
             ->from($this->connection->quoteIdentifier(self::KEYWORD_TABLE))
             ->where(
-                $query->expr()->andX(
+                $query->expr()->and(
                     $query->expr()->in(
                         $this->connection->quoteIdentifier('keyword'),
                         ':keywordList'
                     ),
                     $query->expr()->eq(
                         $this->connection->quoteIdentifier('class_id'),
-                        ':contentTypeId'
+                        self::CONTENT_TYPE_ID_PARAM_NAME
                     )
                 )
             )
             ->setParameter(':keywordList', $keywordList, Connection::PARAM_STR_ARRAY)
-            ->setParameter(':contentTypeId', $contentTypeId);
+            ->setParameter(self::CONTENT_TYPE_ID_PARAM_NAME, $contentTypeId);
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         $existingKeywordMap = [];
-        foreach ($statement->fetchAll(\PDO::FETCH_ASSOC) as $row) {
+        foreach ($statement->fetchAllAssociative() as $row) {
             // filter out keywords that aren't the exact match (e.g. differ by case)
             if (!in_array($row['keyword'], $keywordList)) {
                 continue;
@@ -249,15 +252,15 @@ class DoctrineStorage extends Gateway
                 ->insert($this->connection->quoteIdentifier(self::KEYWORD_TABLE))
                 ->values(
                     [
-                        $this->connection->quoteIdentifier('class_id') => ':contentTypeId',
+                        $this->connection->quoteIdentifier('class_id') => self::CONTENT_TYPE_ID_PARAM_NAME,
                         $this->connection->quoteIdentifier('keyword') => ':keyword',
                     ]
                 )
-                ->setParameter(':contentTypeId', $contentTypeId, \PDO::PARAM_INT);
+                ->setParameter(self::CONTENT_TYPE_ID_PARAM_NAME, $contentTypeId, \PDO::PARAM_INT);
 
             foreach (array_keys($keywordsToInsert) as $keyword) {
                 $insertQuery->setParameter(':keyword', $keyword);
-                $insertQuery->execute();
+                $insertQuery->executeStatement();
                 $keywordIdMap[$keyword] = (int)$this->connection->lastInsertId(
                     $this->getSequenceName(self::KEYWORD_TABLE, 'id')
                 );
@@ -273,7 +276,7 @@ class DoctrineStorage extends Gateway
         $deleteQuery
             ->delete($this->connection->quoteIdentifier(self::KEYWORD_ATTRIBUTE_LINK_TABLE))
             ->where(
-                $deleteQuery->expr()->andX(
+                $deleteQuery->expr()->and(
                     $deleteQuery->expr()->eq(
                         $this->connection->quoteIdentifier('objectattribute_id'),
                         ':fieldId'
@@ -287,7 +290,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('fieldId', $fieldId, ParameterType::INTEGER)
             ->setParameter('versionNo', $versionNo, ParameterType::INTEGER);
 
-        $deleteQuery->execute();
+        $deleteQuery->executeStatement();
     }
 
     /**
@@ -300,6 +303,8 @@ class DoctrineStorage extends Gateway
      *      // ...
      *  );
      * </code>
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function assignKeywords(int $fieldId, array $keywordMap, int $versionNo): void
     {
@@ -315,12 +320,13 @@ class DoctrineStorage extends Gateway
             )
         ;
 
-        foreach ($keywordMap as $keyword => $keywordId) {
+        foreach ($keywordMap as $keywordId) {
             $insertQuery
                 ->setParameter('keywordId', $keywordId, ParameterType::INTEGER)
                 ->setParameter('fieldId', $fieldId, ParameterType::INTEGER)
                 ->setParameter('versionNo', $versionNo, ParameterType::INTEGER);
-            $insertQuery->execute();
+
+            $insertQuery->executeStatement();
         }
     }
 
@@ -347,8 +353,8 @@ class DoctrineStorage extends Gateway
             )
             ->where($query->expr()->isNull('attr.id'));
 
-        $statement = $query->execute();
-        $ids = $statement->fetchAll(\PDO::FETCH_COLUMN);
+        $statement = $query->executeQuery();
+        $ids = $statement->fetchFirstColumn();
 
         if (empty($ids)) {
             return;
@@ -360,8 +366,8 @@ class DoctrineStorage extends Gateway
             ->where(
                 $deleteQuery->expr()->in($this->connection->quoteIdentifier('id'), ':ids')
             )
-            ->setParameter(':ids', $ids, Connection::PARAM_INT_ARRAY);
+            ->setParameter(':ids', $ids, ArrayParameterType::INTEGER);
 
-        $deleteQuery->execute();
+        $deleteQuery->executeStatement();
     }
 }

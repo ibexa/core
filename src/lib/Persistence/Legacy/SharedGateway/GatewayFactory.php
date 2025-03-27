@@ -29,7 +29,7 @@ final class GatewayFactory
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function buildSharedGateway(Connection $connection): Gateway
     {

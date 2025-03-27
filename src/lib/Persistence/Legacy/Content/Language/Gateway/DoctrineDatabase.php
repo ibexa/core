@@ -33,7 +33,7 @@ final class DoctrineDatabase extends Gateway
     private $dbPlatform;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct(Connection $connection)
     {
@@ -122,7 +122,7 @@ final class DoctrineDatabase extends Gateway
             ->where('id IN (:ids)')
             ->setParameter('ids', $ids, Connection::PARAM_INT_ARRAY);
 
-        return $query->execute()->fetchAll();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadLanguageListDataByLanguageCode(array $languageCodes): iterable
@@ -132,7 +132,7 @@ final class DoctrineDatabase extends Gateway
             ->where('locale IN (:locale)')
             ->setParameter('locale', $languageCodes, Connection::PARAM_STR_ARRAY);
 
-        return $query->execute()->fetchAll();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -150,7 +150,7 @@ final class DoctrineDatabase extends Gateway
 
     public function loadAllLanguagesData(): array
     {
-        return $this->createFindQuery()->execute()->fetchAll();
+        return $this->createFindQuery()->executeQuery()->fetchAllAssociative();
     }
 
     public function deleteLanguage(int $id): void

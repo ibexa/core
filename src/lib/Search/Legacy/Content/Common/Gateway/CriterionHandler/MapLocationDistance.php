@@ -179,7 +179,7 @@ class MapLocationDistance extends FieldBase
                 'f_def',
                 'ezgmaplocation',
                 'map',
-                $expr->andX(
+                $expr->and(
                     'map.contentobject_version = f_def.version',
                     'map.contentobject_attribute_id = f_def.id',
                     ...$boundingConstraints

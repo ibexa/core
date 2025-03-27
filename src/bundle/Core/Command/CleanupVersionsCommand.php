@@ -241,6 +241,7 @@ EOT
      *
      * @return array
      *
+     * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      */
     protected function getObjectsIds($keep, $status, $excludedContentTypes = []): array
@@ -273,10 +274,7 @@ EOT
                 )->setParameter(':contentTypes', $excludedContentTypes, Connection::PARAM_STR_ARRAY);
         }
 
-        /** @var \Doctrine\DBAL\ForwardCompatibility\Result<int> $stmt */
-        $stmt = $query->execute();
-
-        return $stmt->fetchFirstColumn();
+        return $query->executeQuery()->fetchFirstColumn();
     }
 
     /**

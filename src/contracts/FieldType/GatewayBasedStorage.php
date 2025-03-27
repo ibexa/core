@@ -20,7 +20,6 @@ abstract class GatewayBasedStorage implements FieldStorage
     /**
      * Field Type External Storage Gateway.
      *
-     *
      * @phpstan-var T
      */
     protected StorageGatewayInterface $gateway;
