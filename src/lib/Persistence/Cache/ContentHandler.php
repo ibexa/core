@@ -271,13 +271,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
      */
     public function loadVersionNoArchivedWithin(int $contentId, int $seconds): array
     {
-        $versionNos = $this->persistenceHandler->contentHandler()->loadVersionNoArchivedWithin($contentId, $seconds);
-
-        $this->cache->invalidateTags([
-            $this->cacheIdentifierGenerator->generateTag(self::CONTENT_IDENTIFIER, [$contentId]),
-        ]);
-
-        return $versionNos;
+        return $this->persistenceHandler->contentHandler()->loadVersionNoArchivedWithin($contentId, $seconds);
     }
 
     public function countDraftsForUser(int $userId): int
