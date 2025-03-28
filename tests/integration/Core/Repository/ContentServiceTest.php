@@ -6767,7 +6767,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $content = $this->contentService->createContent($contentCreate);
         $unPublishedVersionOneContent = $this->contentService->publishVersion($content->getVersionInfo());
 
-        $publishedVersionTwo = $this->contentService->publishVersion(
+        $this->contentService->publishVersion(
             $this->updateFolder($content, [self::ENG_US => 'Updated Name'])->getVersionInfo()
         );
 
@@ -6775,11 +6775,11 @@ class ContentServiceTest extends BaseContentServiceTest
         $repository->getPermissionResolver()->setCurrentUserReference($repository->getUserService()->loadUser($anonymousUserId));
 
         $this->setGracePeriod(5);
-        $this->contentService->loadContent($publishedVersionTwo->id, null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
+        $this->contentService->loadContent($unPublishedVersionOneContent->id, null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
 
         sleep(5);
         $this->expectException(CoreUnauthorizedException::class);
-        $this->contentService->loadContent($publishedVersionTwo->id, null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
+        $this->contentService->loadContent($unPublishedVersionOneContent->id, null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
     }
 
     private function setGracePeriod(int $value): void
