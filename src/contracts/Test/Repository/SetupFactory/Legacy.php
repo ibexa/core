@@ -73,13 +73,6 @@ class Legacy extends SetupFactory
      */
     private static ?YamlFixture $initialDataFixture = null;
 
-    /**
-     * Cached in-memory post insert SQL statements.
-     *
-     * @var string[]
-     */
-    private static $postInsertStatements;
-
     protected $repositoryReference = 'ibexa.api.repository';
 
     /** @var \Doctrine\DBAL\Connection */
