@@ -20,7 +20,9 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Image\Value;
 use Ibexa\Core\FieldType\ImageAsset;
+use Ibexa\Core\FieldType\ImageAsset\Type;
 use Ibexa\Core\FieldType\ValidationError;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @group fieldType
@@ -31,13 +33,13 @@ class ImageAssetTest extends FieldTypeTest
     private const DESTINATION_CONTENT_ID = 14;
 
     /** @var \Ibexa\Contracts\Core\Repository\ContentService|\PHPUnit\Framework\MockObject\MockObject */
-    private $contentServiceMock;
+    private MockObject $contentServiceMock;
 
     /** @var \Ibexa\Core\FieldType\ImageAsset\AssetMapper|\PHPUnit\Framework\MockObject\MockObject */
-    private $assetMapperMock;
+    private MockObject $assetMapperMock;
 
     /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private $contentHandlerMock;
+    private MockObject $contentHandlerMock;
 
     /**
      * {@inheritdoc}
@@ -81,15 +83,15 @@ class ImageAssetTest extends FieldTypeTest
      */
     protected function provideFieldTypeIdentifier(): string
     {
-        return ImageAsset\Type::FIELD_TYPE_IDENTIFIER;
+        return Type::FIELD_TYPE_IDENTIFIER;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): Type
     {
-        return new ImageAsset\Type(
+        return new Type(
             $this->contentServiceMock,
             $this->assetMapperMock,
             $this->contentHandlerMock
@@ -115,7 +117,7 @@ class ImageAssetTest extends FieldTypeTest
     /**
      * {@inheritdoc}
      */
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): ImageAsset\Value
     {
         return new ImageAsset\Value();
     }
@@ -232,7 +234,7 @@ class ImageAssetTest extends FieldTypeTest
     /**
      * {@inheritdoc}
      */
-    public function testValidateNonAsset()
+    public function testValidateNonAsset(): void
     {
         $destinationContentId = 7;
         $destinationContent = $this->createMock(Content::class);
@@ -412,7 +414,7 @@ class ImageAssetTest extends FieldTypeTest
         self::assertSame($expected, $name);
     }
 
-    public function testIsSearchable()
+    public function testIsSearchable(): void
     {
         self::assertTrue($this->getFieldTypeUnderTest()->isSearchable());
     }
@@ -420,7 +422,7 @@ class ImageAssetTest extends FieldTypeTest
     /**
      * @covers \Ibexa\Core\FieldType\Relation\Type::getRelations
      */
-    public function testGetRelations()
+    public function testGetRelations(): void
     {
         $destinationContentId = 7;
         $fieldType = $this->createFieldTypeUnderTest();

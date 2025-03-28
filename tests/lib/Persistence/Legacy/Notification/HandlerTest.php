@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Notification as APINotif
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway;
 use Ibexa\Core\Persistence\Legacy\Notification\Handler;
 use Ibexa\Core\Persistence\Legacy\Notification\Mapper;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -25,13 +26,13 @@ class HandlerTest extends TestCase
     public const NOTIFICATION_ID = 1;
 
     /** @var \Ibexa\Core\Persistence\Legacy\Notification\Gateway|\PHPUnit\Framework\MockObject\MockObject */
-    private $gateway;
+    private MockObject $gateway;
 
     /** @var \Ibexa\Core\Persistence\Legacy\Notification\Mapper|\PHPUnit\Framework\MockObject\MockObject */
-    private $mapper;
+    private MockObject $mapper;
 
     /** @var \Ibexa\Core\Persistence\Legacy\Notification\Handler */
-    private $handler;
+    private Handler $handler;
 
     protected function setUp(): void
     {
@@ -40,7 +41,7 @@ class HandlerTest extends TestCase
         $this->handler = new Handler($this->gateway, $this->mapper);
     }
 
-    public function testCreateNotification()
+    public function testCreateNotification(): void
     {
         $createStruct = new CreateStruct([
             'ownerId' => 5,
@@ -68,7 +69,7 @@ class HandlerTest extends TestCase
         self::assertEquals($notification->id, self::NOTIFICATION_ID);
     }
 
-    public function testCountPendingNotifications()
+    public function testCountPendingNotifications(): void
     {
         $ownerId = 10;
         $expectedCount = 12;
@@ -82,7 +83,7 @@ class HandlerTest extends TestCase
         self::assertEquals($expectedCount, $this->handler->countPendingNotifications($ownerId));
     }
 
-    public function testGetNotificationById()
+    public function testGetNotificationById(): void
     {
         $rows = [
             [
@@ -109,7 +110,7 @@ class HandlerTest extends TestCase
         self::assertEquals($object, $this->handler->getNotificationById(self::NOTIFICATION_ID));
     }
 
-    public function testUpdateNotification()
+    public function testUpdateNotification(): void
     {
         $updateStruct = new UpdateStruct([
             'isPending' => false,
@@ -148,7 +149,7 @@ class HandlerTest extends TestCase
         $this->handler->updateNotification($apiNotification, $updateStruct);
     }
 
-    public function testCountNotifications()
+    public function testCountNotifications(): void
     {
         $ownerId = 10;
         $expectedCount = 12;
@@ -162,7 +163,7 @@ class HandlerTest extends TestCase
         self::assertEquals($expectedCount, $this->handler->countNotifications($ownerId));
     }
 
-    public function testLoadUserNotifications()
+    public function testLoadUserNotifications(): void
     {
         $ownerId = 9;
         $limit = 5;
@@ -195,7 +196,7 @@ class HandlerTest extends TestCase
         self::assertEquals($objects, $this->handler->loadUserNotifications($ownerId, $offset, $limit));
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $notification = new APINotification([
             'id' => self::NOTIFICATION_ID, /* ... */

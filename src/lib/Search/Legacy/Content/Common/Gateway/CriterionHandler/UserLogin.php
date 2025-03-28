@@ -18,8 +18,7 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
 class UserLogin extends CriterionHandler
 {
-    /** @var \Ibexa\Core\Persistence\TransformationProcessor */
-    private $transformationProcessor;
+    private TransformationProcessor $transformationProcessor;
 
     public function __construct(
         Connection $connection,

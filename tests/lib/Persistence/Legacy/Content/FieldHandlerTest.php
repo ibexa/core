@@ -22,6 +22,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldHandler
@@ -33,35 +34,35 @@ class FieldHandlerTest extends LanguageAwareTestCase
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
      */
-    protected $contentGatewayMock;
+    protected ?MockObject $contentGatewayMock = null;
 
     /**
      * Mapper mock.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Mapper
      */
-    protected $mapperMock;
+    protected ?MockObject $mapperMock = null;
 
     /**
      * Storage handler mock.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
      */
-    protected $storageHandlerMock;
+    protected ?MockObject $storageHandlerMock = null;
 
     /**
      * Field type registry mock.
      *
      * @var \Ibexa\Core\Persistence\FieldTypeRegistry
      */
-    protected $fieldTypeRegistryMock;
+    protected ?MockObject $fieldTypeRegistryMock = null;
 
     /**
      * Field type mock.
      *
      * @var \Ibexa\Contracts\Core\FieldType\FieldType
      */
-    protected $fieldTypeMock;
+    protected ?MockObject $fieldTypeMock = null;
 
     /**
      * @param bool $storageHandlerUpdatesFields
@@ -125,7 +126,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
             )->will(self::returnValue($storageHandlerUpdatesFields));
     }
 
-    public function testCreateNewFields()
+    public function testCreateNewFields(): void
     {
         $fieldHandler = $this->getFieldHandler();
         $mapperMock = $this->getMapperMock();
@@ -143,7 +144,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateNewFieldsUpdatingStorageHandler()
+    public function testCreateNewFieldsUpdatingStorageHandler(): void
     {
         $fieldHandler = $this->getFieldHandler();
         $contentGatewayMock = $this->getContentGatewayMock();
@@ -212,7 +213,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         }
     }
 
-    public function testCreateNewFieldsForMainLanguage()
+    public function testCreateNewFieldsForMainLanguage(): void
     {
         $fieldHandler = $this->getFieldHandler();
         $mapperMock = $this->getMapperMock();
@@ -230,7 +231,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateNewFieldsForMainLanguageUpdatingStorageHandler()
+    public function testCreateNewFieldsForMainLanguageUpdatingStorageHandler(): void
     {
         $fieldHandler = $this->getFieldHandler();
         $contentGatewayMock = $this->getContentGatewayMock();
@@ -298,7 +299,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         }
     }
 
-    public function testCreateExistingFieldsInNewVersion()
+    public function testCreateExistingFieldsInNewVersion(): void
     {
         $fieldHandler = $this->getFieldHandler();
         $mapperMock = $this->getMapperMock();
@@ -313,7 +314,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         $fieldHandler->createExistingFieldsInNewVersion($this->getContentFixture());
     }
 
-    public function testCreateExistingFieldsInNewVersionUpdatingStorageHandler()
+    public function testCreateExistingFieldsInNewVersionUpdatingStorageHandler(): void
     {
         $fieldHandler = $this->getFieldHandler();
         $contentGatewayMock = $this->getContentGatewayMock();
@@ -336,7 +337,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         $fieldHandler->createExistingFieldsInNewVersion($this->getContentFixture());
     }
 
-    public function testLoadExternalFieldData()
+    public function testLoadExternalFieldData(): void
     {
         $fieldHandler = $this->getFieldHandler();
 
@@ -355,7 +356,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * @param bool $storageHandlerUpdatesFields
      */
-    public function assertUpdateFieldsWithNewLanguage($storageHandlerUpdatesFields = false)
+    public function assertUpdateFieldsWithNewLanguage($storageHandlerUpdatesFields = false): void
     {
         $contentGatewayMock = $this->getContentGatewayMock();
         $fieldTypeMock = $this->getFieldTypeMock();
@@ -412,7 +413,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
             )->will(self::returnValue($storageHandlerUpdatesFields));
     }
 
-    public function testUpdateFieldsWithNewLanguage()
+    public function testUpdateFieldsWithNewLanguage(): void
     {
         $mapperMock = $this->getMapperMock();
         $fieldHandler = $this->getFieldHandler();
@@ -444,7 +445,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testUpdateFieldsWithNewLanguageUpdatingStorageHandler()
+    public function testUpdateFieldsWithNewLanguageUpdatingStorageHandler(): void
     {
         $fieldHandler = $this->getFieldHandler();
         $mapperMock = $this->getMapperMock();
@@ -487,7 +488,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * @param bool $storageHandlerUpdatesFields
      */
-    public function assertUpdateFieldsExistingLanguages($storageHandlerUpdatesFields = false)
+    public function assertUpdateFieldsExistingLanguages($storageHandlerUpdatesFields = false): void
     {
         $storageHandlerMock = $this->getStorageHandlerMock();
 
@@ -537,7 +538,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         }
     }
 
-    public function testUpdateFieldsExistingLanguages()
+    public function testUpdateFieldsExistingLanguages(): void
     {
         $fieldHandler = $this->getFieldHandler();
         $mapperMock = $this->getMapperMock();
@@ -564,7 +565,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testUpdateFieldsExistingLanguagesUpdatingStorageHandler()
+    public function testUpdateFieldsExistingLanguagesUpdatingStorageHandler(): void
     {
         $fieldHandler = $this->getFieldHandler();
         $mapperMock = $this->getMapperMock();
@@ -594,7 +595,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * @param bool $storageHandlerUpdatesFields
      */
-    public function assertUpdateFieldsForInitialLanguage($storageHandlerUpdatesFields = false)
+    public function assertUpdateFieldsForInitialLanguage($storageHandlerUpdatesFields = false): void
     {
         $storageHandlerMock = $this->getStorageHandlerMock();
 
@@ -643,7 +644,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         }
     }
 
-    public function testUpdateFieldsForInitialLanguage()
+    public function testUpdateFieldsForInitialLanguage(): void
     {
         $fieldHandler = $this->getFieldHandler();
         $mapperMock = $this->getMapperMock();
@@ -665,7 +666,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testUpdateFieldsForInitialLanguageUpdatingStorageHandler()
+    public function testUpdateFieldsForInitialLanguageUpdatingStorageHandler(): void
     {
         $fieldHandler = $this->getFieldHandler();
         $mapperMock = $this->getMapperMock();
@@ -695,7 +696,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteFields()
+    public function testDeleteFields(): void
     {
         $fieldHandler = $this->getFieldHandler();
 
@@ -731,7 +732,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content
      */
-    protected function getContentPartialFieldsFixture()
+    protected function getContentPartialFieldsFixture(): Content
     {
         $content = new Content();
         $content->versionInfo = new VersionInfo();
@@ -769,7 +770,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content
      */
-    protected function getContentNoFieldsFixture()
+    protected function getContentNoFieldsFixture(): Content
     {
         $content = new Content();
         $content->versionInfo = new VersionInfo();
@@ -789,7 +790,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content
      */
-    protected function getContentSingleLanguageFixture()
+    protected function getContentSingleLanguageFixture(): Content
     {
         $content = new Content();
         $content->versionInfo = new VersionInfo();
@@ -866,7 +867,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type
      */
-    protected function getContentTypeFixture()
+    protected function getContentTypeFixture(): Type
     {
         $contentType = new Type();
         $firstFieldDefinition = new FieldDefinition(
@@ -904,7 +905,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\UpdateStruct
      */
-    protected function getUpdateStructFixture()
+    protected function getUpdateStructFixture(): UpdateStruct
     {
         $struct = new UpdateStruct();
 
@@ -929,7 +930,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
      *
      * @return \Ibexa\Core\Persistence\Legacy\Content\FieldHandler
      */
-    protected function getFieldHandler()
+    protected function getFieldHandler(): FieldHandler
     {
         $mock = new FieldHandler(
             $this->getContentGatewayMock(),

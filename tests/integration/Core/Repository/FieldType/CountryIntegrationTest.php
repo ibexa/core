@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Core\FieldType\Country\Value;
 use Ibexa\Core\FieldType\Country\Value as CountryValue;
 
 /**
@@ -35,7 +36,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function getSettingsSchema()
+    public function getSettingsSchema(): array
     {
         return [
             'isMultiple' => [
@@ -50,7 +51,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidFieldSettings()
+    public function getValidFieldSettings(): array
     {
         return [
             'isMultiple' => false,
@@ -62,7 +63,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidFieldSettings()
+    public function getInvalidFieldSettings(): array
     {
         return [
             'somethingUnknown' => 0,
@@ -74,7 +75,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function getValidatorSchema()
+    public function getValidatorSchema(): array
     {
         return [];
     }
@@ -84,7 +85,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidValidatorConfiguration()
+    public function getValidValidatorConfiguration(): array
     {
         return [];
     }
@@ -94,7 +95,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidValidatorConfiguration()
+    public function getInvalidValidatorConfiguration(): array
     {
         return [
             'unknown' => ['value' => 42],
@@ -106,7 +107,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidCreationFieldData()
+    public function getValidCreationFieldData(): Value
     {
         return new CountryValue(
             [
@@ -138,7 +139,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertFieldDataLoadedCorrect(Field $field)
+    public function assertFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             CountryValue::class,
@@ -162,7 +163,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public function provideInvalidCreationFieldData(): array
     {
         return [
             [
@@ -198,7 +199,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function getValidUpdateFieldData()
+    public function getValidUpdateFieldData(): Value
     {
         return new CountryValue(
             [
@@ -219,7 +220,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function assertUpdatedFieldDataLoadedCorrect(Field $field)
+    public function assertUpdatedFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             CountryValue::class,
@@ -255,7 +256,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertCopiedFieldDataLoadedCorrectly(Field $field)
+    public function assertCopiedFieldDataLoadedCorrectly(Field $field): void
     {
         self::assertInstanceOf(
             CountryValue::class,
@@ -298,7 +299,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function provideToHashData()
+    public function provideToHashData(): array
     {
         return [
             [
@@ -330,7 +331,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function provideFromHashData()
+    public function provideFromHashData(): array
     {
         return [
             [
@@ -355,7 +356,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public function providerForTestIsEmptyValue(): array
     {
         return [
             [new CountryValue()],
@@ -363,7 +364,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public function providerForTestIsNotEmptyValue(): array
     {
         return [
             [
@@ -372,12 +373,12 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    protected function getValidSearchValueOne()
+    protected function getValidSearchValueOne(): array
     {
         return ['Andorra'];
     }
 
-    protected function getValidSearchValueTwo()
+    protected function getValidSearchValueTwo(): array
     {
         return ['Trinidad and Tobago'];
     }
@@ -392,7 +393,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         return 'Trinidad and Tobago';
     }
 
-    protected function getAdditionallyIndexedFieldData()
+    protected function getAdditionallyIndexedFieldData(): array
     {
         return [
             [
@@ -423,17 +424,17 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    protected function getValidMultivaluedSearchValuesOne()
+    protected function getValidMultivaluedSearchValuesOne(): array
     {
         return ['Andorra', 'Bolivia'];
     }
 
-    protected function getValidMultivaluedSearchValuesTwo()
+    protected function getValidMultivaluedSearchValuesTwo(): array
     {
         return ['Syrian Arab Republic', 'Trinidad and Tobago'];
     }
 
-    protected function getAdditionallyIndexedMultivaluedFieldData()
+    protected function getAdditionallyIndexedMultivaluedFieldData(): array
     {
         return [
             [
@@ -459,7 +460,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    protected function getFullTextIndexedFieldData()
+    protected function getFullTextIndexedFieldData(): array
     {
         return [
             ['Andorra', 'Tobago'],

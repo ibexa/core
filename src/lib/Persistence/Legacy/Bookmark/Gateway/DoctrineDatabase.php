@@ -24,8 +24,7 @@ class DoctrineDatabase extends Gateway
     public const COLUMN_LOCATION_ID = 'node_id';
     public const COLUMN_NAME = 'name';
 
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
+    protected Connection $connection;
 
     public function __construct(Connection $connection)
     {

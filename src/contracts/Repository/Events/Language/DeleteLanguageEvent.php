@@ -13,8 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 
 final class DeleteLanguageEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Language */
-    private $language;
+    private Language $language;
 
     public function __construct(Language $language)
     {

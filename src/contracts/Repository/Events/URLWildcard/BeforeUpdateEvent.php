@@ -14,11 +14,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardUpdateStruct;
 
 final class BeforeUpdateEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard */
-    private $urlWildcard;
+    private URLWildcard $urlWildcard;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardUpdateStruct */
-    private $updateStruct;
+    private URLWildcardUpdateStruct $updateStruct;
 
     public function __construct(
         URLWildcard $urlWildcard,

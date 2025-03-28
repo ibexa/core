@@ -18,8 +18,7 @@ use PHPUnit\Runner\Exception;
  */
 abstract class BaseInMemoryCachedFileFixture implements Fixture
 {
-    /** @var array|null */
-    private static $inMemoryCachedLoadedData = null;
+    private static ?array $inMemoryCachedLoadedData = null;
 
     /** @var string */
     private $filePath;

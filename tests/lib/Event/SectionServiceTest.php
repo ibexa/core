@@ -27,7 +27,7 @@ use Ibexa\Core\Event\SectionService;
 
 class SectionServiceTest extends AbstractServiceTest
 {
-    public function testAssignSectionEvents()
+    public function testAssignSectionEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeAssignSectionEvent::class,
@@ -53,7 +53,7 @@ class SectionServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testAssignSectionStopPropagationInBeforeEvents()
+    public function testAssignSectionStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeAssignSectionEvent::class,
@@ -67,7 +67,7 @@ class SectionServiceTest extends AbstractServiceTest
 
         $innerServiceMock = $this->createMock(SectionServiceInterface::class);
 
-        $traceableEventDispatcher->addListener(BeforeAssignSectionEvent::class, static function (BeforeAssignSectionEvent $event) {
+        $traceableEventDispatcher->addListener(BeforeAssignSectionEvent::class, static function (BeforeAssignSectionEvent $event): void {
             $event->stopPropagation();
         }, 10);
 
@@ -86,7 +86,7 @@ class SectionServiceTest extends AbstractServiceTest
         ]);
     }
 
-    public function testUpdateSectionEvents()
+    public function testUpdateSectionEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateSectionEvent::class,
@@ -115,7 +115,7 @@ class SectionServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnUpdateSectionResultInBeforeEvents()
+    public function testReturnUpdateSectionResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateSectionEvent::class,
@@ -132,7 +132,7 @@ class SectionServiceTest extends AbstractServiceTest
         $innerServiceMock = $this->createMock(SectionServiceInterface::class);
         $innerServiceMock->method('updateSection')->willReturn($updatedSection);
 
-        $traceableEventDispatcher->addListener(BeforeUpdateSectionEvent::class, static function (BeforeUpdateSectionEvent $event) use ($eventUpdatedSection) {
+        $traceableEventDispatcher->addListener(BeforeUpdateSectionEvent::class, static function (BeforeUpdateSectionEvent $event) use ($eventUpdatedSection): void {
             $event->setUpdatedSection($eventUpdatedSection);
         }, 10);
 
@@ -150,7 +150,7 @@ class SectionServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testUpdateSectionStopPropagationInBeforeEvents()
+    public function testUpdateSectionStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateSectionEvent::class,
@@ -167,7 +167,7 @@ class SectionServiceTest extends AbstractServiceTest
         $innerServiceMock = $this->createMock(SectionServiceInterface::class);
         $innerServiceMock->method('updateSection')->willReturn($updatedSection);
 
-        $traceableEventDispatcher->addListener(BeforeUpdateSectionEvent::class, static function (BeforeUpdateSectionEvent $event) use ($eventUpdatedSection) {
+        $traceableEventDispatcher->addListener(BeforeUpdateSectionEvent::class, static function (BeforeUpdateSectionEvent $event) use ($eventUpdatedSection): void {
             $event->setUpdatedSection($eventUpdatedSection);
             $event->stopPropagation();
         }, 10);
@@ -188,7 +188,7 @@ class SectionServiceTest extends AbstractServiceTest
         ]);
     }
 
-    public function testAssignSectionToSubtreeEvents()
+    public function testAssignSectionToSubtreeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeAssignSectionToSubtreeEvent::class,
@@ -214,7 +214,7 @@ class SectionServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testAssignSectionToSubtreeStopPropagationInBeforeEvents()
+    public function testAssignSectionToSubtreeStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeAssignSectionToSubtreeEvent::class,
@@ -228,7 +228,7 @@ class SectionServiceTest extends AbstractServiceTest
 
         $innerServiceMock = $this->createMock(SectionServiceInterface::class);
 
-        $traceableEventDispatcher->addListener(BeforeAssignSectionToSubtreeEvent::class, static function (BeforeAssignSectionToSubtreeEvent $event) {
+        $traceableEventDispatcher->addListener(BeforeAssignSectionToSubtreeEvent::class, static function (BeforeAssignSectionToSubtreeEvent $event): void {
             $event->stopPropagation();
         }, 10);
 
@@ -247,7 +247,7 @@ class SectionServiceTest extends AbstractServiceTest
         ]);
     }
 
-    public function testDeleteSectionEvents()
+    public function testDeleteSectionEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteSectionEvent::class,
@@ -272,7 +272,7 @@ class SectionServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testDeleteSectionStopPropagationInBeforeEvents()
+    public function testDeleteSectionStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteSectionEvent::class,
@@ -285,7 +285,7 @@ class SectionServiceTest extends AbstractServiceTest
 
         $innerServiceMock = $this->createMock(SectionServiceInterface::class);
 
-        $traceableEventDispatcher->addListener(BeforeDeleteSectionEvent::class, static function (BeforeDeleteSectionEvent $event) {
+        $traceableEventDispatcher->addListener(BeforeDeleteSectionEvent::class, static function (BeforeDeleteSectionEvent $event): void {
             $event->stopPropagation();
         }, 10);
 
@@ -304,7 +304,7 @@ class SectionServiceTest extends AbstractServiceTest
         ]);
     }
 
-    public function testCreateSectionEvents()
+    public function testCreateSectionEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateSectionEvent::class,
@@ -332,7 +332,7 @@ class SectionServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnCreateSectionResultInBeforeEvents()
+    public function testReturnCreateSectionResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateSectionEvent::class,
@@ -348,7 +348,7 @@ class SectionServiceTest extends AbstractServiceTest
         $innerServiceMock = $this->createMock(SectionServiceInterface::class);
         $innerServiceMock->method('createSection')->willReturn($section);
 
-        $traceableEventDispatcher->addListener(BeforeCreateSectionEvent::class, static function (BeforeCreateSectionEvent $event) use ($eventSection) {
+        $traceableEventDispatcher->addListener(BeforeCreateSectionEvent::class, static function (BeforeCreateSectionEvent $event) use ($eventSection): void {
             $event->setSection($eventSection);
         }, 10);
 
@@ -366,7 +366,7 @@ class SectionServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testCreateSectionStopPropagationInBeforeEvents()
+    public function testCreateSectionStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateSectionEvent::class,
@@ -382,7 +382,7 @@ class SectionServiceTest extends AbstractServiceTest
         $innerServiceMock = $this->createMock(SectionServiceInterface::class);
         $innerServiceMock->method('createSection')->willReturn($section);
 
-        $traceableEventDispatcher->addListener(BeforeCreateSectionEvent::class, static function (BeforeCreateSectionEvent $event) use ($eventSection) {
+        $traceableEventDispatcher->addListener(BeforeCreateSectionEvent::class, static function (BeforeCreateSectionEvent $event) use ($eventSection): void {
             $event->setSection($eventSection);
             $event->stopPropagation();
         }, 10);

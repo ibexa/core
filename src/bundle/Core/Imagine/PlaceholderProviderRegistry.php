@@ -12,7 +12,7 @@ use InvalidArgumentException;
 class PlaceholderProviderRegistry
 {
     /** @var \Ibexa\Bundle\Core\Imagine\PlaceholderProvider */
-    private $providers;
+    private array $providers;
 
     /**
      * PlaceholderProviderRegistry constructor.
@@ -24,7 +24,7 @@ class PlaceholderProviderRegistry
         $this->providers = $providers;
     }
 
-    public function addProvider(string $type, PlaceholderProvider $provider)
+    public function addProvider(string $type, PlaceholderProvider $provider): void
     {
         $this->providers[$type] = $provider;
     }

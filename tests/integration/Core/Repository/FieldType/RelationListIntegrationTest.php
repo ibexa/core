@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\RelationList\Type as RelationListType;
+use Ibexa\Core\FieldType\RelationList\Value;
 use Ibexa\Core\FieldType\RelationList\Value as RelationListValue;
 use Ibexa\Core\Repository\Values\Content\Relation;
 
@@ -49,7 +50,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array|\Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
      */
-    public function getCreateExpectedRelations(Content $content)
+    public function getCreateExpectedRelations(Content $content): array
     {
         $contentService = $this->getRepository()->getContentService();
 
@@ -78,7 +79,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array|\Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
      */
-    public function getUpdateExpectedRelations(Content $content)
+    public function getUpdateExpectedRelations(Content $content): array
     {
         $contentService = $this->getRepository()->getContentService();
 
@@ -112,7 +113,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    public function getSettingsSchema()
+    public function getSettingsSchema(): array
     {
         return [
             'selectionMethod' => [
@@ -134,7 +135,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    public function getValidatorSchema()
+    public function getValidatorSchema(): array
     {
         return [
             'RelationListValueValidator' => [
@@ -153,7 +154,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidFieldSettings()
+    public function getValidFieldSettings(): array
     {
         return [
             'selectionMethod' => 1,
@@ -170,7 +171,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidValidatorConfiguration()
+    public function getValidValidatorConfiguration(): array
     {
         return [
             'RelationListValueValidator' => [
@@ -186,7 +187,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidFieldSettings()
+    public function getInvalidFieldSettings(): array
     {
         return ['selectionMethod' => 'a', 'selectionDefaultLocation' => true, 'unknownSetting' => false];
     }
@@ -198,7 +199,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidValidatorConfiguration()
+    public function getInvalidValidatorConfiguration(): array
     {
         return ['noValidator' => true];
     }
@@ -208,7 +209,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidCreationFieldData()
+    public function getValidCreationFieldData(): Value
     {
         return new RelationListValue([4, 49]);
     }
@@ -231,7 +232,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertFieldDataLoadedCorrect(Field $field)
+    public function assertFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             RelationListValue::class,
@@ -247,7 +248,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public function provideInvalidCreationFieldData(): array
     {
         return [
             [
@@ -332,7 +333,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function provideToHashData()
+    public function provideToHashData(): array
     {
         return [
             [
@@ -351,7 +352,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function provideFromHashData()
+    public function provideFromHashData(): array
     {
         return [
             [
@@ -361,7 +362,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public function providerForTestIsEmptyValue(): array
     {
         return [
             [new RelationListValue()],
@@ -369,7 +370,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public function providerForTestIsNotEmptyValue(): array
     {
         return [
             [
@@ -378,12 +379,12 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    protected function getValidSearchValueOne()
+    protected function getValidSearchValueOne(): array
     {
         return [11];
     }
 
-    protected function getValidSearchValueTwo()
+    protected function getValidSearchValueTwo(): array
     {
         return [12];
     }
@@ -398,12 +399,12 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         return 12;
     }
 
-    protected function getValidMultivaluedSearchValuesOne()
+    protected function getValidMultivaluedSearchValuesOne(): array
     {
         return [11, 12];
     }
 
-    protected function getValidMultivaluedSearchValuesTwo()
+    protected function getValidMultivaluedSearchValuesTwo(): array
     {
         return [13, 14];
     }

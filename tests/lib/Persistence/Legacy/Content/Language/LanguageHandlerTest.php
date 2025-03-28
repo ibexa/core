@@ -8,12 +8,14 @@
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Language;
 
 use Ibexa\Contracts\Core\Persistence\Content\Language;
+use Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct as SPILanguageCreateStruct;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway as LanguageGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Mapper as LanguageMapper;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Content\Language\Handler
@@ -32,16 +34,16 @@ class LanguageHandlerTest extends TestCase
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway
      */
-    protected $gatewayMock;
+    protected ?MockObject $gatewayMock = null;
 
     /**
      * Language mapper mock.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Language\Mapper
      */
-    protected $mapperMock;
+    protected ?MockObject $mapperMock = null;
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $handler = $this->getLanguageHandler();
 
@@ -82,12 +84,12 @@ class LanguageHandlerTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct
      */
-    protected function getCreateStructFixture()
+    protected function getCreateStructFixture(): CreateStruct
     {
-        return new Language\CreateStruct();
+        return new CreateStruct();
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $handler = $this->getLanguageHandler();
 
@@ -104,12 +106,12 @@ class LanguageHandlerTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Language
      */
-    protected function getLanguageFixture()
+    protected function getLanguageFixture(): Language
     {
         return new Language();
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $handler = $this->getLanguageHandler();
         $mapperMock = $this->getMapperMock();
@@ -133,7 +135,7 @@ class LanguageHandlerTest extends TestCase
         );
     }
 
-    public function testLoadFailure()
+    public function testLoadFailure(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -155,7 +157,7 @@ class LanguageHandlerTest extends TestCase
         $result = $handler->load(2);
     }
 
-    public function testLoadByLanguageCode()
+    public function testLoadByLanguageCode(): void
     {
         $handler = $this->getLanguageHandler();
         $mapperMock = $this->getMapperMock();
@@ -179,7 +181,7 @@ class LanguageHandlerTest extends TestCase
         );
     }
 
-    public function testLoadByLanguageCodeFailure()
+    public function testLoadByLanguageCodeFailure(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -201,7 +203,7 @@ class LanguageHandlerTest extends TestCase
         $result = $handler->loadByLanguageCode('eng-US');
     }
 
-    public function testLoadAll()
+    public function testLoadAll(): void
     {
         $handler = $this->getLanguageHandler();
         $mapperMock = $this->getMapperMock();
@@ -223,7 +225,7 @@ class LanguageHandlerTest extends TestCase
         );
     }
 
-    public function testDeleteSuccess()
+    public function testDeleteSuccess(): void
     {
         $handler = $this->getLanguageHandler();
         $gatewayMock = $this->getGatewayMock();
@@ -239,7 +241,7 @@ class LanguageHandlerTest extends TestCase
         $result = $handler->delete(2);
     }
 
-    public function testDeleteFail()
+    public function testDeleteFail(): void
     {
         $this->expectException(\LogicException::class);
 

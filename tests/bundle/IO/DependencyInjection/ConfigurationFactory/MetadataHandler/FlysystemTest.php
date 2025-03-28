@@ -16,7 +16,7 @@ class FlysystemTest
      *
      * @return \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory\MetadataHandler\Flysystem
      */
-    public function provideTestedFactory()
+    public function provideTestedFactory(): Flysystem
     {
         return new Flysystem();
     }

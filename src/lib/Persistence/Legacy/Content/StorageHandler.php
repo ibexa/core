@@ -17,17 +17,13 @@ class StorageHandler
 {
     /**
      * Storage registry.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\StorageRegistry
      */
-    protected $storageRegistry;
+    protected StorageRegistry $storageRegistry;
 
     /**
      * Array with database context.
-     *
-     * @var array
      */
-    protected $context;
+    protected array $context;
 
     /**
      * Creates a new storage handler.
@@ -75,7 +71,7 @@ class StorageHandler
      * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
      * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
      */
-    public function getFieldData(VersionInfo $versionInfo, Field $field)
+    public function getFieldData(VersionInfo $versionInfo, Field $field): void
     {
         $storage = $this->storageRegistry->getStorage($field->type);
         if ($field->id !== null && $storage->hasFieldData()) {
@@ -90,7 +86,7 @@ class StorageHandler
      * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
      * @param mixed[] $ids
      */
-    public function deleteFieldData($fieldType, VersionInfo $versionInfo, array $ids)
+    public function deleteFieldData(string $fieldType, VersionInfo $versionInfo, array $ids): void
     {
         $this->storageRegistry->getStorage($fieldType)
             ->deleteFieldData($versionInfo, $ids);

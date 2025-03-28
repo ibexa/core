@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 class ParameterProviderTest extends TestCase
 {
-    public function providerForTestGetViewParameters()
+    public function providerForTestGetViewParameters(): array
     {
         return [
             [[123, 456, 789], ['available' => [123 => true, 456 => true, 789 => false]]],
@@ -29,13 +29,13 @@ class ParameterProviderTest extends TestCase
     /**
      * @dataProvider providerForTestGetViewParameters
      */
-    public function testGetViewParameters(array $desinationContentIds, array $expected)
+    public function testGetViewParameters(array $desinationContentIds, array $expected): void
     {
         $contentServiceMock = $this->createMock(ContentService::class);
         $contentServiceMock
             ->method('loadContentInfoList')
             ->with($desinationContentIds)
-            ->will(self::returnCallback(static function ($arg) {
+            ->will(self::returnCallback(static function ($arg): array {
                 $return = [];
                 if (in_array(123, $arg)) {
                     $return[123] = new ContentInfo(['status' => ContentInfo::STATUS_DRAFT]);
@@ -60,7 +60,7 @@ class ParameterProviderTest extends TestCase
         TestCase::assertSame($parameters, $expected);
     }
 
-    public function testNotFoundGetViewParameters()
+    public function testNotFoundGetViewParameters(): void
     {
         $contentId = 123;
 
@@ -78,7 +78,7 @@ class ParameterProviderTest extends TestCase
         TestCase::assertSame($parameters, ['available' => [$contentId => false]]);
     }
 
-    public function testUnauthorizedGetViewParameters()
+    public function testUnauthorizedGetViewParameters(): void
     {
         $contentId = 123;
 

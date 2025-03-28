@@ -29,20 +29,16 @@ final class InstallPlatformCommand extends Command
     public const int EXIT_UNKNOWN_INSTALL_TYPE = 6;
     public const int EXIT_MISSING_PERMISSIONS = 7;
 
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
-    /** @var \Symfony\Component\Console\Output\OutputInterface */
-    private $output;
+    private ?OutputInterface $output = null;
 
-    /** @var \Psr\Cache\CacheItemPoolInterface */
-    private $cachePool;
+    private CacheItemPoolInterface $cachePool;
 
-    /** @var string */
-    private $environment;
+    private string $environment;
 
     /** @var \Ibexa\Bundle\RepositoryInstaller\Installer\Installer[] */
-    private $installers = [];
+    private array $installers;
 
     private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
 
@@ -61,7 +57,7 @@ final class InstallPlatformCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument(
             'type',
@@ -117,7 +113,7 @@ final class InstallPlatformCommand extends Command
         return self::SUCCESS;
     }
 
-    private function checkPermissions()
+    private function checkPermissions(): void
     {
         // @todo should take var-dir etc. from composer config or fallback to flex directory scheme
         if (!is_writable('public') && !is_writable('public/var')) {
@@ -126,7 +122,7 @@ final class InstallPlatformCommand extends Command
         }
     }
 
-    private function checkParameters()
+    private function checkParameters(): void
     {
         // @todo doesn't make sense to check for parameters.yml in sf4 and flex
         return;
@@ -137,7 +133,7 @@ final class InstallPlatformCommand extends Command
         }
     }
 
-    private function checkCreateDatabase(OutputInterface $output)
+    private function checkCreateDatabase(OutputInterface $output): void
     {
         $output->writeln(
             sprintf(
@@ -169,7 +165,7 @@ final class InstallPlatformCommand extends Command
      *
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      */
-    private function cacheClear(OutputInterface $output)
+    private function cacheClear(OutputInterface $output): void
     {
         $this->cachePool->clear();
     }
@@ -186,7 +182,7 @@ final class InstallPlatformCommand extends Command
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      * @param string|null $siteaccess
      */
-    private function indexData(OutputInterface $output, $siteaccess = null)
+    private function indexData(OutputInterface $output, $siteaccess = null): void
     {
         $output->writeln(
             sprintf('Search engine re-indexing, executing command ibexa:reindex')
@@ -226,7 +222,7 @@ final class InstallPlatformCommand extends Command
      *               Escape any user provided arguments, like: 'assets:install '.escapeshellarg($webDir)
      * @param int $timeout
      */
-    private function executeCommand(OutputInterface $output, $cmd, $timeout = 300)
+    private function executeCommand(OutputInterface $output, string $cmd, $timeout = 300): void
     {
         $phpFinder = new PhpExecutableFinder();
         if (!$phpPath = $phpFinder->find(false)) {
@@ -267,7 +263,7 @@ final class InstallPlatformCommand extends Command
             $timeout
         );
 
-        $process->run(static function ($type, $buffer) use ($output) { $output->write($buffer, false); });
+        $process->run(static function ($type, $buffer) use ($output): void { $output->write($buffer, false); });
         if (!$process->getExitCode() === 1) {
             throw new \RuntimeException(sprintf('An error occurred when executing the "%s" command.', escapeshellarg($cmd)));
         }

@@ -22,8 +22,7 @@ class ValidationError implements ValidationErrorInterface
     /** @var string */
     protected $plural;
 
-    /** @var array */
-    protected $values;
+    protected array $values;
 
     /**
      * Element on which the error occurred
@@ -53,7 +52,7 @@ class ValidationError implements ValidationErrorInterface
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Translation
      */
-    public function getTranslatableMessage()
+    public function getTranslatableMessage(): Plural|Message
     {
         if (isset($this->plural)) {
             return new Plural(
@@ -69,7 +68,7 @@ class ValidationError implements ValidationErrorInterface
         }
     }
 
-    public function setTarget($target)
+    public function setTarget($target): void
     {
         $this->target = $target;
     }

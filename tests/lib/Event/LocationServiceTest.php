@@ -32,7 +32,7 @@ use Ibexa\Core\Event\LocationService;
 
 class LocationServiceTest extends AbstractServiceTest
 {
-    public function testCopySubtreeEvents()
+    public function testCopySubtreeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCopySubtreeEvent::class,
@@ -61,7 +61,7 @@ class LocationServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnCopySubtreeResultInBeforeEvents()
+    public function testReturnCopySubtreeResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCopySubtreeEvent::class,
@@ -78,7 +78,7 @@ class LocationServiceTest extends AbstractServiceTest
         $innerServiceMock = $this->createMock(LocationServiceInterface::class);
         $innerServiceMock->method('copySubtree')->willReturn($location);
 
-        $traceableEventDispatcher->addListener(BeforeCopySubtreeEvent::class, static function (BeforeCopySubtreeEvent $event) use ($eventLocation) {
+        $traceableEventDispatcher->addListener(BeforeCopySubtreeEvent::class, static function (BeforeCopySubtreeEvent $event) use ($eventLocation): void {
             $event->setLocation($eventLocation);
         }, 10);
 
@@ -96,7 +96,7 @@ class LocationServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testCopySubtreeStopPropagationInBeforeEvents()
+    public function testCopySubtreeStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCopySubtreeEvent::class,
@@ -113,7 +113,7 @@ class LocationServiceTest extends AbstractServiceTest
         $innerServiceMock = $this->createMock(LocationServiceInterface::class);
         $innerServiceMock->method('copySubtree')->willReturn($location);
 
-        $traceableEventDispatcher->addListener(BeforeCopySubtreeEvent::class, static function (BeforeCopySubtreeEvent $event) use ($eventLocation) {
+        $traceableEventDispatcher->addListener(BeforeCopySubtreeEvent::class, static function (BeforeCopySubtreeEvent $event) use ($eventLocation): void {
             $event->setLocation($eventLocation);
             $event->stopPropagation();
         }, 10);
@@ -134,7 +134,7 @@ class LocationServiceTest extends AbstractServiceTest
         ]);
     }
 
-    public function testDeleteLocationEvents()
+    public function testDeleteLocationEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteLocationEvent::class,
@@ -159,7 +159,7 @@ class LocationServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testDeleteLocationStopPropagationInBeforeEvents()
+    public function testDeleteLocationStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteLocationEvent::class,
@@ -172,7 +172,7 @@ class LocationServiceTest extends AbstractServiceTest
 
         $innerServiceMock = $this->createMock(LocationServiceInterface::class);
 
-        $traceableEventDispatcher->addListener(BeforeDeleteLocationEvent::class, static function (BeforeDeleteLocationEvent $event) {
+        $traceableEventDispatcher->addListener(BeforeDeleteLocationEvent::class, static function (BeforeDeleteLocationEvent $event): void {
             $event->stopPropagation();
         }, 10);
 
@@ -191,7 +191,7 @@ class LocationServiceTest extends AbstractServiceTest
         ]);
     }
 
-    public function testUnhideLocationEvents()
+    public function testUnhideLocationEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUnhideLocationEvent::class,
@@ -219,7 +219,7 @@ class LocationServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnUnhideLocationResultInBeforeEvents()
+    public function testReturnUnhideLocationResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUnhideLocationEvent::class,
@@ -235,7 +235,7 @@ class LocationServiceTest extends AbstractServiceTest
         $innerServiceMock = $this->createMock(LocationServiceInterface::class);
         $innerServiceMock->method('unhideLocation')->willReturn($revealedLocation);
 
-        $traceableEventDispatcher->addListener(BeforeUnhideLocationEvent::class, static function (BeforeUnhideLocationEvent $event) use ($eventRevealedLocation) {
+        $traceableEventDispatcher->addListener(BeforeUnhideLocationEvent::class, static function (BeforeUnhideLocationEvent $event) use ($eventRevealedLocation): void {
             $event->setRevealedLocation($eventRevealedLocation);
         }, 10);
 
@@ -253,7 +253,7 @@ class LocationServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testUnhideLocationStopPropagationInBeforeEvents()
+    public function testUnhideLocationStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUnhideLocationEvent::class,
@@ -269,7 +269,7 @@ class LocationServiceTest extends AbstractServiceTest
         $innerServiceMock = $this->createMock(LocationServiceInterface::class);
         $innerServiceMock->method('unhideLocation')->willReturn($revealedLocation);
 
-        $traceableEventDispatcher->addListener(BeforeUnhideLocationEvent::class, static function (BeforeUnhideLocationEvent $event) use ($eventRevealedLocation) {
+        $traceableEventDispatcher->addListener(BeforeUnhideLocationEvent::class, static function (BeforeUnhideLocationEvent $event) use ($eventRevealedLocation): void {
             $event->setRevealedLocation($eventRevealedLocation);
             $event->stopPropagation();
         }, 10);
@@ -290,7 +290,7 @@ class LocationServiceTest extends AbstractServiceTest
         ]);
     }
 
-    public function testHideLocationEvents()
+    public function testHideLocationEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeHideLocationEvent::class,
@@ -318,7 +318,7 @@ class LocationServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnHideLocationResultInBeforeEvents()
+    public function testReturnHideLocationResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeHideLocationEvent::class,
@@ -334,7 +334,7 @@ class LocationServiceTest extends AbstractServiceTest
         $innerServiceMock = $this->createMock(LocationServiceInterface::class);
         $innerServiceMock->method('hideLocation')->willReturn($hiddenLocation);
 
-        $traceableEventDispatcher->addListener(BeforeHideLocationEvent::class, static function (BeforeHideLocationEvent $event) use ($eventHiddenLocation) {
+        $traceableEventDispatcher->addListener(BeforeHideLocationEvent::class, static function (BeforeHideLocationEvent $event) use ($eventHiddenLocation): void {
             $event->setHiddenLocation($eventHiddenLocation);
         }, 10);
 
@@ -352,7 +352,7 @@ class LocationServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testHideLocationStopPropagationInBeforeEvents()
+    public function testHideLocationStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeHideLocationEvent::class,
@@ -368,7 +368,7 @@ class LocationServiceTest extends AbstractServiceTest
         $innerServiceMock = $this->createMock(LocationServiceInterface::class);
         $innerServiceMock->method('hideLocation')->willReturn($hiddenLocation);
 
-        $traceableEventDispatcher->addListener(BeforeHideLocationEvent::class, static function (BeforeHideLocationEvent $event) use ($eventHiddenLocation) {
+        $traceableEventDispatcher->addListener(BeforeHideLocationEvent::class, static function (BeforeHideLocationEvent $event) use ($eventHiddenLocation): void {
             $event->setHiddenLocation($eventHiddenLocation);
             $event->stopPropagation();
         }, 10);
@@ -389,7 +389,7 @@ class LocationServiceTest extends AbstractServiceTest
         ]);
     }
 
-    public function testSwapLocationEvents()
+    public function testSwapLocationEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeSwapLocationEvent::class,
@@ -415,7 +415,7 @@ class LocationServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testSwapLocationStopPropagationInBeforeEvents()
+    public function testSwapLocationStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeSwapLocationEvent::class,
@@ -429,7 +429,7 @@ class LocationServiceTest extends AbstractServiceTest
 
         $innerServiceMock = $this->createMock(LocationServiceInterface::class);
 
-        $traceableEventDispatcher->addListener(BeforeSwapLocationEvent::class, static function (BeforeSwapLocationEvent $event) {
+        $traceableEventDispatcher->addListener(BeforeSwapLocationEvent::class, static function (BeforeSwapLocationEvent $event): void {
             $event->stopPropagation();
         }, 10);
 
@@ -448,7 +448,7 @@ class LocationServiceTest extends AbstractServiceTest
         ]);
     }
 
-    public function testMoveSubtreeEvents()
+    public function testMoveSubtreeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeMoveSubtreeEvent::class,
@@ -474,7 +474,7 @@ class LocationServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testMoveSubtreeStopPropagationInBeforeEvents()
+    public function testMoveSubtreeStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeMoveSubtreeEvent::class,
@@ -488,7 +488,7 @@ class LocationServiceTest extends AbstractServiceTest
 
         $innerServiceMock = $this->createMock(LocationServiceInterface::class);
 
-        $traceableEventDispatcher->addListener(BeforeMoveSubtreeEvent::class, static function (BeforeMoveSubtreeEvent $event) {
+        $traceableEventDispatcher->addListener(BeforeMoveSubtreeEvent::class, static function (BeforeMoveSubtreeEvent $event): void {
             $event->stopPropagation();
         }, 10);
 
@@ -507,7 +507,7 @@ class LocationServiceTest extends AbstractServiceTest
         ]);
     }
 
-    public function testUpdateLocationEvents()
+    public function testUpdateLocationEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateLocationEvent::class,
@@ -536,7 +536,7 @@ class LocationServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnUpdateLocationResultInBeforeEvents()
+    public function testReturnUpdateLocationResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateLocationEvent::class,
@@ -553,7 +553,7 @@ class LocationServiceTest extends AbstractServiceTest
         $innerServiceMock = $this->createMock(LocationServiceInterface::class);
         $innerServiceMock->method('updateLocation')->willReturn($updatedLocation);
 
-        $traceableEventDispatcher->addListener(BeforeUpdateLocationEvent::class, static function (BeforeUpdateLocationEvent $event) use ($eventUpdatedLocation) {
+        $traceableEventDispatcher->addListener(BeforeUpdateLocationEvent::class, static function (BeforeUpdateLocationEvent $event) use ($eventUpdatedLocation): void {
             $event->setUpdatedLocation($eventUpdatedLocation);
         }, 10);
 
@@ -571,7 +571,7 @@ class LocationServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testUpdateLocationStopPropagationInBeforeEvents()
+    public function testUpdateLocationStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateLocationEvent::class,
@@ -588,7 +588,7 @@ class LocationServiceTest extends AbstractServiceTest
         $innerServiceMock = $this->createMock(LocationServiceInterface::class);
         $innerServiceMock->method('updateLocation')->willReturn($updatedLocation);
 
-        $traceableEventDispatcher->addListener(BeforeUpdateLocationEvent::class, static function (BeforeUpdateLocationEvent $event) use ($eventUpdatedLocation) {
+        $traceableEventDispatcher->addListener(BeforeUpdateLocationEvent::class, static function (BeforeUpdateLocationEvent $event) use ($eventUpdatedLocation): void {
             $event->setUpdatedLocation($eventUpdatedLocation);
             $event->stopPropagation();
         }, 10);
@@ -609,7 +609,7 @@ class LocationServiceTest extends AbstractServiceTest
         ]);
     }
 
-    public function testCreateLocationEvents()
+    public function testCreateLocationEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateLocationEvent::class,
@@ -638,7 +638,7 @@ class LocationServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnCreateLocationResultInBeforeEvents()
+    public function testReturnCreateLocationResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateLocationEvent::class,
@@ -655,7 +655,7 @@ class LocationServiceTest extends AbstractServiceTest
         $innerServiceMock = $this->createMock(LocationServiceInterface::class);
         $innerServiceMock->method('createLocation')->willReturn($location);
 
-        $traceableEventDispatcher->addListener(BeforeCreateLocationEvent::class, static function (BeforeCreateLocationEvent $event) use ($eventLocation) {
+        $traceableEventDispatcher->addListener(BeforeCreateLocationEvent::class, static function (BeforeCreateLocationEvent $event) use ($eventLocation): void {
             $event->setLocation($eventLocation);
         }, 10);
 
@@ -673,7 +673,7 @@ class LocationServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testCreateLocationStopPropagationInBeforeEvents()
+    public function testCreateLocationStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateLocationEvent::class,
@@ -690,7 +690,7 @@ class LocationServiceTest extends AbstractServiceTest
         $innerServiceMock = $this->createMock(LocationServiceInterface::class);
         $innerServiceMock->method('createLocation')->willReturn($location);
 
-        $traceableEventDispatcher->addListener(BeforeCreateLocationEvent::class, static function (BeforeCreateLocationEvent $event) use ($eventLocation) {
+        $traceableEventDispatcher->addListener(BeforeCreateLocationEvent::class, static function (BeforeCreateLocationEvent $event) use ($eventLocation): void {
             $event->setLocation($eventLocation);
             $event->stopPropagation();
         }, 10);

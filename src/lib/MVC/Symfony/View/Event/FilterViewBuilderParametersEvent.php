@@ -16,15 +16,12 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class FilterViewBuilderParametersEvent extends Event
 {
-    /** @var \Symfony\Component\HttpFoundation\Request */
-    private $request;
+    private Request $request;
 
     /**
      * Parameters the ViewBuilder will use.
-     *
-     * @var \Symfony\Component\HttpFoundation\ParameterBag
      */
-    private $parameters;
+    private ParameterBag $parameters;
 
     public function __construct(Request $request)
     {

@@ -26,7 +26,7 @@ class SearchServiceTest extends AbstractServiceTest
         return SearchService::class;
     }
 
-    public function providerForPassTroughMethods()
+    public function providerForPassTroughMethods(): array
     {
         // string $method, array $arguments, bool $return = true
         return [
@@ -35,7 +35,7 @@ class SearchServiceTest extends AbstractServiceTest
         ];
     }
 
-    public function providerForLanguagesLookupMethods()
+    public function providerForLanguagesLookupMethods(): array
     {
         $query = new Query();
         $locationQuery = new LocationQuery();
@@ -43,7 +43,7 @@ class SearchServiceTest extends AbstractServiceTest
         $content = new Content();
         $searchResults = new SearchResult();
 
-        $callback = function ($languageLookup) {
+        $callback = function ($languageLookup): void {
             $this->languageResolverMock
                 ->expects($this->once())
                 ->method('getUseAlwaysAvailable')
@@ -60,7 +60,7 @@ class SearchServiceTest extends AbstractServiceTest
         ];
     }
 
-    protected function setLanguagesLookupArguments(array $arguments, $languageArgumentIndex)
+    protected function setLanguagesLookupArguments(array $arguments, $languageArgumentIndex): array
     {
         $arguments[$languageArgumentIndex] = [
             'languages' => [],
@@ -70,7 +70,7 @@ class SearchServiceTest extends AbstractServiceTest
         return $arguments;
     }
 
-    protected function setLanguagesLookupExpectedArguments(array $arguments, $languageArgumentIndex, array $languages)
+    protected function setLanguagesLookupExpectedArguments(array $arguments, $languageArgumentIndex, array $languages): array
     {
         $arguments[$languageArgumentIndex] = [
             'languages' => $languages,
@@ -80,7 +80,7 @@ class SearchServiceTest extends AbstractServiceTest
         return $arguments;
     }
 
-    protected function setLanguagesPassTroughArguments(array $arguments, $languageArgumentIndex, array $languages)
+    protected function setLanguagesPassTroughArguments(array $arguments, $languageArgumentIndex, array $languages): array
     {
         $arguments[$languageArgumentIndex] = [
             'languages' => $languages,

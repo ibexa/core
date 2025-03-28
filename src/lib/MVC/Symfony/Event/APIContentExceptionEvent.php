@@ -17,14 +17,11 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class APIContentExceptionEvent extends Event
 {
-    /** @var \Exception */
-    private $apiException;
+    private Exception $apiException;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\View */
-    private $contentView;
+    private ?View $contentView = null;
 
-    /** @var array */
-    private $contentMeta;
+    private array $contentMeta;
 
     public function __construct(Exception $apiException, array $contentMeta)
     {
@@ -46,7 +43,7 @@ class APIContentExceptionEvent extends Event
      *
      * @param \Ibexa\Core\MVC\Symfony\View\View $contentView
      */
-    public function setContentView(View $contentView)
+    public function setContentView(View $contentView): void
     {
         $this->contentView = $contentView;
     }

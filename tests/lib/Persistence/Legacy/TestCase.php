@@ -18,6 +18,7 @@ use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\Persistence\Legacy\SharedGateway;
+use Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway;
 use Ibexa\Core\Search\Legacy\Content;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
@@ -59,8 +60,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected $connection;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway */
-    private $sharedGateway;
+    private ?Gateway $sharedGateway = null;
 
     /**
      * Get data source name.
@@ -108,7 +108,7 @@ abstract class TestCase extends BaseTestCase
     /**
      * @throws \Doctrine\DBAL\DBALException
      */
-    final public function getSharedGateway(): SharedGateway\Gateway
+    final public function getSharedGateway(): Gateway
     {
         if (!$this->sharedGateway) {
             $connection = $this->getDatabaseConnection();

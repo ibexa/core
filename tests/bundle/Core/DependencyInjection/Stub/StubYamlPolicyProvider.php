@@ -11,8 +11,7 @@ use Ibexa\Bundle\Core\DependencyInjection\Security\PolicyProvider\YamlPolicyProv
 
 class StubYamlPolicyProvider extends YamlPolicyProvider
 {
-    /** @var array */
-    private $files;
+    private array $files;
 
     public function __construct(array $files)
     {

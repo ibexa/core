@@ -122,7 +122,7 @@ class URLHandlerTest extends AbstractCacheHandlerTest
         $handler->updateUrl($urlId, $updateStruct);
     }
 
-    public function testUpdateUrlStatusIsUpdated()
+    public function testUpdateUrlStatusIsUpdated(): void
     {
         $urlId = 1;
         $updateStruct = new URLUpdateStruct();

@@ -19,7 +19,7 @@ class UrlWildcardMapperTest extends TestCase
     /**
      * Test for the createUrlWildcard() method.
      */
-    public function testCreateUrlWildcard()
+    public function testCreateUrlWildcard(): void
     {
         $mapper = $this->getMapper();
 
@@ -45,7 +45,7 @@ class UrlWildcardMapperTest extends TestCase
     /**
      * Test for the extractUrlWildcardFromRow() method.
      */
-    public function testExtractUrlWildcardFromRow()
+    public function testExtractUrlWildcardFromRow(): void
     {
         $mapper = $this->getMapper();
         $row = [
@@ -73,7 +73,7 @@ class UrlWildcardMapperTest extends TestCase
     /**
      * Test for the extractUrlWildcardFromRow() method.
      */
-    public function testExtractUrlWildcardsFromRows()
+    public function testExtractUrlWildcardsFromRows(): void
     {
         $mapper = $this->getMapper();
         $rows = [
@@ -119,7 +119,7 @@ class UrlWildcardMapperTest extends TestCase
     /**
      * @return \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper
      */
-    protected function getMapper()
+    protected function getMapper(): Mapper
     {
         return new Mapper();
     }

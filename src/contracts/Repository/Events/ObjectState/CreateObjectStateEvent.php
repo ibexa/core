@@ -15,14 +15,11 @@ use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup;
 
 final class CreateObjectStateEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState */
-    private $objectState;
+    private ObjectState $objectState;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup */
-    private $objectStateGroup;
+    private ObjectStateGroup $objectStateGroup;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateCreateStruct */
-    private $objectStateCreateStruct;
+    private ObjectStateCreateStruct $objectStateCreateStruct;
 
     public function __construct(
         ObjectState $objectState,

@@ -29,20 +29,15 @@ class AliasGeneratorDecorator implements VariationHandler, SiteAccessAware
     private const CONTENT_IDENTIFIER = 'content';
     private const CONTENT_VERSION_IDENTIFIER = 'content_version';
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationHandler */
-    private $aliasGenerator;
+    private VariationHandler $aliasGenerator;
 
-    /** @var \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface */
-    private $cache;
+    private TagAwareAdapterInterface $cache;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    private $siteAccess;
+    private ?SiteAccess $siteAccess = null;
 
-    /** @var \Symfony\Component\Routing\RequestContext */
-    private $requestContext;
+    private RequestContext $requestContext;
 
-    /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface */
-    private $cacheIdentifierGenerator;
+    private CacheIdentifierGeneratorInterface $cacheIdentifierGenerator;
 
     /**
      * @param \Ibexa\Contracts\Core\Variation\VariationHandler $aliasGenerator
@@ -89,7 +84,7 @@ class AliasGeneratorDecorator implements VariationHandler, SiteAccessAware
     /**
      * @param \Ibexa\Core\MVC\Symfony\SiteAccess|null $siteAccess
      */
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(SiteAccess $siteAccess = null): void
     {
         $this->siteAccess = $siteAccess;
     }

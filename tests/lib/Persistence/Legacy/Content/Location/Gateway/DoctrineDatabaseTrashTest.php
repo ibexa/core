@@ -19,7 +19,7 @@ use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
  */
 class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
 {
-    protected function getLocationGateway()
+    protected function getLocationGateway(): DoctrineDatabase
     {
         return new DoctrineDatabase(
             $this->getDatabaseConnection(),
@@ -32,7 +32,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
     /**
      * @todo test updated content status
      */
-    public function testTrashLocation()
+    public function testTrashLocation(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $handler = $this->getLocationGateway();
@@ -53,7 +53,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    public function testTrashLocationUpdateTrashTable()
+    public function testTrashLocationUpdateTrashTable(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $handler = $this->getLocationGateway();
@@ -70,7 +70,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    public static function getUntrashedLocationValues()
+    public static function getUntrashedLocationValues(): array
     {
         return [
             ['contentobject_is_published', 1],
@@ -93,7 +93,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
     /**
      * @dataProvider getUntrashedLocationValues
      */
-    public function testUntrashLocationDefault($property, $value)
+    public function testUntrashLocationDefault(string $property, int|string $value): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $handler = $this->getLocationGateway();
@@ -111,7 +111,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    public function testUntrashLocationNewParent()
+    public function testUntrashLocationNewParent(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $handler = $this->getLocationGateway();
@@ -129,7 +129,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    public function testUntrashInvalidLocation()
+    public function testUntrashInvalidLocation(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -139,7 +139,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $handler->untrashLocation(23);
     }
 
-    public function testUntrashLocationInvalidParent()
+    public function testUntrashLocationInvalidParent(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -150,7 +150,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $handler->untrashLocation(71, 1337);
     }
 
-    public function testUntrashLocationInvalidOldParent()
+    public function testUntrashLocationInvalidOldParent(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -163,7 +163,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $handler->untrashLocation(71);
     }
 
-    public static function getLoadTrashValues()
+    public static function getLoadTrashValues(): array
     {
         return [
             ['node_id', 71],
@@ -186,7 +186,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
     /**
      * @dataProvider getLoadTrashValues
      */
-    public function testLoadTrashByLocationId($field, $value)
+    public function testLoadTrashByLocationId(string $field, int|string $value): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $handler = $this->getLocationGateway();
@@ -201,7 +201,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCountTrashed()
+    public function testCountTrashed(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $handler = $this->getLocationGateway();
@@ -219,7 +219,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    public function testListEmptyTrash()
+    public function testListEmptyTrash(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $handler = $this->getLocationGateway();
@@ -243,7 +243,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $handler->trashLocation(76);
     }
 
-    public function testListFullTrash()
+    public function testListFullTrash(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $handler = $this->getLocationGateway();
@@ -255,7 +255,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    public function testListTrashLimited()
+    public function testListTrashLimited(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $handler = $this->getLocationGateway();
@@ -267,7 +267,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    public static function getTrashValues()
+    public static function getTrashValues(): array
     {
         return [
             ['contentobject_id', 67],
@@ -291,7 +291,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
     /**
      * @dataProvider getTrashValues
      */
-    public function testListTrashItem($key, $value)
+    public function testListTrashItem(string $key, int|string $value): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $handler = $this->getLocationGateway();
@@ -301,7 +301,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         self::assertEquals($value, $trashList[0][$key]);
     }
 
-    public function testListTrashSortedPathStringDesc()
+    public function testListTrashSortedPathStringDesc(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $handler = $this->getLocationGateway();
@@ -319,7 +319,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
                 '/1/2/69/',
             ],
             array_map(
-                static function ($trashItem) {
+                static function (array $trashItem) {
                     return $trashItem['path_string'];
                 },
                 $trashList = $handler->listTrashed(
@@ -333,7 +333,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    public function testListTrashSortedDepth()
+    public function testListTrashSortedDepth(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $handler = $this->getLocationGateway();
@@ -351,7 +351,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
                 '/1/2/69/70/71/',
             ],
             array_map(
-                static function ($trashItem) {
+                static function (array $trashItem) {
                     return $trashItem['path_string'];
                 },
                 $trashList = $handler->listTrashed(
@@ -366,7 +366,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCleanupTrash()
+    public function testCleanupTrash(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $handler = $this->getLocationGateway();
@@ -382,7 +382,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    public function testRemoveElementFromTrash()
+    public function testRemoveElementFromTrash(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $handler = $this->getLocationGateway();
@@ -399,7 +399,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCountLocationsByContentId()
+    public function testCountLocationsByContentId(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $handler = $this->getLocationGateway();

@@ -18,14 +18,14 @@ use PHPUnit\Framework\TestCase;
 class MapperTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\UserPreference\Mapper */
-    private $mapper;
+    private Mapper $mapper;
 
     protected function setUp(): void
     {
         $this->mapper = new Mapper();
     }
 
-    public function testExtractUserPreferencesFromRows()
+    public function testExtractUserPreferencesFromRows(): void
     {
         $rows = [
             [

@@ -22,8 +22,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 abstract class OptionsResolverBasedQueryType implements QueryType
 {
-    /** @var \Symfony\Component\OptionsResolver\OptionsResolver */
-    private $resolver;
+    private ?OptionsResolver $resolver = null;
 
     /**
      * Configures the OptionsResolver for the QueryType.

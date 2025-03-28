@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Core\FieldType\Integer\Value;
 use Ibexa\Core\FieldType\Integer\Value as IntegerValue;
 
 /**
@@ -35,7 +36,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function getSettingsSchema()
+    public function getSettingsSchema(): array
     {
         return [];
     }
@@ -45,7 +46,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidFieldSettings()
+    public function getValidFieldSettings(): array
     {
         return [];
     }
@@ -55,7 +56,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidFieldSettings()
+    public function getInvalidFieldSettings(): array
     {
         return [
             'somethingUnknown' => 0,
@@ -67,7 +68,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function getValidatorSchema()
+    public function getValidatorSchema(): array
     {
         return [
             'IntegerValueValidator' => [
@@ -88,7 +89,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidValidatorConfiguration()
+    public function getValidValidatorConfiguration(): array
     {
         return [
             'IntegerValueValidator' => [
@@ -103,7 +104,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidValidatorConfiguration()
+    public function getInvalidValidatorConfiguration(): array
     {
         return [
             'IntegerValueValidator' => [
@@ -117,7 +118,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidCreationFieldData()
+    public function getValidCreationFieldData(): Value
     {
         return new IntegerValue(23);
     }
@@ -140,7 +141,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertFieldDataLoadedCorrect(Field $field)
+    public function assertFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             IntegerValue::class,
@@ -156,7 +157,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public function provideInvalidCreationFieldData(): array
     {
         return [
             [
@@ -179,7 +180,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function getValidUpdateFieldData()
+    public function getValidUpdateFieldData(): Value
     {
         return new IntegerValue(42);
     }
@@ -191,7 +192,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function assertUpdatedFieldDataLoadedCorrect(Field $field)
+    public function assertUpdatedFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             IntegerValue::class,
@@ -220,7 +221,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertCopiedFieldDataLoadedCorrectly(Field $field)
+    public function assertCopiedFieldDataLoadedCorrectly(Field $field): void
     {
         self::assertInstanceOf(
             IntegerValue::class,
@@ -256,7 +257,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function provideToHashData()
+    public function provideToHashData(): array
     {
         return [
             [
@@ -273,7 +274,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function provideFromHashData()
+    public function provideFromHashData(): array
     {
         return [
             [
@@ -283,14 +284,14 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public function providerForTestIsEmptyValue(): array
     {
         return [
             [new IntegerValue()],
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public function providerForTestIsNotEmptyValue(): array
     {
         return [
             [
@@ -311,7 +312,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
         return 26;
     }
 
-    protected function getFullTextIndexedFieldData()
+    protected function getFullTextIndexedFieldData(): array
     {
         return [
             ['25', '26'],

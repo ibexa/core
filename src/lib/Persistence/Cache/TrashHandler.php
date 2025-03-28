@@ -47,7 +47,7 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
 
         $relationTags = [];
         if (!empty($reverseRelations)) {
-            $relationTags = array_map(function (Relation $relation) {
+            $relationTags = array_map(function (Relation $relation): string {
                 return $this->cacheIdentifierGenerator->generateTag(
                     self::CONTENT_IDENTIFIER,
                     [$relation->destinationContentId]
@@ -89,7 +89,7 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
 
         $relationTags = [];
         if (!empty($reverseRelations)) {
-            $relationTags = array_map(function (Relation $relation) {
+            $relationTags = array_map(function (Relation $relation): string {
                 return $this->cacheIdentifierGenerator->generateTag(self::CONTENT_IDENTIFIER, [$relation->destinationContentId]);
             }, $reverseRelations);
         }
@@ -165,7 +165,7 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
 
         $reverseRelations = $this->persistenceHandler->contentHandler()->loadReverseRelations($trashed->contentId);
 
-        $relationTags = array_map(function (Relation $relation) {
+        $relationTags = array_map(function (Relation $relation): string {
             return $this->cacheIdentifierGenerator->generateTag(self::CONTENT_IDENTIFIER, [$relation->sourceContentId]);
         }, $reverseRelations);
 

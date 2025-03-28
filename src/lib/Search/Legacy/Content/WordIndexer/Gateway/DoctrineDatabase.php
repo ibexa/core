@@ -8,6 +8,7 @@
 namespace Ibexa\Core\Search\Legacy\Content\WordIndexer\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPITypeHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\TransformationProcessor;
@@ -27,45 +28,35 @@ class DoctrineDatabase extends Gateway
      */
     public const DB_INT_MAX = 2147483647;
 
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
+    protected Connection $connection;
 
     /**
      * Persistence content type handler.
      *
      * Need this for being able to pick fields that are searchable.
-     *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
      */
-    protected $typeHandler;
+    protected Handler $typeHandler;
 
     /**
      * Transformation processor.
      *
      * Need this for being able to transform text to searchable value
-     *
-     * @var \Ibexa\Core\Persistence\TransformationProcessor
      */
-    protected $transformationProcessor;
+    protected TransformationProcessor $transformationProcessor;
 
     /**
      * LegacySearchService.
      *
      * Need this for queries on ezsearch* tables
-     *
-     * @var \Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository\SearchIndex
      */
-    protected $searchIndex;
+    protected SearchIndex $searchIndex;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
-    private $languageMaskGenerator;
+    private MaskGenerator $languageMaskGenerator;
 
     /**
      * Full text search configuration options.
-     *
-     * @var array
      */
-    protected $fullTextSearchConfiguration;
+    protected array $fullTextSearchConfiguration;
 
     public function __construct(
         Connection $connection,
@@ -92,7 +83,7 @@ class DoctrineDatabase extends Gateway
      *
      * @param \Ibexa\Core\Search\Legacy\Content\FullTextData $fullTextData
      */
-    public function index(FullTextData $fullTextData)
+    public function index(FullTextData $fullTextData): void
     {
         $indexArray = [];
         $indexArrayOnlyWords = [];
@@ -177,7 +168,7 @@ class DoctrineDatabase extends Gateway
      *
      * @param \Ibexa\Core\Search\Legacy\Content\FullTextData[] $fullTextBulkData
      */
-    public function bulkIndex(array $fullTextBulkData)
+    public function bulkIndex(array $fullTextBulkData): void
     {
         foreach ($fullTextBulkData as $fullTextData) {
             $this->index($fullTextData);
@@ -218,7 +209,7 @@ class DoctrineDatabase extends Gateway
     /**
      * Remove entire search index.
      */
-    public function purgeIndex()
+    public function purgeIndex(): void
     {
         $this->searchIndex->purge();
     }
@@ -237,7 +228,7 @@ class DoctrineDatabase extends Gateway
      *
      * @return int last placement
      */
-    private function indexWords(FullTextData $fullTextData, array $indexArray, array $wordIDArray, $placement = 0)
+    private function indexWords(FullTextData $fullTextData, array $indexArray, array $wordIDArray, int $placement = 0): int
     {
         $contentId = $fullTextData->id;
 
@@ -298,7 +289,7 @@ class DoctrineDatabase extends Gateway
      *
      * @return array wordIDArray
      */
-    private function buildWordIDArray(array $indexArrayOnlyWords)
+    private function buildWordIDArray(array $indexArrayOnlyWords): array
     {
         $wordCount = count($indexArrayOnlyWords);
         $wordIDArray = [];

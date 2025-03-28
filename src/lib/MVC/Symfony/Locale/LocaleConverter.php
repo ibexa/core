@@ -14,20 +14,15 @@ class LocaleConverter implements LocaleConverterInterface
     /**
      * Conversion map, indexed by Ibexa locale.
      * See locale.yml.
-     *
-     * @var array
      */
-    private $conversionMap;
+    private array $conversionMap;
 
     /**
      * Conversion map, indexed by POSIX locale.
-     *
-     * @var array
      */
-    private $reverseConversionMap;
+    private array $reverseConversionMap;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(array $conversionMap, LoggerInterface $logger)
     {

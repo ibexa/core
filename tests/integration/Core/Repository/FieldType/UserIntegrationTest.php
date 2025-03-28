@@ -10,10 +10,12 @@ namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\FieldType\User\Type;
+use Ibexa\Core\FieldType\User\Value;
 use Ibexa\Core\FieldType\User\Value as UserValue;
 use Ibexa\Core\Repository\Values\User\User;
 use Ibexa\Tests\Core\FieldType\DataProvider\UserValidatorConfigurationSchemaProvider;
@@ -43,7 +45,7 @@ class UserIntegrationTest extends BaseIntegrationTest
      *
      * @return array
      */
-    public function getSettingsSchema()
+    public function getSettingsSchema(): array
     {
         return [
             'PasswordTTL' => [
@@ -70,7 +72,7 @@ class UserIntegrationTest extends BaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidFieldSettings()
+    public function getValidFieldSettings(): array
     {
         return [
             'PasswordTTL' => null,
@@ -85,7 +87,7 @@ class UserIntegrationTest extends BaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidFieldSettings()
+    public function getInvalidFieldSettings(): array
     {
         return [
             'somethingUnknown' => 0,
@@ -97,7 +99,7 @@ class UserIntegrationTest extends BaseIntegrationTest
      *
      * @return array
      */
-    public function getValidatorSchema()
+    public function getValidatorSchema(): array
     {
         return (new UserValidatorConfigurationSchemaProvider())
             ->getExpectedValidatorConfigurationSchema();
@@ -108,7 +110,7 @@ class UserIntegrationTest extends BaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidValidatorConfiguration()
+    public function getValidValidatorConfiguration(): array
     {
         return [
             'PasswordValueValidator' => [
@@ -128,7 +130,7 @@ class UserIntegrationTest extends BaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidValidatorConfiguration()
+    public function getInvalidValidatorConfiguration(): array
     {
         return [
             'unknown' => ['value' => 23],
@@ -168,7 +170,7 @@ class UserIntegrationTest extends BaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertFieldDataLoadedCorrect(Field $field)
+    public function assertFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             UserValue::class,
@@ -191,7 +193,7 @@ class UserIntegrationTest extends BaseIntegrationTest
         self::assertNotNull($field->value->contentId);
     }
 
-    public function provideInvalidCreationFieldData()
+    public function provideInvalidCreationFieldData(): array
     {
         return [];
     }
@@ -208,7 +210,7 @@ class UserIntegrationTest extends BaseIntegrationTest
      *
      * @return \Ibexa\Core\FieldType\User\Value
      */
-    public function getValidUpdateFieldData()
+    public function getValidUpdateFieldData(): Value
     {
         return new UserValue(
             [
@@ -229,7 +231,7 @@ class UserIntegrationTest extends BaseIntegrationTest
      *
      * @return array
      */
-    public function assertUpdatedFieldDataLoadedCorrect(Field $field)
+    public function assertUpdatedFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             UserValue::class,
@@ -252,7 +254,7 @@ class UserIntegrationTest extends BaseIntegrationTest
         self::assertNotNull($field->value->contentId);
     }
 
-    public function provideInvalidUpdateFieldData()
+    public function provideInvalidUpdateFieldData(): array
     {
         return [
             [
@@ -271,7 +273,7 @@ class UserIntegrationTest extends BaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertCopiedFieldDataLoadedCorrectly(Field $field)
+    public function assertCopiedFieldDataLoadedCorrectly(Field $field): void
     {
         self::assertInstanceOf(
             UserValue::class,
@@ -315,7 +317,7 @@ class UserIntegrationTest extends BaseIntegrationTest
      *
      * @return array
      */
-    public function provideToHashData()
+    public function provideToHashData(): array
     {
         return [
             [
@@ -356,7 +358,7 @@ class UserIntegrationTest extends BaseIntegrationTest
      *
      * @return array
      */
-    public function provideFromHashData()
+    public function provideFromHashData(): array
     {
         return [
             [
@@ -371,7 +373,7 @@ class UserIntegrationTest extends BaseIntegrationTest
      *
      * @param mixed $fieldData
      */
-    protected function createContent($fieldData, $contentType = null)
+    protected function createContent($fieldData, $contentType = null): Content
     {
         if ($contentType === null) {
             $contentType = $this->testCreateContentType();
@@ -405,12 +407,12 @@ class UserIntegrationTest extends BaseIntegrationTest
         return $contentService->createContentDraft($user->content->contentInfo, $user->content->versionInfo);
     }
 
-    public function testCreateContentWithEmptyFieldValue()
+    public function testCreateContentWithEmptyFieldValue(): void
     {
         self::markTestSkipped('User field will never be created empty');
     }
 
-    public function providerForTestIsEmptyValue()
+    public function providerForTestIsEmptyValue(): array
     {
         return [
             [new UserValue()],
@@ -418,7 +420,7 @@ class UserIntegrationTest extends BaseIntegrationTest
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public function providerForTestIsNotEmptyValue(): array
     {
         return [
             [
@@ -427,7 +429,7 @@ class UserIntegrationTest extends BaseIntegrationTest
         ];
     }
 
-    public function testRemoveFieldDefinition()
+    public function testRemoveFieldDefinition(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -472,7 +474,7 @@ class UserIntegrationTest extends BaseIntegrationTest
     /**
      * @depends testCopyField
      */
-    public function testCopiedFieldType($content)
+    public function testCopiedFieldType($content): void
     {
         self::markTestSkipped('Users cannot be copied, content is not passed to test.');
     }
@@ -480,7 +482,7 @@ class UserIntegrationTest extends BaseIntegrationTest
     /**
      * @depends testCopiedFieldType
      */
-    public function testCopiedExternalData(Field $field)
+    public function testCopiedExternalData(Field $field): void
     {
         self::markTestSkipped('Users cannot be copied, field is not passed to test.');
     }
@@ -488,7 +490,7 @@ class UserIntegrationTest extends BaseIntegrationTest
     /**
      * @see https://issues.ibexa.co/browse/EZP-30966
      */
-    public function testUpdateFieldDefinitionWithIncompleteSettingsSchema()
+    public function testUpdateFieldDefinitionWithIncompleteSettingsSchema(): void
     {
         $contentTypeService = $this->getRepository()->getContentTypeService();
         $contentType = $this->testCreateContentType();

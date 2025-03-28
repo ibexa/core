@@ -15,11 +15,9 @@ use UnexpectedValueException;
 
 final class BeforeCreateSectionEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\SectionCreateStruct */
-    private $sectionCreateStruct;
+    private SectionCreateStruct $sectionCreateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Section|null */
-    private $section;
+    private ?Section $section = null;
 
     public function __construct(SectionCreateStruct $sectionCreateStruct)
     {

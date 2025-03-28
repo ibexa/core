@@ -34,7 +34,7 @@ class TextLineTest extends TestCase
      * @group fieldType
      * @group textLine
      */
-    public function testToStorageValue()
+    public function testToStorageValue(): void
     {
         $value = new FieldValue();
         $value->data = "He's holding a thermal detonator!";
@@ -51,7 +51,7 @@ class TextLineTest extends TestCase
      * @group fieldType
      * @group textLine
      */
-    public function testToFieldValue()
+    public function testToFieldValue(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->dataText = 'When 900 years old, you reach... Look as good, you will not.';
@@ -68,7 +68,7 @@ class TextLineTest extends TestCase
      * @group fieldType
      * @group textLine
      */
-    public function testToStorageFieldDefinitionWithValidator()
+    public function testToStorageFieldDefinitionWithValidator(): void
     {
         $defaultText = 'This is a default text';
         $storageFieldDef = new StorageFieldDefinition();
@@ -105,7 +105,7 @@ class TextLineTest extends TestCase
      * @group fieldType
      * @group textLine
      */
-    public function testToStorageFieldDefinitionNoValidator()
+    public function testToStorageFieldDefinitionNoValidator(): void
     {
         $defaultText = 'This is a default text';
         $storageFieldDef = new StorageFieldDefinition();
@@ -134,7 +134,7 @@ class TextLineTest extends TestCase
      * @group fieldType
      * @group textLine
      */
-    public function testToFieldDefinition()
+    public function testToFieldDefinition(): void
     {
         $defaultText = 'This is a default value';
         $fieldDef = new PersistenceFieldDefinition();

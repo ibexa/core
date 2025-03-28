@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Persistence\Filter\Content\LazyContentItemListIterator;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Core\Persistence\Legacy\Content\FieldHandler;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\GatewayDataMapper;
+use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway as FilteringGateway;
 
 /**
@@ -21,14 +22,11 @@ use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway as FilteringGateway;
  */
 final class ContentFilteringHandler implements Handler
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway */
-    private $gateway;
+    private Gateway $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\GatewayDataMapper */
-    private $mapper;
+    private GatewayDataMapper $mapper;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldHandler */
-    private $fieldHandler;
+    private FieldHandler $fieldHandler;
 
     public function __construct(
         FilteringGateway $gateway,

@@ -21,7 +21,7 @@ class TrashItemTest extends TestCase
 {
     use ValueObjectTestTrait;
 
-    public function testNewClass()
+    public function testNewClass(): void
     {
         // create ContentInfo to be able to retrieve the contentId property via magic method
         $contentInfo = new ContentInfo();
@@ -50,7 +50,7 @@ class TrashItemTest extends TestCase
     /**
      * Test retrieving missing property.
      */
-    public function testMissingProperty()
+    public function testMissingProperty(): void
     {
         $this->expectException(PropertyNotFoundException::class);
 
@@ -62,7 +62,7 @@ class TrashItemTest extends TestCase
     /**
      * Test setting read only property.
      */
-    public function testReadOnlyProperty()
+    public function testReadOnlyProperty(): void
     {
         $this->expectException(PropertyReadOnlyException::class);
 
@@ -74,7 +74,7 @@ class TrashItemTest extends TestCase
     /**
      * Test if property exists.
      */
-    public function testIsPropertySet()
+    public function testIsPropertySet(): void
     {
         $trashItem = new TrashItem();
         $value = isset($trashItem->notDefined);
@@ -89,7 +89,7 @@ class TrashItemTest extends TestCase
      *
      * @covers \Ibexa\Core\Repository\Values\Content\TrashItem::__unset
      */
-    public function testUnsetProperty()
+    public function testUnsetProperty(): void
     {
         $this->expectException(PropertyReadOnlyException::class);
 

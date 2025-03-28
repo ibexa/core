@@ -19,7 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentContentTypeLimi
  */
 class ParentContentTypeLimitationTest extends BaseLimitationTest
 {
-    public function testParentContentTypeLimitationAllow()
+    public function testParentContentTypeLimitationAllow(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();
@@ -67,7 +67,7 @@ class ParentContentTypeLimitationTest extends BaseLimitationTest
         );
     }
 
-    public function testParentContentTypeLimitationForbid()
+    public function testParentContentTypeLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 

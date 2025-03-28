@@ -19,7 +19,7 @@ use Ibexa\Core\QueryType\BuiltIn\SortSpec\SortSpecParserInterface;
 final class DefaultSortClauseParser implements SortClauseParserInterface
 {
     /** @var string[] */
-    private $valueObjectClassMap;
+    private array $valueObjectClassMap;
 
     public function __construct(array $valueObjectClassMap)
     {

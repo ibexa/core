@@ -19,10 +19,10 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class SiteAccessListenerTest extends TestCase
 {
     /** @var \Ibexa\Bundle\Core\EventListener\SiteAccessListener */
-    private $listener;
+    private SiteAccessListener $listener;
 
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    private $defaultSiteaccess;
+    private SiteAccess $defaultSiteaccess;
 
     protected function setUp(): void
     {
@@ -32,7 +32,7 @@ class SiteAccessListenerTest extends TestCase
         $this->listener = new SiteAccessListener($this->defaultSiteaccess);
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         self::assertSame(
             [
@@ -42,7 +42,7 @@ class SiteAccessListenerTest extends TestCase
         );
     }
 
-    public function siteAccessMatchProvider()
+    public function siteAccessMatchProvider(): array
     {
         return [
             ['/foo/bar', '/foo/bar', '', []],
@@ -64,11 +64,11 @@ class SiteAccessListenerTest extends TestCase
      * @dataProvider siteAccessMatchProvider
      */
     public function testOnSiteAccessMatchMasterRequest(
-        $uri,
-        $expectedSemanticPathinfo,
-        $expectedVPString,
+        string $uri,
+        string $expectedSemanticPathinfo,
+        string $expectedVPString,
         array $expectedVPArray
-    ) {
+    ): void {
         $uri = rawurldecode($uri);
         $semanticPathinfoPos = strpos($uri, $expectedSemanticPathinfo);
         if ($semanticPathinfoPos !== 0) {
@@ -100,7 +100,7 @@ class SiteAccessListenerTest extends TestCase
     /**
      * @dataProvider siteAccessMatchProvider
      */
-    public function testOnSiteAccessMatchSubRequest($uri, $semanticPathinfo, $vpString, $expectedViewParameters)
+    public function testOnSiteAccessMatchSubRequest(string $uri, string $semanticPathinfo, string $vpString, array $expectedViewParameters): void
     {
         $siteAccess = new SiteAccess('test', 'test', $this->createMock(SiteAccess\Matcher::class));
         $request = Request::create($uri);

@@ -25,14 +25,11 @@ class ImageThumbnailStrategy implements FieldTypeBasedThumbnailStrategy, LoggerA
 {
     use LoggerAwareTrait;
 
-    /** @var string */
-    private $fieldTypeIdentifier;
+    private string $fieldTypeIdentifier;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationHandler */
-    private $variationHandler;
+    private VariationHandler $variationHandler;
 
-    /** @var string */
-    private $variationName;
+    private string $variationName;
 
     public function __construct(
         string $fieldTypeIdentifier,

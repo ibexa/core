@@ -9,12 +9,14 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action
 
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\AddField;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionObject;
 
@@ -28,24 +30,24 @@ class AddFieldTest extends TestCase
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
      */
-    protected $contentGatewayMock;
+    protected ?MockObject $contentGatewayMock = null;
 
     /**
      * Content gateway mock.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
      */
-    protected $contentStorageHandlerMock;
+    protected ?MockObject $contentStorageHandlerMock = null;
 
     /**
      * FieldValue converter mock.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter
      */
-    protected $fieldValueConverterMock;
+    protected ?MockObject $fieldValueConverterMock = null;
 
     /** @var \Ibexa\Core\Persistence\Legacy\Content\Mapper */
-    protected $contentMapperMock;
+    protected ?MockObject $contentMapperMock = null;
 
     /**
      * AddField action to test.
@@ -57,7 +59,7 @@ class AddFieldTest extends TestCase
     /**
      * @covers \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $action = new AddField(
             $this->getContentGatewayMock(),
@@ -70,7 +72,7 @@ class AddFieldTest extends TestCase
         self::assertInstanceOf(AddField::class, $action);
     }
 
-    public function testApplySingleVersionSingleTranslation()
+    public function testApplySingleVersionSingleTranslation(): void
     {
         $contentId = 42;
         $versionNumbers = [1];
@@ -110,7 +112,7 @@ class AddFieldTest extends TestCase
         $action->apply($contentId);
     }
 
-    public function testApplySingleVersionMultipleTranslations()
+    public function testApplySingleVersionMultipleTranslations(): void
     {
         $contentId = 42;
         $versionNumbers = [1];
@@ -156,7 +158,7 @@ class AddFieldTest extends TestCase
         $action->apply($contentId);
     }
 
-    public function testApplyMultipleVersionsSingleTranslation()
+    public function testApplyMultipleVersionsSingleTranslation(): void
     {
         $contentId = 42;
         $versionNumbers = [1, 2];
@@ -215,7 +217,7 @@ class AddFieldTest extends TestCase
         $action->apply($contentId);
     }
 
-    public function testApplyMultipleVersionsMultipleTranslations()
+    public function testApplyMultipleVersionsMultipleTranslations(): void
     {
         $contentId = 42;
         $versionNumbers = [1, 2];
@@ -286,7 +288,7 @@ class AddFieldTest extends TestCase
         $action->apply($contentId);
     }
 
-    public function testInsertNewField()
+    public function testInsertNewField(): void
     {
         $versionInfo = new Content\VersionInfo();
         $content = new Content();
@@ -335,7 +337,7 @@ class AddFieldTest extends TestCase
         self::assertEquals(23, $field->id);
     }
 
-    public function testInsertNewFieldUpdating()
+    public function testInsertNewFieldUpdating(): void
     {
         $versionInfo = new Content\VersionInfo();
         $content = new Content();
@@ -390,7 +392,7 @@ class AddFieldTest extends TestCase
         self::assertEquals(23, $field->id);
     }
 
-    public function testInsertExistingField()
+    public function testInsertExistingField(): void
     {
         $versionInfo = new Content\VersionInfo();
         $content = new Content();
@@ -438,7 +440,7 @@ class AddFieldTest extends TestCase
         self::assertEquals(32, $field->id);
     }
 
-    public function testInsertExistingFieldUpdating()
+    public function testInsertExistingFieldUpdating(): void
     {
         $versionInfo = new Content\VersionInfo();
         $content = new Content();
@@ -500,7 +502,7 @@ class AddFieldTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content
      */
-    protected function getContentFixture($versionNo, array $languageCodes)
+    protected function getContentFixture($versionNo, array $languageCodes): Content
     {
         $contentInfo = new Content\ContentInfo();
         $contentInfo->id = 'contentId';
@@ -582,9 +584,9 @@ class AddFieldTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition
      */
-    protected function getFieldDefinitionFixture()
+    protected function getFieldDefinitionFixture(): FieldDefinition
     {
-        $fieldDef = new Content\Type\FieldDefinition();
+        $fieldDef = new FieldDefinition();
         $fieldDef->id = 42;
         $fieldDef->isTranslatable = true;
         $fieldDef->fieldType = 'ezstring';
@@ -602,7 +604,7 @@ class AddFieldTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Field
      */
-    public function getFieldReference($id, $versionNo, $languageCode)
+    public function getFieldReference($id, $versionNo, $languageCode): Field
     {
         $field = new Field();
 
@@ -621,7 +623,7 @@ class AddFieldTest extends TestCase
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\AddField
      */
-    protected function getMockedAction($methods = [])
+    protected function getMockedAction($methods = []): MockObject
     {
         return $this
             ->getMockBuilder(AddField::class)

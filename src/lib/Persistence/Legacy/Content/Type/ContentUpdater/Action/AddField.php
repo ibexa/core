@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
+use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
@@ -24,27 +25,20 @@ class AddField extends Action
 {
     /**
      * Field definition of the field to add.
-     *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition
      */
-    protected $fieldDefinition;
+    protected FieldDefinition $fieldDefinition;
 
     /**
      * Storage handler.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
      */
-    protected $storageHandler;
+    protected StorageHandler $storageHandler;
 
     /**
      * Field value converter.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter
      */
-    protected $fieldValueConverter;
+    protected Converter $fieldValueConverter;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Mapper */
-    protected $contentMapper;
+    protected Mapper $contentMapper;
 
     /**
      * Creates a new action.
@@ -74,14 +68,14 @@ class AddField extends Action
      *
      * @param int $contentId
      */
-    public function apply($contentId)
+    public function apply($contentId): void
     {
         $versionNumbers = $this->contentGateway->listVersionNumbers($contentId);
         $languageCodeToFieldId = [];
 
         $nameRows = $this->contentGateway->loadVersionedNameData(
             array_map(
-                static function ($versionNo) use ($contentId) {
+                static function ($versionNo) use ($contentId): array {
                     return ['id' => $contentId, 'version' => $versionNo];
                 },
                 $versionNumbers
@@ -189,7 +183,7 @@ class AddField extends Action
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Field
      */
-    protected function createField($id, $versionNo, $languageCode)
+    protected function createField($id, $versionNo, $languageCode): Field
     {
         $field = new Field();
 

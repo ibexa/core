@@ -9,7 +9,9 @@ namespace Ibexa\Tests\Core\FieldType;
 
 use DateTime;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\Time\Type;
 use Ibexa\Core\FieldType\Time\Type as Time;
+use Ibexa\Core\FieldType\Time\Value;
 use Ibexa\Core\FieldType\Time\Value as TimeValue;
 
 /**
@@ -29,7 +31,7 @@ class TimeTest extends FieldTypeTest
      *
      * @return \Ibexa\Core\FieldType\FieldType
      */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): Type
     {
         $fieldType = new Time();
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
@@ -42,7 +44,7 @@ class TimeTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getValidatorConfigurationSchemaExpectation()
+    protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [];
     }
@@ -52,7 +54,7 @@ class TimeTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [
             'useSeconds' => [
@@ -69,12 +71,12 @@ class TimeTest extends FieldTypeTest
     /**
      * Returns the empty value expected from the field type.
      */
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): Value
     {
         return new TimeValue();
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): array
     {
         return [
             [
@@ -113,7 +115,7 @@ class TimeTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): array
     {
         $dateTime = new DateTime();
         // change timezone to UTC (+00:00) to be able to calculate proper TimeValue
@@ -191,7 +193,7 @@ class TimeTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): array
     {
         return [
             [
@@ -244,7 +246,7 @@ class TimeTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): array
     {
         return [
             [
@@ -284,7 +286,7 @@ class TimeTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidFieldSettings()
+    public function provideValidFieldSettings(): array
     {
         return [
             [
@@ -328,7 +330,7 @@ class TimeTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInValidFieldSettings()
+    public function provideInValidFieldSettings(): array
     {
         return [
             [

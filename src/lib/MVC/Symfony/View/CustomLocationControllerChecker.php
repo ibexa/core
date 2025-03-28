@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 class CustomLocationControllerChecker
 {
     /** @var \Ibexa\Core\MVC\Symfony\View\ViewProvider[] */
-    private $viewProviders;
+    private ?array $viewProviders = null;
 
     /**
      * Tests if $location has match a view that uses a custom controller.
@@ -50,7 +50,7 @@ class CustomLocationControllerChecker
     /**
      * @param  \Ibexa\Core\MVC\Symfony\View\ViewProvider[] $viewProviders
      */
-    public function addViewProviders(array $viewProviders)
+    public function addViewProviders(array $viewProviders): void
     {
         $this->viewProviders = $viewProviders;
     }

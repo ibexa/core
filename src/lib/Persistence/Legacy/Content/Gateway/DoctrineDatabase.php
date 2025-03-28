@@ -18,6 +18,7 @@ use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
@@ -30,6 +31,7 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase\QueryBuilder;
+use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway as SharedGateway;
@@ -54,34 +56,27 @@ final class DoctrineDatabase extends Gateway
      * The native Doctrine connection.
      *
      * Meant to be used to transition from eZ/Zeta interface to Doctrine.
-     *
-     * @var \Doctrine\DBAL\Connection
      */
-    protected $connection;
+    protected Connection $connection;
 
     /**
      * Query builder.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase\QueryBuilder
      */
-    protected $queryBuilder;
+    protected QueryBuilder $queryBuilder;
 
     /**
      * Caching language handler.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler
      */
-    protected $languageHandler;
+    protected Handler $languageHandler;
 
     /**
      * Language mask generator.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
      */
-    protected $languageMaskGenerator;
+    protected MaskGenerator $languageMaskGenerator;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway */
-    private $sharedGateway;
+    private SharedGateway $sharedGateway;
 
     /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
     private $databasePlatform;
@@ -1897,7 +1892,7 @@ final class DoctrineDatabase extends Gateway
         int $contentId,
         string $languageCode,
         ?int $versionNo = null
-    ) {
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->delete('ezcontentobject_name')
@@ -1929,7 +1924,7 @@ final class DoctrineDatabase extends Gateway
      *
      * @throws \Ibexa\Core\Base\Exceptions\BadStateException
      */
-    private function deleteTranslationFromContentObject($contentId, $languageId)
+    private function deleteTranslationFromContentObject(int $contentId, $languageId): void
     {
         $query = $this->connection->createQueryBuilder();
         $query->update('ezcontentobject')
@@ -1971,7 +1966,7 @@ final class DoctrineDatabase extends Gateway
         int $contentId,
         int $languageId,
         ?int $versionNo = null
-    ) {
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query->update('ezcontentobject_version')
             // parameter for bitwise operation has to be placed verbatim (w/o binding) for this to work cross-DBMS

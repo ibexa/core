@@ -9,7 +9,9 @@ namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Country\Exception\InvalidValue;
+use Ibexa\Core\FieldType\Country\Type;
 use Ibexa\Core\FieldType\Country\Type as Country;
+use Ibexa\Core\FieldType\Country\Value;
 use Ibexa\Core\FieldType\Country\Value as CountryValue;
 use Ibexa\Core\FieldType\ValidationError;
 
@@ -35,7 +37,7 @@ class CountryTest extends FieldTypeTest
      *
      * @return \Ibexa\Core\FieldType\FieldType
      */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): Type
     {
         $fieldType = new Country(
             [
@@ -87,7 +89,7 @@ class CountryTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getValidatorConfigurationSchemaExpectation()
+    protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [];
     }
@@ -97,7 +99,7 @@ class CountryTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [
             'isMultiple' => [
@@ -112,12 +114,12 @@ class CountryTest extends FieldTypeTest
      *
      * @return \Ibexa\Core\FieldType\Country\Value
      */
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): Value
     {
         return new CountryValue();
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): array
     {
         return [
             [
@@ -168,7 +170,7 @@ class CountryTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): array
     {
         return [
             [
@@ -267,7 +269,7 @@ class CountryTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): array
     {
         return [
             [
@@ -340,7 +342,7 @@ class CountryTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): array
     {
         return [
             [
@@ -437,7 +439,7 @@ class CountryTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidDataForValidate()
+    public function provideValidDataForValidate(): array
     {
         return [
             [
@@ -555,7 +557,7 @@ class CountryTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInvalidDataForValidate()
+    public function provideInvalidDataForValidate(): array
     {
         return [
             [

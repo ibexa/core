@@ -45,7 +45,7 @@ class FieldRelation extends FieldBase
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException If no searchable fields are found for the given $fieldIdentifier.
      */
-    protected function getFieldDefinitionsIds($fieldDefinitionIdentifier)
+    protected function getFieldDefinitionsIds($fieldDefinitionIdentifier): array
     {
         $fieldDefinitionIdList = [];
         $fieldMap = $this->contentTypeHandler->getSearchableFieldMap();

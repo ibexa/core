@@ -39,19 +39,16 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
  */
 class ContentView extends BaseView implements View, ContentValueView, LocationValueView, EmbedView, CachableView
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-    private $content;
+    private ?Content $content = null;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location|null */
-    private $location;
+    private ?Location $location = null;
 
-    /** @var bool */
-    private $isEmbed = false;
+    private bool $isEmbed = false;
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
-    public function setContent(Content $content)
+    public function setContent(Content $content): void
     {
         $this->content = $content;
     }
@@ -69,7 +66,7 @@ class ContentView extends BaseView implements View, ContentValueView, LocationVa
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
      */
-    public function setLocation(Location $location)
+    public function setLocation(Location $location): void
     {
         $this->location = $location;
     }
@@ -82,7 +79,7 @@ class ContentView extends BaseView implements View, ContentValueView, LocationVa
         return $this->location;
     }
 
-    protected function getInternalParameters()
+    protected function getInternalParameters(): array
     {
         $parameters = ['content' => $this->content];
         if ($this->location !== null) {
@@ -97,7 +94,7 @@ class ContentView extends BaseView implements View, ContentValueView, LocationVa
      *
      * @param bool $value
      */
-    public function setIsEmbed($value)
+    public function setIsEmbed($value): void
     {
         $this->isEmbed = (bool)$value;
     }

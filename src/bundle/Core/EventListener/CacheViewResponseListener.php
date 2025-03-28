@@ -20,8 +20,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class CacheViewResponseListener implements EventSubscriberInterface
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
     public function __construct(ConfigResolverInterface $configResolver)
     {
@@ -33,7 +32,7 @@ class CacheViewResponseListener implements EventSubscriberInterface
         return [KernelEvents::RESPONSE => 'configureCache'];
     }
 
-    public function configureCache(ResponseEvent $event)
+    public function configureCache(ResponseEvent $event): void
     {
         if (!($view = $event->getRequest()->attributes->get('view')) instanceof CachableView) {
             return;

@@ -21,11 +21,9 @@ use Twig\TwigFunction;
  */
 final class RenderLocationExtension extends AbstractExtension
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Templating\RenderLocationStrategy */
-    private $renderLocationStrategy;
+    private RenderLocationStrategy $renderLocationStrategy;
 
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
-    private $eventDispatcher;
+    private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         RenderLocationStrategy $renderLocationStrategy,

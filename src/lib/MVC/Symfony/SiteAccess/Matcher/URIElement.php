@@ -14,22 +14,17 @@ use LogicException;
 
 class URIElement implements VersatileMatcher, URILexer
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest */
-    private $request;
+    private ?SimplifiedRequest $request = null;
 
     /**
      * Number of elements to take into account.
-     *
-     * @var int
      */
-    private $elementNumber;
+    private int $elementNumber;
 
     /**
      * URI elements used for matching as an array.
-     *
-     * @var array
      */
-    private $uriElements;
+    private ?array $uriElements = null;
 
     /**
      * Constructor.
@@ -56,7 +51,7 @@ class URIElement implements VersatileMatcher, URILexer
      *
      * @return string|false Siteaccess matched or false.
      */
-    public function match()
+    public function match(): string|false
     {
         try {
             return implode('_', $this->getURIElements());
@@ -110,7 +105,7 @@ class URIElement implements VersatileMatcher, URILexer
      *
      * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
      */
-    public function setRequest(SimplifiedRequest $request)
+    public function setRequest(SimplifiedRequest $request): void
     {
         $this->request = $request;
     }
@@ -171,7 +166,7 @@ class URIElement implements VersatileMatcher, URILexer
      *
      * @return \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIElement|null
      */
-    public function reverseMatch($siteAccessName)
+    public function reverseMatch($siteAccessName): ?self
     {
         $elements = $this->elementNumber > 1 ? explode('_', $siteAccessName) : [$siteAccessName];
         if (count($elements) !== $this->elementNumber) {

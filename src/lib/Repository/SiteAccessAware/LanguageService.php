@@ -18,8 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct;
  */
 class LanguageService implements LanguageServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageService */
-    protected $service;
+    protected LanguageServiceInterface $service;
 
     /**
      * Construct service object from aggregated service.

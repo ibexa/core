@@ -173,7 +173,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls()
      */
-    public function testFindUrls()
+    public function testFindUrls(): void
     {
         $expectedUrls = [
             'https://www.apache.org/',
@@ -209,7 +209,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls()
      */
-    public function testFindUrlsWithoutCounting()
+    public function testFindUrlsWithoutCounting(): void
     {
         $expectedUrls = [
             'https://www.apache.org/',
@@ -248,7 +248,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @depends testFindUrls
      */
-    public function testFindUrlsUsingMatchNone()
+    public function testFindUrlsUsingMatchNone(): void
     {
         $query = new URLQuery();
         $query->filter = new Criterion\MatchNone();
@@ -263,7 +263,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @depends testFindUrls
      */
-    public function testFindUrlsUsingPatternCriterion()
+    public function testFindUrlsUsingPatternCriterion(): void
     {
         $expectedUrls = [
             'https://www.google.de/',
@@ -286,7 +286,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @depends testFindUrls
      */
-    public function testFindUrlsUsingValidityCriterionValid()
+    public function testFindUrlsUsingValidityCriterionValid(): void
     {
         $expectedUrls = [
             'https://www.google.com/',
@@ -441,7 +441,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @depends testFindUrls
      */
-    public function testFindUrlsUsingValidityCriterionInvalid()
+    public function testFindUrlsUsingValidityCriterionInvalid(): void
     {
         $expectedUrls = [
             '/content/view/tagcloud/2',
@@ -460,7 +460,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @depends testFindUrls
      */
-    public function testFindUrlsUsingVisibleOnlyCriterion()
+    public function testFindUrlsUsingVisibleOnlyCriterion(): void
     {
         $expectedUrls = [
             'https://vimeo.com/',
@@ -516,7 +516,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls()
      */
-    public function testFindUrlsWithInvalidOffsetThrowsInvalidArgumentException()
+    public function testFindUrlsWithInvalidOffsetThrowsInvalidArgumentException(): void
     {
         $query = new URLQuery();
         $query->filter = new Criterion\MatchAll();
@@ -537,7 +537,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls()
      */
-    public function testFindUrlsWithInvalidLimitThrowsInvalidArgumentException()
+    public function testFindUrlsWithInvalidLimitThrowsInvalidArgumentException(): void
     {
         $query = new URLQuery();
         $query->filter = new Criterion\MatchAll();
@@ -560,7 +560,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @depends testFindUrls
      */
-    public function testFindUrlsWithOffset()
+    public function testFindUrlsWithOffset(): void
     {
         $expectedUrls = [
             'https://www.discuz.net/forum.php',
@@ -590,7 +590,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @depends testFindUrls
      */
-    public function testFindUrlsWithOffsetAndLimit()
+    public function testFindUrlsWithOffsetAndLimit(): void
     {
         $expectedUrls = [
             'https://www.discuz.net/forum.php',
@@ -614,7 +614,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @depends testFindUrls
      */
-    public function testFindUrlsWithLimitZero()
+    public function testFindUrlsWithLimitZero(): void
     {
         $query = new URLQuery();
         $query->filter = new Criterion\MatchAll();
@@ -632,7 +632,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @dataProvider dataProviderForFindUrlsWithSorting
      */
-    public function testFindUrlsWithSorting(SortClause $sortClause, array $expectedUrls)
+    public function testFindUrlsWithSorting(SortClause $sortClause, array $expectedUrls): void
     {
         $query = new URLQuery();
         $query->filter = new Criterion\MatchAll();
@@ -641,7 +641,7 @@ class URLServiceTest extends BaseURLServiceTest
         $this->doTestFindUrls($query, $expectedUrls, count($expectedUrls), false);
     }
 
-    public function dataProviderForFindUrlsWithSorting()
+    public function dataProviderForFindUrlsWithSorting(): array
     {
         $urlsSortedById = [
             '/content/view/sitemap/2',
@@ -682,7 +682,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLService::updateUrl()
      */
-    public function testUpdateUrl()
+    public function testUpdateUrl(): void
     {
         $repository = $this->getRepository();
 
@@ -715,7 +715,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLService::updateUrl()
      */
-    public function testUpdateUrlStatus()
+    public function testUpdateUrlStatus(): void
     {
         $repository = $this->getRepository();
 
@@ -753,7 +753,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @depends testUpdateUrl
      */
-    public function testUpdateUrlWithNonUniqueUrl()
+    public function testUpdateUrlWithNonUniqueUrl(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -778,7 +778,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLService::loadById
      */
-    public function testLoadById()
+    public function testLoadById(): void
     {
         $repository = $this->getRepository();
 
@@ -808,7 +808,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @depends testLoadById
      */
-    public function testLoadByIdThrowsNotFoundException()
+    public function testLoadByIdThrowsNotFoundException(): void
     {
         $repository = $this->getRepository();
 
@@ -826,7 +826,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLService::loadByUrl
      */
-    public function testLoadByUrl()
+    public function testLoadByUrl(): void
     {
         $repository = $this->getRepository();
 
@@ -856,7 +856,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @depends testLoadByUrl
      */
-    public function testLoadByUrlThrowsNotFoundException()
+    public function testLoadByUrlThrowsNotFoundException(): void
     {
         $repository = $this->getRepository();
 
@@ -897,7 +897,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @depends testCreateUpdateStruct
      */
-    public function testCreateUpdateStructValues(URLUpdateStruct $updateStruct)
+    public function testCreateUpdateStructValues(URLUpdateStruct $updateStruct): void
     {
         $this->assertPropertiesCorrect([
             'url' => null,
@@ -913,7 +913,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @dataProvider dataProviderForFindUsages
      */
-    public function testFindUsages($urlId, $offset, $limit, array $expectedContentInfos, $expectedTotalCount = null)
+    public function testFindUsages($urlId, int $offset, int $limit, array $expectedContentInfos, $expectedTotalCount = null): void
     {
         $repository = $this->getRepository();
 
@@ -931,7 +931,7 @@ class URLServiceTest extends BaseURLServiceTest
         $this->assertUsagesSearchResultItems($usagesSearchResults, $expectedContentInfos);
     }
 
-    public function dataProviderForFindUsages()
+    public function dataProviderForFindUsages(): array
     {
         return [
             // findUsages($url, 0, -1)
@@ -946,7 +946,7 @@ class URLServiceTest extends BaseURLServiceTest
      *
      * @depends testFindUsages
      */
-    public function testFindUsagesReturnsEmptySearchResults()
+    public function testFindUsagesReturnsEmptySearchResults(): void
     {
         $repository = $this->getRepository();
 

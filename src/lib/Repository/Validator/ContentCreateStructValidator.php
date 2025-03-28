@@ -21,11 +21,9 @@ use Ibexa\Core\Repository\Mapper\ContentMapper;
  */
 final class ContentCreateStructValidator implements ContentValidator
 {
-    /** @var \Ibexa\Core\Repository\Mapper\ContentMapper */
-    private $contentMapper;
+    private ContentMapper $contentMapper;
 
-    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
-    private $fieldTypeRegistry;
+    private FieldTypeRegistry $fieldTypeRegistry;
 
     public function __construct(
         ContentMapper $contentMapper,

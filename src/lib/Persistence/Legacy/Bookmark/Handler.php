@@ -18,11 +18,9 @@ use Ibexa\Contracts\Core\Persistence\Content\Location;
  */
 class Handler implements HandlerInterface
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Bookmark\Gateway */
-    private $gateway;
+    private Gateway $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Bookmark\Mapper */
-    private $mapper;
+    private Mapper $mapper;
 
     /**
      * Handler constructor.

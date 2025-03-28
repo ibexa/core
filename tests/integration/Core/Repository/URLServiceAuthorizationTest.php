@@ -18,7 +18,7 @@ class URLServiceAuthorizationTest extends BaseURLServiceTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLService::findUrls
      */
-    public function testFindUrlsThrowsUnauthorizedException()
+    public function testFindUrlsThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -47,7 +47,7 @@ class URLServiceAuthorizationTest extends BaseURLServiceTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLService::updateUrl
      */
-    public function testUpdateUrlThrowsUnauthorizedException()
+    public function testUpdateUrlThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -78,7 +78,7 @@ class URLServiceAuthorizationTest extends BaseURLServiceTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLService::loadById
      */
-    public function testLoadByIdThrowsUnauthorizedException()
+    public function testLoadByIdThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -105,7 +105,7 @@ class URLServiceAuthorizationTest extends BaseURLServiceTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLService::loadById
      */
-    public function testLoadByUrlThrowsUnauthorizedException()
+    public function testLoadByUrlThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 

@@ -18,12 +18,12 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
  */
 class Unindexed implements Indexable
 {
-    public function getIndexData(Field $field, FieldDefinition $fieldDefinition)
+    public function getIndexData(Field $field, FieldDefinition $fieldDefinition): array
     {
         return [];
     }
 
-    public function getIndexDefinition()
+    public function getIndexDefinition(): array
     {
         return [];
     }
@@ -35,7 +35,7 @@ class Unindexed implements Indexable
      * implementation of this interface), this method is used to define default
      * field for matching. Default field is typically used by Field criterion.
      */
-    public function getDefaultMatchField()
+    public function getDefaultMatchField(): null
     {
         return null;
     }
@@ -47,7 +47,7 @@ class Unindexed implements Indexable
      * implementation of this interface), this method is used to define default
      * field for sorting. Default field is typically used by Field sort clause.
      */
-    public function getDefaultSortField()
+    public function getDefaultSortField(): null
     {
         return null;
     }

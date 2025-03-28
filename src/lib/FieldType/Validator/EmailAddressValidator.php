@@ -36,9 +36,9 @@ class EmailAddressValidator extends Validator
      *
      * @param mixed $constraints
      *
-     * @return mixed
+     * @return \Ibexa\Core\FieldType\ValidationError[]
      */
-    public function validateConstraints($constraints)
+    public function validateConstraints($constraints): array
     {
         $validationErrors = [];
         foreach ($constraints as $name => $value) {

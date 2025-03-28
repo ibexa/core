@@ -32,13 +32,13 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTest
     protected PathGeneratorInterface&MockObject $pathGeneratorMock;
 
     /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $ioServiceMock;
+    protected MockObject $ioServiceMock;
 
     /** @var \Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage|\PHPUnit\Framework\MockObject\MockObject */
-    protected $storage;
+    protected MockObject $storage;
 
     /** @var \Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator&\PHPUnit\Framework\MockObject\MockObject */
-    protected $fileExtensionBlackListValidatorMock;
+    protected MockObject $fileExtensionBlackListValidatorMock;
 
     protected function setUp(): void
     {

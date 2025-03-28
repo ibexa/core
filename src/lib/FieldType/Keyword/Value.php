@@ -49,7 +49,7 @@ class Value extends BaseValue
      *
      * @return string A comma separated list of tags, eg: "php, Ibexa, html5"
      */
-    public function __toString()
+    public function __toString(): string
     {
         return implode(', ', $this->values);
     }

@@ -23,8 +23,7 @@ class DoctrineStorage extends Gateway
 {
     public const IMAGE_FILE_TABLE = 'ezimagefile';
 
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
+    protected Connection $connection;
 
     /**
      * Maps database field names to property names.
@@ -39,8 +38,7 @@ class DoctrineStorage extends Gateway
         'data_string' => 'xml',
     ];
 
-    /** @var \Ibexa\Core\IO\UrlRedecoratorInterface */
-    private $redecorator;
+    private UrlRedecoratorInterface $redecorator;
 
     public function __construct(UrlRedecoratorInterface $redecorator, Connection $connection)
     {
@@ -90,7 +88,7 @@ class DoctrineStorage extends Gateway
      * @param string $uri File IO uri (not legacy)
      * @param int $fieldId
      */
-    public function storeImageReference($uri, $fieldId)
+    public function storeImageReference($uri, $fieldId): void
     {
         // legacy stores the path to the image without a leading /
         $path = $this->redecorator->redecorateFromSource($uri);
@@ -118,7 +116,7 @@ class DoctrineStorage extends Gateway
      *
      * @return array
      */
-    public function getXmlForImages($versionNo, array $fieldIds)
+    public function getXmlForImages($versionNo, array $fieldIds): array
     {
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery

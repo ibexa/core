@@ -22,7 +22,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\URL\URL
      */
-    public function createURLFromUpdateStruct(URLUpdateStruct $struct)
+    public function createURLFromUpdateStruct(URLUpdateStruct $struct): URL
     {
         $url = new URL();
         $url->url = $struct->url;
@@ -41,7 +41,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\URL\URL[]
      */
-    public function extractURLsFromRows(array $rows)
+    public function extractURLsFromRows(array $rows): array
     {
         $urls = [];
 

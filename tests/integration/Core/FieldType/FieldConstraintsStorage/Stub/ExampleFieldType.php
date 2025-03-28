@@ -46,7 +46,7 @@ final class ExampleFieldType extends FieldType
         // Nothing to do here.
     }
 
-    public function toHash(Value $value)
+    public function toHash(Value $value): null
     {
         return null;
     }

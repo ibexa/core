@@ -19,13 +19,10 @@ class DatabaseConnectionFactory
 {
     /**
      * Associative array of <code>[driver => AbstractPlatform]</code>.
-     *
-     * @var array
      */
-    private $databasePlatforms = [];
+    private array $databasePlatforms;
 
-    /** @var \Doctrine\Common\EventManager */
-    private $eventManager;
+    private EventManager $eventManager;
 
     /**
      * Connection Pool for re-using already created connection.
@@ -34,7 +31,7 @@ class DatabaseConnectionFactory
      *
      * @var \Doctrine\DBAL\Connection[]
      */
-    private static $connectionPool;
+    private static ?array $connectionPool = null;
 
     /**
      * @param \Ibexa\DoctrineSchema\Database\DbPlatform\DbPlatformInterface[] $databasePlatforms

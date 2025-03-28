@@ -15,14 +15,11 @@ use function iterator_to_array;
 
 class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware
 {
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface */
-    private $provider;
+    private SiteAccessProviderInterface $provider;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    private $siteAccess;
+    private ?SiteAccess $siteAccess = null;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
     public function __construct(
         SiteAccessProviderInterface $provider,
