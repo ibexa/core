@@ -9,6 +9,7 @@ namespace Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory\MetadataHandl
 
 use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition as ServiceDefinition;
 use Symfony\Component\DependencyInjection\Reference;
 
@@ -19,7 +20,7 @@ class LegacyDFSCluster implements ConfigurationFactory
         return \Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster::class;
     }
 
-    public function configureHandler(ServiceDefinition $definition, array $config)
+    public function configureHandler(ContainerBuilder $container, ServiceDefinition $definition, array $config)
     {
         $definition->replaceArgument(0, new Reference($config['connection']));
     }
