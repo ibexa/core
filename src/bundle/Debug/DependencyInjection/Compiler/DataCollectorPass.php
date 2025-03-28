@@ -20,17 +20,29 @@ class DataCollectorPass implements CompilerPassInterface
         }
 
         $dataCollectorDef = $container->getDefinition(IbexaCoreCollector::class);
-        foreach ($container->findTaggedServiceIds('ibexa.debug.data_collector') as $id => $attributes) {
-            foreach ($attributes as $attribute) {
-                $dataCollectorDef->addMethodCall(
-                    'addCollector',
-                    [
-                        new Reference($id),
-                        isset($attribute['panelTemplate']) ? $attribute['panelTemplate'] : null,
-                        isset($attribute['toolbarTemplate']) ? $attribute['toolbarTemplate'] : null,
-                    ]
-                );
+        $collectors = [];
+
+        foreach ($container->findTaggedServiceIds('ibexa.debug.data_collector') as $id => $tags) {
+            foreach ($tags as $attributes) {
+                $priority = $attributes['priority'] ?? 0;
+                $collectors[] = [
+                    'id' => $id,
+                    'priority' => $priority,
+                    'panelTemplate' => $attributes['panelTemplate'] ?? null,
+                    'toolbarTemplate' => $attributes['toolbarTemplate'] ?? null,
+                ];
             }
+        }
+
+        /** @var list<array{id: string, priority: int, panelTemplate: string|null, toolbarTemplate: string|null}> $collectors */
+        usort($collectors, static fn (array $a, array $b): int => $b['priority'] <=> $a['priority']);
+
+        foreach ($collectors as $collector) {
+            $dataCollectorDef->addMethodCall('addCollector', [
+                new Reference($collector['id']),
+                $collector['panelTemplate'],
+                $collector['toolbarTemplate'],
+            ]);
         }
     }
 }
