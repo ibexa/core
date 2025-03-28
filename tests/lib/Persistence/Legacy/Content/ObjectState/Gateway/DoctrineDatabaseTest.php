@@ -19,17 +19,8 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 {
     /**
      * Database gateway to test.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\DoctrineDatabase
      */
-    protected $databaseGateway;
-
-    /**
-     * Language mask generator.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
-     */
-    protected $languageMaskGenerator;
+    protected DoctrineDatabase $databaseGateway;
 
     /**
      * Inserts DB fixture.
@@ -39,11 +30,11 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         parent::setUp();
 
         $this->insertDatabaseFixture(
-            __DIR__ . '/../../_fixtures/contentobjects.php'
+            self::FIXTURE_PATH_CONTENT_OBJECTS
         );
 
         $this->insertDatabaseFixture(
-            __DIR__ . '/../../_fixtures/objectstates.php'
+            self::FIXTURE_PATH_OBJECTS_STATES
         );
     }
 
@@ -394,7 +385,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->setContentState(42, 2, 2);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'contentobject_id' => 42,
@@ -505,7 +496,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns a ready to test DoctrineDatabase gateway.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function getDatabaseGateway(): DoctrineDatabase
     {

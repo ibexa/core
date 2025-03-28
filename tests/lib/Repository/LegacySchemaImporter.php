@@ -35,6 +35,8 @@ final class LegacySchemaImporter
      * Import database schema from Doctrine Schema Yaml configuration file.
      *
      * @param string $schemaFilePath Yaml schema configuration file path
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function importSchema(string $schemaFilePath): void
     {
@@ -57,7 +59,7 @@ final class LegacySchemaImporter
             );
 
             foreach ($statements as $statement) {
-                $this->connection->exec($statement);
+                $this->connection->executeStatement($statement);
             }
         } catch (InvalidConfigurationException $e) {
             throw new RuntimeException($e->getMessage(), 1, $e);
@@ -66,13 +68,15 @@ final class LegacySchemaImporter
 
     /**
      * @return string[]
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function getDropSqlStatementsForExistingSchema(
         DoctrineSchema $newSchema,
         AbstractPlatform $databasePlatform,
         Connection $connection
     ): array {
-        $existingSchema = $connection->getSchemaManager()->createSchema();
+        $existingSchema = $connection->createSchemaManager()->introspectSchema();
         $statements = [];
         // reverse table order for clean-up (due to FKs)
         $tables = array_reverse($newSchema->getTables());

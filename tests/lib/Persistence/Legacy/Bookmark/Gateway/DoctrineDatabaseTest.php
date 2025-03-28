@@ -12,7 +12,6 @@ use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
-use PDO;
 
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase::insertBookmark
@@ -139,19 +138,20 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * Return a ready to test DoctrineStorage gateway.
-     *
-     * @throws \Doctrine\DBAL\DBALException
      */
     protected function getGateway(): Gateway
     {
         return new DoctrineDatabase($this->getDatabaseConnection());
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function loadBookmark(int $id): array
     {
         $data = $this->connection
             ->executeQuery('SELECT * FROM ezcontentbrowsebookmark WHERE id = :id', ['id' => $id])
-            ->fetch(PDO::FETCH_ASSOC);
+            ->fetchAssociative();
 
         return is_array($data) ? $data : [];
     }

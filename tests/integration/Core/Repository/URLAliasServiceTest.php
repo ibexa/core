@@ -301,7 +301,6 @@ class URLAliasServiceTest extends BaseTest
 
         $locationId = $this->generateId('location', 5);
 
-        /* BEGIN: Use Case */
         // $locationId is the ID of an existing location
 
         $locationService = $repository->getLocationService();
@@ -311,8 +310,7 @@ class URLAliasServiceTest extends BaseTest
 
         // Throws InvalidArgumentException, since this path already exists for the
         // language
-        $createdUrlAlias = $urlAliasService->createUrlAlias($location, '/Design/Plain-site', 'eng-US');
-        /* END: Use Case */
+        $urlAliasService->createUrlAlias($location, '/Design/Plain-site', 'eng-US');
     }
 
     /**
@@ -588,17 +586,14 @@ class URLAliasServiceTest extends BaseTest
 
         $repository = $this->getRepository();
 
-        /* BEGIN: Use Case */
         $urlAliasService = $repository->getURLAliasService();
 
-        // Throws InvalidArgumentException, since this path already exists for the
-        // language
-        $createdUrlAlias = $urlAliasService->createGlobalUrlAlias(
+        // Throws InvalidArgumentException, since this path already exists for the language
+        $urlAliasService->createGlobalUrlAlias(
             'module:content/search?SearchText=Ibexa',
             '/Design/Plain-site',
             'eng-US'
         );
-        /* END: Use Case */
     }
 
     /**
@@ -993,7 +988,7 @@ class URLAliasServiceTest extends BaseTest
     /**
      * Test for the lookUp() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::lookUp($url, $languageCode)
+     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::lookUp()
      */
     public function testLookUpThrowsInvalidArgumentException(): void
     {
@@ -1001,12 +996,10 @@ class URLAliasServiceTest extends BaseTest
 
         $repository = $this->getRepository();
 
-        /* BEGIN: Use Case */
         $urlAliasService = $repository->getURLAliasService();
 
         // Throws InvalidArgumentException
-        $loadedAlias = $urlAliasService->lookup(str_repeat('/1', 99), 'ger-DE');
-        /* END: Use Case */
+        $urlAliasService->lookup(str_repeat('/1', 99), 'ger-DE');
     }
 
     /**
@@ -1354,7 +1347,7 @@ class URLAliasServiceTest extends BaseTest
                 $queryBuilder
                     ->delete('ezurlalias_ml')
                     ->where(
-                        $expr->andX(
+                        $expr->and(
                             $expr->eq(
                                 'action',
                                 $queryBuilder->createPositionalParameter(
@@ -1632,20 +1625,20 @@ class URLAliasServiceTest extends BaseTest
         $connection = $this->getRawDatabaseConnection();
 
         $query = $connection->createQueryBuilder()->select('*')->from('ezurlalias_ml');
-        $originalRows = $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        $originalRows = $query->executeQuery()->fetchAllAssociative();
 
         $expectedCount = count($originalRows);
         $expectedCount += $this->insertBrokenUrlAliasTableFixtures($connection);
 
         // sanity check
-        $updatedRows = $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        $updatedRows = $query->executeQuery()->fetchAllAssociative();
         self::assertCount($expectedCount, $updatedRows, 'Found unexpected number of new rows');
 
         // BEGIN API use case
         $urlAliasService->deleteCorruptedUrlAliases();
         // END API use case
 
-        $updatedRows = $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        $updatedRows = $query->executeQuery()->fetchAllAssociative();
         self::assertCount(
             // API should also remove already broken pre-existing URL aliases
             count($originalRows) - 4,

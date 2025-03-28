@@ -21,10 +21,8 @@ class DoctrineDatabaseTest extends TestCase
 {
     /**
      * Database gateway to test.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase
      */
-    protected $gateway;
+    protected DoctrineDatabase $gateway;
 
     protected $fixtureData = [
         0 => [
@@ -164,8 +162,6 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * Return the DoctrineDatabase gateway to test.
-     *
-     * @throws \Doctrine\DBAL\DBALException
      */
     protected function getGateway(): DoctrineDatabase
     {

@@ -24,9 +24,6 @@ final class GatewayFactoryTest extends TestCase
     /** @var \Ibexa\Core\Persistence\Legacy\SharedGateway\GatewayFactory */
     private GatewayFactory $factory;
 
-    /**
-     * @throws \Doctrine\DBAL\DBALException
-     */
     public function setUp(): void
     {
         $gateways = [
@@ -42,10 +39,9 @@ final class GatewayFactoryTest extends TestCase
     /**
      * @dataProvider getTestBuildSharedGatewayData
      *
-     * @param \Doctrine\DBAL\Connection $connectionMock
-     * @param string $expectedInstance
+     * @phpstan-param class-string $expectedInstance
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testBuildSharedGateway(
         Connection $connectionMock,
@@ -58,24 +54,26 @@ final class GatewayFactoryTest extends TestCase
     }
 
     /**
-     * @return \Doctrine\DBAL\Connection[]|\PHPUnit\Framework\MockObject\MockObject[]|\Traversable
+     * @phpstan-return \Traversable<
+     *     array{
+     *          \Doctrine\DBAL\Connection & \PHPUnit\Framework\MockObject\MockObject,
+     *          class-string
+     *     }
+     * >
      */
     public function getTestBuildSharedGatewayData(): Traversable
     {
         $databasePlatformGatewayPairs = [
             [new Platforms\SqlitePlatform(), SqliteGateway::class],
             [new Platforms\MySQL80Platform(), FallbackGateway::class],
-            [new Platforms\MySqlPlatform(), FallbackGateway::class],
-            [new Platforms\PostgreSqlPlatform(), FallbackGateway::class],
+            [new Platforms\MySQLPlatform(), FallbackGateway::class],
+            [new Platforms\PostgreSQLPlatform(), FallbackGateway::class],
         ];
 
         foreach ($databasePlatformGatewayPairs as $databasePlatformGatewayPair) {
             [$databasePlatform, $sharedGateway] = $databasePlatformGatewayPair;
-            /** @var \Doctrine\DBAL\Platforms\AbstractPlatform $databasePlatform */
-            $connectionMock = $this
-                ->createMock(Connection::class);
+            $connectionMock = $this->createMock(Connection::class);
             $connectionMock
-                ->expects(self::any())
                 ->method('getDatabasePlatform')
                 ->willReturn($databasePlatform);
 

@@ -18,10 +18,8 @@ class DoctrineDatabaseTest extends TestCase
 {
     /**
      * Database gateway to test.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway\DoctrineDatabase
      */
-    protected $databaseGateway;
+    protected DoctrineDatabase $databaseGateway;
 
     /**
      * Inserts DB fixture.
@@ -42,7 +40,7 @@ class DoctrineDatabaseTest extends TestCase
         $gateway->insertSection('New Section', 'new_section');
         $query = $this->getDatabaseConnection()->createQueryBuilder();
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'id' => '7',
@@ -69,7 +67,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $gateway->updateSection(2, 'New Section', 'new_section');
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'id' => '2',
@@ -208,7 +206,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $gateway->deleteSection(2);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'count' => '5',
@@ -219,7 +217,7 @@ class DoctrineDatabaseTest extends TestCase
                 ->from('ezsection')
         );
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'count' => '0',
@@ -245,7 +243,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $beforeCount = $gateway->countContentObjectsInSection(4);
 
-        $result = $gateway->assignSectionToContent(4, 10);
+        $gateway->assignSectionToContent(4, 10);
 
         self::assertSame(
             $beforeCount + 1,
@@ -258,7 +256,7 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @return \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway\DoctrineDatabase
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function getDatabaseGateway(): Gateway
     {
