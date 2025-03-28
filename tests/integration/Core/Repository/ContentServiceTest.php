@@ -6774,10 +6774,10 @@ class ContentServiceTest extends BaseContentServiceTest
         $anonymousUserId = $this->generateId('user', 10);
         $repository->getPermissionResolver()->setCurrentUserReference($repository->getUserService()->loadUser($anonymousUserId));
 
-        $this->setGracePeriod(3);
+        $this->setGracePeriod(5);
         $this->contentService->loadContent($publishedVersionTwo->id, null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
 
-        sleep(3);
+        sleep(5);
         $this->expectException(CoreUnauthorizedException::class);
         $this->contentService->loadContent($publishedVersionTwo->id, null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
     }

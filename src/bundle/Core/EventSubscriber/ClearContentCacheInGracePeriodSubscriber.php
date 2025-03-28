@@ -15,12 +15,13 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\TerminateEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-final class ClearContentCacheInGracePeriodSubscriber implements EventSubscriberInterface
+class ClearContentCacheInGracePeriodSubscriber implements EventSubscriberInterface
 {
     private TransactionAwareAdapterInterface $cache;
 
     private CacheIdentifierGeneratorInterface $identifierGenerator;
 
+    /** @var array<int, bool> */
     private array $contentMap = [];
 
     public function __construct(TransactionAwareAdapterInterface $cache, CacheIdentifierGeneratorInterface $identifierGenerator)
