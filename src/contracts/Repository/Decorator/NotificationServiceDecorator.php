@@ -40,6 +40,11 @@ abstract class NotificationServiceDecorator implements NotificationService
         $this->innerService->markNotificationAsRead($notification);
     }
 
+    public function markNotificationAsUnread(Notification $notification): void
+    {
+        $this->innerService->markNotificationAsUnread($notification);
+    }
+
     public function getPendingNotificationCount(): int
     {
         return $this->innerService->getPendingNotificationCount();
