@@ -90,3 +90,9 @@ services:
 
     ibexa.siteaccess.provider:
         alias: Ibexa\Core\MVC\Symfony\SiteAccess\Provider\ChainSiteAccessProvider
+
+    Ibexa\Bundle\Core\EventSubscriber\ClearContentCacheInGracePeriodSubscriber:
+        autowire: true
+        autoconfigure: true
+        arguments:
+            $cache: '@ibexa.cache_pool'

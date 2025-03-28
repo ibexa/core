@@ -7,6 +7,7 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Exception;
+use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException as APIInvalidArgumentException;
@@ -32,6 +33,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException as CoreUnauthorizedException;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 use InvalidArgumentException;
+use ReflectionClass;
 
 /**
  * Test case for operations in the ContentService using in memory storage.
@@ -6750,6 +6752,58 @@ class ContentServiceTest extends BaseContentServiceTest
         );
 
         return $draft;
+    }
+
+    public function testLoadContentWithinGracePeriod(): void
+    {
+        $repository = $this->getRepository();
+
+        $contentTypeService = $repository->getContentTypeService();
+        $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
+
+        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+        $contentCreate->setField('name', 'My awesome Folder');
+
+        $content = $this->contentService->createContent($contentCreate);
+        $unPublishedVersionOneContent = $this->contentService->publishVersion($content->getVersionInfo());
+
+        $publishedVersionTwo = $this->contentService->publishVersion(
+            $this->updateFolder($content, [self::ENG_US => 'Updated Name'])->getVersionInfo()
+        );
+
+        $anonymousUserId = $this->generateId('user', 10);
+        $repository->getPermissionResolver()->setCurrentUserReference($repository->getUserService()->loadUser($anonymousUserId));
+
+        $this->setGracePeriod(3);
+        $this->contentService->loadContent($publishedVersionTwo->id, null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
+
+        sleep(3);
+        $this->expectException(CoreUnauthorizedException::class);
+        $this->contentService->loadContent($publishedVersionTwo->id, null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
+    }
+
+    private function setGracePeriod(int $value): void
+    {
+        $reflection = new ReflectionClass($this->contentService);
+        $serviceProperty = $reflection->getProperty('service');
+        $serviceProperty->setAccessible(true);
+
+        $service = $serviceProperty->getValue($this->contentService);
+
+        $serviceReflection = new ReflectionClass($service);
+        $innerServiceProperty = $serviceReflection->getProperty('innerService');
+        $innerServiceProperty->setAccessible(true);
+
+        $innerService = $innerServiceProperty->getValue($service);
+
+        $innerServiceReflection = new ReflectionClass($innerService);
+        $settingsProperty = $innerServiceReflection->getProperty('settings');
+        $settingsProperty->setAccessible(true);
+
+        $settings = $settingsProperty->getValue($innerService);
+        $settings['grace_period_in_seconds'] = $value;
+
+        $settingsProperty->setValue($innerService, $settings);
     }
 }
 
