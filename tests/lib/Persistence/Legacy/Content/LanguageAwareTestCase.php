@@ -20,7 +20,12 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 abstract class LanguageAwareTestCase extends TestCase
 {
-    protected const ENG_GB = 'eng-GB';
+    protected const string ENG_GB = 'eng-GB';
+
+    protected const string FIXTURE_PATH_FULL_EXAMPLE_TREE = __DIR__ . '/Location/Gateway/_fixtures/full_example_tree.php';
+    protected const string FIXTURE_PATH_CONTENT_OBJECTS = __DIR__ . '/_fixtures/contentobjects.php';
+
+    protected const string FIXTURE_PATH_OBJECTS_STATES = __DIR__ . '/_fixtures/objectstates.php';
 
     /**
      * Language handler.

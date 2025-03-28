@@ -22,7 +22,7 @@ class RandomSortClauseHandlerFactoryTest extends TestCase
      *
      * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom[] $gateways
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      */
     public function testGetGateway(array $gateways): void
@@ -51,7 +51,7 @@ class RandomSortClauseHandlerFactoryTest extends TestCase
      *
      * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom[] $gateways
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      */
     public function testGetGatewayNotImplemented(array $gateways): void
