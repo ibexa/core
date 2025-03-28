@@ -23,10 +23,8 @@ class DoctrineDatabaseTest extends TestCase
 {
     /**
      * Database gateway to test.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway
      */
-    protected $gateway;
+    protected DoctrineDatabase $gateway;
 
     /**
      * Test for the loadUrlAliasData() method.
@@ -495,7 +493,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Return the DoctrineDatabase gateway implementation to test.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function getGateway(): DoctrineDatabase
     {

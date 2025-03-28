@@ -22,6 +22,12 @@ use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
  */
 class UrlWildcardHandlerTest extends TestCase
 {
+    protected DoctrineDatabase $gateway;
+
+    protected Mapper $mapper;
+
+    protected UrlWildcard\Handler $urlWildcardHandler;
+
     public function testLoad(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/Gateway/_fixtures/urlwildcards.php');
@@ -218,18 +224,6 @@ class UrlWildcardHandlerTest extends TestCase
         ],
     ];
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase */
-    protected $gateway;
-
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper */
-    protected $mapper;
-
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler */
-    protected $urlWildcardHandler;
-
-    /**
-     * @throws \Doctrine\DBAL\DBALException
-     */
     protected function getHandler(): UrlWildcard\Handler
     {
         if (!isset($this->urlWildcardHandler)) {
