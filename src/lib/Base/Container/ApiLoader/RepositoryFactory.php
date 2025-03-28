@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Core\Base\Container\ApiLoader;
 
+use Ibexa\Bundle\Core\EventSubscriber\ClearContentCacheInGracePeriodSubscriber;
 use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler as LocationFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
@@ -85,6 +86,7 @@ class RepositoryFactory implements ContainerAwareInterface
         PasswordValidatorInterface $passwordValidator,
         ConfigResolverInterface $configResolver,
         NameSchemaServiceInterface $nameSchemaService,
+        ClearContentCacheInGracePeriodSubscriber $clearContentCacheInGracePeriodSubscriber,
         array $languages
     ): Repository {
         return new $this->repositoryClass(
@@ -109,6 +111,7 @@ class RepositoryFactory implements ContainerAwareInterface
             $passwordValidator,
             $configResolver,
             $nameSchemaService,
+            $clearContentCacheInGracePeriodSubscriber,
             [
                 'role' => [
                     'policyMap' => $this->policyMap,

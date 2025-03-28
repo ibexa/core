@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
+use Ibexa\Bundle\Core\EventSubscriber\ClearContentCacheInGracePeriodSubscriber;
 use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler as LocationFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Handler;
@@ -129,6 +130,7 @@ abstract class Base extends TestCase
                 $this->createMock(PasswordValidatorInterface::class),
                 $this->createMock(ConfigResolverInterface::class),
                 $this->createMock(NameSchemaServiceInterface::class),
+                $this->createMock(ClearContentCacheInGracePeriodSubscriber::class),
                 $serviceSettings,
             );
 

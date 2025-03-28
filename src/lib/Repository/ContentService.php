@@ -10,6 +10,7 @@ namespace Ibexa\Core\Repository;
 
 use function count;
 use Exception;
+use Ibexa\Bundle\Core\EventSubscriber\ClearContentCacheInGracePeriodSubscriber;
 use Ibexa\Contracts\Core\FieldType\Comparable;
 use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\Value;
@@ -105,6 +106,8 @@ class ContentService implements ContentServiceInterface
     /** @var \Ibexa\Contracts\Core\Persistence\Filter\Content\Handler */
     private $contentFilteringHandler;
 
+    private ClearContentCacheInGracePeriodSubscriber $clearContentCacheInGracePeriodSubscriber;
+
     public function __construct(
         RepositoryInterface $repository,
         Handler $handler,
@@ -116,6 +119,7 @@ class ContentService implements ContentServiceInterface
         ContentMapper $contentMapper,
         ContentValidator $contentValidator,
         ContentFilteringHandler $contentFilteringHandler,
+        ClearContentCacheInGracePeriodSubscriber $clearContentCacheInGracePeriodSubscriber,
         array $settings = []
     ) {
         $this->repository = $repository;
@@ -129,11 +133,13 @@ class ContentService implements ContentServiceInterface
             // Version archive limit (0-50), only enforced on publish, not on un-publish.
             'default_version_archive_limit' => 5,
             'remove_archived_versions_on_publish' => true,
+            'grace_period_in_seconds' => (int) ini_get('max_execution_time'),
         ];
         $this->contentFilteringHandler = $contentFilteringHandler;
         $this->permissionResolver = $permissionService;
         $this->contentMapper = $contentMapper;
         $this->contentValidator = $contentValidator;
+        $this->clearContentCacheInGracePeriodSubscriber = $clearContentCacheInGracePeriodSubscriber;
     }
 
     /**
@@ -381,7 +387,6 @@ class ContentService implements ContentServiceInterface
     public function loadContent(int $contentId, array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): APIContent
     {
         $content = $this->internalLoadContentById($contentId, $languages, $versionNo, $useAlwaysAvailable);
-
         if (!$this->permissionResolver->canUser('content', 'read', $content)) {
             throw new UnauthorizedException('content', 'read', ['contentId' => $contentId]);
         }
@@ -389,10 +394,32 @@ class ContentService implements ContentServiceInterface
             !$content->getVersionInfo()->isPublished()
             && !$this->permissionResolver->canUser('content', 'versionread', $content)
         ) {
-            throw new UnauthorizedException('content', 'versionread', ['contentId' => $contentId, 'versionNo' => $versionNo]);
+            if (!$this->isInGracePeriod($content, $this->settings['grace_period_in_seconds'], $versionNo)) {
+                throw new UnauthorizedException('content', 'versionread', ['contentId' => $contentId, 'versionNo' => $versionNo]);
+            } else {
+                $this->clearContentCacheInGracePeriodSubscriber->addContentToClear($content);
+            }
         }
 
         return $content;
+    }
+
+    private function isInGracePeriod(APIContent $content, int $graceSeconds, ?int $versionNo): bool
+    {
+        if ($graceSeconds <= 0 || $versionNo === null) {
+            return false;
+        }
+
+        try {
+            $lastArchivedVersionNos = $this->persistenceHandler->contentHandler()->loadVersionNoArchivedWithin(
+                $content->getId(),
+                $graceSeconds
+            );
+        } catch (APINotFoundException $e) {
+            return false;
+        }
+
+        return in_array($versionNo, $lastArchivedVersionNos, true);
     }
 
     public function internalLoadContentById(
