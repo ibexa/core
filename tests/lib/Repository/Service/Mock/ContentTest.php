@@ -7,6 +7,7 @@
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use Exception;
+use Ibexa\Bundle\Core\EventSubscriber\ClearContentCacheInGracePeriodSubscriber;
 use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
@@ -99,6 +100,7 @@ class ContentTest extends BaseServiceMockTest
             $contentMapper,
             $contentValidatorStrategy,
             $contentFilteringHandlerMock,
+            $this->createMock(ClearContentCacheInGracePeriodSubscriber::class),
             $settings
         );
     }
@@ -6286,6 +6288,7 @@ class ContentTest extends BaseServiceMockTest
                         $this->getContentMapper(),
                         $this->getContentValidatorStrategy(),
                         $this->getContentFilteringHandlerMock(),
+                        $this->createMock(ClearContentCacheInGracePeriodSubscriber::class),
                         [
                             'grace_period_in_seconds' => $gracePeriodInSeconds,
                         ],

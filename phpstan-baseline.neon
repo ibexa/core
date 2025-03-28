@@ -70663,12 +70663,6 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
 
 		-
-			message: '#^Call to new Ibexa\\Core\\Repository\\ContentService\(\) on a separate line has no effect\.$#'
-			identifier: new.resultUnused
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
 			message: '#^Cannot access offset mixed on Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Field\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1

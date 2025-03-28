@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository;
 
+use Ibexa\Bundle\Core\EventSubscriber\ClearContentCacheInGracePeriodSubscriber;
 use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
@@ -42,7 +43,8 @@ final class ContentServiceTest extends TestCase
             $this->createMock(PermissionService::class),
             $this->createMock(ContentMapper::class),
             $this->createMock(ContentValidator::class),
-            $this->createMock(ContentFilteringHandler::class)
+            $this->createMock(ContentFilteringHandler::class),
+            $this->createMock(ClearContentCacheInGracePeriodSubscriber::class)
         );
     }
 
