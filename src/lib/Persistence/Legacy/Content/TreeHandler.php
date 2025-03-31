@@ -53,6 +53,9 @@ class TreeHandler
      */
     protected $fieldHandler;
 
+    /** @var iterable<\Ibexa\Contracts\Core\Persistence\Content\DeleteContentHandler> */
+    private iterable $deleteContentHandlers;
+
     /**
      * @param \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway $locationGateway
      * @param \Ibexa\Core\Persistence\Legacy\Content\Location\Mapper $locationMapper
@@ -65,13 +68,15 @@ class TreeHandler
         LocationMapper $locationMapper,
         ContentGateway $contentGateway,
         ContentMapper $contentMapper,
-        FieldHandler $fieldHandler
+        FieldHandler $fieldHandler,
+        iterable $deleteContentHandlers,
     ) {
         $this->locationGateway = $locationGateway;
         $this->locationMapper = $locationMapper;
         $this->contentGateway = $contentGateway;
         $this->contentMapper = $contentMapper;
         $this->fieldHandler = $fieldHandler;
+        $this->deleteContentHandlers = $deleteContentHandlers;
     }
 
     /**
@@ -99,7 +104,13 @@ class TreeHandler
      */
     public function removeRawContent($contentId)
     {
-        $mainLocationId = $this->loadContentInfo($contentId)->mainLocationId;
+        $contentInfo = $this->loadContentInfo($contentId);
+        $mainLocationId = $contentInfo->mainLocationId;
+
+        foreach ($this->deleteContentHandlers as $handler) {
+            $handler->preDeleteContent($contentInfo, $mainLocationId);
+        }
+
         // there can be no Locations for Draft Content items
         if (null !== $mainLocationId) {
             $this->locationGateway->removeElementFromTrash($mainLocationId);
@@ -114,6 +125,9 @@ class TreeHandler
         $this->contentGateway->deleteVersions($contentId);
         $this->contentGateway->deleteNames($contentId);
         $this->contentGateway->deleteContent($contentId);
+        foreach ($this->deleteContentHandlers as $handler) {
+            $handler->postDeleteContent($contentInfo, $mainLocationId);
+        }
     }
 
     /**
