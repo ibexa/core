@@ -8,7 +8,7 @@ namespace Ibexa\Contracts\Core\Persistence\Content;
 
 interface DeleteContentHandler
 {
-    public function preDeleteContent(ContentInfo $contentInfo, ?int $mainLocationId);
+    public function preDeleteContent(ContentInfo $contentInfo, ?int $mainLocationId): void;
 
-    public function postDeleteContent(ContentInfo $contentInfo, ?int $mainLocationId);
+    public function postDeleteContent(ContentInfo $contentInfo, ?int $mainLocationId): void;
 }

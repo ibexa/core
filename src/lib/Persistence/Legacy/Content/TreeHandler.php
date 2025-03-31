@@ -62,6 +62,7 @@ class TreeHandler
      * @param \Ibexa\Core\Persistence\Legacy\Content\Gateway $contentGateway
      * @param \Ibexa\Core\Persistence\Legacy\Content\Mapper $contentMapper
      * @param \Ibexa\Core\Persistence\Legacy\Content\FieldHandler $fieldHandler
+     * @param iterable<\Ibexa\Contracts\Core\Persistence\Content\DeleteContentHandler> $deleteContentHandlers
      */
     public function __construct(
         LocationGateway $locationGateway,
