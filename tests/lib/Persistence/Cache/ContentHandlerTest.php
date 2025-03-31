@@ -10,7 +10,7 @@ use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
-use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as SPILocationHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as PersistenceLocationHandler;
 use Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Relation;
 use Ibexa\Contracts\Core\Persistence\Content\Relation as SPIRelation;
@@ -444,7 +444,7 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
         $this->loggerMock->expects($this->once())->method('logCall');
 
         $innerContentHandlerMock = $this->createMock(SPIContentHandler::class);
-        $innerLocationHandlerMock = $this->createMock(SPILocationHandler::class);
+        $innerLocationHandlerMock = $this->createMock(PersistenceLocationHandler::class);
 
         $this->prepareHandlerMocks(
             $innerContentHandlerMock,
@@ -455,26 +455,26 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
         );
 
         $innerContentHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('updateContent')
             ->with(2, 1, new UpdateStruct())
             ->willReturn(new Content());
 
         $this->cacheIdentifierGeneratorMock
-            ->expects($this->exactly(5))
+            ->expects(self::exactly(5))
             ->method('generateTag')
-            ->will(
-                self::returnValueMap([
+            ->willReturnMap(
+                [
                     ['location', [3], false, 'l-3'],
                     ['location', [4], false, 'l-4'],
                     ['location_path', [3], false, 'lp-3'],
                     ['location_path', [4], false, 'lp-4'],
                     ['content_version', [2, 1], false, 'c-2-v-1'],
-                ])
+                ]
             );
 
         $this->cacheMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('invalidateTags')
             ->with(['l-3', 'l-4', 'lp-3', 'lp-4', 'c-2-v-1']);
 
@@ -482,12 +482,12 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
         $handler->updateContent(2, 1, new UpdateStruct());
     }
 
-    public function testDeleteContent()
+    public function testDeleteContent(): void
     {
-        $this->loggerMock->expects($this->once())->method('logCall');
+        $this->loggerMock->expects(self::once())->method('logCall');
 
         $innerContentHandlerMock = $this->createMock(SPIContentHandler::class);
-        $innerLocationHandlerMock = $this->createMock(SPILocationHandler::class);
+        $innerLocationHandlerMock = $this->createMock(PersistenceLocationHandler::class);
 
         $this->prepareHandlerMocks(
             $innerContentHandlerMock,
@@ -496,17 +496,17 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
         );
 
         $innerContentHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('deleteContent')
             ->with(2)
             ->willReturn(true);
 
         $this->cacheMock
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('deleteItem');
 
         $this->cacheIdentifierGeneratorMock
-            ->expects($this->exactly(4))
+            ->expects(self::exactly(4))
             ->method('generateTag')
             ->withConsecutive(
                 ['content', [42], false],
@@ -517,7 +517,7 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
             ->willReturnOnConsecutiveCalls('c-42', 'c-2', 'l-3', 'l-4');
 
         $this->cacheMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('invalidateTags')
             ->with(['c-42', 'c-2', 'l-3', 'l-4']);
 
@@ -531,19 +531,19 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
      */
     private function prepareHandlerMocks(
         SPIContentHandler $innerContentHandlerMock,
-        SPILocationHandler $innerLocationHandlerMock,
+        PersistenceLocationHandler $innerLocationHandlerMock,
         int $contentHandlerCount = 1,
         int $locationHandlerCount = 1,
         int $loadReverseRelationsCount = 1,
         int $loadLocationsByContentCount = 1
     ): void {
         $this->persistenceHandlerMock
-            ->expects($this->exactly($contentHandlerCount))
+            ->expects(self::exactly($contentHandlerCount))
             ->method('contentHandler')
             ->willReturn($innerContentHandlerMock);
 
         $innerContentHandlerMock
-            ->expects($this->exactly($loadReverseRelationsCount))
+            ->expects(self::exactly($loadReverseRelationsCount))
             ->method('loadReverseRelations')
             ->with(2, APIRelation::FIELD | APIRelation::ASSET)
             ->willReturn(
@@ -553,12 +553,12 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
             );
 
         $this->persistenceHandlerMock
-            ->expects($this->exactly($locationHandlerCount))
+            ->expects(self::exactly($locationHandlerCount))
             ->method('locationHandler')
             ->willReturn($innerLocationHandlerMock);
 
         $innerLocationHandlerMock
-            ->expects($this->exactly($loadLocationsByContentCount))
+            ->expects(self::exactly($loadLocationsByContentCount))
             ->method('loadLocationsByContent')
             ->with(2)
             ->willReturn(

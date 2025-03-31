@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence\Content;
@@ -329,9 +330,10 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Psr\Cache\InvalidArgumentException
      */
-    public function updateContent($contentId, $versionNo, UpdateStruct $struct)
+    public function updateContent($contentId, $versionNo, UpdateStruct $struct): Content
     {
         $this->logger->logCall(__METHOD__, ['content' => $contentId, 'version' => $versionNo, 'struct' => $struct]);
         $content = $this->persistenceHandler->contentHandler()->updateContent($contentId, $versionNo, $struct);

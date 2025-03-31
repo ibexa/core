@@ -149,12 +149,12 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
             ->willReturn($locationHandlerMock);
 
         $this->persistenceHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method($handlerMethodName)
             ->willReturn($innerHandler);
 
         $contentHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('listVersions')
             ->with($contentId)
             ->willReturn(
@@ -163,13 +163,13 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
                 ]
             );
         $innerHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('trashSubtree')
             ->with($locationId)
             ->willReturn(null);
 
         $this->cacheIdentifierGeneratorMock
-            ->expects($this->exactly(4))
+            ->expects(self::exactly(4))
             ->method('generateTag')
             ->withConsecutive(
                 ['content_version', [$contentId, $versionNo], false],
@@ -180,7 +180,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
             ->willReturnOnConsecutiveCalls(...$tags);
 
         $this->cacheMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('invalidateTags')
             ->with($tags);
 
