@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Test\Persistence\Fixture;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\PDOException;
 use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\DBAL\Schema\Column;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture;
@@ -74,7 +73,7 @@ final class FixtureImporter
                 $this->connection->executeStatement(
                     $dbPlatform->getTruncateTableSql($this->connection->quoteIdentifier($table))
                 );
-            } catch (DBALException | PDOException $e) {
+            } catch (DBALException $e) {
                 // Fallback to DELETE if TRUNCATE failed (because of FKs for instance)
                 $this->connection->createQueryBuilder()->delete($table)->execute();
             }
