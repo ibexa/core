@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\Core\Command;
 
 use Doctrine\DBAL\Connection;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,11 +25,11 @@ use Symfony\Component\Stopwatch\Stopwatch;
 )]
 final class VirtualFieldDuplicateFixCommand extends Command
 {
-    private const DEFAULT_BATCH_SIZE = 10000;
+    private const int DEFAULT_BATCH_SIZE = 10000;
 
-    private const MAX_ITERATIONS_UNLIMITED = -1;
+    private const int MAX_ITERATIONS_UNLIMITED = -1;
 
-    private const DEFAULT_SLEEP = 0;
+    private const int DEFAULT_SLEEP = 0;
 
     private Connection $connection;
 
@@ -67,6 +68,9 @@ final class VirtualFieldDuplicateFixCommand extends Command
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $style = new SymfonyStyle($input, $output);
@@ -153,6 +157,9 @@ final class VirtualFieldDuplicateFixCommand extends Command
         return Command::SUCCESS;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function getDuplicatedAttributeTotalCount(
         SymfonyStyle $style,
         Stopwatch $stopwatch
@@ -161,10 +168,10 @@ final class VirtualFieldDuplicateFixCommand extends Command
         $query = $this->connection->createQueryBuilder()
             ->select('COUNT(a.id) as instances')
             ->groupBy('version', 'contentclassattribute_id', 'contentobject_id', 'language_id')
-            ->from('ezcontentobject_attribute', 'a')
+            ->from(Gateway::CONTENT_FIELD_TABLE, 'a')
             ->having('instances > 1');
 
-        $count = (int) $query->execute()->rowCount();
+        $count = $query->executeQuery()->rowCount();
 
         if ($count > 0) {
             $style->warning(
@@ -186,6 +193,8 @@ final class VirtualFieldDuplicateFixCommand extends Command
      *     contentobject_id: int,
      *     language_id: int,
      * }>
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function getDuplicatedAttributesBatch(int $batchSize): array
     {
@@ -194,12 +203,13 @@ final class VirtualFieldDuplicateFixCommand extends Command
         $query
             ->select('version', 'contentclassattribute_id', 'contentobject_id', 'language_id')
             ->groupBy('version', 'contentclassattribute_id', 'contentobject_id', 'language_id')
-            ->from('ezcontentobject_attribute')
+            ->from(Gateway::CONTENT_FIELD_TABLE)
             ->having('COUNT(id) > 1')
             ->setFirstResult(0)
             ->setMaxResults($batchSize);
 
-        return $query->execute()->fetchAllAssociative();
+        /** @phpstan-ignore return.type */
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -211,6 +221,8 @@ final class VirtualFieldDuplicateFixCommand extends Command
      * } $attribute
      *
      * @return int[]
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function getDuplicatedAttributeIds(array $attribute): array
     {
@@ -218,7 +230,7 @@ final class VirtualFieldDuplicateFixCommand extends Command
 
         $query
             ->select('id')
-            ->from('ezcontentobject_attribute')
+            ->from(Gateway::CONTENT_FIELD_TABLE)
             ->andWhere('version = :version')
             ->andWhere('contentclassattribute_id = :contentclassattribute_id')
             ->andWhere('contentobject_id = :contentobject_id')
@@ -228,7 +240,7 @@ final class VirtualFieldDuplicateFixCommand extends Command
             ->setFirstResult(1);
 
         $query->setParameters($attribute);
-        $result = $query->execute()->fetchFirstColumn();
+        $result = $query->executeQuery()->fetchFirstColumn();
 
         return array_map('intval', $result);
     }
@@ -255,9 +267,9 @@ final class VirtualFieldDuplicateFixCommand extends Command
         $query = $this->connection->createQueryBuilder();
 
         $query
-            ->delete('ezcontentobject_attribute')
+            ->delete(Gateway::CONTENT_FIELD_TABLE)
             ->andWhere($query->expr()->in('id', array_map('strval', $ids)));
 
-        return (int)$query->execute();
+        return $query->executeStatement();
     }
 }

@@ -11,10 +11,10 @@ namespace Ibexa\Bundle\Core\Command;
 use DateTime;
 use DateTimeZone;
 use Doctrine\DBAL\Connection;
-use PDO;
 use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,20 +33,17 @@ class UpdateTimestampsToUTCCommand extends Command
     public const MAX_TIMESTAMP_VALUE = 2147483647;
 
     public const DEFAULT_ITERATION_COUNT = 100;
-    public const MODES = [
+    public const array MODES = [
         'date' => ['ezdate'],
         'datetime' => ['ezdatetime'],
         'all' => ['ezdate', 'ezdatetime'],
     ];
 
-    /** @var int */
-    protected $done = 0;
+    protected int $done = 0;
 
-    /** @var string */
-    protected $timezone;
+    protected string $timezone;
 
-    /** @var string */
-    private $mode;
+    private string $mode;
 
     private ?int $from = null;
 
@@ -54,10 +51,9 @@ class UpdateTimestampsToUTCCommand extends Command
 
     private Connection $connection;
 
-    private string|bool|null $phpPath = null;
+    private string $phpPath;
 
-    /** @var bool */
-    private $dryRun;
+    private bool $dryRun;
 
     public function __construct(Connection $connection)
     {
@@ -65,14 +61,13 @@ class UpdateTimestampsToUTCCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addArgument(
                 'timezone',
                 InputArgument::OPTIONAL,
                 'Original timestamp\'s TimeZone',
-                null
             )
             ->addOption(
                 'dry-run',
@@ -92,14 +87,12 @@ class UpdateTimestampsToUTCCommand extends Command
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Only versions AFTER this date will be converted',
-                null
             )
             ->addOption(
                 'to',
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Only versions BEFORE this date will be converted',
-                null
             )
             ->addOption(
                 'offset',
@@ -136,8 +129,8 @@ EOT
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \DateMalformedStringException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -173,8 +166,8 @@ EOT
 
         if (getenv('INNER_CALL')) {
             $this->timezone = $input->getArgument('timezone');
-            $this->processTimestamps((int) $input->getOption('offset'), $iterationCount, $output);
-            $output->writeln($this->done);
+            $this->processTimestamps((int)$input->getOption('offset'), $iterationCount);
+            $output->writeln((string)$this->done);
         } else {
             $timezone = $input->getArgument('timezone');
             $this->timezone = $this->validateTimezone($timezone, $output);
@@ -189,7 +182,7 @@ EOT
                 '',
             ]);
 
-            if ($count == 0) {
+            if ($count === 0) {
                 $output->writeln('Nothing to process, exiting.');
 
                 return self::SUCCESS;
@@ -257,11 +250,11 @@ EOT
     }
 
     /**
-     * @param int $offset
-     * @param int $limit
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \DateInvalidTimeZoneException
+     * @throws \DateMalformedStringException
      */
-    protected function processTimestamps($offset, $limit, $output)
+    protected function processTimestamps(int $offset, int $limit): void
     {
         $timestampBasedFields = $this->getTimestampBasedFields($offset, $limit);
 
@@ -273,7 +266,7 @@ EOT
             $dateTimeInUTC->setTimestamp($timestamp);
             $newTimestamp = $this->convertToUtcTimestamp($timestamp);
 
-            //failsafe for int field limitation (dates/datetimes after 01/19/2038 @ 4:14am (UTC))
+            //failsafe for int field limitation (dates/date-times after 01/19/2038 @ 4:14am (UTC))
             if ($newTimestamp <= self::MAX_TIMESTAMP_VALUE && !$this->dryRun) {
                 $this->updateTimestampToUTC($timestampBasedField['id'], $timestampBasedField['version'], $newTimestamp);
             }
@@ -282,12 +275,11 @@ EOT
     }
 
     /**
-     * @param int $offset
-     * @param int $limit
+     * @phpstan-return list<array<string, mixed>>
      *
-     * @return array
+     * @throws \Doctrine\DBAL\Exception
      */
-    protected function getTimestampBasedFields($offset, $limit)
+    protected function getTimestampBasedFields(int $offset, int $limit): array
     {
         $query = $this->connection->createQueryBuilder();
         $query
@@ -317,15 +309,13 @@ EOT
                 ->setParameter('toTimestamp', $this->to);
         }
 
-        $statement = $query->execute();
-
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
      * Counts affected timestamp based fields using captured "mode", "from" and "to" command options.
      *
-     * @return int
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function countTimestampBasedFields(): int
     {
@@ -355,35 +345,28 @@ EOT
                 ->setParameter('toTimestamp', $this->to);
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return (int) $statement->fetchColumn();
+        return (int) $statement->fetchOne();
     }
 
     /**
-     * @param int $timestamp
-     *
-     * @return int
+     * @throws \DateMalformedStringException
+     * @throws \DateInvalidTimeZoneException
      */
-    protected function convertToUtcTimestamp($timestamp): int
+    protected function convertToUtcTimestamp(int $timestamp): int
     {
         $dateTimeZone = new DateTimeZone($this->timezone);
         $dateTimeZoneUTC = new DateTimeZone('UTC');
 
         $dateTime = new DateTime('now', $dateTimeZone);
         $dateTime->setTimestamp($timestamp);
-        $dateTimeUTC = new DateTime($dateTime->format('Y-m-d H:i:s'), $dateTimeZoneUTC);
 
-        return $dateTimeUTC->getTimestamp();
+        return (new DateTime($dateTime->format('Y-m-d H:i:s'), $dateTimeZoneUTC))
+            ->getTimestamp();
     }
 
-    /**
-     * @param string $dateTimeString
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return bool
-     */
-    protected function validateDateTimeString($dateTimeString, OutputInterface $output): bool
+    protected function validateDateTimeString(string $dateTimeString, OutputInterface $output): bool
     {
         try {
             new DateTime($dateTimeString);
@@ -396,28 +379,17 @@ EOT
         return true;
     }
 
-    /**
-     * @param string $timezone
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return string
-     */
-    protected function validateTimezone($timezone, OutputInterface $output)
+    protected function validateTimezone(string $timezone, OutputInterface $output): string
     {
-        if (!$timezone) {
+        if (empty($timezone)) {
             $timezone = date_default_timezone_get();
             $output->writeln([
                 sprintf('No Timezone set, using server Timezone: %s', $timezone),
                 '',
             ]);
         } else {
-            if (!\in_array($timezone, timezone_identifiers_list())) {
-                $output->writeln([
-                    sprintf('%s is not correct Timezone.', $timezone),
-                    '',
-                ]);
-
-                return 0;
+            if (!\in_array($timezone, timezone_identifiers_list(), true)) {
+                throw new InvalidArgumentException(sprintf('%s is not correct Timezone.', $timezone));
             }
 
             $output->writeln([
@@ -429,15 +401,7 @@ EOT
         return $timezone;
     }
 
-    /**
-     * Return configured progress bar helper.
-     *
-     * @param int $maxSteps
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return \Symfony\Component\Console\Helper\ProgressBar
-     */
-    protected function getProgressBar($maxSteps, OutputInterface $output): ProgressBar
+    protected function getProgressBar(int $maxSteps, OutputInterface $output): ProgressBar
     {
         $progressBar = new ProgressBar($output, $maxSteps);
         $progressBar->setFormat(
@@ -448,58 +412,48 @@ EOT
     }
 
     /**
-     * @param int $contentAttributeId
-     * @param int $contentAttributeVersion
-     * @param int $newTimestamp
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function updateTimestampToUTC(
-        $contentAttributeId,
-        $contentAttributeVersion,
-        $newTimestamp
-    ) {
+        int $contentAttributeId,
+        int $contentAttributeVersion,
+        int $newTimestamp
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->update('ezcontentobject_attribute', 'a')
-            ->set('a.data_int', $newTimestamp)
-            ->set('a.sort_key_int', $newTimestamp)
+            ->set('a.data_int', ':new_timestamp')
+            ->set('a.sort_key_int', ':new_timestamp')
             ->where('a.id = :id')
             ->andWhere('a.version = :version')
+            ->setParameter(':new_timestamp', $newTimestamp)
             ->setParameter(':id', $contentAttributeId)
             ->setParameter(':version', $contentAttributeVersion);
 
-        $query->execute();
+        $query->executeStatement();
     }
 
-    /**
-     * @return string
-     */
-    private function getPhpPath()
+    private function getPhpPath(): string
     {
-        if ($this->phpPath) {
+        if (isset($this->phpPath)) {
             return $this->phpPath;
         }
         $phpFinder = new PhpExecutableFinder();
-        $this->phpPath = $phpFinder->find();
-        if (!$this->phpPath) {
+        $phpPath = $phpFinder->find();
+        if (false === $phpPath) {
             throw new RuntimeException(
                 'The php executable could not be found. It is needed for executing parallel subprocesses, so add it to your PATH environment variable and try again'
             );
         }
 
-        return $this->phpPath;
+        return $this->phpPath = $phpPath;
     }
 
     /**
-     * @param $dateString string
-     *
-     * @throws \Exception
-     *
-     * @return int
+     * @throws \DateMalformedStringException
      */
-    private function dateStringToTimestamp($dateString): int
+    private function dateStringToTimestamp(string $dateString): int
     {
-        $date = new DateTime($dateString);
-
-        return $date->getTimestamp();
+        return (new DateTime($dateString))->getTimestamp();
     }
 }
