@@ -31,9 +31,13 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException as CoreUnauthorizedException;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase\QueryBuilder;
+use Ibexa\Core\Repository\ContentService as CoreContentService;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 use InvalidArgumentException;
 use ReflectionClass;
+use Symfony\Bridge\PhpUnit\ClockMock;
 
 /**
  * Test case for operations in the ContentService using in memory storage.
@@ -6762,7 +6766,13 @@ class ContentServiceTest extends BaseContentServiceTest
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
 
         $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+        $contentCreate->modificationDate = new \DateTime('2025-04-01 14:00:00');
         $contentCreate->setField('name', 'My awesome Folder');
+
+        ClockMock::register(DoctrineDatabase::class);
+        ClockMock::register(CoreContentService::class);
+        ClockMock::register(QueryBuilder::class);
+        ClockMock::withClockMock(strtotime('2025-04-01 14:00:01'));
 
         $content = $this->contentService->createContent($contentCreate);
         $unPublishedVersionOneContent = $this->contentService->publishVersion($content->getVersionInfo());
@@ -6775,11 +6785,16 @@ class ContentServiceTest extends BaseContentServiceTest
         $repository->getPermissionResolver()->setCurrentUserReference($repository->getUserService()->loadUser($anonymousUserId));
 
         $this->setGracePeriod(5);
+
+        //Reset clock, to make sure that upfront operations do not exceeded grace period.
+        ClockMock::withClockMock(strtotime('2025-04-01 14:00:02'));
         $this->contentService->loadContent($unPublishedVersionOneContent->id, null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
 
-        sleep(5);
+        ClockMock::sleep(7);
         $this->expectException(CoreUnauthorizedException::class);
         $this->contentService->loadContent($unPublishedVersionOneContent->id, null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
+
+        ClockMock::withClockMock(false);
     }
 
     private function setGracePeriod(int $value): void

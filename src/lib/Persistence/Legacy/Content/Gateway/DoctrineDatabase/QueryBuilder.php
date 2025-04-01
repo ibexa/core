@@ -10,12 +10,11 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder as DoctrineQueryBuilder;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
-use function time;
 
 /**
  * @internal For internal use by the Content gateway.
  */
-final class QueryBuilder
+class QueryBuilder
 {
     /** @var \Doctrine\DBAL\Connection */
     private $connection;
