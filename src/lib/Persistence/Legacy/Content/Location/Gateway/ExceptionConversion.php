@@ -98,11 +98,20 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function getSubtreeContent(int $sourceId, bool $onlyIds = false): array
+    public function getSubtreeContent(int $sourceId): array
     {
         try {
-            return $this->innerGateway->getSubtreeContent($sourceId, $onlyIds);
-        } catch (DBALException|PDOException $e) {
+            return $this->innerGateway->getSubtreeContent($sourceId);
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
+    public function getSubtreeNodeIdToContentIdMap(int $sourceId): array
+    {
+        try {
+            return $this->innerGateway->getSubtreeNodeIdToContentIdMap($sourceId);
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -114,7 +123,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->getSubtreeChildrenDraftContentIds($sourceId);
-        } catch (PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -123,7 +132,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->getSubtreeSize($path);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
