@@ -6777,13 +6777,13 @@ class ContentServiceTest extends BaseContentServiceTest
         $anonymousUserId = $this->generateId('user', 10);
         $repository->getPermissionResolver()->setCurrentUserReference($repository->getUserService()->loadUser($anonymousUserId));
 
-        $this->setGracePeriod(5);
+        $this->setGracePeriod(10);
 
         //Reset clock, to make sure that upfront operations do not exceeded grace period.
         ClockMock::withClockMock(strtotime('2025-04-01 14:00:02'));
         $this->contentService->loadContent($unPublishedVersionOneContent->id, null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
 
-        ClockMock::sleep(7);
+        ClockMock::sleep(20);
         $this->expectException(CoreUnauthorizedException::class);
         $this->contentService->loadContent($unPublishedVersionOneContent->id, null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
 
