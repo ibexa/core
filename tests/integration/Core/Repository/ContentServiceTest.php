@@ -79,6 +79,10 @@ class ContentServiceTest extends BaseContentServiceTest
     {
         parent::setUp();
 
+        ClockMock::register(DoctrineDatabase::class);
+        ClockMock::register(CoreContentService::class);
+        ClockMock::register(QueryBuilder::class);
+
         $repository = $this->getRepository();
         $this->permissionResolver = $repository->getPermissionResolver();
         $this->contentService = $repository->getContentService();
@@ -6769,11 +6773,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $contentCreate->modificationDate = new \DateTime('2025-04-01 14:00:00');
         $contentCreate->setField('name', 'My awesome Folder');
 
-        ClockMock::register(DoctrineDatabase::class);
-        ClockMock::register(CoreContentService::class);
-        ClockMock::register(QueryBuilder::class);
         ClockMock::withClockMock(strtotime('2025-04-01 14:00:01'));
-
         $content = $this->contentService->createContent($contentCreate);
         $unPublishedVersionOneContent = $this->contentService->publishVersion($content->getVersionInfo());
 
