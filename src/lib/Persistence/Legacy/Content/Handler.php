@@ -492,7 +492,7 @@ class Handler implements BaseContentHandler
 
         $archivedVersionNos = [];
         foreach ($rows as $row) {
-            $archivedVersionNos[] = $row['ezcontentobject_version_version'];
+            $archivedVersionNos[] = (int) $row['ezcontentobject_version_version'];
         }
 
         return $archivedVersionNos;
