@@ -419,7 +419,7 @@ class ContentService implements ContentServiceInterface
             return false;
         }
 
-        return in_array($versionNo, $lastArchivedVersionNos, true);
+        return in_array($versionNo, $lastArchivedVersionNos);
     }
 
     public function internalLoadContentById(
