@@ -96,10 +96,19 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function getSubtreeContent(int $sourceId, bool $onlyIds = false): array
+    public function getSubtreeContent(int $sourceId): array
     {
         try {
-            return $this->innerGateway->getSubtreeContent($sourceId, $onlyIds);
+            return $this->innerGateway->getSubtreeContent($sourceId);
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
+    public function getSubtreeNodeIdToContentIdMap(int $sourceId): array
+    {
+        try {
+            return $this->innerGateway->getSubtreeNodeIdToContentIdMap($sourceId);
         } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }

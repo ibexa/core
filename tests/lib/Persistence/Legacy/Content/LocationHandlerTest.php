@@ -105,15 +105,13 @@ class LocationHandlerTest extends TestCase
     {
         $this->locationGateway
             ->expects(self::once())
-            ->method('getSubtreeContent')
-            ->with(77, true)
-            ->will(
-                self::returnValue(
-                    [
-                        [77 => 100],
-                        [78 => 101],
-                    ]
-                )
+            ->method('getSubtreeNodeIdToContentIdMap')
+            ->with(77)
+            ->willReturn(
+                [
+                    [77 => 100],
+                    [78 => 101],
+                ]
             );
 
         self::assertCount(2, $this->getLocationHandler()->loadSubtreeIds(77));

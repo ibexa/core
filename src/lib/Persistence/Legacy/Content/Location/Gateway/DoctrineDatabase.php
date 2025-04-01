@@ -23,7 +23,6 @@ use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
-use PDO;
 use RuntimeException;
 use function time;
 
@@ -219,25 +218,42 @@ final class DoctrineDatabase extends Gateway
         return $statement->fetchAllAssociative();
     }
 
-    public function getSubtreeContent(int $sourceId, bool $onlyIds = false): array
+    /**
+     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function getSubtreeContent(int $sourceId): array
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select($onlyIds ? 'node_id, contentobject_id, depth' : '*')
+            ->select('*')
+            ->from(self::CONTENT_TREE_TABLE, 't')
+            ->where($this->getSubtreeLimitationExpression($query, $sourceId))
+            ->orderBy('t.depth')
+            ->addOrderBy('t.node_id');
+
+        return $query->executeQuery()->fetchAllAssociative();
+    }
+
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Doctrine\DBAL\Driver\Exception
+     */
+    public function getSubtreeNodeIdToContentIdMap(int $sourceId): array
+    {
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->select('node_id', 'contentobject_id')
             ->from(self::CONTENT_TREE_TABLE, 't')
             ->where($this->getSubtreeLimitationExpression($query, $sourceId))
             ->orderBy('t.depth')
             ->addOrderBy('t.node_id');
         $statement = $query->executeQuery();
 
-        $results = $statement->fetchAll($onlyIds ? (FetchMode::COLUMN | PDO::FETCH_GROUP) : FetchMode::ASSOCIATIVE);
-
-        // array_map() is used to map all elements stored as $results[$i][0] to $results[$i]
-        return $onlyIds
-            ? array_map(static function (array $result) {
-                return $result[0];
-            }, $results)
-            : $results;
+        return array_map(
+            static fn (array $row): int => $row['contentobject_id'],
+            $statement->fetchAllAssociativeIndexed()
+        );
     }
 
     /**
