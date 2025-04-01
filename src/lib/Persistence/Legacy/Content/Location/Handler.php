@@ -370,18 +370,9 @@ class Handler implements BaseLocationHandler
     }
 
     /**
-     * Moves location identified by $sourceId into new parent identified by $destinationParentId.
-     *
-     * Performs a full move of the location identified by $sourceId to a new
-     * destination, identified by $destinationParentId. Relations do not need
-     * to be updated, since they refer to Content. URLs are not touched.
-     *
-     * @param mixed $sourceId
-     * @param mixed $destinationParentId
-     *
-     * @return bool
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function move($sourceId, $destinationParentId): void
+    public function move(int $sourceId, int $destinationParentId): void
     {
         $sourceNodeData = $this->locationGateway->getBasicNodeData($sourceId);
         $destinationNodeData = $this->locationGateway->getBasicNodeData($destinationParentId);
