@@ -7,8 +7,8 @@
 
 namespace Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
@@ -67,6 +67,10 @@ final class DoctrineDatabase extends Gateway
         $this->trashSortClauseConverter = $trashSortClauseConverter;
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function getBasicNodeData(
         int $nodeId,
         array $translations = null,
@@ -77,29 +81,36 @@ final class DoctrineDatabase extends Gateway
             $query->expr()->eq('t.node_id', $query->createNamedParameter($nodeId, ParameterType::INTEGER))
         );
 
-        if ($row = $query->execute()->fetch(FetchMode::ASSOCIATIVE)) {
+        if ($row = $query->executeQuery()->fetchAssociative()) {
             return $row;
         }
 
         throw new NotFound('location', $nodeId);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function getNodeDataList(array $locationIds, array $translations = null, bool $useAlwaysAvailable = true): iterable
     {
         $query = $this->createNodeQueryBuilder(['t.*'], $translations, $useAlwaysAvailable);
         $query->andWhere(
             $query->expr()->in(
                 't.node_id',
-                $query->createNamedParameter($locationIds, Connection::PARAM_INT_ARRAY)
+                $query->createNamedParameter($locationIds, ArrayParameterType::INTEGER)
             )
         );
 
         return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function getBasicNodeDataByRemoteId(
         string $remoteId,
-        array $translations = null,
+        ?array $translations = null,
         bool $useAlwaysAvailable = true
     ): array {
         $query = $this->createNodeQueryBuilder(['t.*'], $translations, $useAlwaysAvailable);
@@ -107,13 +118,16 @@ final class DoctrineDatabase extends Gateway
             $query->expr()->eq('t.remote_id', $query->createNamedParameter($remoteId, ParameterType::STRING))
         );
 
-        if ($row = $query->execute()->fetch(FetchMode::ASSOCIATIVE)) {
+        if ($row = $query->executeQuery()->fetchAssociative()) {
             return $row;
         }
 
         throw new NotFound('location', $remoteId);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadLocationDataByContent(int $contentId, ?int $rootLocationId = null): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -135,13 +149,11 @@ final class DoctrineDatabase extends Gateway
             ;
         }
 
-        $statement = $query->execute();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Doctrine\DBAL\Exception
      */
     public function loadLocationDataByTrashContent(int $contentId, ?int $rootLocationId = null): array
     {
@@ -160,11 +172,12 @@ final class DoctrineDatabase extends Gateway
             ;
         }
 
-        $statement = $query->execute();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadParentLocationsDataForDraftContent(int $contentId): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -213,13 +226,10 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $statement = $query->execute();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
-     * @throws \Doctrine\DBAL\Driver\Exception
      * @throws \Doctrine\DBAL\Exception
      */
     public function getSubtreeContent(int $sourceId): array
@@ -237,7 +247,6 @@ final class DoctrineDatabase extends Gateway
 
     /**
      * @throws \Doctrine\DBAL\Exception
-     * @throws \Doctrine\DBAL\Driver\Exception
      */
     public function getSubtreeNodeIdToContentIdMap(int $sourceId): array
     {
@@ -260,7 +269,6 @@ final class DoctrineDatabase extends Gateway
      * @return array<int>
      *
      * @throws \Doctrine\DBAL\Exception
-     * @throws \Doctrine\DBAL\Driver\Exception
      */
     public function getSubtreeChildrenDraftContentIds(int $sourceId): array
     {
@@ -274,14 +282,15 @@ final class DoctrineDatabase extends Gateway
             ->setParameter(':parentNode', $sourceId, ParameterType::INTEGER)
             ->setParameter(':status', ContentInfo::STATUS_DRAFT, ParameterType::INTEGER);
 
-        $statement = $query->execute();
-
-        return $statement->fetchFirstColumn();
+        return $query->executeQuery()->fetchFirstColumn();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function getSubtreeSize(string $path): int
     {
-        $query = $this->createNodeQueryBuilder([$this->dbPlatform->getCountExpression('node_id')]);
+        $query = $this->createNodeQueryBuilder(['COUNT(node_id)']);
         $query->andWhere(
             $query->expr()->like(
                 't.path_string',
@@ -291,7 +300,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        return (int) $query->execute()->fetchOne();
+        return (int) $query->executeQuery()->fetchOne();
     }
 
     /**
@@ -310,6 +319,11 @@ final class DoctrineDatabase extends Gateway
         );
     }
 
+    /**
+     * @phpstan-return list<array<string,mixed>>
+     *
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function getChildren(int $locationId): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -321,11 +335,13 @@ final class DoctrineDatabase extends Gateway
                 $query->createPositionalParameter($locationId, ParameterType::INTEGER)
             )
         );
-        $statement = $query->execute();
 
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function getSubtreeNodesData(string $pathString): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -350,7 +366,6 @@ final class DoctrineDatabase extends Gateway
 
     /**
      * @throws \Doctrine\DBAL\Exception
-     * @throws \Doctrine\DBAL\Driver\Exception
      */
     public function moveSubtreeNodes(array $sourceNodeData, array $destinationNodeData): void
     {
@@ -404,7 +419,6 @@ final class DoctrineDatabase extends Gateway
      *
      * @return int[]
      *
-     * @throws \Doctrine\DBAL\Driver\Exception
      * @throws \Doctrine\DBAL\Exception
      */
     private function getHiddenNodeIds(int $contentObjectId): array
@@ -421,9 +435,7 @@ final class DoctrineDatabase extends Gateway
                     )
                 )
             );
-        $statement = $query->execute();
-
-        $result = $statement->fetchFirstColumn();
+        $result = $query->executeQuery()->fetchFirstColumn();
 
         return array_map('intval', $result);
     }
@@ -444,9 +456,11 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @param array $sourceNodeData
-     * @param array $destinationNodeData
+     * @param array<string, mixed> $sourceNodeData
+     * @param array<string, mixed> $destinationNodeData
      * @param int[] $hiddenNodeIds
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function moveSingleSubtreeNode(
         int $nodeId,
@@ -506,15 +520,21 @@ final class DoctrineDatabase extends Gateway
                 $query->createPositionalParameter($nodeId, ParameterType::INTEGER)
             )
         );
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function hideSubtree(string $pathString): void
     {
         $this->setNodeWithChildrenInvisible($pathString);
         $this->setNodeHidden($pathString);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function setNodeWithChildrenInvisible(string $pathString): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -535,14 +555,20 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function setNodeHidden(string $pathString): void
     {
         $this->setNodeHiddenStatus($pathString, true);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function setNodeHiddenStatus(string $pathString, bool $isHidden): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -559,15 +585,21 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function unHideSubtree(string $pathString): void
     {
         $this->setNodeUnhidden($pathString);
         $this->setNodeWithChildrenVisible($pathString);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function setNodeWithChildrenVisible(string $pathString): void
     {
         // Check if any parent nodes are explicitly hidden
@@ -617,13 +649,16 @@ final class DoctrineDatabase extends Gateway
             }
         }
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function isAnyNodeInPathExplicitlyHidden(string $pathString): bool
     {
         $query = $this->buildHiddenSubtreeQuery(
-            $this->dbPlatform->getCountExpression('path_string')
+            'COUNT(path_string)'
         );
         $expr = $query->expr();
         $query
@@ -632,17 +667,19 @@ final class DoctrineDatabase extends Gateway
                     't.node_id',
                     $query->createPositionalParameter(
                         array_filter(explode('/', $pathString)),
-                        Connection::PARAM_INT_ARRAY
+                        ArrayParameterType::INTEGER
                     )
                 )
             );
-        $count = (int)$query->execute()->fetchColumn();
+        $count = (int)$query->executeQuery()->fetchOne();
 
         return $count > 0;
     }
 
     /**
-     * @return array list of path strings
+     * @return string[] list of path strings
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function loadHiddenSubtreesByPath(string $pathString): array
     {
@@ -652,10 +689,7 @@ final class DoctrineDatabase extends Gateway
             ->andWhere(
                 $expr->like(
                     'path_string',
-                    $query->createPositionalParameter(
-                        $pathString . '%',
-                        ParameterType::STRING
-                    )
+                    $query->createPositionalParameter($pathString . '%')
                 )
             );
 
@@ -686,11 +720,17 @@ final class DoctrineDatabase extends Gateway
         return $query;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function setNodeUnhidden(string $pathString): void
     {
         $this->setNodeHiddenStatus($pathString, false);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function swap(int $locationId1, int $locationId2): bool
     {
         $queryBuilder = $this->connection->createQueryBuilder();
@@ -704,9 +744,9 @@ final class DoctrineDatabase extends Gateway
                     ':locationIds'
                 )
             )
-            ->setParameter('locationIds', [$locationId1, $locationId2], Connection::PARAM_INT_ARRAY)
+            ->setParameter('locationIds', [$locationId1, $locationId2], ArrayParameterType::INTEGER)
         ;
-        $statement = $queryBuilder->execute();
+        $statement = $queryBuilder->executeQuery();
         $contentObjects = [];
         foreach ($statement->fetchAllAssociative() as $row) {
             $row['is_main_node'] = (int)$row['main_node_id'] === (int)$row['node_id'];
@@ -749,7 +789,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('locationId', $locationId1);
 
         // update Location 1 entry
-        $queryBuilder->execute();
+        $queryBuilder->executeStatement();
 
         $queryBuilder
             ->setParameter(self::CONTENT_ID_PARAM_NAME, $content1data['contentobject_id'])
@@ -764,11 +804,14 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('locationId', $locationId2);
 
         // update Location 2 entry
-        $queryBuilder->execute();
+        $queryBuilder->executeStatement();
 
         return true;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function create(CreateStruct $createStruct, array $parentNode): Location
     {
         $location = $this->insertLocationIntoContentTree($createStruct, $parentNode);
@@ -793,7 +836,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
 
         return $location;
     }
@@ -860,9 +903,12 @@ final class DoctrineDatabase extends Gateway
                     'is_hidden' => ParameterType::INTEGER,
                 ]
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function deleteNodeAssignment(int $contentId, ?int $versionNo = null): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -882,9 +928,12 @@ final class DoctrineDatabase extends Gateway
                 )
             );
         }
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function updateNodeAssignment(
         int $contentObjectId,
         int $oldParent,
@@ -920,9 +969,13 @@ final class DoctrineDatabase extends Gateway
                     )
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function createLocationsFromNodeAssignments(int $contentId, int $versionNo): void
     {
         // select all node assignments with OP_CODE_CREATE (3) for this content
@@ -952,11 +1005,11 @@ final class DoctrineDatabase extends Gateway
                 )
             )
             ->orderBy('id');
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         // convert all these assignments to nodes
 
-        while ($row = $statement->fetch(FetchMode::ASSOCIATIVE)) {
+        while ($row = $statement->fetchAssociative()) {
             $isMain = (bool)$row['is_main'];
             // set null for main to indicate that new Location ID is required
             $mainLocationId = $isMain ? null : $this->getMainNodeId($contentId);
@@ -990,6 +1043,9 @@ final class DoctrineDatabase extends Gateway
         }
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function updateLocationsContentVersionNo(int $contentId, int $versionNo): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -1004,11 +1060,13 @@ final class DoctrineDatabase extends Gateway
                 $contentId
             )
         );
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
      * Search for the main nodeId of $contentId.
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function getMainNodeId(int $contentId): ?int
     {
@@ -1028,22 +1086,15 @@ final class DoctrineDatabase extends Gateway
                     )
                 )
             );
-        $statement = $query->execute();
-
-        $result = $statement->fetchColumn();
+        $result = $query->executeQuery()->fetchOne();
 
         return false !== $result ? (int)$result : null;
     }
 
     /**
-     * Updates an existing location.
-     *
-     * Will not throw anything if location id is invalid or no entries are affected.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Location\UpdateStruct $location
-     * @param int $locationId
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function update(UpdateStruct $location, $locationId): void
+    public function update(UpdateStruct $location, int $locationId): void
     {
         $query = $this->connection->createQueryBuilder();
 
@@ -1071,10 +1122,14 @@ final class DoctrineDatabase extends Gateway
                     $locationId
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
-    public function updatePathIdentificationString($locationId, $parentLocationId, $text): void
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function updatePathIdentificationString(int $locationId, int $parentLocationId, string $text): void
     {
         $parentData = $this->getBasicNodeData($parentLocationId);
 
@@ -1094,15 +1149,13 @@ final class DoctrineDatabase extends Gateway
                 $query->createPositionalParameter($locationId, ParameterType::INTEGER)
             )
         );
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
-     * Deletes ezcontentobject_tree row for given $locationId (node_id).
-     *
-     * @param mixed $locationId
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function removeLocation($locationId): void
+    public function removeLocation(int $locationId): void
     {
         $query = $this->connection->createQueryBuilder();
         $query->delete(
@@ -1113,22 +1166,13 @@ final class DoctrineDatabase extends Gateway
                 $query->createPositionalParameter($locationId, ParameterType::INTEGER)
             )
         );
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
-     * Return data of the next in line node to be set as a new main node.
-     *
-     * This returns lowest node id for content identified by $contentId, and not of
-     * the node identified by given $locationId (current main node).
-     * Assumes that content has more than one location.
-     *
-     * @param mixed $contentId
-     * @param mixed $locationId
-     *
-     * @return array
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function getFallbackMainNodeData($contentId, $locationId): array
+    public function getFallbackMainNodeData(int $contentId, int $locationId): array
     {
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
@@ -1160,11 +1204,15 @@ final class DoctrineDatabase extends Gateway
             ->orderBy('node_id', 'ASC')
             ->setMaxResults(1);
 
-        $statement = $query->execute();
+        $mainNodeData = $query->executeQuery()->fetchAssociative();
 
-        return $statement->fetch(FetchMode::ASSOCIATIVE);
+        return false !== $mainNodeData ? $mainNodeData : [];
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function trashLocation(int $locationId): void
     {
         $locationRow = $this->getBasicNodeData($locationId);
@@ -1178,12 +1226,16 @@ final class DoctrineDatabase extends Gateway
             $query->setValue($key, $query->createPositionalParameter($value));
         }
 
-        $query->execute();
+        $query->executeStatement();
 
         $this->removeLocation($locationRow['node_id']);
         $this->setContentStatus((int)$locationRow['contentobject_id'], ContentInfo::STATUS_TRASHED);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function untrashLocation(int $locationId, ?int $newParentId = null): Location
     {
         $row = $this->loadTrashByLocation($locationId);
@@ -1211,6 +1263,9 @@ final class DoctrineDatabase extends Gateway
         return $newLocation;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function setContentStatus(int $contentId, int $status): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -1225,9 +1280,13 @@ final class DoctrineDatabase extends Gateway
                 $query->createPositionalParameter($contentId, ParameterType::INTEGER)
             )
         );
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadTrashByLocation(int $locationId): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -1240,15 +1299,19 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($locationId, ParameterType::INTEGER)
                 )
             );
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        if ($row = $statement->fetch(FetchMode::ASSOCIATIVE)) {
+        if ($row = $statement->fetchAssociative()) {
             return $row;
         }
 
         throw new NotFound('trash', $locationId);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function listTrashed(
         int $offset,
         ?int $limit,
@@ -1269,36 +1332,38 @@ final class DoctrineDatabase extends Gateway
             $query->setFirstResult($offset);
         }
 
-        $statement = $query->execute();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function countTrashed(?CriterionInterface $criterion = null): int
     {
         $query = $this->connection->createQueryBuilder()
-            ->select($this->dbPlatform->getCountExpression(1))
+            ->select('COUNT(1)')
             ->from(self::TRASH_TABLE, 't')
             ->innerJoin('t', ContentGateway::CONTENT_ITEM_TABLE, 'c', self::CONTENT_ITEM_TO_TREE_JOIN_EXPRESSION);
 
         $this->addConditionsByCriterion($criterion, $query);
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     /**
-     * Removes every entries in the trash.
-     * Will NOT remove associated content objects nor attributes.
-     *
-     * Basically truncates ezcontentobject_trash table.
+     * @throws \Doctrine\DBAL\Exception
      */
     public function cleanupTrash(): void
     {
         $query = $this->connection->createQueryBuilder();
         $query->delete('ezcontentobject_trash');
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function removeElementFromTrash(int $id): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -1310,9 +1375,12 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($id, ParameterType::INTEGER)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function setSectionForSubtree(string $pathString, int $sectionId): bool
     {
         $selectContentIdsQuery = $this->connection->createQueryBuilder();
@@ -1345,20 +1413,23 @@ final class DoctrineDatabase extends Gateway
             ->where(
                 $updateSectionQuery->expr()->in(
                     'id',
-                    $contentIds
+                    $updateSectionQuery->createPositionalParameter($contentIds, ArrayParameterType::INTEGER)
                 )
             );
-        $affectedRows = $updateSectionQuery->execute();
+        $affectedRows = $updateSectionQuery->executeStatement();
 
         return $affectedRows > 0;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function countLocationsByContentId(int $contentId): int
     {
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(
-                $this->dbPlatform->getCountExpression('*')
+                'COUNT(*)'
             )
             ->from(self::CONTENT_TREE_TABLE)
             ->where(
@@ -1367,11 +1438,14 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($contentId, ParameterType::INTEGER)
                 )
             );
-        $stmt = $query->execute();
+        $stmt = $query->executeQuery();
 
-        return (int)$stmt->fetchColumn();
+        return (int)$stmt->fetchOne();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function changeMainLocation(
         int $contentId,
         int $locationId,
@@ -1393,7 +1467,7 @@ final class DoctrineDatabase extends Gateway
                 )
             )
         ;
-        $query->execute();
+        $query->executeStatement();
 
         // Update is_main in eznode_assignment table
         $this->setIsMainForContentVersionParentNodeAssignment(
@@ -1403,17 +1477,23 @@ final class DoctrineDatabase extends Gateway
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function countAllLocations(): int
     {
         $query = $this->createNodeQueryBuilder(['count(node_id)']);
         // exclude absolute Root Location (not to be confused with SiteAccess Tree Root)
         $query->where($query->expr()->neq('node_id', 'parent_node_id'));
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return (int) $statement->fetch(FetchMode::COLUMN);
+        return (int) $statement->fetchOne();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadAllLocationsData(int $offset, int $limit): array
     {
         $query = $this
@@ -1442,19 +1522,15 @@ final class DoctrineDatabase extends Gateway
             ->addOrderBy('node_id', 'ASC')
         ;
 
-        $statement = $query->execute();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
      * Create QueryBuilder for selecting Location (node) data.
      *
-     * @param array $columns column or expression list
-     * @param array|null $translations Filters on language mask of content if provided.
+     * @param string[] $columns column or expression list
+     * @param string[]|null $translations list of language codes - filters on language mask of content if provided.
      * @param bool $useAlwaysAvailable Respect always available flag on content when filtering on $translations.
-     *
-     * @return \Doctrine\DBAL\Query\QueryBuilder
      */
     private function createNodeQueryBuilder(
         array $columns,
@@ -1474,6 +1550,9 @@ final class DoctrineDatabase extends Gateway
         return $queryBuilder;
     }
 
+    /**
+     * @param string[] $translations
+     */
     private function appendContentItemTranslationsConstraint(
         QueryBuilder $queryBuilder,
         array $translations,
@@ -1516,6 +1595,8 @@ final class DoctrineDatabase extends Gateway
      * parent Location ID.
      *
      * **NOTE**: The method erases is_main from the other entries related to Content and Version IDs
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function setIsMainForContentVersionParentNodeAssignment(
         int $contentId,
@@ -1536,11 +1617,13 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('content_id', $contentId, ParameterType::INTEGER)
             ->setParameter('version_no', $versionNo, ParameterType::INTEGER);
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
-     * @param array $parentNode raw Location data
+     * @param array<string, mixed> $parentNode raw Location data
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function insertLocationIntoContentTree(
         CreateStruct $createStruct,
@@ -1599,7 +1682,7 @@ final class DoctrineDatabase extends Gateway
                     'sort_order' => ParameterType::INTEGER,
                 ]
             );
-        $query->execute();
+        $query->executeStatement();
 
         $location->id = (int)$this->connection->lastInsertId(self::CONTENT_TREE_SEQ);
 
@@ -1622,14 +1705,17 @@ final class DoctrineDatabase extends Gateway
         );
     }
 
-    private function addSort(?array $sort, QueryBuilder $query, array $languageSettings = []): void
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[]|null $sort
+     */
+    private function addSort(?array $sort, QueryBuilder $query): void
     {
         if (empty($sort)) {
             return;
         }
 
         $this->trashSortClauseConverter->applySelect($query, $sort);
-        $this->trashSortClauseConverter->applyJoin($query, $sort, $languageSettings);
+        $this->trashSortClauseConverter->applyJoin($query, $sort, []);
         $this->trashSortClauseConverter->applyOrderBy($query);
     }
 }
