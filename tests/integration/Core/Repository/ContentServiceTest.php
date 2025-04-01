@@ -79,10 +79,6 @@ class ContentServiceTest extends BaseContentServiceTest
     {
         parent::setUp();
 
-        ClockMock::register(DoctrineDatabase::class);
-        ClockMock::register(CoreContentService::class);
-        ClockMock::register(QueryBuilder::class);
-
         $repository = $this->getRepository();
         $this->permissionResolver = $repository->getPermissionResolver();
         $this->contentService = $repository->getContentService();
