@@ -19,24 +19,24 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
  */
 abstract class Gateway
 {
-    public const TRASH_TABLE = 'ezcontentobject_trash';
+    public const string TRASH_TABLE = 'ezcontentobject_trash';
 
     /**
      * Constants for node assignment op codes.
      */
-    public const NODE_ASSIGNMENT_OP_CODE_NOP = 0;
-    public const NODE_ASSIGNMENT_OP_CODE_EXECUTE = 1;
-    public const NODE_ASSIGNMENT_OP_CODE_CREATE_NOP = 2;
-    public const NODE_ASSIGNMENT_OP_CODE_CREATE = 3;
-    public const NODE_ASSIGNMENT_OP_CODE_MOVE_NOP = 4;
-    public const NODE_ASSIGNMENT_OP_CODE_MOVE = 5;
-    public const NODE_ASSIGNMENT_OP_CODE_REMOVE_NOP = 6;
-    public const NODE_ASSIGNMENT_OP_CODE_REMOVE = 7;
-    public const NODE_ASSIGNMENT_OP_CODE_SET_NOP = 8;
-    public const NODE_ASSIGNMENT_OP_CODE_SET = 9;
+    public const int NODE_ASSIGNMENT_OP_CODE_NOP = 0;
+    public const int NODE_ASSIGNMENT_OP_CODE_EXECUTE = 1;
+    public const int NODE_ASSIGNMENT_OP_CODE_CREATE_NOP = 2;
+    public const int NODE_ASSIGNMENT_OP_CODE_CREATE = 3;
+    public const int NODE_ASSIGNMENT_OP_CODE_MOVE_NOP = 4;
+    public const int NODE_ASSIGNMENT_OP_CODE_MOVE = 5;
+    public const int NODE_ASSIGNMENT_OP_CODE_REMOVE_NOP = 6;
+    public const int NODE_ASSIGNMENT_OP_CODE_REMOVE = 7;
+    public const int NODE_ASSIGNMENT_OP_CODE_SET_NOP = 8;
+    public const int NODE_ASSIGNMENT_OP_CODE_SET = 9;
 
-    public const CONTENT_TREE_TABLE = 'ezcontentobject_tree';
-    public const CONTENT_TREE_SEQ = 'ezcontentobject_tree_node_id_seq';
+    public const string CONTENT_TREE_TABLE = 'ezcontentobject_tree';
+    public const string CONTENT_TREE_SEQ = 'ezcontentobject_tree_node_id_seq';
 
     /**
      * Returns an array with basic node data.
@@ -46,11 +46,11 @@ abstract class Gateway
      * @param string[]|null $translations
      * @param bool $useAlwaysAvailable Respect always available flag on content when filtering on $translations.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     abstract public function getBasicNodeData(
         int $nodeId,
-        array $translations = null,
+        ?array $translations = null,
         bool $useAlwaysAvailable = true
     ): array;
 
@@ -61,7 +61,7 @@ abstract class Gateway
      * @param string[]|null $translations
      * @param bool $useAlwaysAvailable Respect always available flag on content when filtering on $translations.
      *
-     * @return array
+     * @phpstan-return list<array<string,mixed>>
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
@@ -78,16 +78,20 @@ abstract class Gateway
      *
      * @param string[]|null $translations
      * @param bool $useAlwaysAvailable Respect always available flag on content when filtering on $translations.
+     *
+     * @return array<string, mixed>
      */
     abstract public function getBasicNodeDataByRemoteId(
         string $remoteId,
-        array $translations = null,
+        ?array $translations = null,
         bool $useAlwaysAvailable = true
     ): array;
 
     /**
      * Loads data for all Locations for $contentId, optionally only in the
      * subtree starting at $rootLocationId.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadLocationDataByContent(
         int $contentId,
@@ -98,12 +102,14 @@ abstract class Gateway
      * Loads data for all Locations for $contentId in trash, optionally only in the
      * subtree starting at $rootLocationId.
      *
-     * @return string[]
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadLocationDataByTrashContent(int $contentId, ?int $rootLocationId = null): array;
 
     /**
      * Loads data for all parent Locations for unpublished Content by given $contentId.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadParentLocationsDataForDraftContent(int $contentId): array;
 
@@ -132,6 +138,8 @@ abstract class Gateway
 
     /**
      * Returns data for the first level children of the location identified by given $locationId.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function getChildren(int $locationId): array;
 
@@ -143,8 +151,8 @@ abstract class Gateway
      *
      * @todo optimize
      *
-     * @param array $fromPathString
-     * @param array $toPathString
+     * @param array<string, mixed> $fromPathString
+     * @param array<string, mixed> $toPathString
      */
     abstract public function moveSubtreeNodes(array $fromPathString, array $toPathString): void;
 
@@ -176,7 +184,7 @@ abstract class Gateway
     abstract public function updateLocationsContentVersionNo(int $contentId, int $versionNo): void;
 
     /**
-     * Sets a location to be hidden, and it self + all children to invisible.
+     * Sets a location to be hidden, and itself + all children to invisible.
      */
     abstract public function hideSubtree(string $pathString): void;
 
@@ -211,7 +219,7 @@ abstract class Gateway
     /**
      * Creates a new location in given $parentNode.
      *
-     * @param array $parentNode parent node raw data
+     * @param array<string, mixed> $parentNode parent node raw data
      */
     abstract public function create(CreateStruct $createStruct, array $parentNode): Location;
 
@@ -260,6 +268,8 @@ abstract class Gateway
      * This returns lowest node id for content identified by $contentId, and not of
      * the node identified by given $locationId (current main node).
      * Assumes that content has more than one location.
+     *
+     * @return array<string, mixed>
      */
     abstract public function getFallbackMainNodeData(int $contentId, int $locationId): array;
 
@@ -278,7 +288,7 @@ abstract class Gateway
      * Recreates the originally trashed location in the new position. If no new
      * position has been specified, it will be tried to re-create the location
      * at the old position. If this is not possible ( because the old location
-     * does not exist any more) and exception is thrown.
+     * does not exist anymore) and exception is thrown.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
@@ -287,12 +297,14 @@ abstract class Gateway
     /**
      * Loads trash data specified by location ID.
      *
+     * @return array<string, mixed>
+     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     abstract public function loadTrashByLocation(int $locationId): array;
 
     /**
-     * Removes every entries in the trash.
+     * Removes every entry in the trash.
      * Will NOT remove associated content objects nor attributes.
      *
      * Basically truncates ezcontentobject_trash table.
@@ -307,7 +319,7 @@ abstract class Gateway
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sort
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface|null $criterion
      *
-     * @return array entries from ezcontentobject_trash.
+     * @return list<array<string, mixed>> entries from ezcontentobject_trash.
      */
     abstract public function listTrashed(
         int $offset,
@@ -368,10 +380,7 @@ abstract class Gateway
     /**
      * Load data of every Location, except the Root node.
      *
-     * @param int $offset Paginator offset
-     * @param int $limit Paginator limit
-     *
-     * @return array
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadAllLocationsData(int $offset, int $limit): array;
 }
