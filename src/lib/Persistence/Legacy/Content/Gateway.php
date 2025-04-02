@@ -14,7 +14,6 @@ use Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
-use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 
 /**
  * Base class for content gateways.
@@ -23,16 +22,16 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
  */
 abstract class Gateway
 {
-    public const CONTENT_ITEM_TABLE = 'ezcontentobject';
-    public const CONTENT_NAME_TABLE = 'ezcontentobject_name';
-    public const CONTENT_FIELD_TABLE = 'ezcontentobject_attribute';
-    public const CONTENT_VERSION_TABLE = 'ezcontentobject_version';
-    public const CONTENT_RELATION_TABLE = 'ezcontentobject_link';
+    public const string CONTENT_ITEM_TABLE = 'ezcontentobject';
+    public const string CONTENT_NAME_TABLE = 'ezcontentobject_name';
+    public const string CONTENT_FIELD_TABLE = 'ezcontentobject_attribute';
+    public const string CONTENT_VERSION_TABLE = 'ezcontentobject_version';
+    public const string CONTENT_RELATION_TABLE = 'ezcontentobject_link';
 
-    public const CONTENT_ITEM_SEQ = 'ezcontentobject_id_seq';
-    public const CONTENT_VERSION_SEQ = 'ezcontentobject_version_id_seq';
-    public const CONTENT_FIELD_SEQ = 'ezcontentobject_attribute_id_seq';
-    public const CONTENT_RELATION_SEQ = 'ezcontentobject_link_id_seq';
+    public const string CONTENT_ITEM_SEQ = 'ezcontentobject_id_seq';
+    public const string CONTENT_VERSION_SEQ = 'ezcontentobject_version_id_seq';
+    public const string CONTENT_FIELD_SEQ = 'ezcontentobject_attribute_id_seq';
+    public const string CONTENT_RELATION_SEQ = 'ezcontentobject_link_id_seq';
 
     /**
      * Insert a new Content item.
@@ -66,6 +65,8 @@ abstract class Gateway
 
     /**
      * Updates version $versionNo for content identified by $contentId, in respect to $struct.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     abstract public function updateVersion(int $contentId, int $versionNo, UpdateStruct $struct): void;
 
@@ -106,6 +107,8 @@ abstract class Gateway
      * Only used when a new field is created (i.e. a new object or a field in a
      * new language!). After that, field IDs need to stay the same, only the
      * version number changes.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     abstract public function insertNewField(
         Content $content,
@@ -147,6 +150,8 @@ abstract class Gateway
      *
      * @param int|null $version Current version on null value.
      * @param string[]|null $translations
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function load(
         int $contentId,
@@ -160,7 +165,7 @@ abstract class Gateway
      * @param int[] $contentIds
      * @param string[]|null $translations If languages is not set, ALL will be loaded.
      *
-     * @return array[]
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadContentList(array $contentIds, ?array $translations = null): array;
 
@@ -168,6 +173,8 @@ abstract class Gateway
      * Load info for a content object identified by its remote ID.
      *
      * Returns an array with the relevant data.
+     *
+     * @phpstan-return array<string,mixed>
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
@@ -178,6 +185,8 @@ abstract class Gateway
      *
      * Returns an array with the relevant data.
      *
+     * @return array<string,mixed>
+     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     abstract public function loadContentInfoByLocationId(int $locationId): array;
@@ -187,6 +196,8 @@ abstract class Gateway
      * Will basically return a hash containing all field values for ezcontentobject table plus following keys:
      *  - always_available => Boolean indicating if content's language mask contains alwaysAvailable bit field
      *  - main_language_code => Language code for main (initial) language. E.g. "eng-GB".
+     *
+     * @return array<string,mixed>
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
@@ -199,6 +210,8 @@ abstract class Gateway
      * @see \Ibexa\Contracts\Core\Persistence\Content\Handler::loadContentInfoList For how this will only return items found and not throw.
      *
      * @param int[] $contentIds
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadContentInfoList(array $contentIds): array;
 
@@ -210,6 +223,8 @@ abstract class Gateway
      *  - initial_language_code => Language code for initial language in this version.
      *
      * @param int|null $versionNo Load current version if null.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadVersionInfo(int $contentId, ?int $versionNo = null): array;
 
@@ -229,17 +244,19 @@ abstract class Gateway
     /**
      * Returns data for all versions with given status created by the given $userId.
      *
-     * @return string[][]
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function listVersionsForUser(
         int $userId,
         int $status = VersionInfo::STATUS_DRAFT
-    );
+    ): array;
 
     /**
      * Return data for all versions with given status created by the given $userId when content is not in the trash.
      *
      * The list is sorted by modification date.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadVersionsForUser(
         int $userId,
@@ -358,7 +375,7 @@ abstract class Gateway
     /**
      * Load data of related to/from $contentId.
      *
-     * @return array Content data, array structured like {@see \Ibexa\Core\Persistence\Legacy\Content\Gateway::load}
+     * @phpstan-return list<array<string,mixed>> Content relations data
      */
     abstract public function loadRelations(
         int $contentId,
@@ -396,15 +413,17 @@ abstract class Gateway
     /**
      * Load data of related to/from $contentId.
      *
-     * @return array Content data, array structured like {@see \Ibexa\Core\Persistence\Legacy\Content\Gateway::load}
+     * @phpstan-return list<array<string,mixed>> Content data, array structured like {@see \Ibexa\Core\Persistence\Legacy\Content\Gateway::load}
      */
     abstract public function loadReverseRelations(int $contentId, ?int $relationType = null): array;
 
     /**
      * Load paginated data of related to/from $contentId.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function listReverseRelations(
-        int $contentId,
+        int $toContentId,
         int $offset = 0,
         int $limit = -1,
         ?int $relationType = null
@@ -428,6 +447,8 @@ abstract class Gateway
      * Load Relation object.
      *
      * @see \Ibexa\Contracts\Core\Persistence\Content\Relation
+     *
+     * @return array<string,mixed>
      */
     abstract public function loadRelation(int $relationId): array;
 
@@ -441,12 +462,14 @@ abstract class Gateway
     /**
      * Load name data for set of content id's and corresponding version number.
      *
-     * @param array[] $rows array of hashes with 'id' and 'version' to load names for
+     * @phpstan-param list<array<string,mixed>> $rows array of hashes with 'id' and 'version' to load names for
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadVersionedNameData(array $rows): array;
 
     /**
-     * Bulk-copy all relations meta data for a copied Content item.
+     * Bulk-copy all relations metadata for a copied Content item.
      *
      * Is meant to be used during content copy, so assumes the following:
      * - version number is the same
@@ -498,6 +521,8 @@ abstract class Gateway
 
     /**
      * @param array<int> $contentIds
+     *
+     * @phpstan-return list<array<string,mixed>>
      *
      * @throws \Ibexa\Core\Base\Exceptions\DatabaseException
      */
