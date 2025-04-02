@@ -27,8 +27,7 @@ class ClearCollectedContentCacheSubscriber implements EventSubscriberInterface
         ContentCollector $contentCollector,
         TransactionAwareAdapterInterface $cache,
         CacheIdentifierGeneratorInterface $identifierGenerator
-    )
-    {
+    ) {
         $this->cache = $cache;
         $this->identifierGenerator = $identifierGenerator;
         $this->contentCollector = $contentCollector;
