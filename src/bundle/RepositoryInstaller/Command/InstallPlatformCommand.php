@@ -8,10 +8,12 @@
 namespace Ibexa\Bundle\RepositoryInstaller\Command;
 
 use Doctrine\DBAL\Connection;
+use Ibexa\Bundle\RepositoryInstaller\Installer\Installer;
 use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -25,8 +27,6 @@ use Symfony\Component\Process\Process;
 final class InstallPlatformCommand extends Command
 {
     public const int EXIT_GENERAL_DATABASE_ERROR = 4;
-    public const int EXIT_PARAMETERS_NOT_FOUND = 5;
-    public const int EXIT_UNKNOWN_INSTALL_TYPE = 6;
     public const int EXIT_MISSING_PERMISSIONS = 7;
 
     private Connection $connection;
@@ -42,6 +42,9 @@ final class InstallPlatformCommand extends Command
 
     private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
 
+    /**
+     * @param array<string, \Ibexa\Bundle\RepositoryInstaller\Installer\Installer> $installers
+     */
     public function __construct(
         Connection $connection,
         array $installers,
@@ -73,14 +76,16 @@ final class InstallPlatformCommand extends Command
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->output = $output;
         $this->checkPermissions();
-        $this->checkParameters();
         $this->checkCreateDatabase($output);
 
-        $schemaManager = $this->connection->getSchemaManager();
+        $schemaManager = $this->connection->createSchemaManager();
         if (!empty($schemaManager->listTables())) {
             $io = new SymfonyStyle($input, $output);
             if (!$io->confirm('Running this command will delete data in all Ibexa generated tables. Continue?')) {
@@ -89,15 +94,8 @@ final class InstallPlatformCommand extends Command
         }
 
         $type = $input->getArgument('type');
-        $siteaccess = $input->getOption('siteaccess');
+        $siteAccess = $input->getOption('siteaccess');
         $installer = $this->getInstaller($type);
-        if ($installer === false) {
-            $output->writeln(
-                "Unknown install type '$type', available options in currently installed Ibexa package: " .
-                implode(', ', array_keys($this->installers))
-            );
-            exit(self::EXIT_UNKNOWN_INSTALL_TYPE);
-        }
 
         $installer->setOutput($output);
 
@@ -107,7 +105,7 @@ final class InstallPlatformCommand extends Command
         $this->cacheClear($output);
 
         if (!$input->getOption('skip-indexing')) {
-            $this->indexData($output, $siteaccess);
+            $this->indexData($output, $siteAccess);
         }
 
         return self::SUCCESS;
@@ -117,19 +115,8 @@ final class InstallPlatformCommand extends Command
     {
         // @todo should take var-dir etc. from composer config or fallback to flex directory scheme
         if (!is_writable('public') && !is_writable('public/var')) {
-            $this->output->writeln('[public/ | public/var] is not writable');
+            $this->output?->writeln('[public/ | public/var] is not writable');
             exit(self::EXIT_MISSING_PERMISSIONS);
-        }
-    }
-
-    private function checkParameters(): void
-    {
-        // @todo doesn't make sense to check for parameters.yml in sf4 and flex
-        return;
-        $parametersFile = 'app/config/parameters.yml';
-        if (!is_file($parametersFile)) {
-            $this->output->writeln("Required configuration file '$parametersFile' not found");
-            exit(self::EXIT_PARAMETERS_NOT_FOUND);
         }
     }
 
@@ -148,14 +135,14 @@ final class InstallPlatformCommand extends Command
             $this->executeCommand($bufferedOutput, $command);
             $output->writeln($bufferedOutput->fetch());
         } catch (\RuntimeException $exception) {
-            $this->output->writeln(
+            $this->output?->writeln(
                 sprintf(
                     "<error>The configured database '%s' does not exist or cannot be created (%s).</error>",
                     $this->connection->getDatabase(),
                     $exception->getMessage()
                 )
             );
-            $this->output->writeln("Please check the database configuration in 'app/config/parameters.yml'");
+            $this->output?->writeln("Please check the database configuration in 'app/config/parameters.yml'");
             exit(self::EXIT_GENERAL_DATABASE_ERROR);
         }
     }
@@ -177,34 +164,27 @@ final class InstallPlatformCommand extends Command
      *       So temporary measure until it is not raw SQL based for the data itself (as opposed to the schema).
      *       This is done after cache clearing to make sure no cached data from before sql import is used.
      *
-     * IMPORTANT: This is done using a command because config has change, so container and all services are different.
-     *
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param string|null $siteaccess
+     * IMPORTANT: This is done using a command because config has changed, so container and all services are different.
      */
-    private function indexData(OutputInterface $output, $siteaccess = null): void
+    private function indexData(OutputInterface $output, ?string $siteAccess = null): void
     {
-        $output->writeln(
-            sprintf('Search engine re-indexing, executing command ibexa:reindex')
-        );
+        $output->writeln('Search engine re-indexing, executing command ibexa:reindex');
 
         $command = 'ibexa:reindex';
-        if ($siteaccess) {
-            $command .= sprintf(' --siteaccess=%s', $siteaccess);
+        if ($siteAccess) {
+            $command .= sprintf(' --siteaccess=%s', $siteAccess);
         }
 
         $this->executeCommand($output, $command);
     }
 
-    /**
-     * @param $type
-     *
-     * @return \Ibexa\Bundle\RepositoryInstaller\Installer\Installer
-     */
-    private function getInstaller($type)
+    private function getInstaller(string $type): Installer
     {
         if (!isset($this->installers[$type])) {
-            return false;
+            throw new InvalidArgumentException(
+                "Unknown install type '$type', available options in currently installed Ibexa package: " .
+                implode(', ', array_keys($this->installers))
+            );
         }
 
         return $this->installers[$type];
@@ -218,11 +198,11 @@ final class InstallPlatformCommand extends Command
      * Based on {@see \Sensio\Bundle\DistributionBundle\Composer\ScriptHandler::executeCommand}.
      *
      * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param string $cmd Ibexa command to execute, like 'ezplatform:solr_create_index'
+     * @param string $cmd Ibexa command to execute, like 'ibexa:reindex'
      *               Escape any user provided arguments, like: 'assets:install '.escapeshellarg($webDir)
      * @param int $timeout
      */
-    private function executeCommand(OutputInterface $output, string $cmd, $timeout = 300): void
+    private function executeCommand(OutputInterface $output, string $cmd, int $timeout = 300): void
     {
         $phpFinder = new PhpExecutableFinder();
         if (!$phpPath = $phpFinder->find(false)) {
@@ -264,7 +244,9 @@ final class InstallPlatformCommand extends Command
         );
 
         $process->run(static function ($type, $buffer) use ($output): void { $output->write($buffer, false); });
-        if (!$process->getExitCode() === 1) {
+        // treating null exit code (process that hasn't terminated yet) as success due to lack of information at this point
+        $exitCode = $process->getExitCode() ?? 0;
+        if ($exitCode !== 1) {
             throw new \RuntimeException(sprintf('An error occurred when executing the "%s" command.', escapeshellarg($cmd)));
         }
     }

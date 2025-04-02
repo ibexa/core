@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class InstallerTagPass implements CompilerPassInterface
 {
-    public const INSTALLER_TAG = 'ibexa.installer';
+    public const string INSTALLER_TAG = 'ibexa.installer';
 
     public function process(ContainerBuilder $container): void
     {
