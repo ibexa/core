@@ -304,7 +304,7 @@ services:
         tags:
             - {name: kernel.event_subscriber}
 
-    Ibexa\Bundle\Core\EventSubscriber\ClearContentCacheInGracePeriodSubscriber:
+    Ibexa\Bundle\Core\EventSubscriber\ClearCollectedContentCacheSubscriber:
         autowire: true
         autoconfigure: true
         arguments:

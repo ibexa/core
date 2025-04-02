@@ -10,7 +10,6 @@ namespace Ibexa\Core\Repository;
 
 use function count;
 use Exception;
-use Ibexa\Bundle\Core\EventSubscriber\ClearContentCacheInGracePeriodSubscriber;
 use Ibexa\Contracts\Core\FieldType\Comparable;
 use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\Value;
@@ -60,6 +59,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
+use Ibexa\Core\Repository\Collector\ContentCollector;
 use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
 use Ibexa\Core\Repository\Mapper\ContentMapper;
 use Ibexa\Core\Repository\Values\Content\Content;
@@ -106,7 +106,7 @@ class ContentService implements ContentServiceInterface
     /** @var \Ibexa\Contracts\Core\Persistence\Filter\Content\Handler */
     private $contentFilteringHandler;
 
-    private ClearContentCacheInGracePeriodSubscriber $clearContentCacheInGracePeriodSubscriber;
+    private ContentCollector $contentCollector;
 
     public function __construct(
         RepositoryInterface $repository,
@@ -119,7 +119,7 @@ class ContentService implements ContentServiceInterface
         ContentMapper $contentMapper,
         ContentValidator $contentValidator,
         ContentFilteringHandler $contentFilteringHandler,
-        ClearContentCacheInGracePeriodSubscriber $clearContentCacheInGracePeriodSubscriber,
+        ContentCollector $contentCollector,
         array $settings = []
     ) {
         $this->repository = $repository;
@@ -139,7 +139,7 @@ class ContentService implements ContentServiceInterface
         $this->permissionResolver = $permissionService;
         $this->contentMapper = $contentMapper;
         $this->contentValidator = $contentValidator;
-        $this->clearContentCacheInGracePeriodSubscriber = $clearContentCacheInGracePeriodSubscriber;
+        $this->contentCollector = $contentCollector;
     }
 
     /**
@@ -397,7 +397,7 @@ class ContentService implements ContentServiceInterface
             if (!$this->isInGracePeriod($content, $this->settings['grace_period_in_seconds'], $versionNo)) {
                 throw new UnauthorizedException('content', 'versionread', ['contentId' => $contentId, 'versionNo' => $versionNo]);
             } else {
-                $this->clearContentCacheInGracePeriodSubscriber->addContentToClear($content);
+                $this->contentCollector->collectContent($content);
             }
         }
 

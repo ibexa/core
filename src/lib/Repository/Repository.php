@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository;
 
 use Exception;
-use Ibexa\Bundle\Core\EventSubscriber\ClearContentCacheInGracePeriodSubscriber;
 use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler as LocationFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
@@ -42,6 +41,7 @@ use Ibexa\Contracts\Core\Repository\Validator\ContentValidator;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
+use Ibexa\Core\Repository\Collector\ContentCollector;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactoryInterface;
@@ -262,7 +262,7 @@ class Repository implements RepositoryInterface
 
     private ConfigResolverInterface $configResolver;
 
-    private ClearContentCacheInGracePeriodSubscriber $clearContentCacheInGracePeriodSubscriber;
+    private ContentCollector $contentCollector;
 
     public function __construct(
         PersistenceHandler $persistenceHandler,
@@ -286,7 +286,7 @@ class Repository implements RepositoryInterface
         PasswordValidatorInterface $passwordValidator,
         ConfigResolverInterface $configResolver,
         NameSchemaServiceInterface $nameSchemaService,
-        ClearContentCacheInGracePeriodSubscriber $clearContentCacheInGracePeriodSubscriber,
+        ContentCollector $contentCollector,
         array $serviceSettings = [],
         ?LoggerInterface $logger = null
     ) {
@@ -338,7 +338,7 @@ class Repository implements RepositoryInterface
         $this->passwordValidator = $passwordValidator;
         $this->configResolver = $configResolver;
         $this->nameSchemaService = $nameSchemaService;
-        $this->clearContentCacheInGracePeriodSubscriber = $clearContentCacheInGracePeriodSubscriber;
+        $this->contentCollector = $contentCollector;
     }
 
     public function sudo(callable $callback, ?RepositoryInterface $outerRepository = null)
@@ -370,7 +370,7 @@ class Repository implements RepositoryInterface
             $this->contentMapper,
             $this->contentValidator,
             $this->contentFilteringHandler,
-            $this->clearContentCacheInGracePeriodSubscriber,
+            $this->contentCollector,
             $this->serviceSettings['content'],
         );
 

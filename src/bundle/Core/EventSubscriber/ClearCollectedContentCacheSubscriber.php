@@ -8,26 +8,30 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\EventSubscriber;
 
-use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Persistence\Cache\Adapter\TransactionAwareAdapterInterface;
 use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface;
+use Ibexa\Core\Repository\Collector\ContentCollector;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\TerminateEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class ClearContentCacheInGracePeriodSubscriber implements EventSubscriberInterface
+class ClearCollectedContentCacheSubscriber implements EventSubscriberInterface
 {
     private TransactionAwareAdapterInterface $cache;
 
     private CacheIdentifierGeneratorInterface $identifierGenerator;
 
-    /** @var array<int, bool> */
-    private array $contentMap = [];
+    private ContentCollector $contentCollector;
 
-    public function __construct(TransactionAwareAdapterInterface $cache, CacheIdentifierGeneratorInterface $identifierGenerator)
+    public function __construct(
+        ContentCollector $contentCollector,
+        TransactionAwareAdapterInterface $cache,
+        CacheIdentifierGeneratorInterface $identifierGenerator
+    )
     {
         $this->cache = $cache;
         $this->identifierGenerator = $identifierGenerator;
+        $this->contentCollector = $contentCollector;
     }
 
     public static function getSubscribedEvents(): array
@@ -35,17 +39,14 @@ class ClearContentCacheInGracePeriodSubscriber implements EventSubscriberInterfa
         return [KernelEvents::TERMINATE => 'clearCache'];
     }
 
-    public function addContentToClear(Content $content): void
-    {
-        $this->contentMap[$content->getId()] = false;
-    }
-
     public function clearCache(TerminateEvent $event): void
     {
-        foreach ($this->contentMap as $contentId => $v) {
+        foreach ($this->contentCollector->getCollectedContentIds() as $contentId) {
             $this->cache->invalidateTags([
                 $this->identifierGenerator->generateTag('content', [$contentId]),
             ]);
         }
+
+        $this->contentCollector->reset();
     }
 }

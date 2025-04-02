@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository;
 
-use Ibexa\Bundle\Core\EventSubscriber\ClearContentCacheInGracePeriodSubscriber;
 use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
@@ -17,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Validator\ContentValidator;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
+use Ibexa\Core\Repository\Collector\ContentCollector;
 use Ibexa\Core\Repository\ContentService;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
@@ -44,7 +44,7 @@ final class ContentServiceTest extends TestCase
             $this->createMock(ContentMapper::class),
             $this->createMock(ContentValidator::class),
             $this->createMock(ContentFilteringHandler::class),
-            $this->createMock(ClearContentCacheInGracePeriodSubscriber::class)
+            new ContentCollector()
         );
     }
 

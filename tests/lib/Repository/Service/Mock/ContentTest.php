@@ -7,7 +7,6 @@
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use Exception;
-use Ibexa\Bundle\Core\EventSubscriber\ClearContentCacheInGracePeriodSubscriber;
 use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
@@ -46,6 +45,7 @@ use Ibexa\Core\Base\Exceptions\ContentValidationException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value;
+use Ibexa\Core\Repository\Collector\ContentCollector;
 use Ibexa\Core\Repository\ContentService;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Values\Content\Content;
@@ -100,7 +100,7 @@ class ContentTest extends BaseServiceMockTest
             $contentMapper,
             $contentValidatorStrategy,
             $contentFilteringHandlerMock,
-            $this->createMock(ClearContentCacheInGracePeriodSubscriber::class),
+            new ContentCollector(),
             $settings
         );
     }
@@ -6288,7 +6288,7 @@ class ContentTest extends BaseServiceMockTest
                         $this->getContentMapper(),
                         $this->getContentValidatorStrategy(),
                         $this->getContentFilteringHandlerMock(),
-                        $this->createMock(ClearContentCacheInGracePeriodSubscriber::class),
+                        new ContentCollector(),
                         [
                             'grace_period_in_seconds' => $gracePeriodInSeconds,
                         ],
