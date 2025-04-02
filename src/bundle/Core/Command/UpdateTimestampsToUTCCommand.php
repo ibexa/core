@@ -10,6 +10,7 @@ namespace Ibexa\Bundle\Core\Command;
 
 use DateTime;
 use DateTimeZone;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -289,7 +290,7 @@ EOT
             ->where(
                 $query->expr()->in(
                     'a.data_type_string',
-                    $query->createNamedParameter(self::MODES[$this->mode], Connection::PARAM_STR_ARRAY)
+                    $query->createNamedParameter(self::MODES[$this->mode], ArrayParameterType::STRING)
                 )
             )
             ->andWhere('a.data_int is not null')
@@ -327,7 +328,7 @@ EOT
             ->where(
                 $query->expr()->in(
                     'a.data_type_string',
-                    $query->createNamedParameter(self::MODES[$this->mode], Connection::PARAM_STR_ARRAY)
+                    $query->createNamedParameter(self::MODES[$this->mode], ArrayParameterType::STRING)
                 )
             )
             ->andWhere('a.data_int is not null')
@@ -426,9 +427,9 @@ EOT
             ->set('a.sort_key_int', ':new_timestamp')
             ->where('a.id = :id')
             ->andWhere('a.version = :version')
-            ->setParameter(':new_timestamp', $newTimestamp)
-            ->setParameter(':id', $contentAttributeId)
-            ->setParameter(':version', $contentAttributeVersion);
+            ->setParameter('new_timestamp', $newTimestamp)
+            ->setParameter('id', $contentAttributeId)
+            ->setParameter('version', $contentAttributeVersion);
 
         $query->executeStatement();
     }

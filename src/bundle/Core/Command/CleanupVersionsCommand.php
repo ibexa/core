@@ -7,6 +7,7 @@
 
 namespace Ibexa\Bundle\Core\Command;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Exception;
 use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
@@ -271,7 +272,7 @@ EOT
                         'cl.identifier',
                         ':contentTypes'
                     )
-                )->setParameter(':contentTypes', $excludedContentTypes, Connection::PARAM_STR_ARRAY);
+                )->setParameter('contentTypes', $excludedContentTypes, ArrayParameterType::STRING);
         }
 
         return $query->executeQuery()->fetchFirstColumn();
