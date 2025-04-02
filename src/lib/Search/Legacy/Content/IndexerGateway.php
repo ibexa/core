@@ -10,9 +10,9 @@ namespace Ibexa\Core\Search\Legacy\Content;
 
 use DateTimeInterface;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\ResultStatement;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Result;
 use Generator;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Search\Content\IndexerGateway as SPIIndexerGateway;
@@ -34,64 +34,58 @@ final class IndexerGateway implements SPIIndexerGateway
         $query = $this->buildQueryForContentSince($since);
         $query->orderBy('c.modified');
 
-        yield from $this->fetchIteration($query->execute(), $iterationCount);
+        yield from $this->fetchIteration($query->executeQuery(), $iterationCount);
     }
 
     public function countContentSince(DateTimeInterface $since): int
     {
-        $query = $this->buildCountingQuery(
-            $this->buildQueryForContentSince($since)
-        );
+        $query = $this->buildQueryForContentSince($since, true);
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     public function getContentInSubtree(string $locationPath, int $iterationCount): Generator
     {
         $query = $this->buildQueryForContentInSubtree($locationPath);
 
-        yield from $this->fetchIteration($query->execute(), $iterationCount);
+        yield from $this->fetchIteration($query->executeQuery(), $iterationCount);
     }
 
     public function countContentInSubtree(string $locationPath): int
     {
-        $query = $this->buildCountingQuery(
-            $this->buildQueryForContentInSubtree($locationPath)
-        );
+        $query = $this->buildQueryForContentInSubtree($locationPath, true);
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     public function getAllContent(int $iterationCount): Generator
     {
         $query = $this->buildQueryForAllContent();
 
-        yield from $this->fetchIteration($query->execute(), $iterationCount);
+        yield from $this->fetchIteration($query->executeQuery(), $iterationCount);
     }
 
     public function countAllContent(): int
     {
-        $query = $this->buildCountingQuery(
-            $this->buildQueryForAllContent()
-        );
+        $query = $this->buildQueryForAllContent(true);
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
-    private function buildQueryForContentSince(DateTimeInterface $since): QueryBuilder
+    private function buildQueryForContentSince(DateTimeInterface $since, bool $count = false): QueryBuilder
     {
         return $this->connection->createQueryBuilder()
-            ->select('c.id')
+            ->select($count ? 'COUNT(c.id)' : 'c.id')
             ->from('ezcontentobject', 'c')
             ->where('c.status = :status')->andWhere('c.modified >= :since')
             ->setParameter('status', ContentInfo::STATUS_PUBLISHED, ParameterType::INTEGER)
             ->setParameter('since', $since->getTimestamp(), ParameterType::INTEGER);
     }
 
-    private function buildQueryForContentInSubtree(string $locationPath): QueryBuilder
+    private function buildQueryForContentInSubtree(string $locationPath, bool $count = false): QueryBuilder
     {
         return $this->connection->createQueryBuilder()
-            ->select('DISTINCT c.id')
+            ->select($count ? 'COUNT(DISTINCT c.id)' : 'DISTINCT c.id')
             ->from('ezcontentobject', 'c')
             ->innerJoin('c', 'ezcontentobject_tree', 't', 't.contentobject_id = c.id')
             ->where('c.status = :status')
@@ -100,10 +94,10 @@ final class IndexerGateway implements SPIIndexerGateway
             ->setParameter('path', $locationPath . '%', ParameterType::STRING);
     }
 
-    private function buildQueryForAllContent(): QueryBuilder
+    private function buildQueryForAllContent(bool $count = false): QueryBuilder
     {
         return $this->connection->createQueryBuilder()
-            ->select('c.id')
+            ->select($count ? 'COUNT(c.id)' : 'c.id')
             ->from('ezcontentobject', 'c')
             ->where('c.status = :status')
             ->setParameter('status', ContentInfo::STATUS_PUBLISHED, ParameterType::INTEGER);
@@ -112,26 +106,12 @@ final class IndexerGateway implements SPIIndexerGateway
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    private function buildCountingQuery(QueryBuilder $query): QueryBuilder
-    {
-        $databasePlatform = $this->connection->getDatabasePlatform();
-
-        // wrap existing select part in count expression
-        $query->select(
-            $databasePlatform->getCountExpression(
-                $query->getQueryPart('select')[0]
-            )
-        );
-
-        return $query;
-    }
-
-    private function fetchIteration(ResultStatement $statement, int $iterationCount): Generator
+    private function fetchIteration(Result $statement, int $iterationCount): Generator
     {
         do {
             $contentIds = [];
             for ($i = 0; $i < $iterationCount; ++$i) {
-                if ($contentId = $statement->fetchOne()) {
+                if (false !== ($contentId = $statement->fetchOne())) {
                     $contentIds[] = $contentId;
                 } elseif (empty($contentIds)) {
                     return;
