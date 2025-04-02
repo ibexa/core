@@ -96,7 +96,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
         Schema $newSchema,
         AbstractPlatform $databasePlatform
     ): array {
-        $existingSchema = $this->db->getSchemaManager()->createSchema();
+        $existingSchema = $this->db->createSchemaManager()->createSchema();
         $statements = [];
         // reverse table order for clean-up (due to FKs)
         $tables = array_reverse($newSchema->getTables());
