@@ -911,7 +911,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @return array<mixed>
+     * @return array<int,array<string,mixed>>
      */
     public function loadVersionNoArchivedWithin(int $contentId, int $seconds): array
     {
