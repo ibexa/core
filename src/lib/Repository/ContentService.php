@@ -396,9 +396,8 @@ class ContentService implements ContentServiceInterface
         ) {
             if (!$this->isInGracePeriod($content, $this->settings['grace_period_in_seconds'], $versionNo)) {
                 throw new UnauthorizedException('content', 'versionread', ['contentId' => $contentId, 'versionNo' => $versionNo]);
-            } else {
-                $this->contentCollector->collectContent($content);
             }
+            $this->contentCollector->collectContent($content);
         }
 
         return $content;

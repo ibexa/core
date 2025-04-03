@@ -274,6 +274,5 @@ services:
         alias: Ibexa\Core\Repository\Validator\TargetContentValidator
 
     Ibexa\Core\Repository\Collector\ContentCollector:
-        shared: false
         tags:
             - { name: 'kernel.reset', method: 'reset' }
