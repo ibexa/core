@@ -6785,7 +6785,7 @@ class ContentServiceTest extends BaseContentServiceTest
 
         ClockMock::sleep(20);
         $this->expectException(CoreUnauthorizedException::class);
-        $this->contentService->loadContent($unPublishedVersionOneContent->id, null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
+        $this->contentService->loadContent($unPublishedVersionOneContent->getId(), null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
 
         ClockMock::withClockMock(false);
     }
