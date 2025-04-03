@@ -62,6 +62,11 @@ class NotificationService implements NotificationServiceInterface
         $this->service->markNotificationAsRead($notification);
     }
 
+    public function markNotificationAsUnread(Notification $notification): void
+    {
+        $this->service->markNotificationAsUnread($notification);
+    }
+
     /**
      * Get count of unread users notifications.
      *

@@ -21991,12 +21991,6 @@ parameters:
 			path: src/lib/Repository/NameSchema/NameSchemaService.php
 
 		-
-			message: '#^Parameter \#1 \$module of class Ibexa\\Core\\Base\\Exceptions\\UnauthorizedException constructor expects string, int\<min, \-1\>\|int\<1, max\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/Repository/NotificationService.php
-
-		-
 			message: '#^Parameter \#2 \$whatIsWrong of class Ibexa\\Core\\Base\\Exceptions\\InvalidArgumentException constructor expects string, int given\.$#'
 			identifier: argument.type
 			count: 1
