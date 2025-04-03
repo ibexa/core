@@ -9,8 +9,9 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository\Collector;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Symfony\Contracts\Service\ResetInterface;
 
-final class ContentCollector
+final class ContentCollector implements ResetInterface
 {
     /** @var array<int, bool> */
     private array $contentMap = [];
