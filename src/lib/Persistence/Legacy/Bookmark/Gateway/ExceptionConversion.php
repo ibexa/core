@@ -13,16 +13,12 @@ use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway;
-use PDOException;
 
 class ExceptionConversion extends Gateway
 {
-    protected Gateway $innerGateway;
+    protected DoctrineDatabase $innerGateway;
 
-    /**
-     * @param \Ibexa\Core\Persistence\Legacy\Bookmark\Gateway $innerGateway
-     */
-    public function __construct(Gateway $innerGateway)
+    public function __construct(DoctrineDatabase $innerGateway)
     {
         $this->innerGateway = $innerGateway;
     }
@@ -31,7 +27,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->insertBookmark($bookmark);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -40,16 +36,16 @@ class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->deleteBookmark($id);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function loadBookmarkDataByUserIdAndLocationId(int $userId, array $locationId): array
+    public function loadBookmarkDataByUserIdAndLocationId(int $userId, array $locationIds): array
     {
         try {
-            return $this->innerGateway->loadBookmarkDataByUserIdAndLocationId($userId, $locationId);
-        } catch (DBALException | PDOException $e) {
+            return $this->innerGateway->loadBookmarkDataByUserIdAndLocationId($userId, $locationIds);
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -58,7 +54,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadUserBookmarks($userId, $offset, $limit);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -67,7 +63,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countUserBookmarks($userId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -76,7 +72,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->locationSwapped($location1Id, $location2Id);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -85,7 +81,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadUserIdsByLocation($location);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
