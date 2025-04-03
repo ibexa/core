@@ -6781,7 +6781,7 @@ class ContentServiceTest extends BaseContentServiceTest
 
         //Reset clock, to make sure that upfront operations did not exceed grace period.
         ClockMock::withClockMock(strtotime('2025-04-01 14:00:02'));
-        $this->contentService->loadContent($unPublishedVersionOneContent->id, null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
+        $this->contentService->loadContent($unPublishedVersionOneContent->getId(), null, $unPublishedVersionOneContent->getVersionInfo()->versionNo);
 
         ClockMock::sleep(20);
         $this->expectException(CoreUnauthorizedException::class);
