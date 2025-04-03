@@ -19,7 +19,8 @@ abstract class SetupFactory
      * @param bool $initializeFromScratch if the back end should be initialized
      *                                    from scratch or re-used
      *
-     * @return \Ibexa\Contracts\Core\Repository\Repository
+     * @throws \Exception
+     * @throws \Doctrine\DBAL\Exception
      */
     abstract public function getRepository($initializeFromScratch = true);
 

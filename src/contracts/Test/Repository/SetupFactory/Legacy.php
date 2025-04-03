@@ -122,17 +122,6 @@ class Legacy extends SetupFactory
         return $tmpFile;
     }
 
-    /**
-     * Returns a configured repository for testing.
-     *
-     * @param bool $initializeFromScratch if the back end should be initialized
-     *                                    from scratch or re-used
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Repository
-     *
-     * @throws \Doctrine\DBAL\ConnectionException
-     * @throws \Doctrine\DBAL\Exception
-     */
     public function getRepository($initializeFromScratch = true): Repository
     {
         if ($initializeFromScratch || !self::$schemaInitialized) {
@@ -166,6 +155,7 @@ class Legacy extends SetupFactory
      * Insert the database data.
      *
      * @throws \Doctrine\DBAL\Exception
+     * @throws \Exception
      */
     public function insertData(): void
     {
@@ -194,6 +184,8 @@ class Legacy extends SetupFactory
 
     /**
      * Clears internal in memory caches after inserting data circumventing the API.
+     *
+     * @throws \Exception
      */
     protected function clearInternalCaches(): void
     {
@@ -230,8 +222,8 @@ class Legacy extends SetupFactory
     /**
      * Initializes the database schema.
      *
-     * @throws \Doctrine\DBAL\ConnectionException
      * @throws \Doctrine\DBAL\Exception
+     * @throws \Exception
      */
     protected function initializeSchema(): void
     {
@@ -250,6 +242,8 @@ class Legacy extends SetupFactory
      * Returns the raw database connection from the service container.
      *
      * @return \Doctrine\DBAL\Connection
+     *
+     * @throws \Exception
      */
     private function getDatabaseConnection(): Connection
     {
