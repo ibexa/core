@@ -23,11 +23,15 @@ abstract class NotificationServiceDecorator implements NotificationService
         $this->innerService = $innerService;
     }
 
+    /**
+     * @param string[] $query
+     */
     public function loadNotifications(
         int $offset,
-        int $limit
+        int $limit,
+        array $query = []
     ): NotificationList {
-        return $this->innerService->loadNotifications($offset, $limit);
+        return $this->innerService->loadNotifications($offset, $limit, $query);
     }
 
     public function getNotification(int $notificationId): Notification
@@ -50,9 +54,12 @@ abstract class NotificationServiceDecorator implements NotificationService
         return $this->innerService->getPendingNotificationCount();
     }
 
-    public function getNotificationCount(): int
+    /**
+     * @param string[] $query
+     */
+    public function getNotificationCount(array $query = []): int
     {
-        return $this->innerService->getNotificationCount();
+        return $this->innerService->getNotificationCount($query);
     }
 
     public function createNotification(CreateStruct $createStruct): Notification

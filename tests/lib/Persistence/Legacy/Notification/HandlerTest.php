@@ -167,32 +167,42 @@ class HandlerTest extends TestCase
         $ownerId = 9;
         $limit = 5;
         $offset = 0;
+        $query = ['type' => 'Workflow:Review'];
 
         $rows = [
-            ['id' => 1/* ... */],
-            ['id' => 2/* ... */],
-            ['id' => 3/* ... */],
+            ['id' => 1, 'owner_id' => 9, 'is_pending' => 1, 'type' => 'Workflow:Review', 'created' => '1530005852', 'data' => null],
+            ['id' => 2, 'owner_id' => 9, 'is_pending' => 0, 'type' => 'Workflow:Reject', 'created' => '1530002252', 'data' => null],
+            ['id' => 3, 'owner_id' => 9, 'is_pending' => 0, 'type' => 'Workflow:Approve', 'created' => '1529998652', 'data' => null],
         ];
 
         $objects = [
-            new Notification(['id' => 1/* ... */]),
-            new Notification(['id' => 2/* ... */]),
-            new Notification(['id' => 3/* ... */]),
+            new Notification(['id' => 1, 'ownerId' => 9, 'isPending' => 1, 'type' => 'Workflow:Review', 'created' => 1530005852, 'data' => null]),
+            new Notification(['id' => 2, 'ownerId' => 9, 'isPending' => 0, 'type' => 'Workflow:Reject', 'created' => 1530002252, 'data' => null]),
+            new Notification(['id' => 3, 'ownerId' => 9, 'isPending' => 0, 'type' => 'Workflow:Approve', 'created' => 1529998652, 'data' => null]),
         ];
 
         $this->gateway
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('loadUserNotifications')
-            ->with($ownerId, $offset, $limit)
+            ->with(
+                $this->logicalOr(
+                    $this->equalTo($ownerId),
+                    $this->equalTo($query)
+                ),
+                $offset,
+                $limit
+            )
             ->willReturn($rows);
 
         $this->mapper
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('extractNotificationsFromRows')
             ->with($rows)
             ->willReturn($objects);
 
         $this->assertEquals($objects, $this->handler->loadUserNotifications($ownerId, $offset, $limit));
+
+        $this->assertEquals($objects, $this->handler->loadUserNotifications($ownerId, $offset, $limit, $query));
     }
 
     public function testDelete()

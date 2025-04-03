@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Notification\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -25,20 +26,13 @@ class DoctrineDatabase extends Gateway
     public const COLUMN_CREATED = 'created';
     public const COLUMN_DATA = 'data';
 
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
-    /**
-     * @param \Doctrine\DBAL\Connection $connection
-     */
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function insert(CreateStruct $createStruct): int
     {
         $query = $this->connection->createQueryBuilder();
@@ -62,9 +56,6 @@ class DoctrineDatabase extends Gateway
         return (int) $this->connection->lastInsertId();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNotificationById(int $notificationId): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -78,9 +69,6 @@ class DoctrineDatabase extends Gateway
         return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function updateNotification(Notification $notification): void
     {
         if (!isset($notification->id) || !is_numeric($notification->id)) {
@@ -100,23 +88,57 @@ class DoctrineDatabase extends Gateway
     }
 
     /**
-     * {@inheritdoc}
+     * @param string[] $query
      */
-    public function countUserNotifications(int $userId): int
+    private function applyFilters(QueryBuilder $queryBuilder, array $query): void
     {
-        $query = $this->connection->createQueryBuilder();
-        $query
-            ->select('COUNT(' . self::COLUMN_ID . ')')
-            ->from(self::TABLE_NOTIFICATION)
-            ->where($query->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
-            ->setParameter(':user_id', $userId, PDO::PARAM_INT);
+        if (isset($query['type'])) {
+            $queryBuilder
+                ->andWhere($queryBuilder->expr()->like(self::COLUMN_TYPE, ':type'))
+                ->setParameter(':type', '%' . $query['type'] . '%');
+        }
 
-        return (int)$query->execute()->fetchColumn();
+        if (isset($query['status']) && is_array($query['status'])) {
+            if (in_array('read', $query['status'])) {
+                $queryBuilder->andWhere($queryBuilder->expr()->eq(self::COLUMN_IS_PENDING, ':status_read'))
+                    ->setParameter(':status_read', false);
+            }
+            if (in_array('unread', $query['status'])) {
+                $queryBuilder->andWhere($queryBuilder->expr()->eq(self::COLUMN_IS_PENDING, ':status_unread'))
+                    ->setParameter(':status_unread', true);
+            }
+        }
+
+        if (isset($query['created_from'])) {
+            $queryBuilder->andWhere($queryBuilder->expr()->gte(self::COLUMN_CREATED, ':created_from'))
+                ->setParameter(':created_from', $query['created_from'], PDO::PARAM_INT);
+        }
+
+        if (isset($query['created_to'])) {
+            $queryBuilder->andWhere($queryBuilder->expr()->lte(self::COLUMN_CREATED, ':created_to'))
+                ->setParameter(':created_to', $query['created_to'], PDO::PARAM_INT);
+        }
     }
 
     /**
-     * {@inheritdoc}
+     * @param string[] $query
      */
+    public function countUserNotifications(int $userId, array $query = []): int
+    {
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder
+            ->select('COUNT(' . self::COLUMN_ID . ')')
+            ->from(self::TABLE_NOTIFICATION)
+            ->where($queryBuilder->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
+            ->setParameter(':user_id', $userId, PDO::PARAM_INT);
+
+        if (!empty($query)) {
+            $this->applyFilters($queryBuilder, $query);
+        }
+
+        return (int)$queryBuilder->execute()->fetchColumn();
+    }
+
     public function countUserPendingNotifications(int $userId): int
     {
         $query = $this->connection->createQueryBuilder();
@@ -133,30 +155,31 @@ class DoctrineDatabase extends Gateway
     }
 
     /**
-     * {@inheritdoc}
+     * @param string[] $query
      */
-    public function loadUserNotifications(int $userId, int $offset = 0, int $limit = -1): array
+    public function loadUserNotifications(int $userId, int $offset = 0, int $limit = -1, array $query = []): array
     {
-        $query = $this->connection->createQueryBuilder();
-        $query
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder
             ->select(...$this->getColumns())
             ->from(self::TABLE_NOTIFICATION)
-            ->where($query->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
+            ->where($queryBuilder->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
             ->setFirstResult($offset);
 
-        if ($limit > 0) {
-            $query->setMaxResults($limit);
+        if (!empty($query)) {
+            $this->applyFilters($queryBuilder, $query);
         }
 
-        $query->orderBy(self::COLUMN_ID, 'DESC');
-        $query->setParameter(':user_id', $userId, PDO::PARAM_INT);
+        if ($limit > 0) {
+            $queryBuilder->setMaxResults($limit);
+        }
 
-        return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        $queryBuilder->orderBy(self::COLUMN_ID, 'DESC');
+        $queryBuilder->setParameter(':user_id', $userId, PDO::PARAM_INT);
+
+        return $queryBuilder->execute()->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete(int $notificationId): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -168,9 +191,6 @@ class DoctrineDatabase extends Gateway
         $query->execute();
     }
 
-    /**
-     * @return array
-     */
     private function getColumns(): array
     {
         return [
