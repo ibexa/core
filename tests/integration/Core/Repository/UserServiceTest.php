@@ -1690,7 +1690,7 @@ class UserServiceTest extends BaseTest
     public function testUpdateUser()
     {
         // As \Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testUpdateUserUpdatesExpectedProperties belongs on this test,
-        // and it is the only tests that tracks real time passing with delta
+        // and it is the only test that tracks real time passing with delta
         // but actual password change is done here, therefore for _reasons_ we need to disable ClockMock here.
         ClockMock::withClockMock(false);
         $repository = $this->getRepository();
