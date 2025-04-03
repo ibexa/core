@@ -8,16 +8,16 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\EventSubscriber;
 
-use Ibexa\Core\Persistence\Cache\Adapter\TransactionAwareAdapterInterface;
 use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface;
 use Ibexa\Core\Repository\Collector\ContentCollector;
+use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\TerminateEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 final class ClearCollectedContentCacheSubscriber implements EventSubscriberInterface
 {
-    private TransactionAwareAdapterInterface $cache;
+    private TagAwareAdapterInterface $cache;
 
     private CacheIdentifierGeneratorInterface $identifierGenerator;
 
@@ -25,7 +25,7 @@ final class ClearCollectedContentCacheSubscriber implements EventSubscriberInter
 
     public function __construct(
         ContentCollector $contentCollector,
-        TransactionAwareAdapterInterface $cache,
+        TagAwareAdapterInterface $cache,
         CacheIdentifierGeneratorInterface $identifierGenerator
     ) {
         $this->cache = $cache;
