@@ -41,12 +41,7 @@ abstract class Gateway
      */
     abstract public function updateNotification(Notification $notification): void;
 
-    /**
-     * @param int $userId
-     *
-     * @return int
-     */
-    abstract public function countUserNotifications(int $userId): int;
+    abstract public function countUserNotifications(int $userId, ?string $query = null): int;
 
     /**
      * Count users unread Notifications.
@@ -57,14 +52,12 @@ abstract class Gateway
      */
     abstract public function countUserPendingNotifications(int $userId): int;
 
-    /**
-     * @param int $userId
-     * @param int $offset
-     * @param int $limit
-     *
-     * @return array
-     */
-    abstract public function loadUserNotifications(int $userId, int $offset = 0, int $limit = -1): array;
+    abstract public function loadUserNotifications(
+        int $userId,
+        int $offset = 0,
+        int $limit = -1,
+        ?string $query = null
+    ): array;
 
     /**
      * @param int $notificationId

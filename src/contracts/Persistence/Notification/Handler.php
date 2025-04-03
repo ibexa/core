@@ -51,20 +51,11 @@ interface Handler
     public function getNotificationById(int $notificationId): Notification;
 
     /**
-     * @param int $userId
-     * @param int $offset
-     * @param int $limit
-     *
      * @return \Ibexa\Contracts\Core\Persistence\Notification\Notification[]
      */
-    public function loadUserNotifications(int $userId, int $offset, int $limit): array;
+    public function loadUserNotifications(int $userId, int $offset, int $limit, ?string $query = null): array;
 
-    /**
-     * @param int $currentUserId
-     *
-     * @return int
-     */
-    public function countNotifications(int $currentUserId): int;
+    public function countNotifications(int $currentUserId, ?string $query = null): int;
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Notification $notification

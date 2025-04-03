@@ -25,20 +25,13 @@ class DoctrineDatabase extends Gateway
     public const COLUMN_CREATED = 'created';
     public const COLUMN_DATA = 'data';
 
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
-    /**
-     * @param \Doctrine\DBAL\Connection $connection
-     */
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function insert(CreateStruct $createStruct): int
     {
         $query = $this->connection->createQueryBuilder();
@@ -62,9 +55,6 @@ class DoctrineDatabase extends Gateway
         return (int) $this->connection->lastInsertId();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNotificationById(int $notificationId): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -78,9 +68,6 @@ class DoctrineDatabase extends Gateway
         return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function updateNotification(Notification $notification): void
     {
         if (!isset($notification->id) || !is_numeric($notification->id)) {
@@ -99,24 +86,29 @@ class DoctrineDatabase extends Gateway
         $query->execute();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function countUserNotifications(int $userId): int
+    public function countUserNotifications(int $userId, ?string $query = null): int
     {
-        $query = $this->connection->createQueryBuilder();
-        $query
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder
             ->select('COUNT(' . self::COLUMN_ID . ')')
             ->from(self::TABLE_NOTIFICATION)
-            ->where($query->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
+            ->where($queryBuilder->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
             ->setParameter(':user_id', $userId, PDO::PARAM_INT);
 
-        return (int)$query->execute()->fetchColumn();
+        if ($query !== null) {
+            $queryBuilder
+                ->andWhere(
+                    $queryBuilder->expr()->or(
+                        $queryBuilder->expr()->like(self::COLUMN_TYPE, ':query'),
+                        $queryBuilder->expr()->like(self::COLUMN_DATA, ':query')
+                    )
+                )
+                ->setParameter(':query', '%' . $query . '%');
+        }
+
+        return (int)$queryBuilder->execute()->fetchColumn();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function countUserPendingNotifications(int $userId): int
     {
         $query = $this->connection->createQueryBuilder();
@@ -132,31 +124,36 @@ class DoctrineDatabase extends Gateway
         return (int)$query->execute()->fetchColumn();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function loadUserNotifications(int $userId, int $offset = 0, int $limit = -1): array
+    public function loadUserNotifications(int $userId, int $offset = 0, int $limit = -1, ?string $query = null): array
     {
-        $query = $this->connection->createQueryBuilder();
-        $query
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder
             ->select(...$this->getColumns())
             ->from(self::TABLE_NOTIFICATION)
-            ->where($query->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
+            ->where($queryBuilder->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
             ->setFirstResult($offset);
 
-        if ($limit > 0) {
-            $query->setMaxResults($limit);
+        if ($query !== null) {
+            $queryBuilder
+                ->andWhere(
+                    $queryBuilder->expr()->or(
+                        $queryBuilder->expr()->like(self::COLUMN_TYPE, ':query'),
+                        $queryBuilder->expr()->like(self::COLUMN_DATA, ':query')
+                    )
+                )
+                ->setParameter(':query', '%' . $query . '%');
         }
 
-        $query->orderBy(self::COLUMN_ID, 'DESC');
-        $query->setParameter(':user_id', $userId, PDO::PARAM_INT);
+        if ($limit > 0) {
+            $queryBuilder->setMaxResults($limit);
+        }
 
-        return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        $queryBuilder->orderBy(self::COLUMN_ID, 'DESC');
+        $queryBuilder->setParameter(':user_id', $userId, PDO::PARAM_INT);
+
+        return $queryBuilder->execute()->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete(int $notificationId): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -168,9 +165,6 @@ class DoctrineDatabase extends Gateway
         $query->execute();
     }
 
-    /**
-     * @return array
-     */
     private function getColumns(): array
     {
         return [

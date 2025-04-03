@@ -40,27 +40,22 @@ class NotificationService implements NotificationServiceInterface
         $this->permissionResolver = $permissionResolver;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function loadNotifications(int $offset = 0, int $limit = 25): NotificationList
+    public function loadNotifications(int $offset = 0, int $limit = 25, ?string $query = null): NotificationList
     {
         $currentUserId = $this->getCurrentUserId();
 
         $list = new NotificationList();
-        $list->totalCount = $this->persistenceHandler->countNotifications($currentUserId);
+        $list->totalCount = $this->persistenceHandler->countNotifications($currentUserId, $query);
+
         if ($list->totalCount > 0) {
             $list->items = array_map(function (Notification $spiNotification) {
                 return $this->buildDomainObject($spiNotification);
-            }, $this->persistenceHandler->loadUserNotifications($currentUserId, $offset, $limit));
+            }, $this->persistenceHandler->loadUserNotifications($currentUserId, $offset, $limit, $query));
         }
 
         return $list;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function createNotification(APICreateStruct $createStruct): APINotification
     {
         $spiCreateStruct = new CreateStruct();
@@ -85,9 +80,6 @@ class NotificationService implements NotificationServiceInterface
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNotification(int $notificationId): APINotification
     {
         $notification = $this->persistenceHandler->getNotificationById($notificationId);
@@ -100,9 +92,6 @@ class NotificationService implements NotificationServiceInterface
         return $this->buildDomainObject($notification);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function markNotificationAsRead(APINotification $notification): void
     {
         $currentUserId = $this->getCurrentUserId();
@@ -147,9 +136,6 @@ class NotificationService implements NotificationServiceInterface
         $this->persistenceHandler->updateNotification($notification, $updateStruct);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPendingNotificationCount(): int
     {
         return $this->persistenceHandler->countPendingNotifications(
@@ -157,19 +143,14 @@ class NotificationService implements NotificationServiceInterface
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getNotificationCount(): int
+    public function getNotificationCount(?string $query = null): int
     {
         return $this->persistenceHandler->countNotifications(
-            $this->getCurrentUserId()
+            $this->getCurrentUserId(),
+            $query
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function deleteNotification(APINotification $notification): void
     {
         $this->persistenceHandler->delete($notification);
