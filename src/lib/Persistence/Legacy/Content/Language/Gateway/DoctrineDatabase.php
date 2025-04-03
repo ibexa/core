@@ -8,10 +8,13 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language;
+use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
 use RuntimeException;
 
@@ -29,35 +32,31 @@ final class DoctrineDatabase extends Gateway
      */
     private Connection $connection;
 
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
-    private $dbPlatform;
+    public function __construct(Connection $connection)
+    {
+        $this->connection = $connection;
+    }
 
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    public function __construct(Connection $connection)
-    {
-        $this->connection = $connection;
-        $this->dbPlatform = $this->connection->getDatabasePlatform();
-    }
-
     public function insertLanguage(Language $language): int
     {
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(
-                $this->dbPlatform->getMaxExpression('id')
+                'MAX(id)'
             )
             ->from(self::CONTENT_LANGUAGE_TABLE);
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        $lastId = (int)$statement->fetchColumn();
+        $lastId = (int)$statement->fetchOne();
 
         // Legacy only supports 8 * PHP_INT_SIZE - 2 languages:
         // One bit cannot be used because PHP uses signed integers and a second one is reserved for the
         // "always available flag".
-        if ($lastId == (2 ** (8 * PHP_INT_SIZE - 2))) {
+        if ($lastId === (2 ** (8 * PHP_INT_SIZE - 2))) {
             throw new RuntimeException('Maximum number of languages reached.');
         }
         // Next power of 2 for bit masks
@@ -78,7 +77,7 @@ final class DoctrineDatabase extends Gateway
 
         $this->setLanguageQueryParameters($query, $language);
 
-        $query->execute();
+        $query->executeStatement();
 
         return $nextId;
     }
@@ -89,11 +88,14 @@ final class DoctrineDatabase extends Gateway
     private function setLanguageQueryParameters(QueryBuilder $query, Language $language): void
     {
         $query
-            ->setParameter('language_code', $language->languageCode, ParameterType::STRING)
-            ->setParameter('name', $language->name, ParameterType::STRING)
+            ->setParameter('language_code', $language->languageCode)
+            ->setParameter('name', $language->name)
             ->setParameter('disabled', (int)!$language->isEnabled, ParameterType::INTEGER);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function updateLanguage(Language $language): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -112,25 +114,31 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadLanguageListData(array $ids): iterable
     {
         $query = $this->createFindQuery();
         $query
             ->where('id IN (:ids)')
-            ->setParameter('ids', $ids, Connection::PARAM_INT_ARRAY);
+            ->setParameter('ids', $ids, ArrayParameterType::INTEGER);
 
         return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadLanguageListDataByLanguageCode(array $languageCodes): iterable
     {
         $query = $this->createFindQuery();
         $query
             ->where('locale IN (:locale)')
-            ->setParameter('locale', $languageCodes, Connection::PARAM_STR_ARRAY);
+            ->setParameter('locale', $languageCodes, ArrayParameterType::STRING);
 
         return $query->executeQuery()->fetchAllAssociative();
     }
@@ -148,11 +156,17 @@ final class DoctrineDatabase extends Gateway
         return $query;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadAllLanguagesData(): array
     {
         return $this->createFindQuery()->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function deleteLanguage(int $id): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -165,9 +179,12 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function canDeleteLanguage(int $id): bool
     {
         // note: at some point this should be delegated to specific gateways
@@ -188,6 +205,8 @@ final class DoctrineDatabase extends Gateway
      * Count table data rows related to the given language.
      *
      * @param string|null $languageIdColumn optional column name containing explicit language id
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function countTableData(
         int $languageId,
@@ -197,12 +216,11 @@ final class DoctrineDatabase extends Gateway
     ): int {
         $query = $this->connection->createQueryBuilder();
         $query
-            // avoiding using "*" as count argument, but don't specify column name because it varies
-            ->select($this->dbPlatform->getCountExpression(1))
+            ->select('COUNT(1)')
             ->from($tableName)
             ->where(
                 $query->expr()->gt(
-                    $this->dbPlatform->getBitAndComparisonExpression(
+                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
                         $languageMaskColumn,
                         $query->createPositionalParameter($languageId, ParameterType::INTEGER)
                     ),
@@ -219,6 +237,16 @@ final class DoctrineDatabase extends Gateway
                 );
         }
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->executeQuery()->fetchOne();
+    }
+
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
+    private function getDatabasePlatform(): AbstractPlatform
+    {
+        $databasePlatform = $this->connection->getDatabasePlatform();
+
+        return $databasePlatform ?? throw new DatabaseException('Failed to get database platform');
     }
 }
