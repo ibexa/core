@@ -73,9 +73,9 @@ final class FixtureImporter
                 $this->connection->executeStatement(
                     $dbPlatform->getTruncateTableSql($this->connection->quoteIdentifier($table))
                 );
-            } catch (DBALException $e) {
+            } catch (DBALException) {
                 // Fallback to DELETE if TRUNCATE failed (because of FKs for instance)
-                $this->connection->createQueryBuilder()->delete($table)->execute();
+                $this->connection->createQueryBuilder()->delete($table)->executeStatement();
             }
         }
     }
@@ -103,6 +103,8 @@ final class FixtureImporter
      * @param string[] $affectedTables the list of tables which need their sequences reset
      *
      * @return iterable<string, string> list of SQL statements
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function getSequenceResetStatements(array $affectedTables): iterable
     {
@@ -110,8 +112,7 @@ final class FixtureImporter
         $queryTemplate = 'SELECT setval(\'%s\', %s) FROM %s';
 
         $unvisitedTables = array_diff($affectedTables, array_keys(self::$resetSequenceStatements));
-        $schemaManager = $this->connection->getSchemaManager();
-        $databasePlatform = $this->connection->getDatabasePlatform();
+        $schemaManager = $this->connection->createSchemaManager();
 
         foreach ($unvisitedTables as $tableName) {
             $columns = $schemaManager->listTableColumns($tableName);
@@ -129,7 +130,7 @@ final class FixtureImporter
             self::$resetSequenceStatements[$tableName] = sprintf(
                 $queryTemplate,
                 $sequenceName,
-                $databasePlatform->getMaxExpression($this->connection->quoteIdentifier($columnName)),
+                sprintf('MAX(%s),', $this->connection->quoteIdentifier($columnName)),
                 $this->connection->quoteIdentifier($tableName)
             );
         }
