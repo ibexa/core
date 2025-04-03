@@ -14,7 +14,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 /**
  * @internal For internal use by the Content gateway.
  */
-class QueryBuilder
+final class QueryBuilder
 {
     /** @var \Doctrine\DBAL\Connection */
     private $connection;
