@@ -95,11 +95,11 @@ abstract class Gateway
      *
      * IMPORTANT: This method expects prior published version to have been set to another status then published before called, otherwise you'll get a BadStateException.
      *
-     * @see setStatus
+     * @see setStatus()
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if other operation affected publishing process
      */
-    abstract public function setPublishedStatus(int $contentId, int $status): void;
+    abstract public function setPublishedStatus(int $contentId, int $versionNo): void;
 
     /**
      * Insert a new field.
@@ -408,14 +408,14 @@ abstract class Gateway
     /**
      * Counts number of related to/from $contentId.
      */
-    abstract public function countReverseRelations(int $contentId, ?int $relationType = null): int;
+    abstract public function countReverseRelations(int $toContentId, ?int $relationType = null): int;
 
     /**
      * Load data of related to/from $contentId.
      *
      * @phpstan-return list<array<string,mixed>> Content data, array structured like {@see \Ibexa\Core\Persistence\Legacy\Content\Gateway::load}
      */
-    abstract public function loadReverseRelations(int $contentId, ?int $relationType = null): array;
+    abstract public function loadReverseRelations(int $toContentId, ?int $relationType = null): array;
 
     /**
      * Load paginated data of related to/from $contentId.
