@@ -89,21 +89,18 @@ class Handler implements HandlerInterface
         return $this->getNotificationById($notification->id);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function countNotifications(int $userId): int
+    public function countNotifications(int $userId, ?string $query = null): int
     {
-        return $this->gateway->countUserNotifications($userId);
+        return $this->gateway->countUserNotifications($userId, $query);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function loadUserNotifications(int $userId, int $offset, int $limit): array
+    public function loadUserNotifications(int $userId, int $offset, int $limit, ?string $query = null): array
     {
         return $this->mapper->extractNotificationsFromRows(
-            $this->gateway->loadUserNotifications($userId, $offset, $limit)
+            $this->gateway->loadUserNotifications($userId, $offset, $limit, $query)
         );
     }
 

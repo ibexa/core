@@ -18,15 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\NotificationList;
  */
 interface NotificationService
 {
-    /**
-     * Get currently logged user notifications.
-     *
-     * @param int $offset the start offset for paging
-     * @param int $limit  the number of notifications returned
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Notification\NotificationList
-     */
-    public function loadNotifications(int $offset, int $limit): NotificationList;
+    public function loadNotifications(int $offset, int $limit, ?string $query = null): NotificationList;
 
     /**
      * Load single notification (by ID).
@@ -64,12 +56,7 @@ interface NotificationService
      */
     public function getPendingNotificationCount(): int;
 
-    /**
-     * Get count of total users notifications.
-     *
-     * @return int
-     */
-    public function getNotificationCount(): int;
+    public function getNotificationCount(?string $query = null): int;
 
     /**
      * Creates a new notification.

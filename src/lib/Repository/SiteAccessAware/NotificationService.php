@@ -29,17 +29,9 @@ class NotificationService implements NotificationServiceInterface
         $this->service = $service;
     }
 
-    /**
-     * Get currently logged user notifications.
-     *
-     * @param int $offset
-     * @param int $limit
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Notification\NotificationList
-     */
-    public function loadNotifications(int $offset, int $limit): NotificationList
+    public function loadNotifications(int $offset, int $limit, ?string $query = null): NotificationList
     {
-        return $this->service->loadNotifications($offset, $limit);
+        return $this->service->loadNotifications($offset, $limit, $query);
     }
 
     /**
@@ -77,14 +69,9 @@ class NotificationService implements NotificationServiceInterface
         return $this->service->getPendingNotificationCount();
     }
 
-    /**
-     * Get count of total users notifications.
-     *
-     * @return int
-     */
-    public function getNotificationCount(): int
+    public function getNotificationCount(?string $query = null): int
     {
-        return $this->service->getNotificationCount();
+        return $this->service->getNotificationCount($query);
     }
 
     /**

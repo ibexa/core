@@ -98,13 +98,15 @@ class NotificationHandler extends AbstractHandler implements Handler
         return $count;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function countNotifications(int $ownerId): int
+    public function countNotifications(int $ownerId, ?string $query = null): int
     {
+        $cacheKeyParams = [$ownerId];
+        if ($query !== null) {
+            $cacheKeyParams[] = $query;
+        }
+
         $cacheItem = $this->cache->getItem(
-            $this->cacheIdentifierGenerator->generateKey(self::NOTIFICATION_COUNT_IDENTIFIER, [$ownerId], true)
+            $this->cacheIdentifierGenerator->generateKey(self::NOTIFICATION_COUNT_IDENTIFIER, $cacheKeyParams, true)
         );
 
         $count = $cacheItem->get();
@@ -114,9 +116,10 @@ class NotificationHandler extends AbstractHandler implements Handler
 
         $this->logger->logCall(__METHOD__, [
             'ownerId' => $ownerId,
+            'query' => $query,
         ]);
 
-        $count = $this->persistenceHandler->notificationHandler()->countNotifications($ownerId);
+        $count = $this->persistenceHandler->notificationHandler()->countNotifications($ownerId, $query);
 
         $cacheItem->set($count);
         $this->cache->save($cacheItem);
@@ -150,18 +153,16 @@ class NotificationHandler extends AbstractHandler implements Handler
         return $notification;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function loadUserNotifications(int $userId, int $offset, int $limit): array
+    public function loadUserNotifications(int $userId, int $offset, int $limit, ?string $query = null): array
     {
         $this->logger->logCall(__METHOD__, [
             'ownerId' => $userId,
             'offset' => $offset,
             'limit' => $limit,
+            'query' => $query,
         ]);
 
-        return $this->persistenceHandler->notificationHandler()->loadUserNotifications($userId, $offset, $limit);
+        return $this->persistenceHandler->notificationHandler()->loadUserNotifications($userId, $offset, $limit, $query);
     }
 }
 

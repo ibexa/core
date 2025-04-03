@@ -52,10 +52,10 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function countUserNotifications(int $userId): int
+    public function countUserNotifications(int $userId, ?string $query = null): int
     {
         try {
-            return $this->innerGateway->countUserNotifications($userId);
+            return $this->innerGateway->countUserNotifications($userId, $query);
         } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
@@ -70,10 +70,10 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function loadUserNotifications(int $userId, int $offset = 0, int $limit = -1): array
+    public function loadUserNotifications(int $userId, int $offset = 0, int $limit = -1, ?string $query = null): array
     {
         try {
-            return $this->innerGateway->loadUserNotifications($userId, $offset, $limit);
+            return $this->innerGateway->loadUserNotifications($userId, $offset, $limit, $query);
         } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }

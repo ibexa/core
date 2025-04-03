@@ -36,9 +36,12 @@ class NotificationServiceDecoratorTest extends TestCase
         $parameters = [
             264,
             959,
+            'some search query',
         ];
 
-        $serviceMock->expects($this->once())->method('loadNotifications')->with(...$parameters);
+        $serviceMock->expects($this->once())
+            ->method('loadNotifications')
+            ->with(...$parameters);
 
         $decoratedService->loadNotifications(...$parameters);
     }
