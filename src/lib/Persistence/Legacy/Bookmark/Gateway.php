@@ -36,9 +36,9 @@ abstract class Gateway
      * Load data for an bookmark with the given $userId and $locationId.
      *
      * @param int $userId ID of user
-     * @param array $locationIds ID of location
+     * @param int[] $locationIds ID of location
      *
-     * @return array
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadBookmarkDataByUserIdAndLocationId(int $userId, array $locationIds): array;
 
@@ -56,7 +56,7 @@ abstract class Gateway
      * @param int $offset Offset to start listing from, 0 by default
      * @param int $limit Limit for the listing. -1 by default (no limit)
      *
-     * @return array
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadUserBookmarks(int $userId, int $offset = 0, int $limit = -1): array;
 
