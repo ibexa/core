@@ -29,7 +29,7 @@ use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
  * @group fieldType
  * @group ezurl
  */
-class UserTest extends FieldTypeTest
+class UserTest extends FieldTypeTestCase
 {
     private const UNSUPPORTED_HASH_TYPE = 0xDEADBEEF;
 

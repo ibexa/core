@@ -26,7 +26,7 @@ use Ibexa\Core\FieldType\ValidationError;
  * @group fieldType
  * @group ezimageasset
  */
-class ImageAssetTest extends FieldTypeTest
+class ImageAssetTest extends FieldTypeTestCase
 {
     private const DESTINATION_CONTENT_ID = 14;
 

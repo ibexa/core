@@ -16,7 +16,7 @@ use Ibexa\Core\FieldType\ValidationError;
  * @group fieldType
  * @group ezfloat
  */
-class FloatTest extends FieldTypeTest
+class FloatTest extends FieldTypeTestCase
 {
     /**
      * Returns the field type under test.

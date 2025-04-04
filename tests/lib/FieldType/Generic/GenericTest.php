@@ -11,7 +11,7 @@ namespace Ibexa\Tests\Core\FieldType\Generic;
 use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\FieldType\ValueSerializerInterface;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
-use Ibexa\Tests\Core\FieldType\BaseFieldTypeTest;
+use Ibexa\Tests\Core\FieldType\BaseFieldTypeTestCase;
 use Ibexa\Tests\Core\FieldType\Generic\Stubs\Type as GenericFieldTypeStub;
 use Ibexa\Tests\Core\FieldType\Generic\Stubs\Value as GenericFieldValueStub;
 use Symfony\Component\Validator\ConstraintViolation;
@@ -19,7 +19,7 @@ use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class GenericTest extends BaseFieldTypeTest
+class GenericTest extends BaseFieldTypeTestCase
 {
     /** @var \Ibexa\Contracts\Core\FieldType\ValueSerializerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $serializer;

@@ -9,9 +9,8 @@ namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Core\Persistence\TransformationProcessor;
-use Ibexa\Tests\Core\FieldType\BaseFieldTypeTest as BaseFieldTypeTest;
 
-abstract class FieldTypeTest extends BaseFieldTypeTest
+abstract class FieldTypeTestCase extends BaseFieldTypeTestCase
 {
     /**
      * @return \Ibexa\Core\Persistence\TransformationProcessor|\PHPUnit\Framework\MockObject\MockObject

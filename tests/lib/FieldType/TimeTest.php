@@ -16,7 +16,7 @@ use Ibexa\Core\FieldType\Time\Value as TimeValue;
  * @group fieldType
  * @group eztime
  */
-class TimeTest extends FieldTypeTest
+class TimeTest extends FieldTypeTestCase
 {
     /**
      * Returns the field type under test.

@@ -16,7 +16,7 @@ use Ibexa\Core\FieldType\ValidationError;
  * @group fieldType
  * @group ezemail
  */
-class EmailAddressTest extends FieldTypeTest
+class EmailAddressTest extends FieldTypeTestCase
 {
     /**
      * Returns the field type under test.

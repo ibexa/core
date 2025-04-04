@@ -17,7 +17,7 @@ use Ibexa\Core\FieldType\Date\Value as DateValue;
  * @group fieldType
  * @group ezdate
  */
-class DateTest extends FieldTypeTest
+class DateTest extends FieldTypeTestCase
 {
     /**
      * Returns the field type under test.

@@ -17,7 +17,7 @@ use Ibexa\Core\FieldType\ValidationError;
  * @group fieldType
  * @group ezselection
  */
-class SelectionTest extends FieldTypeTest
+class SelectionTest extends FieldTypeTestCase
 {
     /**
      * Returns the field type under test.
