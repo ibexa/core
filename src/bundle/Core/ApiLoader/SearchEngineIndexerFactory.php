@@ -38,7 +38,7 @@ class SearchEngineIndexerFactory
      * @param \Ibexa\Core\Search\Common\Indexer $searchEngineIndexer
      * @param string $searchEngineIdentifier
      */
-    public function registerSearchEngineIndexer(SearchEngineIndexer $searchEngineIndexer, $searchEngineIdentifier)
+    public function registerSearchEngineIndexer(SearchEngineIndexer $searchEngineIndexer, $searchEngineIdentifier): void
     {
         $this->searchEngineIndexers[$searchEngineIdentifier] = $searchEngineIndexer;
     }

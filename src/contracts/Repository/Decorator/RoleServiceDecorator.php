@@ -29,8 +29,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 
 abstract class RoleServiceDecorator implements RoleService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\RoleService */
-    protected $innerService;
+    protected RoleService $innerService;
 
     public function __construct(RoleService $innerService)
     {

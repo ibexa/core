@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
 
@@ -20,8 +19,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
  */
 final class DoctrineDatabase extends Gateway
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
     /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
     private $dbPlatform;
@@ -29,7 +27,7 @@ final class DoctrineDatabase extends Gateway
     /**
      * Creates a new DoctrineDatabase Section Gateway.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct(Connection $connection)
     {
@@ -74,8 +72,7 @@ final class DoctrineDatabase extends Gateway
     public function loadSectionData(int $id): array
     {
         $query = $this->connection->createQueryBuilder();
-        $query
-            ->select(['id', 'identifier', 'name'])
+        $query->select('id', 'identifier', 'name')
             ->from(self::CONTENT_SECTION_TABLE)
             ->where(
                 $query->expr()->eq(
@@ -86,19 +83,18 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadAllSectionData(): array
     {
         $query = $this->connection->createQueryBuilder();
-        $query
-            ->select(['id', 'identifier', 'name'])
+        $query->select('id', 'identifier', 'name')
             ->from(self::CONTENT_SECTION_TABLE);
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadSectionDataByIdentifier(string $identifier): array
@@ -119,7 +115,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function countContentObjectsInSection(int $id): int

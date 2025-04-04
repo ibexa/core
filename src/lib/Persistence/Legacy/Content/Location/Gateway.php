@@ -46,11 +46,11 @@ abstract class Gateway
      * @param string[]|null $translations
      * @param bool $useAlwaysAvailable Respect always available flag on content when filtering on $translations.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     abstract public function getBasicNodeData(
         int $nodeId,
-        array $translations = null,
+        ?array $translations = null,
         bool $useAlwaysAvailable = true
     ): array;
 
@@ -78,10 +78,12 @@ abstract class Gateway
      *
      * @param string[]|null $translations
      * @param bool $useAlwaysAvailable Respect always available flag on content when filtering on $translations.
+     *
+     * @return array<string, mixed>
      */
     abstract public function getBasicNodeDataByRemoteId(
         string $remoteId,
-        array $translations = null,
+        ?array $translations = null,
         bool $useAlwaysAvailable = true
     ): array;
 
@@ -98,7 +100,7 @@ abstract class Gateway
      * Loads data for all Locations for $contentId in trash, optionally only in the
      * subtree starting at $rootLocationId.
      *
-     * @return string[]
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadLocationDataByTrashContent(int $contentId, ?int $rootLocationId = null): array;
 
@@ -109,8 +111,17 @@ abstract class Gateway
 
     /**
      * Find all content in the given subtree.
+     *
+     * @phpstan-return array<int, array<string, mixed>>
      */
-    abstract public function getSubtreeContent(int $sourceId, bool $onlyIds = false): array;
+    abstract public function getSubtreeContent(int $sourceId): array;
+
+    /**
+     * Find all content in the given subtree, but return only node ID to content ID map.
+     *
+     * @return array<int, int>
+     */
+    abstract public function getSubtreeNodeIdToContentIdMap(int $sourceId): array;
 
     /**
      * Finds draft contents created under the given parent location.
@@ -134,8 +145,8 @@ abstract class Gateway
      *
      * @todo optimize
      *
-     * @param array $fromPathString
-     * @param array $toPathString
+     * @param array<string, mixed> $fromPathString
+     * @param array<string, mixed> $toPathString
      */
     abstract public function moveSubtreeNodes(array $fromPathString, array $toPathString): void;
 
@@ -202,7 +213,7 @@ abstract class Gateway
     /**
      * Creates a new location in given $parentNode.
      *
-     * @param array $parentNode parent node raw data
+     * @param array<string, mixed> $parentNode parent node raw data
      */
     abstract public function create(CreateStruct $createStruct, array $parentNode): Location;
 
@@ -251,6 +262,8 @@ abstract class Gateway
      * This returns lowest node id for content identified by $contentId, and not of
      * the node identified by given $locationId (current main node).
      * Assumes that content has more than one location.
+     *
+     * @return array<string, mixed>
      */
     abstract public function getFallbackMainNodeData(int $contentId, int $locationId): array;
 
@@ -278,12 +291,14 @@ abstract class Gateway
     /**
      * Loads trash data specified by location ID.
      *
+     * @return array<string, mixed>
+     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     abstract public function loadTrashByLocation(int $locationId): array;
 
     /**
-     * Removes every entries in the trash.
+     * Removes every entry in the trash.
      * Will NOT remove associated content objects nor attributes.
      *
      * Basically truncates ezcontentobject_trash table.
@@ -298,7 +313,7 @@ abstract class Gateway
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sort
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface|null $criterion
      *
-     * @return array entries from ezcontentobject_trash.
+     * @return list<array<string, mixed>> entries from ezcontentobject_trash.
      */
     abstract public function listTrashed(
         int $offset,

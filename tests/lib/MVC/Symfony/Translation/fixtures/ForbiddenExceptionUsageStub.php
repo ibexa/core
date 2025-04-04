@@ -18,7 +18,7 @@ final class ForbiddenExceptionUsageStub
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      */
-    public function foo(): void
+    public function foo(): never
     {
         throw new ForbiddenException('Forbidden exception');
     }

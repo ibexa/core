@@ -9,6 +9,7 @@ namespace Ibexa\Core\Persistence\Legacy\Content;
 
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
@@ -23,34 +24,26 @@ class FieldHandler
 {
     /**
      * Content Gateway.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
      */
-    protected $contentGateway;
+    protected Gateway $contentGateway;
 
     /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\Handler */
-    protected $languageHandler;
+    protected Handler $languageHandler;
 
     /**
      * Content Mapper.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Mapper
      */
-    protected $mapper;
+    protected Mapper $mapper;
 
     /**
      * Storage Handler.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
      */
-    protected $storageHandler;
+    protected StorageHandler $storageHandler;
 
     /**
      * FieldType registry.
-     *
-     * @var \Ibexa\Core\Persistence\FieldTypeRegistry
      */
-    protected $fieldTypeRegistry;
+    protected FieldTypeRegistry $fieldTypeRegistry;
 
     /**
      * Hash of SPI FieldTypes or callable callbacks to generate one.
@@ -88,7 +81,7 @@ class FieldHandler
      * @param \Ibexa\Contracts\Core\Persistence\Content $content
      * @param \Ibexa\Contracts\Core\Persistence\Content\Type $contentType
      */
-    public function createNewFields(Content $content, Type $contentType)
+    public function createNewFields(Content $content, Type $contentType): void
     {
         $fieldsToCopy = [];
         $languageCodes = [];
@@ -130,7 +123,7 @@ class FieldHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Field
      */
-    protected function getEmptyField(FieldDefinition $fieldDefinition, $languageCode)
+    protected function getEmptyField(FieldDefinition $fieldDefinition, $languageCode): Field
     {
         $fieldType = $this->fieldTypeRegistry->getFieldType($fieldDefinition->fieldType);
 
@@ -302,7 +295,7 @@ class FieldHandler
      *
      * @param \Ibexa\Contracts\Core\Persistence\Content $content
      */
-    public function loadExternalFieldData(Content $content)
+    public function loadExternalFieldData(Content $content): void
     {
         foreach ($content->fields as $field) {
             $this->storageHandler->getFieldData($content->versionInfo, $field);
@@ -316,7 +309,7 @@ class FieldHandler
      * @param \Ibexa\Contracts\Core\Persistence\Content\UpdateStruct $updateStruct
      * @param \Ibexa\Contracts\Core\Persistence\Content\Type $contentType
      */
-    public function updateFields(Content $content, UpdateStruct $updateStruct, Type $contentType)
+    public function updateFields(Content $content, UpdateStruct $updateStruct, Type $contentType): void
     {
         $updatedFields = [];
         $fieldsToCopy = [];
@@ -427,7 +420,7 @@ class FieldHandler
      *
      * @return array<int, array<string, \Ibexa\Contracts\Core\Persistence\Content\Field>>
      */
-    protected function getFieldMap(array $fields, &$languageCodes = null)
+    protected function getFieldMap(array $fields, &$languageCodes = null): array
     {
         $fieldMap = [];
         foreach ($fields as $field) {
@@ -446,7 +439,7 @@ class FieldHandler
      * @param int $contentId
      * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
      */
-    public function deleteFields($contentId, VersionInfo $versionInfo)
+    public function deleteFields(int $contentId, VersionInfo $versionInfo): void
     {
         foreach ($this->contentGateway->getFieldIdsByType($contentId, $versionInfo->versionNo) as $fieldType => $ids) {
             $this->storageHandler->deleteFieldData($fieldType, $versionInfo, $ids);
@@ -461,7 +454,7 @@ class FieldHandler
      * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo[] $versions
      * @param string $languageCode
      */
-    public function deleteTranslationFromContentFields($contentId, array $versions, $languageCode)
+    public function deleteTranslationFromContentFields(int $contentId, array $versions, ?string $languageCode): void
     {
         foreach ($versions as $versionInfo) {
             // FT-specific implementations require VersionInfo to delete data
@@ -485,7 +478,7 @@ class FieldHandler
      * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
      * @param string $languageCode
      */
-    public function deleteTranslationFromVersionFields(VersionInfo $versionInfo, $languageCode)
+    public function deleteTranslationFromVersionFields(VersionInfo $versionInfo, ?string $languageCode): void
     {
         $fieldTypeIdsMap = $this->contentGateway->getFieldIdsByType(
             $versionInfo->contentInfo->id,

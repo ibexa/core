@@ -13,13 +13,19 @@ use Ibexa\Core\Search\Common\FieldNameGenerator;
 use Ibexa\Core\Search\Common\FieldRegistry;
 use Ibexa\Core\Search\Legacy\Content\Mapper\FullTextMapper;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test case for Language aware classes.
  */
 abstract class LanguageAwareTestCase extends TestCase
 {
-    protected const ENG_GB = 'eng-GB';
+    protected const string ENG_GB = 'eng-GB';
+
+    protected const string FIXTURE_PATH_FULL_EXAMPLE_TREE = __DIR__ . '/Location/Gateway/_fixtures/full_example_tree.php';
+    protected const string FIXTURE_PATH_CONTENT_OBJECTS = __DIR__ . '/_fixtures/contentobjects.php';
+
+    protected const string FIXTURE_PATH_OBJECTS_STATES = __DIR__ . '/_fixtures/objectstates.php';
 
     /**
      * Language handler.
@@ -82,7 +88,7 @@ abstract class LanguageAwareTestCase extends TestCase
     }
 
     /** @var \Ibexa\Core\Search\Common\FieldNameGenerator|\PHPUnit\Framework\MockObject\MockObject */
-    protected $fieldNameGeneratorMock;
+    protected ?MockObject $fieldNameGeneratorMock = null;
 
     /**
      * @return \Ibexa\Core\Search\Common\FieldNameGenerator|\PHPUnit\Framework\MockObject\MockObject

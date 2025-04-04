@@ -30,7 +30,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testCreateRole
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
-    public function testCreateRoleThrowsUnauthorizedException()
+    public function testCreateRoleThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -62,7 +62,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testLoadRole
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
-    public function testLoadRoleThrowsUnauthorizedException()
+    public function testLoadRoleThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -91,7 +91,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testLoadRoleByIdentifier
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
-    public function testLoadRoleByIdentifierThrowsUnauthorizedException()
+    public function testLoadRoleByIdentifierThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -117,7 +117,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\RoleService::loadRoles()
      */
-    public function testLoadRolesLoadsEmptyListForAnonymousUser()
+    public function testLoadRolesLoadsEmptyListForAnonymousUser(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();
@@ -140,7 +140,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\RoleService::loadRoles()
      */
-    public function testLoadRolesForUserWithSubtreeLimitation()
+    public function testLoadRolesForUserWithSubtreeLimitation(): void
     {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
@@ -173,7 +173,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testDeleteRole
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
-    public function testDeleteRoleThrowsUnauthorizedException()
+    public function testDeleteRoleThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -202,7 +202,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testUpdatePolicyByRoleDraft
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
-    public function testUpdatePolicyByRoleDraftThrowsUnauthorizedException()
+    public function testUpdatePolicyByRoleDraftThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -250,7 +250,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testRemovePolicyByRoleDraft
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
-    public function testRemovePolicyThrowsUnauthorizedException()
+    public function testRemovePolicyThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -295,7 +295,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testRemovePolicyByRoleDraft
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
-    public function testDeletePolicyThrowsUnauthorizedException()
+    public function testDeletePolicyThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -329,7 +329,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testAssignRoleToUserGroup
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
-    public function testAssignRoleToUserGroupThrowsUnauthorizedException()
+    public function testAssignRoleToUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -364,7 +364,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testAssignRoleToUserGroup
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
-    public function testAssignRoleToUserGroupThrowsUnauthorizedExceptionWithRoleLimitationParameter()
+    public function testAssignRoleToUserGroupThrowsUnauthorizedExceptionWithRoleLimitationParameter(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -406,7 +406,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testRemoveRoleAssignmentFromUserGroup
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
-    public function testRemoveRoleAssignmentFromUserGroupThrowsUnauthorizedException()
+    public function testRemoveRoleAssignmentFromUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -450,7 +450,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testAssignRoleToUser
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
-    public function testAssignRoleToUserThrowsUnauthorizedException()
+    public function testAssignRoleToUserThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -479,7 +479,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testAssignRoleToUser
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
-    public function testAssignRoleToUserThrowsUnauthorizedExceptionWithRoleLimitationParameter()
+    public function testAssignRoleToUserThrowsUnauthorizedExceptionWithRoleLimitationParameter(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -515,7 +515,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testRemoveRoleAssignment
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
-    public function testRemoveRoleAssignmentThrowsUnauthorizedException()
+    public function testRemoveRoleAssignmentThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -552,7 +552,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testGetRoleAssignments
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
-    public function testGetRoleAssignmentsThrowsUnauthorizedException()
+    public function testGetRoleAssignmentsThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -578,7 +578,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\RoleService::getRoleAssignmentsForUser()
      */
-    public function testGetRoleAssignmentsForUserLoadsEmptyListForAnonymousUser()
+    public function testGetRoleAssignmentsForUserLoadsEmptyListForAnonymousUser(): void
     {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
@@ -600,7 +600,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\RoleService::getRoleAssignmentsForUser()
      */
-    public function testGetRoleAssignmentsForUserWithSubtreeLimitation()
+    public function testGetRoleAssignmentsForUserWithSubtreeLimitation(): void
     {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
@@ -633,7 +633,7 @@ class RoleServiceAuthorizationTest extends BaseTest
      * @depends Ibexa\Tests\Integration\Core\Repository\RoleServiceTest::testGetRoleAssignmentsForUserGroup
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
-    public function testGetRoleAssignmentsForUserGroupThrowsUnauthorizedException()
+    public function testGetRoleAssignmentsForUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 

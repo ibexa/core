@@ -10,6 +10,7 @@ namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
@@ -22,19 +23,17 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler;
  */
 class Field extends SortClauseHandler
 {
+    private const string STR_AS_STR_FORMAT = '%s AS %s';
+
     /**
      * Language handler.
-     *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
      */
-    protected $languageHandler;
+    protected Handler $languageHandler;
 
     /**
      * Content type handler.
-     *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
      */
-    protected $contentTypeHandler;
+    protected ContentTypeHandler $contentTypeHandler;
 
     public function __construct(
         Connection $connection,
@@ -79,26 +78,26 @@ class Field extends SortClauseHandler
         $query
             ->addSelect(
                 sprintf(
-                    '%s AS %s',
+                    self::STR_AS_STR_FORMAT,
                     $query->expr()->isNotNull(
                         $this->getSortTableName($number) . '.sort_key_int'
                     ),
                     $column1 = $this->getSortColumnName($number . '_null')
                 ),
                 sprintf(
-                    '%s AS %s',
+                    self::STR_AS_STR_FORMAT,
                     $query->expr()->isNotNull(
                         $this->getSortTableName($number) . '.sort_key_string'
                     ),
                     $column2 = $this->getSortColumnName($number . '_bis_null')
                 ),
                 sprintf(
-                    '%s AS %s',
+                    self::STR_AS_STR_FORMAT,
                     $this->getSortTableName($number) . '.sort_key_int',
                     $column3 = $this->getSortColumnName($number)
                 ),
                 sprintf(
-                    '%s AS %s',
+                    self::STR_AS_STR_FORMAT,
                     $this->getSortTableName($number) . '.sort_key_string',
                     $column4 = $this->getSortColumnName($number . '_bis')
                 )
@@ -134,7 +133,7 @@ class Field extends SortClauseHandler
                 'c',
                 Gateway::CONTENT_FIELD_TABLE,
                 $tableAlias,
-                $query->expr()->andX(
+                $query->expr()->and(
                     $query->expr()->eq(
                         $query->createNamedParameter(
                             $fieldDefinitionId,
@@ -158,14 +157,14 @@ class Field extends SortClauseHandler
     protected function getFieldCondition(
         QueryBuilder $query,
         array $languageSettings,
-        $fieldTableName
+        string $fieldTableName
     ) {
         // 1. Use main language(s) by default
         if (empty($languageSettings['languages'])) {
             return $query->expr()->gt(
                 $this->dbPlatform->getBitAndComparisonExpression(
                     'c.initial_language_id',
-                    $fieldTableName . '.language_id'
+                    $this->getLanguageIdColumnExpressionForTable($fieldTableName)
                 ),
                 $query->createNamedParameter(0, ParameterType::INTEGER)
             );
@@ -177,13 +176,13 @@ class Field extends SortClauseHandler
                 'c.language_mask - %s',
                 $this->dbPlatform->getBitAndComparisonExpression(
                     'c.language_mask',
-                    $fieldTableName . '.language_id'
+                    $this->getLanguageIdColumnExpressionForTable($fieldTableName)
                 )
             ),
             $query->createNamedParameter(1, ParameterType::INTEGER)
         );
         $rightSide = $this->dbPlatform->getBitAndComparisonExpression(
-            $fieldTableName . '.language_id',
+            $this->getLanguageIdColumnExpressionForTable($fieldTableName),
             $query->createNamedParameter(1, ParameterType::INTEGER)
         );
 
@@ -198,13 +197,13 @@ class Field extends SortClauseHandler
                     'c.language_mask - %s',
                     $this->dbPlatform->getBitAndComparisonExpression(
                         'c.language_mask',
-                        $fieldTableName . '.language_id'
+                        $this->getLanguageIdColumnExpressionForTable($fieldTableName)
                     )
                 ),
                 $query->createNamedParameter($languageId, ParameterType::INTEGER)
             );
             $addToRightSide = $this->dbPlatform->getBitAndComparisonExpression(
-                $fieldTableName . '.language_id',
+                $this->getLanguageIdColumnExpressionForTable($fieldTableName),
                 $query->createNamedParameter($languageId, ParameterType::INTEGER)
             );
 
@@ -226,15 +225,20 @@ class Field extends SortClauseHandler
             $rightSide = "$rightSide + ($addToRightSide)";
         }
 
-        return $query->expr()->andX(
+        return $query->expr()->and(
             $query->expr()->gt(
                 $this->dbPlatform->getBitAndComparisonExpression(
                     'c.language_mask',
-                    $fieldTableName . '.language_id'
+                    $this->getLanguageIdColumnExpressionForTable($fieldTableName)
                 ),
                 $query->createNamedParameter(0, ParameterType::INTEGER)
             ),
             $query->expr()->lt($leftSide, $rightSide)
         );
+    }
+
+    private function getLanguageIdColumnExpressionForTable(string $fieldTableName): string
+    {
+        return $fieldTableName . '.language_id';
     }
 }

@@ -20,14 +20,11 @@ use Ibexa\Contracts\Core\Persistence\ValueObject;
  */
 final class ContentItem extends ValueObject
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content */
-    protected $content;
+    protected Content $content;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\ContentInfo */
-    protected $contentInfo;
+    protected ContentInfo $contentInfo;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type */
-    protected $type;
+    protected Type $type;
 
     /**
      * @internal for internal use by Repository Storage abstraction

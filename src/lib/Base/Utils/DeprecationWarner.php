@@ -9,7 +9,7 @@ namespace Ibexa\Core\Base\Utils;
 
 class DeprecationWarner implements DeprecationWarnerInterface
 {
-    public function log($message)
+    public function log($message): void
     {
         @trigger_error($message, E_USER_DEPRECATED);
     }

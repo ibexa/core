@@ -24,21 +24,16 @@ use Twig\TwigFunction;
  */
 class FieldRenderingExtension extends AbstractExtension
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Templating\FieldBlockRendererInterface */
-    private $fieldBlockRenderer;
+    private FieldBlockRendererInterface $fieldBlockRenderer;
 
-    /** @var \Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistryInterface */
-    private $parameterProviderRegistry;
+    private ParameterProviderRegistryInterface $parameterProviderRegistry;
 
-    /** @var \Ibexa\Core\Helper\TranslationHelper */
-    private $translationHelper;
+    private TranslationHelper $translationHelper;
 
     /**
      * Hash of field type identifiers (i.e. "ezstring"), indexed by field definition identifier.
-     *
-     * @var array
      */
-    private $fieldTypeIdentifiers = [];
+    private array $fieldTypeIdentifiers = [];
 
     public function __construct(
         FieldBlockRendererInterface $fieldBlockRenderer,
@@ -107,7 +102,7 @@ class FieldRenderingExtension extends AbstractExtension
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      */
-    public function renderField(Content $content, $fieldIdentifier, array $params = [])
+    public function renderField(Content $content, string $fieldIdentifier, array $params = [])
     {
         $field = $this->translationHelper->getTranslatedField($content, $fieldIdentifier, isset($params['lang']) ? $params['lang'] : null);
         if (!$field instanceof Field) {
@@ -132,7 +127,7 @@ class FieldRenderingExtension extends AbstractExtension
      *
      * @return array
      */
-    private function getRenderFieldBlockParameters(Content $content, Field $field, array $params = [])
+    private function getRenderFieldBlockParameters(Content $content, Field $field, array $params = []): array
     {
         // Merging passed parameters to default ones
         $params += [

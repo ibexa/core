@@ -8,7 +8,6 @@
 namespace Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 
@@ -20,7 +19,7 @@ class SearchIndex
     public const SEARCH_WORD_TABLE = 'ezsearch_word';
     public const SEARCH_OBJECT_WORD_LINK_TABLE = 'ezsearch_object_word_link';
 
-    protected $connection;
+    protected Connection $connection;
 
     public function __construct(Connection $connection)
     {
@@ -43,7 +42,7 @@ class SearchIndex
             // use array_map as some DBMS-es do not cast integers to strings by default
             ->setParameter('words', array_map('strval', $words), Connection::PARAM_STR_ARRAY);
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -206,7 +205,7 @@ class SearchIndex
                 )
             );
 
-        return $query->execute()->fetchAll(FetchMode::COLUMN);
+        return $query->executeQuery()->fetchFirstColumn();
     }
 
     /**

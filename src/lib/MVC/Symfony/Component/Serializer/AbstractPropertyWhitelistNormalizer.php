@@ -18,7 +18,7 @@ abstract class AbstractPropertyWhitelistNormalizer extends PropertyNormalizer
      *
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function normalize($object, string $format = null, array $context = []): array
+    public function normalize(mixed $object, string $format = null, array $context = []): array
     {
         $data = parent::normalize($object, $format, $context) ?? [];
         if (!is_array($data)) {

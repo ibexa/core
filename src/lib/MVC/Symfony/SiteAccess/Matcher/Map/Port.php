@@ -22,7 +22,7 @@ class Port extends Map
      *
      * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
      */
-    public function setRequest(SimplifiedRequest $request)
+    public function setRequest(SimplifiedRequest $request): void
     {
         if (!$this->key) {
             if (!empty($request->getPort())) {

@@ -21,6 +21,7 @@ use Ibexa\Contracts\Core\Repository\ContentTypeService as ContentTypeServiceInte
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException as APIBadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
@@ -31,6 +32,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup as APICo
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct;
@@ -45,34 +47,28 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\FieldType\ValidationError;
+use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
+use Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper;
 use Ibexa\Core\Repository\Values\ContentType\ContentTypeCreateStruct;
 use Ibexa\Core\Repository\Values\ContentType\ContentTypeGroup;
 
 class ContentTypeService implements ContentTypeServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    protected $repository;
+    protected Repository $repository;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler */
-    protected $contentTypeHandler;
+    protected Handler $contentTypeHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\User\Handler */
-    protected $userHandler;
+    protected UserHandler $userHandler;
 
-    /** @var array */
-    protected $settings;
+    protected array $settings;
 
-    /** @var \Ibexa\Core\Repository\Mapper\ContentDomainMapper */
-    protected $contentDomainMapper;
+    protected ContentDomainMapper $contentDomainMapper;
 
-    /** @var \Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper */
-    protected $contentTypeDomainMapper;
+    protected ContentTypeDomainMapper $contentTypeDomainMapper;
 
-    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
-    protected $fieldTypeRegistry;
+    protected FieldTypeRegistry $fieldTypeRegistry;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    private $permissionResolver;
+    private PermissionResolver $permissionResolver;
 
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
@@ -90,8 +86,8 @@ class ContentTypeService implements ContentTypeServiceInterface
         RepositoryInterface $repository,
         Handler $contentTypeHandler,
         UserHandler $userHandler,
-        Mapper\ContentDomainMapper $contentDomainMapper,
-        Mapper\ContentTypeDomainMapper $contentTypeDomainMapper,
+        ContentDomainMapper $contentDomainMapper,
+        ContentTypeDomainMapper $contentTypeDomainMapper,
         FieldTypeRegistry $fieldTypeRegistry,
         PermissionResolver $permissionResolver,
         array $settings = []
@@ -1139,7 +1135,7 @@ class ContentTypeService implements ContentTypeServiceInterface
             throw new UnauthorizedException('ContentType', 'create');
         }
 
-        if (empty($creator)) {
+        if (!$creator instanceof User) {
             $creator = $this->permissionResolver->getCurrentUserReference();
         }
 
@@ -1361,7 +1357,7 @@ class ContentTypeService implements ContentTypeServiceInterface
             $fieldDefinition->identifier
         );
 
-        if (empty($loadedFieldDefinition) || $loadedFieldDefinition->id != $fieldDefinition->id) {
+        if (!$loadedFieldDefinition instanceof FieldDefinition || $loadedFieldDefinition->id != $fieldDefinition->id) {
             throw new InvalidArgumentException(
                 '$fieldDefinition',
                 'The given Field definition does not belong to the content type'

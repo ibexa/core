@@ -19,8 +19,7 @@ use Ibexa\Core\Persistence\Legacy\Setting\Gateway;
  */
 final class DoctrineDatabase extends Gateway
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
     public function __construct(Connection $connection)
     {
@@ -69,11 +68,11 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select([
+            ->select(
                 $this->connection->quoteIdentifier('group'),
                 'identifier',
                 'value',
-            ])
+            )
             ->from(self::SETTING_TABLE)
             ->where(
                 $query->expr()->eq(
@@ -100,11 +99,11 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select([
+            ->select(
                 $this->connection->quoteIdentifier('group'),
                 'identifier',
                 'value',
-            ])
+            )
             ->from(self::SETTING_TABLE)
             ->where(
                 $query->expr()->eq(

@@ -22,12 +22,13 @@ use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Twig\Environment;
 
 class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTestCase
 {
-    private $fieldDefinitions = [];
+    private array $fieldDefinitions = [];
 
     public function getExtensions()
     {
@@ -60,7 +61,7 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
         return __DIR__ . '/_fixtures/field_rendering_functions/';
     }
 
-    public function getFieldDefinition($typeIdentifier, $id = null, $settings = [])
+    public function getFieldDefinition($typeIdentifier, $id = null, $settings = []): FieldDefinition
     {
         return new FieldDefinition(
             [
@@ -80,7 +81,7 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
      *
      * @return \Ibexa\Core\Repository\Values\Content\Content
      */
-    protected function getContent($contentTypeIdentifier, array $fieldsData, array $namesData = [])
+    protected function getContent($contentTypeIdentifier, array $fieldsData, array $namesData = []): Content
     {
         $fields = [];
         foreach ($fieldsData as $fieldTypeIdentifier => $fieldsArray) {
@@ -147,12 +148,12 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
         return $mock;
     }
 
-    private function getTemplatePath($tpl): string
+    private function getTemplatePath(string $tpl): string
     {
         return 'templates/' . $tpl;
     }
 
-    private function getConfigResolverMock()
+    private function getConfigResolverMock(): MockObject
     {
         $mock = $this->createMock(ConfigResolverInterface::class);
         // Signature: ConfigResolverInterface->getParameter( $paramName, $namespace = null, $scope = null )

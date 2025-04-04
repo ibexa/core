@@ -8,10 +8,10 @@
 namespace Ibexa\Core\Search\Legacy\Content\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
@@ -27,35 +27,28 @@ use RuntimeException;
  */
 final class DoctrineDatabase extends Gateway
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
     /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
     private $dbPlatform;
 
     /**
      * Criteria converter.
-     *
-     * @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter
      */
-    private $criteriaConverter;
+    private CriteriaConverter $criteriaConverter;
 
     /**
      * Sort clause converter.
-     *
-     * @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter
      */
-    private $sortClauseConverter;
+    private SortClauseConverter $sortClauseConverter;
 
     /**
      * Language handler.
-     *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
      */
-    private $languageHandler;
+    private Handler $languageHandler;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct(
         Connection $connection,
@@ -132,7 +125,7 @@ final class DoctrineDatabase extends Gateway
         array $languageFilter
     ) {
         $expr = $query->expr();
-        $condition = $expr->andX(
+        $condition = $expr->and(
             $this->criteriaConverter->convertCriteria($query, $filter, $languageFilter),
             $expr->eq(
                 'c.status',
@@ -146,7 +139,7 @@ final class DoctrineDatabase extends Gateway
 
         // If not main-languages query
         if (!empty($languageFilter['languages'])) {
-            $condition = $expr->andX(
+            $condition = $expr->and(
                 $condition,
                 $expr->gt(
                     $this->dbPlatform->getBitAndComparisonExpression(
@@ -234,7 +227,7 @@ final class DoctrineDatabase extends Gateway
                 'c',
                 LocationGateway::CONTENT_TREE_TABLE,
                 'main_tree',
-                $query->expr()->andX(
+                $query->expr()->and(
                     'main_tree.contentobject_id = c.id',
                     'main_tree.main_node_id = main_tree.node_id'
                 )
@@ -257,6 +250,6 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 }

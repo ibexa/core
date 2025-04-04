@@ -19,6 +19,15 @@ use PDO;
  */
 class DoctrineStorage extends BaseDoctrineStorage
 {
+    private const string CONTROLS_PARAM_NAME = ':controls';
+    private const string HAS_CONTROLLER_PARAM_NAME = ':hasController';
+    private const string HEIGHT_PARAM_NAME = ':height';
+    private const string IS_AUTOPLAY_PARAM_NAME = ':isAutoplay';
+    private const string IS_LOOP_PARAM_NAME = ':isLoop';
+    private const string PLUGINS_PAGE_PAGE = ':pluginsPage';
+    private const string QUALITY_PARAM_NAME = ':quality';
+    private const string WIDTH_PARAM_NAME = ':width';
+
     /**
      * {@inheritdoc}
      */
@@ -70,15 +79,7 @@ class DoctrineStorage extends BaseDoctrineStorage
     {
         parent::setFetchColumns($queryBuilder, $fieldId, $versionNo);
 
-        $queryBuilder->addSelect(
-            [
-                $this->connection->quoteIdentifier('has_controller'),
-                $this->connection->quoteIdentifier('is_autoplay'),
-                $this->connection->quoteIdentifier('is_loop'),
-                $this->connection->quoteIdentifier('width'),
-                $this->connection->quoteIdentifier('height'),
-            ]
-        );
+        $queryBuilder->addSelect($this->connection->quoteIdentifier('has_controller'), $this->connection->quoteIdentifier('is_autoplay'), $this->connection->quoteIdentifier('is_loop'), $this->connection->quoteIdentifier('width'), $this->connection->quoteIdentifier('height'));
     }
 
     /**
@@ -89,26 +90,26 @@ class DoctrineStorage extends BaseDoctrineStorage
         parent::setInsertColumns($queryBuilder, $versionInfo, $field);
 
         $queryBuilder
-            ->setValue('controls', ':controls')
-            ->setValue('has_controller', ':hasController')
-            ->setValue('height', ':height')
-            ->setValue('is_autoplay', ':isAutoplay')
-            ->setValue('is_loop', ':isLoop')
-            ->setValue('pluginspage', ':pluginsPage')
-            ->setValue('quality', ':quality')
-            ->setValue('width', ':width')
-            ->setParameter(':controls', '')
+            ->setValue('controls', self::CONTROLS_PARAM_NAME)
+            ->setValue('has_controller', self::HAS_CONTROLLER_PARAM_NAME)
+            ->setValue('height', self::HEIGHT_PARAM_NAME)
+            ->setValue('is_autoplay', self::IS_AUTOPLAY_PARAM_NAME)
+            ->setValue('is_loop', self::IS_LOOP_PARAM_NAME)
+            ->setValue('pluginspage', self::PLUGINS_PAGE_PAGE)
+            ->setValue('quality', self::QUALITY_PARAM_NAME)
+            ->setValue('width', self::WIDTH_PARAM_NAME)
+            ->setParameter(self::CONTROLS_PARAM_NAME, '')
             ->setParameter(
-                ':hasController',
+                self::HAS_CONTROLLER_PARAM_NAME,
                 $field->value->externalData['hasController'],
                 PDO::PARAM_INT
             )
-            ->setParameter(':height', $field->value->externalData['height'], PDO::PARAM_INT)
-            ->setParameter(':isAutoplay', $field->value->externalData['autoplay'], PDO::PARAM_INT)
-            ->setParameter(':isLoop', $field->value->externalData['loop'], PDO::PARAM_INT)
-            ->setParameter(':pluginsPage', '')
-            ->setParameter(':quality', 'high')
-            ->setParameter(':width', $field->value->externalData['width'], PDO::PARAM_INT)
+            ->setParameter(self::HEIGHT_PARAM_NAME, $field->value->externalData['height'], PDO::PARAM_INT)
+            ->setParameter(self::IS_AUTOPLAY_PARAM_NAME, $field->value->externalData['autoplay'], PDO::PARAM_INT)
+            ->setParameter(self::IS_LOOP_PARAM_NAME, $field->value->externalData['loop'], PDO::PARAM_INT)
+            ->setParameter(self::PLUGINS_PAGE_PAGE, '')
+            ->setParameter(self::QUALITY_PARAM_NAME, 'high')
+            ->setParameter(self::WIDTH_PARAM_NAME, $field->value->externalData['width'], PDO::PARAM_INT)
         ;
     }
 
@@ -120,26 +121,26 @@ class DoctrineStorage extends BaseDoctrineStorage
         parent::setUpdateColumns($queryBuilder, $versionInfo, $field);
 
         $queryBuilder
-            ->set('controls', ':controls')
-            ->set('has_controller', ':hasController')
-            ->set('height', ':height')
-            ->set('is_autoplay', ':isAutoplay')
-            ->set('is_loop', ':isLoop')
-            ->set('pluginspage', ':pluginsPage')
-            ->set('quality', ':quality')
-            ->set('width', ':width')
-            ->setParameter(':controls', '')
+            ->set('controls', self::CONTROLS_PARAM_NAME)
+            ->set('has_controller', self::HAS_CONTROLLER_PARAM_NAME)
+            ->set('height', self::HEIGHT_PARAM_NAME)
+            ->set('is_autoplay', self::IS_AUTOPLAY_PARAM_NAME)
+            ->set('is_loop', self::IS_LOOP_PARAM_NAME)
+            ->set('pluginspage', self::PLUGINS_PAGE_PAGE)
+            ->set('quality', self::QUALITY_PARAM_NAME)
+            ->set('width', self::WIDTH_PARAM_NAME)
+            ->setParameter(self::CONTROLS_PARAM_NAME, '')
             ->setParameter(
-                ':hasController',
+                self::HAS_CONTROLLER_PARAM_NAME,
                 $field->value->externalData['hasController'],
                 ParameterType::INTEGER
             )
-            ->setParameter(':height', $field->value->externalData['height'], ParameterType::INTEGER)
-            ->setParameter(':isAutoplay', $field->value->externalData['autoplay'], ParameterType::INTEGER)
-            ->setParameter(':isLoop', $field->value->externalData['loop'], ParameterType::INTEGER)
-            ->setParameter(':pluginsPage', '')
-            ->setParameter(':quality', 'high')
-            ->setParameter(':width', $field->value->externalData['width'], ParameterType::INTEGER)
+            ->setParameter(self::HEIGHT_PARAM_NAME, $field->value->externalData['height'], ParameterType::INTEGER)
+            ->setParameter(self::IS_AUTOPLAY_PARAM_NAME, $field->value->externalData['autoplay'], ParameterType::INTEGER)
+            ->setParameter(self::IS_LOOP_PARAM_NAME, $field->value->externalData['loop'], ParameterType::INTEGER)
+            ->setParameter(self::PLUGINS_PAGE_PAGE, '')
+            ->setParameter(self::QUALITY_PARAM_NAME, 'high')
+            ->setParameter(self::WIDTH_PARAM_NAME, $field->value->externalData['width'], ParameterType::INTEGER)
         ;
     }
 }

@@ -11,8 +11,10 @@ namespace Ibexa\Core\Repository;
 use Exception;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
+use Ibexa\Contracts\Core\Persistence\Bookmark\Handler;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Handler as BookmarkHandler;
 use Ibexa\Contracts\Core\Repository\BookmarkService as BookmarkServiceInterface;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\Values\Bookmark\BookmarkList;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
@@ -20,11 +22,9 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 
 class BookmarkService implements BookmarkServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    protected $repository;
+    protected Repository $repository;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Bookmark\Handler */
-    protected $bookmarkHandler;
+    protected Handler $bookmarkHandler;
 
     /**
      * BookmarkService constructor.

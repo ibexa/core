@@ -15,14 +15,11 @@ use UnexpectedValueException;
 
 final class BeforeUpdateLocationEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-    private $location;
+    private Location $location;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\LocationUpdateStruct */
-    private $locationUpdateStruct;
+    private LocationUpdateStruct $locationUpdateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location|null */
-    private $updatedLocation;
+    private ?Location $updatedLocation = null;
 
     public function __construct(Location $location, LocationUpdateStruct $locationUpdateStruct)
     {

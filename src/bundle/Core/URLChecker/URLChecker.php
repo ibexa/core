@@ -7,6 +7,7 @@
 
 namespace Ibexa\Bundle\Core\URLChecker;
 
+use Ibexa\Contracts\Core\Repository\URLService;
 use Ibexa\Contracts\Core\Repository\URLService as URLServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\URL\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
@@ -17,11 +18,9 @@ class URLChecker implements URLCheckerInterface
 {
     use LoggerAwareTrait;
 
-    /** @var \Ibexa\Contracts\Core\Repository\URLService */
-    protected $urlService;
+    protected URLService $urlService;
 
-    /** @var \Ibexa\Bundle\Core\URLChecker\URLHandlerRegistryInterface */
-    protected $handlerRegistry;
+    protected URLHandlerRegistryInterface $handlerRegistry;
 
     /**
      * URLChecker constructor.
@@ -41,7 +40,7 @@ class URLChecker implements URLCheckerInterface
     /**
      * {@inheritdoc}
      */
-    public function check(URLQuery $query)
+    public function check(URLQuery $query): void
     {
         $grouped = $this->fetchUrls($query);
         foreach ($grouped as $scheme => $urls) {
@@ -76,7 +75,7 @@ class URLChecker implements URLCheckerInterface
      *
      * @return array
      */
-    private function groupByScheme(SearchResult $urls)
+    private function groupByScheme(SearchResult $urls): array
     {
         $grouped = [];
 

@@ -18,11 +18,9 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 
 final class FirstMatchingFieldStrategy implements ThumbnailStrategy
 {
-    /** @var \Ibexa\Contracts\Core\Repository\FieldTypeService */
-    private $fieldTypeService;
+    private FieldTypeService $fieldTypeService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\Field\ThumbnailStrategy */
-    private $contentFieldStrategy;
+    private ContentFieldThumbnailStrategy $contentFieldStrategy;
 
     public function __construct(
         ContentFieldThumbnailStrategy $contentFieldStrategy,

@@ -62,7 +62,7 @@ class BinaryFileCreateStruct
      *
      * @param resource $inputStream
      */
-    public function setInputStream($inputStream)
+    public function setInputStream($inputStream): void
     {
         $this->inputStream = $inputStream;
     }

@@ -61,7 +61,7 @@ class ObjectStateHandler extends AbstractInMemoryPersistenceHandler implements O
                     $this->cacheIdentifierGenerator->generateTag(self::STATE_GROUP_IDENTIFIER, [(int) $groupId]),
                 ];
             },
-            function () use ($groupId) {
+            function () use ($groupId): array {
                 return [
                     $this->cacheIdentifierGenerator->generateKey(self::STATE_GROUP_IDENTIFIER, [(int) $groupId], true),
                 ];

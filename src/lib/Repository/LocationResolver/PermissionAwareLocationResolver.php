@@ -20,8 +20,7 @@ use Ibexa\Core\Base\Exceptions\NotFoundException as CoreNotFoundException;
  */
 final class PermissionAwareLocationResolver implements LocationResolver
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
-    private $locationService;
+    private LocationService $locationService;
 
     public function __construct(LocationService $locationService)
     {

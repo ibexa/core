@@ -25,8 +25,7 @@ class DoctrineDatabase extends Gateway
     public const COLUMN_CREATED = 'created';
     public const COLUMN_DATA = 'data';
 
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
     /**
      * @param \Doctrine\DBAL\Connection $connection
@@ -75,7 +74,7 @@ class DoctrineDatabase extends Gateway
 
         $query->setParameter(':id', $notificationId, PDO::PARAM_INT);
 
-        return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -149,7 +148,7 @@ class DoctrineDatabase extends Gateway
         $query->orderBy(self::COLUMN_ID, 'DESC');
         $query->setParameter(':user_id', $userId, PDO::PARAM_INT);
 
-        return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**

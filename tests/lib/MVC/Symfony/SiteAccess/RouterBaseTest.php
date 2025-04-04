@@ -43,7 +43,7 @@ abstract class RouterBaseTest extends TestCase
     /**
      * @dataProvider matchProvider
      */
-    public function testMatch(SimplifiedRequest $request, string $siteAccess)
+    public function testMatch(SimplifiedRequest $request, string $siteAccess): void
     {
         $router = $this->createRouter();
         $sa = $router->match($request);

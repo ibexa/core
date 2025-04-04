@@ -14,6 +14,7 @@ use Ibexa\Core\FieldType\RelationList\Type;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationListConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -22,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 class RelationListTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationListConverter */
-    protected $converter;
+    protected MockObject $converter;
 
     protected function setUp(): void
     {
@@ -38,7 +39,7 @@ class RelationListTest extends TestCase
      * @group fieldType
      * @group relationlist
      */
-    public function testToStorageValue()
+    public function testToStorageValue(): void
     {
         $destinationContentIds = [3, 2, 1];
         $fieldValue = new FieldValue();
@@ -107,7 +108,7 @@ EOT;
      * @group fieldType
      * @group relationlist
      */
-    public function testToStorageValueEmpty()
+    public function testToStorageValueEmpty(): void
     {
         $destinationContentIds = [];
         $fieldValue = new FieldValue();
@@ -141,7 +142,7 @@ EOT;
      * @group fieldType
      * @group relationlist
      */
-    public function testToFieldValue()
+    public function testToFieldValue(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->sortKeyString = '';
@@ -168,7 +169,7 @@ EOT;
      * @group fieldType
      * @group relationlist
      */
-    public function testToFieldValueEmpty()
+    public function testToFieldValueEmpty(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->sortKeyString = '';
@@ -195,7 +196,7 @@ EOT;
      * @group fieldType
      * @group relationlist
      */
-    public function testToStorageFieldDefinition()
+    public function testToStorageFieldDefinition(): void
     {
         $fieldDefinition = new PersistenceFieldDefinition(
             [
@@ -238,7 +239,7 @@ EOT;
      * @group fieldType
      * @group relationlist
      */
-    public function testToFieldDefinitionMultiple()
+    public function testToFieldDefinitionMultiple(): void
     {
         $storageFieldDefinition = new StorageFieldDefinition();
         $storageFieldDefinition->dataText5 = <<<EOT

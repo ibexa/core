@@ -12,18 +12,19 @@ use Ibexa\Bundle\Core\Imagine\Cache\ResolverFactory;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Liip\ImagineBundle\Imagine\Cache\Resolver\ProxyResolver;
 use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ResolverFactoryTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private MockObject $configResolver;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
-    private $resolver;
+    private MockObject $resolver;
 
     /** @var \Ibexa\Bundle\Core\Imagine\Cache\ResolverFactory */
-    private $factory;
+    private ResolverFactory $factory;
 
     protected function setUp(): void
     {
@@ -38,7 +39,7 @@ class ResolverFactoryTest extends TestCase
         );
     }
 
-    public function testCreateProxyCacheResolver()
+    public function testCreateProxyCacheResolver(): void
     {
         $this->configResolver
             ->expects(self::at(0))
@@ -59,7 +60,7 @@ class ResolverFactoryTest extends TestCase
         self::assertEquals($expected, $this->factory->createCacheResolver());
     }
 
-    public function testCreateRelativeCacheResolver()
+    public function testCreateRelativeCacheResolver(): void
     {
         $this->configResolver
             ->expects(self::at(0))

@@ -12,6 +12,7 @@ use DateTime;
 use Ibexa\Contracts\Core\Persistence;
 use Ibexa\Contracts\Core\Persistence\User\Handler;
 use Ibexa\Contracts\Core\Persistence\User\Role;
+use Ibexa\Contracts\Core\Persistence\User\UserTokenUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Role as APIRole;
@@ -26,11 +27,8 @@ use LogicException;
  */
 class UserHandlerTest extends TestCase
 {
-    private const TEST_USER_ID = 42;
+    private const int TEST_USER_ID = 42;
 
-    /**
-     * @throws \Doctrine\DBAL\DBALException
-     */
     protected function getUserHandler(User\Gateway $userGateway = null): Handler
     {
         $connection = $this->getDatabaseConnection();
@@ -43,7 +41,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    protected function getValidUser()
+    protected function getValidUser(): Persistence\User
     {
         $user = new Persistence\User();
         $user->id = self::TEST_USER_ID;
@@ -58,9 +56,9 @@ class UserHandlerTest extends TestCase
         return $user;
     }
 
-    protected function getValidUserToken($time = null)
+    protected function getValidUserToken($time = null): UserTokenUpdateStruct
     {
-        $userToken = new Persistence\User\UserTokenUpdateStruct();
+        $userToken = new UserTokenUpdateStruct();
         $userToken->userId = self::TEST_USER_ID;
         $userToken->hashKey = md5('hash');
         $userToken->time = $time ?? (new DateTime())->add(new DateInterval('P1D'))->getTimestamp();
@@ -68,7 +66,7 @@ class UserHandlerTest extends TestCase
         return $userToken;
     }
 
-    public function testCreateUser()
+    public function testCreateUser(): void
     {
         $handler = $this->getUserHandler();
 
@@ -104,7 +102,7 @@ class UserHandlerTest extends TestCase
         ];
     }
 
-    public function testLoadUser()
+    public function testLoadUser(): void
     {
         $gatewayMock = $this
             ->createMock(User\Gateway::class);
@@ -124,7 +122,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadUnknownUser()
+    public function testLoadUnknownUser(): void
     {
         $this->expectException(NotFoundException::class);
         $gatewayMock = $this
@@ -140,7 +138,7 @@ class UserHandlerTest extends TestCase
         $handler->load(1337);
     }
 
-    public function testLoadUserByLogin()
+    public function testLoadUserByLogin(): void
     {
         $gatewayMock = $this
             ->createMock(User\Gateway::class);
@@ -160,7 +158,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadMultipleUsersByLogin()
+    public function testLoadMultipleUsersByLogin(): void
     {
         $this->expectException(LogicException::class);
 
@@ -181,7 +179,7 @@ class UserHandlerTest extends TestCase
         $handler->loadByLogin($user->login);
     }
 
-    public function testLoadMultipleUsersByEmail()
+    public function testLoadMultipleUsersByEmail(): void
     {
         $this->expectException(LogicException::class);
 
@@ -202,7 +200,7 @@ class UserHandlerTest extends TestCase
         $handler->loadByEmail($user->email);
     }
 
-    public function testLoadUserByEmailNotFound()
+    public function testLoadUserByEmailNotFound(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -212,7 +210,7 @@ class UserHandlerTest extends TestCase
         $handler->loadByLogin($user->email);
     }
 
-    public function testLoadUserByEmail()
+    public function testLoadUserByEmail(): void
     {
         $gatewayMock = $this
             ->createMock(User\Gateway::class);
@@ -232,7 +230,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadUsersByEmail()
+    public function testLoadUsersByEmail(): void
     {
         $gatewayMock = $this
             ->createMock(User\Gateway::class);
@@ -252,7 +250,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadUserByTokenNotFound()
+    public function testLoadUserByTokenNotFound(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -262,7 +260,7 @@ class UserHandlerTest extends TestCase
         $handler->loadUserByToken('asd');
     }
 
-    public function testLoadUserByToken()
+    public function testLoadUserByToken(): void
     {
         $gatewayMock = $this
             ->createMock(User\Gateway::class);
@@ -284,57 +282,49 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testUpdateUserToken()
+    public function testUpdateUserToken(): void
     {
         $handler = $this->getUserHandler();
 
         $handler->updateUserToken($this->getValidUserToken(1234567890));
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [['0800fc577294c34e0b28ad2839435945', 1, 1234567890, self::TEST_USER_ID]],
-            $this->getDatabaseConnection()->createQueryBuilder()->select(
-                ['hash_key', 'id', 'time', 'user_id']
-            )->from('ezuser_accountkey'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('hash_key', 'id', 'time', 'user_id')->from('ezuser_accountkey'),
             'Expected user data to be updated.'
         );
 
         $handler->updateUserToken($this->getValidUserToken(2234567890));
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [['0800fc577294c34e0b28ad2839435945', 1, 2234567890, self::TEST_USER_ID]],
-            $this->getDatabaseConnection()->createQueryBuilder()->select(
-                ['hash_key', 'id', 'time', 'user_id']
-            )->from('ezuser_accountkey'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('hash_key', 'id', 'time', 'user_id')->from('ezuser_accountkey'),
             'Expected user token data to be updated.'
         );
     }
 
-    public function testExpireUserToken()
+    public function testExpireUserToken(): void
     {
         $handler = $this->getUserHandler();
 
         $handler->updateUserToken($userToken = $this->getValidUserToken(1234567890));
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [['0800fc577294c34e0b28ad2839435945', 1, 1234567890, self::TEST_USER_ID]],
-            $this->getDatabaseConnection()->createQueryBuilder()->select(
-                ['hash_key', 'id', 'time', 'user_id']
-            )->from('ezuser_accountkey'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('hash_key', 'id', 'time', 'user_id')->from('ezuser_accountkey'),
             'Expected user data to be updated.'
         );
 
         $handler->expireUserToken($userToken->hashKey);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [['0800fc577294c34e0b28ad2839435945', 1, 0, self::TEST_USER_ID]],
-            $this->getDatabaseConnection()->createQueryBuilder()->select(
-                ['hash_key', 'id', 'time', 'user_id']
-            )->from('ezuser_accountkey'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('hash_key', 'id', 'time', 'user_id')->from('ezuser_accountkey'),
             'Expected user token to be expired.'
         );
     }
 
-    public function testDeleteNonExistingUser()
+    public function testDeleteNonExistingUser(): void
     {
         $handler = $this->getUserHandler();
 
@@ -342,7 +332,7 @@ class UserHandlerTest extends TestCase
         $handler->delete(1337);
     }
 
-    public function testUpdateUser()
+    public function testUpdateUser(): void
     {
         $handler = $this->getUserHandler();
         $user = $this->getValidUser();
@@ -352,7 +342,7 @@ class UserHandlerTest extends TestCase
         $handler->update($user);
     }
 
-    public function testUpdateUserSettings()
+    public function testUpdateUserSettings(): void
     {
         $handler = $this->getUserHandler();
         $user = $this->getValidUser();
@@ -362,7 +352,7 @@ class UserHandlerTest extends TestCase
         $handler->update($user);
     }
 
-    public function testCreateNewRoleWithoutPolicies()
+    public function testCreateNewRoleWithoutPolicies(): void
     {
         $handler = $this->getUserHandler();
 
@@ -371,14 +361,14 @@ class UserHandlerTest extends TestCase
 
         $handler->createRole($createStruct);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[1, 'Test', -1]],
             $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'name', 'version')->from('ezrole'),
             'Expected a new role draft.'
         );
     }
 
-    public function testCreateRoleDraftWithoutPolicies()
+    public function testCreateRoleDraftWithoutPolicies(): void
     {
         $handler = $this->getUserHandler();
 
@@ -391,7 +381,7 @@ class UserHandlerTest extends TestCase
         $handler->createRoleDraft($roleDraft->id);
 
         $publishedRoleId = 1;
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [$publishedRoleId, 'Test', APIRole::STATUS_DEFINED],
                 [2, 'Test', $publishedRoleId],
@@ -401,7 +391,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testCreateNewRoleRoleId()
+    public function testCreateNewRoleRoleId(): void
     {
         $handler = $this->getUserHandler();
 
@@ -413,7 +403,7 @@ class UserHandlerTest extends TestCase
         self::assertSame(1, $roleDraft->id);
     }
 
-    public function testLoadRole()
+    public function testLoadRole(): void
     {
         $handler = $this->getUserHandler();
 
@@ -430,7 +420,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadRoleWithPolicies()
+    public function testLoadRoleWithPolicies(): void
     {
         $handler = $this->getUserHandler();
 
@@ -464,7 +454,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadRoleWithPoliciesAndGroups()
+    public function testLoadRoleWithPoliciesAndGroups(): void
     {
         $handler = $this->getUserHandler();
 
@@ -502,7 +492,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadRoleWithPolicyLimitations()
+    public function testLoadRoleWithPolicyLimitations(): void
     {
         $handler = $this->getUserHandler();
 
@@ -543,7 +533,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadRoles()
+    public function testLoadRoles(): void
     {
         $handler = $this->getUserHandler();
 
@@ -560,7 +550,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testUpdateRole()
+    public function testUpdateRole(): void
     {
         $handler = $this->getUserHandler();
 
@@ -572,14 +562,14 @@ class UserHandlerTest extends TestCase
 
         $handler->updateRole($update);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[1, 'Changed']],
             $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'name')->from('ezrole'),
             'Expected a changed role.'
         );
     }
 
-    public function testDeleteRole()
+    public function testDeleteRole(): void
     {
         $this->insertSharedDatabaseFixture();
         $handler = $this->getUserHandler();
@@ -587,26 +577,26 @@ class UserHandlerTest extends TestCase
         // 3 is the ID of Editor role
         $handler->deleteRole(3);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [],
             $this->getDatabaseConnection()->createQueryBuilder()->select('id')->from('ezrole')->where('id = 3'),
             'Expected an empty set.'
         );
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [],
             $this->getDatabaseConnection()->createQueryBuilder()->select('role_id')->from('ezpolicy')->where('role_id = 3'),
             'Expected an empty set.'
         );
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [],
             $this->getDatabaseConnection()->createQueryBuilder()->select('role_id')->from('ezuser_role')->where('role_id = 3'),
             'Expected an empty set.'
         );
     }
 
-    public function testDeleteRoleDraft()
+    public function testDeleteRoleDraft(): void
     {
         $this->insertSharedDatabaseFixture();
         $handler = $this->getUserHandler();
@@ -615,26 +605,26 @@ class UserHandlerTest extends TestCase
         $roleDraft = $handler->createRoleDraft(3);
         $handler->deleteRole($roleDraft->id, APIRole::STATUS_DRAFT);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [['3', APIRole::STATUS_DEFINED]],
             $this->getDatabaseConnection()->createQueryBuilder()->select('id, version')->from('ezrole')->where('id = 3'),
             'Expected a published role.'
         );
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[implode("\n", array_fill(0, 28, '3, ' . APIRole::STATUS_DEFINED))]],
             $this->getDatabaseConnection()->createQueryBuilder()->select('role_id, original_id')->from('ezpolicy')->where('role_id = 3'),
             'Expected 28 policies for the published role.'
         );
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[3], [3]],
             $this->getDatabaseConnection()->createQueryBuilder()->select('role_id')->from('ezuser_role')->where('role_id = 3'),
             'Expected that role assignments still exist.'
         );
     }
 
-    public function testAddPolicyToRoleLimitations()
+    public function testAddPolicyToRoleLimitations(): void
     {
         $handler = $this->getUserHandler();
 
@@ -646,14 +636,14 @@ class UserHandlerTest extends TestCase
 
         $handler->addPolicy($role->id, $policy);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[1, 'foo', 'bar', 1]],
             $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'module_name', 'function_name', 'role_id')->from('ezpolicy'),
             'Expected a new policy.'
         );
     }
 
-    public function testAddPolicyPolicyId()
+    public function testAddPolicyPolicyId(): void
     {
         $handler = $this->getUserHandler();
 
@@ -668,11 +658,11 @@ class UserHandlerTest extends TestCase
         self::assertEquals(1, $policy->id);
     }
 
-    public function testAddPolicyLimitations()
+    public function testAddPolicyLimitations(): void
     {
         $this->createTestRoleWithTestPolicy();
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [1, 'Subtree', 1],
                 [2, 'Foo', 1],
@@ -682,11 +672,11 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testAddPolicyLimitationValues()
+    public function testAddPolicyLimitationValues(): void
     {
         $this->createTestRoleWithTestPolicy();
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [1, '/1', 1],
                 [2, '/1/2', 1],
@@ -723,11 +713,11 @@ class UserHandlerTest extends TestCase
         return $handler->createRole($createStruct);
     }
 
-    public function testImplicitlyCreatePolicies()
+    public function testImplicitlyCreatePolicies(): void
     {
         $this->createRole();
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [1, 'foo', 'bar', 1],
                 [2, 'foo', 'blubb', 1],
@@ -737,7 +727,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testDeletePolicy()
+    public function testDeletePolicy(): void
     {
         $handler = $this->getUserHandler();
 
@@ -745,7 +735,7 @@ class UserHandlerTest extends TestCase
         $handler->publishRoleDraft($roleDraft->id);
         $handler->deletePolicy($roleDraft->policies[0]->id, $roleDraft->policies[0]->roleId);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [2, 'foo', 'blubb', 1],
             ],
@@ -754,33 +744,33 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testDeletePolicyLimitations()
+    public function testDeletePolicyLimitations(): void
     {
         $handler = $this->getUserHandler();
 
         $roleDraft = $this->createRole();
         $handler->deletePolicy($roleDraft->policies[0]->id, $roleDraft->policies[0]->roleId);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[3, 'Foo', 2]],
             $this->getDatabaseConnection()->createQueryBuilder()->select('*')->from('ezpolicy_limitation')
         );
     }
 
-    public function testDeletePolicyLimitationValues()
+    public function testDeletePolicyLimitationValues(): void
     {
         $handler = $this->getUserHandler();
 
         $roleDraft = $this->createRole();
         $handler->deletePolicy($roleDraft->policies[0]->id, $roleDraft->policies[0]->roleId);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[4, 3, 'Blubb']],
             $this->getDatabaseConnection()->createQueryBuilder()->select('*')->from('ezpolicy_limitation_value')
         );
     }
 
-    public function testUpdatePolicies()
+    public function testUpdatePolicies(): void
     {
         $handler = $this->getUserHandler();
 
@@ -793,7 +783,7 @@ class UserHandlerTest extends TestCase
 
         $handler->updatePolicy($policy);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [3, 'Foo', 2],
                 [4, 'new', 1],
@@ -801,7 +791,7 @@ class UserHandlerTest extends TestCase
             $this->getDatabaseConnection()->createQueryBuilder()->select('*')->from('ezpolicy_limitation')
         );
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [4, 3, 'Blubb'],
                 [5, 4, 'something'],
@@ -810,7 +800,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testAddRoleToUser()
+    public function testAddRoleToUser(): void
     {
         $handler = $this->getUserHandler();
 
@@ -821,7 +811,7 @@ class UserHandlerTest extends TestCase
 
         $handler->assignRole($user->id, $role->id, []);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [1, self::TEST_USER_ID, 1, null, null],
             ],
@@ -830,7 +820,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testAddRoleToUserWithLimitation()
+    public function testAddRoleToUserWithLimitation(): void
     {
         $handler = $this->getUserHandler();
 
@@ -847,7 +837,7 @@ class UserHandlerTest extends TestCase
             ]
         );
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [1, self::TEST_USER_ID, 1, 'Subtree', '/1'],
             ],
@@ -856,7 +846,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testAddRoleToUserWithComplexLimitation()
+    public function testAddRoleToUserWithComplexLimitation(): void
     {
         $handler = $this->getUserHandler();
 
@@ -874,7 +864,7 @@ class UserHandlerTest extends TestCase
             ]
         );
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [1, self::TEST_USER_ID, 1, 'Subtree', '/1'],
                 [2, self::TEST_USER_ID, 1, 'Subtree', '/1/2'],
@@ -885,7 +875,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testRemoveUserRoleAssociation()
+    public function testRemoveUserRoleAssociation(): void
     {
         $handler = $this->getUserHandler();
 
@@ -905,14 +895,14 @@ class UserHandlerTest extends TestCase
 
         $handler->unassignRole($user->id, $role->id);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [],
             $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'contentobject_id', 'role_id', 'limit_identifier', 'limit_value')->from('ezuser_role'),
             'Expected no user policy associations.'
         );
     }
 
-    public function testLoadRoleAssignmentsByGroupId()
+    public function testLoadRoleAssignmentsByGroupId(): void
     {
         $this->insertSharedDatabaseFixture();
         $handler = $this->getUserHandler();
@@ -956,7 +946,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadRoleAssignmentsByGroupIdInherited()
+    public function testLoadRoleAssignmentsByGroupIdInherited(): void
     {
         $this->insertSharedDatabaseFixture();
         $handler = $this->getUserHandler();
@@ -975,7 +965,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadComplexRoleAssignments()
+    public function testLoadComplexRoleAssignments(): void
     {
         $this->insertSharedDatabaseFixture();
         $handler = $this->getUserHandler();
@@ -1102,7 +1092,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadRoleDraftByRoleId()
+    public function testLoadRoleDraftByRoleId(): void
     {
         $this->insertSharedDatabaseFixture();
         $handler = $this->getUserHandler();
@@ -1111,11 +1101,11 @@ class UserHandlerTest extends TestCase
         $originalRoleId = 3;
         $draft = $handler->createRoleDraft($originalRoleId);
         $loadedDraft = $handler->loadRoleDraftByRoleId($originalRoleId);
-        self::assertSame($loadedDraft->originalId, $originalRoleId);
+        self::assertSame($originalRoleId, $loadedDraft->originalId);
         self::assertEquals($draft, $loadedDraft);
     }
 
-    public function testRoleDraftOnlyHavePolicyDraft()
+    public function testRoleDraftOnlyHavePolicyDraft(): void
     {
         $this->insertSharedDatabaseFixture();
         $handler = $this->getUserHandler();
@@ -1128,7 +1118,7 @@ class UserHandlerTest extends TestCase
 
         $draft = $handler->createRoleDraft($originalRoleId);
         $loadedDraft = $handler->loadRole($draft->id, Role::STATUS_DRAFT);
-        self::assertSame($loadedDraft->originalId, $originalRoleId);
+        self::assertSame($originalRoleId, $loadedDraft->originalId);
         self::assertEquals($draft, $loadedDraft);
         foreach ($loadedDraft->policies as $policy) {
             self::assertTrue(isset($originalPolicies[$policy->originalId]));

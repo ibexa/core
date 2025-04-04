@@ -18,8 +18,7 @@ class QueryRenderingExtension extends AbstractExtension
 {
     private const VALID_TYPES = ['content', 'location'];
 
-    /** @var \Symfony\Component\HttpKernel\Fragment\FragmentHandler */
-    private $fragmentHandler;
+    private FragmentHandler $fragmentHandler;
 
     public function __construct(FragmentHandler $fragmentHandler)
     {

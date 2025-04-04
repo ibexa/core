@@ -22,7 +22,7 @@ use Ibexa\Tests\Core\Search\TestCase;
 final class RemoteIdentifierMapperTest extends TestCase
 {
     /** @var \Ibexa\Core\Search\Common\FieldValueMapper\RemoteIdentifierMapper */
-    private $mapper;
+    private RemoteIdentifierMapper $mapper;
 
     protected function setUp(): void
     {

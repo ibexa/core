@@ -63,7 +63,7 @@ class ValidationErrorFileVisitor implements LoggerAwareInterface, FileVisitorInt
     /**
      * @param \Psr\Log\LoggerInterface $logger
      */
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }

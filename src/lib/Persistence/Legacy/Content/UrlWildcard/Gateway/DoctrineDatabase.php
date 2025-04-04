@@ -35,11 +35,9 @@ final class DoctrineDatabase extends Gateway
      */
     private const MAX_LIMIT = 1073741824;
 
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriteriaConverter */
-    protected $criteriaConverter;
+    protected CriteriaConverter $criteriaConverter;
 
     public const SORT_DIRECTION_MAP = [
         SortClause::SORT_ASC => 'ASC',
@@ -170,7 +168,7 @@ final class DoctrineDatabase extends Gateway
 
         $stmt = $query->execute();
 
-        return $stmt->fetchAll(FetchMode::ASSOCIATIVE);
+        return $stmt->fetchAllAssociative();
     }
 
     public function find(

@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\User\Gateway;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as DBALException;
 use Ibexa\Contracts\Core\Persistence\User;
 use Ibexa\Contracts\Core\Persistence\User\UserTokenUpdateStruct;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
@@ -22,10 +22,8 @@ final class ExceptionConversion extends Gateway
 {
     /**
      * The wrapped gateway.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\User\Gateway
      */
-    private $innerGateway;
+    private Gateway $innerGateway;
 
     /**
      * Create a new exception conversion gateway around $innerGateway.

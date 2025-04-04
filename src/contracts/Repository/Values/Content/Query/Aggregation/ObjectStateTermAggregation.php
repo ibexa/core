@@ -10,8 +10,7 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 
 final class ObjectStateTermAggregation extends AbstractTermAggregation
 {
-    /** @var string */
-    private $objectStateGroupIdentifier;
+    private string $objectStateGroupIdentifier;
 
     public function __construct(
         string $name,

@@ -100,7 +100,7 @@ final class SessionSetDynamicNameListenerTest extends TestCase
     /**
      * @dataProvider onSiteAccessMatchProvider
      */
-    public function testOnSiteAccessMatch(SiteAccess $siteAccess, $configuredSessionStorageOptions, array $expectedSessionStorageOptions): void
+    public function testOnSiteAccessMatch(SiteAccess $siteAccess, array $configuredSessionStorageOptions, array $expectedSessionStorageOptions): void
     {
         $request = new Request();
         $request->setSession(new Session(new MockArraySessionStorage()));

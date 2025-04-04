@@ -13,8 +13,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 final class PostBuildViewEvent extends Event
 {
-    /** @var \Ibexa\Core\MVC\Symfony\View\View */
-    private $view;
+    private View $view;
 
     public function __construct(View $view)
     {

@@ -26,14 +26,11 @@ class IORepositoryResolver extends PathResolver implements ResolverInterface
 {
     public const VARIATION_ORIGINAL = 'original';
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
-    private $ioService;
+    private IOServiceInterface $ioService;
 
-    /** @var \Liip\ImagineBundle\Imagine\Filter\FilterConfiguration */
-    private $filterConfiguration;
+    private FilterConfiguration $filterConfiguration;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationPurger */
-    private $variationPurger;
+    private VariationPurger $variationPurger;
 
     public function __construct(
         IOServiceInterface $ioService,
@@ -88,7 +85,7 @@ class IORepositoryResolver extends PathResolver implements ResolverInterface
      *
      * {@inheritdoc}
      */
-    public function store(BinaryInterface $binary, $path, $filter)
+    public function store(BinaryInterface $binary, $path, $filter): void
     {
         $tmpFile = tmpfile();
         fwrite($tmpFile, $binary->getContent());
@@ -105,7 +102,7 @@ class IORepositoryResolver extends PathResolver implements ResolverInterface
      * @param string[] $paths The paths where the original files are expected to be.
      * @param string[] $filters The imagine filters in effect.
      */
-    public function remove(array $paths, array $filters)
+    public function remove(array $paths, array $filters): void
     {
         if (empty($filters)) {
             $filters = array_keys($this->filterConfiguration->all());

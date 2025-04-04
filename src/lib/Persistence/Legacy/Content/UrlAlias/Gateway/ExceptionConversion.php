@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as DBALException;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
 use PDOException;
@@ -20,10 +20,8 @@ final class ExceptionConversion extends Gateway
 {
     /**
      * The wrapped gateway.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway
      */
-    private $innerGateway;
+    private Gateway $innerGateway;
 
     /**
      * Creates a new exception conversion gateway around $innerGateway.

@@ -29,6 +29,8 @@ class Specifications
 
     /**
      * Specified operator, as one of the Operator::* constants.
+     *
+     * @var string
      */
     public $operator;
 

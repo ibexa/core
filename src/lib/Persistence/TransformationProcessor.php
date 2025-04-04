@@ -24,10 +24,8 @@ abstract class TransformationProcessor
 
     /**
      * Parsed rule files.
-     *
-     * @var array
      */
-    protected $ruleFiles = [];
+    protected array $ruleFiles;
 
     /**
      * Compiled rules, which can directly be applied to the input strings.
@@ -38,10 +36,8 @@ abstract class TransformationProcessor
 
     /**
      * Transformation compiler.
-     *
-     * @var \Ibexa\Core\Persistence\TransformationProcessor\PcreCompiler
      */
-    protected $compiler = null;
+    protected PcreCompiler $compiler;
 
     /**
      * Construct instance of TransformationProcessor.

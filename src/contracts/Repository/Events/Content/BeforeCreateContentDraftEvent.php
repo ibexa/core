@@ -18,20 +18,15 @@ use UnexpectedValueException;
 
 final class BeforeCreateContentDraftEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
-    private $contentInfo;
+    private ContentInfo $contentInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo */
-    private $versionInfo;
+    private ?VersionInfo $versionInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
-    private $creator;
+    private ?User $creator;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Language|null */
-    private $language;
+    private ?Language $language;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content|null */
-    private $contentDraft;
+    private ?Content $contentDraft = null;
 
     public function __construct(
         ContentInfo $contentInfo,

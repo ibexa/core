@@ -14,19 +14,20 @@ use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ContentPreviewHelperTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $eventDispatcher;
+    private MockObject $eventDispatcher;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $siteAccessRouter;
+    private MockObject $siteAccessRouter;
 
     /** @var \Ibexa\Core\Helper\ContentPreviewHelper */
-    private $previewHelper;
+    private ContentPreviewHelper $previewHelper;
 
     protected function setUp(): void
     {
@@ -36,7 +37,7 @@ class ContentPreviewHelperTest extends TestCase
         $this->previewHelper = new ContentPreviewHelper($this->eventDispatcher, $this->siteAccessRouter);
     }
 
-    public function testChangeConfigScope()
+    public function testChangeConfigScope(): void
     {
         $newSiteAccessName = 'test';
         $newSiteAccess = new SiteAccess($newSiteAccessName);
@@ -61,7 +62,7 @@ class ContentPreviewHelperTest extends TestCase
         );
     }
 
-    public function testRestoreConfigScope()
+    public function testRestoreConfigScope(): void
     {
         $originalSiteAccess = new SiteAccess('foo', 'bar');
         $event = new ScopeChangeEvent($originalSiteAccess);
@@ -77,7 +78,7 @@ class ContentPreviewHelperTest extends TestCase
         );
     }
 
-    public function testPreviewActive()
+    public function testPreviewActive(): void
     {
         $originalSiteAccess = new SiteAccess('foo', 'bar');
         $this->previewHelper->setSiteAccess($originalSiteAccess);
@@ -91,7 +92,7 @@ class ContentPreviewHelperTest extends TestCase
         self::assertNotSame($originalSiteAccess, $this->previewHelper->getOriginalSiteAccess());
     }
 
-    public function testPreviewedContent()
+    public function testPreviewedContent(): void
     {
         self::assertNull($this->previewHelper->getPreviewedContent());
         $content = $this->createMock(APIContent::class);
@@ -99,7 +100,7 @@ class ContentPreviewHelperTest extends TestCase
         self::assertSame($content, $this->previewHelper->getPreviewedContent());
     }
 
-    public function testPreviewedLocation()
+    public function testPreviewedLocation(): void
     {
         self::assertNull($this->previewHelper->getPreviewedLocation());
         $location = $this->createMock(APILocation::class);

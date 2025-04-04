@@ -24,7 +24,7 @@ class PlaceholderAliasGeneratorConfiguratorTest extends TestCase
         'c' => 'C',
     ];
 
-    public function testConfigure()
+    public function testConfigure(): void
     {
         $configResolver = $this->createMock(ConfigResolverInterface::class);
         $configResolver

@@ -25,7 +25,7 @@ class ObjectStateTest extends TestCase
     /**
      * Test a new class and default values on properties.
      */
-    public function testNewClass()
+    public function testNewClass(): void
     {
         $objectState = new ObjectState();
 
@@ -48,7 +48,7 @@ class ObjectStateTest extends TestCase
      *
      * @return \Ibexa\Core\Repository\Values\ObjectState\ObjectState
      */
-    public function testNewClassWithMultiLanguageProperties()
+    public function testNewClassWithMultiLanguageProperties(): ObjectState
     {
         $properties = [
             'names' => [
@@ -79,7 +79,7 @@ class ObjectStateTest extends TestCase
      * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectState::__get
      * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::__get
      */
-    public function testMissingProperty()
+    public function testMissingProperty(): void
     {
         $this->expectException(PropertyNotFoundException::class);
 
@@ -94,7 +94,7 @@ class ObjectStateTest extends TestCase
      * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectState::__set
      * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup::__set
      */
-    public function testReadOnlyProperty()
+    public function testReadOnlyProperty(): void
     {
         $this->expectException(PropertyReadOnlyException::class);
 
@@ -106,7 +106,7 @@ class ObjectStateTest extends TestCase
     /**
      * Test if property exists.
      */
-    public function testIsPropertySet()
+    public function testIsPropertySet(): void
     {
         $objectState = new ObjectState();
         $value = isset($objectState->notDefined);
@@ -122,7 +122,7 @@ class ObjectStateTest extends TestCase
      * @covers \Ibexa\Core\Repository\Values\ObjectState\ObjectState::__unset
      * @covers \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup::__unset
      */
-    public function testUnsetProperty()
+    public function testUnsetProperty(): void
     {
         $this->expectException(PropertyReadOnlyException::class);
 

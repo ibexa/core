@@ -18,8 +18,7 @@ use function time;
  */
 final class QueryBuilder
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
     public function __construct(Connection $connection)
     {
@@ -107,7 +106,7 @@ final class QueryBuilder
         $joinCondition = $expr->eq('c.id', 't.contentobject_id');
         if ($joinMainLocation) {
             // wrap join condition with AND operator and join by a Main Location
-            $joinCondition = $expr->andX(
+            $joinCondition = $expr->and(
                 $joinCondition,
                 $expr->eq('t.node_id', 't.main_node_id')
             );
@@ -177,7 +176,7 @@ final class QueryBuilder
                 'v',
                 'ezcontentobject_tree',
                 't',
-                $expr->andX(
+                $expr->and(
                     $expr->eq('t.contentobject_id', 'v.contentobject_id'),
                     $expr->eq('t.main_node_id', 't.node_id')
                 )

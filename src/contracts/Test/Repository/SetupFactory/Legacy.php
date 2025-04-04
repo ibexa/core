@@ -9,6 +9,7 @@ namespace Ibexa\Contracts\Core\Test\Repository\SetupFactory;
 
 use Doctrine\DBAL\Connection;
 use Ibexa\Bundle\Core\DependencyInjection\ServiceTags;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder as FilteringCriterionQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder as FilteringSortClauseQueryBuilder;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture;
@@ -21,9 +22,11 @@ use Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler as CachingLang
 use Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler as CachingContentTypeHandler;
 use Ibexa\Core\Persistence\Legacy\Handler;
 use Ibexa\Core\Repository\Values\User\UserReference;
-use Ibexa\Tests\Core\Repository\IdManager;
+use Ibexa\Tests\Core\Repository\IdManager\Php;
 use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
 use Ibexa\Tests\Integration\Core\LegacyTestContainerBuilder;
+use PHPUnit\Framework\Assert;
+use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -35,77 +38,59 @@ class Legacy extends SetupFactory
 {
     /**
      * Data source name.
-     *
-     * @var string
      */
-    protected static $dsn;
+    protected static string $dsn;
 
     /**
      * Root dir for IO operations.
-     *
-     * @var string
      */
-    protected static $ioRootDir;
+    protected static string $ioRootDir;
 
     /**
      * Database type (sqlite, mysql, ...).
-     *
-     * @var string
      */
-    protected static $db;
+    protected static string $db;
 
     /**
      * Service container.
-     *
-     * @var \Ibexa\Core\Base\ServiceContainer
      */
-    protected static $serviceContainer;
+    protected static ServiceContainer $serviceContainer;
 
     /**
      * If the DB schema has already been initialized.
-     *
-     * @var bool
      */
-    protected static $schemaInitialized = false;
+    protected static bool $schemaInitialized = false;
 
     /**
      * Cached in-memory initial database data fixture.
-     *
-     * @var \Ibexa\Contracts\Core\Test\Persistence\Fixture
      */
-    private static $initialDataFixture;
+    private static ?YamlFixture $initialDataFixture = null;
 
-    /**
-     * Cached in-memory post insert SQL statements.
-     *
-     * @var string[]
-     */
-    private static $postInsertStatements;
+    protected string $repositoryReference = 'ibexa.api.repository';
 
-    protected $repositoryReference = 'ibexa.api.repository';
-
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
     /**
      * Creates a new setup factory.
      */
     public function __construct()
     {
-        self::$dsn = getenv('DATABASE');
-        if (!self::$dsn) {
+        $dsn = getenv('DATABASE');
+        if (false === $dsn) {
             // use sqlite in-memory by default (does not need special handling for paratest as it's per process)
             self::$dsn = 'sqlite://:memory:';
         } elseif (getenv('TEST_TOKEN') !== false) {
             // Using paratest, assuming dsn ends with db name here...
-            self::$dsn .= '_' . getenv('TEST_TOKEN');
+            self::$dsn = $dsn . '_' . getenv('TEST_TOKEN');
         }
 
         if ($repositoryReference = getenv('REPOSITORY_SERVICE_ID')) {
             $this->repositoryReference = $repositoryReference;
         }
 
-        self::$db = preg_replace('(^([a-z]+).*)', '\\1', self::$dsn);
+        $sanitizedDSN = preg_replace('(^([a-z]+).*)', '\\1', self::$dsn);
+        Assert::assertIsString($sanitizedDSN);
+        self::$db = $sanitizedDSN;
 
         if (!isset(self::$ioRootDir)) {
             self::$ioRootDir = $this->createTemporaryDirectory();
@@ -137,15 +122,7 @@ class Legacy extends SetupFactory
         return $tmpFile;
     }
 
-    /**
-     * Returns a configured repository for testing.
-     *
-     * @param bool $initializeFromScratch if the back end should be initialized
-     *                                    from scratch or re-used
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Repository
-     */
-    public function getRepository($initializeFromScratch = true)
+    public function getRepository($initializeFromScratch = true): Repository
     {
         if ($initializeFromScratch || !self::$schemaInitialized) {
             $this->initializeSchema();
@@ -164,34 +141,21 @@ class Legacy extends SetupFactory
         return $repository;
     }
 
-    /**
-     * Returns a config value for $configKey.
-     *
-     * @param string $configKey
-     *
-     * @throws \Exception if $configKey could not be found.
-     *
-     * @return mixed
-     */
-    public function getConfigValue($configKey)
+    public function getConfigValue($configKey): mixed
     {
         return $this->getServiceContainer()->getParameter($configKey);
     }
 
-    /**
-     * Returns a repository specific ID manager.
-     *
-     * @return \Ibexa\Tests\Integration\Core\Repository\IdManager
-     */
-    public function getIdManager()
+    public function getIdManager(): Php
     {
-        return new IdManager\Php();
+        return new Php();
     }
 
     /**
      * Insert the database data.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Exception
      */
     public function insertData(): void
     {
@@ -207,7 +171,7 @@ class Legacy extends SetupFactory
         return __DIR__ . '/../../../../../var';
     }
 
-    protected function cleanupVarDir($sourceDir)
+    protected function cleanupVarDir(string $sourceDir): void
     {
         $fs = new Filesystem();
         $varDir = self::$ioRootDir . '/var';
@@ -219,13 +183,14 @@ class Legacy extends SetupFactory
     }
 
     /**
-     * CLears internal in memory caches after inserting data circumventing the
-     * API.
+     * Clears internal in memory caches after inserting data circumventing the API.
+     *
+     * @throws \Exception
      */
-    protected function clearInternalCaches()
+    protected function clearInternalCaches(): void
     {
-        /** @var $handler \Ibexa\Core\Persistence\Legacy\Handler */
         $handler = $this->getServiceContainer()->get(Handler::class);
+        Assert::assertInstanceOf(Handler::class, $handler);
 
         $contentLanguageHandler = $handler->contentLanguageHandler();
         if ($contentLanguageHandler instanceof CachingLanguageHandler) {
@@ -237,8 +202,8 @@ class Legacy extends SetupFactory
             $contentTypeHandler->clearCache();
         }
 
-        /** @var $cachePool \Psr\Cache\CacheItemPoolInterface */
         $cachePool = $this->getServiceContainer()->get('ibexa.cache_pool');
+        Assert::assertInstanceOf(CacheItemPoolInterface::class, $cachePool);
 
         $cachePool->clear();
     }
@@ -257,7 +222,8 @@ class Legacy extends SetupFactory
     /**
      * Initializes the database schema.
      *
-     * @throws \Doctrine\DBAL\ConnectionException
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Exception
      */
     protected function initializeSchema(): void
     {
@@ -276,11 +242,15 @@ class Legacy extends SetupFactory
      * Returns the raw database connection from the service container.
      *
      * @return \Doctrine\DBAL\Connection
+     *
+     * @throws \Exception
      */
     private function getDatabaseConnection(): Connection
     {
-        if (null === $this->connection) {
-            $this->connection = $this->getServiceContainer()->get('ibexa.persistence.connection');
+        if (!isset($this->connection)) {
+            $connection = $this->getServiceContainer()->get('ibexa.persistence.connection');
+            Assert::assertInstanceOf(Connection::class, $connection);
+            $this->connection = $connection;
         }
 
         return $this->connection;
@@ -290,8 +260,10 @@ class Legacy extends SetupFactory
      * Returns the service container used for initialization of the repository.
      *
      * @return \Ibexa\Core\Base\ServiceContainer
+     *
+     * @throws \Exception
      */
-    public function getServiceContainer()
+    public function getServiceContainer(): ServiceContainer
     {
         if (!isset(self::$serviceContainer)) {
             $installDir = self::getInstallationDir();
@@ -311,10 +283,9 @@ class Legacy extends SetupFactory
                 self::$dsn
             );
 
-            $containerBuilder->setParameter(
-                'ibexa.io.dir.root',
-                self::$ioRootDir . '/' . $containerBuilder->getParameter('ibexa.io.dir.storage')
-            );
+            $ioStorageDir = $containerBuilder->getParameter('ibexa.io.dir.storage');
+            Assert::assertIsString($ioStorageDir, "Erroneous 'ibexa.io.dir.storage' container parameter");
+            $containerBuilder->setParameter('ibexa.io.dir.root', self::$ioRootDir . '/' . $ioStorageDir);
 
             $containerBuilder->addCompilerPass(new Compiler\Search\FieldRegistryPass());
 
@@ -327,7 +298,7 @@ class Legacy extends SetupFactory
             self::$serviceContainer = new ServiceContainer(
                 $containerBuilder,
                 $installDir,
-                $this->getCacheDir(),
+                self::getCacheDir(),
                 true,
                 true
             );
@@ -342,7 +313,7 @@ class Legacy extends SetupFactory
      *
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $containerBuilder
      */
-    protected function externalBuildContainer(ContainerBuilder $containerBuilder)
+    protected function externalBuildContainer(ContainerBuilder $containerBuilder): void
     {
         // Does nothing by default
     }
@@ -352,7 +323,7 @@ class Legacy extends SetupFactory
      *
      * @return string
      */
-    public function getDB()
+    public function getDB(): string
     {
         return self::$db;
     }
@@ -361,10 +332,8 @@ class Legacy extends SetupFactory
      * Apply automatic configuration to needed Symfony Services.
      *
      * Note: Based on
-     * {@see \Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension::registerForAutoConfiguration},
+     * {@see \Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension::registerForAutoConfiguration()},
      * but only for services needed by integration test setup.
-     *
-     * @see
      */
     private function registerForAutoConfiguration(ContainerBuilder $containerBuilder): void
     {
@@ -381,7 +350,10 @@ class Legacy extends SetupFactory
     public static function getInstallationDir(): string
     {
         // package root directory:
-        return realpath(__DIR__ . '/../../../../../');
+        $installationDir = realpath(__DIR__ . '/../../../../../');
+        Assert::assertNotFalse($installationDir, 'Installation folder does not exist');
+
+        return $installationDir;
     }
 
     /**

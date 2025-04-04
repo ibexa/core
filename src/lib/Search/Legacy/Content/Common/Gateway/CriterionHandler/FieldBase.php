@@ -11,6 +11,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
@@ -22,20 +23,16 @@ abstract class FieldBase extends CriterionHandler
 {
     /**
      * Content type handler.
-     *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
      */
-    protected $contentTypeHandler;
+    protected Handler $contentTypeHandler;
 
     /**
      * Language handler.
-     *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
      */
-    protected $languageHandler;
+    protected LanguageHandler $languageHandler;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct(
         Connection $connection,
@@ -127,7 +124,7 @@ abstract class FieldBase extends CriterionHandler
             $rightSide = "$rightSide + ($addToRightSide)";
         }
 
-        return $expr->andX(
+        return $expr->and(
             $expr->gt(
                 $this->dbPlatform->getBitAndComparisonExpression(
                     'c.language_mask',
@@ -167,9 +164,9 @@ abstract class FieldBase extends CriterionHandler
 
         $expr = $subSelect->expr();
         $subSelect->where(
-            $expr->andX(
+            $expr->and(
                 'f_def.version = c.current_version',
-                $expr->orX(...$fieldWhereExpressions),
+                $expr->or(...$fieldWhereExpressions),
                 // pass main Query Builder to set query parameters
                 $this->getFieldCondition($query, $languageSettings)
             )

@@ -21,18 +21,25 @@ use PDO;
  */
 class DoctrineStorage extends Gateway
 {
-    public const USER_TABLE = 'ezuser';
-    public const USER_SETTING_TABLE = 'ezuser_setting';
+    public const string USER_TABLE = 'ezuser';
+    public const string USER_SETTING_TABLE = 'ezuser_setting';
+    private const string USER_ID_PARAM_NAME = ':userId';
+    private const string LOGIN_PARAM_NAME = ':login';
+    private const string EMAIL_PARAM_NAME = ':email';
+    private const string PASSWORD_HASH_PARAM_NAME = ':passwordHash';
+    private const string PASSWORD_HASH_TYPE_PARAM_NAME = ':passwordHashType';
+    private const string PASSWORD_UPDATED_AT_PARAM_NAME = ':passwordUpdatedAt';
+    private const string IS_ENABLED_PARAM_NAME = ':isEnabled';
+    private const string MAX_LOGIN_PARAM_NAME = ':maxLogin';
 
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
+    protected Connection $connection;
 
     /**
      * Default values for user fields.
      *
      * @var array
      */
-    protected $defaultValues = [
+    protected array $defaultValues = [
         'hasStoredLogin' => false,
         'contentId' => null,
         'login' => null,
@@ -62,7 +69,7 @@ class DoctrineStorage extends Gateway
             return $this->defaultValues;
         }
 
-        $result = array_merge(
+        return array_merge(
             $this->defaultValues,
             [
                 'hasStoredLogin' => true,
@@ -70,8 +77,6 @@ class DoctrineStorage extends Gateway
             $userData,
             $this->fetchUserSettings($userId)
         );
-
-        return $result;
     }
 
     /**
@@ -79,7 +84,7 @@ class DoctrineStorage extends Gateway
      *
      * @return array
      */
-    protected function getPropertyMap()
+    protected function getPropertyMap(): array
     {
         return [
             'has_stored_login' => [
@@ -110,7 +115,7 @@ class DoctrineStorage extends Gateway
             ],
             'password_updated_at' => [
                 'name' => 'passwordUpdatedAt',
-                'cast' => static function ($timestamp) {
+                'cast' => static function ($timestamp): ?int {
                     return $timestamp ? (int)$timestamp : null;
                 },
             ],
@@ -134,7 +139,7 @@ class DoctrineStorage extends Gateway
      *
      * @return array
      */
-    protected function convertColumnsToProperties(array $databaseValues)
+    protected function convertColumnsToProperties(array $databaseValues): array
     {
         $propertyValues = [];
         $propertyMap = $this->getPropertyMap();
@@ -154,6 +159,8 @@ class DoctrineStorage extends Gateway
      * @param int $fieldId
      *
      * @return int
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function fetchUserId($fieldId): int
     {
@@ -172,9 +179,9 @@ class DoctrineStorage extends Gateway
             ->setParameter(':fieldId', $fieldId, PDO::PARAM_INT)
         ;
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return (int) $statement->fetchColumn();
+        return (int) $statement->fetchFirstColumn();
     }
 
     /**
@@ -183,6 +190,8 @@ class DoctrineStorage extends Gateway
      * @param int $userId
      *
      * @return array
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function fetchUserData($userId)
     {
@@ -200,15 +209,13 @@ class DoctrineStorage extends Gateway
             ->where(
                 $query->expr()->eq(
                     $this->connection->quoteIdentifier('usr.contentobject_id'),
-                    ':userId'
+                    self::USER_ID_PARAM_NAME
                 )
             )
-            ->setParameter(':userId', $userId, PDO::PARAM_INT)
+            ->setParameter(self::USER_ID_PARAM_NAME, $userId, PDO::PARAM_INT)
         ;
 
-        $statement = $query->execute();
-
-        $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $query->executeQuery()->fetchAllAssociative();
 
         return isset($rows[0]) ? $this->convertColumnsToProperties($rows[0]) : [];
     }
@@ -232,15 +239,13 @@ class DoctrineStorage extends Gateway
             ->where(
                 $query->expr()->eq(
                     $this->connection->quoteIdentifier('s.user_id'),
-                    ':userId'
+                    self::USER_ID_PARAM_NAME
                 )
             )
-            ->setParameter(':userId', $userId, PDO::PARAM_INT)
+            ->setParameter(self::USER_ID_PARAM_NAME, $userId, PDO::PARAM_INT)
         ;
 
-        $statement = $query->execute();
-
-        $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $query->executeQuery()->fetchAllAssociative();
 
         return isset($rows[0]) ? $this->convertColumnsToProperties($rows[0]) : [];
     }
@@ -273,86 +278,92 @@ class DoctrineStorage extends Gateway
         return true;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     protected function insertFieldData(VersionInfo $versionInfo, Field $field): void
     {
         $insertQuery = $this->connection->createQueryBuilder();
 
         $insertQuery
             ->insert($this->connection->quoteIdentifier(self::USER_TABLE))
-            ->setValue('contentobject_id', ':userId')
-            ->setValue('login', ':login')
-            ->setValue('email', ':email')
-            ->setValue('password_hash', ':passwordHash')
-            ->setValue('password_hash_type', ':passwordHashType')
-            ->setValue('password_updated_at', ':passwordUpdatedAt')
-            ->setParameter(':userId', $versionInfo->contentInfo->id, ParameterType::INTEGER)
-            ->setParameter(':login', $field->value->externalData['login'], ParameterType::STRING)
-            ->setParameter(':email', $field->value->externalData['email'], ParameterType::STRING)
-            ->setParameter(':passwordHash', $field->value->externalData['passwordHash'], ParameterType::STRING)
-            ->setParameter(':passwordHashType', $field->value->externalData['passwordHashType'], ParameterType::INTEGER)
-            ->setParameter(':passwordUpdatedAt', $field->value->externalData['passwordUpdatedAt'])
+            ->setValue('contentobject_id', self::USER_ID_PARAM_NAME)
+            ->setValue('login', self::LOGIN_PARAM_NAME)
+            ->setValue('email', self::EMAIL_PARAM_NAME)
+            ->setValue('password_hash', self::PASSWORD_HASH_PARAM_NAME)
+            ->setValue('password_hash_type', self::PASSWORD_HASH_TYPE_PARAM_NAME)
+            ->setValue('password_updated_at', self::PASSWORD_UPDATED_AT_PARAM_NAME)
+            ->setParameter(self::USER_ID_PARAM_NAME, $versionInfo->contentInfo->id, ParameterType::INTEGER)
+            ->setParameter(self::LOGIN_PARAM_NAME, $field->value->externalData['login'])
+            ->setParameter(self::EMAIL_PARAM_NAME, $field->value->externalData['email'])
+            ->setParameter(self::PASSWORD_HASH_PARAM_NAME, $field->value->externalData['passwordHash'])
+            ->setParameter(self::PASSWORD_HASH_TYPE_PARAM_NAME, $field->value->externalData['passwordHashType'], ParameterType::INTEGER)
+            ->setParameter(self::PASSWORD_UPDATED_AT_PARAM_NAME, $field->value->externalData['passwordUpdatedAt'])
         ;
 
-        $insertQuery->execute();
+        $insertQuery->executeStatement();
 
         $settingsQuery = $this->connection->createQueryBuilder();
 
         $settingsQuery
             ->insert($this->connection->quoteIdentifier(self::USER_SETTING_TABLE))
-            ->setValue('user_id', ':userId')
-            ->setValue('is_enabled', ':isEnabled')
-            ->setValue('max_login', ':maxLogin')
-            ->setParameter(':userId', $versionInfo->contentInfo->id, ParameterType::INTEGER)
-            ->setParameter(':isEnabled', $field->value->externalData['enabled'], ParameterType::INTEGER)
-            ->setParameter(':maxLogin', $field->value->externalData['maxLogin'], ParameterType::INTEGER);
+            ->setValue('user_id', self::USER_ID_PARAM_NAME)
+            ->setValue('is_enabled', self::IS_ENABLED_PARAM_NAME)
+            ->setValue('max_login', self::MAX_LOGIN_PARAM_NAME)
+            ->setParameter(self::USER_ID_PARAM_NAME, $versionInfo->contentInfo->id, ParameterType::INTEGER)
+            ->setParameter(self::IS_ENABLED_PARAM_NAME, $field->value->externalData['enabled'], ParameterType::INTEGER)
+            ->setParameter(self::MAX_LOGIN_PARAM_NAME, $field->value->externalData['maxLogin'], ParameterType::INTEGER);
 
-        $settingsQuery->execute();
+        $settingsQuery->executeQuery();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     protected function updateFieldData(VersionInfo $versionInfo, Field $field): void
     {
         $queryBuilder = $this->connection->createQueryBuilder();
 
         $queryBuilder
             ->update($this->connection->quoteIdentifier(self::USER_TABLE))
-            ->set('login', ':login')
-            ->set('email', ':email')
-            ->set('password_hash', ':passwordHash')
-            ->set('password_hash_type', ':passwordHashType')
-            ->set('password_updated_at', ':passwordUpdatedAt')
-            ->setParameter(':login', $field->value->externalData['login'], ParameterType::STRING)
-            ->setParameter(':email', $field->value->externalData['email'], ParameterType::STRING)
-            ->setParameter(':passwordHash', $field->value->externalData['passwordHash'], ParameterType::STRING)
-            ->setParameter(':passwordHashType', $field->value->externalData['passwordHashType'], ParameterType::INTEGER)
-            ->setParameter(':passwordUpdatedAt', $field->value->externalData['passwordUpdatedAt'])
+            ->set('login', self::LOGIN_PARAM_NAME)
+            ->set('email', self::EMAIL_PARAM_NAME)
+            ->set('password_hash', self::PASSWORD_HASH_PARAM_NAME)
+            ->set('password_hash_type', self::PASSWORD_HASH_TYPE_PARAM_NAME)
+            ->set('password_updated_at', self::PASSWORD_UPDATED_AT_PARAM_NAME)
+            ->setParameter(self::LOGIN_PARAM_NAME, $field->value->externalData['login'], ParameterType::STRING)
+            ->setParameter(self::EMAIL_PARAM_NAME, $field->value->externalData['email'], ParameterType::STRING)
+            ->setParameter(self::PASSWORD_HASH_PARAM_NAME, $field->value->externalData['passwordHash'], ParameterType::STRING)
+            ->setParameter(self::PASSWORD_HASH_TYPE_PARAM_NAME, $field->value->externalData['passwordHashType'], ParameterType::INTEGER)
+            ->setParameter(self::PASSWORD_UPDATED_AT_PARAM_NAME, $field->value->externalData['passwordUpdatedAt'])
             ->where(
                 $queryBuilder->expr()->eq(
                     $this->connection->quoteIdentifier('contentobject_id'),
-                    ':userId'
+                    self::USER_ID_PARAM_NAME
                 )
             )
-            ->setParameter(':userId', $versionInfo->contentInfo->id, ParameterType::INTEGER)
+            ->setParameter(self::USER_ID_PARAM_NAME, $versionInfo->contentInfo->id, ParameterType::INTEGER)
         ;
 
-        $queryBuilder->execute();
+        $queryBuilder->executeStatement();
 
         $settingsQuery = $this->connection->createQueryBuilder();
 
         $settingsQuery
             ->update($this->connection->quoteIdentifier(self::USER_SETTING_TABLE))
-            ->set('is_enabled', ':isEnabled')
-            ->set('max_login', ':maxLogin')
-            ->setParameter(':isEnabled', $field->value->externalData['enabled'], ParameterType::INTEGER)
-            ->setParameter(':maxLogin', $field->value->externalData['maxLogin'], ParameterType::INTEGER)
+            ->set('is_enabled', self::IS_ENABLED_PARAM_NAME)
+            ->set('max_login', self::MAX_LOGIN_PARAM_NAME)
+            ->setParameter(self::IS_ENABLED_PARAM_NAME, $field->value->externalData['enabled'], ParameterType::INTEGER)
+            ->setParameter(self::MAX_LOGIN_PARAM_NAME, $field->value->externalData['maxLogin'], ParameterType::INTEGER)
             ->where(
                 $queryBuilder->expr()->eq(
                     $this->connection->quoteIdentifier('user_id'),
-                    ':userId'
+                    self::USER_ID_PARAM_NAME
                 )
             )
-            ->setParameter(':userId', $versionInfo->contentInfo->id, ParameterType::INTEGER);
+            ->setParameter(self::USER_ID_PARAM_NAME, $versionInfo->contentInfo->id, ParameterType::INTEGER);
 
-        $settingsQuery->execute();
+        $settingsQuery->executeStatement();
     }
 
     public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): bool
@@ -369,12 +380,12 @@ class DoctrineStorage extends Gateway
             ->where(
                 $query->expr()->eq(
                     $this->connection->quoteIdentifier('user_id'),
-                    ':userId'
+                    self::USER_ID_PARAM_NAME
                 )
             )
-            ->setParameter(':userId', $versionInfo->contentInfo->id, ParameterType::INTEGER);
+            ->setParameter(self::USER_ID_PARAM_NAME, $versionInfo->contentInfo->id, ParameterType::INTEGER);
 
-        $query->execute();
+        $query->executeStatement();
 
         $query = $this->connection->createQueryBuilder();
         $query
@@ -382,12 +393,12 @@ class DoctrineStorage extends Gateway
             ->where(
                 $query->expr()->eq(
                     $this->connection->quoteIdentifier('contentobject_id'),
-                    ':userId'
+                    self::USER_ID_PARAM_NAME
                 )
             )
-            ->setParameter(':userId', $versionInfo->contentInfo->id, ParameterType::INTEGER);
+            ->setParameter(self::USER_ID_PARAM_NAME, $versionInfo->contentInfo->id, ParameterType::INTEGER);
 
-        $query->execute();
+        $query->executeStatement();
 
         return true;
     }
@@ -397,7 +408,7 @@ class DoctrineStorage extends Gateway
      *
      * @return bool
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function isLastRelationToFieldType(array $fieldIds): bool
     {

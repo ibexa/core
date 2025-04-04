@@ -30,14 +30,13 @@ abstract class CriterionHandler
         Operator::LIKE => 'like',
     ];
 
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
+    protected Connection $connection;
 
     /** @var \Doctrine\DBAL\Platforms\AbstractPlatform|null */
     protected $dbPlatform;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct(Connection $connection)
     {

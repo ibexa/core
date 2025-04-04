@@ -40,7 +40,7 @@ class RoleServiceDecoratorTest extends TestCase
         return $this->createMock(RoleService::class);
     }
 
-    public function testCreateRoleDecorator()
+    public function testCreateRoleDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -52,7 +52,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->createRole(...$parameters);
     }
 
-    public function testCreateRoleDraftDecorator()
+    public function testCreateRoleDraftDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -64,7 +64,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->createRoleDraft(...$parameters);
     }
 
-    public function testLoadRoleDraftDecorator()
+    public function testLoadRoleDraftDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -76,7 +76,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->loadRoleDraft(...$parameters);
     }
 
-    public function testLoadRoleDraftByRoleIdDecorator()
+    public function testLoadRoleDraftByRoleIdDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -88,7 +88,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->loadRoleDraftByRoleId(...$parameters);
     }
 
-    public function testUpdateRoleDraftDecorator()
+    public function testUpdateRoleDraftDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -103,7 +103,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->updateRoleDraft(...$parameters);
     }
 
-    public function testAddPolicyByRoleDraftDecorator()
+    public function testAddPolicyByRoleDraftDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -118,7 +118,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->addPolicyByRoleDraft(...$parameters);
     }
 
-    public function testRemovePolicyByRoleDraftDecorator()
+    public function testRemovePolicyByRoleDraftDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -133,7 +133,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->removePolicyByRoleDraft(...$parameters);
     }
 
-    public function testUpdatePolicyByRoleDraftDecorator()
+    public function testUpdatePolicyByRoleDraftDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -149,7 +149,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->updatePolicyByRoleDraft(...$parameters);
     }
 
-    public function testDeleteRoleDraftDecorator()
+    public function testDeleteRoleDraftDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -161,7 +161,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->deleteRoleDraft(...$parameters);
     }
 
-    public function testPublishRoleDraftDecorator()
+    public function testPublishRoleDraftDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -173,7 +173,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->publishRoleDraft(...$parameters);
     }
 
-    public function testLoadRoleDecorator()
+    public function testLoadRoleDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -185,7 +185,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->loadRole(...$parameters);
     }
 
-    public function testLoadRoleByIdentifierDecorator()
+    public function testLoadRoleByIdentifierDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -197,7 +197,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->loadRoleByIdentifier(...$parameters);
     }
 
-    public function testLoadRolesDecorator()
+    public function testLoadRolesDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -209,7 +209,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->loadRoles(...$parameters);
     }
 
-    public function testDeleteRoleDecorator()
+    public function testDeleteRoleDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -221,7 +221,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->deleteRole(...$parameters);
     }
 
-    public function testAssignRoleToUserGroupDecorator()
+    public function testAssignRoleToUserGroupDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -237,7 +237,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->assignRoleToUserGroup(...$parameters);
     }
 
-    public function testAssignRoleToUserDecorator()
+    public function testAssignRoleToUserDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -253,7 +253,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->assignRoleToUser(...$parameters);
     }
 
-    public function testLoadRoleAssignmentDecorator()
+    public function testLoadRoleAssignmentDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -265,7 +265,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->loadRoleAssignment(...$parameters);
     }
 
-    public function testGetRoleAssignmentsDecorator()
+    public function testGetRoleAssignmentsDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -277,7 +277,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->getRoleAssignments(...$parameters);
     }
 
-    public function testGetRoleAssignmentsForUserDecorator()
+    public function testGetRoleAssignmentsForUserDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -292,7 +292,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->getRoleAssignmentsForUser(...$parameters);
     }
 
-    public function testGetRoleAssignmentsForUserGroupDecorator()
+    public function testGetRoleAssignmentsForUserGroupDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -304,7 +304,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->getRoleAssignmentsForUserGroup(...$parameters);
     }
 
-    public function testRemoveRoleAssignmentDecorator()
+    public function testRemoveRoleAssignmentDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -316,7 +316,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->removeRoleAssignment(...$parameters);
     }
 
-    public function testNewRoleCreateStructDecorator()
+    public function testNewRoleCreateStructDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -328,7 +328,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->newRoleCreateStruct(...$parameters);
     }
 
-    public function testNewPolicyCreateStructDecorator()
+    public function testNewPolicyCreateStructDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -343,7 +343,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->newPolicyCreateStruct(...$parameters);
     }
 
-    public function testNewPolicyUpdateStructDecorator()
+    public function testNewPolicyUpdateStructDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -355,7 +355,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->newPolicyUpdateStruct(...$parameters);
     }
 
-    public function testNewRoleUpdateStructDecorator()
+    public function testNewRoleUpdateStructDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -367,7 +367,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->newRoleUpdateStruct(...$parameters);
     }
 
-    public function testGetLimitationTypeDecorator()
+    public function testGetLimitationTypeDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -379,7 +379,7 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->getLimitationType(...$parameters);
     }
 
-    public function testGetLimitationTypesByModuleFunctionDecorator()
+    public function testGetLimitationTypesByModuleFunctionDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);

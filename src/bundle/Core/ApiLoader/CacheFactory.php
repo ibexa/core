@@ -10,24 +10,28 @@ namespace Ibexa\Bundle\Core\ApiLoader;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapter;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class CacheFactory.
  *
  * Service "ibexa.cache_pool", selects a Symfony cache service based on siteaccess[-group] setting "cache_service_name"
  */
-class CacheFactory implements ContainerAwareInterface
+class CacheFactory
 {
-    use ContainerAwareTrait;
+    private ContainerInterface $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
 
     /**
      * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
      *
      * @return \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface
      */
-    public function getCachePool(ConfigResolverInterface $configResolver)
+    public function getCachePool(ConfigResolverInterface $configResolver): TagAwareAdapterInterface|TagAwareAdapter
     {
         /** @var \Symfony\Component\Cache\Adapter\AdapterInterface $cacheService */
         $cacheService = $this->container->get($configResolver->getParameter('cache_service_name'));

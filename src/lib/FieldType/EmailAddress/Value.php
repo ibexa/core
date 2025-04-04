@@ -31,7 +31,7 @@ class Value extends BaseValue
         $this->email = $email;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return (string)$this->email;
     }

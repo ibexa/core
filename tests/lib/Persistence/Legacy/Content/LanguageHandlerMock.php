@@ -50,7 +50,7 @@ class LanguageHandlerMock implements LanguageHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Language
      */
-    public function create(CreateStruct $struct)
+    public function create(CreateStruct $struct): never
     {
         throw new \RuntimeException('Not implemented yet.');
     }
@@ -60,7 +60,7 @@ class LanguageHandlerMock implements LanguageHandler
      *
      * @param \Ibexa\Contracts\Core\Persistence\Content\Language $struct
      */
-    public function update(Language $struct)
+    public function update(Language $struct): never
     {
         throw new \RuntimeException('Not implemented yet.');
     }
@@ -122,7 +122,7 @@ class LanguageHandlerMock implements LanguageHandler
      *
      * @param mixed $id
      */
-    public function delete($id)
+    public function delete($id): never
     {
         throw new \RuntimeException('Not implemented yet.');
     }

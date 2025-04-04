@@ -53,7 +53,7 @@ final class LanguageCodeQueryBuilder implements CriterionQueryBuilder
         );
 
         if ($criterion->matchAlwaysAvailable) {
-            $expr = (string)$queryBuilder->expr()->orX($expr, 'version.language_mask & 1 = 1');
+            $expr = (string)$queryBuilder->expr()->or($expr, 'version.language_mask & 1 = 1');
         }
 
         return $expr;

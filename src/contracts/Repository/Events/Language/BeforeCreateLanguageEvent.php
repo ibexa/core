@@ -15,11 +15,9 @@ use UnexpectedValueException;
 
 final class BeforeCreateLanguageEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct */
-    private $languageCreateStruct;
+    private LanguageCreateStruct $languageCreateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Language|null */
-    private $language;
+    private ?Language $language = null;
 
     public function __construct(LanguageCreateStruct $languageCreateStruct)
     {

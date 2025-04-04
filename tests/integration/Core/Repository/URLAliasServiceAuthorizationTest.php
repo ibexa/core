@@ -18,7 +18,7 @@ class URLAliasServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\URLAliasServiceTest::testCreateUrlAlias
      */
-    public function testCreateUrlAliasThrowsUnauthorizedException()
+    public function testCreateUrlAliasThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -52,7 +52,7 @@ class URLAliasServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\URLAliasServiceTest::testCreateGlobalUrlAlias
      */
-    public function testCreateGlobalUrlAliasThrowsUnauthorizedException()
+    public function testCreateGlobalUrlAliasThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -80,7 +80,7 @@ class URLAliasServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\URLAliasServiceTest::testRemoveAliases
      */
-    public function testRemoveAliasesThrowsUnauthorizedException()
+    public function testRemoveAliasesThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 

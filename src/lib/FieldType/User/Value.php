@@ -80,7 +80,7 @@ class Value extends BaseValue
      */
     public $plainPassword;
 
-    public function __toString()
+    public function __toString(): string
     {
         return (string)$this->login;
     }

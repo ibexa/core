@@ -15,8 +15,7 @@ final class TermAggregationResultEntry extends ValueObject
     /** @var mixed */
     private $key;
 
-    /** @var int */
-    private $count;
+    private int $count;
 
     public function __construct($key, int $count)
     {

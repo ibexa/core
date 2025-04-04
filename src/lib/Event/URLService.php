@@ -18,8 +18,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class URLService extends URLServiceDecorator
 {
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
-    protected $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         URLServiceInterface $innerService,

@@ -15,14 +15,11 @@ use UnexpectedValueException;
 
 final class BeforeUpdateUserTokenEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
-    private $user;
+    private User $user;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserTokenUpdateStruct */
-    private $userTokenUpdateStruct;
+    private UserTokenUpdateStruct $userTokenUpdateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User|null */
-    private $updatedUser;
+    private ?User $updatedUser = null;
 
     public function __construct(User $user, UserTokenUpdateStruct $userTokenUpdateStruct)
     {

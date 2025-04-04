@@ -15,14 +15,11 @@ use Ibexa\Core\IO\IOConfigProvider;
  */
 final class IOConfigResolver implements IOConfigProvider
 {
-    /** @var string */
-    private $storageDir;
+    private string $storageDir;
 
-    /** @var string */
-    private $legacyUrlPrefix;
+    private string $legacyUrlPrefix;
 
-    /** @var string */
-    private $urlPrefix;
+    private string $urlPrefix;
 
     public function __construct(
         string $storageDir,

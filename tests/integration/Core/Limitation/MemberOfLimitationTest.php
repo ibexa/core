@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Integration\Core\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\MemberOfLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 use Ibexa\Core\Limitation\MemberOfLimitationType;
 use Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver\BaseLimitationIntegrationTest;
 
@@ -63,7 +64,7 @@ final class MemberOfLimitationTest extends BaseLimitationIntegrationTest
             'assign',
             $limitations,
             $repository->sudo(
-                static function (Repository $repository) {
+                static function (Repository $repository): UserGroup {
                     return $repository->getUserService()->loadUserGroup(self::USERS_GROUP_ID);
                 },
                 $repository

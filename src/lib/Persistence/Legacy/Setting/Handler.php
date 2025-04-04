@@ -13,8 +13,7 @@ use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 
 class Handler implements BaseSettingHandler
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Setting\Gateway */
-    protected $settingGateway;
+    protected Gateway $settingGateway;
 
     public function __construct(Gateway $settingGateway)
     {

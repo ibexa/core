@@ -45,7 +45,7 @@ class MapLocationDistance extends FieldBase
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException If no searchable fields are found for the given $fieldIdentifier.
      */
-    protected function getFieldDefinitionIds($fieldIdentifier)
+    protected function getFieldDefinitionIds($fieldIdentifier): array
     {
         $fieldDefinitionIdList = [];
         $fieldMap = $this->contentTypeHandler->getSearchableFieldMap();
@@ -179,7 +179,7 @@ class MapLocationDistance extends FieldBase
                 'f_def',
                 'ezgmaplocation',
                 'map',
-                $expr->andX(
+                $expr->and(
                     'map.contentobject_version = f_def.version',
                     'map.contentobject_attribute_id = f_def.id',
                     ...$boundingConstraints

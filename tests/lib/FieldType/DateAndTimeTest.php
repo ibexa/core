@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Core\FieldType;
 
 use DateInterval;
+use Ibexa\Contracts\Core\FieldType\Value as FieldTypeValue;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\DateAndTime\Type as DateAndTime;
 use Ibexa\Core\FieldType\DateAndTime\Value as DateAndTimeValue;
@@ -17,7 +18,7 @@ use stdClass;
  * @group fieldType
  * @group ezdatetime
  */
-class DateAndTimeTest extends FieldTypeTest
+class DateAndTimeTest extends FieldTypeTestCase
 {
     /**
      * Returns the field type under test.
@@ -27,10 +28,8 @@ class DateAndTimeTest extends FieldTypeTest
      * get*Mock() methods and/or custom get*Mock() implementations. You MUST
      * NOT take care for test case wide caching of the field type, just return
      * a new instance from this method!
-     *
-     * @return \Ibexa\Core\FieldType\FieldType
      */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): DateAndTime
     {
         $fieldType = new DateAndTime();
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
@@ -43,7 +42,7 @@ class DateAndTimeTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getValidatorConfigurationSchemaExpectation()
+    protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [];
     }
@@ -53,7 +52,7 @@ class DateAndTimeTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [
             'useSeconds' => [
@@ -74,12 +73,12 @@ class DateAndTimeTest extends FieldTypeTest
     /**
      * Returns the empty value expected from the field type.
      */
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): DateAndTimeValue
     {
         return new DateAndTimeValue();
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): array
     {
         return [
             [
@@ -118,7 +117,7 @@ class DateAndTimeTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): array
     {
         return [
             [
@@ -175,7 +174,7 @@ class DateAndTimeTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): array
     {
         return [
             [
@@ -193,12 +192,11 @@ class DateAndTimeTest extends FieldTypeTest
     }
 
     /**
-     * @param mixed $inputValue
-     * @param array $expectedResult
-     *
      * @dataProvider provideInputForFromHash
+     *
+     * @param \Ibexa\Core\FieldType\DateAndTime\Value $expectedResult
      */
-    public function testFromHash($inputHash, $expectedResult)
+    public function testFromHash(mixed $inputHash, FieldTypeValue $expectedResult): void
     {
         $this->assertIsValidHashValue($inputHash);
 
@@ -229,7 +227,7 @@ class DateAndTimeTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): array
     {
         $date = new \DateTime('Tue, 28 Aug 2012 12:20:00 +0200');
 
@@ -260,7 +258,7 @@ class DateAndTimeTest extends FieldTypeTest
      *
      * @dataProvider provideInputForTimeStringFromHash
      */
-    public function testTimeStringFromHash($inputHash, $intervalSpec)
+    public function testTimeStringFromHash(array $inputHash, string $intervalSpec): void
     {
         $this->assertIsValidHashValue($inputHash);
 
@@ -297,7 +295,7 @@ class DateAndTimeTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForTimeStringFromHash()
+    public function provideInputForTimeStringFromHash(): array
     {
         return [
             [
@@ -343,7 +341,7 @@ class DateAndTimeTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidFieldSettings()
+    public function provideValidFieldSettings(): array
     {
         return [
             [
@@ -394,7 +392,7 @@ class DateAndTimeTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInValidFieldSettings()
+    public function provideInValidFieldSettings(): array
     {
         return [
             [

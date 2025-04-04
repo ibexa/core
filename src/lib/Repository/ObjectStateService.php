@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\ObjectStateService as ObjectStateServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState as APIObjectState;
@@ -35,17 +36,13 @@ use Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup;
  */
 class ObjectStateService implements ObjectStateServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    protected $repository;
+    protected Repository $repository;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler */
-    protected $objectStateHandler;
+    protected Handler $objectStateHandler;
 
-    /** @var array */
-    protected $settings;
+    protected array $settings;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    private $permissionResolver;
+    private PermissionResolver $permissionResolver;
 
     /**
      * Setups service with reference to repository object that created it & corresponding handler.

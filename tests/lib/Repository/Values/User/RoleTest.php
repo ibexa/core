@@ -23,7 +23,7 @@ class RoleTest extends TestCase
     /**
      * Test a new class and default values on properties.
      */
-    public function testNewClass()
+    public function testNewClass(): void
     {
         $this->assertPropertiesCorrect(
             [
@@ -40,7 +40,7 @@ class RoleTest extends TestCase
      *
      * @covers \Ibexa\Core\Repository\Values\User\Role::__get
      */
-    public function testMissingProperty()
+    public function testMissingProperty(): void
     {
         $this->expectException(PropertyNotFoundException::class);
 
@@ -54,7 +54,7 @@ class RoleTest extends TestCase
      *
      * @covers \Ibexa\Core\Repository\Values\User\Role::__set
      */
-    public function testReadOnlyProperty()
+    public function testReadOnlyProperty(): void
     {
         $this->expectException(PropertyReadOnlyException::class);
 
@@ -66,7 +66,7 @@ class RoleTest extends TestCase
     /**
      * Test if property exists.
      */
-    public function testIsPropertySet()
+    public function testIsPropertySet(): void
     {
         $role = new Role();
         $value = isset($role->notDefined);
@@ -81,7 +81,7 @@ class RoleTest extends TestCase
      *
      * @covers \Ibexa\Core\Repository\Values\User\Role::__unset
      */
-    public function testUnsetProperty()
+    public function testUnsetProperty(): void
     {
         $this->expectException(PropertyReadOnlyException::class);
 

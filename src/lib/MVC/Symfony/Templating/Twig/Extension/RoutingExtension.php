@@ -26,11 +26,9 @@ use Twig\TwigFunction;
 
 class RoutingExtension extends AbstractExtension
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGeneratorInterface */
-    private $routeReferenceGenerator;
+    private RouteReferenceGeneratorInterface $routeReferenceGenerator;
 
-    /** @var \Symfony\Component\Routing\Generator\UrlGeneratorInterface */
-    private $urlGenerator;
+    private UrlGeneratorInterface $urlGenerator;
 
     public function __construct(
         RouteReferenceGeneratorInterface $routeReferenceGenerator,
@@ -70,7 +68,7 @@ class RoutingExtension extends AbstractExtension
      *
      * @return \Ibexa\Core\MVC\Symfony\Routing\RouteReference
      */
-    public function getRouteReference($resource = null, $params = []): RouteReference
+    public function getRouteReference($resource = null, array $params = []): RouteReference
     {
         return $this->routeReferenceGenerator->generate($resource, $params);
     }

@@ -23,14 +23,12 @@ use Ibexa\Core\Repository\Mapper\ContentMapper;
  */
 final class ContentUpdateStructValidator implements ContentValidator
 {
-    /** @var \Ibexa\Core\Repository\Mapper\ContentMapper */
-    private $contentMapper;
+    private ContentMapper $contentMapper;
 
-    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
-    private $fieldTypeRegistry;
+    private FieldTypeRegistry $fieldTypeRegistry;
 
     /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\Handler */
-    private $contentLanguageHandler;
+    private Handler $contentLanguageHandler;
 
     public function __construct(
         ContentMapper $contentMapper,

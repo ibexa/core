@@ -9,8 +9,11 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Type;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
+use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 
@@ -21,27 +24,20 @@ class ContentUpdater
 {
     /**
      * Content gateway.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
      */
-    protected $contentGateway;
+    protected Gateway $contentGateway;
 
     /**
      * FieldValue converter registry.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
      */
-    protected $converterRegistry;
+    protected ConverterRegistry $converterRegistry;
 
     /**
      * Storage handler.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
      */
-    protected $storageHandler;
+    protected StorageHandler $storageHandler;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Mapper */
-    protected $contentMapper;
+    protected Mapper $contentMapper;
 
     /**
      * Creates a new content updater.
@@ -71,7 +67,7 @@ class ContentUpdater
      *
      * @return \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action[]
      */
-    public function determineActions(Type $fromType, Type $toType)
+    public function determineActions(Type $fromType, Type $toType): array
     {
         $actions = [];
         foreach ($fromType->fieldDefinitions as $fieldDef) {
@@ -126,7 +122,7 @@ class ContentUpdater
      * @param mixed $contentTypeId
      * @param \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action[] $actions
      */
-    public function applyUpdates($contentTypeId, array $actions)
+    public function applyUpdates($contentTypeId, array $actions): void
     {
         if (empty($actions)) {
             return;
@@ -146,7 +142,7 @@ class ContentUpdater
      *
      * @return int[]
      */
-    protected function getContentIdsByContentTypeId($contentTypeId)
+    protected function getContentIdsByContentTypeId(int $contentTypeId): array
     {
         return $this->contentGateway->getContentIdsByContentTypeId($contentTypeId);
     }

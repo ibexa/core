@@ -44,7 +44,7 @@ class ImageTest extends AbstractParserTestCase
         ];
     }
 
-    public function testVariations()
+    public function testVariations(): void
     {
         $this->load();
 
@@ -72,7 +72,7 @@ class ImageTest extends AbstractParserTestCase
         );
     }
 
-    public function testPrePostParameters()
+    public function testPrePostParameters(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 

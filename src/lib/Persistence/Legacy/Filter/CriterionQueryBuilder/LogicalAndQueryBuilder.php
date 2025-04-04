@@ -19,8 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
  */
 final class LogicalAndQueryBuilder implements CriterionQueryBuilder
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor */
-    private $criterionVisitor;
+    private CriterionVisitor $criterionVisitor;
 
     public function __construct(CriterionVisitor $criterionVisitor)
     {
@@ -50,6 +49,6 @@ final class LogicalAndQueryBuilder implements CriterionQueryBuilder
             return null;
         }
 
-        return (string)$queryBuilder->expr()->andX(...$constraints);
+        return (string)$queryBuilder->expr()->and(...$constraints);
     }
 }

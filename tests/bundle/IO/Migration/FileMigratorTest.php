@@ -14,30 +14,31 @@ use Ibexa\Bundle\IO\Migration\FileMigrator\FileMigrator;
 use Ibexa\Contracts\Core\IO\BinaryFile;
 use Ibexa\Core\IO\IOBinarydataHandler;
 use Ibexa\Core\IO\IOMetadataHandler;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class FileMigratorTest extends TestCase
 {
     /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $metadataHandlerRegistry;
+    private MockObject $metadataHandlerRegistry;
 
     /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $binaryHandlerRegistry;
+    private MockObject $binaryHandlerRegistry;
 
     /** @var \Ibexa\Bundle\IO\Migration\FileMigratorInterface */
-    private $fileMigrator;
+    private FileMigrator $fileMigrator;
 
     /** @var \Ibexa\Core\IO\IOMetadataHandler\Flysystem */
-    private $metadataFlysystem;
+    private MockObject $metadataFlysystem;
 
     /** @var \Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster */
-    private $metadataLegacyDFSCluster;
+    private MockObject $metadataLegacyDFSCluster;
 
     /** @var \Ibexa\Core\IO\IOBinarydataHandler\Flysystem */
-    private $binaryFlysystemFrom;
+    private MockObject $binaryFlysystemFrom;
 
     /** @var \Ibexa\Core\IO\IOBinarydataHandler\Flysystem */
-    private $binaryFlysystemTo;
+    private MockObject $binaryFlysystemTo;
 
     protected function setUp(): void
     {

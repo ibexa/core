@@ -36,10 +36,8 @@ class Field extends ValueObject
 
     /**
      * Type of the search field.
-     *
-     * @var \Ibexa\Contracts\Core\Search\FieldType
      */
-    protected $type;
+    protected FieldType $type;
 
     /**
      * @param string $name

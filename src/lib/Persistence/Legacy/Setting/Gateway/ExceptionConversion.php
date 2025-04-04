@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Setting\Gateway;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as DBALException;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Setting\Gateway;
 use PDOException;
@@ -18,8 +18,7 @@ use PDOException;
  */
 final class ExceptionConversion extends Gateway
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Setting\Gateway */
-    private $innerGateway;
+    private Gateway $innerGateway;
 
     public function __construct(Gateway $innerGateway)
     {

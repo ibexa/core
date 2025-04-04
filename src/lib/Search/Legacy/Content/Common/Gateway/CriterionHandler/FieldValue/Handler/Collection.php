@@ -25,10 +25,8 @@ class Collection extends Handler
 {
     /**
      * Character separating indexed values.
-     *
-     * @var string
      */
-    protected $separator;
+    protected string $separator;
 
     public function __construct(
         Connection $connection,
@@ -60,7 +58,7 @@ class Collection extends Handler
                 $value = isset($value) ? $value : $this->prepareLikeString($criterion->value);
                 $quotedColumn = $column;
                 $expr = $subQuery->expr();
-                $filter = $expr->orX(
+                $filter = $expr->or(
                     $expr->$singleValueExpr(
                         $quotedColumn,
                         $outerQuery->createNamedParameter($value, ParameterType::STRING)

@@ -7,7 +7,6 @@
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Location\Gateway;
 
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
@@ -15,15 +14,15 @@ use Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase;
-use Ibexa\Core\Search\Legacy\Content;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
+use ReflectionObject;
 
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase
  */
 class DoctrineDatabaseTest extends LanguageAwareTestCase
 {
-    protected function getLocationGateway()
+    protected function getLocationGateway(): DoctrineDatabase
     {
         return new DoctrineDatabase(
             $this->getDatabaseConnection(),
@@ -64,27 +63,27 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         }
     }
 
-    public function testLoadLocationByRemoteId()
+    public function testLoadLocationByRemoteId(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $data = $gateway->getBasicNodeDataByRemoteId('dbc2f3c8716c12f32c379dbf0b1cb133');
 
         self::assertLoadLocationProperties($data);
     }
 
-    public function testLoadLocation()
+    public function testLoadLocation(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $data = $gateway->getBasicNodeData(77);
 
         self::assertLoadLocationProperties($data);
     }
 
-    public function testLoadLocationList()
+    public function testLoadLocationList(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $locationsData = $gateway->getNodeDataList([77]);
 
@@ -95,18 +94,18 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertLoadLocationProperties($locationRow);
     }
 
-    public function testLoadInvalidLocation()
+    public function testLoadInvalidLocation(): void
     {
         $this->expectException(NotFoundException::class);
 
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $gateway->getBasicNodeData(1337);
     }
 
-    public function testLoadLocationDataByContent()
+    public function testLoadLocationDataByContent(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
 
         $gateway = $this->getLocationGateway();
 
@@ -119,9 +118,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertLoadLocationProperties($locationRow);
     }
 
-    public function testLoadParentLocationDataForDraftContentAll()
+    public function testLoadParentLocationDataForDraftContentAll(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
 
         $gateway = $this->getLocationGateway();
 
@@ -134,9 +133,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertLoadLocationProperties($locationRow);
     }
 
-    public function testLoadLocationDataByContentLimitSubtree()
+    public function testLoadLocationDataByContentLimitSubtree(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
 
         $gateway = $this->getLocationGateway();
 
@@ -145,9 +144,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertCount(0, $locationsData);
     }
 
-    public function testMoveSubtreePathUpdate()
+    public function testMoveSubtreePathUpdate(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $gateway->moveSubtreeNodes(
             [
@@ -166,7 +165,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [65, '/1/2/', '', 1, 1, 0, 0],
                 [67, '/1/2/77/69/', 'solutions/products', 77, 3, 0, 0],
@@ -190,9 +189,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testMoveHiddenDestinationUpdate()
+    public function testMoveHiddenDestinationUpdate(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $gateway->hideSubtree('/1/2/77/');
         $gateway->moveSubtreeNodes(
@@ -212,7 +211,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [65, '/1/2/', '', 1, 1, 0, 0],
                 [67, '/1/2/77/69/', 'solutions/products', 77, 3, 0, 1],
@@ -236,9 +235,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testMoveHiddenSourceUpdate()
+    public function testMoveHiddenSourceUpdate(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $gateway->hideSubtree('/1/2/69/');
         $gateway->moveSubtreeNodes(
@@ -258,7 +257,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [65, '/1/2/', '', 1, 1, 0, 0],
                 [67, '/1/2/77/69/', 'solutions/products', 77, 3, 1, 1],
@@ -282,9 +281,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testMoveHiddenSourceChildUpdate()
+    public function testMoveHiddenSourceChildUpdate(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $gateway->hideSubtree('/1/2/69/70/');
 
@@ -305,7 +304,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [65, '/1/2/', '', 1, 1, 0, 0],
                 [67, '/1/2/77/69/', 'solutions/products', 77, 3, 0, 0],
@@ -333,48 +332,46 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * @throws \Exception
      */
-    public function testMoveSubtreeAssignmentUpdate()
+    public function testMoveSubtreeAssignmentUpdate(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $gateway->updateNodeAssignment(67, 2, 77, 5);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [67, 1, 0, 53, 1, 5, 77, '9cec85d730eec7578190ee95ce5a36f5', 0, 2, 1, 0, 0],
             ],
             $query
                 ->select(
-                    [
-                        'contentobject_id',
-                        'contentobject_version',
-                        'from_node_id',
-                        'id',
-                        'is_main',
-                        'op_code',
-                        'parent_node',
-                        'parent_remote_id',
-                        'remote_id',
-                        'sort_field',
-                        'sort_order',
-                        'priority',
-                        'is_hidden',
-                    ]
+                    'contentobject_id',
+                    'contentobject_version',
+                    'from_node_id',
+                    'id',
+                    'is_main',
+                    'op_code',
+                    'parent_node',
+                    'parent_remote_id',
+                    'remote_id',
+                    'sort_field',
+                    'sort_order',
+                    'priority',
+                    'is_hidden'
                 )
                 ->from('eznode_assignment')
                 ->where($query->expr()->eq('contentobject_id', 67))
         );
     }
 
-    public function testHideUpdateHidden()
+    public function testHideUpdateHidden(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $gateway->hideSubtree('/1/2/69/');
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [1, 0, 0],
                 [2, 0, 0],
@@ -392,15 +389,15 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * @depends testHideUpdateHidden
      */
-    public function testHideUnhideUpdateHidden()
+    public function testHideUnhideUpdateHidden(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $gateway->hideSubtree('/1/2/69/');
         $gateway->unhideSubtree('/1/2/69/');
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [1, 0, 0],
                 [2, 0, 0],
@@ -418,16 +415,16 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * @depends testHideUpdateHidden
      */
-    public function testHideUnhideParentTree()
+    public function testHideUnhideParentTree(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $gateway->hideSubtree('/1/2/69/');
         $gateway->hideSubtree('/1/2/69/70/');
         $gateway->unhideSubtree('/1/2/69/');
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [1, 0, 0],
                 [2, 0, 0],
@@ -447,16 +444,16 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * @depends testHideUpdateHidden
      */
-    public function testHideUnhidePartialSubtree()
+    public function testHideUnhidePartialSubtree(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $gateway->hideSubtree('/1/2/69/');
         $gateway->hideSubtree('/1/2/69/70/');
         $gateway->unhideSubtree('/1/2/69/70/');
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [1, 0, 0],
                 [2, 0, 0],
@@ -473,14 +470,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testSwapLocations()
+    public function testSwapLocations(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $gateway->swap(70, 78);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [70, 76],
                 [78, 68],
@@ -493,9 +490,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateLocation()
+    public function testCreateLocation(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $gateway->create(
             new CreateStruct(
@@ -512,7 +509,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [70, '/1/2/69/70/'],
                 [77, '/1/2/77/'],
@@ -529,7 +526,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * @depends testCreateLocation
      */
-    public function testGetMainNodeId()
+    public function testGetMainNodeId(): void
     {
         $gateway = $this->getLocationGateway();
 
@@ -565,13 +562,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $parentLocationData
         );
 
-        $gatewayReflection = new \ReflectionObject($gateway);
+        $gatewayReflection = new ReflectionObject($gateway);
         $methodReflection = $gatewayReflection->getMethod('getMainNodeId');
         $methodReflection->setAccessible(true);
-        self::assertEquals($mainLocation->id, $res = $methodReflection->invoke($gateway, 68));
+        self::assertEquals($mainLocation->id, $methodReflection->invoke($gateway, 68));
     }
 
-    public static function getCreateLocationValues()
+    public static function getCreateLocationValues(): array
     {
         return [
             ['contentobject_id', 68],
@@ -595,13 +592,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      *
      * @dataProvider getCreateLocationValues
      */
-    public function testCreateLocationValues($field, $value)
+    public function testCreateLocationValues(string $field, int|string $value): void
     {
         if ($value === null) {
             self::markTestIncomplete('Proper value setting yet unknown.');
         }
 
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $gateway->create(
             new CreateStruct(
@@ -623,7 +620,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[$value]],
             $query
                 ->select($field)
@@ -632,7 +629,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public static function getCreateLocationReturnValues()
+    public static function getCreateLocationReturnValues(): array
     {
         return [
             ['id', 228],
@@ -654,13 +651,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      *
      * @dataProvider getCreateLocationReturnValues
      */
-    public function testCreateLocationReturnValues($field, $value)
+    public function testCreateLocationReturnValues(string $field, int|bool|string $value): void
     {
         if ($value === null) {
             self::markTestIncomplete('Proper value setting yet unknown.');
         }
 
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $location = $gateway->create(
             new CreateStruct(
@@ -685,7 +682,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertEquals($value, $location->$field);
     }
 
-    public static function getUpdateLocationData()
+    public static function getUpdateLocationData(): array
     {
         return [
             ['priority', 23],
@@ -698,9 +695,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * @dataProvider getUpdateLocationData
      */
-    public function testUpdateLocation($field, $value)
+    public function testUpdateLocation(string $field, int|string $value): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $gateway->update(
             new Location\UpdateStruct(
@@ -715,7 +712,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[$value]],
             $query
                 ->select($field)
@@ -724,7 +721,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public static function getNodeAssignmentValues()
+    public static function getNodeAssignmentValues(): array
     {
         return [
             ['contentobject_version', [1]],
@@ -807,9 +804,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      * @param string $field
      * @param array $expectedResult
      */
-    public function testCreateLocationNodeAssignmentCreation(string $field, array $expectedResult)
+    public function testCreateLocationNodeAssignmentCreation(string $field, array $expectedResult): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $gateway->createNodeAssignment(
             new CreateStruct(
@@ -828,7 +825,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             DoctrineDatabase::NODE_ASSIGNMENT_OP_CODE_CREATE
         );
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [$expectedResult],
             $this->buildNodeAssignmentSelectContentWithParentQuery(68, 77, [$field])
         );
@@ -837,9 +834,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * @depends testCreateLocation
      */
-    public function testCreateLocationNodeAssignmentCreationMainLocation()
+    public function testCreateLocationNodeAssignmentCreationMainLocation(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $gateway->createNodeAssignment(
             new CreateStruct(
@@ -857,15 +854,15 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             DoctrineDatabase::NODE_ASSIGNMENT_OP_CODE_CREATE
         );
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[1]],
             $this->buildNodeAssignmentSelectContentWithParentQuery(68, 77, ['is_main'])
         );
     }
 
-    public function testUpdateLocationsContentVersionNo()
+    public function testUpdateLocationsContentVersionNo(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
 
         $gateway->create(
@@ -886,7 +883,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->updateLocationsContentVersionNo(4096, 2);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [2],
             ],
@@ -903,15 +900,15 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteNodeAssignment()
+    public function testDeleteNodeAssignment(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
 
         $gateway->deleteNodeAssignment(11);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[0]],
             $query
                 ->select('count(*)')
@@ -922,9 +919,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteNodeAssignmentWithSecondArgument()
+    public function testDeleteNodeAssignmentWithSecondArgument(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
@@ -940,7 +937,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->deleteNodeAssignment(11, 1);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[$nodeAssignmentsCount - 1]],
             $query
                 ->select('count(*)')
@@ -951,7 +948,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public static function getConvertNodeAssignmentsLocationValues()
+    public static function getConvertNodeAssignmentsLocationValues(): array
     {
         return [
             ['contentobject_id', '68'],
@@ -976,10 +973,12 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      * @depends      testCreateLocationNodeAssignmentCreation
      *
      * @dataProvider getConvertNodeAssignmentsLocationValues
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function testConvertNodeAssignments($field, $value)
+    public function testConvertNodeAssignments(string $field, string|int $value): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
 
         $gateway = $this->getLocationGateway();
         $gateway->createNodeAssignment(
@@ -1023,11 +1022,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             );
 
         if ($field === 'modified_subnode') {
-            $statement = $query->execute();
-            $result = $statement->fetch(FetchMode::ASSOCIATIVE);
+            $result = $query->executeQuery()->fetchAllAssociative();
             self::assertGreaterThanOrEqual($value, $result);
         } else {
-            $this->assertQueryResult(
+            self::assertQueryResult(
                 [[$value]],
                 $query
             );
@@ -1037,9 +1035,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * @depends testCreateLocationNodeAssignmentCreation
      */
-    public function testConvertNodeAssignmentsMainLocation()
+    public function testConvertNodeAssignmentsMainLocation(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
 
         $gateway = $this->getLocationGateway();
         $gateway->createNodeAssignment(
@@ -1059,12 +1057,12 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ]
             ),
             77,
-            DoctrineDatabase::NODE_ASSIGNMENT_OP_CODE_CREATE
+            Gateway::NODE_ASSIGNMENT_OP_CODE_CREATE
         );
 
         $gateway->createLocationsFromNodeAssignments(68, 1);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[228]],
             $this->buildContentTreeSelectContentWithParentQuery(68, 77, ['main_node_id'])
         );
@@ -1073,9 +1071,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * @depends testCreateLocationNodeAssignmentCreation
      */
-    public function testConvertNodeAssignmentsParentHidden()
+    public function testConvertNodeAssignmentsParentHidden(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
 
         $gateway = $this->getLocationGateway();
         $gateway->createNodeAssignment(
@@ -1095,12 +1093,12 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ]
             ),
             224,
-            DoctrineDatabase::NODE_ASSIGNMENT_OP_CODE_CREATE
+            Gateway::NODE_ASSIGNMENT_OP_CODE_CREATE
         );
 
         $gateway->createLocationsFromNodeAssignments(68, 1);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[0, 1]],
             $this->buildContentTreeSelectContentWithParentQuery(
                 68,
@@ -1113,9 +1111,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * @depends testCreateLocationNodeAssignmentCreation
      */
-    public function testConvertNodeAssignmentsParentInvisible()
+    public function testConvertNodeAssignmentsParentInvisible(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
 
         $gateway = $this->getLocationGateway();
         $gateway->createNodeAssignment(
@@ -1135,12 +1133,12 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ]
             ),
             225,
-            DoctrineDatabase::NODE_ASSIGNMENT_OP_CODE_CREATE
+            Gateway::NODE_ASSIGNMENT_OP_CODE_CREATE
         );
 
         $gateway->createLocationsFromNodeAssignments(68, 1);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[0, 1]],
             $this->buildContentTreeSelectContentWithParentQuery(
                 68,
@@ -1153,9 +1151,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * @depends testCreateLocationNodeAssignmentCreation
      */
-    public function testConvertNodeAssignmentsUpdateAssignment()
+    public function testConvertNodeAssignmentsUpdateAssignment(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
 
         $gateway = $this->getLocationGateway();
         $gateway->createNodeAssignment(
@@ -1171,12 +1169,12 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ]
             ),
             '77',
-            DoctrineDatabase::NODE_ASSIGNMENT_OP_CODE_CREATE
+            Gateway::NODE_ASSIGNMENT_OP_CODE_CREATE
         );
 
         $gateway->createLocationsFromNodeAssignments(68, 1);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[DoctrineDatabase::NODE_ASSIGNMENT_OP_CODE_CREATE_NOP]],
             $this->buildNodeAssignmentSelectContentWithParentQuery(68, 77, ['op_code'])
         );
@@ -1185,14 +1183,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Test for the setSectionForSubtree() method.
      */
-    public function testSetSectionForSubtree()
+    public function testSetSectionForSubtree(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/../../_fixtures/contentobjects.php');
         $gateway = $this->getLocationGateway();
         $gateway->setSectionForSubtree('/1/2/69/70/', 23);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[68], [69]],
             $query
                 ->select('id')
@@ -1206,11 +1204,11 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      *
      *
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function testChangeMainLocation()
+    public function testChangeMainLocation(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         // Create additional location and assignment for test purpose
         $connection = $this->getDatabaseConnection();
         $query = $connection->createQueryBuilder();
@@ -1242,7 +1240,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     ),
                 ]
             );
-        $query->execute();
+        $query->executeStatement();
 
         $query = $connection->createQueryBuilder();
         $query
@@ -1266,7 +1264,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     ),
                 ]
             );
-        $query->execute();
+        $query->executeStatement();
 
         $gateway = $this->getLocationGateway();
 
@@ -1278,7 +1276,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $connection->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[228], [228]],
             $query
                 ->select('main_node_id')
@@ -1292,13 +1290,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $connection->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[1]],
             $query
                 ->select('is_main')
                 ->from('eznode_assignment')
                 ->where(
-                    $query->expr()->andX(
+                    $query->expr()->and(
                         $query->expr()->eq(
                             'contentobject_id',
                             $query->createPositionalParameter(10, ParameterType::INTEGER)
@@ -1316,13 +1314,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $query = $connection->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[0]],
             $query
                 ->select('is_main')
                 ->from('eznode_assignment')
                 ->where(
-                    $query->expr()->andX(
+                    $query->expr()->and(
                         $query->expr()->eq(
                             'contentobject_id',
                             $query->createPositionalParameter(10, ParameterType::INTEGER)
@@ -1343,9 +1341,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Test for the getChildren() method.
      */
-    public function testGetChildren()
+    public function testGetChildren(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
 
         $gateway = $this->getLocationGateway();
         $childrenRows = $gateway->getChildren(213);
@@ -1358,11 +1356,11 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testGetFallbackMainNodeData(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         // Create additional location for test purpose
         $connection = $this->getDatabaseConnection();
         $query = $connection->createQueryBuilder();
@@ -1407,9 +1405,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Test for the removeLocation() method.
      */
-    public function testRemoveLocation()
+    public function testRemoveLocation(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
 
         $gateway = $this->getLocationGateway();
         $gateway->removeLocation(13);
@@ -1422,7 +1420,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         }
     }
 
-    public function providerForTestUpdatePathIdentificationString()
+    public function providerForTestUpdatePathIdentificationString(): array
     {
         return [
             [77, 2, 'new_solutions', 'new_solutions'],
@@ -1437,18 +1435,18 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      * @dataProvider providerForTestUpdatePathIdentificationString
      */
     public function testUpdatePathIdentificationString(
-        $locationId,
-        $parentLocationId,
-        $text,
-        $expected
-    ) {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        int $locationId,
+        int $parentLocationId,
+        string $text,
+        string $expected
+    ): void {
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
 
         $gateway = $this->getLocationGateway();
         $gateway->updatePathIdentificationString($locationId, $parentLocationId, $text);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[$expected]],
             $query->select(
                 'path_identification_string'

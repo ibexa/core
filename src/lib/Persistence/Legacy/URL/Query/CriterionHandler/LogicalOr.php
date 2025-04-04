@@ -37,6 +37,6 @@ class LogicalOr implements CriterionHandler
             $subexpressions[] = $converter->convertCriteria($queryBuilder, $subCriterion);
         }
 
-        return $queryBuilder->expr()->orX(...$subexpressions);
+        return $queryBuilder->expr()->or(...$subexpressions);
     }
 }

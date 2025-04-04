@@ -23,7 +23,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard
      */
-    public function createUrlWildcard($sourceUrl, $destinationUrl, $forward)
+    public function createUrlWildcard($sourceUrl, $destinationUrl, $forward): UrlWildcard
     {
         $urlWildcard = new UrlWildcard();
 
@@ -41,7 +41,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard
      */
-    public function extractUrlWildcardFromRow(array $row)
+    public function extractUrlWildcardFromRow(array $row): UrlWildcard
     {
         $urlWildcard = new UrlWildcard();
 
@@ -75,7 +75,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard[]
      */
-    public function extractUrlWildcardsFromRows(array $rows)
+    public function extractUrlWildcardsFromRows(array $rows): array
     {
         $urlWildcards = [];
 

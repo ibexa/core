@@ -17,20 +17,15 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStru
  */
 final class FieldAggregationFixtureGenerator
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    private $repository;
+    private Repository $repository;
 
-    /** @var string|null */
-    private $contentTypeIdentifier;
+    private ?string $contentTypeIdentifier = null;
 
-    /** @var string|null */
-    private $fieldTypeIdentifier;
+    private ?string $fieldTypeIdentifier = null;
 
-    /** @var string|null */
-    private $fieldDefinitionIdentifier;
+    private ?string $fieldDefinitionIdentifier = null;
 
-    /** @var iterable|null */
-    private $values;
+    private ?iterable $values = null;
 
     /** @var callable|null */
     private $fieldDefinitionCreateStructConfigurator;

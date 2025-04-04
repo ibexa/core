@@ -22,17 +22,17 @@ final class MatcherStub implements Matcher
         $this->data = $data;
     }
 
-    public function setRequest(SimplifiedRequest $request)
+    public function setRequest(SimplifiedRequest $request): never
     {
         throw new NotImplementedException(__METHOD__);
     }
 
-    public function match()
+    public function match(): never
     {
         throw new NotImplementedException(__METHOD__);
     }
 
-    public function getName()
+    public function getName(): never
     {
         throw new NotImplementedException(__METHOD__);
     }

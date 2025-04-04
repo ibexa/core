@@ -53,7 +53,7 @@ class Type extends FieldType implements TranslationContainerInterface
     ];
 
     /** @var \Ibexa\Core\FieldType\Validator[] */
-    private $validators;
+    private array $validators;
 
     /** @var array<string> */
     private array $mimeTypes;
@@ -94,7 +94,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\Image\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
@@ -180,7 +180,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue)
+    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue): array
     {
         $errors = [];
 
@@ -272,7 +272,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateValidatorConfiguration($validatorConfiguration)
+    public function validateValidatorConfiguration($validatorConfiguration): array
     {
         $validationErrors = [];
 
@@ -363,7 +363,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return mixed
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): ?array
     {
         if ($this->isEmptyValue($value)) {
             return null;
@@ -391,7 +391,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\FieldValue
      */
-    public function toPersistenceValue(SPIValue $value)
+    public function toPersistenceValue(SPIValue $value): FieldValue
     {
         // Store original data as external (to indicate they need to be stored)
         return new FieldValue(

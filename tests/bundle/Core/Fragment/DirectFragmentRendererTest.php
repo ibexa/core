@@ -59,7 +59,7 @@ final class DirectFragmentRendererTest extends TestCase
 
         $controllerResolver
             ->method('getController')
-            ->willReturn(static function () {
+            ->willReturn(static function (): Response {
                 return new Response('response_body');
             });
 
@@ -76,7 +76,7 @@ final class DirectFragmentRendererTest extends TestCase
 
         $controllerResolver
             ->method('getController')
-            ->willReturn(static function () {
+            ->willReturn(static function (): Response {
                 return new Response('response_body');
             });
 
@@ -95,7 +95,7 @@ final class DirectFragmentRendererTest extends TestCase
         $controllerResolverMock = $this->getControllerResolverInterfaceMock();
         $controllerResolverMock
             ->method('getController')
-            ->willReturn(static function (...$args) use ($contentView) {
+            ->willReturn(static function (...$args) use ($contentView): \Ibexa\Core\MVC\Symfony\View\ContentView {
                 $contentView->setParameters($args);
 
                 return $contentView;
@@ -141,7 +141,7 @@ final class DirectFragmentRendererTest extends TestCase
 
         $controllerResolver
             ->method('getController')
-            ->willReturn(static function (...$args) {
+            ->willReturn(static function (...$args): array {
                 return ['some_array' => $args];
             });
 

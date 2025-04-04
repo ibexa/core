@@ -16,15 +16,14 @@ use Ibexa\Bundle\Core\DependencyInjection\Security\PolicyProvider\PolicyProvider
  */
 class StubPolicyProvider implements PolicyProviderInterface
 {
-    /** @var array */
-    private $policies;
+    private array $policies;
 
     public function __construct(array $policies)
     {
         $this->policies = $policies;
     }
 
-    public function addPolicies(ConfigBuilderInterface $configBuilder)
+    public function addPolicies(ConfigBuilderInterface $configBuilder): void
     {
         $configBuilder->addConfig($this->policies);
     }

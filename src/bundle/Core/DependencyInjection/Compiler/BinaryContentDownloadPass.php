@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class BinaryContentDownloadPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->has(ContentDownloadUrlGenerator::class)) {
             return;
@@ -31,7 +31,7 @@ class BinaryContentDownloadPass implements CompilerPassInterface
         $this->addCall($container, $downloadUrlReference, BinaryFileStorage::class);
     }
 
-    private function addCall(ContainerBuilder $container, Reference $reference, $targetServiceName)
+    private function addCall(ContainerBuilder $container, Reference $reference, string $targetServiceName): void
     {
         if (!$container->has($targetServiceName)) {
             return;

@@ -20,7 +20,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
  */
 class EZP20018ObjectStateTest extends BaseTest
 {
-    public function testSearchForNonUsedObjectState()
+    public function testSearchForNonUsedObjectState(): void
     {
         $repository = $this->getRepository();
 
@@ -48,7 +48,7 @@ class EZP20018ObjectStateTest extends BaseTest
         self::assertCount($results2->totalCount, $results2->searchHits);
     }
 
-    public function testSearchForUsedObjectState()
+    public function testSearchForUsedObjectState(): void
     {
         $repository = $this->getRepository();
 

@@ -23,11 +23,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 abstract class Type extends FieldType
 {
-    /** @var \Ibexa\Contracts\Core\FieldType\ValueSerializerInterface */
-    protected $serializer;
+    protected ValueSerializerInterface $serializer;
 
-    /** @var \Symfony\Component\Validator\Validator\ValidatorInterface */
-    protected $validator;
+    protected ValidatorInterface $validator;
 
     public function __construct(ValueSerializerInterface $serializer, ValidatorInterface $validator)
     {

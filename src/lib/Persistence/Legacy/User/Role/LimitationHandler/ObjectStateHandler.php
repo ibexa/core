@@ -8,7 +8,6 @@
 namespace Ibexa\Core\Persistence\Legacy\User\Role\LimitationHandler;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Ibexa\Contracts\Core\Persistence\User\Policy;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Core\Persistence\Legacy\User\Role\LimitationHandler;
@@ -125,7 +124,7 @@ class ObjectStateHandler extends LimitationHandler
         $statement = $query->execute();
 
         $map = [];
-        $groupValues = $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        $groupValues = $statement->fetchAllAssociative();
         foreach ($groupValues as $groupValue) {
             $map[self::STATE_GROUP . $groupValue['identifier']][] = (int)$groupValue['id'];
         }

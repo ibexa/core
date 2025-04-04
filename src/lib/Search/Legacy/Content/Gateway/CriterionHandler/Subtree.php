@@ -45,7 +45,7 @@ class Subtree extends CriterionHandler
         $subSelect
             ->select('contentobject_id')
             ->from('ezcontentobject_tree')
-            ->where($queryBuilder->expr()->orX(...$statements));
+            ->where($queryBuilder->expr()->or(...$statements));
 
         return $queryBuilder->expr()->in(
             'c.id',

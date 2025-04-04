@@ -18,11 +18,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Language;
  */
 abstract class AbstractLanguageResolver implements APILanguageResolver
 {
-    /** @var bool */
-    private $defaultUseAlwaysAvailable;
+    private bool $defaultUseAlwaysAvailable;
 
-    /** @var bool */
-    private $defaultShowAllTranslations;
+    private bool $defaultShowAllTranslations;
 
     /**
      * Values typically provided by user context, will need to be set depending on your own custom logic using setter.
@@ -34,7 +32,7 @@ abstract class AbstractLanguageResolver implements APILanguageResolver
      *
      * @var string|null
      */
-    private $contextLanguage;
+    private ?string $contextLanguage = null;
 
     /**
      * @param bool $defaultUseAlwaysAvailable

@@ -36,25 +36,19 @@ class AliasGenerator implements VariationHandler
 {
     public const ALIAS_ORIGINAL = 'original';
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * Loader used to retrieve the original image.
      * DataManager is not used to remain independent from ImagineBundle configuration.
-     *
-     * @var \Liip\ImagineBundle\Binary\Loader\LoaderInterface
      */
-    private $dataLoader;
+    private LoaderInterface $dataLoader;
 
-    /** @var \Liip\ImagineBundle\Imagine\Filter\FilterManager */
-    private $filterManager;
+    private FilterManager $filterManager;
 
-    /** @var \Liip\ImagineBundle\Imagine\Filter\FilterConfiguration */
-    private $filterConfiguration;
+    private FilterConfiguration $filterConfiguration;
 
-    /** @var \Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
-    private $ioResolver;
+    private ResolverInterface $ioResolver;
 
     public function __construct(
         LoaderInterface $dataLoader,
@@ -77,7 +71,7 @@ class AliasGenerator implements VariationHandler
      * @throws \Ibexa\Core\MVC\Exception\SourceImageNotFoundException If source image cannot be found.
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidVariationException If a problem occurs with generated variation.
      */
-    public function getVariation(Field $field, VersionInfo $versionInfo, $variationName, array $parameters = [])
+    public function getVariation(Field $field, VersionInfo $versionInfo, $variationName, array $parameters = []): ImageVariation
     {
         /** @var \Ibexa\Core\FieldType\Image\Value $imageValue */
         $imageValue = $field->value;

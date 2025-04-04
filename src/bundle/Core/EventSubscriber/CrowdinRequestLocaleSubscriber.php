@@ -26,7 +26,7 @@ class CrowdinRequestLocaleSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function setInContextAcceptLanguage(RequestEvent $e)
+    public function setInContextAcceptLanguage(RequestEvent $e): void
     {
         if (!$e->getRequest()->cookies->has('ez_in_context_translation')) {
             return;

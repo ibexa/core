@@ -26,7 +26,7 @@ class IntegerConverter implements Converter
      * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $value
      * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $storageFieldValue
      */
-    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
+    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue): void
     {
         $storageFieldValue->dataInt = $value->data;
         $storageFieldValue->sortKeyInt = (int)$value->sortKey;
@@ -38,7 +38,7 @@ class IntegerConverter implements Converter
      * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $value
      * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
      */
-    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue)
+    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue): void
     {
         $fieldValue->data = $value->dataInt;
         $fieldValue->sortKey = $value->sortKeyInt;
@@ -50,7 +50,7 @@ class IntegerConverter implements Converter
      * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
      * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
      */
-    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef)
+    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef): void
     {
         if (isset($fieldDef->fieldTypeConstraints->validators[self::FLOAT_VALIDATOR_IDENTIFIER]['minIntegerValue'])) {
             $storageDef->dataInt1 = $fieldDef->fieldTypeConstraints->validators[self::FLOAT_VALIDATOR_IDENTIFIER]['minIntegerValue'];
@@ -79,7 +79,7 @@ class IntegerConverter implements Converter
      * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
      * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
      */
-    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef)
+    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef): void
     {
         $validatorParameters = ['minIntegerValue' => null, 'maxIntegerValue' => null];
         if ($storageDef->dataInt4 & self::HAS_MIN_VALUE) {

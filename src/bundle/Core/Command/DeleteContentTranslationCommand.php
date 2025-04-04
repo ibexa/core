@@ -29,17 +29,14 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 )]
 class DeleteContentTranslationCommand extends Command
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    private $repository;
+    private Repository $repository;
 
     /** @var \Ibexa\Contracts\Core\Repository\ContentService */
     private $contentService;
 
-    /** @var \Symfony\Component\Console\Input\InputInterface */
-    private $input;
+    private ?InputInterface $input = null;
 
-    /** @var \Symfony\Component\Console\Output\OutputInterface */
-    private $output;
+    private ?OutputInterface $output = null;
 
     /** @var \Symfony\Component\Console\Helper\QuestionHelper */
     private $questionHelper;
@@ -159,7 +156,7 @@ class DeleteContentTranslationCommand extends Command
      */
     private function promptUserForMainLanguageChange(
         ContentInfo $contentInfo,
-        $languageCode,
+        string $languageCode,
         array $lastVersionLanguageCodes
     ) {
         $contentName = "#{$contentInfo->id} ($contentInfo->name)";

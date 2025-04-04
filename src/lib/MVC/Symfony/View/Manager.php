@@ -20,17 +20,13 @@ use Twig\Environment;
 
 class Manager implements ViewManagerInterface
 {
-    /** @var \Twig\Environment */
-    protected $templateEngine;
+    protected Environment $templateEngine;
 
-    /** @var \Psr\Log\LoggerInterface */
-    protected $logger;
+    protected ?LoggerInterface $logger;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    protected $repository;
+    protected Repository $repository;
 
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface */
-    protected $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
     /**
      * The base layout template to use when the view is requested to be generated
@@ -40,8 +36,7 @@ class Manager implements ViewManagerInterface
      */
     protected $viewBaseLayout;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    protected $configResolver;
+    protected ConfigResolverInterface $configResolver;
 
     /** @var \Ibexa\Core\MVC\Symfony\View\Configurator */
     private $viewConfigurator;

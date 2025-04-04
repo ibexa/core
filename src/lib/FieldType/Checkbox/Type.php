@@ -46,7 +46,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\Checkbox\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value(false);
     }
@@ -117,7 +117,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\Checkbox\Value $value
      */
-    public function fromHash($hash)
+    public function fromHash($hash): Value
     {
         return new Value($hash);
     }
