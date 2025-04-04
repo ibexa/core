@@ -88,7 +88,7 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
         $schemaManager = $this->connection->getSchemaManager();
         if (!empty($schemaManager->listTables())) {
             $io = new SymfonyStyle($input, $output);
-            if (!$io->confirm('Running this command will delete data in all Ibexa generated tables. Continue?', )) {
+            if (!$io->confirm('Running this command will delete data in all Ibexa generated tables. Continue?', false)) {
                 return 0;
             }
         }
