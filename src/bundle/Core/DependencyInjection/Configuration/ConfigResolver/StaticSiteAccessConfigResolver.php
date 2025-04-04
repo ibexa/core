@@ -11,16 +11,24 @@ namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Provider\StaticSiteAccessProvider;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * @property-read \Symfony\Component\DependencyInjection\ContainerInterface $container
- *
  * @internal
  */
 class StaticSiteAccessConfigResolver extends SiteAccessConfigResolver
 {
-    use ContainerAwareTrait;
+    protected ContainerInterface $container;
+
+    public function __construct(
+        ContainerInterface $container,
+        SiteAccess\SiteAccessProviderInterface $siteAccessProvider,
+        string $defaultNamespace
+    ) {
+        parent::__construct($siteAccessProvider, $defaultNamespace);
+
+        $this->container = $container;
+    }
 
     protected function resolverHasParameter(SiteAccess $siteAccess, string $paramName, string $namespace): bool
     {

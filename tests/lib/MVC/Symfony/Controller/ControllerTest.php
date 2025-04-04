@@ -33,8 +33,7 @@ class ControllerTest extends TestCase
     {
         $this->templateEngineMock = $this->createMock(EngineInterface::class);
         $this->containerMock = $this->createMock(ContainerInterface::class);
-        $this->controller = $this->getMockForAbstractClass(Controller::class);
-        $this->controller->setContainer($this->containerMock);
+        $this->controller = $this->getMockForAbstractClass(Controller::class, [$this->containerMock]);
         $this->containerMock
             ->expects(self::any())
             ->method('get')

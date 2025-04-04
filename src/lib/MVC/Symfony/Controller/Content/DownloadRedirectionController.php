@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\MVC\Symfony\Controller\Content;
 
@@ -13,6 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\MVC\Symfony\Controller\Controller;
 use Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator;
 use InvalidArgumentException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,17 +22,20 @@ use Symfony\Component\Routing\RouterInterface;
 
 class DownloadRedirectionController extends Controller
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    private $contentService;
+    private ContentService $contentService;
 
-    /** @var \Symfony\Component\Routing\RouterInterface */
-    private $router;
+    private RouterInterface $router;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator */
-    private $routeReferenceGenerator;
+    private RouteReferenceGenerator $routeReferenceGenerator;
 
-    public function __construct(ContentService $contentService, RouterInterface $router, RouteReferenceGenerator $routeReferenceGenerator)
-    {
+    public function __construct(
+        ContainerInterface $container,
+        ContentService $contentService,
+        RouterInterface $router,
+        RouteReferenceGenerator $routeReferenceGenerator
+    ) {
+        parent::__construct($container);
+
         $this->contentService = $contentService;
         $this->router = $router;
         $this->routeReferenceGenerator = $routeReferenceGenerator;
@@ -40,14 +45,8 @@ class DownloadRedirectionController extends Controller
      * Used by the REST API to reference downloadable files.
      * It redirects (permanently) to the standard ez_content_download route, based on the language of the field
      * passed as an argument, using the language switcher.
-     *
-     * @param mixed $contentId
-     * @param int $fieldId
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function redirectToContentDownloadAction($contentId, $fieldId, Request $request)
+    public function redirectToContentDownloadAction(int $contentId, int $fieldId, Request $request): RedirectResponse
     {
         $content = $this->contentService->loadContent($contentId);
         $field = $this->findFieldInContent($fieldId, $content);
@@ -77,13 +76,8 @@ class DownloadRedirectionController extends Controller
 
     /**
      * Finds the field with id $fieldId in $content.
-     *
-     * @param int $fieldId
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field
      */
-    protected function findFieldInContent($fieldId, Content $content)
+    protected function findFieldInContent(int $fieldId, Content $content): Field
     {
         foreach ($content->getFields() as $field) {
             if ($field->id == $fieldId) {

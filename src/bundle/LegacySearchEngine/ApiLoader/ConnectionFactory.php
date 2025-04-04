@@ -4,22 +4,26 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\LegacySearchEngine\ApiLoader;
 
+use Doctrine\DBAL\Connection;
 use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use InvalidArgumentException;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class ConnectionFactory implements ContainerAwareInterface
+class ConnectionFactory
 {
-    use ContainerAwareTrait;
+    protected ContainerInterface $container;
 
     protected RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
 
-    public function __construct(RepositoryConfigurationProviderInterface $repositoryConfigurationProvider)
-    {
+    public function __construct(
+        ContainerInterface $container,
+        RepositoryConfigurationProviderInterface $repositoryConfigurationProvider
+    ) {
+        $this->container = $container;
         $this->repositoryConfigurationProvider = $repositoryConfigurationProvider;
     }
 
@@ -27,10 +31,8 @@ class ConnectionFactory implements ContainerAwareInterface
      * Returns database connection used by database handler.
      *
      * @throws \InvalidArgumentException
-     *
-     * @return \Doctrine\DBAL\Connection
      */
-    public function getConnection()
+    public function getConnection(): Connection
     {
         $repositoryConfig = $this->repositoryConfigurationProvider->getRepositoryConfig();
         // Taking provided connection name if any.
