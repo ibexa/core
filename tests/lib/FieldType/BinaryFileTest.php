@@ -11,7 +11,6 @@ use Ibexa\Contracts\Core\FieldType\BinaryBase\RouteAwarePathGenerator;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\FieldType\BinaryFile\Type as BinaryFileType;
 use Ibexa\Core\FieldType\BinaryFile\Value as BinaryFileValue;
-use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\ValidationError;
 
 /**
@@ -22,21 +21,10 @@ use Ibexa\Core\FieldType\ValidationError;
  */
 class BinaryFileTest extends BinaryBaseTestCase
 {
-    /**
-     * Returns the field type under test.
-     *
-     * This method is used by all test cases to retrieve the field type under
-     * test. Just create the FieldType instance using mocks from the provided
-     * get*Mock() methods and/or custom get*Mock() implementations. You MUST
-     * NOT take care for test case wide caching of the field type, just return
-     * a new instance from this method!
-     *
-     * @return \Ibexa\Core\FieldType\FieldType
-     */
-    protected function createFieldTypeUnderTest(): FieldType
+    protected function createFieldTypeUnderTest(): BinaryFileType
     {
         $fieldType = new BinaryFileType(
-            [$this->getBlackListValidatorMock()],
+            [$this->getBlackListValidator()],
             $this->getRouteAwarePathGenerator()
         );
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
@@ -44,12 +32,12 @@ class BinaryFileTest extends BinaryBaseTestCase
         return $fieldType;
     }
 
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): BinaryFileValue
     {
         return new BinaryFileValue();
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): array
     {
         $baseInput = parent::provideInvalidInputForAcceptValue();
         $binaryFileInput = [
@@ -62,7 +50,7 @@ class BinaryFileTest extends BinaryBaseTestCase
         return array_merge($baseInput, $binaryFileInput);
     }
 
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): array
     {
         return [
             [
@@ -171,42 +159,7 @@ class BinaryFileTest extends BinaryBaseTestCase
         ];
     }
 
-    /**
-     * Provide input for the toHash() method.
-     *
-     * Returns an array of data provider sets with 2 arguments: 1. The valid
-     * input to toHash(), 2. The expected return value from toHash().
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          null,
-     *          null
-     *      ),
-     *      array(
-     *          new BinaryFileValue( array(
-     *              'id' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          ) ),
-     *          array(
-     *              'id' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): array
     {
         return [
             [
@@ -353,42 +306,7 @@ class BinaryFileTest extends BinaryBaseTestCase
         ];
     }
 
-    /**
-     * Provide input to fromHash() method.
-     *
-     * Returns an array of data provider sets with 2 arguments: 1. The valid
-     * input to fromHash(), 2. The expected return value from fromHash().
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          null,
-     *          null
-     *      ),
-     *      array(
-     *          array(
-     *              'id' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          ),
-     *          new BinaryFileValue( array(
-     *              'id' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          ) )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): array
     {
         return [
             [
@@ -519,7 +437,7 @@ class BinaryFileTest extends BinaryBaseTestCase
         ];
     }
 
-    public function provideValidDataForValidate()
+    public function provideValidDataForValidate(): array
     {
         return [
             [
@@ -543,7 +461,7 @@ class BinaryFileTest extends BinaryBaseTestCase
         ];
     }
 
-    public function provideInvalidDataForValidate()
+    public function provideInvalidDataForValidate(): array
     {
         return [
             // File is too large

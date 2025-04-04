@@ -9,59 +9,52 @@ namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\ValidationError;
-use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Contracts\Core\FieldType\Value as FieldTypeValue;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 abstract class BaseFieldTypeTestCase extends TestCase
 {
     /**
      * Generic cache for the getFieldTypeUnderTest() method.
-     *
-     * @var \Ibexa\Contracts\Core\FieldType\FieldType
      */
-    private $fieldTypeUnderTest;
+    private FieldType $fieldTypeUnderTest;
 
     /**
      * Returns the identifier of the field type under test.
-     *
-     * @return string
      */
-    abstract protected function provideFieldTypeIdentifier();
+    abstract protected function provideFieldTypeIdentifier(): string;
 
     /**
      * Returns the field type under test.
      *
      * This method is used by all test cases to retrieve the field type under
-     * test. Just create the FieldType instance using mocks from the provided
+     * test. Create the FieldType instance using mocks from the provided
      * get*Mock() methods and/or custom get*Mock() implementations. You MUST
-     * NOT take care for test case wide caching of the field type, just return
+     * NOT rely on the test-case-wide caching of the field type, just return
      * a new instance from this method!
-     *
-     * @return \Ibexa\Core\FieldType\FieldType
      */
-    abstract protected function createFieldTypeUnderTest();
+    abstract protected function createFieldTypeUnderTest(): FieldType;
 
     /**
      * Returns the validator configuration schema expected from the field type.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    abstract protected function getValidatorConfigurationSchemaExpectation();
+    abstract protected function getValidatorConfigurationSchemaExpectation(): array;
 
     /**
      * Returns the settings schema expected from the field type.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    abstract protected function getSettingsSchemaExpectation();
+    abstract protected function getSettingsSchemaExpectation(): array;
 
     /**
      * Returns the empty value expected from the field type.
-     *
-     * @return mixed
      */
-    abstract protected function getEmptyValueExpectation();
+    abstract protected function getEmptyValueExpectation(): FieldTypeValue;
 
     /**
      * Data provider for invalid input to acceptValue().
@@ -70,23 +63,23 @@ abstract class BaseFieldTypeTestCase extends TestCase
      * input to acceptValue(), 2. The expected exception type as a string. For
      * example:
      *
-     * <code>
-     *  return array(
-     *      array(
+     * ```
+     *  return [
+     *      [
      *          new \stdClass(),
      *          InvalidArgumentException::class,
-     *      ),
-     *      array(
-     *          array(),
+     *      ],
+     *      [
+     *          [],
      *          InvalidArgumentException::class,
-     *      ),
+     *      ],
      *      // ...
-     *  );
-     * </code>
+     *  ];
+     * ```
      *
-     * @return array
+     * @phpstan-return list<array{mixed, class-string<\Throwable>}>
      */
-    abstract public function provideInvalidInputForAcceptValue();
+    abstract public function provideInvalidInputForAcceptValue(): array;
 
     /**
      * Data provider for valid input to acceptValue().
@@ -95,29 +88,29 @@ abstract class BaseFieldTypeTestCase extends TestCase
      * input to acceptValue(), 2. The expected return value from acceptValue().
      * For example:
      *
-     * <code>
-     *  return array(
-     *      array(
+     * ```
+     *  return [
+     *      [
      *          null,
      *          null
-     *      ),
-     *      array(
+     *      ],
+     *      [
      *          __FILE__,
-     *          new BinaryFileValue( array(
+     *          new BinaryFileValue([
      *              'path' => __FILE__,
-     *              'fileName' => basename( __FILE__ ),
-     *              'fileSize' => filesize( __FILE__ ),
+     *              'fileName' => basename(__FILE__),
+     *              'fileSize' => filesize(__FILE__),
      *              'downloadCount' => 0,
      *              'mimeType' => 'text/plain',
-     *          ) )
-     *      ),
+     *          ])
+     *      ],
      *      // ...
-     *  );
-     * </code>
+     *  ];
+     * ```
      *
-     * @return array
+     * @phpstan-return array<array{mixed, \Ibexa\Contracts\Core\FieldType\Value}>
      */
-    abstract public function provideValidInputForAcceptValue();
+    abstract public function provideValidInputForAcceptValue(): array;
 
     /**
      * Provide input for the toHash() method.
@@ -126,35 +119,35 @@ abstract class BaseFieldTypeTestCase extends TestCase
      * input to toHash(), 2. The expected return value from toHash().
      * For example:
      *
-     * <code>
-     *  return array(
-     *      array(
+     * ```
+     *  return [
+     *      [
      *          null,
      *          null
-     *      ),
-     *      array(
-     *          new BinaryFileValue( array(
+     *      ],
+     *      [
+     *          new BinaryFileValue([
      *              'path' => 'some/file/here',
      *              'fileName' => 'sindelfingen.jpg',
      *              'fileSize' => 2342,
      *              'downloadCount' => 0,
      *              'mimeType' => 'image/jpeg',
-     *          ) ),
-     *          array(
+     *          ]),
+     *          [
      *              'path' => 'some/file/here',
      *              'fileName' => 'sindelfingen.jpg',
      *              'fileSize' => 2342,
      *              'downloadCount' => 0,
      *              'mimeType' => 'image/jpeg',
-     *          )
-     *      ),
+     *          ]
+     *      ],
      *      // ...
-     *  );
-     * </code>
+     *  ];
+     * ```
      *
-     * @return array
+     * @phpstan-return array<array{\Ibexa\Contracts\Core\FieldType\Value, mixed}>
      */
-    abstract public function provideInputForToHash();
+    abstract public function provideInputForToHash(): array;
 
     /**
      * Provide input to fromHash() method.
@@ -163,40 +156,40 @@ abstract class BaseFieldTypeTestCase extends TestCase
      * input to fromHash(), 2. The expected return value from fromHash().
      * For example:
      *
-     * <code>
-     *  return array(
-     *      array(
+     * ```
+     *  return [
+     *      [
      *          null,
      *          null
-     *      ),
-     *      array(
-     *          array(
+     *      ],
+     *      [
+     *          [
      *              'path' => 'some/file/here',
      *              'fileName' => 'sindelfingen.jpg',
      *              'fileSize' => 2342,
      *              'downloadCount' => 0,
      *              'mimeType' => 'image/jpeg',
-     *          ),
-     *          new BinaryFileValue( array(
+     *          ],
+     *          new BinaryFileValue([
      *              'path' => 'some/file/here',
      *              'fileName' => 'sindelfingen.jpg',
      *              'fileSize' => 2342,
      *              'downloadCount' => 0,
      *              'mimeType' => 'image/jpeg',
-     *          ) )
-     *      ),
+     *          ])
+     *      ],
      *      // ...
-     *  );
-     * </code>
+     *  ];
+     * ```
      *
-     * @return array
+     * @phpstan-return array<array{mixed, mixed}>
      */
-    abstract public function provideInputForFromHash();
+    abstract public function provideInputForFromHash(): array;
 
     /**
      * Provides data for the getName() test.
      *
-     * @return array
+     * @phpstan-return array<array{\Ibexa\Contracts\Core\FieldType\Value, string, array<string, mixed>, string}>
      */
     abstract public function provideDataForGetName(): array;
 
@@ -211,21 +204,21 @@ abstract class BaseFieldTypeTestCase extends TestCase
      * set of field settings.
      * For example:
      *
-     * <code>
-     *  return array(
-     *      array(
-     *          array(),
-     *      ),
-     *      array(
-     *          array( 'rows' => 2 )
-     *      ),
+     * ```
+     *  return [
+     *      [
+     *          [],
+     *      ],
+     *      [
+     *          ['rows' => 2]
+     *      ],
      *      // ...
-     *  );
-     * </code>
+     *  ];
+     * ```
      *
-     * @return array
+     * @phpstan-return array<array{mixed}>
      */
-    public function provideValidFieldSettings()
+    public function provideValidFieldSettings(): array
     {
         return [
             [
@@ -246,21 +239,21 @@ abstract class BaseFieldTypeTestCase extends TestCase
      * set of field settings.
      * For example:
      *
-     * <code>
-     *  return array(
-     *      array(
+     * ```
+     *  return [
+     *      [
      *          true,
-     *      ),
-     *      array(
-     *          array( 'nonExistentKey' => 2 )
-     *      ),
+     *      ],
+     *      [
+     *          ['nonExistentKey' => 2]
+     *      ],
      *      // ...
-     *  );
-     * </code>
+     *  ];
+     * ```
      *
-     * @return array
+     * @phpstan-return array<array{mixed}>
      */
-    public function provideInValidFieldSettings()
+    public function provideInValidFieldSettings(): array
     {
         return [
             [
@@ -281,26 +274,26 @@ abstract class BaseFieldTypeTestCase extends TestCase
      *
      * For example:
      *
-     * <code>
-     *  return array(
-     *      array(
-     *          array(),
-     *      ),
-     *      array(
-     *          array(
-     *              'IntegerValueValidator' => array(
+     * ```
+     *  return [
+     *      [
+     *          [],
+     *      ],
+     *      [
+     *          [
+     *              'IntegerValueValidator' => [
      *                  'minIntegerValue' => 0,
      *                  'maxIntegerValue' => 23,
-     *              )
-     *          )
-     *      ),
+     *              ]
+     *          ]
+     *      ],
      *      // ...
-     *  );
-     * </code>
+     *  ];
+     * ```
      *
-     * @return array
+     * @phpstan-return array<array{mixed}>
      */
-    public function provideValidValidatorConfiguration()
+    public function provideValidValidatorConfiguration(): array
     {
         return [
             [
@@ -323,38 +316,28 @@ abstract class BaseFieldTypeTestCase extends TestCase
      *
      * For example:
      *
-     * <code>
-     *  return array(
-     *      array(
-     *          array(
-     *              'NonExistentValidator' => array(),
-     *          ),
-     *      ),
-     *      array(
-     *          array(
-     *              // Typos
-     *              'InTEgervALUeVALIdator' => array(
-     *                  'minIntegerValue' => 0,
-     *                  'maxIntegerValue' => 23,
-     *              )
-     *          )
-     *      ),
-     *      array(
-     *          array(
-     *              'IntegerValueValidator' => array(
-     *                  // Incorrect value types
+     * ```
+     *  return [
+     *      [
+     *          [
+     *              'NonExistentValidator' => [],
+     *          ],
+     *      ],
+     *      [
+     *          [
+     *              'IntegerValueValidator' => [
      *                  'minIntegerValue' => true,
      *                  'maxIntegerValue' => false,
-     *              )
-     *          )
-     *      ),
+     *              ]
+     *          ]
+     *      ],
      *      // ...
-     *  );
-     * </code>
+     *  ];
+     * ```
      *
-     * @return array
+     * @phpstan-return array<array{mixed}>
      */
-    public function provideInvalidValidatorConfiguration()
+    public function provideInvalidValidatorConfiguration(): array
     {
         return [
             [
@@ -374,48 +357,46 @@ abstract class BaseFieldTypeTestCase extends TestCase
      *
      * For example:
      *
-     * <code>
-     *  return array(
-     *      array(
-     *          array(
-     *              "validatorConfiguration" => array(
-     *                  "StringLengthValidator" => array(
-     *                      "minStringLength" => 2,
-     *                      "maxStringLength" => 10,
-     *                  ),
-     *              ),
-     *          ),
-     *          new TextLineValue( "lalalala" ),
-     *      ),
-     *      array(
-     *          array(
-     *              "fieldSettings" => array(
+     * ```
+     *  return [
+     *      [
+     *          [
+     *              'validatorConfiguration' => [
+     *                  'StringLengthValidator' => [
+     *                      'minStringLength' => 2,
+     *                      'maxStringLength' => 10,
+     *                  ],
+     *              ],
+     *          ],
+     *          new TextLineValue('lalalala'),
+     *      ],
+     *      [
+     *          [
+     *              'fieldSettings' => [
      *                  'isMultiple' => true
-     *              ),
-     *          ),
-     *          new CountryValue(
-     *              array(
-     *                  "BE" => array(
-     *                      "Name" => "Belgium",
-     *                      "Alpha2" => "BE",
-     *                      "Alpha3" => "BEL",
-     *                      "IDC" => 32,
-     *                  ),
-     *              ),
-     *          ),
-     *      ),
+     *              ],
+     *          ],
+     *          new CountryValue([
+     *              'BE' => [
+     *                  'Name' => 'Belgium',
+     *                  'Alpha2' => 'BE',
+     *                  'Alpha3' => 'BEL',
+     *                  'IDC' => 32,
+     *              ],
+     *          ]),
+     *      ],
      *      // ...
-     *  );
-     * </code>
+     *  ];
+     * ```
      *
-     * @return array
+     * @phpstan-return array<array{array<string, mixed>, \Ibexa\Contracts\Core\FieldType\Value}>
      */
-    public function provideValidDataForValidate()
+    public function provideValidDataForValidate(): array
     {
         return [
             [
                 [],
-                $this->createMock(SPIValue::class),
+                $this->createMock(FieldTypeValue::class),
             ],
         ];
     }
@@ -430,66 +411,66 @@ abstract class BaseFieldTypeTestCase extends TestCase
      *
      * For example:
      *
-     * <code>
-     *  return array(
-     *      array(
-     *          array(
-     *              "validatorConfiguration" => array(
-     *                  "IntegerValueValidator" => array(
-     *                      "minIntegerValue" => 5,
-     *                      "maxIntegerValue" => 10
-     *                  ),
-     *              ),
-     *          ),
-     *          new IntegerValue( 3 ),
-     *          array(
+     * ```
+     *  return [
+     *      [
+     *          [
+     *              'validatorConfiguration' => [
+     *                  'IntegerValueValidator' => [
+     *                      'minIntegerValue' => 5,
+     *                      'maxIntegerValue' => 10
+     *                  ],
+     *              ],
+     *          ],
+     *          new IntegerValue(3),
+     *          [
      *              new ValidationError(
-     *                  "The value can not be lower than %size%.",
+     *                  'The value can not be lower than %size%.',
      *                  null,
-     *                  array(
-     *                      "%size%" => 5
-     *                  ),
+     *                  [
+     *                      '%size%' => 5
+     *                  ],
      *              ),
-     *          ),
-     *      ),
-     *      array(
-     *          array(
-     *              "fieldSettings" => array(
-     *                  "isMultiple" => false
+     *          ],
+     *      ],
+     *      [
+     *          [
+     *              'fieldSettings' => [
+     *                  'isMultiple' => false
+     *              ],
+     *          ],
+     *          new CountryValue([
+     *              'BE' => [
+     *                  'Name' => 'Belgium',
+     *                  'Alpha2' => 'BE',
+     *                  'Alpha3' => 'BEL',
+     *                  'IDC' => 32,
+     *              ],
+     *              'FR' => [
+     *                  'Name' => 'France',
+     *                  'Alpha2' => 'FR',
+     *                  'Alpha3' => 'FRA',
+     *                  'IDC' => 33,
+     *              ],
+     *          ]),
+     *          [
+     *              new ValidationError(
+     *                  'Field definition does not allow multiple countries to be selected.'
      *              ),
-     *          ),
-     *          new CountryValue(
-     *              "BE" => array(
-     *                  "Name" => "Belgium",
-     *                  "Alpha2" => "BE",
-     *                  "Alpha3" => "BEL",
-     *                  "IDC" => 32,
-     *              ),
-     *              "FR" => array(
-     *                  "Name" => "France",
-     *                  "Alpha2" => "FR",
-     *                  "Alpha3" => "FRA",
-     *                  "IDC" => 33,
-     *              ),
-     *          )
-     *      ),
-     *      array(
-     *          new ValidationError(
-     *              "Field definition does not allow multiple countries to be selected."
-     *          ),
-     *      ),
+     *          ],
+     *      ],
      *      // ...
-     *  );
-     * </code>
+     *  ];
+     * ```
      *
-     * @return array
+     * @phpstan-return array<array{array<string, mixed>, \Ibexa\Contracts\Core\FieldType\Value, array<\Ibexa\Contracts\Core\FieldType\ValidationError>}>
      */
-    public function provideInvalidDataForValidate()
+    public function provideInvalidDataForValidate(): array
     {
         return [
             [
                 [],
-                $this->createMock(SPIValue::class),
+                $this->createMock(FieldTypeValue::class),
                 [],
             ],
         ];
@@ -498,12 +479,9 @@ abstract class BaseFieldTypeTestCase extends TestCase
     /**
      * Retrieves a test wide cached version of the field type under test.
      *
-     * Uses {@link createFieldTypeUnderTest()} to create the instance
-     * initially.
-     *
-     * @return \Ibexa\Contracts\Core\FieldType\FieldType
+     * Uses {@link createFieldTypeUnderTest()} to create the instance initially.
      */
-    protected function getFieldTypeUnderTest()
+    protected function getFieldTypeUnderTest(): FieldType
     {
         if (!isset($this->fieldTypeUnderTest)) {
             $this->fieldTypeUnderTest = $this->createFieldTypeUnderTest();
@@ -512,7 +490,7 @@ abstract class BaseFieldTypeTestCase extends TestCase
         return $this->fieldTypeUnderTest;
     }
 
-    public function testGetFieldTypeIdentifier()
+    public function testGetFieldTypeIdentifier(): void
     {
         self::assertSame(
             $this->provideFieldTypeIdentifier(),
@@ -522,9 +500,11 @@ abstract class BaseFieldTypeTestCase extends TestCase
 
     /**
      * @dataProvider provideDataForGetName
+     *
+     * @param array<string, mixed> $fieldSettings
      */
     public function testGetName(
-        SPIValue $value,
+        FieldTypeValue $value,
         string $expected,
         array $fieldSettings = [],
         string $languageCode = 'en_GB'
@@ -537,7 +517,7 @@ abstract class BaseFieldTypeTestCase extends TestCase
         );
     }
 
-    public function testValidatorConfigurationSchema()
+    public function testValidatorConfigurationSchema(): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -548,7 +528,7 @@ abstract class BaseFieldTypeTestCase extends TestCase
         );
     }
 
-    public function testSettingsSchema()
+    public function testSettingsSchema(): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -559,7 +539,7 @@ abstract class BaseFieldTypeTestCase extends TestCase
         );
     }
 
-    public function testEmptyValue()
+    public function testEmptyValue(): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -570,12 +550,11 @@ abstract class BaseFieldTypeTestCase extends TestCase
     }
 
     /**
-     * @param mixed $inputValue
-     * @param mixed $expectedOutputValue
-     *
      * @dataProvider provideValidInputForAcceptValue
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function testAcceptValue($inputValue, $expectedOutputValue)
+    public function testAcceptValue(mixed $inputValue, FieldTypeValue $expectedOutputValue): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -589,9 +568,11 @@ abstract class BaseFieldTypeTestCase extends TestCase
     }
 
     /**
-     * Tests that default empty value is unchanged by acceptValue() method.
+     * Tests that default empty value is unchanged by the `acceptValue` method.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function testAcceptGetEmptyValue()
+    public function testAcceptGetEmptyValue(): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
         $emptyValue = $fieldType->getEmptyValue();
@@ -606,14 +587,14 @@ abstract class BaseFieldTypeTestCase extends TestCase
     }
 
     /**
-     * @param mixed $inputValue
-     *
      * @dataProvider provideInvalidInputForAcceptValue
+     *
+     * @phpstan-param class-string<\Throwable> $expectedException
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function testAcceptValueFailsOnInvalidValues(
-        $inputValue,
+        mixed $inputValue,
         string $expectedException
     ): void {
         $fieldType = $this->getFieldTypeUnderTest();
@@ -623,12 +604,9 @@ abstract class BaseFieldTypeTestCase extends TestCase
     }
 
     /**
-     * @param mixed $inputValue
-     * @param array $expectedResult
-     *
      * @dataProvider provideInputForToHash
      */
-    public function testToHash($inputValue, $expectedResult)
+    public function testToHash(FieldTypeValue $inputValue, mixed $expectedResult): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -652,12 +630,11 @@ abstract class BaseFieldTypeTestCase extends TestCase
     }
 
     /**
-     * @param mixed $inputValue
-     * @param array $expectedResult
-     *
      * @dataProvider provideInputForFromHash
+     *
+     * @param array<mixed>|null $inputHash
      */
-    public function testFromHash($inputHash, $expectedResult)
+    public function testFromHash(mixed $inputHash, mixed $expectedResult): void
     {
         $this->assertIsValidHashValue($inputHash);
 
@@ -680,7 +657,7 @@ abstract class BaseFieldTypeTestCase extends TestCase
         }
     }
 
-    public function testEmptyValueIsEmpty()
+    public function testEmptyValueIsEmpty(): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -690,11 +667,9 @@ abstract class BaseFieldTypeTestCase extends TestCase
     }
 
     /**
-     * @param mixed $inputSettings
-     *
      * @dataProvider provideValidFieldSettings
      */
-    public function testValidateFieldSettingsValid($inputSettings)
+    public function testValidateFieldSettingsValid(mixed $inputSettings): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -712,11 +687,9 @@ abstract class BaseFieldTypeTestCase extends TestCase
     }
 
     /**
-     * @param mixed $inputSettings
-     *
      * @dataProvider provideInvalidFieldSettings
      */
-    public function testValidateFieldSettingsInvalid($inputSettings)
+    public function testValidateFieldSettingsInvalid(mixed $inputSettings): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -743,11 +716,9 @@ abstract class BaseFieldTypeTestCase extends TestCase
     }
 
     /**
-     * @param mixed $inputConfiguration
-     *
      * @dataProvider provideValidValidatorConfiguration
      */
-    public function testValidateValidatorConfigurationValid($inputConfiguration)
+    public function testValidateValidatorConfigurationValid(mixed $inputConfiguration): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -765,11 +736,9 @@ abstract class BaseFieldTypeTestCase extends TestCase
     }
 
     /**
-     * @param mixed $inputConfiguration
-     *
      * @dataProvider provideInvalidValidatorConfiguration
      */
-    public function testValidateValidatorConfigurationInvalid($inputConfiguration)
+    public function testValidateValidatorConfigurationInvalid(mixed $inputConfiguration): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -796,11 +765,9 @@ abstract class BaseFieldTypeTestCase extends TestCase
     }
 
     /**
-     * @param mixed $inputConfiguration
-     *
      * @dataProvider provideValidFieldSettings
      */
-    public function testFieldSettingsToHash($inputSettings)
+    public function testFieldSettingsToHash(mixed $inputSettings): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -810,11 +777,9 @@ abstract class BaseFieldTypeTestCase extends TestCase
     }
 
     /**
-     * @param mixed $inputConfiguration
-     *
      * @dataProvider provideValidValidatorConfiguration
      */
-    public function testValidatorConfigurationToHash($inputConfiguration)
+    public function testValidatorConfigurationToHash(mixed $inputConfiguration): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -824,11 +789,9 @@ abstract class BaseFieldTypeTestCase extends TestCase
     }
 
     /**
-     * @param mixed $inputConfiguration
-     *
      * @dataProvider provideValidFieldSettings
      */
-    public function testFieldSettingsFromHash($inputSettings)
+    public function testFieldSettingsFromHash(mixed $inputSettings): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -839,11 +802,9 @@ abstract class BaseFieldTypeTestCase extends TestCase
     }
 
     /**
-     * @param mixed $inputConfiguration
-     *
      * @dataProvider provideValidValidatorConfiguration
      */
-    public function testValidatorConfigurationFromHash($inputConfiguration)
+    public function testValidatorConfigurationFromHash(mixed $inputConfiguration): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -856,10 +817,9 @@ abstract class BaseFieldTypeTestCase extends TestCase
     /**
      * Asserts that the given $actualHash complies to the rules for hashes.
      *
-     * @param mixed $actualHash
-     * @param array $keyChain
+     * @param string[] $keyChain
      */
-    protected function assertIsValidHashValue($actualHash, $keyChain = [])
+    protected function assertIsValidHashValue(mixed $actualHash, array $keyChain = []): void
     {
         switch ($actualHashType = gettype($actualHash)) {
             case 'boolean':
@@ -867,7 +827,7 @@ abstract class BaseFieldTypeTestCase extends TestCase
             case 'double':
             case 'string':
             case 'NULL':
-                // All valid, just return
+                // All valid, return
                 return;
 
             case 'array':
@@ -880,8 +840,7 @@ abstract class BaseFieldTypeTestCase extends TestCase
 
                 return;
 
-            case 'resource':
-            case 'object':
+            default:
                 self::fail(
                     sprintf(
                         'Value for $hash[%s] is of invalid type "%s".',
@@ -894,8 +853,12 @@ abstract class BaseFieldTypeTestCase extends TestCase
 
     /**
      * @dataProvider provideValidDataForValidate
+     *
+     * @param array<string, mixed> $fieldDefinitionData
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function testValidateValid($fieldDefinitionData, $value)
+    public function testValidateValid(array $fieldDefinitionData, FieldTypeValue $value): void
     {
         $validationErrors = $this->doValidate($fieldDefinitionData, $value);
 
@@ -905,8 +868,13 @@ abstract class BaseFieldTypeTestCase extends TestCase
 
     /**
      * @dataProvider provideInvalidDataForValidate
+     *
+     * @param array<string, mixed> $fieldDefinitionData
+     * @param \Ibexa\Contracts\Core\FieldType\ValidationError[] $errors
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function testValidateInvalid($fieldDefinitionData, $value, $errors)
+    public function testValidateInvalid(array $fieldDefinitionData, FieldTypeValue $value, array $errors): void
     {
         $validationErrors = $this->doValidate($fieldDefinitionData, $value);
 
@@ -914,7 +882,14 @@ abstract class BaseFieldTypeTestCase extends TestCase
         self::assertEquals($errors, $validationErrors);
     }
 
-    protected function doValidate($fieldDefinitionData, $value)
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     *
+     * @param array<string, mixed> $fieldDefinitionData
+     *
+     * @phpstan-return array<\Ibexa\Contracts\Core\FieldType\ValidationError>
+     */
+    protected function doValidate(array $fieldDefinitionData, FieldTypeValue $value): array
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -939,11 +914,10 @@ abstract class BaseFieldTypeTestCase extends TestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition|\PHPUnit\Framework\MockObject\MockObject
+     * @param array<string, mixed> $fieldSettings
      */
-    protected function getFieldDefinitionMock(array $fieldSettings)
+    protected function getFieldDefinitionMock(array $fieldSettings): APIFieldDefinition & MockObject
     {
-        /** @var |\PHPUnit\Framework\MockObject\MockObject $fieldDefinitionMock */
         $fieldDefinitionMock = $this->createMock(APIFieldDefinition::class);
         $fieldDefinitionMock
             ->method('getFieldSettings')
@@ -951,6 +925,4 @@ abstract class BaseFieldTypeTestCase extends TestCase
 
         return $fieldDefinitionMock;
     }
-
-    // @todo: More test methods …
 }

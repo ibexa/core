@@ -24,7 +24,7 @@ final class TextLineTest extends FieldTypeTestCase
     private const string SIZE_PARAM_NAME = '%size%';
     private const string SAMPLE_TEXT_LINE_VALUE = ' sindelfingen ';
 
-    protected function createFieldTypeUnderTest(): FieldType
+    protected function createFieldTypeUnderTest(): TextLineType
     {
         $fieldType = new TextLineType();
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
@@ -32,9 +32,6 @@ final class TextLineTest extends FieldTypeTestCase
         return $fieldType;
     }
 
-    /**
-     * @return array<string, array<string, array{type: string, default: mixed}>>
-     */
     protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [
@@ -51,9 +48,6 @@ final class TextLineTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     protected function getSettingsSchemaExpectation(): array
     {
         return [];
@@ -64,9 +58,6 @@ final class TextLineTest extends FieldTypeTestCase
         return new TextLineValue();
     }
 
-    /**
-     * @return list<array{mixed, class-string}>
-     */
     public function provideInvalidInputForAcceptValue(): array
     {
         return [
@@ -77,9 +68,6 @@ final class TextLineTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * @return list<array{mixed, \Ibexa\Core\FieldType\TextLine\Value}>
-     */
     public function provideValidInputForAcceptValue(): array
     {
         return [
@@ -123,9 +111,6 @@ final class TextLineTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * @return list<array{\Ibexa\Core\FieldType\TextLine\Value, mixed}>
-     */
     public function provideInputForToHash(): array
     {
         return [
@@ -144,9 +129,6 @@ final class TextLineTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * @return list<array{mixed, \Ibexa\Core\FieldType\TextLine\Value}>
-     */
     public function provideInputForFromHash(): array
     {
         return [
@@ -165,9 +147,6 @@ final class TextLineTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * @return list<array{array<string, mixed>}>
-     */
     public function provideValidValidatorConfiguration(): array
     {
         return [
@@ -213,9 +192,6 @@ final class TextLineTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * @return list<array{array<string, mixed>}>
-     */
     public function provideInvalidValidatorConfiguration(): array
     {
         return [
@@ -275,9 +251,6 @@ final class TextLineTest extends FieldTypeTestCase
         return 'ibexa_string';
     }
 
-    /**
-     * @return list<array{\Ibexa\Core\FieldType\TextLine\Value, string, array<mixed>, string}>
-     */
     public function provideDataForGetName(): array
     {
         return [
@@ -286,9 +259,6 @@ final class TextLineTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * @return list<array{array<string, mixed>, \Ibexa\Core\FieldType\TextLine\Value}>
-     */
     public function provideValidDataForValidate(): array
     {
         return [
@@ -326,9 +296,6 @@ final class TextLineTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * @return list<array{array<string, mixed>, \Ibexa\Core\FieldType\TextLine\Value, list<\Ibexa\Core\FieldType\ValidationError>}>
-     */
     public function provideInvalidDataForValidate(): array
     {
         return [

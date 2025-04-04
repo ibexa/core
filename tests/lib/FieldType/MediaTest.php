@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\FieldType;
 
+use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\BinaryFile\Value as BinaryFileValue;
 use Ibexa\Core\FieldType\Media\Type as MediaType;
@@ -19,31 +20,20 @@ use Ibexa\Core\FieldType\ValidationError;
  */
 class MediaTest extends BinaryBaseTestCase
 {
-    /**
-     * Returns the field type under test.
-     *
-     * This method is used by all test cases to retrieve the field type under
-     * test. Just create the FieldType instance using mocks from the provided
-     * get*Mock() methods and/or custom get*Mock() implementations. You MUST
-     * NOT take care for test case wide caching of the field type, just return
-     * a new instance from this method!
-     *
-     * @return \Ibexa\Core\FieldType\FieldType
-     */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): MediaType
     {
-        $fieldType = new MediaType([$this->getBlackListValidatorMock()]);
+        $fieldType = new MediaType([$this->getBlackListValidator()]);
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
 
         return $fieldType;
     }
 
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): MediaValue
     {
         return new MediaValue();
     }
 
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [
             'mediaType' => [
@@ -53,7 +43,7 @@ class MediaTest extends BinaryBaseTestCase
         ];
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): array
     {
         $baseInput = parent::provideInvalidInputForAcceptValue();
         $binaryFileInput = [
@@ -86,7 +76,7 @@ class MediaTest extends BinaryBaseTestCase
         return array_merge($baseInput, $binaryFileInput);
     }
 
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): array
     {
         return [
             [
@@ -283,44 +273,7 @@ class MediaTest extends BinaryBaseTestCase
         ];
     }
 
-    /**
-     * Provide input for the toHash() method.
-     *
-     * Returns an array of data provider sets with 2 arguments: 1. The valid
-     * input to toHash(), 2. The expected return value from toHash().
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          null,
-     *          null
-     *      ),
-     *      array(
-     *          new BinaryFileValue(
-     *                  array(
-     *                  'id' => 'some/file/here',
-     *                  'fileName' => 'sindelfingen.jpg',
-     *                  'fileSize' => 2342,
-     *                  'downloadCount' => 0,
-     *                  'mimeType' => 'image/jpeg',
-     *              )
-     *          ),
-     *          array(
-     *              'id' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): array
     {
         return [
             [
@@ -453,44 +406,7 @@ class MediaTest extends BinaryBaseTestCase
         ];
     }
 
-    /**
-     * Provide input to fromHash() method.
-     *
-     * Returns an array of data provider sets with 2 arguments: 1. The valid
-     * input to fromHash(), 2. The expected return value from fromHash().
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          null,
-     *          null
-     *      ),
-     *      array(
-     *          array(
-     *              'id' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          ),
-     *          new BinaryFileValue(
-     *                  array(
-     *                  'id' => 'some/file/here',
-     *                  'fileName' => 'sindelfingen.jpg',
-     *                  'fileSize' => 2342,
-     *                  'downloadCount' => 0,
-     *                  'mimeType' => 'image/jpeg',
-     *              )
-     *          )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): array
     {
         return [
             [
@@ -583,29 +499,7 @@ class MediaTest extends BinaryBaseTestCase
         ];
     }
 
-    /**
-     * Provide data sets with field settings which are considered valid by the
-     * {@link validateFieldSettings()} method.
-     *
-     * Returns an array of data provider sets with a single argument: A valid
-     * set of field settings.
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          array(),
-     *      ),
-     *      array(
-     *          array( 'rows' => 2 )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideValidFieldSettings()
+    public function provideValidFieldSettings(): array
     {
         return [
             [
@@ -624,30 +518,7 @@ class MediaTest extends BinaryBaseTestCase
         ];
     }
 
-    /**
-     * Provide data sets with field settings which are considered invalid by the
-     * {@link validateFieldSettings()} method. The method must return a
-     * non-empty array of validation error when receiving such field settings.
-     *
-     * Returns an array of data provider sets with a single argument: A valid
-     * set of field settings.
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          true,
-     *      ),
-     *      array(
-     *          array( 'nonExistentKey' => 2 )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInValidFieldSettings()
+    public function provideInValidFieldSettings(): array
     {
         return [
             [
@@ -687,7 +558,7 @@ class MediaTest extends BinaryBaseTestCase
         ];
     }
 
-    public function provideValidDataForValidate()
+    public function provideValidDataForValidate(): array
     {
         return [
             [
@@ -711,7 +582,7 @@ class MediaTest extends BinaryBaseTestCase
         ];
     }
 
-    public function provideInvalidDataForValidate()
+    public function provideInvalidDataForValidate(): array
     {
         return [
             // File is too large

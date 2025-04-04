@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\FieldType;
 
+use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\IO\MimeTypeDetector;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -15,6 +16,7 @@ use Ibexa\Core\FieldType\Image\Value as ImageValue;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator;
 use Ibexa\Core\FieldType\Validator\ImageValidator;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @group fieldType
@@ -38,15 +40,14 @@ class ImageTest extends FieldTypeTestCase
         'pgif',
     ];
 
+    private MimeTypeDetector & MockObject $mimeTypeDetectorMock;
+
     public function getImageInputPath(): string
     {
         return __DIR__ . '/../_fixtures/squirrel-developers.jpg';
     }
 
-    /**
-     * @return \Ibexa\Contracts\Core\IO\MimeTypeDetector
-     */
-    protected function getMimeTypeDetectorMock()
+    protected function getMimeTypeDetectorMock(): MimeTypeDetector & MockObject
     {
         if (!isset($this->mimeTypeDetectorMock)) {
             $this->mimeTypeDetectorMock = $this->createMock(MimeTypeDetector::class);
@@ -55,23 +56,12 @@ class ImageTest extends FieldTypeTestCase
         return $this->mimeTypeDetectorMock;
     }
 
-    /**
-     * Returns the field type under test.
-     *
-     * This method is used by all test cases to retrieve the field type under
-     * test. Just create the FieldType instance using mocks from the provided
-     * get*Mock() methods and/or custom get*Mock() implementations. You MUST
-     * NOT take care for test case wide caching of the field type, just return
-     * a new instance from this method!
-     *
-     * @return \Ibexa\Core\FieldType\FieldType
-     */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): ImageType
     {
         $fieldType = new ImageType(
             [
-                $this->getBlackListValidatorMock(),
-                $this->getImageValidatorMock(),
+                $this->getBlackListValidator(),
+                $this->getImageValidator(),
             ],
             self::MIME_TYPES
         );
@@ -80,26 +70,17 @@ class ImageTest extends FieldTypeTestCase
         return $fieldType;
     }
 
-    private function getBlackListValidatorMock()
+    private function getBlackListValidator(): FileExtensionBlackListValidator
     {
-        return $this
-            ->getMockBuilder(FileExtensionBlackListValidator::class)
-            ->setConstructorArgs([
-                $this->getConfigResolverMock(),
-            ])
-            ->setMethods(null)
-            ->getMock();
+        return new FileExtensionBlackListValidator($this->getConfigResolverMock());
     }
 
-    private function getImageValidatorMock()
+    private function getImageValidator(): ImageValidator
     {
-        return $this
-            ->getMockBuilder(ImageValidator::class)
-            ->setMethods(null)
-            ->getMock();
+        return new ImageValidator();
     }
 
-    private function getConfigResolverMock()
+    private function getConfigResolverMock(): ConfigResolverInterface & MockObject
     {
         $configResolver = $this
             ->createMock(ConfigResolverInterface::class);
@@ -112,12 +93,7 @@ class ImageTest extends FieldTypeTestCase
         return $configResolver;
     }
 
-    /**
-     * Returns the validator configuration schema expected from the field type.
-     *
-     * @return array
-     */
-    protected function getValidatorConfigurationSchemaExpectation()
+    protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [
             'FileSizeValidator' => [
@@ -135,12 +111,7 @@ class ImageTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Returns the settings schema expected from the field type.
-     *
-     * @return array
-     */
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [
             'mimeTypes' => [
@@ -150,17 +121,12 @@ class ImageTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Returns the empty value expected from the field type.
-     *
-     * @return \Ibexa\Core\FieldType\Image\Value
-     */
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): ImageValue
     {
         return new ImageValue();
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): array
     {
         return [
             [
@@ -208,36 +174,7 @@ class ImageTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Data provider for valid input to acceptValue().
-     *
-     * Returns an array of data provider sets with 2 arguments: 1. The valid
-     * input to acceptValue(), 2. The expected return value from acceptValue().
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          null,
-     *          null
-     *      ),
-     *      array(
-     *          __FILE__,
-     *          new BinaryFileValue( array(
-     *              'id' => __FILE__,
-     *              'fileName' => basename( __FILE__ ),
-     *              'fileSize' => filesize( __FILE__ ),
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'text/plain',
-     *          ) )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): array
     {
         return [
             [
@@ -298,42 +235,7 @@ class ImageTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Provide input for the toHash() method.
-     *
-     * Returns an array of data provider sets with 2 arguments: 1. The valid
-     * input to toHash(), 2. The expected return value from toHash().
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          null,
-     *          null
-     *      ),
-     *      array(
-     *          new BinaryFileValue( array(
-     *              'path' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          ) ),
-     *          array(
-     *              'path' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): array
     {
         return [
             [
@@ -397,42 +299,7 @@ class ImageTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Provide input to fromHash() method.
-     *
-     * Returns an array of data provider sets with 2 arguments: 1. The valid
-     * input to fromHash(), 2. The expected return value from fromHash().
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          null,
-     *          null
-     *      ),
-     *      array(
-     *          array(
-     *              'path' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          ),
-     *          new BinaryFileValue( array(
-     *              'path' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          ) )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): array
     {
         return [
             [
@@ -521,52 +388,7 @@ class ImageTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Provides data sets with validator configuration and/or field settings and
-     * field value which are considered valid by the {@link validate()} method.
-     *
-     * ATTENTION: This is a default implementation, which must be overwritten if
-     * a FieldType supports validation!
-     *
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          array(
-     *              "validatorConfiguration" => array(
-     *                  "StringLengthValidator" => array(
-     *                      "minStringLength" => 2,
-     *                      "maxStringLength" => 10,
-     *                  ),
-     *              ),
-     *          ),
-     *          new TextLineValue( "lalalala" ),
-     *      ),
-     *      array(
-     *          array(
-     *              "fieldSettings" => array(
-     *                  'isMultiple' => true
-     *              ),
-     *          ),
-     *          new CountryValue(
-     *              array(
-     *                  "BE" => array(
-     *                      "Name" => "Belgium",
-     *                      "Alpha2" => "BE",
-     *                      "Alpha3" => "BEL",
-     *                      "IDC" => 32,
-     *                  ),
-     *              ),
-     *          ),
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideValidDataForValidate()
+    public function provideValidDataForValidate(): array
     {
         return [
             [
@@ -590,71 +412,7 @@ class ImageTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Provides data sets with validator configuration and/or field settings,
-     * field value and corresponding validation errors returned by
-     * the {@link validate()} method.
-     *
-     * ATTENTION: This is a default implementation, which must be overwritten
-     * if a FieldType supports validation!
-     *
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          array(
-     *              "validatorConfiguration" => array(
-     *                  "IntegerValueValidator" => array(
-     *                      "minIntegerValue" => 5,
-     *                      "maxIntegerValue" => 10
-     *                  ),
-     *              ),
-     *          ),
-     *          new IntegerValue( 3 ),
-     *          array(
-     *              new ValidationError(
-     *                  "The value can not be lower than %size%.",
-     *                  null,
-     *                  array(
-     *                      "size" => 5
-     *                  ),
-     *              ),
-     *          ),
-     *      ),
-     *      array(
-     *          array(
-     *              "fieldSettings" => array(
-     *                  "isMultiple" => false
-     *              ),
-     *          ),
-     *          new CountryValue(
-     *              "BE" => array(
-     *                  "Name" => "Belgium",
-     *                  "Alpha2" => "BE",
-     *                  "Alpha3" => "BEL",
-     *                  "IDC" => 32,
-     *              ),
-     *              "FR" => array(
-     *                  "Name" => "France",
-     *                  "Alpha2" => "FR",
-     *                  "Alpha3" => "FRA",
-     *                  "IDC" => 33,
-     *              ),
-     *          )
-     *      ),
-     *      array(
-     *          new ValidationError(
-     *              "Field definition does not allow multiple countries to be selected."
-     *          ),
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInvalidDataForValidate()
+    public function provideInvalidDataForValidate(): array
     {
         return [
             'file is too large' => [

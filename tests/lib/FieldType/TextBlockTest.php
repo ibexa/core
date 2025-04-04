@@ -20,7 +20,7 @@ final class TextBlockTest extends FieldTypeTestCase
 {
     private const string SAMPLE_TEXT_LINE_VALUE = ' sindelfingen ';
 
-    protected function createFieldTypeUnderTest(): FieldType
+    protected function createFieldTypeUnderTest(): TextBlockType
     {
         $fieldType = new TextBlockType();
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
@@ -28,17 +28,11 @@ final class TextBlockTest extends FieldTypeTestCase
         return $fieldType;
     }
 
-    /**
-     * @return array{}
-     */
     protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [];
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     protected function getSettingsSchemaExpectation(): array
     {
         return [
@@ -67,9 +61,6 @@ final class TextBlockTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * @return list<array{mixed, \Ibexa\Core\FieldType\TextLine\Value}>
-     */
     public function provideValidInputForAcceptValue(): array
     {
         return [
@@ -100,9 +91,6 @@ final class TextBlockTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * @return list<array{\Ibexa\Core\FieldType\TextLine\Value, mixed}>
-     */
     public function provideInputForToHash(): array
     {
         return [
@@ -117,9 +105,6 @@ final class TextBlockTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * @return list<array{mixed, \Ibexa\Core\FieldType\TextLine\Value}>
-     */
     public function provideInputForFromHash(): array
     {
         return [
@@ -134,9 +119,6 @@ final class TextBlockTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * @return list<list<array<string, mixed>>>
-     */
     public function provideValidFieldSettings(): array
     {
         return [
@@ -151,9 +133,6 @@ final class TextBlockTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * @return list<list<array<string, mixed>>>
-     */
     public function provideInValidFieldSettings(): array
     {
         return [
@@ -176,9 +155,6 @@ final class TextBlockTest extends FieldTypeTestCase
         return 'ibexa_text';
     }
 
-    /**
-     * @return list<array{\Ibexa\Core\FieldType\TextLine\Value, string, array<mixed>, string}>
-     */
     public function provideDataForGetName(): array
     {
         return [

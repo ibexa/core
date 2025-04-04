@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator;
 use Ibexa\Core\FieldType\Value;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Base class for binary field types.
@@ -19,7 +20,8 @@ use Ibexa\Core\FieldType\Value;
  */
 abstract class BinaryBaseTestCase extends FieldTypeTestCase
 {
-    protected $blackListedExtensions = [
+    /** @var string[] */
+    protected array $blackListedExtensions = [
         'php',
         'php3',
         'phar',
@@ -29,7 +31,7 @@ abstract class BinaryBaseTestCase extends FieldTypeTestCase
         'pgif',
     ];
 
-    protected function getValidatorConfigurationSchemaExpectation()
+    protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [
             'FileSizeValidator' => [
@@ -41,7 +43,7 @@ abstract class BinaryBaseTestCase extends FieldTypeTestCase
         ];
     }
 
-    protected function getConfigResolverMock()
+    protected function getConfigResolverMock(): ConfigResolverInterface & MockObject
     {
         $configResolver = $this
             ->createMock(ConfigResolverInterface::class);
@@ -54,23 +56,17 @@ abstract class BinaryBaseTestCase extends FieldTypeTestCase
         return $configResolver;
     }
 
-    protected function getBlackListValidatorMock()
+    protected function getBlackListValidator(): FileExtensionBlackListValidator
     {
-        return $this
-            ->getMockBuilder(FileExtensionBlackListValidator::class)
-            ->setConstructorArgs([
-                $this->getConfigResolverMock(),
-            ])
-            ->setMethods(null)
-            ->getMock();
+        return new FileExtensionBlackListValidator($this->getConfigResolverMock());
     }
 
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [];
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): array
     {
         return [
             [
@@ -84,35 +80,7 @@ abstract class BinaryBaseTestCase extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Provide data sets with validator configurations which are considered
-     * valid by the {@link validateValidatorConfiguration()} method.
-     *
-     * Returns an array of data provider sets with a single argument: A valid
-     * set of validator configurations.
-     *
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          array(),
-     *      ),
-     *      array(
-     *          array(
-     *              'IntegerValueValidator' => array(
-     *                  'minIntegerValue' => 0,
-     *                  'maxIntegerValue' => 23,
-     *              )
-     *          )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideValidValidatorConfiguration()
+    public function provideValidValidatorConfiguration(): array
     {
         return [
             [
@@ -135,49 +103,7 @@ abstract class BinaryBaseTestCase extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Provide data sets with validator configurations which are considered
-     * invalid by the {@link validateValidatorConfiguration()} method. The
-     * method must return a non-empty array of validation errors when receiving
-     * one of the provided values.
-     *
-     * Returns an array of data provider sets with a single argument: A valid
-     * set of validator configurations.
-     *
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          array(
-     *              'NonExistentValidator' => array(),
-     *          ),
-     *      ),
-     *      array(
-     *          array(
-     *              // Typos
-     *              'InTEgervALUeVALIdator' => array(
-     *                  'minIntegerValue' => 0,
-     *                  'maxIntegerValue' => 23,
-     *              )
-     *          )
-     *      ),
-     *      array(
-     *          array(
-     *              'IntegerValueValidator' => array(
-     *                  // Incorrect value types
-     *                  'minIntegerValue' => true,
-     *                  'maxIntegerValue' => false,
-     *              )
-     *          )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInvalidValidatorConfiguration()
+    public function provideInvalidValidatorConfiguration(): array
     {
         return [
             [

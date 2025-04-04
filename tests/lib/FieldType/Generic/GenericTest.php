@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\FieldType\Generic;
 
 use Ibexa\Contracts\Core\FieldType\ValidationError;
+use Ibexa\Contracts\Core\FieldType\Value;
+use Ibexa\Contracts\Core\FieldType\Value as FieldTypeValue;
 use Ibexa\Contracts\Core\FieldType\ValueSerializerInterface;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Tests\Core\FieldType\BaseFieldTypeTestCase;
@@ -37,8 +39,10 @@ class GenericTest extends BaseFieldTypeTestCase
 
     /**
      * @dataProvider provideValidDataForValidate
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function testValidateValid($fieldDefinitionData, $value): void
+    public function testValidateValid(array $fieldDefinitionData, Value $value): void
     {
         $this->validator
             ->method('validate')
@@ -50,12 +54,24 @@ class GenericTest extends BaseFieldTypeTestCase
 
     /**
      * @dataProvider provideInvalidDataForValidate
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function testValidateInvalid($fieldDefinitionData, $value, $errors): void
+    public function testValidateInvalid(array $fieldDefinitionData, FieldTypeValue $value, array $errors): void
     {
-        $constraintViolationList = new ConstraintViolationList(array_map(static function (ValidationError $error) {
-            return new ConstraintViolation((string) $error->getTranslatableMessage());
-        }, $errors));
+        $constraintViolationList = new ConstraintViolationList(
+            array_map(
+                static fn (ValidationError $error) => new ConstraintViolation(
+                    (string)$error->getTranslatableMessage(),
+                    null,
+                    [],
+                    null,
+                    null,
+                    null
+                ),
+                $errors
+            )
+        );
 
         $this->validator
             ->method('validate')
@@ -70,7 +86,7 @@ class GenericTest extends BaseFieldTypeTestCase
         return 'generic';
     }
 
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): GenericFieldTypeStub
     {
         return new GenericFieldTypeStub($this->serializer, $this->validator);
     }
@@ -85,7 +101,7 @@ class GenericTest extends BaseFieldTypeTestCase
         return [];
     }
 
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): GenericFieldValueStub
     {
         return new GenericFieldValueStub();
     }

@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\FieldType;
 
+use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Author\Author;
 use Ibexa\Core\FieldType\Author\AuthorCollection;
@@ -33,18 +34,7 @@ class AuthorTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Returns the field type under test.
-     *
-     * This method is used by all test cases to retrieve the field type under
-     * test. Just create the FieldType instance using mocks from the provided
-     * get*Mock() methods and/or custom get*Mock() implementations. You MUST
-     * NOT take care for test case wide caching of the field type, just return
-     * a new instance from this method!
-     *
-     * @return \Ibexa\Contracts\Core\FieldType\FieldType
-     */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): AuthorType
     {
         $fieldType = new AuthorType();
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
@@ -52,22 +42,12 @@ class AuthorTest extends FieldTypeTestCase
         return $fieldType;
     }
 
-    /**
-     * Returns the validator configuration schema expected from the field type.
-     *
-     * @return array
-     */
-    protected function getValidatorConfigurationSchemaExpectation()
+    protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [];
     }
 
-    /**
-     * Returns the settings schema expected from the field type.
-     *
-     * @return array
-     */
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [
             'defaultAuthor' => [
@@ -77,17 +57,12 @@ class AuthorTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Returns the empty value expected from the field type.
-     *
-     * @return \Ibexa\Core\FieldType\Author\Value
-     */
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): AuthorValue
     {
         return new AuthorValue();
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): array
     {
         return [
             [
@@ -105,36 +80,7 @@ class AuthorTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Data provider for valid input to acceptValue().
-     *
-     * Returns an array of data provider sets with 2 arguments: 1. The valid
-     * input to acceptValue(), 2. The expected return value from acceptValue().
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          null,
-     *          null
-     *      ),
-     *      array(
-     *          __FILE__,
-     *          new BinaryFileValue( array(
-     *              'path' => __FILE__,
-     *              'fileName' => basename( __FILE__ ),
-     *              'fileSize' => filesize( __FILE__ ),
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'text/plain',
-     *          ) )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): array
     {
         return [
             [
@@ -166,42 +112,7 @@ class AuthorTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Provide input for the toHash() method.
-     *
-     * Returns an array of data provider sets with 2 arguments: 1. The valid
-     * input to toHash(), 2. The expected return value from toHash().
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          null,
-     *          null
-     *      ),
-     *      array(
-     *          new BinaryFileValue( array(
-     *              'path' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          ) ),
-     *          array(
-     *              'path' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): array
     {
         return [
             [
@@ -233,42 +144,7 @@ class AuthorTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Provide input to fromHash() method.
-     *
-     * Returns an array of data provider sets with 2 arguments: 1. The valid
-     * input to fromHash(), 2. The expected return value from fromHash().
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          null,
-     *          null
-     *      ),
-     *      array(
-     *          array(
-     *              'path' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          ),
-     *          new BinaryFileValue( array(
-     *              'path' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          ) )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): array
     {
         return [
             [
@@ -300,29 +176,7 @@ class AuthorTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Provide data sets with field settings which are considered valid by the
-     * {@link validateFieldSettings()} method.
-     *
-     * Returns an array of data provider sets with a single argument: A valid
-     * set of field settings.
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          array(),
-     *      ),
-     *      array(
-     *          array( 'rows' => 2 )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideValidFieldSettings()
+    public function provideValidFieldSettings(): array
     {
         return [
             [
@@ -341,30 +195,7 @@ class AuthorTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Provide data sets with field settings which are considered invalid by the
-     * {@link validateFieldSettings()} method. The method must return a
-     * non-empty array of validation error when receiving such field settings.
-     *
-     * Returns an array of data provider sets with a single argument: A valid
-     * set of field settings.
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          true,
-     *      ),
-     *      array(
-     *          array( 'nonExistentKey' => 2 )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInValidFieldSettings()
+    public function provideInValidFieldSettings(): array
     {
         return [
             [
@@ -388,10 +219,7 @@ class AuthorTest extends FieldTypeTestCase
         parent::tearDown();
     }
 
-    /**
-     * @covers \Ibexa\Core\FieldType\FieldType::getValidatorConfigurationSchema
-     */
-    public function testValidatorConfigurationSchema()
+    public function testValidatorConfigurationSchema(): void
     {
         $ft = $this->createFieldTypeUnderTest();
         self::assertEmpty(
@@ -400,10 +228,7 @@ class AuthorTest extends FieldTypeTestCase
         );
     }
 
-    /**
-     * @covers \Ibexa\Core\FieldType\Author\Type::acceptValue
-     */
-    public function testAcceptValueInvalidType()
+    public function testAcceptValueInvalidType(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -411,10 +236,7 @@ class AuthorTest extends FieldTypeTestCase
         $ft->acceptValue($this->createMock(Value::class));
     }
 
-    /**
-     * @covers \Ibexa\Core\FieldType\Author\Type::acceptValue
-     */
-    public function testAcceptValueInvalidFormat()
+    public function testAcceptValueInvalidFormat(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -424,10 +246,7 @@ class AuthorTest extends FieldTypeTestCase
         $ft->acceptValue($value);
     }
 
-    /**
-     * @covers \Ibexa\Core\FieldType\Author\Type::acceptValue
-     */
-    public function testAcceptValueValidFormat()
+    public function testAcceptValueValidFormat(): void
     {
         $ft = $this->createFieldTypeUnderTest();
         $author = new Author();
@@ -438,30 +257,21 @@ class AuthorTest extends FieldTypeTestCase
         self::assertSame($value, $newValue);
     }
 
-    /**
-     * @covers \Ibexa\Core\FieldType\Author\Value::__construct
-     */
-    public function testBuildFieldValueWithoutParam()
+    public function testBuildFieldValueWithoutParam(): void
     {
         $value = new AuthorValue();
         self::assertInstanceOf(AuthorCollection::class, $value->authors);
         self::assertSame([], $value->authors->getArrayCopy());
     }
 
-    /**
-     * @covers \Ibexa\Core\FieldType\Author\Value::__construct
-     */
-    public function testBuildFieldValueWithParam()
+    public function testBuildFieldValueWithParam(): void
     {
         $value = new AuthorValue($this->authors);
         self::assertInstanceOf(AuthorCollection::class, $value->authors);
         self::assertSame($this->authors, $value->authors->getArrayCopy());
     }
 
-    /**
-     * @covers \Ibexa\Core\FieldType\Author\Value::__toString
-     */
-    public function testFieldValueToString()
+    public function testFieldValueToString(): void
     {
         $value = new AuthorValue($this->authors);
 
@@ -473,10 +283,7 @@ class AuthorTest extends FieldTypeTestCase
         self::assertSame(implode(', ', $authorsName), $value->__toString());
     }
 
-    /**
-     * @covers \Ibexa\Core\FieldType\Author\AuthorCollection::offsetSet
-     */
-    public function testAddAuthor()
+    public function testAddAuthor(): void
     {
         $value = new AuthorValue();
         $value->authors[] = $this->authors[0];
@@ -496,7 +303,7 @@ class AuthorTest extends FieldTypeTestCase
     /**
      * @covers \Ibexa\Core\FieldType\Author\AuthorCollection::removeAuthorsById
      */
-    public function testRemoveAuthors()
+    public function testRemoveAuthors(): void
     {
         $existingIds = [];
         foreach ($this->authors as $author) {
@@ -514,21 +321,11 @@ class AuthorTest extends FieldTypeTestCase
         self::assertSame([$this->authors[0]], $value->authors->getArrayCopy());
     }
 
-    /**
-     * Returns the identifier of the field type under test.
-     *
-     * @return string
-     */
     protected function provideFieldTypeIdentifier(): string
     {
         return 'ibexa_author';
     }
 
-    /**
-     * Provides data for the getName() test.
-     *
-     * @return array
-     */
     public function provideDataForGetName(): array
     {
         $authorList = new AuthorValue(

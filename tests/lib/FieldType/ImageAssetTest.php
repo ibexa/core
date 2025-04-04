@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\FieldType;
 
+use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
@@ -76,18 +77,12 @@ class ImageAssetTest extends FieldTypeTestCase
             ->willReturn($versionInfo);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function provideFieldTypeIdentifier(): string
     {
         return ImageAsset\Type::FIELD_TYPE_IDENTIFIER;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): ImageAsset\Type
     {
         return new ImageAsset\Type(
             $this->contentServiceMock,
@@ -96,33 +91,21 @@ class ImageAssetTest extends FieldTypeTestCase
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getSettingsSchemaExpectation(): array
     {
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): ImageAsset\Value
     {
         return new ImageAsset\Value();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function provideInvalidInputForAcceptValue(): array
     {
         return [
@@ -133,9 +116,6 @@ class ImageAssetTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function provideValidInputForAcceptValue(): array
     {
         $destinationContentId = 7;
@@ -158,9 +138,6 @@ class ImageAssetTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function provideInputForToHash(): array
     {
         $destinationContentId = 7;
@@ -191,9 +168,6 @@ class ImageAssetTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function provideInputForFromHash(): array
     {
         $destinationContentId = 7;
@@ -221,18 +195,12 @@ class ImageAssetTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function provideInvalidDataForValidate(): array
     {
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function testValidateNonAsset()
+    public function testValidateNonAsset(): void
     {
         $destinationContentId = 7;
         $destinationContent = $this->createMock(Content::class);
@@ -275,9 +243,6 @@ class ImageAssetTest extends FieldTypeTestCase
         ], $validationErrors);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function provideValidDataForValidate(): array
     {
         return [
@@ -373,9 +338,6 @@ class ImageAssetTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function provideDataForGetName(): array
     {
         return [
@@ -412,24 +374,28 @@ class ImageAssetTest extends FieldTypeTestCase
         self::assertSame($expected, $name);
     }
 
-    public function testIsSearchable()
+    public function testIsSearchable(): void
     {
         self::assertTrue($this->getFieldTypeUnderTest()->isSearchable());
     }
 
     /**
      * @covers \Ibexa\Core\FieldType\Relation\Type::getRelations
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function testGetRelations()
+    public function testGetRelations(): void
     {
         $destinationContentId = 7;
         $fieldType = $this->createFieldTypeUnderTest();
 
+        $fieldValue = $fieldType->acceptValue($destinationContentId);
+        self::assertInstanceOf(ImageAsset\Value::class, $fieldValue);
         self::assertEquals(
             [
                 RelationType::ASSET->value => [$destinationContentId],
             ],
-            $fieldType->getRelations($fieldType->acceptValue($destinationContentId))
+            $fieldType->getRelations($fieldValue)
         );
     }
 }
