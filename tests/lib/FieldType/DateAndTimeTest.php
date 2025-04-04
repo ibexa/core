@@ -8,10 +8,9 @@
 namespace Ibexa\Tests\Core\FieldType;
 
 use DateInterval;
+use Ibexa\Contracts\Core\FieldType\Value as FieldTypeValue;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
-use Ibexa\Core\FieldType\DateAndTime\Type;
 use Ibexa\Core\FieldType\DateAndTime\Type as DateAndTime;
-use Ibexa\Core\FieldType\DateAndTime\Value;
 use Ibexa\Core\FieldType\DateAndTime\Value as DateAndTimeValue;
 use stdClass;
 
@@ -29,10 +28,8 @@ class DateAndTimeTest extends FieldTypeTestCase
      * get*Mock() methods and/or custom get*Mock() implementations. You MUST
      * NOT take care for test case wide caching of the field type, just return
      * a new instance from this method!
-     *
-     * @return \Ibexa\Core\FieldType\FieldType
      */
-    protected function createFieldTypeUnderTest(): Type
+    protected function createFieldTypeUnderTest(): DateAndTime
     {
         $fieldType = new DateAndTime();
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
@@ -76,7 +73,7 @@ class DateAndTimeTest extends FieldTypeTestCase
     /**
      * Returns the empty value expected from the field type.
      */
-    protected function getEmptyValueExpectation(): Value
+    protected function getEmptyValueExpectation(): DateAndTimeValue
     {
         return new DateAndTimeValue();
     }
@@ -195,12 +192,11 @@ class DateAndTimeTest extends FieldTypeTestCase
     }
 
     /**
-     * @param mixed $inputValue
-     * @param array $expectedResult
-     *
      * @dataProvider provideInputForFromHash
+     *
+     * @param \Ibexa\Core\FieldType\DateAndTime\Value $expectedResult
      */
-    public function testFromHash(?array $inputHash, Value $expectedResult): void
+    public function testFromHash(mixed $inputHash, FieldTypeValue $expectedResult): void
     {
         $this->assertIsValidHashValue($inputHash);
 
