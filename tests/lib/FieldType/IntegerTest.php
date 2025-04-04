@@ -18,7 +18,7 @@ use Ibexa\Core\FieldType\ValidationError;
  * @group fieldType
  * @group ezinteger
  */
-class IntegerTest extends FieldTypeTest
+class IntegerTest extends FieldTypeTestCase
 {
     /**
      * Returns the field type under test.

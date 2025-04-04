@@ -19,7 +19,7 @@ use Ibexa\Core\FieldType\ValidationError;
  * @group fieldType
  * @group ezcountry
  */
-class CountryTest extends FieldTypeTest
+class CountryTest extends FieldTypeTestCase
 {
     protected function provideFieldTypeIdentifier(): string
     {
