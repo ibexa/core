@@ -20,6 +20,7 @@ use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
+use Ibexa\Core\Repository\Collector\ContentCollector;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Mapper;
 use Ibexa\Core\Repository\Permission\LimitationService;
@@ -85,6 +86,7 @@ class RepositoryFactory implements ContainerAwareInterface
         PasswordValidatorInterface $passwordValidator,
         ConfigResolverInterface $configResolver,
         NameSchemaServiceInterface $nameSchemaService,
+        ContentCollector $contentCollector,
         array $languages
     ): Repository {
         return new $this->repositoryClass(
@@ -109,6 +111,7 @@ class RepositoryFactory implements ContainerAwareInterface
             $passwordValidator,
             $configResolver,
             $nameSchemaService,
+            $contentCollector,
             [
                 'role' => [
                     'policyMap' => $this->policyMap,

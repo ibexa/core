@@ -27,6 +27,9 @@ final class Options implements RepositoryConfigParserInterface
                         ->defaultTrue()
                         ->info('Enables automatic removal of archived versions when publishing, at the cost of performance. "ezplatform:content:cleanup-versions" command should be used to perform this task instead if this option is set to false.')
                     ->end()
+                    ->integerNode('grace_period_in_seconds')
+                        ->info('Provide a value in seconds, when archived content is still accessible for users with access to current version. Prevents 500 error when accessed content is updated during request. Defaults to php max execution time.')
+                    ->end()
                 ->end()
             ->end();
     }

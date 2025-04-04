@@ -41,6 +41,7 @@ use Ibexa\Contracts\Core\Repository\Validator\ContentValidator;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
+use Ibexa\Core\Repository\Collector\ContentCollector;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactoryInterface;
@@ -261,6 +262,8 @@ class Repository implements RepositoryInterface
 
     private ConfigResolverInterface $configResolver;
 
+    private ContentCollector $contentCollector;
+
     public function __construct(
         PersistenceHandler $persistenceHandler,
         SearchHandler $searchHandler,
@@ -283,6 +286,7 @@ class Repository implements RepositoryInterface
         PasswordValidatorInterface $passwordValidator,
         ConfigResolverInterface $configResolver,
         NameSchemaServiceInterface $nameSchemaService,
+        ContentCollector $contentCollector,
         array $serviceSettings = [],
         ?LoggerInterface $logger = null
     ) {
@@ -334,6 +338,7 @@ class Repository implements RepositoryInterface
         $this->passwordValidator = $passwordValidator;
         $this->configResolver = $configResolver;
         $this->nameSchemaService = $nameSchemaService;
+        $this->contentCollector = $contentCollector;
     }
 
     public function sudo(callable $callback, ?RepositoryInterface $outerRepository = null)
@@ -365,6 +370,7 @@ class Repository implements RepositoryInterface
             $this->contentMapper,
             $this->contentValidator,
             $this->contentFilteringHandler,
+            $this->contentCollector,
             $this->serviceSettings['content'],
         );
 

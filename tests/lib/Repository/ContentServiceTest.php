@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Validator\ContentValidator;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
+use Ibexa\Core\Repository\Collector\ContentCollector;
 use Ibexa\Core\Repository\ContentService;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
@@ -42,7 +43,8 @@ final class ContentServiceTest extends TestCase
             $this->createMock(PermissionService::class),
             $this->createMock(ContentMapper::class),
             $this->createMock(ContentValidator::class),
-            $this->createMock(ContentFilteringHandler::class)
+            $this->createMock(ContentFilteringHandler::class),
+            new ContentCollector()
         );
     }
 

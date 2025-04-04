@@ -70663,12 +70663,6 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
 
 		-
-			message: '#^Call to new Ibexa\\Core\\Repository\\ContentService\(\) on a separate line has no effect\.$#'
-			identifier: new.resultUnused
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
 			message: '#^Cannot access offset mixed on Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Field\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
@@ -70833,12 +70827,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:fixturesForTestUpdateContentNonRedundantFieldSetComplex\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:getPartlyMockedContentService\(\) invoked with 2 parameters, 0\-1 required\.$#'
-			identifier: arguments.count
 			count: 1
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
 
