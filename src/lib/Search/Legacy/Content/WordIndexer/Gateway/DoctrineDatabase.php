@@ -18,6 +18,12 @@ use Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository\SearchIndex;
 
 /**
  * WordIndexer gateway implementation using the Doctrine database.
+ *
+ * @phpstan-type TLegacyFullTextConfiguration array{
+ *      stopWordThresholdFactor: float,
+ *      enableWildcards: bool,
+ *      commands: string[]
+ *  }
  */
 class DoctrineDatabase extends Gateway
 {
@@ -26,7 +32,7 @@ class DoctrineDatabase extends Gateway
      *
      * Note: 2^31-1 seems to be the most reasonable value that should work in any setup.
      */
-    public const DB_INT_MAX = 2147483647;
+    public const int DB_INT_MAX = 2147483647;
 
     protected Connection $connection;
 
@@ -55,9 +61,14 @@ class DoctrineDatabase extends Gateway
 
     /**
      * Full text search configuration options.
+     *
+     * @phpstan-var TLegacyFullTextConfiguration
      */
     protected array $fullTextSearchConfiguration;
 
+    /**
+     * @phpstan-param TLegacyFullTextConfiguration $fullTextSearchConfiguration
+     */
     public function __construct(
         Connection $connection,
         SPITypeHandler $typeHandler,
@@ -80,6 +91,8 @@ class DoctrineDatabase extends Gateway
      * Ported from the legacy code
      *
      * @see https://github.com/ezsystems/ezpublish-legacy/blob/master/kernel/search/plugins/ezsearchengine/ezsearchengine.php#L45
+     *
+     * @throws \Doctrine\DBAL\Exception
      *
      * @param \Ibexa\Core\Search\Legacy\Content\FullTextData $fullTextData
      */
@@ -167,6 +180,8 @@ class DoctrineDatabase extends Gateway
      * of FullTextData objects & PHP version.
      *
      * @param \Ibexa\Core\Search\Legacy\Content\FullTextData[] $fullTextBulkData
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function bulkIndex(array $fullTextBulkData): void
     {
@@ -181,6 +196,8 @@ class DoctrineDatabase extends Gateway
      * Ported from the legacy code
      *
      * @see https://github.com/ezsystems/ezpublish-legacy/blob/master/kernel/search/plugins/ezsearchengine/ezsearchengine.php#L386
+     *
+     * @throws \Doctrine\DBAL\Exception
      *
      * @param mixed $contentId
      * @param mixed|null $versionId
@@ -208,6 +225,8 @@ class DoctrineDatabase extends Gateway
 
     /**
      * Remove entire search index.
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function purgeIndex(): void
     {
@@ -234,7 +253,8 @@ class DoctrineDatabase extends Gateway
 
         $prevWordId = 0;
 
-        for ($i = 0; $i < count($indexArray); ++$i) {
+        $indexArrayCount = count($indexArray);
+        for ($i = 0; $i < $indexArrayCount; ++$i) {
             $indexWord = $indexArray[$i]['Word'];
             $indexWord = $this->transformationProcessor->transformByGroup($indexWord, 'lowercase');
             $contentFieldId = $indexArray[$i]['ContentClassAttributeID'];
@@ -284,6 +304,8 @@ class DoctrineDatabase extends Gateway
      * Ported from the legacy code
      *
      * @see https://github.com/ezsystems/ezpublish-legacy/blob/master/kernel/search/plugins/ezsearchengine/ezsearchengine.php#L155
+     *
+     * @throws \Doctrine\DBAL\Exception
      *
      * @param array $indexArrayOnlyWords words for object to add
      *
