@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFie
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-abstract class BaseFieldTypeTest extends TestCase
+abstract class BaseFieldTypeTestCase extends TestCase
 {
     /**
      * Generic cache for the getFieldTypeUnderTest() method.

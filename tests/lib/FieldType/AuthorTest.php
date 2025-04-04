@@ -19,7 +19,7 @@ use Ibexa\Core\FieldType\Value;
  * @group fieldType
  * @group ezauthor
  */
-class AuthorTest extends FieldTypeTest
+class AuthorTest extends FieldTypeTestCase
 {
     /** @var \Ibexa\Core\FieldType\Author\Author[] */
     private array $authors;

@@ -17,7 +17,7 @@ use Ibexa\Core\FieldType\Keyword\Value as KeywordValue;
  * @group fieldType
  * @group ezinteger
  */
-class KeywordTest extends FieldTypeTest
+class KeywordTest extends FieldTypeTestCase
 {
     /**
      * Returns the field type under test.

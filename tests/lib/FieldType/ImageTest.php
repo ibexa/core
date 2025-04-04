@@ -23,7 +23,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @group fieldType
  * @group ezfloat
  */
-class ImageTest extends FieldTypeTest
+class ImageTest extends FieldTypeTestCase
 {
     private const MIME_TYPES = [
         'image/png',
