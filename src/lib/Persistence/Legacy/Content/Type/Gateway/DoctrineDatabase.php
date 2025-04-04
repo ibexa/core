@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\DBAL\ParameterType;
@@ -33,16 +34,18 @@ use function sprintf;
  */
 final class DoctrineDatabase extends Gateway
 {
-    private const string STATUS_PARAM_NAME = ':status';
-    private const string CREATED_PARAM_NAME = ':created';
-    private const string CREATOR_ID_PARAM_NAME = ':creator_id';
-    private const string GROUP_ID_PARAM_NAME = ':gid';
-    private const string VERSION_PARAM_NAME = ':version';
+    private const string STATUS_PARAM_NAME = 'status';
+    private const string CREATED_PARAM_NAME = 'created';
+    private const string CREATOR_ID_PARAM_NAME = 'creator_id';
+    private const string GROUP_ID_PARAM_NAME = 'gid';
+    private const string VERSION_PARAM_NAME = 'version';
     private const string CONTENT_FIELD_ID_FIELD_DEFINITION_ID_PARAM_COMPARISON = 'contentclass_attribute_id = :field_definition_id';
     private const string STATUS_PARAM_COMPARISON = 'version = :status';
 
     /**
      * Columns of database tables.
+     *
+     * @var array<string, string[]>
      */
     private array $columns = [
         'ezcontentclass' => [
@@ -103,9 +106,6 @@ final class DoctrineDatabase extends Gateway
      */
     private Connection $connection;
 
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
-    private $dbPlatform;
-
     private SharedGateway $sharedGateway;
 
     /**
@@ -113,20 +113,19 @@ final class DoctrineDatabase extends Gateway
      */
     private MaskGenerator $languageMaskGenerator;
 
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
     public function __construct(
         Connection $connection,
         SharedGateway $sharedGateway,
         MaskGenerator $languageMaskGenerator
     ) {
         $this->connection = $connection;
-        $this->dbPlatform = $connection->getDatabasePlatform();
         $this->sharedGateway = $sharedGateway;
         $this->languageMaskGenerator = $languageMaskGenerator;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function insertGroup(Group $group): int
     {
         $query = $this->connection->createQueryBuilder();
@@ -151,8 +150,7 @@ final class DoctrineDatabase extends Gateway
                         ParameterType::INTEGER
                     ),
                     'name' => $query->createPositionalParameter(
-                        $group->identifier,
-                        ParameterType::STRING
+                        $group->identifier
                     ),
                     'is_system' => $query->createPositionalParameter(
                         $group->isSystem ?? false,
@@ -160,11 +158,14 @@ final class DoctrineDatabase extends Gateway
                     ),
                 ]
             );
-        $query->execute();
+        $query->executeStatement();
 
         return (int)$this->connection->lastInsertId(self::CONTENT_TYPE_GROUP_SEQ);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function updateGroup(GroupUpdateStruct $group): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -180,7 +181,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->set(
                 'name',
-                $query->createPositionalParameter($group->identifier, ParameterType::STRING)
+                $query->createPositionalParameter($group->identifier)
             )
             ->set(
                 'is_system',
@@ -192,14 +193,17 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function countTypesInGroup(int $groupId): int
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select($this->dbPlatform->getCountExpression('contentclass_id'))
+            ->select('COUNT(contentclass_id)')
             ->from(self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE)
             ->where(
                 $query->expr()->eq(
@@ -208,15 +212,18 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function countGroupsForType(int $typeId, int $status): int
     {
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
-            ->select($this->dbPlatform->getCountExpression('group_id'))
+            ->select('COUNT(group_id)')
             ->from(self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE)
             ->where(
                 $expr->eq(
@@ -231,9 +238,12 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function deleteGroup(int $groupId): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -244,12 +254,13 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($groupId, ParameterType::INTEGER)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
      * @param string[] $languages
      *
+     * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if at least one of the used languages does not exist
      */
     private function insertTypeNameData(int $typeId, int $typeStatus, array $languages): void
@@ -284,13 +295,12 @@ final class DoctrineDatabase extends Gateway
                             ParameterType::INTEGER
                         ),
                         'language_locale' => $query->createPositionalParameter(
-                            $language,
-                            ParameterType::STRING
+                            $language
                         ),
-                        'name' => $query->createPositionalParameter($name, ParameterType::STRING),
+                        'name' => $query->createPositionalParameter($name),
                     ]
                 );
-            $query->execute();
+            $query->executeStatement();
         }
     }
 
@@ -322,6 +332,10 @@ final class DoctrineDatabase extends Gateway
         }
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function insertType(Type $type, ?int $typeId = null): int
     {
         $query = $this->connection->createQueryBuilder();
@@ -333,17 +347,17 @@ final class DoctrineDatabase extends Gateway
                     'version' => $query->createNamedParameter(
                         $type->status,
                         ParameterType::INTEGER,
-                        self::STATUS_PARAM_NAME
+                        ':' . self::STATUS_PARAM_NAME
                     ),
                     'created' => $query->createNamedParameter(
                         $type->created,
                         ParameterType::INTEGER,
-                        self::CREATED_PARAM_NAME
+                        ':' . self::CREATED_PARAM_NAME
                     ),
                     'creator_id' => $query->createNamedParameter(
                         $type->creatorId,
                         ParameterType::INTEGER,
-                        self::CREATOR_ID_PARAM_NAME
+                        ':' . self::CREATOR_ID_PARAM_NAME
                     ),
                 ]
             );
@@ -371,9 +385,9 @@ final class DoctrineDatabase extends Gateway
         $query->setParameter('created', $type->created, ParameterType::INTEGER);
         $query->setParameter('creator_id', $type->creatorId, ParameterType::INTEGER);
 
-        $query->execute();
+        $query->executeStatement();
 
-        if (empty($typeId)) {
+        if ($typeId === null) {
             $typeId = $this->sharedGateway->getLastInsertedId(self::CONTENT_TYPE_SEQ);
         }
 
@@ -387,6 +401,10 @@ final class DoctrineDatabase extends Gateway
      * Get a map of content type storage column name to its value and parameter type.
      *
      * Key value of the map is represented as a two-elements array with column value and its type.
+     *
+     * @phpstan-return array<string, array{scalar, \Doctrine\DBAL\ParameterType::*}>
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     private function mapCommonContentTypeColumnsToQueryValuesAndTypes(Type $type): array
     {
@@ -414,6 +432,10 @@ final class DoctrineDatabase extends Gateway
         ];
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function insertGroupAssignment(int $groupId, int $typeId, int $status): void
     {
         $groups = $this->loadGroupData([$groupId]);
@@ -440,15 +462,17 @@ final class DoctrineDatabase extends Gateway
                         ParameterType::INTEGER
                     ),
                     'group_name' => $query->createPositionalParameter(
-                        $group['name'],
-                        ParameterType::STRING
+                        $group['name']
                     ),
                 ]
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function deleteGroupAssignment(int $groupId, int $typeId, int $status): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -473,32 +497,41 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($groupId, ParameterType::INTEGER)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadGroupData(array $groupIds): array
     {
         $query = $this->createGroupLoadQuery();
         $query
             ->where($query->expr()->in('id', ':ids'))
-            ->setParameter('ids', $groupIds, Connection::PARAM_INT_ARRAY);
+            ->setParameter('ids', $groupIds, ArrayParameterType::INTEGER);
 
         return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadGroupDataByIdentifier(string $identifier): array
     {
         $query = $this->createGroupLoadQuery();
         $query->where(
             $query->expr()->eq(
                 'name',
-                $query->createPositionalParameter($identifier, ParameterType::STRING)
+                $query->createPositionalParameter($identifier)
             )
         );
 
         return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadAllGroupsData(): array
     {
         $query = $this->createGroupLoadQuery();
@@ -532,13 +565,16 @@ final class DoctrineDatabase extends Gateway
         return $query;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadTypesDataForGroup(int $groupId, int $status): array
     {
         $query = $this->getLoadTypeQueryBuilder();
         $expr = $query->expr();
         $query
-            ->where($expr->eq('g.group_id', self::GROUP_ID_PARAM_NAME))
-            ->andWhere($expr->eq('c.version', self::VERSION_PARAM_NAME))
+            ->where($expr->eq('g.group_id', ':' . self::GROUP_ID_PARAM_NAME))
+            ->andWhere($expr->eq('c.version', ':' . self::VERSION_PARAM_NAME))
             ->addOrderBy('c.identifier')
             ->setParameter('gid', $groupId, ParameterType::INTEGER)
             ->setParameter('version', $status, ParameterType::INTEGER);
@@ -546,6 +582,9 @@ final class DoctrineDatabase extends Gateway
         return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function insertFieldDefinition(
         int $typeId,
         int $status,
@@ -565,7 +604,7 @@ final class DoctrineDatabase extends Gateway
                     'version' => $query->createNamedParameter(
                         $status,
                         ParameterType::INTEGER,
-                        self::STATUS_PARAM_NAME
+                        ':' . self::STATUS_PARAM_NAME
                     ),
                 ]
             );
@@ -587,7 +626,7 @@ final class DoctrineDatabase extends Gateway
                 ->setParameter($columnName, $columnValue, $parameterType);
         }
 
-        $query->execute();
+        $query->executeStatement();
 
         $fieldDefinitionId = $fieldDefinition->id ?? $this->sharedGateway->getLastInsertedId(
             self::FIELD_DEFINITION_SEQ
@@ -604,6 +643,9 @@ final class DoctrineDatabase extends Gateway
         return $fieldDefinitionId;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function insertFieldDefinitionMultilingualData(
         int $fieldDefinitionId,
         MultilingualStorageFieldDefinition $multilingualData,
@@ -619,7 +661,7 @@ final class DoctrineDatabase extends Gateway
                     'name' => ':name',
                     'description' => ':description',
                     'contentclass_attribute_id' => ':field_definition_id',
-                    'version' => self::STATUS_PARAM_NAME,
+                    'version' => ':' . self::STATUS_PARAM_NAME,
                     'language_id' => ':language_id',
                 ]
             )
@@ -631,13 +673,15 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('status', $status, ParameterType::INTEGER)
             ->setParameter('language_id', $multilingualData->languageId, ParameterType::INTEGER);
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
      * Get a map of Field Definition storage column name to its value and parameter type.
      *
      * Key value of the map is represented as a two-elements array with column value and its type.
+     *
+     * @phpstan-return array<string, array{scalar, \Doctrine\DBAL\ParameterType::*|null}>
      */
     private function mapCommonFieldDefinitionColumnsToQueryValuesAndTypes(
         FieldDefinition $fieldDefinition,
@@ -681,6 +725,9 @@ final class DoctrineDatabase extends Gateway
         ];
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadFieldDefinition(int $id, int $status): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -700,7 +747,7 @@ final class DoctrineDatabase extends Gateway
                 'f_def',
                 self::CONTENT_TYPE_TABLE,
                 'ct',
-                $expr->and(
+                (string)$expr->and(
                     $expr->eq('f_def.contentclass_id', 'ct.id'),
                     $expr->eq('f_def.version', 'ct.version')
                 )
@@ -709,7 +756,7 @@ final class DoctrineDatabase extends Gateway
                 'f_def',
                 self::MULTILINGUAL_FIELD_DEFINITION_TABLE,
                 'transl_f_def',
-                $expr->and(
+                (string)$expr->and(
                     $expr->eq(
                         'f_def.id',
                         'transl_f_def.contentclass_attribute_id'
@@ -733,11 +780,12 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $stmt = $query->execute();
-
-        return $stmt->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function deleteFieldDefinition(
         int $typeId,
         int $status,
@@ -773,9 +821,12 @@ final class DoctrineDatabase extends Gateway
             )
         ;
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function updateFieldDefinition(
         int $typeId,
         int $status,
@@ -803,7 +854,7 @@ final class DoctrineDatabase extends Gateway
                 );
         }
 
-        $query->execute();
+        $query->executeStatement();
 
         foreach ($storageFieldDef->multilingualData as $data) {
             $dataExists = $this->fieldDefinitionMultilingualDataExist(
@@ -829,6 +880,9 @@ final class DoctrineDatabase extends Gateway
         }
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function fieldDefinitionMultilingualDataExist(
         FieldDefinition $fieldDefinition,
         int $languageId,
@@ -836,7 +890,7 @@ final class DoctrineDatabase extends Gateway
     ): bool {
         $existQuery = $this->connection->createQueryBuilder();
         $existQuery
-            ->select($this->dbPlatform->getCountExpression('1'))
+            ->select('COUNT(1)')
             ->from(self::MULTILINGUAL_FIELD_DEFINITION_TABLE)
             ->where(self::CONTENT_FIELD_ID_FIELD_DEFINITION_ID_PARAM_COMPARISON)
             ->andWhere(self::STATUS_PARAM_COMPARISON)
@@ -845,9 +899,12 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('status', $status, ParameterType::INTEGER)
             ->setParameter('language_id', $languageId, ParameterType::INTEGER);
 
-        return 0 < (int)$existQuery->execute()->fetchColumn();
+        return 0 < (int)$existQuery->executeQuery()->fetchOne();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function updateFieldDefinitionMultilingualData(
         int $fieldDefinitionId,
         MultilingualStorageFieldDefinition $multilingualData,
@@ -871,11 +928,13 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('status', $status, ParameterType::INTEGER)
             ->setParameter('languageId', $multilingualData->languageId, ParameterType::INTEGER);
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
      * Delete entire name data for the given content type of the given status.
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function deleteTypeNameData(int $typeId, int $typeStatus): void
     {
@@ -895,9 +954,13 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($typeStatus, ParameterType::INTEGER)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function updateType(int $typeId, int $status, Type $type): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -925,16 +988,19 @@ final class DoctrineDatabase extends Gateway
             ->andWhere(
                 $expr->eq(
                     'version',
-                    $query->createNamedParameter($status, ParameterType::INTEGER, self::STATUS_PARAM_NAME)
+                    $query->createNamedParameter($status, ParameterType::INTEGER, ':' . self::STATUS_PARAM_NAME)
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
 
         $this->deleteTypeNameData($typeId, $status);
         $this->insertTypeNameData($typeId, $status, $type->name);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadTypesListData(array $typeIds): array
     {
         $query = $this->getLoadTypeQueryBuilder();
@@ -942,11 +1008,14 @@ final class DoctrineDatabase extends Gateway
         $query
             ->where($query->expr()->in('c.id', ':ids'))
             ->andWhere($query->expr()->eq('c.version', Type::STATUS_DEFINED))
-            ->setParameter('ids', $typeIds, Connection::PARAM_INT_ARRAY);
+            ->setParameter('ids', $typeIds, ArrayParameterType::INTEGER);
 
         return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadTypesDataByFieldDefinitionIdentifier(string $identifier): array
     {
         $query = $this->getLoadTypeQueryBuilder();
@@ -958,42 +1027,51 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->execute()->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadTypeData(int $typeId, int $status): array
     {
         $query = $this->getLoadTypeQueryBuilder();
         $expr = $query->expr();
         $query
             ->where($expr->eq('c.id', ':id'))
-            ->andWhere($expr->eq('c.version', self::VERSION_PARAM_NAME))
+            ->andWhere($expr->eq('c.version', ':' . self::VERSION_PARAM_NAME))
             ->setParameter('id', $typeId, ParameterType::INTEGER)
             ->setParameter('version', $status, ParameterType::INTEGER);
 
         return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadTypeDataByIdentifier(string $identifier, int $status): array
     {
         $query = $this->getLoadTypeQueryBuilder();
         $expr = $query->expr();
         $query
             ->where($expr->eq('c.identifier', ':identifier'))
-            ->andWhere($expr->eq('c.version', self::VERSION_PARAM_NAME))
-            ->setParameter('identifier', $identifier, ParameterType::STRING)
+            ->andWhere($expr->eq('c.version', ':' . self::VERSION_PARAM_NAME))
+            ->setParameter('identifier', $identifier)
             ->setParameter('version', $status, ParameterType::INTEGER);
 
         return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadTypeDataByRemoteId(string $remoteId, int $status): array
     {
         $query = $this->getLoadTypeQueryBuilder();
         $query
             ->where($query->expr()->eq('c.remote_id', ':remote'))
-            ->andWhere($query->expr()->eq('c.version', self::VERSION_PARAM_NAME))
-            ->setParameter('remote', $remoteId, ParameterType::STRING)
+            ->andWhere($query->expr()->eq('c.version', ':' . self::VERSION_PARAM_NAME))
+            ->setParameter('remote', $remoteId)
             ->setParameter('version', $status, ParameterType::INTEGER);
 
         return $query->executeQuery()->fetchAllAssociative();
@@ -1064,7 +1142,7 @@ final class DoctrineDatabase extends Gateway
                 'c',
                 self::FIELD_DEFINITION_TABLE,
                 'a',
-                $expr->and(
+                (string)$expr->and(
                     $expr->eq('c.id', 'a.contentclass_id'),
                     $expr->eq('c.version', 'a.version')
                 )
@@ -1073,7 +1151,7 @@ final class DoctrineDatabase extends Gateway
                 'c',
                 self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE,
                 'g',
-                $expr->and(
+                (string)$expr->and(
                     $expr->eq('c.id', 'g.contentclass_id'),
                     $expr->eq('c.version', 'g.contentclass_version')
                 )
@@ -1082,7 +1160,7 @@ final class DoctrineDatabase extends Gateway
                 'a',
                 self::MULTILINGUAL_FIELD_DEFINITION_TABLE,
                 'ml',
-                $expr->and(
+                (string)$expr->and(
                     $expr->eq('a.id', 'ml.contentclass_attribute_id'),
                     $expr->eq('a.version', 'ml.version')
                 )
@@ -1092,11 +1170,14 @@ final class DoctrineDatabase extends Gateway
         return $query;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function countInstancesOfType(int $typeId): int
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select($this->dbPlatform->getCountExpression('id'))
+            ->select('COUNT(id)')
             ->from('ezcontentobject')
             ->where(
                 $query->expr()->eq(
@@ -1105,11 +1186,12 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $stmt = $query->execute();
-
-        return (int)$stmt->fetchColumn();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function deleteFieldDefinitionsForType(int $typeId, int $status): void
     {
         $subQuery = $this->connection->createQueryBuilder();
@@ -1149,9 +1231,12 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function delete(int $typeId, int $status): void
     {
         $this->deleteGroupAssignmentsForType($typeId, $status);
@@ -1160,6 +1245,9 @@ final class DoctrineDatabase extends Gateway
         $this->deleteType($typeId, $status);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function deleteType(int $typeId, int $status): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -1177,9 +1265,12 @@ final class DoctrineDatabase extends Gateway
                     )
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function deleteGroupAssignmentsForType(int $typeId, int $status): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -1196,7 +1287,7 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($status, ParameterType::INTEGER)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -1232,6 +1323,9 @@ final class DoctrineDatabase extends Gateway
         return $queryBuilder;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function internalChangeContentTypeStatus(
         int $typeId,
         int $sourceStatus,
@@ -1259,9 +1353,12 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function publishTypeAndFields(int $typeId, int $sourceStatus, int $targetStatus): void
     {
         $this->internalChangeContentTypeStatus(
@@ -1322,9 +1419,12 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('target_status', $targetStatus, ParameterType::INTEGER)
             ->setParameter('source_status', $sourceStatus, ParameterType::INTEGER);
 
-        $mlDataPublishQuery->execute();
+        $mlDataPublishQuery->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function getSearchableFieldMapData(): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -1344,11 +1444,13 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $statement = $query->execute($query);
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function removeFieldDefinitionTranslation(
         int $fieldDefinitionId,
         string $languageCode,
@@ -1387,7 +1489,7 @@ final class DoctrineDatabase extends Gateway
         try {
             $this->connection->beginTransaction();
 
-            $queryBuilder->execute();
+            $queryBuilder->executeStatement();
             $this->cleanupAssociations();
 
             $this->connection->commit();

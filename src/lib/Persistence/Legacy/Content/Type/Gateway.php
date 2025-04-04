@@ -21,16 +21,16 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
  */
 abstract class Gateway
 {
-    public const CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE = 'ezcontentclass_classgroup';
-    public const CONTENT_TYPE_GROUP_TABLE = 'ezcontentclassgroup';
-    public const CONTENT_TYPE_TABLE = 'ezcontentclass';
-    public const CONTENT_TYPE_NAME_TABLE = 'ezcontentclass_name';
-    public const FIELD_DEFINITION_TABLE = 'ezcontentclass_attribute';
-    public const MULTILINGUAL_FIELD_DEFINITION_TABLE = 'ezcontentclass_attribute_ml';
+    public const string CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE = 'ezcontentclass_classgroup';
+    public const string CONTENT_TYPE_GROUP_TABLE = 'ezcontentclassgroup';
+    public const string CONTENT_TYPE_TABLE = 'ezcontentclass';
+    public const string CONTENT_TYPE_NAME_TABLE = 'ezcontentclass_name';
+    public const string FIELD_DEFINITION_TABLE = 'ezcontentclass_attribute';
+    public const string MULTILINGUAL_FIELD_DEFINITION_TABLE = 'ezcontentclass_attribute_ml';
 
-    public const CONTENT_TYPE_GROUP_SEQ = 'ezcontentclassgroup_id_seq';
-    public const CONTENT_TYPE_SEQ = 'ezcontentclass_id_seq';
-    public const FIELD_DEFINITION_SEQ = 'ezcontentclass_attribute_id_seq';
+    public const string CONTENT_TYPE_GROUP_SEQ = 'ezcontentclassgroup_id_seq';
+    public const string CONTENT_TYPE_SEQ = 'ezcontentclass_id_seq';
+    public const string FIELD_DEFINITION_SEQ = 'ezcontentclass_attribute_id_seq';
 
     abstract public function insertGroup(Group $group): int;
 
@@ -44,15 +44,25 @@ abstract class Gateway
 
     /**
      * @param int[] $groupIds
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadGroupData(array $groupIds): array;
 
+    /**
+     * @phpstan-return list<array<string,mixed>>
+     */
     abstract public function loadGroupDataByIdentifier(string $identifier): array;
 
+    /**
+     * @phpstan-return list<array<string,mixed>>
+     */
     abstract public function loadAllGroupsData(): array;
 
     /**
      * Load data for all content types of the given status, belonging to the given Group.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadTypesDataForGroup(int $groupId, int $status): array;
 
@@ -76,6 +86,8 @@ abstract class Gateway
     /**
      * @param int $id Field Definition ID
      * @param int $status One of Type::STATUS_DEFINED|Type::STATUS_DRAFT|Type::STATUS_MODIFIED
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadFieldDefinition(int $id, int $status): array;
 
@@ -113,18 +125,31 @@ abstract class Gateway
      * Bulk-load an array with data about the given content types.
      *
      * @param int[] $typeIds
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadTypesListData(array $typeIds): array;
 
     /**
      * @return array<mixed>
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadTypesDataByFieldDefinitionIdentifier(string $identifier): array;
 
+    /**
+     * @phpstan-return list<array<string,mixed>>
+     */
     abstract public function loadTypeData(int $typeId, int $status): array;
 
+    /**
+     * @phpstan-return list<array<string,mixed>>
+     */
     abstract public function loadTypeDataByIdentifier(string $identifier, int $status): array;
 
+    /**
+     * @phpstan-return list<array<string,mixed>>
+     */
     abstract public function loadTypeDataByRemoteId(string $remoteId, int $status): array;
 
     abstract public function countInstancesOfType(int $typeId): int;
@@ -154,6 +179,9 @@ abstract class Gateway
         int $targetStatus
     ): void;
 
+    /**
+     * @phpstan-return list<array<string,mixed>>
+     */
     abstract public function getSearchableFieldMapData(): array;
 
     /**
