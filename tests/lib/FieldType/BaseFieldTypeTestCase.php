@@ -7,12 +7,10 @@
 
 namespace Ibexa\Tests\Core\FieldType;
 
-use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\FieldType\Value;
-use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Contracts\Core\FieldType\Value as FieldTypeValue;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 abstract class BaseFieldTypeTestCase extends TestCase
@@ -417,7 +415,7 @@ abstract class BaseFieldTypeTestCase extends TestCase
         return [
             [
                 [],
-                $this->createMock(SPIValue::class),
+                $this->createMock(FieldTypeValue::class),
             ],
         ];
     }
@@ -491,7 +489,7 @@ abstract class BaseFieldTypeTestCase extends TestCase
         return [
             [
                 [],
-                $this->createMock(SPIValue::class),
+                $this->createMock(FieldTypeValue::class),
                 [],
             ],
         ];
@@ -526,7 +524,7 @@ abstract class BaseFieldTypeTestCase extends TestCase
      * @dataProvider provideDataForGetName
      */
     public function testGetName(
-        SPIValue $value,
+        FieldTypeValue $value,
         string $expected,
         array $fieldSettings = [],
         string $languageCode = 'en_GB'
@@ -654,12 +652,11 @@ abstract class BaseFieldTypeTestCase extends TestCase
     }
 
     /**
-     * @param mixed $inputValue
-     * @param array $expectedResult
-     *
      * @dataProvider provideInputForFromHash
+     *
+     * @param array<mixed>|null $inputHash
      */
-    public function testFromHash($inputHash, $expectedResult): void
+    public function testFromHash(mixed $inputHash, FieldTypeValue $expectedResult): void
     {
         $this->assertIsValidHashValue($inputHash);
 
@@ -897,7 +894,7 @@ abstract class BaseFieldTypeTestCase extends TestCase
     /**
      * @dataProvider provideValidDataForValidate
      */
-    public function testValidateValid(array $fieldDefinitionData, MockObject&Value $value): void
+    public function testValidateValid(array $fieldDefinitionData, Value $value): void
     {
         $validationErrors = $this->doValidate($fieldDefinitionData, $value);
 
@@ -908,7 +905,7 @@ abstract class BaseFieldTypeTestCase extends TestCase
     /**
      * @dataProvider provideInvalidDataForValidate
      */
-    public function testValidateInvalid(array $fieldDefinitionData, MockObject&Value $value, array $errors): void
+    public function testValidateInvalid(array $fieldDefinitionData, Value $value, array $errors): void
     {
         $validationErrors = $this->doValidate($fieldDefinitionData, $value);
 
