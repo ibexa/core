@@ -74,12 +74,12 @@ final class StructWrapperValidator implements ValidatorInterface
 
     public function validateProperty(object $object, string $propertyName, $groups = null): ConstraintViolationListInterface
     {
-        return $this->inner->validatePropertyValue($object, $propertyName, $groups);
+        return $this->inner->validateProperty($object, $propertyName, $groups);
     }
 
     public function validatePropertyValue($objectOrClass, string $propertyName, $value, $groups = null): ConstraintViolationListInterface
     {
-        return $this->inner->validatePropertyValue($objectOrClass, $propertyName, $groups);
+        return $this->inner->validatePropertyValue($objectOrClass, $propertyName, $value, $groups);
     }
 
     public function startContext(): ContextualValidatorInterface
