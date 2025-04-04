@@ -11,7 +11,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\MapLocation\Type;
 use Ibexa\Core\FieldType\MapLocation\Value;
 
-class MapLocationTest extends FieldTypeTest
+class MapLocationTest extends FieldTypeTestCase
 {
     /**
      * Returns the field type under test.

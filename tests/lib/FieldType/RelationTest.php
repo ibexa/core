@@ -21,7 +21,7 @@ use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\Repository\Validator\TargetContentValidatorInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class RelationTest extends FieldTypeTest
+class RelationTest extends FieldTypeTestCase
 {
     private const DESTINATION_CONTENT_ID = 14;
 
