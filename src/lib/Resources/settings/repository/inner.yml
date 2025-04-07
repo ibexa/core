@@ -38,6 +38,7 @@ services:
             - '@Ibexa\Core\Repository\User\PasswordValidatorInterface'
             - '@ibexa.config.resolver'
             - '@Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface'
+            - '@Ibexa\Core\Repository\Collector\ContentCollector'
             - '%languages%'
 
     Ibexa\Core\Repository\ContentService:
@@ -271,3 +272,7 @@ services:
 
     Ibexa\Core\Repository\Validator\TargetContentValidatorInterface:
         alias: Ibexa\Core\Repository\Validator\TargetContentValidator
+
+    Ibexa\Core\Repository\Collector\ContentCollector:
+        tags:
+            - { name: 'kernel.reset', method: 'reset' }

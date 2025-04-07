@@ -217,6 +217,18 @@ final class ExceptionConversion extends Gateway
         }
     }
 
+    /**
+     * @return int[]
+     */
+    public function loadVersionNoArchivedWithin(int $contentId, int $seconds): array
+    {
+        try {
+            return $this->innerGateway->loadVersionNoArchivedWithin($contentId, $seconds);
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
     public function countVersionsForUser(int $userId, int $status = VersionInfo::STATUS_DRAFT): int
     {
         try {
