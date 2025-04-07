@@ -8,14 +8,17 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
+use LogicException;
 use RuntimeException;
 
 /**
@@ -28,12 +31,12 @@ use RuntimeException;
 final class DoctrineDatabase extends Gateway
 {
     /**
-     * 2^30, since PHP_INT_MAX can cause overflows in DB systems, if PHP is run
-     * on 64 bit systems.
+     * 2^30, since PHP_INT_MAX can cause overflows in DB systems, if PHP is run on 64-bit systems.
      */
-    public const MAX_LIMIT = 1073741824;
+    public const int MAX_LIMIT = 1073741824;
 
-    private const URL_ALIAS_DATA_COLUMN_TYPE_MAP = [
+    /** @var array<string, int> */
+    private const array URL_ALIAS_DATA_COLUMN_TYPE_MAP = [
         'id' => ParameterType::INTEGER,
         'link' => ParameterType::INTEGER,
         'is_alias' => ParameterType::INTEGER,
@@ -58,20 +61,15 @@ final class DoctrineDatabase extends Gateway
 
     private Connection $connection;
 
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
-    private $dbPlatform;
+    private AbstractPlatform $dbPlatform;
 
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
     public function __construct(
         Connection $connection,
         LanguageMaskGenerator $languageMaskGenerator
     ) {
         $this->connection = $connection;
         $this->languageMaskGenerator = $languageMaskGenerator;
-        $this->table = static::TABLE;
-        $this->dbPlatform = $this->connection->getDatabasePlatform();
+        $this->table = self::TABLE;
     }
 
     public function setTable(string $name): void
@@ -81,6 +79,8 @@ final class DoctrineDatabase extends Gateway
 
     /**
      * Loads all list of aliases by given $locationId.
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function loadAllLocationEntries(int $locationId): array
     {
@@ -90,12 +90,15 @@ final class DoctrineDatabase extends Gateway
             ->from($this->connection->quoteIdentifier($this->table))
             ->where('action = :action')
             ->andWhere('is_original = :is_original')
-            ->setParameter('action', "eznode:{$locationId}", ParameterType::STRING)
+            ->setParameter('action', "eznode:$locationId")
             ->setParameter('is_original', 1, ParameterType::INTEGER);
 
         return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadLocationEntries(
         int $locationId,
         bool $custom = false,
@@ -121,8 +124,7 @@ final class DoctrineDatabase extends Gateway
                 $expr->eq(
                     'action',
                     $query->createPositionalParameter(
-                        "eznode:{$locationId}",
-                        ParameterType::STRING
+                        "eznode:$locationId"
                     )
                 )
             )
@@ -143,7 +145,7 @@ final class DoctrineDatabase extends Gateway
         if (null !== $languageId) {
             $query->andWhere(
                 $expr->gt(
-                    $this->dbPlatform->getBitAndComparisonExpression(
+                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
                         'lang_mask',
                         $query->createPositionalParameter($languageId, ParameterType::INTEGER)
                     ),
@@ -152,11 +154,13 @@ final class DoctrineDatabase extends Gateway
             );
         }
 
-        $statement = $query->execute();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function listGlobalEntries(
         ?string $languageCode = null,
         int $offset = 0,
@@ -183,8 +187,7 @@ final class DoctrineDatabase extends Gateway
                 $expr->eq(
                     'action_type',
                     $query->createPositionalParameter(
-                        'module',
-                        ParameterType::STRING
+                        'module'
                     )
                 )
             )
@@ -208,7 +211,7 @@ final class DoctrineDatabase extends Gateway
         if (isset($languageCode)) {
             $query->andWhere(
                 $expr->gt(
-                    $this->dbPlatform->getBitAndComparisonExpression(
+                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
                         'lang_mask',
                         $query->createPositionalParameter(
                             $this->languageMaskGenerator->generateLanguageIndicator(
@@ -222,11 +225,13 @@ final class DoctrineDatabase extends Gateway
                 )
             );
         }
-        $statement = $query->execute();
 
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function isRootEntry(int $id): bool
     {
         $query = $this->connection->createQueryBuilder();
@@ -242,13 +247,14 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($id, ParameterType::INTEGER)
                 )
             );
-        $statement = $query->execute();
+        $row = $query->executeQuery()->fetchAssociative();
 
-        $row = $statement->fetch(FetchMode::ASSOCIATIVE);
-
-        return strlen($row['text']) == 0 && $row['parent'] == 0;
+        return $row !== false && $row['text'] === '' && ((int)$row['parent']) === 0;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function cleanupAfterPublish(
         string $action,
         int $languageId,
@@ -269,7 +275,7 @@ final class DoctrineDatabase extends Gateway
             ->where(
                 $expr->eq(
                     'action',
-                    $query->createPositionalParameter($action, ParameterType::STRING)
+                    $query->createPositionalParameter($action)
                 )
             )
             ->andWhere(
@@ -286,7 +292,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->andWhere(
                 $expr->gt(
-                    $this->dbPlatform->getBitAndComparisonExpression(
+                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
                         'lang_mask',
                         $query->createPositionalParameter($languageId, ParameterType::INTEGER)
                     ),
@@ -304,23 +310,21 @@ final class DoctrineDatabase extends Gateway
                         ),
                         $expr->eq(
                             'text_md5',
-                            $query->createPositionalParameter($textMD5, ParameterType::STRING)
+                            $query->createPositionalParameter($textMD5)
                         )
                     )
                 )
             );
 
-        $statement = $query->execute();
-
-        $row = $statement->fetch(FetchMode::ASSOCIATIVE);
+        $row = $query->executeQuery()->fetchAssociative();
 
         if (!empty($row)) {
             $this->archiveUrlAliasForDeletedTranslation(
                 (int)$row['lang_mask'],
-                (int)$languageId,
+                $languageId,
                 (int)$row['parent'],
                 $row['text_md5'],
-                (int)$newId
+                $newId
             );
         }
     }
@@ -331,6 +335,8 @@ final class DoctrineDatabase extends Gateway
      * @param int $languageMask all languages bit mask
      * @param int $languageId removed language Id
      * @param string $textMD5 checksum
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function archiveUrlAliasForDeletedTranslation(
         int $languageMask,
@@ -348,6 +354,9 @@ final class DoctrineDatabase extends Gateway
         }
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function historizeBeforeSwap(string $action, int $languageMask): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -368,14 +377,14 @@ final class DoctrineDatabase extends Gateway
                 $query->expr()->and(
                     $query->expr()->eq(
                         'action',
-                        $query->createPositionalParameter($action, ParameterType::STRING)
+                        $query->createPositionalParameter($action)
                     ),
                     $query->expr()->eq(
                         'is_original',
                         $query->createPositionalParameter(1, ParameterType::INTEGER)
                     ),
                     $query->expr()->gt(
-                        $this->dbPlatform->getBitAndComparisonExpression(
+                        $this->getDatabasePlatform()->getBitAndComparisonExpression(
                             'lang_mask',
                             $query->createPositionalParameter(
                                 $languageMask & ~1,
@@ -387,7 +396,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -401,6 +410,8 @@ final class DoctrineDatabase extends Gateway
      * with the same action and language, update their "link" column with id of the published entry.
      * History entry "id" column is moved to next id value so that all active (non-history) entries are kept
      * under the same id.
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function historize(int $parentId, string $textMD5, int $newId): void
     {
@@ -430,17 +441,19 @@ final class DoctrineDatabase extends Gateway
                     ),
                     $query->expr()->eq(
                         'text_md5',
-                        $query->createPositionalParameter($textMD5, ParameterType::STRING)
+                        $query->createPositionalParameter($textMD5)
                     )
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
      * Update single row data matched by composite primary key.
      *
      * Removes given $languageId from entry's language mask
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function removeTranslation(int $parentId, string $textMD5, int $languageId): void
     {
@@ -449,7 +462,7 @@ final class DoctrineDatabase extends Gateway
             ->update($this->connection->quoteIdentifier($this->table))
             ->set(
                 'lang_mask',
-                $this->dbPlatform->getBitAndComparisonExpression(
+                $this->getDatabasePlatform()->getBitAndComparisonExpression(
                     'lang_mask',
                     $query->createPositionalParameter(
                         ~$languageId,
@@ -470,15 +483,17 @@ final class DoctrineDatabase extends Gateway
                 $query->expr()->eq(
                     'text_md5',
                     $query->createPositionalParameter(
-                        $textMD5,
-                        ParameterType::STRING
+                        $textMD5
                     )
                 )
             )
         ;
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function historizeId(int $id, int $link): void
     {
         if ($id === $link) {
@@ -504,8 +519,7 @@ final class DoctrineDatabase extends Gateway
                 $query->expr()->eq(
                     'action_type',
                     $query->createPositionalParameter(
-                        'eznode',
-                        ParameterType::STRING
+                        'eznode'
                     )
                 ),
                 $query->expr()->eq(
@@ -515,15 +529,16 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->execute();
-
-        $rows = $statement->fetchAllAssociative();
+        $rows = $query->executeQuery()->fetchAllAssociative();
 
         foreach ($rows as $row) {
             $this->historize((int)$row['parent'], $row['text_md5'], $link);
         }
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function reparent(int $oldParentId, int $newParentId): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -542,9 +557,12 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function updateRow(int $parentId, string $textMD5, array $values): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -555,7 +573,7 @@ final class DoctrineDatabase extends Gateway
                 $query->createNamedParameter(
                     $value,
                     self::URL_ALIAS_DATA_COLUMN_TYPE_MAP[$columnName],
-                    ":{$columnName}"
+                    ":$columnName"
                 )
             );
         }
@@ -572,9 +590,12 @@ final class DoctrineDatabase extends Gateway
                     $query->createNamedParameter($textMD5, ParameterType::STRING, ':text_md5')
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function insertRow(array $values): int
     {
         if (!isset($values['id'])) {
@@ -584,7 +605,7 @@ final class DoctrineDatabase extends Gateway
             $values['link'] = $values['id'];
         }
         if (!isset($values['is_original'])) {
-            $values['is_original'] = ($values['id'] == $values['link'] ? 1 : 0);
+            $values['is_original'] = ((int)$values['id'] === (int)$values['link'] ? 1 : 0);
         }
         if (!isset($values['is_alias'])) {
             $values['is_alias'] = 0;
@@ -613,15 +634,18 @@ final class DoctrineDatabase extends Gateway
                 $query->createNamedParameter(
                     $value,
                     self::URL_ALIAS_DATA_COLUMN_TYPE_MAP[$columnName],
-                    ":{$columnName}"
+                    ":$columnName"
                 )
             );
         }
-        $query->execute();
+        $query->executeStatement();
 
         return (int)$values['id'];
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function getNextId(): int
     {
         $query = $this->connection->createQueryBuilder();
@@ -629,17 +653,20 @@ final class DoctrineDatabase extends Gateway
             ->insert(self::INCR_TABLE)
             ->values(
                 [
-                    'id' => $this->dbPlatform->supportsSequences()
+                    'id' => $this->getDatabasePlatform()->supportsSequences()
                         ? sprintf('NEXTVAL(\'%s\')', self::INCR_TABLE_SEQ)
                         : $query->createPositionalParameter(null, ParameterType::NULL),
                 ]
             );
 
-        $query->execute();
+        $query->executeStatement();
 
         return (int)$this->connection->lastInsertId(self::INCR_TABLE_SEQ);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadRow(int $parentId, string $textMD5): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -657,18 +684,20 @@ final class DoctrineDatabase extends Gateway
                 $query->expr()->eq(
                     'text_md5',
                     $query->createPositionalParameter(
-                        $textMD5,
-                        ParameterType::STRING
+                        $textMD5
                     )
                 )
             )
         );
 
-        $result = $query->execute()->fetch(FetchMode::ASSOCIATIVE);
+        $result = $query->executeQuery()->fetchAssociative();
 
         return false !== $result ? $result : [];
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadUrlAliasData(array $urlHashes): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -684,10 +713,10 @@ final class DoctrineDatabase extends Gateway
                             // do not alias data for top level url part
                             $columnAlias = 'u' === $tableAlias
                                 ? $columnName
-                                : "{$tableAlias}_{$columnName}";
-                            $columnName = "{$tableAlias}.{$columnName}";
+                                : "{$tableAlias}_$columnName";
+                            $columnName = "$tableAlias.$columnName";
 
-                            return "{$columnName} AS {$columnAlias}";
+                            return "$columnName AS $columnAlias";
                         },
                         array_keys(self::URL_ALIAS_DATA_COLUMN_TYPE_MAP)
                     )
@@ -697,13 +726,13 @@ final class DoctrineDatabase extends Gateway
             $query
                 ->andWhere(
                     $expr->eq(
-                        "{$tableAlias}.text_md5",
-                        $query->createPositionalParameter($urlPartHash, ParameterType::STRING)
+                        "$tableAlias.text_md5",
+                        $query->createPositionalParameter($urlPartHash)
                     )
                 )
                 ->andWhere(
                     $expr->eq(
-                        "{$tableAlias}.parent",
+                        "$tableAlias.parent",
                         // root entry has parent column set to 0
                         isset($previousTableName) ? $previousTableName . '.link' : $query->createPositionalParameter(
                             0,
@@ -716,11 +745,14 @@ final class DoctrineDatabase extends Gateway
         }
         $query->setMaxResults(1);
 
-        $result = $query->execute()->fetch(FetchMode::ASSOCIATIVE);
+        $result = $query->executeQuery()->fetchAssociative();
 
         return false !== $result ? $result : [];
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadAutogeneratedEntry(string $action, ?int $parentId = null): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -732,7 +764,7 @@ final class DoctrineDatabase extends Gateway
             $query->expr()->and(
                 $query->expr()->eq(
                     'action',
-                    $query->createPositionalParameter($action, ParameterType::STRING)
+                    $query->createPositionalParameter($action)
                 ),
                 $query->expr()->eq(
                     'is_original',
@@ -757,16 +789,20 @@ final class DoctrineDatabase extends Gateway
             );
         }
 
-        $entry = $query->execute()->fetch(FetchMode::ASSOCIATIVE);
+        $entry = $query->executeQuery()->fetchAssociative();
 
         return false !== $entry ? $entry : [];
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadPathData(int $id): array
     {
         $pathData = [];
 
-        while ($id != 0) {
+        while ($id !== 0) {
             $query = $this->connection->createQueryBuilder();
             $query->select(
                 'parent',
@@ -781,9 +817,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-            $statement = $query->execute();
-
-            $rows = $statement->fetchAllAssociative();
+            $rows = $query->executeQuery()->fetchAllAssociative();
             if (empty($rows)) {
                 // Normally this should never happen
                 $pathDataArray = [];
@@ -798,18 +832,21 @@ final class DoctrineDatabase extends Gateway
                 $path = implode('/', $pathDataArray);
                 throw new BadStateException(
                     'id',
-                    "Unable to load path data, path '{$path}' is broken, alias with ID '{$id}' not found. " .
-                    'To fix all broken paths run the ezplatform:urls:regenerate-aliases command'
+                    "Unable to load path data, path '$path' is broken, alias with ID '$id' not found. " .
+                    'To fix all broken paths run the ibexa:urls:regenerate-aliases command'
                 );
             }
 
-            $id = $rows[0]['parent'];
+            $id = (int)$rows[0]['parent'];
             array_unshift($pathData, $rows);
         }
 
         return $pathData;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadPathDataByHierarchy(array $hierarchyData): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -827,8 +864,7 @@ final class DoctrineDatabase extends Gateway
                 $query->expr()->eq(
                     'action',
                     $query->createPositionalParameter(
-                        $levelData['action'],
-                        ParameterType::STRING
+                        $levelData['action']
                     )
                 ),
                 $query->expr()->eq(
@@ -851,9 +887,7 @@ final class DoctrineDatabase extends Gateway
             $query->expr()->or(...$hierarchyConditions)
         );
 
-        $statement = $query->execute();
-
-        $rows = $statement->fetchAllAssociative();
+        $rows = $query->executeQuery()->fetchAllAssociative();
         $rowsMap = [];
         foreach ($rows as $row) {
             $rowsMap[$row['action']][] = $row;
@@ -871,6 +905,9 @@ final class DoctrineDatabase extends Gateway
         return $data;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function removeCustomAlias(int $parentId, string $textMD5): bool
     {
         $query = $this->connection->createQueryBuilder();
@@ -888,8 +925,7 @@ final class DoctrineDatabase extends Gateway
                 $query->expr()->eq(
                     'text_md5',
                     $query->createPositionalParameter(
-                        $textMD5,
-                        ParameterType::STRING
+                        $textMD5
                     )
                 ),
                 $query->expr()->eq(
@@ -899,9 +935,12 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        return $query->execute() === 1;
+        return $query->executeStatement() === 1;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function remove(string $action, ?int $id = null): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -911,7 +950,7 @@ final class DoctrineDatabase extends Gateway
             ->where(
                 $expr->eq(
                     'action',
-                    $query->createPositionalParameter($action, ParameterType::STRING)
+                    $query->createPositionalParameter($action)
                 )
             );
 
@@ -934,9 +973,12 @@ final class DoctrineDatabase extends Gateway
                 );
         }
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadAutogeneratedEntries(int $parentId, bool $includeHistory = false): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -957,8 +999,7 @@ final class DoctrineDatabase extends Gateway
                 $expr->eq(
                     'action_type',
                     $query->createPositionalParameter(
-                        'eznode',
-                        ParameterType::STRING
+                        'eznode'
                     )
                 )
             )
@@ -978,11 +1019,12 @@ final class DoctrineDatabase extends Gateway
             );
         }
 
-        $statement = $query->execute();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function getLocationContentMainLanguageId(int $locationId): int
     {
         $queryBuilder = $this->connection->createQueryBuilder();
@@ -996,16 +1038,19 @@ final class DoctrineDatabase extends Gateway
             )
             ->setParameter('locationId', $locationId, ParameterType::INTEGER);
 
-        $statement = $queryBuilder->execute();
-        $languageId = $statement->fetchColumn();
+        $statement = $queryBuilder->executeQuery();
+        $languageId = $statement->fetchOne();
 
         if ($languageId === false) {
-            throw new RuntimeException("Could not find Content for Location #{$locationId}");
+            throw new RuntimeException("Could not find Content for Location #$locationId");
         }
 
         return (int)$languageId;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function bulkRemoveTranslation(int $languageId, array $actions): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -1014,8 +1059,8 @@ final class DoctrineDatabase extends Gateway
             // parameter for bitwise operation has to be placed verbatim (w/o binding) for this to work cross-DBMS
             ->set('lang_mask', 'lang_mask & ~ ' . $languageId)
             ->where('action IN (:actions)')
-            ->setParameter(':actions', $actions, Connection::PARAM_STR_ARRAY);
-        $query->execute();
+            ->setParameter('actions', $actions, ArrayParameterType::STRING);
+        $query->executeStatement();
 
         // cleanup: delete single language rows (including alwaysAvailable)
         $query = $this->connection->createQueryBuilder();
@@ -1023,10 +1068,13 @@ final class DoctrineDatabase extends Gateway
             ->delete($this->connection->quoteIdentifier($this->table))
             ->where('action IN (:actions)')
             ->andWhere('lang_mask IN (0, 1)')
-            ->setParameter(':actions', $actions, Connection::PARAM_STR_ARRAY);
-        $query->execute();
+            ->setParameter('actions', $actions, ArrayParameterType::STRING);
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function archiveUrlAliasesForDeletedTranslations(
         int $locationId,
         int $parentId,
@@ -1050,8 +1098,8 @@ final class DoctrineDatabase extends Gateway
             $rowLanguageMask = (int)$row['lang_mask'];
             $languageIdsToBeRemoved = array_filter(
                 $languageIds,
-                static function ($languageId) use ($rowLanguageMask): int {
-                    return $languageId & $rowLanguageMask;
+                static function (int $languageId) use ($rowLanguageMask): bool {
+                    return ($languageId & $rowLanguageMask) !== 0;
                 }
             );
 
@@ -1079,6 +1127,10 @@ final class DoctrineDatabase extends Gateway
      * Load list of aliases for given $locationId matching any of the specified Languages.
      *
      * @param int[] $languageIds
+     *
+     * @phpstan-return list<array<string,mixed>>
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function loadLocationEntriesMatchingMultipleLanguages(
         int $locationId,
@@ -1090,7 +1142,6 @@ final class DoctrineDatabase extends Gateway
             false
         );
 
-        /** @var \Doctrine\DBAL\Connection $connection */
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('id', 'lang_mask', 'parent', 'text_md5')
@@ -1101,9 +1152,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter(self::ACTION_PARAMETER_NAME, 'eznode:' . $locationId)
             ->setParameter(self::LANGUAGE_MASK_PARAMETER_NAME, $languageMask);
 
-        $statement = $query->execute();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -1112,6 +1161,9 @@ final class DoctrineDatabase extends Gateway
     public function deleteUrlAliasesWithoutLocation(): int
     {
         $dbPlatform = $this->connection->getDatabasePlatform();
+        if ($dbPlatform === null) {
+            throw new LogicException('Unable to determine database platform');
+        }
 
         $subQuery = $this->connection->createQueryBuilder();
         $subQuery
@@ -1147,6 +1199,9 @@ final class DoctrineDatabase extends Gateway
         return $deleteQuery->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function deleteUrlAliasesWithoutParent(): int
     {
         $existingAliasesQuery = $this->getAllUrlAliasesQuery();
@@ -1167,9 +1222,12 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->execute();
+        return $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function deleteUrlAliasesWithBrokenLink(): int
     {
         $existingAliasesQuery = $this->getAllUrlAliasesQuery();
@@ -1187,9 +1245,12 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return (int)$query->execute();
+        return $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function repairBrokenUrlAliasesForLocation(int $locationId): void
     {
         $urlAliasesData = $this->getUrlAliasesForLocation($locationId);
@@ -1222,7 +1283,7 @@ final class DoctrineDatabase extends Gateway
             ->andWhere(
                 $expr->eq('text_md5', ':textMD5')
             )
-            ->setParameter(self::ACTION_PARAMETER_NAME, "eznode:{$locationId}");
+            ->setParameter(self::ACTION_PARAMETER_NAME, "eznode:$locationId");
 
         foreach ($urlAliasesData as $urlAliasData) {
             if ($urlAliasData['is_original'] === 1 || !isset($originalUrlAliases[$urlAliasData['lang_mask']])) {
@@ -1238,19 +1299,19 @@ final class DoctrineDatabase extends Gateway
             }
 
             $updateQueryBuilder
-                ->setParameter(':linkId', $originalUrlAlias['link'], ParameterType::INTEGER)
+                ->setParameter('linkId', $originalUrlAlias['link'], ParameterType::INTEGER)
                 // attempt to fix missing parent case
                 ->setParameter(
-                    ':newParentId',
+                    'newParentId',
                     $urlAliasData['existing_parent'] ?? $originalUrlAlias['parent'],
                     ParameterType::INTEGER
                 )
-                ->setParameter(':oldParentId', $urlAliasData['parent'], ParameterType::INTEGER)
-                ->setParameter(':textMD5', $urlAliasData['text_md5']);
+                ->setParameter('oldParentId', $urlAliasData['parent'], ParameterType::INTEGER)
+                ->setParameter('textMD5', $urlAliasData['text_md5']);
 
             try {
-                $updateQueryBuilder->execute();
-            } catch (UniqueConstraintViolationException $e) {
+                $updateQueryBuilder->executeStatement();
+            } catch (UniqueConstraintViolationException) {
                 // edge case: if such row already exists, there's no way to restore history
                 $this->deleteRow((int) $urlAliasData['parent'], $urlAliasData['text_md5']);
             }
@@ -1262,7 +1323,6 @@ final class DoctrineDatabase extends Gateway
      */
     public function deleteUrlNopAliasesWithoutChildren(): int
     {
-        $platform = $this->connection->getDatabasePlatform();
         $queryBuilder = $this->connection->createQueryBuilder();
 
         // The wrapper select is needed for SQL "Derived Table Merge" issue for deleting
@@ -1287,7 +1347,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->groupBy('u_parent.id')
             ->having(
-                $expressionBuilder->eq($platform->getCountExpression('u.id'), 0)
+                $expressionBuilder->eq('COUNT(u.id)', 0)
             );
 
         $wrapperQueryBuilder
@@ -1305,7 +1365,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->setParameter('actionType', self::NOP);
 
-        return $queryBuilder->execute();
+        return $queryBuilder->executeStatement();
     }
 
     /**
@@ -1339,7 +1399,9 @@ final class DoctrineDatabase extends Gateway
      *
      * Note: each language_mask can have one URL Alias.
      *
-     * @param array $urlAliasesData
+     * @param list<array<string, mixed>> $urlAliasesData
+     *
+     * @phpstan-return array<int, array<string, mixed>>
      */
     private function filterOriginalAliases(array $urlAliasesData): array
     {
@@ -1347,7 +1409,7 @@ final class DoctrineDatabase extends Gateway
             $urlAliasesData,
             static function (array $urlAliasData): bool {
                 // filter is_original=true ignoring broken parent records (cleaned up elsewhere)
-                return (bool)$urlAliasData['is_original'] && $urlAliasData['existing_parent'] !== null;
+                return $urlAliasData['is_original'] && $urlAliasData['existing_parent'] !== null;
             }
         );
 
@@ -1380,14 +1442,20 @@ final class DoctrineDatabase extends Gateway
 
     /**
      * Get DBMS-specific integer type.
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function getIntegerType(): string
     {
-        return $this->dbPlatform->getName() === 'mysql' ? 'signed' : 'integer';
+        return $this->getDatabasePlatform() instanceof AbstractMySQLPlatform ? 'signed' : 'integer';
     }
 
     /**
      * Get all URL aliases for the given Location (including archived ones).
+     *
+     * @phpstan-return list<array<string,mixed>>
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function getUrlAliasesForLocation(int $locationId): array
     {
@@ -1414,7 +1482,7 @@ final class DoctrineDatabase extends Gateway
             ->where(
                 $queryBuilder->expr()->eq(
                     't1.action',
-                    $queryBuilder->createPositionalParameter("eznode:{$locationId}")
+                    $queryBuilder->createPositionalParameter("eznode:$locationId")
                 )
             );
 
@@ -1423,8 +1491,10 @@ final class DoctrineDatabase extends Gateway
 
     /**
      * Delete URL alias row by its primary composite key.
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
-    private function deleteRow(int $parentId, string $textMD5): int
+    private function deleteRow(int $parentId, string $textMD5): void
     {
         $queryBuilder = $this->connection->createQueryBuilder();
         $expr = $queryBuilder->expr();
@@ -1444,6 +1514,22 @@ final class DoctrineDatabase extends Gateway
             )
         ;
 
-        return $queryBuilder->execute();
+        $queryBuilder->executeStatement();
+    }
+
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
+    private function getDatabasePlatform(): AbstractPlatform
+    {
+        if (!isset($this->dbPlatform)) {
+            $databasePlatform = $this->connection->getDatabasePlatform();
+            if (null === $databasePlatform) {
+                throw new LogicException('Unable to fetch database platform');
+            }
+            $this->dbPlatform = $databasePlatform;
+        }
+
+        return $this->dbPlatform;
     }
 }
