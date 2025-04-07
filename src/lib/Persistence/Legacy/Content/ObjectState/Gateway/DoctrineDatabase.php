@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
@@ -33,19 +32,15 @@ final class DoctrineDatabase extends Gateway
 
     private Connection $connection;
 
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
-    private $dbPlatform;
+    public function __construct(Connection $connection, MaskGenerator $maskGenerator)
+    {
+        $this->connection = $connection;
+        $this->maskGenerator = $maskGenerator;
+    }
 
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    public function __construct(Connection $connection, MaskGenerator $maskGenerator)
-    {
-        $this->connection = $connection;
-        $this->dbPlatform = $this->connection->getDatabasePlatform();
-        $this->maskGenerator = $maskGenerator;
-    }
-
     public function loadObjectStateData(int $stateId): array
     {
         $query = $this->createObjectStateFindQuery();
@@ -56,11 +51,12 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->execute();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadObjectStateDataByIdentifier(string $identifier, int $groupId): array
     {
         $query = $this->createObjectStateFindQuery();
@@ -68,7 +64,7 @@ final class DoctrineDatabase extends Gateway
             $query->expr()->and(
                 $query->expr()->eq(
                     'state.identifier',
-                    $query->createPositionalParameter($identifier, ParameterType::STRING)
+                    $query->createPositionalParameter($identifier)
                 ),
                 $query->expr()->eq(
                     'state.group_id',
@@ -77,11 +73,12 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->execute();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadObjectStateListData(int $groupId): array
     {
         $query = $this->createObjectStateFindQuery();
@@ -92,16 +89,19 @@ final class DoctrineDatabase extends Gateway
             )
         )->orderBy('state.priority', 'ASC');
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         $rows = [];
-        while ($row = $statement->fetch(FetchMode::ASSOCIATIVE)) {
+        while ($row = $statement->fetchAssociative()) {
             $rows[$row['ezcobj_state_id']][] = $row;
         }
 
         return array_values($rows);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadObjectStateGroupData(int $groupId): array
     {
         $query = $this->createObjectStateGroupFindQuery();
@@ -112,26 +112,28 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->execute();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadObjectStateGroupDataByIdentifier(string $identifier): array
     {
         $query = $this->createObjectStateGroupFindQuery();
         $query->where(
             $query->expr()->eq(
                 'state_group.identifier',
-                $query->createPositionalParameter($identifier, ParameterType::STRING)
+                $query->createPositionalParameter($identifier)
             )
         );
 
-        $statement = $query->execute();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadObjectStateGroupListData(int $offset, int $limit): array
     {
         $query = $this->createObjectStateGroupFindQuery();
@@ -140,10 +142,10 @@ final class DoctrineDatabase extends Gateway
             $query->setFirstResult($offset);
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         $rows = [];
-        while ($row = $statement->fetch(FetchMode::ASSOCIATIVE)) {
+        while ($row = $statement->fetchAssociative()) {
             $rows[$row['ezcobj_state_group_id']][] = $row;
         }
 
@@ -158,8 +160,8 @@ final class DoctrineDatabase extends Gateway
     {
         $maxPriority = $this->getMaxPriorityForObjectStatesInGroup($groupId);
 
-        $objectState->priority = $maxPriority === null ? 0 : (int)$maxPriority + 1;
-        $objectState->groupId = (int)$groupId;
+        $objectState->priority = $maxPriority === null ? 0 : $maxPriority + 1;
+        $objectState->groupId = $groupId;
 
         $query = $this->connection->createQueryBuilder();
         $query
@@ -178,8 +180,7 @@ final class DoctrineDatabase extends Gateway
                         ParameterType::INTEGER
                     ),
                     'identifier' => $query->createPositionalParameter(
-                        $objectState->identifier,
-                        ParameterType::STRING
+                        $objectState->identifier
                     ),
                     'language_mask' => $query->createPositionalParameter(
                         $this->maskGenerator->generateLanguageMaskFromLanguageCodes(
@@ -195,7 +196,7 @@ final class DoctrineDatabase extends Gateway
                 ]
             );
 
-        $query->execute();
+        $query->executeStatement();
 
         $objectState->id = (int)$this->connection->lastInsertId(self::OBJECT_STATE_TABLE_SEQ);
 
@@ -205,7 +206,7 @@ final class DoctrineDatabase extends Gateway
         if ($maxPriority === null) {
             $this->connection->executeStatement(
                 'INSERT INTO ezcobj_state_link (contentobject_id, contentobject_state_id) ' .
-                "SELECT id, {$objectState->id} FROM ezcontentobject"
+                "SELECT id, $objectState->id FROM ezcontentobject"
             );
         }
     }
@@ -213,6 +214,7 @@ final class DoctrineDatabase extends Gateway
     /**
      * @param string[] $languageCodes
      *
+     * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     private function updateObjectStateCommonFields(
@@ -237,10 +239,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->set(
                 'identifier',
-                $query->createPositionalParameter(
-                    $identifier,
-                    ParameterType::STRING
-                )
+                $query->createPositionalParameter($identifier)
             )
             ->set(
                 'language_mask',
@@ -259,9 +258,13 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function updateObjectState(ObjectState $objectState): void
     {
         // First update the state
@@ -279,6 +282,9 @@ final class DoctrineDatabase extends Gateway
         $this->insertObjectStateTranslations($objectState);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function deleteObjectState(int $stateId): void
     {
         $this->deleteObjectStateTranslations($stateId);
@@ -293,9 +299,12 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function updateObjectStateLinks(int $oldStateId, int $newStateId): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -313,11 +322,13 @@ final class DoctrineDatabase extends Gateway
             )
         ;
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
      * Change Content to object state assignment.
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function updateContentStateAssignment(
         int $contentId,
@@ -350,9 +361,12 @@ final class DoctrineDatabase extends Gateway
             )
         ;
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function deleteObjectStateLinks(int $stateId): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -365,9 +379,13 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function insertObjectStateGroup(Group $objectStateGroup): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -383,8 +401,7 @@ final class DoctrineDatabase extends Gateway
                         ParameterType::INTEGER
                     ),
                     'identifier' => $query->createPositionalParameter(
-                        $objectStateGroup->identifier,
-                        ParameterType::STRING
+                        $objectStateGroup->identifier
                     ),
                     'language_mask' => $query->createPositionalParameter(
                         $this->maskGenerator->generateLanguageMaskFromLanguageCodes(
@@ -397,7 +414,7 @@ final class DoctrineDatabase extends Gateway
             )
         ;
 
-        $query->execute();
+        $query->executeStatement();
 
         $objectStateGroup->id = (int)$this->connection->lastInsertId(
             self::OBJECT_STATE_GROUP_TABLE_SEQ
@@ -406,6 +423,10 @@ final class DoctrineDatabase extends Gateway
         $this->insertObjectStateGroupTranslations($objectStateGroup);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function updateObjectStateGroup(Group $objectStateGroup): void
     {
         // First update the group
@@ -423,6 +444,9 @@ final class DoctrineDatabase extends Gateway
         $this->insertObjectStateGroupTranslations($objectStateGroup);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function deleteObjectStateGroup(int $groupId): void
     {
         $this->deleteObjectStateGroupTranslations($groupId);
@@ -438,9 +462,12 @@ final class DoctrineDatabase extends Gateway
             )
         ;
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function setContentState(int $contentId, int $groupId, int $stateId): void
     {
         // First find out if $contentId is related to existing states in $groupId
@@ -455,6 +482,9 @@ final class DoctrineDatabase extends Gateway
         }
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadObjectStateDataForContent(int $contentId, int $stateGroupId): array
     {
         $query = $this->createObjectStateFindQuery();
@@ -479,17 +509,18 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $statement = $query->execute();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function getContentCount(int $stateId): int
     {
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(
-                $this->dbPlatform->getCountExpression('contentobject_id')
+                'COUNT(contentobject_id)'
             )
             ->from(self::OBJECT_STATE_LINK_TABLE)
             ->where(
@@ -499,9 +530,12 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function updateObjectStatePriority(int $stateId, int $priority): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -516,7 +550,7 @@ final class DoctrineDatabase extends Gateway
             )
         ;
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -584,6 +618,7 @@ final class DoctrineDatabase extends Gateway
      * Insert object state group translations into database.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if Object State language does not exist
+     * @throws \Doctrine\DBAL\Exception
      */
     private function insertObjectStateTranslations(ObjectState $objectState): void
     {
@@ -597,14 +632,8 @@ final class DoctrineDatabase extends Gateway
                             $objectState->id,
                             ParameterType::INTEGER
                         ),
-                        'description' => $query->createPositionalParameter(
-                            $objectState->description[$languageCode],
-                            ParameterType::STRING
-                        ),
-                        'name' => $query->createPositionalParameter(
-                            $objectState->name[$languageCode],
-                            ParameterType::STRING
-                        ),
+                        'description' => $query->createPositionalParameter($objectState->description[$languageCode]),
+                        'name' => $query->createPositionalParameter($objectState->name[$languageCode]),
                         'language_id' => $query->createPositionalParameter(
                             $this->maskGenerator->generateLanguageIndicator(
                                 $languageCode,
@@ -615,14 +644,14 @@ final class DoctrineDatabase extends Gateway
                     ]
                 );
 
-            $query->execute();
+            $query->executeStatement();
         }
     }
 
     /**
      * Deletes all translations of the $stateId state.
      *
-     * @param mixed $stateId
+     * @throws \Doctrine\DBAL\Exception
      */
     private function deleteObjectStateTranslations(int $stateId): void
     {
@@ -636,13 +665,14 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
      * Insert object state group translations into database.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if Object State Group language does not exist
+     * @throws \Doctrine\DBAL\Exception
      */
     private function insertObjectStateGroupTranslations(Group $objectStateGroup): void
     {
@@ -666,17 +696,19 @@ final class DoctrineDatabase extends Gateway
             );
             $query
                 ->setParameter('contentobject_state_group_id', $objectStateGroup->id, ParameterType::INTEGER)
-                ->setParameter('description', $objectStateGroup->description[$languageCode], ParameterType::STRING)
-                ->setParameter('name', $objectStateGroup->name[$languageCode], ParameterType::STRING)
+                ->setParameter('description', $objectStateGroup->description[$languageCode])
+                ->setParameter('name', $objectStateGroup->name[$languageCode])
                 ->setParameter('language_id', $languageId, ParameterType::INTEGER)
                 ->setParameter('real_language_id', $languageId & ~1, ParameterType::INTEGER);
 
-            $query->execute();
+            $query->executeStatement();
         }
     }
 
     /**
      * Delete all translations of the $groupId state group.
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function deleteObjectStateGroupTranslations(int $groupId): void
     {
@@ -690,16 +722,17 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function getMaxPriorityForObjectStatesInGroup(int $groupId): ?int
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select(
-                $this->dbPlatform->getMaxExpression('priority')
-            )
+            ->select('MAX(priority)')
             ->from(self::OBJECT_STATE_TABLE)
             ->where(
                 $query->expr()->eq(
@@ -708,11 +741,14 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $priority = $query->execute()->fetchColumn();
+        $priority = $query->executeQuery()->fetchOne();
 
         return null !== $priority ? (int)$priority : null;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function getContentStateId(int $contentId, int $groupId): ?int
     {
         $query = $this->connection->createQueryBuilder();
@@ -738,11 +774,14 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $stateId = $query->execute()->fetch(FetchMode::COLUMN);
+        $stateId = $query->executeQuery()->fetchOne();
 
         return false !== $stateId ? (int)$stateId : null;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function insertContentStateAssignment(int $contentId, int $stateId): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -761,6 +800,6 @@ final class DoctrineDatabase extends Gateway
                 ]
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 }
