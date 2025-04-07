@@ -18,22 +18,26 @@ use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
  */
 abstract class Gateway
 {
-    public const OBJECT_STATE_TABLE = 'ezcobj_state';
-    public const OBJECT_STATE_LANGUAGE_TABLE = 'ezcobj_state_language';
-    public const OBJECT_STATE_GROUP_TABLE = 'ezcobj_state_group';
-    public const OBJECT_STATE_GROUP_LANGUAGE_TABLE = 'ezcobj_state_group_language';
-    public const OBJECT_STATE_LINK_TABLE = 'ezcobj_state_link';
+    public const string OBJECT_STATE_TABLE = 'ezcobj_state';
+    public const string OBJECT_STATE_LANGUAGE_TABLE = 'ezcobj_state_language';
+    public const string OBJECT_STATE_GROUP_TABLE = 'ezcobj_state_group';
+    public const string OBJECT_STATE_GROUP_LANGUAGE_TABLE = 'ezcobj_state_group_language';
+    public const string OBJECT_STATE_LINK_TABLE = 'ezcobj_state_link';
 
-    public const OBJECT_STATE_TABLE_SEQ = 'ezcobj_state_id_seq';
-    public const OBJECT_STATE_GROUP_TABLE_SEQ = 'ezcobj_state_group_id_seq';
+    public const string OBJECT_STATE_TABLE_SEQ = 'ezcobj_state_id_seq';
+    public const string OBJECT_STATE_GROUP_TABLE_SEQ = 'ezcobj_state_group_id_seq';
 
     /**
      * Load data for an object state.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadObjectStateData(int $stateId): array;
 
     /**
      * Load data for an object state by identifier.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadObjectStateDataByIdentifier(
         string $identifier,
@@ -42,21 +46,29 @@ abstract class Gateway
 
     /**
      * Load data for all object states belonging to group with $groupId ID.
+     *
+     * @phpstan-return list<list<array<string,mixed>>>
      */
     abstract public function loadObjectStateListData(int $groupId): array;
 
     /**
      * Load data for an object state group.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadObjectStateGroupData(int $groupId): array;
 
     /**
      * Load data for an object state group by identifier.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadObjectStateGroupDataByIdentifier(string $identifier): array;
 
     /**
      * Load data for all object state groups, filtered by $offset and $limit.
+     *
+     * @phpstan-return list<list<array<string,mixed>>>
      */
     abstract public function loadObjectStateGroupListData(int $offset, int $limit): array;
 
@@ -115,6 +127,8 @@ abstract class Gateway
 
     /**
      * Load object state data for $contentId content from $stateGroupId state group.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadObjectStateDataForContent(
         int $contentId,

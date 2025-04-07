@@ -13,24 +13,15 @@ use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway;
-use PDOException;
 
 /**
  * @internal Internal exception conversion layer.
  */
 final class ExceptionConversion extends Gateway
 {
-    /**
-     * The wrapped gateway.
-     */
-    private Gateway $innerGateway;
+    private DoctrineDatabase $innerGateway;
 
-    /**
-     * Creates a new exception conversion gateway around $innerGateway.
-     *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway $innerGateway
-     */
-    public function __construct(Gateway $innerGateway)
+    public function __construct(DoctrineDatabase $innerGateway)
     {
         $this->innerGateway = $innerGateway;
     }
@@ -39,7 +30,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadObjectStateData($stateId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -48,7 +39,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadObjectStateDataByIdentifier($identifier, $groupId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -57,7 +48,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadObjectStateListData($groupId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -66,7 +57,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadObjectStateGroupData($groupId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -75,7 +66,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadObjectStateGroupDataByIdentifier($identifier);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -84,7 +75,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadObjectStateGroupListData($offset, $limit);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -93,7 +84,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->insertObjectState($objectState, $groupId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -102,7 +93,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->updateObjectState($objectState);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -111,7 +102,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->deleteObjectState($stateId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -120,7 +111,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->updateObjectStateLinks($oldStateId, $newStateId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -129,7 +120,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->deleteObjectStateLinks($stateId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -138,7 +129,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->insertObjectStateGroup($objectStateGroup);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -147,7 +138,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->updateObjectStateGroup($objectStateGroup);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -156,7 +147,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->deleteObjectStateGroup($groupId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -165,7 +156,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->setContentState($contentId, $groupId, $stateId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -174,7 +165,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadObjectStateDataForContent($contentId, $stateGroupId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -183,7 +174,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->getContentCount($stateId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -192,7 +183,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->updateObjectStatePriority($stateId, $priority);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
