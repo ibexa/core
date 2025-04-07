@@ -39,6 +39,7 @@ services:
             $passwordValidator: '@Ibexa\Core\Repository\User\PasswordValidatorInterface'
             $configResolver: '@Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface'
             $nameSchemaService: '@Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface'
+            $contentCollector: '@Ibexa\Core\Repository\Collector\ContentCollector'
             $transactionHandler: '@ibexa.repository.transaction_handler'
 
     Ibexa\Core\Repository\ContentService:
@@ -278,3 +279,7 @@ services:
     Ibexa\Core\Repository\ContentService\RelationListFacade:
         arguments:
             $contentService: '@ibexa.api.service.content'
+
+    Ibexa\Core\Repository\Collector\ContentCollector:
+        tags:
+            - { name: 'kernel.reset', method: 'reset' }

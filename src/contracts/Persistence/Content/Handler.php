@@ -133,6 +133,13 @@ interface Handler
     public function loadVersionInfo($contentId, $versionNo = null);
 
     /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     *
+     * @return int[]
+     */
+    public function loadVersionNoArchivedWithin(int $contentId, int $seconds): array;
+
+    /**
      * Returns the number of versions with draft status created by the given $userId.
      *
      * @param int $userId

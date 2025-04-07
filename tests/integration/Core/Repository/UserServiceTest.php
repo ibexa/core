@@ -35,6 +35,7 @@ use Ibexa\Core\Persistence\Legacy\User\Gateway;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\User\UserGroup;
+use Symfony\Bridge\PhpUnit\ClockMock;
 
 /**
  * Test case for operations in the UserService using in memory storage.
@@ -1729,6 +1730,10 @@ class UserServiceTest extends BaseTest
      */
     public function testUpdateUser()
     {
+        // As \Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testUpdateUserUpdatesExpectedProperties belongs on this test,
+        // and it is the only test that tracks real time passing with delta
+        // but actual password change is done here, therefore for _reasons_ we need to disable ClockMock here.
+        ClockMock::withClockMock(false);
         $repository = $this->getRepository();
 
         $userService = $repository->getUserService();

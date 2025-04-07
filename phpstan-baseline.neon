@@ -8119,6 +8119,12 @@ parameters:
 			path: src/contracts/Variation/VariationPurger.php
 
 		-
+			message: '#^Method Ibexa\\Core\\Base\\Container\\ApiLoader\\RepositoryFactory\:\:buildRepository\(\) has parameter \$languages with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/lib/Base/Container/ApiLoader/RepositoryFactory.php
+
+		-
 			message: '#^Method Ibexa\\Core\\Base\\Container\\Compiler\\AbstractFieldTypeBasedPass\:\:getFieldTypeServiceIds\(\) return type has no value type specified in iterable type iterable\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -64747,12 +64753,6 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
 
 		-
-			message: '#^Call to new Ibexa\\Core\\Repository\\ContentService\(\) on a separate line has no effect\.$#'
-			identifier: new.resultUnused
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:assertForCreateContentContentValidationException\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -64905,12 +64905,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:fixturesForTestUpdateContentNonRedundantFieldSetComplex\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:getPartlyMockedContentService\(\) invoked with 2 parameters, 0\-1 required\.$#'
-			identifier: arguments.count
 			count: 1
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
 

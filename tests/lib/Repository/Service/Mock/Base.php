@@ -21,6 +21,7 @@ use Ibexa\Contracts\Core\Repository\Validator\ContentValidator;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
+use Ibexa\Core\Repository\Collector\ContentCollector;
 use Ibexa\Core\Repository\FieldTypeService;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
@@ -133,6 +134,7 @@ abstract class Base extends TestCase
                 $this->createMock(ConfigResolverInterface::class),
                 $this->createMock(NameSchemaServiceInterface::class),
                 $this->getTransactionHandlerMock(),
+                new ContentCollector(),
                 $serviceSettings,
             );
 

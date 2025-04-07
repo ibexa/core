@@ -22,6 +22,7 @@ use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
+use Ibexa\Core\Repository\Collector\ContentCollector;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Mapper;
 use Ibexa\Core\Repository\Permission\LimitationService;
@@ -90,7 +91,8 @@ final class RepositoryFactory implements LoggerAwareInterface
         PasswordValidatorInterface $passwordValidator,
         ConfigResolverInterface $configResolver,
         NameSchemaServiceInterface $nameSchemaService,
-        TransactionHandler $transactionHandler
+        TransactionHandler $transactionHandler,
+        ContentCollector $contentCollector,
     ): Repository {
         $config = $this->repositoryConfigurationProvider->getRepositoryConfig();
 
@@ -116,6 +118,7 @@ final class RepositoryFactory implements LoggerAwareInterface
             $configResolver,
             $nameSchemaService,
             $transactionHandler,
+            $contentCollector,
             [
                 'role' => [
                     'policyMap' => $this->policyMap,
@@ -124,6 +127,7 @@ final class RepositoryFactory implements LoggerAwareInterface
                 'content' => [
                     'default_version_archive_limit' => $config['options']['default_version_archive_limit'],
                     'remove_archived_versions_on_publish' => $config['options']['remove_archived_versions_on_publish'],
+                    'grace_period_in_seconds' => $config['options']['grace_period_in_seconds'] ?? (int) ini_get('max_execution_time'),
                 ],
             ],
             $this->logger ?? new NullLogger()

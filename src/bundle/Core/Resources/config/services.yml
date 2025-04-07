@@ -285,6 +285,12 @@ services:
         tags:
             - {name: kernel.event_subscriber}
 
+    Ibexa\Bundle\Core\EventSubscriber\ClearCollectedContentCacheSubscriber:
+        autowire: true
+        autoconfigure: true
+        arguments:
+            $cache: '@ibexa.cache_pool'
+
     Ibexa\Bundle\Core\EventSubscriber\TrustedHeaderClientIpEventSubscriber:
         arguments:
             $trustedHeaderName: '%ibexa.trusted_header_client_ip_name%'

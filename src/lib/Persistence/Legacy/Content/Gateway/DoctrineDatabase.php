@@ -911,6 +911,51 @@ final class DoctrineDatabase extends Gateway
         return $queryBuilder->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
+    /**
+     * @return array<int,array<string,mixed>>
+     */
+    public function loadVersionNoArchivedWithin(int $contentId, int $seconds): array
+    {
+        $cutoffTimestamp = time() - $seconds;
+        if ($cutoffTimestamp < 0) {
+            return [];
+        }
+        $queryBuilder = $this->queryBuilder->createVersionInfoFindQueryBuilder();
+        $expr = $queryBuilder->expr();
+
+        $queryBuilder
+            ->andWhere(
+                $expr->eq(
+                    'v.contentobject_id',
+                    $queryBuilder->createNamedParameter(
+                        $contentId,
+                        ParameterType::INTEGER,
+                        ':content_id'
+                    )
+                )
+            )->andWhere(
+                $expr->eq(
+                    'v.status',
+                    $queryBuilder->createNamedParameter(
+                        VersionInfo::STATUS_ARCHIVED,
+                        ParameterType::INTEGER,
+                        ':status'
+                    )
+                )
+            )->andWhere(
+                $expr->gt(
+                    'v.modified',
+                    $queryBuilder->createNamedParameter(
+                        $cutoffTimestamp,
+                        ParameterType::INTEGER,
+                        ':modified'
+                    )
+                )
+            )->orderBy('v.modified', 'DESC');
+
+        return $queryBuilder->execute()->fetchAllAssociative();
+    }
+
     public function countVersionsForUser(int $userId, int $status = VersionInfo::STATUS_DRAFT): int
     {
         $query = $this->connection->createQueryBuilder();
