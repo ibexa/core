@@ -8119,12 +8119,6 @@ parameters:
 			path: src/contracts/Variation/VariationPurger.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Base\\Container\\ApiLoader\\RepositoryFactory\:\:buildRepository\(\) has parameter \$languages with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Base/Container/ApiLoader/RepositoryFactory.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Base\\Container\\Compiler\\AbstractFieldTypeBasedPass\:\:getFieldTypeServiceIds\(\) return type has no value type specified in iterable type iterable\.$#'
 			identifier: missingType.iterableValue
 			count: 1
