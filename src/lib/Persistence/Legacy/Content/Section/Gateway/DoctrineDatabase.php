@@ -21,20 +21,17 @@ final class DoctrineDatabase extends Gateway
 {
     private Connection $connection;
 
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
-    private $dbPlatform;
-
     /**
      * Creates a new DoctrineDatabase Section Gateway.
-     *
-     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
-        $this->dbPlatform = $this->connection->getDatabasePlatform();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function insertSection(string $name, string $identifier): int
     {
         $query = $this->connection->createQueryBuilder();
@@ -47,11 +44,14 @@ final class DoctrineDatabase extends Gateway
                 ]
             );
 
-        $query->execute();
+        $query->executeStatement();
 
         return (int)$this->connection->lastInsertId(Gateway::CONTENT_SECTION_SEQ);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function updateSection(int $id, string $name, string $identifier): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -66,9 +66,12 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadSectionData(int $id): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -81,22 +84,24 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $statement = $query->execute();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadAllSectionData(): array
     {
         $query = $this->connection->createQueryBuilder();
         $query->select('id', 'identifier', 'name')
             ->from(self::CONTENT_SECTION_TABLE);
 
-        $statement = $query->execute();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadSectionDataByIdentifier(string $identifier): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -113,16 +118,17 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->execute();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function countContentObjectsInSection(int $id): int
     {
         $query = $this->connection->createQueryBuilder();
         $query->select(
-            $this->dbPlatform->getCountExpression('id')
+            'COUNT(id)'
         )->from(
             'ezcontentobject'
         )->where(
@@ -132,17 +138,18 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->execute();
-
-        return (int)$statement->fetchColumn();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function countPoliciesUsingSection(int $id): int
     {
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
-            ->select($this->dbPlatform->getCountExpression('l.id'))
+            ->select('COUNT(l.id)')
             ->from('ezpolicy_limitation', 'l')
             ->join(
                 'l',
@@ -167,15 +174,18 @@ final class DoctrineDatabase extends Gateway
             )
         ;
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function countRoleAssignmentsUsingSection(int $id): int
     {
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
-            ->select($this->dbPlatform->getCountExpression('ur.id'))
+            ->select('COUNT(ur.id)')
             ->from('ezuser_role', 'ur')
             ->where(
                 $expr->eq(
@@ -191,9 +201,12 @@ final class DoctrineDatabase extends Gateway
             )
         ;
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function deleteSection(int $id): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -206,9 +219,12 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function assignSectionToContent(int $sectionId, int $contentId): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -225,6 +241,6 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 }

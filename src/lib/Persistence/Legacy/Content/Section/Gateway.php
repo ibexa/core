@@ -15,8 +15,8 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Section;
  */
 abstract class Gateway
 {
-    public const CONTENT_SECTION_SEQ = 'ezsection_id_seq';
-    public const CONTENT_SECTION_TABLE = 'ezsection';
+    public const string CONTENT_SECTION_SEQ = 'ezsection_id_seq';
+    public const string CONTENT_SECTION_TABLE = 'ezsection';
 
     /**
      * Inserts a new section with $name and $identifier.
@@ -32,16 +32,22 @@ abstract class Gateway
 
     /**
      * Loads data for section with $id.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadSectionData(int $id): array;
 
     /**
      * Loads data for all sections.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadAllSectionData(): array;
 
     /**
      * Loads data for section with $identifier.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadSectionDataByIdentifier(string $identifier): array;
 
