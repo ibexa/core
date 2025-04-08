@@ -556,6 +556,7 @@ class TreeHandlerTest extends TestCase
                     $this->getContentGatewayMock(),
                     $this->getContentMapperMock(),
                     $this->getFieldHandlerMock(),
+                    [],
                 ]
             )
             ->getMock();
@@ -571,7 +572,8 @@ class TreeHandlerTest extends TestCase
             $this->getLocationMapperMock(),
             $this->getContentGatewayMock(),
             $this->getContentMapperMock(),
-            $this->getFieldHandlerMock()
+            $this->getFieldHandlerMock(),
+            [],
         );
     }
 }
