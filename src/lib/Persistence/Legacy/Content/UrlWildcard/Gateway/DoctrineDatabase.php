@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
@@ -30,16 +29,16 @@ use RuntimeException;
 final class DoctrineDatabase extends Gateway
 {
     /**
-     * 2^30, since PHP_INT_MAX can cause overflows in DB systems, if PHP is run
-     * on 64 bit systems.
+     * 2^30, since PHP_INT_MAX can cause overflows in DB systems, if PHP is run on 64-bit systems.
      */
-    private const MAX_LIMIT = 1073741824;
+    private const int MAX_LIMIT = 1073741824;
 
     private Connection $connection;
 
     protected CriteriaConverter $criteriaConverter;
 
-    public const SORT_DIRECTION_MAP = [
+    /** @phpstan-var array<\Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\SortClause::SORT_*, 'ASC'|'DESC'> */
+    public const array SORT_DIRECTION_MAP = [
         SortClause::SORT_ASC => 'ASC',
         SortClause::SORT_DESC => 'DESC',
     ];
@@ -50,6 +49,9 @@ final class DoctrineDatabase extends Gateway
         $this->criteriaConverter = $criteriaConverter;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function insertUrlWildcard(UrlWildcard $urlWildcard): int
     {
         $query = $this->connection->createQueryBuilder();
@@ -58,12 +60,10 @@ final class DoctrineDatabase extends Gateway
             ->values(
                 [
                     'destination_url' => $query->createPositionalParameter(
-                        $this->trimUrl($urlWildcard->destinationUrl),
-                        ParameterType::STRING
+                        $this->trimUrl($urlWildcard->destinationUrl)
                     ),
                     'source_url' => $query->createPositionalParameter(
-                        $this->trimUrl($urlWildcard->sourceUrl),
-                        ParameterType::STRING
+                        $this->trimUrl($urlWildcard->sourceUrl)
                     ),
                     'type' => $query->createPositionalParameter(
                         $urlWildcard->forward ? 1 : 2,
@@ -72,11 +72,14 @@ final class DoctrineDatabase extends Gateway
                 ]
             );
 
-        $query->execute();
+        $query->executeStatement();
 
         return (int)$this->connection->lastInsertId(self::URL_WILDCARD_SEQ);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function updateUrlWildcard(
         int $id,
         string $sourceUrl,
@@ -90,14 +93,12 @@ final class DoctrineDatabase extends Gateway
             ->set(
                 'destination_url',
                 $query->createPositionalParameter(
-                    $this->trimUrl($destinationUrl),
-                    ParameterType::STRING
+                    $this->trimUrl($destinationUrl)
                 ),
             )->set(
                 'source_url',
                 $query->createPositionalParameter(
-                    $this->trimUrl($sourceUrl),
-                    ParameterType::STRING
+                    $this->trimUrl($sourceUrl)
                 ),
             )->set(
                 'type',
@@ -117,9 +118,12 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function deleteUrlWildcard(int $id): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -131,7 +135,7 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($id, ParameterType::INTEGER)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     private function buildLoadUrlWildcardDataQuery(): QueryBuilder
@@ -144,6 +148,9 @@ final class DoctrineDatabase extends Gateway
         return $query;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadUrlWildcardData(int $id): array
     {
         $query = $this->buildLoadUrlWildcardDataQuery();
@@ -154,11 +161,13 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($id, ParameterType::INTEGER)
                 )
             );
-        $result = $query->execute()->fetch(FetchMode::ASSOCIATIVE);
 
-        return false !== $result ? $result : [];
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadUrlWildcardsData(int $offset = 0, int $limit = -1): array
     {
         $query = $this->buildLoadUrlWildcardDataQuery();
@@ -166,11 +175,14 @@ final class DoctrineDatabase extends Gateway
             ->setMaxResults($limit > 0 ? $limit : self::MAX_LIMIT)
             ->setFirstResult($offset);
 
-        $stmt = $query->execute();
-
-        return $stmt->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function find(
         Criterion $criterion,
         int $offset,
@@ -204,14 +216,15 @@ final class DoctrineDatabase extends Gateway
             $query->addOrderBy($sortClause->target, $this->getQuerySortingDirection($sortClause->direction));
         }
 
-        $statement = $query->execute();
-
         return [
             'count' => $count,
-            'rows' => $statement->fetchAllAssociative(),
+            'rows' => $query->executeQuery()->fetchAllAssociative(),
         ];
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadUrlWildcardBySourceUrl(string $sourceUrl): array
     {
         $query = $this->buildLoadUrlWildcardDataQuery();
@@ -224,25 +237,23 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $result = $query->execute()->fetch(FetchMode::ASSOCIATIVE);
-
-        return false !== $result ? $result : [];
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function countAll(): int
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select($this->connection->getDatabasePlatform()->getCountExpression('id'))
+            ->select('COUNT(id)')
             ->from(self::URL_WILDCARD_TABLE);
 
-        return (int) $query->execute()->fetchColumn();
+        return (int) $query->executeQuery()->fetchOne();
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion $criterion
-     *
-     * @throws \Doctrine\DBAL\Driver\Exception
      * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
@@ -250,11 +261,11 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select($this->connection->getDatabasePlatform()->getCountExpression('url_wildcard.id'))
+            ->select('COUNT(url_wildcard.id)')
             ->from(self::URL_WILDCARD_TABLE, 'url_wildcard')
             ->where($this->criteriaConverter->convertCriteria($query, $criterion));
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     /**

@@ -18,8 +18,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion;
  */
 abstract class Gateway
 {
-    public const URL_WILDCARD_TABLE = 'ezurlwildcard';
-    public const URL_WILDCARD_SEQ = 'ezurlwildcard_id_seq';
+    public const string URL_WILDCARD_TABLE = 'ezurlwildcard';
+    public const string URL_WILDCARD_SEQ = 'ezurlwildcard_id_seq';
 
     /**
      * Insert the given UrlWildcard.
@@ -43,16 +43,22 @@ abstract class Gateway
 
     /**
      * Load an array with data about UrlWildcard with $id.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadUrlWildcardData(int $id): array;
 
     /**
      * Load an array with data about UrlWildcards (paged).
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadUrlWildcardsData(int $offset = 0, int $limit = -1): array;
 
     /**
      * Selects URLWildcards matching specified criteria.
+     *
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sortClauses
      *
      * @return array{
      *     "rows": mixed,
@@ -72,6 +78,8 @@ abstract class Gateway
 
     /**
      * Load the UrlWildcard by source url $sourceUrl.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadUrlWildcardBySourceUrl(string $sourceUrl): array;
 
