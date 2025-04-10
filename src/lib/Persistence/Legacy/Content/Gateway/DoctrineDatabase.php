@@ -23,7 +23,7 @@ use Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
-use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
 use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
@@ -1187,7 +1187,7 @@ final class DoctrineDatabase extends Gateway
                 )
             )
             ->setParameter('content_id', $contentId, ParameterType::INTEGER)
-            ->setParameter('relation_type', Relation::FIELD | Relation::ASSET, ParameterType::INTEGER);
+            ->setParameter('relation_type', RelationType::FIELD->value | RelationType::ASSET->value, ParameterType::INTEGER);
 
         $statement = $query->execute();
 

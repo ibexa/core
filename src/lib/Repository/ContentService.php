@@ -2251,7 +2251,7 @@ class ContentService implements ContentServiceInterface
                         'sourceContentVersionNo' => $sourceVersion->versionNo,
                         'sourceFieldDefinitionId' => null,
                         'destinationContentId' => $destinationContent->id,
-                        'type' => APIRelation::COMMON,
+                        'type' => RelationType::COMMON->value,
                     ]
                 )
             );
@@ -2295,7 +2295,7 @@ class ContentService implements ContentServiceInterface
         $spiRelationsCount = $this->persistenceHandler->contentHandler()->countRelations(
             (int)$sourceVersion->getContentInfo()->getId(),
             $sourceVersion->versionNo,
-            APIRelation::COMMON
+            RelationType::COMMON->value
         );
 
         if ($spiRelationsCount === 0) {
@@ -2310,7 +2310,7 @@ class ContentService implements ContentServiceInterface
             $spiRelationsCount,
             0,
             $sourceVersion->versionNo,
-            APIRelation::COMMON
+            RelationType::COMMON->value
         );
 
         // there should be only one relation of type COMMON for each destination,
@@ -2322,7 +2322,7 @@ class ContentService implements ContentServiceInterface
                 if ($spiRelation->destinationContentId == $destinationContent->id) {
                     $this->persistenceHandler->contentHandler()->removeRelation(
                         $spiRelation->id,
-                        APIRelation::COMMON,
+                        RelationType::COMMON->value,
                         $spiRelation->destinationContentId
                     );
                 }

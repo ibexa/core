@@ -18,7 +18,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct as LocationCr
 use Ibexa\Contracts\Core\Persistence\Content\Relation as SPIRelation;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
-use Ibexa\Contracts\Core\Repository\Values\Content\Relation as RelationValue;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
@@ -682,7 +682,7 @@ class MapperTest extends LanguageAwareTestCase
         $struct->sourceContentId = 0;
         $struct->sourceContentVersionNo = 1;
         $struct->sourceFieldDefinitionId = 1;
-        $struct->type = RelationValue::COMMON;
+        $struct->type = RelationType::COMMON->value;
 
         return $struct;
     }
