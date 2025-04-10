@@ -19,6 +19,7 @@ use Ibexa\Contracts\Core\Repository\Validator\ContentValidator;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
+use Ibexa\Core\Repository\Collector\ContentCollector;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Mapper;
 use Ibexa\Core\Repository\Permission\LimitationService;
@@ -93,7 +94,8 @@ class RepositoryFactory implements ContainerAwareInterface
         LocationFilteringHandler $locationFilteringHandler,
         PasswordValidatorInterface $passwordValidator,
         ConfigResolverInterface $configResolver,
-        NameSchemaServiceInterface $nameSchemaService
+        NameSchemaServiceInterface $nameSchemaService,
+        ContentCollector $contentCollector
     ): Repository {
         $config = $this->container->get(RepositoryConfigurationProvider::class)->getRepositoryConfig();
 
@@ -119,6 +121,7 @@ class RepositoryFactory implements ContainerAwareInterface
             $passwordValidator,
             $configResolver,
             $nameSchemaService,
+            $contentCollector,
             [
                 'role' => [
                     'policyMap' => $this->policyMap,
@@ -127,6 +130,7 @@ class RepositoryFactory implements ContainerAwareInterface
                 'content' => [
                     'default_version_archive_limit' => $config['options']['default_version_archive_limit'],
                     'remove_archived_versions_on_publish' => $config['options']['remove_archived_versions_on_publish'],
+                    'grace_period_in_seconds' => $config['options']['grace_period_in_seconds'] ?? (int) ini_get('max_execution_time'),
                 ],
             ],
             $this->logger

@@ -45,6 +45,7 @@ use Ibexa\Core\Base\Exceptions\ContentValidationException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value;
+use Ibexa\Core\Repository\Collector\ContentCollector;
 use Ibexa\Core\Repository\ContentService;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Values\Content\Content;
@@ -99,6 +100,7 @@ class ContentTest extends BaseServiceMockTest
             $contentMapper,
             $contentValidatorStrategy,
             $contentFilteringHandlerMock,
+            new ContentCollector(),
             $settings
         );
     }
@@ -493,8 +495,6 @@ class ContentTest extends BaseServiceMockTest
 
     public function testLoadContentNotPublishedStatusUnauthorized()
     {
-        $this->expectException(UnauthorizedException::class);
-
         $permissionResolver = $this->getPermissionResolverMock();
         $contentService = $this->getPartlyMockedContentService(['internalLoadContentById']);
         $content = $this->createMock(APIContent::class);
@@ -524,6 +524,7 @@ class ContentTest extends BaseServiceMockTest
                 )
             );
 
+        $this->expectException(UnauthorizedException::class);
         $contentService->loadContent($contentId);
     }
 
@@ -3317,8 +3318,7 @@ class ContentTest extends BaseServiceMockTest
             ->expects($this->once())
             ->method('getCurrentUserReference')
             ->willReturn(new UserReference(169));
-        $mockedService = $this->getPartlyMockedContentService(['internalLoadContentById'], $permissionResolverMock);
-        $permissionResolverMock = $this->getPermissionResolverMock();
+        $mockedService = $this->getPartlyMockedContentService(['internalLoadContentById']);
         /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandlerMock */
         $contentHandlerMock = $this->getPersistenceMock()->contentHandler();
         /** @var \PHPUnit\Framework\MockObject\MockObject $languageHandlerMock */
@@ -6271,7 +6271,7 @@ class ContentTest extends BaseServiceMockTest
      *
      * @return \Ibexa\Core\Repository\ContentService|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getPartlyMockedContentService(array $methods = null)
+    protected function getPartlyMockedContentService(array $methods = null, int $gracePeriodInSeconds = 0)
     {
         if (!isset($this->partlyMockedContentService)) {
             $this->partlyMockedContentService = $this->getMockBuilder(ContentService::class)
@@ -6288,7 +6288,10 @@ class ContentTest extends BaseServiceMockTest
                         $this->getContentMapper(),
                         $this->getContentValidatorStrategy(),
                         $this->getContentFilteringHandlerMock(),
-                        [],
+                        new ContentCollector(),
+                        [
+                            'grace_period_in_seconds' => $gracePeriodInSeconds,
+                        ],
                     ]
                 )
                 ->getMock();
