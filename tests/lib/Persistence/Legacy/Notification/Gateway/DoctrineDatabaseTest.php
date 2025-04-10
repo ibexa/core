@@ -115,7 +115,7 @@ class DoctrineDatabaseTest extends TestCase
         $offset = 1;
         $limit = 3;
 
-        $results = $this->getGateway()->loadUserNotifications($userId, $offset, $limit);
+        $resultsWithoutQuery = $this->getGateway()->loadUserNotifications($userId, $offset, $limit);
 
         $this->assertEquals([
             [
@@ -142,7 +142,34 @@ class DoctrineDatabaseTest extends TestCase
                 'created' => '1529998652',
                 'data' => null,
             ],
-        ], $results);
+        ], $resultsWithoutQuery);
+
+        $query = ['type' => 'Workflow:Review'];
+        $resultsWithQuery = $this->getGateway()->loadUserNotifications($userId, $offset, $limit, $query);
+
+        $this->assertEquals([
+            [
+                'id' => '4',
+                'owner_id' => '14',
+                'is_pending' => 1,
+                'type' => 'Workflow:Review',
+                'created' => '1530005852',
+                'data' => null,
+            ],
+            [
+                'id' => '1',
+                'owner_id' => '14',
+                'is_pending' => 1,
+                'type' => 'Workflow:Review',
+                'created' => '1529995052',
+                'data' => null,
+            ],
+        ], $resultsWithQuery);
+
+        $queryNoResults = ['type' => 'NonExistingType'];
+        $resultsWithNoResults = $this->getGateway()->loadUserNotifications($userId, $offset, $limit, $queryNoResults);
+
+        $this->assertEquals([], $resultsWithNoResults);
     }
 
     public function testDelete()

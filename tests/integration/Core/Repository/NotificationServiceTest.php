@@ -28,15 +28,16 @@ class NotificationServiceTest extends BaseTest
     {
         $repository = $this->getRepository();
 
-        /* BEGIN: Use Case */
         $notificationService = $repository->getNotificationService();
-        $notificationList = $notificationService->loadNotifications(0, 25);
-        /* END: Use Case */
+        $query = ['type' => 'Workflow:Review'];
+        $notificationList = $notificationService->loadNotifications(0, 25, $query);
 
         $this->assertInstanceOf(NotificationList::class, $notificationList);
         $this->assertIsArray($notificationList->items);
         $this->assertIsInt($notificationList->totalCount);
-        $this->assertEquals(5, $notificationList->totalCount);
+
+        $expectedCount = 3;
+        $this->assertEquals($expectedCount, $notificationList->totalCount);
     }
 
     /**

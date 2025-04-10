@@ -90,20 +90,20 @@ class Handler implements HandlerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string[] $query
      */
-    public function countNotifications(int $userId): int
+    public function countNotifications(int $userId, array $query = []): int
     {
-        return $this->gateway->countUserNotifications($userId);
+        return $this->gateway->countUserNotifications($userId, $query);
     }
 
     /**
-     * {@inheritdoc}
+     * @param string[] $query
      */
-    public function loadUserNotifications(int $userId, int $offset, int $limit): array
+    public function loadUserNotifications(int $userId, int $offset, int $limit, array $query = []): array
     {
         return $this->mapper->extractNotificationsFromRows(
-            $this->gateway->loadUserNotifications($userId, $offset, $limit)
+            $this->gateway->loadUserNotifications($userId, $offset, $limit, $query)
         );
     }
 
