@@ -14,36 +14,21 @@ abstract class Gateway
 {
     /**
      * Store UserPreference ValueObject in persistent storage.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct $userPreference
-     *
-     * @return int
      */
-    abstract public function setUserPreference(UserPreferenceSetStruct $userPreference): int;
+    abstract public function setUserPreference(UserPreferenceSetStruct $userPreferenceSetStruct): int;
 
     /**
      * Get UserPreference by its user ID and name.
      *
-     * @param int $userId
-     * @param string $name
      *
-     * @return array
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function getUserPreferenceByUserIdAndName(int $userId, string $name): array;
 
-    /**
-     * @param int $userId
-     *
-     * @return int
-     */
     abstract public function countUserPreferences(int $userId): int;
 
     /**
-     * @param int $userId
-     * @param int $offset
-     * @param int $limit
-     *
-     * @return array
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadUserPreferences(int $userId, int $offset = 0, int $limit = -1): array;
 }

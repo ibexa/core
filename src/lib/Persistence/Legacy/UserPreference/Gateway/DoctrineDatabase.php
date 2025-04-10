@@ -15,12 +15,16 @@ use Ibexa\Core\Persistence\Legacy\UserPreference\Gateway;
 
 class DoctrineDatabase extends Gateway
 {
-    public const TABLE_USER_PREFERENCES = 'ezpreferences';
+    public const string TABLE_USER_PREFERENCES = 'ezpreferences';
 
-    public const COLUMN_ID = 'id';
-    public const COLUMN_NAME = 'name';
-    public const COLUMN_USER_ID = 'user_id';
-    public const COLUMN_VALUE = 'value';
+    public const string COLUMN_ID = 'id';
+    public const string COLUMN_NAME = 'name';
+    public const string COLUMN_USER_ID = 'user_id';
+    public const string COLUMN_VALUE = 'value';
+    private const string VALUE_PARAM_NAME = 'value';
+    private const string ID_PARAM_NAME = 'id';
+    private const string NAME_PARAM_NAME = 'name';
+    private const string USER_ID_PARAM_NAME = 'user_id';
 
     protected Connection $connection;
 
@@ -30,13 +34,16 @@ class DoctrineDatabase extends Gateway
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function setUserPreference(UserPreferenceSetStruct $userPreference): int
+    public function setUserPreference(UserPreferenceSetStruct $userPreferenceSetStruct): int
     {
         $query = $this->connection->createQueryBuilder();
 
-        $userPreferences = $this->getUserPreferenceByUserIdAndName($userPreference->userId, $userPreference->name);
+        $userPreferences = $this->getUserPreferenceByUserIdAndName(
+            $userPreferenceSetStruct->userId,
+            $userPreferenceSetStruct->name
+        );
 
         if (0 < count($userPreferences)) {
             $currentUserPreference = reset($userPreferences);
@@ -44,12 +51,12 @@ class DoctrineDatabase extends Gateway
 
             $query
                 ->update(self::TABLE_USER_PREFERENCES)
-                ->set(self::COLUMN_VALUE, ':value')
-                ->where($query->expr()->eq(self::COLUMN_ID, ':id'))
-                ->setParameter(':id', $currentUserPreferenceId, ParameterType::INTEGER)
-                ->setParameter(':value', $userPreference->value, ParameterType::STRING);
+                ->set(self::COLUMN_VALUE, ':' . self::VALUE_PARAM_NAME)
+                ->where($query->expr()->eq(self::COLUMN_ID, ':' . self::ID_PARAM_NAME))
+                ->setParameter(self::ID_PARAM_NAME, $currentUserPreferenceId, ParameterType::INTEGER)
+                ->setParameter(self::VALUE_PARAM_NAME, $userPreferenceSetStruct->value);
 
-            $query->execute();
+            $query->executeStatement();
 
             return $currentUserPreferenceId;
         }
@@ -57,19 +64,22 @@ class DoctrineDatabase extends Gateway
         $query
             ->insert(self::TABLE_USER_PREFERENCES)
             ->values([
-                self::COLUMN_NAME => ':name',
-                self::COLUMN_USER_ID => ':user_id',
-                self::COLUMN_VALUE => ':value',
+                self::COLUMN_NAME => ':' . self::NAME_PARAM_NAME,
+                self::COLUMN_USER_ID => ':' . self::USER_ID_PARAM_NAME,
+                self::COLUMN_VALUE => ':' . self::VALUE_PARAM_NAME,
             ])
-            ->setParameter(':name', $userPreference->name, ParameterType::STRING)
-            ->setParameter(':user_id', $userPreference->userId, ParameterType::INTEGER)
-            ->setParameter(':value', $userPreference->value, ParameterType::STRING);
+            ->setParameter(self::NAME_PARAM_NAME, $userPreferenceSetStruct->name)
+            ->setParameter(self::USER_ID_PARAM_NAME, $userPreferenceSetStruct->userId, ParameterType::INTEGER)
+            ->setParameter(self::VALUE_PARAM_NAME, $userPreferenceSetStruct->value);
 
-        $query->execute();
+        $query->executeStatement();
 
         return (int) $this->connection->lastInsertId();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function getUserPreferenceByUserIdAndName(int $userId, string $name): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -77,16 +87,16 @@ class DoctrineDatabase extends Gateway
             ->select(...$this->getColumns())
             ->from(self::TABLE_USER_PREFERENCES)
             ->where($query->expr()->eq(self::COLUMN_USER_ID, ':userId'))
-            ->andWhere($query->expr()->eq(self::COLUMN_NAME, ':name'));
+            ->andWhere($query->expr()->eq(self::COLUMN_NAME, ':' . self::NAME_PARAM_NAME));
 
-        $query->setParameter(':userId', $userId, ParameterType::INTEGER);
-        $query->setParameter(':name', $name, ParameterType::STRING);
+        $query->setParameter('userId', $userId, ParameterType::INTEGER);
+        $query->setParameter(self::NAME_PARAM_NAME, $name);
 
         return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Doctrine\DBAL\Exception
      */
     public function loadUserPreferences(int $userId, int $offset = 0, int $limit = -1): array
     {
@@ -94,7 +104,7 @@ class DoctrineDatabase extends Gateway
         $query
             ->select(...$this->getColumns())
             ->from(self::TABLE_USER_PREFERENCES)
-            ->where($query->expr()->eq(self::COLUMN_USER_ID, ':user_id'))
+            ->where($query->expr()->eq(self::COLUMN_USER_ID, ':' . self::USER_ID_PARAM_NAME))
             ->setFirstResult($offset);
 
         if ($limit > 0) {
@@ -102,28 +112,31 @@ class DoctrineDatabase extends Gateway
         }
 
         $query->orderBy(self::COLUMN_ID, 'ASC');
-        $query->setParameter(':user_id', $userId, ParameterType::INTEGER);
+        $query->setParameter(self::USER_ID_PARAM_NAME, $userId, ParameterType::INTEGER);
 
         return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Doctrine\DBAL\Exception
      */
     public function countUserPreferences(int $userId): int
     {
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(
-                $this->connection->getDatabasePlatform()->getCountExpression(self::COLUMN_ID)
+                'COUNT(self::COLUMN_ID)'
             )
             ->from(self::TABLE_USER_PREFERENCES)
-            ->where($query->expr()->eq(self::COLUMN_USER_ID, ':user_id'))
-            ->setParameter(':user_id', $userId, ParameterType::INTEGER);
+            ->where($query->expr()->eq(self::COLUMN_USER_ID, ':' . self::USER_ID_PARAM_NAME))
+            ->setParameter(self::USER_ID_PARAM_NAME, $userId, ParameterType::INTEGER);
 
-        return (int) $query->execute()->fetchColumn();
+        return (int) $query->executeQuery()->fetchOne();
     }
 
+    /**
+     * @return string[]
+     */
     private function getColumns(): array
     {
         return [
