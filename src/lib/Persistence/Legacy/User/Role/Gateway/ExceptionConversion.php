@@ -14,24 +14,15 @@ use Ibexa\Contracts\Core\Persistence\User\Role;
 use Ibexa\Contracts\Core\Persistence\User\RoleUpdateStruct;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\User\Role\Gateway;
-use PDOException;
 
 /**
  * @internal Internal exception conversion layer.
  */
 final class ExceptionConversion extends Gateway
 {
-    /**
-     * The wrapped gateway.
-     */
-    private Gateway $innerGateway;
+    private DoctrineDatabase $innerGateway;
 
-    /**
-     * Creates a new exception conversion gateway around $innerGateway.
-     *
-     * @param \Ibexa\Core\Persistence\Legacy\User\Role\Gateway $innerGateway
-     */
-    public function __construct(Gateway $innerGateway)
+    public function __construct(DoctrineDatabase $innerGateway)
     {
         $this->innerGateway = $innerGateway;
     }
@@ -40,7 +31,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->createRole($role);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -49,7 +40,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->copyRole($role);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -58,7 +49,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadRole($roleId, $status);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -69,7 +60,7 @@ final class ExceptionConversion extends Gateway
     ): array {
         try {
             return $this->innerGateway->loadRoleByIdentifier($identifier, $status);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -78,7 +69,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadRoleDraftByRoleId($roleId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -87,7 +78,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadRoles();
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -98,7 +89,7 @@ final class ExceptionConversion extends Gateway
     ): array {
         try {
             return $this->innerGateway->loadRolesForContentObjects($contentIds);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -107,7 +98,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadRoleAssignment($roleAssignmentId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -116,7 +107,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadRoleAssignmentsByGroupId($groupId, $inherited);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -125,7 +116,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadRoleAssignmentsByRoleId($roleId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -134,7 +125,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadRoleAssignmentsByRoleIdWithOffsetAndLimit($roleId, $offset, $limit);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -143,7 +134,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countRoleAssignments($roleId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -152,7 +143,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadPoliciesByUserId($userId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -161,7 +152,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->updateRole($role);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -170,7 +161,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->deleteRole($roleId, $status);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -179,7 +170,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->publishRoleDraft($roleDraftId, $originalRoleId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -188,7 +179,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->addPolicy($roleId, $policy);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -197,7 +188,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->addPolicyLimitations($policyId, $limitations);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -206,7 +197,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->removePolicy($policyId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -215,7 +206,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->removePolicyLimitations($policyId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
