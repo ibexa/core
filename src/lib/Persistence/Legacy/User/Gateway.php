@@ -18,25 +18,33 @@ use Ibexa\Contracts\Core\Persistence\User\UserTokenUpdateStruct;
  */
 abstract class Gateway
 {
-    public const USER_TABLE = 'ezuser';
+    public const string USER_TABLE = 'ezuser';
 
     /**
      * Load a User by User ID.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function load(int $userId): array;
 
     /**
      * Load a User by User login.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadByLogin(string $login): array;
 
     /**
      * Load a User by User e-mail.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadByEmail(string $email): array;
 
     /**
      * Load a User by User token.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadUserByToken(string $hash): array;
 

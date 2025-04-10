@@ -62,8 +62,7 @@ final class DoctrineDatabase extends Gateway
                     'LOWER(u.login)',
                     // Index is case in-sensitive, on some db's lowercase, so we lowercase $login
                     $query->createPositionalParameter(
-                        mb_strtolower($login, 'UTF-8'),
-                        ParameterType::STRING
+                        mb_strtolower($login, 'UTF-8')
                     )
                 )
             );
@@ -80,7 +79,7 @@ final class DoctrineDatabase extends Gateway
         $query->where(
             $query->expr()->eq(
                 'u.email',
-                $query->createPositionalParameter($email, ParameterType::STRING)
+                $query->createPositionalParameter($email)
             )
         );
 
