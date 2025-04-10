@@ -62,8 +62,7 @@ final class DoctrineDatabase extends Gateway
                     'LOWER(u.login)',
                     // Index is case in-sensitive, on some db's lowercase, so we lowercase $login
                     $query->createPositionalParameter(
-                        mb_strtolower($login, 'UTF-8'),
-                        ParameterType::STRING
+                        mb_strtolower($login, 'UTF-8')
                     )
                 )
             );
@@ -80,7 +79,7 @@ final class DoctrineDatabase extends Gateway
         $query->where(
             $query->expr()->eq(
                 'u.email',
-                $query->createPositionalParameter($email, ParameterType::STRING)
+                $query->createPositionalParameter($email)
             )
         );
 
@@ -131,16 +130,16 @@ final class DoctrineDatabase extends Gateway
             ->set('password_hash', ':passwordHash')
             ->set('password_hash_type', ':passwordHashType')
             ->set('password_updated_at', ':passwordUpdatedAt')
-            ->setParameter(':passwordHash', $user->passwordHash, ParameterType::STRING)
-            ->setParameter(':passwordHashType', $user->hashAlgorithm, ParameterType::INTEGER)
-            ->setParameter(':passwordUpdatedAt', $user->passwordUpdatedAt)
+            ->setParameter('passwordHash', $user->passwordHash, ParameterType::STRING)
+            ->setParameter('passwordHashType', $user->hashAlgorithm, ParameterType::INTEGER)
+            ->setParameter('passwordUpdatedAt', $user->passwordUpdatedAt)
             ->where(
                 $queryBuilder->expr()->eq(
                     $this->connection->quoteIdentifier('contentobject_id'),
                     ':userId'
                 )
             )
-            ->setParameter(':userId', $user->id, ParameterType::INTEGER);
+            ->setParameter('userId', $user->id, ParameterType::INTEGER);
 
         $queryBuilder->executeStatement();
     }
