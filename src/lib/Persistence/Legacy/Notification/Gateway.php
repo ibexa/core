@@ -25,15 +25,13 @@ abstract class Gateway
     /**
      * Get Notification by its id.
      *
-     * @param int $notificationId
-     *
-     * @return array
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function getNotificationById(int $notificationId): array;
 
     /**
      * Update Notification ValueObject in persistent storage.
-     * There's no edit feature but it's essential to mark Notification as read.
+     * There's no edit feature, but it's essential to mark Notification as read.
      *
      * @param \Ibexa\Contracts\Core\Persistence\Notification\Notification $notification
      *
@@ -62,7 +60,7 @@ abstract class Gateway
      * @param int $offset
      * @param int $limit
      *
-     * @return array
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadUserNotifications(int $userId, int $offset = 0, int $limit = -1): array;
 
