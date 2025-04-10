@@ -12,30 +12,29 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 /**
  * The Content Search Gateway provides the implementation for one database to
  * retrieve the desired content objects.
+ *
+ * @phpstan-import-type TSearchLanguageFilter from \Ibexa\Contracts\Core\Repository\SearchService
  */
 abstract class Gateway
 {
     /**
      * Returns a list of object satisfying the $criterion.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface $criterion
-     * @param int $offset
-     * @param int $limit
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sort
-     * @param array $languageFilter
-     * @param bool $doCount
      *
-     * @return mixed[][]
+     * @phpstan-param TSearchLanguageFilter $languageFilter
+     *
+     * @phpstan-return array{count: int|null, rows: list<array<string, mixed>> }
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if Criterion is not applicable to its target
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException if a given Criterion Handler or Sort Clause is not implemented
      */
     abstract public function find(
         CriterionInterface $criterion,
-        $offset,
-        $limit,
+        int $offset,
+        int $limit,
         array $sort = null,
         array $languageFilter = [],
-        $doCount = true
+        bool $doCount = true
     ): array;
 }

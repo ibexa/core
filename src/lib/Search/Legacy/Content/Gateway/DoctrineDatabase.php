@@ -9,6 +9,8 @@ namespace Ibexa\Core\Search\Legacy\Content\Gateway;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
@@ -20,17 +22,19 @@ use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
 use Ibexa\Core\Search\Legacy\Content\Gateway;
+use LogicException;
 use RuntimeException;
 
 /**
  * Content locator gateway implementation using the Doctrine database.
+ *
+ * @phpstan-import-type TSearchLanguageFilter from \Ibexa\Contracts\Core\Repository\SearchService
  */
 final class DoctrineDatabase extends Gateway
 {
     private Connection $connection;
 
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
-    private $dbPlatform;
+    private AbstractPlatform $dbPlatform;
 
     /**
      * Criteria converter.
@@ -47,9 +51,6 @@ final class DoctrineDatabase extends Gateway
      */
     private Handler $languageHandler;
 
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
     public function __construct(
         Connection $connection,
         CriteriaConverter $criteriaConverter,
@@ -57,19 +58,23 @@ final class DoctrineDatabase extends Gateway
         LanguageHandler $languageHandler
     ) {
         $this->connection = $connection;
-        $this->dbPlatform = $connection->getDatabasePlatform();
         $this->criteriaConverter = $criteriaConverter;
         $this->sortClauseConverter = $sortClauseConverter;
         $this->languageHandler = $languageHandler;
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function find(
         CriterionInterface $criterion,
-        $offset,
-        $limit,
+        int $offset,
+        int $limit,
         array $sort = null,
         array $languageFilter = [],
-        $doCount = true
+        bool $doCount = true
     ): array {
         $count = $doCount ? $this->getResultCount($criterion, $languageFilter) : null;
 
@@ -92,20 +97,18 @@ final class DoctrineDatabase extends Gateway
     /**
      * Generates a language mask from the given $languageSettings.
      *
-     * @param array $languageSettings
-     *
-     * @return int
+     * @phpstan-param TSearchLanguageFilter $languageSettings
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     private function getLanguageMask(array $languageSettings): int
     {
         $mask = 0;
-        if ($languageSettings['useAlwaysAvailable']) {
+        if ($languageSettings['useAlwaysAvailable'] ?? false) {
             $mask |= 1;
         }
 
-        foreach ($languageSettings['languages'] as $languageCode) {
+        foreach ($languageSettings['languages'] ?? [] as $languageCode) {
             $mask |= $this->languageHandler->loadByLanguageCode($languageCode)->id;
         }
 
@@ -113,17 +116,17 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @param array $languageFilter
+     * @phpstan-param TSearchLanguageFilter $languageFilter
      *
-     * @return string
-     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
     private function getQueryCondition(
         CriterionInterface $filter,
         QueryBuilder $query,
         array $languageFilter
-    ) {
+    ): CompositeExpression {
         $expr = $query->expr();
         $condition = $expr->and(
             $this->criteriaConverter->convertCriteria($query, $filter, $languageFilter),
@@ -142,7 +145,7 @@ final class DoctrineDatabase extends Gateway
             $condition = $expr->and(
                 $condition,
                 $expr->gt(
-                    $this->dbPlatform->getBitAndComparisonExpression(
+                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
                         'c.language_mask',
                         $query->createNamedParameter(
                             $this->getLanguageMask($languageFilter),
@@ -159,9 +162,11 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @param array $languageFilter
+     * @phpstan-param TSearchLanguageFilter $languageFilter
      *
-     * @return int
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
      */
     private function getResultCount(CriterionInterface $filter, array $languageFilter): int
     {
@@ -182,21 +187,20 @@ final class DoctrineDatabase extends Gateway
             $this->getQueryCondition($filter, $query, $languageFilter)
         );
 
-        $statement = $query->execute();
-
-        return (int)$statement->fetchColumn();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     /**
      * Get sorted arrays of content IDs, which should be returned.
      *
-     * @param array $sort
-     * @param mixed $offset
-     * @param mixed $limit
-     * @param array $languageFilter
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sort
      *
-     * @return int[]
+     * @phpstan-param TSearchLanguageFilter $languageFilter
      *
+     * @phpstan-return list<array<string,mixed>>
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
     private function getContentInfoList(
@@ -246,10 +250,27 @@ final class DoctrineDatabase extends Gateway
         }
 
         $query->setMaxResults($limit);
-        $query->setFirstResult($offset);
+        if (null !== $offset) {
+            $query->setFirstResult($offset);
+        }
 
-        $statement = $query->execute();
+        return $query->executeQuery()->fetchAllAssociative();
+    }
 
-        return $statement->fetchAllAssociative();
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
+    private function getDatabasePlatform(): AbstractPlatform
+    {
+        if (!isset($this->dbPlatform)) {
+            $dbPlatform = $this->connection->getDatabasePlatform();
+            if (null === $dbPlatform) {
+                throw new LogicException('Unable to get database platform');
+            }
+
+            $this->dbPlatform = $dbPlatform;
+        }
+
+        return $this->dbPlatform;
     }
 }
