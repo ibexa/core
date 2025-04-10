@@ -19,14 +19,14 @@ use Ibexa\Contracts\Core\Persistence\User\RoleUpdateStruct;
  */
 abstract class Gateway
 {
-    public const ROLE_TABLE = 'ezrole';
-    public const POLICY_TABLE = 'ezpolicy';
-    public const POLICY_LIMITATION_TABLE = 'ezpolicy_limitation';
-    public const POLICY_LIMITATION_VALUE_TABLE = 'ezpolicy_limitation_value';
-    public const USER_ROLE_TABLE = 'ezuser_role';
-    public const ROLE_SEQ = 'ezrole_id_seq';
-    public const POLICY_SEQ = 'ezpolicy_id_seq';
-    public const POLICY_LIMITATION_SEQ = 'ezpolicy_limitation_id_seq';
+    public const string ROLE_TABLE = 'ezrole';
+    public const string POLICY_TABLE = 'ezpolicy';
+    public const string POLICY_LIMITATION_TABLE = 'ezpolicy_limitation';
+    public const string POLICY_LIMITATION_VALUE_TABLE = 'ezpolicy_limitation_value';
+    public const string USER_ROLE_TABLE = 'ezuser_role';
+    public const string ROLE_SEQ = 'ezrole_id_seq';
+    public const string POLICY_SEQ = 'ezpolicy_id_seq';
+    public const string POLICY_LIMITATION_SEQ = 'ezpolicy_limitation_id_seq';
 
     /**
      * Create a new role.
@@ -41,16 +41,18 @@ abstract class Gateway
     /**
      * Load a specified role by $roleId.
      *
-     * @param int $status One of Role::STATUS_DEFINED|Role::STATUS_DRAFT
+     * @phpstan-param int $status int<Role::STATUS_*>
      *
-     * @return array
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadRole(int $roleId, int $status = Role::STATUS_DEFINED): array;
 
     /**
      * Load a specified role by $identifier.
      *
-     * @param int $status One of Role::STATUS_DEFINED|Role::STATUS_DRAFT
+     * @phpstan-param int $status int<Role::STATUS_*>
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadRoleByIdentifier(
         string $identifier,
@@ -61,13 +63,17 @@ abstract class Gateway
      * Load a role draft by the original role ID.
      *
      * @param int $roleId ID of the role the draft was created from.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadRoleDraftByRoleId(int $roleId): array;
 
     /**
      * Load all roles.
      *
-     * @param int $status One of Role::STATUS_DEFINED|Role::STATUS_DRAFT
+     * @phpstan-param int $status int<Role::STATUS_*>
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadRoles(int $status = Role::STATUS_DEFINED): array;
 
@@ -75,7 +81,10 @@ abstract class Gateway
      * Load all roles associated with the given Content items.
      *
      * @param int[] $contentIds
-     * @param int $status One of Role::STATUS_DEFINED|Role::STATUS_DRAFT
+     *
+     * @phpstan-param int $status int<Role::STATUS_*>
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadRolesForContentObjects(
         array $contentIds,
@@ -84,11 +93,15 @@ abstract class Gateway
 
     /**
      * Load a role assignment for specified assignment ID.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadRoleAssignment(int $roleAssignmentId): array;
 
     /**
      * Load role assignment for specified User Group Content ID.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadRoleAssignmentsByGroupId(
         int $groupId,
@@ -97,11 +110,15 @@ abstract class Gateway
 
     /**
      * Load a Role assignments for given Role ID.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadRoleAssignmentsByRoleId(int $roleId): array;
 
     /**
      * Load a Role assignments for given Role ID with provided $offset and $limit arguments.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadRoleAssignmentsByRoleIdWithOffsetAndLimit(
         int $roleId,
@@ -117,7 +134,7 @@ abstract class Gateway
     /**
      * Return User Policies data associated with User.
      *
-     * @return array
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadPoliciesByUserId(int $userId): array;
 
@@ -132,7 +149,7 @@ abstract class Gateway
      * Delete the specified role (draft).
      * If it's not a draft, the role assignments will also be deleted.
      *
-     * @param int $status One of Role::STATUS_DEFINED|Role::STATUS_DRAFT
+     * @phpstan-param int $status int<Role::STATUS_*>
      */
     abstract public function deleteRole(int $roleId, int $status = Role::STATUS_DEFINED): void;
 
@@ -153,7 +170,7 @@ abstract class Gateway
     /**
      * Add Limitations to an existing Policy.
      *
-     * @param array $limitations a map of Limitation identifiers to their raw values
+     * @param array<string, string[]> $limitations a map of Limitation identifiers to their raw values
      */
     abstract public function addPolicyLimitations(int $policyId, array $limitations): void;
 
