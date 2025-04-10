@@ -13,14 +13,17 @@ use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct;
 use Ibexa\Core\Persistence\Legacy\UserPreference\Gateway;
 use Ibexa\Core\Persistence\Legacy\UserPreference\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use LogicException;
 
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\UserPreference\Gateway
  */
 class DoctrineDatabaseTest extends TestCase
 {
-    public const EXISTING_USER_PREFERENCE_ID = 1;
-    public const EXISTING_USER_PREFERENCE_DATA = [
+    public const int EXISTING_USER_PREFERENCE_ID = 1;
+
+    /** @var array<string, int|string> */
+    public const array EXISTING_USER_PREFERENCE_DATA = [
         'id' => 1,
         'user_id' => 14,
         'name' => 'timezone',
@@ -36,6 +39,9 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testInsert(): void
     {
         $id = $this->getGateway()->setUserPreference(new UserPreferenceSetStruct([
@@ -54,6 +60,9 @@ class DoctrineDatabaseTest extends TestCase
         ], $data);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testUpdateUserPreference(): void
     {
         $userPreference = new UserPreferenceSetStruct([
@@ -116,9 +125,9 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
-     * @param int $id
+     * @return array<string, mixed>
      *
-     * @return array
+     * @throws \Doctrine\DBAL\Exception
      */
     private function loadUserPreference(int $id): array
     {
@@ -132,8 +141,11 @@ class DoctrineDatabaseTest extends TestCase
                     $queryBuilder->createPositionalParameter($id, ParameterType::INTEGER)
                 )
             );
-        $result = $queryBuilder->executeQuery()->fetchAllAssociative();
+        $result = $queryBuilder->executeQuery()->fetchAssociative();
+        if (false === $result) {
+            throw new LogicException("Unable to find user preference of id = $id");
+        }
 
-        return reset($result);
+        return $result;
     }
 }

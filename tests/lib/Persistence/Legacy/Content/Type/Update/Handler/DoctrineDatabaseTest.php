@@ -19,19 +19,9 @@ use PHPUnit\Framework\TestCase;
  */
 class DoctrineDatabaseTest extends TestCase
 {
-    /**
-     * Gateway mock.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway
-     */
-    protected ?MockObject $gatewayMock = null;
+    protected Gateway & MockObject $gatewayMock;
 
-    /**
-     * Content Updater mock.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater
-     */
-    protected ?MockObject $contentUpdaterMock = null;
+    protected ContentUpdater & MockObject $contentUpdaterMock;
 
     public function testUpdateContentObjects(): void
     {
@@ -65,7 +55,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $types = $this->getTypeFixtures();
 
-        $handler->deleteOldType($types['from'], $types['to']);
+        $handler->deleteOldType($types['from']);
     }
 
     public function testPublishNewType(): void
@@ -73,7 +63,6 @@ class DoctrineDatabaseTest extends TestCase
         $handler = $this->getUpdateHandler();
 
         $gatewayMock = $this->getGatewayMock();
-        $updaterMock = $this->getContentUpdaterMock();
 
         $gatewayMock->expects(self::once())
             ->method('publishTypeAndFields')
@@ -104,22 +93,12 @@ class DoctrineDatabaseTest extends TestCase
         return $types;
     }
 
-    /**
-     * Returns the Update Handler to test.
-     *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler\DoctrineDatabase
-     */
     protected function getUpdateHandler(): DoctrineDatabase
     {
         return new DoctrineDatabase($this->getGatewayMock());
     }
 
-    /**
-     * Returns a gateway mock.
-     *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway
-     */
-    protected function getGatewayMock()
+    protected function getGatewayMock(): Gateway & MockObject
     {
         if (!isset($this->gatewayMock)) {
             $this->gatewayMock = $this->getMockForAbstractClass(Gateway::class);
@@ -128,12 +107,7 @@ class DoctrineDatabaseTest extends TestCase
         return $this->gatewayMock;
     }
 
-    /**
-     * Returns a Content Updater mock.
-     *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater
-     */
-    protected function getContentUpdaterMock()
+    protected function getContentUpdaterMock(): ContentUpdater & MockObject
     {
         if (!isset($this->contentUpdaterMock)) {
             $this->contentUpdaterMock = $this->createMock(ContentUpdater::class);

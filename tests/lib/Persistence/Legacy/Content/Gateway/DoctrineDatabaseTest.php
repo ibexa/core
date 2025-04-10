@@ -23,18 +23,18 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
 
 /**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase::insertContentObject
+ * @covers \Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase
  */
 class DoctrineDatabaseTest extends LanguageAwareTestCase
 {
-    /**
-     * Database gateway to test.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase
-     */
-    protected $databaseGateway;
+    private const string COUNT_ID_SQL_EXPRESSION = 'COUNT(id)';
+
+    protected DoctrineDatabase $databaseGateway;
 
     /**
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     *
      * @todo Fix not available fields
      */
     public function testInsertContentObject(): void
@@ -79,11 +79,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    /**
-     * Returns a Content fixture.
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\CreateStruct
-     */
     protected function getCreateStructFixture(): CreateStruct
     {
         $struct = new CreateStruct();
@@ -106,11 +101,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         return $struct;
     }
 
-    /**
-     * Returns a Content fixture.
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
-     */
     protected function getContentFixture(): Content
     {
         $content = new Content();
@@ -136,11 +126,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         return $content;
     }
 
-    /**
-     * Returns a Version fixture.
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\VersionInfo
-     */
     protected function getVersionFixture(): VersionInfo
     {
         $version = new VersionInfo();
@@ -162,6 +147,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         return $version;
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testInsertVersion(): void
     {
         $version = $this->getVersionFixture();
@@ -200,30 +189,15 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testSetStatus(): void
     {
-        $gateway = $this->getDatabaseGateway();
-
-        // insert content
-        $struct = $this->getCreateStructFixture();
-        $contentId = $gateway->insertContentObject($struct);
-
-        // insert version
-        $version = $this->getVersionFixture();
-        $version->contentInfo->id = $contentId;
-        $gateway->insertVersion($version, []);
-
-        self::assertTrue(
-            $gateway->setStatus($version->contentInfo->id, $version->versionNo, VersionInfo::STATUS_PENDING)
-        );
-
-        self::assertQueryResult(
-            [[VersionInfo::STATUS_PENDING]],
-            $this->getDatabaseConnection()
-                ->createQueryBuilder()
-                ->select('status')
-                ->from('ezcontentobject_version')
-        );
+        $status = VersionInfo::STATUS_PENDING;
+        $this->createContentVersionWithStatus($status);
 
         // check that content status has not been set to published
         self::assertQueryResult(
@@ -235,30 +209,15 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testSetStatusPublished(): void
     {
-        $gateway = $this->getDatabaseGateway();
-
-        // insert content
-        $struct = $this->getCreateStructFixture();
-        $contentId = $gateway->insertContentObject($struct);
-
-        // insert version
-        $version = $this->getVersionFixture();
-        $version->contentInfo->id = $contentId;
-        $gateway->insertVersion($version, []);
-
-        self::assertTrue(
-            $gateway->setStatus($version->contentInfo->id, $version->versionNo, VersionInfo::STATUS_PUBLISHED)
-        );
-
-        self::assertQueryResult(
-            [[VersionInfo::STATUS_PUBLISHED]],
-            $this->getDatabaseConnection()
-                ->createQueryBuilder()
-                ->select('status')
-                ->from('ezcontentobject_version')
-        );
+        $status = VersionInfo::STATUS_PUBLISHED;
+        $this->createContentVersionWithStatus($status);
 
         // check that content status has been set to published
         self::assertQueryResult(
@@ -279,6 +238,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testUpdateContent(): void
     {
         $gateway = $this->getDatabaseGateway();
@@ -349,6 +312,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         return $struct;
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testUpdateVersion(): void
     {
         $gateway = $this->getDatabaseGateway();
@@ -756,7 +723,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      * @param string[] $expectedValues
      * @param string[][] $actualRows
      */
-    protected function assertValuesInRows($columnKey, array $expectedValues, array $actualRows)
+    protected function assertValuesInRows($columnKey, array $expectedValues, array $actualRows): void
     {
         $expectedValues = array_fill_keys(
             array_values($expectedValues),
@@ -1076,7 +1043,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->andWhere('content_translation = :language_code')
                 ->setParameter('content_id', 14, ParameterType::INTEGER)
                 ->setParameter('version_no', 2, ParameterType::INTEGER)
-                ->setParameter('language_code', self::ENG_GB, ParameterType::STRING)
+                ->setParameter('language_code', self::ENG_GB)
         );
     }
 
@@ -1306,7 +1273,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Inserts the relation database fixture from relation_data.php.
      */
-    protected function insertRelationFixture()
+    protected function insertRelationFixture(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../_fixtures/relations_data.php'
@@ -1664,10 +1631,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     protected function countContentRelations(?int $fromId = null, ?int $toId = null): int
     {
         $connection = $this->getDatabaseConnection();
-        $dbPlatform = $connection->getDatabasePlatform();
         $query = $connection->createQueryBuilder();
         $query
-            ->select($dbPlatform->getCountExpression('id'))
+            ->select(self::COUNT_ID_SQL_EXPRESSION)
             ->from('ezcontentobject_link');
 
         if ($fromId !== null) {
@@ -1687,28 +1653,21 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             );
         }
 
-        $statement = $query->execute();
-
-        return (int)$statement->fetchColumn();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     /**
      * Counts the number of fields.
-     *
-     * @param int $contentId
-     *
-     * @return int
      *
      * @throws \Doctrine\DBAL\Exception
      */
     protected function countContentFields(?int $contentId = null): int
     {
         $connection = $this->getDatabaseConnection();
-        $dbPlatform = $connection->getDatabasePlatform();
 
         $query = $connection->createQueryBuilder();
         $query
-            ->select($dbPlatform->getCountExpression('id'))
+            ->select(self::COUNT_ID_SQL_EXPRESSION)
             ->from('ezcontentobject_attribute');
 
         if ($contentId !== null) {
@@ -1720,9 +1679,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             );
         }
 
-        $statement = $query->execute();
-
-        return (int)$statement->fetchColumn();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     /**
@@ -1737,11 +1694,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     protected function countContentVersions(?int $contentId = null): int
     {
         $connection = $this->getDatabaseConnection();
-        $dbPlatform = $connection->getDatabasePlatform();
 
         $query = $connection->createQueryBuilder();
         $query
-            ->select($dbPlatform->getCountExpression('id'))
+            ->select(self::COUNT_ID_SQL_EXPRESSION)
             ->from('ezcontentobject_version');
 
         if ($contentId !== null) {
@@ -1753,28 +1709,21 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             );
         }
 
-        $statement = $query->execute();
-
-        return (int)$statement->fetchColumn();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     /**
      * Counts the number of content names.
-     *
-     * @param int $contentId
-     *
-     * @return int
      *
      * @throws \Doctrine\DBAL\Exception
      */
     protected function countContentNames(?int $contentId = null): int
     {
         $connection = $this->getDatabaseConnection();
-        $dbPlatform = $connection->getDatabasePlatform();
 
         $query = $connection->createQueryBuilder();
         $query
-            ->select($dbPlatform->getCountExpression('contentobject_id'))
+            ->select('COUNT(contentobject_id)')
             ->from('ezcontentobject_name');
 
         if ($contentId !== null) {
@@ -1786,27 +1735,20 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             );
         }
 
-        $statement = $query->execute();
-
-        return (int)$statement->fetchColumn();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     /**
      * Counts the number of content objects.
-     *
-     * @param int|null $contentId
-     *
-     * @return int
      *
      * @throws \Doctrine\DBAL\Exception
      */
     protected function countContent(?int $contentId = null): int
     {
         $connection = $this->getDatabaseConnection();
-        $dbPlatform = $connection->getDatabasePlatform();
         $query = $connection->createQueryBuilder();
         $query
-            ->select($dbPlatform->getCountExpression('id'))
+            ->select(self::COUNT_ID_SQL_EXPRESSION)
             ->from('ezcontentobject');
 
         if ($contentId !== null) {
@@ -1818,18 +1760,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             );
         }
 
-        $statement = $query->execute();
-
-        return (int)$statement->fetchColumn();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     /**
      * Stores $fixture in $file to be required as a fixture.
-     *
-     * @param string $file
-     * @param mixed $fixture
      */
-    protected function storeFixture($file, $fixture)
+    protected function storeFixture(string $file, mixed $fixture): void
     {
         file_put_contents(
             $file,
@@ -1859,7 +1796,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Field
      */
-    protected function getOtherLanguageFieldFixture()
+    protected function getOtherLanguageFieldFixture(): Field
     {
         $field = $this->getFieldFixture();
         $field->languageCode = 'eng-US';
@@ -1955,6 +1892,37 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     )
                 )
                 ->orderBy('id')
+        );
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Doctrine\DBAL\Exception
+     */
+    private function createContentVersionWithStatus(int $status): void
+    {
+        $gateway = $this->getDatabaseGateway();
+
+        // insert content
+        $struct = $this->getCreateStructFixture();
+        $contentId = $gateway->insertContentObject($struct);
+
+        // insert version
+        $version = $this->getVersionFixture();
+        $version->contentInfo->id = $contentId;
+        $gateway->insertVersion($version, []);
+
+        self::assertTrue(
+            $gateway->setStatus($version->contentInfo->id, $version->versionNo, $status)
+        );
+
+        self::assertQueryResult(
+            [[$status]],
+            $this->getDatabaseConnection()
+                ->createQueryBuilder()
+                ->select('status')
+                ->from('ezcontentobject_version')
         );
     }
 }
