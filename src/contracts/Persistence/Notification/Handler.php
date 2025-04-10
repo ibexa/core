@@ -52,6 +52,7 @@ interface Handler
 
     /**
      * @param string[] $query
+     *
      * @return \Ibexa\Contracts\Core\Persistence\Notification\Notification[]
      */
     public function loadUserNotifications(int $userId, int $offset, int $limit, array $query = []): array;
