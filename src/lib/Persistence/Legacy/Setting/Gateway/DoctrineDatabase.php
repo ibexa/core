@@ -26,6 +26,9 @@ final class DoctrineDatabase extends Gateway
         $this->connection = $connection;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function insertSetting(string $group, string $identifier, string $serializedValue): int
     {
         $query = $this->connection->createQueryBuilder();
@@ -39,11 +42,14 @@ final class DoctrineDatabase extends Gateway
                 ]
             );
 
-        $query->execute();
+        $query->executeStatement();
 
         return (int)$this->connection->lastInsertId(Gateway::SETTING_SEQ);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function updateSetting(string $group, string $identifier, string $serializedValue): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -53,17 +59,20 @@ final class DoctrineDatabase extends Gateway
             ->where(
                 $query->expr()->eq(
                     $this->connection->quoteIdentifier('group'),
-                    $query->createPositionalParameter($group, ParameterType::STRING)
+                    $query->createPositionalParameter($group)
                 ),
                 $query->expr()->eq(
                     'identifier',
-                    $query->createPositionalParameter($identifier, ParameterType::STRING)
+                    $query->createPositionalParameter($identifier)
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadSetting(string $group, string $identifier): ?array
     {
         $query = $this->connection->createQueryBuilder();
@@ -77,16 +86,15 @@ final class DoctrineDatabase extends Gateway
             ->where(
                 $query->expr()->eq(
                     $this->connection->quoteIdentifier('group'),
-                    $query->createPositionalParameter($group, ParameterType::STRING)
+                    $query->createPositionalParameter($group)
                 ),
                 $query->expr()->eq(
                     'identifier',
-                    $query->createPositionalParameter($identifier, ParameterType::STRING)
+                    $query->createPositionalParameter($identifier)
                 )
             );
 
-        $statement = $query->execute();
-        $result = $statement->fetchAssociative();
+        $result = $query->executeQuery()->fetchAssociative();
 
         if (false === $result) {
             return null;
@@ -95,6 +103,9 @@ final class DoctrineDatabase extends Gateway
         return $result;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadSettingById(int $id): ?array
     {
         $query = $this->connection->createQueryBuilder();
@@ -112,8 +123,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $statement = $query->execute();
-        $result = $statement->fetchAssociative();
+        $result = $query->executeQuery()->fetchAssociative();
 
         if (false === $result) {
             return null;
@@ -122,6 +132,9 @@ final class DoctrineDatabase extends Gateway
         return $result;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function deleteSetting(string $group, string $identifier): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -130,14 +143,14 @@ final class DoctrineDatabase extends Gateway
             ->where(
                 $query->expr()->eq(
                     $this->connection->quoteIdentifier('group'),
-                    $query->createPositionalParameter($group, ParameterType::STRING)
+                    $query->createPositionalParameter($group)
                 ),
                 $query->expr()->eq(
                     'identifier',
-                    $query->createPositionalParameter($identifier, ParameterType::STRING)
+                    $query->createPositionalParameter($identifier)
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 }
