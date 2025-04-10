@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Notification\Gateway;
 
-use Doctrine\DBAL\FetchMode;
 use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway\DoctrineDatabase;
@@ -19,8 +18,10 @@ use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
  */
 class DoctrineDatabaseTest extends TestCase
 {
-    public const EXISTING_NOTIFICATION_ID = 1;
-    public const EXISTING_NOTIFICATION_DATA = [
+    public const int EXISTING_NOTIFICATION_ID = 1;
+
+    /** @var array<string, int|string|null> */
+    public const array EXISTING_NOTIFICATION_DATA = [
         'id' => 1,
         'owner_id' => 14,
         'is_pending' => 1,
@@ -38,6 +39,10 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
+    /**
+     * @throws \JsonException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testInsert(): void
     {
         $id = $this->getGateway()->insert(new CreateStruct([
@@ -60,6 +65,9 @@ class DoctrineDatabaseTest extends TestCase
         ], $data);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testGetNotificationById(): void
     {
         $data = $this->getGateway()->getNotificationById(self::EXISTING_NOTIFICATION_ID);
@@ -69,6 +77,10 @@ class DoctrineDatabaseTest extends TestCase
         ], $data);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testUpdateNotification(): void
     {
         $notification = new Notification([
@@ -92,6 +104,9 @@ class DoctrineDatabaseTest extends TestCase
         ], $this->loadNotification(self::EXISTING_NOTIFICATION_ID));
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testCountUserNotifications(): void
     {
         self::assertEquals(5, $this->getGateway()->countUserNotifications(
@@ -99,6 +114,9 @@ class DoctrineDatabaseTest extends TestCase
         ));
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testCountUserPendingNotifications(): void
     {
         self::assertEquals(
@@ -109,6 +127,9 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testLoadUserNotifications(): void
     {
         $userId = 14;
@@ -145,6 +166,9 @@ class DoctrineDatabaseTest extends TestCase
         ], $results);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testDelete(): void
     {
         $this->getGateway()->delete(self::EXISTING_NOTIFICATION_ID);
@@ -164,11 +188,16 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
+    /**
+     * @return array<string, mixed>
+     *
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function loadNotification(int $id): array
     {
         $data = $this->connection
             ->executeQuery('SELECT * FROM eznotification WHERE id = :id', ['id' => $id])
-            ->fetch(FetchMode::ASSOCIATIVE);
+            ->fetchAssociative();
 
         return is_array($data) ? $data : [];
     }

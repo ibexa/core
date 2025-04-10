@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Location\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
@@ -22,6 +23,8 @@ use ReflectionObject;
  */
 class DoctrineDatabaseTest extends LanguageAwareTestCase
 {
+    private const string NODE_IDS_PARAM_NAME = 'node_ids';
+
     protected function getLocationGateway(): DoctrineDatabase
     {
         return new DoctrineDatabase(
@@ -32,6 +35,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @return array<string, int|string>
+     */
     private static function getLoadLocationValues(): array
     {
         return [
@@ -52,6 +58,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         ];
     }
 
+    /**
+     * @param array<string, int|string> $locationData
+     */
     private function assertLoadLocationProperties(array $locationData): void
     {
         foreach (self::getLoadLocationValues() as $field => $expectedValue) {
@@ -63,37 +72,52 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         }
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function testLoadLocationByRemoteId(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $data = $gateway->getBasicNodeDataByRemoteId('dbc2f3c8716c12f32c379dbf0b1cb133');
 
-        self::assertLoadLocationProperties($data);
+        $this->assertLoadLocationProperties($data);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testLoadLocation(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $data = $gateway->getBasicNodeData(77);
 
-        self::assertLoadLocationProperties($data);
+        $this->assertLoadLocationProperties($data);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testLoadLocationList(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
-        $locationsData = $gateway->getNodeDataList([77]);
+        $locationsData = iterator_to_array($gateway->getNodeDataList([77]));
 
         self::assertCount(1, $locationsData);
 
         $locationRow = reset($locationsData);
 
-        self::assertLoadLocationProperties($locationRow);
+        $this->assertLoadLocationProperties($locationRow);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testLoadInvalidLocation(): void
     {
         $this->expectException(NotFoundException::class);
@@ -103,6 +127,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->getBasicNodeData(1337);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testLoadLocationDataByContent(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -115,9 +142,12 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $locationRow = reset($locationsData);
 
-        self::assertLoadLocationProperties($locationRow);
+        $this->assertLoadLocationProperties($locationRow);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testLoadParentLocationDataForDraftContentAll(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -130,9 +160,12 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $locationRow = reset($locationsData);
 
-        self::assertLoadLocationProperties($locationRow);
+        $this->assertLoadLocationProperties($locationRow);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testLoadLocationDataByContentLimitSubtree(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -144,6 +177,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertCount(0, $locationsData);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testMoveSubtreePathUpdate(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -184,11 +220,23 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'is_invisible'
                 )
                 ->from('ezcontentobject_tree')
-                ->where($query->expr()->in('node_id', [69, 71, 75, 77, 2]))
+                ->where(
+                    $query->expr()->in(
+                        'node_id',
+                        $query->createNamedParameter(
+                            [69, 71, 75, 77, 2],
+                            ArrayParameterType::INTEGER,
+                            ':' . self::NODE_IDS_PARAM_NAME
+                        )
+                    )
+                )
                 ->orderBy('contentobject_id')
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testMoveHiddenDestinationUpdate(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -230,11 +278,23 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'is_invisible'
                 )
                 ->from('ezcontentobject_tree')
-                ->where($query->expr()->in('node_id', [69, 71, 75, 77, 2]))
+                ->where(
+                    $query->expr()->in(
+                        'node_id',
+                        $query->createNamedParameter(
+                            [69, 71, 75, 77, 2],
+                            ArrayParameterType::INTEGER,
+                            ':' . self::NODE_IDS_PARAM_NAME
+                        )
+                    )
+                )
                 ->orderBy('contentobject_id')
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testMoveHiddenSourceUpdate(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -276,11 +336,23 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'is_invisible'
                 )
                 ->from('ezcontentobject_tree')
-                ->where($query->expr()->in('node_id', [69, 71, 75, 77, 2]))
+                ->where(
+                    $query->expr()->in(
+                        'node_id',
+                        $query->createNamedParameter(
+                            [69, 71, 75, 77, 2],
+                            ArrayParameterType::INTEGER,
+                            ':' . self::NODE_IDS_PARAM_NAME
+                        )
+                    )
+                )
                 ->orderBy('contentobject_id')
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testMoveHiddenSourceChildUpdate(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -324,7 +396,16 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'is_invisible'
                 )
                 ->from('ezcontentobject_tree')
-                ->where($query->expr()->in('node_id', [69, 70, 71, 75, 77, 2]))
+                ->where(
+                    $query->expr()->in(
+                        'node_id',
+                        $query->createNamedParameter(
+                            [69, 70, 71, 75, 77, 2],
+                            ArrayParameterType::INTEGER,
+                            ':' . self::NODE_IDS_PARAM_NAME
+                        )
+                    )
+                )
                 ->orderBy('contentobject_id')
         );
     }
@@ -364,6 +445,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testHideUpdateHidden(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -381,13 +465,20 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $query
                 ->select('node_id', 'is_hidden', 'is_invisible')
                 ->from('ezcontentobject_tree')
-                ->where($query->expr()->in('node_id', [1, 2, 69, 75]))
+                ->where(
+                    $query->expr()->in(
+                        'node_id',
+                        $query->createNamedParameter([1, 2, 69, 75], ArrayParameterType::INTEGER, ':' . self::NODE_IDS_PARAM_NAME)
+                    )
+                )
                 ->orderBy('node_id')
         );
     }
 
     /**
      * @depends testHideUpdateHidden
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testHideUnhideUpdateHidden(): void
     {
@@ -407,13 +498,24 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $query
                 ->select('node_id', 'is_hidden', 'is_invisible')
                 ->from('ezcontentobject_tree')
-                ->where($query->expr()->in('node_id', [1, 2, 69, 75]))
+                ->where(
+                    $query->expr()->in(
+                        'node_id',
+                        $query->createNamedParameter(
+                            [1, 2, 69, 75],
+                            ArrayParameterType::INTEGER,
+                            ':' . self::NODE_IDS_PARAM_NAME
+                        )
+                    )
+                )
                 ->orderBy('node_id')
         );
     }
 
     /**
      * @depends testHideUpdateHidden
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testHideUnhideParentTree(): void
     {
@@ -436,13 +538,24 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $query
                 ->select('node_id', 'is_hidden', 'is_invisible')
                 ->from('ezcontentobject_tree')
-                ->where($query->expr()->in('node_id', [1, 2, 69, 70, 71, 75]))
+                ->where(
+                    $query->expr()->in(
+                        'node_id',
+                        $query->createNamedParameter(
+                            [1, 2, 69, 70, 71, 75],
+                            ArrayParameterType::INTEGER,
+                            ':' . self::NODE_IDS_PARAM_NAME
+                        )
+                    )
+                )
                 ->orderBy('node_id')
         );
     }
 
     /**
      * @depends testHideUpdateHidden
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testHideUnhidePartialSubtree(): void
     {
@@ -465,11 +578,19 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $query
                 ->select('node_id', 'is_hidden', 'is_invisible')
                 ->from('ezcontentobject_tree')
-                ->where($query->expr()->in('node_id', [1, 2, 69, 70, 71, 75]))
+                ->where(
+                    $query->expr()->in(
+                        'node_id',
+                        $query->createNamedParameter([1, 2, 69, 70, 71, 75], ArrayParameterType::INTEGER, 'node_ids')
+                    )
+                )
                 ->orderBy('node_id')
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testSwapLocations(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -485,11 +606,19 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $query
                 ->select('node_id', 'contentobject_id')
                 ->from('ezcontentobject_tree')
-                ->where($query->expr()->in('node_id', [70, 78]))
+                ->where(
+                    $query->expr()->in(
+                        'node_id',
+                        $query->createNamedParameter([70, 78], ArrayParameterType::INTEGER, 'node_ids')
+                    )
+                )
                 ->orderBy('node_id')
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testCreateLocation(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -518,13 +647,25 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $query
                 ->select('node_id', 'path_string')
                 ->from('ezcontentobject_tree')
-                ->where($query->expr()->in('contentobject_id', [68, 75]))
+                ->where(
+                    $query->expr()->in(
+                        'contentobject_id',
+                        $query->createNamedParameter(
+                            [68, 75],
+                            ArrayParameterType::INTEGER,
+                            ':contentobject_ids'
+                        )
+                    )
+                )
                 ->orderBy('node_id')
         );
     }
 
     /**
      * @depends testCreateLocation
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \ReflectionException
      */
     public function testGetMainNodeId(): void
     {
@@ -568,6 +709,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertEquals($mainLocation->id, $methodReflection->invoke($gateway, 68));
     }
 
+    /**
+     * @return array<array{string, int|string}>
+     */
     public static function getCreateLocationValues(): array
     {
         return [
@@ -591,13 +735,11 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      * @depends      testCreateLocation
      *
      * @dataProvider getCreateLocationValues
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testCreateLocationValues(string $field, int|string $value): void
     {
-        if ($value === null) {
-            self::markTestIncomplete('Proper value setting yet unknown.');
-        }
-
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $gateway->create(
@@ -629,34 +771,33 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public static function getCreateLocationReturnValues(): array
+    /**
+     * @return iterable<array{string, int|string|bool}>
+     */
+    public static function getCreateLocationReturnValues(): iterable
     {
-        return [
-            ['id', 228],
-            ['priority', 1],
-            ['hidden', false],
-            ['invisible', false],
-            ['remoteId', 'some_id'],
-            ['contentId', '68'],
-            ['parentId', '77'],
-            ['pathString', '/1/2/77/228/'],
-            ['depth', 3],
-            ['sortField', 1],
-            ['sortOrder', 1],
-        ];
+        yield ['id', 228];
+        yield ['priority', 1];
+        yield ['hidden', false];
+        yield ['invisible', false];
+        yield ['remoteId', 'some_id'];
+        yield ['contentId', '68'];
+        yield ['parentId', '77'];
+        yield ['pathString', '/1/2/77/228/'];
+        yield ['depth', 3];
+        yield ['sortField', 1];
+        yield ['sortOrder', 1];
     }
 
     /**
      * @depends      testCreateLocation
      *
      * @dataProvider getCreateLocationReturnValues
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testCreateLocationReturnValues(string $field, int|bool|string $value): void
     {
-        if ($value === null) {
-            self::markTestIncomplete('Proper value setting yet unknown.');
-        }
-
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $gateway = $this->getLocationGateway();
         $location = $gateway->create(
@@ -678,22 +819,24 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ]
         );
 
-        self::assertTrue($location instanceof Location);
         self::assertEquals($value, $location->$field);
     }
 
-    public static function getUpdateLocationData(): array
+    /**
+     * @return iterable<array{string, int|string}>
+     */
+    public static function getUpdateLocationData(): iterable
     {
-        return [
-            ['priority', 23],
-            ['remote_id', 'someNewHash'],
-            ['sort_field', 4],
-            ['sort_order', 4],
-        ];
+        yield ['priority', 23];
+        yield ['remote_id', 'someNewHash'];
+        yield ['sort_field', 4];
+        yield ['sort_order', 4];
     }
 
     /**
      * @dataProvider getUpdateLocationData
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testUpdateLocation(string $field, int|string $value): void
     {
@@ -717,29 +860,37 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $query
                 ->select($field)
                 ->from('ezcontentobject_tree')
-                ->where($query->expr()->in('node_id', [70]))
+                ->where(
+                    $query->expr()->in(
+                        'node_id',
+                        $query->createNamedParameter([70], ArrayParameterType::INTEGER, ':' . self::NODE_IDS_PARAM_NAME)
+                    )
+                )
         );
     }
 
-    public static function getNodeAssignmentValues(): array
+    /**
+     * @return iterable<array{string, list<int|string>}>
+     */
+    public static function getNodeAssignmentValues(): iterable
     {
-        return [
-            ['contentobject_version', [1]],
-            ['from_node_id', [0]],
-            ['id', [215]],
-            ['is_main', [0]],
-            ['op_code', [3]],
-            ['parent_node', [77]],
-            ['parent_remote_id', ['some_id']],
-            ['remote_id', ['0']],
-            ['sort_field', [2]],
-            ['sort_order', [0]],
-            ['is_main', [0]],
-            ['priority', [1]],
-            ['is_hidden', [1]],
-        ];
+        yield ['contentobject_version', [1]];
+        yield ['from_node_id', [0]];
+        yield ['id', [215]];
+        yield ['is_main', [0]];
+        yield ['op_code', [3]];
+        yield ['parent_node', [77]];
+        yield ['parent_remote_id', ['some_id']];
+        yield ['remote_id', ['0']];
+        yield ['sort_field', [2]];
+        yield ['sort_order', [0]];
+        yield ['priority', [1]];
+        yield ['is_hidden', [1]];
     }
 
+    /**
+     * @param string[] $fields
+     */
     private function buildGenericNodeSelectContentWithParentQuery(
         int $contentId,
         int $parentLocationId,
@@ -750,7 +901,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $query = $this->getDatabaseConnection()->createQueryBuilder();
         $expr = $query->expr();
         $query
-            ->select($fields)
+            ->select(...$fields)
             ->from($nodeTable)
             ->where(
                 $expr->eq(
@@ -768,6 +919,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         return $query;
     }
 
+    /**
+     * @param string[] $fields
+     */
     private function buildNodeAssignmentSelectContentWithParentQuery(
         int $contentId,
         int $parentLocationId,
@@ -782,6 +936,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @param string[] $fields
+     */
     private function buildContentTreeSelectContentWithParentQuery(
         int $contentId,
         int $parentLocationId,
@@ -802,7 +959,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      * @dataProvider getNodeAssignmentValues
      *
      * @param string $field
-     * @param array $expectedResult
+     * @param array<int|string> $expectedResult
      */
     public function testCreateLocationNodeAssignmentCreation(string $field, array $expectedResult): void
     {
@@ -822,7 +979,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ]
             ),
             77,
-            DoctrineDatabase::NODE_ASSIGNMENT_OP_CODE_CREATE
+            Gateway::NODE_ASSIGNMENT_OP_CODE_CREATE
         );
 
         self::assertQueryResult(
@@ -850,8 +1007,8 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'sortOrder' => 1,
                 ]
             ),
-            '77',
-            DoctrineDatabase::NODE_ASSIGNMENT_OP_CODE_CREATE
+            77,
+            Gateway::NODE_ASSIGNMENT_OP_CODE_CREATE
         );
 
         self::assertQueryResult(
@@ -860,6 +1017,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testUpdateLocationsContentVersionNo(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -900,6 +1060,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testDeleteNodeAssignment(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -919,6 +1082,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testDeleteNodeAssignmentWithSecondArgument(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -931,8 +1097,8 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ->where(
                 $query->expr()->eq('contentobject_id', 11)
             );
-        $statement = $query->execute();
-        $nodeAssignmentsCount = (int)$statement->fetchColumn();
+        $statement = $query->executeQuery();
+        $nodeAssignmentsCount = (int)$statement->fetchOne();
 
         $gateway->deleteNodeAssignment(11, 1);
 
@@ -948,25 +1114,26 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public static function getConvertNodeAssignmentsLocationValues(): array
+    /**
+     * @return iterable<array{string, int|string}>
+     */
+    public static function getConvertNodeAssignmentsLocationValues(): iterable
     {
-        return [
-            ['contentobject_id', '68'],
-            ['contentobject_is_published', '1'],
-            ['contentobject_version', '1'],
-            ['depth', '3'],
-            ['is_hidden', '1'],
-            ['is_invisible', '1'],
-            ['main_node_id', '70'],
-            ['modified_subnode', time()],
-            ['node_id', '228'],
-            ['parent_node_id', '77'],
-            ['path_string', '/1/2/77/228/'],
-            ['priority', '101'],
-            ['remote_id', 'some_id'],
-            ['sort_field', '1'],
-            ['sort_order', '1'],
-        ];
+        yield ['contentobject_id', '68'];
+        yield ['contentobject_is_published', '1'];
+        yield ['contentobject_version', '1'];
+        yield ['depth', '3'];
+        yield ['is_hidden', '1'];
+        yield ['is_invisible', '1'];
+        yield ['main_node_id', '70'];
+        yield ['modified_subnode', time()];
+        yield ['node_id', '228'];
+        yield ['parent_node_id', '77'];
+        yield ['path_string', '/1/2/77/228/'];
+        yield ['priority', '101'];
+        yield ['remote_id', 'some_id'];
+        yield ['sort_field', '1'];
+        yield ['sort_order', '1'];
     }
 
     /**
@@ -975,6 +1142,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      * @dataProvider getConvertNodeAssignmentsLocationValues
      *
      * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function testConvertNodeAssignments(string $field, string|int $value): void
     {
@@ -997,8 +1165,8 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'invisible' => false,
                 ]
             ),
-            '77',
-            DoctrineDatabase::NODE_ASSIGNMENT_OP_CODE_CREATE
+            77,
+            Gateway::NODE_ASSIGNMENT_OP_CODE_CREATE
         );
 
         $gateway->createLocationsFromNodeAssignments(68, 1);
@@ -1034,6 +1202,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     /**
      * @depends testCreateLocationNodeAssignmentCreation
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testConvertNodeAssignmentsMainLocation(): void
     {
@@ -1070,6 +1241,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     /**
      * @depends testCreateLocationNodeAssignmentCreation
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testConvertNodeAssignmentsParentHidden(): void
     {
@@ -1110,6 +1284,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     /**
      * @depends testCreateLocationNodeAssignmentCreation
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testConvertNodeAssignmentsParentInvisible(): void
     {
@@ -1150,6 +1327,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     /**
      * @depends testCreateLocationNodeAssignmentCreation
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testConvertNodeAssignmentsUpdateAssignment(): void
     {
@@ -1168,20 +1348,22 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'sortOrder' => 1,
                 ]
             ),
-            '77',
+            77,
             Gateway::NODE_ASSIGNMENT_OP_CODE_CREATE
         );
 
         $gateway->createLocationsFromNodeAssignments(68, 1);
 
         self::assertQueryResult(
-            [[DoctrineDatabase::NODE_ASSIGNMENT_OP_CODE_CREATE_NOP]],
+            [[Gateway::NODE_ASSIGNMENT_OP_CODE_CREATE_NOP]],
             $this->buildNodeAssignmentSelectContentWithParentQuery(68, 77, ['op_code'])
         );
     }
 
     /**
      * Test for the setSectionForSubtree() method.
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testSetSectionForSubtree(): void
     {
@@ -1231,12 +1413,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                         ParameterType::INTEGER
                     ),
                     'path_string' => $query->createPositionalParameter(
-                        '/1/5/13/228/',
-                        ParameterType::STRING
+                        '/1/5/13/228/'
                     ),
                     'remote_id' => $query->createPositionalParameter(
-                        'asdfg123437',
-                        ParameterType::STRING
+                        'asdfg123437'
                     ),
                 ]
             );
@@ -1259,8 +1439,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'is_main' => $query->createPositionalParameter(0, ParameterType::INTEGER),
                     'parent_node' => $query->createPositionalParameter(227, ParameterType::INTEGER),
                     'parent_remote_id' => $query->createPositionalParameter(
-                        '5238a276bf8231fbcf8a986cdc82a6a5',
-                        ParameterType::STRING
+                        '5238a276bf8231fbcf8a986cdc82a6a5'
                     ),
                 ]
             );
@@ -1340,6 +1519,8 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     /**
      * Test for the getChildren() method.
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testGetChildren(): void
     {
@@ -1383,16 +1564,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                         ParameterType::INTEGER
                     ),
                     'path_string' => $query->createPositionalParameter(
-                        '/1/5/13/228/',
-                        ParameterType::STRING
+                        '/1/5/13/228/'
                     ),
                     'remote_id' => $query->createPositionalParameter(
-                        'asdfg123437',
-                        ParameterType::STRING
+                        'asdfg123437'
                     ),
                 ]
             );
-        $query->execute();
+        $query->executeStatement();
 
         $gateway = $this->getLocationGateway();
         $data = $gateway->getFallbackMainNodeData(12, 13);
@@ -1404,6 +1583,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     /**
      * Test for the removeLocation() method.
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function testRemoveLocation(): void
     {
@@ -1415,24 +1597,25 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         try {
             $gateway->getBasicNodeData(13);
             self::fail('Location was not deleted!');
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
             // Do nothing
         }
     }
 
-    public function providerForTestUpdatePathIdentificationString(): array
+    /**
+     * @return iterable<array{int, int, string, string}>
+     */
+    public static function providerForTestUpdatePathIdentificationString(): iterable
     {
-        return [
-            [77, 2, 'new_solutions', 'new_solutions'],
-            [75, 69, 'stylesheets', 'products/stylesheets'],
-        ];
+        yield [77, 2, 'new_solutions', 'new_solutions'];
+        yield [75, 69, 'stylesheets', 'products/stylesheets'];
     }
 
     /**
-     * Test for the updatePathIdentificationString() method.
-     *
-     *
      * @dataProvider providerForTestUpdatePathIdentificationString
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testUpdatePathIdentificationString(
         int $locationId,

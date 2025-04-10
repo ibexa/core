@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Location\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
@@ -19,9 +20,9 @@ use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
  */
 class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
 {
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
+    private const string PATH_STRING_OF_LOCATION_TO_BE_TRASHED = '/1/2/69/70/71/';
+    private const string PATH_STRING_OF_TRASHED_LOCATION = '/1/2/69/';
+
     protected function getLocationGateway(): DoctrineDatabase
     {
         return new DoctrineDatabase(
@@ -33,6 +34,9 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
     }
 
     /**
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     *
      * @todo test updated content status
      */
     public function testTrashLocation(): void
@@ -52,10 +56,23 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
             $query
                 ->select('node_id', 'priority')
                 ->from('ezcontentobject_tree')
-                ->where($query->expr()->in('node_id', [1, 2, 69, 70, 71]))
+                ->where(
+                    $query->expr()->in(
+                        'node_id',
+                        $query->createNamedParameter(
+                            [1, 2, 69, 70, 71],
+                            ArrayParameterType::INTEGER,
+                            ':node_ids'
+                        )
+                    )
+                )
         );
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testTrashLocationUpdateTrashTable(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -65,7 +82,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $query = $this->getDatabaseConnection()->createQueryBuilder();
         self::assertQueryResult(
             [
-                [71, '/1/2/69/70/71/'],
+                [71, self::PATH_STRING_OF_LOCATION_TO_BE_TRASHED],
             ],
             $query
                 ->select('node_id', 'path_string')
@@ -73,6 +90,9 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @phpstan-return list<array{string, int|string}>
+     */
     public static function getUntrashedLocationValues(): array
     {
         return [
@@ -95,6 +115,9 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
 
     /**
      * @dataProvider getUntrashedLocationValues
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function testUntrashLocationDefault(string $property, int|string $value): void
     {
@@ -110,10 +133,23 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
             $query
                 ->select($property)
                 ->from('ezcontentobject_tree')
-                ->where($query->expr()->in('contentobject_id', [69]))
+                ->where(
+                    $query->expr()->in(
+                        'contentobject_id',
+                        $query->createNamedParameter(
+                            [69],
+                            ArrayParameterType::INTEGER,
+                            ':contentobject_ids'
+                        )
+                    )
+                )
         );
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testUntrashLocationNewParent(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -128,10 +164,22 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
             $query
                 ->select('node_id', 'parent_node_id', 'path_string')
                 ->from('ezcontentobject_tree')
-                ->where($query->expr()->in('contentobject_id', [69]))
+                ->where(
+                    $query->expr()->in(
+                        'contentobject_id',
+                        $query->createNamedParameter(
+                            [69],
+                            ArrayParameterType::INTEGER,
+                            ':contentobject_ids'
+                        )
+                    )
+                )
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testUntrashInvalidLocation(): void
     {
         $this->expectException(NotFoundException::class);
@@ -142,6 +190,9 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $handler->untrashLocation(23);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testUntrashLocationInvalidParent(): void
     {
         $this->expectException(NotFoundException::class);
@@ -153,6 +204,9 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $handler->untrashLocation(71, 1337);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testUntrashLocationInvalidOldParent(): void
     {
         $this->expectException(NotFoundException::class);
@@ -166,6 +220,9 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $handler->untrashLocation(71);
     }
 
+    /**
+     * @phpstan-return list<array{string, int|string}>
+     */
     public static function getLoadTrashValues(): array
     {
         return [
@@ -177,7 +234,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
             ['contentobject_id', 69],
             ['parent_node_id', 70],
             ['path_identification_string', 'products/software/os_type_i'],
-            ['path_string', '/1/2/69/70/71/'],
+            ['path_string', self::PATH_STRING_OF_LOCATION_TO_BE_TRASHED],
             ['modified_subnode', 1311065013],
             ['main_node_id', 71],
             ['depth', 4],
@@ -188,6 +245,9 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
 
     /**
      * @dataProvider getLoadTrashValues
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function testLoadTrashByLocationId(string $field, int|string $value): void
     {
@@ -204,6 +264,11 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testCountTrashed(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -222,6 +287,10 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testListEmptyTrash(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -233,7 +302,11 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    protected function trashSubtree()
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    protected function trashSubtree(): void
     {
         $handler = $this->getLocationGateway();
         $handler->trashLocation(69);
@@ -246,6 +319,11 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $handler->trashLocation(76);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testListFullTrash(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -258,6 +336,11 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testListTrashLimited(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -270,6 +353,9 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @phpstan-return list<array{string, int|string}>
+     */
     public static function getTrashValues(): array
     {
         return [
@@ -283,7 +369,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
             ['node_id', 69],
             ['parent_node_id', 2],
             ['path_identification_string', 'products'],
-            ['path_string', '/1/2/69/'],
+            ['path_string', self::PATH_STRING_OF_TRASHED_LOCATION],
             ['priority', 0],
             ['remote_id', '9cec85d730eec7578190ee95ce5a36f5'],
             ['sort_field', 2],
@@ -293,6 +379,10 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
 
     /**
      * @dataProvider getTrashValues
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
     public function testListTrashItem(string $key, int|string $value): void
     {
@@ -304,6 +394,11 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         self::assertEquals($value, $trashList[0][$key]);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testListTrashSortedPathStringDesc(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -317,9 +412,9 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
                 '/1/2/69/72/74/',
                 '/1/2/69/72/73/',
                 '/1/2/69/72/',
-                '/1/2/69/70/71/',
+                self::PATH_STRING_OF_LOCATION_TO_BE_TRASHED,
                 '/1/2/69/70/',
-                '/1/2/69/',
+                self::PATH_STRING_OF_TRASHED_LOCATION,
             ],
             array_map(
                 static function (array $trashItem) {
@@ -336,6 +431,11 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testListTrashSortedDepth(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -344,14 +444,14 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
 
         self::assertEquals(
             [
-                '/1/2/69/',
+                self::PATH_STRING_OF_TRASHED_LOCATION,
                 '/1/2/69/76/',
                 '/1/2/69/72/',
                 '/1/2/69/70/',
                 '/1/2/69/72/75/',
                 '/1/2/69/72/74/',
                 '/1/2/69/72/73/',
-                '/1/2/69/70/71/',
+                self::PATH_STRING_OF_LOCATION_TO_BE_TRASHED,
             ],
             array_map(
                 static function (array $trashItem) {
@@ -369,6 +469,10 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testCleanupTrash(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -385,6 +489,10 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testRemoveElementFromTrash(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -402,6 +510,9 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testCountLocationsByContentId(): void
     {
         $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
@@ -433,12 +544,11 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
                         ParameterType::INTEGER
                     ),
                     'remote_id' => $query->createPositionalParameter(
-                        'some_remote_id',
-                        ParameterType::STRING
+                        'some_remote_id'
                     ),
                 ]
             );
-        $query->execute();
+        $query->executeStatement();
         self::assertSame(2, $handler->countLocationsByContentId(67));
     }
 }

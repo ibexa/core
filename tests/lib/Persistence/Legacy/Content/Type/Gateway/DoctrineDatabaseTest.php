@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Type\Gateway;
 
+use Ibexa\Contracts\Core\Persistence\Content\FieldValue as PersistenceValue;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Content\Type;
 // For SORT_ORDER_* constants
@@ -23,6 +24,10 @@ use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
  */
 class DoctrineDatabaseTest extends LanguageAwareTestCase
 {
+    private const string EXISTING_TYPES_FIXTURE_PATH = __DIR__ . '/_fixtures/existing_types.php';
+    private const string EXISTING_GROUPS_FIXTURE_PATH = __DIR__ . '/_fixtures/existing_groups.php';
+    private const string COUNT_ALL_SQL_EXPRESSION = 'COUNT( * )';
+
     /**
      * The DoctrineDatabase gateway to test.
      */
@@ -96,10 +101,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         return $group;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testUpdateGroup(): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_groups.php'
+            self::EXISTING_GROUPS_FIXTURE_PATH
         );
 
         $gateway = $this->getGateway();
@@ -113,7 +121,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ['4'],
             ],
             $this->getDatabaseConnection()->createQueryBuilder()
-                ->select('COUNT(*)')
+                ->select(self::COUNT_ALL_SQL_EXPRESSION)
                 ->from('ezcontentclassgroup')
         );
 
@@ -193,10 +201,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         return $struct;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testCountTypesInGroup(): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_types.php'
+            self::EXISTING_TYPES_FIXTURE_PATH
         );
 
         $gateway = $this->getGateway();
@@ -211,10 +222,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testCountGroupsForType(): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_types.php'
+            self::EXISTING_TYPES_FIXTURE_PATH
         );
 
         $gateway = $this->getGateway();
@@ -229,10 +243,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testDeleteGroup(): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_groups.php'
+            self::EXISTING_GROUPS_FIXTURE_PATH
         );
 
         $gateway = $this->getGateway();
@@ -251,10 +268,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testLoadGroupData(): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_groups.php'
+            self::EXISTING_GROUPS_FIXTURE_PATH
         );
 
         $gateway = $this->getGateway();
@@ -276,10 +296,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testLoadGroupDataByIdentifier(): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_groups.php'
+            self::EXISTING_GROUPS_FIXTURE_PATH
         );
 
         $gateway = $this->getGateway();
@@ -301,10 +324,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testLoadAllGroupsData(): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_groups.php'
+            self::EXISTING_GROUPS_FIXTURE_PATH
         );
 
         $gateway = $this->getGateway();
@@ -329,10 +355,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testLoadTypesDataForGroup(): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_types.php'
+            self::EXISTING_TYPES_FIXTURE_PATH
         );
 
         $gateway = $this->getGateway();
@@ -344,10 +373,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testLoadTypeData(): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_types.php'
+            self::EXISTING_TYPES_FIXTURE_PATH
         );
 
         $gateway = $this->getGateway();
@@ -361,21 +393,15 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             50,
             $rows[0]
         );
-
-        /*
-         * Store mapper fixture
-         *
-        file_put_contents(
-            dirname( __DIR__ ) . '/_fixtures/map_load_type.php',
-            "<?php\n\nreturn " . var_export( $rows, true ) . ";\n"
-        );
-         */
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testLoadTypeDataByIdentifier(): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_types.php'
+            self::EXISTING_TYPES_FIXTURE_PATH
         );
 
         $gateway = $this->getGateway();
@@ -391,10 +417,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testLoadTypeDataByRemoteId(): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_types.php'
+            self::EXISTING_TYPES_FIXTURE_PATH
         );
 
         $gateway = $this->getGateway();
@@ -413,33 +442,34 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns the expected data from creating a type.
      *
-     * @return string[][]
+     * @return iterable<array{string, int|string}>
      */
-    public static function getTypeCreationExpectations(): array
+    public static function getTypeCreationExpectations(): iterable
     {
-        return [
-            ['always_available', 0],
-            ['contentobject_name', '<short_name|name>'],
-            ['created', '1024392098'],
-            ['creator_id', '14'],
-            ['identifier', 'folder'],
-            ['initial_language_id', '2'],
-            ['is_container', '1'],
-            ['language_mask', 7],
-            ['modified', '1082454875'],
-            ['modifier_id', '14'],
-            ['remote_id', 'a3d405b81be900468eb153d774f4f0d2'],
-            ['serialized_description_list', 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}'],
-            ['serialized_name_list', 'a:3:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:6:"Folder";s:6:"eng-GB";s:11:"Folder (GB)";}'],
-            ['sort_field', 7],
-            ['sort_order', 1],
-            ['url_alias_name', ''],
-            ['version', '0'],
-        ];
+        yield ['always_available', 0];
+        yield ['contentobject_name', '<short_name|name>'];
+        yield ['created', '1024392098'];
+        yield ['creator_id', '14'];
+        yield ['identifier', 'folder'];
+        yield ['initial_language_id', '2'];
+        yield ['is_container', '1'];
+        yield ['language_mask', 7];
+        yield ['modified', '1082454875'];
+        yield ['modifier_id', '14'];
+        yield ['remote_id', 'a3d405b81be900468eb153d774f4f0d2'];
+        yield ['serialized_description_list', 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}'];
+        yield ['serialized_name_list', 'a:3:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:6:"Folder";s:6:"eng-GB";s:11:"Folder (GB)";}'];
+        yield ['sort_field', 7];
+        yield ['sort_order', 1];
+        yield ['url_alias_name', ''];
+        yield ['version', '0'];
     }
 
     /**
      * @dataProvider getTypeCreationExpectations
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function testInsertType(string $column, int|string $expectation): void
     {
@@ -460,20 +490,23 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns the data expected to be inserted in ezcontentclass_name.
      *
-     * @return string[][]
+     * @return iterable<array{string, array<mixed>}>
      */
-    public static function getTypeCreationContentClassNameExpectations(): array
+    public static function getTypeCreationContentClassNameExpectations(): iterable
     {
-        return [
-            ['contentclass_version', [0, 0]],
-            ['language_id', [3, 4]],
-            ['language_locale', ['eng-US', 'eng-GB']],
-            ['name', ['Folder', 'Folder (GB)']],
-        ];
+        yield ['contentclass_version', [0, 0]];
+        yield ['language_id', [3, 4]];
+        yield ['language_locale', ['eng-US', 'eng-GB']];
+        yield ['name', ['Folder', 'Folder (GB)']];
     }
 
     /**
      * @dataProvider getTypeCreationContentClassNameExpectations
+     *
+     * @param array<mixed> $expectation
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testInsertTypeContentClassName(string $column, array $expectation): void
     {
@@ -504,7 +537,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     protected function getTypeFixture(): Type
     {
         $type = new Type();
-
         $type->status = 0;
         $type->name = [
             'always-available' => 'eng-US',
@@ -535,6 +567,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         return $type;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testInsertFieldDefinition(): void
     {
         $gateway = $this->getGateway();
@@ -633,7 +668,8 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $field->isRequired = true;
         $field->isInfoCollector = true;
         // $field->fieldTypeConstraints ???
-        $field->defaultValue = [
+        $field->defaultValue = new PersistenceValue();
+        $field->defaultValue->data = [
             0 => '',
             'always-available' => false,
         ];
@@ -673,10 +709,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         return $fieldDef;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testDeleteFieldDefinition(): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_types.php'
+            self::EXISTING_TYPES_FIXTURE_PATH
         );
 
         $gateway = $this->getGateway();
@@ -686,15 +725,18 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertQueryResult(
             [[5]],
             $this->getDatabaseConnection()->createQueryBuilder()
-                ->select('COUNT(*)')
+                ->select(self::COUNT_ALL_SQL_EXPRESSION)
                 ->from('ezcontentclass_attribute')
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testUpdateFieldDefinition(): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_types.php'
+            self::EXISTING_TYPES_FIXTURE_PATH
         );
         $fieldDefinitionFixture = $this->getFieldDefinitionFixture();
         $fieldDefinitionFixture->id = 160;
@@ -763,10 +805,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testInsertGroupAssignment(): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_groups.php'
+            self::EXISTING_GROUPS_FIXTURE_PATH
         );
 
         $gateway = $this->getGateway();
@@ -792,10 +838,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testDeleteGroupAssignment(): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_types.php'
+            self::EXISTING_TYPES_FIXTURE_PATH
         );
 
         $gateway = $this->getGateway();
@@ -806,7 +855,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [['1']],
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select(
-                    'COUNT(*)'
+                    self::COUNT_ALL_SQL_EXPRESSION
                 )->from('ezcontentclass_classgroup')
                 ->where('contentclass_id = 1')
         );
@@ -814,11 +863,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     /**
      * @dataProvider getTypeUpdateExpectations
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function testUpdateType(string $fieldName, string $expectedValue): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_types.php'
+            self::EXISTING_TYPES_FIXTURE_PATH
         );
 
         $gateway = $this->getGateway();
@@ -838,14 +890,18 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     $fieldName
                 )->from('ezcontentclass')
                 ->where('id = 1 AND version = 0'),
-            "Incorrect value stored for '{$fieldName}'."
+            "Incorrect value stored for '$fieldName'."
         );
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testUpdateTypeName(): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_types.php'
+            self::EXISTING_TYPES_FIXTURE_PATH
         );
 
         $gateway = $this->getGateway();
@@ -935,6 +991,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         return $type;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testCountInstancesOfTypeExist(): void
     {
         $this->insertDatabaseFixture(
@@ -943,7 +1002,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $gateway = $this->getGateway();
-        $res = $gateway->countInstancesOfType(3, 0);
+        $res = $gateway->countInstancesOfType(3);
 
         self::assertEquals(
             6,
@@ -951,6 +1010,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testCountInstancesOfTypeNotExist(): void
     {
         $this->insertDatabaseFixture(
@@ -959,7 +1021,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $gateway = $this->getGateway();
-        $res = $gateway->countInstancesOfType(23422342, 1);
+        $res = $gateway->countInstancesOfType(23422342);
 
         self::assertEquals(
             0,
@@ -967,10 +1029,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testDeleteFieldDefinitionsForTypeExisting(): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_types.php'
+            self::EXISTING_TYPES_FIXTURE_PATH
         );
 
         $gateway = $this->getGateway();
@@ -979,7 +1044,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $countAffectedAttr = $this->getDatabaseConnection()->createQueryBuilder();
         $countAffectedAttr
-            ->select('COUNT(*)')
+            ->select(self::COUNT_ALL_SQL_EXPRESSION)
             ->from('ezcontentclass_attribute')
             ->where(
                 $countAffectedAttr->expr()->eq(
@@ -994,7 +1059,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         $countNotAffectedAttr = $this->getDatabaseConnection()->createQueryBuilder();
-        $countNotAffectedAttr->select('COUNT(*)')
+        $countNotAffectedAttr->select(self::COUNT_ALL_SQL_EXPRESSION)
             ->from('ezcontentclass_attribute');
 
         self::assertQueryResult(
@@ -1003,10 +1068,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testDeleteFieldDefinitionsForTypeNotExisting(): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_types.php'
+            self::EXISTING_TYPES_FIXTURE_PATH
         );
 
         $gateway = $this->getGateway();
@@ -1014,7 +1082,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->deleteFieldDefinitionsForType(23, 1);
 
         $countNotAffectedAttr = $this->getDatabaseConnection()->createQueryBuilder();
-        $countNotAffectedAttr->select('COUNT(*)')
+        $countNotAffectedAttr->select(self::COUNT_ALL_SQL_EXPRESSION)
             ->from('ezcontentclass_attribute');
 
         self::assertQueryResult(
@@ -1023,10 +1091,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testDeleteGroupAssignmentsForTypeExisting(): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_types.php'
+            self::EXISTING_TYPES_FIXTURE_PATH
         );
 
         $gateway = $this->getGateway();
@@ -1034,7 +1105,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->deleteGroupAssignmentsForType(1, 0);
 
         $countAffectedAttr = $this->getDatabaseConnection()->createQueryBuilder();
-        $countAffectedAttr->select('COUNT(*)')
+        $countAffectedAttr->select(self::COUNT_ALL_SQL_EXPRESSION)
             ->from('ezcontentclass_classgroup');
 
         self::assertQueryResult(
@@ -1043,10 +1114,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testDeleteGroupAssignmentsForTypeNotExisting(): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_types.php'
+            self::EXISTING_TYPES_FIXTURE_PATH
         );
 
         $gateway = $this->getGateway();
@@ -1054,7 +1128,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->deleteType(23, 1);
 
         $countAffectedAttr = $this->getDatabaseConnection()->createQueryBuilder();
-        $countAffectedAttr->select('COUNT(*)')
+        $countAffectedAttr->select(self::COUNT_ALL_SQL_EXPRESSION)
             ->from('ezcontentclass_classgroup');
 
         self::assertQueryResult(
@@ -1063,10 +1137,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testDeleteTypeExisting(): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_types.php'
+            self::EXISTING_TYPES_FIXTURE_PATH
         );
 
         $gateway = $this->getGateway();
@@ -1074,7 +1151,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->deleteType(1, 0);
 
         $countAffectedAttr = $this->getDatabaseConnection()->createQueryBuilder();
-        $countAffectedAttr->select('COUNT(*)')
+        $countAffectedAttr->select(self::COUNT_ALL_SQL_EXPRESSION)
             ->from('ezcontentclass');
 
         self::assertQueryResult(
@@ -1083,10 +1160,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testDeleteTypeNotExisting(): void
     {
         $this->insertDatabaseFixture(
-            __DIR__ . '/_fixtures/existing_types.php'
+            self::EXISTING_TYPES_FIXTURE_PATH
         );
 
         $gateway = $this->getGateway();
@@ -1094,7 +1174,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->deleteType(23, 1);
 
         $countAffectedAttr = $this->getDatabaseConnection()->createQueryBuilder();
-        $countAffectedAttr->select('COUNT(*)')
+        $countAffectedAttr->select(self::COUNT_ALL_SQL_EXPRESSION)
             ->from('ezcontentclass');
 
         self::assertQueryResult(
@@ -1103,6 +1183,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testPublishTypeAndFields(): void
     {
         $this->insertDatabaseFixture(
@@ -1115,7 +1198,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertQueryResult(
             [[1]],
             $this->getDatabaseConnection()->createQueryBuilder()
-                ->select('COUNT( * )')
+                ->select(self::COUNT_ALL_SQL_EXPRESSION)
                 ->from('ezcontentclass')
                 ->where('id = 1 AND version = 0')
         );
@@ -1123,7 +1206,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertQueryResult(
             [[2]],
             $this->getDatabaseConnection()->createQueryBuilder()
-                ->select('COUNT( * )')
+                ->select(self::COUNT_ALL_SQL_EXPRESSION)
                 ->from('ezcontentclass_classgroup')
                 ->where('contentclass_id = 1 AND contentclass_version = 0')
         );
@@ -1131,7 +1214,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertQueryResult(
             [[3]],
             $this->getDatabaseConnection()->createQueryBuilder()
-                ->select('COUNT( * )')
+                ->select(self::COUNT_ALL_SQL_EXPRESSION)
                 ->from('ezcontentclass_attribute')
                 ->where('contentclass_id = 1 AND version = 0')
         );

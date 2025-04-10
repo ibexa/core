@@ -21,15 +21,14 @@ use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
  */
 class DoctrineDatabaseTest extends TestCase
 {
-    /**
-     * Database gateway to test.
-     */
     protected DoctrineDatabase $gateway;
 
     /**
      * Test for the loadUrlAliasData() method.
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function testLoadUrlaliasDataNonExistent(): void
+    public function testLoadUrlAliasDataNonExistent(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_simple.php');
         $gateway = $this->getGateway();
@@ -41,8 +40,10 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * Test for the loadUrlAliasData() method.
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function testLoadUrlaliasData(): void
+    public function testLoadUrlAliasData(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_simple.php');
         $gateway = $this->getGateway();
@@ -83,7 +84,7 @@ class DoctrineDatabaseTest extends TestCase
      *
      * Test with fixture containing language mask with multiple languages.
      */
-    public function testLoadUrlaliasDataMultipleLanguages(): void
+    public function testLoadUrlAliasDataMultipleLanguages(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_multilang.php');
         $gateway = $this->getGateway();
@@ -120,56 +121,53 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
-     * @return array
+     * @phpstan-return iterable<array{int, list<list<array<string,mixed>>>}>
      */
-    public function providerForTestLoadPathData(): array
+    public function providerForTestLoadPathData(): iterable
     {
-        return [
+        yield [
+            2,
             [
-                2,
                 [
-                    [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
-                    ],
+                    ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
                 ],
             ],
+        ];
+        yield [
+            3,
             [
-                3,
                 [
-                    [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
-                    ],
-                    [
-                        ['parent' => '2', 'lang_mask' => '5', 'text' => 'two'],
-                        ['parent' => '2', 'lang_mask' => '3', 'text' => 'dva'],
-                    ],
+                    ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
+                ],
+                [
+                    ['parent' => '2', 'lang_mask' => '5', 'text' => 'two'],
+                    ['parent' => '2', 'lang_mask' => '3', 'text' => 'dva'],
                 ],
             ],
+        ];
+        yield [
+            4,
             [
-                4,
                 [
-                    [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
-                    ],
-                    [
-                        ['parent' => '2', 'lang_mask' => '5', 'text' => 'two'],
-                        ['parent' => '2', 'lang_mask' => '3', 'text' => 'dva'],
-                    ],
-                    [
-                        ['parent' => '3', 'lang_mask' => '9', 'text' => 'drei'],
-                        ['parent' => '3', 'lang_mask' => '5', 'text' => 'three'],
-                        ['parent' => '3', 'lang_mask' => '3', 'text' => 'tri'],
-                    ],
+                    ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
+                ],
+                [
+                    ['parent' => '2', 'lang_mask' => '5', 'text' => 'two'],
+                    ['parent' => '2', 'lang_mask' => '3', 'text' => 'dva'],
+                ],
+                [
+                    ['parent' => '3', 'lang_mask' => '9', 'text' => 'drei'],
+                    ['parent' => '3', 'lang_mask' => '5', 'text' => 'three'],
+                    ['parent' => '3', 'lang_mask' => '3', 'text' => 'tri'],
                 ],
             ],
         ];
     }
 
     /**
-     * Test for the loadPathData() method.
-     *
-     *
      * @dataProvider providerForTestLoadPathData
+     *
+     * @phpstan-param list<list<array<string,mixed>>> $pathData
      */
     public function testLoadPathData(int $id, array $pathData): void
     {
@@ -185,43 +183,43 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
-     * @return array
+     * @phpstan-return iterable<array{int, list<list<array<string,mixed>>>}>
      */
-    public function providerForTestLoadPathDataMultipleLanguages(): array
+    public static function providerForTestLoadPathDataMultipleLanguages(): iterable
     {
-        return [
+        yield [
+            2,
             [
-                2,
                 [
-                    [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
-                    ],
+                    ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
                 ],
             ],
+        ];
+
+        yield [
+            3,
             [
-                3,
                 [
-                    [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
-                    ],
-                    [
-                        ['parent' => '2', 'lang_mask' => '6', 'text' => 'dva'],
-                    ],
+                    ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
+                ],
+                [
+                    ['parent' => '2', 'lang_mask' => '6', 'text' => 'dva'],
                 ],
             ],
+        ];
+
+        yield [
+            4,
             [
-                4,
                 [
-                    [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
-                    ],
-                    [
-                        ['parent' => '2', 'lang_mask' => '6', 'text' => 'dva'],
-                    ],
-                    [
-                        ['parent' => '3', 'lang_mask' => '4', 'text' => 'three'],
-                        ['parent' => '3', 'lang_mask' => '2', 'text' => 'tri'],
-                    ],
+                    ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
+                ],
+                [
+                    ['parent' => '2', 'lang_mask' => '6', 'text' => 'dva'],
+                ],
+                [
+                    ['parent' => '3', 'lang_mask' => '4', 'text' => 'three'],
+                    ['parent' => '3', 'lang_mask' => '2', 'text' => 'tri'],
                 ],
             ],
         ];
@@ -230,8 +228,12 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Test for the loadPathData() method.
      *
+     * @phpstan-param list<list<array<string,mixed>>> $pathData
      *
      * @dataProvider providerForTestLoadPathDataMultipleLanguages
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
     public function testLoadPathDataMultipleLanguages(int $id, array $pathData): void
     {
