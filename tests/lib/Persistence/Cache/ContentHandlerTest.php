@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Relation as SPIRelation;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
-use Ibexa\Contracts\Core\Repository\Values\Content\Relation as APIRelation;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 use Ibexa\Core\Persistence\Cache\ContentHandler;
 
 /**
@@ -53,7 +53,7 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
             //['deleteContent', [2]], own tests for relations complexity
             ['deleteVersion', [2, 1], [['content_version', [2, 1], false]], null, ['c-2-v-1']],
             ['addRelation', [new RelationCreateStruct(['destinationContentId' => 2, 'sourceContentId' => 4])], [['content', [2], false], ['content', [4], false]], null, ['c-2', 'c-4']],
-            ['removeRelation', [66, APIRelation::COMMON, 2], [['content', [2], false], ['relation', [66], false]], null, ['c-2', 're-66']],
+            ['removeRelation', [66, RelationType::COMMON->value, 2], [['content', [2], false], ['relation', [66], false]], null, ['c-2', 're-66']],
             ['loadReverseRelations', [2, 3]],
             ['publish', [2, 3, new MetadataUpdateStruct()], [['content', [2], false]], null, ['c-2']],
             [
@@ -450,7 +450,7 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
         $innerHandlerMock
             ->expects(self::once())
             ->method('loadReverseRelations')
-            ->with(2, APIRelation::FIELD | APIRelation::ASSET)
+            ->with(2, RelationType::FIELD->value | RelationType::ASSET->value)
             ->willReturn(
                 [
                     new SPIRelation(['sourceContentId' => 42]),

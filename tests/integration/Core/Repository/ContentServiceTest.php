@@ -3557,7 +3557,7 @@ class ContentServiceTest extends BaseContentServiceTest
     {
         self::assertEquals(
             [
-                'type' => Relation::COMMON,
+                'type' => RelationType::COMMON->value,
                 'sourceFieldDefinitionIdentifier' => null,
                 'sourceContentInfo' => 'abcdef0123456789abcdef0123456789',
                 'destinationContentInfo' => self::MEDIA_REMOTE_ID,

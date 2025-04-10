@@ -11,10 +11,10 @@ use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
-use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
-use Ibexa\Core\FieldType\Relation\Type as RelationType;
+use Ibexa\Core\FieldType\Relation\Type as Type;
 use Ibexa\Core\FieldType\Relation\Value;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\Repository\Validator\TargetContentValidatorInterface;
@@ -75,7 +75,7 @@ class RelationTest extends FieldTypeTest
      */
     protected function createFieldTypeUnderTest()
     {
-        $fieldType = new RelationType(
+        $fieldType = new Type(
             $this->contentHandler,
             $this->targetContentValidator
         );
@@ -104,7 +104,7 @@ class RelationTest extends FieldTypeTest
         return [
             'selectionMethod' => [
                 'type' => 'int',
-                'default' => RelationType::SELECTION_BROWSE,
+                'default' => Type::SELECTION_BROWSE,
             ],
             'selectionRoot' => [
                 'type' => 'string',
@@ -313,13 +313,13 @@ class RelationTest extends FieldTypeTest
         return [
             [
                 [
-                    'selectionMethod' => RelationType::SELECTION_BROWSE,
+                    'selectionMethod' => Type::SELECTION_BROWSE,
                     'selectionRoot' => 42,
                 ],
             ],
             [
                 [
-                    'selectionMethod' => RelationType::SELECTION_DROPDOWN,
+                    'selectionMethod' => Type::SELECTION_DROPDOWN,
                     'selectionRoot' => 'some-key',
                 ],
             ],
@@ -356,7 +356,7 @@ class RelationTest extends FieldTypeTest
                 // Unknown key
                 [
                     'unknownKey' => 23,
-                    'selectionMethod' => RelationType::SELECTION_BROWSE,
+                    'selectionMethod' => Type::SELECTION_BROWSE,
                     'selectionRoot' => 42,
                 ],
             ],
@@ -370,7 +370,7 @@ class RelationTest extends FieldTypeTest
             [
                 // Invalid selectionRoot
                 [
-                    'selectionMethod' => RelationType::SELECTION_DROPDOWN,
+                    'selectionMethod' => Type::SELECTION_DROPDOWN,
                     'selectionRoot' => [],
                 ],
             ],
@@ -385,7 +385,7 @@ class RelationTest extends FieldTypeTest
         $ft = $this->createFieldTypeUnderTest();
         self::assertEquals(
             [
-                Relation::FIELD => [70],
+                RelationType::FIELD->value => [70],
             ],
             $ft->getRelations($ft->acceptValue(70))
         );
