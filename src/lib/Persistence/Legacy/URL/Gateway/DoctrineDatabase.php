@@ -61,10 +61,17 @@ class DoctrineDatabase extends Gateway
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function find(Criterion $criterion, $offset, $limit, array $sortClauses = [], $doCount = true): array
-    {
+    public function find(
+        Criterion $criterion,
+        int $offset,
+        int $limit,
+        array $sortClauses = [],
+        bool $doCount = true
+    ): array {
         $count = $doCount ? $this->doCount($criterion) : null;
         if (!$doCount && $limit === 0) {
             throw new RuntimeException('Invalid query. Cannot disable count and request 0 items at the same time');
@@ -88,18 +95,16 @@ class DoctrineDatabase extends Gateway
             $query->addOrderBy($column, $this->getQuerySortingDirection($sortClause->direction));
         }
 
-        $statement = $query->execute();
-
         return [
             'count' => $count,
-            'rows' => $statement->fetchAllAssociative(),
+            'rows' => $query->executeQuery()->fetchAllAssociative(),
         ];
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function findUsages($id): array
+    public function findUsages(int $id): array
     {
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
@@ -131,11 +136,11 @@ class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->executeQuery()->fetchFirstColumn();
+        return array_map('intval', $query->executeQuery()->fetchFirstColumn());
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Doctrine\DBAL\Exception
      */
     public function updateUrl(URL $url): void
     {
@@ -144,10 +149,10 @@ class DoctrineDatabase extends Gateway
             ->update(self::URL_TABLE)
             ->set(
                 self::COLUMN_URL,
-                $query->createPositionalParameter($url->url, ParameterType::STRING)
+                $query->createPositionalParameter($url->url)
             )->set(
                 self::COLUMN_ORIGINAL_URL_MD5,
-                $query->createPositionalParameter($url->originalUrlMd5, ParameterType::STRING)
+                $query->createPositionalParameter($url->originalUrlMd5)
             )
             ->set(
                 self::COLUMN_MODIFIED,
@@ -168,13 +173,13 @@ class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function loadUrlData($id): array
+    public function loadUrlData(int $id): array
     {
         $query = $this->createSelectQuery();
         $query->where(
@@ -188,15 +193,15 @@ class DoctrineDatabase extends Gateway
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function loadUrlDataByUrl($url): array
+    public function loadUrlDataByUrl(string $url): array
     {
         $query = $this->createSelectQuery();
         $query->where(
             $query->expr()->eq(
                 self::COLUMN_URL,
-                $query->createPositionalParameter($url, ParameterType::STRING)
+                $query->createPositionalParameter($url)
             )
         );
 
@@ -205,6 +210,7 @@ class DoctrineDatabase extends Gateway
 
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function doCount(Criterion $criterion): int
     {
@@ -212,11 +218,11 @@ class DoctrineDatabase extends Gateway
 
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select("COUNT(DISTINCT url.{$columnName})")
+            ->select("COUNT(DISTINCT url.$columnName)")
             ->from(self::URL_TABLE, 'url')
             ->where($this->criteriaConverter->convertCriteria($query, $criterion));
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     /**
@@ -238,6 +244,9 @@ class DoctrineDatabase extends Gateway
             ->from(self::URL_TABLE, 'url');
     }
 
+    /**
+     * @return string[]
+     */
     private function getSelectColumns(): array
     {
         return [
@@ -252,7 +261,7 @@ class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     private function getQuerySortingDirection(string $direction): string
     {

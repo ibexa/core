@@ -14,54 +14,47 @@ abstract class Gateway
 {
     /**
      * Update the URL.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\URL\URL $url
      */
-    abstract public function updateUrl(URL $url);
+    abstract public function updateUrl(URL $url): void;
 
     /**
      * Selects URLs matching specified criteria.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion $criterion
-     * @param int $offset
-     * @param int $limit
      * @param \Ibexa\Contracts\Core\Repository\Values\URL\Query\SortClause[] $sortClauses
-     * @param bool $doCount
      *
-     * @return array{
-     *     "rows": mixed,
-     *     "count": int|null,
-     * }
+     * @return array{count: int|null, rows: list<array<string, mixed>>}
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException if Criterion is not applicable to its target
      */
-    abstract public function find(Criterion $criterion, $offset, $limit, array $sortClauses = [], $doCount = true);
+    abstract public function find(
+        Criterion $criterion,
+        int $offset,
+        int $limit,
+        array $sortClauses = [],
+        bool $doCount = true
+    ): array;
 
     /**
      * Returns IDs of Content Objects using URL identified by $id.
      *
      * @param int $id
      *
-     * @return array
+     * @return int[]
      */
-    abstract public function findUsages($id);
+    abstract public function findUsages(int $id): array;
 
     /**
      * Loads URL with url id.
      *
-     * @param int $id
-     *
-     * @return array
+     * @phpstan-return list<array<string,mixed>>
      */
-    abstract public function loadUrlData($id);
+    abstract public function loadUrlData(int $id): array;
 
     /**
      * Loads URL with url address.
      *
-     * @param int $url
-     *
-     * @return array
+     * @phpstan-return list<array<string,mixed>>
      */
-    abstract public function loadUrlDataByUrl($url);
+    abstract public function loadUrlDataByUrl(string $url): array;
 }
