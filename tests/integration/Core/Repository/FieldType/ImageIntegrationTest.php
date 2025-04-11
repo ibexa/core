@@ -28,21 +28,25 @@ use stdClass;
  */
 class ImageIntegrationTest extends FileSearchBaseIntegrationTest
 {
+    private const string IMAGE_FIXTURE_PATH = __DIR__ . '/_fixtures/image.jpg';
+    private const string IMAGE_FIXTURE_ALT_TEXT = 'My icy flower at night';
+
     /**
      * Stores the loaded image path for copy test.
      */
-    protected static $loadedImagePath;
+    protected static string $loadedImagePath;
 
     /**
      * IOService storage prefix for the tested Type's files.
-     *
-     * @var string
      */
-    protected static $storagePrefixConfigKey = 'ibexa.io.images.storage.prefix';
+    protected static string $storagePrefixConfigKey = 'ibexa.io.images.storage.prefix';
 
-    protected function getStoragePrefix()
+    /**
+     * @throws \ErrorException
+     */
+    protected function getStoragePrefix(): string
     {
-        return $this->getConfigValue(self::$storagePrefixConfigKey);
+        return (string)$this->getConfigValue(self::$storagePrefixConfigKey);
     }
 
     /**
@@ -55,15 +59,15 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
         return [
             'create' => [
                 'fileName' => 'Icy-Night-Flower.jpg',
-                'inputUri' => ($path = __DIR__ . '/_fixtures/image.jpg'),
-                'alternativeText' => 'My icy flower at night',
-                'fileSize' => filesize($path),
+                'inputUri' => self::IMAGE_FIXTURE_PATH,
+                'alternativeText' => self::IMAGE_FIXTURE_ALT_TEXT,
+                'fileSize' => filesize(self::IMAGE_FIXTURE_PATH),
             ],
             'update' => [
                 'fileName' => 'Blue-Blue-Blue.png',
-                'inputUri' => ($path = __DIR__ . '/_fixtures/image.png'),
+                'inputUri' => self::IMAGE_FIXTURE_PATH,
                 'alternativeText' => 'Such a blue …',
-                'fileSize' => filesize($path),
+                'fileSize' => filesize(self::IMAGE_FIXTURE_PATH),
             ],
         ];
     }
@@ -207,6 +211,8 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
 
     /**
      * Get initial field data for valid object creation.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function getValidCreationFieldData(): ImageValue
     {
@@ -222,7 +228,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
      */
     public function getFieldName(): string
     {
-        return 'My icy flower at night';
+        return self::IMAGE_FIXTURE_ALT_TEXT;
     }
 
     /**
@@ -320,7 +326,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     }
 
     /**
-     * Asserts the the field data was loaded correctly.
+     * Asserts the field data was loaded correctly.
      *
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was copied and loaded correctly.
@@ -340,7 +346,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
      *
      * This is a PHPUnit data provider
      *
-     * The returned records must have the the original value assigned to the
+     * The returned records must have the original value assigned to the
      * first index and the expected hash result to the second. For example:
      *
      * <code>
@@ -354,6 +360,8 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
      * </code>
      *
      * @return array
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function provideToHashData(): array
     {
@@ -361,15 +369,15 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
             [
                 new ImageValue(
                     [
-                        'inputUri' => ($path = __DIR__ . '/_fixtures/image.jpg'),
+                        'inputUri' => self::IMAGE_FIXTURE_PATH,
                         'fileName' => 'Icy-Night-Flower.jpg',
-                        'alternativeText' => 'My icy flower at night',
+                        'alternativeText' => self::IMAGE_FIXTURE_ALT_TEXT,
                     ]
                 ),
                 [
-                    'inputUri' => $path,
+                    'inputUri' => self::IMAGE_FIXTURE_PATH,
                     'fileName' => 'Icy-Night-Flower.jpg',
-                    'alternativeText' => 'My icy flower at night',
+                    'alternativeText' => self::IMAGE_FIXTURE_ALT_TEXT,
                     'fileSize' => null,
                     'id' => null,
                     'imageId' => null,
@@ -385,7 +393,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
                     [
                         'id' => $path = 'var/test/storage/images/file.png',
                         'fileName' => 'Icy-Night-Flower.jpg',
-                        'alternativeText' => 'My icy flower at night',
+                        'alternativeText' => self::IMAGE_FIXTURE_ALT_TEXT,
                         'fileSize' => 23,
                         'imageId' => '1-2',
                         'uri' => "/$path",
@@ -397,7 +405,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
                 [
                     'id' => $path,
                     'fileName' => 'Icy-Night-Flower.jpg',
-                    'alternativeText' => 'My icy flower at night',
+                    'alternativeText' => self::IMAGE_FIXTURE_ALT_TEXT,
                     'fileSize' => 23,
                     'inputUri' => null,
                     'imageId' => '1-2',
@@ -430,6 +438,12 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
         ];
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testInherentCopyForNewLanguage(): void
     {
         $repository = $this->getRepository();
@@ -450,7 +464,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
         $updateStruct->initialLanguageCode = 'ger-DE';
         $updateStruct->setField('name', 'Sindelfingen');
 
-        // Automatically creates a copy of the image field in the back ground
+        // Automatically creates a copy of the image field in the background
         $updatedDraft = $contentService->updateContent($draft->versionInfo, $updateStruct);
 
         $paths = [];
@@ -461,7 +475,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
         }
 
         self::assertTrue(
-            isset($paths['eng-US']) && isset($paths['ger-DE']),
+            isset($paths['eng-US'], $paths['ger-DE']),
             'Failed asserting that file path for all languages were found in draft'
         );
 
@@ -516,8 +530,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
 
         $type = $this->createContentType(
             $this->getValidFieldSettings(),
-            $this->getValidValidatorConfiguration(),
-            []
+            $this->getValidValidatorConfiguration()
         );
 
         $draft = $this->createContent($this->getValidCreationFieldData(), $type);
@@ -545,6 +558,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testThatRemovingDraftDoesntRemovePublishedImages(): void
     {
@@ -592,6 +606,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testUpdateImageAltTextOnly(): void
     {
@@ -599,9 +614,9 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
             __METHOD__,
             new ImageValue(
                 [
-                    'inputUri' => __DIR__ . '/_fixtures/image.jpg',
+                    'inputUri' => self::IMAGE_FIXTURE_PATH,
                     'fileName' => 'image.jpg',
-                    'fileSize' => filesize(__DIR__ . '/_fixtures/image.jpg'),
+                    'fileSize' => filesize(self::IMAGE_FIXTURE_PATH),
                     'alternativeText' => 'Initial alternative text',
                 ]
             ),
@@ -704,6 +719,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testRemovingContentRemovesImages(): void
     {
@@ -744,6 +760,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testRemovingDraftRemovesOldImage(): void
     {
@@ -786,7 +803,6 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     }
 
     /**
-     * @throws \Doctrine\DBAL\Driver\Exception
      * @throws \Doctrine\DBAL\Exception
      * @throws \ErrorException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
@@ -803,9 +819,9 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
             __METHOD__,
             new ImageValue(
                 [
-                    'inputUri' => __DIR__ . '/_fixtures/image.jpg',
+                    'inputUri' => self::IMAGE_FIXTURE_PATH,
                     'fileName' => 'image.jpg',
-                    'fileSize' => filesize(__DIR__ . '/_fixtures/image.jpg'),
+                    'fileSize' => filesize(self::IMAGE_FIXTURE_PATH),
                     'alternativeText' => 'Alternative',
                 ]
             ),
@@ -847,7 +863,6 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
      *
      * @throws \Doctrine\DBAL\Exception
      * @throws \ErrorException
-     * @throws \Doctrine\DBAL\Driver\Exception
      */
     private function fetchXML(int $contentId, int $versionNo, int $fieldDefinitionId): array
     {
@@ -864,7 +879,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
             ->setParameter('version', $versionNo, ParameterType::INTEGER)
             ->setParameter('contentobject_id', $contentId, ParameterType::INTEGER);
 
-        $result = $query->execute()->fetchAssociative();
+        $result = $query->executeQuery()->fetchAssociative();
         self::assertNotFalse($result);
 
         return $result;
@@ -904,7 +919,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
         $query
             ->update(Gateway::CONTENT_FIELD_TABLE)
             ->set('data_text', ':data_text')
-            ->setParameter('data_text', $document->saveXML(), ParameterType::STRING)
+            ->setParameter('data_text', $document->saveXML())
             ->andWhere('contentclassattribute_id = :contentclassattribute_id')
             ->andWhere('version = :version')
             ->andWhere('contentobject_id = :contentobject_id')
@@ -912,13 +927,14 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
             ->setParameter('version', $versionNo, ParameterType::INTEGER)
             ->setParameter('contentobject_id', $contentId, ParameterType::INTEGER);
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Doctrine\DBAL\Exception
      */
     private function publishNewImage(
         string $name,
@@ -955,6 +971,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
      */
     private function updateImage(Content $publishedImageContent, ImageValue $newImageValue): Content
     {
