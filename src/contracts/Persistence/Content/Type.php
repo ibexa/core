@@ -38,26 +38,26 @@ class Type extends ValueObject
     public $status = self::STATUS_DRAFT;
 
     /**
-     * Human readable name of the content type.
+     * Human-readable name of the content type.
      *
      * The structure of this field is:
-     * <code>
-     * array( 'eng' => '<name_eng>', 'de' => '<name_de>' );
-     * </code>
+     * ```
+     * [ 'eng' => '<name_eng>', 'de' => '<name_de>' ];
+     * ```
      *
-     * @var string[]
+     * @var array<string, string>
      */
     public $name;
 
     /**
-     * Human readable description of the content type.
+     * Human-readable description of the content type.
      *
      * The structure of this field is:
-     * <code>
-     * array( 'eng' => '<description_eng>', 'de' => '<description_de>' );
-     * </code>
+     * ```
+     * [ 'eng' => '<description_eng>', 'de' => '<description_de>' ]
+     * ```
      *
-     * @var string[]
+     * @var array<string|int, string|false>
      */
     public $description = [];
 
