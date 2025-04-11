@@ -9,7 +9,9 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 
 use ArrayObject;
 use DateTime;
+use DateTimeInterface;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception as DBALException;
 use ErrorException;
 use Exception;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
@@ -22,30 +24,42 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\RoleLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\Role;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Ibexa\Contracts\Core\Search\Handler;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy as LegacySetupFactory;
 use Ibexa\Tests\Core\Repository\PHPUnitConstraint;
-use PDOException;
+use LogicException;
 use PHPUnit\Framework\TestCase;
+use ReflectionObject;
+use ReflectionProperty;
+use RuntimeException;
 
 /**
  * Base class for api specific tests.
+ *
+ * @phpstan-type TPoliciesData list<
+ *     array{
+ *          module: string,
+ *          function: string,
+ *          limitations?: \Ibexa\Contracts\Core\Repository\Values\User\Limitation[]
+ *    }
+ * >
  */
 abstract class BaseTest extends TestCase
 {
     /**
      * Maximum integer number accepted by the different backends.
      */
-    public const DB_INT_MAX = 2147483647;
+    public const int DB_INT_MAX = 2147483647;
 
     private ?object $setupFactory = null;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    private $repository;
+    private Repository $repository;
 
     protected function setUp(): void
     {
@@ -54,7 +68,7 @@ abstract class BaseTest extends TestCase
         try {
             // Use setup factory instance here w/o clearing data in case test don't need to
             $this->getSetupFactory()->getRepository(false);
-        } catch (PDOException $e) {
+        } catch (DBALException $e) {
             self::fail(
                 'The communication with the database cannot be established. ' .
                 "This is required in order to perform the tests.\n\n" .
@@ -75,16 +89,16 @@ abstract class BaseTest extends TestCase
      */
     protected function tearDown(): void
     {
-        $this->repository = null;
+        unset($this->repository);
         parent::tearDown();
     }
 
     /**
      * Returns the ID generator, fitting to the repository implementation.
      *
-     * @return \Ibexa\Tests\Integration\Core\Repository\IdManager
+     * @throws \ErrorException
      */
-    protected function getIdManager()
+    protected function getIdManager(): IdManager
     {
         return $this->getSetupFactory()->getIdManager();
     }
@@ -92,12 +106,9 @@ abstract class BaseTest extends TestCase
     /**
      * Generates a repository specific ID value.
      *
-     * @param string $type
-     * @param mixed $rawId
-     *
-     * @return mixed
+     * @throws \ErrorException
      */
-    protected function generateId($type, $rawId)
+    protected function generateId(string $type, mixed $rawId): mixed
     {
         return $this->getIdManager()->generateId($type, $rawId);
     }
@@ -105,12 +116,9 @@ abstract class BaseTest extends TestCase
     /**
      * Parses a repository specific ID value.
      *
-     * @param string $type
-     * @param mixed $id
-     *
-     * @return mixed
+     * @throws \ErrorException
      */
-    protected function parseId($type, $id)
+    protected function parseId(string $type, mixed $id): mixed
     {
         return $this->getIdManager()->parseId($type, $id);
     }
@@ -118,21 +126,22 @@ abstract class BaseTest extends TestCase
     /**
      * Returns a config setting provided by the setup factory.
      *
-     * @param string $configKey
-     *
-     * @return mixed
+     * @throws \ErrorException
+     * @throws \Exception
      */
-    protected function getConfigValue($configKey)
+    protected function getConfigValue(string $configKey): mixed
     {
         return $this->getSetupFactory()->getConfigValue($configKey);
     }
 
     /**
      * @param bool $initialInitializeFromScratch Only has an effect if set in first call within a test
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function getRepository(bool $initialInitializeFromScratch = true): Repository
     {
-        if (null === $this->repository) {
+        if (!isset($this->repository)) {
             try {
                 $this->repository = $this->getSetupFactory()->getRepository(
                     $initialInitializeFromScratch
@@ -179,6 +188,9 @@ abstract class BaseTest extends TestCase
 
             $this->setupFactory = new $setupClass();
         }
+        if (!$this->setupFactory instanceof SetupFactory) {
+            throw new LogicException('Setup factory must be an instance of ' . SetupFactory::class);
+        }
 
         return $this->setupFactory;
     }
@@ -190,7 +202,7 @@ abstract class BaseTest extends TestCase
      * @param mixed[] $expectedValues
      * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $actualObject
      */
-    protected function assertPropertiesCorrect(array $expectedValues, ValueObject $actualObject)
+    protected function assertPropertiesCorrect(array $expectedValues, ValueObject $actualObject): void
     {
         foreach ($expectedValues as $propertyName => $propertyValue) {
             if ($propertyValue instanceof ValueObject) {
@@ -218,9 +230,8 @@ abstract class BaseTest extends TestCase
      * @TODO: introduced because of randomly failing tests, ref: https://issues.ibexa.co/browse/EZP-21734
      *
      * @param mixed[] $expectedValues
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $actualObject
      */
-    protected function assertPropertiesCorrectUnsorted(array $expectedValues, ValueObject $actualObject)
+    protected function assertPropertiesCorrectUnsorted(array $expectedValues, ValueObject $actualObject): void
     {
         foreach ($expectedValues as $propertyName => $propertyValue) {
             if ($propertyValue instanceof ValueObject) {
@@ -236,12 +247,13 @@ abstract class BaseTest extends TestCase
      * $actualObject. Additional (virtual) properties can be asserted using
      * $additionalProperties.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $expectedValues
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $actualObject
-     * @param array $propertyNames
+     * @param string[] $additionalProperties
      */
-    protected function assertStructPropertiesCorrect(ValueObject $expectedValues, ValueObject $actualObject, array $additionalProperties = [])
-    {
+    protected function assertStructPropertiesCorrect(
+        ValueObject $expectedValues,
+        ValueObject $actualObject,
+        array $additionalProperties = []
+    ): void {
         foreach ($expectedValues as $propertyName => $propertyValue) {
             if ($propertyValue instanceof ValueObject) {
                 $this->assertStructPropertiesCorrect($propertyValue, $actualObject->$propertyName);
@@ -258,7 +270,7 @@ abstract class BaseTest extends TestCase
     /**
      * @see \Ibexa\Tests\Integration\Core\Repository\BaseTest::assertPropertiesCorrectUnsorted
      *
-     * @param array $items An array of scalar values
+     * @phpstan-param array<scalar> $items An array of scalar values
      */
     private function sortItems(array &$items): void
     {
@@ -266,23 +278,30 @@ abstract class BaseTest extends TestCase
             if (!is_scalar($a) || !is_scalar($b)) {
                 $this->fail('Wrong usage: method ' . __METHOD__ . ' accepts only an array of scalar values');
             }
+            if (!is_string($a) || !is_string($b)) {
+                return $a > $b ? 1 : -1;
+            }
 
             return strcmp($a, $b);
         };
         usort($items, $sorter);
     }
 
-    private function assertPropertiesEqual($propertyName, $expectedValue, $actualValue, bool $sortArray = false): void
-    {
+    private function assertPropertiesEqual(
+        string $propertyName,
+        mixed $expectedValue,
+        mixed $actualValue,
+        bool $sortArray = false
+    ): void {
         if ($expectedValue instanceof ArrayObject) {
             $expectedValue = $expectedValue->getArrayCopy();
         } elseif ($expectedValue instanceof DateTime) {
-            $expectedValue = $expectedValue->format(DateTime::RFC850);
+            $expectedValue = $expectedValue->format(DateTimeInterface::RFC850);
         }
         if ($actualValue instanceof ArrayObject) {
             $actualValue = $actualValue->getArrayCopy();
         } elseif ($actualValue instanceof DateTime) {
-            $actualValue = $actualValue->format(DateTime::RFC850);
+            $actualValue = $actualValue->format(DateTimeInterface::RFC850);
         }
 
         if ($sortArray && is_array($actualValue) && is_array($expectedValue)) {
@@ -299,6 +318,11 @@ abstract class BaseTest extends TestCase
 
     /**
      * Create a user in editor user group.
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
     protected function createUserVersion1(
         string $login = 'user',
@@ -308,11 +332,10 @@ abstract class BaseTest extends TestCase
     ): User {
         $repository = $this->getRepository();
 
-        /* BEGIN: Inline */
         $userService = $repository->getUserService();
 
-        // Instantiate a create struct with mandatory properties
-        $email = $email ?? "{$login}@example.com";
+        // Instantiate a create-struct with mandatory properties
+        $email = $email ?? "$login@example.com";
         $userCreate = $userService->newUserCreateStruct(
             $login,
             $email,
@@ -332,21 +355,21 @@ abstract class BaseTest extends TestCase
         // Load parent group for the user
         $group = $userService->loadUserGroup($userGroupId);
 
-        // Create a new user instance.
-        $user = $userService->createUser($userCreate, [$group]);
-        /* END: Inline */
-
-        return $user;
+        return $userService->createUser($userCreate, [$group]);
     }
 
     /**
      * Create a user in new user group with editor rights limited to Media Library (/1/48/).
      *
-     * @uses ::createCustomUserVersion1()
+     * @throws \ErrorException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Doctrine\DBAL\Exception
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @uses \createCustomUserVersion1()
      */
-    protected function createMediaUserVersion1()
+    protected function createMediaUserVersion1(): User
     {
         return $this->createCustomUserVersion1(
             'Media Editor',
@@ -356,16 +379,22 @@ abstract class BaseTest extends TestCase
     }
 
     /**
-     * Create a user with new user group and assign a existing role (optionally with RoleLimitation).
+     * Create a user with new user group and assign an existing role (optionally with RoleLimitation).
      *
      * @param string $userGroupName Name of the new user group to create
      * @param string $roleIdentifier Role identifier to assign to the new group
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\RoleLimitation|null $roleLimitation
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \ErrorException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    protected function createCustomUserVersion1($userGroupName, $roleIdentifier, RoleLimitation $roleLimitation = null)
-    {
+    protected function createCustomUserVersion1(
+        string $userGroupName,
+        string $roleIdentifier,
+        ?RoleLimitation $roleLimitation = null
+    ): User {
         return $this->createCustomUserWithLogin(
             'user',
             'user@example.com',
@@ -376,26 +405,28 @@ abstract class BaseTest extends TestCase
     }
 
     /**
-     * Create a user with new user group and assign a existing role (optionally with RoleLimitation).
+     * Create a user with new user group and assign an existing role (optionally with RoleLimitation).
      *
      * @param string $login User login
      * @param string $email User e-mail
      * @param string $userGroupName Name of the new user group to create
      * @param string $roleIdentifier Role identifier to assign to the new group
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\RoleLimitation|null $roleLimitation
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \ErrorException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
     protected function createCustomUserWithLogin(
         string $login,
         string $email,
-        $userGroupName,
+        string $userGroupName,
         string $roleIdentifier,
-        RoleLimitation $roleLimitation = null
-    ) {
+        ?RoleLimitation $roleLimitation = null
+    ): User {
         $repository = $this->getRepository();
 
-        /* BEGIN: Inline */
         // ID of the "Users" user group in an Ibexa demo installation
         $rootUsersGroupId = $this->generateId('location', 4);
 
@@ -417,7 +448,7 @@ abstract class BaseTest extends TestCase
             $roleLimitation
         );
 
-        // Instantiate a create struct with mandatory properties
+        // Instantiate a create-struct with mandatory properties
         $userCreate = $userService->newUserCreateStruct(
             $login,
             $email,
@@ -431,24 +462,25 @@ abstract class BaseTest extends TestCase
         $userCreate->setField('last_name', ucfirst($login));
 
         // Create a new user instance.
-        $user = $userService->createUser($userCreate, [$userGroup]);
-        /* END: Inline */
-
-        return $user;
+        return $userService->createUser($userCreate, [$userGroup]);
     }
 
     /**
      * Create a user using given data.
      *
-     * @param string $login
-     * @param string $firstName
-     * @param string $lastName
      * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroup|null $userGroup optional user group, Editor by default
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    protected function createUser(string $login, $firstName, $lastName, UserGroup $userGroup = null)
-    {
+    protected function createUser(
+        string $login,
+        string $firstName,
+        string $lastName,
+        ?UserGroup $userGroup = null
+    ): User {
         $repository = $this->getRepository();
 
         $userService = $repository->getUserService();
@@ -456,10 +488,10 @@ abstract class BaseTest extends TestCase
             $userGroup = $userService->loadUserGroup(13);
         }
 
-        // Instantiate a create struct with mandatory properties
+        // Instantiate a create-struct with mandatory properties
         $userCreate = $userService->newUserCreateStruct(
             $login,
-            "{$login}@example.com",
+            "$login@example.com",
             'secret',
             'eng-US'
         );
@@ -470,21 +502,15 @@ abstract class BaseTest extends TestCase
         $userCreate->setField('last_name', $lastName);
 
         // Create a new user instance.
-        $user = $userService->createUser($userCreate, [$userGroup]);
-
-        return $user;
+        return $userService->createUser($userCreate, [$userGroup]);
     }
 
     /**
-     * Only for internal use.
+     * @internal Only for internal use.
      *
      * Creates a \DateTime object for $timestamp in the current time zone
-     *
-     * @param int $timestamp
-     *
-     * @return \DateTime
      */
-    public function createDateTime($timestamp = null)
+    public function createDateTime(?int $timestamp = null): DateTime
     {
         $dateTime = new DateTime();
         if ($timestamp !== null) {
@@ -497,16 +523,17 @@ abstract class BaseTest extends TestCase
     /**
      * Calls given Repository's aggregated SearchHandler::refresh().
      *
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
+     * @throws \ErrorException
+     * @throws \ReflectionException
      */
-    protected function refreshSearch(Repository $repository)
+    protected function refreshSearch(Repository $repository): void
     {
         if ($this->isLegacySearchEngineSetup()) {
             return;
         }
 
         while (true) {
-            $repositoryReflection = new \ReflectionObject($repository);
+            $repositoryReflection = new ReflectionObject($repository);
             // If the repository is decorated, we need to recurse in the "repository" property
             if (!$repositoryReflection->hasProperty('repository')) {
                 break;
@@ -517,15 +544,20 @@ abstract class BaseTest extends TestCase
             $repository = $repositoryProperty->getValue($repository);
         }
 
-        $searchHandlerProperty = new \ReflectionProperty($repository, 'searchHandler');
+        $searchHandlerProperty = new ReflectionProperty($repository, 'searchHandler');
         $searchHandlerProperty->setAccessible(true);
 
-        /** @var \Ibexa\Solr\Handler $searchHandler */
         $searchHandler = $searchHandlerProperty->getValue($repository);
 
-        $searchHandler->commit();
+        // @todo declare commit on \Ibexa\Contracts\Core\Search\Handler
+        if ($searchHandler instanceof Handler && method_exists($searchHandler, 'commit')) {
+            $searchHandler->commit();
+        }
     }
 
+    /**
+     * @throws \ErrorException
+     */
     protected function isLegacySearchEngineSetup(): bool
     {
         return get_class($this->getSetupFactory()) === LegacySetupFactory::class;
@@ -534,17 +566,14 @@ abstract class BaseTest extends TestCase
     /**
      * Create role of a given name with the given policies described by an array.
      *
-     * @param $roleName
-     * @param array $policiesData [['module' => 'content', 'function' => 'read', 'limitations' => []]
+     * @phpstan-param TPoliciesData $policiesData
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Role
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\LimitationValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function createRoleWithPolicies(string $roleName, array $policiesData)
+    public function createRoleWithPolicies(string $roleName, array $policiesData): Role
     {
         $repository = $this->getRepository(false);
         $roleService = $repository->getRoleService();
@@ -575,17 +604,14 @@ abstract class BaseTest extends TestCase
     /**
      * Create user and assign new role with the given policies.
      *
-     * @param string $login
-     * @param array $policiesData list of policies in the form of <code>[ [ 'module' => 'name', 'function' => 'name'] ]</code>
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\RoleLimitation|null $roleLimitation
+     * @phpstan-param TPoliciesData $policiesData list of policies in the form of <code>[ [ 'module' => 'name', 'function' => 'name'] ]</code>
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
-     *
+     * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function createUserWithPolicies(string $login, array $policiesData, RoleLimitation $roleLimitation = null)
+    public function createUserWithPolicies(string $login, array $policiesData, RoleLimitation $roleLimitation = null): User
     {
         $repository = $this->getRepository(false);
         $roleService = $repository->getRoleService();
@@ -595,7 +621,7 @@ abstract class BaseTest extends TestCase
         try {
             $userCreateStruct = $userService->newUserCreateStruct(
                 $login,
-                "{$login}@test.local",
+                "$login@test.local",
                 $login,
                 'eng-GB'
             );
@@ -625,8 +651,8 @@ abstract class BaseTest extends TestCase
             ->getServiceContainer()->get('ibexa.persistence.connection');
 
         if (!$connection instanceof Connection) {
-            throw new \RuntimeException(
-                sprintf('Found %s instead of %s', get_class($connection), Connection::class)
+            throw new RuntimeException(
+                sprintf('Found %s instead of %s', get_debug_type($connection), Connection::class)
             );
         }
 
@@ -642,8 +668,6 @@ abstract class BaseTest extends TestCase
      * @throws \Exception
      *
      * @param callable $callback
-     *
-     * @return mixed the return result of the given callback
      */
     public function performRawDatabaseOperation(callable $callback): void
     {
@@ -712,11 +736,9 @@ abstract class BaseTest extends TestCase
     /**
      * Create 'folder' Content.
      *
-     * @param array $names Folder names in the form of <code>['&lt;language_code&gt;' => '&lt;name&gt;']</code>
-     * @param int|null $parentLocationId
+     * @param array<string, string> $names Folder names in the form of <code>['&lt;language_code&gt;' => '&lt;name&gt;']</code>     *
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content published Content
-     *
+     * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
@@ -733,7 +755,7 @@ abstract class BaseTest extends TestCase
         $locationService = $repository->getLocationService();
 
         if (empty($names)) {
-            throw new \RuntimeException(sprintf('%s expects a non-empty names list', __METHOD__));
+            throw new RuntimeException(sprintf('%s expects a non-empty names list', __METHOD__));
         }
         $mainLanguageCode = array_keys($names)[0];
 
@@ -741,7 +763,9 @@ abstract class BaseTest extends TestCase
             $contentTypeService->loadContentTypeByIdentifier('folder'),
             $mainLanguageCode
         );
-        $struct->remoteId = $remoteId;
+        if (null !== $remoteId) {
+            $struct->remoteId = $remoteId;
+        }
         $struct->alwaysAvailable = $alwaysAvailable;
         foreach ($names as $languageCode => $translatedName) {
             $struct->setField('name', $translatedName, $languageCode);
@@ -766,17 +790,18 @@ abstract class BaseTest extends TestCase
      * Update 'folder' Content.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     * @param array $names Folder names in the form of <code>['&lt;language_code&gt;' => '&lt;name&gt;']</code>
+     * @param array<string, string> $names Folder names in the form of <code>['&lt;language_code&gt;' => '&lt;name&gt;']</code>
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      *
+     * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    protected function updateFolder(Content $content, array $names)
+    protected function updateFolder(Content $content, array $names): Content
     {
         $repository = $this->getRepository(false);
         $contentService = $repository->getContentService();
@@ -795,11 +820,9 @@ abstract class BaseTest extends TestCase
     /**
      * Add new Language to the Repository.
      *
-     * @param string $languageCode
-     * @param string $name
-     * @param bool $enabled
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Language
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function createLanguage(string $languageCode, string $name, bool $enabled = true): Language
     {
@@ -814,6 +837,11 @@ abstract class BaseTest extends TestCase
         return $languageService->createLanguage($languageStruct);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Doctrine\DBAL\Exception
+     */
     protected function createLanguageIfNotExists(
         string $languageCode,
         string $name,
@@ -823,7 +851,7 @@ abstract class BaseTest extends TestCase
 
         try {
             return $repository->getContentLanguageService()->loadLanguage($languageCode);
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
             return $this->createLanguage($languageCode, $name, $enabled);
         }
     }
@@ -831,11 +859,10 @@ abstract class BaseTest extends TestCase
     /**
      * @param string $identifier content type identifier
      * @param string $mainTranslation main translation language code
-     * @param array $fieldsToDefine a map of field definition identifiers to their field type identifiers
+     * @param array<string, string> $fieldsToDefine a map of field definition identifiers to their field type identifiers
      * @param bool $alwaysAvailable default always available
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
-     *
+     * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
@@ -868,6 +895,9 @@ abstract class BaseTest extends TestCase
         return $contentTypeService->loadContentTypeByIdentifier($identifier);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     protected function loginAsUser(UserReference $user): void
     {
         $this->getRepository(false)->getPermissionResolver()->setCurrentUserReference($user);
