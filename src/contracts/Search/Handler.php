@@ -16,8 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
 /**
- * The Search handler retrieves sets of of Content objects, based on a
- * set of criteria.
+ * The Search handler retrieves sets of Content objects, based on a set of criteria.
  *
  * @phpstan-import-type TSearchLanguageFilter from \Ibexa\Contracts\Core\Repository\SearchService
  */
