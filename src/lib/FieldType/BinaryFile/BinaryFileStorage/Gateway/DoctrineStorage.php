@@ -7,29 +7,23 @@
 
 namespace Ibexa\Core\FieldType\BinaryFile\BinaryFileStorage\Gateway;
 
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway\DoctrineStorage as BaseDoctrineStorage;
-use PDO;
 
 /**
  * Binary File Field Type external storage DoctrineStorage gateway.
  */
 class DoctrineStorage extends BaseDoctrineStorage
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function getStorageTable(): string
     {
         return 'ezbinaryfile';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getPropertyMapping()
+    protected function getPropertyMapping(): array
     {
         $propertyMap = parent::getPropertyMapping();
         $propertyMap['download_count'] = [
@@ -40,10 +34,7 @@ class DoctrineStorage extends BaseDoctrineStorage
         return $propertyMap;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function setFetchColumns(QueryBuilder $queryBuilder, $fieldId, $versionNo)
+    protected function setFetchColumns(QueryBuilder $queryBuilder, int $fieldId, int $versionNo): void
     {
         parent::setFetchColumns($queryBuilder, $fieldId, $versionNo);
 
@@ -52,10 +43,7 @@ class DoctrineStorage extends BaseDoctrineStorage
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function setInsertColumns(QueryBuilder $queryBuilder, VersionInfo $versionInfo, Field $field)
+    protected function setInsertColumns(QueryBuilder $queryBuilder, VersionInfo $versionInfo, Field $field): void
     {
         parent::setInsertColumns($queryBuilder, $versionInfo, $field);
 
@@ -64,7 +52,7 @@ class DoctrineStorage extends BaseDoctrineStorage
             ->setParameter(
                 ':downloadCount',
                 $field->value->externalData['downloadCount'],
-                PDO::PARAM_INT
+                ParameterType::INTEGER
             )
         ;
     }
