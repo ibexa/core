@@ -4,12 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
+use LogicException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -18,7 +20,6 @@ use PHPUnit\Framework\TestCase;
  */
 class ChainConfigResolverTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver */
     private ChainConfigResolver $chainResolver;
 
     protected function setUp(): void
@@ -30,7 +31,7 @@ class ChainConfigResolverTest extends TestCase
     {
         self::assertEquals([], $this->chainResolver->getAllResolvers());
 
-        list($low, $high) = $this->createResolverMocks();
+        [$low, $high] = $this->createResolverMocks();
 
         $this->chainResolver->addResolver($low, 10);
         $this->chainResolver->addResolver($high, 100);
@@ -50,19 +51,14 @@ class ChainConfigResolverTest extends TestCase
      */
     public function testSortResolvers(): void
     {
-        list($low, $medium, $high) = $this->createResolverMocks();
+        [$low, $medium, $high] = $this->createResolverMocks();
         // We're using a mock here and not $this->chainResolver because we need to ensure that the sorting operation is done only once.
-        $resolver = $this->buildMock(
-            ChainConfigResolver::class,
-            ['sortResolvers']
-        );
+        $resolver = $this->mockChainConfigResolver();
         $resolver
             ->expects(self::once())
             ->method('sortResolvers')
-            ->will(
-                self::returnValue(
-                    [$high, $medium, $low]
-                )
+            ->willReturn(
+                [$high, $medium, $low]
             );
 
         $resolver->addResolver($low, 10);
@@ -80,29 +76,18 @@ class ChainConfigResolverTest extends TestCase
      */
     public function testReSortResolvers(): void
     {
-        list($low, $medium, $high) = $this->createResolverMocks();
+        [$low, $medium, $high] = $this->createResolverMocks();
         $highest = clone $high;
         // We're using a mock here and not $this->chainResolver because we need to ensure that the sorting operation is done only once.
-        $resolver = $this->buildMock(
-            ChainConfigResolver::class,
-            ['sortResolvers']
-        );
+        $resolver = $this->mockChainConfigResolver();
+
         $resolver
-            ->expects(self::at(0))
+            ->expects(self::exactly(2))
             ->method('sortResolvers')
-            ->will(
-                self::returnValue(
-                    [$high, $medium, $low]
-                )
-            );
-        // The second time sortResolvers() is called, we're supposed to get the newly added router ($highest)
-        $resolver
-            ->expects(self::at(1))
-            ->method('sortResolvers')
-            ->will(
-                self::returnValue(
-                    [$highest, $high, $medium, $low]
-                )
+            ->willReturnOnConsecutiveCalls(
+                [$high, $medium, $low],
+                // The second time sortResolvers() is called, we're supposed to get the newly added router ($highest)
+                [$highest, $high, $medium, $low]
             );
 
         $resolver->addResolver($low, 10);
@@ -123,7 +108,7 @@ class ChainConfigResolverTest extends TestCase
 
     public function testGetDefaultNamespace(): void
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
 
         $this->chainResolver->getDefaultNamespace();
     }
@@ -164,32 +149,34 @@ class ChainConfigResolverTest extends TestCase
     /**
      * @dataProvider getParameterProvider
      *
-     * @param string $paramName
-     * @param string $namespace
-     * @param string $scope
-     * @param mixed $expectedValue
+     * @param string|bool|array<mixed> $expectedValue
      */
-    public function testGetParameter(string $paramName, string $namespace, string $scope, string|bool|array $expectedValue): void
-    {
+    public function testGetParameter(
+        string $paramName,
+        string $namespace,
+        string $scope,
+        string|bool|array $expectedValue
+    ): void {
         $resolver = $this->createMock(ConfigResolverInterface::class);
         $resolver
             ->expects(self::once())
             ->method('getParameter')
             ->with($paramName, $namespace, $scope)
-            ->will(self::returnValue($expectedValue));
+            ->willReturn($expectedValue);
 
         $this->chainResolver->addResolver($resolver);
         self::assertSame($expectedValue, $this->chainResolver->getParameter($paramName, $namespace, $scope));
     }
 
-    public function getParameterProvider(): array
+    /**
+     * @phpstan-return iterable<array{string, string, string, string|bool|array<mixed>}>
+     */
+    public static function getParameterProvider(): iterable
     {
-        return [
-            ['foo', 'namespace', 'scope', 'someValue'],
-            ['some.parameter', 'wowNamespace', 'mySiteaccess', ['foo', 'bar']],
-            ['another.parameter.but.longer.name', 'yetAnotherNamespace', 'anotherSiteaccess', ['foo', ['fruit' => 'apple']]],
-            ['boolean.parameter', 'yetAnotherNamespace', 'admin', false],
-        ];
+        yield ['foo', 'namespace', 'scope', 'someValue'];
+        yield ['some.parameter', 'wowNamespace', 'mySiteaccess', ['foo', 'bar']];
+        yield ['another.parameter.but.longer.name', 'yetAnotherNamespace', 'anotherSiteaccess', ['foo', ['fruit' => 'apple']]];
+        yield ['boolean.parameter', 'yetAnotherNamespace', 'admin', false];
     }
 
     public function testHasParameterTrue(): void
@@ -203,7 +190,7 @@ class ChainConfigResolverTest extends TestCase
             ->expects(self::once())
             ->method('hasParameter')
             ->with($paramName, $namespace, $scope)
-            ->will(self::returnValue(false));
+            ->willReturn(false);
         $this->chainResolver->addResolver($resolver1);
 
         $resolver2 = $this->createMock(ConfigResolverInterface::class);
@@ -211,7 +198,7 @@ class ChainConfigResolverTest extends TestCase
             ->expects(self::once())
             ->method('hasParameter')
             ->with($paramName, $namespace, $scope)
-            ->will(self::returnValue(true));
+            ->willReturn(true);
         $this->chainResolver->addResolver($resolver2);
 
         $resolver3 = $this->createMock(ConfigResolverInterface::class);
@@ -234,14 +221,14 @@ class ChainConfigResolverTest extends TestCase
             ->expects(self::once())
             ->method('hasParameter')
             ->with($paramName, $namespace, $scope)
-            ->will(self::returnValue(false));
+            ->willReturn(false);
         $this->chainResolver->addResolver($resolver);
 
         self::assertFalse($this->chainResolver->hasParameter($paramName, $namespace, $scope));
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject[]
+     * @return array<\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface&\PHPUnit\Framework\MockObject\MockObject>
      */
     private function createResolverMocks(): array
     {
@@ -252,12 +239,12 @@ class ChainConfigResolverTest extends TestCase
         ];
     }
 
-    private function buildMock(string $class, array $methods = []): MockObject
+    private function mockChainConfigResolver(): MockObject & ChainConfigResolver
     {
         return $this
-            ->getMockBuilder($class)
+            ->getMockBuilder(ChainConfigResolver::class)
             ->disableOriginalConstructor()
-            ->setMethods($methods)
+            ->onlyMethods(['sortResolvers'])
             ->getMock();
     }
 }
