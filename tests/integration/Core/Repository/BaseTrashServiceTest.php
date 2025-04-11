@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Doctrine\DBAL\ParameterType;
+use Ibexa\Contracts\Core\Repository\Values\Content\TrashItem;
 
 /**
  * Base class for trash specific tests.
@@ -18,13 +19,14 @@ abstract class BaseTrashServiceTest extends BaseTest
      * Creates a trashed item from the <b>Community</b> page location and stores
      * this item in a location variable named <b>$trashItem</b>.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\TrashItem
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Doctrine\DBAL\Exception
      */
-    protected function createTrashItem()
+    protected function createTrashItem(): TrashItem
     {
         $repository = $this->getRepository();
 
-        /* BEGIN: Inline */
         // remoteId of the "Media" page main location
         $mediaRemoteId = '75c715a51699d2d309a924eca6a95145';
 
@@ -38,13 +40,14 @@ abstract class BaseTrashServiceTest extends BaseTest
 
         // Trash the "Community" page location
         $trashItem = $trashService->trash($mediaLocation);
-        /* END: Inline */
+        self::assertNotNull($trashItem, 'Failed to trash "Community" page location');
 
         return $trashItem;
     }
 
     /**
      * @throws \ErrorException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function updateTrashedDate(int $locationId, int $newTimestamp): void
     {
@@ -56,6 +59,6 @@ abstract class BaseTrashServiceTest extends BaseTest
             ->where('node_id = :location_id')
             ->setParameter('trashed_timestamp', $newTimestamp, ParameterType::INTEGER)
             ->setParameter('location_id', $locationId, ParameterType::INTEGER);
-        $query->execute();
+        $query->executeStatement();
     }
 }
