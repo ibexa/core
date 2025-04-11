@@ -20,12 +20,12 @@ use Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway;
  */
 abstract class DoctrineStorage extends Gateway
 {
-    private const string FIELD_ID_PARAM_NAME = ':fieldId';
-    private const string FILENAME_PARAM_NAME = ':filename';
-    private const string MIME_TYPE_PARAM_NAME = ':mimeType';
-    private const string ORIGINAL_FILENAME_PARAM_NAME = ':originalFilename';
-    private const string VERSION_NO_PARAM_NAME = ':versionNo';
-    private const string FIELD_ID_LIST_PARAMETER_NAME = ':fieldIds';
+    private const string FIELD_ID_PARAM_NAME = 'fieldId';
+    private const string FILENAME_PARAM_NAME = 'filename';
+    private const string MIME_TYPE_PARAM_NAME = 'mimeType';
+    private const string ORIGINAL_FILENAME_PARAM_NAME = 'originalFilename';
+    private const string VERSION_NO_PARAM_NAME = 'versionNo';
+    private const string FIELD_ID_LIST_PARAMETER_NAME = 'fieldIds';
 
     protected Connection $connection;
 
@@ -36,17 +36,15 @@ abstract class DoctrineStorage extends Gateway
 
     /**
      * Return the table name to store data in.
-     *
-     * @return string
      */
-    abstract protected function getStorageTable();
+    abstract protected function getStorageTable(): string;
 
     /**
      * Return a column to property mapping for the storage table.
      *
-     * @return array
+     * @phpstan-return array<string, array{name: string, cast: callable-string|\Closure}>
      */
-    protected function getPropertyMapping()
+    protected function getPropertyMapping(): array
     {
         return [
             'filename' => [
@@ -70,12 +68,8 @@ abstract class DoctrineStorage extends Gateway
      * This method is intended to be overwritten by derived classes in order to
      * add additional columns to be fetched from the database. Please do not
      * forget to call the parent when overwriting this method.
-     *
-     * @param \Doctrine\DBAL\Query\QueryBuilder $queryBuilder
-     * @param int $fieldId
-     * @param int $versionNo
      */
-    protected function setFetchColumns(QueryBuilder $queryBuilder, $fieldId, $versionNo)
+    protected function setFetchColumns(QueryBuilder $queryBuilder, int $fieldId, int $versionNo): void
     {
         $queryBuilder->select(
             $this->connection->quoteIdentifier('filename'),
@@ -90,19 +84,15 @@ abstract class DoctrineStorage extends Gateway
      * This method is intended to be overwritten by derived classes in order to
      * add additional columns to be set in the database. Please do not forget
      * to call the parent when overwriting this method.
-     *
-     * @param \Doctrine\DBAL\Query\QueryBuilder $queryBuilder
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
      */
-    protected function setInsertColumns(QueryBuilder $queryBuilder, VersionInfo $versionInfo, Field $field)
+    protected function setInsertColumns(QueryBuilder $queryBuilder, VersionInfo $versionInfo, Field $field): void
     {
         $queryBuilder
-            ->setValue('contentobject_attribute_id', self::FIELD_ID_PARAM_NAME)
-            ->setValue('filename', self::FILENAME_PARAM_NAME)
-            ->setValue('mime_type', self::MIME_TYPE_PARAM_NAME)
-            ->setValue('original_filename', self::ORIGINAL_FILENAME_PARAM_NAME)
-            ->setValue('version', self::VERSION_NO_PARAM_NAME)
+            ->setValue('contentobject_attribute_id', ':' . self::FIELD_ID_PARAM_NAME)
+            ->setValue('filename', ':' . self::FILENAME_PARAM_NAME)
+            ->setValue('mime_type', ':' . self::MIME_TYPE_PARAM_NAME)
+            ->setValue('original_filename', ':' . self::ORIGINAL_FILENAME_PARAM_NAME)
+            ->setValue('version', ':' . self::VERSION_NO_PARAM_NAME)
             ->setParameter(self::FIELD_ID_PARAM_NAME, $field->id, ParameterType::INTEGER)
             ->setParameter(self::FILENAME_PARAM_NAME, $this->removeMimeFromPath($field->value->externalData['id']))
             ->setParameter(self::MIME_TYPE_PARAM_NAME, $field->value->externalData['mimeType'])
@@ -116,14 +106,14 @@ abstract class DoctrineStorage extends Gateway
      * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
      * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
      */
-    protected function setUpdateColumns(QueryBuilder $queryBuilder, VersionInfo $versionInfo, Field $field)
+    protected function setUpdateColumns(QueryBuilder $queryBuilder, VersionInfo $versionInfo, Field $field): void
     {
         $queryBuilder
-            ->set('contentobject_attribute_id', self::FIELD_ID_PARAM_NAME)
-            ->set('filename', self::FILENAME_PARAM_NAME)
-            ->set('mime_type', self::MIME_TYPE_PARAM_NAME)
-            ->set('original_filename', self::ORIGINAL_FILENAME_PARAM_NAME)
-            ->set('version', self::VERSION_NO_PARAM_NAME)
+            ->set('contentobject_attribute_id', ':' . self::FIELD_ID_PARAM_NAME)
+            ->set('filename', ':' . self::FILENAME_PARAM_NAME)
+            ->set('mime_type', ':' . self::MIME_TYPE_PARAM_NAME)
+            ->set('original_filename', ':' . self::ORIGINAL_FILENAME_PARAM_NAME)
+            ->set('version', ':' . self::VERSION_NO_PARAM_NAME)
             ->setParameter(self::FIELD_ID_PARAM_NAME, $field->id, ParameterType::INTEGER)
             ->setParameter(self::FILENAME_PARAM_NAME, $this->removeMimeFromPath($field->value->externalData['id']))
             ->setParameter(self::MIME_TYPE_PARAM_NAME, $field->value->externalData['mimeType'])
@@ -135,18 +125,15 @@ abstract class DoctrineStorage extends Gateway
     /**
      * Store the file reference in $field for $versionNo.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     *
-     * @return bool
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function storeFileReference(VersionInfo $versionInfo, Field $field)
+    public function storeFileReference(VersionInfo $versionInfo, Field $field): bool
     {
         $referencedData = $this->getFileReferenceData($field->id, $versionInfo->versionNo);
 
         if ($referencedData === null) {
             $this->storeNewFieldData($versionInfo, $field);
-        } elseif (is_array($referencedData) && !empty(array_diff_assoc($referencedData, $field->value->externalData))) {
+        } elseif (!empty(array_diff_assoc($referencedData, $field->value->externalData))) {
             $this->updateFieldData($versionInfo, $field);
         }
 
@@ -156,8 +143,10 @@ abstract class DoctrineStorage extends Gateway
     /**
      * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
      * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
-    protected function updateFieldData(VersionInfo $versionInfo, Field $field)
+    protected function updateFieldData(VersionInfo $versionInfo, Field $field): void
     {
         $updateQuery = $this->connection->createQueryBuilder();
         $updateQuery->update(
@@ -170,11 +159,11 @@ abstract class DoctrineStorage extends Gateway
                 $updateQuery->expr()->and(
                     $updateQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
-                        self::FIELD_ID_PARAM_NAME
+                        ':' . self::FIELD_ID_PARAM_NAME
                     ),
                     $updateQuery->expr()->eq(
                         $this->connection->quoteIdentifier('version'),
-                        self::VERSION_NO_PARAM_NAME
+                        ':' . self::VERSION_NO_PARAM_NAME
                     )
                 )
             )
@@ -186,10 +175,9 @@ abstract class DoctrineStorage extends Gateway
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @throws \Doctrine\DBAL\Exception
      */
-    protected function storeNewFieldData(VersionInfo $versionInfo, Field $field)
+    protected function storeNewFieldData(VersionInfo $versionInfo, Field $field): void
     {
         $insertQuery = $this->connection->createQueryBuilder();
         $insertQuery->insert(
@@ -203,27 +191,16 @@ abstract class DoctrineStorage extends Gateway
 
     /**
      * Remove the prepended mime-type directory from $path for legacy storage.
-     *
-     * @param string $path
-     *
-     * @return string
      */
-    public function removeMimeFromPath($path)
+    public function removeMimeFromPath(string $path): string
     {
-        $path = (string)$path;
-
         return substr($path, strpos($path, '/') + 1);
     }
 
     /**
-     * Return the file reference data for the given $fieldId in $versionNo.
-     *
-     * @param int $fieldId
-     * @param int $versionNo
-     *
-     * @return array|null
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function getFileReferenceData($fieldId, $versionNo)
+    public function getFileReferenceData(int $fieldId, int $versionNo): ?array
     {
         $selectQuery = $this->connection->createQueryBuilder();
 
@@ -235,11 +212,11 @@ abstract class DoctrineStorage extends Gateway
                 $selectQuery->expr()->and(
                     $selectQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
-                        self::FIELD_ID_PARAM_NAME
+                        ':' . self::FIELD_ID_PARAM_NAME
                     ),
                     $selectQuery->expr()->eq(
                         $this->connection->quoteIdentifier('version'),
-                        self::VERSION_NO_PARAM_NAME
+                        ':' . self::VERSION_NO_PARAM_NAME
                     )
                 )
             )
@@ -269,12 +246,8 @@ abstract class DoctrineStorage extends Gateway
 
     /**
      * Return the property name for the given $columnName.
-     *
-     * @param string $columnName
-     *
-     * @return string
      */
-    protected function toPropertyName($columnName)
+    protected function toPropertyName(string $columnName): string
     {
         $propertyMap = $this->getPropertyMapping();
 
@@ -283,13 +256,8 @@ abstract class DoctrineStorage extends Gateway
 
     /**
      * Return $value casted as specified by {@link getPropertyMapping()}.
-     *
-     * @param mixed $value
-     * @param string $columnName
-     *
-     * @return mixed
      */
-    protected function castToPropertyValue($value, $columnName)
+    protected function castToPropertyValue(mixed $value, string $columnName): mixed
     {
         $propertyMap = $this->getPropertyMapping();
         $castFunction = $propertyMap[$columnName]['cast'];
@@ -299,24 +267,16 @@ abstract class DoctrineStorage extends Gateway
 
     /**
      * Prepend $path with the first part of the given $mimeType.
-     *
-     * @param string $path
-     * @param string $mimeType
-     *
-     * @return string
      */
-    public function prependMimeToPath(string $path, $mimeType)
+    public function prependMimeToPath(string $path, string $mimeType): string
     {
-        return substr($mimeType, 0, strpos($mimeType, '/')) . '/' . $path;
+        return substr($mimeType, 0, (int)strpos($mimeType, '/')) . '/' . $path;
     }
 
     /**
-     * Remove all file references for the given $fieldIds.
-     *
-     * @param array $fieldIds
-     * @param int $versionNo
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function removeFileReferences(array $fieldIds, $versionNo): void
+    public function removeFileReferences(array $fieldIds, int $versionNo): void
     {
         if (empty($fieldIds)) {
             return;
@@ -329,11 +289,11 @@ abstract class DoctrineStorage extends Gateway
                 $deleteQuery->expr()->and(
                     $deleteQuery->expr()->in(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
-                        self::FIELD_ID_LIST_PARAMETER_NAME
+                        ':' . self::FIELD_ID_LIST_PARAMETER_NAME
                     ),
                     $deleteQuery->expr()->eq(
                         $this->connection->quoteIdentifier('version'),
-                        self::VERSION_NO_PARAM_NAME
+                        ':' . self::VERSION_NO_PARAM_NAME
                     )
                 )
             )
@@ -345,12 +305,9 @@ abstract class DoctrineStorage extends Gateway
     }
 
     /**
-     * Remove a specific file reference for $fieldId and $versionId.
-     *
-     * @param int $fieldId
-     * @param int $versionNo
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function removeFileReference($fieldId, $versionNo): void
+    public function removeFileReference(int $fieldId, int $versionNo): void
     {
         $deleteQuery = $this->connection->createQueryBuilder();
         $deleteQuery
@@ -359,11 +316,11 @@ abstract class DoctrineStorage extends Gateway
                 $deleteQuery->expr()->and(
                     $deleteQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
-                        self::FIELD_ID_PARAM_NAME
+                        ':' . self::FIELD_ID_PARAM_NAME
                     ),
                     $deleteQuery->expr()->eq(
                         $this->connection->quoteIdentifier('version'),
-                        self::VERSION_NO_PARAM_NAME
+                        ':' . self::VERSION_NO_PARAM_NAME
                     )
                 )
             )
@@ -377,11 +334,9 @@ abstract class DoctrineStorage extends Gateway
     /**
      * Return a set o file references, referenced by the given $fieldIds.
      *
-     * @param array $fieldIds
-     *
-     * @return array
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function getReferencedFiles(array $fieldIds, $versionNo)
+    public function getReferencedFiles(array $fieldIds, int $versionNo): array
     {
         if (empty($fieldIds)) {
             return [];
@@ -398,15 +353,15 @@ abstract class DoctrineStorage extends Gateway
                 $selectQuery->expr()->and(
                     $selectQuery->expr()->in(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
-                        self::FIELD_ID_LIST_PARAMETER_NAME
+                        ':' . self::FIELD_ID_LIST_PARAMETER_NAME
                     ),
                     $selectQuery->expr()->eq(
                         $this->connection->quoteIdentifier('version'),
-                        self::VERSION_NO_PARAM_NAME
+                        ':' . self::VERSION_NO_PARAM_NAME
                     )
                 )
             )
-            ->setParameter(self::FIELD_ID_LIST_PARAMETER_NAME, $fieldIds, Connection::PARAM_INT_ARRAY)
+            ->setParameter(self::FIELD_ID_LIST_PARAMETER_NAME, $fieldIds, ArrayParameterType::INTEGER)
             ->setParameter(self::VERSION_NO_PARAM_NAME, $versionNo, ParameterType::INTEGER)
         ;
 
@@ -421,13 +376,9 @@ abstract class DoctrineStorage extends Gateway
     }
 
     /**
-     * Return a map with the number of references each file from $files has.
-     *
-     * @param array $files
-     *
-     * @return array
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function countFileReferences(array $files)
+    public function countFileReferences(array $files): array
     {
         if (empty($files)) {
             return [];
@@ -460,7 +411,7 @@ abstract class DoctrineStorage extends Gateway
                     [$this, 'removeMimeFromPath'],
                     $files
                 ),
-                Connection::PARAM_STR_ARRAY
+                ArrayParameterType::STRING
             )
         ;
 

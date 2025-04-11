@@ -7,61 +7,44 @@
 
 namespace Ibexa\Core\IO;
 
+use Ibexa\Contracts\Core\IO\BinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct;
 
 /**
- * Provides reading & writing of files meta data (size, modification time...).
+ * Provides reading & writing of files meta-data (size, modification time...).
  */
 interface IOMetadataHandler
 {
     /**
      * Stores the file from $binaryFileCreateStruct.
      *
-     * @param \Ibexa\Contracts\Core\IO\BinaryFileCreateStruct $spiBinaryFileCreateStruct
-     *
-     * @return \Ibexa\Contracts\Core\IO\BinaryFile
-     *
-     * @throws \RuntimeException if an error occured creating the file
+     * @throws \RuntimeException if an error occurred creating the file
      */
-    public function create(BinaryFileCreateStruct $spiBinaryFileCreateStruct);
+    public function create(BinaryFileCreateStruct $spiBinaryFileCreateStruct): BinaryFile;
 
     /**
      * Deletes file $spiBinaryFileId.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If $spiBinaryFileId is not found
-     *
-     * @param string $spiBinaryFileId
+     *@throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If $spiBinaryFileId is not found
      */
-    public function delete($spiBinaryFileId);
+    public function delete(string $binaryFileId): void;
 
     /**
      * Loads and returns metadata for $spiBinaryFileId.
      *
-     * @param string $spiBinaryFileId
-     *
-     * @return \Ibexa\Contracts\Core\IO\BinaryFile
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function load($spiBinaryFileId);
+    public function load(string $binaryFileId): BinaryFile;
 
     /**
      * Checks if a file $spiBinaryFileId exists.
-     *
-     * @param string $spiBinaryFileId
-     *
-     * @return bool
      */
-    public function exists($spiBinaryFileId);
+    public function exists(string $binaryFileId): bool;
 
     /**
      * Returns the file's mimetype. Example: text/plain.
-     *
-     * @param $spiBinaryFileId
-     *
-     * @return string
      */
-    public function getMimeType($spiBinaryFileId);
+    public function getMimeType(string $binaryFileId): string;
 
-    public function deleteDirectory($spiPath);
+    public function deleteDirectory(string $pathName): void;
 }
