@@ -15,17 +15,13 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
  */
 abstract class AbstractConfigResolverBasedURLHandler extends AbstractURLHandler
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    protected $configResolver;
+    protected ConfigResolverInterface $configResolver;
 
-    /** @var string */
-    private $parameterName;
+    private string $parameterName;
 
-    /** @var string|null */
-    private $namespace;
+    private ?string $namespace;
 
-    /** @var string|null */
-    private $scope;
+    private ?string $scope;
 
     public function __construct(
         URLService $urlService,

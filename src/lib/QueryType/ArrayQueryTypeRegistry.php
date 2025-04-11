@@ -15,14 +15,14 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 class ArrayQueryTypeRegistry implements QueryTypeRegistry
 {
     /** @var QueryType[] */
-    private $registry = [];
+    private array $registry = [];
 
-    public function addQueryType($name, QueryType $queryType)
+    public function addQueryType($name, QueryType $queryType): void
     {
         $this->registry[$name] = $queryType;
     }
 
-    public function addQueryTypes(array $queryTypes)
+    public function addQueryTypes(array $queryTypes): void
     {
         $this->registry += $queryTypes;
     }

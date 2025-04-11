@@ -13,7 +13,7 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 final class SiteAccessMatcherRegistry implements SiteAccessMatcherRegistryInterface
 {
     /** @var \Ibexa\Bundle\Core\SiteAccess\Matcher[] */
-    private $matchers;
+    private array $matchers;
 
     /**
      * @param \Ibexa\Bundle\Core\SiteAccess\Matcher[] $matchers

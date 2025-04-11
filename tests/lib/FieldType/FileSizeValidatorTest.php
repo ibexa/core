@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Translation\Message;
 use Ibexa\Contracts\Core\Repository\Values\Translation\Plural;
+use Ibexa\Core\FieldType\BinaryFile\Value;
 use Ibexa\Core\FieldType\BinaryFile\Value as BinaryFileValue;
 use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Validator\FileSizeValidator;
@@ -35,7 +36,7 @@ class FileSizeValidatorTest extends TestCase
     /**
      * This test ensure an FileSizeValidator can be created.
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         self::assertInstanceOf(
             Validator::class,
@@ -49,7 +50,7 @@ class FileSizeValidatorTest extends TestCase
      * @covers \Ibexa\Core\FieldType\Validator::initializeWithConstraints
      * @covers \Ibexa\Core\FieldType\Validator::__get
      */
-    public function testConstraintsInitializeGet()
+    public function testConstraintsInitializeGet(): void
     {
         $constraints = [
             'maxFileSize' => 4096,
@@ -66,7 +67,7 @@ class FileSizeValidatorTest extends TestCase
      *
      * @covers \Ibexa\Core\FieldType\Validator::getConstraintsSchema
      */
-    public function testGetConstraintsSchema()
+    public function testGetConstraintsSchema(): void
     {
         $constraintsSchema = [
             'maxFileSize' => [
@@ -84,7 +85,7 @@ class FileSizeValidatorTest extends TestCase
      * @covers \Ibexa\Core\FieldType\Validator::__set
      * @covers \Ibexa\Core\FieldType\Validator::__get
      */
-    public function testConstraintsSetGet()
+    public function testConstraintsSetGet(): void
     {
         $constraints = [
             'maxFileSize' => 4096,
@@ -99,7 +100,7 @@ class FileSizeValidatorTest extends TestCase
      *
      * @covers \Ibexa\Core\FieldType\Validator::initializeWithConstraints
      */
-    public function testInitializeBadConstraint()
+    public function testInitializeBadConstraint(): void
     {
         $this->expectException(PropertyNotFoundException::class);
 
@@ -117,7 +118,7 @@ class FileSizeValidatorTest extends TestCase
      *
      * @covers \Ibexa\Core\FieldType\Validator::__set
      */
-    public function testSetBadConstraint()
+    public function testSetBadConstraint(): void
     {
         $this->expectException(PropertyNotFoundException::class);
 
@@ -130,7 +131,7 @@ class FileSizeValidatorTest extends TestCase
      *
      * @covers \Ibexa\Core\FieldType\Validator::__get
      */
-    public function testGetBadConstraint()
+    public function testGetBadConstraint(): void
     {
         $this->expectException(PropertyNotFoundException::class);
 
@@ -148,7 +149,7 @@ class FileSizeValidatorTest extends TestCase
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validate
      * @covers \Ibexa\Core\FieldType\Validator::getMessage
      */
-    public function testValidateCorrectValues($size)
+    public function testValidateCorrectValues(int $size): void
     {
         self::markTestSkipped('BinaryFile field type does not use this validator anymore.');
         $validator = new FileSizeValidator();
@@ -162,7 +163,7 @@ class FileSizeValidatorTest extends TestCase
      *
      * @return \Ibexa\Core\FieldType\BinaryFile\Value
      */
-    protected function getBinaryFileValue($size)
+    protected function getBinaryFileValue($size): Value
     {
         self::markTestSkipped('BinaryFile field type does not use this validator anymore.');
         $value = new BinaryFileValue($this->createMock(IOServiceInterface::class));
@@ -171,7 +172,7 @@ class FileSizeValidatorTest extends TestCase
         return $value;
     }
 
-    public function providerForValidateOK()
+    public function providerForValidateOK(): array
     {
         return [
             [0],
@@ -187,7 +188,7 @@ class FileSizeValidatorTest extends TestCase
      *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validate
      */
-    public function testValidateWrongValues($size, $message, $values)
+    public function testValidateWrongValues(int $size, array $message, array $values): void
     {
         self::markTestSkipped('BinaryFile field type does not use this validator anymore.');
         $validator = new FileSizeValidator();
@@ -217,7 +218,7 @@ class FileSizeValidatorTest extends TestCase
         );
     }
 
-    public function providerForValidateKO()
+    public function providerForValidateKO(): array
     {
         return [
             [
@@ -238,7 +239,7 @@ class FileSizeValidatorTest extends TestCase
      *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
      */
-    public function testValidateConstraintsCorrectValues($constraints)
+    public function testValidateConstraintsCorrectValues(array $constraints): void
     {
         $validator = new FileSizeValidator();
 
@@ -247,7 +248,7 @@ class FileSizeValidatorTest extends TestCase
         );
     }
 
-    public function providerForValidateConstraintsOK()
+    public function providerForValidateConstraintsOK(): array
     {
         return [
             [
@@ -267,7 +268,7 @@ class FileSizeValidatorTest extends TestCase
      *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
      */
-    public function testValidateConstraintsWrongValues($constraints, $expectedMessages, $values)
+    public function testValidateConstraintsWrongValues(array $constraints, array $expectedMessages, array $values): void
     {
         $validator = new FileSizeValidator();
         $messages = $validator->validateConstraints($constraints);
@@ -286,7 +287,7 @@ class FileSizeValidatorTest extends TestCase
         );
     }
 
-    public function providerForValidateConstraintsKO()
+    public function providerForValidateConstraintsKO(): array
     {
         return [
             [

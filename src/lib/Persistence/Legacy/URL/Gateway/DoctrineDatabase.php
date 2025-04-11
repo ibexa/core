@@ -8,7 +8,6 @@
 namespace Ibexa\Core\Persistence\Legacy\URL\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\URL\URL;
@@ -26,33 +25,34 @@ use RuntimeException;
 class DoctrineDatabase extends Gateway
 {
     /** @internal */
-    public const URL_TABLE = 'ezurl';
+    public const string URL_TABLE = 'ezurl';
 
     /** @internal */
-    public const URL_LINK_TABLE = 'ezurl_object_link';
+    public const string URL_LINK_TABLE = 'ezurl_object_link';
 
-    public const COLUMN_ID = 'id';
-    public const COLUMN_URL = 'url';
-    public const COLUMN_ORIGINAL_URL_MD5 = 'original_url_md5';
-    public const COLUMN_IS_VALID = 'is_valid';
-    public const COLUMN_LAST_CHECKED = 'last_checked';
-    public const COLUMN_MODIFIED = 'modified';
-    public const COLUMN_CREATED = 'created';
+    public const string COLUMN_ID = 'id';
+    public const string COLUMN_URL = 'url';
+    public const string COLUMN_ORIGINAL_URL_MD5 = 'original_url_md5';
+    public const string COLUMN_IS_VALID = 'is_valid';
+    public const string COLUMN_LAST_CHECKED = 'last_checked';
+    public const string COLUMN_MODIFIED = 'modified';
+    public const string COLUMN_CREATED = 'created';
 
-    public const SORT_DIRECTION_MAP = [
+    /**
+     * @phpstan-var array<SortClause::SORT_*, 'ASC'|'DESC'>
+     */
+    public const array SORT_DIRECTION_MAP = [
         SortClause::SORT_ASC => 'ASC',
         SortClause::SORT_DESC => 'DESC',
     ];
+    private const string URL_TABLE_COLUMN_NAME_FORMAT = 'url.%s';
 
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
+    protected Connection $connection;
 
     /**
      * Criteria converter.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter
      */
-    protected $criteriaConverter;
+    protected CriteriaConverter $criteriaConverter;
 
     public function __construct(Connection $connection, CriteriaConverter $criteriaConverter)
     {
@@ -61,10 +61,17 @@ class DoctrineDatabase extends Gateway
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function find(Criterion $criterion, $offset, $limit, array $sortClauses = [], $doCount = true)
-    {
+    public function find(
+        Criterion $criterion,
+        int $offset,
+        int $limit,
+        array $sortClauses = [],
+        bool $doCount = true
+    ): array {
         $count = $doCount ? $this->doCount($criterion) : null;
         if (!$doCount && $limit === 0) {
             throw new RuntimeException('Invalid query. Cannot disable count and request 0 items at the same time');
@@ -84,22 +91,20 @@ class DoctrineDatabase extends Gateway
             ->setFirstResult($offset);
 
         foreach ($sortClauses as $sortClause) {
-            $column = sprintf('url.%s', $sortClause->target);
+            $column = sprintf(self::URL_TABLE_COLUMN_NAME_FORMAT, $sortClause->target);
             $query->addOrderBy($column, $this->getQuerySortingDirection($sortClause->direction));
         }
 
-        $statement = $query->execute();
-
         return [
             'count' => $count,
-            'rows' => $statement->fetchAllAssociative(),
+            'rows' => $query->executeQuery()->fetchAllAssociative(),
         ];
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function findUsages($id): array
+    public function findUsages(int $id): array
     {
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
@@ -110,7 +115,7 @@ class DoctrineDatabase extends Gateway
                 'c',
                 ContentGateway::CONTENT_FIELD_TABLE,
                 'f_def',
-                $expr->andX(
+                $expr->and(
                     'c.id = f_def.contentobject_id',
                     'c.current_version = f_def.version'
                 )
@@ -119,7 +124,7 @@ class DoctrineDatabase extends Gateway
                 'f_def',
                 self::URL_LINK_TABLE,
                 'u_lnk',
-                $expr->andX(
+                $expr->and(
                     'f_def.id = u_lnk.contentobject_attribute_id',
                     'f_def.version = u_lnk.contentobject_attribute_version'
                 )
@@ -131,23 +136,23 @@ class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->execute()->fetchAll(FetchMode::COLUMN);
+        return array_map('intval', $query->executeQuery()->fetchFirstColumn());
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function updateUrl(URL $url)
+    public function updateUrl(URL $url): void
     {
         $query = $this->connection->createQueryBuilder();
         $query
             ->update(self::URL_TABLE)
             ->set(
                 self::COLUMN_URL,
-                $query->createPositionalParameter($url->url, ParameterType::STRING)
+                $query->createPositionalParameter($url->url)
             )->set(
                 self::COLUMN_ORIGINAL_URL_MD5,
-                $query->createPositionalParameter($url->originalUrlMd5, ParameterType::STRING)
+                $query->createPositionalParameter($url->originalUrlMd5)
             )
             ->set(
                 self::COLUMN_MODIFIED,
@@ -168,13 +173,13 @@ class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function loadUrlData($id): array
+    public function loadUrlData(int $id): array
     {
         $query = $this->createSelectQuery();
         $query->where(
@@ -184,27 +189,28 @@ class DoctrineDatabase extends Gateway
             )
         );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function loadUrlDataByUrl($url): array
+    public function loadUrlDataByUrl(string $url): array
     {
         $query = $this->createSelectQuery();
         $query->where(
             $query->expr()->eq(
                 self::COLUMN_URL,
-                $query->createPositionalParameter($url, ParameterType::STRING)
+                $query->createPositionalParameter($url)
             )
         );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function doCount(Criterion $criterion): int
     {
@@ -212,11 +218,11 @@ class DoctrineDatabase extends Gateway
 
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select("COUNT(DISTINCT url.{$columnName})")
+            ->select("COUNT(DISTINCT url.$columnName)")
             ->from(self::URL_TABLE, 'url')
             ->where($this->criteriaConverter->convertCriteria($query, $criterion));
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     /**
@@ -238,21 +244,24 @@ class DoctrineDatabase extends Gateway
             ->from(self::URL_TABLE, 'url');
     }
 
+    /**
+     * @return string[]
+     */
     private function getSelectColumns(): array
     {
         return [
-            sprintf('url.%s', self::COLUMN_ID),
-            sprintf('url.%s', self::COLUMN_URL),
-            sprintf('url.%s', self::COLUMN_ORIGINAL_URL_MD5),
-            sprintf('url.%s', self::COLUMN_IS_VALID),
-            sprintf('url.%s', self::COLUMN_LAST_CHECKED),
-            sprintf('url.%s', self::COLUMN_CREATED),
-            sprintf('url.%s', self::COLUMN_MODIFIED),
+            sprintf(self::URL_TABLE_COLUMN_NAME_FORMAT, self::COLUMN_ID),
+            sprintf(self::URL_TABLE_COLUMN_NAME_FORMAT, self::COLUMN_URL),
+            sprintf(self::URL_TABLE_COLUMN_NAME_FORMAT, self::COLUMN_ORIGINAL_URL_MD5),
+            sprintf(self::URL_TABLE_COLUMN_NAME_FORMAT, self::COLUMN_IS_VALID),
+            sprintf(self::URL_TABLE_COLUMN_NAME_FORMAT, self::COLUMN_LAST_CHECKED),
+            sprintf(self::URL_TABLE_COLUMN_NAME_FORMAT, self::COLUMN_CREATED),
+            sprintf(self::URL_TABLE_COLUMN_NAME_FORMAT, self::COLUMN_MODIFIED),
         ];
     }
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     private function getQuerySortingDirection(string $direction): string
     {

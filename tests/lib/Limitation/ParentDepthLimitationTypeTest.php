@@ -20,6 +20,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Limitation\ParentDepthLimitationType;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test Case for LimitationType.
@@ -27,7 +28,7 @@ use Ibexa\Core\Repository\Values\Content\Location;
 class ParentDepthLimitationTypeTest extends Base
 {
     /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private $locationHandlerMock;
+    private MockObject $locationHandlerMock;
 
     /**
      * Setup Location Handler mock.
@@ -50,7 +51,7 @@ class ParentDepthLimitationTypeTest extends Base
     /**
      * @return \Ibexa\Core\Limitation\ParentDepthLimitationType
      */
-    public function testConstruct()
+    public function testConstruct(): ParentDepthLimitationType
     {
         return new ParentDepthLimitationType($this->getPersistenceMock());
     }
@@ -58,7 +59,7 @@ class ParentDepthLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestAcceptValue()
+    public function providerForTestAcceptValue(): array
     {
         return [
             [new ParentDepthLimitation()],
@@ -75,7 +76,7 @@ class ParentDepthLimitationTypeTest extends Base
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentDepthLimitation $limitation
      * @param \Ibexa\Core\Limitation\ParentDepthLimitationType $limitationType
      */
-    public function testAcceptValue(ParentDepthLimitation $limitation, ParentDepthLimitationType $limitationType)
+    public function testAcceptValue(ParentDepthLimitation $limitation, ParentDepthLimitationType $limitationType): void
     {
         $limitationType->acceptValue($limitation);
     }
@@ -83,7 +84,7 @@ class ParentDepthLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestAcceptValueException()
+    public function providerForTestAcceptValueException(): array
     {
         return [
             [new ObjectStateLimitation()],
@@ -99,7 +100,7 @@ class ParentDepthLimitationTypeTest extends Base
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
      * @param \Ibexa\Core\Limitation\ParentDepthLimitationType $limitationType
      */
-    public function testAcceptValueException(Limitation $limitation, ParentDepthLimitationType $limitationType)
+    public function testAcceptValueException(Limitation $limitation, ParentDepthLimitationType $limitationType): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -109,7 +110,7 @@ class ParentDepthLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestValidatePass()
+    public function providerForTestValidatePass(): array
     {
         return [
             [new ParentDepthLimitation()],
@@ -125,7 +126,7 @@ class ParentDepthLimitationTypeTest extends Base
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentDepthLimitation $limitation
      */
-    public function testValidatePass(ParentDepthLimitation $limitation, ParentDepthLimitationType $limitationType)
+    public function testValidatePass(ParentDepthLimitation $limitation, ParentDepthLimitationType $limitationType): void
     {
         $validationErrors = $limitationType->validate($limitation);
         self::assertEmpty($validationErrors);
@@ -136,7 +137,7 @@ class ParentDepthLimitationTypeTest extends Base
      *
      * @param \Ibexa\Core\Limitation\ParentDepthLimitationType $limitationType
      */
-    public function testBuildValue(ParentDepthLimitationType $limitationType)
+    public function testBuildValue(ParentDepthLimitationType $limitationType): void
     {
         $expected = [2, 7];
         $value = $limitationType->buildValue($expected);
@@ -152,7 +153,7 @@ class ParentDepthLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestEvaluate()
+    public function providerForTestEvaluate(): array
     {
         // Mocks for testing Content & VersionInfo objects, should only be used once because of expect rules.
         $contentMock = $this->createMock(APIContent::class);
@@ -285,10 +286,10 @@ class ParentDepthLimitationTypeTest extends Base
     public function testEvaluate(
         ParentDepthLimitation $limitation,
         ValueObject $object,
-        $targets,
+        ?array $targets,
         array $persistenceLocations,
         $expected
-    ) {
+    ): void {
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
         $limitationType = $this->testConstruct();
 
@@ -346,7 +347,7 @@ class ParentDepthLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestEvaluateInvalidArgument()
+    public function providerForTestEvaluateInvalidArgument(): array
     {
         return [
             // invalid limitation
@@ -386,9 +387,9 @@ class ParentDepthLimitationTypeTest extends Base
     public function testEvaluateInvalidArgument(
         Limitation $limitation,
         ValueObject $object,
-        $targets,
+        ?array $targets,
         array $persistenceLocations
-    ) {
+    ): void {
         $this->expectException(InvalidArgumentException::class);
 
         // Need to create inline instead of depending on testConstruct() to get correct mock instance

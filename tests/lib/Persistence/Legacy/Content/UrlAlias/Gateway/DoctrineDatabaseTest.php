@@ -21,17 +21,14 @@ use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
  */
 class DoctrineDatabaseTest extends TestCase
 {
-    /**
-     * Database gateway to test.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway
-     */
-    protected $gateway;
+    protected DoctrineDatabase $gateway;
 
     /**
      * Test for the loadUrlAliasData() method.
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function testLoadUrlaliasDataNonExistent()
+    public function testLoadUrlAliasDataNonExistent(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_simple.php');
         $gateway = $this->getGateway();
@@ -43,8 +40,10 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * Test for the loadUrlAliasData() method.
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function testLoadUrlaliasData()
+    public function testLoadUrlAliasData(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_simple.php');
         $gateway = $this->getGateway();
@@ -85,7 +84,7 @@ class DoctrineDatabaseTest extends TestCase
      *
      * Test with fixture containing language mask with multiple languages.
      */
-    public function testLoadUrlaliasDataMultipleLanguages()
+    public function testLoadUrlAliasDataMultipleLanguages(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_multilang.php');
         $gateway = $this->getGateway();
@@ -122,58 +121,55 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
-     * @return array
+     * @phpstan-return iterable<array{int, list<list<array<string,mixed>>>}>
      */
-    public function providerForTestLoadPathData()
+    public function providerForTestLoadPathData(): iterable
     {
-        return [
+        yield [
+            2,
             [
-                2,
                 [
-                    [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
-                    ],
+                    ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
                 ],
             ],
+        ];
+        yield [
+            3,
             [
-                3,
                 [
-                    [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
-                    ],
-                    [
-                        ['parent' => '2', 'lang_mask' => '5', 'text' => 'two'],
-                        ['parent' => '2', 'lang_mask' => '3', 'text' => 'dva'],
-                    ],
+                    ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
+                ],
+                [
+                    ['parent' => '2', 'lang_mask' => '5', 'text' => 'two'],
+                    ['parent' => '2', 'lang_mask' => '3', 'text' => 'dva'],
                 ],
             ],
+        ];
+        yield [
+            4,
             [
-                4,
                 [
-                    [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
-                    ],
-                    [
-                        ['parent' => '2', 'lang_mask' => '5', 'text' => 'two'],
-                        ['parent' => '2', 'lang_mask' => '3', 'text' => 'dva'],
-                    ],
-                    [
-                        ['parent' => '3', 'lang_mask' => '9', 'text' => 'drei'],
-                        ['parent' => '3', 'lang_mask' => '5', 'text' => 'three'],
-                        ['parent' => '3', 'lang_mask' => '3', 'text' => 'tri'],
-                    ],
+                    ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
+                ],
+                [
+                    ['parent' => '2', 'lang_mask' => '5', 'text' => 'two'],
+                    ['parent' => '2', 'lang_mask' => '3', 'text' => 'dva'],
+                ],
+                [
+                    ['parent' => '3', 'lang_mask' => '9', 'text' => 'drei'],
+                    ['parent' => '3', 'lang_mask' => '5', 'text' => 'three'],
+                    ['parent' => '3', 'lang_mask' => '3', 'text' => 'tri'],
                 ],
             ],
         ];
     }
 
     /**
-     * Test for the loadPathData() method.
-     *
-     *
      * @dataProvider providerForTestLoadPathData
+     *
+     * @phpstan-param list<list<array<string,mixed>>> $pathData
      */
-    public function testLoadPathData($id, $pathData)
+    public function testLoadPathData(int $id, array $pathData): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_fallback.php');
         $gateway = $this->getGateway();
@@ -187,43 +183,43 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
-     * @return array
+     * @phpstan-return iterable<array{int, list<list<array<string,mixed>>>}>
      */
-    public function providerForTestLoadPathDataMultipleLanguages()
+    public static function providerForTestLoadPathDataMultipleLanguages(): iterable
     {
-        return [
+        yield [
+            2,
             [
-                2,
                 [
-                    [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
-                    ],
+                    ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
                 ],
             ],
+        ];
+
+        yield [
+            3,
             [
-                3,
                 [
-                    [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
-                    ],
-                    [
-                        ['parent' => '2', 'lang_mask' => '6', 'text' => 'dva'],
-                    ],
+                    ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
+                ],
+                [
+                    ['parent' => '2', 'lang_mask' => '6', 'text' => 'dva'],
                 ],
             ],
+        ];
+
+        yield [
+            4,
             [
-                4,
                 [
-                    [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
-                    ],
-                    [
-                        ['parent' => '2', 'lang_mask' => '6', 'text' => 'dva'],
-                    ],
-                    [
-                        ['parent' => '3', 'lang_mask' => '4', 'text' => 'three'],
-                        ['parent' => '3', 'lang_mask' => '2', 'text' => 'tri'],
-                    ],
+                    ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
+                ],
+                [
+                    ['parent' => '2', 'lang_mask' => '6', 'text' => 'dva'],
+                ],
+                [
+                    ['parent' => '3', 'lang_mask' => '4', 'text' => 'three'],
+                    ['parent' => '3', 'lang_mask' => '2', 'text' => 'tri'],
                 ],
             ],
         ];
@@ -232,10 +228,14 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Test for the loadPathData() method.
      *
+     * @phpstan-param list<list<array<string,mixed>>> $pathData
      *
      * @dataProvider providerForTestLoadPathDataMultipleLanguages
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
-    public function testLoadPathDataMultipleLanguages($id, $pathData)
+    public function testLoadPathDataMultipleLanguages(int $id, array $pathData): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_multilang.php');
         $gateway = $this->getGateway();
@@ -251,7 +251,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @return array
      */
-    public function providerForTestCleanupAfterPublishHistorize()
+    public function providerForTestCleanupAfterPublishHistorize(): array
     {
         return [
             [
@@ -276,7 +276,7 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @return array
      */
-    public function providerForTestArchiveUrlAliasesForDeletedTranslations()
+    public function providerForTestArchiveUrlAliasesForDeletedTranslations(): array
     {
         return [
             [314, [2]],
@@ -294,7 +294,7 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @dataProvider providerForTestCleanupAfterPublishHistorize
      */
-    public function testCleanupAfterPublishHistorize($action, $languageId, $parentId, $textMD5)
+    public function testCleanupAfterPublishHistorize(string $action, int $languageId, int $parentId, string $textMD5): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_downgrade.php');
         $gateway = $this->getGateway();
@@ -314,7 +314,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @return array
      */
-    public function providerForTestCleanupAfterPublishRemovesLanguage()
+    public function providerForTestCleanupAfterPublishRemovesLanguage(): array
     {
         return [
             [
@@ -339,7 +339,7 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @dataProvider providerForTestCleanupAfterPublishRemovesLanguage
      */
-    public function testCleanupAfterPublishRemovesLanguage($action, $languageId, $parentId, $textMD5)
+    public function testCleanupAfterPublishRemovesLanguage(string $action, int $languageId, int $parentId, string $textMD5): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_downgrade.php');
         $gateway = $this->getGateway();
@@ -359,7 +359,7 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @todo document
      */
-    public function testReparent()
+    public function testReparent(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_simple.php');
         $gateway = $this->getGateway();
@@ -387,7 +387,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Test for the remove() method.
      */
-    public function testRemove()
+    public function testRemove(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_remove.php');
         $gateway = $this->getGateway();
@@ -405,7 +405,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Test for the remove() method.
      */
-    public function testRemoveWithId()
+    public function testRemoveWithId(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_remove.php');
         $gateway = $this->getGateway();
@@ -423,7 +423,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Test for the removeCustomAlias() method.
      */
-    public function testRemoveCustomAlias()
+    public function testRemoveCustomAlias(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_remove.php');
         $gateway = $this->getGateway();
@@ -439,7 +439,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Test for the removeByAction() method.
      */
-    public function testRemoveCustomAliasFails()
+    public function testRemoveCustomAliasFails(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_remove.php');
         $gateway = $this->getGateway();
@@ -453,7 +453,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Test for the getNextId() method.
      */
-    public function testGetNextId()
+    public function testGetNextId(): void
     {
         $gateway = $this->getGateway();
 
@@ -467,7 +467,7 @@ class DoctrineDatabaseTest extends TestCase
      * @param int $locationId
      * @param int[] $removedLanguageIds
      */
-    public function testArchiveUrlAliasesForDeletedTranslations($locationId, array $removedLanguageIds)
+    public function testArchiveUrlAliasesForDeletedTranslations(int $locationId, array $removedLanguageIds): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_multilang.php');
         $gateway = $this->getGateway();
@@ -495,7 +495,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Return the DoctrineDatabase gateway implementation to test.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function getGateway(): DoctrineDatabase
     {

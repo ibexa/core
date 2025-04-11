@@ -14,7 +14,7 @@ use Symfony\Component\Config\Resource\FileResource;
 
 class YamlPolicyProviderTest extends TestCase
 {
-    public function testSingleYaml()
+    public function testSingleYaml(): void
     {
         $files = [__DIR__ . '/../../Fixtures/policies1.yml'];
         $provider = new StubYamlPolicyProvider($files);
@@ -44,7 +44,7 @@ class YamlPolicyProviderTest extends TestCase
         $provider->addPolicies($configBuilder);
     }
 
-    public function testMultipleYaml()
+    public function testMultipleYaml(): void
     {
         $file1 = __DIR__ . '/../../Fixtures/policies1.yml';
         $file2 = __DIR__ . '/../../Fixtures/policies2.yml';

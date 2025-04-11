@@ -39,10 +39,8 @@ class Parser
      *
      * For readability reasons this array is created in the constructor to be
      * able to use temporary variables.
-     *
-     * @var array
      */
-    protected $tokenSpecifications = null;
+    protected array $tokenSpecifications;
 
     /**
      * Construct.
@@ -92,13 +90,13 @@ class Parser
      *
      * @return array
      */
-    public function parseString($string)
+    public function parseString($string): array
     {
         $tokens = $this->tokenize($string);
 
         $tokens = array_filter(
             $tokens,
-            static function ($token): bool {
+            static function (array $token): bool {
                 return !($token['type'] === TransformationProcessor::T_WHITESPACE ||
                           $token['type'] === TransformationProcessor::T_COMMENT);
             }
@@ -131,7 +129,7 @@ class Parser
      *
      * @return array
      */
-    protected function tokenize($string)
+    protected function tokenize($string): array
     {
         $string = preg_replace('(\\r\\n|\\r)', "\n", $string);
         $tokens = [];
@@ -170,7 +168,7 @@ class Parser
      *
      * @return array
      */
-    protected function filterValues(array $data)
+    protected function filterValues(array $data): array
     {
         foreach ($data as $key => $value) {
             if (is_int($key)) {

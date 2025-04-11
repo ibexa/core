@@ -12,12 +12,13 @@ use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\FieldType\Url\UrlStorage;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
 class UrlStorageTest extends TestCase
 {
-    public function testStoreFieldDataWithExistingUrl()
+    public function testStoreFieldDataWithExistingUrl(): void
     {
         $versionInfo = new VersionInfo(['versionNo' => 24]);
         $fieldValue = new FieldValue(['externalData' => 'http://ibexa.co']);
@@ -51,7 +52,7 @@ class UrlStorageTest extends TestCase
         self::assertEquals(12, $field->value->data['urlId']);
     }
 
-    public function testStoreFieldDataWithNewUrl()
+    public function testStoreFieldDataWithNewUrl(): void
     {
         $versionInfo = new VersionInfo(['versionNo' => 24]);
         $fieldValue = new FieldValue(['externalData' => 'http://ibexa.co']);
@@ -91,7 +92,7 @@ class UrlStorageTest extends TestCase
         self::assertEquals(12, $field->value->data['urlId']);
     }
 
-    public function testStoreFieldDataWithEmptyUrl()
+    public function testStoreFieldDataWithEmptyUrl(): void
     {
         $versionInfo = new VersionInfo(['versionNo' => 24]);
         $fieldValue = new FieldValue(['externalData' => '']);
@@ -121,7 +122,7 @@ class UrlStorageTest extends TestCase
         self::assertNull($field->value->data);
     }
 
-    public function testGetFieldData()
+    public function testGetFieldData(): void
     {
         $versionInfo = new VersionInfo();
         $fieldValue = new FieldValue(['data' => ['urlId' => 12]]);
@@ -140,7 +141,7 @@ class UrlStorageTest extends TestCase
         self::assertEquals('http://ibexa.co', $field->value->externalData);
     }
 
-    public function testGetFieldDataNotFound()
+    public function testGetFieldDataNotFound(): void
     {
         $versionInfo = new VersionInfo();
         $fieldValue = new FieldValue(['data' => ['urlId' => 12]]);
@@ -165,7 +166,7 @@ class UrlStorageTest extends TestCase
         self::assertEquals('', $field->value->externalData);
     }
 
-    public function testGetFieldDataWithEmptyUrlId()
+    public function testGetFieldDataWithEmptyUrlId(): void
     {
         $versionInfo = new VersionInfo();
         $fieldValue = new FieldValue(['data' => ['urlId' => null]]);
@@ -187,7 +188,7 @@ class UrlStorageTest extends TestCase
         self::assertNull($field->value->externalData);
     }
 
-    public function testDeleteFieldData()
+    public function testDeleteFieldData(): void
     {
         $versionInfo = new VersionInfo(['versionNo' => 24]);
         $fieldIds = [12, 23, 34];
@@ -204,7 +205,7 @@ class UrlStorageTest extends TestCase
         $storage->deleteFieldData($versionInfo, $fieldIds);
     }
 
-    public function testHasFieldData()
+    public function testHasFieldData(): void
     {
         $storage = $this->getPartlyMockedStorage($this->getGatewayMock());
 
@@ -216,7 +217,7 @@ class UrlStorageTest extends TestCase
      *
      * @return \Ibexa\Core\FieldType\Url\UrlStorage|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getPartlyMockedStorage(StorageGatewayInterface $gateway)
+    protected function getPartlyMockedStorage(StorageGatewayInterface $gateway): MockObject
     {
         return $this->getMockBuilder(UrlStorage::class)
             ->setMethods(null)
@@ -230,7 +231,7 @@ class UrlStorageTest extends TestCase
     }
 
     /** @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $loggerMock;
+    protected ?MockObject $loggerMock = null;
 
     /**
      * @return \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -247,7 +248,7 @@ class UrlStorageTest extends TestCase
     }
 
     /** @var \Ibexa\Core\FieldType\Url\UrlStorage\Gateway|\PHPUnit\Framework\MockObject\MockObject */
-    protected $gatewayMock;
+    protected ?MockObject $gatewayMock = null;
 
     /**
      * @return \Ibexa\Core\FieldType\Url\UrlStorage\Gateway|\PHPUnit\Framework\MockObject\MockObject

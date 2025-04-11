@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 final class ThumbnailChainStrategy implements ThumbnailStrategy
 {
     /** @var \Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy[] */
-    private $strategies;
+    private iterable $strategies;
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy[] $strategies

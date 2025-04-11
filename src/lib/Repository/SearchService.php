@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\PermissionCriterionResolver;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\SearchService as SearchServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
@@ -35,22 +36,17 @@ use Ibexa\Core\Search\Common\BackgroundIndexer;
 class SearchService implements SearchServiceInterface
 {
     /** @var \Ibexa\Core\Repository\Repository */
-    protected $repository;
+    protected Repository $repository;
 
-    /** @var \Ibexa\Contracts\Core\Search\Handler */
-    protected $searchHandler;
+    protected Handler $searchHandler;
 
-    /** @var array */
-    protected $settings;
+    protected array $settings;
 
-    /** @var \Ibexa\Core\Repository\Mapper\ContentDomainMapper */
-    protected $contentDomainMapper;
+    protected ContentDomainMapper $contentDomainMapper;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver */
-    protected $permissionCriterionResolver;
+    protected PermissionCriterionResolver $permissionCriterionResolver;
 
-    /** @var \Ibexa\Core\Search\Common\BackgroundIndexer */
-    protected $backgroundIndexer;
+    protected BackgroundIndexer $backgroundIndexer;
 
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
@@ -301,7 +297,7 @@ class SearchService implements SearchServiceInterface
      *
      * @uses \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver::getPermissionsCriterion()
      */
-    protected function addPermissionsCriterion(Query\CriterionInterface &$criterion): bool
+    protected function addPermissionsCriterion(CriterionInterface &$criterion): bool
     {
         $permissionCriterion = $this->permissionCriterionResolver->getPermissionsCriterion('content', 'read');
         if ($permissionCriterion === true || $permissionCriterion === false) {

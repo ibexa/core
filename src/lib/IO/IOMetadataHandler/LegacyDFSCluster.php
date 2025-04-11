@@ -10,6 +10,7 @@ namespace Ibexa\Core\IO\IOMetadataHandler;
 use DateTime;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
+use Ibexa\Contracts\Core\IO\BinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFile as SPIBinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -24,11 +25,12 @@ use Ibexa\Core\IO\UrlDecorator;
  */
 class LegacyDFSCluster implements IOMetadataHandler
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $db;
+    private const string NAME_HASH_PARAM_NAME = ':name_hash';
+    private const string DFS_IS_EXPIRED_COMPARISON = 'e.expired != true';
 
-    /** @var \Ibexa\Core\IO\UrlDecorator */
-    private $urlDecorator;
+    private Connection $db;
+
+    private ?UrlDecorator $urlDecorator;
 
     /**
      * @param \Doctrine\DBAL\Connection $connection Doctrine DBAL connection
@@ -92,7 +94,7 @@ class LegacyDFSCluster implements IOMetadataHandler
      *
      * @param string $spiBinaryFileId
      */
-    public function delete($spiBinaryFileId)
+    public function delete($spiBinaryFileId): void
     {
         $path = (string)$this->addPrefix($spiBinaryFileId);
 
@@ -115,7 +117,7 @@ class LegacyDFSCluster implements IOMetadataHandler
      * @return \Ibexa\Contracts\Core\IO\BinaryFile
      *
      * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException if no row is found for $spiBinaryFileId
-     * @throws \Doctrine\DBAL\DBALException Any unhandled DBAL exception
+     * @throws \Doctrine\DBAL\Exception Any unhandled DBAL exception
      */
     public function load($spiBinaryFileId)
     {
@@ -135,8 +137,8 @@ class LegacyDFSCluster implements IOMetadataHandler
                 'e.status',
             )
             ->from('ezdfsfile', 'e')
-            ->andWhere('e.name_hash = :name_hash')
-            ->andWhere('e.expired != true')
+            ->andWhere('e.name_hash = ' . self::NAME_HASH_PARAM_NAME)
+            ->andWhere(self::DFS_IS_EXPIRED_COMPARISON)
             ->andWhere('e.mtime > 0')
             ->setParameter('name_hash', md5($path))
             ->execute()
@@ -157,7 +159,7 @@ class LegacyDFSCluster implements IOMetadataHandler
      * @param string $spiBinaryFileId
      *
      * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
-     * @throws \Doctrine\DBAL\DBALException Any unhandled DBAL exception
+     * @throws \Doctrine\DBAL\Exception Any unhandled DBAL exception
      *
      * @return bool
      */
@@ -180,7 +182,7 @@ class LegacyDFSCluster implements IOMetadataHandler
             )
             ->from('ezdfsfile', 'e')
             ->andWhere('e.name_hash = :name_hash')
-            ->andWhere('e.expired != true')
+            ->andWhere(self::DFS_IS_EXPIRED_COMPARISON)
             ->andWhere('e.mtime > 0')
             ->setParameter('name_hash', md5($path))
             ->execute()
@@ -257,7 +259,7 @@ class LegacyDFSCluster implements IOMetadataHandler
             ->select('e.datatype')
             ->from('ezdfsfile', 'e')
             ->andWhere('e.name_hash = :name_hash')
-            ->andWhere('e.expired != true')
+            ->andWhere(self::DFS_IS_EXPIRED_COMPARISON)
             ->andWhere('e.mtime > 0')
             ->setParameter('name_hash', md5($this->addPrefix($spiBinaryFileId)))
             ->execute()
@@ -276,8 +278,10 @@ class LegacyDFSCluster implements IOMetadataHandler
      * Delete directory and all the content under specified directory.
      *
      * @param string $spiPath SPI Path, not prefixed by URL decoration
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function deleteDirectory($spiPath)
+    public function deleteDirectory($spiPath): void
     {
         $query = $this->db->createQueryBuilder();
         $query
@@ -288,17 +292,17 @@ class LegacyDFSCluster implements IOMetadataHandler
                 ':spiPath',
                 addcslashes($this->addPrefix(rtrim($spiPath, '/')), '%_') . '/%'
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
-     * Maps an array of data base properties (id, size, mtime, datatype, md5_path, path...) to an SPIBinaryFile object.
+     * Maps an array of database properties (id, size, mtime, datatype, md5_path, path...) to an SPIBinaryFile object.
      *
      * @param array $properties database properties array
      *
      * @return \Ibexa\Contracts\Core\IO\BinaryFile
      */
-    protected function mapArrayToSPIBinaryFile(array $properties)
+    protected function mapArrayToSPIBinaryFile(array $properties): BinaryFile
     {
         $spiBinaryFile = new SPIBinaryFile();
         $spiBinaryFile->id = $properties['id'];
@@ -313,7 +317,7 @@ class LegacyDFSCluster implements IOMetadataHandler
      *
      * @return \Ibexa\Contracts\Core\IO\BinaryFile
      */
-    protected function mapSPIBinaryFileCreateStructToSPIBinaryFile(SPIBinaryFileCreateStruct $binaryFileCreateStruct)
+    protected function mapSPIBinaryFileCreateStructToSPIBinaryFile(SPIBinaryFileCreateStruct $binaryFileCreateStruct): BinaryFile
     {
         $spiBinaryFile = new SPIBinaryFile();
         $spiBinaryFile->id = $binaryFileCreateStruct->id;

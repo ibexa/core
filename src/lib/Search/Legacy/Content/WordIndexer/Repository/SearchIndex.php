@@ -7,8 +7,8 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 
@@ -17,10 +17,10 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class SearchIndex
 {
-    public const SEARCH_WORD_TABLE = 'ezsearch_word';
-    public const SEARCH_OBJECT_WORD_LINK_TABLE = 'ezsearch_object_word_link';
+    public const string SEARCH_WORD_TABLE = 'ezsearch_word';
+    public const string SEARCH_OBJECT_WORD_LINK_TABLE = 'ezsearch_object_word_link';
 
-    protected $connection;
+    protected Connection $connection;
 
     public function __construct(Connection $connection)
     {
@@ -31,6 +31,8 @@ class SearchIndex
      * Fetch already indexed words from database (legacy db table: ezsearch_word).
      *
      * @param string[] $words
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function getWords(array $words): array
     {
@@ -41,41 +43,47 @@ class SearchIndex
             ->from(self::SEARCH_WORD_TABLE)
             ->where($query->expr()->in('word', ':words'))
             // use array_map as some DBMS-es do not cast integers to strings by default
-            ->setParameter('words', array_map('strval', $words), Connection::PARAM_STR_ARRAY);
+            ->setParameter('words', array_map('strval', $words), ArrayParameterType::STRING);
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
      * Increase the object count of the given words by one.
      *
      * @param int[] $wordId
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function incrementWordObjectCount(array $wordId): void
     {
         $this
             ->getWordUpdateQuery($wordId)
             ->set('object_count', 'object_count + 1')
-            ->execute();
+            ->executeStatement();
     }
 
     /**
      * Decrease the object count of the given words by one.
      *
      * @param int[] $wordId
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function decrementWordObjectCount(array $wordId): void
     {
         $this
             ->getWordUpdateQuery($wordId)
             ->set('object_count', 'object_count - 1')
-            ->execute();
+            ->executeStatement();
     }
 
     /**
      * Insert new words (legacy db table: ezsearch_word).
      *
      * @param string[] $words
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function addWords(array $words): void
     {
@@ -92,12 +100,14 @@ class SearchIndex
 
         foreach ($words as $word) {
             $query->setParameter('word', $word);
-            $query->execute();
+            $query->executeStatement();
         }
     }
 
     /**
      * Remove entire search index.
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function purge(): void
     {
@@ -110,13 +120,15 @@ class SearchIndex
             $this->connection
                 ->createQueryBuilder()
                 ->delete($tableName)
-                ->execute();
+                ->executeStatement();
         }
         $this->connection->commit();
     }
 
     /**
      * Link word with specific content object (legacy db table: ezsearch_object_word_link).
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function addObjectWordLink(
         int $wordId,
@@ -187,11 +199,13 @@ class SearchIndex
                 ]
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
      * Get all words related to the content object (legacy db table: ezsearch_object_word_link).
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function getContentObjectWords(int $contentId): array
     {
@@ -206,11 +220,13 @@ class SearchIndex
                 )
             );
 
-        return $query->execute()->fetchAll(FetchMode::COLUMN);
+        return $query->executeQuery()->fetchFirstColumn();
     }
 
     /**
      * Delete words not related to any content object.
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function deleteWordsWithoutObjects(): int
     {
@@ -224,11 +240,13 @@ class SearchIndex
                 )
             );
 
-        return $query->execute();
+        return $query->executeStatement();
     }
 
     /**
      * Delete relation between a word and a content object.
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function deleteObjectWordsLink(int $contentId): int
     {
@@ -242,7 +260,7 @@ class SearchIndex
                 )
             );
 
-        return $query->execute();
+        return $query->executeStatement();
     }
 
     /**
@@ -258,7 +276,7 @@ class SearchIndex
             ->where(
                 $query->expr()->in(
                     'id',
-                    $query->createPositionalParameter($wordIds, Connection::PARAM_INT_ARRAY)
+                    $query->createPositionalParameter($wordIds, ArrayParameterType::INTEGER)
                 )
             );
 

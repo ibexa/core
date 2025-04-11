@@ -30,7 +30,7 @@ class CountryTest extends TestCase
         $this->converter = new CountryConverter();
     }
 
-    public function providerForTestToStorageValue()
+    public function providerForTestToStorageValue(): array
     {
         return [
             [['BE', 'FR'], 'belgium,france', 'BE,FR', 'belgium,france'],
@@ -44,7 +44,7 @@ class CountryTest extends TestCase
      *
      * @dataProvider providerForTestToStorageValue
      */
-    public function testToStorageValue($data, $sortKey, $dataText, $sortKeyString)
+    public function testToStorageValue(?array $data, string $sortKey, string $dataText, string $sortKeyString): void
     {
         $value = new FieldValue();
         $value->data = $data;
@@ -56,7 +56,7 @@ class CountryTest extends TestCase
         self::assertSame($sortKeyString, $storageFieldValue->sortKeyString);
     }
 
-    public function providerForTestToFieldValue()
+    public function providerForTestToFieldValue(): array
     {
         return [
             ['BE,FR', 'belgium,france', ['BE', 'FR']],
@@ -70,7 +70,7 @@ class CountryTest extends TestCase
      *
      * @dataProvider providerForTestToFieldValue
      */
-    public function testToFieldValue($dataText, $sortKeyString, $data)
+    public function testToFieldValue(string $dataText, string $sortKeyString, ?array $data): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->dataText = $dataText;
@@ -85,7 +85,7 @@ class CountryTest extends TestCase
      * @group fieldType
      * @group country
      */
-    public function testToStorageFieldDefinitionMultiple()
+    public function testToStorageFieldDefinitionMultiple(): void
     {
         $defaultValue = new FieldValue();
         $defaultValue->data = ['BE', 'FR'];
@@ -120,7 +120,7 @@ class CountryTest extends TestCase
      * @group fieldType
      * @group country
      */
-    public function testToStorageFieldDefinitionSingle()
+    public function testToStorageFieldDefinitionSingle(): void
     {
         $fieldTypeConstraints = new FieldTypeConstraints();
         $fieldTypeConstraints->fieldSettings = new FieldSettings(
@@ -151,7 +151,7 @@ class CountryTest extends TestCase
      * @group fieldType
      * @group country
      */
-    public function testToFieldDefinitionMultiple()
+    public function testToFieldDefinitionMultiple(): void
     {
         $fieldDef = new PersistenceFieldDefinition();
 
@@ -178,7 +178,7 @@ class CountryTest extends TestCase
      * @group fieldType
      * @group country
      */
-    public function testToFieldDefinitionSingle()
+    public function testToFieldDefinitionSingle(): void
     {
         $fieldDef = new PersistenceFieldDefinition();
 

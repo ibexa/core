@@ -19,10 +19,8 @@ class DoctrineDatabaseTest extends TestCase
 {
     /**
      * Database gateway to test.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\User\Gateway\DoctrineDatabase
      */
-    protected $databaseGateway;
+    protected DoctrineDatabase $databaseGateway;
 
     /**
      * Inserts DB fixture.
@@ -43,7 +41,7 @@ class DoctrineDatabaseTest extends TestCase
         $gateway->removeRoleAssignmentById(38);
         $query = $this->getDatabaseConnection()->createQueryBuilder();
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'contentobject_id' => '11',
@@ -81,8 +79,6 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * Returns a ready to test DoctrineDatabase gateway.
-     *
-     * @throws \Doctrine\DBAL\DBALException
      */
     protected function getDatabaseGateway(): DoctrineDatabase
     {

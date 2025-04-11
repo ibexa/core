@@ -18,21 +18,22 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster;
 use Ibexa\Core\IO\UrlDecorator;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class LegacyDFSClusterTest extends TestCase
 {
     /** @var \Ibexa\Core\IO\IOMetadataHandler&\PHPUnit\Framework\MockObject\MockObject */
-    private $handler;
+    private LegacyDFSCluster $handler;
 
     /** @var \Doctrine\DBAL\Connection&\PHPUnit\Framework\MockObject\MockObject */
-    private $dbalMock;
+    private MockObject $dbalMock;
 
     /** @var \Doctrine\DBAL\Query\QueryBuilder&\PHPUnit\Framework\MockObject\MockObject */
-    private $qbMock;
+    private MockObject $qbMock;
 
     /** @var \Ibexa\Core\IO\UrlDecorator&\PHPUnit\Framework\MockObject\MockObject */
-    private $urlDecoratorMock;
+    private MockObject $urlDecoratorMock;
 
     protected function setUp(): void
     {
@@ -66,7 +67,7 @@ class LegacyDFSClusterTest extends TestCase
     /**
      * @dataProvider providerCreate
      */
-    public function testCreate(string $id, string $mimeType, int $size, \DateTime $mtime, \DateTime $mtimeExpected): void
+    public function testCreate(string $id, string $mimeType, int $size, DateTime $mtime, DateTime $mtimeExpected): void
     {
         $this->dbalMock
             ->expects(self::once())
@@ -200,7 +201,7 @@ class LegacyDFSClusterTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject
      */
-    protected function createDbalStatementMock()
+    protected function createDbalStatementMock(): MockObject
     {
         return $this->createMock(Statement::class);
     }

@@ -19,8 +19,7 @@ use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalAndQueryBu
  */
 final class SiblingQueryBuilder implements CriterionQueryBuilder
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalAndQueryBuilder */
-    private $logicalAndQueryBuilder;
+    private LogicalAndQueryBuilder $logicalAndQueryBuilder;
 
     /**
      * Sibling is internally a composite LogicalAnd criterion, so is handled by delegation.

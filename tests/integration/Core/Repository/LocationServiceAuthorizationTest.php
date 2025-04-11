@@ -32,7 +32,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testCreateLocation
      */
-    public function testCreateLocationThrowsUnauthorizedException()
+    public function testCreateLocationThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -75,7 +75,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testCreateLocation
      */
-    public function testCreateLocationThrowsUnauthorizedExceptionDueToLackOfContentManageLocationsPolicy()
+    public function testCreateLocationThrowsUnauthorizedExceptionDueToLackOfContentManageLocationsPolicy(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -136,7 +136,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testLoadLocation
      */
-    public function testLoadLocationThrowsUnauthorizedException()
+    public function testLoadLocationThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -186,7 +186,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testLoadLocationByRemoteId
      */
-    public function testLoadLocationByRemoteIdThrowsUnauthorizedException()
+    public function testLoadLocationByRemoteIdThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -216,7 +216,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testLoadLocations
      */
-    public function testLoadLocationsNoAccess()
+    public function testLoadLocationsNoAccess(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -246,7 +246,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testUpdateLocation
      */
-    public function testUpdateLocationThrowsUnauthorizedException()
+    public function testUpdateLocationThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -286,7 +286,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testSwapLocation
      */
-    public function testSwapLocationThrowsUnauthorizedException()
+    public function testSwapLocationThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -328,7 +328,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testHideLocation
      */
-    public function testHideLocationThrowsUnauthorizedException()
+    public function testHideLocationThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -359,7 +359,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testUnhideLocation
      */
-    public function testUnhideLocationThrowsUnauthorizedException()
+    public function testUnhideLocationThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -393,7 +393,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testDeleteLocation
      */
-    public function testDeleteLocationThrowsUnauthorizedException()
+    public function testDeleteLocationThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -457,7 +457,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testDeleteLocation
      */
-    public function testDeleteLocationWithSubtreeThrowsUnauthorizedException()
+    public function testDeleteLocationWithSubtreeThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessage('The User does not have the \'remove\' \'content\' permission');
@@ -556,7 +556,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testCopySubtree
      */
-    public function testCopySubtreeThrowsUnauthorizedException()
+    public function testCopySubtreeThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -601,7 +601,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testMoveSubtree
      */
-    public function testMoveSubtreeThrowsUnauthorizedException()
+    public function testMoveSubtreeThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 

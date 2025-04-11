@@ -13,8 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 
 final class DeleteTranslationEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
-    private $contentInfo;
+    private ContentInfo $contentInfo;
 
     private $languageCode;
 

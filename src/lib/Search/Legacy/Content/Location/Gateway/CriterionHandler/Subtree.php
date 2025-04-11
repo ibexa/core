@@ -36,7 +36,7 @@ class Subtree extends CriterionHandler
             );
         }
 
-        return $queryBuilder->expr()->orX(...$statements);
+        return $queryBuilder->expr()->or(...$statements);
     }
 
     public function accept(CriterionInterface $criterion): bool

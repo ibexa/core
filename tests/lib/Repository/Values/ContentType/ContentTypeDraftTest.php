@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ContentTypeDraftTest extends TestCase
 {
-    public function testObjectProperties()
+    public function testObjectProperties(): void
     {
         $object = new ContentTypeDraft(
             [

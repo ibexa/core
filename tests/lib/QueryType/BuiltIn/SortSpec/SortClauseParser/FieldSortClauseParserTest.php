@@ -21,7 +21,7 @@ final class FieldSortClauseParserTest extends TestCase
     private const EXAMPLE_FIELD_ID = 'title';
 
     /** @var \Ibexa\Core\QueryType\BuiltIn\SortSpec\SortClauseParser\FieldSortClauseParser */
-    private $fieldSortClauseParser;
+    private FieldSortClauseParser $fieldSortClauseParser;
 
     protected function setUp(): void
     {

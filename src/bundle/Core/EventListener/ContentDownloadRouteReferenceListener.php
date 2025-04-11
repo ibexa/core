@@ -29,8 +29,7 @@ class ContentDownloadRouteReferenceListener implements EventSubscriberInterface
     public const OPT_SITEACCESS = 'siteaccess';
     public const OPT_VERSION = 'version';
 
-    /** @var \Ibexa\Core\Helper\TranslationHelper */
-    private $translationHelper;
+    private TranslationHelper $translationHelper;
 
     public function __construct(TranslationHelper $translationHelper)
     {
@@ -47,7 +46,7 @@ class ContentDownloadRouteReferenceListener implements EventSubscriberInterface
     /**
      * @throws \InvalidArgumentException If the required arguments are not correct
      */
-    public function onRouteReferenceGeneration(RouteReferenceGenerationEvent $event)
+    public function onRouteReferenceGeneration(RouteReferenceGenerationEvent $event): void
     {
         $routeReference = $event->getRouteReference();
 

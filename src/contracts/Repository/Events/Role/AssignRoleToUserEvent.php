@@ -15,14 +15,11 @@ use Ibexa\Contracts\Core\Repository\Values\User\User;
 
 final class AssignRoleToUserEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\Role */
-    private $role;
+    private Role $role;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
-    private $user;
+    private User $user;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\Limitation\RoleLimitation */
-    private $roleLimitation;
+    private ?RoleLimitation $roleLimitation;
 
     public function __construct(
         Role $role,

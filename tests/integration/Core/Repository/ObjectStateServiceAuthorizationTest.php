@@ -26,7 +26,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testCreateObjectStateGroup
      */
-    public function testCreateObjectStateGroupThrowsUnauthorizedException()
+    public function testCreateObjectStateGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -71,7 +71,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testUpdateObjectStateGroup
      */
-    public function testUpdateObjectStateGroupThrowsUnauthorizedException()
+    public function testUpdateObjectStateGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -121,7 +121,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testDeleteObjectStateGroup
      */
-    public function testDeleteObjectStateGroupThrowsUnauthorizedException()
+    public function testDeleteObjectStateGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -158,7 +158,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testCreateObjectState
      */
-    public function testCreateObjectStateThrowsUnauthorizedException()
+    public function testCreateObjectStateThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -210,7 +210,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testUpdateObjectState
      */
-    public function testUpdateObjectStateThrowsUnauthorizedException()
+    public function testUpdateObjectStateThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -261,7 +261,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testSetPriorityOfObjectState
      */
-    public function testSetPriorityOfObjectStateThrowsUnauthorizedException()
+    public function testSetPriorityOfObjectStateThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -300,7 +300,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testDeleteObjectState
      */
-    public function testDeleteObjectStateThrowsUnauthorizedException()
+    public function testDeleteObjectStateThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -335,7 +335,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testSetContentState
      */
-    public function testSetContentStateThrowsUnauthorizedException()
+    public function testSetContentStateThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 

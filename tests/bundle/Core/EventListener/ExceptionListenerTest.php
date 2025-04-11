@@ -24,6 +24,7 @@ use Ibexa\Core\Base\Exceptions\NotFound\FieldTypeNotFoundException;
 use Ibexa\Core\Base\Exceptions\NotFound\LimitationNotFoundException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,10 +40,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ExceptionListenerTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Contracts\Translation\TranslatorInterface */
-    private $translator;
+    private MockObject $translator;
 
     /** @var \Ibexa\Bundle\Core\EventListener\ExceptionListener */
-    private $listener;
+    private ExceptionListener $listener;
 
     protected function setUp(): void
     {
@@ -51,7 +52,7 @@ class ExceptionListenerTest extends TestCase
         $this->listener = new ExceptionListener($this->translator);
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         self::assertSame(
             [KernelEvents::EXCEPTION => ['onKernelException', 10]],
@@ -64,7 +65,7 @@ class ExceptionListenerTest extends TestCase
      *
      * @return \Symfony\Component\HttpKernel\Event\ExceptionEvent
      */
-    private function generateExceptionEvent(Exception $exception)
+    private function generateExceptionEvent(Exception $exception): ExceptionEvent
     {
         return new ExceptionEvent(
             $this->createMock(HttpKernelInterface::class),
@@ -74,7 +75,7 @@ class ExceptionListenerTest extends TestCase
         );
     }
 
-    public function testNotFoundException()
+    public function testNotFoundException(): void
     {
         $messageTemplate = 'some message template';
         $translationParams = ['some' => 'thing'];
@@ -97,7 +98,7 @@ class ExceptionListenerTest extends TestCase
         self::assertSame($translatedMessage, $convertedException->getMessage());
     }
 
-    public function testUnauthorizedException()
+    public function testUnauthorizedException(): void
     {
         $messageTemplate = 'some message template';
         $translationParams = ['some' => 'thing'];
@@ -125,7 +126,7 @@ class ExceptionListenerTest extends TestCase
      *
      * @param \Exception|\Ibexa\Core\Base\Translatable $exception
      */
-    public function testBadRequestException(Exception $exception)
+    public function testBadRequestException(Exception $exception): void
     {
         $messageTemplate = 'some message template';
         $translationParams = ['some' => 'thing'];
@@ -147,7 +148,7 @@ class ExceptionListenerTest extends TestCase
         self::assertSame($translatedMessage, $convertedException->getMessage());
     }
 
-    public function badRequestExceptionProvider()
+    public function badRequestExceptionProvider(): array
     {
         return [
             [new BadStateException('foo', 'bar')],
@@ -162,7 +163,7 @@ class ExceptionListenerTest extends TestCase
      *
      * @param \Exception|\Ibexa\Core\Base\Translatable $exception
      */
-    public function testOtherRepositoryException(Exception $exception)
+    public function testOtherRepositoryException(Exception $exception): void
     {
         $messageTemplate = 'some message template';
         $translationParams = ['some' => 'thing'];
@@ -185,7 +186,7 @@ class ExceptionListenerTest extends TestCase
         self::assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $convertedException->getStatusCode());
     }
 
-    public function otherExceptionProvider()
+    public function otherExceptionProvider(): array
     {
         return [
             [new ForbiddenException('foo')],
@@ -200,7 +201,7 @@ class ExceptionListenerTest extends TestCase
         ];
     }
 
-    public function testUntouchedException()
+    public function testUntouchedException(): void
     {
         $exception = new \RuntimeException('foo');
         $event = $this->generateExceptionEvent($exception);

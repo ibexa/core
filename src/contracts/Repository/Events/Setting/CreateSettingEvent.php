@@ -14,11 +14,9 @@ use Ibexa\Contracts\Core\Repository\Values\Setting\SettingCreateStruct;
 
 final class CreateSettingEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Setting\Setting */
-    private $setting;
+    private Setting $setting;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Setting\SettingCreateStruct */
-    private $settingCreateStruct;
+    private SettingCreateStruct $settingCreateStruct;
 
     public function __construct(
         Setting $setting,

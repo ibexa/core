@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Location\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
@@ -19,7 +20,10 @@ use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
  */
 class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
 {
-    protected function getLocationGateway()
+    private const string PATH_STRING_OF_LOCATION_TO_BE_TRASHED = '/1/2/69/70/71/';
+    private const string PATH_STRING_OF_TRASHED_LOCATION = '/1/2/69/';
+
+    protected function getLocationGateway(): DoctrineDatabase
     {
         return new DoctrineDatabase(
             $this->getDatabaseConnection(),
@@ -30,16 +34,19 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
     }
 
     /**
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     *
      * @todo test updated content status
      */
-    public function testTrashLocation()
+    public function testTrashLocation(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $handler = $this->getLocationGateway();
         $handler->trashLocation(71);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [1, 0],
                 [2, 0],
@@ -49,20 +56,33 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
             $query
                 ->select('node_id', 'priority')
                 ->from('ezcontentobject_tree')
-                ->where($query->expr()->in('node_id', [1, 2, 69, 70, 71]))
+                ->where(
+                    $query->expr()->in(
+                        'node_id',
+                        $query->createNamedParameter(
+                            [1, 2, 69, 70, 71],
+                            ArrayParameterType::INTEGER,
+                            ':node_ids'
+                        )
+                    )
+                )
         );
     }
 
-    public function testTrashLocationUpdateTrashTable()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function testTrashLocationUpdateTrashTable(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $handler = $this->getLocationGateway();
         $handler->trashLocation(71);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
-                [71, '/1/2/69/70/71/'],
+                [71, self::PATH_STRING_OF_LOCATION_TO_BE_TRASHED],
             ],
             $query
                 ->select('node_id', 'path_string')
@@ -70,7 +90,10 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    public static function getUntrashedLocationValues()
+    /**
+     * @phpstan-return list<array{string, int|string}>
+     */
+    public static function getUntrashedLocationValues(): array
     {
         return [
             ['contentobject_is_published', 1],
@@ -92,69 +115,103 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
 
     /**
      * @dataProvider getUntrashedLocationValues
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function testUntrashLocationDefault($property, $value)
+    public function testUntrashLocationDefault(string $property, int|string $value): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $handler = $this->getLocationGateway();
         $handler->trashLocation(71);
 
         $handler->untrashLocation(71);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [[$value]],
             $query
                 ->select($property)
                 ->from('ezcontentobject_tree')
-                ->where($query->expr()->in('contentobject_id', [69]))
+                ->where(
+                    $query->expr()->in(
+                        'contentobject_id',
+                        $query->createNamedParameter(
+                            [69],
+                            ArrayParameterType::INTEGER,
+                            ':contentobject_ids'
+                        )
+                    )
+                )
         );
     }
 
-    public function testUntrashLocationNewParent()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function testUntrashLocationNewParent(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $handler = $this->getLocationGateway();
         $handler->trashLocation(71);
 
         $handler->untrashLocation(71, 1);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [['228', '1', '/1/228/']],
             $query
                 ->select('node_id', 'parent_node_id', 'path_string')
                 ->from('ezcontentobject_tree')
-                ->where($query->expr()->in('contentobject_id', [69]))
+                ->where(
+                    $query->expr()->in(
+                        'contentobject_id',
+                        $query->createNamedParameter(
+                            [69],
+                            ArrayParameterType::INTEGER,
+                            ':contentobject_ids'
+                        )
+                    )
+                )
         );
     }
 
-    public function testUntrashInvalidLocation()
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function testUntrashInvalidLocation(): void
     {
         $this->expectException(NotFoundException::class);
 
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $handler = $this->getLocationGateway();
 
         $handler->untrashLocation(23);
     }
 
-    public function testUntrashLocationInvalidParent()
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function testUntrashLocationInvalidParent(): void
     {
         $this->expectException(NotFoundException::class);
 
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $handler = $this->getLocationGateway();
         $handler->trashLocation(71);
 
         $handler->untrashLocation(71, 1337);
     }
 
-    public function testUntrashLocationInvalidOldParent()
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function testUntrashLocationInvalidOldParent(): void
     {
         $this->expectException(NotFoundException::class);
 
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $handler = $this->getLocationGateway();
         $handler->trashLocation(71);
         $handler->trashLocation(70);
@@ -163,7 +220,10 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $handler->untrashLocation(71);
     }
 
-    public static function getLoadTrashValues()
+    /**
+     * @phpstan-return list<array{string, int|string}>
+     */
+    public static function getLoadTrashValues(): array
     {
         return [
             ['node_id', 71],
@@ -174,7 +234,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
             ['contentobject_id', 69],
             ['parent_node_id', 70],
             ['path_identification_string', 'products/software/os_type_i'],
-            ['path_string', '/1/2/69/70/71/'],
+            ['path_string', self::PATH_STRING_OF_LOCATION_TO_BE_TRASHED],
             ['modified_subnode', 1311065013],
             ['main_node_id', 71],
             ['depth', 4],
@@ -185,10 +245,13 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
 
     /**
      * @dataProvider getLoadTrashValues
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function testLoadTrashByLocationId($field, $value)
+    public function testLoadTrashByLocationId(string $field, int|string $value): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $handler = $this->getLocationGateway();
         $handler->trashLocation(71);
 
@@ -201,9 +264,14 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCountTrashed()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function testCountTrashed(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $handler = $this->getLocationGateway();
 
         self::assertEquals(
@@ -219,9 +287,13 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    public function testListEmptyTrash()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function testListEmptyTrash(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $handler = $this->getLocationGateway();
 
         self::assertEquals(
@@ -230,7 +302,11 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    protected function trashSubtree()
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    protected function trashSubtree(): void
     {
         $handler = $this->getLocationGateway();
         $handler->trashLocation(69);
@@ -243,9 +319,14 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $handler->trashLocation(76);
     }
 
-    public function testListFullTrash()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function testListFullTrash(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $handler = $this->getLocationGateway();
         $this->trashSubtree();
 
@@ -255,9 +336,14 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    public function testListTrashLimited()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function testListTrashLimited(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $handler = $this->getLocationGateway();
         $this->trashSubtree();
 
@@ -267,7 +353,10 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    public static function getTrashValues()
+    /**
+     * @phpstan-return list<array{string, int|string}>
+     */
+    public static function getTrashValues(): array
     {
         return [
             ['contentobject_id', 67],
@@ -280,7 +369,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
             ['node_id', 69],
             ['parent_node_id', 2],
             ['path_identification_string', 'products'],
-            ['path_string', '/1/2/69/'],
+            ['path_string', self::PATH_STRING_OF_TRASHED_LOCATION],
             ['priority', 0],
             ['remote_id', '9cec85d730eec7578190ee95ce5a36f5'],
             ['sort_field', 2],
@@ -290,10 +379,14 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
 
     /**
      * @dataProvider getTrashValues
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
-    public function testListTrashItem($key, $value)
+    public function testListTrashItem(string $key, int|string $value): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $handler = $this->getLocationGateway();
         $this->trashSubtree();
 
@@ -301,9 +394,14 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         self::assertEquals($value, $trashList[0][$key]);
     }
 
-    public function testListTrashSortedPathStringDesc()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function testListTrashSortedPathStringDesc(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $handler = $this->getLocationGateway();
         $this->trashSubtree();
 
@@ -314,15 +412,15 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
                 '/1/2/69/72/74/',
                 '/1/2/69/72/73/',
                 '/1/2/69/72/',
-                '/1/2/69/70/71/',
+                self::PATH_STRING_OF_LOCATION_TO_BE_TRASHED,
                 '/1/2/69/70/',
-                '/1/2/69/',
+                self::PATH_STRING_OF_TRASHED_LOCATION,
             ],
             array_map(
-                static function ($trashItem) {
+                static function (array $trashItem) {
                     return $trashItem['path_string'];
                 },
-                $trashList = $handler->listTrashed(
+                $handler->listTrashed(
                     0,
                     null,
                     [
@@ -333,28 +431,33 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    public function testListTrashSortedDepth()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function testListTrashSortedDepth(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $handler = $this->getLocationGateway();
         $this->trashSubtree();
 
         self::assertEquals(
             [
-                '/1/2/69/',
+                self::PATH_STRING_OF_TRASHED_LOCATION,
                 '/1/2/69/76/',
                 '/1/2/69/72/',
                 '/1/2/69/70/',
                 '/1/2/69/72/75/',
                 '/1/2/69/72/74/',
                 '/1/2/69/72/73/',
-                '/1/2/69/70/71/',
+                self::PATH_STRING_OF_LOCATION_TO_BE_TRASHED,
             ],
             array_map(
-                static function ($trashItem) {
+                static function (array $trashItem) {
                     return $trashItem['path_string'];
                 },
-                $trashList = $handler->listTrashed(
+                $handler->listTrashed(
                     0,
                     null,
                     [
@@ -366,15 +469,19 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCleanupTrash()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function testCleanupTrash(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $handler = $this->getLocationGateway();
         $this->trashSubtree();
         $handler->cleanupTrash();
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [],
             $query
                 ->select('*')
@@ -382,15 +489,19 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    public function testRemoveElementFromTrash()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function testRemoveElementFromTrash(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $handler = $this->getLocationGateway();
         $this->trashSubtree();
         $handler->removeElementFromTrash(71);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [],
             $query
                 ->select('*')
@@ -399,9 +510,12 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCountLocationsByContentId()
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function testCountLocationsByContentId(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
+        $this->insertDatabaseFixture(self::FIXTURE_PATH_FULL_EXAMPLE_TREE);
         $handler = $this->getLocationGateway();
 
         self::assertSame(0, $handler->countLocationsByContentId(123456789));
@@ -430,12 +544,11 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
                         ParameterType::INTEGER
                     ),
                     'remote_id' => $query->createPositionalParameter(
-                        'some_remote_id',
-                        ParameterType::STRING
+                        'some_remote_id'
                     ),
                 ]
             );
-        $query->execute();
+        $query->executeStatement();
         self::assertSame(2, $handler->countLocationsByContentId(67));
     }
 }

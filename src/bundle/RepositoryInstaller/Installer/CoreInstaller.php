@@ -19,8 +19,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
  */
 class CoreInstaller extends DbBasedInstaller implements Installer
 {
-    /** @var \Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface */
-    protected $schemaBuilder;
+    protected SchemaBuilderInterface $schemaBuilder;
 
     /**
      * @param \Doctrine\DBAL\Connection $db
@@ -41,9 +40,9 @@ class CoreInstaller extends DbBasedInstaller implements Installer
      * @see \Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent
      * @see \Ibexa\Bundle\RepositoryInstaller\Event\Subscriber\BuildSchemaSubscriber
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function importSchema()
+    public function importSchema(): void
     {
         // note: schema is built using Schema Builder event-driven API
         $schema = $this->schemaBuilder->buildSchema();
@@ -67,7 +66,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
         $progressBar->start($queriesCount);
 
         foreach ($queries as $query) {
-            $this->db->exec($query);
+            $this->db->executeStatement($query);
             $progressBar->advance(1);
         }
 
@@ -79,10 +78,10 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function importData()
+    public function importData(): void
     {
         $this->runQueriesFromFile($this->getKernelSQLFileForDBMS('cleandata.sql'));
     }
@@ -97,7 +96,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
         Schema $newSchema,
         AbstractPlatform $databasePlatform
     ): array {
-        $existingSchema = $this->db->getSchemaManager()->createSchema();
+        $existingSchema = $this->db->createSchemaManager()->createSchema();
         $statements = [];
         // reverse table order for clean-up (due to FKs)
         $tables = array_reverse($newSchema->getTables());

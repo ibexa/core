@@ -18,23 +18,18 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ContentPreviewHelper implements SiteAccessAware
 {
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface */
-    protected $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface */
-    protected $siteAccessRouter;
+    protected SiteAccessRouterInterface $siteAccessRouter;
 
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
     protected $originalSiteAccess;
 
-    /** @var bool */
-    private $previewActive = false;
+    private bool $previewActive = false;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-    private $previewedContent;
+    private ?Content $previewedContent = null;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-    private $previewedLocation;
+    private ?Location $previewedLocation = null;
 
     public function __construct(EventDispatcherInterface $eventDispatcher, SiteAccessRouterInterface $siteAccessRouter)
     {
@@ -42,7 +37,7 @@ class ContentPreviewHelper implements SiteAccessAware
         $this->siteAccessRouter = $siteAccessRouter;
     }
 
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(SiteAccess $siteAccess = null): void
     {
         $this->originalSiteAccess = $siteAccess;
     }
@@ -96,7 +91,7 @@ class ContentPreviewHelper implements SiteAccessAware
     /**
      * @param bool $previewActive
      */
-    public function setPreviewActive($previewActive)
+    public function setPreviewActive($previewActive): void
     {
         $this->previewActive = (bool)$previewActive;
         $this->originalSiteAccess = clone $this->originalSiteAccess;
@@ -113,7 +108,7 @@ class ContentPreviewHelper implements SiteAccessAware
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $previewedContent
      */
-    public function setPreviewedContent(Content $previewedContent)
+    public function setPreviewedContent(Content $previewedContent): void
     {
         $this->previewedContent = $previewedContent;
     }
@@ -129,7 +124,7 @@ class ContentPreviewHelper implements SiteAccessAware
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $previewedLocation
      */
-    public function setPreviewedLocation(Location $previewedLocation)
+    public function setPreviewedLocation(Location $previewedLocation): void
     {
         $this->previewedLocation = $previewedLocation;
     }

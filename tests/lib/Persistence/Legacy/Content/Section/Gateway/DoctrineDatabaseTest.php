@@ -18,10 +18,8 @@ class DoctrineDatabaseTest extends TestCase
 {
     /**
      * Database gateway to test.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway\DoctrineDatabase
      */
-    protected $databaseGateway;
+    protected DoctrineDatabase $databaseGateway;
 
     /**
      * Inserts DB fixture.
@@ -35,14 +33,14 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testInsertSection()
+    public function testInsertSection(): void
     {
         $gateway = $this->getDatabaseGateway();
 
         $gateway->insertSection('New Section', 'new_section');
         $query = $this->getDatabaseConnection()->createQueryBuilder();
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'id' => '7',
@@ -63,13 +61,13 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testUpdateSection()
+    public function testUpdateSection(): void
     {
         $gateway = $this->getDatabaseGateway();
 
         $gateway->updateSection(2, 'New Section', 'new_section');
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'id' => '2',
@@ -85,7 +83,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testLoadSectionData()
+    public function testLoadSectionData(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -103,7 +101,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testLoadAllSectionData()
+    public function testLoadAllSectionData(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -152,7 +150,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testLoadSectionDataByIdentifier()
+    public function testLoadSectionDataByIdentifier(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -170,7 +168,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testCountContentObjectsInSection()
+    public function testCountContentObjectsInSection(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../../_fixtures/contentobjects.php'
@@ -186,7 +184,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testCountRoleAssignmentsUsingSection()
+    public function testCountRoleAssignmentsUsingSection(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../../../User/_fixtures/roles.php'
@@ -202,13 +200,13 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testDeleteSection()
+    public function testDeleteSection(): void
     {
         $gateway = $this->getDatabaseGateway();
 
         $gateway->deleteSection(2);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'count' => '5',
@@ -219,7 +217,7 @@ class DoctrineDatabaseTest extends TestCase
                 ->from('ezsection')
         );
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'count' => '0',
@@ -235,7 +233,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @depends testCountContentObjectsInSection
      */
-    public function testAssignSectionToContent()
+    public function testAssignSectionToContent(): void
     {
         $this->insertDatabaseFixture(
             __DIR__ . '/../../_fixtures/contentobjects.php'
@@ -245,7 +243,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $beforeCount = $gateway->countContentObjectsInSection(4);
 
-        $result = $gateway->assignSectionToContent(4, 10);
+        $gateway->assignSectionToContent(4, 10);
 
         self::assertSame(
             $beforeCount + 1,
@@ -258,7 +256,7 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @return \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway\DoctrineDatabase
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function getDatabaseGateway(): Gateway
     {

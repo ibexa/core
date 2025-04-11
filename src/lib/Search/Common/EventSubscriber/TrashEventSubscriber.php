@@ -26,12 +26,12 @@ class TrashEventSubscriber extends AbstractSearchEventSubscriber implements Even
         ];
     }
 
-    public function onRecover(RecoverEvent $event)
+    public function onRecover(RecoverEvent $event): void
     {
         $this->indexSubtree($event->getLocation()->id);
     }
 
-    public function onTrash(TrashEvent $event)
+    public function onTrash(TrashEvent $event): void
     {
         if ($event->getTrashItem() instanceof TrashItem) {
             $this->searchHandler->deleteContent(

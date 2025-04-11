@@ -9,6 +9,7 @@ namespace Ibexa\Core\MVC\Symfony\Translation;
 
 use JMS\TranslationBundle\Exception\InvalidArgumentException;
 use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Model\Message\XliffMessage;
 use JMS\TranslationBundle\Model\MessageCatalogue;
 use JMS\TranslationBundle\Translation\FileWriter;
 use JMS\TranslationBundle\Translation\LoaderManager;
@@ -22,11 +23,9 @@ class CatalogueMapperFileWriter extends FileWriter
 {
     private const string XLF_FILE_NAME_REGEX_PATTERN = '/\.[-_a-z]+\.xlf$/i';
 
-    /** @var \JMS\TranslationBundle\Translation\LoaderManager */
-    private $loaderManager;
+    private LoaderManager $loaderManager;
 
-    /** @var \JMS\TranslationBundle\Translation\FileWriter */
-    private $innerFileWriter;
+    private FileWriter $innerFileWriter;
 
     public function __construct(FileWriter $innerFileWriter, LoaderManager $loaderManager)
     {
@@ -34,7 +33,7 @@ class CatalogueMapperFileWriter extends FileWriter
         $this->innerFileWriter = $innerFileWriter;
     }
 
-    public function write(MessageCatalogue $catalogue, $domain, $filePath, $format)
+    public function write(MessageCatalogue $catalogue, $domain, $filePath, $format): void
     {
         $newCatalogue = new MessageCatalogue();
         $newCatalogue->setLocale($catalogue->getLocale());
@@ -93,7 +92,7 @@ class CatalogueMapperFileWriter extends FileWriter
      *
      * @return \JMS\TranslationBundle\Model\MessageCatalogue
      */
-    private function loadEnglishCatalogue($foreignFilePath, $domain, $format)
+    private function loadEnglishCatalogue(string $foreignFilePath, $domain, $format)
     {
         return $this->loaderManager->loadFile(
             $this->getEnglishFilePath($foreignFilePath),
@@ -103,7 +102,7 @@ class CatalogueMapperFileWriter extends FileWriter
         );
     }
 
-    private function hasEnglishCatalogue($foreignFilePath): bool
+    private function hasEnglishCatalogue(string $foreignFilePath): bool
     {
         return file_exists($this->getEnglishFilePath($foreignFilePath));
     }
@@ -111,11 +110,11 @@ class CatalogueMapperFileWriter extends FileWriter
     /**
      * @param $message
      *
-     * @return Message\XliffMessage
+     * @return \JMS\TranslationBundle\Model\Message\XliffMessage
      */
-    private function makeXliffMessage(Message $message)
+    private function makeXliffMessage(Message $message): XliffMessage
     {
-        $newMessage = new Message\XliffMessage($message->getId(), $message->getDomain());
+        $newMessage = new XliffMessage($message->getId(), $message->getDomain());
         $newMessage->setNew($message->isNew());
         $newMessage->setLocaleString($message->getLocaleString());
         $newMessage->setSources($message->getSources());

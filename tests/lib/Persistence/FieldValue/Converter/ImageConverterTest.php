@@ -14,6 +14,7 @@ use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\UrlRedecoratorInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class ImageConverterTest extends TestCase
@@ -26,13 +27,13 @@ final class ImageConverterTest extends TestCase
     private const MIME_TYPES_STORAGE_VALUE = '["image\/png","image\/jpeg"]';
 
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageConverter */
-    private $imageConverter;
+    private ImageConverter $imageConverter;
 
     /** @var \Ibexa\Core\IO\UrlRedecoratorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $urlRedecorator;
+    private MockObject $urlRedecorator;
 
     /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $ioService;
+    private MockObject $ioService;
 
     protected function setUp(): void
     {

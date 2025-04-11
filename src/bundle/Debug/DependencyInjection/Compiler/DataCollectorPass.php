@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class DataCollectorPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition(IbexaCoreCollector::class)) {
             return;

@@ -9,6 +9,7 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
@@ -20,20 +21,15 @@ class RemoveField extends Action
 {
     /**
      * Field definition of the field to remove.
-     *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition
      */
-    protected $fieldDefinition;
+    protected FieldDefinition $fieldDefinition;
 
     /**
      * Storage handler.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
      */
-    protected $storageHandler;
+    protected StorageHandler $storageHandler;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Mapper */
-    protected $contentMapper;
+    protected Mapper $contentMapper;
 
     /**
      * Creates a new action.
@@ -60,14 +56,14 @@ class RemoveField extends Action
      *
      * @param int $contentId
      */
-    public function apply($contentId)
+    public function apply($contentId): void
     {
         $versionNumbers = $this->contentGateway->listVersionNumbers($contentId);
         $fieldIdSet = [];
 
         $nameRows = $this->contentGateway->loadVersionedNameData(
             array_map(
-                static function ($versionNo) use ($contentId) {
+                static function ($versionNo) use ($contentId): array {
                     return ['id' => $contentId, 'version' => $versionNo];
                 },
                 $versionNumbers

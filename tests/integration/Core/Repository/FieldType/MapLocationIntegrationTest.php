@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Core\FieldType\MapLocation\Value;
 use Ibexa\Core\FieldType\MapLocation\Value as MapLocationValue;
 
 /**
@@ -34,7 +35,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTest
      *
      * @return array
      */
-    public function getSettingsSchema()
+    public function getSettingsSchema(): array
     {
         return [];
     }
@@ -44,7 +45,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidFieldSettings()
+    public function getValidFieldSettings(): array
     {
         return [];
     }
@@ -54,7 +55,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidFieldSettings()
+    public function getInvalidFieldSettings(): array
     {
         return [
             'somethingUnknown' => 0,
@@ -66,7 +67,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTest
      *
      * @return array
      */
-    public function getValidatorSchema()
+    public function getValidatorSchema(): array
     {
         return [];
     }
@@ -76,7 +77,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidValidatorConfiguration()
+    public function getValidValidatorConfiguration(): array
     {
         return [];
     }
@@ -86,7 +87,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidValidatorConfiguration()
+    public function getInvalidValidatorConfiguration(): array
     {
         return [
             'unknown' => ['value' => 23],
@@ -98,7 +99,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidCreationFieldData()
+    public function getValidCreationFieldData(): Value
     {
         return new MapLocationValue(
             [
@@ -127,7 +128,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertFieldDataLoadedCorrect(Field $field)
+    public function assertFieldDataLoadedCorrect(Field $field): void
     {
         self::assertEquals(
             $this->getValidCreationFieldData(),
@@ -135,7 +136,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTest
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public function provideInvalidCreationFieldData(): array
     {
         return [
             [
@@ -181,7 +182,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTest
      *
      * @return array
      */
-    public function getValidUpdateFieldData()
+    public function getValidUpdateFieldData(): Value
     {
         // https://maps.google.de/maps?qll=,&spn=0.139491,0.209942&sll=51.983611,8.574829&sspn=0.36242,0.839767&oq=Punta+Cana&t=h&hnear=Punta+Cana,+La+Altagracia,+Dominikanische+Republik&z=13
         return new MapLocationValue(
@@ -200,7 +201,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTest
      *
      * @return array
      */
-    public function assertUpdatedFieldDataLoadedCorrect(Field $field)
+    public function assertUpdatedFieldDataLoadedCorrect(Field $field): void
     {
         self::assertEquals(
             $this->getValidUpdateFieldData(),
@@ -221,7 +222,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertCopiedFieldDataLoadedCorrectly(Field $field)
+    public function assertCopiedFieldDataLoadedCorrectly(Field $field): void
     {
         self::assertEquals(
             $this->getValidCreationFieldData(),
@@ -249,7 +250,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTest
      *
      * @return array
      */
-    public function provideToHashData()
+    public function provideToHashData(): array
     {
         return [
             [
@@ -276,7 +277,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTest
      *
      * @return array
      */
-    public function provideFromHashData()
+    public function provideFromHashData(): array
     {
         return [
             [
@@ -296,7 +297,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTest
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public function providerForTestIsEmptyValue(): array
     {
         return [
             [new MapLocationValue()],
@@ -311,7 +312,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTest
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public function providerForTestIsNotEmptyValue(): array
     {
         return [
             [

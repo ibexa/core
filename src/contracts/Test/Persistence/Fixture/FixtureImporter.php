@@ -9,8 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Test\Persistence\Fixture;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\PDOException;
+use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\DBAL\Schema\Column;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture;
 
@@ -21,11 +20,10 @@ use Ibexa\Contracts\Core\Test\Persistence\Fixture;
  */
 final class FixtureImporter
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
     /** @var array<string, string|null> */
-    private static $resetSequenceStatements = [];
+    private static array $resetSequenceStatements = [];
 
     public function __construct(Connection $connection)
     {
@@ -33,7 +31,7 @@ final class FixtureImporter
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function import(Fixture $fixture): void
     {
@@ -63,7 +61,7 @@ final class FixtureImporter
     /**
      * @param string[] $tables a list of table names
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     private function truncateTables(array $tables): void
     {
@@ -72,12 +70,12 @@ final class FixtureImporter
         foreach ($tables as $table) {
             try {
                 // Cleanup before inserting (using TRUNCATE for speed, however not possible to rollback)
-                $this->connection->executeUpdate(
+                $this->connection->executeStatement(
                     $dbPlatform->getTruncateTableSql($this->connection->quoteIdentifier($table))
                 );
-            } catch (DBALException | PDOException $e) {
+            } catch (DBALException) {
                 // Fallback to DELETE if TRUNCATE failed (because of FKs for instance)
-                $this->connection->createQueryBuilder()->delete($table)->execute();
+                $this->connection->createQueryBuilder()->delete($table)->executeStatement();
             }
         }
     }
@@ -87,12 +85,12 @@ final class FixtureImporter
      *
      * @param string[] $affectedTables
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     private function resetSequences(array $affectedTables): void
     {
         foreach ($this->getSequenceResetStatements($affectedTables) as $statement) {
-            $this->connection->exec($statement);
+            $this->connection->executeStatement($statement);
         }
     }
 
@@ -105,6 +103,8 @@ final class FixtureImporter
      * @param string[] $affectedTables the list of tables which need their sequences reset
      *
      * @return iterable<string, string> list of SQL statements
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function getSequenceResetStatements(array $affectedTables): iterable
     {
@@ -112,8 +112,7 @@ final class FixtureImporter
         $queryTemplate = 'SELECT setval(\'%s\', %s) FROM %s';
 
         $unvisitedTables = array_diff($affectedTables, array_keys(self::$resetSequenceStatements));
-        $schemaManager = $this->connection->getSchemaManager();
-        $databasePlatform = $this->connection->getDatabasePlatform();
+        $schemaManager = $this->connection->createSchemaManager();
 
         foreach ($unvisitedTables as $tableName) {
             $columns = $schemaManager->listTableColumns($tableName);
@@ -131,7 +130,7 @@ final class FixtureImporter
             self::$resetSequenceStatements[$tableName] = sprintf(
                 $queryTemplate,
                 $sequenceName,
-                $databasePlatform->getMaxExpression($this->connection->quoteIdentifier($columnName)),
+                sprintf('MAX(%s),', $this->connection->quoteIdentifier($columnName)),
                 $this->connection->quoteIdentifier($tableName)
             );
         }

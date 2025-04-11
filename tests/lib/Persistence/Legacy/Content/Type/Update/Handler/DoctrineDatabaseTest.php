@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler\DoctrineDatabase;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,21 +19,11 @@ use PHPUnit\Framework\TestCase;
  */
 class DoctrineDatabaseTest extends TestCase
 {
-    /**
-     * Gateway mock.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway
-     */
-    protected $gatewayMock;
+    protected Gateway & MockObject $gatewayMock;
 
-    /**
-     * Content Updater mock.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater
-     */
-    protected $contentUpdaterMock;
+    protected ContentUpdater & MockObject $contentUpdaterMock;
 
-    public function testUpdateContentObjects()
+    public function testUpdateContentObjects(): void
     {
         $handler = $this->getUpdateHandler();
 
@@ -49,7 +40,7 @@ class DoctrineDatabaseTest extends TestCase
         $handler->updateContentObjects($types['from'], $types['to']);
     }
 
-    public function testDeleteOldType()
+    public function testDeleteOldType(): void
     {
         $handler = $this->getUpdateHandler();
 
@@ -64,15 +55,14 @@ class DoctrineDatabaseTest extends TestCase
 
         $types = $this->getTypeFixtures();
 
-        $handler->deleteOldType($types['from'], $types['to']);
+        $handler->deleteOldType($types['from']);
     }
 
-    public function testPublishNewType()
+    public function testPublishNewType(): void
     {
         $handler = $this->getUpdateHandler();
 
         $gatewayMock = $this->getGatewayMock();
-        $updaterMock = $this->getContentUpdaterMock();
 
         $gatewayMock->expects(self::once())
             ->method('publishTypeAndFields')
@@ -88,7 +78,7 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type[]
      */
-    protected function getTypeFixtures()
+    protected function getTypeFixtures(): array
     {
         $types = [];
 
@@ -103,22 +93,12 @@ class DoctrineDatabaseTest extends TestCase
         return $types;
     }
 
-    /**
-     * Returns the Update Handler to test.
-     *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler\DoctrineDatabase
-     */
-    protected function getUpdateHandler()
+    protected function getUpdateHandler(): DoctrineDatabase
     {
         return new DoctrineDatabase($this->getGatewayMock());
     }
 
-    /**
-     * Returns a gateway mock.
-     *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway
-     */
-    protected function getGatewayMock()
+    protected function getGatewayMock(): Gateway & MockObject
     {
         if (!isset($this->gatewayMock)) {
             $this->gatewayMock = $this->getMockForAbstractClass(Gateway::class);
@@ -127,12 +107,7 @@ class DoctrineDatabaseTest extends TestCase
         return $this->gatewayMock;
     }
 
-    /**
-     * Returns a Content Updater mock.
-     *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater
-     */
-    protected function getContentUpdaterMock()
+    protected function getContentUpdaterMock(): ContentUpdater & MockObject
     {
         if (!isset($this->contentUpdaterMock)) {
             $this->contentUpdaterMock = $this->createMock(ContentUpdater::class);

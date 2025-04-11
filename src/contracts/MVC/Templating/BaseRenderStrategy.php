@@ -18,14 +18,11 @@ abstract class BaseRenderStrategy implements RenderStrategy
     /** @var \Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface[] */
     protected $fragmentRenderers;
 
-    /** @var string */
-    protected $defaultRenderer;
+    protected string $defaultRenderer;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    protected $siteAccess;
+    protected SiteAccess $siteAccess;
 
-    /** @var \Symfony\Component\HttpFoundation\RequestStack */
-    protected $requestStack;
+    protected RequestStack $requestStack;
 
     public function __construct(
         iterable $fragmentRenderers,

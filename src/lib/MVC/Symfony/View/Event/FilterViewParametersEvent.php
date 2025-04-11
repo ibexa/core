@@ -20,24 +20,18 @@ class FilterViewParametersEvent extends Event
 {
     /**
      * Copy of the view object that is being built.
-     *
-     * @var \Ibexa\Core\MVC\Symfony\View\View
      */
-    private $view;
+    private View $view;
 
     /**
      * Parameters that were provided to the ViewBuilder.
-     *
-     * @var array
      */
-    private $builderParameters;
+    private array $builderParameters;
 
     /**
      * ParameterBag used to manipulate the view parameters. Its contents will be injected as the view parameters.
-     *
-     * @var \Symfony\Component\HttpFoundation\ParameterBag
      */
-    private $parameterBag;
+    private ParameterBag $parameterBag;
 
     public function __construct(View $view, array $builderParameters)
     {
@@ -51,7 +45,7 @@ class FilterViewParametersEvent extends Event
      *
      * @return array
      */
-    public function getViewParameters()
+    public function getViewParameters(): array
     {
         return $this->parameterBag->all();
     }

@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Persistence\Cache;
 
+use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface;
 use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierSanitizer;
@@ -19,23 +20,17 @@ use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
  */
 abstract class AbstractHandler
 {
-    /** @var \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface */
-    protected $cache;
+    protected TagAwareAdapterInterface $cache;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
-    protected $persistenceHandler;
+    protected Handler $persistenceHandler;
 
-    /** @var \Ibexa\Core\Persistence\Cache\PersistenceLogger */
-    protected $logger;
+    protected PersistenceLogger $logger;
 
-    /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface */
-    protected $cacheIdentifierGenerator;
+    protected CacheIdentifierGeneratorInterface $cacheIdentifierGenerator;
 
-    /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierSanitizer */
-    protected $cacheIdentifierSanitizer;
+    protected CacheIdentifierSanitizer $cacheIdentifierSanitizer;
 
-    /** @var \Ibexa\Core\Persistence\Cache\LocationPathConverter */
-    protected $locationPathConverter;
+    protected LocationPathConverter $locationPathConverter;
 
     /**
      * Setups current handler with everything needed.

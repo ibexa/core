@@ -19,7 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\OwnerLimitation;
  */
 class OwnerLimitationTest extends BaseLimitationTest
 {
-    public function testOwnerLimitationAllow()
+    public function testOwnerLimitationAllow(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -86,7 +86,7 @@ class OwnerLimitationTest extends BaseLimitationTest
         $contentService->loadContent($content->id);
     }
 
-    public function testOwnerLimitationForbid()
+    public function testOwnerLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 

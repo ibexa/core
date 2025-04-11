@@ -22,7 +22,13 @@ use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
  */
 class UrlWildcardHandlerTest extends TestCase
 {
-    public function testLoad()
+    protected DoctrineDatabase $gateway;
+
+    protected Mapper $mapper;
+
+    protected UrlWildcard\Handler $urlWildcardHandler;
+
+    public function testLoad(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/Gateway/_fixtures/urlwildcards.php');
         $handler = $this->getHandler();
@@ -45,7 +51,7 @@ class UrlWildcardHandlerTest extends TestCase
     /**
      * Test for the load() method.
      */
-    public function testLoadThrowsNotFoundException()
+    public function testLoadThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -61,7 +67,7 @@ class UrlWildcardHandlerTest extends TestCase
      *
      * @depends testLoad
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/Gateway/_fixtures/urlwildcards.php');
         $handler = $this->getHandler();
@@ -130,7 +136,7 @@ class UrlWildcardHandlerTest extends TestCase
      *
      * @depends testLoad
      */
-    public function testRemove()
+    public function testRemove(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -144,7 +150,7 @@ class UrlWildcardHandlerTest extends TestCase
     /**
      * Test for the loadAll() method.
      */
-    public function testLoadAll()
+    public function testLoadAll(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/Gateway/_fixtures/urlwildcards.php');
         $handler = $this->getHandler();
@@ -164,7 +170,7 @@ class UrlWildcardHandlerTest extends TestCase
     /**
      * Test for the loadAll() method.
      */
-    public function testLoadAllWithOffset()
+    public function testLoadAllWithOffset(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/Gateway/_fixtures/urlwildcards.php');
         $handler = $this->getHandler();
@@ -182,7 +188,7 @@ class UrlWildcardHandlerTest extends TestCase
     /**
      * Test for the loadAll() method.
      */
-    public function testLoadAllWithOffsetAndLimit()
+    public function testLoadAllWithOffsetAndLimit(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/Gateway/_fixtures/urlwildcards.php');
         $handler = $this->getHandler();
@@ -218,18 +224,6 @@ class UrlWildcardHandlerTest extends TestCase
         ],
     ];
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase */
-    protected $gateway;
-
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper */
-    protected $mapper;
-
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler */
-    protected $urlWildcardHandler;
-
-    /**
-     * @throws \Doctrine\DBAL\DBALException
-     */
     protected function getHandler(): UrlWildcard\Handler
     {
         if (!isset($this->urlWildcardHandler)) {

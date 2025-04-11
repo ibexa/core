@@ -24,7 +24,7 @@ class StringMapper extends FieldValueMapper
         return $field->getType() instanceof FieldType\StringField;
     }
 
-    public function map(Field $field)
+    public function map(Field $field): string
     {
         return $this->convert($field->getValue());
     }

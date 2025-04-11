@@ -12,6 +12,7 @@ use Ibexa\Bundle\Core\SiteAccess\Matcher;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionObject;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -23,10 +24,10 @@ use Symfony\Component\Routing\RequestContext;
 class DefaultRouterTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\DependencyInjection\ContainerInterface */
-    protected $container;
+    protected MockObject $container;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    protected $configResolver;
+    protected MockObject $configResolver;
 
     /** @var \Symfony\Component\Routing\RequestContext */
     protected $requestContext;
@@ -65,7 +66,7 @@ class DefaultRouterTest extends TestCase
         return $router;
     }
 
-    public function testMatchRequestWithSemanticPathinfo()
+    public function testMatchRequestWithSemanticPathinfo(): void
     {
         $pathinfo = '/siteaccess/foo/bar';
         $semanticPathinfo = '/foo/bar';
@@ -90,7 +91,7 @@ class DefaultRouterTest extends TestCase
         self::assertSame($matchedParameters, $router->matchRequest($request));
     }
 
-    public function testMatchRequestRegularPathinfo()
+    public function testMatchRequestRegularPathinfo(): void
     {
         $matchedParameters = ['_controller' => 'AcmeBundle:myAction'];
         $pathinfo = '/siteaccess/foo/bar';
@@ -119,7 +120,7 @@ class DefaultRouterTest extends TestCase
     /**
      * @dataProvider providerGenerateNoSiteAccess
      */
-    public function testGenerateNoSiteAccess($url)
+    public function testGenerateNoSiteAccess(string $url): void
     {
         $generator = $this->createMock(UrlGeneratorInterface::class);
         $generator
@@ -138,7 +139,7 @@ class DefaultRouterTest extends TestCase
         self::assertSame($url, $router->generate(__METHOD__));
     }
 
-    public function providerGenerateNoSiteAccess()
+    public function providerGenerateNoSiteAccess(): array
     {
         return [
             ['/foo/bar'],
@@ -159,7 +160,7 @@ class DefaultRouterTest extends TestCase
      * @param int $referenceType The type of reference to be generated (one of the constants)
      * @param string $routeName
      */
-    public function testGenerateWithSiteAccess($urlGenerated, $relevantUri, $expectedUrl, $saName, $isMatcherLexer, $referenceType, $routeName)
+    public function testGenerateWithSiteAccess(string $urlGenerated, string $relevantUri, string $expectedUrl, string $saName, bool $isMatcherLexer, int $referenceType, ?string $routeName): void
     {
         $routeName = $routeName ?: __METHOD__;
         $nonSiteAccessAwareRoutes = ['_dontwantsiteaccess'];
@@ -220,7 +221,7 @@ class DefaultRouterTest extends TestCase
         self::assertSame($expectedUrl, $router->generate($routeName, [], $referenceType));
     }
 
-    public function providerGenerateWithSiteAccess()
+    public function providerGenerateWithSiteAccess(): array
     {
         return [
             ['/foo/bar', '/foo/bar', '/foo/bar', 'test_siteaccess', false, UrlGeneratorInterface::ABSOLUTE_PATH, null],
@@ -238,7 +239,7 @@ class DefaultRouterTest extends TestCase
         ];
     }
 
-    public function testGenerateReverseSiteAccessMatch()
+    public function testGenerateReverseSiteAccessMatch(): void
     {
         $routeName = 'some_route_name';
         $urlGenerated = 'http://phoenix-rises.fm/foo/bar';
@@ -292,7 +293,7 @@ class DefaultRouterTest extends TestCase
      *
      * @param string $uri
      */
-    public function testGetContextBySimplifiedRequest($uri)
+    public function testGetContextBySimplifiedRequest(string $uri): void
     {
         $this->getExpectedRequestContext($uri);
 
@@ -311,7 +312,7 @@ class DefaultRouterTest extends TestCase
      *
      * @phpstan-return array<array{string}>
      */
-    public function providerGetContextBySimplifiedRequest()
+    public function providerGetContextBySimplifiedRequest(): array
     {
         return [
             ['/foo/bar'],
@@ -323,7 +324,7 @@ class DefaultRouterTest extends TestCase
         ];
     }
 
-    private function getExpectedRequestContext($uri)
+    private function getExpectedRequestContext(string $uri): RequestContext
     {
         $requestContext = new RequestContext();
         $uriComponents = parse_url($uri);

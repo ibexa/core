@@ -11,13 +11,14 @@ use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigParser;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ParserInterface;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 
 class ConfigParserTest extends TestCase
 {
-    public function testConstructWrongInnerParser()
+    public function testConstructWrongInnerParser(): void
     {
         $this->expectException(InvalidArgumentType::class);
 
@@ -29,7 +30,7 @@ class ConfigParserTest extends TestCase
         );
     }
 
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $innerParsers = [
             $this->getConfigurationParserMock(),
@@ -40,7 +41,7 @@ class ConfigParserTest extends TestCase
         self::assertSame($innerParsers, $configParser->getConfigParsers());
     }
 
-    public function testGetSetInnerParsers()
+    public function testGetSetInnerParsers(): void
     {
         $configParser = new ConfigParser();
         self::assertSame([], $configParser->getConfigParsers());
@@ -54,7 +55,7 @@ class ConfigParserTest extends TestCase
         self::assertSame($innerParsers, $configParser->getConfigParsers());
     }
 
-    public function testMapConfig()
+    public function testMapConfig(): void
     {
         $parsers = [
             $this->getConfigurationParserMock(),
@@ -80,7 +81,7 @@ class ConfigParserTest extends TestCase
         $configParser->mapConfig($scopeSettings, $currentScope, $contextualizer);
     }
 
-    public function testPrePostMap()
+    public function testPrePostMap(): void
     {
         $parsers = [
             $this->getConfigurationParserMock(),
@@ -110,7 +111,7 @@ class ConfigParserTest extends TestCase
         $configParser->postMap($config, $contextualizer);
     }
 
-    public function testAddSemanticConfig()
+    public function testAddSemanticConfig(): void
     {
         $parsers = [
             $this->getConfigurationParserMock(),
@@ -131,7 +132,7 @@ class ConfigParserTest extends TestCase
         $configParser->addSemanticConfig($nodeBuilder);
     }
 
-    protected function getConfigurationParserMock()
+    protected function getConfigurationParserMock(): MockObject
     {
         return $this->createMock(ParserInterface::class);
     }

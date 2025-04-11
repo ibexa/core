@@ -49,7 +49,7 @@ class ParameterProviderRegistry implements ParameterProviderRegistryInterface
      * @param \Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderInterface $parameterProvider
      * @param string $fieldTypeIdentifier
      */
-    public function setParameterProvider(ParameterProviderInterface $parameterProvider, $fieldTypeIdentifier)
+    public function setParameterProvider(ParameterProviderInterface $parameterProvider, $fieldTypeIdentifier): void
     {
         $this->providers[$fieldTypeIdentifier] = $parameterProvider;
     }

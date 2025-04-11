@@ -41,7 +41,7 @@ class HandlerRegistry
      * @param string $fieldTypeIdentifier
      * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler $handler
      */
-    public function register($fieldTypeIdentifier, $handler)
+    public function register($fieldTypeIdentifier, $handler): void
     {
         $this->map[$fieldTypeIdentifier] = $handler;
     }

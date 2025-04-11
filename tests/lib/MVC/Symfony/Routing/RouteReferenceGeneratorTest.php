@@ -12,6 +12,7 @@ use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator;
 use Ibexa\Core\MVC\Symfony\Routing\RouteReference;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +21,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class RouteReferenceGeneratorTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $dispatcher;
+    private MockObject $dispatcher;
 
     protected function setUp(): void
     {
@@ -28,7 +29,7 @@ class RouteReferenceGeneratorTest extends TestCase
         $this->dispatcher = $this->createMock(EventDispatcherInterface::class);
     }
 
-    public function testGenerateNullResource()
+    public function testGenerateNullResource(): void
     {
         $currentRouteName = 'my_route';
         $currentRouteParams = ['foo' => 'bar'];
@@ -53,7 +54,7 @@ class RouteReferenceGeneratorTest extends TestCase
         self::assertSame($currentRouteParams, $reference->getParams());
     }
 
-    public function testGenerateNullResourceAndPassedParams()
+    public function testGenerateNullResourceAndPassedParams(): void
     {
         $currentRouteName = 'my_route';
         $currentRouteParams = ['foo' => 'bar'];
@@ -83,7 +84,7 @@ class RouteReferenceGeneratorTest extends TestCase
     /**
      * @dataProvider generateGenerator
      */
-    public function testGenerate($resource, array $params)
+    public function testGenerate(string|Location $resource, array $params): void
     {
         $currentRouteName = 'my_route';
         $currentRouteParams = ['foo' => 'bar'];
@@ -108,7 +109,7 @@ class RouteReferenceGeneratorTest extends TestCase
         self::assertSame($params, $reference->getParams());
     }
 
-    public function testGenerateNullResourceWithoutRoute()
+    public function testGenerateNullResourceWithoutRoute(): void
     {
         $currentRouteName = 'my_route';
         $currentRouteParams = ['foo' => 'bar'];
@@ -129,7 +130,7 @@ class RouteReferenceGeneratorTest extends TestCase
         self::assertInstanceOf(RouteReference::class, $reference);
     }
 
-    public function generateGenerator()
+    public function generateGenerator(): array
     {
         return [
             ['my_route', ['hello' => 'world', 'isIt' => true]],

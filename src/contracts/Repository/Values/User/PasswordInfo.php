@@ -14,11 +14,9 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 final class PasswordInfo extends ValueObject
 {
-    /** @var \DateTimeImmutable|null */
-    private $expirationDate;
+    private ?DateTimeImmutable $expirationDate;
 
-    /** @var \DateTimeImmutable|null */
-    private $expirationWarningDate;
+    private ?DateTimeImmutable $expirationWarningDate;
 
     public function __construct(?DateTimeImmutable $expirationDate = null, ?DateTimeImmutable $expirationWarningDate = null)
     {

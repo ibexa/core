@@ -15,12 +15,13 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound\LogicalOr;
 use Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilder;
 use Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilderInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class CompoundOrTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $matcherBuilder;
+    private MockObject $matcherBuilder;
 
     protected function setUp(): void
     {
@@ -58,7 +59,7 @@ class CompoundOrTest extends TestCase
     /**
      * @depends testConstruct
      */
-    public function testSetMatcherBuilder(Compound $compoundMatcher)
+    public function testSetMatcherBuilder(Compound $compoundMatcher): void
     {
         $this->matcherBuilder
             ->expects(self::any())
@@ -80,7 +81,7 @@ class CompoundOrTest extends TestCase
      * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
      * @param string $expectedMatch
      */
-    public function testMatch(SimplifiedRequest $request, $expectedMatch)
+    public function testMatch(SimplifiedRequest $request, $expectedMatch): void
     {
         $compoundMatcher = $this->buildMatcher();
         $compoundMatcher->setRequest($request);
@@ -88,7 +89,7 @@ class CompoundOrTest extends TestCase
         self::assertSame($expectedMatch, $compoundMatcher->match());
     }
 
-    public function matchProvider()
+    public function matchProvider(): array
     {
         return [
             [SimplifiedRequest::fromUrl('http://fr.ezpublish.dev/eng'), 'fr_eng'],
@@ -103,7 +104,7 @@ class CompoundOrTest extends TestCase
         ];
     }
 
-    public function testReverseMatchSiteAccessNotConfigured()
+    public function testReverseMatchSiteAccessNotConfigured(): void
     {
         $compoundMatcher = $this->buildMatcher();
         $this->matcherBuilder
@@ -116,7 +117,7 @@ class CompoundOrTest extends TestCase
         self::assertNull($compoundMatcher->reverseMatch('not_configured_sa'));
     }
 
-    public function testReverseMatchNotVersatile()
+    public function testReverseMatchNotVersatile(): void
     {
         $request = $this->createMock(SimplifiedRequest::class);
         $siteAccessName = 'fr_eng';
@@ -167,7 +168,7 @@ class CompoundOrTest extends TestCase
         self::assertNull($compoundMatcher->reverseMatch($siteAccessName));
     }
 
-    public function testReverseMatchFail()
+    public function testReverseMatchFail(): void
     {
         $request = $this->createMock(SimplifiedRequest::class);
         $siteAccessName = 'fr_eng';
@@ -215,7 +216,7 @@ class CompoundOrTest extends TestCase
         self::assertNull($compoundMatcher->reverseMatch($siteAccessName));
     }
 
-    public function testReverseMatch1()
+    public function testReverseMatch1(): void
     {
         $request = $this->createMock(SimplifiedRequest::class);
         $siteAccessName = 'fr_eng';
@@ -266,7 +267,7 @@ class CompoundOrTest extends TestCase
         }
     }
 
-    public function testReverseMatch2()
+    public function testReverseMatch2(): void
     {
         $request = $this->createMock(SimplifiedRequest::class);
         $siteAccessName = 'fr_eng';
@@ -319,7 +320,7 @@ class CompoundOrTest extends TestCase
         }
     }
 
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $matcher = new LogicalOr([]);
         $matcher->setRequest(new SimplifiedRequest('http', '', 80, '/foo/bar'));

@@ -89,7 +89,7 @@ class MapLocationDistance extends Field
                 'c',
                 ContentGateway::CONTENT_FIELD_TABLE,
                 $tableAlias,
-                $query->expr()->andX(
+                $query->expr()->and(
                     $query->expr()->eq(
                         $query->createNamedParameter($fieldDefinitionId, ParameterType::INTEGER),
                         $tableAlias . '.contentclassattribute_id'
@@ -109,7 +109,7 @@ class MapLocationDistance extends Field
                 $tableAlias,
                 'ezgmaplocation',
                 $externalTableAlias,
-                $query->expr()->andX(
+                $query->expr()->and(
                     $query->expr()->eq(
                         $externalTableAlias . '.contentobject_version',
                         $tableAlias . '.version'

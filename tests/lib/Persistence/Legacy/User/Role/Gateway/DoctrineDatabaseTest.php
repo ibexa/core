@@ -20,10 +20,8 @@ class DoctrineDatabaseTest extends TestCase
 {
     /**
      * Database gateway to test.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\User\Role\Gateway\DoctrineDatabase
      */
-    protected $databaseGateway;
+    protected DoctrineDatabase $databaseGateway;
 
     /**
      * Inserts DB fixture.
@@ -40,7 +38,7 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testCreateRole(): void
     {
@@ -53,7 +51,7 @@ class DoctrineDatabaseTest extends TestCase
         $gateway->createRole($spiRole);
         $query = $this->getDatabaseConnection()->createQueryBuilder();
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'id' => '6',
@@ -74,7 +72,7 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testLoadRoleAssignment(): void
     {
@@ -95,7 +93,7 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testLoadRoleAssignmentsByGroupId(): void
     {
@@ -130,7 +128,7 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testLoadRoleAssignmentsByRoleId(): void
     {
@@ -194,10 +192,6 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * Returns a ready to test DoctrineDatabase gateway.
-     *
-     * @return \Ibexa\Core\Persistence\Legacy\User\Role\Gateway\DoctrineDatabase
-     *
-     * @throws \Doctrine\DBAL\DBALException
      */
     protected function getDatabaseGateway(): DoctrineDatabase
     {

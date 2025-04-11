@@ -402,7 +402,7 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
     /**
      * Test cache invalidation when publishing Content type.
      */
-    public function testPublish()
+    public function testPublish(): void
     {
         $tags = ['t-5', 'tm', 'cft-5'];
         $method = 'publish';

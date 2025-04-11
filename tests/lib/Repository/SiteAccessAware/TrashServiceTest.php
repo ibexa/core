@@ -28,7 +28,7 @@ class TrashServiceTest extends AbstractServiceTest
         return TrashService::class;
     }
 
-    public function providerForPassTroughMethods()
+    public function providerForPassTroughMethods(): array
     {
         $location = new Location();
         $newLocation = new Location();
@@ -49,7 +49,7 @@ class TrashServiceTest extends AbstractServiceTest
         ];
     }
 
-    public function providerForLanguagesLookupMethods()
+    public function providerForLanguagesLookupMethods(): array
     {
         // string $method, array $arguments, bool $return, int $languageArgumentIndex
         return [];

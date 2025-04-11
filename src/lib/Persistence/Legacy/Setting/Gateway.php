@@ -13,21 +13,15 @@ namespace Ibexa\Core\Persistence\Legacy\Setting;
  */
 abstract class Gateway
 {
-    public const SETTING_SEQ = 'ibexa_setting_id_seq';
-    public const SETTING_TABLE = 'ibexa_setting';
+    public const string SETTING_SEQ = 'ibexa_setting_id_seq';
+    public const string SETTING_TABLE = 'ibexa_setting';
 
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
     abstract public function insertSetting(
         string $group,
         string $identifier,
         string $serializedValue
     ): int;
 
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
     abstract public function updateSetting(
         string $group,
         string $identifier,
@@ -35,7 +29,7 @@ abstract class Gateway
     ): void;
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @return array<string, mixed>|null
      */
     abstract public function loadSetting(
         string $group,
@@ -43,15 +37,12 @@ abstract class Gateway
     ): ?array;
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @return array<string, mixed>|null
      */
     abstract public function loadSettingById(
         int $id
     ): ?array;
 
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
     abstract public function deleteSetting(
         string $group,
         string $identifier

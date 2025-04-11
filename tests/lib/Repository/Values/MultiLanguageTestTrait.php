@@ -23,7 +23,7 @@ trait MultiLanguageTestTrait
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageName $object tested ValueObject
      */
-    public function testGetMultiLanguagePrioritizedName($object)
+    public function testGetMultiLanguagePrioritizedName($object): void
     {
         if (!$object instanceof MultiLanguageName) {
             self::markTestSkipped(
@@ -42,7 +42,7 @@ trait MultiLanguageTestTrait
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageName $object tested ValueObject
      */
-    public function testGetMultiLanguageDefaultName($object)
+    public function testGetMultiLanguageDefaultName($object): void
     {
         if (!$object instanceof MultiLanguageName) {
             self::markTestSkipped(
@@ -72,7 +72,7 @@ trait MultiLanguageTestTrait
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageDescription $object tested ValueObject
      */
-    public function testGetMultiLanguagePrioritizedDescription($object)
+    public function testGetMultiLanguagePrioritizedDescription($object): void
     {
         if (!$object instanceof MultiLanguageDescription) {
             self::markTestSkipped(
@@ -91,7 +91,7 @@ trait MultiLanguageTestTrait
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageDescription $object tested ValueObject
      */
-    public function testGetMultiLanguageDefaultDescription($object)
+    public function testGetMultiLanguageDefaultDescription($object): void
     {
         if (!$object instanceof MultiLanguageDescription) {
             self::markTestSkipped(

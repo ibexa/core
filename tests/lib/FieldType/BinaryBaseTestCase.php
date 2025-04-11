@@ -17,7 +17,7 @@ use Ibexa\Core\FieldType\Value;
  *
  * @group fieldType
  */
-abstract class BinaryBaseTest extends FieldTypeTest
+abstract class BinaryBaseTestCase extends FieldTypeTestCase
 {
     protected $blackListedExtensions = [
         'php',

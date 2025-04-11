@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Base\Container\Compiler\TaggedServiceIdsIterator;
 
 use Ibexa\Core\Base\Container\Compiler\TaggedServiceIdsIterator\BackwardCompatibleIterator;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\TaggedContainerInterface;
 
@@ -18,10 +19,10 @@ final class BackwardCompatibleIteratorTest extends TestCase
     private const EXAMPLE_DEPRECATED_SERVICE_TAG = 'deprecated_tag';
 
     /** @var \Ibexa\Tests\Core\Base\Container\Compiler\TaggedServiceIdsIterator\DeprecationErrorCollector */
-    private $deprecationErrorCollector;
+    private DeprecationErrorCollector $deprecationErrorCollector;
 
     /** @var \Symfony\Component\DependencyInjection\TaggedContainerInterface */
-    private $container;
+    private MockObject $container;
 
     protected function setUp(): void
     {

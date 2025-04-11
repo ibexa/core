@@ -7,6 +7,7 @@
 
 namespace Ibexa\Bundle\Core\EventListener;
 
+use Ibexa\Core\MVC\Symfony\View\Renderer;
 use Ibexa\Core\MVC\Symfony\View\Renderer as ViewRenderer;
 use Ibexa\Core\MVC\Symfony\View\View;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -16,8 +17,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class ViewRendererListener implements EventSubscriberInterface
 {
-    /** @var \Ibexa\Core\MVC\Symfony\View\Renderer */
-    private $viewRenderer;
+    private Renderer $viewRenderer;
 
     public function __construct(ViewRenderer $viewRenderer)
     {
@@ -29,7 +29,7 @@ class ViewRendererListener implements EventSubscriberInterface
         return [KernelEvents::VIEW => 'renderView'];
     }
 
-    public function renderView(ViewEvent $event)
+    public function renderView(ViewEvent $event): void
     {
         if (!($view = $event->getControllerResult()) instanceof View) {
             return;

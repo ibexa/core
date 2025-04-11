@@ -18,17 +18,13 @@ class Converter
 {
     /**
      * Criterion field value handler registry.
-     *
-     * @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\HandlerRegistry
      */
-    protected $registry;
+    protected HandlerRegistry $registry;
 
     /**
      * Default Criterion field value handler.
-     *
-     * @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler
      */
-    protected $defaultHandler;
+    protected ?Handler $defaultHandler;
 
     /**
      * Construct from an array of Criterion field value handlers.

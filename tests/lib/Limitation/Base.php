@@ -9,15 +9,16 @@ namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Persistence\Handler as SPIHandler;
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 abstract class Base extends TestCase
 {
     /** @var \Ibexa\Contracts\Core\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private $persistenceHandlerMock;
+    private ?MockObject $persistenceHandlerMock = null;
 
     /** @var \Ibexa\Contracts\Core\Repository\Values\User\User|\PHPUnit\Framework\MockObject\MockObject */
-    private $userMock;
+    private ?MockObject $userMock = null;
 
     /**
      * @param array $mockMethods For specifying the methods to mock, all by default

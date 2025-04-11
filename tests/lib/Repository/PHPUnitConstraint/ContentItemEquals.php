@@ -19,8 +19,7 @@ use function trim;
 
 class ContentItemEquals extends AbstractPHPUnitConstraint
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-    private $expectedContent;
+    private Content $expectedContent;
 
     public function __construct(Content $expectedContent)
     {

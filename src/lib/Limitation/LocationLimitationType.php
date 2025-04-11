@@ -16,8 +16,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LocationId;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation as APILocationLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
@@ -39,7 +41,7 @@ class LocationLimitationType extends AbstractPersistenceLimitationType implement
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
      */
-    public function acceptValue(APILimitationValue $limitationValue)
+    public function acceptValue(APILimitationValue $limitationValue): void
     {
         if (!$limitationValue instanceof APILocationLimitation) {
             throw new InvalidArgumentType('$limitationValue', 'APILocationLimitation', $limitationValue);
@@ -63,7 +65,7 @@ class LocationLimitationType extends AbstractPersistenceLimitationType implement
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(APILimitationValue $limitationValue)
+    public function validate(APILimitationValue $limitationValue): array
     {
         $validationErrors = [];
         foreach ($limitationValue->limitationValues as $key => $id) {
@@ -91,7 +93,7 @@ class LocationLimitationType extends AbstractPersistenceLimitationType implement
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
      */
-    public function buildValue(array $limitationValues)
+    public function buildValue(array $limitationValues): LocationLimitation
     {
         return new APILocationLimitation(['limitationValues' => $limitationValues]);
     }
@@ -111,7 +113,7 @@ class LocationLimitationType extends AbstractPersistenceLimitationType implement
      *
      * @return bool
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null)
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null): bool|true|false
     {
         if (!$value instanceof APILocationLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: APILocationLimitation');
@@ -208,7 +210,7 @@ class LocationLimitationType extends AbstractPersistenceLimitationType implement
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
      */
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser)
+    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser): LocationId
     {
         if (empty($value->limitationValues)) {
             // A Policy should not have empty limitationValues stored
@@ -217,11 +219,11 @@ class LocationLimitationType extends AbstractPersistenceLimitationType implement
 
         if (!isset($value->limitationValues[1])) {
             // 1 limitation value: EQ operation
-            return new Criterion\LocationId($value->limitationValues[0]);
+            return new LocationId($value->limitationValues[0]);
         }
 
         // several limitation values: IN operation
-        return new Criterion\LocationId($value->limitationValues);
+        return new LocationId($value->limitationValues);
     }
 
     public function valueSchema(): int

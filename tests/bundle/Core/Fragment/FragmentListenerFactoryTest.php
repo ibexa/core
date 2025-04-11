@@ -20,7 +20,7 @@ class FragmentListenerFactoryTest extends TestCase
     /**
      * @dataProvider buildFragmentListenerProvider
      */
-    public function testBuildFragmentListener($requestUri, $isFragmentCandidate)
+    public function testBuildFragmentListener(string $requestUri, bool $isFragmentCandidate): void
     {
         $listenerClass = FragmentListener::class;
         $uriSigner = new UriSigner('my_precious_secret');
@@ -44,7 +44,7 @@ class FragmentListenerFactoryTest extends TestCase
         }
     }
 
-    public function buildFragmentListenerProvider()
+    public function buildFragmentListenerProvider(): array
     {
         return [
             ['/foo/bar', false],
@@ -56,7 +56,7 @@ class FragmentListenerFactoryTest extends TestCase
         ];
     }
 
-    public function testBuildFragmentListenerNoRequest()
+    public function testBuildFragmentListenerNoRequest(): void
     {
         $factory = new FragmentListenerFactory();
         $factory->setRequestStack(new RequestStack());

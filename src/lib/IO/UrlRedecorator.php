@@ -12,11 +12,9 @@ namespace Ibexa\Core\IO;
  */
 class UrlRedecorator implements UrlRedecoratorInterface
 {
-    /** @var UrlDecorator */
-    private $sourceDecorator;
+    private UrlDecorator $sourceDecorator;
 
-    /** @var UrlDecorator */
-    private $targetDecorator;
+    private UrlDecorator $targetDecorator;
 
     public function __construct(UrlDecorator $sourceDecorator, UrlDecorator $targetDecorator)
     {

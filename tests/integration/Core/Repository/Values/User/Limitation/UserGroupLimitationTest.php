@@ -20,7 +20,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
  */
 class UserGroupLimitationTest extends BaseLimitationTest
 {
-    public function testUserGroupLimitationAllow()
+    public function testUserGroupLimitationAllow(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -44,7 +44,7 @@ class UserGroupLimitationTest extends BaseLimitationTest
         );
     }
 
-    public function testUserGroupLimitationForbid()
+    public function testUserGroupLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 

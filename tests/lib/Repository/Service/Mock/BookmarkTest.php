@@ -52,7 +52,7 @@ class BookmarkTest extends BaseServiceMockTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::createBookmark
      */
-    public function testCreateBookmark()
+    public function testCreateBookmark(): void
     {
         $location = $this->createLocation(self::LOCATION_ID);
 
@@ -64,11 +64,11 @@ class BookmarkTest extends BaseServiceMockTest
             ->with(self::CURRENT_USER_ID, [self::LOCATION_ID])
             ->willReturn([]);
 
-        $this->assertTransactionIsCommitted(function () {
+        $this->assertTransactionIsCommitted(function (): void {
             $this->bookmarkHandler
                 ->expects($this->once())
                 ->method('create')
-                ->willReturnCallback(function (CreateStruct $createStruct) {
+                ->willReturnCallback(function (CreateStruct $createStruct): Bookmark {
                     $this->assertEquals(self::LOCATION_ID, $createStruct->locationId);
                     $this->assertEquals(self::CURRENT_USER_ID, $createStruct->userId);
 
@@ -82,7 +82,7 @@ class BookmarkTest extends BaseServiceMockTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::createBookmark
      */
-    public function testCreateBookmarkThrowsInvalidArgumentException()
+    public function testCreateBookmarkThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -96,7 +96,7 @@ class BookmarkTest extends BaseServiceMockTest
             ->with(self::CURRENT_USER_ID, [self::LOCATION_ID])
             ->willReturn([self::LOCATION_ID => new Bookmark()]);
 
-        $this->assertTransactionIsNotStarted(function () {
+        $this->assertTransactionIsNotStarted(function (): void {
             $this->bookmarkHandler->expects($this->never())->method('create');
         });
 
@@ -106,9 +106,9 @@ class BookmarkTest extends BaseServiceMockTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::createBookmark
      */
-    public function testCreateBookmarkWithRollback()
+    public function testCreateBookmarkWithRollback(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
 
         $location = $this->createLocation(self::LOCATION_ID);
 
@@ -120,7 +120,7 @@ class BookmarkTest extends BaseServiceMockTest
             ->with(self::CURRENT_USER_ID, [self::LOCATION_ID])
             ->willReturn([]);
 
-        $this->assertTransactionIsRollback(function () {
+        $this->assertTransactionIsRollback(function (): void {
             $this->bookmarkHandler
                 ->expects($this->once())
                 ->method('create')
@@ -133,7 +133,7 @@ class BookmarkTest extends BaseServiceMockTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::deleteBookmark
      */
-    public function testDeleteBookmarkExisting()
+    public function testDeleteBookmarkExisting(): void
     {
         $location = $this->createLocation(self::LOCATION_ID);
 
@@ -147,7 +147,7 @@ class BookmarkTest extends BaseServiceMockTest
             ->with(self::CURRENT_USER_ID, [self::LOCATION_ID])
             ->willReturn([self::LOCATION_ID => $bookmark]);
 
-        $this->assertTransactionIsCommitted(function () use ($bookmark) {
+        $this->assertTransactionIsCommitted(function () use ($bookmark): void {
             $this->bookmarkHandler
                 ->expects($this->once())
                 ->method('delete')
@@ -160,9 +160,9 @@ class BookmarkTest extends BaseServiceMockTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::deleteBookmark
      */
-    public function testDeleteBookmarkWithRollback()
+    public function testDeleteBookmarkWithRollback(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
 
         $location = $this->createLocation(self::LOCATION_ID);
 
@@ -174,7 +174,7 @@ class BookmarkTest extends BaseServiceMockTest
             ->with(self::CURRENT_USER_ID, [self::LOCATION_ID])
             ->willReturn([self::LOCATION_ID => new Bookmark(['id' => self::BOOKMARK_ID])]);
 
-        $this->assertTransactionIsRollback(function () {
+        $this->assertTransactionIsRollback(function (): void {
             $this->bookmarkHandler
                 ->expects($this->once())
                 ->method('delete')
@@ -187,7 +187,7 @@ class BookmarkTest extends BaseServiceMockTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::deleteBookmark
      */
-    public function testDeleteBookmarkNonExisting()
+    public function testDeleteBookmarkNonExisting(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -201,7 +201,7 @@ class BookmarkTest extends BaseServiceMockTest
             ->with(self::CURRENT_USER_ID, [self::LOCATION_ID])
             ->willReturn([]);
 
-        $this->assertTransactionIsNotStarted(function () {
+        $this->assertTransactionIsNotStarted(function (): void {
             $this->bookmarkHandler->expects($this->never())->method('delete');
         });
 
@@ -211,13 +211,13 @@ class BookmarkTest extends BaseServiceMockTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::loadBookmarks
      */
-    public function testLoadBookmarks()
+    public function testLoadBookmarks(): void
     {
         $offset = 0;
         $limit = 25;
 
         $expectedTotalCount = 10;
-        $expectedItems = array_map(function ($locationId) {
+        $expectedItems = array_map(function ($locationId): Location {
             return $this->createLocation($locationId);
         }, range(1, $expectedTotalCount));
 
@@ -231,7 +231,7 @@ class BookmarkTest extends BaseServiceMockTest
             ->expects(self::once())
             ->method('loadUserBookmarks')
             ->with(self::CURRENT_USER_ID, $offset, $limit)
-            ->willReturn(array_map(static function ($locationId) {
+            ->willReturn(array_map(static function ($locationId): Bookmark {
                 return new Bookmark(['locationId' => $locationId]);
             }, range(1, $expectedTotalCount)));
 
@@ -239,7 +239,7 @@ class BookmarkTest extends BaseServiceMockTest
         $locationServiceMock
             ->expects(self::exactly($expectedTotalCount))
             ->method('loadLocation')
-            ->willReturnCallback(function ($locationId) {
+            ->willReturnCallback(function ($locationId): Location {
                 return $this->createLocation($locationId);
             });
 
@@ -258,7 +258,7 @@ class BookmarkTest extends BaseServiceMockTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::loadBookmarks
      */
-    public function testLoadBookmarksEmptyList()
+    public function testLoadBookmarksEmptyList(): void
     {
         $this->bookmarkHandler
             ->expects(self::once())
@@ -279,7 +279,7 @@ class BookmarkTest extends BaseServiceMockTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::isBookmarked
      */
-    public function testLocationShouldNotBeBookmarked()
+    public function testLocationShouldNotBeBookmarked(): void
     {
         $this->bookmarkHandler
             ->expects(self::once())
@@ -293,7 +293,7 @@ class BookmarkTest extends BaseServiceMockTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::isBookmarked
      */
-    public function testLocationShouldBeBookmarked()
+    public function testLocationShouldBeBookmarked(): void
     {
         $this->bookmarkHandler
             ->expects(self::once())
@@ -361,7 +361,7 @@ class BookmarkTest extends BaseServiceMockTest
     /**
      * @return \Ibexa\Contracts\Core\Repository\BookmarkService|\PHPUnit\Framework\MockObject\MockObject
      */
-    private function createBookmarkService(array $methods = null)
+    private function createBookmarkService(array $methods = null): MockObject
     {
         return $this
             ->getMockBuilder(BookmarkService::class)

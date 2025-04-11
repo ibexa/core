@@ -32,7 +32,7 @@ class LanguageResolverTest extends TestCase
         bool $defaultShowAllTranslations,
         ?array $forcedLanguages,
         ?string $contextLanguage
-    ) {
+    ): void {
         // note: "use always available" does not affect this test
         $defaultUseAlwaysAvailable = true;
 

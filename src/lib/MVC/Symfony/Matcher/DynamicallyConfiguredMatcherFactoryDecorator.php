@@ -15,20 +15,15 @@ use Ibexa\Core\MVC\Symfony\View\View;
  */
 class DynamicallyConfiguredMatcherFactoryDecorator implements MatcherFactoryInterface
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\MatcherFactoryInterface|\Ibexa\Core\MVC\Symfony\Matcher\ConfigurableMatcherFactoryInterface */
-    private $innerConfigurableMatcherFactory;
+    private MatcherFactoryInterface $innerConfigurableMatcherFactory;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /** @var string */
-    private $parameterName;
+    private string $parameterName;
 
-    /** @var string|null */
-    private $namespace;
+    private ?string $namespace;
 
-    /** @var string|null */
-    private $scope;
+    private ?string $scope;
 
     public function __construct(
         MatcherFactoryInterface $innerConfigurableMatcherFactory,

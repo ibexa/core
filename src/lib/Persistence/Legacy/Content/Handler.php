@@ -32,64 +32,47 @@ class Handler implements BaseContentHandler
 {
     /**
      * Content gateway.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
      */
-    protected $contentGateway;
+    protected Gateway $contentGateway;
 
     /**
      * Location gateway.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
      */
-    protected $locationGateway;
+    protected LocationGateway $locationGateway;
 
     /**
      * Mapper.
-     *
-     * @var Mapper
      */
-    protected $mapper;
+    protected Mapper $mapper;
 
     /**
      * FieldHandler.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldHandler
      */
-    protected $fieldHandler;
+    protected FieldHandler $fieldHandler;
 
     /**
      * URL slug converter.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter
      */
-    protected $slugConverter;
+    protected SlugConverter $slugConverter;
 
     /**
      * UrlAlias gateway.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway
      */
-    protected $urlAliasGateway;
+    protected UrlAliasGateway $urlAliasGateway;
 
     /**
      * ContentType handler.
-     *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
      */
-    protected $contentTypeHandler;
+    protected ContentTypeHandler $contentTypeHandler;
 
     /**
      * Tree handler.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\TreeHandler
      */
-    protected $treeHandler;
+    protected TreeHandler $treeHandler;
 
     protected LanguageHandler $languageHandler;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * Creates a new content handler.
@@ -158,7 +141,7 @@ class Handler implements BaseContentHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content Content value object
      */
-    protected function internalCreate(CreateStruct $struct, $versionNo = 1)
+    protected function internalCreate(CreateStruct $struct, $versionNo = 1): Content
     {
         $content = new Content();
 
@@ -438,7 +421,10 @@ class Handler implements BaseContentHandler
         return $this->treeHandler->loadContentInfo($contentId);
     }
 
-    public function loadContentInfoList(array $contentIds)
+    /**
+     * @return mixed[]
+     */
+    public function loadContentInfoList(array $contentIds): array
     {
         $list = $this->mapper->extractContentInfoFromRows(
             $this->contentGateway->loadContentInfoList($contentIds)
@@ -513,7 +499,7 @@ class Handler implements BaseContentHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\VersionInfo[]
      */
-    public function loadDraftsForUser($userId)
+    public function loadDraftsForUser($userId): array
     {
         $rows = $this->contentGateway->listVersionsForUser($userId, VersionInfo::STATUS_DRAFT);
         if (empty($rows)) {
@@ -521,7 +507,7 @@ class Handler implements BaseContentHandler
         }
 
         $idVersionPairs = array_map(
-            static function ($row) {
+            static function (array $row): array {
                 return [
                     'id' => $row['ezcontentobject_version_contentobject_id'],
                     'version' => $row['ezcontentobject_version_version'],
@@ -567,7 +553,7 @@ class Handler implements BaseContentHandler
      *
      * @return bool
      */
-    public function setStatus($contentId, $status, $version)
+    public function setStatus($contentId, $status, $version): bool
     {
         return $this->contentGateway->setStatus($contentId, $version, $status);
     }
@@ -597,7 +583,7 @@ class Handler implements BaseContentHandler
      * @param int $contentId
      * @param \Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct $content
      */
-    protected function updatePathIdentificationString($contentId, MetadataUpdateStruct $content)
+    protected function updatePathIdentificationString(int $contentId, MetadataUpdateStruct $content)
     {
         if (isset($content->mainLanguageId)) {
             $contentLocationsRows = $this->locationGateway->loadLocationDataByContent($contentId);
@@ -661,7 +647,7 @@ class Handler implements BaseContentHandler
      *
      * @return bool
      */
-    public function deleteContent($contentId)
+    public function deleteContent($contentId): void
     {
         $contentLocations = $this->contentGateway->getAllLocationIds($contentId);
         if (empty($contentLocations)) {
@@ -679,7 +665,7 @@ class Handler implements BaseContentHandler
      *
      * @param int $contentId
      */
-    public function removeRawContent($contentId)
+    public function removeRawContent($contentId): void
     {
         $this->treeHandler->removeRawContent($contentId);
     }
@@ -694,7 +680,7 @@ class Handler implements BaseContentHandler
      *
      * @return bool
      */
-    public function deleteVersion($contentId, $versionNo)
+    public function deleteVersion($contentId, $versionNo): void
     {
         $versionInfo = $this->loadVersionInfo($contentId, $versionNo);
 
@@ -718,7 +704,7 @@ class Handler implements BaseContentHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\VersionInfo[]
      */
-    public function listVersions($contentId, $status = null, $limit = -1)
+    public function listVersions($contentId, $status = null, $limit = -1): array
     {
         return $this->treeHandler->listVersions($contentId, $status, $limit);
     }
@@ -902,7 +888,7 @@ class Handler implements BaseContentHandler
     /**
      * {@inheritdoc}
      */
-    public function deleteTranslationFromContent($contentId, $languageCode)
+    public function deleteTranslationFromContent($contentId, $languageCode): void
     {
         $this->fieldHandler->deleteTranslationFromContentFields(
             $contentId,

@@ -14,11 +14,9 @@ use Ibexa\Contracts\Core\Repository\Values\User\RoleDraft;
 
 final class CreateRoleDraftEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\Role */
-    private $role;
+    private Role $role;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft */
-    private $roleDraft;
+    private RoleDraft $roleDraft;
 
     public function __construct(
         RoleDraft $roleDraft,

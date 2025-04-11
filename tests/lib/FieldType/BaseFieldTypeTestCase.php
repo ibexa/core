@@ -7,13 +7,13 @@
 
 namespace Ibexa\Tests\Core\FieldType;
 
-use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\ValidationError;
-use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Contracts\Core\FieldType\Value;
+use Ibexa\Contracts\Core\FieldType\Value as FieldTypeValue;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
 use PHPUnit\Framework\TestCase;
 
-abstract class BaseFieldTypeTest extends TestCase
+abstract class BaseFieldTypeTestCase extends TestCase
 {
     /**
      * Generic cache for the getFieldTypeUnderTest() method.
@@ -415,7 +415,7 @@ abstract class BaseFieldTypeTest extends TestCase
         return [
             [
                 [],
-                $this->createMock(SPIValue::class),
+                $this->createMock(FieldTypeValue::class),
             ],
         ];
     }
@@ -489,7 +489,7 @@ abstract class BaseFieldTypeTest extends TestCase
         return [
             [
                 [],
-                $this->createMock(SPIValue::class),
+                $this->createMock(FieldTypeValue::class),
                 [],
             ],
         ];
@@ -512,7 +512,7 @@ abstract class BaseFieldTypeTest extends TestCase
         return $this->fieldTypeUnderTest;
     }
 
-    public function testGetFieldTypeIdentifier()
+    public function testGetFieldTypeIdentifier(): void
     {
         self::assertSame(
             $this->provideFieldTypeIdentifier(),
@@ -524,7 +524,7 @@ abstract class BaseFieldTypeTest extends TestCase
      * @dataProvider provideDataForGetName
      */
     public function testGetName(
-        SPIValue $value,
+        FieldTypeValue $value,
         string $expected,
         array $fieldSettings = [],
         string $languageCode = 'en_GB'
@@ -537,7 +537,7 @@ abstract class BaseFieldTypeTest extends TestCase
         );
     }
 
-    public function testValidatorConfigurationSchema()
+    public function testValidatorConfigurationSchema(): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -548,7 +548,7 @@ abstract class BaseFieldTypeTest extends TestCase
         );
     }
 
-    public function testSettingsSchema()
+    public function testSettingsSchema(): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -559,7 +559,7 @@ abstract class BaseFieldTypeTest extends TestCase
         );
     }
 
-    public function testEmptyValue()
+    public function testEmptyValue(): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -575,7 +575,7 @@ abstract class BaseFieldTypeTest extends TestCase
      *
      * @dataProvider provideValidInputForAcceptValue
      */
-    public function testAcceptValue($inputValue, $expectedOutputValue)
+    public function testAcceptValue($inputValue, $expectedOutputValue): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -591,7 +591,7 @@ abstract class BaseFieldTypeTest extends TestCase
     /**
      * Tests that default empty value is unchanged by acceptValue() method.
      */
-    public function testAcceptGetEmptyValue()
+    public function testAcceptGetEmptyValue(): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
         $emptyValue = $fieldType->getEmptyValue();
@@ -628,7 +628,7 @@ abstract class BaseFieldTypeTest extends TestCase
      *
      * @dataProvider provideInputForToHash
      */
-    public function testToHash($inputValue, $expectedResult)
+    public function testToHash(Value $inputValue, $expectedResult): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -652,12 +652,11 @@ abstract class BaseFieldTypeTest extends TestCase
     }
 
     /**
-     * @param mixed $inputValue
-     * @param array $expectedResult
-     *
      * @dataProvider provideInputForFromHash
+     *
+     * @param array<mixed>|null $inputHash
      */
-    public function testFromHash($inputHash, $expectedResult)
+    public function testFromHash(mixed $inputHash, FieldTypeValue $expectedResult): void
     {
         $this->assertIsValidHashValue($inputHash);
 
@@ -680,7 +679,7 @@ abstract class BaseFieldTypeTest extends TestCase
         }
     }
 
-    public function testEmptyValueIsEmpty()
+    public function testEmptyValueIsEmpty(): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -694,7 +693,7 @@ abstract class BaseFieldTypeTest extends TestCase
      *
      * @dataProvider provideValidFieldSettings
      */
-    public function testValidateFieldSettingsValid($inputSettings)
+    public function testValidateFieldSettingsValid(array $inputSettings): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -716,7 +715,7 @@ abstract class BaseFieldTypeTest extends TestCase
      *
      * @dataProvider provideInvalidFieldSettings
      */
-    public function testValidateFieldSettingsInvalid($inputSettings)
+    public function testValidateFieldSettingsInvalid(array $inputSettings): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -747,7 +746,7 @@ abstract class BaseFieldTypeTest extends TestCase
      *
      * @dataProvider provideValidValidatorConfiguration
      */
-    public function testValidateValidatorConfigurationValid($inputConfiguration)
+    public function testValidateValidatorConfigurationValid(array $inputConfiguration): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -769,7 +768,7 @@ abstract class BaseFieldTypeTest extends TestCase
      *
      * @dataProvider provideInvalidValidatorConfiguration
      */
-    public function testValidateValidatorConfigurationInvalid($inputConfiguration)
+    public function testValidateValidatorConfigurationInvalid(array $inputConfiguration): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -800,7 +799,7 @@ abstract class BaseFieldTypeTest extends TestCase
      *
      * @dataProvider provideValidFieldSettings
      */
-    public function testFieldSettingsToHash($inputSettings)
+    public function testFieldSettingsToHash(array $inputSettings): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -814,7 +813,7 @@ abstract class BaseFieldTypeTest extends TestCase
      *
      * @dataProvider provideValidValidatorConfiguration
      */
-    public function testValidatorConfigurationToHash($inputConfiguration)
+    public function testValidatorConfigurationToHash(array $inputConfiguration): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -828,7 +827,7 @@ abstract class BaseFieldTypeTest extends TestCase
      *
      * @dataProvider provideValidFieldSettings
      */
-    public function testFieldSettingsFromHash($inputSettings)
+    public function testFieldSettingsFromHash(array $inputSettings): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -843,7 +842,7 @@ abstract class BaseFieldTypeTest extends TestCase
      *
      * @dataProvider provideValidValidatorConfiguration
      */
-    public function testValidatorConfigurationFromHash($inputConfiguration)
+    public function testValidatorConfigurationFromHash(array $inputConfiguration): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
@@ -895,7 +894,7 @@ abstract class BaseFieldTypeTest extends TestCase
     /**
      * @dataProvider provideValidDataForValidate
      */
-    public function testValidateValid($fieldDefinitionData, $value)
+    public function testValidateValid(array $fieldDefinitionData, Value $value): void
     {
         $validationErrors = $this->doValidate($fieldDefinitionData, $value);
 
@@ -906,7 +905,7 @@ abstract class BaseFieldTypeTest extends TestCase
     /**
      * @dataProvider provideInvalidDataForValidate
      */
-    public function testValidateInvalid($fieldDefinitionData, $value, $errors)
+    public function testValidateInvalid(array $fieldDefinitionData, Value $value, array $errors): void
     {
         $validationErrors = $this->doValidate($fieldDefinitionData, $value);
 
@@ -914,7 +913,7 @@ abstract class BaseFieldTypeTest extends TestCase
         self::assertEquals($errors, $validationErrors);
     }
 
-    protected function doValidate($fieldDefinitionData, $value)
+    protected function doValidate($fieldDefinitionData, Value $value)
     {
         $fieldType = $this->getFieldTypeUnderTest();
 

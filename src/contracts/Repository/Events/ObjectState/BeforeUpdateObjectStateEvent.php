@@ -15,14 +15,11 @@ use UnexpectedValueException;
 
 final class BeforeUpdateObjectStateEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState */
-    private $objectState;
+    private ObjectState $objectState;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateUpdateStruct */
-    private $objectStateUpdateStruct;
+    private ObjectStateUpdateStruct $objectStateUpdateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState|null */
-    private $updatedObjectState;
+    private ?ObjectState $updatedObjectState = null;
 
     public function __construct(ObjectState $objectState, ObjectStateUpdateStruct $objectStateUpdateStruct)
     {

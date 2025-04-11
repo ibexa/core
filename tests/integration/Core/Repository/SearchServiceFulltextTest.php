@@ -43,8 +43,10 @@ class SearchServiceFulltextTest extends BaseTest
 
     /**
      * Create test Content and return Content ID map for subsequent testing.
+     *
+     * @return mixed[]
      */
-    public function testPrepareContent()
+    public function testPrepareContent(): array
     {
         $repository = $this->getRepository();
         $dataMap = [
@@ -216,7 +218,7 @@ class SearchServiceFulltextTest extends BaseTest
      *
      * @dataProvider providerForTestFulltextSearchSolr7
      */
-    public function testFulltextLocationSearchSolr7($searchString, array $expectedKeys, array $idMap): void
+    public function testFulltextLocationSearchSolr7(string $searchString, array $expectedKeys, array $idMap): void
     {
         if (false === $this->isSolrMajorVersionInRange('7.0.0', '8.0.0')) {
             self::markTestSkipped('This test is only relevant for Solr >= 7');
@@ -243,12 +245,12 @@ class SearchServiceFulltextTest extends BaseTest
      * @param array $expectedKeys
      * @param array $idMap
      */
-    public function assertFulltextSearch(SearchResult $searchResult, array $expectedKeys, array $idMap)
+    public function assertFulltextSearch(SearchResult $searchResult, array $expectedKeys, array $idMap): void
     {
         self::assertEquals(
             array_reduce(
                 $expectedKeys,
-                static function ($carry, $item) {
+                static function ($carry, $item): float|int {
                     $carry += count((array)$item);
 
                     return $carry;
@@ -272,7 +274,7 @@ class SearchServiceFulltextTest extends BaseTest
      *
      * @return array
      */
-    private function mapKeysToIds(array $expectedKeys, array $idMap)
+    private function mapKeysToIds(array $expectedKeys, array $idMap): array
     {
         $expectedIds = [];
 

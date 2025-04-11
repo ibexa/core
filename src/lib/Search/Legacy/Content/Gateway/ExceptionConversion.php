@@ -7,11 +7,10 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Gateway;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as DBALException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Search\Legacy\Content\Gateway;
-use PDOException;
 
 /**
  * The Content Search Gateway provides the implementation for one database to
@@ -19,27 +18,28 @@ use PDOException;
  */
 class ExceptionConversion extends Gateway
 {
-    /**
-     * @var \Ibexa\Core\Search\Legacy\Content\Gateway
-     */
-    protected $innerGateway;
+    protected DoctrineDatabase $innerGateway;
 
-    public function __construct(Gateway $innerGateway)
+    public function __construct(DoctrineDatabase $innerGateway)
     {
         $this->innerGateway = $innerGateway;
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     */
     public function find(
         CriterionInterface $criterion,
-        $offset = 0,
-        $limit = null,
+        int $offset = 0,
+        int $limit = null,
         array $sort = null,
         array $languageFilter = [],
-        $doCount = true
+        bool $doCount = true
     ): array {
         try {
-            return $this->innerGateway->find($criterion, $offset, $limit, $sort, $languageFilter, $doCount);
-        } catch (DBALException | PDOException $e) {
+            return $this->innerGateway->find($criterion, $offset, $limit ?? 0, $sort, $languageFilter, $doCount);
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }

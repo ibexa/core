@@ -27,7 +27,7 @@ class FieldType implements FieldTypeInterface
      *
      * @var \Ibexa\Core\FieldType\FieldType
      */
-    protected $internalFieldType;
+    protected SPIFieldTypeInterface $internalFieldType;
 
     /**
      * @param \Ibexa\Contracts\Core\FieldType\FieldType $fieldType

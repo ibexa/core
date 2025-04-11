@@ -121,7 +121,7 @@ abstract class Validator
      *
      * @param array $constraints
      */
-    public function initializeWithConstraints(array $constraints)
+    public function initializeWithConstraints(array $constraints): void
     {
         // Reset errors
         $this->errors = [];

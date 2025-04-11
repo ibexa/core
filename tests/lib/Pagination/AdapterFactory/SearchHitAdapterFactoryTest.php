@@ -17,6 +17,7 @@ use Ibexa\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactory;
 use Ibexa\Core\Pagination\Pagerfanta\ContentSearchHitAdapter;
 use Ibexa\Core\Pagination\Pagerfanta\FixedSearchResultHitAdapter;
 use Ibexa\Core\Pagination\Pagerfanta\LocationSearchHitAdapter;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class SearchHitAdapterFactoryTest extends TestCase
@@ -26,10 +27,10 @@ final class SearchHitAdapterFactoryTest extends TestCase
     ];
 
     /** @var \Ibexa\Contracts\Core\Repository\SearchService|\PHPUnit\Framework\MockObject\MockObject */
-    private $searchService;
+    private MockObject $searchService;
 
     /** @var \Ibexa\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactory */
-    private $searchHitAdapterFactory;
+    private SearchHitAdapterFactory $searchHitAdapterFactory;
 
     protected function setUp(): void
     {

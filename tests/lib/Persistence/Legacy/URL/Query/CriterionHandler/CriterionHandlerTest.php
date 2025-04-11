@@ -27,7 +27,7 @@ abstract class CriterionHandlerTest extends TestCase
      * @param \Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler $handler
      * @param string $criterionClass
      */
-    protected function assertHandlerAcceptsCriterion(CriterionHandler $handler, $criterionClass)
+    protected function assertHandlerAcceptsCriterion(CriterionHandler $handler, string $criterionClass)
     {
         self::assertTrue($handler->accept($this->createMock($criterionClass)));
     }
@@ -38,7 +38,7 @@ abstract class CriterionHandlerTest extends TestCase
      * @param \Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler $handler
      * @param string $criterionClass
      */
-    protected function assertHandlerRejectsCriterion(CriterionHandler $handler, $criterionClass)
+    protected function assertHandlerRejectsCriterion(CriterionHandler $handler, string $criterionClass)
     {
         self::assertFalse($handler->accept($this->createMock($criterionClass)));
     }

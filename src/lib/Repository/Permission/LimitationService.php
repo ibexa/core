@@ -22,7 +22,7 @@ use Traversable;
 class LimitationService
 {
     /** @var \Ibexa\Contracts\Core\Limitation\Type[] */
-    private $limitationTypes;
+    private array $limitationTypes;
 
     public function __construct(?Traversable $limitationTypes = null)
     {

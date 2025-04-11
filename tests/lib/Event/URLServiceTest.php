@@ -16,7 +16,7 @@ use Ibexa\Core\Event\URLService;
 
 class URLServiceTest extends AbstractServiceTest
 {
-    public function testUpdateUrlEvents()
+    public function testUpdateUrlEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateUrlEvent::class,
@@ -45,7 +45,7 @@ class URLServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnUpdateUrlResultInBeforeEvents()
+    public function testReturnUpdateUrlResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateUrlEvent::class,
@@ -62,7 +62,7 @@ class URLServiceTest extends AbstractServiceTest
         $innerServiceMock = $this->createMock(URLServiceInterface::class);
         $innerServiceMock->method('updateUrl')->willReturn($updatedUrl);
 
-        $traceableEventDispatcher->addListener(BeforeUpdateUrlEvent::class, static function (BeforeUpdateUrlEvent $event) use ($eventUpdatedUrl) {
+        $traceableEventDispatcher->addListener(BeforeUpdateUrlEvent::class, static function (BeforeUpdateUrlEvent $event) use ($eventUpdatedUrl): void {
             $event->setUpdatedUrl($eventUpdatedUrl);
         }, 10);
 
@@ -80,7 +80,7 @@ class URLServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testUpdateUrlStopPropagationInBeforeEvents()
+    public function testUpdateUrlStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeUpdateUrlEvent::class,
@@ -97,7 +97,7 @@ class URLServiceTest extends AbstractServiceTest
         $innerServiceMock = $this->createMock(URLServiceInterface::class);
         $innerServiceMock->method('updateUrl')->willReturn($updatedUrl);
 
-        $traceableEventDispatcher->addListener(BeforeUpdateUrlEvent::class, static function (BeforeUpdateUrlEvent $event) use ($eventUpdatedUrl) {
+        $traceableEventDispatcher->addListener(BeforeUpdateUrlEvent::class, static function (BeforeUpdateUrlEvent $event) use ($eventUpdatedUrl): void {
             $event->setUpdatedUrl($eventUpdatedUrl);
             $event->stopPropagation();
         }, 10);

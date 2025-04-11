@@ -26,10 +26,8 @@ class FullText extends CriterionHandler
 {
     /**
      * Full text search configuration options.
-     *
-     * @var array
      */
-    protected $configuration = [
+    protected array $configuration = [
         // @see getStopWordThresholdValue()
         'stopWordThresholdFactor' => 0.66,
         'enableWildcards' => true,
@@ -70,27 +68,22 @@ class FullText extends CriterionHandler
     ];
 
     /**
-     * @var int|null
-     *
      * @see getStopWordThresholdValue()
      */
-    private $stopWordThresholdValue;
+    private ?int $stopWordThresholdValue = null;
 
     /**
      * Transformation processor to normalize search strings.
-     *
-     * @var \Ibexa\Core\Persistence\TransformationProcessor
      */
-    protected $processor;
+    protected TransformationProcessor $processor;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
-    private $languageMaskGenerator;
+    private MaskGenerator $languageMaskGenerator;
 
     /**
      * @param array $configuration
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException On invalid $configuration values
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct(
         Connection $connection,
@@ -177,11 +170,11 @@ class FullText extends CriterionHandler
         // Search for provided string itself as well
         $wordExpressions[] = $this->getWordExpression($query, $string);
 
-        $whereCondition = $subQuery->expr()->orX(...$wordExpressions);
+        $whereCondition = $subQuery->expr()->or(...$wordExpressions);
 
         // If stop word threshold is below 100%, make it part of $whereCondition
         if ($this->configuration['stopWordThresholdFactor'] < 1) {
-            $whereCondition = $subQuery->expr()->andX(
+            $whereCondition = $subQuery->expr()->and(
                 $whereCondition,
                 $subQuery->expr()->lt(
                     'object_count',

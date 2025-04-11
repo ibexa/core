@@ -15,18 +15,19 @@ use Ibexa\Core\Helper\PreviewLocationProvider;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class PreviewLocationProviderTest extends TestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\LocationService|\PHPUnit\Framework\MockObject\MockObject */
-    private $locationService;
+    private MockObject $locationService;
 
     /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private $locationHandler;
+    private MockObject $locationHandler;
 
     /** @var \Ibexa\Core\Helper\PreviewLocationProvider */
-    private $provider;
+    private PreviewLocationProvider $provider;
 
     protected function setUp(): void
     {
@@ -37,7 +38,7 @@ class PreviewLocationProviderTest extends TestCase
         $this->provider = new PreviewLocationProvider($this->locationService, $this->locationHandler);
     }
 
-    public function testGetPreviewLocationDraft()
+    public function testGetPreviewLocationDraft(): void
     {
         $contentId = 123;
         $parentLocationId = 456;
@@ -60,7 +61,7 @@ class PreviewLocationProviderTest extends TestCase
         self::assertEquals($parentLocationId, $location->parentLocationId);
     }
 
-    public function testGetPreviewLocation()
+    public function testGetPreviewLocation(): void
     {
         $contentId = 123;
         $locationId = 456;
@@ -84,7 +85,7 @@ class PreviewLocationProviderTest extends TestCase
         self::assertSame($content, $location->getContent());
     }
 
-    public function testGetPreviewLocationNoLocation()
+    public function testGetPreviewLocationNoLocation(): void
     {
         $contentId = 123;
         $content = $this->getContentMock($contentId);

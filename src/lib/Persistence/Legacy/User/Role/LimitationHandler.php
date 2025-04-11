@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Persistence\User\Policy;
  */
 abstract class LimitationHandler
 {
-    protected $connection;
+    protected Connection $connection;
 
     public function __construct(Connection $connection)
     {

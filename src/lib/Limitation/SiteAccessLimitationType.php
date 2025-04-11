@@ -10,6 +10,7 @@ namespace Ibexa\Core\Limitation;
 use Ibexa\Contracts\Core\Limitation\Type as SPILimitationTypeInterface;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SiteAccessLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SiteAccessLimitation as APISiteAccessLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
@@ -17,17 +18,17 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 
 /**
  * SiteAccessLimitation is a User limitation.
  */
 class SiteAccessLimitationType implements SPILimitationTypeInterface
 {
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface */
-    private $siteAccessService;
+    private SiteAccessServiceInterface $siteAccessService;
 
     public function __construct(
-        SiteAccess\SiteAccessServiceInterface $siteAccessService
+        SiteAccessServiceInterface $siteAccessService
     ) {
         $this->siteAccessService = $siteAccessService;
     }
@@ -49,7 +50,7 @@ class SiteAccessLimitationType implements SPILimitationTypeInterface
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
      */
-    public function acceptValue(APILimitationValue $limitationValue)
+    public function acceptValue(APILimitationValue $limitationValue): void
     {
         if (!$limitationValue instanceof APISiteAccessLimitation) {
             throw new InvalidArgumentType('$limitationValue', 'APISiteAccessLimitation', $limitationValue);
@@ -74,7 +75,7 @@ class SiteAccessLimitationType implements SPILimitationTypeInterface
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(APILimitationValue $limitationValue)
+    public function validate(APILimitationValue $limitationValue): array
     {
         $validationErrors = [];
         $siteAccessList = $this->getSiteAccessList();
@@ -101,7 +102,7 @@ class SiteAccessLimitationType implements SPILimitationTypeInterface
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
      */
-    public function buildValue(array $limitationValues)
+    public function buildValue(array $limitationValues): SiteAccessLimitation
     {
         return new APISiteAccessLimitation(['limitationValues' => $limitationValues]);
     }
@@ -155,7 +156,7 @@ class SiteAccessLimitationType implements SPILimitationTypeInterface
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
      */
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser)
+    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser): never
     {
         throw new NotImplementedException(__METHOD__);
     }
@@ -166,7 +167,7 @@ class SiteAccessLimitationType implements SPILimitationTypeInterface
      * @return mixed[]|int In case of array, a hash with key as valid limitations value and value as human readable name
      *                     of that option, in case of int on of VALUE_SCHEMA_ constants.
      */
-    public function valueSchema()
+    public function valueSchema(): never
     {
         throw new NotImplementedException(__METHOD__);
     }

@@ -25,23 +25,19 @@ class BinaryBaseStorage extends GatewayBasedStorage
 {
     /**
      * An instance of IOService configured to store to the images folder.
-     *
-     * @var \Ibexa\Core\IO\IOServiceInterface
      */
-    protected $ioService;
+    protected IOServiceInterface $ioService;
 
     protected PathGeneratorInterface $pathGenerator;
 
-    /** @var \Ibexa\Contracts\Core\IO\MimeTypeDetector */
-    protected $mimeTypeDetector;
+    protected MimeTypeDetector $mimeTypeDetector;
 
     protected PathGeneratorInterface $downloadUrlGenerator;
 
     /** @var \Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway */
     protected $gateway;
 
-    /** @var \Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator */
-    protected $fileExtensionBlackListValidator;
+    protected FileExtensionBlackListValidator $fileExtensionBlackListValidator;
 
     public function __construct(
         StorageGatewayInterface $gateway,
@@ -57,7 +53,7 @@ class BinaryBaseStorage extends GatewayBasedStorage
         $this->fileExtensionBlackListValidator = $fileExtensionBlackListValidator;
     }
 
-    public function setDownloadUrlGenerator(PathGeneratorInterface $downloadUrlGenerator)
+    public function setDownloadUrlGenerator(PathGeneratorInterface $downloadUrlGenerator): void
     {
         $this->downloadUrlGenerator = $downloadUrlGenerator;
     }
@@ -150,7 +146,7 @@ class BinaryBaseStorage extends GatewayBasedStorage
         }
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field)
+    public function getFieldData(VersionInfo $versionInfo, Field $field): void
     {
         $field->value->externalData = $this->gateway->getFileReferenceData($field->id, $versionInfo->versionNo);
         if ($field->value->externalData !== null) {
@@ -174,7 +170,7 @@ class BinaryBaseStorage extends GatewayBasedStorage
         }
     }
 
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): void
     {
         if (empty($fieldIds)) {
             return;
@@ -194,7 +190,7 @@ class BinaryBaseStorage extends GatewayBasedStorage
         }
     }
 
-    public function hasFieldData()
+    public function hasFieldData(): bool
     {
         return true;
     }

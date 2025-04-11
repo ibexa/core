@@ -176,8 +176,8 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
 
                 return $tags;
             },
-            static function () { return []; },
-            function () use ($locationId) {
+            static function (): array { return []; },
+            function () use ($locationId): array {
                 return [
                     $this->cacheIdentifierGenerator->generateTag(self::URL_ALIAS_LOCATION_IDENTIFIER, [$locationId]),
                 ];
@@ -394,7 +394,7 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
     /**
      * {@inheritdoc}
      */
-    public function translationRemoved(array $locationIds, $languageCode)
+    public function translationRemoved(array $locationIds, $languageCode): void
     {
         $this->logger->logCall(
             __METHOD__,
@@ -415,7 +415,7 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
     /**
      * {@inheritdoc}
      */
-    public function archiveUrlAliasesForDeletedTranslations($locationId, $parentLocationId, array $languageCodes)
+    public function archiveUrlAliasesForDeletedTranslations($locationId, $parentLocationId, array $languageCodes): void
     {
         $this->logger->logCall(
             __METHOD__,
@@ -448,7 +448,7 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
      *
      * @return array
      */
-    private function getCacheTags(UrlAlias $urlAlias, array $tags = [])
+    private function getCacheTags(UrlAlias $urlAlias, array $tags = []): array
     {
         $tags[] = $this->cacheIdentifierGenerator->generateTag(self::URL_ALIAS_IDENTIFIER, [$urlAlias->id]);
 
@@ -493,7 +493,7 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
      * @throws \Ibexa\Core\Base\Exceptions\BadStateException
      * @throws \Psr\Cache\InvalidArgumentException
      */
-    public function repairBrokenUrlAliasesForLocation(int $locationId)
+    public function repairBrokenUrlAliasesForLocation(int $locationId): void
     {
         $this->logger->logCall(__METHOD__, ['locationId' => $locationId]);
 
