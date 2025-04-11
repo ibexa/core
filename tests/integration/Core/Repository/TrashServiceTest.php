@@ -38,13 +38,11 @@ class TrashServiceTest extends BaseTrashServiceTest
     /**
      * Test for the trash() method.
      *
-     * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testLoadLocationByRemoteId
+     * @throws \Exception
      */
     public function testTrash(): void
     {
-        /* BEGIN: Use Case */
         $trashItem = $this->createTrashItem();
-        /* END: Use Case */
 
         self::assertInstanceOf(
             TrashItem::class,
@@ -56,6 +54,10 @@ class TrashServiceTest extends BaseTrashServiceTest
      * Test for the trash() method.
      *
      * @depends testTrash
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
     public function testTrashSetsExpectedTrashItemProperties(): void
     {
@@ -89,6 +91,9 @@ class TrashServiceTest extends BaseTrashServiceTest
      * Test for the trash() method.
      *
      * @depends testTrash
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
     public function testTrashRemovesLocationFromMainStorage(): void
     {
@@ -134,7 +139,7 @@ class TrashServiceTest extends BaseTrashServiceTest
                 $locationService->loadLocationByRemoteId($remoteId);
                 self::fail("Location '{$remoteId}' should exist.'");
             } catch (NotFoundException $e) {
-                // echo $e->getFile(), ' +', $e->getLine(), PHP_EOL;
+                // Nothing to do
             }
         }
 
@@ -398,7 +403,7 @@ class TrashServiceTest extends BaseTrashServiceTest
 
         $mediaLocation = $locationService->loadLocationByRemoteId($mediaRemoteId);
         $trashItem = $trashService->trash($mediaLocation);
-        $this->assertAliasNotExists($urlAliasService, '/Media');
+        $this->assertAliasNotExists('/Media');
 
         $this->createNewContentInPlaceTrashedOne($repository, $mediaLocation->parentLocationId);
 
@@ -1274,13 +1279,13 @@ class TrashServiceTest extends BaseTrashServiceTest
     /**
      * @param string $urlPath Url alias path
      */
-    private function assertAliasNotExists(URLAliasService $urlAliasService, string $urlPath): void
+    private function assertAliasNotExists(string $urlPath): void
     {
         try {
             $this->getRepository()->getURLAliasService()->lookup($urlPath);
             self::fail(sprintf('Alias [%s] should not exist', $urlPath));
         } catch (NotFoundException $e) {
-            self::assertTrue(true);
+            // nothing to do
         }
     }
 
