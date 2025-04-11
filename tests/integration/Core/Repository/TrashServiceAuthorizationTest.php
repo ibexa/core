@@ -8,7 +8,9 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Contracts\Core\Repository\Values\Content\TrashItem;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation;
 use Ibexa\Core\Repository\TrashService;
@@ -28,31 +30,20 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\TrashService::loadTrashItem()
      *
-     * @depends Ibexa\Tests\Integration\Core\Repository\TrashServiceTest::testLoadTrashItem
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUser
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \ErrorException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
     public function testLoadTrashItemThrowsUnauthorizedException(): void
     {
-        $this->expectException(UnauthorizedException::class);
-
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
-        $permissionResolver = $repository->getPermissionResolver();
+        $trashItem = $this->setAnonymousUserAsCurrentUser($repository);
 
-        $anonymousUserId = $this->generateId('user', 10);
-        /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user
-        $trashItem = $this->createTrashItem();
-
-        // Load user service
-        $userService = $repository->getUserService();
-
-        // Set "Anonymous" as current user
-        $permissionResolver->setCurrentUserReference($userService->loadUser($anonymousUserId));
-
+        $this->expectException(UnauthorizedException::class);
         // This call will fail with an "UnauthorizedException"
         $trashService->loadTrashItem($trashItem->id);
-        /* END: Use Case */
     }
 
     /**
@@ -149,9 +140,6 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTest
      * Test for the recover() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\TrashService::recover()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\TrashServiceTest::testRecover
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUser
      */
     public function testRecoverThrowsUnauthorizedException(): void
     {
@@ -159,18 +147,7 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTest
 
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
-        $permissionResolver = $repository->getPermissionResolver();
-
-        $anonymousUserId = $this->generateId('user', 10);
-        /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user
-        $trashItem = $this->createTrashItem();
-
-        // Load user service
-        $userService = $repository->getUserService();
-
-        // Set "Anonymous" as current user
-        $permissionResolver->setCurrentUserReference($userService->loadUser($anonymousUserId));
+        $trashItem = $this->setAnonymousUserAsCurrentUser($repository);
 
         // This call will fail with an "UnauthorizedException"
         $trashService->recover($trashItem);
@@ -181,9 +158,6 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTest
      * Test for the recover() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\TrashService::recover($trashItem, $newParentLocation)
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\TrashServiceTest::testRecover
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUser
      */
     public function testRecoverThrowsUnauthorizedExceptionWithNewParentLocationParameter(): void
     {
@@ -221,9 +195,6 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTest
      * Test for the emptyTrash() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\TrashService::emptyTrash()
-     *
-     * @depends Ibexa\Tests\Integration\Core\Repository\TrashServiceTest::testEmptyTrash
-     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUser
      */
     public function testEmptyTrashThrowsUnauthorizedException(): void
     {
@@ -263,25 +234,23 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTest
 
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
-        $permissionResolver = $repository->getPermissionResolver();
-
-        $anonymousUserId = $this->generateId('user', 10);
-        /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user
-        $trashItem = $this->createTrashItem();
-
-        // Load user service
-        $userService = $repository->getUserService();
-
-        // Set "Anonymous" as current user
-        $permissionResolver->setCurrentUserReference($userService->loadUser($anonymousUserId));
+        $trashItem = $this->setAnonymousUserAsCurrentUser($repository);
 
         // This call will fail with an "UnauthorizedException"
         $trashService->deleteTrashItem($trashItem);
         /* END: Use Case */
     }
 
-    public function testTrashRequiresPremissionsToRemoveAllSubitems(): void
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \ReflectionException
+     * @throws \ErrorException
+     */
+    public function testTrashRequiresPermissionsToRemoveAllSubitems(): void
     {
         $this->createRoleWithPolicies('Publisher', [
             ['module' => 'content', 'function' => 'read'],
@@ -318,5 +287,29 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTest
         $this->refreshSearch($repository);
         $this->expectException(UnauthorizedException::class);
         $trashService->trash($parentLocation);
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \ErrorException
+     */
+    private function setAnonymousUserAsCurrentUser(
+        Repository $repository
+    ): TrashItem {
+        $permissionResolver = $repository->getPermissionResolver();
+
+        $anonymousUserId = $this->generateId('user', 10);
+        // $anonymousUserId is the ID of the "Anonymous" user
+        $trashItem = $this->createTrashItem();
+
+        // Load user service
+        $userService = $repository->getUserService();
+
+        // Set "Anonymous" as current user
+        $permissionResolver->setCurrentUserReference($userService->loadUser($anonymousUserId));
+
+        return $trashItem;
     }
 }
