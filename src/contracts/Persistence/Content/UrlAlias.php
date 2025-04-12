@@ -13,12 +13,14 @@ use Ibexa\Contracts\Core\Persistence\ValueObject;
  * UrlAlias models one url alias path element separated by '/' in urls.
  *
  * This class models the legacy structure used for url aliases.
+ *
+ * @phpstan-type TPathData list<array{always-available: boolean, translations: array<string, string>}>
  */
 class UrlAlias extends ValueObject
 {
-    public const LOCATION = 0;
-    public const RESOURCE = 1;
-    public const VIRTUAL = 2;
+    public const int LOCATION = 0;
+    public const int RESOURCE = 1;
+    public const int VIRTUAL = 2;
 
     /**
      * A unique identifier for the alias
@@ -65,7 +67,7 @@ class UrlAlias extends ValueObject
      *  )
      * </code>
      *
-     * @var array
+     * @phpstan-var TPathData
      */
     public $pathData;
 
