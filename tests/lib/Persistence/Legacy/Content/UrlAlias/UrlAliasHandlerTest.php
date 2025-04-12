@@ -35,6 +35,8 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @covers \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler
  *
  * @group urlalias-handler
+ *
+ * @phpstan-import-type TPathData from \Ibexa\Contracts\Core\Persistence\Content\UrlAlias
  */
 class UrlAliasHandlerTest extends TestCase
 {
@@ -92,6 +94,9 @@ class UrlAliasHandlerTest extends TestCase
         $handler->lookup(str_repeat('/1', 99));
     }
 
+    /**
+     * @phpstan-return list<array{string, TPathData, string[], boolean, int, string}>
+     */
     public function providerForTestLookupLocationUrlAlias(): array
     {
         return [
@@ -344,9 +349,18 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @dataProvider providerForTestLookupLocationUrlAlias
      *
-     * @depends testLookup
+     * @depends      testLookup
      *
      * @group location
+     *
+     * @phpstan-param TPathData $pathData
+     *
+     * @param string[] $languageCodes
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
     public function testLookupLocationUrlAlias(
         string $url,
@@ -400,6 +414,10 @@ class UrlAliasHandlerTest extends TestCase
      * @group location
      *
      * @todo refactor, only forward pertinent
+     *
+     * @phpstan-param TPathData $pathData
+     *
+     * @param string[] $languageCodes
      */
     public function testLookupLocationCaseCorrection(
         string $url,
@@ -433,6 +451,9 @@ class UrlAliasHandlerTest extends TestCase
         );
     }
 
+    /**
+     * @phpstan-return list<array{string, TPathData, string[], boolean, int, string}>
+     */
     public function providerForTestLookupLocationMultipleLanguages(): array
     {
         return [
@@ -528,6 +549,10 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @group multiple-languages
      * @group location
+     *
+     * @phpstan-param TPathData $pathData
+     *
+     * @param string[] $languageCodes
      */
     public function testLookupLocationMultipleLanguages(
         string $url,
@@ -584,6 +609,9 @@ class UrlAliasHandlerTest extends TestCase
         );
     }
 
+    /**
+     * @phpstan-return list<array{string, TPathData, string[], boolean, boolean, int, string}>
+     */
     public function providerForTestLookupCustomLocationUrlAlias(): array
     {
         return [
@@ -711,6 +739,10 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @group location
      * @group custom
+     *
+     * @phpstan-param TPathData $pathData
+     *
+     * @param string[] $languageCodes
      */
     public function testLookupCustomLocationUrlAlias(
         string $url,
@@ -755,6 +787,10 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @group location
      * @group custom
+     *
+     * @phpstan-param TPathData $pathData
+     *
+     * @param string[] $languageCodes
      */
     public function testLookupCustomLocationUrlAliasCaseCorrection(
         string $url,
@@ -789,6 +825,9 @@ class UrlAliasHandlerTest extends TestCase
         );
     }
 
+    /**
+     * @phpstan-return list<array{string, string}>
+     */
     public function providerForTestLookupVirtualUrlAlias(): array
     {
         return [
@@ -824,6 +863,9 @@ class UrlAliasHandlerTest extends TestCase
         $this->assertVirtualUrlAliasValid($urlAlias, $id);
     }
 
+    /**
+     * @phpstan-return list<array{string, TPathData, string[], boolean, boolean, string, string}>
+     */
     public function providerForTestLookupResourceUrlAlias(): array
     {
         return [
@@ -884,6 +926,10 @@ class UrlAliasHandlerTest extends TestCase
      * @depends testLookup
      *
      * @group resource
+     *
+     * @phpstan-param TPathData $pathData
+     *
+     * @param string[] $languageCodes
      */
     public function testLookupResourceUrlAlias(
         string $url,
@@ -928,6 +974,10 @@ class UrlAliasHandlerTest extends TestCase
      * @depends testLookup
      *
      * @group resource
+     *
+     * @phpstan-param TPathData $pathData
+     *
+     * @param string[] $languageCodes
      */
     public function testLookupResourceUrlAliasCaseInsensitive(
         string $url,
@@ -1176,21 +1226,23 @@ class UrlAliasHandlerTest extends TestCase
     /**
      * Test for the publishUrlAliasForLocation() method.
      *
-     * @todo document
-     *
      * @dataProvider providerForTestPublishUrlAliasForLocationComplex
      *
      * @depends testPublishUrlAliasForLocation
      *
      * @group publish
+     *
+     * @phpstan-param TPathData $pathData
+     *
+     * @param string[] $languageCodes
      */
     public function testPublishUrlAliasForLocationComplex(
-        $url,
-        $pathData,
+        string $url,
+        array $pathData,
         array $languageCodes,
-        $alwaysAvailable,
-        $locationId,
-        $id
+        bool $alwaysAvailable,
+        int $locationId,
+        string $id
     ): void {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/publish_base.php');
@@ -3016,10 +3068,11 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * Test for the loadUrlAlias() method.
-     *
-     *
      * @dataProvider providerForTestLookupLocationMultipleLanguages
+     *
+     * @phpstan-param TPathData $pathData
+     *
+     * @param string[] $languageCodes
      */
     public function testLoadAutogeneratedUrlAlias(
         string $url,
@@ -3054,10 +3107,11 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * Test for the loadUrlAlias() method.
-     *
-     *
      * @dataProvider providerForTestLookupResourceUrlAlias
+     *
+     * @phpstan-param TPathData $pathData
+     *
+     * @param string[] $languageCodes
      */
     public function testLoadResourceUrlAlias(
         string $url,
@@ -3172,6 +3226,9 @@ class UrlAliasHandlerTest extends TestCase
         $handler->loadUrlAlias('non-existent');
     }
 
+    /**
+     * @phpstan-return list<array{string, string}>
+     */
     public function providerForTestPublishUrlAliasForLocationSkipsReservedWord(): array
     {
         return [
@@ -5332,12 +5389,10 @@ class UrlAliasHandlerTest extends TestCase
         $connection = $this->getDatabaseConnection();
         $query = $connection->createQueryBuilder();
         $query
-            ->select($connection->getDatabasePlatform()->getCountExpression('*'))
+            ->select('COUNT(*)')
             ->from(UrlAliasGateway::TABLE);
 
-        $statement = $query->execute();
-
-        return (int)$statement->fetchColumn();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     /** @var \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway */
@@ -5409,9 +5464,6 @@ class UrlAliasHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
     protected function getLanguageHandler(): LanguageHandler
     {
         if (!isset($this->languageHandler)) {
@@ -5426,10 +5478,7 @@ class UrlAliasHandlerTest extends TestCase
         return $this->languageHandler;
     }
 
-    /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
-     */
-    protected function getLanguageMaskGenerator()
+    protected function getLanguageMaskGenerator(): LanguageMaskGenerator
     {
         if (!isset($this->languageMaskGenerator)) {
             $this->languageMaskGenerator = new LanguageMaskGenerator(
@@ -5440,10 +5489,7 @@ class UrlAliasHandlerTest extends TestCase
         return $this->languageMaskGenerator;
     }
 
-    /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
-     */
-    protected function getLocationGateway()
+    protected function getLocationGateway(): LocationGateway
     {
         if (!isset($this->locationGateway)) {
             $this->locationGateway = new DoctrineDatabaseLocation(
@@ -5457,15 +5503,15 @@ class UrlAliasHandlerTest extends TestCase
         return $this->locationGateway;
     }
 
-    /**
-     * @return \Ibexa\Core\Persistence\TransformationProcessor
-     */
     public function getProcessor(): DefinitionBased
     {
+        $ruleFiles = glob(__DIR__ . '/../../../TransformationProcessor/_fixtures/transformations/*.tr');
+        self::assertNotFalse($ruleFiles, 'An error occurred trying to get rule files');
+
         return new DefinitionBased(
             new Parser(),
             new PcreCompiler(new Utf8Converter()),
-            glob(__DIR__ . '/../../../TransformationProcessor/_fixtures/transformations/*.tr')
+            $ruleFiles
         );
     }
 
@@ -5474,7 +5520,7 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @see testArchiveUrlAliasesForDeletedTranslations for the description of parameters
      *
-     * @return array
+     * @phpstan-return list<array{int, string[], string}>
      */
     public function providerForArchiveUrlAliasesForDeletedTranslations(): array
     {
