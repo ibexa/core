@@ -7,13 +7,13 @@
 
 namespace Ibexa\Core\FieldType\Image\ImageStorage\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use DOMDocument;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\FieldType\Image\ImageStorage\Gateway;
 use Ibexa\Core\IO\UrlRedecoratorInterface;
-use PDO;
 
 /**
  * Image Field Type external storage DoctrineStorage gateway.
@@ -21,20 +21,20 @@ use PDO;
 class DoctrineStorage extends Gateway
 {
     public const string IMAGE_FILE_TABLE = 'ezimagefile';
-    private const string PATH_PARAM_NAME = ':path';
-    private const string LIKE_PATH_PARAM_NAME = ':likePath';
-    private const string FIELD_ID_PARAM_NAME = ':field_id';
-    private const string VERSION_NO_PARAM_NAME = ':versionNo';
-    private const string CONTENT_OBJECT_ID = ':contentObjectId';
+    private const string PATH_PARAM_NAME = 'path';
+    private const string LIKE_PATH_PARAM_NAME = 'likePath';
+    private const string FIELD_ID_PARAM_NAME = 'field_id';
+    private const string VERSION_NO_PARAM_NAME = 'versionNo';
+    private const string CONTENT_OBJECT_ID_PARAM_NAME = 'contentObjectId';
 
     protected Connection $connection;
 
     /**
      * Maps database field names to property names.
      *
-     * @var array
+     * @var array{id: string, version: string, language_code: string, path_identification_string: string, data_string: string}
      */
-    protected $fieldNameMap = [
+    protected array $fieldNameMap = [
         'id' => 'fieldId',
         'version' => 'versionNo',
         'language_code' => 'languageCode',
@@ -65,11 +65,11 @@ class DoctrineStorage extends Gateway
                 $selectQuery->expr()->and(
                     $selectQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_id'),
-                        self::CONTENT_OBJECT_ID
+                        ':' . self::CONTENT_OBJECT_ID_PARAM_NAME
                     ),
                     $selectQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_version'),
-                        self::VERSION_NO_PARAM_NAME
+                        ':' . self::VERSION_NO_PARAM_NAME
                     ),
                     $selectQuery->expr()->eq(
                         $this->connection->quoteIdentifier('node_id'),
@@ -77,7 +77,7 @@ class DoctrineStorage extends Gateway
                     )
                 )
             )
-            ->setParameter(self::CONTENT_OBJECT_ID, $versionInfo->contentInfo->id, ParameterType::INTEGER)
+            ->setParameter(self::CONTENT_OBJECT_ID_PARAM_NAME, $versionInfo->contentInfo->id, ParameterType::INTEGER)
             ->setParameter(self::VERSION_NO_PARAM_NAME, $versionInfo->versionNo, ParameterType::INTEGER);
 
         return $selectQuery->executeQuery()->fetchOne();
@@ -86,10 +86,11 @@ class DoctrineStorage extends Gateway
     /**
      * Store a reference to the image in $path for $fieldId.
      *
-     * @param string $uri File IO uri (not legacy)
-     * @param int $fieldId
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Core\IO\Exception\InvalidBinaryFileIdException
      */
-    public function storeImageReference($uri, $fieldId): void
+    public function storeImageReference(string $uri, int $fieldId): void
     {
         // legacy stores the path to the image without a leading /
         $path = $this->redecorator->redecorateFromSource($uri);
@@ -99,11 +100,11 @@ class DoctrineStorage extends Gateway
             ->insert($this->connection->quoteIdentifier(self::IMAGE_FILE_TABLE))
             ->values(
                 [
-                    $this->connection->quoteIdentifier('contentobject_attribute_id') => self::FIELD_ID_PARAM_NAME,
-                    $this->connection->quoteIdentifier('filepath') => self::PATH_PARAM_NAME,
+                    $this->connection->quoteIdentifier('contentobject_attribute_id') => ':' . self::FIELD_ID_PARAM_NAME,
+                    $this->connection->quoteIdentifier('filepath') => ':' . self::PATH_PARAM_NAME,
                 ]
             )
-            ->setParameter(self::FIELD_ID_PARAM_NAME, $fieldId, PDO::PARAM_INT)
+            ->setParameter(self::FIELD_ID_PARAM_NAME, $fieldId, ParameterType::INTEGER)
             ->setParameter(self::PATH_PARAM_NAME, $path)
         ;
 
@@ -113,13 +114,9 @@ class DoctrineStorage extends Gateway
     /**
      * Return an XML content stored for the given $fieldIds.
      *
-     * @param int $versionNo
-     *
-     * @return array
-     *
      * @throws \Doctrine\DBAL\Exception
      */
-    public function getXmlForImages($versionNo, array $fieldIds): array
+    public function getXmlForImages(int $versionNo, array $fieldIds): array
     {
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
@@ -132,7 +129,7 @@ class DoctrineStorage extends Gateway
                 $selectQuery->expr()->and(
                     $selectQuery->expr()->eq(
                         $this->connection->quoteIdentifier('attr.version'),
-                        self::VERSION_NO_PARAM_NAME
+                        ':' . self::VERSION_NO_PARAM_NAME
                     ),
                     $selectQuery->expr()->in(
                         $this->connection->quoteIdentifier('attr.id'),
@@ -140,8 +137,8 @@ class DoctrineStorage extends Gateway
                     )
                 )
             )
-            ->setParameter(self::VERSION_NO_PARAM_NAME, $versionNo, PDO::PARAM_INT)
-            ->setParameter(':fieldIds', $fieldIds, Connection::PARAM_INT_ARRAY)
+            ->setParameter(self::VERSION_NO_PARAM_NAME, $versionNo, ParameterType::INTEGER)
+            ->setParameter('fieldIds', $fieldIds, ArrayParameterType::INTEGER)
         ;
 
         $statement = $selectQuery->executeQuery();
@@ -154,6 +151,9 @@ class DoctrineStorage extends Gateway
         return $fieldLookup;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function getAllVersionsImageXmlForFieldId(int $fieldId): array
     {
         $selectQuery = $this->connection->createQueryBuilder();
@@ -167,10 +167,10 @@ class DoctrineStorage extends Gateway
             ->where(
                 $selectQuery->expr()->eq(
                     $this->connection->quoteIdentifier('id'),
-                    self::FIELD_ID_PARAM_NAME
+                    ':' . self::FIELD_ID_PARAM_NAME
                 )
             )
-            ->setParameter(self::FIELD_ID_PARAM_NAME, $fieldId, PDO::PARAM_INT)
+            ->setParameter(self::FIELD_ID_PARAM_NAME, $fieldId, ParameterType::INTEGER)
         ;
 
         $statement = $selectQuery->executeQuery();
@@ -178,7 +178,7 @@ class DoctrineStorage extends Gateway
         $fieldLookup = [];
         foreach ($statement->fetchAllAssociative() as $row) {
             $fieldLookup[] = [
-                'version' => $row['version'],
+                'version' => (int)$row['version'],
                 'data_text' => $row['data_text'],
             ];
         }
@@ -190,12 +190,11 @@ class DoctrineStorage extends Gateway
      * Remove all references from $fieldId to a path that starts with $path.
      *
      * @param string $uri File IO uri (not legacy)
-     * @param int $versionNo
-     * @param int $fieldId
      *
      * @throws \Ibexa\Core\IO\Exception\InvalidBinaryFileIdException
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function removeImageReferences($uri, $versionNo, $fieldId): void
+    public function removeImageReferences(string $uri, int $versionNo, int $fieldId): void
     {
         if (!$this->canRemoveImageReference($uri, $versionNo, $fieldId)) {
             return;
@@ -210,15 +209,15 @@ class DoctrineStorage extends Gateway
                 $deleteQuery->expr()->and(
                     $deleteQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
-                        self::FIELD_ID_PARAM_NAME
+                        ':' . self::FIELD_ID_PARAM_NAME
                     ),
                     $deleteQuery->expr()->like(
                         $this->connection->quoteIdentifier('filepath'),
-                        self::LIKE_PATH_PARAM_NAME
+                        ':' . self::LIKE_PATH_PARAM_NAME
                     )
                 )
             )
-            ->setParameter(self::FIELD_ID_PARAM_NAME, $fieldId, PDO::PARAM_INT)
+            ->setParameter(self::FIELD_ID_PARAM_NAME, $fieldId, ParameterType::INTEGER)
             ->setParameter(self::LIKE_PATH_PARAM_NAME, $path . '%')
         ;
 
@@ -226,15 +225,40 @@ class DoctrineStorage extends Gateway
     }
 
     /**
+     * @throws \Ibexa\Core\IO\Exception\InvalidBinaryFileIdException
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function isImageReferenced(string $uri): bool
+    {
+        $path = $this->redecorator->redecorateFromSource($uri);
+
+        $selectQuery = $this->connection->createQueryBuilder();
+        $selectQuery
+            ->select('1')
+            ->from($this->connection->quoteIdentifier(self::IMAGE_FILE_TABLE))
+            ->where(
+                $selectQuery->expr()->eq(
+                    $this->connection->quoteIdentifier('filepath'),
+                    ':' . self::LIKE_PATH_PARAM_NAME
+                )
+            )
+            ->setParameter(self::LIKE_PATH_PARAM_NAME, $path)
+        ;
+
+        $statement = $selectQuery->executeQuery();
+
+        return (bool)$statement->fetchOne();
+    }
+
+    /**
      * Return the number of recorded references to the given $path.
      *
      * @param string $uri File IO uri (not legacy)
      *
-     * @return int
-     *
+     * @throws \Ibexa\Core\IO\Exception\InvalidBinaryFileIdException
      * @throws \Doctrine\DBAL\Exception
      */
-    public function countImageReferences($uri): int
+    public function countImageReferences(string $uri): int
     {
         $path = $this->redecorator->redecorateFromSource($uri);
 
@@ -248,45 +272,22 @@ class DoctrineStorage extends Gateway
                     ':filepath'
                 )
             )
-            ->setParameter(':filepath', $path)
+            ->setParameter('filepath', $path)
         ;
 
         $statement = $selectQuery->executeQuery();
 
-        return (int) $statement->fetchFirstColumn();
+        return (int) $statement->fetchOne();
     }
 
     /**
-     * @throws \Ibexa\Core\IO\Exception\InvalidBinaryFileIdException
      * @throws \Doctrine\DBAL\Exception
      */
-    public function isImageReferenced(string $uri): bool
-    {
-        $path = $this->redecorator->redecorateFromSource($uri);
-
-        $selectQuery = $this->connection->createQueryBuilder();
-        $selectQuery
-            ->select(1)
-            ->from($this->connection->quoteIdentifier(self::IMAGE_FILE_TABLE))
-            ->where(
-                $selectQuery->expr()->eq(
-                    $this->connection->quoteIdentifier('filepath'),
-                    self::LIKE_PATH_PARAM_NAME
-                )
-            )
-            ->setParameter(self::LIKE_PATH_PARAM_NAME, $path)
-        ;
-
-        $statement = $selectQuery->executeQuery();
-
-        return (bool)$statement->fetchOne();
-    }
-
     public function countDistinctImagesData(): int
     {
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
-            ->select($this->connection->getDatabasePlatform()->getCountExpression('id'))
+            ->select('COUNT(id)')
             ->from($this->connection->quoteIdentifier(self::IMAGE_FILE_TABLE))
         ;
 
@@ -299,10 +300,11 @@ class DoctrineStorage extends Gateway
      * Check if image $path can be removed when deleting $versionNo and $fieldId.
      *
      * @param string $path legacy image path (var/storage/images...)
-     * @param int $versionNo
-     * @param int $fieldId
+     *
+     * @throws \Ibexa\Core\IO\Exception\InvalidBinaryFileIdException
+     * @throws \Doctrine\DBAL\Exception
      */
-    protected function canRemoveImageReference($path, $versionNo, $fieldId): bool
+    protected function canRemoveImageReference(string $path, int $versionNo, int $fieldId): bool
     {
         $selectQuery = $this->connection->createQueryBuilder();
         $expressionBuilder = $selectQuery->expr();
@@ -321,17 +323,17 @@ class DoctrineStorage extends Gateway
             ->where(
                 $expressionBuilder->eq(
                     $this->connection->quoteIdentifier('contentobject_attribute_id'),
-                    self::FIELD_ID_PARAM_NAME
+                    ':' . self::FIELD_ID_PARAM_NAME
                 )
             )
             ->andWhere(
                 $expressionBuilder->neq(
                     $this->connection->quoteIdentifier('version'),
-                    self::VERSION_NO_PARAM_NAME
+                    ':' . self::VERSION_NO_PARAM_NAME
                 )
             )
-            ->setParameter(self::FIELD_ID_PARAM_NAME, $fieldId, PDO::PARAM_INT)
-            ->setParameter(self::VERSION_NO_PARAM_NAME, $versionNo, PDO::PARAM_INT)
+            ->setParameter(self::FIELD_ID_PARAM_NAME, $fieldId, ParameterType::INTEGER)
+            ->setParameter(self::VERSION_NO_PARAM_NAME, $versionNo, ParameterType::INTEGER)
         ;
 
         $imageXMLs = $selectQuery->executeQuery()->fetchFirstColumn();
@@ -346,13 +348,9 @@ class DoctrineStorage extends Gateway
     }
 
     /**
-     * Extract, stored in DocBook XML, file paths.
-     *
-     * @param string $xml
-     *
-     * @return array|null
+     * @throws \Ibexa\Core\IO\Exception\InvalidBinaryFileIdException
      */
-    public function extractFilesFromXml($xml)
+    public function extractFilesFromXml(string $xml): ?array
     {
         if (empty($xml)) {
             // Empty image value
@@ -363,7 +361,7 @@ class DoctrineStorage extends Gateway
 
         $dom = new DOMDocument();
         $dom->loadXml($xml);
-        if ($dom->documentElement->hasAttribute('dirpath')) {
+        if ($dom->documentElement?->hasAttribute('dirpath')) {
             $url = $dom->documentElement->getAttribute('url');
             if (empty($url)) {
                 return null;
@@ -387,6 +385,9 @@ class DoctrineStorage extends Gateway
         return null;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function getImagesData(int $offset, int $limit): array
     {
         $selectQuery = $this->connection->createQueryBuilder();
@@ -403,6 +404,9 @@ class DoctrineStorage extends Gateway
         return $selectQuery->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function updateImageData(int $fieldId, int $versionNo, string $xml): void
     {
         $updateQuery = $this->connection->createQueryBuilder();
@@ -418,7 +422,7 @@ class DoctrineStorage extends Gateway
             ->where(
                 $expressionBuilder->eq(
                     $this->connection->quoteIdentifier('id'),
-                    self::FIELD_ID_PARAM_NAME
+                    ':' . self::FIELD_ID_PARAM_NAME
                 )
             )
             ->andWhere(
@@ -428,9 +432,9 @@ class DoctrineStorage extends Gateway
                 )
             )
             ->setParameter(self::FIELD_ID_PARAM_NAME, $fieldId, ParameterType::INTEGER)
-            ->setParameter(':version_no', $versionNo, ParameterType::INTEGER)
-            ->setParameter(':xml', $xml, ParameterType::STRING)
-            ->execute()
+            ->setParameter('version_no', $versionNo, ParameterType::INTEGER)
+            ->setParameter('xml', $xml)
+            ->executeStatement()
         ;
     }
 
@@ -452,7 +456,7 @@ class DoctrineStorage extends Gateway
             ->where(
                 $expressionBuilder->eq(
                     $this->connection->quoteIdentifier('contentobject_attribute_id'),
-                    self::FIELD_ID_PARAM_NAME
+                    ':' . self::FIELD_ID_PARAM_NAME
                 )
             )
             ->andWhere(
@@ -462,8 +466,8 @@ class DoctrineStorage extends Gateway
                 )
             )
             ->setParameter(self::FIELD_ID_PARAM_NAME, $fieldId, ParameterType::INTEGER)
-            ->setParameter(':old_path', $oldPath)
-            ->setParameter(':new_path', $newPath)
+            ->setParameter('old_path', $oldPath)
+            ->setParameter('new_path', $newPath)
             ->executeStatement()
         ;
     }
@@ -478,18 +482,18 @@ class DoctrineStorage extends Gateway
 
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
-            ->select(1)
+            ->select('1')
             ->from($this->connection->quoteIdentifier(self::IMAGE_FILE_TABLE))
             ->andWhere(
                 $selectQuery->expr()->eq(
                     $this->connection->quoteIdentifier('filepath'),
-                    self::PATH_PARAM_NAME
+                    ':' . self::PATH_PARAM_NAME
                 )
             )
             ->andWhere(
                 $selectQuery->expr()->eq(
                     $this->connection->quoteIdentifier('contentobject_attribute_id'),
-                    self::FIELD_ID_PARAM_NAME
+                    ':' . self::FIELD_ID_PARAM_NAME
                 )
             )
             ->setParameter(self::PATH_PARAM_NAME, $path)
