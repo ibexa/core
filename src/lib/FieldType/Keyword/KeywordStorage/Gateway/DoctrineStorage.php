@@ -14,11 +14,22 @@ use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Core\FieldType\Keyword\KeywordStorage\Gateway;
 use RuntimeException;
 
+/**
+ * @phpstan-type TKeywordIdMap array<string, int>
+ *
+ * A keyword map (TKeywordIdMap) has the following format:
+ * ```
+ * [
+ *     '<keyword>' => <id>,
+ *     // ...
+ * ];
+ * ```
+ */
 class DoctrineStorage extends Gateway
 {
-    public const KEYWORD_TABLE = 'ezkeyword';
-    public const KEYWORD_ATTRIBUTE_LINK_TABLE = 'ezkeyword_attribute_link';
-    private const string CONTENT_TYPE_ID_PARAM_NAME = ':contentTypeId';
+    public const string KEYWORD_TABLE = 'ezkeyword';
+    public const string KEYWORD_ATTRIBUTE_LINK_TABLE = 'ezkeyword_attribute_link';
+    private const string CONTENT_TYPE_ID_PARAM_NAME = 'contentTypeId';
 
     protected Connection $connection;
 
@@ -30,9 +41,9 @@ class DoctrineStorage extends Gateway
     /**
      * Stores the keyword list from $field->value->externalData.
      *
-     * @param int $contentTypeId
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function storeFieldData(Field $field, $contentTypeId): void
+    public function storeFieldData(Field $field, int $contentTypeId): void
     {
         if (empty($field->value->externalData) && !empty($field->id)) {
             $this->deleteFieldData($field->id, $field->versionNo);
@@ -51,7 +62,7 @@ class DoctrineStorage extends Gateway
             $field->id,
             $this->insertKeywords(
                 array_diff_key(
-                    array_fill_keys($field->value->externalData, true),
+                    array_fill_keys($field->value->externalData, 0),
                     $existingKeywordMap
                 ),
                 $contentTypeId
@@ -65,7 +76,7 @@ class DoctrineStorage extends Gateway
     /**
      * Sets the list of assigned keywords into $field->value->externalData.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @throws \Doctrine\DBAL\Exception
      */
     public function getFieldData(Field $field): void
     {
@@ -75,9 +86,7 @@ class DoctrineStorage extends Gateway
     /**
      * Retrieve the ContentType ID for the given $field.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     *
-     * @return int
+     * @throws \Doctrine\DBAL\Exception
      */
     public function getContentTypeId(Field $field): int
     {
@@ -87,10 +96,9 @@ class DoctrineStorage extends Gateway
     /**
      * Deletes keyword data for the given $fieldId.
      *
-     * @param int $fieldId
-     * @param int $versionNo
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function deleteFieldData($fieldId, $versionNo): void
+    public function deleteFieldData(int $fieldId, int $versionNo): void
     {
         $this->deleteOldKeywordAssignments($fieldId, $versionNo);
         $this->deleteOrphanedKeywords();
@@ -98,6 +106,10 @@ class DoctrineStorage extends Gateway
 
     /**
      * Returns a list of keywords assigned to $fieldId.
+     *
+     * @return string[]
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function getAssignedKeywords(int $fieldId, int $versionNo): array
     {
@@ -137,11 +149,9 @@ class DoctrineStorage extends Gateway
     /**
      * Retrieves the content type ID for the given $fieldDefinitionId.
      *
-     * @param int $fieldDefinitionId
-     *
-     * @return int
+     * @throws \Doctrine\DBAL\Exception
      */
-    protected function loadContentTypeId($fieldDefinitionId): int
+    protected function loadContentTypeId(int $fieldDefinitionId): int
     {
         $query = $this->connection->createQueryBuilder();
         $query
@@ -150,7 +160,7 @@ class DoctrineStorage extends Gateway
             ->where(
                 $query->expr()->eq('id', ':fieldDefinitionId')
             )
-            ->setParameter(':fieldDefinitionId', $fieldDefinitionId);
+            ->setParameter('fieldDefinitionId', $fieldDefinitionId);
 
         $statement = $query->executeQuery();
 
@@ -171,22 +181,13 @@ class DoctrineStorage extends Gateway
     /**
      * Returns already existing keywords from $keywordList as a map.
      *
-     * The map has the following format:
-     * <code>
-     *  array(
-     *      '<keyword>' => <id>,
-     *      // ...
-     *  );
-     * </code>
-     *
      * @param string[] $keywordList
-     * @param int $contentTypeId
      *
-     * @return int[]
+     * @phpstan-return TKeywordIdMap
      *
      * @throws \Doctrine\DBAL\Exception
      */
-    protected function getExistingKeywords($keywordList, $contentTypeId): array
+    protected function getExistingKeywords(array $keywordList, int $contentTypeId): array
     {
         // Retrieving potentially existing keywords
         $query = $this->connection->createQueryBuilder();
@@ -204,11 +205,11 @@ class DoctrineStorage extends Gateway
                     ),
                     $query->expr()->eq(
                         $this->connection->quoteIdentifier('class_id'),
-                        self::CONTENT_TYPE_ID_PARAM_NAME
+                        ':' . self::CONTENT_TYPE_ID_PARAM_NAME
                     )
                 )
             )
-            ->setParameter(':keywordList', $keywordList, Connection::PARAM_STR_ARRAY)
+            ->setParameter('keywordList', $keywordList, ArrayParameterType::STRING)
             ->setParameter(self::CONTENT_TYPE_ID_PARAM_NAME, $contentTypeId);
 
         $statement = $query->executeQuery();
@@ -216,7 +217,7 @@ class DoctrineStorage extends Gateway
         $existingKeywordMap = [];
         foreach ($statement->fetchAllAssociative() as $row) {
             // filter out keywords that aren't the exact match (e.g. differ by case)
-            if (!in_array($row['keyword'], $keywordList)) {
+            if (!in_array($row['keyword'], $keywordList, true)) {
                 continue;
             }
             $existingKeywordMap[$row['keyword']] = $row['id'];
@@ -229,20 +230,13 @@ class DoctrineStorage extends Gateway
      * Inserts $keywordsToInsert for $fieldDefinitionId and returns a map of
      * these keywords to their ID.
      *
-     * The returned array has the following format:
-     * <code>
-     *  array(
-     *      '<keyword>' => <id>,
-     *      // ...
-     *  );
-     * </code>
+     * @phpstan-param TKeywordIdMap $keywordsToInsert
      *
-     * @param string[] $keywordsToInsert
-     * @param int $contentTypeId
+     * @phpstan-return TKeywordIdMap
      *
-     * @return int[]
+     * @throws \Doctrine\DBAL\Exception
      */
-    protected function insertKeywords(array $keywordsToInsert, $contentTypeId): array
+    protected function insertKeywords(array $keywordsToInsert, int $contentTypeId): array
     {
         $keywordIdMap = [];
         // Inserting keywords not yet registered
@@ -252,14 +246,14 @@ class DoctrineStorage extends Gateway
                 ->insert($this->connection->quoteIdentifier(self::KEYWORD_TABLE))
                 ->values(
                     [
-                        $this->connection->quoteIdentifier('class_id') => self::CONTENT_TYPE_ID_PARAM_NAME,
+                        $this->connection->quoteIdentifier('class_id') => ':' . self::CONTENT_TYPE_ID_PARAM_NAME,
                         $this->connection->quoteIdentifier('keyword') => ':keyword',
                     ]
                 )
-                ->setParameter(self::CONTENT_TYPE_ID_PARAM_NAME, $contentTypeId, \PDO::PARAM_INT);
+                ->setParameter(self::CONTENT_TYPE_ID_PARAM_NAME, $contentTypeId, ParameterType::INTEGER);
 
             foreach (array_keys($keywordsToInsert) as $keyword) {
-                $insertQuery->setParameter(':keyword', $keyword);
+                $insertQuery->setParameter('keyword', $keyword);
                 $insertQuery->executeStatement();
                 $keywordIdMap[$keyword] = (int)$this->connection->lastInsertId(
                     $this->getSequenceName(self::KEYWORD_TABLE, 'id')
@@ -270,6 +264,9 @@ class DoctrineStorage extends Gateway
         return $keywordIdMap;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     protected function deleteOldKeywordAssignments(int $fieldId, int $versionNo): void
     {
         $deleteQuery = $this->connection->createQueryBuilder();
@@ -296,13 +293,7 @@ class DoctrineStorage extends Gateway
     /**
      * Assigns keywords from $keywordMap to the field with $fieldId and specific $versionNo.
      *
-     * $keywordMap has the format:
-     * <code>
-     *  array(
-     *      '<keyword>' => <id>,
-     *      // ...
-     *  );
-     * </code>
+     * @phpstan-param TKeywordIdMap $keywordMap keyword map
      *
      * @throws \Doctrine\DBAL\Exception
      */
@@ -333,10 +324,11 @@ class DoctrineStorage extends Gateway
     /**
      * Deletes all orphaned keywords.
      *
-     * Keyword is orphaned if it is not linked to a content attribute through
-     * ezkeyword_attribute_link table.
+     * Keyword is orphaned if it is not linked to a content attribute through ezkeyword_attribute_link table.
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
-    protected function deleteOrphanedKeywords()
+    protected function deleteOrphanedKeywords(): void
     {
         $query = $this->connection->createQueryBuilder();
         $query
@@ -366,7 +358,7 @@ class DoctrineStorage extends Gateway
             ->where(
                 $deleteQuery->expr()->in($this->connection->quoteIdentifier('id'), ':ids')
             )
-            ->setParameter(':ids', $ids, ArrayParameterType::INTEGER);
+            ->setParameter('ids', $ids, ArrayParameterType::INTEGER);
 
         $deleteQuery->executeStatement();
     }
