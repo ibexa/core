@@ -1186,7 +1186,7 @@ final class DoctrineDatabase extends Gateway
                 )
             )
             ->setParameter('content_id', $contentId, ParameterType::INTEGER)
-            ->setParameter('relation_type', Relation::FIELD, ParameterType::INTEGER);
+            ->setParameter('relation_type', Relation::FIELD | Relation::ASSET, ParameterType::INTEGER);
 
         $statement = $query->execute();
 
@@ -1197,6 +1197,10 @@ final class DoctrineDatabase extends Gateway
 
             if ($row['data_type_string'] === 'ezobjectrelationlist') {
                 $this->removeRelationFromRelationListField($contentId, $row);
+            }
+
+            if ($row['data_type_string'] === 'ezimageasset') {
+                $this->removeRelationFromAssetField($row);
             }
         }
     }
@@ -1259,6 +1263,33 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('data_int', null, ParameterType::NULL)
             ->setParameter('sort_key_int', 0, ParameterType::INTEGER)
             ->where('id = :attribute_id')
+            ->andWhere('version = :version_no')
+            ->setParameter('attribute_id', (int)$row['id'], ParameterType::INTEGER)
+            ->setParameter('version_no', (int)$row['version'], ParameterType::INTEGER);
+
+        $query->execute();
+    }
+
+    /**
+     * @param array{
+     *     id: int|string,
+     *     version: int|string,
+     *     data_type_string: string,
+     *     data_text: string|null
+     * } $row
+     */
+    private function removeRelationFromAssetField(array $row): void
+    {
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->update(self::CONTENT_FIELD_TABLE)
+            ->set('data_text', ':data_text')
+            ->set('data_int', ':data_int')
+            ->set('sort_key_int', ':sort_key_int')
+            ->setParameter('data_text', null, ParameterType::NULL)
+            ->setParameter('data_int', null, ParameterType::NULL)
+            ->setParameter('sort_key_int', 0, ParameterType::INTEGER)
+            ->andWhere('id = :attribute_id')
             ->andWhere('version = :version_no')
             ->setParameter('attribute_id', (int)$row['id'], ParameterType::INTEGER)
             ->setParameter('version_no', (int)$row['version'], ParameterType::INTEGER);
