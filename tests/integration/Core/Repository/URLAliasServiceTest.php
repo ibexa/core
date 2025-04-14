@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Exception;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
@@ -17,7 +18,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
 use Ibexa\Tests\Integration\Core\Repository\Common\SlugConverter as TestSlugConverter;
-use PDO;
 use RuntimeException;
 
 /**
@@ -29,6 +29,8 @@ use RuntimeException;
  */
 class URLAliasServiceTest extends BaseTest
 {
+    private const string HOME_MY_NEW_SITE_URL = '/Home/My-New-Site';
+
     /**
      * Tests that the required <b>LocationService::loadLocation()</b>
      * at least returns an object, because this method is utilized in several
@@ -67,9 +69,13 @@ class URLAliasServiceTest extends BaseTest
     }
 
     /**
-     * Test for the createUrlAlias() method.
+     * @return array{\Ibexa\Contracts\Core\Repository\Values\Content\URLAlias, int}
      *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createUrlAlias()
+     * @throws \ErrorException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testCreateUrlAlias(): array
     {
@@ -85,22 +91,16 @@ class URLAliasServiceTest extends BaseTest
 
         $location = $locationService->loadLocation($locationId);
 
-        $createdUrlAlias = $urlAliasService->createUrlAlias($location, '/Home/My-New-Site', 'eng-US');
-        /* END: Use Case */
-
-        self::assertInstanceOf(
-            URLAlias::class,
-            $createdUrlAlias
-        );
+        $createdUrlAlias = $urlAliasService->createUrlAlias($location, self::HOME_MY_NEW_SITE_URL, 'eng-US');
 
         return [$createdUrlAlias, $location->id];
     }
 
     /**
-     * Test for the createUrlAlias() method.
-     *
      * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createUrlAlias
      *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \ErrorException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
@@ -149,7 +149,7 @@ class URLAliasServiceTest extends BaseTest
     }
 
     /**
-     * @param array $testData
+     * @param array{\Ibexa\Contracts\Core\Repository\Values\Content\URLAlias, int} $testData
      *
      * @depends testCreateUrlAlias
      */
@@ -163,7 +163,7 @@ class URLAliasServiceTest extends BaseTest
             [
                 'type' => URLAlias::LOCATION,
                 'destination' => $locationId,
-                'path' => '/Home/My-New-Site',
+                'path' => self::HOME_MY_NEW_SITE_URL,
                 'languageCodes' => ['eng-US'],
                 'alwaysAvailable' => false,
                 'isHistory' => false,
@@ -175,11 +175,15 @@ class URLAliasServiceTest extends BaseTest
     }
 
     /**
-     * Test for the createUrlAlias() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createUrlAlias($location, $path, $languageCode, $forwarding)
+     * @return array{\Ibexa\Contracts\Core\Repository\Values\Content\URLAlias, int}
      *
      * @depends testCreateUrlAliasPropertyValues
+     *
+     * @throws \ErrorException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testCreateUrlAliasWithForwarding(): array
     {
@@ -187,7 +191,6 @@ class URLAliasServiceTest extends BaseTest
 
         $locationId = $this->generateId('location', 5);
 
-        /* BEGIN: Use Case */
         // $locationId is the ID of an existing location
 
         $locationService = $repository->getLocationService();
@@ -195,19 +198,13 @@ class URLAliasServiceTest extends BaseTest
 
         $location = $locationService->loadLocation($locationId);
 
-        $createdUrlAlias = $urlAliasService->createUrlAlias($location, '/Home/My-New-Site', 'eng-US', true);
-        /* END: Use Case */
-
-        self::assertInstanceOf(
-            URLAlias::class,
-            $createdUrlAlias
-        );
+        $createdUrlAlias = $urlAliasService->createUrlAlias($location, self::HOME_MY_NEW_SITE_URL, 'eng-US', true);
 
         return [$createdUrlAlias, $location->id];
     }
 
     /**
-     * @param array $testData
+     * @param array{\Ibexa\Contracts\Core\Repository\Values\Content\URLAlias, int} $testData
      *
      * @depends testCreateUrlAliasWithForwarding
      */
@@ -221,7 +218,7 @@ class URLAliasServiceTest extends BaseTest
             [
                 'type' => URLAlias::LOCATION,
                 'destination' => $locationId,
-                'path' => '/Home/My-New-Site',
+                'path' => self::HOME_MY_NEW_SITE_URL,
                 'languageCodes' => ['eng-US'],
                 'alwaysAvailable' => false,
                 'isHistory' => false,
@@ -233,9 +230,13 @@ class URLAliasServiceTest extends BaseTest
     }
 
     /**
-     * Test for the createUrlAlias() method.
+     * @return array{\Ibexa\Contracts\Core\Repository\Values\Content\URLAlias, int}
      *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createUrlAlias($location, $path, $languageCode, $forwarding, $alwaysAvailable)
+     * @throws \ErrorException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testCreateUrlAliasWithAlwaysAvailable(): array
     {
@@ -243,7 +244,6 @@ class URLAliasServiceTest extends BaseTest
 
         $locationId = $this->generateId('location', 5);
 
-        /* BEGIN: Use Case */
         // $locationId is the ID of an existing location
 
         $locationService = $repository->getLocationService();
@@ -251,13 +251,7 @@ class URLAliasServiceTest extends BaseTest
 
         $location = $locationService->loadLocation($locationId);
 
-        $createdUrlAlias = $urlAliasService->createUrlAlias($location, '/Home/My-New-Site', 'eng-US', false, true);
-        /* END: Use Case */
-
-        self::assertInstanceOf(
-            URLAlias::class,
-            $createdUrlAlias
-        );
+        $createdUrlAlias = $urlAliasService->createUrlAlias($location, self::HOME_MY_NEW_SITE_URL, 'eng-US', false, true);
 
         return [$createdUrlAlias, $location->id];
     }
@@ -277,7 +271,7 @@ class URLAliasServiceTest extends BaseTest
             [
                 'type' => URLAlias::LOCATION,
                 'destination' => $locationId,
-                'path' => '/Home/My-New-Site',
+                'path' => self::HOME_MY_NEW_SITE_URL,
                 'languageCodes' => ['eng-US'],
                 'alwaysAvailable' => true,
                 'isHistory' => false,
@@ -327,7 +321,7 @@ class URLAliasServiceTest extends BaseTest
 
         $createdUrlAlias = $urlAliasService->createGlobalUrlAlias(
             'module:content/search?SearchText=Ibexa',
-            '/Home/My-New-Site',
+            self::HOME_MY_NEW_SITE_URL,
             'eng-US'
         );
         /* END: Use Case */
@@ -353,7 +347,7 @@ class URLAliasServiceTest extends BaseTest
             [
                 'type' => URLAlias::RESOURCE,
                 'destination' => 'content/search?SearchText=Ibexa',
-                'path' => '/Home/My-New-Site',
+                'path' => self::HOME_MY_NEW_SITE_URL,
                 'languageCodes' => ['eng-US'],
                 'alwaysAvailable' => false,
                 'isHistory' => false,
@@ -378,7 +372,7 @@ class URLAliasServiceTest extends BaseTest
 
         $createdUrlAlias = $urlAliasService->createGlobalUrlAlias(
             'module:content/search?SearchText=Ibexa',
-            '/Home/My-New-Site',
+            self::HOME_MY_NEW_SITE_URL,
             'eng-US',
             true
         );
@@ -405,7 +399,7 @@ class URLAliasServiceTest extends BaseTest
             [
                 'type' => URLAlias::RESOURCE,
                 'destination' => 'content/search?SearchText=Ibexa',
-                'path' => '/Home/My-New-Site',
+                'path' => self::HOME_MY_NEW_SITE_URL,
                 'languageCodes' => ['eng-US'],
                 'alwaysAvailable' => false,
                 'isHistory' => false,
@@ -430,7 +424,7 @@ class URLAliasServiceTest extends BaseTest
 
         $createdUrlAlias = $urlAliasService->createGlobalUrlAlias(
             'module:content/search?SearchText=Ibexa',
-            '/Home/My-New-Site',
+            self::HOME_MY_NEW_SITE_URL,
             'eng-US',
             false,
             true
@@ -458,7 +452,7 @@ class URLAliasServiceTest extends BaseTest
             [
                 'type' => URLAlias::RESOURCE,
                 'destination' => 'content/search?SearchText=Ibexa',
-                'path' => '/Home/My-New-Site',
+                'path' => self::HOME_MY_NEW_SITE_URL,
                 'languageCodes' => ['eng-US'],
                 'alwaysAvailable' => true,
                 'isHistory' => false,
@@ -470,9 +464,13 @@ class URLAliasServiceTest extends BaseTest
     }
 
     /**
-     * Test for the createUrlAlias() method.
+     * @return array{\Ibexa\Contracts\Core\Repository\Values\Content\URLAlias, int}
      *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createGlobalUrlAlias($resource, $path, $languageCode, $forwarding, $alwaysAvailable)
+     * @throws \ErrorException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testCreateGlobalUrlAliasForLocation(): array
     {
@@ -482,7 +480,6 @@ class URLAliasServiceTest extends BaseTest
         $locationService = $repository->getLocationService();
         $location = $locationService->loadLocation($locationId);
 
-        /* BEGIN: Use Case */
         // $locationId is the ID of an existing location
 
         $urlAliasService = $repository->getURLAliasService();
@@ -494,20 +491,18 @@ class URLAliasServiceTest extends BaseTest
             false,
             true
         );
-        /* END: Use Case */
-
-        self::assertInstanceOf(
-            URLAlias::class,
-            $createdUrlAlias
-        );
 
         return [$createdUrlAlias, $location->id];
     }
 
     /**
-     * Test for the createUrlAlias() method.
+     * @return array{\Ibexa\Contracts\Core\Repository\Values\Content\URLAlias, int}
      *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createGlobalUrlAlias($resource, $path, $languageCode, $forwarding, $alwaysAvailable)
+     * @throws \ErrorException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testCreateGlobalUrlAliasForLocationVariation(): array
     {
@@ -529,22 +524,16 @@ class URLAliasServiceTest extends BaseTest
             false,
             true
         );
-        /* END: Use Case */
-
-        self::assertInstanceOf(
-            URLAlias::class,
-            $createdUrlAlias
-        );
 
         return [$createdUrlAlias, $location->id];
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias
+     * @param array{\Ibexa\Contracts\Core\Repository\Values\Content\URLAlias, int} $testData
      *
      * @depends testCreateGlobalUrlAliasForLocation
      */
-    public function testCreateGlobalUrlAliasForLocationPropertyValues($testData): void
+    public function testCreateGlobalUrlAliasForLocationPropertyValues(array $testData): void
     {
         [$createdUrlAlias, $locationId] = $testData;
 
@@ -566,11 +555,11 @@ class URLAliasServiceTest extends BaseTest
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias
+     * @param array{\Ibexa\Contracts\Core\Repository\Values\Content\URLAlias, int} $testData
      *
      * @depends testCreateGlobalUrlAliasForLocationVariation
      */
-    public function testCreateGlobalUrlAliasForLocationVariationPropertyValues($testData): void
+    public function testCreateGlobalUrlAliasForLocationVariationPropertyValues(array $testData): void
     {
         $this->testCreateGlobalUrlAliasForLocationPropertyValues($testData);
     }
@@ -597,9 +586,11 @@ class URLAliasServiceTest extends BaseTest
     }
 
     /**
-     * Test for the listLocationAliases() method.
+     * @return array{\Ibexa\Contracts\Core\Repository\Values\Content\URLAlias[], \Ibexa\Contracts\Core\Repository\Values\Content\Location}
      *
-     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::listLocationAliases()
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \ErrorException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
     public function testListLocationAliases(): array
     {
@@ -1066,9 +1057,12 @@ class URLAliasServiceTest extends BaseTest
     /**
      * Test lookup on multilingual nested Locations returns proper UrlAlias Value.
      *
+     * @return array{\Ibexa\Contracts\Core\Repository\Values\Content\Location, \Ibexa\Contracts\Core\Repository\Values\Content\Location}
+     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testLookupOnMultilingualNestedLocations(): array
     {
@@ -1095,7 +1089,7 @@ class URLAliasServiceTest extends BaseTest
             )->contentInfo->mainLocationId
         );
         $urlAlias = $urlAliasService->lookup('/My-Folder-Name/Nested-Folder-Name');
-        self::assertPropertiesCorrect(
+        $this->assertPropertiesCorrect(
             [
                 'destination' => $nestedFolderLocation->id,
                 'path' => '/My-folder-Name/nested-Folder-name',
@@ -1107,7 +1101,7 @@ class URLAliasServiceTest extends BaseTest
             $urlAlias
         );
         $urlAlias = $urlAliasService->lookup('/Ger-Folder-Name/Ger-Nested-Folder-Name');
-        self::assertPropertiesCorrect(
+        $this->assertPropertiesCorrect(
             [
                 'destination' => $nestedFolderLocation->id,
                 'path' => '/Ger-folder-Name/Ger-Nested-folder-Name',
@@ -1260,7 +1254,7 @@ class URLAliasServiceTest extends BaseTest
             $this->createFolder($folderNames, 2)->contentInfo->mainLocationId
         );
         $urlAlias1 = $urlAliasService->lookup('/1');
-        self::assertPropertiesCorrect(
+        $this->assertPropertiesCorrect(
             [
                 'destination' => $folderLocation1->id,
                 'path' => '/1',
@@ -1276,7 +1270,7 @@ class URLAliasServiceTest extends BaseTest
             $this->createFolder($folderNames, 2)->contentInfo->mainLocationId
         );
         $urlAlias2 = $urlAliasService->lookup('/2');
-        self::assertPropertiesCorrect(
+        $this->assertPropertiesCorrect(
             [
                 'destination' => $folderLocation2->id,
                 'path' => '/2',
@@ -1361,7 +1355,7 @@ class URLAliasServiceTest extends BaseTest
                         )
                     );
 
-                return $queryBuilder->execute();
+                return $queryBuilder->executeStatement();
             }
         );
 
@@ -1428,7 +1422,7 @@ class URLAliasServiceTest extends BaseTest
                 $expr = $queryBuilder->expr();
                 $queryBuilder
                     ->update('ezurlalias_ml')
-                    ->set('link', $queryBuilder->createPositionalParameter(666, PDO::PARAM_INT))
+                    ->set('link', $queryBuilder->createPositionalParameter(666, ParameterType::INTEGER))
                     ->where(
                         $expr->eq(
                             'action',
@@ -1440,7 +1434,7 @@ class URLAliasServiceTest extends BaseTest
                     ->andWhere(
                         $expr->eq(
                             'is_original',
-                            $queryBuilder->createPositionalParameter(0, PDO::PARAM_INT)
+                            $queryBuilder->createPositionalParameter(0, ParameterType::INTEGER)
                         )
                     )
                     ->andWhere(
@@ -1448,7 +1442,7 @@ class URLAliasServiceTest extends BaseTest
                     )
                 ;
 
-                return $queryBuilder->execute();
+                return $queryBuilder->executeStatement();
             }
         );
 
@@ -1568,7 +1562,7 @@ class URLAliasServiceTest extends BaseTest
 
         try {
             $urlAlias = $urlAliasService->lookup($lookupUrl);
-            self::assertPropertiesCorrect(
+            $this->assertPropertiesCorrect(
                 [
                     'destination' => $expectedDestination,
                     'path' => $lookupUrl,
@@ -1617,6 +1611,7 @@ class URLAliasServiceTest extends BaseTest
      * Note: test depends on already broken URL aliases: eznode:59, eznode:59, eznode:60.
      *
      * @throws \ErrorException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testDeleteCorruptedUrlAliases(): void
     {
@@ -1726,7 +1721,7 @@ class URLAliasServiceTest extends BaseTest
         bool $expectedIsHistory,
         URLAlias $actualUrlAliasValue
     ): void {
-        self::assertPropertiesCorrect(
+        $this->assertPropertiesCorrect(
             [
                 'destination' => $expectedDestinationLocation->id,
                 'path' => $expectedPath,
@@ -1745,11 +1740,13 @@ class URLAliasServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::deleteCorruptedUrlAliases
      *
-     * @see testDeleteCorruptedUrlAliases
-     *
      * @param \Doctrine\DBAL\Connection $connection
      *
      * @return int Number of new rows
+     *
+     * @throws \Doctrine\DBAL\Exception
+     *
+     * @see    testDeleteCorruptedUrlAliases
      */
     private function insertBrokenUrlAliasTableFixtures(Connection $connection): int
     {
@@ -1805,7 +1802,7 @@ class URLAliasServiceTest extends BaseTest
                 $row[$columnName] = $query->createNamedParameter($value);
             }
             $query->values($row);
-            $query->execute();
+            $query->executeStatement();
         }
 
         return count($rows);
