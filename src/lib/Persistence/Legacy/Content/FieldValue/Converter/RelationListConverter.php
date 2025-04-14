@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use DOMDocument;
@@ -322,7 +323,7 @@ class RelationListConverter implements Converter
                 ContentType::STATUS_DEFINED,
                 ParameterType::INTEGER
             )
-            ->setParameter('content_ids', $destinationContentIds, Connection::PARAM_INT_ARRAY);
+            ->setParameter('content_ids', $destinationContentIds, ArrayParameterType::INTEGER);
 
         $stmt = $query->executeQuery();
 
