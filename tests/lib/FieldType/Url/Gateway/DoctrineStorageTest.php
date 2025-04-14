@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\FieldType\Url\Gateway;
 
+use Doctrine\DBAL\ParameterType;
 use Ibexa\Core\FieldType\Url\UrlStorage\Gateway;
 use Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
@@ -16,6 +17,10 @@ use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
  */
 class DoctrineStorageTest extends TestCase
 {
+    private const string URLS_FIXTURE_FILE_PATH = __DIR__ . '/_fixtures/urls.php';
+    private const string CONTENT_VIEW_SITEMAP_URL = '/content/view/sitemap/2';
+    private const string CONTENT_VIEW_TAGCLOUD_URL = '/content/view/tagcloud/2';
+
     private DoctrineStorage $storageGateway;
 
     /**
@@ -23,14 +28,14 @@ class DoctrineStorageTest extends TestCase
      */
     public function testGetIdUrlMap(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urls.php');
+        $this->insertDatabaseFixture(self::URLS_FIXTURE_FILE_PATH);
 
         $gateway = $this->getStorageGateway();
 
         self::assertEquals(
             [
-                23 => '/content/view/sitemap/2',
-                24 => '/content/view/tagcloud/2',
+                23 => self::CONTENT_VIEW_SITEMAP_URL,
+                24 => self::CONTENT_VIEW_TAGCLOUD_URL,
             ],
             $gateway->getIdUrlMap(
                 [23, 24, 'fake']
@@ -43,19 +48,19 @@ class DoctrineStorageTest extends TestCase
      */
     public function testGetUrlIdMap(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urls.php');
+        $this->insertDatabaseFixture(self::URLS_FIXTURE_FILE_PATH);
 
         $gateway = $this->getStorageGateway();
 
         self::assertEquals(
             [
-                '/content/view/sitemap/2' => 23,
-                '/content/view/tagcloud/2' => 24,
+                self::CONTENT_VIEW_SITEMAP_URL => 23,
+                self::CONTENT_VIEW_TAGCLOUD_URL => 24,
             ],
             $gateway->getUrlIdMap(
                 [
-                    '/content/view/sitemap/2',
-                    '/content/view/tagcloud/2',
+                    self::CONTENT_VIEW_SITEMAP_URL,
+                    self::CONTENT_VIEW_TAGCLOUD_URL,
                     'fake',
                 ]
             )
@@ -64,6 +69,8 @@ class DoctrineStorageTest extends TestCase
 
     /**
      * @covers \Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage::insertUrl
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testInsertUrl(): void
     {
@@ -83,11 +90,10 @@ class DoctrineStorageTest extends TestCase
                     ':id'
                 )
             )
-            ->setParameter('id', $id, \PDO::PARAM_INT)
+            ->setParameter('id', $id, ParameterType::INTEGER)
         ;
 
-        $statement = $query->execute();
-        $result = $statement->fetchAllAssociative();
+        $result = $query->executeQuery()->fetchAllAssociative();
 
         $expected = [
             [
@@ -102,14 +108,15 @@ class DoctrineStorageTest extends TestCase
         self::assertGreaterThanOrEqual($time, $result[0]['created']);
         self::assertGreaterThanOrEqual($time, $result[0]['modified']);
 
-        unset($result[0]['created']);
-        unset($result[0]['modified']);
+        unset($result[0]['created'], $result[0]['modified']);
 
         self::assertEquals($expected, $result);
     }
 
     /**
      * @covers \Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage::linkUrl
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testLinkUrl(): void
     {
@@ -127,12 +134,10 @@ class DoctrineStorageTest extends TestCase
             ->where(
                 $query->expr()->eq($this->connection->quoteIdentifier('url_id'), ':urlId')
             )
-            ->setParameter(':urlId', $urlId, \PDO::PARAM_INT)
+            ->setParameter('urlId', $urlId, ParameterType::INTEGER)
         ;
 
-        $statement = $query->execute();
-
-        $result = $statement->fetchAllAssociative();
+        $result = $query->executeQuery()->fetchAllAssociative();
 
         $expected = [
             [
@@ -147,10 +152,12 @@ class DoctrineStorageTest extends TestCase
 
     /**
      * @covers \Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage::unlinkUrl
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testUnlinkUrl(): void
     {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urls.php');
+        $this->insertDatabaseFixture(self::URLS_FIXTURE_FILE_PATH);
 
         $gateway = $this->getStorageGateway();
 
@@ -161,8 +168,7 @@ class DoctrineStorageTest extends TestCase
         $query = $this->connection->createQueryBuilder();
         $query->select('*')->from('ezurl_object_link');
 
-        $statement = $query->execute();
-        $result = $statement->fetchAllAssociative();
+        $result = $query->executeQuery()->fetchAllAssociative();
 
         $expected = [
             [
@@ -178,9 +184,7 @@ class DoctrineStorageTest extends TestCase
         $query = $this->connection->createQueryBuilder();
         $query->select('*')->from('ezurl');
 
-        $statement = $query->execute();
-
-        $result = $statement->fetchAllAssociative();
+        $result = $query->executeQuery()->fetchAllAssociative();
 
         $expected = [
             [
@@ -190,7 +194,7 @@ class DoctrineStorageTest extends TestCase
                 'last_checked' => '0',
                 'modified' => '1343140541',
                 'original_url_md5' => 'c86bcb109d8e70f9db65c803baafd550',
-                'url' => '/content/view/tagcloud/2',
+                'url' => self::CONTENT_VIEW_TAGCLOUD_URL,
             ],
         ];
 
