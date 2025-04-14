@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\FieldType\Image\Value;
+use Ibexa\Core\FieldType\ImageAsset\Value as AssetValue;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 
 final class ImageAssetTest extends RepositoryTestCase
@@ -35,7 +36,7 @@ final class ImageAssetTest extends RepositoryTestCase
         $destinationContent = $this->createImageContent();
 
         $struct = $this->contentService->newContentCreateStruct($contentType, 'eng-US');
-        $struct->setField('asset', new \Ibexa\Core\FieldType\ImageAsset\Value(
+        $struct->setField('asset', new AssetValue(
             $destinationContent->getId(),
         ));
         $assetContent = $this->contentService->publishVersion(
@@ -52,8 +53,8 @@ final class ImageAssetTest extends RepositoryTestCase
 
         $assetContent = $this->contentService->loadContentByContentInfo($assetContent->getContentInfo());
 
-        /** @var \Ibexa\Core\FieldType\ImageAsset\Value $value */
         $value = $assetContent->getFieldValue('asset');
+        self::assertInstanceOf(AssetValue::class, $value);
         self::assertNull($value->destinationContentId);
     }
 
