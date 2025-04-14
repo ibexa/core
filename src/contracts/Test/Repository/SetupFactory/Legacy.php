@@ -31,7 +31,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * A Test Factory is used to setup the infrastructure for a tests, based on a
+ * A Test Factory is used to set up the infrastructure for a tests, based on a
  * specific repository implementation to test.
  */
 class Legacy extends SetupFactory
@@ -75,7 +75,7 @@ class Legacy extends SetupFactory
      */
     public function __construct()
     {
-        $dsn = getenv('DATABASE');
+        $dsn = getenv('DATABASE_URL');
         if (false === $dsn) {
             // use sqlite in-memory by default (does not need special handling for paratest as it's per process)
             self::$dsn = 'sqlite://:memory:';
