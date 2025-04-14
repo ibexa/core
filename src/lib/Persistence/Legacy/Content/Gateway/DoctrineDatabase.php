@@ -1289,7 +1289,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('data_text', null, ParameterType::NULL)
             ->setParameter('data_int', null, ParameterType::NULL)
             ->setParameter('sort_key_int', 0, ParameterType::INTEGER)
-            ->where('id = :attribute_id')
+            ->andWhere('id = :attribute_id')
             ->andWhere('version = :version_no')
             ->setParameter('attribute_id', (int)$row['id'], ParameterType::INTEGER)
             ->setParameter('version_no', (int)$row['version'], ParameterType::INTEGER);
