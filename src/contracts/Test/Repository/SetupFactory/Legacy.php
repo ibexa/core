@@ -31,7 +31,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * A Test Factory is used to setup the infrastructure for a tests, based on a
+ * A Test Factory is used to set up the infrastructure for a tests, based on a
  * specific repository implementation to test.
  */
 class Legacy extends SetupFactory
@@ -75,14 +75,7 @@ class Legacy extends SetupFactory
      */
     public function __construct()
     {
-        $dsn = getenv('DATABASE');
-        if (false === $dsn) {
-            // use sqlite in-memory by default (does not need special handling for paratest as it's per process)
-            self::$dsn = 'sqlite://:memory:';
-        } elseif (getenv('TEST_TOKEN') !== false) {
-            // Using paratest, assuming dsn ends with db name here...
-            self::$dsn = $dsn . '_' . getenv('TEST_TOKEN');
-        }
+        self::$dsn = $this->buildDSN();
 
         if ($repositoryReference = getenv('REPOSITORY_SERVICE_ID')) {
             $this->repositoryReference = $repositoryReference;
@@ -362,5 +355,19 @@ class Legacy extends SetupFactory
     public static function getCacheDir(): string
     {
         return self::getInstallationDir() . '/var/cache';
+    }
+
+    private function buildDSN(): string
+    {
+        $dsn = getenv('DATABASE_URL');
+        if (false === $dsn) {
+            // use sqlite in-memory by default (does not need special handling for paratest as it's per process)
+            $dsn = 'sqlite://:memory:';
+        } elseif (getenv('TEST_TOKEN') !== false) {
+            // Using paratest, assuming dsn ends with db name here...
+            $dsn .= '_' . getenv('TEST_TOKEN');
+        }
+
+        return $dsn;
     }
 }
