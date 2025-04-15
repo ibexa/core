@@ -19,14 +19,20 @@ use function sprintf;
  */
 final class CriterionVisitor implements FilteringCriterionVisitor
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder[] */
+    /** @var iterable<\Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder> */
     private iterable $criterionQueryBuilders;
 
+    /**
+     * @param iterable<\Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder> $criterionQueryBuilders
+     */
     public function __construct(iterable $criterionQueryBuilders)
     {
         $this->setCriterionQueryBuilders($criterionQueryBuilders);
     }
 
+    /**
+     * @param iterable<\Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder> $criterionQueryBuilders
+     */
     public function setCriterionQueryBuilders(iterable $criterionQueryBuilders): void
     {
         $this->criterionQueryBuilders = $criterionQueryBuilders;
@@ -38,7 +44,7 @@ final class CriterionVisitor implements FilteringCriterionVisitor
     public function visitCriteria(
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
-    ): string {
+    ): ?string {
         foreach ($this->criterionQueryBuilders as $criterionQueryBuilder) {
             if ($criterionQueryBuilder->accepts($criterion)) {
                 return $criterionQueryBuilder->buildQueryConstraint(
