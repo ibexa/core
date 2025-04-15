@@ -13,7 +13,6 @@ use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway;
-use PDO;
 
 class DoctrineStorage extends Gateway
 {
@@ -118,6 +117,9 @@ class DoctrineStorage extends Gateway
         $insertQuery->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function getFieldData(VersionInfo $versionInfo, Field $field): void
     {
         $field->value->externalData = $this->loadFieldData($field->id, $versionInfo->versionNo);
@@ -154,8 +156,8 @@ class DoctrineStorage extends Gateway
                     )
                 )
             )
-            ->setParameter(self::FIELD_ID_PARAM_NAME, $fieldId, PDO::PARAM_INT)
-            ->setParameter(self::VERSION_NO_PARAM_NAME, $versionNo, PDO::PARAM_INT)
+            ->setParameter(self::FIELD_ID_PARAM_NAME, $fieldId, ParameterType::INTEGER)
+            ->setParameter(self::VERSION_NO_PARAM_NAME, $versionNo, ParameterType::INTEGER)
         ;
 
         $statement = $selectQuery->executeQuery();
@@ -175,12 +177,9 @@ class DoctrineStorage extends Gateway
     /**
      * Return if field data exists for $fieldId.
      *
-     * @param int $fieldId
-     * @param int $versionNo
-     *
-     * @return bool
+     * @throws \Doctrine\DBAL\Exception
      */
-    protected function hasFieldData($fieldId, $versionNo): bool
+    protected function hasFieldData(int $fieldId, int $versionNo): bool
     {
         return $this->loadFieldData($fieldId, $versionNo) !== null;
     }
