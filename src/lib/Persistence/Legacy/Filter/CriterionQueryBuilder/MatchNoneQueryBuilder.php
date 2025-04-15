@@ -26,7 +26,7 @@ final class MatchNoneQueryBuilder implements CriterionQueryBuilder
     public function buildQueryConstraint(
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
-    ): ?string {
+    ): string {
         return '1=0';
     }
 }

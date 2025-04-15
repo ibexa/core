@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\RemoteId;
 use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder;
@@ -27,13 +27,13 @@ final class RemoteIdQueryBuilder implements CriterionQueryBuilder
     public function buildQueryConstraint(
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
-    ): ?string {
+    ): string {
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\RemoteId $criterion */
         return $queryBuilder->expr()->in(
             'content.remote_id',
             $queryBuilder->createNamedParameter(
                 $criterion->value,
-                Connection::PARAM_STR_ARRAY
+                ArrayParameterType::STRING
             )
         );
     }

@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ObjectStateId;
 use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder;
@@ -28,8 +28,8 @@ final class ObjectStateIdQueryBuilder implements CriterionQueryBuilder
     public function buildQueryConstraint(
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
-    ): ?string {
-        $tableAlias = uniqid('osl_');
+    ): string {
+        $tableAlias = uniqid('osl_', true);
 
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ObjectStateId $criterion */
         $queryBuilder
@@ -44,7 +44,7 @@ final class ObjectStateIdQueryBuilder implements CriterionQueryBuilder
 
         return $queryBuilder->expr()->in(
             $tableAlias . '.contentobject_state_id',
-            $queryBuilder->createNamedParameter($value, Connection::PARAM_INT_ARRAY)
+            $queryBuilder->createNamedParameter($value, ArrayParameterType::INTEGER)
         );
     }
 }

@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\User\Metadata;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\UserMetadata;
 use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder;
@@ -48,7 +48,7 @@ final class GroupQueryBuilder implements CriterionQueryBuilder
 
         return $queryBuilder->expr()->in(
             'user_group_location.contentobject_id',
-            $queryBuilder->createNamedParameter($value, Connection::PARAM_INT_ARRAY)
+            $queryBuilder->createNamedParameter($value, ArrayParameterType::INTEGER)
         );
     }
 }

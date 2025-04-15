@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Section;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\SectionIdentifier;
 use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder;
@@ -44,7 +44,7 @@ final class IdentifierQueryBuilder implements CriterionQueryBuilder
             'section.identifier',
             $queryBuilder->createNamedParameter(
                 (array)$criterion->value,
-                Connection::PARAM_STR_ARRAY
+                ArrayParameterType::STRING
             )
         );
     }
