@@ -19,12 +19,12 @@ use Ibexa\Core\Persistence\Legacy\Token\Gateway\TokenType\Gateway;
  */
 final class DoctrineGateway extends AbstractGateway implements Gateway
 {
-    public const TABLE_NAME = 'ibexa_token_type';
-    public const DEFAULT_TABLE_ALIAS = 'token_type';
+    public const string TABLE_NAME = 'ibexa_token_type';
+    public const string DEFAULT_TABLE_ALIAS = 'token_type';
 
-    public const COLUMN_ID = 'id';
-    public const COLUMN_IDENTIFIER = 'identifier';
-    public const TOKEN_TYPE_SEQ = 'ibexa_token_type_id_seq';
+    public const string COLUMN_ID = 'id';
+    public const string COLUMN_IDENTIFIER = 'identifier';
+    public const string TOKEN_TYPE_SEQ = 'ibexa_token_type_id_seq';
 
     private Connection $connection;
 
@@ -83,9 +83,9 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
                 )
             );
 
-        $query->setParameter(':type_id', $typeId, ParameterType::INTEGER);
+        $query->setParameter('type_id', $typeId, ParameterType::INTEGER);
 
-        $row = $query->execute()->fetchAssociative();
+        $row = $query->executeQuery()->fetchAssociative();
 
         if (false === $row) {
             throw new NotFound('token_type', "id: $typeId");
@@ -107,9 +107,9 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
                 )
             );
 
-        $query->setParameter(':identifier', $identifier, ParameterType::STRING);
+        $query->setParameter('identifier', $identifier);
 
-        $row = $query->execute()->fetchAssociative();
+        $row = $query->executeQuery()->fetchAssociative();
 
         if (false === $row) {
             throw new NotFound('token_type', "identifier: $identifier");
