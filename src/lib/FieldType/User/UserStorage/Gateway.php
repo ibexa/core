@@ -17,7 +17,7 @@ abstract class Gateway extends StorageGateway
      * Get field data.
      *
      * The User storage handles the following attributes, following the user field
-     * type in Ibexa 4:
+     * type in Ibexa:
      * - account_key
      * - has_stored_login
      * - contentobject_id
@@ -32,12 +32,19 @@ abstract class Gateway extends StorageGateway
      * - login_count
      * - max_login
      *
-     * @param mixed $fieldId
-     * @param mixed $userId
-     *
-     * @return array
+     * @return array{
+     *     hasStoredLogin: bool,
+     *     contentId: int|null,
+     *     login: string|null,
+     *     email: string|null,
+     *     passwordHash: string|null,
+     *     passwordHashType: string|null,
+     *     passwordUpdatedAt: int|null,
+     *     enabled: bool,
+     *     maxLogin: int|null
+     * }
      */
-    abstract public function getFieldData($fieldId, $userId = null);
+    abstract public function getFieldData(int $fieldId, ?int $userId = null): array;
 
     abstract public function storeFieldData(VersionInfo $versionInfo, Field $field): bool;
 
