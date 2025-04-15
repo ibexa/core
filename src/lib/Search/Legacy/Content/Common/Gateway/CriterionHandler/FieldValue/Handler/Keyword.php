@@ -20,7 +20,7 @@ class Keyword extends Collection
         QueryBuilder $subQuery,
         Criterion $criterion,
         string $column
-    ) {
+    ): string {
         $subQuery
             ->innerJoin(
                 'f_def',

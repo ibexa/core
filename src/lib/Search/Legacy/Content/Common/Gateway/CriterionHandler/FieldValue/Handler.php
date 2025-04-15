@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -62,8 +63,6 @@ abstract class Handler
      * @param \Doctrine\DBAL\Query\QueryBuilder $subQuery to modify Field Value query constraints
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
      *
-     * @return \Doctrine\DBAL\Query\Expression\CompositeExpression|string
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If passed more than 1 argument to unary operator.
      * @throws \RuntimeException If operator is not handled.
      */
@@ -72,7 +71,7 @@ abstract class Handler
         QueryBuilder $subQuery,
         Criterion $criterion,
         string $column
-    ) {
+    ): string {
         if (is_array($criterion->value) && CriterionOperator::isUnary($criterion->operator)) {
             if (count($criterion->value) > 1) {
                 throw new InvalidArgumentException('$criterion->value', "Too many arguments for unary operator '$criterion->operator'");
@@ -94,7 +93,8 @@ abstract class Handler
                 break;
 
             case CriterionOperator::BETWEEN:
-                $filter = $this->dbPlatform->getBetweenExpression(
+                $filter = sprintf(
+                    '%s BETWEEN %s AND %s',
                     $column,
                     $outerQuery->createNamedParameter($this->lowerCase($criterion->value[0])),
                     $outerQuery->createNamedParameter($this->lowerCase($criterion->value[1]))
@@ -211,16 +211,16 @@ abstract class Handler
         foreach ($values as $value) {
             if (is_bool($value) || ($value !== 0 && is_int($value))) {
                 // Ignore 0 as ambiguous (float vs int)
-                $types[] = Connection::PARAM_INT_ARRAY;
+                $types[] = ArrayParameterType::INTEGER;
             } else {
                 // Floats are considered strings
-                $types[] = Connection::PARAM_STR_ARRAY;
+                $types[] = ArrayParameterType::STRING;
             }
         }
 
         $arrayValueTypes = array_unique($types);
 
         // Fallback to Connection::PARAM_STR_ARRAY
-        return $arrayValueTypes[0] ?? Connection::PARAM_STR_ARRAY;
+        return $arrayValueTypes[0] ?? ArrayParameterType::STRING;
     }
 }

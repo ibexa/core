@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
@@ -95,7 +96,16 @@ class FieldEmpty extends FieldBase
     }
 
     /**
+     * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter $converter
+     * @param \Doctrine\DBAL\Query\QueryBuilder $queryBuilder
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsFieldEmpty $criterion
+     * @param array $languageSettings
+     *
+     * @return string
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function handle(
         CriteriaConverter $converter,
@@ -125,7 +135,7 @@ class FieldEmpty extends FieldBase
             $whereExpressions[] = $subSelect->expr()->and(
                 $subSelect->expr()->in(
                     'contentclassattribute_id',
-                    $queryBuilder->createNamedParameter($fieldsInfo['ids'], Connection::PARAM_INT_ARRAY)
+                    $queryBuilder->createNamedParameter($fieldsInfo['ids'], ArrayParameterType::INTEGER)
                 ),
                 $filter
             );

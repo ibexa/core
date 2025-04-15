@@ -199,7 +199,7 @@ class FullText extends CriterionHandler
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         $subSelect = $this->connection->createQueryBuilder();
         $expr = $queryBuilder->expr();
         $subSelect
@@ -261,10 +261,10 @@ class FullText extends CriterionHandler
         // Cached value does not exists, do a simple count query on ezcontentobject table
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select($this->dbPlatform->getCountExpression('id'))
+            ->select('COUNT(id)')
             ->from(ContentGateway::CONTENT_ITEM_TABLE);
 
-        $count = (int)$query->execute()->fetchColumn();
+        $count = (int)$query->executeQuery()->fetchOne();
 
         // Calculate the int stopWordThresholdValue based on count (first column) * factor
         return $this->stopWordThresholdValue = (int)($count * $this->configuration['stopWordThresholdFactor']);

@@ -7,7 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
@@ -32,7 +32,7 @@ class ObjectStateId extends CriterionHandler
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         $subSelect = $this->connection->createQueryBuilder();
         $value = (array)$criterion->value;
         $subSelect
@@ -43,7 +43,7 @@ class ObjectStateId extends CriterionHandler
             )->where(
                 $queryBuilder->expr()->in(
                     'contentobject_state_id',
-                    $queryBuilder->createNamedParameter($value, Connection::PARAM_INT_ARRAY)
+                    $queryBuilder->createNamedParameter($value, ArrayParameterType::INTEGER)
                 )
             );
 

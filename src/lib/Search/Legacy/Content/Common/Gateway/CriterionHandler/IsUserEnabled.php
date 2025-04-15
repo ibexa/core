@@ -30,7 +30,7 @@ class IsUserEnabled extends CriterionHandler
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         $subSelect = $this->connection->createQueryBuilder();
         $subSelect
             ->select('t1.contentobject_id')

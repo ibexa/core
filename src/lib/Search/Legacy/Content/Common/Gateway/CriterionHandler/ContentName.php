@@ -20,8 +20,8 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
  */
 final class ContentName extends CriterionHandler
 {
-    private const CONTENTOBJECT_NAME_ALIAS = 'ezc_n';
-    private const CONTENTOBJECT_ALIAS = 'c';
+    private const string CONTENTOBJECT_NAME_ALIAS = 'ezc_n';
+    private const string CONTENTOBJECT_ALIAS = 'c';
 
     public function accept(CriterionInterface $criterion): bool
     {
@@ -30,13 +30,7 @@ final class ContentName extends CriterionHandler
     }
 
     /**
-     * @param array{
-     *     languages: array<string>,
-     *     useAlwaysAvailable: bool,
-     *  } $languageSettings
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentName $criterion
-     *
-     * @throws \Doctrine\DBAL\Exception
      */
     public function handle(
         CriteriaConverter $converter,
@@ -88,11 +82,8 @@ final class ContentName extends CriterionHandler
         );
     }
 
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
     private function toLowerCase(string $value): string
     {
-        return $this->connection->getDatabasePlatform()->getLowerExpression($value);
+        return sprintf('LOWER( %s )', $this->connection->quote($value));
     }
 }

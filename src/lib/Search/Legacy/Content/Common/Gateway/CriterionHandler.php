@@ -13,6 +13,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 
+/**
+ * @phpstan-import-type TSearchLanguageFilter from \Ibexa\Contracts\Core\Repository\SearchService
+ */
 abstract class CriterionHandler
 {
     /**
@@ -58,7 +61,7 @@ abstract class CriterionHandler
      *
      * accept() must be called before calling this method.
      *
-     * @param array $languageSettings
+     * @phpstan-param TSearchLanguageFilter $languageSettings
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException

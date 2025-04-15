@@ -33,7 +33,7 @@ final class IsContainer extends CriterionHandler
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         /** @var array{bool} $criterionValue */
         $criterionValue = $criterion->value;
         $isContainer = reset($criterionValue);

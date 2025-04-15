@@ -7,7 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -34,7 +34,7 @@ class DateMetadata extends CriterionHandler
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         $column = $this->getColumnName($criterion);
 
         $value = (array)$criterion->value;
@@ -42,11 +42,12 @@ class DateMetadata extends CriterionHandler
             case Criterion\Operator::IN:
                 return $queryBuilder->expr()->in(
                     $column,
-                    $queryBuilder->createNamedParameter($value, Connection::PARAM_INT_ARRAY)
+                    $queryBuilder->createNamedParameter($value, ArrayParameterType::INTEGER)
                 );
 
             case Criterion\Operator::BETWEEN:
-                return $this->dbPlatform->getBetweenExpression(
+                return sprintf(
+                    '%s BETWEEN %s AND %s',
                     $column,
                     $queryBuilder->createNamedParameter($value[0], ParameterType::INTEGER),
                     $queryBuilder->createNamedParameter($value[1], ParameterType::INTEGER)
@@ -73,15 +74,10 @@ class DateMetadata extends CriterionHandler
 
     private function getColumnName(Criterion $criterion): string
     {
-        switch ($criterion->target) {
-            case Criterion\DateMetadata::TRASHED:
-                return 't.' . Criterion\DateMetadata::TRASHED;
-            case Criterion\DateMetadata::MODIFIED:
-                return 'c.' . Criterion\DateMetadata::MODIFIED;
-            case Criterion\DateMetadata::CREATED:
-            case Criterion\DateMetadata::PUBLISHED:
-            default:
-                return 'c.' . Criterion\DateMetadata::PUBLISHED;
-        }
+        return match ($criterion->target) {
+            Criterion\DateMetadata::TRASHED => 't.' . Criterion\DateMetadata::TRASHED,
+            Criterion\DateMetadata::MODIFIED => 'c.' . Criterion\DateMetadata::MODIFIED,
+            default => 'c.' . Criterion\DateMetadata::PUBLISHED,
+        };
     }
 }

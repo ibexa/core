@@ -36,13 +36,15 @@ class LanguageCode extends CriterionHandler
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode $criterion
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         /* @var $criterion \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode */
         return $queryBuilder->expr()->gt(
             $this->dbPlatform->getBitAndComparisonExpression(

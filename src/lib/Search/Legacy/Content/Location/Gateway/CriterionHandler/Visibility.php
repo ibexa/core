@@ -33,26 +33,23 @@ class Visibility extends CriterionHandler
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         $column = 't.is_invisible';
 
-        switch ($criterion->value[0]) {
-            case Criterion\Visibility::VISIBLE:
-                return $queryBuilder->expr()->eq(
-                    $column,
-                    $queryBuilder->createNamedParameter(0, ParameterType::INTEGER)
-                );
+        $criterionValue = $criterion->value[0] ?? null;
 
-            case Criterion\Visibility::HIDDEN:
-                return $queryBuilder->expr()->eq(
-                    $column,
-                    $queryBuilder->createNamedParameter(1, ParameterType::INTEGER)
-                );
-
-            default:
-                throw new RuntimeException(
-                    "Unknown value '{$criterion->value[0]}' for Visibility Criterion handler."
-                );
-        }
+        return match ($criterionValue) {
+            Criterion\Visibility::VISIBLE => $queryBuilder->expr()->eq(
+                $column,
+                $queryBuilder->createNamedParameter(0, ParameterType::INTEGER)
+            ),
+            Criterion\Visibility::HIDDEN => $queryBuilder->expr()->eq(
+                $column,
+                $queryBuilder->createNamedParameter(1, ParameterType::INTEGER)
+            ),
+            default => throw new RuntimeException(
+                "Unknown value '$criterionValue' for Visibility Criterion handler."
+            ),
+        };
     }
 }

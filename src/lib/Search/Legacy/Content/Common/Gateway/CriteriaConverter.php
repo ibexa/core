@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 
 /**
- * Content locator gateway implementation using the DoctrineDatabase.
+ * @phpstan-import-type TSearchLanguageFilter from \Ibexa\Contracts\Core\Repository\SearchService
  */
 class CriteriaConverter
 {
@@ -22,7 +22,7 @@ class CriteriaConverter
      *
      * @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler[]
      */
-    protected $handlers;
+    protected array $handlers;
 
     /**
      * Construct from an optional array of Criterion handlers.
@@ -34,11 +34,6 @@ class CriteriaConverter
         $this->handlers = $handlers;
     }
 
-    /**
-     * Adds handler.
-     *
-     * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler $handler
-     */
     public function addHandler(CriterionHandler $handler): void
     {
         $this->handlers[] = $handler;
@@ -47,10 +42,11 @@ class CriteriaConverter
     /**
      * Generic converter of criteria into query fragments.
      *
-     * @param array $languageSettings
+     * @phpstan-param TSearchLanguageFilter $languageSettings
      *
      * @return \Doctrine\DBAL\Query\Expression\CompositeExpression|string
      *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
     public function convertCriteria(

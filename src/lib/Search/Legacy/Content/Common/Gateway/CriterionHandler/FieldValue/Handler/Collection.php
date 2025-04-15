@@ -43,7 +43,7 @@ class Collection extends Handler
         QueryBuilder $subQuery,
         Criterion $criterion,
         string $column
-    ) {
+    ): string {
         $singleValueExpr = 'eq';
 
         switch ($criterion->operator) {

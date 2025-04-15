@@ -7,7 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
@@ -32,7 +32,7 @@ class Ancestor extends CriterionHandler
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         $idSet = [];
         foreach ($criterion->value as $value) {
             foreach (explode('/', trim($value, '/')) as $id) {
@@ -42,7 +42,7 @@ class Ancestor extends CriterionHandler
 
         return $queryBuilder->expr()->in(
             't.node_id',
-            $queryBuilder->createNamedParameter(array_keys($idSet), Connection::PARAM_INT_ARRAY)
+            $queryBuilder->createNamedParameter(array_keys($idSet), ArrayParameterType::INTEGER)
         );
     }
 }

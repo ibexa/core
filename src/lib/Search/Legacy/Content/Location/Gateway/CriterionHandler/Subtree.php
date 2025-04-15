@@ -27,7 +27,7 @@ class Subtree extends CriterionHandler
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         $statements = [];
         foreach ($criterion->value as $pattern) {
             $statements[] = $queryBuilder->expr()->like(

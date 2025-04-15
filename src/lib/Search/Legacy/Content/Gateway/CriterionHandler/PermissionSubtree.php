@@ -32,7 +32,7 @@ class PermissionSubtree extends CriterionHandler
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         $table = 'permission_subtree';
 
         $statements = [];

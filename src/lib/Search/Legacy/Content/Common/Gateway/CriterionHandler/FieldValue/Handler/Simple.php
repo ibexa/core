@@ -24,7 +24,7 @@ class Simple extends Handler
         QueryBuilder $subQuery,
         Criterion $criterion,
         string $column
-    ) {
+    ): string {
         // For "Simple" FieldTypes, handle the following as equal:
         // - Contains
         // - LIKE when against int column

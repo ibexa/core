@@ -7,7 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
@@ -32,12 +32,12 @@ class ParentLocationId extends CriterionHandler
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         $value = (array)$criterion->value;
 
         return $queryBuilder->expr()->in(
             't.parent_node_id',
-            $queryBuilder->createNamedParameter($value, Connection::PARAM_INT_ARRAY)
+            $queryBuilder->createNamedParameter($value, ArrayParameterType::INTEGER)
         );
     }
 }

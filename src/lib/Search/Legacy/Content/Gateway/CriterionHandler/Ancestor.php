@@ -31,7 +31,7 @@ class Ancestor extends CriterionHandler
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         $idSet = [];
         foreach ($criterion->value as $value) {
             foreach (explode('/', trim($value, '/')) as $id) {

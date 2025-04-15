@@ -7,7 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Value\MapLocationValue;
@@ -24,12 +24,12 @@ class MapLocationDistance extends FieldBase
     /**
      * Distance in kilometers of one degree longitude at the Equator.
      */
-    public const DEGREE_KM = 111.195;
+    public const float DEGREE_KM = 111.195;
 
     /**
      * Radius of the planet in kilometers.
      */
-    public const EARTH_RADIUS = 6371.01;
+    public const float EARTH_RADIUS = 6371.01;
 
     public function accept(CriterionInterface $criterion): bool
     {
@@ -39,13 +39,11 @@ class MapLocationDistance extends FieldBase
     /**
      * Returns a list of IDs of searchable FieldDefinitions for the given criterion target.
      *
-     * @param string $fieldIdentifier
-     *
-     * @return array
+     * @return int[]
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException If no searchable fields are found for the given $fieldIdentifier.
      */
-    protected function getFieldDefinitionIds($fieldIdentifier): array
+    protected function getFieldDefinitionIds(string $fieldIdentifier): array
     {
         $fieldDefinitionIdList = [];
         $fieldMap = $this->contentTypeHandler->getSearchableFieldMap();
@@ -74,20 +72,23 @@ class MapLocationDistance extends FieldBase
         return $fieldDefinitionIdList;
     }
 
-    protected function kilometersToDegrees($kilometers): float
+    protected function kilometersToDegrees(float $kilometers): float
     {
         return $kilometers / self::DEGREE_KM;
     }
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\MapLocationDistance $criterion
+     *
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         $fieldDefinitionIds = $this->getFieldDefinitionIds($criterion->target);
         $subSelect = $this->connection->createQueryBuilder();
 
@@ -117,29 +118,26 @@ class MapLocationDistance extends FieldBase
             case Criterion\Operator::LT:
             case Criterion\Operator::LTE:
                 $operatorFunction = $this->comparatorMap[$criterion->operator];
-                $distanceInDegrees = $this->kilometersToDegrees($criterion->value) ** 2;
+                $criterionValue = (float)$criterion->value;
+                $distanceInDegrees = $this->kilometersToDegrees($criterionValue) ** 2;
                 $distanceFilter = $expr->$operatorFunction(
                     $distanceExpression,
-                    $this->dbPlatform->getRoundExpression(
-                        $queryBuilder->createNamedParameter($distanceInDegrees),
-                        10
-                    )
+                    sprintf('ROUND(%s, %d)', $queryBuilder->createNamedParameter($distanceInDegrees), 10)
                 );
                 break;
 
             case Criterion\Operator::BETWEEN:
-                $distanceInDegrees1 = $this->kilometersToDegrees($criterion->value[0]) ** 2;
-                $distanceInDegrees2 = $this->kilometersToDegrees($criterion->value[1]) ** 2;
-                $distanceFilter = $this->dbPlatform->getBetweenExpression(
+                /** @var array{float, float} $criterionValue */
+                $criterionValue = $criterion->value;
+                $distanceInDegrees1 = $this->kilometersToDegrees($criterionValue[0]) ** 2;
+                $distanceInDegrees2 = $this->kilometersToDegrees($criterionValue[1]) ** 2;
+                $distanceFilter = sprintf(
+                    '%s BETWEEN ROUND(%s, %d) AND ROUND(%s, %d)',
                     $distanceExpression,
-                    $this->dbPlatform->getRoundExpression(
-                        $queryBuilder->createNamedParameter($distanceInDegrees1),
-                        10
-                    ),
-                    $this->dbPlatform->getRoundExpression(
-                        $queryBuilder->createNamedParameter($distanceInDegrees2),
-                        10
-                    ),
+                    $queryBuilder->createNamedParameter($distanceInDegrees1),
+                    10,
+                    $queryBuilder->createNamedParameter($distanceInDegrees2),
+                    10
                 );
                 break;
 
@@ -156,9 +154,7 @@ class MapLocationDistance extends FieldBase
                 $distanceUpper = $criterion->value;
                 break;
             case Criterion\Operator::BETWEEN:
-                $distanceUpper = $criterion->value[0] > $criterion->value[1] ?
-                    $criterion->value[0] :
-                    $criterion->value[1];
+                $distanceUpper = max($criterion->value[0], $criterion->value[1]);
                 break;
             default:
                 // Skip other operators
@@ -190,7 +186,7 @@ class MapLocationDistance extends FieldBase
             ->andWhere(
                 $expr->in(
                     'f_def.contentclassattribute_id',
-                    $queryBuilder->createNamedParameter($fieldDefinitionIds, Connection::PARAM_INT_ARRAY)
+                    $queryBuilder->createNamedParameter($fieldDefinitionIds, ArrayParameterType::INTEGER)
                 )
             )
             ->andWhere($distanceFilter)
