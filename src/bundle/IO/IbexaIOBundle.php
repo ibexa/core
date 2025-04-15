@@ -16,8 +16,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class IbexaIOBundle extends Bundle
 {
-    /** @var \Ibexa\Bundle\IO\DependencyInjection\IbexaIOExtension|null */
-    protected $extension;
+    protected ExtensionInterface|null|false $extension;
 
     public function build(ContainerBuilder $container): void
     {
@@ -42,6 +41,6 @@ class IbexaIOBundle extends Bundle
             $this->extension->addBinarydataHandlerFactory('flysystem', new ConfigurationFactory\BinarydataHandler\Flysystem());
         }
 
-        return $this->extension;
+        return $this->extension ?: null;
     }
 }
