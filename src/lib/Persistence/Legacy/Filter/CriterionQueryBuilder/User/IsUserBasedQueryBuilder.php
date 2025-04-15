@@ -23,13 +23,12 @@ final class IsUserBasedQueryBuilder extends BaseUserCriterionQueryBuilder
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsUserBased $criterion
      */
     public function buildQueryConstraint(
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
-    ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsUserBased $criterion */
+    ): string {
         // intentionally not using parent buildQueryConstraint
         $queryBuilder
             ->leftJoinOnce(
@@ -40,10 +39,9 @@ final class IsUserBasedQueryBuilder extends BaseUserCriterionQueryBuilder
             );
 
         $isUserBased = (bool)reset($criterion->value);
-        $databasePlatform = $queryBuilder->getConnection()->getDatabasePlatform();
 
         return $isUserBased
-            ? $databasePlatform->getIsNotNullExpression('user_storage.contentobject_id')
-            : $databasePlatform->getIsNullExpression('user_storage.contentobject_id');
+            ? 'user_storage.contentobject_id IS NOT NULL'
+            : 'user_storage.contentobject_id IS NULL';
     }
 }

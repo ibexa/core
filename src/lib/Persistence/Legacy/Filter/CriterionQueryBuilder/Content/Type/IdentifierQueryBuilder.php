@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
@@ -30,7 +30,7 @@ final class IdentifierQueryBuilder extends BaseQueryBuilder
     public function buildQueryConstraint(
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
-    ): ?string {
+    ): string {
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier $criterion */
         parent::buildQueryConstraint($queryBuilder, $criterion);
 
@@ -38,7 +38,7 @@ final class IdentifierQueryBuilder extends BaseQueryBuilder
             'content_type.identifier',
             $queryBuilder->createNamedParameter(
                 $criterion->value,
-                Connection::PARAM_STR_ARRAY
+                ArrayParameterType::STRING
             )
         );
     }
