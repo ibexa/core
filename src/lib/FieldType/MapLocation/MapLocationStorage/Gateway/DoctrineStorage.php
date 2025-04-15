@@ -13,16 +13,15 @@ use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway;
-use PDO;
 
 class DoctrineStorage extends Gateway
 {
     public const string MAP_LOCATION_TABLE = 'ezgmaplocation';
-    private const string LATITUDE_PARAM_NAME = ':latitude';
-    private const string LONGITUDE_PARAM_NAME = ':longitude';
-    private const string ADDRESS_PARAM_NAME = ':address';
-    private const string FIELD_ID_PARAM_NAME = ':fieldId';
-    private const string VERSION_NO_PARAM_NAME = ':versionNo';
+    private const string LATITUDE_PARAM_NAME = 'latitude';
+    private const string LONGITUDE_PARAM_NAME = 'longitude';
+    private const string ADDRESS_PARAM_NAME = 'address';
+    private const string FIELD_ID_PARAM_NAME = 'fieldId';
+    private const string VERSION_NO_PARAM_NAME = 'versionNo';
 
     protected Connection $connection;
 
@@ -68,18 +67,18 @@ class DoctrineStorage extends Gateway
     {
         $updateQuery = $this->connection->createQueryBuilder();
         $updateQuery->update($this->connection->quoteIdentifier(self::MAP_LOCATION_TABLE))
-            ->set($this->connection->quoteIdentifier('latitude'), self::LATITUDE_PARAM_NAME)
-            ->set($this->connection->quoteIdentifier('longitude'), self::LONGITUDE_PARAM_NAME)
-            ->set($this->connection->quoteIdentifier('address'), self::ADDRESS_PARAM_NAME)
+            ->set($this->connection->quoteIdentifier('latitude'), ':' . self::LATITUDE_PARAM_NAME)
+            ->set($this->connection->quoteIdentifier('longitude'), ':' . self::LONGITUDE_PARAM_NAME)
+            ->set($this->connection->quoteIdentifier('address'), ':' . self::ADDRESS_PARAM_NAME)
             ->where(
                 $updateQuery->expr()->and(
                     $updateQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
-                        self::FIELD_ID_PARAM_NAME
+                        ':' . self::FIELD_ID_PARAM_NAME
                     ),
                     $updateQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_version'),
-                        self::VERSION_NO_PARAM_NAME
+                        ':' . self::VERSION_NO_PARAM_NAME
                     )
                 )
             )
@@ -102,11 +101,11 @@ class DoctrineStorage extends Gateway
         $insertQuery
             ->insert($this->connection->quoteIdentifier(self::MAP_LOCATION_TABLE))
             ->values([
-                'latitude' => self::LATITUDE_PARAM_NAME,
-                'longitude' => self::LONGITUDE_PARAM_NAME,
-                'address' => self::ADDRESS_PARAM_NAME,
-                'contentobject_attribute_id' => self::FIELD_ID_PARAM_NAME,
-                'contentobject_version' => self::VERSION_NO_PARAM_NAME,
+                'latitude' => ':' . self::LATITUDE_PARAM_NAME,
+                'longitude' => ':' . self::LONGITUDE_PARAM_NAME,
+                'address' => ':' . self::ADDRESS_PARAM_NAME,
+                'contentobject_attribute_id' => ':' . self::FIELD_ID_PARAM_NAME,
+                'contentobject_version' => ':' . self::VERSION_NO_PARAM_NAME,
             ])
             ->setParameter(self::LATITUDE_PARAM_NAME, $field->value->externalData['latitude'])
             ->setParameter(self::LONGITUDE_PARAM_NAME, $field->value->externalData['longitude'])
@@ -118,6 +117,9 @@ class DoctrineStorage extends Gateway
         $insertQuery->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function getFieldData(VersionInfo $versionInfo, Field $field): void
     {
         $field->value->externalData = $this->loadFieldData($field->id, $versionInfo->versionNo);
@@ -146,16 +148,16 @@ class DoctrineStorage extends Gateway
                 $selectQuery->expr()->and(
                     $selectQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
-                        self::FIELD_ID_PARAM_NAME
+                        ':' . self::FIELD_ID_PARAM_NAME
                     ),
                     $selectQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_version'),
-                        self::VERSION_NO_PARAM_NAME
+                        ':' . self::VERSION_NO_PARAM_NAME
                     )
                 )
             )
-            ->setParameter(self::FIELD_ID_PARAM_NAME, $fieldId, PDO::PARAM_INT)
-            ->setParameter(self::VERSION_NO_PARAM_NAME, $versionNo, PDO::PARAM_INT)
+            ->setParameter(self::FIELD_ID_PARAM_NAME, $fieldId, ParameterType::INTEGER)
+            ->setParameter(self::VERSION_NO_PARAM_NAME, $versionNo, ParameterType::INTEGER)
         ;
 
         $statement = $selectQuery->executeQuery();
@@ -175,12 +177,9 @@ class DoctrineStorage extends Gateway
     /**
      * Return if field data exists for $fieldId.
      *
-     * @param int $fieldId
-     * @param int $versionNo
-     *
-     * @return bool
+     * @throws \Doctrine\DBAL\Exception
      */
-    protected function hasFieldData($fieldId, $versionNo): bool
+    protected function hasFieldData(int $fieldId, int $versionNo): bool
     {
         return $this->loadFieldData($fieldId, $versionNo) !== null;
     }
@@ -206,11 +205,11 @@ class DoctrineStorage extends Gateway
                     ),
                     $deleteQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_version'),
-                        self::VERSION_NO_PARAM_NAME
+                        ':' . self::VERSION_NO_PARAM_NAME
                     )
                 )
             )
-            ->setParameter(':fieldIds', $fieldIds, ArrayParameterType::INTEGER)
+            ->setParameter('fieldIds', $fieldIds, ArrayParameterType::INTEGER)
             ->setParameter(self::VERSION_NO_PARAM_NAME, $versionInfo->versionNo, ParameterType::INTEGER)
         ;
 
