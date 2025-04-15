@@ -9,14 +9,10 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Filter\Gateway\Location\Doctrine;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception as DBALException;
-use Doctrine\DBAL\FetchMode;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\SortClauseVisitor;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
-use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway;
@@ -42,24 +38,21 @@ final class DoctrineGateway implements Gateway
         $this->sortClauseVisitor = $sortClauseVisitor;
     }
 
-    private function getDatabasePlatform(): AbstractPlatform
-    {
-        try {
-            return $this->connection->getDatabasePlatform();
-        } catch (DBALException $e) {
-            throw DatabaseException::wrap($e);
-        }
-    }
-
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function count(FilteringCriterion $criterion): int
     {
         $query = $this->buildQuery($criterion);
 
-        $query->select($this->getDatabasePlatform()->getCountExpression('DISTINCT location.node_id'));
+        $query->select('COUNT(DISTINCT location.node_id)');
 
-        return (int)$query->execute()->fetch(FetchMode::COLUMN);
+        return (int)$query->executeQuery()->fetchOne();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function find(
         FilteringCriterion $criterion,
         array $sortClauses,
@@ -74,9 +67,9 @@ final class DoctrineGateway implements Gateway
             $query->setMaxResults($limit);
         }
 
-        $resultStatement = $query->execute();
+        $resultStatement = $query->executeQuery();
 
-        while (false !== ($row = $resultStatement->fetch(FetchMode::ASSOCIATIVE))) {
+        while (false !== ($row = $resultStatement->fetchAssociative())) {
             yield $row;
         }
     }
