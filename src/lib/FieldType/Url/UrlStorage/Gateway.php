@@ -20,11 +20,11 @@ abstract class Gateway extends StorageGateway
      *
      * Non-existent ids are ignored.
      *
-     * @param int[]|string[] $ids An array of URL ids
+     * @param int[] $ids An array of URL ids
      *
-     * @return array An array of URLs, with ids as keys
+     * @return array<int, string> An array of URLs, with ids as keys
      */
-    abstract public function getIdUrlMap(array $ids);
+    abstract public function getIdUrlMap(array $ids): array;
 
     /**
      * Returns a list of URL ids for a list of URLs.
@@ -33,34 +33,26 @@ abstract class Gateway extends StorageGateway
      *
      * @param string[] $urls An array of URLs
      *
-     * @return array An array of URL ids, with URLs as keys
+     * @return array<string, int> An array of URL ids, with URLs as keys
      */
-    abstract public function getUrlIdMap(array $urls);
+    abstract public function getUrlIdMap(array $urls): array;
 
     /**
      * Inserts a new $url and returns its id.
      *
      * @param string $url The URL to insert in the database
-     *
-     * @return int|string
      */
-    abstract public function insertUrl($url);
+    abstract public function insertUrl(string $url): int;
 
     /**
      * Creates link to URL with $urlId for field with $fieldId in $versionNo.
-     *
-     * @param int|string $urlId
-     * @param int|string $fieldId
-     * @param int $versionNo
      */
-    abstract public function linkUrl($urlId, $fieldId, $versionNo);
+    abstract public function linkUrl(int $urlId, int $fieldId, int $versionNo): void;
 
     /**
      * Removes link to URL for $fieldId in $versionNo and cleans up possibly orphaned URLs.
      *
-     * @param int|string $fieldId
-     * @param int $versionNo
      * @param int[] $excludeUrlIds
      */
-    abstract public function unlinkUrl($fieldId, $versionNo, array $excludeUrlIds = []);
+    abstract public function unlinkUrl(int $fieldId, int $versionNo, array $excludeUrlIds = []): void;
 }
