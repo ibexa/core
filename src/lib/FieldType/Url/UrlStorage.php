@@ -15,19 +15,18 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Converter for Url field type external storage.
+ *
+ * @extends \Ibexa\Contracts\Core\FieldType\GatewayBasedStorage<\Ibexa\Core\FieldType\Url\UrlStorage\Gateway>
  */
 class UrlStorage extends GatewayBasedStorage
 {
     protected ?LoggerInterface $logger;
 
-    /** @var \Ibexa\Core\FieldType\Url\UrlStorage\Gateway */
-    protected $gateway;
-
     /**
      * Construct from gateways.
      *
-     * @param \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface $gateway
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param \Ibexa\Core\FieldType\Url\UrlStorage\Gateway $gateway
+     * @param \Psr\Log\LoggerInterface|null $logger
      */
     public function __construct(StorageGatewayInterface $gateway, LoggerInterface $logger = null)
     {

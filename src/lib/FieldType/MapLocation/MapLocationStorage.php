@@ -13,12 +13,11 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 
 /**
  * Storage for the MapLocation field type.
+ *
+ * @extends \Ibexa\Contracts\Core\FieldType\GatewayBasedStorage<\Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway>
  */
 class MapLocationStorage extends GatewayBasedStorage
 {
-    /** @var \Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway */
-    protected $gateway;
-
     public function storeFieldData(VersionInfo $versionInfo, Field $field)
     {
         return $this->gateway->storeFieldData($versionInfo, $field);

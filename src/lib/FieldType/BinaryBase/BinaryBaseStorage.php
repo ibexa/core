@@ -20,11 +20,13 @@ use Ibexa\Core\IO\IOServiceInterface;
 
 /**
  * Storage for binary files.
+ *
+ * @extends \Ibexa\Contracts\Core\FieldType\GatewayBasedStorage<\Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway>
  */
 class BinaryBaseStorage extends GatewayBasedStorage
 {
     /**
-     * An instance of IOService configured to store to the images folder.
+     * An instance of IOService configured to store to the images' folder.
      */
     protected IOServiceInterface $ioService;
 
@@ -34,11 +36,11 @@ class BinaryBaseStorage extends GatewayBasedStorage
 
     protected PathGeneratorInterface $downloadUrlGenerator;
 
-    /** @var \Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway */
-    protected $gateway;
-
     protected FileExtensionBlackListValidator $fileExtensionBlackListValidator;
 
+    /**
+     * @param \Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway $gateway
+     */
     public function __construct(
         StorageGatewayInterface $gateway,
         IOServiceInterface $ioService,
