@@ -19,6 +19,8 @@ use Ibexa\Core\IO\IOServiceInterface;
 
 /**
  * Converter for Image field type external storage.
+ *
+ * @extends \Ibexa\Contracts\Core\FieldType\GatewayBasedStorage<\Ibexa\Core\FieldType\Image\ImageStorage\Gateway>
  */
 class ImageStorage extends GatewayBasedStorage
 {
@@ -27,9 +29,6 @@ class ImageStorage extends GatewayBasedStorage
     protected PathGenerator $pathGenerator;
 
     protected AliasCleanerInterface $aliasCleaner;
-
-    /** @var \Ibexa\Core\FieldType\Image\ImageStorage\Gateway */
-    protected $gateway;
 
     protected FilePathNormalizerInterface $filePathNormalizer;
 

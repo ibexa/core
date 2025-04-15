@@ -17,31 +17,30 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
  * The keyword storage ships a list (array) of keywords in
  * $field->value->externalData. $field->value->data is simply empty, because no
  * internal data is store.
+ *
+ * @extends \Ibexa\Contracts\Core\FieldType\GatewayBasedStorage<\Ibexa\Core\FieldType\Keyword\KeywordStorage\Gateway>
  */
 class KeywordStorage extends GatewayBasedStorage
 {
-    /** @var \Ibexa\Core\FieldType\Keyword\KeywordStorage\Gateway */
-    protected $gateway;
-
     /**
      * @see \Ibexa\Contracts\Core\FieldType\FieldStorage
-     *
-     * @return mixed
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field)
+    public function storeFieldData(VersionInfo $versionInfo, Field $field): bool
     {
         $contentTypeId = $this->gateway->getContentTypeId($field);
 
-        return $this->gateway->storeFieldData($field, $contentTypeId);
+        $this->gateway->storeFieldData($field, $contentTypeId);
+
+        return true;
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field)
+    public function getFieldData(VersionInfo $versionInfo, Field $field): void
     {
-        return $this->gateway->getFieldData($field);
+        $this->gateway->getFieldData($field);
     }
 
     /**
-     * @param array $fieldIds
+     * @param int[] $fieldIds
      */
     public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): bool
     {
