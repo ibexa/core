@@ -7,7 +7,7 @@
 
 namespace Ibexa\Core\Persistence\Legacy\User\Role\LimitationHandler;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Ibexa\Contracts\Core\Persistence\User\Policy;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Core\Persistence\Legacy\User\Role\LimitationHandler;
@@ -19,10 +19,12 @@ use Ibexa\Core\Persistence\Legacy\User\Role\LimitationHandler;
  */
 class ObjectStateHandler extends LimitationHandler
 {
-    public const STATE_GROUP = 'StateGroup_';
+    public const string STATE_GROUP = 'StateGroup_';
 
     /**
      * Translate API STATE limitation to Legacy StateGroup_<identifier> limitations.
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function toLegacy(Policy $policy): void
     {
@@ -30,7 +32,7 @@ class ObjectStateHandler extends LimitationHandler
             if ($policy->limitations[Limitation::STATE] === '*') {
                 $map = array_fill_keys(array_keys($this->getGroupMap()), '*');
             } else {
-                $map = $this->getGroupMap($policy->limitations[Limitation::STATE]);
+                $map = $this->getGroupMap(array_map('intval', $policy->limitations[Limitation::STATE]));
             }
             $policy->limitations += $map;
             unset($policy->limitations[Limitation::STATE]);
@@ -39,10 +41,12 @@ class ObjectStateHandler extends LimitationHandler
 
     /**
      * Translate Legacy StateGroup_<identifier> limitations to API STATE limitation.
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public function toSPI(Policy $policy): void
     {
-        if ($policy->limitations === '*' || empty($policy->limitations)) {
+        if ($policy->limitations === '*' || empty($policy->limitations) || is_string($policy->limitations)) {
             return;
         }
 
@@ -95,8 +99,14 @@ class ObjectStateHandler extends LimitationHandler
 
     /**
      * Query for groups identifiers and id's.
+     *
+     * @param array<int>|null $limitIds list of limitation-related IDs
+     *
+     * @return array<string, int[]>
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
-    protected function getGroupMap(array $limitIds = null): array
+    protected function getGroupMap(?array $limitIds = null): array
     {
         $query = $this->connection->createQueryBuilder();
         $query
@@ -115,16 +125,14 @@ class ObjectStateHandler extends LimitationHandler
                     's.id',
                     $query->createPositionalParameter(
                         array_map('intval', $limitIds),
-                        Connection::PARAM_INT_ARRAY
+                        ArrayParameterType::INTEGER
                     )
                 )
             );
         }
 
-        $statement = $query->execute();
-
+        $groupValues = $query->executeQuery()->fetchAllAssociative();
         $map = [];
-        $groupValues = $statement->fetchAllAssociative();
         foreach ($groupValues as $groupValue) {
             $map[self::STATE_GROUP . $groupValue['identifier']][] = (int)$groupValue['id'];
         }
