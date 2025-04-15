@@ -21,18 +21,18 @@ use Ibexa\Core\Persistence\Legacy\Token\Gateway\TokenType\Doctrine\DoctrineGatew
  */
 final class DoctrineGateway extends AbstractGateway implements Gateway
 {
-    public const TABLE_NAME = 'ibexa_token';
-    public const DEFAULT_TABLE_ALIAS = 'token';
+    public const string TABLE_NAME = 'ibexa_token';
+    public const string DEFAULT_TABLE_ALIAS = 'token';
 
-    public const COLUMN_ID = 'id';
-    public const COLUMN_TYPE_ID = 'type_id';
-    public const COLUMN_TOKEN = 'token';
-    public const COLUMN_IDENTIFIER = 'identifier';
-    public const COLUMN_CREATED = 'created';
-    public const COLUMN_EXPIRES = 'expires';
-    public const COLUMN_REVOKED = 'revoked';
+    public const string COLUMN_ID = 'id';
+    public const string COLUMN_TYPE_ID = 'type_id';
+    public const string COLUMN_TOKEN = 'token';
+    public const string COLUMN_IDENTIFIER = 'identifier';
+    public const string COLUMN_CREATED = 'created';
+    public const string COLUMN_EXPIRES = 'expires';
+    public const string COLUMN_REVOKED = 'revoked';
 
-    public const TOKEN_SEQ = 'ibexa_token_id_seq';
+    public const string TOKEN_SEQ = 'ibexa_token_id_seq';
 
     private Connection $connection;
 
@@ -41,6 +41,9 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
         $this->connection = $connection;
     }
 
+    /**
+     * @return string[]
+     */
     public static function getColumns(): array
     {
         return [
@@ -82,6 +85,9 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
         return (int)$this->connection->lastInsertId(self::TOKEN_SEQ);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function revoke(int $tokenId): void
     {
         $this->connection->update(
@@ -98,6 +104,9 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function revokeByIdentifier(int $typeId, ?string $identifier): void
     {
         $this->connection->update(
@@ -136,7 +145,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
             ->andWhere(
                 $query->expr()->lt(self::COLUMN_EXPIRES, ':now')
             )
-            ->setParameter(':now', $this->getCurrentUnixTimestamp(), ParameterType::INTEGER);
+            ->setParameter('now', $this->getCurrentUnixTimestamp(), ParameterType::INTEGER);
 
         if (null !== $typeId) {
             $query->andWhere(
@@ -145,10 +154,10 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
                     ':type_id'
                 )
             );
-            $query->setParameter(':type_id', $typeId, ParameterType::INTEGER);
+            $query->setParameter('type_id', $typeId, ParameterType::INTEGER);
         }
 
-        $query->execute();
+        $query->executeQuery();
     }
 
     public function getToken(
@@ -157,7 +166,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
         ?string $identifier = null
     ): array {
         $query = $this->getTokenSelectQueryBuilder($tokenType, $token, $identifier);
-        $row = $query->execute()->fetchAssociative();
+        $row = $query->executeQuery()->fetchAssociative();
 
         if (false === $row) {
             throw new NotFound('token', "token: $token, type: $tokenType, identifier: $identifier");
@@ -179,9 +188,9 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
                 )
             );
 
-        $query->setParameter(':token_id', $tokenId, ParameterType::INTEGER);
+        $query->setParameter('token_id', $tokenId, ParameterType::INTEGER);
 
-        $row = $query->execute()->fetchAssociative();
+        $row = $query->executeQuery()->fetchAssociative();
 
         if (false === $row) {
             throw new NotFound('token', "id: $tokenId");
@@ -233,8 +242,8 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
                 )
             );
 
-        $query->setParameter(':token_type', $tokenType, ParameterType::STRING);
-        $query->setParameter(':token', $token, ParameterType::STRING);
+        $query->setParameter('token_type', $tokenType);
+        $query->setParameter('token', $token);
 
         if (null !== $identifier) {
             $query->andWhere(
@@ -243,7 +252,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
                     ':identifier'
                 )
             );
-            $query->setParameter(':identifier', $identifier, ParameterType::STRING);
+            $query->setParameter('identifier', $identifier);
         }
 
         return $query;

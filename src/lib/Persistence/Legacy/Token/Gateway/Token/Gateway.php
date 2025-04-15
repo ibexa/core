@@ -38,6 +38,8 @@ interface Gateway
     public function deleteExpired(?int $typeId = null): void;
 
     /**
+     * @return array<string,mixed>
+     *
      * @throws \Doctrine\DBAL\Exception
      * @throws \Doctrine\DBAL\Driver\Exception
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
@@ -49,6 +51,8 @@ interface Gateway
     ): array;
 
     /**
+     * @return array<string,mixed>
+     *
      * @throws \Doctrine\DBAL\Exception
      * @throws \Doctrine\DBAL\Driver\Exception
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
