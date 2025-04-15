@@ -7,7 +7,6 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Location;
 
-use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
@@ -33,7 +32,7 @@ class Depth extends CriterionHandler
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         $column = 't.depth';
 
         switch ($criterion->operator) {
@@ -44,10 +43,11 @@ class Depth extends CriterionHandler
                 );
 
             case Criterion\Operator::BETWEEN:
-                return $this->dbPlatform->getBetweenExpression(
+                return sprintf(
+                    '%s BETWEEN %s AND %s',
                     $column,
-                    $queryBuilder->createNamedParameter($criterion->value[0], ParameterType::STRING),
-                    $queryBuilder->createNamedParameter($criterion->value[1], ParameterType::STRING)
+                    $queryBuilder->createNamedParameter($criterion->value[0]),
+                    $queryBuilder->createNamedParameter($criterion->value[1])
                 );
 
             case Criterion\Operator::EQ:
@@ -59,7 +59,7 @@ class Depth extends CriterionHandler
 
                 return $queryBuilder->expr()->$operatorFunction(
                     $column,
-                    $queryBuilder->createNamedParameter(reset($criterion->value), ParameterType::STRING)
+                    $queryBuilder->createNamedParameter(reset($criterion->value))
                 );
 
             default:

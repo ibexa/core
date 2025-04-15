@@ -29,7 +29,7 @@ class IsUserBased extends CriterionHandler
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         $isUserBased = (bool)reset($criterion->value);
 
         $subSelect = $this->connection->createQueryBuilder();

@@ -7,7 +7,6 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Gateway\CriterionHandler;
 
-use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
@@ -32,12 +31,12 @@ class Subtree extends CriterionHandler
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         $statements = [];
         foreach ($criterion->value as $pattern) {
             $statements[] = $queryBuilder->expr()->like(
                 'path_string',
-                $queryBuilder->createNamedParameter($pattern . '%', ParameterType::STRING)
+                $queryBuilder->createNamedParameter($pattern . '%')
             );
         }
 

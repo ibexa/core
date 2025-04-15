@@ -32,7 +32,7 @@ class Visibility extends CriterionHandler
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         $subSelect = $this->connection->createQueryBuilder();
 
         if ($criterion->value[0] === Criterion\Visibility::VISIBLE) {

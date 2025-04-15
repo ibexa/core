@@ -32,7 +32,7 @@ class IsMainLocation extends CriterionHandler
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         $idColumn = 't.node_id';
         $mainIdColumn = 't.main_node_id';
 
