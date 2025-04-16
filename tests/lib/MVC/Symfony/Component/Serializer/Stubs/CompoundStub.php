@@ -11,20 +11,32 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Component\Serializer\Stubs;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound;
 
+/**
+ * @phpstan-import-type TCompoundMatcherConfig from \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound
+ */
 final class CompoundStub extends Compound
 {
+    /**
+     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher[] $subMatchers
+     */
     public function __construct(array $subMatchers)
     {
         parent::__construct([]);
         $this->subMatchers = $subMatchers;
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     */
     public function match(): never
     {
         throw new NotImplementedException(__METHOD__);
     }
 
-    public function reverseMatch($siteAccessName): never
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     */
+    public function reverseMatch(string $siteAccessName): never
     {
         throw new NotImplementedException(__METHOD__);
     }

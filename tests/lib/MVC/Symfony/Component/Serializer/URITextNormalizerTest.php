@@ -15,8 +15,14 @@ use Ibexa\Tests\Core\Search\TestCase;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
+/**
+ * @covers \Ibexa\Core\MVC\Symfony\Component\Serializer\URITextNormalizer
+ */
 final class URITextNormalizerTest extends TestCase
 {
+    /**
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
     public function testNormalize(): void
     {
         $normalizer = new URITextNormalizer();

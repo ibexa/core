@@ -9,7 +9,6 @@ namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
-use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIElement;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIElement as URIElementMatcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
 use Psr\Log\LoggerInterface;
@@ -113,18 +112,23 @@ class RouterURIElementTest extends RouterBaseTest
 
     /**
      * @dataProvider reverseMatchProvider
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
     public function testReverseMatch(string $siteAccessName, string $originalPathinfo): void
     {
         $matcher = new URIElementMatcher([1]);
         $matcher->setRequest(new SimplifiedRequest('http', '', 80, $originalPathinfo));
         $result = $matcher->reverseMatch($siteAccessName);
-        self::assertInstanceOf(URIElement::class, $result);
-        self::assertSame("/{$siteAccessName}{$originalPathinfo}", $result->getRequest()->getPathInfo());
+        self::assertInstanceOf(URIElementMatcher::class, $result);
+        self::assertSame("/$siteAccessName$originalPathinfo", $result->getRequest()->getPathInfo());
         self::assertSame("/$siteAccessName/some/linked/uri", $result->analyseLink('/some/linked/uri'));
         self::assertSame('/foo/bar/baz', $result->analyseURI("/$siteAccessName/foo/bar/baz"));
     }
 
+    /**
+     * @return list<array{string, string}>
+     */
     public function reverseMatchProvider(): array
     {
         return [

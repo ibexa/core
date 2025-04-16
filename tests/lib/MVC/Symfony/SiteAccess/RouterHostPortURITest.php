@@ -121,17 +121,17 @@ class RouterHostPortURITest extends RouterBaseTest
 
     public function testSetGetRequestMapPort(): void
     {
-        $mapKey = 8000;
+        $mapKey = '8000';
         $request = new SimplifiedRequest('http', '', $mapKey);
-        $matcher = new Port(['foo' => $mapKey]);
+        $matcher = new Port([$mapKey => 'foo']);
         $matcher->setRequest($request);
         self::assertSame($request, $matcher->getRequest());
-        self::assertSame((string)$mapKey, $matcher->getMapKey());
+        self::assertSame($mapKey, $matcher->getMapKey());
     }
 
     public function testReversePortMatchFail(): void
     {
-        $config = ['foo' => 8080];
+        $config = [8080 => 'foo'];
         $matcher = new Port($config);
         self::assertNull($matcher->reverseMatch('non_existent'));
     }
@@ -151,7 +151,7 @@ class RouterHostPortURITest extends RouterBaseTest
         $result = $matcher->reverseMatch('ibexa_demo_site');
         self::assertInstanceOf(Port::class, $result);
         self::assertSame($request, $matcher->getRequest());
-        self::assertSame(8000, $result->getMapKey());
+        self::assertSame('8000', $result->getMapKey());
         self::assertSame(8000, $result->getRequest()->getPort());
         self::assertSame('http', $result->getRequest()->getScheme());
     }

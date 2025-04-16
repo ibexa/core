@@ -8,7 +8,6 @@
 namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
-use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIText;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIText as URITextMatcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
 use Psr\Log\LoggerInterface;
@@ -121,7 +120,7 @@ class RouterURITextTest extends RouterBaseTest
         $matcher->setRequest(new SimplifiedRequest('http', '', 80, $semanticURI));
 
         $result = $matcher->reverseMatch('something');
-        self::assertInstanceOf(URIText::class, $result);
+        self::assertInstanceOf(URITextMatcher::class, $result);
         $request = $result->getRequest();
         self::assertInstanceOf(SimplifiedRequest::class, $request);
         self::assertSame("/foosomethingbar{$semanticURI}", $request->getPathInfo());

@@ -91,7 +91,6 @@ class RouterHostTextTest extends RouterBaseTest
         $result = $matcher->reverseMatch('foobar');
         self::assertInstanceOf(HostTextMatcher::class, $result);
         $request = $result->getRequest();
-        self::assertInstanceOf(SimplifiedRequest::class, $request);
         self::assertSame('www.foobar.com', $request->getHost());
     }
 
