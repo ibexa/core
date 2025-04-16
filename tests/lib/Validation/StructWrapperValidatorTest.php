@@ -108,6 +108,39 @@ final class StructWrapperValidatorTest extends TestCase
         self::assertSame('property', $error->getPropertyPath());
     }
 
+    public function testValidateProperty(): void
+    {
+        $initialError = $this->createExampleConstraintViolation();
+        $initialErrors = $this->createExampleConstraintViolationList($initialError);
+
+        $object = new stdClass();
+        $propertyName = 'foobar';
+        $group = ['Default', 'group'];
+        $this->validator->expects(self::exactly(1))
+            ->method('validateProperty')
+            ->with($object, $propertyName, $group)
+            ->willReturn($initialErrors);
+
+        $this->structValidator->validateProperty($object, $propertyName, $group);
+    }
+
+    public function testValidatePropertyValue(): void
+    {
+        $initialError = $this->createExampleConstraintViolation();
+        $initialErrors = $this->createExampleConstraintViolationList($initialError);
+
+        $object = new stdClass();
+        $propertyName = 'foobar';
+        $value = 'someValue';
+        $group = ['Default', 'group'];
+        $this->validator->expects(self::exactly(1))
+            ->method('validatePropertyValue')
+            ->with($object, $propertyName, $value, $group)
+            ->willReturn($initialErrors);
+
+        $this->structValidator->validatePropertyValue($object, $propertyName, $value, $group);
+    }
+
     private function createExampleConstraintViolation(): ConstraintViolationInterface
     {
         return new ConstraintViolation(
