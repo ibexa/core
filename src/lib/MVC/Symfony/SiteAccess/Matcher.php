@@ -19,20 +19,16 @@ interface Matcher
      *
      * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
      */
-    public function setRequest(SimplifiedRequest $request);
+    public function setRequest(SimplifiedRequest $request): void;
 
     /**
-     * Returns matched Siteaccess or false if no siteaccess could be matched.
-     *
-     * @return string|false
+     * Returns matched SiteAccess or false if no SiteAccess could be matched.
      */
-    public function match();
+    public function match(): string|bool;
 
     /**
      * Returns the matcher's name.
      * This information will be stored in the SiteAccess object itself to quickly be able to identify the matcher type.
-     *
-     * @return string
      */
-    public function getName();
+    public function getName(): string;
 }

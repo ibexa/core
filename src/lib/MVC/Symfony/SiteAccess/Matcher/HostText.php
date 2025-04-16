@@ -36,7 +36,7 @@ class HostText extends AffixBasedTextMatcher
         parent::setRequest($request);
     }
 
-    public function reverseMatch($siteAccessName): ?VersatileMatcher
+    public function reverseMatch(string $siteAccessName): ?VersatileMatcher
     {
         $this->request->setHost($this->prefix . $siteAccessName . $this->suffix);
 

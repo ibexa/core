@@ -9,6 +9,7 @@ namespace Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Map;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Map;
+use Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
 
 class Host extends Map
 {
@@ -24,14 +25,14 @@ class Host extends Map
      */
     public function setRequest(SimplifiedRequest $request): void
     {
-        if (!$this->key) {
+        if (!isset($this->key)) {
             $this->setMapKey((string)$request->getHost());
         }
 
         parent::setRequest($request);
     }
 
-    public function reverseMatch($siteAccessName)
+    public function reverseMatch(string $siteAccessName): ?VersatileMatcher
     {
         $matcher = parent::reverseMatch($siteAccessName);
         if ($matcher instanceof self) {

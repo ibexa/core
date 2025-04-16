@@ -166,14 +166,10 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
     }
 
     /**
-     * Returns the SiteAccess object matched against $request and the siteaccess configuration.
-     * If nothing could be matched, the default siteaccess is returned, with "default" as matching type.
-     *
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
-     *
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess
+     * Returns the SiteAccess object matched against $request and the SiteAccess configuration.
+     * If nothing could be matched, the default SiteAccess is returned, with "default" as the matching type.
      */
-    private function doMatch(SimplifiedRequest $request)
+    private function doMatch(SimplifiedRequest $request): SiteAccess
     {
         foreach ($this->siteAccessesConfiguration as $matchingClass => $matchingConfiguration) {
             $matcher = $this->matcherBuilder->buildMatcher($matchingClass, $matchingConfiguration, $request);
@@ -182,7 +178,7 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
             }
 
             $siteAccessName = $matcher->match();
-            if ($siteAccessName !== false && $this->siteAccessProvider->isDefined($siteAccessName)) {
+            if (is_string($siteAccessName) && $this->siteAccessProvider->isDefined($siteAccessName)) {
                 $this->siteAccess = $this->siteAccessProvider->getSiteAccess($siteAccessName);
                 $this->siteAccess->matchingType = $matcher->getName();
                 $this->siteAccess->matcher = $matcher;

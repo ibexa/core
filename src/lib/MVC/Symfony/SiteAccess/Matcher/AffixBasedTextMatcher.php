@@ -35,4 +35,12 @@ abstract class AffixBasedTextMatcher extends Regex implements VersatileMatcher
 
         parent::__construct($this->buildRegex(), $this->getMatchedItemNumber());
     }
+
+    /**
+     * @phpstan-return TSiteAccessConfigurationArray
+     */
+    public function getSiteAccessesConfiguration(): array
+    {
+        return $this->siteAccessesConfiguration;
+    }
 }

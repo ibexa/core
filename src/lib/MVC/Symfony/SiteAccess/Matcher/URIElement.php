@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 
+use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess\URILexer;
 use Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
@@ -23,19 +24,19 @@ class URIElement implements VersatileMatcher, URILexer
 
     /**
      * URI elements used for matching as an array.
+     *
+     * @var array<string>
      */
-    private ?array $uriElements = null;
+    private array $uriElements;
 
     /**
-     * Constructor.
-     *
-     * @param int|array $elementNumber Number of elements to take into account.
+     * @param array<mixed>|int $elementNumber Number of elements to take into account.
      */
-    public function __construct($elementNumber)
+    public function __construct(array|int $elementNumber)
     {
         if (is_array($elementNumber)) {
             // DI config parser will create an array with 'value' => number
-            $elementNumber = current($elementNumber);
+            $elementNumber = (int)current($elementNumber);
         }
 
         $this->elementNumber = (int)$elementNumber;
@@ -47,15 +48,15 @@ class URIElement implements VersatileMatcher, URILexer
     }
 
     /**
-     * Returns matching Siteaccess.
+     * Returns matching SiteAccess.
      *
-     * @return string|false Siteaccess matched or false.
+     * @return string|false SiteAccess matched or false.
      */
-    public function match(): string|false
+    public function match(): string|bool
     {
         try {
             return implode('_', $this->getURIElements());
-        } catch (LogicException $e) {
+        } catch (LogicException) {
             return false;
         }
     }
@@ -65,18 +66,20 @@ class URIElement implements VersatileMatcher, URILexer
      *
      * @throws \LogicException
      *
-     * @return array
+     * @return string[]
      */
-    protected function getURIElements()
+    public function getURIElements(): array
     {
         if (isset($this->uriElements)) {
             return $this->uriElements;
-        } elseif (!isset($this->request)) {
+        }
+
+        if (!isset($this->request)) {
             return [];
         }
 
         $elements = array_slice(
-            explode('/', $this->request->getPathInfo()),
+            explode('/', (string)$this->request->getPathInfo()),
             1,
             $this->elementNumber
         );
@@ -111,26 +114,36 @@ class URIElement implements VersatileMatcher, URILexer
     }
 
     /**
-     * @return \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the request is not set
      */
-    public function getRequest()
+    public function getRequest(): SimplifiedRequest
     {
+        if (null === $this->request) {
+            throw new BadStateException(
+                'request',
+                sprintf(
+                    'Missing required request context in %s matcher',
+                    __CLASS__
+                )
+            );
+        }
+
         return $this->request;
     }
 
     /**
-     * Analyses $uri and removes the siteaccess part, if needed.
+     * Analyzes $uri and removes the SiteAccess part, if needed.
      *
      * @param string $uri The original URI
      *
      * @return string The modified URI
      */
-    public function analyseURI($uri)
+    public function analyseURI($uri): string
     {
         $uriElements = '/' . implode('/', $this->getURIElements());
-        if ($uri == $uriElements) {
+        if ($uri === $uriElements) {
             $uri = '';
-        } elseif (strpos($uri, $uriElements) === 0) {
+        } elseif (str_starts_with($uri, $uriElements)) {
             $uri = mb_substr($uri, mb_strlen($uriElements));
         }
 
@@ -138,7 +151,7 @@ class URIElement implements VersatileMatcher, URILexer
     }
 
     /**
-     * Analyses $linkUri when generating a link to a route, in order to have the siteaccess part back in the URI.
+     * Analyses $linkUri when generating a link to a route, in order to have the SiteAccess part back in the URI.
      *
      * @param string $linkUri
      *
@@ -151,31 +164,46 @@ class URIElement implements VersatileMatcher, URILexer
         $linkUri = ltrim($linkUri, '/');
         $uriElements = implode('/', $this->getURIElements());
 
-        return "/{$uriElements}{$joiningSlash}{$linkUri}";
+        return sprintf('/%s%s%s', $uriElements, $joiningSlash, $linkUri);
     }
 
     /**
-     * Returns matcher object corresponding to $siteAccessName or null if non applicable.
+     * Returns matcher object corresponding to $siteAccessName or null if non-applicable.
      *
      * Limitation: If the element number is > 1, we cannot predict how URI segments are expected to be built.
      * So we expect "_" will be reversed to "/"
-     * e.g. foo_bar => foo/bar with elementNumber == 2
-     * Hence if number of elements is different than the element number, we report as non matched.
+     * e.g., foo_bar => foo/bar with elementNumber == 2
+     * Hence if number of elements is different from the element number, we report as non-matched.
      *
      * @param string $siteAccessName
      *
      * @return \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIElement|null
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if request is not set
      */
-    public function reverseMatch($siteAccessName): ?self
+    public function reverseMatch(string $siteAccessName): ?VersatileMatcher
     {
         $elements = $this->elementNumber > 1 ? explode('_', $siteAccessName) : [$siteAccessName];
         if (count($elements) !== $this->elementNumber) {
             return null;
         }
 
-        $pathinfo = '/' . implode('/', $elements) . '/' . ltrim((string)$this->request->getPathInfo(), '/');
-        $this->request->setPathinfo($pathinfo);
+        $pathInfo = '/' . implode('/', $elements) . '/' . ltrim((string)$this->getRequest()->getPathInfo(), '/');
+        $this->getRequest()->setPathinfo($pathInfo);
 
         return $this;
+    }
+
+    public function getElementNumber(): int
+    {
+        return $this->elementNumber;
+    }
+
+    /**
+     * @param string[] $uriElements
+     */
+    public function setUriElements(array $uriElements): void
+    {
+        $this->uriElements = $uriElements;
     }
 }

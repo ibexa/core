@@ -14,32 +14,27 @@ abstract class Map implements VersatileMatcher
 {
     /**
      * String that will be looked up in the map.
-     *
-     * @var string
      */
-    protected $key;
+    protected string $key;
 
     /**
      * Map used for the matching.
      *
-     * @var array
+     * @var array<string, string|bool>
      */
-    protected $map = [];
+    protected array $map = [];
 
     /**
      * Map used for reverse matching.
      *
-     * @var array
+     * @var array<string, string>
      */
-    protected $reverseMap = [];
+    protected array $reverseMap = [];
 
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest */
-    protected $request;
+    protected SimplifiedRequest $request;
 
     /**
-     * Constructor.
-     *
-     * @param array $map Map used for matching.
+     * @param array<string, string> $map Map used for matching.
      */
     public function __construct(array $map)
     {
@@ -47,16 +42,15 @@ abstract class Map implements VersatileMatcher
     }
 
     /**
-     * Do not serialize the Siteaccess configuration in order to reduce ESI request URL size.
+     * Do not serialize the SiteAccess configuration to reduce ESI request URL size.
      *
      * @see https://issues.ibexa.co/browse/EZP-23168
      *
-     * @return array
+     * @return array<string>
      */
     public function __sleep()
     {
-        $this->map = [];
-        $this->reverseMap = [];
+        unset($this->map, $this->reverseMap);
 
         return ['map', 'reverseMap', 'key'];
     }
@@ -66,47 +60,30 @@ abstract class Map implements VersatileMatcher
         $this->request = $request;
     }
 
-    public function getRequest()
+    public function getRequest(): SimplifiedRequest
     {
         return $this->request;
     }
 
     /**
      * Injects the key that will be used for matching against the map configuration.
-     *
-     * @param string $key
      */
-    public function setMapKey($key): void
+    public function setMapKey(string $key): void
     {
         $this->key = $key;
     }
 
-    /**
-     * @return string
-     */
-    public function getMapKey()
+    public function getMapKey(): ?string
     {
-        return $this->key;
+        return $this->key ?? null;
     }
 
-    /**
-     * Returns matching Siteaccess.
-     *
-     * @return string|false Siteaccess matched or false.
-     */
-    public function match()
+    public function match(): string|bool
     {
-        return isset($this->map[$this->key])
-            ? $this->map[$this->key]
-            : false;
+        return $this->map[$this->key] ?? false;
     }
 
-    /**
-     * @param string $siteAccessName
-     *
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher|Map|null
-     */
-    public function reverseMatch($siteAccessName)
+    public function reverseMatch(string $siteAccessName): ?VersatileMatcher
     {
         $reverseMap = $this->getReverseMap($siteAccessName);
 
@@ -119,12 +96,16 @@ abstract class Map implements VersatileMatcher
         return $this;
     }
 
-    private function getReverseMap($defaultSiteAccess)
+    /**
+     * @return array<string, string>
+     */
+    private function getReverseMap(string $defaultSiteAccess): array
     {
         if (!empty($this->reverseMap)) {
             return $this->reverseMap;
         }
 
+        /** @var array<string, string|true> $map */
         $map = $this->map;
         foreach ($map as &$value) {
             // $value can be true in the case of the use of a Compound matcher
@@ -132,7 +113,9 @@ abstract class Map implements VersatileMatcher
                 $value = $defaultSiteAccess;
             }
         }
+        /** @var array<string, string> $map */
 
+        /** @var array<string, string> */
         return $this->reverseMap = array_flip($map);
     }
 }

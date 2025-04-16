@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 
+use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
 
@@ -22,20 +23,18 @@ class HostElement implements VersatileMatcher
     /**
      * Host elements used for matching as an array.
      *
-     * @var array
+     * @phpstan-var list<string>
      */
-    private $hostElements;
+    private array $hostElements;
 
     /**
-     * Constructor.
-     *
-     * @param array|int $elementNumber Number of elements to take into account.
+     * @param array<mixed>|int $elementNumber Number of elements to take into account.
      */
-    public function __construct($elementNumber)
+    public function __construct(array|int $elementNumber)
     {
         if (is_array($elementNumber)) {
             // DI config parser will create an array with 'value' => number
-            $elementNumber = current($elementNumber);
+            $elementNumber = (int)current($elementNumber);
         }
 
         $this->elementNumber = (int)$elementNumber;
@@ -47,15 +46,15 @@ class HostElement implements VersatileMatcher
     }
 
     /**
-     * Returns matching Siteaccess.
+     * Returns matching SiteAccess.
      *
-     * @return string|false Siteaccess matched or false.
+     * @return string|false SiteAccess matched or false.
      */
-    public function match()
+    public function match(): string|bool
     {
         $elements = $this->getHostElements();
 
-        return isset($elements[$this->elementNumber - 1]) ? $elements[$this->elementNumber - 1] : false;
+        return $elements[$this->elementNumber - 1] ?? false;
     }
 
     public function getName(): string
@@ -73,38 +72,69 @@ class HostElement implements VersatileMatcher
         $this->request = $request;
     }
 
-    public function getRequest()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the request is not set
+     */
+    public function getRequest(): SimplifiedRequest
     {
+        if (null === $this->request) {
+            throw new BadStateException(
+                'request',
+                sprintf(
+                    'Missing required request context in %s matcher',
+                    __CLASS__
+                )
+            );
+        }
+
         return $this->request;
     }
 
-    public function reverseMatch($siteAccessName): ?self
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     */
+    public function reverseMatch(string $siteAccessName): ?VersatileMatcher
     {
-        $hostElements = explode('.', (string)$this->request->getHost());
+        $hostElements = explode('.', (string)$this->request?->getHost());
         $elementNumber = $this->elementNumber - 1;
         if (!isset($hostElements[$elementNumber])) {
             return null;
         }
 
         $hostElements[$elementNumber] = $siteAccessName;
-        $this->request->setHost(implode('.', $hostElements));
+        $this->getRequest()->setHost(implode('.', $hostElements));
 
         return $this;
     }
 
     /**
-     * @return array
+     * @phpstan-param list<string> $hostElements
      */
-    private function getHostElements()
+    public function setHostElements(array $hostElements): void
+    {
+        $this->hostElements = $hostElements;
+    }
+
+    /**
+     * @phpstan-return list<string>
+     */
+    public function getHostElements(): array
     {
         if (isset($this->hostElements)) {
             return $this->hostElements;
-        } elseif (!isset($this->request)) {
+        }
+
+        if (!isset($this->request)) {
             return [];
         }
 
-        $elements = explode('.', $this->request->getHost());
+        $elements = explode('.', $this->request->getHost() ?? '');
 
         return $this->hostElements = $elements;
+    }
+
+    public function getElementNumber(): int
+    {
+        return $this->elementNumber;
     }
 }

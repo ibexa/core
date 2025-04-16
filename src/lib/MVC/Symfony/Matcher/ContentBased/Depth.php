@@ -38,7 +38,7 @@ class Depth extends MultipleValued
     public function matchContentInfo(ContentInfo $contentInfo): bool
     {
         $location = $this->repository->sudo(
-            static function (Repository $repository) use ($contentInfo): \Ibexa\Contracts\Core\Repository\Values\Content\Location {
+            static function (Repository $repository) use ($contentInfo): Location {
                 return $repository->getLocationService()->loadLocation($contentInfo->mainLocationId);
             }
         );

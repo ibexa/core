@@ -25,7 +25,7 @@ final class SiteAccessNormalizer implements DenormalizerInterface, DenormalizerA
     use DenormalizerAwareTrait;
     use SerializerAwareTrait;
 
-    public function denormalize($data, string $type, ?string $format = null, array $context = []): object
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): object
     {
         // BC for SiteAccess being serialized/normalized using json_encode via \Ibexa\Bundle\Core\Fragment\SiteAccessSerializer
         $matcherType = $data['matcher']['type'] ?? $data['matcher'];
@@ -35,7 +35,7 @@ final class SiteAccessNormalizer implements DenormalizerInterface, DenormalizerA
             $data['name'],
             $data['matchingType'],
             $data['matcher'] !== null
-                ? $this->serializer->deserialize(
+                ? $this->serializer?->deserialize(
                     $matcherData,
                     $matcherType,
                     $format ?? 'json',
@@ -50,37 +50,50 @@ final class SiteAccessNormalizer implements DenormalizerInterface, DenormalizerA
     /**
      * @phpstan-param array<string, mixed> $context
      */
-    public function supportsDenormalization($data, string $type, ?string $format = null, array $context = []): bool
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         return $type === SiteAccess::class;
     }
 
-    public function supportsNormalization($data, ?string $format = null): bool
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof SiteAccess;
     }
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess $object
+     * @param \Ibexa\Core\MVC\Symfony\SiteAccess $data
      *
-     * @return array{name: string, matchingType: string, matcher: array{type: class-string, data: string}|null, provider: string|null, groups: array<mixed>}
+     * @return array{
+     *     name: string,
+     *     matchingType: string,
+     *     matcher: array{type: class-string<\Ibexa\Core\MVC\Symfony\SiteAccess\Matcher>, data: string|null}|null,
+     *     provider: string|null,
+     *     groups: array<\Ibexa\Core\MVC\Symfony\SiteAccessGroup>
+     * }
      */
-    public function normalize($object, ?string $format = null, array $context = []): array
+    public function normalize(mixed $data, ?string $format = null, array $context = []): array
     {
         $matcherData = null;
-        if (is_object($object->matcher)) {
+        if (is_object($data->matcher)) {
             $matcherData = [
-                'type' => get_class($object->matcher),
-                'data' => $this->serializer->serialize($object->matcher, $format ?? 'json', $context),
+                'type' => get_class($data->matcher),
+                'data' => $this->serializer?->serialize($data->matcher, $format ?? 'json', $context),
             ];
         }
 
         return [
-            'name' => $object->name,
-            'matchingType' => $object->matchingType,
+            'name' => $data->name,
+            'matchingType' => $data->matchingType,
             'matcher' => $matcherData,
-            'provider' => $object->provider,
-            'groups' => $object->groups,
+            'provider' => $data->provider,
+            'groups' => $data->groups,
+        ];
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            SiteAccess::class => true,
         ];
     }
 }

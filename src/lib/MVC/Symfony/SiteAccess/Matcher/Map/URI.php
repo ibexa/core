@@ -10,6 +10,7 @@ namespace Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Map;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Map;
 use Ibexa\Core\MVC\Symfony\SiteAccess\URILexer;
+use Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
 
 class URI extends Map implements URILexer
 {
@@ -20,7 +21,7 @@ class URI extends Map implements URILexer
      */
     public function setRequest(SimplifiedRequest $request): void
     {
-        if (!$this->key) {
+        if (!isset($this->key)) {
             sscanf((string)$request->getPathInfo(), '/%[^/]', $key);
             $this->setMapKey(rawurldecode((string)$key));
         }
@@ -76,12 +77,12 @@ class URI extends Map implements URILexer
         return "/{$this->key}{$joiningSlash}{$linkUri}{$queryString}";
     }
 
-    public function reverseMatch($siteAccessName)
+    public function reverseMatch(string $siteAccessName): ?VersatileMatcher
     {
         $matcher = parent::reverseMatch($siteAccessName);
         if ($matcher instanceof self) {
             $request = $matcher->getRequest();
-            // Clean up "old" siteaccess prefix and add the new prefix.
+            // Clean up the "old" SiteAccess prefix and add the new prefix.
             $request->setPathinfo($this->analyseLink((string)$request->getPathInfo()));
         }
 

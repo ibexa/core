@@ -52,7 +52,7 @@ class URIText extends AffixBasedTextMatcher implements URILexer
         return $siteAccessUri . $linkUri;
     }
 
-    public function reverseMatch($siteAccessName): ?VersatileMatcher
+    public function reverseMatch(string $siteAccessName): ?VersatileMatcher
     {
         $this->request->setPathinfo("/{$this->prefix}{$siteAccessName}{$this->suffix}{$this->request->getPathInfo()}");
 

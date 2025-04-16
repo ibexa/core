@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
  */
 final class MatcherDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface
 {
-    private const MATCHER_NORMALIZER_ALREADY_WORKED = self::class . '_ALREADY_CALLED';
+    private const string MATCHER_NORMALIZER_ALREADY_WORKED = self::class . '_ALREADY_CALLED';
 
     use DenormalizerAwareTrait;
 
@@ -55,5 +55,12 @@ final class MatcherDenormalizer implements DenormalizerInterface, DenormalizerAw
         }
 
         return is_subclass_of($type, Matcher::class) && $this->registry->hasMatcher($type);
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            Matcher::class => false,
+        ];
     }
 }

@@ -14,38 +14,28 @@ abstract class Regex implements Matcher
 {
     /**
      * Element that will be matched against the regex.
-     *
-     * @var string
      */
-    protected $element;
+    protected string $element;
 
     /**
      * Regular expression used for matching.
-     *
-     * @var string
      */
-    protected $regex;
+    protected string $regex;
 
     /**
      * Item number to pick in regex.
-     *
-     * @var string
      */
-    protected $itemNumber;
+    protected int $itemNumber;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest */
-    protected $request;
+    protected SimplifiedRequest $request;
 
-    /** @var string */
-    protected $matchedSiteAccess;
+    protected string|false $matchedSiteAccess;
 
     /**
-     * Constructor.
-     *
      * @param string $regex Regular Expression to use.
      * @param int $itemNumber Item number to pick in regex.
      */
-    public function __construct($regex, $itemNumber)
+    public function __construct(string $regex, int $itemNumber)
     {
         $this->regex = $regex;
         $this->itemNumber = $itemNumber;
@@ -56,25 +46,23 @@ abstract class Regex implements Matcher
         return ['regex', 'itemNumber', 'matchedSiteAccess'];
     }
 
-    public function match()
+    public function match(): string|bool
     {
         return $this->getMatchedSiteAccess();
     }
 
     /**
      * Returns matched SiteAccess.
-     *
-     * @return string|bool
      */
-    protected function getMatchedSiteAccess()
+    protected function getMatchedSiteAccess(): string|false
     {
         if (isset($this->matchedSiteAccess)) {
             return $this->matchedSiteAccess;
         }
 
         preg_match(
-            "@{$this->regex}@",
-            (string)$this->element,
+            "@$this->regex@",
+            $this->element,
             $match
         );
 
@@ -94,12 +82,20 @@ abstract class Regex implements Matcher
     }
 
     /**
-     * Injects element to match against with the regexp.
-     *
-     * @param string $element
+     * Injects an element to match against with the regexp.
      */
-    public function setMatchElement($element): void
+    public function setMatchElement(string $element): void
     {
         $this->element = $element;
+    }
+
+    public function getRegex(): string
+    {
+        return $this->regex;
+    }
+
+    public function getItemNumber(): int
+    {
+        return $this->itemNumber;
     }
 }
