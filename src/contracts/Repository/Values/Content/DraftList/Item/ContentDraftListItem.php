@@ -16,10 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
  */
 class ContentDraftListItem implements ContentDraftListItemInterface
 {
-    /**
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo
-     */
-    private $versionInfo;
+    private VersionInfo $versionInfo;
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo

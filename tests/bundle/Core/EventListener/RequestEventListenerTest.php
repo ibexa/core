@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\Core\EventListener;
 use Ibexa\Bundle\Core\EventListener\RequestEventListener;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\PhpUnit\ClockMock;
@@ -24,25 +25,25 @@ use Symfony\Component\Routing\RouterInterface;
 class RequestEventListenerTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $configResolver;
+    private MockObject $configResolver;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $router;
+    private MockObject $router;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Psr\Log\LoggerInterface */
-    private $logger;
+    private MockObject $logger;
 
     /** @var \Ibexa\Bundle\Core\EventListener\RequestEventListener */
-    private $requestEventListener;
+    private RequestEventListener $requestEventListener;
 
     /** @var \Symfony\Component\HttpFoundation\Request */
-    private $request;
+    private MockObject $request;
 
     /** @var \Symfony\Component\HttpKernel\Event\RequestEvent */
-    private $event;
+    private RequestEvent $event;
 
     /** @var \Symfony\Component\HttpKernel\HttpKernelInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $httpKernel;
+    private MockObject $httpKernel;
 
     protected function setUp(): void
     {
@@ -67,7 +68,7 @@ class RequestEventListenerTest extends TestCase
         );
     }
 
-    public function testSubscribedEvents()
+    public function testSubscribedEvents(): void
     {
         self::assertSame(
             [
@@ -80,7 +81,7 @@ class RequestEventListenerTest extends TestCase
         );
     }
 
-    public function testOnKernelRequestForwardSubRequest()
+    public function testOnKernelRequestForwardSubRequest(): void
     {
         $this->httpKernel
             ->expects(self::never())
@@ -90,7 +91,7 @@ class RequestEventListenerTest extends TestCase
         $this->requestEventListener->onKernelRequestForward($event);
     }
 
-    public function testOnKernelRequestForward()
+    public function testOnKernelRequestForward(): void
     {
         ClockMock::withClockMock(true);
 
@@ -121,14 +122,14 @@ class RequestEventListenerTest extends TestCase
         ClockMock::withClockMock(false);
     }
 
-    public function testOnKernelRequestRedirectSubRequest()
+    public function testOnKernelRequestRedirectSubRequest(): void
     {
         $event = new RequestEvent($this->httpKernel, new Request(), HttpKernelInterface::SUB_REQUEST);
         $this->requestEventListener->onKernelRequestRedirect($event);
         self::assertFalse($event->hasResponse());
     }
 
-    public function testOnKernelRequestRedirect()
+    public function testOnKernelRequestRedirect(): void
     {
         $queryParameters = ['some' => 'thing'];
         $cookieParameters = ['cookie' => 'value'];
@@ -149,7 +150,7 @@ class RequestEventListenerTest extends TestCase
         self::assertTrue($event->isPropagationStopped());
     }
 
-    public function testOnKernelRequestRedirectWithLocationId()
+    public function testOnKernelRequestRedirectWithLocationId(): void
     {
         $queryParameters = ['some' => 'thing'];
         $cookieParameters = ['cookie' => 'value'];
@@ -172,7 +173,7 @@ class RequestEventListenerTest extends TestCase
         self::assertTrue($event->isPropagationStopped());
     }
 
-    public function testOnKernelRequestRedirectPrependSiteaccess()
+    public function testOnKernelRequestRedirectPrependSiteaccess(): void
     {
         $queryParameters = ['some' => 'thing'];
         $cookieParameters = ['cookie' => 'value'];

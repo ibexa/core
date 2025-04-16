@@ -21,7 +21,7 @@ class FieldTypeRegistry
     protected $fieldTypes;
 
     /** @var string[] */
-    private $concreteFieldTypesIdentifiers;
+    private ?array $concreteFieldTypesIdentifiers = null;
 
     /**
      * @param \Ibexa\Contracts\Core\FieldType\FieldType[] $fieldTypes Hash of SPI FieldTypes where key is identifier

@@ -13,8 +13,7 @@ use Traversable;
 
 final class RawRangeAggregation extends AbstractRangeAggregation implements RawAggregation
 {
-    /** @var string */
-    private $fieldName;
+    private string $fieldName;
 
     public function __construct(string $name, string $fieldName, array $ranges = [])
     {

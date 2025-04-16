@@ -9,15 +9,14 @@ namespace Ibexa\Tests\Core\Persistence\Legacy;
 
 use Doctrine\Common\EventManager as DoctrineEventManager;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\ConnectionException;
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\FetchMode;
+use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FileFixtureFactory;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\Persistence\Legacy\SharedGateway;
+use Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway;
 use Ibexa\Core\Search\Legacy\Content;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
@@ -25,8 +24,6 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
 use Ibexa\DoctrineSchema\Database\DbPlatform\SqliteDbPlatform;
 use Ibexa\Tests\Core\Persistence\DatabaseConnectionFactory;
 use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
-use InvalidArgumentException;
-use PDOException;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use ReflectionObject;
 use ReflectionProperty;
@@ -38,17 +35,8 @@ abstract class TestCase extends BaseTestCase
 {
     /**
      * DSN used for the DB backend.
-     *
-     * @var string
      */
-    protected $dsn;
-
-    /**
-     * Name of the DB, extracted from DSN.
-     *
-     * @var string
-     */
-    protected $db;
+    protected string $dsn;
 
     /**
      * Doctrine Database connection -- to not be constructed twice for one test.
@@ -57,27 +45,21 @@ abstract class TestCase extends BaseTestCase
      *
      * @var \Doctrine\DBAL\Connection
      */
-    protected $connection;
+    protected Connection $connection;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway */
-    private $sharedGateway;
+    private ?Gateway $sharedGateway = null;
 
     /**
      * Get data source name.
      *
      * The database connection string is read from an optional environment
-     * variable "DATABASE" and defaults to an in-memory SQLite database.
-     *
-     * @return string
+     * variable "DATABASE_URL" and defaults to an in-memory SQLite database.
      */
-    protected function getDsn()
+    protected function getDsn(): string
     {
-        if (!$this->dsn) {
-            $this->dsn = getenv('DATABASE');
-            if (!$this->dsn) {
-                $this->dsn = 'sqlite://:memory:';
-            }
-            $this->db = preg_replace('(^([a-z]+).*)', '\\1', $this->dsn);
+        if (!isset($this->dsn)) {
+            $dsn = getenv('DATABASE_URL');
+            $this->dsn = $dsn ?: 'sqlite://:memory:';
         }
 
         return $this->dsn;
@@ -88,7 +70,7 @@ abstract class TestCase extends BaseTestCase
      */
     final public function getDatabaseConnection(): Connection
     {
-        if (!$this->connection) {
+        if (!isset($this->connection)) {
             $eventManager = new DoctrineEventManager();
             $connectionFactory = new DatabaseConnectionFactory(
                 [new SqliteDbPlatform()],
@@ -106,9 +88,9 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
-    final public function getSharedGateway(): SharedGateway\Gateway
+    final public function getSharedGateway(): Gateway
     {
         if (!$this->sharedGateway) {
             $connection = $this->getDatabaseConnection();
@@ -126,8 +108,7 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Resets the database on test setup, so we always operate on a clean
-     * database.
+     * Resets the database on test setup, so we always operate on a clean database.
      */
     protected function setUp(): void
     {
@@ -137,10 +118,10 @@ abstract class TestCase extends BaseTestCase
                 dirname(__DIR__, 4) .
                 '/src/bundle/Core/Resources/config/storage/legacy/schema.yaml'
             );
-        } catch (PDOException | ConnectionException $e) {
+        } catch (DBALException $e) {
             self::fail(
                 sprintf(
-                    'PDO session could not be created: %s: %s',
+                    'Could not import legacy database schema: %s: %s',
                     get_class($e),
                     $e->getMessage()
                 )
@@ -154,13 +135,9 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Get a text representation of a result set.
-     *
-     * @param array $result
-     *
-     * @return string
+     * @phpstan-param list<array<string,mixed>> $result
      */
-    protected static function getResultTextRepresentation(array $result)
+    protected static function getResultTextRepresentation(array $result): string
     {
         return implode(
             "\n",
@@ -213,17 +190,19 @@ abstract class TestCase extends BaseTestCase
      * maximum readability of the differences between expectations and real
      * results.
      *
-     * The expectation MUST be passed as a two dimensional array containing
+     * The expectation MUST be passed as a two-dimensional array containing
      * rows of columns.
      *
-     * @param array $expectation expected raw database rows
+     * @phpstan-param list<array<string,mixed>> $expectation expected raw database rows
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     public static function assertQueryResult(
         array $expectation,
         QueryBuilder $query,
         string $message = ''
     ): void {
-        $result = $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        $result = $query->executeQuery()->fetchAllAssociative();
 
         self::assertEquals(
             self::getResultTextRepresentation($expectation),
@@ -238,21 +217,16 @@ abstract class TestCase extends BaseTestCase
      * Asserts that for all keys in $properties a corresponding property
      * exists in $object with the *same* value as in $properties.
      *
-     * @param array $properties
+     * @param array<string, mixed> $properties
      * @param object $object
      */
-    protected function assertPropertiesCorrect(array $properties, $object)
+    protected function assertPropertiesCorrect(array $properties, object $object): void
     {
-        if (!is_object($object)) {
-            throw new InvalidArgumentException(
-                'Received ' . gettype($object) . ' instead of object as second parameter'
-            );
-        }
         foreach ($properties as $propName => $propVal) {
             self::assertSame(
                 $propVal,
                 $object->$propName,
-                "Incorrect value for \${$propName}"
+                "Incorrect value for \$$propName"
             );
         }
     }
@@ -264,15 +238,13 @@ abstract class TestCase extends BaseTestCase
      * vice versa!). If $propertyNames is null, all properties are checked.
      * Otherwise, $propertyNames provides a white list.
      *
-     * @param object $expStruct
-     * @param object $actStruct
-     * @param array $propertyNames
+     * @param string[]|null $propertyNames
      */
     protected function assertStructsEqual(
-        $expStruct,
-        $actStruct,
-        array $propertyNames = null
-    ) {
+        object $expStruct,
+        object $actStruct,
+        ?array $propertyNames = null
+    ): void {
         if ($propertyNames === null) {
             $propertyNames = $this->getPublicPropertyNames($expStruct);
         }
@@ -280,7 +252,7 @@ abstract class TestCase extends BaseTestCase
             self::assertEquals(
                 $expStruct->$propName,
                 $actStruct->$propName,
-                "Properties \${$propName} not same"
+                "Properties \$$propName not same"
             );
         }
     }
@@ -288,32 +260,31 @@ abstract class TestCase extends BaseTestCase
     /**
      * Returns public property names in $object.
      *
-     * @param object $object
-     *
-     * @return array
+     * @return string[]
      */
-    protected function getPublicPropertyNames($object)
+    protected function getPublicPropertyNames(object $object): array
     {
-        $refl = new ReflectionObject($object);
+        $reflectionObject = new ReflectionObject($object);
 
         return array_map(
             static function ($prop): string {
                 return $prop->getName();
             },
-            $refl->getProperties(ReflectionProperty::IS_PUBLIC)
+            $reflectionObject->getProperties(ReflectionProperty::IS_PUBLIC)
         );
     }
 
     /**
      * @deprecated since Ibexa 4.0, rewrite test case to use {@see \Ibexa\Contracts\Core\Test\IbexaKernelTestCase} instead.
-     *
-     * @return string
      */
     protected static function getInstallationDir(): string
     {
         return Legacy::getInstallationDir();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     protected function getTrashCriteriaConverterDependency(): CriteriaConverter
     {
         $connection = $this->getDatabaseConnection();
@@ -330,6 +301,9 @@ abstract class TestCase extends BaseTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     protected function getTrashSortClauseConverterDependency(): SortClauseConverter
     {
         $connection = $this->getDatabaseConnection();

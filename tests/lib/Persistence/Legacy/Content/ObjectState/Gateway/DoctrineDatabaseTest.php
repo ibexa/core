@@ -19,17 +19,8 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 {
     /**
      * Database gateway to test.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\DoctrineDatabase
      */
-    protected $databaseGateway;
-
-    /**
-     * Language mask generator.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
-     */
-    protected $languageMaskGenerator;
+    protected DoctrineDatabase $databaseGateway;
 
     /**
      * Inserts DB fixture.
@@ -39,15 +30,15 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         parent::setUp();
 
         $this->insertDatabaseFixture(
-            __DIR__ . '/../../_fixtures/contentobjects.php'
+            self::FIXTURE_PATH_CONTENT_OBJECTS
         );
 
         $this->insertDatabaseFixture(
-            __DIR__ . '/../../_fixtures/objectstates.php'
+            self::FIXTURE_PATH_OBJECTS_STATES
         );
     }
 
-    public function testLoadObjectStateData()
+    public function testLoadObjectStateData(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -71,7 +62,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadObjectStateDataByIdentifier()
+    public function testLoadObjectStateDataByIdentifier(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -95,7 +86,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadObjectStateListData()
+    public function testLoadObjectStateListData(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -134,7 +125,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadObjectStateGroupData()
+    public function testLoadObjectStateGroupData(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -157,7 +148,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadObjectStateGroupDataByIdentifier()
+    public function testLoadObjectStateGroupDataByIdentifier(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -180,7 +171,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadObjectStateGroupListData()
+    public function testLoadObjectStateGroupListData(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -205,7 +196,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testInsertObjectState()
+    public function testInsertObjectState(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -232,7 +223,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testInsertObjectStateInEmptyGroup()
+    public function testInsertObjectStateInEmptyGroup(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -267,7 +258,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testUpdateObjectState()
+    public function testUpdateObjectState(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -294,7 +285,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteObjectState()
+    public function testDeleteObjectState(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -306,7 +297,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testUpdateObjectStateLinks()
+    public function testUpdateObjectStateLinks(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -316,7 +307,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertSame(185, $gateway->getContentCount(2));
     }
 
-    public function testDeleteObjectStateLinks()
+    public function testDeleteObjectStateLinks(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -325,7 +316,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertSame(0, $gateway->getContentCount(1));
     }
 
-    public function testInsertObjectStateGroup()
+    public function testInsertObjectStateGroup(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -350,7 +341,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testUpdateObjectStateGroup()
+    public function testUpdateObjectStateGroup(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -376,7 +367,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testDeleteObjectStateGroup()
+    public function testDeleteObjectStateGroup(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -388,13 +379,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testSetContentState()
+    public function testSetContentState(): void
     {
         $gateway = $this->getDatabaseGateway();
 
         $gateway->setContentState(42, 2, 2);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'contentobject_id' => 42,
@@ -408,7 +399,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadObjectStateDataForContent()
+    public function testLoadObjectStateDataForContent(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -432,7 +423,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testGetContentCount()
+    public function testGetContentCount(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -442,7 +433,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertEquals(185, $result);
     }
 
-    public function testUpdateObjectStatePriority()
+    public function testUpdateObjectStatePriority(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -473,7 +464,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState
      */
-    protected function getObjectStateFixture()
+    protected function getObjectStateFixture(): ObjectState
     {
         $objectState = new ObjectState();
         $objectState->identifier = 'test_state';
@@ -490,7 +481,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group
      */
-    protected function getObjectStateGroupFixture()
+    protected function getObjectStateGroupFixture(): Group
     {
         $group = new Group();
         $group->identifier = 'test_group';
@@ -505,7 +496,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns a ready to test DoctrineDatabase gateway.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function getDatabaseGateway(): DoctrineDatabase
     {

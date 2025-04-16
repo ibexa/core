@@ -12,14 +12,14 @@ use Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\ConfigSuggest
 class SuggestionCollector implements SuggestionCollectorInterface
 {
     /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\ConfigSuggestion[] */
-    private $suggestions = [];
+    private array $suggestions = [];
 
     /**
      * Adds a config suggestion to the list.
      *
      * @param \Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\ConfigSuggestion $suggestion
      */
-    public function addSuggestion(ConfigSuggestion $suggestion)
+    public function addSuggestion(ConfigSuggestion $suggestion): void
     {
         $this->suggestions[] = $suggestion;
     }

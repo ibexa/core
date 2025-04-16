@@ -14,8 +14,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class TranslationService extends TranslationServiceDecorator
 {
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
-    protected $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         TranslationServiceInterface $innerService,

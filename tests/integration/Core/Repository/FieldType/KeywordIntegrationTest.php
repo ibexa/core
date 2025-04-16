@@ -7,11 +7,13 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Core\FieldType\Keyword\Value;
 use Ibexa\Core\FieldType\Keyword\Value as KeywordValue;
 
 /**
@@ -37,7 +39,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function getSettingsSchema()
+    public function getSettingsSchema(): array
     {
         return [];
     }
@@ -47,7 +49,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidFieldSettings()
+    public function getValidFieldSettings(): array
     {
         return [];
     }
@@ -57,7 +59,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidFieldSettings()
+    public function getInvalidFieldSettings(): array
     {
         return [
             'somethingUnknown' => 0,
@@ -69,7 +71,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function getValidatorSchema()
+    public function getValidatorSchema(): array
     {
         return [];
     }
@@ -79,7 +81,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidValidatorConfiguration()
+    public function getValidValidatorConfiguration(): array
     {
         return [];
     }
@@ -89,7 +91,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidValidatorConfiguration()
+    public function getInvalidValidatorConfiguration(): array
     {
         return [
             'unknown' => ['value' => 23],
@@ -101,15 +103,17 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidCreationFieldData()
+    public function getValidCreationFieldData(): Value
     {
         return new KeywordValue(['foo', 'bar', 'sindelfingen']);
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @return \Ibexa\Core\FieldType\Keyword\Value[]
      */
-    public function getValidMultilingualFieldData(array $languageCodes)
+    public function getValidMultilingualFieldData(array $languageCodes): array
     {
         $data = [];
         foreach ($languageCodes as $languageCode) {
@@ -143,7 +147,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertFieldDataLoadedCorrect(Field $field)
+    public function assertFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             KeywordValue::class,
@@ -156,7 +160,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public function provideInvalidCreationFieldData(): array
     {
         return [
             [
@@ -175,7 +179,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function getValidUpdateFieldData()
+    public function getValidUpdateFieldData(): Value
     {
         return new KeywordValue(['bielefeld']);
     }
@@ -187,7 +191,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function assertUpdatedFieldDataLoadedCorrect(Field $field)
+    public function assertUpdatedFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             KeywordValue::class,
@@ -213,7 +217,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertCopiedFieldDataLoadedCorrectly(Field $field)
+    public function assertCopiedFieldDataLoadedCorrectly(Field $field): void
     {
         self::assertInstanceOf(
             KeywordValue::class,
@@ -246,7 +250,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function provideToHashData()
+    public function provideToHashData(): array
     {
         return [
             [
@@ -263,7 +267,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function provideFromHashData()
+    public function provideFromHashData(): array
     {
         return [
             [
@@ -273,7 +277,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public function providerForTestIsEmptyValue(): array
     {
         return [
             [new KeywordValue()],
@@ -282,7 +286,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public function providerForTestIsNotEmptyValue(): array
     {
         return [
             [
@@ -297,7 +301,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
     /**
      * Test updating multiple contents with ezkeyword field preserves proper fields values.
      */
-    public function testUpdateContentKeywords()
+    public function testUpdateContentKeywords(): void
     {
         $contentType = $this->testCreateContentType();
         $contentService = $this->getRepository()->getContentService();
@@ -333,7 +337,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
     /**
      * {@inheritdoc}
      */
-    protected function createContent($fieldData, $contentType = null)
+    protected function createContent($fieldData, $contentType = null): Content
     {
         if ($contentType === null) {
             $contentType = $this->testCreateContentType();
@@ -361,7 +365,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      * @param int $contentId
      * @param \Ibexa\Core\FieldType\Keyword\Value $value
      */
-    private function assertContentFieldHasCorrectData($contentId, KeywordValue $value)
+    private function assertContentFieldHasCorrectData(int $contentId, KeywordValue $value): void
     {
         $contentService = $this->getRepository()->getContentService();
         $loadedContent = $contentService->loadContent($contentId, ['eng-US']);
@@ -397,7 +401,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         self::assertEqualsCanonicalizing($contentDraft03->getFieldValue('data'), $value01);
     }
 
-    public function testKeywordsAreCaseSensitive()
+    public function testKeywordsAreCaseSensitive(): void
     {
         $contentType = $this->testCreateContentType();
         $publishedContent01 = $this->createAndPublishContent('Foo', $contentType, md5(uniqid(__METHOD__, true)));
@@ -421,7 +425,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
-    protected function createAndPublishContent($fieldData, ContentType $contentType, $remoteId)
+    protected function createAndPublishContent($fieldData, ContentType $contentType, $remoteId): Content
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -451,29 +455,29 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         return 'branch';
     }
 
-    protected function getValidMultivaluedSearchValuesOne()
+    protected function getValidMultivaluedSearchValuesOne(): array
     {
         return ['add', 'branch'];
     }
 
-    protected function getValidMultivaluedSearchValuesTwo()
+    protected function getValidMultivaluedSearchValuesTwo(): array
     {
         return ['commit', 'delete'];
     }
 
-    public function checkFullTextSupport()
+    public function checkFullTextSupport(): void
     {
         // Does nothing
     }
 
-    protected function getFullTextIndexedFieldData()
+    protected function getFullTextIndexedFieldData(): array
     {
         return [
             ['add', 'branch'],
         ];
     }
 
-    public function providerForTestTruncateField()
+    public function providerForTestTruncateField(): array
     {
         return [
             [new KeywordValue()],
@@ -493,7 +497,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @todo Move this method to BaseIntegrationTest when fixed for all field types.
      */
-    public function testTruncateField($emptyValue)
+    public function testTruncateField($emptyValue): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -522,7 +526,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content[]
      */
-    protected function createKeywordContent()
+    protected function createKeywordContent(): array
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -578,7 +582,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testFindContentFieldCriterion()
+    public function testFindContentFieldCriterion(): void
     {
         $this->createKeywordContent();
         $repository = $this->getRepository();

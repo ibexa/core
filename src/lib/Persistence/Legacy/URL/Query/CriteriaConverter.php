@@ -35,7 +35,7 @@ class CriteriaConverter
      *
      * @param \Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler $handler
      */
-    public function addHandler(CriterionHandler $handler)
+    public function addHandler(CriterionHandler $handler): void
     {
         $this->handlers[] = $handler;
     }

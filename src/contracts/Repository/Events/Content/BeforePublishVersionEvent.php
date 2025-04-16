@@ -15,14 +15,12 @@ use UnexpectedValueException;
 
 final class BeforePublishVersionEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo */
-    private $versionInfo;
+    private VersionInfo $versionInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content|null */
-    private $content;
+    private ?Content $content = null;
 
     /** @var string[] */
-    private $translations;
+    private array $translations;
 
     public function __construct(VersionInfo $versionInfo, array $translations)
     {

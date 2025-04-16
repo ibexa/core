@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
@@ -30,21 +30,21 @@ class ObjectStateIdentifier extends CriterionHandler
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         $value = (array)$criterion->value;
         $matchStateIdentifier = $queryBuilder->expr()->in(
             't2.identifier',
-            $queryBuilder->createNamedParameter($value, Connection::PARAM_STR_ARRAY)
+            $queryBuilder->createNamedParameter($value, ArrayParameterType::STRING)
         );
 
         if (null !== $criterion->target) {
             $criterionTarget = (array)$criterion->target;
-            $constraints = $queryBuilder->expr()->andX(
+            $constraints = $queryBuilder->expr()->and(
                 $queryBuilder->expr()->in(
                     't3.identifier',
                     $queryBuilder->createNamedParameter(
                         $criterionTarget,
-                        Connection::PARAM_STR_ARRAY
+                        ArrayParameterType::STRING
                     )
                 ),
                 $matchStateIdentifier

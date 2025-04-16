@@ -15,14 +15,11 @@ use UnexpectedValueException;
 
 final class BeforeAddPolicyByRoleDraftEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft */
-    private $roleDraft;
+    private RoleDraft $roleDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyCreateStruct */
-    private $policyCreateStruct;
+    private PolicyCreateStruct $policyCreateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft|null */
-    private $updatedRoleDraft;
+    private ?RoleDraft $updatedRoleDraft = null;
 
     public function __construct(RoleDraft $roleDraft, PolicyCreateStruct $policyCreateStruct)
     {

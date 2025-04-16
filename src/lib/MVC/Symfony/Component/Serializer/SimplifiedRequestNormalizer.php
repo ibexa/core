@@ -8,18 +8,22 @@
 namespace Ibexa\Core\MVC\Symfony\Component\Serializer;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
-use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-final class SimplifiedRequestNormalizer extends PropertyNormalizer
+/**
+ * @internal
+ */
+final class SimplifiedRequestNormalizer implements NormalizerInterface, DenormalizerInterface
 {
     /**
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $object
+     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $data
      *
      * @return array{
      *     scheme: ?string,
      *     host: ?string,
      *     port: ?int,
-     *     pathinfo: ?string,
+     *     pathInfo: ?string,
      *     queryParams: ?array<mixed>,
      *     languages: ?string[],
      *     headers: ?array{}
@@ -27,15 +31,15 @@ final class SimplifiedRequestNormalizer extends PropertyNormalizer
      *
      * @see \Symfony\Component\Serializer\Normalizer\NormalizerInterface::normalize
      */
-    public function normalize($object, $format = null, array $context = []): array
+    public function normalize(mixed $data, ?string $format = null, array $context = []): array
     {
         return [
-            'scheme' => $object->getScheme(),
-            'host' => $object->getHost(),
-            'port' => $object->getPort(),
-            'pathinfo' => $object->getPathInfo(),
-            'queryParams' => $object->getQueryParams(),
-            'languages' => $object->getLanguages(),
+            'scheme' => $data->getScheme(),
+            'host' => $data->getHost(),
+            'port' => $data->getPort(),
+            'pathInfo' => $data->getPathInfo(),
+            'queryParams' => $data->getQueryParams(),
+            'languages' => $data->getLanguages(),
             'headers' => [],
         ];
     }
@@ -43,5 +47,34 @@ final class SimplifiedRequestNormalizer extends PropertyNormalizer
     public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return $data instanceof SimplifiedRequest;
+    }
+
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+    {
+        return new SimplifiedRequest(
+            $data['scheme'] ?? null,
+            $data['host'] ?? null,
+            $data['port'] ?? null,
+            $data['pathInfo'] ?? null,
+            $data['queryParams'] ?? null,
+            $data['languages'] ?? null,
+            $data['headers'] ?? [],
+        );
+    }
+
+    public function supportsDenormalization(
+        mixed $data,
+        string $type,
+        ?string $format = null,
+        array $context = []
+    ): bool {
+        return $type === SimplifiedRequest::class;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            SimplifiedRequest::class => true,
+        ];
     }
 }

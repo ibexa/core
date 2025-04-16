@@ -22,11 +22,9 @@ use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateUpdateStruct;
  */
 class ObjectStateService implements ObjectStateServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ObjectStateService */
-    protected $service;
+    protected ObjectStateServiceInterface $service;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
-    protected $languageResolver;
+    protected LanguageResolver $languageResolver;
 
     /**
      * Construct service object from aggregated service and LanguageResolver.

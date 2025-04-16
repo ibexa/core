@@ -19,50 +19,42 @@ abstract class Gateway extends StorageGateway
      * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
      * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
      */
-    abstract public function storeFileReference(VersionInfo $versionInfo, Field $field);
+    abstract public function storeFileReference(VersionInfo $versionInfo, Field $field): bool;
 
     /**
      * Returns the file reference data for the given $fieldId in $versionNo.
      *
-     * @param mixed $fieldId
-     * @param int $versionNo
-     *
-     * @return array|void
+     * @return array<string, mixed>|null
      */
-    abstract public function getFileReferenceData($fieldId, $versionNo);
+    abstract public function getFileReferenceData(int $fieldId, int $versionNo): ?array;
 
     /**
      * Removes all file references for the given $fieldIds.
      *
-     * @param array $fieldIds
-     * @param int $versionNo
+     * @param int[] $fieldIds
      */
-    abstract public function removeFileReferences(array $fieldIds, $versionNo);
+    abstract public function removeFileReferences(array $fieldIds, int $versionNo): void;
 
     /**
      * Removes a specific file reference for $fieldId and $versionId.
-     *
-     * @param mixed $fieldId
-     * @param int $versionNo
      */
-    abstract public function removeFileReference($fieldId, $versionNo);
+    abstract public function removeFileReference(int $fieldId, int $versionNo): void;
 
     /**
      * Returns a map of files referenced by the given $fieldIds.
      *
-     * @param array $fieldIds
-     * @param int $versionNo
+     * @param int[] $fieldIds
      *
-     * @return array
+     * @phpstan-return list<string>
      */
-    abstract public function getReferencedFiles(array $fieldIds, $versionNo);
+    abstract public function getReferencedFiles(array $fieldIds, int $versionNo): array;
 
     /**
      * Returns a map with the number of references each file from $files has.
      *
-     * @param array $files
+     * @param string[] $files file paths
      *
-     * @return array
+     * @return array<string, int>
      */
-    abstract public function countFileReferences(array $files);
+    abstract public function countFileReferences(array $files): array;
 }

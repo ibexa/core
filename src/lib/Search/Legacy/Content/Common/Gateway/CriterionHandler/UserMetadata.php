@@ -7,7 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -35,13 +35,13 @@ class UserMetadata extends CriterionHandler
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         $value = (array)$criterion->value;
         switch ($criterion->target) {
             case Criterion\UserMetadata::MODIFIER:
                 return $queryBuilder->expr()->in(
                     'v.creator_id',
-                    $queryBuilder->createNamedParameter($value, Connection::PARAM_INT_ARRAY)
+                    $queryBuilder->createNamedParameter($value, ArrayParameterType::INTEGER)
                 );
 
             case Criterion\UserMetadata::GROUP:
@@ -66,7 +66,7 @@ class UserMetadata extends CriterionHandler
                     )->where(
                         $queryBuilder->expr()->in(
                             't2.contentobject_id',
-                            $queryBuilder->createNamedParameter($value, Connection::PARAM_INT_ARRAY)
+                            $queryBuilder->createNamedParameter($value, ArrayParameterType::INTEGER)
                         )
                     );
 
@@ -78,7 +78,7 @@ class UserMetadata extends CriterionHandler
             case Criterion\UserMetadata::OWNER:
                 return $queryBuilder->expr()->in(
                     'c.owner_id',
-                    $queryBuilder->createNamedParameter($value, Connection::PARAM_INT_ARRAY)
+                    $queryBuilder->createNamedParameter($value, ArrayParameterType::INTEGER)
                 );
             default:
                 break;

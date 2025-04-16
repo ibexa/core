@@ -71,13 +71,13 @@ class RouterHostTextTest extends RouterBaseTest
         ];
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $matcher = new HostTextMatcher(['host' => 'foo'], []);
         self::assertSame('host:text', $matcher->getName());
     }
 
-    public function testReverseMatch()
+    public function testReverseMatch(): void
     {
         $matcher = new HostTextMatcher(
             [

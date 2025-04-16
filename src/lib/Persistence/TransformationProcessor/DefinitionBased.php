@@ -17,10 +17,8 @@ class DefinitionBased extends TransformationProcessor
 {
     /**
      * Transformation parser.
-     *
-     * @var \Ibexa\Core\Persistence\TransformationProcessor\DefinitionBased\Parser
      */
-    protected $parser = null;
+    protected Parser $parser;
 
     /**
      * Construct instance of TransformationProcessor\DefinitionBased.

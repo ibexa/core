@@ -24,10 +24,10 @@ use Symfony\Component\DependencyInjection\Reference;
 class IOConfigurationPass implements CompilerPassInterface
 {
     /** @var \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory[]|\ArrayObject */
-    private $metadataHandlerFactories;
+    private ?ArrayObject $metadataHandlerFactories;
 
     /** @var \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory[]|\ArrayObject */
-    private $binarydataHandlerFactories;
+    private ?ArrayObject $binarydataHandlerFactories;
 
     public function __construct(
         ArrayObject $metadataHandlerFactories = null,
@@ -42,7 +42,7 @@ class IOConfigurationPass implements CompilerPassInterface
      *
      * @throws \LogicException
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $ioMetadataHandlers = $container->hasParameter('ibexa.io.metadata_handlers') ?
             $container->getParameter('ibexa.io.metadata_handlers') :
@@ -93,7 +93,7 @@ class IOConfigurationPass implements CompilerPassInterface
             $handlerServiceDefinition = new ChildDefinition($parentHandlerId);
             $definition = $container->setDefinition($handlerId, $handlerServiceDefinition);
 
-            $configurationFactory->configureHandler($definition, $config);
+            $configurationFactory->configureHandler($container, $definition, $config);
 
             $handlers[$name] = new Reference($handlerId);
         }

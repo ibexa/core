@@ -13,38 +13,47 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilderInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\URILexer;
 
 /**
- * Base for Compound siteaccess matchers.
+ * Base for Compound SiteAccess matchers.
  * All classes extending this one must implement a NAME class constant.
+ *
+ * @phpstan-type TCompoundMatcherConfig array<int, array{matchers: array<class-string<\Ibexa\Core\MVC\Symfony\SiteAccess\Matcher>, array<mixed>>}>
  */
 abstract class Compound implements CompoundInterface, URILexer
 {
-    /** @var array Collection of rules using the Compound matcher. */
-    protected $config;
+    public const string NAME = 'compound';
+
+    /**
+     * Collection of rules using the Compound matcher.
+     *
+     * @phpstan-var TCompoundMatcherConfig
+     */
+    protected array $config;
 
     /**
      * Matchers map.
-     * Consists of an array of matchers, grouped by ruleset (so array of array of matchers).
+     * Consists of an array of matchers, grouped by ruleset (so an array of an array of matchers).
      *
-     * @var array
+     * @phpstan-var array<int, array<class-string<\Ibexa\Core\MVC\Symfony\SiteAccess\Matcher>, \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher>>
      */
-    protected $matchersMap = [];
+    protected array $matchersMap;
 
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher[] */
-    protected $subMatchers = [];
+    protected array $subMatchers = [];
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilderInterface */
-    protected $matcherBuilder;
+    protected MatcherBuilderInterface $matcherBuilder;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest */
-    protected $request;
+    protected SimplifiedRequest $request;
 
+    /**
+     * @phpstan-param TCompoundMatcherConfig $config
+     */
     public function __construct(array $config)
     {
         $this->config = $config;
         $this->matchersMap = [];
     }
 
-    public function setMatcherBuilder(MatcherBuilderInterface $matcherBuilder)
+    public function setMatcherBuilder(MatcherBuilderInterface $matcherBuilder): void
     {
         $this->matcherBuilder = $matcherBuilder;
         foreach ($this->config as $i => $rule) {
@@ -54,7 +63,7 @@ abstract class Compound implements CompoundInterface, URILexer
         }
     }
 
-    public function setRequest(SimplifiedRequest $request)
+    public function setRequest(SimplifiedRequest $request): void
     {
         $this->request = $request;
         foreach ($this->matchersMap as $ruleset) {
@@ -64,7 +73,7 @@ abstract class Compound implements CompoundInterface, URILexer
         }
     }
 
-    public function getRequest()
+    public function getRequest(): SimplifiedRequest
     {
         return $this->request;
     }
@@ -96,7 +105,7 @@ abstract class Compound implements CompoundInterface, URILexer
         return $this->subMatchers;
     }
 
-    public function setSubMatchers(array $subMatchers)
+    public function setSubMatchers(array $subMatchers): void
     {
         $this->subMatchers = $subMatchers;
     }
@@ -107,7 +116,7 @@ abstract class Compound implements CompoundInterface, URILexer
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return
            'compound:' .

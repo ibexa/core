@@ -15,7 +15,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
  */
 class LogicalOr extends Compound
 {
-    public const NAME = 'logicalOr';
+    public const string NAME = 'logicalOr';
 
     public function match()
     {

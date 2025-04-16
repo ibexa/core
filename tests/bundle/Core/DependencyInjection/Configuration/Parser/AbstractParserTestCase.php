@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\Parser;
 
@@ -45,7 +46,7 @@ abstract class AbstractParserTestCase extends AbstractExtensionTestCase
      * @param string $scope SiteAccess name, group, default or global
      * @param bool $assertSame Set to false if you want to use assertEquals() instead of assertSame()
      */
-    protected function assertConfigResolverParameterValue($parameterName, $expectedValue, $scope, $assertSame = true)
+    protected function assertConfigResolverParameterValue(string $parameterName, $expectedValue, ?string $scope, $assertSame = true)
     {
         $chainConfigResolver = $this->getConfigResolver();
         $assertMethod = $assertSame ? 'assertSame' : 'assertEquals';
@@ -58,14 +59,13 @@ abstract class AbstractParserTestCase extends AbstractExtensionTestCase
         $siteAccessProvider = $this->getSiteAccessProviderMock();
 
         $configResolvers = [
-            new DefaultScopeConfigResolver('default'),
-            new SiteAccessGroupConfigResolver($siteAccessProvider, 'default', [self::EMPTY_SA_GROUP => []]),
-            new StaticSiteAccessConfigResolver($siteAccessProvider, 'default'),
-            new GlobalScopeConfigResolver('default'),
+            new DefaultScopeConfigResolver($this->container, 'default'),
+            new SiteAccessGroupConfigResolver($this->container, $siteAccessProvider, 'default', [self::EMPTY_SA_GROUP => []]),
+            new StaticSiteAccessConfigResolver($this->container, $siteAccessProvider, 'default'),
+            new GlobalScopeConfigResolver($this->container, 'default'),
         ];
 
         foreach ($configResolvers as $priority => $configResolver) {
-            $configResolver->setContainer($this->container);
             $chainConfigResolver->addResolver($configResolver, $priority);
         }
 

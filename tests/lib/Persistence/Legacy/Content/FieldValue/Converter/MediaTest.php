@@ -31,7 +31,7 @@ class MediaTest extends TestCase
      * @group fieldType
      * @group ezmedia
      */
-    public function testToStorageFieldDefinition()
+    public function testToStorageFieldDefinition(): void
     {
         $storageFieldDef = new StorageFieldDefinition();
 
@@ -69,7 +69,7 @@ class MediaTest extends TestCase
      * @group fieldType
      * @group ezmedia
      */
-    public function testToFieldDefinition()
+    public function testToFieldDefinition(): void
     {
         $fieldDef = new PersistenceFieldDefinition();
         $storageDef = new StorageFieldDefinition(

@@ -25,7 +25,7 @@ class ChainConfigResolver implements ConfigResolverInterface
      * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $resolver
      * @param int $priority
      */
-    public function addResolver(ConfigResolverInterface $resolver, $priority = 0)
+    public function addResolver(ConfigResolverInterface $resolver, $priority = 0): void
     {
         $priority = (int)$priority;
         if (!isset($this->resolvers[$priority])) {
@@ -54,7 +54,7 @@ class ChainConfigResolver implements ConfigResolverInterface
      *
      * @return \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface[]
      */
-    protected function sortResolvers()
+    protected function sortResolvers(): array
     {
         $sortedResolvers = [];
         krsort($this->resolvers);

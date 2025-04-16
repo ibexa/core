@@ -28,7 +28,7 @@ class ViewTest extends AbstractParserTestCase
         return $this->config = Yaml::parse(file_get_contents(__DIR__ . '/../../Fixtures/ezpublish_view.yml'));
     }
 
-    public function testLocationView()
+    public function testLocationView(): void
     {
         $this->load();
         $expectedLocationView = $this->config['system']['ibexa_demo_frontend_group']['location_view'];
@@ -50,7 +50,7 @@ class ViewTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('location_view', [], 'ibexa_demo_site_admin', false);
     }
 
-    public function testContentView()
+    public function testContentView(): void
     {
         $this->load();
         $expectedContentView = $this->config['system']['ibexa_demo_frontend_group']['content_view'];

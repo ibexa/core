@@ -25,7 +25,7 @@ final class RegexNormalizerTest extends TestCase
             [
                 'regex' => '/^Foo(.*)/(.*)/',
                 'itemNumber' => 2,
-                'matchedSiteAccess' => null,
+                'type' => RegexMatcherStub::class,
             ],
             $normalizer->normalize($matcher)
         );

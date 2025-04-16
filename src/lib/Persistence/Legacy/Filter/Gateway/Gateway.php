@@ -27,6 +27,8 @@ interface Gateway
      * sorted by the given Sort Clauses and constrained by the given pagination limit & offset.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause[] $sortClauses
+     *
+     * @phpstan-return iterable<int, array<string, mixed>>
      */
     public function find(
         FilteringCriterion $criterion,

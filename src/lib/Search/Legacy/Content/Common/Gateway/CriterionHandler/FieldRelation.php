@@ -7,8 +7,9 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
@@ -45,7 +46,7 @@ class FieldRelation extends FieldBase
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException If no searchable fields are found for the given $fieldIdentifier.
      */
-    protected function getFieldDefinitionsIds($fieldDefinitionIdentifier)
+    protected function getFieldDefinitionsIds($fieldDefinitionIdentifier): array
     {
         $fieldDefinitionIdList = [];
         $fieldMap = $this->contentTypeHandler->getSearchableFieldMap();
@@ -71,13 +72,15 @@ class FieldRelation extends FieldBase
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\FieldRelation $criterion
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): CompositeExpression|string {
         $fieldDefinitionIds = $this->getFieldDefinitionsIds($criterion->target);
 
         $criterionValue = (array)$criterion->value;
@@ -90,7 +93,7 @@ class FieldRelation extends FieldBase
                         $fieldDefinitionIds
                     );
 
-                    return $queryBuilder->expr()->andX(...$subRequest);
+                    return $queryBuilder->expr()->and(...$subRequest);
                 }
                 // Intentionally omitting break
 
@@ -129,14 +132,14 @@ class FieldRelation extends FieldBase
                 ->from(ContentGateway::CONTENT_RELATION_TABLE, 'c_rel');
 
             $subSelect->where(
-                $expr->andX(
+                $expr->and(
                     $expr->eq(
                         'c_rel.from_contentobject_version',
                         'c.current_version'
                     ),
                     $expr->in(
                         'c_rel.contentclassattribute_id',
-                        $queryBuilder->createNamedParameter($fieldDefinitionIds, Connection::PARAM_INT_ARRAY)
+                        $queryBuilder->createNamedParameter($fieldDefinitionIds, ArrayParameterType::INTEGER)
                     ),
                     $expr->eq(
                         self::CONTENT_ITEM_REL_COLUMN,
@@ -179,7 +182,7 @@ class FieldRelation extends FieldBase
                     'c_rel.contentclassattribute_id',
                     $queryBuilder->createNamedParameter(
                         $fieldDefinitionIds,
-                        Connection::PARAM_INT_ARRAY
+                        ArrayParameterType::INTEGER
                     )
                 )
             )
@@ -188,7 +191,7 @@ class FieldRelation extends FieldBase
                     self::CONTENT_ITEM_REL_COLUMN,
                     $queryBuilder->createNamedParameter(
                         $criterionValue,
-                        Connection::PARAM_INT_ARRAY
+                        ArrayParameterType::INTEGER
                     )
                 )
             );

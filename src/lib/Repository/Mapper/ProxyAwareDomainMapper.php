@@ -17,8 +17,7 @@ use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface;
  */
 abstract class ProxyAwareDomainMapper
 {
-    /** @var \Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface */
-    protected $proxyFactory;
+    protected ?ProxyDomainMapperInterface $proxyFactory;
 
     public function __construct(?ProxyDomainMapperInterface $proxyFactory = null)
     {

@@ -14,30 +14,38 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 
 final class MatcherStub implements Matcher
 {
-    /** @var mixed */
-    private $data;
+    private mixed $data;
 
-    public function __construct($data = null)
+    public function __construct(mixed $data = null)
     {
         $this->data = $data;
     }
 
-    public function setRequest(SimplifiedRequest $request)
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     */
+    public function setRequest(SimplifiedRequest $request): never
     {
         throw new NotImplementedException(__METHOD__);
     }
 
-    public function match()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     */
+    public function match(): never
     {
         throw new NotImplementedException(__METHOD__);
     }
 
-    public function getName()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     */
+    public function getName(): never
     {
         throw new NotImplementedException(__METHOD__);
     }
 
-    public function getData()
+    public function getData(): mixed
     {
         return $this->data;
     }

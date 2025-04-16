@@ -25,6 +25,9 @@ class LogicalNot extends CriterionHandler
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalNot $criterion
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
     public function handle(
         CriteriaConverter $converter,

@@ -21,7 +21,7 @@ class NoLayout implements EventSubscriberInterface
         return [ViewEvents::FILTER_VIEW_PARAMETERS => 'injectCustomParameters'];
     }
 
-    public function injectCustomParameters(FilterViewParametersEvent $event)
+    public function injectCustomParameters(FilterViewParametersEvent $event): void
     {
         $parameters = $event->getBuilderParameters();
 

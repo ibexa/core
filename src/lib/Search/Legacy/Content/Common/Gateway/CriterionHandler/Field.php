@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
@@ -14,10 +15,12 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\TransformationProcessor;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Converter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Converter as FieldValueConverter;
 
 /**
@@ -27,24 +30,18 @@ class Field extends FieldBase
 {
     /**
      * Field converter registry.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
      */
-    protected $fieldConverterRegistry;
+    protected ConverterRegistry $fieldConverterRegistry;
 
     /**
      * Field value converter.
-     *
-     * @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Converter
      */
-    protected $fieldValueConverter;
+    protected Converter $fieldValueConverter;
 
     /**
      * Transformation processor.
-     *
-     * @var \Ibexa\Core\Persistence\TransformationProcessor
      */
-    protected $transformationProcessor;
+    protected TransformationProcessor $transformationProcessor;
 
     public function __construct(
         Connection $connection,
@@ -72,15 +69,13 @@ class Field extends FieldBase
      * The returned information is returned as an array of the attribute
      * identifier and the sort column, which should be used.
      *
-     * @param string $fieldIdentifier
-     *
-     * @return array
+     * @return array<string, array{ids: list<int>, column: string|false}>
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If no searchable fields are found for the given $fieldIdentifier.
      * @throws \RuntimeException if no converter is found
      * @throws \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\Exception\NotFound
      */
-    protected function getFieldsInformation($fieldIdentifier)
+    protected function getFieldsInformation(string $fieldIdentifier): array
     {
         $fieldMapArray = [];
         $fieldMap = $this->contentTypeHandler->getSearchableFieldMap();
@@ -111,7 +106,6 @@ class Field extends FieldBase
     }
 
     /**
-     * @param array $languageSettings
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Field $criterion
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException If no searchable fields are found for the given criterion target.
@@ -147,12 +141,12 @@ class Field extends FieldBase
                 $fieldsInfo['column']
             );
 
-            $whereExpressions[] = $subSelect->expr()->andX(
+            $whereExpressions[] = $subSelect->expr()->and(
                 $subSelect->expr()->in(
                     'contentclassattribute_id',
                     $queryBuilder->createNamedParameter(
                         $fieldsInfo['ids'],
-                        Connection::PARAM_INT_ARRAY
+                        ArrayParameterType::INTEGER
                     )
                 ),
                 $filter

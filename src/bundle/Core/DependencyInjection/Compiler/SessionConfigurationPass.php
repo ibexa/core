@@ -23,7 +23,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 final class SessionConfigurationPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $handlerId = $container->hasParameter('ibexa.session.handler_id')
             ? $container->getParameter('ibexa.session.handler_id')

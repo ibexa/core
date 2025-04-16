@@ -10,7 +10,6 @@ namespace Ibexa\Tests\Bundle\IO\DependencyInjection;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractContainerBuilderTestCase;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
 /**
@@ -28,14 +27,9 @@ abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
         parent::setUp();
 
         $this->factory = $this->provideTestedFactory();
-
-        if ($this->factory instanceof ContainerAwareInterface) {
-            $this->container = new ContainerBuilder();
-            $this->factory->setContainer($this->container);
-        }
     }
 
-    public function testGetParentServiceId()
+    public function testGetParentServiceId(): void
     {
         self::assertEquals(
             $this->provideExpectedParentServiceId(),
@@ -43,7 +37,7 @@ abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
         );
     }
 
-    public function testAddConfiguration()
+    public function testAddConfiguration(): void
     {
         $node = new ArrayNodeDefinition('handler');
         $this->factory->addConfiguration($node);
@@ -52,15 +46,15 @@ abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
         // @todo customized testing of configuration node ?
     }
 
-    public function testConfigureHandler()
+    public function testConfigureHandler(): void
     {
         $handlerConfiguration =
-            $this->provideHandlerConfiguration($this->container) +
+            $this->provideHandlerConfiguration() +
             ['name' => 'my_test_handler', 'type' => 'test_handler'];
 
         $handlerServiceId = $this->registerHandler($handlerConfiguration['name']);
 
-        $this->factory->configureHandler($this->container->getDefinition($handlerServiceId), $handlerConfiguration);
+        $this->factory->configureHandler($this->container, $this->container->getDefinition($handlerServiceId), $handlerConfiguration);
 
         $this->validateConfiguredHandler($handlerServiceId);
 

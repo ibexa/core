@@ -18,7 +18,7 @@ class MatchNoneTest extends CriterionHandlerTest
     /**
      * {@inheritdoc}
      */
-    public function testAccept()
+    public function testAccept(): void
     {
         $handler = new MatchNoneHandler();
 
@@ -29,7 +29,7 @@ class MatchNoneTest extends CriterionHandlerTest
     /**
      * {@inheritdoc}
      */
-    public function testHandle()
+    public function testHandle(): void
     {
         $criterion = new MatchNone();
         $expected = '1 = 0';

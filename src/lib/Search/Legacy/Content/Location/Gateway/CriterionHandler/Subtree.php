@@ -27,7 +27,7 @@ class Subtree extends CriterionHandler
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         $statements = [];
         foreach ($criterion->value as $pattern) {
             $statements[] = $queryBuilder->expr()->like(
@@ -36,7 +36,7 @@ class Subtree extends CriterionHandler
             );
         }
 
-        return $queryBuilder->expr()->orX(...$statements);
+        return $queryBuilder->expr()->or(...$statements);
     }
 
     public function accept(CriterionInterface $criterion): bool

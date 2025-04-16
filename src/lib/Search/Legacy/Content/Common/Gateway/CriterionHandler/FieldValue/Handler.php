@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -21,8 +22,7 @@ use RuntimeException;
  */
 abstract class Handler
 {
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
+    protected Connection $connection;
 
     /**
      * Map of criterion operators to the respective function names
@@ -40,16 +40,14 @@ abstract class Handler
 
     /**
      * Transformation processor.
-     *
-     * @var \Ibexa\Core\Persistence\TransformationProcessor
      */
-    protected $transformationProcessor;
+    protected TransformationProcessor $transformationProcessor;
 
     /** @var \Doctrine\DBAL\Platforms\AbstractPlatform|null */
     protected $dbPlatform;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct(Connection $connection, TransformationProcessor $transformationProcessor)
     {
@@ -65,8 +63,6 @@ abstract class Handler
      * @param \Doctrine\DBAL\Query\QueryBuilder $subQuery to modify Field Value query constraints
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
      *
-     * @return \Doctrine\DBAL\Query\Expression\CompositeExpression|string
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If passed more than 1 argument to unary operator.
      * @throws \RuntimeException If operator is not handled.
      */
@@ -75,8 +71,8 @@ abstract class Handler
         QueryBuilder $subQuery,
         Criterion $criterion,
         string $column
-    ) {
-        if (is_array($criterion->value) && Criterion\Operator::isUnary($criterion->operator)) {
+    ): string {
+        if (is_array($criterion->value) && CriterionOperator::isUnary($criterion->operator)) {
             if (count($criterion->value) > 1) {
                 throw new InvalidArgumentException('$criterion->value', "Too many arguments for unary operator '$criterion->operator'");
             }
@@ -85,7 +81,7 @@ abstract class Handler
         }
 
         switch ($criterion->operator) {
-            case Criterion\Operator::IN:
+            case CriterionOperator::IN:
                 $values = array_map([$this, 'prepareParameter'], $criterion->value);
                 $filter = $subQuery->expr()->in(
                     $column,
@@ -96,19 +92,20 @@ abstract class Handler
                 );
                 break;
 
-            case Criterion\Operator::BETWEEN:
-                $filter = $this->dbPlatform->getBetweenExpression(
+            case CriterionOperator::BETWEEN:
+                $filter = sprintf(
+                    '%s BETWEEN %s AND %s',
                     $column,
                     $outerQuery->createNamedParameter($this->lowerCase($criterion->value[0])),
                     $outerQuery->createNamedParameter($this->lowerCase($criterion->value[1]))
                 );
                 break;
 
-            case Criterion\Operator::EQ:
-            case Criterion\Operator::GT:
-            case Criterion\Operator::GTE:
-            case Criterion\Operator::LT:
-            case Criterion\Operator::LTE:
+            case CriterionOperator::EQ:
+            case CriterionOperator::GT:
+            case CriterionOperator::GTE:
+            case CriterionOperator::LT:
+            case CriterionOperator::LTE:
                 $operatorFunction = $this->comparatorMap[$criterion->operator];
                 $filter = $subQuery->expr()->{$operatorFunction}(
                     $column,
@@ -116,7 +113,7 @@ abstract class Handler
                 );
                 break;
 
-            case Criterion\Operator::LIKE:
+            case CriterionOperator::LIKE:
                 $value = str_replace('*', '%', $this->prepareLikeString($criterion->value));
 
                 $filter = $subQuery->expr()->like(
@@ -125,7 +122,7 @@ abstract class Handler
                 );
                 break;
 
-            case Criterion\Operator::CONTAINS:
+            case CriterionOperator::CONTAINS:
                 $filter = $subQuery->expr()->like(
                     $column,
                     $outerQuery->createNamedParameter(
@@ -214,16 +211,16 @@ abstract class Handler
         foreach ($values as $value) {
             if (is_bool($value) || ($value !== 0 && is_int($value))) {
                 // Ignore 0 as ambiguous (float vs int)
-                $types[] = Connection::PARAM_INT_ARRAY;
+                $types[] = ArrayParameterType::INTEGER;
             } else {
                 // Floats are considered strings
-                $types[] = Connection::PARAM_STR_ARRAY;
+                $types[] = ArrayParameterType::STRING;
             }
         }
 
         $arrayValueTypes = array_unique($types);
 
         // Fallback to Connection::PARAM_STR_ARRAY
-        return $arrayValueTypes[0] ?? Connection::PARAM_STR_ARRAY;
+        return $arrayValueTypes[0] ?? ArrayParameterType::STRING;
     }
 }

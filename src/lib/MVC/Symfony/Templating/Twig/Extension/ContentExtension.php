@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Helper\FieldHelper;
 use Ibexa\Core\Helper\FieldsGroups\FieldsGroupsList;
@@ -27,19 +28,15 @@ use Twig\TwigFunction;
  */
 class ContentExtension extends AbstractExtension
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    protected $repository;
+    protected Repository $repository;
 
-    /** @var \Ibexa\Core\Helper\TranslationHelper */
-    protected $translationHelper;
+    protected TranslationHelper $translationHelper;
 
-    /** @var \Ibexa\Core\Helper\FieldHelper */
-    protected $fieldHelper;
+    protected FieldHelper $fieldHelper;
 
     private FieldsGroupsList $fieldsGroupsList;
 
-    /** @var \Psr\Log\LoggerInterface */
-    protected $logger;
+    protected LoggerInterface $logger;
 
     public function __construct(
         Repository $repository,
@@ -126,7 +123,7 @@ class ContentExtension extends AbstractExtension
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field
      */
-    public function getTranslatedField(Content|ContentAwareInterface $data, $fieldDefIdentifier, $forcedLanguage = null)
+    public function getTranslatedField(Content|ContentAwareInterface $data, string $fieldDefIdentifier, $forcedLanguage = null)
     {
         return $this->translationHelper->getTranslatedField($this->getContent($data), $fieldDefIdentifier, $forcedLanguage);
     }
@@ -137,7 +134,7 @@ class ContentExtension extends AbstractExtension
      *
      * @return mixed A primitive type or a field type Value object depending on the field type.
      */
-    public function getTranslatedFieldValue(Content|ContentAwareInterface $data, $fieldDefIdentifier, $forcedLanguage = null)
+    public function getTranslatedFieldValue(Content|ContentAwareInterface $data, string $fieldDefIdentifier, $forcedLanguage = null)
     {
         return $this->translationHelper->getTranslatedField($this->getContent($data), $fieldDefIdentifier, $forcedLanguage)->value;
     }
@@ -207,7 +204,7 @@ class ContentExtension extends AbstractExtension
      *
      * @return bool
      */
-    public function isFieldEmpty(Content|ContentAwareInterface $data, $fieldDefIdentifier, $forcedLanguage = null)
+    public function isFieldEmpty(Content|ContentAwareInterface $data, $fieldDefIdentifier, $forcedLanguage = null): bool
     {
         if ($fieldDefIdentifier instanceof Field) {
             $fieldDefIdentifier = $fieldDefIdentifier->fieldDefIdentifier;
@@ -221,7 +218,7 @@ class ContentExtension extends AbstractExtension
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType|null
      */
-    private function getContentType(Content|ContentInfo $content)
+    private function getContentType(Content|ContentInfo $content): ContentType
     {
         if ($content instanceof Content) {
             return $this->repository->getContentTypeService()->loadContentType(

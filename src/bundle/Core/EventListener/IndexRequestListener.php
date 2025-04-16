@@ -15,8 +15,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class IndexRequestListener implements EventSubscriberInterface
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    protected $configResolver;
+    protected ConfigResolverInterface $configResolver;
 
     public function __construct(ConfigResolverInterface $configResolver)
     {
@@ -38,7 +37,7 @@ class IndexRequestListener implements EventSubscriberInterface
      *
      * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
      */
-    public function onKernelRequestIndex(RequestEvent $event)
+    public function onKernelRequestIndex(RequestEvent $event): void
     {
         $request = $event->getRequest();
         $semanticPathinfo = $request->attributes->get('semanticPathinfo') ?: '/';

@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LocationId;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
@@ -26,7 +26,7 @@ final class IdQueryBuilder extends BaseLocationCriterionQueryBuilder
     public function buildQueryConstraint(
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
-    ): ?string {
+    ): string {
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LocationId $criterion */
         parent::buildQueryConstraint($queryBuilder, $criterion);
 
@@ -34,7 +34,7 @@ final class IdQueryBuilder extends BaseLocationCriterionQueryBuilder
             'location.node_id',
             $queryBuilder->createNamedParameter(
                 $criterion->value,
-                Connection::PARAM_INT_ARRAY
+                ArrayParameterType::INTEGER
             )
         );
     }

@@ -29,7 +29,7 @@ class URLServiceDecoratorTest extends TestCase
         return $this->createMock(URLService::class);
     }
 
-    public function testCreateUpdateStructDecorator()
+    public function testCreateUpdateStructDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -41,7 +41,7 @@ class URLServiceDecoratorTest extends TestCase
         $decoratedService->createUpdateStruct(...$parameters);
     }
 
-    public function testFindUrlsDecorator()
+    public function testFindUrlsDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -53,7 +53,7 @@ class URLServiceDecoratorTest extends TestCase
         $decoratedService->findUrls(...$parameters);
     }
 
-    public function testFindUsagesDecorator()
+    public function testFindUsagesDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -69,7 +69,7 @@ class URLServiceDecoratorTest extends TestCase
         $decoratedService->findUsages(...$parameters);
     }
 
-    public function testLoadByIdDecorator()
+    public function testLoadByIdDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -81,7 +81,7 @@ class URLServiceDecoratorTest extends TestCase
         $decoratedService->loadById(...$parameters);
     }
 
-    public function testLoadByUrlDecorator()
+    public function testLoadByUrlDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -93,7 +93,7 @@ class URLServiceDecoratorTest extends TestCase
         $decoratedService->loadByUrl(...$parameters);
     }
 
-    public function testUpdateUrlDecorator()
+    public function testUpdateUrlDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);

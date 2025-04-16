@@ -49,7 +49,7 @@ class InMemoryCacheTest extends TestCase
         self::assertNull($this->cache->get('first'));
 
         $obj = new \stdClass();
-        $this->cache->setMulti([$obj], static function ($o) { return ['first']; });
+        $this->cache->setMulti([$obj], static function ($o): array { return ['first']; });
 
         self::assertSame($obj, $this->cache->get('first'));
 
@@ -64,7 +64,7 @@ class InMemoryCacheTest extends TestCase
         self::assertNull($this->cache->get('secondary'));
 
         $obj = new \stdClass();
-        $this->cache->setMulti([$obj], static function ($o) { return ['first', 'secondary']; });
+        $this->cache->setMulti([$obj], static function ($o): array { return ['first', 'secondary']; });
 
         self::assertSame($obj, $this->cache->get('first'));
         self::assertSame($obj, $this->cache->get('secondary'));
@@ -81,7 +81,7 @@ class InMemoryCacheTest extends TestCase
         self::assertNull($this->cache->get('list'));
 
         $obj = new \stdClass();
-        $this->cache->setMulti([$obj], static function ($o) { return ['first']; }, 'list');
+        $this->cache->setMulti([$obj], static function ($o): array { return ['first']; }, 'list');
 
         self::assertSame($obj, $this->cache->get('first'));
         self::assertSame([$obj], $this->cache->get('list'));
@@ -95,7 +95,7 @@ class InMemoryCacheTest extends TestCase
     public function testDeleted(): void
     {
         $obj = new \stdClass();
-        $this->cache->setMulti([$obj], static function ($o) { return ['first', 'second']; }, 'list');
+        $this->cache->setMulti([$obj], static function ($o): array { return ['first', 'second']; }, 'list');
 
         self::assertSame($obj, $this->cache->get('first'));
         self::assertSame($obj, $this->cache->get('second'));
@@ -117,7 +117,7 @@ class InMemoryCacheTest extends TestCase
     public function testClear(): void
     {
         $obj = new \stdClass();
-        $this->cache->setMulti([$obj], static function ($o) { return ['first', 'second']; }, 'list');
+        $this->cache->setMulti([$obj], static function ($o): array { return ['first', 'second']; }, 'list');
 
         self::assertSame($obj, $this->cache->get('first'));
         self::assertSame($obj, $this->cache->get('second'));
@@ -134,7 +134,7 @@ class InMemoryCacheTest extends TestCase
     public function testSetWhenReachingSetLimit(): void
     {
         $obj = new \stdClass();
-        $this->cache->setMulti([$obj, $obj], static function ($o) { return ['first', 'second']; }, 'list');
+        $this->cache->setMulti([$obj, $obj], static function ($o): array { return ['first', 'second']; }, 'list');
 
         self::assertNull($this->cache->get('first'));
         self::assertNull($this->cache->get('second'));
@@ -144,14 +144,14 @@ class InMemoryCacheTest extends TestCase
     public function testSetWhenReachingTotalLimit(): void
     {
         $obj = new \stdClass();
-        $this->cache->setMulti([$obj], static function ($o) { return ['first']; });
-        $this->cache->setMulti([$obj], static function ($o) { return ['second']; });
-        $this->cache->setMulti([$obj], static function ($o) { return ['third']; });
-        $this->cache->setMulti([$obj], static function ($o) { return ['fourth']; });
-        $this->cache->setMulti([$obj], static function ($o) { return ['fifth']; });
-        $this->cache->setMulti([$obj], static function ($o) { return ['sixth']; });
-        $this->cache->setMulti([$obj], static function ($o) { return ['seventh']; });
-        $this->cache->setMulti([$obj], static function ($o) { return ['eight']; });
+        $this->cache->setMulti([$obj], static function ($o): array { return ['first']; });
+        $this->cache->setMulti([$obj], static function ($o): array { return ['second']; });
+        $this->cache->setMulti([$obj], static function ($o): array { return ['third']; });
+        $this->cache->setMulti([$obj], static function ($o): array { return ['fourth']; });
+        $this->cache->setMulti([$obj], static function ($o): array { return ['fifth']; });
+        $this->cache->setMulti([$obj], static function ($o): array { return ['sixth']; });
+        $this->cache->setMulti([$obj], static function ($o): array { return ['seventh']; });
+        $this->cache->setMulti([$obj], static function ($o): array { return ['eight']; });
 
         self::assertNull($this->cache->get('first'));
         self::assertNull($this->cache->get('second'));
@@ -169,19 +169,19 @@ class InMemoryCacheTest extends TestCase
     public function testAccessCountsWhenReachingTotalLimit(): void
     {
         $obj = new \stdClass();
-        $this->cache->setMulti([$obj], static function ($o) { return ['first']; });
-        $this->cache->setMulti([$obj], static function ($o) { return ['second']; });
-        $this->cache->setMulti([$obj], static function ($o) { return ['third']; });
-        $this->cache->setMulti([$obj], static function ($o) { return ['fourth']; });
+        $this->cache->setMulti([$obj], static function ($o): array { return ['first']; });
+        $this->cache->setMulti([$obj], static function ($o): array { return ['second']; });
+        $this->cache->setMulti([$obj], static function ($o): array { return ['third']; });
+        $this->cache->setMulti([$obj], static function ($o): array { return ['fourth']; });
 
         // Make sure these are read before we set further objects.
         $this->cache->get('first');
         $this->cache->get('third');
 
-        $this->cache->setMulti([$obj], static function ($o) { return ['fifth']; });
-        $this->cache->setMulti([$obj], static function ($o) { return ['sixth']; });
-        $this->cache->setMulti([$obj], static function ($o) { return ['seventh']; });
-        $this->cache->setMulti([$obj], static function ($o) { return ['eight']; });
+        $this->cache->setMulti([$obj], static function ($o): array { return ['fifth']; });
+        $this->cache->setMulti([$obj], static function ($o): array { return ['sixth']; });
+        $this->cache->setMulti([$obj], static function ($o): array { return ['seventh']; });
+        $this->cache->setMulti([$obj], static function ($o): array { return ['eight']; });
 
         self::assertSame($obj, $this->cache->get('first'));
         self::assertNull($this->cache->get('second'));

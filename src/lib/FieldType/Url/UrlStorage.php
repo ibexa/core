@@ -15,20 +15,18 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Converter for Url field type external storage.
+ *
+ * @extends \Ibexa\Contracts\Core\FieldType\GatewayBasedStorage<\Ibexa\Core\FieldType\Url\UrlStorage\Gateway>
  */
 class UrlStorage extends GatewayBasedStorage
 {
-    /** @var \Psr\Log\LoggerInterface */
-    protected $logger;
-
-    /** @var \Ibexa\Core\FieldType\Url\UrlStorage\Gateway */
-    protected $gateway;
+    protected ?LoggerInterface $logger;
 
     /**
      * Construct from gateways.
      *
-     * @param \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface $gateway
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param \Ibexa\Core\FieldType\Url\UrlStorage\Gateway $gateway
+     * @param \Psr\Log\LoggerInterface|null $logger
      */
     public function __construct(StorageGatewayInterface $gateway, LoggerInterface $logger = null)
     {
@@ -62,7 +60,7 @@ class UrlStorage extends GatewayBasedStorage
         return true;
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field)
+    public function getFieldData(VersionInfo $versionInfo, Field $field): void
     {
         $id = $field->value->data['urlId'];
         if (empty($id)) {
@@ -81,7 +79,7 @@ class UrlStorage extends GatewayBasedStorage
         $field->value->externalData = isset($map[$id]) ? $map[$id] : '';
     }
 
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): void
     {
         foreach ($fieldIds as $fieldId) {
             $this->gateway->unlinkUrl($fieldId, $versionInfo->versionNo);

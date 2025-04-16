@@ -29,7 +29,7 @@ use PHPUnit\Framework\TestCase;
 final class ContentServiceTest extends TestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    private $contentService;
+    private ContentService $contentService;
 
     protected function setUp(): void
     {

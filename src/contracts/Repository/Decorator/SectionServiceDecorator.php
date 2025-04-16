@@ -21,8 +21,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\SectionUpdateStruct;
 
 abstract class SectionServiceDecorator implements SectionService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\SectionService */
-    protected $innerService;
+    protected SectionService $innerService;
 
     public function __construct(SectionService $innerService)
     {

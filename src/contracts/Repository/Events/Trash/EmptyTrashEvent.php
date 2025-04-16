@@ -13,8 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResultLi
 
 final class EmptyTrashEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResultList */
-    private $resultList;
+    private TrashItemDeleteResultList $resultList;
 
     public function __construct(TrashItemDeleteResultList $resultList)
     {

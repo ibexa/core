@@ -11,6 +11,7 @@ use ArrayObject;
 use Ibexa\Bundle\IO\DependencyInjection\Compiler\IOConfigurationPass;
 use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -18,10 +19,10 @@ use Symfony\Component\DependencyInjection\Definition;
 class IOConfigurationPassTest extends AbstractCompilerPassTestCase
 {
     /** @var \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory|\PHPUnit\Framework\MockObject\MockObject */
-    protected $metadataConfigurationFactoryMock;
+    protected ?MockObject $metadataConfigurationFactoryMock = null;
 
     /** @var \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory|\PHPUnit\Framework\MockObject\MockObject */
-    protected $binarydataConfigurationFactoryMock;
+    protected ?MockObject $binarydataConfigurationFactoryMock = null;
 
     protected function setUp(): void
     {
@@ -55,7 +56,7 @@ class IOConfigurationPassTest extends AbstractCompilerPassTestCase
     /**
      * Tests that the default handlers are available when nothing is configured.
      */
-    public function testDefaultHandlers()
+    public function testDefaultHandlers(): void
     {
         $this->compile();
 
@@ -72,7 +73,7 @@ class IOConfigurationPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function testBinarydataHandler()
+    public function testBinarydataHandler(): void
     {
         $this->container->setParameter(
             'ibexa.io.binarydata_handlers',
@@ -92,7 +93,7 @@ class IOConfigurationPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function testMetadataHandler()
+    public function testMetadataHandler(): void
     {
         $this->container->setParameter(
             'ibexa.io.metadata_handlers',
@@ -112,7 +113,7 @@ class IOConfigurationPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function testUnknownMetadataHandler()
+    public function testUnknownMetadataHandler(): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage('Unknown handler');
@@ -125,7 +126,7 @@ class IOConfigurationPassTest extends AbstractCompilerPassTestCase
         $this->compile();
     }
 
-    public function testUnknownBinarydataHandler()
+    public function testUnknownBinarydataHandler(): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage('Unknown handler');

@@ -24,11 +24,10 @@ use ProxyManager\Proxy\LazyLoadingInterface;
  */
 final class ProxyDomainMapper implements ProxyDomainMapperInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    private $repository;
+    private Repository $repository;
 
     /** @var \ProxyManager\Factory\LazyLoadingValueHolderFactory */
-    private $proxyGenerator;
+    private ProxyGeneratorInterface $proxyGenerator;
 
     public function __construct(Repository $repository, ProxyGeneratorInterface $proxyGenerator)
     {

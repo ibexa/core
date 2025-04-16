@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -18,8 +19,7 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
 class UserLogin extends CriterionHandler
 {
-    /** @var \Ibexa\Core\Persistence\TransformationProcessor */
-    private $transformationProcessor;
+    private TransformationProcessor $transformationProcessor;
 
     public function __construct(
         Connection $connection,
@@ -43,7 +43,7 @@ class UserLogin extends CriterionHandler
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         $expr = $queryBuilder->expr();
         if (Criterion\Operator::LIKE === $criterion->operator) {
             $expression = $expr->like(
@@ -66,7 +66,7 @@ class UserLogin extends CriterionHandler
             $value = (array)$criterion->value;
             $expression = $expr->in(
                 't1.login',
-                $queryBuilder->createNamedParameter($value, Connection::PARAM_STR_ARRAY)
+                $queryBuilder->createNamedParameter($value, ArrayParameterType::STRING)
             );
         }
 

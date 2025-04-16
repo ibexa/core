@@ -17,18 +17,20 @@ use Ibexa\Contracts\Core\Persistence\Content\Language;
  */
 abstract class Gateway
 {
-    public const CONTENT_LANGUAGE_TABLE = 'ezcontent_language';
+    public const string CONTENT_LANGUAGE_TABLE = 'ezcontent_language';
 
     /**
-     * A map of language-related table name to its language column.
+     * A map of language-related table name to its language columns.
      *
      * The first column is considered to be a language bitmask.
      * The second, optional, column is an explicit language id.
      *
      * It depends on the schema defined in
      * <code>./src/bundle/Core/Resources/config/storage/legacy/schema.yaml</code>
+     *
+     * @var array<string, string[]>
      */
-    public const MULTILINGUAL_TABLES_COLUMNS = [
+    public const array MULTILINGUAL_TABLES_COLUMNS = [
         'ezcobj_state' => ['language_mask', 'default_language_id'],
         'ezcobj_state_group_language' => ['language_id'],
         'ezcobj_state_group' => ['language_mask', 'default_language_id'],
@@ -58,7 +60,7 @@ abstract class Gateway
      *
      * @param int[] $ids
      *
-     * @return string[][]|iterable
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadLanguageListData(array $ids): iterable;
 
@@ -67,12 +69,14 @@ abstract class Gateway
      *
      * @param string[] $languageCodes
      *
-     * @return string[][]|iterable
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadLanguageListDataByLanguageCode(array $languageCodes): iterable;
 
     /**
      * Load the data for all languages.
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     abstract public function loadAllLanguagesData(): array;
 

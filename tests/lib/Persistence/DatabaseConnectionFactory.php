@@ -14,18 +14,19 @@ use Doctrine\DBAL\DriverManager;
 
 /**
  * Database connection factory for integration tests.
+ *
+ * @phpstan-type TIbexaDatabasePlatform \Ibexa\DoctrineSchema\Database\DbPlatform\DbPlatformInterface & \Doctrine\DBAL\Platforms\AbstractPlatform
  */
 class DatabaseConnectionFactory
 {
     /**
      * Associative array of <code>[driver => AbstractPlatform]</code>.
      *
-     * @var array
+     * @phpstan-var array<string, TIbexaDatabasePlatform>
      */
-    private $databasePlatforms = [];
+    private array $databasePlatforms;
 
-    /** @var \Doctrine\Common\EventManager */
-    private $eventManager;
+    private EventManager $eventManager;
 
     /**
      * Connection Pool for re-using already created connection.
@@ -34,11 +35,10 @@ class DatabaseConnectionFactory
      *
      * @var \Doctrine\DBAL\Connection[]
      */
-    private static $connectionPool;
+    private static ?array $connectionPool = null;
 
     /**
-     * @param \Ibexa\DoctrineSchema\Database\DbPlatform\DbPlatformInterface[] $databasePlatforms
-     * @param \Doctrine\Common\EventManager $eventManager
+     * @phpstan-param array<TIbexaDatabasePlatform> $databasePlatforms
      */
     public function __construct(iterable $databasePlatforms, EventManager $eventManager)
     {
@@ -53,11 +53,7 @@ class DatabaseConnectionFactory
     /**
      * Connect to a database described by URL (a.k.a. DSN).
      *
-     * @param string $databaseURL
-     *
-     * @return \Doctrine\DBAL\Connection
-     *
-     * @throws \Doctrine\DBAL\DBALException if connection failed
+     * @throws \Doctrine\DBAL\Exception if connection failed
      */
     public function createConnection(string $databaseURL): Connection
     {

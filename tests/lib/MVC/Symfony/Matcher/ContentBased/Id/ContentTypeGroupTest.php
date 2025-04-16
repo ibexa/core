@@ -17,7 +17,7 @@ use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTest;
 class ContentTypeGroupTest extends BaseTest
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentTypeGroup */
-    private $matcher;
+    private ContentTypeGroupIdMatcher $matcher;
 
     protected function setUp(): void
     {
@@ -35,7 +35,7 @@ class ContentTypeGroupTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Repository $repository, $expectedResult)
+    public function testMatchLocation($matchingConfig, Repository $repository, $expectedResult): void
     {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
@@ -46,7 +46,7 @@ class ContentTypeGroupTest extends BaseTest
         );
     }
 
-    public function matchLocationProvider()
+    public function matchLocationProvider(): array
     {
         $data = [];
 
@@ -107,7 +107,7 @@ class ContentTypeGroupTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchContentInfo($matchingConfig, Repository $repository, $expectedResult)
+    public function testMatchContentInfo($matchingConfig, Repository $repository, $expectedResult): void
     {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
@@ -118,7 +118,7 @@ class ContentTypeGroupTest extends BaseTest
         );
     }
 
-    public function matchContentInfoProvider()
+    public function matchContentInfoProvider(): array
     {
         $data = [];
 
@@ -156,7 +156,7 @@ class ContentTypeGroupTest extends BaseTest
      *
      * @return \PHPUnit\Framework\MockObject\MockObject
      */
-    private function generateRepositoryMockForContentTypeGroupId($contentTypeGroupId)
+    private function generateRepositoryMockForContentTypeGroupId(int $contentTypeGroupId)
     {
         $contentTypeServiceMock = $this->createMock(ContentTypeService::class);
         $contentTypeMock = $this->getMockForAbstractClass(ContentType::class);

@@ -18,8 +18,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class LanguageSwitchListener implements EventSubscriberInterface
 {
-    /** @var \Ibexa\Core\Helper\TranslationHelper */
-    private $translationHelper;
+    private TranslationHelper $translationHelper;
 
     public function __construct(TranslationHelper $translationHelper)
     {
@@ -43,7 +42,7 @@ class LanguageSwitchListener implements EventSubscriberInterface
      *
      * @param \Ibexa\Core\MVC\Symfony\Event\RouteReferenceGenerationEvent $event
      */
-    public function onRouteReferenceGeneration(RouteReferenceGenerationEvent $event)
+    public function onRouteReferenceGeneration(RouteReferenceGenerationEvent $event): void
     {
         $routeReference = $event->getRouteReference();
         if (!$routeReference->has('language')) {

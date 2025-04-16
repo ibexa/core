@@ -13,9 +13,8 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * This class will help you get settings for a specific scope.
@@ -34,24 +33,23 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  * 2. SiteAccess name
  * 3. "default"
  */
-class ConfigResolver implements VersatileScopeInterface, SiteAccessAware, ContainerAwareInterface
+class ConfigResolver implements VersatileScopeInterface, SiteAccessAware
 {
-    use ContainerAwareTrait;
-
     public const SCOPE_GLOBAL = 'global';
     public const SCOPE_DEFAULT = 'default';
 
     public const UNDEFINED_STRATEGY_EXCEPTION = 1;
     public const UNDEFINED_STRATEGY_NULL = 2;
 
+    protected ContainerInterface $container;
+
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
     protected $siteAccess;
 
-    /** @var \Psr\Log\LoggerInterface */
-    protected $logger;
+    protected LoggerInterface $logger;
 
     /** @var array Siteaccess groups, indexed by siteaccess name */
-    protected $groupsBySiteAccess;
+    protected array $groupsBySiteAccess;
 
     /** @var string */
     protected $defaultNamespace;
@@ -63,7 +61,7 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware, Contai
     protected $undefinedStrategy;
 
     /** @var array[] List of blame => [params] loaded while siteAccess->matchingType was 'uninitialized' */
-    private $tooEarlyLoadedList = [];
+    private array $tooEarlyLoadedList = [];
 
     /**
      * @param \Psr\Log\LoggerInterface|null $logger
@@ -75,18 +73,20 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware, Contai
      *                                  - ConfigResolver::UNDEFINED_STRATEGY_NULL (return null)
      */
     public function __construct(
+        ContainerInterface $container,
         ?LoggerInterface $logger,
         array $groupsBySiteAccess,
         $defaultNamespace,
         $undefinedStrategy = self::UNDEFINED_STRATEGY_EXCEPTION
     ) {
+        $this->container = $container;
         $this->logger = $logger ?? new NullLogger();
         $this->groupsBySiteAccess = $groupsBySiteAccess;
         $this->defaultNamespace = $defaultNamespace;
         $this->undefinedStrategy = $undefinedStrategy;
     }
 
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(SiteAccess $siteAccess = null): void
     {
         $this->siteAccess = $siteAccess;
     }
@@ -101,7 +101,7 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware, Contai
      *
      * @param int $undefinedStrategy
      */
-    public function setUndefinedStrategy($undefinedStrategy)
+    public function setUndefinedStrategy($undefinedStrategy): void
     {
         $this->undefinedStrategy = $undefinedStrategy;
     }
@@ -228,7 +228,7 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware, Contai
         }
     }
 
-    private function warnAboutTooEarlyLoadedParams()
+    private function warnAboutTooEarlyLoadedParams(): void
     {
         if (empty($this->tooEarlyLoadedList)) {
             return;
@@ -254,7 +254,7 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware, Contai
      *
      * @return string
      */
-    private function logTooEarlyLoadedListIfNeeded($paramName)
+    private function logTooEarlyLoadedListIfNeeded(string $paramName): void
     {
         if ($this->container instanceof ContainerBuilder) {
             return;

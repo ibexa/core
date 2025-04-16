@@ -19,15 +19,20 @@ use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
  */
 class DoctrineDatabaseTest extends TestCase
 {
-    /**
-     * Database gateway to test.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase
-     */
-    private $gateway;
+    private DoctrineDatabase $gateway;
 
-    /** @var array[] */
-    private $fixtureData;
+    /**
+     * @var array<array{
+     *     id: int,
+     *     created: int,
+     *     is_valid: int,
+     *     last_checked: int,
+     *     modified: int,
+     *     original_url_md5: string,
+     *     url: string
+     * }>
+     */
+    private array $fixtureData;
 
     protected function setUp(): void
     {
@@ -39,6 +44,9 @@ class DoctrineDatabaseTest extends TestCase
         $this->initGateway();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testLoadUrlData(): void
     {
         $row = $this->gateway->loadUrlData(23);
@@ -49,6 +57,9 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testLoadUrlDataByUrl(): void
     {
         $rows = $this->gateway->loadUrlDataByUrl('https://doc.ibexa.co/display/USER/');
@@ -59,6 +70,11 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testFind(): void
     {
         $criterion = new MatchAllCriterion();
@@ -73,6 +89,11 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function testFindWithDisabledCounting(): void
     {
         $criterion = new MatchAllCriterion();

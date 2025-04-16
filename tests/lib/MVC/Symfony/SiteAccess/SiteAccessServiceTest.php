@@ -15,6 +15,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Provider\StaticSiteAccessProvider;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class SiteAccessServiceTest extends TestCase
@@ -24,19 +25,19 @@ class SiteAccessServiceTest extends TestCase
     private const SA_GROUP = 'group';
 
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $provider;
+    private MockObject $provider;
 
     /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $configResolver;
+    private MockObject $configResolver;
 
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    private $siteAccess;
+    private SiteAccess $siteAccess;
 
     /** @var \ArrayIterator */
-    private $availableSiteAccesses;
+    private ArrayIterator $availableSiteAccesses;
 
     /** @var array */
-    private $configResolverParameters;
+    private array $configResolverParameters;
 
     protected function setUp(): void
     {

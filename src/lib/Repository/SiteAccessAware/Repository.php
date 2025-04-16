@@ -33,41 +33,30 @@ use Ibexa\Contracts\Core\Repository\UserService as UserServiceInterface;
  */
 class Repository implements RepositoryInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    protected $repository;
+    protected RepositoryInterface $repository;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    protected $contentService;
+    protected ContentService $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\SectionService */
-    protected $sectionService;
+    protected SectionService $sectionService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
-    protected $searchService;
+    protected SearchService $searchService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
-    protected $userService;
+    protected UserService $userService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageService */
-    protected $languageService;
+    protected LanguageService $languageService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
-    protected $locationService;
+    protected LocationService $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\TrashService */
-    protected $trashService;
+    protected TrashService $trashService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
-    protected $contentTypeService;
+    protected ContentTypeService $contentTypeService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ObjectStateService */
-    protected $objectStateService;
+    protected ObjectStateService $objectStateService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\URLAliasService */
-    protected $urlAliasService;
+    protected URLAliasService $urlAliasService;
 
     /** @var \Ibexa\Core\Repository\NotificationService */
-    protected $notificationService;
+    protected NotificationService $notificationService;
 
     /**
      * Construct repository object from aggregated repository.

@@ -18,7 +18,7 @@ class Templates extends AbstractParser
      *
      * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $nodeBuilder Node just under ezpublish.system.<siteaccess>
      */
-    public function addSemanticConfig(NodeBuilder $nodeBuilder)
+    public function addSemanticConfig(NodeBuilder $nodeBuilder): void
     {
         $nodeBuilder
             ->arrayNode(static::NODE_KEY)
@@ -37,7 +37,7 @@ class Templates extends AbstractParser
             ->end();
     }
 
-    public function preMap(array $config, ContextualizerInterface $contextualizer)
+    public function preMap(array $config, ContextualizerInterface $contextualizer): void
     {
         foreach ($config['siteaccess']['groups'] as $group => $saArray) {
             if (!empty($config[$contextualizer->getSiteAccessNodeName()][$group][static::NODE_KEY])) {
@@ -52,7 +52,7 @@ class Templates extends AbstractParser
         $contextualizer->mapConfigArray(static::NODE_KEY, $config);
     }
 
-    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer)
+    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer): void
     {
         // Nothing to do here.
     }

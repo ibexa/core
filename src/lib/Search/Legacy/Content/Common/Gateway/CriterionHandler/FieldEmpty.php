@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
@@ -16,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\FieldTypeService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
@@ -27,15 +29,10 @@ class FieldEmpty extends FieldBase
 {
     /**
      * Field converter registry.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
      */
-    protected $fieldConverterRegistry;
+    protected ConverterRegistry $fieldConverterRegistry;
 
-    /**
-     * @var \Ibexa\Contracts\Core\Repository\FieldTypeService
-     */
-    protected $fieldTypeService;
+    protected FieldTypeService $fieldTypeService;
 
     public function __construct(
         Connection $connection,
@@ -99,7 +96,16 @@ class FieldEmpty extends FieldBase
     }
 
     /**
+     * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter $converter
+     * @param \Doctrine\DBAL\Query\QueryBuilder $queryBuilder
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsFieldEmpty $criterion
+     * @param array $languageSettings
+     *
+     * @return string
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function handle(
         CriteriaConverter $converter,
@@ -126,10 +132,10 @@ class FieldEmpty extends FieldBase
                 ? $subSelect->expr()->eq($fieldsInfo['column'], $filterPlaceholder)
                 : $subSelect->expr()->neq($fieldsInfo['column'], $filterPlaceholder);
 
-            $whereExpressions[] = $subSelect->expr()->andX(
+            $whereExpressions[] = $subSelect->expr()->and(
                 $subSelect->expr()->in(
                     'contentclassattribute_id',
-                    $queryBuilder->createNamedParameter($fieldsInfo['ids'], Connection::PARAM_INT_ARRAY)
+                    $queryBuilder->createNamedParameter($fieldsInfo['ids'], ArrayParameterType::INTEGER)
                 ),
                 $filter
             );

@@ -12,9 +12,12 @@ use function array_filter;
 use Exception;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Section as SPISection;
+use Ibexa\Contracts\Core\Persistence\Content\Section\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Section\Handler as SectionHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\PermissionCriterionResolver;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\SectionService as SectionServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
@@ -36,23 +39,17 @@ use Ibexa\Core\Base\Exceptions\UnauthorizedException;
  */
 class SectionService implements SectionServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    protected $repository;
+    protected Repository $repository;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    protected $permissionResolver;
+    protected PermissionResolver $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver */
-    protected $permissionCriterionResolver;
+    protected PermissionCriterionResolver $permissionCriterionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Section\Handler */
-    protected $sectionHandler;
+    protected Handler $sectionHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler */
-    protected $locationHandler;
+    protected LocationHandler $locationHandler;
 
-    /** @var array */
-    protected $settings;
+    protected array $settings;
 
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
@@ -439,7 +436,7 @@ class SectionService implements SectionServiceInterface
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Section
      */
-    protected function buildDomainSectionObject(SPISection $spiSection)
+    protected function buildDomainSectionObject(SPISection $spiSection): Section
     {
         return new Section(
             [

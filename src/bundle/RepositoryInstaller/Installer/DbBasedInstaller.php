@@ -13,14 +13,12 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class DbBasedInstaller
 {
-    /** @var \Doctrine\DBAL\Connection */
-    protected $db;
+    protected Connection $db;
 
     /** @var \Symfony\Component\Console\Output\OutputInterface */
     protected $output;
 
-    /** @var string */
-    protected $baseDataDir;
+    protected string $baseDataDir;
 
     public function __construct(Connection $db)
     {
@@ -32,7 +30,7 @@ class DbBasedInstaller
     /**
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      */
-    public function setOutput($output)
+    public function setOutput($output): void
     {
         $this->output = $output;
     }
@@ -43,7 +41,7 @@ class DbBasedInstaller
      * @param string $source
      * @param string $target
      */
-    protected function copyConfigurationFile($source, $target)
+    protected function copyConfigurationFile(string $source, string $target)
     {
         $fs = new Filesystem();
         $fs->copy($source, $target, true);
@@ -69,7 +67,7 @@ class DbBasedInstaller
         }
 
         foreach ($queries as $query) {
-            $this->db->exec($query);
+            $this->db->executeStatement($query);
         }
     }
 
@@ -81,7 +79,7 @@ class DbBasedInstaller
      * @return string absolute existing file path
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      *
      * @since 6.13
      */

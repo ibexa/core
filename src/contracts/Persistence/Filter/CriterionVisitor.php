@@ -20,5 +20,5 @@ interface CriterionVisitor
     public function visitCriteria(
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
-    ): string;
+    ): ?string;
 }

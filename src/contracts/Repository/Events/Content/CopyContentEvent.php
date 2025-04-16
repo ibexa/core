@@ -16,17 +16,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 
 final class CopyContentEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-    private $content;
+    private Content $content;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
-    private $contentInfo;
+    private ContentInfo $contentInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct */
-    private $destinationLocationCreateStruct;
+    private LocationCreateStruct $destinationLocationCreateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo */
-    private $versionInfo;
+    private ?VersionInfo $versionInfo;
 
     public function __construct(
         Content $content,

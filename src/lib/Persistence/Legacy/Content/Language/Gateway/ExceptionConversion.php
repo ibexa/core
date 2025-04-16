@@ -8,28 +8,19 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as DBALException;
 use Ibexa\Contracts\Core\Persistence\Content\Language;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
-use PDOException;
 
 /**
  * @internal Internal exception conversion layer.
  */
 final class ExceptionConversion extends Gateway
 {
-    /**
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway
-     */
-    private $innerGateway;
+    private DoctrineDatabase $innerGateway;
 
-    /**
-     * Creates a new exception conversion gateway around $innerGateway.
-     *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway $innerGateway
-     */
-    public function __construct(Gateway $innerGateway)
+    public function __construct(DoctrineDatabase $innerGateway)
     {
         $this->innerGateway = $innerGateway;
     }
@@ -38,7 +29,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->insertLanguage($language);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -47,7 +38,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->updateLanguage($language);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -56,7 +47,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadLanguageListData($ids);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -65,7 +56,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadLanguageListDataByLanguageCode($languageCodes);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -74,7 +65,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadAllLanguagesData();
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -83,7 +74,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->deleteLanguage($id);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -92,7 +83,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->canDeleteLanguage($id);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }

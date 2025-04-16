@@ -18,10 +18,8 @@ class DoctrineDatabaseTest extends TestCase
 {
     /**
      * Database gateway to test.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase
      */
-    protected $databaseGateway;
+    protected DoctrineDatabase $databaseGateway;
 
     /**
      * Inserts DB fixture.
@@ -35,13 +33,13 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testInsertLanguage()
+    public function testInsertLanguage(): void
     {
         $gateway = $this->getDatabaseGateway();
 
         $gateway->insertLanguage($this->getLanguageFixture());
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'id' => '8',
@@ -62,7 +60,7 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Language
      */
-    protected function getLanguageFixture()
+    protected function getLanguageFixture(): Language
     {
         $language = new Language();
 
@@ -73,7 +71,7 @@ class DoctrineDatabaseTest extends TestCase
         return $language;
     }
 
-    public function testUpdateLanguage()
+    public function testUpdateLanguage(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -82,7 +80,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $gateway->updateLanguage($language);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'id' => '2',
@@ -98,7 +96,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testLoadLanguageListData()
+    public function testLoadLanguageListData(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -117,7 +115,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testLoadAllLanguagesData()
+    public function testLoadAllLanguagesData(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -142,13 +140,13 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testDeleteLanguage()
+    public function testDeleteLanguage(): void
     {
         $gateway = $this->getDatabaseGateway();
 
-        $result = $gateway->deleteLanguage(2);
+        $gateway->deleteLanguage(2);
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'count' => '1',
@@ -159,7 +157,7 @@ class DoctrineDatabaseTest extends TestCase
                 ->from('ezcontent_language')
         );
 
-        $this->assertQueryResult(
+        self::assertQueryResult(
             [
                 [
                     'count' => '0',
@@ -175,7 +173,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Return a ready to test DoctrineDatabase gateway.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function getDatabaseGateway(): DoctrineDatabase
     {

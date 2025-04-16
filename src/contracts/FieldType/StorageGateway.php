@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\FieldType;
 
@@ -14,13 +15,8 @@ abstract class StorageGateway implements StorageGatewayInterface
 {
     /**
      * Get sequence name bound to database table and column.
-     *
-     * @param string $table
-     * @param string $column
-     *
-     * @return string
      */
-    protected function getSequenceName($table, $column)
+    protected function getSequenceName(string $table, string $column): string
     {
         return sprintf('%s_%s_seq', $table, $column);
     }

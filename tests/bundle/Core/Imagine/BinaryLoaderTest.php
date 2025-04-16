@@ -15,16 +15,17 @@ use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\MissingBinaryFile;
 use Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException;
 use Liip\ImagineBundle\Model\Binary;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Mime\MimeTypes;
 
 class BinaryLoaderTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $ioService;
+    private MockObject $ioService;
 
     /** @var \Ibexa\Bundle\Core\Imagine\BinaryLoader */
-    private $binaryLoader;
+    private BinaryLoader $binaryLoader;
 
     protected function setUp(): void
     {
@@ -33,9 +34,9 @@ class BinaryLoaderTest extends TestCase
         $this->binaryLoader = new BinaryLoader($this->ioService, new MimeTypes());
     }
 
-    public function testFindNotFound()
+    public function testFindNotFound(): void
     {
-        $this->expectException(\Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException::class);
+        $this->expectException(NotLoadableException::class);
 
         $path = 'something.jpg';
         $this->ioService
@@ -47,9 +48,9 @@ class BinaryLoaderTest extends TestCase
         $this->binaryLoader->find($path);
     }
 
-    public function testFindMissing()
+    public function testFindMissing(): void
     {
-        $this->expectException(\Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException::class);
+        $this->expectException(NotLoadableException::class);
 
         $path = 'something.jpg';
         $this->ioService
@@ -61,7 +62,7 @@ class BinaryLoaderTest extends TestCase
         $this->binaryLoader->find($path);
     }
 
-    public function testFindBadPathRoot()
+    public function testFindBadPathRoot(): void
     {
         $path = 'var/site/storage/images/1/2/3/123-name/name.png';
         $this->ioService

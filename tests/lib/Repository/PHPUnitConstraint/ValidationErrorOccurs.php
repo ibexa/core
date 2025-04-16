@@ -16,8 +16,7 @@ namespace Ibexa\Tests\Core\Repository\PHPUnitConstraint;
  */
 class ValidationErrorOccurs extends AllValidationErrorsOccur
 {
-    /** @var string */
-    private $expectedValidationErrorMessage;
+    private string $expectedValidationErrorMessage;
 
     /**
      * @param string $expectedValidationErrorMessage

@@ -7,6 +7,7 @@
 
 namespace Ibexa\Bundle\Core\Command;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Exception;
 use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
@@ -241,9 +242,10 @@ EOT
      *
      * @return array
      *
+     * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      */
-    protected function getObjectsIds($keep, $status, $excludedContentTypes = [])
+    protected function getObjectsIds($keep, $status, $excludedContentTypes = []): array
     {
         $query = $this->connection->createQueryBuilder()
                 ->select('c.id')
@@ -270,13 +272,10 @@ EOT
                         'cl.identifier',
                         ':contentTypes'
                     )
-                )->setParameter(':contentTypes', $excludedContentTypes, Connection::PARAM_STR_ARRAY);
+                )->setParameter(':contentTypes', $excludedContentTypes, ArrayParameterType::STRING);
         }
 
-        /** @var \Doctrine\DBAL\ForwardCompatibility\Result<int> $stmt */
-        $stmt = $query->execute();
-
-        return $stmt->fetchFirstColumn();
+        return $query->executeQuery()->fetchFirstColumn();
     }
 
     /**
@@ -286,7 +285,7 @@ EOT
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      */
-    private function mapStatusToVersionInfoStatus($status)
+    private function mapStatusToVersionInfoStatus($status): int
     {
         if (array_key_exists($status, self::VERSION_STATUS)) {
             return self::VERSION_STATUS[$status];

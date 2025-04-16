@@ -13,7 +13,7 @@ namespace Ibexa\Core\Repository\Permission;
  *
  * @return int
  */
-function time()
+function time(): int|float
 {
     static $time = 1417624981;
 
@@ -29,6 +29,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Repository\Permission\CachedPermissionService;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -36,7 +37,7 @@ use PHPUnit\Framework\TestCase;
  */
 class CachedPermissionServiceTest extends TestCase
 {
-    public function providerForTestPermissionResolverPassTrough()
+    public function providerForTestPermissionResolverPassTrough(): array
     {
         $valueObject = $this
             ->getMockBuilder(ValueObject::class)
@@ -58,7 +59,7 @@ class CachedPermissionServiceTest extends TestCase
             ['setCurrentUserReference', [$userRef], null],
             ['hasAccess', ['content', 'remove', $userRef], false],
             ['canUser', ['content', 'remove', $valueObject, [new \stdClass()]], true],
-            ['sudo', [static function () {}, $repository], null],
+            ['sudo', [static function (): void {}, $repository], null],
         ];
     }
 
@@ -71,7 +72,7 @@ class CachedPermissionServiceTest extends TestCase
      * @param array $arguments
      * @param $expectedReturn
      */
-    public function testPermissionResolverPassTrough($method, array $arguments, $expectedReturn)
+    public function testPermissionResolverPassTrough(string $method, array $arguments, (UserReference&MockObject)|bool|null $expectedReturn): void
     {
         if ($expectedReturn !== null) {
             $this->getPermissionResolverMock([$method])
@@ -92,7 +93,7 @@ class CachedPermissionServiceTest extends TestCase
         self::assertSame($expectedReturn, $actualReturn);
     }
 
-    public function testGetPermissionsCriterionPassTrough()
+    public function testGetPermissionsCriterionPassTrough(): void
     {
         $criterionMock = $this
             ->getMockBuilder(Criterion::class)
@@ -111,7 +112,7 @@ class CachedPermissionServiceTest extends TestCase
         self::assertSame($criterionMock, $actualReturn);
     }
 
-    public function testGetPermissionsCriterionCaching()
+    public function testGetPermissionsCriterionCaching(): void
     {
         $criterionMock = $this
             ->getMockBuilder(Criterion::class)
@@ -169,7 +170,7 @@ class CachedPermissionServiceTest extends TestCase
      *
      * @return \Ibexa\Core\Repository\Permission\CachedPermissionService
      */
-    protected function getCachedPermissionService($ttl = 5)
+    protected function getCachedPermissionService($ttl = 5): CachedPermissionService
     {
         return new CachedPermissionService(
             $this->getPermissionResolverMock(),
@@ -178,9 +179,9 @@ class CachedPermissionServiceTest extends TestCase
         );
     }
 
-    protected $permissionResolverMock;
+    protected ?MockObject $permissionResolverMock = null;
 
-    protected function getPermissionResolverMock($methods = [])
+    protected function getPermissionResolverMock(?array $methods = [])
     {
         // Tests first calls here with methods set before initiating PermissionCriterionResolver with same instance.
         if ($this->permissionResolverMock !== null) {
@@ -194,9 +195,9 @@ class CachedPermissionServiceTest extends TestCase
             ->getMockForAbstractClass();
     }
 
-    protected $permissionCriterionResolverMock;
+    protected ?MockObject $permissionCriterionResolverMock = null;
 
-    protected function getPermissionCriterionResolverMock($methods = [])
+    protected function getPermissionCriterionResolverMock(?array $methods = [])
     {
         // Tests first calls here with methods set before initiating PermissionCriterionResolver with same instance.
         if ($this->permissionCriterionResolverMock !== null) {

@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\User\Role\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\User\Policy;
@@ -27,23 +27,19 @@ use Ibexa\Core\Persistence\Legacy\User\Role\Gateway;
  */
 final class DoctrineDatabase extends Gateway
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private const string POLICY_TO_LIMITATION_JOIN_CONDITION = 'l.policy_id = p.id';
+    private const string LIMITATION_TO_VALUE_JOIN_CONDITION = 'v.limitation_id = l.id';
 
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
-    private $dbPlatform;
+    private Connection $connection;
 
-    /**
-     * Construct from database handler.
-     *
-     * @throws \Doctrine\DBAL\DBALException
-     */
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
-        $this->dbPlatform = $this->connection->getDatabasePlatform();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function createRole(Role $role): Role
     {
         // Role original ID is set when creating a draft from an existing role
@@ -65,18 +61,16 @@ final class DoctrineDatabase extends Gateway
                 [
                     'is_new' => $query->createPositionalParameter(0, ParameterType::INTEGER),
                     'name' => $query->createPositionalParameter(
-                        $role->identifier,
-                        ParameterType::STRING
+                        $role->identifier
                     ),
                     'value' => $query->createPositionalParameter(0, ParameterType::INTEGER),
                     // BC: "version" stores originalId when creating a draft from an existing role
                     'version' => $query->createPositionalParameter(
-                        $roleOriginalId,
-                        ParameterType::STRING
+                        $roleOriginalId
                     ),
                 ]
             );
-        $query->execute();
+        $query->executeStatement();
 
         if (!isset($role->id) || (int)$role->id < 1 || $role->status === Role::STATUS_DRAFT) {
             $role->id = (int)$this->connection->lastInsertId(self::ROLE_SEQ);
@@ -87,6 +81,9 @@ final class DoctrineDatabase extends Gateway
         return $role;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function copyRole(Role $role): Role
     {
         $status = $role->status;
@@ -98,18 +95,16 @@ final class DoctrineDatabase extends Gateway
                 [
                     'is_new' => $query->createPositionalParameter(0, ParameterType::INTEGER),
                     'name' => $query->createPositionalParameter(
-                        $role->identifier,
-                        ParameterType::STRING
+                        $role->identifier
                     ),
                     'value' => $query->createPositionalParameter(0, ParameterType::INTEGER),
                     // BC: "version" stores originalId when creating a draft from an existing role
                     'version' => $query->createPositionalParameter(
-                        $status,
-                        ParameterType::STRING
+                        $status
                     ),
                 ]
             );
-        $query->execute();
+        $query->executeStatement();
 
         $role->id = (int)$this->connection->lastInsertId(self::ROLE_SEQ);
 
@@ -133,15 +128,14 @@ final class DoctrineDatabase extends Gateway
             )
             ->from(self::ROLE_TABLE, 'r')
             ->leftJoin('r', self::POLICY_TABLE, 'p', 'p.role_id = r.id')
-            ->leftJoin('p', self::POLICY_LIMITATION_TABLE, 'l', 'l.policy_id = p.id')
-            ->leftJoin('l', self::POLICY_LIMITATION_VALUE_TABLE, 'v', 'v.limitation_id = l.id');
+            ->leftJoin('p', self::POLICY_LIMITATION_TABLE, 'l', self::POLICY_TO_LIMITATION_JOIN_CONDITION)
+            ->leftJoin('l', self::POLICY_LIMITATION_VALUE_TABLE, 'v', self::LIMITATION_TO_VALUE_JOIN_CONDITION);
 
         return $query;
     }
 
     /**
      * @throws \Doctrine\DBAL\Exception
-     * @throws \Doctrine\DBAL\Driver\Exception
      */
     public function loadRole(int $roleId, int $status = Role::STATUS_DEFINED): array
     {
@@ -160,12 +154,11 @@ final class DoctrineDatabase extends Gateway
             ->addOrderBy('l.identifier', 'ASC')
             ->addOrderBy('v.value', 'ASC');
 
-        return $query->execute()->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
      * @throws \Doctrine\DBAL\Exception
-     * @throws \Doctrine\DBAL\Driver\Exception
      */
     public function loadRoleByIdentifier(
         string $identifier,
@@ -176,7 +169,7 @@ final class DoctrineDatabase extends Gateway
             ->where(
                 $query->expr()->eq(
                     'r.name',
-                    $query->createPositionalParameter($identifier, ParameterType::STRING)
+                    $query->createPositionalParameter($identifier)
                 )
             )
             ->andWhere(
@@ -186,9 +179,12 @@ final class DoctrineDatabase extends Gateway
             ->addOrderBy('l.identifier', 'ASC')
             ->addOrderBy('v.value', 'ASC');
 
-        return $query->execute()->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadRoleDraftByRoleId(int $roleId): array
     {
         $query = $this->getLoadRoleQueryBuilder();
@@ -197,16 +193,17 @@ final class DoctrineDatabase extends Gateway
             ->where(
                 $query->expr()->eq(
                     'r.version',
-                    $query->createPositionalParameter($roleId, ParameterType::STRING)
+                    $query->createPositionalParameter($roleId)
                 )
             )
             ->orderBy('p.id', 'ASC');
 
-        $statement = $query->execute();
-
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadRoles(int $status = Role::STATUS_DEFINED): array
     {
         $query = $this->getLoadRoleQueryBuilder();
@@ -214,11 +211,12 @@ final class DoctrineDatabase extends Gateway
             $this->buildRoleDraftQueryConstraint($status, $query)
         );
 
-        $statement = $query->execute();
-
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadRolesForContentObjects(
         array $contentIds,
         int $status = Role::STATUS_DEFINED
@@ -251,18 +249,21 @@ final class DoctrineDatabase extends Gateway
             )
             ->leftJoin('r', self::USER_ROLE_TABLE, 'ur', 'ur.role_id = r.id')
             ->leftJoin('r', self::POLICY_TABLE, 'p', 'p.role_id = r.id')
-            ->leftJoin('p', self::POLICY_LIMITATION_TABLE, 'l', 'l.policy_id = p.id')
-            ->leftJoin('l', self::POLICY_LIMITATION_VALUE_TABLE, 'v', 'v.limitation_id = l.id')
+            ->leftJoin('p', self::POLICY_LIMITATION_TABLE, 'l', self::POLICY_TO_LIMITATION_JOIN_CONDITION)
+            ->leftJoin('l', self::POLICY_LIMITATION_VALUE_TABLE, 'v', self::LIMITATION_TO_VALUE_JOIN_CONDITION)
             ->where(
                 $expr->in(
                     'urs.contentobject_id',
-                    $query->createPositionalParameter($contentIds, Connection::PARAM_INT_ARRAY)
+                    $query->createPositionalParameter($contentIds, ArrayParameterType::INTEGER)
                 )
             );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadRoleAssignment(int $roleAssignmentId): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -281,11 +282,12 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->execute();
-
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadRoleAssignmentsByGroupId(int $groupId, bool $inherited = false): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -305,7 +307,7 @@ final class DoctrineDatabase extends Gateway
             $query->where(
                 $query->expr()->in(
                     'contentobject_id',
-                    $groupIds
+                    $query->createPositionalParameter($groupIds, ArrayParameterType::INTEGER)
                 )
             );
         } else {
@@ -317,11 +319,12 @@ final class DoctrineDatabase extends Gateway
             );
         }
 
-        $statement = $query->execute();
-
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadRoleAssignmentsByRoleId(int $roleId): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -340,13 +343,10 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->execute();
-
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
-     * @throws \Doctrine\DBAL\Driver\Exception
      * @throws \Doctrine\DBAL\Exception
      */
     public function loadRoleAssignmentsByRoleIdWithOffsetAndLimit(int $roleId, int $offset, ?int $limit): array
@@ -369,22 +369,21 @@ final class DoctrineDatabase extends Gateway
         }
 
         return $query
-            ->execute()
+            ->executeQuery()
             ->fetchAllAssociative();
     }
 
     /**
-     * @throws \Doctrine\DBAL\Driver\Exception
      * @throws \Doctrine\DBAL\Exception
      */
     public function countRoleAssignments(int $roleId): int
     {
         $query = $this->buildLoadRoleAssignmentsQuery(
-            [$this->connection->getDatabasePlatform()->getCountExpression('user_role.id')],
+            ['COUNT(user_role.id)'],
             $roleId
         );
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     /**
@@ -411,6 +410,9 @@ final class DoctrineDatabase extends Gateway
         return $query;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadPoliciesByUserId(int $userId): array
     {
         $groupIds = $this->fetchUserGroups($userId);
@@ -426,9 +428,9 @@ final class DoctrineDatabase extends Gateway
      * Note that not all of these might be used as user groups,
      * but we will need to check all of them.
      *
-     * @param int $userId
+     * @return int[]
      *
-     * @return array
+     * @throws \Doctrine\DBAL\Exception
      */
     private function fetchUserGroups(int $userId): array
     {
@@ -446,15 +448,16 @@ final class DoctrineDatabase extends Gateway
             ->where(
                 $query->expr()->in(
                     't.node_id',
-                    $nodeIDs
+                    $query->createNamedParameter($nodeIDs, ArrayParameterType::INTEGER, ':node_ids')
                 )
             );
 
-        $statement = $query->execute();
-
-        return $statement->fetchAll(FetchMode::COLUMN);
+        return array_map('intval', $query->executeQuery()->fetchFirstColumn());
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function updateRole(RoleUpdateStruct $role): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -462,7 +465,7 @@ final class DoctrineDatabase extends Gateway
             ->update(self::ROLE_TABLE)
             ->set(
                 'name',
-                $query->createPositionalParameter($role->identifier, ParameterType::STRING)
+                $query->createPositionalParameter($role->identifier)
             )
             ->where(
                 $query->expr()->eq(
@@ -470,9 +473,12 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($role->id, ParameterType::INTEGER)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function deleteRole(int $roleId, int $status = Role::STATUS_DEFINED): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -492,15 +498,21 @@ final class DoctrineDatabase extends Gateway
         if ($status !== Role::STATUS_DRAFT) {
             $this->deleteRoleAssignments($roleId);
         }
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function publishRoleDraft(int $roleDraftId, ?int $originalRoleId = null): void
     {
         $this->markRoleAsPublished($roleDraftId, $originalRoleId);
         $this->publishRolePolicies($roleDraftId, $originalRoleId);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function addPolicy(int $roleId, Policy $policy): Policy
     {
         $query = $this->connection->createQueryBuilder();
@@ -509,12 +521,10 @@ final class DoctrineDatabase extends Gateway
             ->values(
                 [
                     'function_name' => $query->createPositionalParameter(
-                        $policy->function,
-                        ParameterType::STRING
+                        $policy->function
                     ),
                     'module_name' => $query->createPositionalParameter(
-                        $policy->module,
-                        ParameterType::STRING
+                        $policy->module
                     ),
                     'original_id' => $query->createPositionalParameter(
                         $policy->originalId ?? 0,
@@ -523,7 +533,7 @@ final class DoctrineDatabase extends Gateway
                     'role_id' => $query->createPositionalParameter($roleId, ParameterType::INTEGER),
                 ]
             );
-        $query->execute();
+        $query->executeStatement();
 
         $policy->id = (int)$this->connection->lastInsertId(self::POLICY_SEQ);
         $policy->roleId = $roleId;
@@ -538,6 +548,9 @@ final class DoctrineDatabase extends Gateway
         return $policy;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function addPolicyLimitations(int $policyId, array $limitations): void
     {
         foreach ($limitations as $identifier => $values) {
@@ -547,8 +560,7 @@ final class DoctrineDatabase extends Gateway
                 ->values(
                     [
                         'identifier' => $query->createPositionalParameter(
-                            $identifier,
-                            ParameterType::STRING
+                            $identifier
                         ),
                         'policy_id' => $query->createPositionalParameter(
                             $policyId,
@@ -556,7 +568,7 @@ final class DoctrineDatabase extends Gateway
                         ),
                     ]
                 );
-            $query->execute();
+            $query->executeStatement();
 
             $limitationId = (int)$this->connection->lastInsertId(self::POLICY_LIMITATION_SEQ);
 
@@ -567,8 +579,7 @@ final class DoctrineDatabase extends Gateway
                     ->values(
                         [
                             'value' => $query->createPositionalParameter(
-                                $value,
-                                ParameterType::STRING
+                                $value
                             ),
                             'limitation_id' => $query->createPositionalParameter(
                                 $limitationId,
@@ -576,11 +587,14 @@ final class DoctrineDatabase extends Gateway
                             ),
                         ]
                     );
-                $query->execute();
+                $query->executeStatement();
             }
         }
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function removePolicy(int $policyId): void
     {
         $this->removePolicyLimitations($policyId);
@@ -594,11 +608,13 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($policyId, ParameterType::INTEGER)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
      * @param int[] $limitationIds
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function deletePolicyLimitations(array $limitationIds): void
     {
@@ -610,15 +626,17 @@ final class DoctrineDatabase extends Gateway
                     'id',
                     $query->createPositionalParameter(
                         $limitationIds,
-                        Connection::PARAM_INT_ARRAY
+                        ArrayParameterType::INTEGER
                     )
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
      * @param int[] $limitationValueIds
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function deletePolicyLimitationValues(array $limitationValueIds): void
     {
@@ -630,13 +648,18 @@ final class DoctrineDatabase extends Gateway
                     'id',
                     $query->createPositionalParameter(
                         $limitationValueIds,
-                        Connection::PARAM_INT_ARRAY
+                        ArrayParameterType::INTEGER
                     )
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @phpstan-return list<array<string,mixed>>
+     *
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function loadPolicyLimitationValues(int $policyId): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -646,8 +669,8 @@ final class DoctrineDatabase extends Gateway
                 'v.id AS ezpolicy_limitation_value_id'
             )
             ->from(self::POLICY_TABLE, 'p')
-            ->leftJoin('p', self::POLICY_LIMITATION_TABLE, 'l', 'l.policy_id = p.id')
-            ->leftJoin('l', self::POLICY_LIMITATION_VALUE_TABLE, 'v', 'v.limitation_id = l.id')
+            ->leftJoin('p', self::POLICY_LIMITATION_TABLE, 'l', self::POLICY_TO_LIMITATION_JOIN_CONDITION)
+            ->leftJoin('l', self::POLICY_LIMITATION_VALUE_TABLE, 'v', self::LIMITATION_TO_VALUE_JOIN_CONDITION)
             ->where(
                 $query->expr()->eq(
                     'p.id',
@@ -655,9 +678,12 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function removePolicyLimitations(int $policyId): void
     {
         $limitationValues = $this->loadPolicyLimitationValues($policyId);
@@ -682,6 +708,8 @@ final class DoctrineDatabase extends Gateway
 
     /**
      * Delete Role assignments to Users.
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function deleteRoleAssignments(int $roleId): void
     {
@@ -694,15 +722,15 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($roleId, ParameterType::INTEGER)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
      * Load all Ancestor Location IDs of the given User Location.
      *
-     * @param int $userId
-     *
      * @return int[]
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function getAncestorLocationIdsForUser(int $userId): array
     {
@@ -713,11 +741,11 @@ final class DoctrineDatabase extends Gateway
             ->where(
                 $query->expr()->eq(
                     't.contentobject_id',
-                    $query->createPositionalParameter($userId, ParameterType::STRING)
+                    $query->createPositionalParameter($userId)
                 )
             );
 
-        $paths = $query->execute()->fetchAll(FetchMode::COLUMN);
+        $paths = $query->executeQuery()->fetchFirstColumn();
         $nodeIds = array_unique(
             array_reduce(
                 array_map(
@@ -741,13 +769,13 @@ final class DoctrineDatabase extends Gateway
     ): string {
         if ($status === Role::STATUS_DEFINED) {
             $draftCondition = $query->expr()->eq(
-                "{$columnAlias}.version",
+                "$columnAlias.version",
                 $query->createPositionalParameter($status, ParameterType::INTEGER)
             );
         } else {
             // version stores original Role ID when Role is a draft...
             $draftCondition = $query->expr()->neq(
-                "{$columnAlias}.version",
+                "$columnAlias.version",
                 $query->createPositionalParameter(Role::STATUS_DEFINED, ParameterType::INTEGER)
             );
         }
@@ -755,6 +783,9 @@ final class DoctrineDatabase extends Gateway
         return $draftCondition;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function markRoleAsPublished(int $roleDraftId, ?int $originalRoleId): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -778,9 +809,12 @@ final class DoctrineDatabase extends Gateway
                 $query->createPositionalParameter($roleDraftId, ParameterType::INTEGER)
             )
         );
-        $query->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function publishRolePolicies(int $roleDraftId, ?int $originalRoleId): void
     {
         $policyQuery = $this->connection->createQueryBuilder();
@@ -804,6 +838,6 @@ final class DoctrineDatabase extends Gateway
                 $policyQuery->createPositionalParameter($roleDraftId, ParameterType::INTEGER)
             )
         );
-        $policyQuery->execute();
+        $policyQuery->executeStatement();
     }
 }

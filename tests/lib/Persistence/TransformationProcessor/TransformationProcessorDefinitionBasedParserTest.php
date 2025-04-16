@@ -24,7 +24,7 @@ class TransformationProcessorDefinitionBasedParserTest extends TestCase
 
         return false !== $glob
             ? array_map(
-                static function (string $file) {
+                static function (string $file): array {
                     return [realpath($file)];
                 },
                 $glob
@@ -35,7 +35,7 @@ class TransformationProcessorDefinitionBasedParserTest extends TestCase
     /**
      * @dataProvider getTestFiles
      */
-    public function testParse($file)
+    public function testParse(string $file): void
     {
         $parser = new Persistence\TransformationProcessor\DefinitionBased\Parser();
 

@@ -37,7 +37,7 @@ class RepositoryTest extends BaseTest
     /**
      * Test for the getRepository() method.
      */
-    public function testGetRepository()
+    public function testGetRepository(): void
     {
         self::assertInstanceOf(Repository::class, $this->getSetupFactory()->getRepository(true));
     }
@@ -48,7 +48,7 @@ class RepositoryTest extends BaseTest
      * @group content
      * @group user
      */
-    public function testGetContentService()
+    public function testGetContentService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -64,7 +64,7 @@ class RepositoryTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\Repository::getContentLanguageService()
      */
-    public function testGetContentLanguageService()
+    public function testGetContentLanguageService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -80,7 +80,7 @@ class RepositoryTest extends BaseTest
      * @group field-type
      * @group user
      */
-    public function testGetContentTypeService()
+    public function testGetContentTypeService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -94,7 +94,7 @@ class RepositoryTest extends BaseTest
      *
      * @group location
      */
-    public function testGetLocationService()
+    public function testGetLocationService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -108,7 +108,7 @@ class RepositoryTest extends BaseTest
      *
      * @group section
      */
-    public function testGetSectionService()
+    public function testGetSectionService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -122,7 +122,7 @@ class RepositoryTest extends BaseTest
      *
      * @group user
      */
-    public function testGetUserService()
+    public function testGetUserService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -136,7 +136,7 @@ class RepositoryTest extends BaseTest
      *
      * @group user
      */
-    public function testGetNotificationService()
+    public function testGetNotificationService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -150,7 +150,7 @@ class RepositoryTest extends BaseTest
      *
      * @group trash
      */
-    public function testGetTrashService()
+    public function testGetTrashService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -164,7 +164,7 @@ class RepositoryTest extends BaseTest
      *
      * @group role
      */
-    public function testGetRoleService()
+    public function testGetRoleService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -178,7 +178,7 @@ class RepositoryTest extends BaseTest
      *
      * @group url-alias
      */
-    public function testGetURLAliasService()
+    public function testGetURLAliasService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -192,7 +192,7 @@ class RepositoryTest extends BaseTest
      *
      * @group url-wildcard
      */
-    public function testGetURLWildcardService()
+    public function testGetURLWildcardService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -206,7 +206,7 @@ class RepositoryTest extends BaseTest
      *
      * @group object-state
      */
-    public function testGetObjectStateService()
+    public function testGetObjectStateService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -220,7 +220,7 @@ class RepositoryTest extends BaseTest
      *
      * @group object-state
      */
-    public function testGetFieldTypeService()
+    public function testGetFieldTypeService(): void
     {
         $repository = $this->getRepository();
         self::assertInstanceOf(
@@ -234,7 +234,7 @@ class RepositoryTest extends BaseTest
      *
      * @group search
      */
-    public function testGetSearchService()
+    public function testGetSearchService(): void
     {
         $repository = $this->getRepository();
 
@@ -249,7 +249,7 @@ class RepositoryTest extends BaseTest
      *
      * @group permission
      */
-    public function testGetPermissionResolver()
+    public function testGetPermissionResolver(): void
     {
         $repository = $this->getRepository();
 
@@ -262,7 +262,7 @@ class RepositoryTest extends BaseTest
     /**
      * Test for the commit() method.
      */
-    public function testCommit()
+    public function testCommit(): void
     {
         $repository = $this->getRepository();
 
@@ -279,7 +279,7 @@ class RepositoryTest extends BaseTest
     /**
      * Test for the commit() method.
      */
-    public function testCommitThrowsRuntimeException()
+    public function testCommitThrowsRuntimeException(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -290,7 +290,7 @@ class RepositoryTest extends BaseTest
     /**
      * Test for the rollback() method.
      */
-    public function testRollback()
+    public function testRollback(): void
     {
         $repository = $this->getRepository();
         $repository->beginTransaction();
@@ -300,7 +300,7 @@ class RepositoryTest extends BaseTest
     /**
      * Test for the rollback() method.
      */
-    public function testRollbackThrowsRuntimeException()
+    public function testRollbackThrowsRuntimeException(): void
     {
         $this->expectException(\RuntimeException::class);
 

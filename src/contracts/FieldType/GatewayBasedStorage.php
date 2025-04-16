@@ -20,11 +20,9 @@ abstract class GatewayBasedStorage implements FieldStorage
     /**
      * Field Type External Storage Gateway.
      *
-     * @var \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface
-     *
      * @phpstan-var T
      */
-    protected $gateway;
+    protected StorageGatewayInterface $gateway;
 
     /**
      * @param \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface $gateway

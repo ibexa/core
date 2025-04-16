@@ -18,17 +18,13 @@ class Handler implements BaseObjectStateHandler
 {
     /**
      * ObjectState Gateway.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway
      */
-    protected $objectStateGateway;
+    protected Gateway $objectStateGateway;
 
     /**
      * ObjectState Mapper.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper
      */
-    protected $objectStateMapper;
+    protected Mapper $objectStateMapper;
 
     /**
      * Creates a new ObjectState Handler.
@@ -149,7 +145,7 @@ class Handler implements BaseObjectStateHandler
      *
      * @param mixed $groupId
      */
-    public function deleteGroup($groupId)
+    public function deleteGroup($groupId): void
     {
         $objectStates = $this->loadObjectStates($groupId);
         foreach ($objectStates as $objectState) {
@@ -244,7 +240,7 @@ class Handler implements BaseObjectStateHandler
      * @param mixed $stateId
      * @param int $priority
      */
-    public function setPriority($stateId, $priority)
+    public function setPriority($stateId, $priority): void
     {
         $objectState = $this->load($stateId);
         $groupObjectStates = $this->loadObjectStates($objectState->groupId);
@@ -274,7 +270,7 @@ class Handler implements BaseObjectStateHandler
      *
      * @param mixed $stateId
      */
-    public function delete($stateId)
+    public function delete($stateId): void
     {
         // Get the object state first as we need group ID
         // to reorder the priorities and reassign content to another state in the group
@@ -346,7 +342,7 @@ class Handler implements BaseObjectStateHandler
      *
      * @return int
      */
-    public function getContentCount($stateId)
+    public function getContentCount($stateId): int
     {
         return $this->objectStateGateway->getContentCount($stateId);
     }

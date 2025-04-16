@@ -7,8 +7,8 @@
 
 namespace Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use DOMDocument;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
@@ -23,8 +23,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway as ContentTypeGateway;
 
 class RelationListConverter implements Converter
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
     public function __construct(Connection $connection)
     {
@@ -34,7 +33,7 @@ class RelationListConverter implements Converter
     /**
      * Converts data from $value to $storageFieldValue.
      */
-    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
+    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue): void
     {
         $doc = new DOMDocument('1.0', 'utf-8');
         $root = $doc->createElement('related-objects');
@@ -76,7 +75,7 @@ class RelationListConverter implements Converter
     /**
      * Converts data from $value to $fieldValue.
      */
-    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue)
+    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue): void
     {
         $fieldValue->data = ['destinationContentIds' => []];
         if ($value->dataText === null) {
@@ -103,7 +102,7 @@ class RelationListConverter implements Converter
     /**
      * Converts field definition data in $fieldDef into $storageFieldDef.
      */
-    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef)
+    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef): void
     {
         $fieldSettings = $fieldDef->fieldTypeConstraints->fieldSettings;
         $validators = $fieldDef->fieldTypeConstraints->validators;
@@ -186,7 +185,7 @@ class RelationListConverter implements Converter
      *   </related-objects>
      * </code>
      */
-    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef)
+    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef): void
     {
         // default settings
         $fieldDef->fieldTypeConstraints->fieldSettings = [
@@ -276,7 +275,7 @@ class RelationListConverter implements Converter
      *
      * @return array
      */
-    protected function getRelationXmlHashFromDB(array $destinationContentIds)
+    protected function getRelationXmlHashFromDB(array $destinationContentIds): array
     {
         if (empty($destinationContentIds)) {
             return [];
@@ -298,7 +297,7 @@ class RelationListConverter implements Converter
                 'c',
                 LocationGateway::CONTENT_TREE_TABLE,
                 't',
-                $query->expr()->andX(
+                $query->expr()->and(
                     't.contentobject_id = c.id',
                     't.node_id = t.main_node_id'
                 )
@@ -307,7 +306,7 @@ class RelationListConverter implements Converter
                 'c',
                 ContentTypeGateway::CONTENT_TYPE_TABLE,
                 'ct',
-                $query->expr()->andX(
+                $query->expr()->and(
                     'ct.id = c.contentclass_id',
                     // in Legacy Storage ezcontentclass.version contains status (draft, defined)
                     'ct.version = :content_type_status'
@@ -324,11 +323,11 @@ class RelationListConverter implements Converter
                 ContentType::STATUS_DEFINED,
                 ParameterType::INTEGER
             )
-            ->setParameter('content_ids', $destinationContentIds, Connection::PARAM_INT_ARRAY);
+            ->setParameter('content_ids', $destinationContentIds, ArrayParameterType::INTEGER);
 
-        $stmt = $query->execute();
+        $stmt = $query->executeQuery();
 
-        return $this->groupResultSetById($stmt->fetchAll(FetchMode::ASSOCIATIVE));
+        return $this->groupResultSetById($stmt->fetchAllAssociative());
     }
 
     private static function dbAttributeMap(): array

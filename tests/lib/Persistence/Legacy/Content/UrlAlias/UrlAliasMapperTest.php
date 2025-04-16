@@ -115,7 +115,7 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
         ],
     ];
 
-    protected function getExpectation()
+    protected function getExpectation(): array
     {
         return [
             0 => new UrlAlias(
@@ -229,7 +229,7 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
         ];
     }
 
-    public function providerForTestExtractUrlAliasFromData()
+    public function providerForTestExtractUrlAliasFromData(): array
     {
         return [[0], [1], [2], [3]];
     }
@@ -239,7 +239,7 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
      *
      * @dataProvider providerForTestExtractUrlAliasFromData
      */
-    public function testExtractUrlAliasFromData($index)
+    public function testExtractUrlAliasFromData(int $index): void
     {
         $mapper = $this->getMapper();
 
@@ -257,7 +257,7 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
      *
      * @depends testExtractUrlAliasFromData
      */
-    public function testExtractUrlAliasListFromData()
+    public function testExtractUrlAliasListFromData(): void
     {
         $mapper = $this->getMapper();
 
@@ -270,7 +270,7 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
     /**
      * Test for the extractLanguageCodesFromData method.
      */
-    public function testExtractLanguageCodesFromData()
+    public function testExtractLanguageCodesFromData(): void
     {
         $mapper = $this->getMapper();
 
@@ -283,7 +283,7 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
     /**
      * @return \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper
      */
-    protected function getMapper()
+    protected function getMapper(): Mapper
     {
         $languageHandler = $this->getLanguageHandler();
         $languageMaskGenerator = new LanguageMaskGenerator($languageHandler);

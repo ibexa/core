@@ -17,11 +17,9 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  */
 final class DestinationLocation extends ValueObject implements Target
 {
-    /** @var int */
-    private $locationId;
+    private int $locationId;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
-    private $targetContentInfo;
+    private ContentInfo $targetContentInfo;
 
     public function __construct(int $locationId, ContentInfo $targetContentInfo, array $properties = [])
     {

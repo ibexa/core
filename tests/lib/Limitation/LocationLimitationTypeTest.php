@@ -23,6 +23,7 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Limitation\LocationLimitationType;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test Case for LimitationType.
@@ -30,7 +31,7 @@ use Ibexa\Core\Repository\Values\Content\Location;
 class LocationLimitationTypeTest extends Base
 {
     /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private $locationHandlerMock;
+    private MockObject $locationHandlerMock;
 
     /**
      * Setup Location Handler mock.
@@ -53,7 +54,7 @@ class LocationLimitationTypeTest extends Base
     /**
      * @return \Ibexa\Core\Limitation\LocationLimitationType
      */
-    public function testConstruct()
+    public function testConstruct(): LocationLimitationType
     {
         return new LocationLimitationType($this->getPersistenceMock());
     }
@@ -61,7 +62,7 @@ class LocationLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestAcceptValue()
+    public function providerForTestAcceptValue(): array
     {
         return [
             [new LocationLimitation()],
@@ -78,7 +79,7 @@ class LocationLimitationTypeTest extends Base
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation $limitation
      * @param \Ibexa\Core\Limitation\LocationLimitationType $limitationType
      */
-    public function testAcceptValue(LocationLimitation $limitation, LocationLimitationType $limitationType)
+    public function testAcceptValue(LocationLimitation $limitation, LocationLimitationType $limitationType): void
     {
         $limitationType->acceptValue($limitation);
     }
@@ -86,7 +87,7 @@ class LocationLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestAcceptValueException()
+    public function providerForTestAcceptValueException(): array
     {
         return [
             [new ObjectStateLimitation()],
@@ -102,7 +103,7 @@ class LocationLimitationTypeTest extends Base
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
      * @param \Ibexa\Core\Limitation\LocationLimitationType $limitationType
      */
-    public function testAcceptValueException(Limitation $limitation, LocationLimitationType $limitationType)
+    public function testAcceptValueException(Limitation $limitation, LocationLimitationType $limitationType): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -112,7 +113,7 @@ class LocationLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestValidatePass()
+    public function providerForTestValidatePass(): array
     {
         return [
             [new LocationLimitation()],
@@ -126,7 +127,7 @@ class LocationLimitationTypeTest extends Base
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation $limitation
      */
-    public function testValidatePass(LocationLimitation $limitation)
+    public function testValidatePass(LocationLimitation $limitation): void
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
@@ -152,7 +153,7 @@ class LocationLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestValidateError()
+    public function providerForTestValidateError(): array
     {
         return [
             [new LocationLimitation(), 0],
@@ -167,7 +168,7 @@ class LocationLimitationTypeTest extends Base
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation $limitation
      * @param int $errorCount
      */
-    public function testValidateError(LocationLimitation $limitation, $errorCount)
+    public function testValidateError(LocationLimitation $limitation, int $errorCount): void
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
@@ -200,7 +201,7 @@ class LocationLimitationTypeTest extends Base
      *
      * @param \Ibexa\Core\Limitation\LocationLimitationType $limitationType
      */
-    public function testBuildValue(LocationLimitationType $limitationType)
+    public function testBuildValue(LocationLimitationType $limitationType): void
     {
         $expected = ['test', 'test' => 9];
         $value = $limitationType->buildValue($expected);
@@ -213,7 +214,7 @@ class LocationLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestEvaluate()
+    public function providerForTestEvaluate(): array
     {
         // Mocks for testing Content & VersionInfo objects, should only be used once because of expect rules.
         $contentMock = $this->createMock(APIContent::class);
@@ -345,7 +346,7 @@ class LocationLimitationTypeTest extends Base
         $targets,
         array $persistenceLocations,
         $expected
-    ) {
+    ): void {
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
         $limitationType = $this->testConstruct();
 
@@ -386,7 +387,7 @@ class LocationLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestEvaluateInvalidArgument()
+    public function providerForTestEvaluateInvalidArgument(): array
     {
         return [
             // invalid limitation
@@ -426,9 +427,9 @@ class LocationLimitationTypeTest extends Base
     public function testEvaluateInvalidArgument(
         Limitation $limitation,
         ValueObject $object,
-        $targets,
+        ?array $targets,
         array $persistenceLocations
-    ) {
+    ): void {
         $this->expectException(InvalidArgumentException::class);
 
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
@@ -458,7 +459,7 @@ class LocationLimitationTypeTest extends Base
      *
      * @param \Ibexa\Core\Limitation\LocationLimitationType $limitationType
      */
-    public function testGetCriterionInvalidValue(LocationLimitationType $limitationType)
+    public function testGetCriterionInvalidValue(LocationLimitationType $limitationType): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -473,7 +474,7 @@ class LocationLimitationTypeTest extends Base
      *
      * @param \Ibexa\Core\Limitation\LocationLimitationType $limitationType
      */
-    public function testGetCriterionSingleValue(LocationLimitationType $limitationType)
+    public function testGetCriterionSingleValue(LocationLimitationType $limitationType): void
     {
         $criterion = $limitationType->getCriterion(
             new LocationLimitation(['limitationValues' => [9]]),
@@ -492,7 +493,7 @@ class LocationLimitationTypeTest extends Base
      *
      * @param \Ibexa\Core\Limitation\LocationLimitationType $limitationType
      */
-    public function testGetCriterionMultipleValues(LocationLimitationType $limitationType)
+    public function testGetCriterionMultipleValues(LocationLimitationType $limitationType): void
     {
         $criterion = $limitationType->getCriterion(
             new LocationLimitation(['limitationValues' => [9, 55]]),
@@ -511,7 +512,7 @@ class LocationLimitationTypeTest extends Base
      *
      * @param \Ibexa\Core\Limitation\LocationLimitationType $limitationType
      */
-    public function testValueSchema(LocationLimitationType $limitationType)
+    public function testValueSchema(LocationLimitationType $limitationType): void
     {
         self::assertEquals(
             LocationLimitationType::VALUE_SCHEMA_LOCATION_ID,

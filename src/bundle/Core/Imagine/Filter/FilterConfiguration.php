@@ -12,13 +12,12 @@ use Liip\ImagineBundle\Imagine\Filter\FilterConfiguration as BaseFilterConfigura
 
 class FilterConfiguration extends BaseFilterConfiguration
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ?ConfigResolverInterface $configResolver = null;
 
     /**
      * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
      */
-    public function setConfigResolver(ConfigResolverInterface $configResolver)
+    public function setConfigResolver(ConfigResolverInterface $configResolver): void
     {
         $this->configResolver = $configResolver;
     }
@@ -57,7 +56,7 @@ class FilterConfiguration extends BaseFilterConfiguration
      *
      * @return array
      */
-    private function getVariationFilters($variationName, array $configuredVariations)
+    private function getVariationFilters(string $variationName, array $configuredVariations)
     {
         if (!isset($configuredVariations[$variationName]['filters']) && !isset($this->filters[$variationName]['filters'])) {
             return [];
@@ -85,7 +84,7 @@ class FilterConfiguration extends BaseFilterConfiguration
      *
      * @return array
      */
-    private function getVariationPostProcessors($variationName, array $configuredVariations)
+    private function getVariationPostProcessors(string $variationName, array $configuredVariations)
     {
         if (isset($configuredVariations[$variationName]['post_processors'])) {
             return $configuredVariations[$variationName]['post_processors'];

@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\Core\EventListener;
 use Ibexa\Bundle\Core\EventListener\LocaleListener;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,13 +22,13 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class LocaleListenerTest extends TestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $localeConverter;
+    private MockObject $localeConverter;
 
     /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $configResolver;
+    private MockObject $configResolver;
 
     /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $requestStack;
+    private RequestStack $requestStack;
 
     protected function setUp(): void
     {
@@ -47,7 +48,7 @@ class LocaleListenerTest extends TestCase
     /**
      * @dataProvider onKernelRequestProvider
      */
-    public function testOnKernelRequest(array $configuredLanguages, array $convertedLocalesValueMap, $expectedLocale): void
+    public function testOnKernelRequest(array $configuredLanguages, array $convertedLocalesValueMap, ?string $expectedLocale): void
     {
         $this->configResolver
             ->expects(self::once())

@@ -24,7 +24,7 @@ final class DateMetadataQueryBuilder implements CriterionQueryBuilder
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function buildQueryConstraint(
         FilteringQueryBuilder $queryBuilder,

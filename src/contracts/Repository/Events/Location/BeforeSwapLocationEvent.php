@@ -13,11 +13,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 
 final class BeforeSwapLocationEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-    private $location1;
+    private Location $location1;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-    private $location2;
+    private Location $location2;
 
     public function __construct(Location $location1, Location $location2)
     {

@@ -28,38 +28,28 @@ class Handler implements BaseLocationHandler
 {
     /**
      * Gateway for handling location data.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
      */
-    protected $locationGateway;
+    protected LocationGateway $locationGateway;
 
     /**
      * Location locationMapper.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Mapper
      */
-    protected $locationMapper;
+    protected LocationMapper $locationMapper;
 
     /**
      * Content handler.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Handler
      */
-    protected $contentHandler;
+    protected ContentHandler $contentHandler;
 
     /**
      * Object state handler.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler
      */
-    protected $objectStateHandler;
+    protected ObjectStateHandler $objectStateHandler;
 
     /**
      * Tree handler.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\TreeHandler
      */
-    protected $treeHandler;
+    protected TreeHandler $treeHandler;
 
     public function __construct(
         LocationGateway $locationGateway,
@@ -120,9 +110,9 @@ class Handler implements BaseLocationHandler
      *
      * @return array Location ids are in the index, Content ids in the value.
      */
-    public function loadSubtreeIds($locationId)
+    public function loadSubtreeIds($locationId): array
     {
-        return $this->locationGateway->getSubtreeContent($locationId, true);
+        return $this->locationGateway->getSubtreeNodeIdToContentIdMap($locationId);
     }
 
     /**
@@ -144,7 +134,7 @@ class Handler implements BaseLocationHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Location[]
      */
-    public function loadLocationsByContent($contentId, $rootLocationId = null)
+    public function loadLocationsByContent($contentId, $rootLocationId = null): array
     {
         $rows = $this->locationGateway->loadLocationDataByContent($contentId, $rootLocationId);
 
@@ -161,7 +151,7 @@ class Handler implements BaseLocationHandler
         return $this->locationMapper->createLocationsFromRows($rows, '', new Trashed());
     }
 
-    public function loadParentLocationsForDraftContent($contentId)
+    public function loadParentLocationsForDraftContent($contentId): array
     {
         $rows = $this->locationGateway->loadParentLocationsDataForDraftContent($contentId);
 
@@ -173,7 +163,7 @@ class Handler implements BaseLocationHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState[]
      */
-    protected function getDefaultContentStates()
+    protected function getDefaultContentStates(): array
     {
         $defaultObjectStatesMap = [];
 
@@ -358,7 +348,7 @@ class Handler implements BaseLocationHandler
      * @param \Ibexa\Contracts\Core\Persistence\Content\Location $location
      * @param int $sectionId
      */
-    private function updateSubtreeSectionIfNecessary(Location $location, $sectionId)
+    private function updateSubtreeSectionIfNecessary(Location $location, $sectionId): void
     {
         if ($this->isMainLocation($location)) {
             $this->setSectionForSubtree($location->id, $sectionId);
@@ -380,18 +370,9 @@ class Handler implements BaseLocationHandler
     }
 
     /**
-     * Moves location identified by $sourceId into new parent identified by $destinationParentId.
-     *
-     * Performs a full move of the location identified by $sourceId to a new
-     * destination, identified by $destinationParentId. Relations do not need
-     * to be updated, since they refer to Content. URLs are not touched.
-     *
-     * @param mixed $sourceId
-     * @param mixed $destinationParentId
-     *
-     * @return bool
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function move($sourceId, $destinationParentId)
+    public function move(int $sourceId, int $destinationParentId): void
     {
         $sourceNodeData = $this->locationGateway->getBasicNodeData($sourceId);
         $destinationNodeData = $this->locationGateway->getBasicNodeData($destinationParentId);
@@ -405,7 +386,7 @@ class Handler implements BaseLocationHandler
             $sourceNodeData['contentobject_id'],
             $sourceNodeData['parent_node_id'],
             $destinationParentId,
-            Gateway::NODE_ASSIGNMENT_OP_CODE_MOVE
+            LocationGateway::NODE_ASSIGNMENT_OP_CODE_MOVE
         );
 
         $sourceLocation = $this->load($sourceId);
@@ -423,7 +404,7 @@ class Handler implements BaseLocationHandler
      *
      * @param mixed $id Location ID
      */
-    public function hide($id)
+    public function hide($id): void
     {
         $sourceNodeData = $this->locationGateway->getBasicNodeData($id);
 
@@ -436,7 +417,7 @@ class Handler implements BaseLocationHandler
      *
      * @param mixed $id
      */
-    public function unHide($id)
+    public function unHide($id): void
     {
         $sourceNodeData = $this->locationGateway->getBasicNodeData($id);
 
@@ -478,7 +459,7 @@ class Handler implements BaseLocationHandler
      *
      * @return bool
      */
-    public function swap($locationId1, $locationId2)
+    public function swap($locationId1, $locationId2): void
     {
         $this->locationGateway->swap($locationId1, $locationId2);
     }
@@ -489,7 +470,7 @@ class Handler implements BaseLocationHandler
      * @param \Ibexa\Contracts\Core\Persistence\Content\Location\UpdateStruct $location
      * @param int $locationId
      */
-    public function update(UpdateStruct $location, $locationId)
+    public function update(UpdateStruct $location, $locationId): void
     {
         $this->locationGateway->update($location, $locationId);
     }
@@ -520,7 +501,7 @@ class Handler implements BaseLocationHandler
      *
      * @return bool
      */
-    public function removeSubtree($locationId)
+    public function removeSubtree($locationId): void
     {
         $this->treeHandler->removeSubtree($locationId);
     }
@@ -536,7 +517,7 @@ class Handler implements BaseLocationHandler
      * @param mixed $locationId
      * @param mixed $sectionId
      */
-    public function setSectionForSubtree($locationId, $sectionId)
+    public function setSectionForSubtree($locationId, $sectionId): void
     {
         $this->treeHandler->setSectionForSubtree($locationId, $sectionId);
     }
@@ -549,7 +530,7 @@ class Handler implements BaseLocationHandler
      * @param mixed $contentId
      * @param mixed $locationId
      */
-    public function changeMainLocation($contentId, $locationId)
+    public function changeMainLocation($contentId, $locationId): void
     {
         $this->treeHandler->changeMainLocation($contentId, $locationId);
     }
@@ -559,7 +540,7 @@ class Handler implements BaseLocationHandler
      *
      * @return int
      */
-    public function countAllLocations()
+    public function countAllLocations(): int
     {
         return $this->locationGateway->countAllLocations();
     }
@@ -572,7 +553,7 @@ class Handler implements BaseLocationHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Location[]
      */
-    public function loadAllLocations($offset, $limit)
+    public function loadAllLocations($offset, $limit): array
     {
         $rows = $this->locationGateway->loadAllLocationsData($offset, $limit);
 

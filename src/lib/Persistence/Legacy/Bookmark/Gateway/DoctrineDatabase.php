@@ -8,24 +8,25 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Bookmark\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway;
-use PDO;
 
 class DoctrineDatabase extends Gateway
 {
-    public const TABLE_BOOKMARKS = 'ezcontentbrowsebookmark';
+    public const string TABLE_BOOKMARKS = 'ezcontentbrowsebookmark';
 
-    public const COLUMN_ID = 'id';
-    public const COLUMN_USER_ID = 'user_id';
-    public const COLUMN_LOCATION_ID = 'node_id';
-    public const COLUMN_NAME = 'name';
+    public const string COLUMN_ID = 'id';
+    public const string COLUMN_USER_ID = 'user_id';
+    public const string COLUMN_LOCATION_ID = 'node_id';
+    public const string COLUMN_NAME = 'name';
+    private const string USER_ID_PARAM_NAME = ':user_id';
+    private const string LOCATION_ID_PARAM_NAME = ':location_id';
 
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
+    protected Connection $connection;
 
     public function __construct(Connection $connection)
     {
@@ -33,7 +34,7 @@ class DoctrineDatabase extends Gateway
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Doctrine\DBAL\Exception
      */
     public function insertBookmark(Bookmark $bookmark): int
     {
@@ -41,19 +42,19 @@ class DoctrineDatabase extends Gateway
         $query
             ->insert(self::TABLE_BOOKMARKS)
             ->values([
-                self::COLUMN_USER_ID => ':user_id',
-                self::COLUMN_LOCATION_ID => ':location_id',
+                self::COLUMN_USER_ID => self::USER_ID_PARAM_NAME,
+                self::COLUMN_LOCATION_ID => self::LOCATION_ID_PARAM_NAME,
             ])
-            ->setParameter(':user_id', $bookmark->userId, PDO::PARAM_INT)
-            ->setParameter(':location_id', $bookmark->locationId, PDO::PARAM_INT);
+            ->setParameter(self::USER_ID_PARAM_NAME, $bookmark->userId, ParameterType::INTEGER)
+            ->setParameter(self::LOCATION_ID_PARAM_NAME, $bookmark->locationId, ParameterType::INTEGER);
 
-        $query->execute();
+        $query->executeStatement();
 
         return (int) $this->connection->lastInsertId();
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Doctrine\DBAL\Exception
      */
     public function deleteBookmark(int $id): void
     {
@@ -61,13 +62,15 @@ class DoctrineDatabase extends Gateway
         $query
             ->delete(self::TABLE_BOOKMARKS)
             ->where($query->expr()->eq(self::COLUMN_ID, ':id'))
-            ->setParameter(':id', $id, PDO::PARAM_INT);
+            ->setParameter(':id', $id, ParameterType::INTEGER);
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Doctrine\DBAL\Exception
+     *
+     * @phpstan-return list<array<string,mixed>>
      */
     public function loadBookmarkDataById(int $id): array
     {
@@ -76,13 +79,13 @@ class DoctrineDatabase extends Gateway
             ->select(...$this->getColumns())
             ->from(self::TABLE_BOOKMARKS)
             ->where($query->expr()->eq(self::COLUMN_ID, ':id'))
-            ->setParameter(':id', $id, PDO::PARAM_INT);
+            ->setParameter(':id', $id, ParameterType::INTEGER);
 
-        return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Doctrine\DBAL\Exception
      */
     public function loadBookmarkDataByUserIdAndLocationId(int $userId, array $locationIds): array
     {
@@ -90,16 +93,19 @@ class DoctrineDatabase extends Gateway
         $query
             ->select(...$this->getColumns())
             ->from(self::TABLE_BOOKMARKS)
-            ->where($query->expr()->andX(
-                $query->expr()->eq(self::COLUMN_USER_ID, ':user_id'),
-                $query->expr()->in(self::COLUMN_LOCATION_ID, ':location_id')
+            ->where($query->expr()->and(
+                $query->expr()->eq(self::COLUMN_USER_ID, self::USER_ID_PARAM_NAME),
+                $query->expr()->in(self::COLUMN_LOCATION_ID, self::LOCATION_ID_PARAM_NAME)
             ))
-            ->setParameter(':user_id', $userId, PDO::PARAM_INT)
-            ->setParameter(':location_id', $locationIds, Connection::PARAM_INT_ARRAY);
+            ->setParameter(self::USER_ID_PARAM_NAME, $userId, ParameterType::INTEGER)
+            ->setParameter(self::LOCATION_ID_PARAM_NAME, $locationIds, ArrayParameterType::INTEGER);
 
-        return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadUserIdsByLocation(Location $location): array
     {
         $queryBuilder = $this->connection->createQueryBuilder();
@@ -118,11 +124,11 @@ class DoctrineDatabase extends Gateway
                     )
             );
 
-        return $queryBuilder->execute()->fetchFirstColumn();
+        return $queryBuilder->executeQuery()->fetchFirstColumn();
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Doctrine\DBAL\Exception
      */
     public function loadUserBookmarks(int $userId, int $offset = 0, int $limit = -1): array
     {
@@ -130,7 +136,7 @@ class DoctrineDatabase extends Gateway
         $query
             ->select(...$this->getColumns())
             ->from(self::TABLE_BOOKMARKS)
-            ->where($query->expr()->eq(self::COLUMN_USER_ID, ':user_id'))
+            ->where($query->expr()->eq(self::COLUMN_USER_ID, self::USER_ID_PARAM_NAME))
             ->setFirstResult($offset);
 
         if ($limit > 0) {
@@ -138,13 +144,13 @@ class DoctrineDatabase extends Gateway
         }
 
         $query->orderBy(self::COLUMN_ID, 'DESC');
-        $query->setParameter(':user_id', $userId, PDO::PARAM_INT);
+        $query->setParameter(self::USER_ID_PARAM_NAME, $userId, ParameterType::INTEGER);
 
-        return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Doctrine\DBAL\Exception
      */
     public function countUserBookmarks(int $userId): int
     {
@@ -152,14 +158,14 @@ class DoctrineDatabase extends Gateway
         $query
             ->select('COUNT(' . self::COLUMN_ID . ')')
             ->from(self::TABLE_BOOKMARKS)
-            ->where($query->expr()->eq(self::COLUMN_USER_ID, ':user_id'))
-            ->setParameter(':user_id', $userId, PDO::PARAM_INT);
+            ->where($query->expr()->eq(self::COLUMN_USER_ID, self::USER_ID_PARAM_NAME))
+            ->setParameter(self::USER_ID_PARAM_NAME, $userId, ParameterType::INTEGER);
 
-        return (int) $query->execute()->fetchColumn();
+        return (int) $query->executeQuery()->fetchFirstColumn();
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Doctrine\DBAL\Exception
      */
     public function locationSwapped(int $location1Id, int $location2Id): void
     {
@@ -167,17 +173,19 @@ class DoctrineDatabase extends Gateway
         $query
             ->update(self::TABLE_BOOKMARKS)
             ->set(self::COLUMN_LOCATION_ID, '(CASE WHEN node_id = :source_id THEN :target_id ELSE :source_id END)')
-            ->where($query->expr()->orX(
+            ->where($query->expr()->or(
                 $query->expr()->eq(self::COLUMN_LOCATION_ID, ':source_id'),
                 $query->expr()->eq(self::COLUMN_LOCATION_ID, ':target_id')
-            ));
+            ))
+            ->setParameter('source_id', $location1Id, ParameterType::INTEGER)
+            ->setParameter('target_id', $location2Id, ParameterType::INTEGER);
 
-        $stmt = $this->connection->prepare($query->getSQL());
-        $stmt->bindValue('source_id', $location1Id, PDO::PARAM_INT);
-        $stmt->bindValue('target_id', $location2Id, PDO::PARAM_INT);
-        $stmt->execute();
+        $query->executeStatement();
     }
 
+    /**
+     * @return string[]
+     */
     private function getColumns(): array
     {
         return [

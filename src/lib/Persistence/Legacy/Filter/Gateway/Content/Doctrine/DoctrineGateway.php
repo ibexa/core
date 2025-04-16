@@ -10,15 +10,11 @@ namespace Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Doctrine;
 
 use function array_filter;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\FetchMode;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\SortClauseVisitor;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
-use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway;
@@ -31,7 +27,8 @@ use Traversable;
  */
 final class DoctrineGateway implements Gateway
 {
-    public const COLUMN_MAP = [
+    /** @var array<string, string> */
+    public const array COLUMN_MAP = [
         // Content Info
         'content_id' => 'content.id',
         'content_type_id' => 'content.contentclass_id',
@@ -59,14 +56,11 @@ final class DoctrineGateway implements Gateway
         'content_main_location_id' => 'main_location.main_node_id',
     ];
 
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor */
-    private $criterionVisitor;
+    private CriterionVisitor $criterionVisitor;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Filter\SortClauseVisitor */
-    private $sortClauseVisitor;
+    private SortClauseVisitor $sortClauseVisitor;
 
     public function __construct(
         Connection $connection,
@@ -78,25 +72,22 @@ final class DoctrineGateway implements Gateway
         $this->sortClauseVisitor = $sortClauseVisitor;
     }
 
-    private function getDatabasePlatform(): AbstractPlatform
-    {
-        try {
-            return $this->connection->getDatabasePlatform();
-        } catch (DBALException $e) {
-            throw DatabaseException::wrap($e);
-        }
-    }
-
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function count(FilteringCriterion $criterion): int
     {
         $query = $this->buildQuery(
-            [$this->getDatabasePlatform()->getCountExpression('DISTINCT content.id')],
+            ['COUNT(DISTINCT content.id)'],
             $criterion
         );
 
-        return (int)$query->execute()->fetch(FetchMode::COLUMN);
+        return (int)$query->executeQuery()->fetchOne();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function find(
         FilteringCriterion $criterion,
         array $sortClauses,
@@ -117,8 +108,8 @@ final class DoctrineGateway implements Gateway
             $wrappedQuery->setMaxResults($limit);
         }
 
-        $resultStatement = $wrappedQuery->execute();
-        while (false !== ($row = $resultStatement->fetch(FetchMode::ASSOCIATIVE))) {
+        $resultStatement = $wrappedQuery->executeQuery();
+        while (false !== ($row = $resultStatement->fetchAssociative())) {
             $contentId = (int)$row['content_id'];
             $versionNo = (int)$row['content_version_no'];
             $row['content_version_names'] = $this->extractVersionNames(
@@ -136,6 +127,9 @@ final class DoctrineGateway implements Gateway
         }
     }
 
+    /**
+     * @param string[] $columns
+     */
     private function buildQuery(
         array $columns,
         FilteringCriterion $criterion
@@ -144,7 +138,7 @@ final class DoctrineGateway implements Gateway
 
         $expressionBuilder = $queryBuilder->expr();
         $queryBuilder
-            ->select($columns)
+            ->select(...$columns)
             ->distinct()
             ->from(ContentGateway::CONTENT_ITEM_TABLE, 'content')
             ->joinPublishedVersion()
@@ -152,7 +146,7 @@ final class DoctrineGateway implements Gateway
                 'content',
                 LocationGateway::CONTENT_TREE_TABLE,
                 'main_location',
-                $expressionBuilder->andX(
+                (string)$expressionBuilder->and(
                     'content.id = main_location.contentobject_id',
                     'main_location.main_node_id = main_location.node_id'
                 )
@@ -170,6 +164,10 @@ final class DoctrineGateway implements Gateway
      * Return names as a map of <code>'<translation_language_code>' => '<name>'</code>.
      *
      * Process data fetched by {@see bulkFetchVersionNames}
+     *
+     * @phpstan-param list<array<string, mixed>> $names
+     *
+     * @phpstan-return array<string, string>
      */
     private function extractVersionNames(array $names, int $contentId, int $versionNo): array
     {
@@ -183,6 +181,11 @@ final class DoctrineGateway implements Gateway
         return $names;
     }
 
+    /**
+     * @phpstan-param list<array<string, mixed>> $fieldValues
+     *
+     * @phpstan-return list<array<string, mixed>>
+     */
     private function extractFieldValues(array $fieldValues, int $contentId, int $versionNo): array
     {
         return $this->extractVersionData($fieldValues, $contentId, $versionNo);
@@ -190,18 +193,29 @@ final class DoctrineGateway implements Gateway
 
     /**
      * Extract Version-specific data from bulk-loaded rows.
+     *
+     * @phpstan-param list<array<string, mixed>> $rows
+     *
+     * @phpstan-return list<array<string, mixed>>
      */
     private function extractVersionData(array $rows, int $contentId, int $versionNo): array
     {
-        return array_filter(
-            $rows,
-            static function (array $row) use ($contentId, $versionNo): bool {
-                return (int)$row['content_id'] === $contentId
-                    && (int)$row['version_no'] === $versionNo;
-            }
+        return array_values(
+            array_filter(
+                $rows,
+                static function (array $row) use ($contentId, $versionNo): bool {
+                    return (int)$row['content_id'] === $contentId
+                        && (int)$row['version_no'] === $versionNo;
+                }
+            )
         );
     }
 
+    /**
+     * @phpstan-return list<array<string,mixed>>
+     *
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function bulkFetchVersionNames(FilteringQueryBuilder $query): array
     {
         $query
@@ -218,7 +232,7 @@ final class DoctrineGateway implements Gateway
                 'content',
                 ContentGateway::CONTENT_NAME_TABLE,
                 'content_name',
-                (string)$query->expr()->andX(
+                (string)$query->expr()->and(
                     'content.id = content_name.contentobject_id',
                     'version.version = content_name.content_version',
                     'version.language_mask & content_name.language_id > 0'
@@ -226,12 +240,17 @@ final class DoctrineGateway implements Gateway
             )
             // reset not needed parts, keeping FROM, other JOINs, and WHERE constraints
             ->setMaxResults(null)
-            ->setFirstResult(null)
-            ->resetQueryPart('orderBy');
+            ->setFirstResult(1)
+            ->resetOrderBy();
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @phpstan-return list<array<string,mixed>>
+     *
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function bulkFetchFieldValues(FilteringQueryBuilder $query): array
     {
         $query
@@ -254,7 +273,7 @@ final class DoctrineGateway implements Gateway
                 'content',
                 ContentGateway::CONTENT_FIELD_TABLE,
                 'content_field',
-                (string)$query->expr()->andX(
+                (string)$query->expr()->and(
                     'content.id = content_field.contentobject_id',
                     'version.version = content_field.version',
                     'version.language_mask & content_field.language_id = content_field.language_id'
@@ -262,16 +281,19 @@ final class DoctrineGateway implements Gateway
             )
             // reset not needed parts, keeping FROM, other JOINs, and WHERE constraints
             ->setMaxResults(null)
-            ->setFirstResult(null)
-            ->resetQueryPart('orderBy');
+            ->setFirstResult(1)
+            ->resetOrderBy();
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
+    /**
+     * @return \Traversable<int, string>
+     */
     private function getColumns(): Traversable
     {
         foreach (self::COLUMN_MAP as $columnAlias => $columnName) {
-            yield "{$columnName} AS {$columnAlias}";
+            yield "$columnName AS $columnAlias";
         }
     }
 

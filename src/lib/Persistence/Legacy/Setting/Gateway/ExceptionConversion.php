@@ -8,20 +8,18 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Setting\Gateway;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as DBALException;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Setting\Gateway;
-use PDOException;
 
 /**
  * @internal Internal exception conversion layer.
  */
 final class ExceptionConversion extends Gateway
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Setting\Gateway */
-    private $innerGateway;
+    private DoctrineDatabase $innerGateway;
 
-    public function __construct(Gateway $innerGateway)
+    public function __construct(DoctrineDatabase $innerGateway)
     {
         $this->innerGateway = $innerGateway;
     }
@@ -33,7 +31,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->insertSetting($group, $identifier, $serializedValue);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -45,7 +43,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->updateSetting($group, $identifier, $serializedValue);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -57,7 +55,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadSetting($group, $identifier);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -69,7 +67,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadSettingById($id);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -81,7 +79,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->deleteSetting($group, $identifier);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException $e) {
             throw DatabaseException::wrap($e);
         }
     }

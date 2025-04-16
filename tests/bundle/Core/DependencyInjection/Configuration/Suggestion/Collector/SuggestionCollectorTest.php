@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 class SuggestionCollectorTest extends TestCase
 {
-    public function testAddHasGetSuggestions()
+    public function testAddHasGetSuggestions(): void
     {
         $collector = new SuggestionCollector();
         $suggestions = [new ConfigSuggestion(), new ConfigSuggestion(), new ConfigSuggestion()];

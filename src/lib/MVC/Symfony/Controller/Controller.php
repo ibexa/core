@@ -4,18 +4,31 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\MVC\Symfony\Controller;
 
+use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute as AuthorizationAttribute;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Templating\EngineInterface;
+use Symfony\Component\Templating\TemplateReferenceInterface;
+use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
-abstract class Controller implements ContainerAwareInterface
+abstract class Controller implements ServiceSubscriberInterface
 {
-    use ContainerAwareTrait;
+    protected ContainerInterface $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
 
     /**
      * Returns value for $parameterName and fallbacks to $defaultValue if not defined.
@@ -41,7 +54,7 @@ abstract class Controller implements ContainerAwareInterface
      *
      * @return bool
      */
-    public function hasParameter($parameterName)
+    public function hasParameter(string $parameterName)
     {
         return $this->getConfigResolver()->hasParameter($parameterName);
     }
@@ -63,7 +76,7 @@ abstract class Controller implements ContainerAwareInterface
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function render($view, array $parameters = [], Response $response = null)
+    public function render(string|TemplateReferenceInterface $view, array $parameters = [], Response $response = null)
     {
         if (!isset($response)) {
             $response = new Response();
@@ -124,5 +137,18 @@ abstract class Controller implements ContainerAwareInterface
     public function isGranted(AuthorizationAttribute $attribute)
     {
         return $this->container->get('security.authorization_checker')->isGranted($attribute);
+    }
+
+    public static function getSubscribedServices(): array
+    {
+        return [
+            'logger' => '?' . LoggerInterface::class,
+            'templating' => EngineInterface::class,
+            'ibexa.config.resolver' => ConfigResolverInterface::class,
+            'ibexa.api.repository' => Repository::class,
+            'request_stack' => RequestStack::class,
+            'event_dispatcher' => EventDispatcher::class,
+            'security.authorization_checker' => AuthorizationCheckerInterface::class,
+        ];
     }
 }

@@ -21,22 +21,20 @@ class ContentViewTest extends AbstractViewTest
 {
     /**
      * Params that are always returned by this view.
-     *
-     * @var array
      */
-    private $valueParams = ['content' => null];
+    private array $valueParams = ['content' => null];
 
     /**
      * @dataProvider constructProvider
      */
-    public function testConstruct($templateIdentifier, array $params)
+    public function testConstruct(string|\Closure $templateIdentifier, array $params): void
     {
         $contentView = new ContentView($templateIdentifier, $params);
         self::assertSame($templateIdentifier, $contentView->getTemplateIdentifier());
         self::assertSame($this->valueParams + $params, $contentView->getParameters());
     }
 
-    public function constructProvider()
+    public function constructProvider(): array
     {
         return [
             ['some:valid:identifier', ['foo' => 'bar']],
@@ -60,14 +58,14 @@ class ContentViewTest extends AbstractViewTest
     /**
      * @dataProvider constructFailProvider
      */
-    public function testConstructFail($templateIdentifier)
+    public function testConstructFail(int|\stdClass|array $templateIdentifier): void
     {
         $this->expectException(InvalidArgumentType::class);
 
         new ContentView($templateIdentifier);
     }
 
-    public function constructFailProvider()
+    public function constructFailProvider(): array
     {
         return [
             [123],

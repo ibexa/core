@@ -16,8 +16,14 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
+/**
+ * @covers \Ibexa\Core\MVC\Symfony\Component\Serializer\URIElementNormalizer
+ */
 final class URIElementNormalizerTest extends TestCase
 {
+    /**
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
     public function testNormalization(): void
     {
         $normalizer = new URIElementNormalizer();
@@ -30,7 +36,7 @@ final class URIElementNormalizerTest extends TestCase
 
         $matcher = new URIElement(2);
         // Set request and invoke match to initialize HostElement::$hostElements
-        $matcher->setRequest(SimplifiedRequest::fromUrl('http://ezpublish.dev/foo/bar'));
+        $matcher->setRequest(SimplifiedRequest::fromUrl('http://ibexa.dev/foo/bar'));
         $matcher->match();
 
         self::assertEquals(

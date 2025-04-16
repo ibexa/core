@@ -11,7 +11,6 @@ use DateTime;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Repository;
-use Ibexa\Contracts\Core\Repository\URLAliasService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
@@ -24,6 +23,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\TrashItem as APITrashItem;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\TrashItem;
+use function time;
 
 /**
  * Test case for operations in the TrashService using in memory storage.
@@ -35,16 +35,17 @@ use Ibexa\Core\Repository\Values\Content\TrashItem;
  */
 class TrashServiceTest extends BaseTrashServiceTest
 {
+    private const string MEDIA_REMOTE_ID = '75c715a51699d2d309a924eca6a95145';
+    private const string MEDIA_URL = '/Media';
+
     /**
      * Test for the trash() method.
      *
-     * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testLoadLocationByRemoteId
+     * @throws \Exception
      */
-    public function testTrash()
+    public function testTrash(): void
     {
-        /* BEGIN: Use Case */
         $trashItem = $this->createTrashItem();
-        /* END: Use Case */
 
         self::assertInstanceOf(
             TrashItem::class,
@@ -53,19 +54,19 @@ class TrashServiceTest extends BaseTrashServiceTest
     }
 
     /**
-     * Test for the trash() method.
-     *
      * @depends testTrash
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testTrashSetsExpectedTrashItemProperties()
+    public function testTrashSetsExpectedTrashItemProperties(): void
     {
         $repository = $this->getRepository();
 
-        $mediaRemoteId = '75c715a51699d2d309a924eca6a95145';
-
         // Load the location that will be trashed
         $location = $repository->getLocationService()
-            ->loadLocationByRemoteId($mediaRemoteId);
+            ->loadLocationByRemoteId(self::MEDIA_REMOTE_ID);
 
         $expected = [
             'id' => $location->id,
@@ -89,16 +90,16 @@ class TrashServiceTest extends BaseTrashServiceTest
      * Test for the trash() method.
      *
      * @depends testTrash
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testTrashRemovesLocationFromMainStorage()
+    public function testTrashRemovesLocationFromMainStorage(): void
     {
         $this->expectException(NotFoundException::class);
 
         $repository = $this->getRepository();
 
-        $mediaRemoteId = '75c715a51699d2d309a924eca6a95145';
-
-        /* BEGIN: Use Case */
         $this->createTrashItem();
 
         // Load the location service
@@ -106,8 +107,7 @@ class TrashServiceTest extends BaseTrashServiceTest
 
         // This call will fail with a "NotFoundException", because the media
         // location was marked as trashed in the main storage
-        $locationService->loadLocationByRemoteId($mediaRemoteId);
-        /* END: Use Case */
+        $locationService->loadLocationByRemoteId(self::MEDIA_REMOTE_ID);
     }
 
     /**
@@ -115,7 +115,7 @@ class TrashServiceTest extends BaseTrashServiceTest
      *
      * @depends testTrash
      */
-    public function testTrashRemovesChildLocationsFromMainStorage()
+    public function testTrashRemovesChildLocationsFromMainStorage(): void
     {
         $repository = $this->getRepository();
 
@@ -134,7 +134,7 @@ class TrashServiceTest extends BaseTrashServiceTest
                 $locationService->loadLocationByRemoteId($remoteId);
                 self::fail("Location '{$remoteId}' should exist.'");
             } catch (NotFoundException $e) {
-                // echo $e->getFile(), ' +', $e->getLine(), PHP_EOL;
+                // Nothing to do
             }
         }
 
@@ -150,7 +150,7 @@ class TrashServiceTest extends BaseTrashServiceTest
      *
      * @depends testTrash
      */
-    public function testTrashDecrementsChildCountOnParentLocation()
+    public function testTrashDecrementsChildCountOnParentLocation(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -174,7 +174,7 @@ class TrashServiceTest extends BaseTrashServiceTest
     /**
      * Test sending a location to trash updates Content mainLocation.
      */
-    public function testTrashUpdatesMainLocation()
+    public function testTrashUpdatesMainLocation(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -202,7 +202,7 @@ class TrashServiceTest extends BaseTrashServiceTest
     /**
      * Test sending a location to trash.
      */
-    public function testTrashReturnsNull()
+    public function testTrashReturnsNull(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -225,7 +225,7 @@ class TrashServiceTest extends BaseTrashServiceTest
      *
      * @depends testTrash
      */
-    public function testLoadTrashItem()
+    public function testLoadTrashItem(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
@@ -274,7 +274,7 @@ class TrashServiceTest extends BaseTrashServiceTest
      *
      * @depends testLoadTrashItem
      */
-    public function testLoadTrashItemThrowsNotFoundException()
+    public function testLoadTrashItemThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -291,19 +291,18 @@ class TrashServiceTest extends BaseTrashServiceTest
     }
 
     /**
-     * Test for the recover() method.
-     *
      * @depends testTrash
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testRecover()
+    public function testRecover(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
         $locationService = $repository->getLocationService();
 
-        $mediaRemoteId = '75c715a51699d2d309a924eca6a95145';
-
-        /* BEGIN: Use Case */
         $trashItem = $this->createTrashItem();
 
         // Recover the trashed item
@@ -311,13 +310,7 @@ class TrashServiceTest extends BaseTrashServiceTest
 
         // Load the recovered location
         $locationReloaded = $locationService->loadLocationByRemoteId(
-            $mediaRemoteId
-        );
-        /* END: Use Case */
-
-        self::assertInstanceOf(
-            APILocation::class,
-            $location
+            self::MEDIA_REMOTE_ID
         );
 
         self::assertEquals(
@@ -325,18 +318,17 @@ class TrashServiceTest extends BaseTrashServiceTest
             $locationReloaded
         );
 
-        try {
-            $trashService->loadTrashItem($trashItem->id);
-            self::fail('Trash item was not removed after being recovered.');
-        } catch (NotFoundException $e) {
-            // All well
-        }
+        $this->expectException(NotFoundException::class);
+        $trashService->loadTrashItem($trashItem->id);
     }
 
     /**
-     * Test recovering a non existing trash item results in a NotFoundException.
+     * Test recovering a non-existing trash item results in a NotFoundException.
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testRecoverThrowsNotFoundExceptionForNonExistingTrashItem()
+    public function testRecoverThrowsNotFoundExceptionForNonExistingTrashItem(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -353,56 +345,57 @@ class TrashServiceTest extends BaseTrashServiceTest
     }
 
     /**
-     * Test for the trash() method.
-     *
      * @depends testTrash
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testNotFoundAliasAfterRemoveIt()
+    public function testNotFoundAliasAfterRemoveIt(): void
     {
         $this->expectException(NotFoundException::class);
 
-        $mediaRemoteId = '75c715a51699d2d309a924eca6a95145';
-
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
         $urlAliasService = $repository->getURLAliasService();
         $locationService = $repository->getLocationService();
 
         // Double ->lookup() call because there where issue that one call was not enough to spot bug
-        $urlAliasService->lookup('/Media');
-        $urlAliasService->lookup('/Media');
+        $urlAliasService->lookup(self::MEDIA_URL);
+        $urlAliasService->lookup(self::MEDIA_URL);
 
-        $mediaLocation = $locationService->loadLocationByRemoteId($mediaRemoteId);
+        $mediaLocation = $locationService->loadLocationByRemoteId(self::MEDIA_REMOTE_ID);
         $trashService->trash($mediaLocation);
 
-        $urlAliasService->lookup('/Media');
+        $urlAliasService->lookup(self::MEDIA_URL);
     }
 
     /**
-     * Test for the recover() method.
-     *
      * @depends testTrash
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testAliasesForRemovedItems()
+    public function testAliasesForRemovedItems(): void
     {
-        $mediaRemoteId = '75c715a51699d2d309a924eca6a95145';
-
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
         $urlAliasService = $repository->getURLAliasService();
         $locationService = $repository->getLocationService();
 
         // Double ->lookup() call because there where issue that one call was not enough to spot bug
-        $urlAliasService->lookup('/Media');
-        $trashedLocationAlias = $urlAliasService->lookup('/Media');
+        $urlAliasService->lookup(self::MEDIA_URL);
+        $trashedLocationAlias = $urlAliasService->lookup(self::MEDIA_URL);
 
-        $mediaLocation = $locationService->loadLocationByRemoteId($mediaRemoteId);
+        $mediaLocation = $locationService->loadLocationByRemoteId(self::MEDIA_REMOTE_ID);
         $trashItem = $trashService->trash($mediaLocation);
-        $this->assertAliasNotExists($urlAliasService, '/Media');
+        $this->assertAliasNotExists(self::MEDIA_URL);
 
         $this->createNewContentInPlaceTrashedOne($repository, $mediaLocation->parentLocationId);
 
-        $createdLocationAlias = $urlAliasService->lookup('/Media');
+        $createdLocationAlias = $urlAliasService->lookup(self::MEDIA_URL);
 
         self::assertNotEquals(
             $trashedLocationAlias->destination,
@@ -421,11 +414,13 @@ class TrashServiceTest extends BaseTrashServiceTest
     }
 
     /**
-     * Test for the recover() method.
-     *
      * @depends testRecover
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testRecoverDoesNotRestoreChildLocations()
+    public function testRecoverDoesNotRestoreChildLocations(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
@@ -461,29 +456,25 @@ class TrashServiceTest extends BaseTrashServiceTest
             }
         }
 
-        try {
-            $trashService->loadTrashItem($trashItem->id);
-            self::fail('Trash item was not removed after being recovered.');
-        } catch (NotFoundException $e) {
-            // All well
-        }
+        $this->expectException(NotFoundException::class);
+        $trashService->loadTrashItem($trashItem->id);
     }
 
     /**
-     * Test for the recover() method.
-     *
      * @depends testRecover
      *
-     * @todo Fix naming
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \ErrorException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testRecoverWithLocationCreateStructParameter()
+    public function testRecoverWithLocationCreateStructParameter(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
         $locationService = $repository->getLocationService();
 
         $homeLocationId = $this->generateId('location', 2);
-        /* BEGIN: Use Case */
         // $homeLocationId is the ID of the "Home" location in an Ibexa
         // demo installation
 
@@ -494,13 +485,12 @@ class TrashServiceTest extends BaseTrashServiceTest
 
         // Recover location with new location
         $location = $trashService->recover($trashItem, $newParentLocation);
-        /* END: Use Case */
 
         $this->assertPropertiesCorrect(
             [
                 'remoteId' => $trashItem->remoteId,
                 'parentLocationId' => $homeLocationId,
-                // Not the full sub tree is restored
+                // Not the full subtree is restored
                 'depth' => $newParentLocation->depth + 1,
                 'hidden' => false,
                 'invisible' => $trashItem->invisible,
@@ -512,20 +502,20 @@ class TrashServiceTest extends BaseTrashServiceTest
             $location
         );
 
-        try {
-            $trashService->loadTrashItem($trashItem->id);
-            self::fail('Trash item was not removed after being recovered.');
-        } catch (NotFoundException $e) {
-            // All well
-        }
+        $this->expectException(NotFoundException::class);
+        $trashService->loadTrashItem($trashItem->id);
     }
 
     /**
-     * Test for the recover() method.
-     *
      * @depends testRecover
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \ErrorException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \ReflectionException
      */
-    public function testRecoverIncrementsChildCountOnOriginalParent()
+    public function testRecoverIncrementsChildCountOnOriginalParent(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
@@ -551,20 +541,20 @@ class TrashServiceTest extends BaseTrashServiceTest
             $locationService->getLocationChildCount($location)
         );
 
-        try {
-            $trashService->loadTrashItem($trashItem->id);
-            self::fail('Trash item was not removed after being recovered.');
-        } catch (NotFoundException $e) {
-            // All well
-        }
+        $this->expectException(NotFoundException::class);
+        $trashService->loadTrashItem($trashItem->id);
     }
 
     /**
-     * Test for the recover() method.
-     *
      * @depends testRecoverWithLocationCreateStructParameter
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \ErrorException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \ReflectionException
      */
-    public function testRecoverWithLocationCreateStructParameterIncrementsChildCountOnNewParent()
+    public function testRecoverWithLocationCreateStructParameterIncrementsChildCountOnNewParent(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
@@ -576,7 +566,6 @@ class TrashServiceTest extends BaseTrashServiceTest
 
         $childCount = $locationService->getLocationChildCount($location);
 
-        /* BEGIN: Use Case */
         // $homeLocationId is the ID of the "Home" location in an Ibexa
         // demo installation
 
@@ -587,7 +576,6 @@ class TrashServiceTest extends BaseTrashServiceTest
 
         // Recover location with new location
         $trashService->recover($trashItem, $newParentLocation);
-        /* END: Use Case */
 
         $this->refreshSearch($repository);
 
@@ -596,18 +584,14 @@ class TrashServiceTest extends BaseTrashServiceTest
             $locationService->getLocationChildCount($location)
         );
 
-        try {
-            $trashService->loadTrashItem($trashItem->id);
-            self::fail('Trash item was not removed after being recovered.');
-        } catch (NotFoundException $e) {
-            // All well
-        }
+        $this->expectException(NotFoundException::class);
+        $trashService->loadTrashItem($trashItem->id);
     }
 
     /**
      * Test recovering a location from trash to non existing location.
      */
-    public function testRecoverToNonExistingLocation()
+    public function testRecoverToNonExistingLocation(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -673,7 +657,7 @@ class TrashServiceTest extends BaseTrashServiceTest
         $firstTrashedItem = $trashService->trash(
             $locationService->loadLocation($folder1->contentInfo->mainLocationId)
         );
-        $this->updateTrashedDate($firstTrashedItem->id, \time() - 100);
+        $this->updateTrashedDate($firstTrashedItem->id, time() - 100);
         $latestTrashItem = $trashService->trash(
             $locationService->loadLocation($folder2->contentInfo->mainLocationId)
         );
@@ -743,7 +727,7 @@ class TrashServiceTest extends BaseTrashServiceTest
      *
      * @depends testTrash
      */
-    public function testFindTrashItemsLimits()
+    public function testFindTrashItemsLimits(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
@@ -772,7 +756,7 @@ class TrashServiceTest extends BaseTrashServiceTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\TrashServiceTest::testFindTrashItems
      */
-    public function testFindTrashItemsLimitedAccess()
+    public function testFindTrashItemsLimitedAccess(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
@@ -816,7 +800,7 @@ class TrashServiceTest extends BaseTrashServiceTest
     /**
      * Test Section Role Assignment Limitation against user/login.
      */
-    public function testFindTrashItemsSubtreeLimitation()
+    public function testFindTrashItemsSubtreeLimitation(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -873,7 +857,7 @@ class TrashServiceTest extends BaseTrashServiceTest
      *
      * @depends testFindTrashItems
      */
-    public function testEmptyTrash()
+    public function testEmptyTrash(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
@@ -904,7 +888,7 @@ class TrashServiceTest extends BaseTrashServiceTest
      *
      * @depends testFindTrashItems
      */
-    public function testEmptyTrashForUserWithSubtreeLimitation()
+    public function testEmptyTrashForUserWithSubtreeLimitation(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
@@ -948,7 +932,7 @@ class TrashServiceTest extends BaseTrashServiceTest
      *
      * @depends testFindTrashItems
      */
-    public function testDeleteTrashItem()
+    public function testDeleteTrashItem(): void
     {
         $repository = $this->getRepository();
         $trashService = $repository->getTrashService();
@@ -997,7 +981,7 @@ class TrashServiceTest extends BaseTrashServiceTest
     /**
      * Test deleting a non existing trash item.
      */
-    public function testDeleteThrowsNotFoundExceptionForNonExistingTrashItem()
+    public function testDeleteThrowsNotFoundExceptionForNonExistingTrashItem(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -1224,13 +1208,13 @@ class TrashServiceTest extends BaseTrashServiceTest
      *
      * @return string[]
      */
-    private function createRemoteIdList()
+    private function createRemoteIdList(): array
     {
         $repository = $this->getRepository();
 
         /* BEGIN: Inline */
         // remoteId of the "Community" location in an Ibexa demo installation
-        $mediaRemoteId = '75c715a51699d2d309a924eca6a95145';
+        $mediaRemoteId = self::MEDIA_REMOTE_ID;
 
         // Load the location service
         $locationService = $repository->getLocationService();
@@ -1254,7 +1238,7 @@ class TrashServiceTest extends BaseTrashServiceTest
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
-    protected function createNewContentInPlaceTrashedOne(Repository $repository, $parentLocationId)
+    protected function createNewContentInPlaceTrashedOne(Repository $repository, int $parentLocationId): Content
     {
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
@@ -1274,13 +1258,13 @@ class TrashServiceTest extends BaseTrashServiceTest
     /**
      * @param string $urlPath Url alias path
      */
-    private function assertAliasNotExists(URLAliasService $urlAliasService, $urlPath)
+    private function assertAliasNotExists(string $urlPath): void
     {
         try {
             $this->getRepository()->getURLAliasService()->lookup($urlPath);
             self::fail(sprintf('Alias [%s] should not exist', $urlPath));
         } catch (NotFoundException $e) {
-            self::assertTrue(true);
+            // nothing to do
         }
     }
 

@@ -47,7 +47,7 @@ class TransactionHandlerTest extends AbstractCacheHandlerTest
         ];
     }
 
-    public function testRollback()
+    public function testRollback(): void
     {
         $this->loggerMock
             ->expects(self::once())
@@ -75,7 +75,7 @@ class TransactionHandlerTest extends AbstractCacheHandlerTest
         $handler->rollback();
     }
 
-    public function testCommitStopsCacheTransaction()
+    public function testCommitStopsCacheTransaction(): void
     {
         $this->loggerMock
             ->expects(self::once())
@@ -99,7 +99,7 @@ class TransactionHandlerTest extends AbstractCacheHandlerTest
         $handler->commit();
     }
 
-    public function testBeginTransactionStartsCacheTransaction()
+    public function testBeginTransactionStartsCacheTransaction(): void
     {
         $this->loggerMock
             ->expects(self::once())

@@ -22,11 +22,9 @@ class RenderStrategyTest extends TestCase
         string $supportsClass = ValueObject::class
     ): SPIRenderStrategy {
         return new class($rendered, $supportsClass) implements SPIRenderStrategy {
-            /** @var string */
-            private $rendered;
+            private string $rendered;
 
-            /** @var string */
-            private $supportsClass;
+            private string $supportsClass;
 
             public function __construct(string $rendered, string $supportsClass)
             {
