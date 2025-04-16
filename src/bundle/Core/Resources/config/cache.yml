@@ -7,8 +7,8 @@ services:
 
     Ibexa\Bundle\Core\ApiLoader\CacheFactory:
         class: Ibexa\Bundle\Core\ApiLoader\CacheFactory
-        calls:
-            - [setContainer, ["@service_container"]]
+        arguments:
+            $container: '@service_container'
 
     Ibexa\Bundle\Core\Cache\Warmer\ProxyCacheWarmer:
         arguments:
