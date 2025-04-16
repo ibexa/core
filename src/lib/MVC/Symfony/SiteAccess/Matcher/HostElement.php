@@ -22,20 +22,18 @@ class HostElement implements VersatileMatcher
     /**
      * Host elements used for matching as an array.
      *
-     * @var array
+     * @phpstan-var list<string>
      */
-    private $hostElements;
+    private array $hostElements;
 
     /**
-     * Constructor.
-     *
-     * @param array|int $elementNumber Number of elements to take into account.
+     * @param array<mixed>|int $elementNumber Number of elements to take into account.
      */
-    public function __construct($elementNumber)
+    public function __construct(array|int $elementNumber)
     {
         if (is_array($elementNumber)) {
             // DI config parser will create an array with 'value' => number
-            $elementNumber = current($elementNumber);
+            $elementNumber = (int)current($elementNumber);
         }
 
         $this->elementNumber = (int)$elementNumber;
@@ -47,15 +45,15 @@ class HostElement implements VersatileMatcher
     }
 
     /**
-     * Returns matching Siteaccess.
+     * Returns matching SiteAccess.
      *
-     * @return string|false Siteaccess matched or false.
+     * @return string|false SiteAccess matched or false.
      */
-    public function match()
+    public function match(): string|false
     {
         $elements = $this->getHostElements();
 
-        return isset($elements[$this->elementNumber - 1]) ? $elements[$this->elementNumber - 1] : false;
+        return $elements[$this->elementNumber - 1] ?? false;
     }
 
     public function getName(): string
@@ -73,7 +71,7 @@ class HostElement implements VersatileMatcher
         $this->request = $request;
     }
 
-    public function getRequest()
+    public function getRequest(): ?SimplifiedRequest
     {
         return $this->request;
     }
@@ -93,18 +91,33 @@ class HostElement implements VersatileMatcher
     }
 
     /**
-     * @return array
+     * @phpstan-param list<string> $hostElements
      */
-    private function getHostElements()
+    public function setHostElements(array $hostElements): void
+    {
+        $this->hostElements = $hostElements;
+    }
+
+    /**
+     * @phpstan-return list<string>
+     */
+    public function getHostElements(): array
     {
         if (isset($this->hostElements)) {
             return $this->hostElements;
-        } elseif (!isset($this->request)) {
+        }
+
+        if (!isset($this->request)) {
             return [];
         }
 
-        $elements = explode('.', $this->request->getHost());
+        $elements = explode('.', $this->request->getHost() ?? '');
 
         return $this->hostElements = $elements;
+    }
+
+    public function getElementNumber(): int
+    {
+        return $this->elementNumber;
     }
 }

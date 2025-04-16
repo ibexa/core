@@ -9,19 +9,58 @@ declare(strict_types=1);
 namespace Ibexa\Core\MVC\Symfony\Component\Serializer;
 
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIElement;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-final class URIElementNormalizer extends AbstractPropertyWhitelistNormalizer
+/**
+ * @internal
+ */
+final class URIElementNormalizer implements NormalizerInterface, DenormalizerInterface
 {
-    public function supportsNormalization($data, string $format = null): bool
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof URIElement;
     }
 
     /**
-     * @see \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIElement::__sleep
+     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIElement $data
+     *
+     * @return array{elementNumber: int, uriElements: array<string>}
      */
-    protected function getAllowedProperties(): array
+    public function normalize(
+        mixed $data,
+        ?string $format = null,
+        array $context = []
+    ): array {
+        return [
+            'elementNumber' => $data->getElementNumber(),
+            'uriElements' => $data->getUriElements(),
+        ];
+    }
+
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): URIElement
     {
-        return ['elementNumber', 'uriElements'];
+        $uriElement = new URIElement($data['elementNumber']);
+        if (!empty($data['uriElements'])) {
+            $uriElement->setUriElements($data['uriElements']);
+        }
+
+        return $uriElement;
+    }
+
+    public function supportsDenormalization(
+        mixed $data,
+        string $type,
+        ?string $format = null,
+        array $context = []
+    ): bool {
+        return $type === URIElement::class;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return  [
+            URIElement::class => true,
+        ];
     }
 }
