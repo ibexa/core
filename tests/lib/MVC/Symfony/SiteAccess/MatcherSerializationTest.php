@@ -18,32 +18,19 @@ class MatcherSerializationTest extends TestCase
     use SerializerTrait;
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher|null $expected
-     *
      * @dataProvider matcherProvider
      */
-    public function testDeserialize(Matcher $matcher, LogicalAnd|LogicalOr $expected = null): void
+    public function testDeserialize(Matcher $matcher, Matcher $expected = null): void
     {
         $serializedMatcher = $this->serializeMatcher($matcher);
 
         $context = [];
-        // BC layer
-        if ($matcher instanceof Matcher\CompoundInterface) {
-            $subMatchers = $matcher->getSubMatchers();
-            foreach ($subMatchers as $subMatcher) {
-                $context['serialized_siteaccess_sub_matchers'][get_class($subMatcher)] = $this->serializeMatcher($subMatcher);
-            }
-        }
-        // --
-        $unserializedMatcher = $this->deserializeMatcher($serializedMatcher, get_class($matcher), $context);
+        $deserializeMatcher = $this->deserializeMatcher($serializedMatcher, get_class($matcher), $context);
         $expected = $expected ?? $matcher;
 
-        self::assertEquals($expected, $unserializedMatcher);
+        self::assertEquals($expected, $deserializeMatcher);
     }
 
-    /**
-     * @return string
-     */
     private function serializeMatcher(Matcher $matcher): string
     {
         return $this->getSerializer()->serialize(
@@ -73,30 +60,29 @@ class MatcherSerializationTest extends TestCase
         $subMatchers = [
             Matcher\Map\URI::class => new Matcher\Map\URI(['map' => ['key' => 'value']]),
             Matcher\Map\Host::class => new Matcher\Map\Host(['map' => ['key' => 'value']]),
+            Matcher\HostElement::class => new Matcher\HostElement(1),
         ];
         // data truncated due to https://issues.ibexa.co/browse/EZP-31810
         $expectedSubMatchers = [
             Matcher\Map\URI::class => new Matcher\Map\URI([]),
             Matcher\Map\Host::class => new Matcher\Map\Host([]),
+            Matcher\HostElement::class => new Matcher\HostElement(1),
         ];
-        $logicalAnd = new LogicalAnd(
+        $compoundMatcherConfig = [
             [
-                [
-                    'match' => 'site_access_name',
+                'matchers' => [
+                    Matcher\Map\URI::class => ['match' => 'site_access_name'],
+                    Matcher\Map\Host::class => ['match' => 'site_access_name'],
+                    Matcher\HostElement::class => ['match' => 'site_access_name'],
                 ],
-            ]
-        );
+            ],
+        ];
+        $logicalAnd = new LogicalAnd($compoundMatcherConfig);
         $logicalAnd->setSubMatchers($subMatchers);
         $expectedLogicalAnd = new LogicalAnd([]);
         $expectedLogicalAnd->setSubMatchers($expectedSubMatchers);
 
-        $logicalOr = new LogicalOr(
-            [
-                [
-                    'match' => 'site_access_name',
-                ],
-            ]
-        );
+        $logicalOr = new LogicalOr($compoundMatcherConfig);
         $logicalOr->setSubMatchers($subMatchers);
         $expectedLogicalOr = new LogicalOr([]);
         $expectedLogicalOr->setSubMatchers($expectedSubMatchers);
