@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Search\FieldType\RemoteIdentifierField;
  *
  * @internal for internal use by Search engine field value mapper
  */
-class RemoteIdentifierMapper extends StringMapper
+final class RemoteIdentifierMapper extends StringMapper
 {
     public function canMap(Field $field): bool
     {

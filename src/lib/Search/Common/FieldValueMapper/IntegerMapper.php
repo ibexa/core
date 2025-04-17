@@ -9,12 +9,11 @@ namespace Ibexa\Core\Search\Common\FieldValueMapper;
 
 use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType\IntegerField;
-use Ibexa\Core\Search\Common\FieldValueMapper;
 
 /**
- * Common integer field value mapper implementation.
+ * @internal
  */
-class IntegerMapper extends FieldValueMapper
+final class IntegerMapper extends BaseIntegerMapper
 {
     public function canMap(Field $field): bool
     {
@@ -24,15 +23,5 @@ class IntegerMapper extends FieldValueMapper
     public function map(Field $field): int
     {
         return $this->convert($field->getValue());
-    }
-
-    /**
-     * Convert to a proper search engine representation.
-     *
-     * @param mixed $value
-     */
-    protected function convert($value): int
-    {
-        return (int)$value;
     }
 }

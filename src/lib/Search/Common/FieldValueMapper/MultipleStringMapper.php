@@ -11,9 +11,9 @@ use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType;
 
 /**
- * Common multiple string field value mapper implementation.
+ * @internal
  */
-class MultipleStringMapper extends StringMapper
+class MultipleStringMapper extends BaseStringMapper
 {
     public function canMap(Field $field): bool
     {
@@ -28,9 +28,7 @@ class MultipleStringMapper extends StringMapper
     /**
      * Map field value to a proper search engine representation.
      *
-     * @param \Ibexa\Contracts\Core\Search\Field $field
-     *
-     * @return array
+     * @return string[]
      */
     public function map(Field $field): array
     {

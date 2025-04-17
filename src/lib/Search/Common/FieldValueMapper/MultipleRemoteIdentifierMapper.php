@@ -11,9 +11,9 @@ use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType\MultipleRemoteIdentifierField;
 
 /**
- * Common remote ID list field value mapper implementation.
+ * @internal
  */
-final class MultipleRemoteIdentifierMapper extends RemoteIdentifierMapper
+final class MultipleRemoteIdentifierMapper extends BaseStringMapper
 {
     public function canMap(Field $field): bool
     {

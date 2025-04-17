@@ -11,9 +11,9 @@ use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType\MultipleIntegerField;
 
 /**
- * Common multiple integer field value mapper implementation.
+ * @internal
  */
-class MultipleIntegerMapper extends IntegerMapper
+final class MultipleIntegerMapper extends BaseIntegerMapper
 {
     public function canMap(Field $field): bool
     {
