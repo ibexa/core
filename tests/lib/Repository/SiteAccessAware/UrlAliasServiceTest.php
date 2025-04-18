@@ -12,7 +12,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Core\Repository\SiteAccessAware\URLAliasService;
 use Ibexa\Core\Repository\Values\Content\Location;
 
-class UrlAliasServiceTest extends AbstractServiceTest
+/**
+ * @extends \Ibexa\Tests\Core\Repository\SiteAccessAware\AbstractServiceTest<
+ *     \Ibexa\Contracts\Core\Repository\URLAliasService,
+ *     \Ibexa\Core\Repository\SiteAccessAware\URLAliasService
+ * >
+ */
+final class UrlAliasServiceTest extends AbstractServiceTest
 {
     public function getAPIServiceClassName(): string
     {

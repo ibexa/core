@@ -18,32 +18,40 @@ use ReflectionMethod;
  * Abstract tests for SiteAccessAware Services.
  *
  * Implies convention for methods on these services to either:
- * - Do nothing, pass-through call and optionally (default:true) return value
+ * - Do nothing, pass through call and optionally (default:true) return value
  * - lookup languages [IF not defined by callee] on one of the arguments given and pass it to next one.
+ *
+ * @template TServiceInterface of object
+ * @template TServiceClass of TServiceInterface
  */
 abstract class AbstractServiceTest extends TestCase
 {
+    /** @phpstan-var TServiceInterface & \PHPUnit\Framework\MockObject\MockObject */
+    protected MockObject $innerApiServiceMock;
+
+    /** @phpstan-var TServiceClass */
+    protected object $service;
+
+    protected LanguageResolver & MockObject $languageResolverMock;
+
     /**
      * Purely to attempt to make tests easier to read.
      *
-     * As language parameter is ignored from providers and replced with values in tests, this is used to mark value of
-     * language argument instead of either askingproviders to use 0, or a valid language array which would then not be
+     * As a language parameter is ignored from providers and replaced with values in tests, this is used to mark the value of a
+     * language argument instead of either asking providers to use 0, or a valid language array which would then not be
      * used.
      */
-    public const LANG_ARG = 0;
+    public const int LANG_ARG = 0;
 
-    /** @var \object|\PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $innerApiServiceMock;
+    /**
+     * @phpstan-return interface-string<TServiceInterface>
+     */
+    abstract public function getAPIServiceClassName(): string;
 
-    /** @var object */
-    protected $service;
-
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver|\PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $languageResolverMock;
-
-    abstract public function getAPIServiceClassName();
-
-    abstract public function getSiteAccessAwareServiceClassName();
+    /**
+     * @phpstan-return class-string<TServiceClass>
+     */
+    abstract public function getSiteAccessAwareServiceClassName(): string;
 
     protected function setUp(): void
     {
@@ -62,9 +70,7 @@ abstract class AbstractServiceTest extends TestCase
 
     protected function tearDown(): void
     {
-        unset($this->service);
-        unset($this->languageResolverMock);
-        unset($this->innerApiServiceMock);
+        unset($this->service, $this->languageResolverMock, $this->innerApiServiceMock);
         parent::tearDown();
     }
 

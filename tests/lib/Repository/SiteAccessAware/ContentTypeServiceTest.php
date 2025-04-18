@@ -21,7 +21,13 @@ use Ibexa\Core\Repository\Values\ContentType\ContentTypeGroup;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Repository\Values\User\User;
 
-class ContentTypeServiceTest extends AbstractServiceTest
+/**
+ * @extends \Ibexa\Tests\Core\Repository\SiteAccessAware\AbstractServiceTest<
+ *      \Ibexa\Contracts\Core\Repository\ContentTypeService,
+ *      \Ibexa\Core\Repository\SiteAccessAware\ContentTypeService
+ *  >
+ */
+final class ContentTypeServiceTest extends AbstractServiceTest
 {
     public function getAPIServiceClassName(): string
     {

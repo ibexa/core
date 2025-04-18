@@ -27,9 +27,12 @@ use Ibexa\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Repository\Values\User\User;
 
 /**
- * @property \Ibexa\Contracts\Core\Repository\ContentService $service
+ * @extends \Ibexa\Tests\Core\Repository\SiteAccessAware\AbstractServiceTest<
+ *     \Ibexa\Contracts\Core\Repository\ContentService,
+ *     \Ibexa\Core\Repository\SiteAccessAware\ContentService
+ * >
  */
-class ContentServiceTest extends AbstractServiceTest
+final class ContentServiceTest extends AbstractServiceTest
 {
     public function getAPIServiceClassName(): string
     {
@@ -46,7 +49,6 @@ class ContentServiceTest extends AbstractServiceTest
         $contentInfo = new ContentInfo();
         $versionInfo = new VersionInfo();
         $content = $this->createMock(Content::class);
-        $relation = $this->createMock(Relation::class);
         $relationList = new RelationList();
         $contentCreateStruct = new ContentCreateStruct();
         $contentUpdateStruct = new ContentUpdateStruct();

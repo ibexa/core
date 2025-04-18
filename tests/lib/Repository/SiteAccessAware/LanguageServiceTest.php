@@ -12,7 +12,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct;
 use Ibexa\Core\Repository\SiteAccessAware\LanguageService;
 
-class LanguageServiceTest extends AbstractServiceTest
+/**
+ * @extends \Ibexa\Tests\Core\Repository\SiteAccessAware\AbstractServiceTest<
+ *      \Ibexa\Contracts\Core\Repository\LanguageService,
+ *      \Ibexa\Core\Repository\SiteAccessAware\LanguageService
+ *  >
+ */
+final class LanguageServiceTest extends AbstractServiceTest
 {
     public function getAPIServiceClassName(): string
     {

@@ -17,7 +17,13 @@ use Ibexa\Core\Repository\SiteAccessAware\ObjectStateService;
 use Ibexa\Core\Repository\Values\ObjectState\ObjectState;
 use Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup;
 
-class ObjectStateServiceTest extends AbstractServiceTest
+/**
+ * @extends \Ibexa\Tests\Core\Repository\SiteAccessAware\AbstractServiceTest<
+ *     \Ibexa\Contracts\Core\Repository\ObjectStateService,
+ *     \Ibexa\Core\Repository\SiteAccessAware\ObjectStateService
+ * >
+ */
+final class ObjectStateServiceTest extends AbstractServiceTest
 {
     public function getAPIServiceClassName(): string
     {

@@ -22,7 +22,13 @@ use Ibexa\Core\Repository\Values\User\UserCreateStruct;
 use Ibexa\Core\Repository\Values\User\UserGroup;
 use Ibexa\Core\Repository\Values\User\UserGroupCreateStruct;
 
-class UserServiceTest extends AbstractServiceTest
+/**
+ * @extends \Ibexa\Tests\Core\Repository\SiteAccessAware\AbstractServiceTest<
+ *     \Ibexa\Contracts\Core\Repository\UserService,
+ *     \Ibexa\Core\Repository\SiteAccessAware\UserService
+ * >
+ */
+final class UserServiceTest extends AbstractServiceTest
 {
     public function getAPIServiceClassName(): string
     {
@@ -49,8 +55,6 @@ class UserServiceTest extends AbstractServiceTest
         $contentType = $this->createMock(ContentType::class);
 
         $passwordValidationContext = new PasswordValidationContext();
-        $passwordExpirationDate = (new DateTime())->add(new DateInterval('P30D'));
-        $passwordExpirationWarningDate = (new DateTime())->add(new DateInterval('P16D'));
 
         // string $method, array $arguments, bool $return = true
         return [
