@@ -26,19 +26,15 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTest
 {
-    /** @var \Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway|\PHPUnit\Framework\MockObject\MockObject */
-    protected $gateway;
+    protected Gateway $gateway;
 
-    protected PathGeneratorInterface&MockObject $pathGeneratorMock;
+    protected PathGeneratorInterface & MockObject $pathGeneratorMock;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $ioServiceMock;
+    protected IOServiceInterface & MockObject $ioServiceMock;
 
-    /** @var \Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage|\PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $storage;
+    protected BinaryBaseStorage & MockObject $storage;
 
-    /** @var \Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator&\PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $fileExtensionBlackListValidatorMock;
+    protected FileExtensionBlackListValidator & MockObject $fileExtensionBlackListValidatorMock;
 
     protected function setUp(): void
     {
@@ -165,7 +161,7 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTest
         ];
     }
 
-    protected function getStorageGateway(): Gateway
+    protected function getStorageGateway(): Gateway\DoctrineStorage
     {
         return new DoctrineStorage($this->getDatabaseConnection());
     }

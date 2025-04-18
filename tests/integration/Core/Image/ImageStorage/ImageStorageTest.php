@@ -27,29 +27,16 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
 {
-    /** @var \Ibexa\Core\FieldType\Image\ImageStorage\Gateway */
     private DoctrineStorage $gateway;
 
-    /** @var \Ibexa\Core\IO\UrlRedecoratorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $redecorator;
+    private UrlRedecoratorInterface & MockObject $redecorator;
 
-    /** @var \Ibexa\Core\FieldType\Image\PathGenerator|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $pathGenerator;
+    private FilePathNormalizerInterface & MockObject $filePathNormalizer;
 
-    /** @var \Ibexa\Core\FieldType\Image\AliasCleanerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $aliasCleaner;
-
-    /** @var \Ibexa\Core\IO\FilePathNormalizerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $filePathNormalizer;
-
-    /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $ioService;
+    private IOServiceInterface & MockObject $ioService;
 
     /** @var \Ibexa\Core\FieldType\Image\ImageStorage */
     private ImageStorage $storage;
-
-    /** @var \Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator&\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $fileExtensionBlackListValidator;
 
     protected function setUp(): void
     {
@@ -57,18 +44,18 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
 
         $this->redecorator = $this->createMock(UrlRedecoratorInterface::class);
         $this->gateway = new DoctrineStorage($this->redecorator, $this->getDatabaseConnection());
-        $this->pathGenerator = $this->createMock(PathGenerator::class);
-        $this->aliasCleaner = $this->createMock(AliasCleanerInterface::class);
+        $pathGenerator = $this->createMock(PathGenerator::class);
+        $aliasCleaner = $this->createMock(AliasCleanerInterface::class);
         $this->filePathNormalizer = $this->createMock(FilePathNormalizerInterface::class);
         $this->ioService = $this->createMock(IOServiceInterface::class);
-        $this->fileExtensionBlackListValidator = $this->createMock(FileExtensionBlackListValidator::class);
+        $fileExtensionBlackListValidator = $this->createMock(FileExtensionBlackListValidator::class);
         $this->storage = new ImageStorage(
             $this->gateway,
             $this->ioService,
-            $this->pathGenerator,
-            $this->aliasCleaner,
+            $pathGenerator,
+            $aliasCleaner,
             $this->filePathNormalizer,
-            $this->fileExtensionBlackListValidator
+            $fileExtensionBlackListValidator
         );
     }
 
