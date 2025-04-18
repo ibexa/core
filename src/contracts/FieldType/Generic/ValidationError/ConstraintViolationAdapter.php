@@ -25,7 +25,7 @@ final class ConstraintViolationAdapter implements ValidationErrorInterface
 
     /**
      * Element on which the error occurred
-     * e.g. property name or property path compatible with Symfony PropertyAccess component.
+     * e.g. property name or property path compatible with a Symfony PropertyAccess component.
      *
      * Example: StringLengthValidator[minStringLength]
      */
@@ -45,7 +45,7 @@ final class ConstraintViolationAdapter implements ValidationErrorInterface
         );
     }
 
-    public function setTarget($target): void
+    public function setTarget(string $target): void
     {
         $this->target = $target;
     }

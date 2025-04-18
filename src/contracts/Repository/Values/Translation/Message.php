@@ -33,7 +33,7 @@ class Message extends Translation
     protected array $values;
 
     /**
-     * Construct singular only message from string and optional value array.
+     * Construct a singular only message from string and optional value array.
      *
      * @param array<string, scalar> $values
      */
