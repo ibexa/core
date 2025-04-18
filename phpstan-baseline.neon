@@ -3499,6 +3499,12 @@ parameters:
 			path: src/bundle/Core/Fragment/SiteAccessSerializationTrait.php
 
 		-
+			message: '#^Method Ibexa\\Bundle\\Core\\IbexaCoreBundle\:\:getContainerExtension\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/bundle/Core/IbexaCoreBundle.php
+
+		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\AliasCleaner\:\:removeAliases\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -12827,6 +12833,12 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: src/lib/MVC/Symfony/Security/UserInterface.php
+
+		-
+			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\Security\\UserWrapped\:\:\$apiUser in isset\(\) is not nullable nor uninitialized\.$#'
+			identifier: isset.initializedProperty
+			count: 1
+			path: src/lib/MVC/Symfony/Security/UserWrapped.php
 
 		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\:\:__construct\(\) has parameter \$groups with no value type specified in iterable type array\.$#'
