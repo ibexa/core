@@ -16,9 +16,12 @@ use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
  */
 class GrayscaleFilterLoader implements LoaderInterface
 {
-    public const IDENTIFIER = 'colorspace/gray';
+    public const string IDENTIFIER = 'colorspace/gray';
 
-    public function load(ImageInterface $image, array $options = [])
+    /**
+     * @param array<mixed> $options
+     */
+    public function load(ImageInterface $image, array $options = []): ImageInterface
     {
         $image->effects()->grayscale();
 

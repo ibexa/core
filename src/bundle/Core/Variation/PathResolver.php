@@ -24,7 +24,18 @@ abstract class PathResolver
         $this->variationPathGenerator = $variationPathGenerator;
     }
 
-    abstract public function resolve($path, $variation): string;
+    /**
+     * @see \Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface::resolve()
+     *
+     * @param string $path   The path where the original file is expected to be
+     * @param string $filter The name of the imagine filter in effect
+     *
+     * @return string The absolute URL of the cached image
+     *
+     * @throws \Liip\ImagineBundle\Exception\Imagine\Cache\Resolver\NotResolvableException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    abstract public function resolve($path, $filter): string;
 
     /**
      * Returns path for filtered image from original path, using the VariationPathGenerator.

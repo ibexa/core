@@ -24,7 +24,7 @@ use Symfony\Component\Routing\RequestContext;
  */
 class IORepositoryResolver extends PathResolver implements ResolverInterface
 {
-    public const VARIATION_ORIGINAL = 'original';
+    public const string VARIATION_ORIGINAL = 'original';
 
     private IOServiceInterface $ioService;
 
@@ -46,7 +46,7 @@ class IORepositoryResolver extends PathResolver implements ResolverInterface
         $this->variationPurger = $variationPurger;
     }
 
-    public function isStored($path, $filter)
+    public function isStored($path, $filter): bool
     {
         return $this->ioService->exists($this->getFilePath($path, $filter));
     }
@@ -81,9 +81,9 @@ class IORepositoryResolver extends PathResolver implements ResolverInterface
 
     /**
      * Stores image alias in the IO Repository.
-     * A temporary file is created to dump the filtered image and is used as basis for creation in the IO Repository.
+     * A temporary file is created to dump the filtered image and is used as a basis for creation in the IO Repository.
      *
-     * {@inheritdoc}
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function store(BinaryInterface $binary, $path, $filter): void
     {
@@ -100,7 +100,10 @@ class IORepositoryResolver extends PathResolver implements ResolverInterface
 
     /**
      * @param string[] $paths The paths where the original files are expected to be.
-     * @param string[] $filters The imagine filters in effect.
+     * @param string[] $filters The `imagine` filters in effect.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function remove(array $paths, array $filters): void
     {

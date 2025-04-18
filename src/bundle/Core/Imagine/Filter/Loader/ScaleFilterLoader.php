@@ -16,15 +16,18 @@ use Imagine\Image\ImageInterface;
  */
 class ScaleFilterLoader extends FilterLoaderWrapped
 {
-    public const IDENTIFIER = 'geometry/scale';
+    public const string IDENTIFIER = 'geometry/scale';
 
-    public function load(ImageInterface $image, array $options = [])
+    /**
+     * @param array{int, int}|array{} $options Numerically indexed array. The first entry is width, the second is height.
+     */
+    public function load(ImageInterface $image, array $options = []): ImageInterface
     {
         if (count($options) < 2) {
             throw new InvalidArgumentException('Missing width and/or height options');
         }
 
-        list($width, $height) = $options;
+        [$width, $height] = $options;
         $size = $image->getSize();
         $ratioWidth = $width / $size->getWidth();
         $ratioHeight = $height / $size->getHeight();

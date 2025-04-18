@@ -16,9 +16,14 @@ use Imagine\Image\ImageInterface;
  */
 class ScaleWidthFilterLoader extends FilterLoaderWrapped
 {
-    public const IDENTIFIER = 'geometry/scalewidth';
+    public const string IDENTIFIER = 'geometry/scalewidth';
 
-    public function load(ImageInterface $image, array $options = [])
+    /**
+     * @param array{int}|array{} $options Numerically indexed array. The first entry is width.
+     *
+     * @throws \Imagine\Exception\InvalidArgumentException
+     */
+    public function load(ImageInterface $image, array $options = []): ImageInterface
     {
         if (empty($options)) {
             throw new InvalidArgumentException('Missing width option');

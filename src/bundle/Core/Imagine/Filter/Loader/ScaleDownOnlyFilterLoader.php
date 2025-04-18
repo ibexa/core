@@ -16,19 +16,16 @@ use Imagine\Image\ImageInterface;
  */
 class ScaleDownOnlyFilterLoader extends FilterLoaderWrapped
 {
-    public const IDENTIFIER = 'geometry/scaledownonly';
+    public const string IDENTIFIER = 'geometry/scaledownonly';
 
     /**
      * Loads and applies a filter on the given image.
      *
-     * @param \Imagine\Image\ImageInterface $image
-     * @param array $options Numerically indexed array. First entry is width, second is height.
+     * @param array{int, int}|array{} $options Numerically indexed array. The first entry is width, the second is height.
      *
      * @throws \Imagine\Exception\InvalidArgumentException
-     *
-     * @return \Imagine\Image\ImageInterface
      */
-    public function load(ImageInterface $image, array $options = [])
+    public function load(ImageInterface $image, array $options = []): ImageInterface
     {
         if (count($options) < 2) {
             throw new InvalidArgumentException('Missing width and/or height options');

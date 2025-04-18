@@ -16,9 +16,14 @@ use Imagine\Image\ImageInterface;
  */
 class ScaleHeightDownOnlyFilterLoader extends FilterLoaderWrapped
 {
-    public const IDENTIFIER = 'geometry/scaleheightdownonly';
+    public const string IDENTIFIER = 'geometry/scaleheightdownonly';
 
-    public function load(ImageInterface $image, array $options = [])
+    /**
+     * @param array{int}|array{} $options Numerically indexed array. The first entry is height.
+     *
+     * @throws \Imagine\Exception\InvalidArgumentException
+     */
+    public function load(ImageInterface $image, array $options = []): ImageInterface
     {
         if (empty($options)) {
             throw new InvalidArgumentException('Missing height option');

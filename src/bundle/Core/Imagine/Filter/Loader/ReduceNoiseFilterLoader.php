@@ -20,7 +20,7 @@ use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
  */
 class ReduceNoiseFilterLoader implements LoaderInterface
 {
-    public const IDENTIFIER = 'filter/noise';
+    public const string IDENTIFIER = 'filter/noise';
 
     private FilterInterface $filter;
 
@@ -29,7 +29,10 @@ class ReduceNoiseFilterLoader implements LoaderInterface
         $this->filter = $filter;
     }
 
-    public function load(ImageInterface $image, array $options = [])
+    /**
+     * @param array{int}|array{} $options Expecting just one entry representing radius
+     */
+    public function load(ImageInterface $image, array $options = []): ImageInterface
     {
         if (!$image instanceof ImagickImage && !$image instanceof GmagickImage) {
             throw new NotSupportedException('ReduceNoiseFilterLoader is only compatible with "imagick" and "gmagick" drivers');

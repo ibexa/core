@@ -13,7 +13,7 @@ use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
 
 class SwirlFilterLoader implements LoaderInterface
 {
-    public const IDENTIFIER = 'filter/swirl';
+    public const string IDENTIFIER = 'filter/swirl';
 
     private FilterInterface $filter;
 
@@ -22,7 +22,10 @@ class SwirlFilterLoader implements LoaderInterface
         $this->filter = $filter;
     }
 
-    public function load(ImageInterface $image, array $options = [])
+    /**
+     * @param array{float}|array{} $options Optional - an array with one float element, the degrees of swirl.
+     */
+    public function load(ImageInterface $image, array $options = []): ImageInterface
     {
         if (!empty($options)) {
             $this->filter->setOption('degrees', $options[0]);

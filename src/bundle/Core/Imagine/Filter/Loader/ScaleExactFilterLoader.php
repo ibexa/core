@@ -16,9 +16,12 @@ use Imagine\Image\ImageInterface;
  */
 class ScaleExactFilterLoader extends FilterLoaderWrapped
 {
-    public const IDENTIFIER = 'geometry/scaleexact';
+    public const string IDENTIFIER = 'geometry/scaleexact';
 
-    public function load(ImageInterface $image, array $options = [])
+    /**
+     * @param array{int, int}|array{} $options Numerically indexed array. The first entry is width, the second is height.
+     */
+    public function load(ImageInterface $image, array $options = []): ImageInterface
     {
         if (count($options) < 2) {
             throw new InvalidArgumentException('Missing width and/or height options');

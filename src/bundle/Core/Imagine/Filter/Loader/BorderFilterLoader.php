@@ -20,26 +20,23 @@ use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
  */
 class BorderFilterLoader implements LoaderInterface
 {
-    public const IDENTIFIER = 'border';
+    public const string IDENTIFIER = 'border';
 
-    public const DEFAULT_BORDER_COLOR = '#000';
+    public const string DEFAULT_BORDER_COLOR = '#000';
 
-    public function load(ImageInterface $image, array $options = [])
+    /**
+     * @param array{int, int}|array{int, int, string}|array{} $options Values in the consecutive order: width, height, color.
+     */
+    public function load(ImageInterface $image, array $options = []): ImageInterface
     {
         $optionsCount = count($options);
         if ($optionsCount < 2) {
             throw new InvalidArgumentException('Invalid options for border filter. You must provide array(width, height)');
         }
 
-        $color = static::DEFAULT_BORDER_COLOR;
-        if ($optionsCount > 2) {
-            list($width, $height, $color) = $options;
-        } else {
-            list($width, $height) = $options;
-        }
+        [$width, $height] = $options;
+        $color = $options[2] ?? static::DEFAULT_BORDER_COLOR;
 
-        $border = new Border($image->palette()->color($color), $width, $height);
-
-        return $border->apply($image);
+        return (new Border($image->palette()->color($color), $width, $height))->apply($image);
     }
 }
