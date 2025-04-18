@@ -296,7 +296,7 @@ final class InstallPlatformCommand extends Command
         ]);
 
         $commandInput->setInteractive(
-            $commandInput->isInteractive()
+            $input->isInteractive()
         );
 
         $application = $this->getApplication();
