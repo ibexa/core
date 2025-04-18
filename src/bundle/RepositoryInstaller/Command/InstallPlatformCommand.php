@@ -9,9 +9,11 @@ namespace Ibexa\Bundle\RepositoryInstaller\Command;
 
 use Doctrine\DBAL\Connection;
 use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
+use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -84,9 +86,9 @@ final class InstallPlatformCommand extends Command
         $this->checkParameters();
         $this->checkCreateDatabase($output);
 
+        $io = new SymfonyStyle($input, $output);
         $schemaManager = $this->connection->getSchemaManager();
         if (!empty($schemaManager->listTables())) {
-            $io = new SymfonyStyle($input, $output);
             if (!$io->confirm('Running this command will delete data in all Ibexa generated tables. Continue?')) {
                 return self::SUCCESS;
             }
@@ -109,7 +111,13 @@ final class InstallPlatformCommand extends Command
         $installer->importData();
         $installer->importBinaries();
 
-        $this->changeDefaultAdminPassword($input);
+        $io->warning(
+            'For security reasons, you\'re required to change the default admin password. Remember to follow currently set password validation rules.'
+        );
+
+        do {
+            $exitCode = $this->changeDefaultAdminPassword($input);
+        } while ($exitCode !== self::SUCCESS);
 
         $this->cacheClear($output);
 
@@ -276,22 +284,37 @@ final class InstallPlatformCommand extends Command
         }
     }
 
-    private function changeDefaultAdminPassword(InputInterface $input): void
+    private function changeDefaultAdminPassword(InputInterface $input): int
     {
         $io = new SymfonyStyle($input, $this->output);
-        $io->warning(<<<EOT
-        As per safety measure, please change the default admin password. Remember to follow currently configured password validation rules as there will be no do-overs!
-        
-        If password is not accepted now you can still update it after the installation using the following command:
-        
-        ibexa:user:update-user admin --password.
-        EOT);
-
         $password = $io->askHidden('Password (your input will be hidden)');
 
-        $this->executeCommand(
-            $this->output,
-            'ibexa:user:update-user admin --password=' . $password
+        $commandInput = new ArrayInput([
+            'command' => 'ibexa:user:update-user',
+            'user' => 'admin',
+            '--password' => $password,
+        ]);
+
+        $commandInput->setInteractive(
+            $commandInput->isInteractive()
         );
+
+        $application = $this->getApplication();
+
+        if ($application === null) {
+            $io->error('Command application not found');
+
+            return self::FAILURE;
+        }
+
+        try {
+            $application->doRun($commandInput, $this->output);
+        } catch (ContentFieldValidationException $e) {
+            $io->error($e->getMessage());
+
+            return self::FAILURE;
+        }
+
+        return self::SUCCESS;
     }
 }
