@@ -10,6 +10,7 @@ namespace Ibexa\Bundle\RepositoryInstaller\Command;
 use Doctrine\DBAL\Connection;
 use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
+use LogicException;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -302,9 +303,7 @@ final class InstallPlatformCommand extends Command
         $application = $this->getApplication();
 
         if ($application === null) {
-            $io->error('Command application not found');
-
-            return self::FAILURE;
+            throw new LogicException('Command application not found');
         }
 
         try {
