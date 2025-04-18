@@ -17,13 +17,10 @@ use PHPUnit\Framework\TestCase;
 
 class ResolverFactoryTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private MockObject $configResolver;
+    private ConfigResolverInterface & MockObject $configResolver;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
-    private MockObject $resolver;
+    private ResolverInterface & MockObject $resolver;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Cache\ResolverFactory */
     private ResolverFactory $factory;
 
     protected function setUp(): void

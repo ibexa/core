@@ -17,8 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ContextualizerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $container;
+    private ContainerInterface & MockObject $container;
 
     private string $namespace = 'ibexa_test';
 
@@ -1401,7 +1400,7 @@ class ContextualizerTest extends TestCase
             ],
         ];
 
-        foreach ($cases as $k => $newcase) {
+        foreach ($cases as $newcase) {
             // run the same tests with another baseKey than the default one
             if (isset($newcase[5][$this->saNodeName])) {
                 $newcase[5]['customBaseKey'] = $newcase[5][$this->saNodeName];

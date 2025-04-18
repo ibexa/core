@@ -24,20 +24,18 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ChainConfigResolverTest extends TestCase
 {
-    private const FIRST_SA_NAME = 'first_sa';
-    private const SECOND_SA_NAME = 'second_sa';
-    private const SA_GROUP = 'sa_group';
+    private const string FIRST_SA_NAME = 'first_sa';
+    private const string SECOND_SA_NAME = 'second_sa';
+    private const string SA_GROUP = 'sa_group';
 
-    private const DEFAULT_NAMESPACE = 'ibexa.site_access.config';
+    private const string DEFAULT_NAMESPACE = 'ibexa.site_access.config';
 
-    private const SCOPE_DEFAULT = 'default';
-    private const SCOPE_GLOBAL = 'global';
+    private const string SCOPE_DEFAULT = 'default';
+    private const string SCOPE_GLOBAL = 'global';
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess|\PHPUnit\Framework\MockObject\MockObject */
     private SiteAccess $siteAccess;
 
-    /** @var \Symfony\Component\DependencyInjection\ContainerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $containerMock;
+    private ContainerInterface & MockObject $containerMock;
 
     protected function setUp(): void
     {

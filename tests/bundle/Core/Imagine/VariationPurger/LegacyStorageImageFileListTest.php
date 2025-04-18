@@ -17,35 +17,27 @@ use PHPUnit\Framework\TestCase;
 
 class LegacyStorageImageFileListTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileRowReader|\PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $rowReaderMock;
+    protected ImageFileRowReader & MockObject $rowReaderMock;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList */
-    protected $fileList;
-
-    /** @var \Ibexa\Core\IO\IOConfigProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $ioConfigResolverMock;
-
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $configResolverMock;
+    protected LegacyStorageImageFileList $fileList;
 
     protected function setUp(): void
     {
         $this->rowReaderMock = $this->createMock(ImageFileRowReader::class);
-        $this->ioConfigResolverMock = $this->createMock(IOConfigProvider::class);
-        $this->ioConfigResolverMock
+        $ioConfigResolverMock = $this->createMock(IOConfigProvider::class);
+        $ioConfigResolverMock
             ->method('getLegacyUrlPrefix')
             ->willReturn('var/ibexa_demo_site/storage');
-        $this->configResolverMock = $this->createMock(ConfigResolverInterface::class);
-        $this->configResolverMock
+        $configResolverMock = $this->createMock(ConfigResolverInterface::class);
+        $configResolverMock
             ->method('getParameter')
             ->with('image.published_images_dir')
             ->willReturn('images');
 
         $this->fileList = new LegacyStorageImageFileList(
             $this->rowReaderMock,
-            $this->ioConfigResolverMock,
-            $this->configResolverMock
+            $ioConfigResolverMock,
+            $configResolverMock
         );
     }
 
@@ -75,9 +67,9 @@ class LegacyStorageImageFileListTest extends TestCase
 
     private function configureRowReaderMock(array $fileList): void
     {
-        $mockInvocator = $this->rowReaderMock->expects(self::any())->method('getRow');
+        $mockInvocator = $this->rowReaderMock->method('getRow');
         call_user_func_array([$mockInvocator, 'willReturnOnConsecutiveCalls'], $fileList);
 
-        $this->rowReaderMock->expects(self::any())->method('getCount')->willReturn(count($fileList));
+        $this->rowReaderMock->method('getCount')->willReturn(count($fileList));
     }
 }

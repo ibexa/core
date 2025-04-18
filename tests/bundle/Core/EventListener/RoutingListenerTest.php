@@ -21,14 +21,11 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class RoutingListenerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $configResolver;
+    private ConfigResolverInterface & MockObject $configResolver;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $urlAliasRouter;
+    private UrlAliasRouter & MockObject $urlAliasRouter;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $urlAliasGenerator;
+    private UrlAliasGenerator & MockObject $urlAliasGenerator;
 
     protected function setUp(): void
     {

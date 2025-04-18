@@ -22,8 +22,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
     /** @var \Ibexa\Bundle\Core\EventListener\RejectExplicitFrontControllerRequestsListener */
     private RejectExplicitFrontControllerRequestsListener $eventListener;
 
-    /** @var \Symfony\Component\HttpKernel\HttpKernelInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $httpKernel;
+    private HttpKernelInterface & MockObject $httpKernel;
 
     protected function setUp(): void
     {

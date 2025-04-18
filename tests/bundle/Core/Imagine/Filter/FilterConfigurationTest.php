@@ -14,10 +14,8 @@ use PHPUnit\Framework\TestCase;
 
 class FilterConfigurationTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $configResolver;
+    private ConfigResolverInterface & MockObject $configResolver;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\FilterConfiguration */
     private FilterConfiguration $filterConfiguration;
 
     protected function setUp(): void

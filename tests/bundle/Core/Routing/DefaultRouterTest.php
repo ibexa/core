@@ -23,14 +23,11 @@ use Symfony\Component\Routing\RequestContext;
 
 class DefaultRouterTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\DependencyInjection\ContainerInterface */
-    protected MockObject $container;
+    protected MockObject & ContainerInterface $container;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    protected MockObject $configResolver;
+    protected MockObject & ConfigResolverInterface $configResolver;
 
-    /** @var \Symfony\Component\Routing\RequestContext */
-    protected $requestContext;
+    protected RequestContext $requestContext;
 
     protected function setUp(): void
     {

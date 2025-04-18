@@ -24,14 +24,11 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class BackgroundIndexingTerminateListenerTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\EventListener\BackgroundIndexingTerminateListener */
-    protected $listener;
+    protected BackgroundIndexingTerminateListener $listener;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $persistenceMock;
+    protected PersistenceHandler & MockObject $persistenceMock;
 
-    /** @var \Ibexa\Contracts\Core\Search\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $searchMock;
+    protected SearchHandler & MockObject $searchMock;
 
     protected function setUp(): void
     {
@@ -62,30 +59,36 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
         );
     }
 
-    public function indexingProvider(): array
+    /**
+     * @phpstan-return iterable<
+     *     string,
+     *     array{
+     *          0: null|array<\Ibexa\Contracts\Core\Persistence\Content\ContentInfo|\Ibexa\Contracts\Core\Persistence\Content\Location>,
+     *          1?: bool
+     *     }
+     * >
+     */
+    public static function indexingProvider(): iterable
     {
         $info = new ContentInfo(['id' => 33]);
         $location = new Location(['id' => 44, 'contentId' => 33]);
 
-        return [
-            [[$location]],
-            [[$location], $this->createMock(LoggerInterface::class)],
-            [[$info]],
-            [[$info], $this->createMock(LoggerInterface::class)],
-            [null],
-            [null, $this->createMock(LoggerInterface::class)],
-            [[$location, $info]],
-            [[$info, $location], $this->createMock(LoggerInterface::class)],
-        ];
+        yield 'location' => [[$location]];
+        yield 'location with logger' => [[$location], true];
+        yield 'content info' => [[$info]];
+        yield 'content info with logger' => [[$info], true];
+        yield 'no values' => [null];
+        yield 'no values with logger' => [null, true];
+        yield 'location and content info' => [[$location, $info]];
+        yield 'location and content info with logger' => [[$info, $location], true];
     }
 
     /**
      * @dataProvider indexingProvider
      *
-     * @param array|null $value
-     * @param \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject|null $logger
+     * @param array<\Ibexa\Contracts\Core\Persistence\Content\ContentInfo|\Ibexa\Contracts\Core\Persistence\Content\Location>|null $values
      */
-    public function testIndexing(array $values = null, MockObject&LoggerInterface $logger = null): void
+    public function testIndexing(?array $values = null, bool $mockLogger = false): void
     {
         $contentHandlerMock = $this->createMock(Content\Handler::class);
         $this->persistenceMock
@@ -127,7 +130,8 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
             }
         }
 
-        if ($logger) {
+        if ($mockLogger) {
+            $logger = $this->createMock(LoggerInterface::class);
             $this->listener->setLogger($logger);
 
             if ($values) {

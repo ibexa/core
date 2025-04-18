@@ -15,10 +15,8 @@ use PHPUnit\Framework\TestCase;
 
 final class ProxyCacheWarmerTest extends TestCase
 {
-    /** @var \Ibexa\Core\Repository\ProxyFactory\ProxyGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $proxyGenerator;
+    private ProxyGeneratorInterface & MockObject $proxyGenerator;
 
-    /** @var \Ibexa\Bundle\Core\Cache\Warmer\ProxyCacheWarmer */
     private ProxyCacheWarmer $proxyCacheWarmer;
 
     protected function setUp(): void

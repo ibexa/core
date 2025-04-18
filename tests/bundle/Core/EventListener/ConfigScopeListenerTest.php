@@ -19,13 +19,11 @@ use PHPUnit\Framework\TestCase;
 
 class ConfigScopeListenerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $configResolver;
+    private VersatileScopeInterface & MockObject $configResolver;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $viewManager;
+    private ViewManager & MockObject $viewManager;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var array<\Ibexa\Tests\Bundle\Core\EventListener\Stubs\ViewProvider&\PHPUnit\Framework\MockObject\MockObject> */
     private array $viewProviders;
 
     protected function setUp(): void

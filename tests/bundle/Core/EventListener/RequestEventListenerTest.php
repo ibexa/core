@@ -24,48 +24,21 @@ use Symfony\Component\Routing\RouterInterface;
 
 class RequestEventListenerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $configResolver;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $router;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Psr\Log\LoggerInterface */
-    private MockObject $logger;
-
-    /** @var \Ibexa\Bundle\Core\EventListener\RequestEventListener */
     private RequestEventListener $requestEventListener;
 
-    /** @var \Symfony\Component\HttpFoundation\Request */
-    private MockObject $request;
-
-    /** @var \Symfony\Component\HttpKernel\Event\RequestEvent */
-    private RequestEvent $event;
-
-    /** @var \Symfony\Component\HttpKernel\HttpKernelInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $httpKernel;
+    private HttpKernelInterface & MockObject $httpKernel;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->configResolver = $this->createMock(ConfigResolverInterface::class);
-        $this->router = $this->createMock(RouterInterface::class);
-        $this->logger = $this->createMock(LoggerInterface::class);
+        $configResolver = $this->createMock(ConfigResolverInterface::class);
+        $router = $this->createMock(RouterInterface::class);
+        $logger = $this->createMock(LoggerInterface::class);
 
-        $this->requestEventListener = new RequestEventListener($this->configResolver, $this->router, 'foobar', $this->logger);
-
-        $this->request = $this
-            ->getMockBuilder(Request::class)
-            ->setMethods(['getSession', 'hasSession'])
-            ->getMock();
+        $this->requestEventListener = new RequestEventListener($configResolver, $router, 'foobar', $logger);
 
         $this->httpKernel = $this->createMock(HttpKernelInterface::class);
-        $this->event = new RequestEvent(
-            $this->httpKernel,
-            $this->request,
-            HttpKernelInterface::MAIN_REQUEST
-        );
     }
 
     public function testSubscribedEvents(): void

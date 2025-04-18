@@ -37,41 +37,29 @@ use Psr\Log\LoggerInterface;
 
 class AliasGeneratorTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Liip\ImagineBundle\Binary\Loader\LoaderInterface */
-    private MockObject $dataLoader;
+    private LoaderInterface & MockObject $dataLoader;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Liip\ImagineBundle\Imagine\Filter\FilterManager */
-    private MockObject $filterManager;
+    private FilterManager & MockObject $filterManager;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
-    private MockObject $ioResolver;
+    private ResolverInterface & MockObject $ioResolver;
 
-    /** @var \Liip\ImagineBundle\Imagine\Filter\FilterConfiguration */
     private FilterConfiguration $filterConfiguration;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Psr\Log\LoggerInterface */
-    private MockObject $logger;
+    private LoggerInterface & MockObject $logger;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Imagine\Image\ImagineInterface */
-    private MockObject $imagine;
+    private ImagineInterface & MockObject $imagine;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\AliasGenerator */
     private AliasGenerator $aliasGenerator;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationHandler */
     private ImagineAwareAliasGenerator $decoratedAliasGenerator;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Imagine\Image\BoxInterface */
-    private MockObject $box;
+    private BoxInterface & MockObject $box;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Imagine\Image\ImageInterface */
-    private MockObject $image;
+    private ImageInterface & MockObject $image;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\IO\IOServiceInterface */
-    private MockObject $ioService;
+    private IOServiceInterface & MockObject $ioService;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Variation\VariationPathGenerator */
-    private MockObject $variationPathGenerator;
+    private VariationPathGenerator & MockObject $variationPathGenerator;
 
     protected function setUp(): void
     {

@@ -30,7 +30,7 @@ class ConsoleCommandListenerTest extends TestCase
     private SiteAccess $siteAccess;
 
     /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $dispatcher;
+    private EventDispatcherInterface & MockObject $dispatcher;
 
     /** @var \Ibexa\Bundle\Core\EventListener\ConsoleCommandListener */
     private ConsoleCommandListener $listener;
@@ -41,8 +41,7 @@ class ConsoleCommandListenerTest extends TestCase
     /** @var \Symfony\Component\Console\Output\Output */
     private TestOutput $testOutput;
 
-    /** @var \Symfony\Component\Console\Command\Command|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $command;
+    private Command & MockObject $command;
 
     protected function setUp(): void
     {

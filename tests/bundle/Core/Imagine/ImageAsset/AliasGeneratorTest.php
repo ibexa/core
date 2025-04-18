@@ -22,17 +22,13 @@ use PHPUnit\Framework\TestCase;
 
 class AliasGeneratorTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\Imagine\ImageAsset\AliasGenerator */
     private AliasGenerator $aliasGenerator;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationHandler|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $innerAliasGenerator;
+    private VariationHandler & MockObject $innerAliasGenerator;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $contentService;
+    private ContentService & MockObject $contentService;
 
-    /** @var \Ibexa\Core\FieldType\ImageAsset\AssetMapper|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $assetMapper;
+    private ImageAsset\AssetMapper & MockObject $assetMapper;
 
     protected function setUp(): void
     {

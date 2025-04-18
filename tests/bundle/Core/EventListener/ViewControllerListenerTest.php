@@ -28,32 +28,19 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class ViewControllerListenerTest extends TestCase
 {
-    /** @var \Symfony\Component\HttpKernel\Controller\ControllerResolver|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $controllerResolver;
+    private ControllerResolverInterface & MockObject $controllerResolver;
 
-    /** @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $logger;
-
-    /** @var \Ibexa\Bundle\Core\EventListener\ViewControllerListener */
     private ViewControllerListener $controllerListener;
 
-    /** @var \Symfony\Component\HttpKernel\Event\ControllerEvent */
-    private $event;
+    private ViewBuilderRegistry & MockObject $viewBuilderRegistry;
 
-    /** @var \Symfony\Component\HttpFoundation\Request */
+    private ViewBuilder & MockObject $viewBuilderMock;
+
+    private EventDispatcherInterface & MockObject $eventDispatcher;
+
+    private ControllerEvent $event;
+
     private Request $request;
-
-    /** @var \Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilderRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $viewBuilderRegistry;
-
-    /** @var \Ibexa\Core\MVC\Symfony\View\Configurator|\PHPUnit\Framework\MockObject\MockObject */
-    private $viewConfigurator;
-
-    /** @var \Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilder|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $viewBuilderMock;
-
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $eventDispatcher;
 
     protected function setUp(): void
     {
@@ -61,12 +48,12 @@ class ViewControllerListenerTest extends TestCase
         $this->controllerResolver = $this->createMock(ControllerResolverInterface::class);
         $this->viewBuilderRegistry = $this->createMock(ViewBuilderRegistry::class);
         $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
-        $this->logger = $this->createMock(LoggerInterface::class);
+        $logger = $this->createMock(LoggerInterface::class);
         $this->controllerListener = new ViewControllerListener(
             $this->controllerResolver,
             $this->viewBuilderRegistry,
             $this->eventDispatcher,
-            $this->logger
+            $logger
         );
 
         $this->request = new Request();
@@ -132,7 +119,7 @@ class ViewControllerListenerTest extends TestCase
         $this->viewBuilderRegistry
             ->expects(self::once())
             ->method('getFromRegistry')
-            ->will(self::returnValue($this->viewBuilderMock));
+            ->willReturn($this->viewBuilderMock);
 
         $viewObject = new ContentView($templateIdentifier);
         $viewObject->setControllerReference(new ControllerReference($customController));
@@ -140,12 +127,13 @@ class ViewControllerListenerTest extends TestCase
         $this->viewBuilderMock
             ->expects(self::once())
             ->method('buildView')
-            ->will(self::returnValue($viewObject));
+            ->willReturn($viewObject);
 
         $this->controllerResolver
             ->expects(self::once())
             ->method('getController')
-            ->will(self::returnValue(static function (): void {}));
+            ->willReturn(static function (): void {
+            });
 
         $this->controllerListener->getController($this->event);
         self::assertEquals($customController, $this->request->attributes->get('_controller'));

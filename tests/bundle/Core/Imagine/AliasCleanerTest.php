@@ -14,11 +14,9 @@ use PHPUnit\Framework\TestCase;
 
 class AliasCleanerTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\Imagine\AliasCleaner */
     private AliasCleaner $aliasCleaner;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $resolver;
+    private ResolverInterface & MockObject $resolver;
 
     protected function setUp(): void
     {

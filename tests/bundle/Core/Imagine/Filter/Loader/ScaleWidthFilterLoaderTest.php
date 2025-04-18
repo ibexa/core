@@ -16,10 +16,8 @@ use PHPUnit\Framework\TestCase;
 
 class ScaleWidthFilterLoaderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $innerLoader;
+    private LoaderInterface & MockObject $innerLoader;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleWidthFilterLoader */
     private ScaleWidthFilterLoader $loader;
 
     protected function setUp(): void

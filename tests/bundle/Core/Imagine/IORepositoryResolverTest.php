@@ -26,26 +26,15 @@ use Symfony\Component\Routing\RequestContext;
 
 class IORepositoryResolverTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $ioService;
+    private IOServiceInterface & MockObject $ioService;
 
-    /** @var \Symfony\Component\Routing\RequestContext */
     private RequestContext $requestContext;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $configResolver;
+    private ConfigResolverInterface & MockObject $configResolver;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\IORepositoryResolver */
     private IORepositoryResolver $imageResolver;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\FilterConfiguration */
-    private FilterConfiguration $filterConfiguration;
-
-    /** @var \Ibexa\Contracts\Core\Variation\VariationPurger|\PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $variationPurger;
-
-    /** @var \Ibexa\Contracts\Core\Variation\VariationPathGenerator|\PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $variationPathGenerator;
+    private VariationPathGenerator & MockObject $variationPathGenerator;
 
     protected function setUp(): void
     {
@@ -53,15 +42,15 @@ class IORepositoryResolverTest extends TestCase
         $this->ioService = $this->createMock(IOServiceInterface::class);
         $this->requestContext = new RequestContext();
         $this->configResolver = $this->createMock(ConfigResolverInterface::class);
-        $this->filterConfiguration = new FilterConfiguration();
-        $this->filterConfiguration->setConfigResolver($this->configResolver);
-        $this->variationPurger = $this->createMock(VariationPurger::class);
+        $filterConfiguration = new FilterConfiguration();
+        $filterConfiguration->setConfigResolver($this->configResolver);
+        $variationPurger = $this->createMock(VariationPurger::class);
         $this->variationPathGenerator = $this->createMock(VariationPathGenerator::class);
         $this->imageResolver = new IORepositoryResolver(
             $this->ioService,
             $this->requestContext,
-            $this->filterConfiguration,
-            $this->variationPurger,
+            $filterConfiguration,
+            $variationPurger,
             $this->variationPathGenerator
         );
     }
@@ -241,14 +230,13 @@ class IORepositoryResolverTest extends TestCase
     {
         $filter = 'thumbnail';
         $path = 'Tardis/bigger/in-the-inside/RiverSong.jpg';
-        $aliasPath = 'Tardis/bigger/in-the-inside/RiverSong_thumbnail.jpg';
         $binary = new Binary('foo content', 'some/mime-type');
 
         $createStruct = new BinaryFileCreateStruct();
         $this->ioService
             ->expects(self::once())
             ->method('newBinaryCreateStructFromLocalFile')
-            ->will(self::returnValue($createStruct));
+            ->willReturn($createStruct);
 
         $this->ioService
             ->expects(self::once())

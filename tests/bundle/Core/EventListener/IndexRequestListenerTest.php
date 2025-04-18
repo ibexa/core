@@ -18,20 +18,15 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class IndexRequestListenerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $configResolver;
+    private ConfigResolverInterface & MockObject $configResolver;
 
-    /** @var \Ibexa\Bundle\Core\EventListener\IndexRequestListener */
     private IndexRequestListener $indexRequestEventListener;
 
-    /** @var \Symfony\Component\HttpFoundation\Request */
-    private MockObject $request;
+    private Request & MockObject $request;
 
-    /** @var \Symfony\Component\HttpKernel\Event\RequestEvent */
     private RequestEvent $event;
 
-    /** @var \Symfony\Component\HttpKernel\HttpKernelInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $httpKernel;
+    private HttpKernelInterface & MockObject $httpKernel;
 
     protected function setUp(): void
     {

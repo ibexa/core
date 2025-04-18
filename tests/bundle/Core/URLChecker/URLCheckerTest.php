@@ -21,20 +21,16 @@ use Psr\Log\LoggerInterface;
 
 class URLCheckerTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\URLService|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $urlService;
+    private URLService & MockObject $urlService;
 
-    /** @var \Ibexa\Bundle\Core\URLChecker\URLHandlerRegistryInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $handlerRegistry;
+    private URLHandlerRegistryInterface & MockObject $handlerRegistry;
 
-    /** @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $logger;
+    private LoggerInterface & MockObject $logger;
 
     protected function setUp(): void
     {
         $this->urlService = $this->createMock(URLService::class);
         $this->urlService
-            ->expects(self::any())
             ->method('createUpdateStruct')
             ->willReturnCallback(static function (): URLUpdateStruct {
                 return new URLUpdateStruct();

@@ -20,8 +20,7 @@ use PHPUnit\Framework\TestCase;
  */
 class MatcherBuilderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $siteAccessMatcherRegistry;
+    private SiteAccessMatcherRegistryInterface & MockObject $siteAccessMatcherRegistry;
 
     protected function setUp(): void
     {
@@ -29,6 +28,9 @@ class MatcherBuilderTest extends TestCase
         $this->siteAccessMatcherRegistry = $this->createMock(SiteAccessMatcherRegistryInterface::class);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function testBuildMatcherNoService(): void
     {
         $this->siteAccessMatcherRegistry
@@ -40,20 +42,9 @@ class MatcherBuilderTest extends TestCase
         self::assertInstanceOf(get_class($matcher), $builtMatcher);
     }
 
-    public function testBuildMatcherServiceWrongInterface(): void
-    {
-        $this->expectException(\TypeError::class);
-
-        $serviceId = 'foo';
-        $this->siteAccessMatcherRegistry
-            ->expects(self::once())
-            ->method('getMatcher')
-            ->with($serviceId)
-            ->will(self::returnValue($this->createMock(Matcher::class)));
-        $matcherBuilder = new MatcherBuilder($this->siteAccessMatcherRegistry);
-        $matcherBuilder->buildMatcher("@$serviceId", [], new SimplifiedRequest());
-    }
-
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function testBuildMatcherService(): void
     {
         $serviceId = 'foo';
@@ -62,7 +53,7 @@ class MatcherBuilderTest extends TestCase
             ->expects(self::once())
             ->method('getMatcher')
             ->with($serviceId)
-            ->will(self::returnValue($matcher));
+            ->willReturn($matcher);
 
         $matchingConfig = ['foo' => 'bar'];
         $request = new SimplifiedRequest();

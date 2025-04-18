@@ -16,11 +16,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ConfigResolverTest extends TestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
     private SiteAccess $siteAccess;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $containerMock;
+    private ContainerInterface & MockObject $containerMock;
 
     protected function setUp(): void
     {

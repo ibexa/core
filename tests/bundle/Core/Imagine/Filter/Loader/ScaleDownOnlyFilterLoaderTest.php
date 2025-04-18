@@ -16,8 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 class ScaleDownOnlyFilterLoaderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $innerLoader;
+    private LoaderInterface & MockObject $innerLoader;
 
     /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleDownOnlyFilterLoader */
     private ScaleDownOnlyFilterLoader $loader;

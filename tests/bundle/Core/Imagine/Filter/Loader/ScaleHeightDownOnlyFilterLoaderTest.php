@@ -16,10 +16,8 @@ use PHPUnit\Framework\TestCase;
 
 class ScaleHeightDownOnlyFilterLoaderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $innerLoader;
+    private LoaderInterface & MockObject $innerLoader;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleHeightDownOnlyFilterLoader */
     private ScaleHeightDownOnlyFilterLoader $loader;
 
     protected function setUp(): void

@@ -17,17 +17,15 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 abstract class ConfigResolverTest extends TestCase
 {
-    protected const EXISTING_SA_NAME = 'existing_sa';
-    protected const UNDEFINED_SA_NAME = 'undefined_sa';
-    protected const SA_GROUP = 'sa_group';
+    protected const string EXISTING_SA_NAME = 'existing_sa';
+    protected const string UNDEFINED_SA_NAME = 'undefined_sa';
+    protected const string SA_GROUP = 'sa_group';
 
-    protected const DEFAULT_NAMESPACE = 'ibexa.site_access.config';
+    protected const string DEFAULT_NAMESPACE = 'ibexa.site_access.config';
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    protected $siteAccess;
+    protected SiteAccess $siteAccess;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\DependencyInjection\ContainerInterface */
-    protected MockObject $containerMock;
+    protected ContainerInterface & MockObject $containerMock;
 
     protected function setUp(): void
     {

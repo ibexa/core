@@ -23,8 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ContentDownloadRouteReferenceListenerTest extends TestCase
 {
-    /** @var \Ibexa\Core\Helper\TranslationHelper|\PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $translationHelperMock;
+    protected TranslationHelper & MockObject $translationHelperMock;
 
     protected function setUp(): void
     {

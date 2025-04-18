@@ -15,10 +15,8 @@ use PHPUnit\Framework\TestCase;
 
 class SwirlFilterLoaderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $filter;
+    private FilterInterface & MockObject $filter;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\SwirlFilterLoader */
     private SwirlFilterLoader $loader;
 
     protected function setUp(): void
@@ -39,7 +37,7 @@ class SwirlFilterLoaderTest extends TestCase
             ->expects(self::once())
             ->method('apply')
             ->with($image)
-            ->will(self::returnValue($image));
+            ->willReturn($image);
 
         self::assertSame($image, $this->loader->load($image));
     }
@@ -59,7 +57,7 @@ class SwirlFilterLoaderTest extends TestCase
             ->expects(self::once())
             ->method('apply')
             ->with($image)
-            ->will(self::returnValue($image));
+            ->willReturn($image);
 
         self::assertSame($image, $this->loader->load($image, [$degrees]));
     }

@@ -19,26 +19,19 @@ use PHPUnit\Framework\TestCase;
 
 final class FileMigratorTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $metadataHandlerRegistry;
+    private HandlerRegistry & MockObject $metadataHandlerRegistry;
 
-    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $binaryHandlerRegistry;
+    private HandlerRegistry & MockObject $binaryHandlerRegistry;
 
-    /** @var \Ibexa\Bundle\IO\Migration\FileMigratorInterface */
     private FileMigrator $fileMigrator;
 
-    /** @var \Ibexa\Core\IO\IOMetadataHandler\Flysystem */
-    private MockObject $metadataFlysystem;
+    private IOMetadataHandler\Flysystem & MockObject $metadataFlysystem;
 
-    /** @var \Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster */
-    private MockObject $metadataLegacyDFSCluster;
+    private IOMetadataHandler\LegacyDFSCluster & MockObject $metadataLegacyDFSCluster;
 
-    /** @var \Ibexa\Core\IO\IOBinarydataHandler\Flysystem */
-    private MockObject $binaryFlysystemFrom;
+    private IOBinarydataHandler & MockObject $binaryFlysystemFrom;
 
-    /** @var \Ibexa\Core\IO\IOBinarydataHandler\Flysystem */
-    private MockObject $binaryFlysystemTo;
+    private IOBinarydataHandler & MockObject $binaryFlysystemTo;
 
     protected function setUp(): void
     {

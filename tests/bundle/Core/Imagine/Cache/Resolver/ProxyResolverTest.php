@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\Imagine\Cache\Resolver;
 
@@ -12,15 +13,13 @@ use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class ProxyResolverTest extends TestCase
+final class ProxyResolverTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
-    private MockObject $resolver;
+    private const string RESOLVED_PATH_URI = 'https://ibexa.co/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg';
+    private ResolverInterface & MockObject $resolver;
 
-    /** @var string */
     private string $path;
 
-    /** @var string */
     private string $filter;
 
     protected function setUp(): void
@@ -31,30 +30,38 @@ class ProxyResolverTest extends TestCase
         $this->filter = 'medium';
     }
 
-    public function testResolveUsingProxyHostWithTrailingSlash(): void
+    /**
+     * @return iterable<string, array{string[], string, string}>
+     */
+    public static function getDataForTestResolveUsingProxyHost(): iterable
     {
-        $hosts = ['http://ezplatform.com/'];
-        $proxyResolver = new ProxyResolver($this->resolver, $hosts);
+        yield 'resolve handles trailing slash' => [
+            ['https://ibexa.co/'],
+            self::RESOLVED_PATH_URI,
+            'https://ibexa.co/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg',
+        ];
 
-        $resolvedPath = 'http://ibexa.co/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg';
+        yield 'resolve removes port' => [
+            ['https://ibexa.co'],
+            'https://ibexa.co:8060/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg',
+            self::RESOLVED_PATH_URI,
+        ];
 
-        $this->resolver
-            ->expects(self::once())
-            ->method('resolve')
-            ->with($this->path, $this->filter)
-            ->willReturn($resolvedPath);
-
-        $expected = 'http://ezplatform.com/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg';
-
-        self::assertEquals($expected, $proxyResolver->resolve($this->path, $this->filter));
+        yield 'resolve removes port and handles trailing slash' => [
+            ['https://ibexa.co/'],
+            'https://ibexa.co:8080/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg',
+            self::RESOLVED_PATH_URI,
+        ];
     }
 
-    public function testResolveAndRemovePortUsingProxyHost(): void
+    /**
+     * @dataProvider getDataForTestResolveUsingProxyHost
+     *
+     * @param string[] $hosts
+     */
+    public function testResolveUsingProxyHost(array $hosts, string $resolvedPath, string $expectedUri): void
     {
-        $hosts = ['http://ibexa.co'];
         $proxyResolver = new ProxyResolver($this->resolver, $hosts);
-
-        $resolvedPath = 'http://ibexa.co:8060/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg';
 
         $this->resolver
             ->expects(self::once())
@@ -62,26 +69,6 @@ class ProxyResolverTest extends TestCase
             ->with($this->path, $this->filter)
             ->willReturn($resolvedPath);
 
-        $expected = 'http://ibexa.co/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg';
-
-        self::assertEquals($expected, $proxyResolver->resolve($this->path, $this->filter));
-    }
-
-    public function testResolveAndRemovePortUsingProxyHostWithTrailingSlash(): void
-    {
-        $hosts = ['http://ibexa.co'];
-        $proxyResolver = new ProxyResolver($this->resolver, $hosts);
-
-        $resolvedPath = 'http://ezplatform.com:8080/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg';
-
-        $this->resolver
-            ->expects(self::once())
-            ->method('resolve')
-            ->with($this->path, $this->filter)
-            ->willReturn($resolvedPath);
-
-        $expected = 'http://ibexa.co/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg';
-
-        self::assertEquals($expected, $proxyResolver->resolve($this->path, $this->filter));
+        self::assertEquals($expectedUri, $proxyResolver->resolve($this->path, $this->filter));
     }
 }

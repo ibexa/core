@@ -21,13 +21,11 @@ use PHPUnit\Framework\TestCase;
  */
 class IOConfigResolverTest extends TestCase
 {
-    private const DEFAULT_NAMESPACE = 'ibexa.site_access.config';
+    private const string DEFAULT_NAMESPACE = 'ibexa.site_access.config';
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $configResolver;
+    private ConfigResolverInterface & MockObject $configResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $siteAccessService;
+    private SiteAccessService & MockObject $siteAccessService;
 
     protected function setUp(): void
     {

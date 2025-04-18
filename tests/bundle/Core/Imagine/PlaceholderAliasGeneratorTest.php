@@ -29,22 +29,17 @@ use PHPUnit\Framework\TestCase;
 
 class PlaceholderAliasGeneratorTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\Imagine\PlaceholderAliasGenerator */
     private PlaceholderAliasGenerator $aliasGenerator;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationHandler|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $innerAliasGenerator;
+    private VariationHandler & MockObject $innerAliasGenerator;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $ioService;
+    private IOServiceInterface & MockObject $ioService;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\IORepositoryResolver|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $ioResolver;
+    private IORepositoryResolver & MockObject $ioResolver;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\PlaceholderProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $placeholderProvider;
+    private PlaceholderProvider & MockObject $placeholderProvider;
 
-    /** @var array */
+    /** @var array<string, string> */
     private array $placeholderOptions;
 
     protected function setUp(): void

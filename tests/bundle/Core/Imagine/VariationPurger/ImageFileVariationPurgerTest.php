@@ -17,14 +17,11 @@ use PHPUnit\Framework\TestCase;
 
 class ImageFileVariationPurgerTest extends TestCase
 {
-    /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $ioServiceMock;
+    protected IOServiceInterface & MockObject $ioServiceMock;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationPathGenerator|\PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $pathGeneratorMock;
+    protected VariationPathGenerator & MockObject $pathGeneratorMock;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileVariationPurger */
-    protected $purger;
+    protected ImageFileVariationPurger $purger;
 
     protected function setUp(): void
     {

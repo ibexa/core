@@ -21,10 +21,8 @@ use Symfony\Component\Mime\MimeTypes;
 
 class BinaryLoaderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $ioService;
+    private IOServiceInterface & MockObject $ioService;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\BinaryLoader */
     private BinaryLoader $binaryLoader;
 
     protected function setUp(): void
