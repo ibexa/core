@@ -207,7 +207,7 @@ services:
         lazy: true
         arguments:
             $sharedPool: '@Ibexa\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter.inner'
-            $inMemoryPools: !tagged ibexa.cache.persistence.inmemory
+            $inMemoryPools: !tagged_iterator ibexa.cache.persistence.inmemory
 
     ibexa.cache_pool:
         public: true

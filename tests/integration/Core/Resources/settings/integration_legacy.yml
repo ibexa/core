@@ -51,7 +51,7 @@ services:
     Ibexa\Tests\Core\Persistence\DatabaseConnectionFactory:
         autowire: true
         arguments:
-            $databasePlatforms: !tagged ibexa.doctrine.db.platform
+            $databasePlatforms: !tagged_iterator ibexa.doctrine.db.platform
 
     # build ezpublish.api.storage_engine.legacy.connection for test purposes
     ibexa.api.storage_engine.legacy.connection:
