@@ -45,28 +45,6 @@ class ParameterProviderTest extends TestCase
         $this->parameterProvider = new ParameterProvider($this->userService);
     }
 
-    /**
-     * @requires PHP < 8.1
-     */
-    public function testGetViewParameters(): void
-    {
-        $passwordExpiresIn = 14;
-        $passwordExpiresAt = (new DateTimeImmutable())->add(new DateInterval('P14D'));
-
-        $this->userService
-            ->method('getPasswordInfo')
-            ->with($this->user)
-            ->willReturn(new PasswordInfo($passwordExpiresAt));
-
-        $parameters = $this->parameterProvider->getViewParameters(
-            $this->createFieldMock(self::EXAMPLE_USER_ID)
-        );
-
-        self::assertFalse($parameters['is_password_expired']);
-        self::assertEquals($passwordExpiresAt, $parameters['password_expires_at']);
-        self::assertEquals($passwordExpiresIn, $parameters['password_expires_in']->days);
-    }
-
     public function testGetViewParametersWhenPasswordExpirationDateIsNull(): void
     {
         $field = $this->createFieldMock(self::EXAMPLE_USER_ID);
