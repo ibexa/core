@@ -108,6 +108,9 @@ final class InstallPlatformCommand extends Command
         $installer->importSchema();
         $installer->importData();
         $installer->importBinaries();
+
+        $this->changeDefaultAdminPassword($input);
+
         $this->cacheClear($output);
 
         if (!$input->getOption('skip-indexing')) {
@@ -271,5 +274,24 @@ final class InstallPlatformCommand extends Command
         if (!$process->getExitCode() === 1) {
             throw new \RuntimeException(sprintf('An error occurred when executing the "%s" command.', escapeshellarg($cmd)));
         }
+    }
+
+    private function changeDefaultAdminPassword(InputInterface $input): void
+    {
+        $io = new SymfonyStyle($input, $this->output);
+        $io->warning(<<<EOT
+        As per safety measure, please change the default admin password. Remember to follow currently configured password validation rules as there will be no do-overs!
+        
+        If password is not accepted now you can still update it after the installation using the following command:
+        
+        ibexa:user:update-user admin --password.
+        EOT);
+
+        $password = $io->askHidden('Password (your input will be hidden)');
+
+        $this->executeCommand(
+            $this->output,
+            'ibexa:user:update-user admin --password=' . $password
+        );
     }
 }
