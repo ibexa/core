@@ -113,7 +113,7 @@ class LocationLimitationType extends AbstractPersistenceLimitationType implement
      *
      * @return bool
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null): bool|true|false
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null): bool
     {
         if (!$value instanceof APILocationLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: APILocationLimitation');
