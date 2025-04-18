@@ -20,8 +20,8 @@ abstract class AbstractValidationError implements ValidationError
     /** @var string */
     protected $message;
 
-    /** @var array */
-    protected $parameters;
+    /** @var array<string, scalar> */
+    protected array $parameters;
 
     /**
      * Element on which the error occurred
@@ -33,6 +33,9 @@ abstract class AbstractValidationError implements ValidationError
      */
     protected $target;
 
+    /**
+     * @param array<string, scalar> $parameters
+     */
     public function __construct(string $message, array $parameters, string $target)
     {
         $this->message = $message;
@@ -45,7 +48,7 @@ abstract class AbstractValidationError implements ValidationError
         return new Message($this->message, $this->parameters);
     }
 
-    public function setTarget($target): void
+    public function setTarget(string $target): void
     {
         $this->target = $target;
     }

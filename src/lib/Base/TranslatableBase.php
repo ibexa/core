@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\Base;
 
@@ -12,36 +13,37 @@ namespace Ibexa\Core\Base;
  */
 trait TranslatableBase
 {
-    private $messageTemplate;
+    private string $messageTemplate;
 
-    private $parameters = [];
+    /** @var array<string, mixed> */
+    private array $parameters = [];
 
-    public function setMessageTemplate($messageTemplate)
+    public function setMessageTemplate(string $messageTemplate): void
     {
         $this->messageTemplate = $messageTemplate;
     }
 
-    public function getMessageTemplate()
+    public function getMessageTemplate(): string
     {
         return $this->messageTemplate;
     }
 
-    public function setParameters(array $parameters)
+    public function setParameters(array $parameters): void
     {
         $this->parameters = $parameters;
     }
 
-    public function addParameter($name, $value)
+    public function addParameter(string $name, string $value): void
     {
         $this->parameters[$name] = $value;
     }
 
-    public function addParameters(array $parameters)
+    public function addParameters(array $parameters): void
     {
         $this->parameters += $parameters;
     }
 
-    public function getParameters()
+    public function getParameters(): array
     {
         return $this->parameters;
     }

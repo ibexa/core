@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\Base;
 
@@ -14,55 +15,46 @@ interface Translatable
 {
     /**
      * Returns the message template, with placeholders for parameters.
-     * E.g. "Content with ID %contentId% could not be found".
-     *
-     * @return string
+     * E.g., "Content with ID %contentId% could not be found".
      */
-    public function getMessageTemplate();
+    public function getMessageTemplate(): string;
 
     /**
      * Injects the message template.
-     *
-     * @param string $messageTemplate
      */
-    public function setMessageTemplate($messageTemplate);
+    public function setMessageTemplate(string $messageTemplate): void;
 
     /**
      * Returns a hash map with param placeholder as key and its corresponding value.
-     * E.g. array('%contentId%' => 123).
+     * E.g., ```['%contentId%' => 123]```.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function getParameters();
+    public function getParameters(): array;
 
     /**
-     * Injects the hash map, with param placeholder as key and its corresponding value.
-     * E.g. array('%contentId%' => 123).
+     * Injects the hash map, with param placeholder as a key and its corresponding value.
+     * E.g., ```['%contentId%' => 123]```.
      * If parameters already existed, they will be replaced by the passed here.
      *
-     * @param array $parameters
+     * @param array<string, mixed> $parameters
      */
-    public function setParameters(array $parameters);
+    public function setParameters(array $parameters): void;
 
     /**
-     * Adds a parameter to existing hash map.
-     *
-     * @param string $name
-     * @param string $value
+     * Adds a parameter to the existing hash map.
      */
-    public function addParameter($name, $value);
+    public function addParameter(string $name, string $value): void;
 
     /**
-     * Adds $parameters to existing hash map.
+     * Adds `$parameters` to an existing hash map.
      *
-     * @param array $parameters
+     * @param array<string, mixed> $parameters
      */
-    public function addParameters(array $parameters);
+    public function addParameters(array $parameters): void;
 
     /**
      * Returns base translation, computed with message template and parameters.
-     *
-     * @return string
      */
-    public function getBaseTranslation();
+    public function getBaseTranslation(): string;
 }

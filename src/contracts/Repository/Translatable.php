@@ -7,17 +7,17 @@
 
 namespace Ibexa\Contracts\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\Values\Translation;
+
 /**
  * Interface implemented by everything which should be translatable. This
- * should for example be implemented by any exception, which might bubble up to
+ * should, for example, be implemented by any exception, which might bubble up to
  * a user, or validation errors.
  */
 interface Translatable
 {
     /**
      * Returns a translatable Message.
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Translation
      */
-    public function getTranslatableMessage();
+    public function getTranslatableMessage(): Translation;
 }

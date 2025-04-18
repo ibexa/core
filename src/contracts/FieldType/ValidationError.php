@@ -25,17 +25,13 @@ interface ValidationError extends Translatable
      * Can be a property path compatible with Symfony PropertyAccess component.
      *
      * Examples:
-     * - "[StringLengthValidator][minStringLength]" => Target is "minStringLength" key under "StringLengthValidator" key (fieldtype validator configuration)
+     * - "[StringLengthValidator][minStringLength]" => Target is the "minStringLength" key under "StringLengthValidator" key (field type validator configuration)
      * - "my_field_definition_identifier"
-     *
-     * @param string $target
      */
-    public function setTarget($target);
+    public function setTarget(string $target): void;
 
     /**
      * Returns the target element on which the error occurred.
-     *
-     * @return string
      */
-    public function getTarget();
+    public function getTarget(): ?string;
 }
