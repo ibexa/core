@@ -310,8 +310,8 @@ class FloatIntegrationTest extends SearchBaseIntegrationTest
         return 25.59;
     }
 
-    public function checkFullTextSupport(): bool
+    public function checkFullTextSupport(): void
     {
-        return false;
+        self::markTestSkipped('Full text search is not supported for float field type');
     }
 }

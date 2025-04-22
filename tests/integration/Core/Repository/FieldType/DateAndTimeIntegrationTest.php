@@ -219,12 +219,9 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
     /**
      * Tests failing content update.
      *
-     * @param mixed $failingValue
-     * @param string $expectedException
-     *
      * @dataProvider provideInvalidUpdateFieldData
      */
-    public function testUpdateContentFails($failingValue, $expectedException): array
+    public function testUpdateContentFails(mixed $failingValue, string $expectedException): array
     {
         return [
             [

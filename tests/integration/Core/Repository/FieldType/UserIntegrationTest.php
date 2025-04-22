@@ -451,12 +451,12 @@ class UserIntegrationTest extends BaseIntegrationTest
         self::assertNull($content->getFieldValue($userFieldDefinition->identifier));
     }
 
-    public function testAddFieldDefinition()
+    public function testAddFieldDefinition(): void
     {
         // Field cannot be added to ContentType with existing content.
         $this->expectException(BadStateException::class);
 
-        return parent::testAddFieldDefinition();
+        parent::testAddFieldDefinition();
     }
 
     /**

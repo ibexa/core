@@ -214,12 +214,9 @@ class TimeIntegrationTest extends SearchBaseIntegrationTest
     /**
      * Tests failing content update.
      *
-     * @param mixed $failingValue
-     * @param string $expectedException
-     *
      * @dataProvider provideInvalidUpdateFieldData
      */
-    public function testUpdateContentFails($failingValue, $expectedException): array
+    public function testUpdateContentFails(mixed $failingValue, string $expectedException): array
     {
         return [
             [
@@ -229,7 +226,7 @@ class TimeIntegrationTest extends SearchBaseIntegrationTest
     }
 
     /**
-     * Asserts the the field data was loaded correctly.
+     * Asserts the field data was loaded correctly.
      *
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was copied and loaded correctly.

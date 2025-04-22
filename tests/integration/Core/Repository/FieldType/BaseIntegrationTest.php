@@ -912,7 +912,7 @@ abstract class BaseIntegrationTest extends BaseTest
     /**
      * @depends testCopyField
      */
-    public function testDeleteContent($content): void
+    public function testDeleteContent(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -942,15 +942,18 @@ abstract class BaseIntegrationTest extends BaseTest
     /**
      * Tests failing content update.
      *
-     * @param mixed $failingValue
-     * @param string $expectedException
+     * @phpstan-param class-string<\Throwable> $expectedException
+     *
+     * @phpstan-return list<array{string, class-string<\Throwable>}>
      *
      * @dataProvider provideInvalidUpdateFieldData
      */
-    public function testUpdateContentFails($failingValue, string $expectedException): void
+    public function testUpdateContentFails(mixed $failingValue, string $expectedException): array
     {
         $this->expectException($expectedException);
         $this->updateContent($failingValue);
+
+        return [];
     }
 
     protected function removeFieldDefinition()
