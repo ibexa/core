@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
-use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Handler as PersistenceContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
@@ -30,16 +30,13 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ImageAssetTest extends FieldTypeTestCase
 {
-    private const DESTINATION_CONTENT_ID = 14;
+    private const int DESTINATION_CONTENT_ID = 14;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $contentServiceMock;
+    private ContentService & MockObject $contentServiceMock;
 
-    /** @var \Ibexa\Core\FieldType\ImageAsset\AssetMapper|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $assetMapperMock;
+    private ImageAsset\AssetMapper & MockObject $assetMapperMock;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $contentHandlerMock;
+    private PersistenceContentHandler & MockObject $contentHandlerMock;
 
     /**
      * {@inheritdoc}
@@ -50,7 +47,7 @@ class ImageAssetTest extends FieldTypeTestCase
 
         $this->contentServiceMock = $this->createMock(ContentService::class);
         $this->assetMapperMock = $this->createMock(ImageAsset\AssetMapper::class);
-        $this->contentHandlerMock = $this->createMock(SPIContentHandler::class);
+        $this->contentHandlerMock = $this->createMock(PersistenceContentHandler::class);
         $versionInfo = new VersionInfo([
             'versionNo' => 24,
             'names' => [

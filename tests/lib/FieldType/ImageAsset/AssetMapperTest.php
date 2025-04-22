@@ -28,20 +28,17 @@ use PHPUnit\Framework\TestCase;
 
 class AssetMapperTest extends TestCase
 {
-    public const EXAMPLE_CONTENT_ID = 487;
+    public const int EXAMPLE_CONTENT_ID = 487;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $contentService;
+    private MockObject & ContentService $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $locationService;
+    private MockObject & LocationService $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $contentTypeService;
+    private MockObject & ContentTypeService $contentTypeService;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private ConfigResolverInterface $configResolver;
+    private MockObject & ConfigResolverInterface $configResolver;
 
+    /** @var array<string, mixed> */
     private array $mappings = [
         'content_type_identifier' => 'image',
         'content_field_identifier' => 'image',
@@ -82,15 +79,20 @@ class AssetMapperTest extends TestCase
             ->with($contentType, $languageCode)
             ->willReturn($contentCreateStruct);
 
-        $contentCreateStruct
-            ->expects(self::at(0))
-            ->method('setField')
-            ->with($this->mappings['name_field_identifier'], $name);
+        $expectedCalls = [
+            [$this->mappings['name_field_identifier'], $name],
+            [$this->mappings['content_field_identifier'], $value],
+        ];
+        $callCount = 0;
 
         $contentCreateStruct
-            ->expects(self::at(1))
+            ->expects(self::exactly(2))
             ->method('setField')
-            ->with($this->mappings['content_field_identifier'], $value);
+            ->willReturnCallback(static function ($fieldIdentifier, $fieldValue) use ($expectedCalls, &$callCount) {
+                self::assertEquals($expectedCalls[$callCount][0], $fieldIdentifier);
+                self::assertEquals($expectedCalls[$callCount][1], $fieldValue);
+                ++$callCount;
+            });
 
         $this->locationService
             ->expects(self::once())
@@ -114,10 +116,14 @@ class AssetMapperTest extends TestCase
         $mapper->createAsset($name, $value, $languageCode);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function testGetAssetField(): void
     {
         $expectedValue = new Field();
-        $content = $this->createContentWithId(self::EXAMPLE_CONTENT_ID);
+        $content = $this->createExampleContent();
 
         $mapper = $this->createPartialMapper(['isAsset']);
         $mapper
@@ -133,22 +139,6 @@ class AssetMapperTest extends TestCase
             ->willReturn($expectedValue);
 
         self::assertEquals($expectedValue, $mapper->getAssetField($content));
-    }
-
-    public function testGetAssetFieldThrowsInvalidArgumentException(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        $content = $this->createContentWithId(self::EXAMPLE_CONTENT_ID);
-
-        $mapper = $this->createPartialMapper(['isAsset']);
-        $mapper
-            ->expects(self::once())
-            ->method('isAsset')
-            ->with($content)
-            ->willReturn(false);
-
-        $mapper->getAssetField($content);
     }
 
     public function testGetAssetFieldDefinition(): void
@@ -171,10 +161,14 @@ class AssetMapperTest extends TestCase
         self::assertEquals($fieldDefinition, $this->createMapper()->getAssetFieldDefinition());
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function testGetAssetValue(): void
     {
         $expectedValue = new Image\Value();
-        $content = $this->createContentWithId(self::EXAMPLE_CONTENT_ID);
+        $content = $this->createExampleContent();
 
         $mapper = $this->createPartialMapper(['isAsset']);
         $mapper
@@ -192,11 +186,14 @@ class AssetMapperTest extends TestCase
         self::assertEquals($expectedValue, $mapper->getAssetValue($content));
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function testGetAssetValueThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $content = $this->createContentWithId(self::EXAMPLE_CONTENT_ID);
+        $content = $this->createExampleContent();
 
         $mapper = $this->createPartialMapper(['isAsset']);
         $mapper
@@ -210,6 +207,8 @@ class AssetMapperTest extends TestCase
 
     /**
      * @dataProvider dataProviderForIsAsset
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function testIsAsset(int $contentContentTypeId, int $assetContentTypeId, bool $expected): void
     {
@@ -278,7 +277,10 @@ class AssetMapperTest extends TestCase
         );
     }
 
-    private function createPartialMapper(array $methods = []): AssetMapper
+    /**
+     * @param array<string> $methods
+     */
+    private function createPartialMapper(array $methods = []): AssetMapper & MockObject
     {
         return $this
             ->getMockBuilder(AssetMapper::class)
@@ -291,18 +293,17 @@ class AssetMapperTest extends TestCase
             ->disableOriginalClone()
             ->disableArgumentCloning()
             ->disallowMockingUnknownTypes()
-            ->setMethods($methods)
+            ->onlyMethods($methods)
             ->getMock();
     }
 
-    private function createContentWithId(int $id): Content
+    private function createExampleContent(): Content & MockObject
     {
         $content = $this->createMock(Content::class);
         $content
-            ->expects(self::any())
             ->method('__get')
             ->with('id')
-            ->willReturn($id);
+            ->willReturn(self::EXAMPLE_CONTENT_ID);
 
         return $content;
     }
@@ -315,7 +316,6 @@ class AssetMapperTest extends TestCase
 
         $content = $this->createMock(Content::class);
         $content
-            ->expects(self::any())
             ->method('__get')
             ->with('contentInfo')
             ->willReturn($contentInfo);
@@ -323,10 +323,7 @@ class AssetMapperTest extends TestCase
         return $content;
     }
 
-    /**
-     * @return \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function mockConfigResolver(): ConfigResolverInterface
+    private function mockConfigResolver(): ConfigResolverInterface & MockObject
     {
         $mock = $this->createMock(ConfigResolverInterface::class);
         $mock

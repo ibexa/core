@@ -8,7 +8,7 @@
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
-use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Handler as PersistenceContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
@@ -23,12 +23,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class RelationTest extends FieldTypeTestCase
 {
-    private const DESTINATION_CONTENT_ID = 14;
+    private const int DESTINATION_CONTENT_ID = 14;
 
-    private MockObject $contentHandler;
+    private PersistenceContentHandler & MockObject $contentHandler;
 
-    /** @var \Ibexa\Core\Repository\Validator\TargetContentValidatorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $targetContentValidator;
+    private TargetContentValidatorInterface & MockObject $targetContentValidator;
 
     protected function setUp(): void
     {
@@ -50,7 +49,7 @@ class RelationTest extends FieldTypeTestCase
                 ['mainLanguageCode', 'en_GB'],
             ]);
 
-        $this->contentHandler = $this->createMock(SPIContentHandler::class);
+        $this->contentHandler = $this->createMock(PersistenceContentHandler::class);
         $this->contentHandler
             ->method('loadContentInfo')
             ->with(self::DESTINATION_CONTENT_ID)

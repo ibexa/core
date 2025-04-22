@@ -20,21 +20,17 @@ use PHPUnit\Framework\TestCase;
 class LegacyTest extends TestCase
 {
     /** @var \Ibexa\Core\FieldType\Image\IO\Legacy */
-    protected $service;
+    protected LegacyIOService $service;
 
     /**
      * Internal IOService instance for published images.
-     *
-     * @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected MockObject $publishedIoServiceMock;
+    protected MockObject & IOServiceInterface $publishedIoServiceMock;
 
     /**
      * Internal IOService instance for draft images.
-     *
-     * @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected MockObject $draftIoServiceMock;
+    protected MockObject & IOServiceInterface $draftIoServiceMock;
 
     protected function setUp(): void
     {

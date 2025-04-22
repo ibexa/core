@@ -17,10 +17,8 @@ use PHPUnit\Framework\TestCase;
 
 class APIFieldTypeTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $innerFieldType;
+    private SPIFieldType & MockObject $innerFieldType;
 
-    /** @var \Ibexa\Core\Repository\Values\ContentType\FieldType */
     private FieldType $fieldType;
 
     protected function setUp(): void

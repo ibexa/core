@@ -8,7 +8,7 @@
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
-use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Handler as PersistenceContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
@@ -21,14 +21,12 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class RelationListTest extends FieldTypeTestCase
 {
-    private const DESTINATION_CONTENT_ID_14 = 14;
-    private const DESTINATION_CONTENT_ID_22 = 22;
+    private PersistenceContentHandler & MockObject $contentHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler */
-    private MockObject $contentHandler;
+    private TargetContentValidatorInterface & MockObject $targetContentValidator;
 
-    /** @var \Ibexa\Core\Repository\Validator\TargetContentValidatorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $targetContentValidator;
+    private const int DESTINATION_CONTENT_ID_14 = 14;
+    private const int DESTINATION_CONTENT_ID_22 = 22;
 
     protected function setUp(): void
     {
@@ -67,7 +65,7 @@ class RelationListTest extends FieldTypeTestCase
                 ['mainLanguageCode', 'en_GB'],
             ]);
 
-        $this->contentHandler = $this->createMock(SPIContentHandler::class);
+        $this->contentHandler = $this->createMock(PersistenceContentHandler::class);
         $this->contentHandler
             ->method('loadContentInfo')
             ->willReturnMap([
