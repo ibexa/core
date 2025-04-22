@@ -8,14 +8,16 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\QueryType\BuiltIn\SortSpec;
 
+use LogicException;
+
 final class SortSpecLexer implements SortSpecLexerInterface
 {
-    private const K_ASC = 'asc';
-    private const K_DESC = 'desc';
+    private const string K_ASC = 'asc';
+    private const string K_DESC = 'desc';
 
-    private const ID_PATTERN = '[a-zA-Z_][a-zA-Z0-9_]*';
-    private const FLOAT_PATTERN = '-?[0-9]+\.[0-9]+';
-    private const INT_PATTERN = '-?[0-9]+';
+    private const string ID_PATTERN = '[a-zA-Z_][a-zA-Z0-9_]*';
+    private const string FLOAT_PATTERN = '-?[0-9]+\.[0-9]+';
+    private const string INT_PATTERN = '-?[0-9]+';
 
     private ?string $input = null;
 
@@ -24,12 +26,13 @@ final class SortSpecLexer implements SortSpecLexerInterface
 
     private ?int $position = null;
 
-    /** @var \Ibexa\Core\QueryType\BuiltIn\SortSpec\Token|null */
-    private $current;
+    private ?Token $current;
 
-    /** @var \Ibexa\Core\QueryType\BuiltIn\SortSpec\Token|null */
-    private $next;
+    private ?Token $next;
 
+    /**
+     * @return iterable<\Ibexa\Core\QueryType\BuiltIn\SortSpec\Token>
+     */
     public function getAll(): iterable
     {
         return $this->tokens;
@@ -39,6 +42,9 @@ final class SortSpecLexer implements SortSpecLexerInterface
     {
         $this->current = $this->next;
         $this->next = $this->tokens[++$this->position] ?? null;
+        if (null === $this->current) {
+            throw new LogicException('SortSpecLexer: current token is null');
+        }
 
         return $this->current;
     }
@@ -55,6 +61,10 @@ final class SortSpecLexer implements SortSpecLexerInterface
 
     public function getInput(): string
     {
+        if (null === $this->input) {
+            throw new LogicException('SortSpecLexer: input is not set');
+        }
+
         return $this->input;
     }
 
@@ -81,7 +91,7 @@ final class SortSpecLexer implements SortSpecLexerInterface
         }
 
         $this->tokens[] = new Token(Token::TYPE_EOF);
-        $this->next = $this->tokens[0] ?? null;
+        $this->next = $this->tokens[0];
     }
 
     private function reset(): void
@@ -91,6 +101,9 @@ final class SortSpecLexer implements SortSpecLexerInterface
         $this->current = null;
     }
 
+    /**
+     * @phpstan-return list<array{string, int<0, max>}>
+     */
     private function split(string $input): array
     {
         $regexp = sprintf(
@@ -104,7 +117,12 @@ final class SortSpecLexer implements SortSpecLexerInterface
 
         $flags = PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_OFFSET_CAPTURE;
 
-        return preg_split($regexp, $input, -1, $flags);
+        $split = preg_split($regexp, $input, -1, $flags);
+        if (false === $split) {
+            throw new LogicException('SortSpecLexer: failed to split input');
+        }
+
+        return $split;
     }
 
     private function getTokenType(string $value): string
