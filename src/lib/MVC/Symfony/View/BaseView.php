@@ -37,15 +37,14 @@ abstract class BaseView implements View
     /**
      * @phpstan-param string|(\Closure(array<string, mixed>):string) $templateIdentifier
      *
-     * @param string|\Closure $templateIdentifier Valid path to the template. Can also be a closure.
-     * @param string $viewType
-     * @param array $parameters Hash of parameters to pass to the template/closure.
+     * @param string|\Closure|null $templateIdentifier Valid path to the template. Can also be a closure.
+     * @param array<string, mixed> $parameters Hash of parameters to pass to the template/closure.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function __construct($templateIdentifier = null, array $parameters = [], $viewType = 'full')
+    public function __construct(string|\Closure|null $templateIdentifier = null, array $parameters = [], string $viewType = 'full')
     {
-        if (isset($templateIdentifier)) {
+        if (null !== $templateIdentifier) {
             $this->setTemplateIdentifier($templateIdentifier);
         }
 
@@ -53,40 +52,22 @@ abstract class BaseView implements View
         $this->parameters = $parameters;
     }
 
-    /**
-     * @param array $parameters Hash of parameters to pass to the template/closure
-     */
     public function setParameters(array $parameters): void
     {
         $this->parameters = $parameters;
     }
 
-    /**
-     * Adds a hash of parameters to the existing parameters.
-     *
-     * @param array $parameters
-     */
     public function addParameters(array $parameters): void
     {
         $this->parameters = array_replace($this->parameters, $parameters);
     }
 
-    /**
-     * @return array
-     */
-    public function getParameters()
+    public function getParameters(): array
     {
         return $this->getInternalParameters() + $this->parameters;
     }
 
-    /**
-     * Checks if $parameterName exists.
-     *
-     * @param string $parameterName
-     *
-     * @return bool
-     */
-    public function hasParameter($parameterName)
+    public function hasParameter(string $parameterName): bool
     {
         return isset($this->parameters[$parameterName]);
     }
@@ -95,13 +76,9 @@ abstract class BaseView implements View
      * Returns parameter value by $parameterName.
      * Throws an \InvalidArgumentException if $parameterName is not set.
      *
-     * @param string $parameterName
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return mixed
+     *@throws \InvalidArgumentException
      */
-    public function getParameter($parameterName)
+    public function getParameter(string $parameterName): mixed
     {
         if ($this->hasParameter($parameterName)) {
             return $this->parameters[$parameterName];

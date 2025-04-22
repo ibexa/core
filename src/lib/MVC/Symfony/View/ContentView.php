@@ -37,7 +37,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
  * }
  * </code>
  */
-class ContentView extends BaseView implements View, ContentValueView, LocationValueView, EmbedView, CachableView
+class ContentView extends BaseView implements ContentValueView, LocationValueView, EmbedView, CachableView
 {
     private ?Content $content = null;
 

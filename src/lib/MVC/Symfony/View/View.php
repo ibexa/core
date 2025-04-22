@@ -51,44 +51,36 @@ interface View
      * Sets $parameters that will later be injected to the template/closure.
      * If some parameters were already present, $parameters will replace them.
      *
-     * @param array $parameters Hash of parameters
+     * @param array<string, mixed> $parameters Hash of parameters to pass to the template/closure
      */
     public function setParameters(array $parameters);
 
     /**
      * Adds a hash of parameters to the existing parameters.
      *
-     * @param array $parameters
+     * @param array<string, mixed> $parameters
      */
     public function addParameters(array $parameters);
 
     /**
      * Returns registered parameters.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function getParameters();
+    public function getParameters(): array;
 
     /**
      * Checks if $parameterName exists.
-     *
-     * @param string $parameterName
-     *
-     * @return bool
      */
-    public function hasParameter($parameterName);
+    public function hasParameter(string $parameterName): bool;
 
     /**
      * Returns parameter value by $parameterName.
      * Throws an \InvalidArgumentException if $parameterName is not set.
      *
-     * @param string $parameterName
-     *
      * @throws \InvalidArgumentException
-     *
-     * @return mixed
      */
-    public function getParameter($parameterName);
+    public function getParameter(string $parameterName): mixed;
 
     /**
      * Injects the config hash that was used to match and generate the current view.

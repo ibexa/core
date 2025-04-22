@@ -33,7 +33,7 @@ abstract class Compound implements CompoundInterface, URILexer
      * Matchers' map.
      * Consists of an array of matchers, grouped by ruleset (so an array of an array of matchers).
      *
-     * @phpstan-var array<int, array<class-string<\Ibexa\Core\MVC\Symfony\SiteAccess\Matcher>, \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher>>
+     * @phpstan-var array<int, array<class-string<\Ibexa\Core\MVC\Symfony\SiteAccess\Matcher> | literal-string, \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher>>
      */
     protected array $matchersMap;
 

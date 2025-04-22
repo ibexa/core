@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * It has two properties:
  *     - wrappedUser: containing the originally matched user.
- *     - apiUser: containing the API User (the one from the eZ Repository )
+ *     - apiUser: containing the API User (the one from the Ibexa Repository)
  */
 class UserWrapped implements ReferenceUserInterface, EquatableInterface
 {
@@ -52,7 +52,9 @@ class UserWrapped implements ReferenceUserInterface, EquatableInterface
 
     public function getAPIUser(): APIUser
     {
+        /** @phpstan-ignore isset.initializedProperty */
         if (!isset($this->apiUser)) {
+            // occurs when used serialize/deserialize functions on an instance of UserWrapped
             throw new LogicException(
                 'Attempted to get APIUser before it has been set by UserProvider, APIUser is not serialized to session'
             );
