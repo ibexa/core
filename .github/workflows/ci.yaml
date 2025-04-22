@@ -10,7 +10,7 @@ on:
 jobs:
     cs-fix:
         name: Run code style check
-        runs-on: "ubuntu-22.04"
+        runs-on: "ubuntu-24.04"
         strategy:
             matrix:
                 php:
@@ -35,7 +35,7 @@ jobs:
 
     tests:
         name: Unit tests & SQLite integration tests
-        runs-on: "ubuntu-22.04"
+        runs-on: "ubuntu-24.04"
         timeout-minutes: 15
 
         strategy:
@@ -90,7 +90,7 @@ jobs:
                     --health-timeout 5s
                     --health-retries 5
                     --tmpfs /var/lib/postgres
-        runs-on: "ubuntu-22.04"
+        runs-on: "ubuntu-24.04"
         timeout-minutes: 60
 
         strategy:
@@ -145,7 +145,7 @@ jobs:
                     --health-timeout=5s
                     --health-retries=5
                     --tmpfs=/var/lib/mysql
-        runs-on: "ubuntu-22.04"
+        runs-on: "ubuntu-24.04"
         timeout-minutes: 60
 
         strategy:
@@ -182,7 +182,7 @@ jobs:
 
     solr-integration:
         name: "Solr integration tests"
-        runs-on: "ubuntu-22.04"
+        runs-on: "ubuntu-24.04"
         timeout-minutes: 30
         permissions:
             packages: read
