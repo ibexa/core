@@ -112,13 +112,15 @@ final class InstallPlatformCommand extends Command
         $installer->importData();
         $installer->importBinaries();
 
-        $io->warning(
-            'For security reasons, you\'re required to change the default admin password. Remember to follow currently set password validation rules.'
-        );
+        if ($input->isInteractive()) {
+            $io->warning(
+                'For security reasons, you\'re required to change the default admin password. Remember to follow currently set password validation rules.'
+            );
 
-        do {
-            $exitCode = $this->changeDefaultAdminPassword($input);
-        } while ($exitCode !== self::SUCCESS);
+            do {
+                $exitCode = $this->changeDefaultAdminPassword($input);
+            } while ($exitCode !== self::SUCCESS);
+        }
 
         $this->cacheClear($output);
 
@@ -295,10 +297,6 @@ final class InstallPlatformCommand extends Command
             'user' => 'admin',
             '--password' => $password,
         ]);
-
-        $commandInput->setInteractive(
-            $input->isInteractive()
-        );
 
         $application = $this->getApplication();
 
