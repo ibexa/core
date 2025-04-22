@@ -109,12 +109,11 @@ class DirectFragmentRenderer extends InlineFragmentRenderer implements FragmentR
     }
 
     /**
-     * @param string|\Symfony\Component\HttpKernel\Controller\ControllerReference $uri
-     *
      * @throws \Ibexa\Core\MVC\Symfony\Templating\Exception\InvalidResponseException
+     * @throws \Ibexa\Core\MVC\Exception\NoViewTemplateException
      */
     public function render(
-        $uri,
+        string|ControllerReference $uri,
         Request $request,
         array $options = []
     ): Response {
