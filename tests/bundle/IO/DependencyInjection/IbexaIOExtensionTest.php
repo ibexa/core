@@ -20,7 +20,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class IbexaIOExtensionTest extends AbstractExtensionTestCase
 {
-    private const FIXTURES_DIR = __DIR__ . '/../_fixtures';
+    private const string FIXTURES_DIR = __DIR__ . '/../_fixtures';
 
     protected function getContainerExtensions(): array
     {
