@@ -118,7 +118,7 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
             );
         }
         $blockName = $this->getRenderFieldBlockName($fieldTypeIdentifier, $type);
-        $context = $this->twig->mergeGlobals($params);
+        $context = $params + $this->twig->getGlobals();
         $blocks = $this->getBlocksByField($fieldTypeIdentifier, $type, $localTemplate);
 
         if (!$this->baseTemplate->hasBlock($blockName, $context, $blocks)) {
@@ -159,7 +159,7 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
             'settings' => $fieldDefinition->getFieldSettings(),
         ];
         $blockName = $this->getRenderFieldDefinitionBlockName($fieldDefinition->fieldTypeIdentifier, $type);
-        $context = $this->twig->mergeGlobals($params);
+        $context = $params + $this->twig->getGlobals();
         $blocks = $this->getBlocksByFieldDefinition($fieldDefinition, $type);
 
         if (!$this->baseTemplate->hasBlock($blockName, $context, $blocks)) {
