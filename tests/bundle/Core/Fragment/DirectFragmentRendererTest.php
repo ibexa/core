@@ -14,6 +14,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\Templating\Exception\InvalidResponseException;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
 use Ibexa\Core\MVC\Symfony\View\Renderer\TemplateRenderer;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -83,7 +84,6 @@ final class DirectFragmentRendererTest extends TestCase
         $directFragmentRenderer = $this->getDirectFragmentRenderer($controllerResolver);
         $response = $directFragmentRenderer->render('', new Request(), []);
 
-        self::assertInstanceOf(Response::class, $response);
         self::assertSame('response_body', $response->getContent());
     }
 
@@ -95,8 +95,10 @@ final class DirectFragmentRendererTest extends TestCase
         $controllerResolverMock = $this->getControllerResolverInterfaceMock();
         $controllerResolverMock
             ->method('getController')
-            ->willReturn(static function (...$args) use ($contentView): \Ibexa\Core\MVC\Symfony\View\ContentView {
-                $contentView->setParameters($args);
+            ->willReturn(static function (?Request $request = null) use ($contentView): ContentView {
+                if ($request !== null) {
+                    $contentView->setParameters($request->attributes->all());
+                }
 
                 return $contentView;
             });
@@ -114,7 +116,6 @@ final class DirectFragmentRendererTest extends TestCase
         );
         $response = $directFragmentRenderer->render('', new Request(), []);
 
-        self::assertInstanceOf(Response::class, $response);
         self::assertSame('rendered_template_identifier', $response->getContent());
     }
 
@@ -131,7 +132,6 @@ final class DirectFragmentRendererTest extends TestCase
         $directFragmentRenderer = $this->getDirectFragmentRenderer($controllerResolver);
         $response = $directFragmentRenderer->render('', new Request(), []);
 
-        self::assertInstanceOf(Response::class, $response);
         self::assertSame('some_prerendered_response', $response->getContent());
     }
 
@@ -160,10 +160,7 @@ final class DirectFragmentRendererTest extends TestCase
         return $this->createMock(ControllerResolverInterface::class);
     }
 
-    /**
-     * @return \Ibexa\Core\MVC\Symfony\View\Renderer\TemplateRenderer|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function getTemplateRendererMock(): TemplateRenderer
+    private function getTemplateRendererMock(): TemplateRenderer & MockObject
     {
         return $this->createMock(TemplateRenderer::class);
     }

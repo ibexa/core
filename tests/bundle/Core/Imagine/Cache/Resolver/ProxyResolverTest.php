@@ -16,6 +16,7 @@ use PHPUnit\Framework\TestCase;
 final class ProxyResolverTest extends TestCase
 {
     private const string RESOLVED_PATH_URI = 'https://ibexa.co/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg';
+
     private ResolverInterface & MockObject $resolver;
 
     private string $path;
