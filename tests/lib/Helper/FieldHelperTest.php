@@ -23,14 +23,11 @@ use PHPUnit\Framework\TestCase;
 
 class FieldHelperTest extends TestCase
 {
-    /** @var \Ibexa\Core\Helper\FieldHelper */
     private FieldHelper $fieldHelper;
 
-    /** @var \Ibexa\Contracts\Core\Repository\FieldTypeService|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $fieldTypeServiceMock;
+    private MockObject & FieldTypeService $fieldTypeServiceMock;
 
-    /** @var \Ibexa\Core\Helper\TranslationHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $translationHelper;
+    private MockObject & TranslationHelper $translationHelper;
 
     protected function setUp(): void
     {

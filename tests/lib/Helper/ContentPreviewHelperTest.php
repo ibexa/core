@@ -20,13 +20,10 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ContentPreviewHelperTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $eventDispatcher;
+    private MockObject & EventDispatcherInterface $eventDispatcher;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $siteAccessRouter;
+    private MockObject & SiteAccessRouterInterface $siteAccessRouter;
 
-    /** @var \Ibexa\Core\Helper\ContentPreviewHelper */
     private ContentPreviewHelper $previewHelper;
 
     protected function setUp(): void

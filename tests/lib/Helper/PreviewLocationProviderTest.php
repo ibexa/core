@@ -7,7 +7,7 @@
 
 namespace Ibexa\Tests\Core\Helper;
 
-use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as SPILocationHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as PersistenceLocationHandler;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo as APIContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
@@ -20,13 +20,10 @@ use PHPUnit\Framework\TestCase;
 
 class PreviewLocationProviderTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $locationService;
+    private LocationService & MockObject $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $locationHandler;
+    private PersistenceLocationHandler & MockObject $locationHandler;
 
-    /** @var \Ibexa\Core\Helper\PreviewLocationProvider */
     private PreviewLocationProvider $provider;
 
     protected function setUp(): void
@@ -34,7 +31,7 @@ class PreviewLocationProviderTest extends TestCase
         parent::setUp();
 
         $this->locationService = $this->createMock(LocationService::class);
-        $this->locationHandler = $this->createMock(SPILocationHandler::class);
+        $this->locationHandler = $this->createMock(PersistenceLocationHandler::class);
         $this->provider = new PreviewLocationProvider($this->locationService, $this->locationHandler);
     }
 
@@ -52,7 +49,7 @@ class PreviewLocationProviderTest extends TestCase
             ->expects(self::once())
             ->method('loadParentLocationsForDraftContent')
             ->with($contentId)
-            ->will(self::returnValue([new Location(['id' => $parentLocationId])]));
+            ->willReturn([new Location(['id' => $parentLocationId])]);
 
         $location = $this->provider->loadMainLocationByContent($content);
         self::assertInstanceOf(APILocation::class, $location);
