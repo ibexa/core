@@ -116,7 +116,7 @@ final class StructWrapperValidatorTest extends TestCase
         $object = new stdClass();
         $propertyName = 'foobar';
         $group = ['Default', 'group'];
-        $this->validator->expects(self::exactly(1))
+        $this->validator->expects(self::once())
             ->method('validateProperty')
             ->with($object, $propertyName, $group)
             ->willReturn($initialErrors);
@@ -133,7 +133,7 @@ final class StructWrapperValidatorTest extends TestCase
         $propertyName = 'foobar';
         $value = 'someValue';
         $group = ['Default', 'group'];
-        $this->validator->expects(self::exactly(1))
+        $this->validator->expects(self::once())
             ->method('validatePropertyValue')
             ->with($object, $propertyName, $value, $group)
             ->willReturn($initialErrors);
