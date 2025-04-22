@@ -13,7 +13,6 @@ use Ibexa\Contracts\Core\Persistence\Content\FieldValue as PersistenceValue;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\FieldType\FieldType;
-use Ibexa\Core\FieldType\Media\Value;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
 
@@ -344,7 +343,7 @@ abstract class Type extends FieldType
                                 '%validator%' => $validatorIdentifier,
                                 '%parameter%' => 'maxFileSize',
                                 '%type%' => 'integer',
-                                "[$validatorIdentifier][maxFileSize]",
+                                '%path%' => "[$validatorIdentifier][maxFileSize]",
                             ]
                         );
                     }

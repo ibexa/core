@@ -82,7 +82,7 @@ class BlockingLimitationType implements SPILimitationTypeInterface
                 "\$limitationValue->limitationValues => '%value%' can not be empty",
                 null,
                 [
-                    'value' => $limitationValue->limitationValues,
+                    'value' => implode(', ', $limitationValue->limitationValues),
                 ]
             );
         }
