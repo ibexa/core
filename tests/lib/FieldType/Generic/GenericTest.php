@@ -24,11 +24,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class GenericTest extends BaseFieldTypeTestCase
 {
-    /** @var \Ibexa\Contracts\Core\FieldType\ValueSerializerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private ValueSerializerInterface $serializer;
+    private ValueSerializerInterface & MockObject $serializer;
 
-    /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $validator;
+    private ValidatorInterface & MockObject $validator;
 
     protected function setUp(): void
     {
@@ -78,11 +76,17 @@ class GenericTest extends BaseFieldTypeTestCase
         return new GenericFieldTypeStub($this->serializer, $this->validator);
     }
 
+    /**
+     * @return array{}
+     */
     protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [];
     }
 
+    /**
+     * @return array{}
+     */
     protected function getSettingsSchemaExpectation(): array
     {
         return [];
@@ -93,6 +97,9 @@ class GenericTest extends BaseFieldTypeTestCase
         return new GenericFieldValueStub();
     }
 
+    /**
+     * @phpstan-return list<array{int, string}>
+     */
     public function provideInvalidInputForAcceptValue(): array
     {
         return [
@@ -103,6 +110,9 @@ class GenericTest extends BaseFieldTypeTestCase
         ];
     }
 
+    /**
+     * @phpstan-return list<array{string|null|\Ibexa\Contracts\Core\FieldType\Value, \Ibexa\Contracts\Core\FieldType\Value}>
+     */
     public function provideValidInputForAcceptValue(): array
     {
         return [
@@ -121,6 +131,9 @@ class GenericTest extends BaseFieldTypeTestCase
         ];
     }
 
+    /**
+     * @phpstan-return list<array{\Ibexa\Contracts\Core\FieldType\Value, array{value: string}|null}>
+     */
     public function provideInputForToHash(): array
     {
         return [
@@ -135,6 +148,9 @@ class GenericTest extends BaseFieldTypeTestCase
         ];
     }
 
+    /**
+     * @phpstan-return list<array{array{value: string}|null, \Ibexa\Contracts\Core\FieldType\Value}>
+     */
     public function provideInputForFromHash(): array
     {
         return [
@@ -149,6 +165,9 @@ class GenericTest extends BaseFieldTypeTestCase
         ];
     }
 
+    /**
+     * @phpstan-return list<array{\Ibexa\Contracts\Core\FieldType\Value, string, array<string, mixed>, string}>
+     */
     public function provideDataForGetName(): array
     {
         return [
@@ -156,14 +175,14 @@ class GenericTest extends BaseFieldTypeTestCase
         ];
     }
 
-    private function createSerializerMock(): ValueSerializerInterface
+    private function createSerializerMock(): ValueSerializerInterface & MockObject
     {
         $serializer = $this->createMock(ValueSerializerInterface::class);
 
         $serializer
             ->method('decode')
             ->willReturnCallback(static function (string $json) {
-                return json_decode($json, true);
+                return json_decode($json, true, 512, JSON_THROW_ON_ERROR);
             });
 
         $serializer
@@ -176,8 +195,8 @@ class GenericTest extends BaseFieldTypeTestCase
 
         $serializer
             ->method('denormalize')
-            ->willReturnCallback(function (array $data, string $valueClass): Value {
-                $this->assertEquals($valueClass, GenericFieldValueStub::class);
+            ->willReturnCallback(static function (array $data, string $valueClass): Value {
+                self::assertEquals(GenericFieldValueStub::class, $valueClass);
 
                 return new GenericFieldValueStub($data['value']);
             });

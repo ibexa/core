@@ -19,22 +19,17 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class SymfonySerializerAdapterTest extends TestCase
 {
-    private const TEST_FORMAT = 'csv';
-    private const TEST_CONTEXT = ['foo' => 'bar'];
+    private const string TEST_FORMAT = 'csv';
+    private const array TEST_CONTEXT = ['foo' => 'bar'];
 
-    /** @var \Symfony\Component\Serializer\Normalizer\NormalizerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $normalizer;
+    private NormalizerInterface & MockObject $normalizer;
 
-    /** @var \Symfony\Component\Serializer\Normalizer\DenormalizerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $denomalizer;
+    private DenormalizerInterface & MockObject $denomalizer;
 
-    /** @var \Symfony\Component\Serializer\Encoder\EncoderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $encoder;
+    private EncoderInterface & MockObject $encoder;
 
-    /** @var \Symfony\Component\Serializer\Encoder\DecoderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $decoder;
+    private DecoderInterface & MockObject $decoder;
 
-    /** @var \Ibexa\Core\FieldType\ValueSerializer\SymfonySerializerAdapter */
     private SymfonySerializerAdapter $adapter;
 
     protected function setUp(): void
