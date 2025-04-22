@@ -19,11 +19,9 @@ use PHPUnit\Framework\TestCase;
 
 class FlysystemTest extends TestCase
 {
-    /** @var \Ibexa\Core\IO\IOMetadataHandler|\PHPUnit\Framework\MockObject\MockObject */
     private Flysystem $handler;
 
-    /** @var \League\Flysystem\FilesystemOperator|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $filesystem;
+    private FilesystemOperator & MockObject $filesystem;
 
     protected function setUp(): void
     {

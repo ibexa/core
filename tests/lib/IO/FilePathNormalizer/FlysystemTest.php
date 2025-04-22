@@ -16,11 +16,9 @@ use PHPUnit\Framework\TestCase;
 
 final class FlysystemTest extends TestCase
 {
-    /** @var \Ibexa\Core\IO\FilePathNormalizer\Flysystem */
     private Flysystem $filePathNormalizer;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $slugConverter;
+    private SlugConverter & MockObject $slugConverter;
 
     public function setUp(): void
     {

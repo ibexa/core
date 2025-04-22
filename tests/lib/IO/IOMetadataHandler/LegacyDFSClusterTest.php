@@ -23,17 +23,13 @@ use PHPUnit\Framework\TestCase;
 
 class LegacyDFSClusterTest extends TestCase
 {
-    /** @var \Ibexa\Core\IO\IOMetadataHandler&\PHPUnit\Framework\MockObject\MockObject */
     private LegacyDFSCluster $handler;
 
-    /** @var \Doctrine\DBAL\Connection&\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $dbalMock;
+    private Connection & MockObject $dbalMock;
 
-    /** @var \Doctrine\DBAL\Query\QueryBuilder&\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $qbMock;
+    private QueryBuilder & MockObject $qbMock;
 
-    /** @var \Ibexa\Core\IO\UrlDecorator&\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $urlDecoratorMock;
+    private UrlDecorator & MockObject $urlDecoratorMock;
 
     protected function setUp(): void
     {

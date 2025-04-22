@@ -19,17 +19,14 @@ use PHPUnit\Framework\TestCase;
 
 final class ConfigScopeChangeAwareIOServiceTest extends TestCase
 {
-    protected const PREFIX = 'test-prefix';
-    protected const PREFIX_PARAMETER_NAME = 'param';
+    protected const string PREFIX = 'test-prefix';
+    protected const string PREFIX_PARAMETER_NAME = 'param';
 
-    /** @var \Ibexa\Core\IO\ConfigScopeChangeAwareIOService */
-    protected $ioService;
+    protected ConfigScopeChangeAwareIOService $ioService;
 
-    /** @var \Ibexa\Core\IO\ConfigScopeChangeAwareIOService|\PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $innerIOService;
+    private IOServiceInterface & MockObject $innerIOService;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $configResolver;
+    private ConfigResolverInterface & MockObject $configResolver;
 
     protected function setUp(): void
     {
