@@ -16,12 +16,12 @@ use Ibexa\Core\Repository\Mapper\RoleDomainMapper;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\Permission\PermissionResolver;
 use Ibexa\Core\Repository\Repository;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-abstract class BaseTest extends TestCase
+abstract class BaseTestCase extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    protected $repositoryMock;
+    protected Repository & MockObject $repositoryMock;
 
     protected function setUp(): void
     {
@@ -30,11 +30,9 @@ abstract class BaseTest extends TestCase
     }
 
     /**
-     * @param array $matchingConfig
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @param array<mixed> $matchingConfig
      */
-    protected function getPartiallyMockedViewProvider(array $matchingConfig = [])
+    protected function getPartiallyMockedViewProvider(array $matchingConfig = []): Configured & MockObject
     {
         return $this
             ->getMockBuilder(Configured::class)
@@ -44,35 +42,27 @@ abstract class BaseTest extends TestCase
                     $matchingConfig,
                 ]
             )
-            ->setMethods(['getMatcher'])
+            ->onlyMethods(['getMatcher'])
             ->getMock();
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getRepositoryMock()
+    protected function getRepositoryMock(): Repository & MockObject
     {
-        $repositoryClass = Repository::class;
+        $repositoryMock = $this->createMock(Repository::class);
 
-        return $this
-            ->getMockBuilder($repositoryClass)
-            ->disableOriginalConstructor()
-            ->setMethods(
-                array_diff(
-                    get_class_methods($repositoryClass),
-                    ['sudo']
-                )
-            )
-            ->getMock();
+        $repositoryMock->method('sudo')->willReturnCallback(
+            static function (callable $callback) use ($repositoryMock): mixed {
+                return $callback($repositoryMock);
+            }
+        );
+
+        return $repositoryMock;
     }
 
     /**
-     * @param array $properties
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @param array<mixed> $properties
      */
-    protected function getLocationMock(array $properties = [])
+    protected function getLocationMock(array $properties = []): Location & MockObject
     {
         return $this
             ->getMockBuilder(Location::class)
@@ -81,11 +71,9 @@ abstract class BaseTest extends TestCase
     }
 
     /**
-     * @param array $properties
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @param array<mixed> $properties
      */
-    protected function getContentInfoMock(array $properties = [])
+    protected function getContentInfoMock(array $properties = []): ContentInfo & MockObject
     {
         return $this->
             getMockBuilder(ContentInfo::class)
@@ -93,7 +81,7 @@ abstract class BaseTest extends TestCase
             ->getMockForAbstractClass();
     }
 
-    protected function getPermissionResolverMock()
+    protected function getPermissionResolverMock(): PermissionResolver & MockObject
     {
         $configResolverMock = $this->createMock(ConfigResolverInterface::class);
         $configResolverMock
@@ -103,7 +91,6 @@ abstract class BaseTest extends TestCase
 
         return $this
             ->getMockBuilder(PermissionResolver::class)
-            ->setMethods(null)
             ->setConstructorArgs(
                 [
                     $this->createMock(RoleDomainMapper::class),

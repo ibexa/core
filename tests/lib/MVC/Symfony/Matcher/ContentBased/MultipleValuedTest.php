@@ -10,7 +10,7 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class MultipleValuedTest extends BaseTest
+class MultipleValuedTest extends BaseTestCase
 {
     /**
      * @dataProvider matchingConfigProvider

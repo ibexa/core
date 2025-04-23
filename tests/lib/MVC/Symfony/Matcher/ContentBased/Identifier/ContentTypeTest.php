@@ -9,13 +9,17 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Identifier;
 
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ContentType as ContentTypeIdentifierMatcher;
-use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTest;
+use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
-class ContentTypeTest extends BaseTest
+/**
+ * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ContentType
+ */
+class ContentTypeTest extends BaseTestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ContentType */
     private ContentTypeIdentifierMatcher $matcher;
 
     protected function setUp(): void
@@ -27,14 +31,9 @@ class ContentTypeTest extends BaseTest
     /**
      * @dataProvider matchLocationProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ContentType::matchLocation
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
-     *
      * @param string|string[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
-     * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Repository $repository, $expectedResult): void
+    public function testMatchLocation(array|string $matchingConfig, Repository $repository, bool $expectedResult): void
     {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
@@ -45,52 +44,54 @@ class ContentTypeTest extends BaseTest
         );
     }
 
-    public function matchLocationProvider(): array
+    /**
+     * @phpstan-return iterable<array{string|string[], \Ibexa\Contracts\Core\Repository\Repository, bool}>
+     */
+    public function getDataForMatchProvider(): iterable
     {
-        $data = [];
-
-        $data[] = [
+        yield [
             'foo',
             $this->generateRepositoryMockForContentTypeIdentifier('foo'),
             true,
         ];
 
-        $data[] = [
+        yield [
             'foo',
             $this->generateRepositoryMockForContentTypeIdentifier('bar'),
             false,
         ];
 
-        $data[] = [
+        yield [
             ['foo', 'baz'],
             $this->generateRepositoryMockForContentTypeIdentifier('bar'),
             false,
         ];
 
-        $data[] = [
+        yield [
             ['foo', 'baz'],
             $this->generateRepositoryMockForContentTypeIdentifier('baz'),
             true,
         ];
+    }
 
-        return $data;
+    /**
+     * @phpstan-return iterable<array{string|string[], \Ibexa\Contracts\Core\Repository\Repository, bool}>
+     */
+    public function matchLocationProvider(): iterable
+    {
+        return $this->getDataForMatchProvider();
     }
 
     /**
      * Generates a Location object in respect of a given content type identifier.
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject
      */
-    private function generateLocationMock()
+    private function generateLocationMock(): Location & MockObject
     {
         $location = $this->getLocationMock();
         $location
-            ->expects(self::any())
             ->method('getContentInfo')
-            ->will(
-                self::returnValue(
-                    $this->getContentInfoMock(['contentTypeId' => 42])
-                )
+            ->willReturn(
+                $this->getContentInfoMock(['contentTypeId' => 42])
             );
 
         return $location;
@@ -99,14 +100,9 @@ class ContentTypeTest extends BaseTest
     /**
      * @dataProvider matchContentInfoProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ContentType::matchLocation
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
-     *
      * @param string|string[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
-     * @param bool $expectedResult
      */
-    public function testMatchContentInfo($matchingConfig, Repository $repository, $expectedResult): void
+    public function testMatchContentInfo(array|string $matchingConfig, Repository $repository, bool $expectedResult): void
     {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
@@ -119,45 +115,18 @@ class ContentTypeTest extends BaseTest
         );
     }
 
-    public function matchContentInfoProvider(): array
+    /**
+     * @phpstan-return iterable<array{string|string[], \Ibexa\Contracts\Core\Repository\Repository, bool}>
+     */
+    public function matchContentInfoProvider(): iterable
     {
-        $data = [];
-
-        $data[] = [
-            'foo',
-            $this->generateRepositoryMockForContentTypeIdentifier('foo'),
-            true,
-        ];
-
-        $data[] = [
-            'foo',
-            $this->generateRepositoryMockForContentTypeIdentifier('bar'),
-            false,
-        ];
-
-        $data[] = [
-            ['foo', 'baz'],
-            $this->generateRepositoryMockForContentTypeIdentifier('bar'),
-            false,
-        ];
-
-        $data[] = [
-            ['foo', 'baz'],
-            $this->generateRepositoryMockForContentTypeIdentifier('baz'),
-            true,
-        ];
-
-        return $data;
+        return $this->getDataForMatchProvider();
     }
 
     /**
      * Returns a Repository mock configured to return the appropriate ContentType object with given identifier.
-     *
-     * @param int $contentTypeIdentifier
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject
      */
-    private function generateRepositoryMockForContentTypeIdentifier(string $contentTypeIdentifier)
+    private function generateRepositoryMockForContentTypeIdentifier(string $contentTypeIdentifier): Repository & MockObject
     {
         $contentTypeMock = $this
             ->getMockBuilder(ContentType::class)
@@ -169,15 +138,14 @@ class ContentTypeTest extends BaseTest
         $contentTypeServiceMock->expects(self::once())
             ->method('loadContentType')
             ->with(42)
-            ->will(
-                self::returnValue($contentTypeMock)
+            ->willReturn(
+                $contentTypeMock
             );
 
         $repository = $this->getRepositoryMock();
         $repository
-            ->expects(self::any())
             ->method('getContentTypeService')
-            ->will(self::returnValue($contentTypeServiceMock));
+            ->willReturn($contentTypeServiceMock);
 
         return $repository;
     }

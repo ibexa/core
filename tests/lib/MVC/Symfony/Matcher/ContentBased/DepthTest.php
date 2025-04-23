@@ -12,8 +12,9 @@ use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth as DepthMatcher;
+use PHPUnit\Framework\MockObject\MockObject;
 
-class DepthTest extends BaseTest
+class DepthTest extends BaseTestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth */
     private Depth $matcher;
@@ -124,33 +125,23 @@ class DepthTest extends BaseTest
     }
 
     /**
-     * Returns a Repository mock configured to return the appropriate Location object with given parent location Id.
-     *
-     * @param int $depth
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * Returns a Repository mock configured to return the appropriate Location object with the given parent location Id.
      */
-    private function generateRepositoryMockForDepth(int $depth)
+    private function generateRepositoryMockForDepth(int $depth): Repository & MockObject
     {
         $locationServiceMock = $this->createMock(LocationService::class);
         $locationServiceMock->expects(self::once())
             ->method('loadLocation')
             ->with(42)
-            ->will(
-                self::returnValue(
-                    $this->getLocationMock(['depth' => $depth])
-                )
+            ->willReturn(
+                $this->getLocationMock(['depth' => $depth])
             );
 
         $repository = $this->getRepositoryMock();
         $repository
             ->expects(self::once())
             ->method('getLocationService')
-            ->will(self::returnValue($locationServiceMock));
-        $repository
-            ->expects(self::once())
-            ->method('getPermissionResolver')
-            ->will(self::returnValue($this->getPermissionResolverMock()));
+            ->willReturn($locationServiceMock);
 
         return $repository;
     }

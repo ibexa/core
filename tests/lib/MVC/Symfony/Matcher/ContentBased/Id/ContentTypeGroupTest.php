@@ -9,14 +9,18 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Id;
 
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentTypeGroup as ContentTypeGroupIdMatcher;
-use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTest;
+use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
-class ContentTypeGroupTest extends BaseTest
+/**
+ * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentTypeGroup
+ */
+class ContentTypeGroupTest extends BaseTestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentTypeGroup */
     private ContentTypeGroupIdMatcher $matcher;
 
     protected function setUp(): void
@@ -28,14 +32,9 @@ class ContentTypeGroupTest extends BaseTest
     /**
      * @dataProvider matchLocationProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentTypeGroup::matchLocation
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
-     *
      * @param int|int[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
-     * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Repository $repository, $expectedResult): void
+    public function testMatchLocation(array|int $matchingConfig, Repository $repository, bool $expectedResult): void
     {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
@@ -46,52 +45,24 @@ class ContentTypeGroupTest extends BaseTest
         );
     }
 
-    public function matchLocationProvider(): array
+    /**
+     * @phpstan-return iterable<array{int|array<int>, \Ibexa\Contracts\Core\Repository\Repository, bool}>
+     */
+    public function matchLocationProvider(): iterable
     {
-        $data = [];
-
-        $data[] = [
-            123,
-            $this->generateRepositoryMockForContentTypeGroupId(123),
-            true,
-        ];
-
-        $data[] = [
-            123,
-            $this->generateRepositoryMockForContentTypeGroupId(456),
-            false,
-        ];
-
-        $data[] = [
-            [123, 789],
-            $this->generateRepositoryMockForContentTypeGroupId(456),
-            false,
-        ];
-
-        $data[] = [
-            [123, 789],
-            $this->generateRepositoryMockForContentTypeGroupId(789),
-            true,
-        ];
-
-        return $data;
+        return $this->getDataForMatchProvider();
     }
 
     /**
      * Generates a Location mock.
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject
      */
-    private function generateLocationMock()
+    private function generateLocationMock(): Location & MockObject
     {
         $location = $this->getLocationMock();
         $location
-            ->expects(self::any())
             ->method('getContentInfo')
-            ->will(
-                self::returnValue(
-                    $this->getContentInfoMock(['contentTypeId' => 42])
-                )
+            ->willReturn(
+                $this->getContentInfoMock(['contentTypeId' => 42])
             );
 
         return $location;
@@ -100,14 +71,9 @@ class ContentTypeGroupTest extends BaseTest
     /**
      * @dataProvider matchContentInfoProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentTypeGroup::matchContentInfo
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
-     *
      * @param int|int[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
-     * @param bool $expectedResult
      */
-    public function testMatchContentInfo($matchingConfig, Repository $repository, $expectedResult): void
+    public function testMatchContentInfo(array|int $matchingConfig, Repository $repository, bool $expectedResult): void
     {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
@@ -118,74 +84,79 @@ class ContentTypeGroupTest extends BaseTest
         );
     }
 
-    public function matchContentInfoProvider(): array
+    /**
+     * @phpstan-return iterable<array{int|array<int>, \Ibexa\Contracts\Core\Repository\Repository, bool}>
+     */
+    public function matchContentInfoProvider(): iterable
     {
-        $data = [];
-
-        $data[] = [
-            123,
-            $this->generateRepositoryMockForContentTypeGroupId(123),
-            true,
-        ];
-
-        $data[] = [
-            123,
-            $this->generateRepositoryMockForContentTypeGroupId(456),
-            false,
-        ];
-
-        $data[] = [
-            [123, 789],
-            $this->generateRepositoryMockForContentTypeGroupId(456),
-            false,
-        ];
-
-        $data[] = [
-            [123, 789],
-            $this->generateRepositoryMockForContentTypeGroupId(789),
-            true,
-        ];
-
-        return $data;
+        return $this->getDataForMatchProvider();
     }
 
     /**
-     * Returns a Repository mock configured to return the appropriate Location object with given parent location Id.
-     *
-     * @param int $contentTypeGroupId
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * Returns a Repository mock configured to return the appropriate Location object with the given parent location Id.
      */
-    private function generateRepositoryMockForContentTypeGroupId(int $contentTypeGroupId)
+    private function generateRepositoryMockForContentTypeGroupId(int $contentTypeGroupId): Repository & MockObject
     {
         $contentTypeServiceMock = $this->createMock(ContentTypeService::class);
         $contentTypeMock = $this->getMockForAbstractClass(ContentType::class);
         $contentTypeServiceMock->expects(self::once())
             ->method('loadContentType')
             ->with(42)
-            ->will(self::returnValue($contentTypeMock));
+            ->willReturn($contentTypeMock);
         $contentTypeMock->expects(self::once())
             ->method('getContentTypeGroups')
-            ->will(
-                self::returnValue(
-                    [
-                        // First a group that will never match, then the right group.
-                        // This ensures to test even if the content type belongs to several groups at once.
-                        $this->getMockForAbstractClass(ContentTypeGroup::class),
-                        $this
-                            ->getMockBuilder(ContentTypeGroup::class)
-                            ->setConstructorArgs([['id' => $contentTypeGroupId]])
-                            ->getMockForAbstractClass(),
-                    ]
-                )
+            ->willReturn(
+                [
+                    // First a group that will never match, then the right group.
+                    // This ensures testing it even if the content type belongs to several groups at once.
+                    $this->getMockForAbstractClass(ContentTypeGroup::class),
+                    $this
+                        ->getMockBuilder(ContentTypeGroup::class)
+                        ->setConstructorArgs([['id' => $contentTypeGroupId]])
+                        ->getMockForAbstractClass(),
+                ]
             );
 
         $repository = $this->getRepositoryMock();
         $repository
             ->expects(self::once())
             ->method('getContentTypeService')
-            ->will(self::returnValue($contentTypeServiceMock));
+            ->willReturn($contentTypeServiceMock);
 
         return $repository;
+    }
+
+    /**
+     * @return iterable<array{
+     *   int|array<int>,
+     *   \Ibexa\Contracts\Core\Repository\Repository,
+     *   bool
+     * }>
+     */
+    private function getDataForMatchProvider(): iterable
+    {
+        yield [
+            123,
+            $this->generateRepositoryMockForContentTypeGroupId(123),
+            true,
+        ];
+
+        yield [
+            123,
+            $this->generateRepositoryMockForContentTypeGroupId(456),
+            false,
+        ];
+
+        yield [
+            [123, 789],
+            $this->generateRepositoryMockForContentTypeGroupId(456),
+            false,
+        ];
+
+        yield [
+            [123, 789],
+            $this->generateRepositoryMockForContentTypeGroupId(789),
+            true,
+        ];
     }
 }

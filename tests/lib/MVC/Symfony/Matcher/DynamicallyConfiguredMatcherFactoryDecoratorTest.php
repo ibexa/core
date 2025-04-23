@@ -16,11 +16,9 @@ use PHPUnit\Framework\TestCase;
 
 class DynamicallyConfiguredMatcherFactoryDecoratorTest extends TestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ConfigurableMatcherFactoryInterface */
-    private MockObject $innerMatcherFactory;
+    private ClassNameMatcherFactory & MockObject $innerMatcherFactory;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private MockObject $configResolver;
+    private ConfigResolver & MockObject $configResolver;
 
     public function setUp(): void
     {
