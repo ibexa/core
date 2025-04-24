@@ -15,24 +15,13 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\QueryType\BuiltIn\SortClausesFactoryInterface;
 use Ibexa\Core\QueryType\QueryType;
 use Ibexa\Core\Repository\Values\Content\Location;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractQueryTypeTest extends TestCase
 {
-    protected const ROOT_LOCATION_ID = 2;
-    protected const ROOT_LOCATION_PATH_STRING = '/1/2/';
+    protected const int ROOT_LOCATION_ID = 2;
+    protected const string ROOT_LOCATION_PATH_STRING = '/1/2/';
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $repository;
-
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $configResolver;
-
-    /** @var \Ibexa\Core\QueryType\BuiltIn\SortClausesFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $sortClausesFactory;
-
-    /** @var \Ibexa\Core\QueryType\QueryType */
     private QueryType $queryType;
 
     protected function setUp(): void
@@ -48,21 +37,21 @@ abstract class AbstractQueryTypeTest extends TestCase
             ->with(self::ROOT_LOCATION_ID)
             ->willReturn($rootLocation);
 
-        $this->repository = $this->createMock(Repository::class);
-        $this->repository->method('getLocationService')->willReturn($locationService);
+        $repository = $this->createMock(Repository::class);
+        $repository->method('getLocationService')->willReturn($locationService);
 
-        $this->configResolver = $this->createMock(ConfigResolverInterface::class);
-        $this->configResolver
+        $configResolver = $this->createMock(ConfigResolverInterface::class);
+        $configResolver
             ->method('getParameter')
             ->with('content.tree_root.location_id')
             ->willReturn(self::ROOT_LOCATION_ID);
 
-        $this->sortClausesFactory = $this->createMock(SortClausesFactoryInterface::class);
+        $sortClausesFactory = $this->createMock(SortClausesFactoryInterface::class);
 
         $this->queryType = $this->createQueryType(
-            $this->repository,
-            $this->configResolver,
-            $this->sortClausesFactory
+            $repository,
+            $configResolver,
+            $sortClausesFactory
         );
     }
 

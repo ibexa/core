@@ -17,17 +17,15 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 final class QueryFactoryTest extends TestCase
 {
-    private const EXAMPLE_QUERY_TYPE = 'Example';
-    private const EXAMPLE_QUERY_PARAMS = [
+    private const string EXAMPLE_QUERY_TYPE = 'Example';
+    private const array EXAMPLE_QUERY_PARAMS = [
         'foo' => 'foo',
         'bar' => 'bar',
         'baz' => 'baz',
     ];
 
-    /** @var \Ibexa\Core\QueryType\QueryTypeRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $queryTypeRegistry;
+    private QueryTypeRegistry & MockObject $queryTypeRegistry;
 
-    /** @var \Ibexa\Core\Query\QueryFactory */
     private QueryFactory $queryFactory;
 
     protected function setUp(): void

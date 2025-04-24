@@ -25,6 +25,9 @@ final class SortSpecLexerTest extends TestCase
         self::assertEquals($expectedTokens, $lexer->getAll());
     }
 
+    /**
+     * @return iterable<string, array{string, iterable<Token>}>
+     */
     public function dataProviderForTokenize(): iterable
     {
         yield 'keyword: asc' => [
