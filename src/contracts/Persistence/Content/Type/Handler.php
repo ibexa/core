@@ -260,12 +260,10 @@ interface Handler
      * Removes a field definition from an existing Type.
      *
      * This method creates a new version of the Type with the field definition
-     * referred to by $fieldDefinitionId removed. It does not update existing
+     * referred to by $fieldDefinition removed. It does not update existing
      * content objects depending on the field (default) values.
      *
-     * @param mixed $contentTypeId
-     * @param int $status One of Type::STATUS_DEFINED|Type::STATUS_DRAFT|Type::STATUS_MODIFIED
-     * @param mixed $fieldDefinitionId
+     * @phpstan-param \Ibexa\Contracts\Core\Persistence\Content\Type::STATUS_* $status
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If field is not found
      */
