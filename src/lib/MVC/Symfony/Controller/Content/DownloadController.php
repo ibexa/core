@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\MVC\Symfony\Controller\Content;
 
@@ -16,22 +17,26 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Helper\TranslationHelper;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\MVC\Symfony\Controller\Controller;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class DownloadController extends Controller
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    private $contentService;
+    private ContentService $contentService;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
-    private $ioService;
+    private IOServiceInterface $ioService;
 
-    /** @var \Ibexa\Core\Helper\TranslationHelper */
-    private $translationHelper;
+    private TranslationHelper $translationHelper;
 
-    public function __construct(ContentService $contentService, IOServiceInterface $ioService, TranslationHelper $translationHelper)
-    {
+    public function __construct(
+        ContainerInterface $container,
+        ContentService $contentService,
+        IOServiceInterface $ioService,
+        TranslationHelper $translationHelper
+    ) {
+        parent::__construct($container);
+
         $this->contentService = $contentService;
         $this->ioService = $ioService;
         $this->translationHelper = $translationHelper;

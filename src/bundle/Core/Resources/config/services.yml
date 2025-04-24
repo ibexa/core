@@ -14,41 +14,39 @@ services:
 
     Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver\DefaultScopeConfigResolver:
         arguments:
+            - '@service_container'
             - '%ibexa.config.default_scope%'
-        calls:
-            - [setContainer, ['@service_container']]
         lazy: true
         tags:
             - { name: ibexa.site.config.resolver, priority: 0 }
 
     Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver\SiteAccessGroupConfigResolver:
         arguments:
+            - '@service_container'
             - '@ibexa.siteaccess.provider'
             - '%ibexa.config.default_scope%'
             - '%ibexa.site_access.groups%'
         calls:
             - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
-            - [setContainer, ['@service_container']]
         lazy: true
         tags:
             - { name: ibexa.site.config.resolver, priority: 50 }
 
     Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver\StaticSiteAccessConfigResolver:
         arguments:
+            - '@service_container'
             - '@ibexa.siteaccess.provider'
             - '%ibexa.config.default_scope%'
         calls:
             - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
-            - [setContainer, ['@service_container']]
         lazy: true
         tags:
             - { name: ibexa.site.config.resolver, priority: 100 }
 
     Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver\GlobalScopeConfigResolver:
         arguments:
+            - '@service_container'
             - '%ibexa.config.default_scope%'
-        calls:
-            - [setContainer, ['@service_container']]
         lazy: true
         tags:
             - { name: ibexa.site.config.resolver, priority: 255 }
@@ -85,14 +83,13 @@ services:
     Ibexa\Core\MVC\Symfony\Controller\Controller:
         class: Ibexa\Core\MVC\Symfony\Controller\Controller
         abstract: true
-        calls:
-            - [ setContainer, ["@service_container"] ]
+        arguments:
+            $container: '@service_container'
 
     Ibexa\Core\MVC\Symfony\Controller\Content\ViewController:
         class: Ibexa\Core\MVC\Symfony\Controller\Content\ViewController
         arguments:
-            - '@Ibexa\Core\MVC\Symfony\View\ViewManagerInterface'
-            - "@security.authorization_checker"
+            $viewManager: '@Ibexa\Core\MVC\Symfony\View\ViewManagerInterface'
         parent: Ibexa\Core\MVC\Symfony\Controller\Controller
         tags:
             - { name: controller.service_arguments }
@@ -119,11 +116,9 @@ services:
     Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController:
         class: Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController
         arguments:
-            - '@ibexa.api.service.content'
-            - '@ibexa.field_type.ezbinaryfile.io_service'
-            - '@Ibexa\Core\Helper\TranslationHelper'
-            - "@router"
-            - '@Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator'
+            $contentService: '@ibexa.api.service.content'
+            $ioService: '@ibexa.field_type.ezbinaryfile.io_service'
+            $translationHelper: '@Ibexa\Core\Helper\TranslationHelper'
         parent: Ibexa\Core\MVC\Symfony\Controller\Controller
         tags:
               - { name: controller.service_arguments }
@@ -131,9 +126,9 @@ services:
     Ibexa\Core\MVC\Symfony\Controller\Content\DownloadRedirectionController:
         class: Ibexa\Core\MVC\Symfony\Controller\Content\DownloadRedirectionController
         arguments:
-            - '@ibexa.api.service.content'
-            - "@router"
-            - '@Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator'
+            $contentService: '@ibexa.api.service.content'
+            $router: "@router"
+            $routeReferenceGenerator: '@Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator'
         parent: Ibexa\Core\MVC\Symfony\Controller\Controller
         tags:
               - { name: controller.service_arguments }
