@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct as SPIInput
 /**
  * Test case for Persistence\Cache\ObjectStateHandler.
  */
-class ObjectStateHandlerTest extends AbstractCacheHandlerTest
+class ObjectStateHandlerTest extends AbstractCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {
@@ -27,19 +27,17 @@ class ObjectStateHandlerTest extends AbstractCacheHandlerTest
         return SPIObjectStateHandler::class;
     }
 
-    public function providerForUnCachedMethods(): array
+    public function providerForUnCachedMethods(): iterable
     {
         // string $method, array $arguments, array? $tagGeneratingArguments, array? $keyGeneratingArguments, array? $tags, array? $key, ?mixed $returnValue
-        return [
-            ['createGroup', [new SPIInputStruct()], null, [['state_group_all', [], true]], null, 'ibx-sga'],
-            ['updateGroup', [5, new SPIInputStruct()], [['state_group', [5], false]], null, ['sg-5']],
-            ['deleteGroup', [5], [['state_group', [5], false]], null, ['sg-5']],
-            ['create', [5, new SPIInputStruct()], null, [['state_list_by_group', [5], true]], [], 'ibx-slbg-5'],
-            ['update', [7, new SPIInputStruct()], [['state', [7], false]], null, ['s-7']],
-            ['setPriority', [7, 99], [['state', [7], false]], null, ['s-7']],
-            ['delete', [7], [['state', [7], false]], null, ['s-7']],
-            ['setContentState', [4, 5, 7], null, [['state_by_group_on_content', [5, 4], true]], [], 'ibx-sbg-5-oc-4'],
-        ];
+        yield 'createGroup' => ['createGroup', [new SPIInputStruct()], null, [['state_group_all', [], true]], null, 'ibx-sga'];
+        yield 'updateGroup' => ['updateGroup', [5, new SPIInputStruct()], [['state_group', [5], false]], null, ['sg-5']];
+        yield 'deleteGroup' => ['deleteGroup', [5], [['state_group', [5], false]], null, ['sg-5']];
+        yield 'create' => ['create', [5, new SPIInputStruct()], null, [['state_list_by_group', [5], true]], [], 'ibx-slbg-5'];
+        yield 'update' => ['update', [7, new SPIInputStruct()], [['state', [7], false]], null, ['s-7']];
+        yield 'setPriority' => ['setPriority', [7, 99], [['state', [7], false]], null, ['s-7']];
+        yield 'delete' => ['delete', [7], [['state', [7], false]], null, ['s-7']];
+        yield 'setContentState' => ['setContentState', [4, 5, 7], null, [['state_by_group_on_content', [5, 4], true]], [], 'ibx-sbg-5-oc-4'];
     }
 
     public function providerForCachedLoadMethodsHit(): array

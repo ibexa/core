@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as SPILocationHand
 /**
  * Test case for Persistence\Cache\BookmarkHandler.
  */
-class BookmarkHandlerTest extends AbstractCacheHandlerTest
+class BookmarkHandlerTest extends AbstractCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {
@@ -29,16 +29,14 @@ class BookmarkHandlerTest extends AbstractCacheHandlerTest
         return SPIBookmarkHandler::class;
     }
 
-    public function providerForUnCachedMethods(): array
+    public function providerForUnCachedMethods(): iterable
     {
         // string $method, array $arguments, array? $tagGeneratingArguments, array? $keyGeneratingArguments, array? tags, array? $tags, string? $key, mixed? $returnValue
-        return [
-            ['create', [new CreateStruct()], null, null, null, null, new Bookmark()],
-            ['delete', [1], [['bookmark', [1], false]], null, ['b-1']],
-            ['loadUserBookmarks', [3, 2, 1], null, null, null, null, []],
-            ['countUserBookmarks', [3], null, null, null, null, 1],
-            ['locationSwapped', [1, 2], null, null, null, null],
-        ];
+        yield 'create' => ['create', [new CreateStruct()], null, null, null, null, new Bookmark()];
+        yield 'delete' => ['delete', [1], [['bookmark', [1], false]], null, ['b-1']];
+        yield 'loadUserBookmarks' => ['loadUserBookmarks', [3, 2, 1], null, null, null, null, []];
+        yield 'countUserBookmarks' => ['countUserBookmarks', [3], null, null, null, null, 1];
+        yield 'locationSwapped' => ['locationSwapped', [1, 2], null, null, null, null];
     }
 
     public function providerForCachedLoadMethodsHit(): array

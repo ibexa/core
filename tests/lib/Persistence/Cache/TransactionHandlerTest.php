@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Persistence\TransactionHandler;
 /**
  * @covers \Ibexa\Core\Persistence\Cache\TransactionHandler
  */
-class TransactionHandlerTest extends AbstractCacheHandlerTest
+class TransactionHandlerTest extends AbstractCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {
@@ -24,13 +24,11 @@ class TransactionHandlerTest extends AbstractCacheHandlerTest
         return TransactionHandler::class;
     }
 
-    public function providerForUnCachedMethods(): array
+    public function providerForUnCachedMethods(): iterable
     {
         // string $method, array $arguments, array $arguments, array? $cacheTagGeneratingArguments, array? $cacheKeyGeneratingArguments, array? $tags, string? $key
-        return [
-            ['beginTransaction', []],
-            ['commit', []],
-        ];
+        yield 'beginTransaction' => ['beginTransaction', []];
+        yield 'commit' => ['commit', []];
     }
 
     public function providerForCachedLoadMethodsHit(): array

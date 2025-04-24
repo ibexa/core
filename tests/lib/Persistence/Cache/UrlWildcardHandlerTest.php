@@ -10,7 +10,7 @@ namespace Ibexa\Tests\Core\Persistence\Cache;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler as SpiUrlWildcardHandler;
 
-class UrlWildcardHandlerTest extends AbstractCacheHandlerTest
+class UrlWildcardHandlerTest extends AbstractCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {
@@ -22,17 +22,15 @@ class UrlWildcardHandlerTest extends AbstractCacheHandlerTest
         return SpiUrlWildcardHandler::class;
     }
 
-    public function providerForUnCachedMethods(): array
+    public function providerForUnCachedMethods(): iterable
     {
         $wildcard = new UrlWildcard(['id' => 1]);
 
         // string $method, array $arguments, array? $tagGeneratingArguments, array? $keyGeneratingArguments, array? $tags, array? $key, ?mixed $returnValue
-        return [
-            ['create', ['/home/about', '/web3/some/page/link', true], [['url_wildcard_not_found', [], false]], null, ['urlwnf'], null, $wildcard],
-            ['remove', [1], [['url_wildcard', [1], false]], null, ['urlw-1']],
-            ['loadAll', [], null, null, null, null, [$wildcard]],
-            ['exactSourceUrlExists', ['/home/about'], null, null, null, null, true],
-        ];
+        yield 'create' => ['create', ['/home/about', '/web3/some/page/link', true], [['url_wildcard_not_found', [], false]], null, ['urlwnf'], null, $wildcard];
+        yield 'remove' => ['remove', [1], [['url_wildcard', [1], false]], null, ['urlw-1']];
+        yield 'loadAll' => ['loadAll', [], null, null, null, null, [$wildcard]];
+        yield 'exactSourceUrlExists' => ['exactSourceUrlExists', ['/home/about'], null, null, null, null, true];
     }
 
     public function providerForCachedLoadMethodsHit(): array

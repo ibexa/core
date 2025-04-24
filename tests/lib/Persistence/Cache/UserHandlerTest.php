@@ -21,7 +21,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Location\Handler as SPILocationHandler
 /**
  * Test case for Persistence\Cache\UserHandler.
  */
-class UserHandlerTest extends AbstractInMemoryCacheHandlerTest
+class UserHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {
@@ -164,7 +164,7 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTest
         ];
     }
 
-    public function providerForCachedLoadMethodsHit(): array
+    public function providerForCachedLoadMethodsHit(): iterable
     {
         $user = new User(['id' => 14]);
         $role = new Role(['id' => 9]);
@@ -172,103 +172,111 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTest
         $calls = [['locationHandler', Location\Handler::class, 'loadLocationsByContent', [new Location(['pathString' => '/1/2/43/'])]]];
 
         // string $method, array $arguments, string $key, array? $tagGeneratingArguments, array? $tagGeneratingResults, array? $keyGeneratingArguments, array? $keyGeneratingResults, mixed? $data, bool $multi
-        return [
-            ['load', [14], 'ibx-u-14', null, null, [['user', [], true]], ['ibx-u'], $user],
+        yield 'load' => ['load', [14], 'ibx-u-14', null, null, [['user', [], true]], ['ibx-u'], $user];
+
+        yield 'loadByLogin' => [
+            'loadByLogin',
+            ['admin'],
+            'ibx-u-admin-bl',
+            null,
+            null,
             [
-                'loadByLogin',
-                ['admin'],
-                'ibx-u-admin-bl',
-                null,
-                null,
-                [
-                    ['user', [], true],
-                    ['by_login_suffix', [], false],
-                ],
-                ['ibx-u', 'bl'],
-                $user,
+                ['user', [], true],
+                ['by_login_suffix', [], false],
             ],
+            ['ibx-u', 'bl'],
+            $user,
+        ];
+
+        yield 'loadByEmail' => [
+            'loadByEmail',
+            ['admin@link.invalid'],
+            'ibx-u-admin_Alink.invalid-be',
+            null,
+            null,
             [
-                'loadByEmail',
-                ['admin@link.invalid'],
-                'ibx-u-admin_Alink.invalid-be',
-                null,
-                null,
-                [
-                    ['user', [], true],
-                    ['by_email_suffix', [], false],
-                ],
-                ['ibx-u', 'be'],
-                $user,
+                ['user', [], true],
+                ['by_email_suffix', [], false],
             ],
+            ['ibx-u', 'be'],
+            $user,
+        ];
+
+        yield 'loadUserByToken' => [
+            'loadUserByToken',
+            ['hash'],
+            'ibx-u-hash-bak',
+            null,
+            null,
             [
-                'loadUserByToken',
-                ['hash'],
-                'ibx-u-hash-bak',
-                null,
-                null,
-                [
-                    ['user', [], true],
-                    ['by_account_key_suffix', [], false],
-                ],
-                ['ibx-u', '-bak'],
-                $user,
+                ['user', [], true],
+                ['by_account_key_suffix', [], false],
             ],
-            ['loadRole', [9], 'ibx-r-9', null, null, [['role', [], true]], ['ibx-r'], $role],
+            ['ibx-u', '-bak'],
+            $user,
+        ];
+
+        yield 'loadRole' => ['loadRole', [9], 'ibx-r-9', null, null, [['role', [], true]], ['ibx-r'], $role];
+
+        yield 'loadRoleByIdentifier' => [
+            'loadRoleByIdentifier',
+            ['member'],
+            'ibx-r-member-bi',
+            null,
+            null,
             [
-                'loadRoleByIdentifier',
-                ['member'],
-                'ibx-r-member-bi',
-                null,
-                null,
-                [
-                    ['role', [], true],
-                    ['by_identifier_suffix', [], false],
-                ],
-                ['ibx-r', '-bi'],
-                $role,
+                ['role', [], true],
+                ['by_identifier_suffix', [], false],
             ],
-            ['loadRoleAssignment', [11], 'ibx-ra-11', null, null, [['role_assignment', [], true]], ['ibx-ra'], $roleAssignment],
-            ['loadRoleAssignmentsByRoleId', [$role->id], 'ibx-ra-9-bro', null, null, [['role_assignment_with_by_role_suffix', [9], true]], ['ibx-ra-9-bro'], [$roleAssignment]],
+            ['ibx-r', '-bi'],
+            $role,
+        ];
+
+        yield 'loadRoleAssignment' => ['loadRoleAssignment', [11], 'ibx-ra-11', null, null, [['role_assignment', [], true]], ['ibx-ra'], $roleAssignment];
+
+        yield 'loadRoleAssignmentsByRoleId' => ['loadRoleAssignmentsByRoleId', [$role->id], 'ibx-ra-9-bro', null, null, [['role_assignment_with_by_role_suffix', [9], true]], ['ibx-ra-9-bro'], [$roleAssignment]];
+
+        yield 'loadRoleAssignmentsByRoleIdWithOffsetAndLimit' => [
+            'loadRoleAssignmentsByRoleIdWithOffsetAndLimit',
+            [9, 0, 10],
+            'ibx-ra-9-bro-0-10',
+            null,
+            null,
+            [['role_assignment_with_by_role_offset_limit_suffix', [9, 0, 10], true]],
+            ['ibx-ra-9-bro-0-10'],
+            [$roleAssignment],
+        ];
+
+        yield 'loadRoleAssignmentsByGroupId' => [
+            'loadRoleAssignmentsByGroupId',
+            [14],
+            'ibx-ra-14-bg',
+            null,
+            null,
             [
-                'loadRoleAssignmentsByRoleIdWithOffsetAndLimit',
-                [9, 0, 10],
-                'ibx-ra-9-bro-0-10',
-                null,
-                null,
-                [['role_assignment_with_by_role_offset_limit_suffix', [9, 0, 10], true]],
-                ['ibx-ra-9-bro-0-10'],
-                [$roleAssignment],
+                ['role_assignment_with_by_group_suffix', [14], true],
             ],
-            [
-                'loadRoleAssignmentsByGroupId',
-                [14],
-                'ibx-ra-14-bg',
-                null,
-                null,
-                [
-                    ['role_assignment_with_by_group_suffix', [14], true],
-                ],
-                ['ibx-ra-14-bg'],
-                [$roleAssignment],
-                false,
-                $calls,
-            ],
-            [
-                'loadRoleAssignmentsByGroupId',
-                [14, true],
-                'ibx-ra-14-bgi',
-                null,
-                null,
-                [['role_assignment_with_by_group_inherited_suffix', [14], true]],
-                ['ibx-ra-14-bgi'],
-                [$roleAssignment],
-                false,
-                $calls,
-            ],
+            ['ibx-ra-14-bg'],
+            [$roleAssignment],
+            false,
+            $calls,
+        ];
+
+        yield 'loadRoleAssignmentsByGroupIdWithInheritance' => [
+            'loadRoleAssignmentsByGroupId',
+            [14, true],
+            'ibx-ra-14-bgi',
+            null,
+            null,
+            [['role_assignment_with_by_group_inherited_suffix', [14], true]],
+            ['ibx-ra-14-bgi'],
+            [$roleAssignment],
+            false,
+            $calls,
         ];
     }
 
-    public function providerForCachedLoadMethodsMiss(): array
+    public function providerForCachedLoadMethodsMiss(): iterable
     {
         $user = new User(['id' => 14]);
         $role = new Role(['id' => 9]);
@@ -276,194 +284,184 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTest
         $calls = [['locationHandler', Location\Handler::class, 'loadLocationsByContent', [new Location(['pathString' => '/1/2/43/'])]]];
 
         // string $method, array $arguments, string $key, array? $tagGeneratingArguments, array? $tagGeneratingResults, array? $keyGeneratingArguments, array? $keyGeneratingResults, mixed? $data, bool $multi
-        return [
+        yield 'load' => [
+            'load',
+            [14],
+            'ibx-u-14',
             [
-                'load',
-                [14],
-                'ibx-u-14',
-                [
-                    ['content', [14], false],
-                    ['user', [14], false],
-                ],
-                ['c-14', 'u-14'],
-                [
-                    ['user', [], true],
-                ],
-                ['ibx-u'],
-                $user,
+                ['content', [14], false],
+                ['user', [14], false],
             ],
+            ['c-14', 'u-14'],
+            [['user', [], true]],
+            ['ibx-u'],
+            $user,
+        ];
+
+        yield 'loadByLogin' => [
+            'loadByLogin',
+            ['admin'],
+            'ibx-u-admin-bl',
             [
-                'loadByLogin',
-                ['admin'],
-                'ibx-u-admin-bl',
-                [
-                    ['content', [14], false],
-                    ['user', [14], false],
-                ],
-                ['c-14', 'u-14'],
-                [
-                    ['user', [], true],
-                    ['by_login_suffix', [], false],
-                ],
-                ['ibx-u', 'bl'],
-                $user,
+                ['content', [14], false],
+                ['user', [14], false],
             ],
+            ['c-14', 'u-14'],
             [
-                'loadByEmail',
-                ['admin@link.invalid'],
-                'ibx-u-admin_Alink.invalid-be',
-                [
-                    ['content', [14], false],
-                    ['user', [14], false],
-                ],
-                ['c-14', 'u-14'],
-                [
-                    ['user', [], true],
-                    ['by_email_suffix', [], false],
-                ],
-                ['ibx-u', 'be'],
-                $user,
+                ['user', [], true],
+                ['by_login_suffix', [], false],
             ],
+            ['ibx-u', 'bl'],
+            $user,
+        ];
+
+        yield 'loadByEmail' => [
+            'loadByEmail',
+            ['admin@link.invalid'],
+            'ibx-u-admin_Alink.invalid-be',
             [
-                'loadUserByToken',
-                ['hash'],
-                'ibx-u-hash-bak',
-                [
-                    ['content', [14], false],
-                    ['user', [14], false],
-                    ['user_with_account_key_suffix', [14], false],
-                ],
-                ['c-14', 'u-14', 'u-14-bak'],
-                [
-                    ['user', [], true],
-                    ['by_account_key_suffix', [], false],
-                ],
-                ['ibx-u', '-bak'],
-                $user,
+                ['content', [14], false],
+                ['user', [14], false],
             ],
+            ['c-14', 'u-14'],
             [
-                'loadRole',
-                [9],
-                'ibx-r-9',
-                [
-                    ['role', [9], false],
-                ],
-                ['r-9'],
-                [
-                    ['role', [], true],
-                ],
-                ['ibx-r'],
-                $role,
+                ['user', [], true],
+                ['by_email_suffix', [], false],
             ],
+            ['ibx-u', 'be'],
+            $user,
+        ];
+
+        yield 'loadUserByToken' => [
+            'loadUserByToken',
+            ['hash'],
+            'ibx-u-hash-bak',
             [
-                'loadRoleByIdentifier',
-                ['member'],
-                'ibx-r-member-bi',
-                [
-                    ['role', [9], false],
-                ],
-                ['r-9'],
-                [
-                    ['role', [], true],
-                    ['by_identifier_suffix', [], false],
-                ],
-                ['ibx-r', '-bi'],
-                $role,
+                ['content', [14], false],
+                ['user', [14], false],
+                ['user_with_account_key_suffix', [14], false],
             ],
+            ['c-14', 'u-14', 'u-14-bak'],
             [
-                'loadRoleAssignment',
-                [11],
-                'ibx-ra-11',
-                [
-                    ['role_assignment', [11], false],
-                    ['role_assignment_group_list', [14], false],
-                    ['role_assignment_role_list', [9], false],
-                ],
-                ['ra-11', 'ragl-14', 'rarl-9'],
-                [
-                    ['role_assignment', [], true],
-                ],
-                ['ibx-ra'],
-                $roleAssignment,
+                ['user', [], true],
+                ['by_account_key_suffix', [], false],
             ],
+            ['ibx-u', '-bak'],
+            $user,
+        ];
+
+        yield 'loadRole' => [
+            'loadRole',
+            [9],
+            'ibx-r-9',
+            [['role', [9], false]],
+            ['r-9'],
+            [['role', [], true]],
+            ['ibx-r'],
+            $role,
+        ];
+
+        yield 'loadRoleByIdentifier' => [
+            'loadRoleByIdentifier',
+            ['member'],
+            'ibx-r-member-bi',
+            [['role', [9], false]],
+            ['r-9'],
             [
-                'loadRoleAssignmentsByRoleId',
-                [9],
-                'ibx-ra-9-bro',
-                [
-                    ['role_assignment_role_list', [9], false],
-                    ['role', [9], false],
-                    ['role_assignment', [11], false],
-                    ['role_assignment_group_list', [14], false],
-                    ['role_assignment_role_list', [9], false],
-                ],
-                ['rarl-9', 'r-9', 'ra-11', 'ragl-14', 'rarl-9'],
-                [
-                    ['role_assignment_with_by_role_suffix', [9], true],
-                ],
-                ['ibx-ra-9-bro'],
-                [$roleAssignment],
+                ['role', [], true],
+                ['by_identifier_suffix', [], false],
             ],
+            ['ibx-r', '-bi'],
+            $role,
+        ];
+
+        yield 'loadRoleAssignment' => [
+            'loadRoleAssignment',
+            [11],
+            'ibx-ra-11',
             [
-                'loadRoleAssignmentsByRoleIdWithOffsetAndLimit',
-                [9, 0, 10],
-                'ibx-ra-9-bro-0-10',
-                [
-                    ['role_assignment_role_list', [9], false],
-                    ['role', [9], false],
-                    ['role_assignment', [11], false],
-                    ['role_assignment_group_list', [14], false],
-                    ['role_assignment_role_list', [9], false],
-                ],
-                ['rarl-9', 'r-9', 'ra-11', 'ragl-14', 'rarl-9'],
-                [
-                    ['role_assignment_with_by_role_offset_limit_suffix', [9, 0, 10], true],
-                ],
-                ['ibx-ra-9-bro-0-10'],
-                [$roleAssignment],
+                ['role_assignment', [11], false],
+                ['role_assignment_group_list', [14], false],
+                ['role_assignment_role_list', [9], false],
             ],
+            ['ra-11', 'ragl-14', 'rarl-9'],
+            [['role_assignment', [], true]],
+            ['ibx-ra'],
+            $roleAssignment,
+        ];
+
+        yield 'loadRoleAssignmentsByRoleId' => [
+            'loadRoleAssignmentsByRoleId',
+            [9],
+            'ibx-ra-9-bro',
             [
-                'loadRoleAssignmentsByGroupId',
-                [14],
-                'ibx-ra-14-bg',
-                [
-                    ['role_assignment_group_list', [14], false],
-                    ['location_path', ['2'], false],
-                    ['location_path', ['43'], false],
-                    ['role_assignment', [11], false],
-                    ['role_assignment_group_list', [14], false],
-                    ['role_assignment_role_list', [9], false],
-                ],
-                ['ragl-14', 'lp-2', 'lp-43', 'ra-11', 'ragl-14', 'rarl-9'],
-                [
-                    ['role_assignment_with_by_group_suffix', [14], true],
-                ],
-                ['ibx-ra-14-bg'],
-                [$roleAssignment],
-                false,
-                $calls,
+                ['role_assignment_role_list', [9], false],
+                ['role', [9], false],
+                ['role_assignment', [11], false],
+                ['role_assignment_group_list', [14], false],
+                ['role_assignment_role_list', [9], false],
             ],
+            ['rarl-9', 'r-9', 'ra-11', 'ragl-14', 'rarl-9'],
+            [['role_assignment_with_by_role_suffix', [9], true]],
+            ['ibx-ra-9-bro'],
+            [$roleAssignment],
+        ];
+
+        yield 'loadRoleAssignmentsByRoleIdWithOffsetAndLimit' => [
+            'loadRoleAssignmentsByRoleIdWithOffsetAndLimit',
+            [9, 0, 10],
+            'ibx-ra-9-bro-0-10',
             [
-                'loadRoleAssignmentsByGroupId',
-                [14, true],
-                'ibx-ra-14-bgi',
-                [
-                    ['role_assignment_group_list', [14], false],
-                    ['location_path', ['2'], false],
-                    ['location_path', ['43'], false],
-                    ['role_assignment', [11], false],
-                    ['role_assignment_group_list', [14], false],
-                    ['role_assignment_role_list', [9], false],
-                ],
-                ['ragl-14', 'lp-2', 'lp-43', 'ra-11', 'ragl-14', 'rarl-9'],
-                [
-                    ['role_assignment_with_by_group_inherited_suffix', [14], true],
-                ],
-                ['ibx-ra-14-bgi'],
-                [$roleAssignment],
-                false,
-                $calls,
+                ['role_assignment_role_list', [9], false],
+                ['role', [9], false],
+                ['role_assignment', [11], false],
+                ['role_assignment_group_list', [14], false],
+                ['role_assignment_role_list', [9], false],
             ],
+            ['rarl-9', 'r-9', 'ra-11', 'ragl-14', 'rarl-9'],
+            [['role_assignment_with_by_role_offset_limit_suffix', [9, 0, 10], true]],
+            ['ibx-ra-9-bro-0-10'],
+            [$roleAssignment],
+        ];
+
+        yield 'loadRoleAssignmentsByGroupId' => [
+            'loadRoleAssignmentsByGroupId',
+            [14],
+            'ibx-ra-14-bg',
+            [
+                ['role_assignment_group_list', [14], false],
+                ['location_path', ['2'], false],
+                ['location_path', ['43'], false],
+                ['role_assignment', [11], false],
+                ['role_assignment_group_list', [14], false],
+                ['role_assignment_role_list', [9], false],
+            ],
+            ['ragl-14', 'lp-2', 'lp-43', 'ra-11', 'ragl-14', 'rarl-9'],
+            [['role_assignment_with_by_group_suffix', [14], true]],
+            ['ibx-ra-14-bg'],
+            [$roleAssignment],
+            false,
+            $calls,
+        ];
+
+        yield 'loadRoleAssignmentsByGroupIdWithInheritance' => [
+            'loadRoleAssignmentsByGroupId',
+            [14, true],
+            'ibx-ra-14-bgi',
+            [
+                ['role_assignment_group_list', [14], false],
+                ['location_path', ['2'], false],
+                ['location_path', ['43'], false],
+                ['role_assignment', [11], false],
+                ['role_assignment_group_list', [14], false],
+                ['role_assignment_role_list', [9], false],
+            ],
+            ['ragl-14', 'lp-2', 'lp-43', 'ra-11', 'ragl-14', 'rarl-9'],
+            [['role_assignment_with_by_group_inherited_suffix', [14], true]],
+            ['ibx-ra-14-bgi'],
+            [$roleAssignment],
+            false,
+            $calls,
         ];
     }
 

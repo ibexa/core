@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Notification;
 /**
  * Test case for Persistence\Cache\NotificationHandler.
  */
-class NotificationHandlerTest extends AbstractCacheHandlerTest
+class NotificationHandlerTest extends AbstractCacheHandlerTestCase
 {
     /**
      * {@inheritdoc}
@@ -38,7 +38,7 @@ class NotificationHandlerTest extends AbstractCacheHandlerTest
     /**
      * {@inheritdoc}
      */
-    public function providerForUnCachedMethods(): array
+    public function providerForUnCachedMethods(): iterable
     {
         $ownerId = 7;
         $notificationId = 5;
@@ -48,69 +48,65 @@ class NotificationHandlerTest extends AbstractCacheHandlerTest
         ]);
 
         // string $method, array $arguments, array? $tagGeneratingArguments, array? $keyGeneratingArguments, array? $tags, array? $key, ?mixed $returnValue
-        return [
+        yield 'createNotification' => [
+            'createNotification',
             [
-                'createNotification',
-                [
-                    new CreateStruct(['ownerId' => $ownerId]),
-                ],
-                null,
-                [
-                    ['notification_count', [$ownerId], true],
-                    ['notification_pending_count', [$ownerId], true],
-                ],
-                null,
-                [
-                    'ibx-nc-' . $ownerId,
-                    'ibx-npc-' . $ownerId,
-                ],
-                new SPINotification(),
+                new CreateStruct(['ownerId' => $ownerId]),
             ],
+            null,
             [
-                'updateNotification',
-                [
-                    $notification,
-                    new UpdateStruct(['isPending' => false]),
-                ],
-                null,
-                [
-                    ['notification', [$notificationId], true],
-                    ['notification_pending_count', [$ownerId], true],
-                ],
-                null,
-                [
-                    'ibx-n-' . $notificationId,
-                    'ibx-npc-' . $ownerId,
-                ],
-                new SPINotification(),
+                ['notification_count', [$ownerId], true],
+                ['notification_pending_count', [$ownerId], true],
             ],
+            null,
             [
-                'delete',
-                [
-                    $notification,
-                ],
-                null,
-                [
-                    ['notification', [$notificationId], true],
-                    ['notification_count', [$ownerId], true],
-                    ['notification_pending_count', [$ownerId], true],
-                ],
-                null,
-                [
-                    'ibx-n-' . $notificationId,
-                    'ibx-nc-' . $ownerId,
-                    'ibx-npc-' . $ownerId,
-                ],
+                'ibx-nc-' . $ownerId,
+                'ibx-npc-' . $ownerId,
             ],
+            new SPINotification(),
+        ];
+
+        yield 'updateNotification' => [
+            'updateNotification',
             [
-                'loadUserNotifications', [$ownerId, 0, 25], null, null, null, null, [],
+                $notification,
+                new UpdateStruct(['isPending' => false]),
+            ],
+            null,
+            [
+                ['notification', [$notificationId], true],
+                ['notification_pending_count', [$ownerId], true],
+            ],
+            null,
+            [
+                'ibx-n-' . $notificationId,
+                'ibx-npc-' . $ownerId,
+            ],
+            new SPINotification(),
+        ];
+
+        yield 'delete' => [
+            'delete',
+            [
+                $notification,
+            ],
+            null,
+            [
+                ['notification', [$notificationId], true],
+                ['notification_count', [$ownerId], true],
+                ['notification_pending_count', [$ownerId], true],
+            ],
+            null,
+            [
+                'ibx-n-' . $notificationId,
+                'ibx-nc-' . $ownerId,
+                'ibx-npc-' . $ownerId,
             ],
         ];
+
+        yield 'loadUserNotifications' => ['loadUserNotifications', [$ownerId, 0, 25], null, null, null, null, []];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function providerForCachedLoadMethodsHit(): array
     {
         $notificationId = 5;

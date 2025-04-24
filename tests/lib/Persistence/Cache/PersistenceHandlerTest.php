@@ -15,14 +15,8 @@ use Ibexa\Core\Persistence\Cache;
  *
  * @covers \Ibexa\Core\Persistence\Cache\Handler
  */
-class PersistenceHandlerTest extends AbstractBaseHandlerTest
+class PersistenceHandlerTest extends AbstractBaseHandlerTestCase
 {
-    public function testHandler(): void
-    {
-        self::assertInstanceOf(SPIPersistence\Handler::class, $this->persistenceCacheHandler);
-        self::assertInstanceOf(Cache\Handler::class, $this->persistenceCacheHandler);
-    }
-
     public function testContentHandler(): void
     {
         $this->loggerMock->expects(self::never())->method(self::anything());

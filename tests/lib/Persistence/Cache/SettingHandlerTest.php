@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Setting\Setting;
 /**
  * Test case for Persistence\Cache\SettingHandler.
  */
-class SettingHandlerTest extends AbstractCacheHandlerTest
+class SettingHandlerTest extends AbstractCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {
@@ -25,35 +25,33 @@ class SettingHandlerTest extends AbstractCacheHandlerTest
         return SettingHandler::class;
     }
 
-    public function providerForUnCachedMethods(): array
+    public function providerForUnCachedMethods(): iterable
     {
         // string $method, array $arguments, array? $tagGeneratingArguments, array? $keyGeneratingArguments, array? $tags, array? $key, ?mixed $returnValue
-        return [
-            [
-                'create',
-                ['group_a1', 'identifier_b2', 'value_c3'],
-                null,
-                null,
-                null,
-                null,
-                new Setting(),
-            ],
-            [
-                'update',
-                ['group_a1', 'identifier_b2', 'update_value_c3'],
-                [['setting', ['group_a1', 'identifier_b2'], true]],
-                null,
-                ['ibx-set-group_a1-identifier_b2'],
-                null,
-                new Setting(),
-            ],
-            [
-                'delete',
-                ['group_a1', 'identifier_b2'],
-                [['setting', ['group_a1', 'identifier_b2'], true]],
-                null,
-                ['ibx-set-group_a1-identifier_b2'],
-            ],
+        yield 'create' => [
+            'create',
+            ['group_a1', 'identifier_b2', 'value_c3'],
+            null,
+            null,
+            null,
+            null,
+            new Setting(),
+        ];
+        yield 'update' => [
+            'update',
+            ['group_a1', 'identifier_b2', 'update_value_c3'],
+            [['setting', ['group_a1', 'identifier_b2'], true]],
+            null,
+            ['ibx-set-group_a1-identifier_b2'],
+            null,
+            new Setting(),
+        ];
+        yield 'delete' => [
+            'delete',
+            ['group_a1', 'identifier_b2'],
+            [['setting', ['group_a1', 'identifier_b2'], true]],
+            null,
+            ['ibx-set-group_a1-identifier_b2'],
         ];
     }
 

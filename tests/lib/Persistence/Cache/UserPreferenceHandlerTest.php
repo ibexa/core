@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct;
 /**
  * Test case for Persistence\Cache\UserPreferenceHandler.
  */
-class UserPreferenceHandlerTest extends AbstractInMemoryCacheHandlerTest
+class UserPreferenceHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 {
     /**
      * {@inheritdoc}
@@ -33,98 +33,86 @@ class UserPreferenceHandlerTest extends AbstractInMemoryCacheHandlerTest
         return SPIUserPreferenceHandler::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function providerForUnCachedMethods(): array
+    public function providerForUnCachedMethods(): iterable
     {
         $userId = 7;
         $name = 'setting';
         $userPreferenceCount = 10;
 
         // string $method, array $arguments, array? $tagGeneratingArguments, array? $keyGeneratingArguments, array? $tags, array? $key, ?mixed $returnValue
-        return [
+        yield 'setUserPreference' => [
+            'setUserPreference',
             [
-                'setUserPreference',
-                [
-                    new UserPreferenceSetStruct([
-                        'userId' => $userId,
-                        'name' => $name,
-                    ]),
-                ],
-                null,
-                [
-                    ['user_preference_with_suffix', [$userId, $name], true],
-                ],
-                null,
-                [
-                    'ibx-up-' . $userId . '-' . $name,
-                ],
-                new SPIUserPreference(),
+                new UserPreferenceSetStruct([
+                                                'userId' => $userId,
+                                                'name' => $name,
+                                            ]),
             ],
+            null,
             [
-                'loadUserPreferences', [$userId, 0, 25], null, null, null, null, [],
+                ['user_preference_with_suffix', [$userId, $name], true],
             ],
+            null,
             [
-                'countUserPreferences',
-                [
-                    $userId,
-                ],
-                null,
-                null,
-                null,
-                null,
-                $userPreferenceCount,
+                'ibx-up-' . $userId . '-' . $name,
             ],
+            new SPIUserPreference(),
+        ];
+
+        yield 'loadUserPreferences' => ['loadUserPreferences', [$userId, 0, 25], null, null, null, null, []];
+
+        yield 'countUserPreferences' => [
+            'countUserPreferences',
+            [
+                $userId,
+            ],
+            null,
+            null,
+            null,
+            null,
+            $userPreferenceCount,
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function providerForCachedLoadMethodsHit(): array
+    public function providerForCachedLoadMethodsHit(): iterable
     {
         $userId = 7;
         $name = 'setting';
 
         // string $method, array $arguments, string $key, array? $tagGeneratingArguments, array? $tagGeneratingResults, array? $keyGeneratingArguments, array? $keyGeneratingResults, mixed? $data, bool $multi
-        return [
+        yield 'getUserPreferenceByUserIdAndName' => [
+            'getUserPreferenceByUserIdAndName',
             [
-                'getUserPreferenceByUserIdAndName',
-                [
-                    $userId,
-                    $name,
-                ],
-                'ibx-up-' . $userId . '-' . $name,
-                null,
-                null,
-                [['user_preference', [], true]],
-                ['ibx-up'],
-                new SPIUserPreference(['userId' => $userId, 'name' => $name]),
+                $userId,
+                $name,
             ],
+            'ibx-up-' . $userId . '-' . $name,
+            null,
+            null,
+            [['user_preference', [], true]],
+            ['ibx-up'],
+            new SPIUserPreference(['userId' => $userId, 'name' => $name]),
         ];
     }
 
-    public function providerForCachedLoadMethodsMiss(): array
+    public function providerForCachedLoadMethodsMiss(): iterable
     {
         $userId = 7;
         $name = 'setting';
 
         // string $method, array $arguments, string $key, array? $tagGeneratingArguments, array? $tagGeneratingResults, array? $keyGeneratingArguments, array? $keyGeneratingResults, mixed? $data, bool $multi
-        return [
+        yield 'getUserPreferenceByUserIdAndName' => [
+            'getUserPreferenceByUserIdAndName',
             [
-                'getUserPreferenceByUserIdAndName',
-                [
-                    $userId,
-                    $name,
-                ],
-                'ibx-up-' . $userId . '-' . $name,
-                null,
-                null,
-                [['user_preference', [], true]],
-                ['ibx-up'],
-                new SPIUserPreference(['userId' => $userId, 'name' => $name]),
+                $userId,
+                $name,
             ],
+            'ibx-up-' . $userId . '-' . $name,
+            null,
+            null,
+            [['user_preference', [], true]],
+            ['ibx-up'],
+            new SPIUserPreference(['userId' => $userId, 'name' => $name]),
         ];
     }
 }

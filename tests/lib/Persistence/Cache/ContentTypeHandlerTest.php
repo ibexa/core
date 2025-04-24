@@ -19,7 +19,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct as SPITypeUpdateS
 /**
  * Test case for Persistence\Cache\ContentTypeHandler.
  */
-class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
+class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {
@@ -31,221 +31,234 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
         return SPIContentTypeHandler::class;
     }
 
-    /**
-     * @return array
-     */
-    public function providerForUnCachedMethods(): array
+    public function providerForUnCachedMethods(): iterable
     {
         $groupUpdate = new SPITypeGroupUpdateStruct(['id' => 3, 'identifier' => 'media']);
         $typeUpdate = new SPITypeUpdateStruct(['identifier' => 'article', 'remoteId' => '34o9tj8394t']);
 
         // string $method, array $arguments, array? $tagGeneratingArguments, array? $keyGeneratingArguments, array? $tags, array? $key, ?mixed $returnValue
-        return [
-            ['createGroup', [new SPITypeGroupCreateStruct()], null, [['content_type_group_list', [], true]], null, ['ibx-ctgl']],
+        yield 'createGroup' => ['createGroup', [new SPITypeGroupCreateStruct()], null, [['content_type_group_list', [], true]], null, ['ibx-ctgl']];
+
+        yield 'updateGroup' => [
+            'updateGroup',
+            [$groupUpdate],
+            null,
             [
-                'updateGroup',
-                [$groupUpdate],
-                null,
-                [
-                    ['content_type_group_list', [], true],
-                    ['content_type_group', [3], true],
-                    ['content_type_group_with_id_suffix', ['media'], true],
-                ],
-                null,
-                ['ibx-ctgl', 'ibx-ctg-3', 'ibx-ctg-media-bi'],
+                ['content_type_group_list', [], true],
+                ['content_type_group', [3], true],
+                ['content_type_group_with_id_suffix', ['media'], true],
             ],
-            ['deleteGroup', [3], [['type_group', [3], false]], null, ['tg-3']],
-            ['loadContentTypes', [3, 1]], // also listed for cached cases in providerForCachedLoadMethods
-            ['load', [5, 1]], // also listed for cached case in providerForCachedLoadMethods
-            [
-                'create',
-                [new SPITypeCreateStruct(['groupIds' => [2, 3]])],
-                null,
-                [
-                    ['content_type_list_by_group', [2], true],
-                    ['content_type_list_by_group', [3], true],
-                ],
-                null,
-                ['ibx-ctlbg-2', 'ibx-ctlbg-3'],
-            ],
-            [
-                'update',
-                [5, 0, $typeUpdate],
-                [
-                    ['type', [5], false],
-                    ['type_map', [], false],
-                    ['content_fields_type', [5], false],
-                ],
-                null,
-                ['t-5', 'tm', 'cft-5'],
-            ],
-            ['update', [5, 1, $typeUpdate]],
-            [
-                'delete',
-                [5, 0],
-                [
-                    ['type', [5], false],
-                    ['type_map', [], false],
-                    ['content_fields_type', [5], false],
-                ],
-                null,
-                ['t-5', 'tm', 'cft-5'],
-            ],
-            ['delete', [5, 1]],
-            ['createDraft', [10, 5]],
-            [
-                'copy',
-                [10, 5, 0],
-                null,
-                [
-                    ['content_type_list_by_group', [1], true],
-                    ['content_type_list_by_group', [2], true],
-                ],
-                null,
-                ['ibx-ctlbg-1', 'ibx-ctlbg-2'],
-                new SPIType(['groupIds' => [1, 2]]),
-            ],
-            ['copy', [10, 5, 1], null, [['content_type_list_by_group', [3], true]], null, ['ibx-ctlbg-3'], new SPIType(['groupIds' => [3]])],
-            ['unlink', [3, 5, 0], [['type', [5], false]], null, ['t-5']],
-            ['unlink', [3, 5, 1]],
-            [
-                'link',
-                [3, 5, 0],
-                [
-                    ['type', [5], false],
-                ],
-                [
-                    ['content_type_list_by_group', [3], true],
-                ],
-                ['t-5'],
-                ['ibx-ctlbg-3'],
-            ],
-            ['link', [3, 5, 1]],
-            ['getFieldDefinition', [7, 1]],
-            ['getFieldDefinition', [7, 0]],
-            ['getContentCount', [5]],
-            [
-                'addFieldDefinition',
-                [5, 0, new SPITypeFieldDefinition()],
-                [
-                    ['type', [5], false],
-                    ['type_map', [], false],
-                    ['content_fields_type', [5], false],
-                ],
-                null,
-                ['t-5', 'tm', 'cft-5'],
-            ],
-            ['addFieldDefinition', [5, 1, new SPITypeFieldDefinition()]],
-            [
-                'removeFieldDefinition',
-                [5, 0, new SPITypeFieldDefinition(['id' => 7])],
-                [
-                    ['type', [5], false],
-                    ['type_map', [], false],
-                    ['content_fields_type', [5], false],
-                ],
-                null,
-                ['t-5', 'tm', 'cft-5'],
-            ],
-            ['removeFieldDefinition', [5, 1, new SPITypeFieldDefinition(['id' => 7])]],
-            [
-                'updateFieldDefinition',
-                [5, 0, new SPITypeFieldDefinition()],
-                [
-                    ['type', [5], false],
-                    ['type_map', [], false],
-                    ['content_fields_type', [5], false],
-                ],
-                null,
-                ['t-5', 'tm', 'cft-5'],
-            ],
-            ['updateFieldDefinition', [5, 1, new SPITypeFieldDefinition()]],
-            [
-                'removeContentTypeTranslation',
-                [5, 'eng-GB'],
-                [
-                    ['type', [5], false],
-                    ['type_map', [], false],
-                    ['content_fields_type', [5], false],
-                ],
-                null,
-                ['t-5', 'tm', 'cft-5'],
-                null,
-                new SPIType(),
-            ],
-            ['deleteByUserAndStatus', [12, 0], [['type_without_value', [], false]], null, ['t']],
-            ['deleteByUserAndStatus', [12, 1]],
+            null,
+            ['ibx-ctgl', 'ibx-ctg-3', 'ibx-ctg-media-bi'],
         ];
+
+        yield 'deleteGroup' => ['deleteGroup', [3], [['type_group', [3], false]], null, ['tg-3']];
+        yield 'loadContentTypes' => ['loadContentTypes', [3, 1]];
+        yield 'load' => ['load', [5, 1]];
+
+        yield 'create' => [
+            'create',
+            [new SPITypeCreateStruct(['groupIds' => [2, 3]])],
+            null,
+            [
+                ['content_type_list_by_group', [2], true],
+                ['content_type_list_by_group', [3], true],
+            ],
+            null,
+            ['ibx-ctlbg-2', 'ibx-ctlbg-3'],
+        ];
+
+        yield 'update' => [
+            'update',
+            [5, 0, $typeUpdate],
+            [
+                ['type', [5], false],
+                ['type_map', [], false],
+                ['content_fields_type', [5], false],
+            ],
+            null,
+            ['t-5', 'tm', 'cft-5'],
+        ];
+
+        yield 'update_version1' => ['update', [5, 1, $typeUpdate]];
+
+        yield 'delete' => [
+            'delete',
+            [5, 0],
+            [
+                ['type', [5], false],
+                ['type_map', [], false],
+                ['content_fields_type', [5], false],
+            ],
+            null,
+            ['t-5', 'tm', 'cft-5'],
+        ];
+
+        yield 'delete_version1' => ['delete', [5, 1]];
+        yield 'createDraft' => ['createDraft', [10, 5]];
+
+        yield 'copy' => [
+            'copy',
+            [10, 5, 0],
+            null,
+            [
+                ['content_type_list_by_group', [1], true],
+                ['content_type_list_by_group', [2], true],
+            ],
+            null,
+            ['ibx-ctlbg-1', 'ibx-ctlbg-2'],
+            new SPIType(['groupIds' => [1, 2]]),
+        ];
+
+        yield 'copy_version1' => ['copy', [10, 5, 1], null, [['content_type_list_by_group', [3], true]], null, ['ibx-ctlbg-3'], new SPIType(['groupIds' => [3]])];
+        yield 'unlink' => ['unlink', [3, 5, 0], [['type', [5], false]], null, ['t-5']];
+        yield 'unlink_version1' => ['unlink', [3, 5, 1]];
+
+        yield 'link' => [
+            'link',
+            [3, 5, 0],
+            [
+                ['type', [5], false],
+            ],
+            [
+                ['content_type_list_by_group', [3], true],
+            ],
+            ['t-5'],
+            ['ibx-ctlbg-3'],
+        ];
+
+        yield 'link_version1' => ['link', [3, 5, 1]];
+        yield 'getFieldDefinition' => ['getFieldDefinition', [7, 1]];
+        yield 'getFieldDefinition_version0' => ['getFieldDefinition', [7, 0]];
+        yield 'getContentCount' => ['getContentCount', [5]];
+
+        yield 'addFieldDefinition' => [
+            'addFieldDefinition',
+            [5, 0, new SPITypeFieldDefinition()],
+            [
+                ['type', [5], false],
+                ['type_map', [], false],
+                ['content_fields_type', [5], false],
+            ],
+            null,
+            ['t-5', 'tm', 'cft-5'],
+        ];
+
+        yield 'addFieldDefinition_version1' => ['addFieldDefinition', [5, 1, new SPITypeFieldDefinition()]];
+
+        yield 'removeFieldDefinition' => [
+            'removeFieldDefinition',
+            [5, 0, new SPITypeFieldDefinition(['id' => 7])],
+            [
+                ['type', [5], false],
+                ['type_map', [], false],
+                ['content_fields_type', [5], false],
+            ],
+            null,
+            ['t-5', 'tm', 'cft-5'],
+        ];
+
+        yield 'removeFieldDefinition_version1' => ['removeFieldDefinition', [5, 1, new SPITypeFieldDefinition(['id' => 7])]];
+
+        yield 'updateFieldDefinition' => [
+            'updateFieldDefinition',
+            [5, 0, new SPITypeFieldDefinition()],
+            [
+                ['type', [5], false],
+                ['type_map', [], false],
+                ['content_fields_type', [5], false],
+            ],
+            null,
+            ['t-5', 'tm', 'cft-5'],
+        ];
+
+        yield 'updateFieldDefinition_version1' => ['updateFieldDefinition', [5, 1, new SPITypeFieldDefinition()]];
+
+        yield 'removeContentTypeTranslation' => [
+            'removeContentTypeTranslation',
+            [5, 'eng-GB'],
+            [
+                ['type', [5], false],
+                ['type_map', [], false],
+                ['content_fields_type', [5], false],
+            ],
+            null,
+            ['t-5', 'tm', 'cft-5'],
+            null,
+            new SPIType(),
+        ];
+
+        yield 'deleteByUserAndStatus' => ['deleteByUserAndStatus', [12, 0], [['type_without_value', [], false]], null, ['t']];
+        yield 'deleteByUserAndStatus_version1' => ['deleteByUserAndStatus', [12, 1]];
     }
 
-    /**
-     * @return array
-     */
-    public function providerForCachedLoadMethodsHit(): array
+    public function providerForCachedLoadMethodsHit(): iterable
     {
         $group = new SPITypeGroup(['id' => 3, 'identifier' => 'media']);
         $type = new SPIType(['id' => 5, 'identifier' => 'article', 'remoteId' => '34o9tj8394t']);
 
         // string $method, array $arguments, string $key, array? $tagGeneratingArguments, array? $tagGeneratingResults, array? $keyGeneratingArguments, array? $keyGeneratingResults, mixed? $data, bool $multi
-        return [
-            ['loadGroup', [3], 'ibx-ctg-3', null, null, [['content_type_group', [], true]], ['ibx-ctg'], $group],
-            ['loadGroups', [[3]], 'ibx-ctg-3', null, null, [['content_type_group', [], true]], ['ibx-ctg'], [3 => $group], true],
+        yield 'loadGroup' => ['loadGroup', [3], 'ibx-ctg-3', null, null, [['content_type_group', [], true]], ['ibx-ctg'], $group];
+        yield 'loadGroups' => ['loadGroups', [[3]], 'ibx-ctg-3', null, null, [['content_type_group', [], true]], ['ibx-ctg'], [3 => $group], true];
+
+        yield 'loadGroupByIdentifier' => [
+            'loadGroupByIdentifier',
+            ['content'],
+            'ibx-ctg-content-bi',
+            null,
+            null,
             [
-                'loadGroupByIdentifier',
-                ['content'],
-                'ibx-ctg-content-bi',
-                null,
-                null,
-                [
-                    ['content_type_group', [], true],
-                    ['by_identifier_suffix', [], false],
-                ],
-                ['ibx-ctg', 'bi'],
-                $group,
+                ['content_type_group', [], true],
+                ['by_identifier_suffix', [], false],
             ],
-            ['loadAllGroups', [], 'ibx-ctgl', null, null, [['content_type_group_list', [], true]], ['ibx-ctgl'], [3 => $group]],
-            ['loadContentTypes', [3, 0], 'ibx-ctlbg-3', null, null, [['content_type_list_by_group', [3], true]], ['ibx-ctlbg-3'], [$type]],
-            ['loadContentTypesByFieldDefinitionIdentifier', [3, 0], 'ibx-ctlbfdi-3', null, null, [['content_type_list_by_field_definition_identifier', [3], true]], ['ibx-ctlbfdi-3'], [$type]],
-            ['loadContentTypeList', [[5]], 'ibx-ct-5', null, null, [['content_type', [], true]], ['ibx-ct'], [5 => $type], true],
-            ['load', [5, 0], 'ibx-ct-5', null, null, [['content_type', [], true]], ['ibx-ct'], $type],
-            [
-                'loadByIdentifier',
-                ['article'],
-                'ibx-ct-article-bi',
-                null,
-                null,
-                [
-                    ['content_type', [], true],
-                    ['by_identifier_suffix', [], false],
-                ],
-                ['ibx-ct', 'bi'],
-                $type,
-            ],
-            [
-                'loadByRemoteId',
-                ['f34tg45gf'],
-                'ibx-ct-f34tg45gf-br',
-                null,
-                null,
-                [
-                    ['content_type', [], true],
-                    ['by_remote_suffix', [], false],
-                ],
-                ['ibx-ct', 'br'],
-                $type,
-            ],
-            ['getSearchableFieldMap', [], 'ibx-ctfm', null, null, [['content_type_field_map', [], true]], ['ibx-ctfm'], [$type]],
+            ['ibx-ctg', 'bi'],
+            $group,
         ];
+
+        yield 'loadAllGroups' => ['loadAllGroups', [], 'ibx-ctgl', null, null, [['content_type_group_list', [], true]], ['ibx-ctgl'], [3 => $group]];
+        yield 'loadContentTypes' => ['loadContentTypes', [3, 0], 'ibx-ctlbg-3', null, null, [['content_type_list_by_group', [3], true]], ['ibx-ctlbg-3'], [$type]];
+        yield 'loadContentTypesByFieldDefinitionIdentifier' => ['loadContentTypesByFieldDefinitionIdentifier', ['name'], 'ibx-ctlbfdi-name', null, null, [['content_type_list_by_field_definition_identifier', ['name'], true]], ['ibx-ctlbfdi-name'], [$type]];
+        yield 'loadContentTypeList' => ['loadContentTypeList', [[5]], 'ibx-ct-5', null, null, [['content_type', [], true]], ['ibx-ct'], [5 => $type], true];
+        yield 'load' => ['load', [5, 0], 'ibx-ct-5', null, null, [['content_type', [], true]], ['ibx-ct'], $type];
+
+        yield 'loadByIdentifier' => [
+            'loadByIdentifier',
+            ['article'],
+            'ibx-ct-article-bi',
+            null,
+            null,
+            [
+                ['content_type', [], true],
+                ['by_identifier_suffix', [], false],
+            ],
+            ['ibx-ct', 'bi'],
+            $type,
+        ];
+
+        yield 'loadByRemoteId' => [
+            'loadByRemoteId',
+            ['f34tg45gf'],
+            'ibx-ct-f34tg45gf-br',
+            null,
+            null,
+            [
+                ['content_type', [], true],
+                ['by_remote_suffix', [], false],
+            ],
+            ['ibx-ct', 'br'],
+            $type,
+        ];
+
+        yield 'getSearchableFieldMap' => ['getSearchableFieldMap', [], 'ibx-ctfm', null, null, [['content_type_field_map', [], true]], ['ibx-ctfm'], [$type]];
     }
 
-    public function providerForCachedLoadMethodsMiss(): array
+    public function providerForCachedLoadMethodsMiss(): iterable
     {
         $group = new SPITypeGroup(['id' => 3, 'identifier' => 'media']);
         $type = new SPIType(['id' => 5, 'identifier' => 'article', 'remoteId' => '34o9tj8394t']);
 
         // string $method, array $arguments, string $key, array? $tagGeneratingArguments, array? $tagGeneratingResults, array? $keyGeneratingArguments, array? $keyGeneratingResults, mixed? $data, bool $multi
-        return [
-            [
+        yield 'loadGroup' => [
                 'loadGroup',
                 [3],
                 'ibx-ctg-3',
@@ -258,8 +271,9 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ],
                 ['ibx-ctg'],
                 $group,
-            ],
-            [
+        ];
+
+        yield 'loadGroups' => [
                 'loadGroups',
                 [[3]],
                 'ibx-ctg-3',
@@ -273,8 +287,9 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ['ibx-ctg'],
                 [3 => $group],
                 true,
-            ],
-            [
+        ];
+
+        yield 'loadGroupByIdentifier' => [
                 'loadGroupByIdentifier',
                 ['content'],
                 'ibx-ctg-content-bi',
@@ -288,8 +303,9 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ],
                 ['ibx-ctg', 'bi'],
                 $group,
-            ],
-            [
+        ];
+
+        yield 'loadAllGroups' => [
                 'loadAllGroups',
                 [],
                 'ibx-ctgl',
@@ -302,8 +318,9 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ],
                 ['ibx-ctgl'],
                 [3 => $group],
-            ],
-            [
+        ];
+
+        yield 'loadContentTypes' => [
                 'loadContentTypes',
                 [3, 0],
                 'ibx-ctlbg-3',
@@ -318,8 +335,9 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ],
                 ['ibx-ctlbg-3'],
                 [$type],
-            ],
-            [
+        ];
+
+        yield 'loadContentTypeList' => [
                 'loadContentTypeList',
                 [[5]],
                 'ibx-ct-5',
@@ -334,8 +352,9 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ['ibx-ct'],
                 [5 => $type],
                 true,
-            ],
-            [
+        ];
+
+        yield 'load' => [
                 'load',
                 [5, 0],
                 'ibx-ct-5',
@@ -349,8 +368,9 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ],
                 ['ibx-ct'],
                 $type,
-            ],
-            [
+        ];
+
+        yield 'loadByIdentifier' => [
                 'loadByIdentifier',
                 ['article'],
                 'ibx-ct-article-bi',
@@ -365,8 +385,9 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ],
                 ['ibx-ct', 'bi'],
                 $type,
-            ],
-            [
+        ];
+
+        yield 'loadByRemoteId' => [
                 'loadByRemoteId',
                 ['f34tg45gf'],
                 'ibx-ct-f34tg45gf-br',
@@ -381,8 +402,9 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ],
                 ['ibx-ct', 'br'],
                 $type,
-            ],
-            [
+        ];
+
+        yield 'getSearchableFieldMap' => [
                 'getSearchableFieldMap',
                 [],
                 'ibx-ctfm',
@@ -395,7 +417,6 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ],
                 ['ibx-ctfm'],
                 [$type],
-            ],
         ];
     }
 

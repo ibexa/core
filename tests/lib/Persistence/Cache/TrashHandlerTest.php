@@ -18,7 +18,7 @@ use Ibexa\Core\Persistence\Cache\LocationHandler;
 /**
  * Test case for Persistence\Cache\SectionHandler.
  */
-class TrashHandlerTest extends AbstractCacheHandlerTest
+class TrashHandlerTest extends AbstractCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {
@@ -30,12 +30,10 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
         return TrashHandler::class;
     }
 
-    public function providerForUnCachedMethods(): array
+    public function providerForUnCachedMethods(): iterable
     {
         // string $method, array $arguments, array? $tagGeneratingArguments, array? $keyGeneratingArguments, array? $tags, array? $key, ?mixed $returnValue
-        return [
-            ['loadTrashItem', [6]],
-        ];
+        yield 'loadTrashItem' => ['loadTrashItem', [6]];
     }
 
     public function providerForCachedLoadMethodsHit(): array

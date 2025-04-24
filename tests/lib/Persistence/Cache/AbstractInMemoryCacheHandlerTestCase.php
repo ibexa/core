@@ -9,26 +9,44 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Persistence\Cache;
 
 /**
- * Abstract test case for spi cache impl.
+ * Abstract test case for spi cache impl, with in-memory handling.
+ *
+ * @phpstan-import-type TAdditionalCalls from \Ibexa\Tests\Core\Persistence\Cache\AbstractBaseHandlerTestCase
  */
-abstract class AbstractCacheHandlerTest extends AbstractBaseHandlerTest
+abstract class AbstractInMemoryCacheHandlerTestCase extends AbstractBaseHandlerTestCase
 {
     abstract public function getHandlerMethodName(): string;
 
+    /**
+     * @return class-string
+     */
     abstract public function getHandlerClassName(): string;
 
-    abstract public function providerForUnCachedMethods(): array;
+    /**
+     * @phpstan-return iterable<
+     *      string,
+     *      array{
+     *          0: string,
+     *          1: list<mixed>,
+     *          2?: null|list<mixed>,
+     *          3?: null|list<mixed>,
+     *          4?: null|list<string>,
+     *          5?: null|string|list<string>,
+     *          6?: mixed,
+     *          7?: bool
+     *      }
+     * >
+     */
+    abstract public function providerForUnCachedMethods(): iterable;
 
     /**
      * @dataProvider providerForUnCachedMethods
      *
-     * @param string $method
-     * @param array $arguments
-     * @param array|null $tagGeneratingArguments
-     * @param array|null $keyGeneratingArguments
-     * @param array|null $tags
-     * @param string|array|null $key
-     * @param mixed $returnValue
+     * @param list<mixed> $arguments
+     * @param list<mixed>|null $tagGeneratingArguments
+     * @param list<mixed>|null $keyGeneratingArguments
+     * @param list<string>|null $tags
+     * @param list<string>|null $key
      */
     final public function testUnCachedMethods(
         string $method,
@@ -36,8 +54,9 @@ abstract class AbstractCacheHandlerTest extends AbstractBaseHandlerTest
         array $tagGeneratingArguments = null,
         array $keyGeneratingArguments = null,
         array $tags = null,
-        $key = null,
-        $returnValue = null
+        array $key = null,
+        mixed $returnValue = null,
+        bool $callInnerHandler = true
     ): void {
         $handlerMethodName = $this->getHandlerMethodName();
 
@@ -47,12 +66,12 @@ abstract class AbstractCacheHandlerTest extends AbstractBaseHandlerTest
 
         $innerHandler = $this->createMock($this->getHandlerClassName());
         $this->persistenceHandlerMock
-            ->expects(self::once())
+            ->expects($callInnerHandler ? self::once() : self::never())
             ->method($handlerMethodName)
             ->willReturn($innerHandler);
 
         $invocationMocker = $innerHandler
-            ->expects(self::once())
+            ->expects($callInnerHandler ? self::once() : self::never())
             ->method($method)
             ->with(...$arguments);
         // workaround for mocking void-returning methods, null in this case denotes that, not null value
@@ -66,7 +85,7 @@ abstract class AbstractCacheHandlerTest extends AbstractBaseHandlerTest
                     ->expects(self::exactly(count($tagGeneratingArguments)))
                     ->method('generateTag')
                     ->withConsecutive(...$tagGeneratingArguments)
-                    ->willReturnOnConsecutiveCalls(...$tags);
+                    ->willReturnOnConsecutiveCalls(...($tags ?? []));
             }
 
             if ($keyGeneratingArguments) {
@@ -93,37 +112,53 @@ abstract class AbstractCacheHandlerTest extends AbstractBaseHandlerTest
                 ->with($tags);
 
             $this->cacheMock
-                ->expects(!empty($key) && is_string($key) ? self::once() : self::never())
-                ->method('deleteItem')
-                ->with($key);
-
-            $this->cacheMock
-                ->expects(!empty($key) && is_array($key) ? self::once() : self::never())
+                ->expects(!empty($key) ? self::once() : self::never())
                 ->method('deleteItems')
                 ->with($key);
+        } else {
+            $this->cacheMock
+                ->expects(self::never())
+                ->method(self::anything());
         }
 
         $handler = $this->persistenceCacheHandler->$handlerMethodName();
-        $actualReturnValue = call_user_func_array([$handler, $method], $arguments);
+        $actualReturnValue = $handler->$method(...$arguments);
 
         self::assertEquals($returnValue, $actualReturnValue);
     }
 
-    abstract public function providerForCachedLoadMethodsHit(): array;
+    /**
+     * @phpstan-return iterable<
+     *      string,
+     *      array{
+     *          0: string,
+     *          1: list<mixed>,
+     *          2: string,
+     *          3?: null|list<mixed>,
+     *          4?: null|list<mixed>,
+     *          5?: null|list<mixed>,
+     *          6?: null|list<mixed>,
+     *          7?: mixed,
+     *          8?: bool,
+     *          9?: mixed,
+     *          10?: bool,
+     *          11?: list<array{string, string, string, mixed}>
+     *      }
+     * >
+     */
+    abstract public function providerForCachedLoadMethodsHit(): iterable;
 
     /**
      * @dataProvider providerForCachedLoadMethodsHit
      *
-     * @param string $method
-     * @param array $arguments
-     * @param string $key
-     * @param array|null $tagGeneratingArguments
-     * @param array|null $tagGeneratingResults
-     * @param array|null $keyGeneratingArguments
-     * @param array|null $keyGeneratingResults
-     * @param mixed $data
-     * @param bool $multi Default false, set to true if method will lookup several cache items.
-     * @param array $additionalCalls Sets of additional calls being made to handlers, with 4 values (0: handler name, 1: handler class, 2: method, 3: return data)
+     * @param bool $multi Default false, set to true if the method will look up several cache items.
+     *
+     * @phpstan-param list<mixed>|null $tagGeneratingArguments
+     * @phpstan-param list<mixed>|null $tagGeneratingResults
+     * @phpstan-param list<mixed>|null $keyGeneratingArguments
+     * @phpstan-param list<mixed>|null $keyGeneratingResults
+     * @phpstan-param list<mixed> $arguments
+     * @phpstan-param list<array{string, string, string, mixed}> $additionalCalls Sets of additional calls being made to handlers, with 4 values (0: handler name, 1: handler class, 2: method, 3: return data)
      */
     final public function testLoadMethodsCacheHit(
         string $method,
@@ -133,21 +168,23 @@ abstract class AbstractCacheHandlerTest extends AbstractBaseHandlerTest
         array $tagGeneratingResults = null,
         array $keyGeneratingArguments = null,
         array $keyGeneratingResults = null,
-        $data = null,
+        mixed $data = null,
         bool $multi = false,
         array $additionalCalls = []
     ): void {
         $cacheItem = $this->getCacheItem($key, $multi ? reset($data) : $data);
         $handlerMethodName = $this->getHandlerMethodName();
 
+        $this->loggerMock->expects(self::once())->method('logCacheHit');
         $this->loggerMock->expects(self::never())->method('logCall');
+        $this->loggerMock->expects(self::never())->method('logCacheMiss');
 
         if ($tagGeneratingArguments) {
             $this->cacheIdentifierGeneratorMock
                 ->expects(self::exactly(count($tagGeneratingArguments)))
                 ->method('generateTag')
                 ->withConsecutive(...$tagGeneratingArguments)
-                ->willReturnOnConsecutiveCalls(...$tagGeneratingResults);
+                ->willReturnOnConsecutiveCalls(...($tagGeneratingResults ?? []));
         }
 
         if ($keyGeneratingArguments) {
@@ -155,7 +192,7 @@ abstract class AbstractCacheHandlerTest extends AbstractBaseHandlerTest
                 ->expects(self::exactly(count($keyGeneratingArguments)))
                 ->method('generateKey')
                 ->withConsecutive(...$keyGeneratingArguments)
-                ->willReturnOnConsecutiveCalls(...$keyGeneratingResults);
+                ->willReturnOnConsecutiveCalls(...($keyGeneratingResults ?? []));
         }
 
         if ($multi) {
@@ -183,26 +220,41 @@ abstract class AbstractCacheHandlerTest extends AbstractBaseHandlerTest
         }
 
         $handler = $this->persistenceCacheHandler->$handlerMethodName();
-        $return = call_user_func_array([$handler, $method], $arguments);
+        $return = $handler->$method(...$arguments);
 
         self::assertEquals($data, $return);
     }
 
-    abstract public function providerForCachedLoadMethodsMiss(): array;
+    /**
+     * @phpstan-return iterable<
+     *      string,
+     *      array{
+     *          0: string,
+     *          1: list<mixed>,
+     *          2: string,
+     *          3?: null|list<mixed>,
+     *          4?: null|list<mixed>,
+     *          5?: null|list<mixed>,
+     *          6?: null|list<mixed>,
+     *          7?: mixed,
+     *          8?: bool,
+     *          9?: TAdditionalCalls
+     *      }
+     * >
+     */
+    abstract public function providerForCachedLoadMethodsMiss(): iterable;
 
     /**
      * @dataProvider providerForCachedLoadMethodsMiss
      *
-     * @param string $method
-     * @param array $arguments
-     * @param string $key
-     * @param array|null $tagGeneratingArguments
-     * @param array|null $tagGeneratingResults
-     * @param array|null $keyGeneratingArguments
-     * @param array|null $keyGeneratingResults
-     * @param object $data
-     * @param bool $multi Default false, set to true if method will lookup several cache items.
-     * @param array $additionalCalls Sets of additional calls being made to handlers, with 4 values (0: handler name, 1: handler class, 2: method, 3: return data)
+     * @param bool $multi Default false, set to true if the method will look up several cache items.
+     *
+     * @phpstan-param list<mixed> $arguments
+     * @phpstan-param list<mixed>|null $tagGeneratingArguments
+     * @phpstan-param list<mixed>|null $tagGeneratingResults
+     * @phpstan-param list<mixed>|null $keyGeneratingArguments
+     * @phpstan-param list<mixed>|null $keyGeneratingResults
+     * @phpstan-param TAdditionalCalls $additionalCalls Sets of additional calls being made to handlers, with 4 values (0: handler name, 1: handler class, 2: method, 3: return data)
      */
     final public function testLoadMethodsCacheMiss(
         string $method,
@@ -212,25 +264,23 @@ abstract class AbstractCacheHandlerTest extends AbstractBaseHandlerTest
         array $tagGeneratingResults = null,
         array $keyGeneratingArguments = null,
         array $keyGeneratingResults = null,
-        $data = null,
+        mixed $data = null,
         bool $multi = false,
         array $additionalCalls = []
     ): void {
-        $cacheItem = $this->getCacheItem($key, null);
+        $cacheItem = $this->getCacheItem($key);
         $handlerMethodName = $this->getHandlerMethodName();
 
-        $handler = $this->persistenceCacheHandler->$handlerMethodName();
-        $this->loggerMock
-            ->expects(self::once())
-            ->method('logCall')
-            ->with(get_class($handler) . '::' . $method, self::isType('array'));
+        $this->loggerMock->expects(self::once())->method('logCacheMiss');
+        $this->loggerMock->expects(self::never())->method('logCall');
+        $this->loggerMock->expects(self::never())->method('logCacheHit');
 
         if ($tagGeneratingArguments) {
             $this->cacheIdentifierGeneratorMock
                 ->expects(self::exactly(count($tagGeneratingArguments)))
                 ->method('generateTag')
                 ->withConsecutive(...$tagGeneratingArguments)
-                ->willReturnOnConsecutiveCalls(...$tagGeneratingResults);
+                ->willReturnOnConsecutiveCalls(...($tagGeneratingResults ?? []));
         }
 
         if ($keyGeneratingArguments) {
@@ -238,7 +288,7 @@ abstract class AbstractCacheHandlerTest extends AbstractBaseHandlerTest
                 ->expects(self::exactly(count($keyGeneratingArguments)))
                 ->method('generateKey')
                 ->withConsecutive(...$keyGeneratingArguments)
-                ->willReturnOnConsecutiveCalls(...$keyGeneratingResults);
+                ->willReturnOnConsecutiveCalls(...($keyGeneratingResults ?? []));
         }
 
         if ($multi) {
@@ -285,11 +335,12 @@ abstract class AbstractCacheHandlerTest extends AbstractBaseHandlerTest
             ->method('save')
             ->with($cacheItem);
 
-        $return = call_user_func_array([$handler, $method], $arguments);
+        $handler = $this->persistenceCacheHandler->$handlerMethodName();
+        $return = $handler->$method(...$arguments);
 
         self::assertEquals($data, $return);
 
-        // Assert use of tags would probably need custom logic as internal property is [$tag => $tag] value and we don't want to know that.
+        // Assert use of tags would probably need custom logic as internal property is [$tag => $tag] value, and we don't want to know that.
         //$this->assertAttributeEquals([], 'tags', $cacheItem);
     }
 }

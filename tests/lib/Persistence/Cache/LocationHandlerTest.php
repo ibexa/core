@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Location\UpdateStruct;
 /**
  * Test case for Persistence\Cache\LocationHandler.
  */
-class LocationHandlerTest extends AbstractInMemoryCacheHandlerTest
+class LocationHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {
@@ -27,65 +27,62 @@ class LocationHandlerTest extends AbstractInMemoryCacheHandlerTest
         return SPILocationHandler::class;
     }
 
-    public function providerForUnCachedMethods(): array
+    public function providerForUnCachedMethods(): iterable
     {
         // string $method, array $arguments, array? $tagGeneratingArguments, array? $keyGeneratingArguments, array? $tags, array? $key, ?mixed $returnValue
-        return [
-            ['copySubtree', [12, 45]],
-            ['move', [12, 45], [['location_path', [12], false]], null, ['lp-12']],
-            ['hide', [12], [['location_path', [12], false]], null, ['lp-12']],
-            ['unHide', [12], [['location_path', [12], false]], null, ['lp-12']],
+        yield 'copySubtree' => ['copySubtree', [12, 45]];
+        yield 'move' => ['move', [12, 45], [['location_path', [12], false]], null, ['lp-12']];
+        yield 'hide' => ['hide', [12], [['location_path', [12], false]], null, ['lp-12']];
+        yield 'unHide' => ['unHide', [12], [['location_path', [12], false]], null, ['lp-12']];
+        yield 'swap' => [
+            'swap',
+            [12, 45],
             [
-                'swap',
-                [12, 45],
-                [
-                    ['location', [12], false],
-                    ['location', [45], false],
-                ],
-                null,
-                ['l-12', 'l-45'],
+                ['location', [12], false],
+                ['location', [45], false],
             ],
-            ['update', [new UpdateStruct(), 12], [['location', [12], false]], null, ['l-12']],
-            [
-                'create',
-                [new CreateStruct(['contentId' => 4, 'mainLocationId' => true])],
-                [
-                    ['content', [4], false],
-                    ['role_assignment_group_list', [4], false],
-                ],
-                null,
-                ['c-4', 'ragl-4'],
-            ],
-            [
-                'create',
-                [new CreateStruct(['contentId' => 4, 'mainLocationId' => false])],
-                [
-                    ['content', [4], false],
-                    ['role_assignment_group_list', [4], false],
-                ],
-                null,
-                ['c-4', 'ragl-4'],
-            ],
-            ['removeSubtree', [12], [['location_path', [12], false]], null, ['lp-12']],
-            ['deleteChildrenDrafts', [12], [['location_path', [12], false]], null, ['lp-12']],
-            ['setSectionForSubtree', [12, 2], [['location_path', [12], false]], null, ['lp-12']],
-            ['changeMainLocation', [4, 12], [['content', [4], false]], null, ['c-4']],
-            ['countLocationsByContent', [4]],
+            null,
+            ['l-12', 'l-45'],
         ];
+        yield 'update' => ['update', [new UpdateStruct(), 12], [['location', [12], false]], null, ['l-12']];
+        yield 'create' => [
+            'create',
+            [new CreateStruct(['contentId' => 4, 'mainLocationId' => true])],
+            [
+                ['content', [4], false],
+                ['role_assignment_group_list', [4], false],
+            ],
+            null,
+            ['c-4', 'ragl-4'],
+        ];
+        yield 'create_not_main' => [
+            'create',
+            [new CreateStruct(['contentId' => 4, 'mainLocationId' => false])],
+            [
+                ['content', [4], false],
+                ['role_assignment_group_list', [4], false],
+            ],
+            null,
+            ['c-4', 'ragl-4'],
+        ];
+        yield 'removeSubtree' => ['removeSubtree', [12], [['location_path', [12], false]], null, ['lp-12']];
+        yield 'deleteChildrenDrafts' => ['deleteChildrenDrafts', [12], [['location_path', [12], false]], null, ['lp-12']];
+        yield 'setSectionForSubtree' => ['setSectionForSubtree', [12, 2], [['location_path', [12], false]], null, ['lp-12']];
+        yield 'changeMainLocation' => ['changeMainLocation', [4, 12], [['content', [4], false]], null, ['c-4']];
+        yield 'countLocationsByContent' => ['countLocationsByContent', [4]];
     }
 
-    public function providerForCachedLoadMethodsHit(): array
+    public function providerForCachedLoadMethodsHit(): iterable
     {
         $location = new Location(['id' => 12]);
 
         // string $method, array $arguments, string $key, array? $tagGeneratingArguments, array? $tagGeneratingResults, array? $keyGeneratingArguments, array? $keyGeneratingResults, mixed? $data, bool $multi
-        return [
-            ['load', [12], 'ibx-l-12-1', null, null, [['location', [], true]], ['ibx-l'], $location],
-            ['load', [12, ['eng-GB', 'bra-PG'], false], 'ibx-l-12-bra-PG|eng-GB|0', null, null, [['location', [], true]], ['ibx-l'], $location],
-            ['loadList', [[12]], 'ibx-l-12-1', null, null, [['location', [], true]], ['ibx-l'], [12 => $location], true],
-            ['loadList', [[12], ['eng-GB', 'bra-PG'], false], 'ibx-l-12-bra-PG|eng-GB|0', null, null, [['location', [], true]], ['ibx-l'], [12 => $location], true],
-            ['loadSubtreeIds', [12], 'ibx-ls-12', null, null, [['location_subtree', [], true]], ['ibx-ls'], [33, 44]],
-            [
+        yield 'load' => ['load', [12], 'ibx-l-12-1', null, null, [['location', [], true]], ['ibx-l'], $location];
+        yield 'load_with_languages' => ['load', [12, ['eng-GB', 'bra-PG'], false], 'ibx-l-12-bra-PG|eng-GB|0', null, null, [['location', [], true]], ['ibx-l'], $location];
+        yield 'loadList' => ['loadList', [[12]], 'ibx-l-12-1', null, null, [['location', [], true]], ['ibx-l'], [12 => $location], true];
+        yield 'loadList_with_languages' => ['loadList', [[12], ['eng-GB', 'bra-PG'], false], 'ibx-l-12-bra-PG|eng-GB|0', null, null, [['location', [], true]], ['ibx-l'], [12 => $location], true];
+        yield 'loadSubtreeIds' => ['loadSubtreeIds', [12], 'ibx-ls-12', null, null, [['location_subtree', [], true]], ['ibx-ls'], [33, 44]];
+        yield 'loadLocationsByContent_with_root' => [
                 'loadLocationsByContent',
                 [4, 12],
                 'ibx-cl-4-root-12',
@@ -100,8 +97,8 @@ class LocationHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ],
                 ['ibx-cl'],
                 [$location],
-            ],
-            [
+        ];
+        yield 'loadLocationsByContent' => [
                 'loadLocationsByContent',
                 [4],
                 'ibx-cl-4',
@@ -114,8 +111,8 @@ class LocationHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ],
                 ['ibx-cl'],
                 [$location],
-            ],
-            [
+        ];
+        yield 'loadParentLocationsForDraftContent' => [
                 'loadParentLocationsForDraftContent',
                 [4],
                 'ibx-cl-4-pfd',
@@ -127,13 +124,12 @@ class LocationHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ],
                 ['ibx-cl', '-pfd'],
                 [$location],
-            ],
-            ['loadByRemoteId', ['34fe5y4'], 'ibx-lri-34fe5y4-1', null, null, [['location_remote_id', [], true]], ['ibx-lri'], $location],
-            ['loadByRemoteId', ['34fe5y4', ['eng-GB', 'arg-ES']], 'ibx-lri-34fe5y4-arg-ES|eng-GB|1', null, null, [['location_remote_id', [], true]], ['ibx-lri'], $location],
         ];
+        yield 'loadByRemoteId' => ['loadByRemoteId', ['34fe5y4'], 'ibx-lri-34fe5y4-1', null, null, [['location_remote_id', [], true]], ['ibx-lri'], $location];
+        yield 'loadByRemoteId_with_languages' => ['loadByRemoteId', ['34fe5y4', ['eng-GB', 'arg-ES']], 'ibx-lri-34fe5y4-arg-ES|eng-GB|1', null, null, [['location_remote_id', [], true]], ['ibx-lri'], $location];
     }
 
-    public function providerForCachedLoadMethodsMiss(): array
+    public function providerForCachedLoadMethodsMiss(): iterable
     {
         $location = new Location(
             [
@@ -144,8 +140,7 @@ class LocationHandlerTest extends AbstractInMemoryCacheHandlerTest
         );
 
         // string $method, array $arguments, string $key, array? $tagGeneratingArguments, array? $tagGeneratingResults, array? $keyGeneratingArguments, array? $keyGeneratingResults, mixed? $data, bool $multi
-        return [
-            [
+        yield 'load' => [
                 'load',
                 [12],
                 'ibx-l-12-1',
@@ -160,8 +155,9 @@ class LocationHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ],
                 ['ibx-l'],
                 $location,
-            ],
-            [
+        ];
+
+        yield 'load_with_languages' => [
                 'load',
                 [12, ['eng-GB', 'bra-PG'], false],
                 'ibx-l-12-bra-PG|eng-GB|0',
@@ -176,8 +172,9 @@ class LocationHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ],
                 ['ibx-l'],
                 $location,
-            ],
-            [
+        ];
+
+        yield 'loadList' => [
                 'loadList',
                 [[12]],
                 'ibx-l-12-1',
@@ -193,11 +190,11 @@ class LocationHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ['ibx-l'],
                 [12 => $location],
                 true,
-            ],
-            [
+        ];
+
+        yield 'loadList_with_languages' => [
                 'loadList',
-                [[12],
-                ['eng-GB', 'bra-PG'], false, ],
+                [[12], ['eng-GB', 'bra-PG'], false],
                 'ibx-l-12-bra-PG|eng-GB|0',
                 [
                     ['content', [15], false],
@@ -211,8 +208,9 @@ class LocationHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ['ibx-l'],
                 [12 => $location],
                 true,
-            ],
-            [
+        ];
+
+        yield 'loadSubtreeIds' => [
                 'loadSubtreeIds',
                 [12],
                 'ibx-ls-12',
@@ -230,8 +228,9 @@ class LocationHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ],
                 ['ibx-ls'],
                 [33, 44],
-            ],
-            [
+        ];
+
+        yield 'loadLocationsByContent_with_root' => [
                 'loadLocationsByContent',
                 [4, 12],
                 'ibx-cl-4-root-12',
@@ -249,8 +248,9 @@ class LocationHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ],
                 ['ibx-cl'],
                 [$location],
-            ],
-            [
+        ];
+
+        yield 'loadLocationsByContent' => [
                 'loadLocationsByContent',
                 [4],
                 'ibx-cl-4',
@@ -266,8 +266,9 @@ class LocationHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ],
                 ['ibx-cl'],
                 [$location],
-            ],
-            [
+        ];
+
+        yield 'loadParentLocationsForDraftContent' => [
                 'loadParentLocationsForDraftContent',
                 [4],
                 'ibx-cl-4-pfd',
@@ -284,8 +285,9 @@ class LocationHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ],
                 ['ibx-cl', '-pfd'],
                 [$location],
-            ],
-            [
+        ];
+
+        yield 'loadByRemoteId' => [
                 'loadByRemoteId',
                 ['34fe5y4'],
                 'ibx-lri-34fe5y4-1',
@@ -300,8 +302,9 @@ class LocationHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ],
                 ['ibx-lri'],
                 $location,
-            ],
-            [
+        ];
+
+        yield 'loadByRemoteId_with_languages' => [
                 'loadByRemoteId',
                 ['34fe5y4', ['eng-GB', 'arg-ES']],
                 'ibx-lri-34fe5y4-arg-ES|eng-GB|1',
@@ -316,7 +319,6 @@ class LocationHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ],
                 ['ibx-lri'],
                 $location,
-            ],
         ];
     }
 }

@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Cache;
 
+use Closure;
 use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter;
 use Ibexa\Core\Persistence\Cache\BookmarkHandler as CacheBookmarkHandler;
@@ -38,39 +39,31 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\CacheItem;
 
 /**
- * Abstract test case for spi cache impl.
+ * Abstract test case for persistence cache implementations.
+ *
+ * @phpstan-type TAdditionalCalls list<array{string, class-string, string, mixed}>
  */
-abstract class AbstractBaseHandlerTest extends TestCase
+abstract class AbstractBaseHandlerTestCase extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter|\PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $cacheMock;
+    protected TransactionalInMemoryCacheAdapter & MockObject $cacheMock;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $persistenceHandlerMock;
+    protected Handler & MockObject $persistenceHandlerMock;
 
-    /** @var \Ibexa\Core\Persistence\Cache\Handler */
-    protected $persistenceCacheHandler;
+    protected CacheHandler $persistenceCacheHandler;
 
-    /** @var \Ibexa\Core\Persistence\Cache\PersistenceLogger|\PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $loggerMock;
+    protected PersistenceLogger & MockObject $loggerMock;
 
-    /** @var \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache|\PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $inMemoryMock;
+    protected InMemoryCache & MockObject $inMemoryMock;
 
-    /** @var \Closure */
-    protected $cacheItemsClosure;
+    protected Closure $cacheItemsClosure;
 
-    /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $cacheIdentifierGeneratorMock;
+    protected CacheIdentifierGeneratorInterface & MockObject $cacheIdentifierGeneratorMock;
 
-    /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierSanitizer */
-    protected $cacheIdentifierSanitizer;
+    protected CacheIdentifierSanitizer $cacheIdentifierSanitizer;
 
-    /** @var \Ibexa\Core\Persistence\Cache\LocationPathConverter */
-    protected $locationPathConverter;
+    protected LocationPathConverter $locationPathConverter;
 
-    /** @var \Ibexa\Core\Persistence\Cache\CacheIndicesValidatorInterface */
-    protected MockObject $cacheIndicesValidator;
+    protected CacheIndicesValidatorInterface & MockObject $cacheIndicesValidator;
 
     /**
      * Setup the HandlerTest.
@@ -112,7 +105,7 @@ abstract class AbstractBaseHandlerTest extends TestCase
             $this->loggerMock
         );
 
-        $this->cacheItemsClosure = \Closure::bind(
+        $this->cacheItemsClosure = Closure::bind(
             static function ($key, $value, $isHit, $defaultLifetime = 0): CacheItem {
                 $item = new CacheItem();
                 $item->key = $key;
@@ -128,9 +121,6 @@ abstract class AbstractBaseHandlerTest extends TestCase
         );
     }
 
-    /**
-     * Tear down test (properties).
-     */
     protected function tearDown(): void
     {
         unset(
@@ -149,19 +139,25 @@ abstract class AbstractBaseHandlerTest extends TestCase
     }
 
     /**
-     * @param $key
-     * @param null $value If null the cache item will be assumed to be a cache miss here.
-     * @param int $defaultLifetime
-     *
-     * @return \Symfony\Component\Cache\CacheItem
+     * @param mixed $value If null, the cache item will be assumed to be a cache miss here.
      */
-    final protected function getCacheItem($key, $value = null, $defaultLifetime = 0)
+    final protected function getCacheItem(string $key, mixed $value = null, int $defaultLifetime = 0): CacheItem
     {
         $cacheItemsClosure = $this->cacheItemsClosure;
 
         return $cacheItemsClosure($key, $value, (bool)$value, $defaultLifetime);
     }
 
+    /**
+     * @phpstan-return array{
+     *     0: \Ibexa\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter & \PHPUnit\Framework\MockObject\MockObject,
+     *     1: \Ibexa\Contracts\Core\Persistence\Handler & \PHPUnit\Framework\MockObject\MockObject,
+     *     2: \Ibexa\Core\Persistence\Cache\PersistenceLogger & \PHPUnit\Framework\MockObject\MockObject,
+     *     3: \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface & \PHPUnit\Framework\MockObject\MockObject,
+     *     4: \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierSanitizer,
+     *     5: \Ibexa\Core\Persistence\Cache\LocationPathConverter
+     * }
+     */
     private function provideAbstractCacheHandlerArguments(): array
     {
         return [
@@ -174,6 +170,18 @@ abstract class AbstractBaseHandlerTest extends TestCase
         ];
     }
 
+    /**
+     * @phpstan-return array{
+     *     0: \Ibexa\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter & \PHPUnit\Framework\MockObject\MockObject,
+     *     1: \Ibexa\Core\Persistence\Cache\PersistenceLogger & \PHPUnit\Framework\MockObject\MockObject,
+     *     2: \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache & \PHPUnit\Framework\MockObject\MockObject,
+     *     3: \Ibexa\Contracts\Core\Persistence\Handler & \PHPUnit\Framework\MockObject\MockObject,
+     *     4: \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface & \PHPUnit\Framework\MockObject\MockObject,
+     *     5: \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierSanitizer,
+     *     6: \Ibexa\Core\Persistence\Cache\LocationPathConverter,
+     *     7: \Ibexa\Core\Persistence\Cache\CacheIndicesValidatorInterface & \PHPUnit\Framework\MockObject\MockObject
+     * }
+     */
     private function provideInMemoryCacheHandlerArguments(): array
     {
         return [

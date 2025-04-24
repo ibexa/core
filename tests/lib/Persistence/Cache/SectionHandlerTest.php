@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Section\Handler as SPISectionHandle
 /**
  * Test case for Persistence\Cache\SectionHandler.
  */
-class SectionHandlerTest extends AbstractCacheHandlerTest
+class SectionHandlerTest extends AbstractCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {
@@ -25,19 +25,17 @@ class SectionHandlerTest extends AbstractCacheHandlerTest
         return SPISectionHandler::class;
     }
 
-    public function providerForUnCachedMethods(): array
+    public function providerForUnCachedMethods(): iterable
     {
         // string $method, array $arguments, array? $tagGeneratingArguments, array? $keyGeneratingArguments, array? $tags, array? $key, ?mixed $returnValue
-        return [
-            ['create', ['Standard', 'standard']],
-            ['update', [5, 'Standard', 'standard'], [['section', [5], false]], null, ['se-5']],
-            ['loadAll', []],
-            ['delete', [5], [['section', [5], false]], null, ['se-5']],
-            ['assign', [5, 42], [['content', [42], false]], null, ['c-42']],
-            ['assignmentsCount', [5]],
-            ['policiesCount', [5]],
-            ['countRoleAssignmentsUsingSection', [5]],
-        ];
+        yield 'create' => ['create', ['Standard', 'standard']];
+        yield 'update' => ['update', [5, 'Standard', 'standard'], [['section', [5], false]], null, ['se-5']];
+        yield 'loadAll' => ['loadAll', []];
+        yield 'delete' => ['delete', [5], [['section', [5], false]], null, ['se-5']];
+        yield 'assign' => ['assign', [5, 42], [['content', [42], false]], null, ['c-42']];
+        yield 'assignmentsCount' => ['assignmentsCount', [5]];
+        yield 'policiesCount' => ['policiesCount', [5]];
+        yield 'countRoleAssignmentsUsingSection' => ['countRoleAssignmentsUsingSection', [5]];
     }
 
     public function providerForCachedLoadMethodsHit(): array

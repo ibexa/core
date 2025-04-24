@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Persistence\URL\URL;
 use Ibexa\Contracts\Core\Persistence\URL\URLUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
 
-class URLHandlerTest extends AbstractCacheHandlerTest
+class URLHandlerTest extends AbstractCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {
@@ -24,14 +24,12 @@ class URLHandlerTest extends AbstractCacheHandlerTest
         return SpiURLHandler::class;
     }
 
-    public function providerForUnCachedMethods(): array
+    public function providerForUnCachedMethods(): iterable
     {
         // string $method, array $arguments, array? $tagGeneratingArguments, array? $keyGeneratingArguments, array? $tags, array? $key, ?mixed $returnValue
-        return [
-            ['find', [new URLQuery()]],
-            ['findUsages', [1]],
-            ['loadByUrl', ['http://google.com']],
-        ];
+        yield 'find' => ['find', [new URLQuery()]];
+        yield 'findUsages' => ['findUsages', [1]];
+        yield 'loadByUrl' => ['loadByUrl', ['https://google.com'], null, null, null, null, new URL()];
     }
 
     public function providerForCachedLoadMethodsHit(): array

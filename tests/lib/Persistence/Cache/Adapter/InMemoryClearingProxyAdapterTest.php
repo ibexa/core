@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Cache\Adapter;
 
+use Closure;
 use Ibexa\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter;
 use Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -20,21 +21,14 @@ use Symfony\Component\Cache\CacheItem;
  */
 class InMemoryClearingProxyAdapterTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter */
-    protected $cache;
+    protected TransactionalInMemoryCacheAdapter $cache;
 
-    /** @var \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $innerPool;
+    private TagAwareAdapterInterface & MockObject $innerPool;
 
-    /** @var \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache|\PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $inMemory;
+    private InMemoryCache & MockObject $inMemory;
 
-    /** @var \Closure */
-    private ?\Closure $cacheItemsClosure;
+    private Closure $cacheItemsClosure;
 
-    /**
-     * Setup the HandlerTest.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -47,7 +41,7 @@ class InMemoryClearingProxyAdapterTest extends TestCase
             [$this->inMemory]
         );
 
-        $this->cacheItemsClosure = \Closure::bind(
+        $this->cacheItemsClosure = Closure::bind(
             static function ($key, $value, $isHit, $defaultLifetime = 0, $tags = []): CacheItem {
                 $item = new CacheItem();
                 $item->isTaggable = true;
@@ -69,9 +63,7 @@ class InMemoryClearingProxyAdapterTest extends TestCase
      */
     protected function tearDown(): void
     {
-        unset($this->cache);
-        unset($this->innerPool);
-        unset($this->inMemory);
+        unset($this->cache, $this->innerPool, $this->inMemory);
 
         parent::tearDown();
     }

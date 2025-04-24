@@ -11,15 +11,14 @@ use Ibexa\Core\Persistence\Cache\PersistenceLogger;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Ibexa\Core\Persistence\Cache\PersistenceLogger::getName
+ * @covers \Ibexa\Core\Persistence\Cache\PersistenceLogger
  */
 class PersistenceLoggerTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Cache\PersistenceLogger */
-    protected $logger;
+    protected PersistenceLogger $logger;
 
     /**
-     * Setup the HandlerTest.
+     * Set up the HandlerTest.
      */
     protected function setUp(): void
     {
@@ -27,9 +26,6 @@ class PersistenceLoggerTest extends TestCase
         $this->logger = new PersistenceLogger();
     }
 
-    /**
-     * Tear down test (properties).
-     */
     protected function tearDown(): void
     {
         unset($this->logger);
@@ -46,9 +42,9 @@ class PersistenceLoggerTest extends TestCase
         self::assertEquals([], $this->logger->getCalls());
     }
 
-    public function testLogCall()
+    public function testLogCall(): PersistenceLogger
     {
-        self::assertNull($this->logger->logCall(__METHOD__));
+        $this->logger->logCall(__METHOD__);
         $this->logger->logCall(__METHOD__);
         $this->logger->logCall(__METHOD__);
         $this->logger->logCall(__METHOD__, [33]);
@@ -57,14 +53,22 @@ class PersistenceLoggerTest extends TestCase
     }
 
     /**
-     * @depends testGetCountValues
-     *
-     * @param \Ibexa\Core\Persistence\Cache\PersistenceLogger $logger
+     * @depends testLogCall
      */
-    public function testGetCallValues($logger): void
+    public function testGetStats(PersistenceLogger $logger): PersistenceLogger
+    {
+        self::assertEquals(4, $logger->getStats()['uncached']);
+
+        return $logger;
+    }
+
+    /**
+     * @depends testGetStats
+     */
+    public function testGetCallValues(PersistenceLogger $logger): void
     {
         $calls = $logger->getCalls();
-        // As we don't care about the hash index we get the array values instead
+        // As we don't care about the hash index, we get the array values instead
         $calls = array_values($calls);
 
         $method = __CLASS__ . '::testLogCall';
