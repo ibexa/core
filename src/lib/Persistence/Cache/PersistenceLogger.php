@@ -8,15 +8,23 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Cache;
 
+use function array_slice;
+use function debug_backtrace;
+use function hash;
+use function implode;
+use function serialize;
+
 /**
- * Log un-cached & cached use of SPI Persistence.
+ * Log un-cached and cached use of Persistence Cache.
+ *
+ * @phpstan-type TStats array{uncached: int, miss: int, hit: int, memory: int}
  */
 class PersistenceLogger
 {
-    public const NAME = 'PersistenceLogger';
+    public const string NAME = 'PersistenceLogger';
 
-    /** @var int[] */
-    protected $stats = [
+    /** @phpstan-var TStats */
+    protected array $stats = [
         'uncached' => 0,
         'miss' => 0,
         'hit' => 0,
@@ -25,15 +33,15 @@ class PersistenceLogger
 
     protected bool $logCalls;
 
-    /** @var array */
-    protected $calls = [];
+    /** @var array<string, mixed> */
+    protected array $calls = [];
 
-    /** @var array */
-    protected $unCachedHandlers = [];
+    /** @var array<string, mixed> */
+    protected array $unCachedHandlers = [];
 
     /**
-     * @param bool $logCalls Flag to enable logging of calls or not, provides extra debug info about calls made to SPI
-     *                       level, including where they come form. However, this uses quite a bit of memory.
+     * @param bool $logCalls Flag to enable logging of calls or not, provides extra debug info about calls made
+     *                       to persistence level, including where they come form. However, this uses quite a bit of memory.
      */
     public function __construct(bool $logCalls = true)
     {
@@ -59,8 +67,8 @@ class PersistenceLogger
         $this->collectCacheCallData(
             $method,
             $arguments,
-            \array_slice(
-                \debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 9),
+            array_slice(
+                debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 9),
                 2
             ),
             'uncached'
@@ -82,11 +90,11 @@ class PersistenceLogger
             return;
         }
 
-        $trace = \debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 8 + $traceOffset);
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 8 + $traceOffset);
         $this->collectCacheCallData(
             $trace[$traceOffset - 1]['class'] . '::' . $trace[$traceOffset - 1]['function'],
             $arguments,
-            \array_slice($trace, $traceOffset),
+            array_slice($trace, $traceOffset),
             'miss'
         );
     }
@@ -113,27 +121,25 @@ class PersistenceLogger
             return;
         }
 
-        $trace = \debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 8 + $traceOffset);
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 8 + $traceOffset);
         $this->collectCacheCallData(
             $trace[$traceOffset - 1]['class'] . '::' . $trace[$traceOffset - 1]['function'],
             $arguments,
-            \array_slice($trace, $traceOffset),
+            array_slice($trace, $traceOffset),
             $inMemory ? 'memory' : 'hit'
         );
     }
 
     /**
-     * Collection  method for {@see logCacheHit()}, {@see logCacheMiss()} & {@see logCall()}.
+     * Collection method for {@see logCacheHit()}, {@see logCacheMiss()} & {@see logCall()}.
      *
-     * @param $method
-     * @param array $arguments
-     * @param array $trimmedBacktrace
-     * @param string $type
+     * @param array<mixed> $arguments
+     * @param array<mixed> $trimmedBacktrace
      */
     private function collectCacheCallData(string $method, array $arguments, array $trimmedBacktrace, string $type): void
     {
-        // simplest/fastests hash possible to identify if we have already collected this before to save on memory use
-        $callHash = \hash('adler32', $method . \serialize($arguments));
+        // the simplest / fastest hash possible to identify if we have already collected this before to save on memory use
+        $callHash = hash('adler32', $method . serialize($arguments));
         if (empty($this->calls[$callHash])) {
             $this->calls[$callHash] = [
                 'method' => $method,
@@ -150,7 +156,7 @@ class PersistenceLogger
         ++$this->calls[$callHash]['stats'][$type];
 
         $trace = $this->getSimpleCallTrace($trimmedBacktrace);
-        $traceHash = \hash('adler32', \implode('', $trace));
+        $traceHash = hash('adler32', implode('', $trace));
         if (empty($this->calls[$callHash]['traces'][$traceHash])) {
             $this->calls[$callHash]['traces'][$traceHash] = [
                 'trace' => $trace,
@@ -164,7 +170,7 @@ class PersistenceLogger
      * Simplify trace to an array of strings.
      *
      * Skips any traces from Symfony proxies or closures to make trace as readable as possible in as few lines as
-     * possible. And point is to identify which code outside kernel is triggering the SPI call, so trace stops one
+     * possible. And the point is to identify which code outside kernel is triggering the SPI call, so trace stops one
      * call after namespace is no longer in \Ibexa\Core\.
      *
      * @param array $backtrace Partial backtrace from |debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) or similar.
@@ -176,7 +182,7 @@ class PersistenceLogger
         $calls = [];
         $exitOnNext = false;
         foreach ($backtrace as $call) {
-            if (!isset($call['class'][2]) || ($call['class'][2] !== '\\' && \strpos($call['class'], '\\') === false)) {
+            if (!isset($call['class'][2]) || ($call['class'][2] !== '\\' && !str_contains($call['class'], '\\'))) {
                 // skip if class has no namespace (Symfony lazy proxy or plain function)
                 continue;
             }
@@ -188,7 +194,7 @@ class PersistenceLogger
             }
 
             // Break out as soon as we have listed 2 classes outside of kernel
-            if ($call['class'][0] !== 'e' && \strpos($call['class'], 'Ibexa\\Core\\') !== 0) {
+            if ($call['class'][0] !== 'e' && !str_starts_with($call['class'], 'Ibexa\\Core\\')) {
                 $exitOnNext = true;
             }
         }
@@ -215,9 +221,7 @@ class PersistenceLogger
     }
 
     /**
-     * Get stats (call/miss/hit/memory).
-     *
-     * @since 7.5
+     * @phpstan-return TStats
      */
     public function getStats(): array
     {
@@ -229,11 +233,17 @@ class PersistenceLogger
         return $this->logCalls;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getCalls(): array
     {
         return $this->calls;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getLoadedUnCachedHandlers(): array
     {
         return $this->unCachedHandlers;
