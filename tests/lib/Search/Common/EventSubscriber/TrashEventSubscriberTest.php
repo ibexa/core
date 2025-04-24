@@ -21,13 +21,10 @@ use PHPUnit\Framework\TestCase;
 
 final class TrashEventSubscriberTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Search\Handler&\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $searchHandler;
+    private SearchHandler & MockObject $searchHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler&\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $persistenceHandler;
+    private PersistenceHandler & MockObject $persistenceHandler;
 
-    /** @var \Ibexa\Core\Search\Common\EventSubscriber\TrashEventSubscriber */
     private TrashEventSubscriber $subscriber;
 
     protected function setUp(): void

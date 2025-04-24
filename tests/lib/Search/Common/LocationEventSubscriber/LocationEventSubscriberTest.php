@@ -26,17 +26,14 @@ use PHPUnit\Framework\TestCase;
 
 final class LocationEventSubscriberTest extends TestCase
 {
-    private const EXAMPLE_LOCATION_ID = 54;
-    private const EXAMPLE_CONTENT_ID = 56;
-    private const EXAMPLE_VERSION_NO = 3;
+    private const int EXAMPLE_LOCATION_ID = 54;
+    private const int EXAMPLE_CONTENT_ID = 56;
+    private const int EXAMPLE_VERSION_NO = 3;
 
-    /** @var \Ibexa\Core\Search\Legacy\Content\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $searchHandler;
+    private SearchHandler & MockObject $searchHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $persistenceHandler;
+    private PersistenceHandler & MockObject $persistenceHandler;
 
-    /** @var \Ibexa\Core\Search\Common\EventSubscriber\LocationEventSubscriber */
     private LocationEventSubscriber $subscriber;
 
     protected function setUp(): void
