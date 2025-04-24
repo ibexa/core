@@ -18,13 +18,12 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 final class LocationFilteringAdapterTest extends TestCase
 {
-    private const EXAMPLE_LANGUAGE_FILTER = [
+    private const array EXAMPLE_LANGUAGE_FILTER = [
         'languages' => ['eng-GB', 'pol-PL'],
         'useAlwaysAvailable' => true,
     ];
 
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $locationService;
+    private LocationService & MockObject $locationService;
 
     protected function setUp(): void
     {

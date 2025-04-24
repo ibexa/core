@@ -22,14 +22,12 @@ use PHPUnit\Framework\TestCase;
 
 final class SearchHitAdapterFactoryTest extends TestCase
 {
-    private const EXAMPLE_LANGUAGE_FILTER = [
+    private const array EXAMPLE_LANGUAGE_FILTER = [
         'language' => 'eng-GB',
     ];
 
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $searchService;
+    private SearchService & MockObject $searchService;
 
-    /** @var \Ibexa\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactory */
     private SearchHitAdapterFactory $searchHitAdapterFactory;
 
     protected function setUp(): void

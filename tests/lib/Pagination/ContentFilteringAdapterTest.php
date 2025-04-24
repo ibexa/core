@@ -18,13 +18,12 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 final class ContentFilteringAdapterTest extends TestCase
 {
-    private const EXAMPLE_LANGUAGE_FILTER = [
+    private const array EXAMPLE_LANGUAGE_FILTER = [
         'languages' => ['eng-GB', 'pol-PL'],
         'useAlwaysAvailable' => true,
     ];
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $contentService;
+    private ContentService & MockObject $contentService;
 
     protected function setUp(): void
     {
