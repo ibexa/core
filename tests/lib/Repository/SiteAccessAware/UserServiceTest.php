@@ -7,8 +7,6 @@
 
 namespace Ibexa\Tests\Core\Repository\SiteAccessAware;
 
-use DateInterval;
-use DateTime;
 use Ibexa\Contracts\Core\Repository\UserService as APIService;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordValidationContext;
@@ -23,12 +21,12 @@ use Ibexa\Core\Repository\Values\User\UserGroup;
 use Ibexa\Core\Repository\Values\User\UserGroupCreateStruct;
 
 /**
- * @extends \Ibexa\Tests\Core\Repository\SiteAccessAware\AbstractServiceTest<
+ * @extends \Ibexa\Tests\Core\Repository\SiteAccessAware\AbstractServiceTestCase<
  *     \Ibexa\Contracts\Core\Repository\UserService,
  *     \Ibexa\Core\Repository\SiteAccessAware\UserService
  * >
  */
-final class UserServiceTest extends AbstractServiceTest
+final class UserServiceTest extends AbstractServiceTestCase
 {
     public function getAPIServiceClassName(): string
     {

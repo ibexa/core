@@ -24,7 +24,7 @@ use ReflectionMethod;
  * @template TServiceInterface of object
  * @template TServiceClass of TServiceInterface
  */
-abstract class AbstractServiceTest extends TestCase
+abstract class AbstractServiceTestCase extends TestCase
 {
     /** @phpstan-var TServiceInterface & \PHPUnit\Framework\MockObject\MockObject */
     protected MockObject $innerApiServiceMock;
@@ -75,24 +75,28 @@ abstract class AbstractServiceTest extends TestCase
     }
 
     /**
-     * @return array See signature on {@link testForPassTrough} for arguments and their type.
+     * See signature on {@link testForPassTrough} for arguments and their type.
+     *
+     * @return array<array{
+     *     0: string,
+     *     1: array<mixed>,
+     *     2?: mixed
+     * }>
      */
-    abstract public function providerForPassTroughMethods();
+    abstract public function providerForPassTroughMethods(): array;
 
     /**
-     * Make sure these methods does nothing more then passing the arguments to inner service.
+     * Make sure these methods do nothing more than passing the arguments to inner service.
      *
-     * Methods tested here are basically those without as languages argument.
+     * Methods tested here are basically those without the `$languages` argument.
      *
      * @dataProvider providerForPassTroughMethods
      *
-     * @param string $method
-     * @param array $arguments
-     * @param mixed $return
+     * @phpstan-param list<mixed> $arguments
      */
-    final public function testForPassTrough($method, array $arguments, $return = true): void
+    final public function testForPassTrough(string $method, array $arguments, mixed $return = null): void
     {
-        if ($return) {
+        if (null !== $return) {
             $this->innerApiServiceMock
                 ->expects(self::once())
                 ->method($method)
@@ -107,28 +111,40 @@ abstract class AbstractServiceTest extends TestCase
 
         $actualReturn = $this->service->$method(...$arguments);
 
-        if ($return) {
+        if (null !== $return) {
             self::assertEquals($return, $actualReturn);
         }
     }
 
     /**
-     * @return array See signature on {@link testForLanguagesLookup} for arguments and their type.
-     *               NOTE: languages / prioritizedLanguage, can be set to 0, it will be replaced by tests methods.
+     * See signature on {@link testForLanguagesLookup} for arguments and their type.
+     * NOTE: `$languages` / `$prioritizedLanguage`, can be set to 0, it will be replaced by tests methods.
+     *
+     * @return array<array{
+     *     string,
+     *     array<mixed>,
+     *     mixed,
+     *     int
+     * }>
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
-    abstract public function providerForLanguagesLookupMethods();
+    abstract public function providerForLanguagesLookupMethods(): array;
 
     /**
      * Method to be able to customize the logic for setting expected language argument during {@see testForLanguagesLookup()}.
      *
-     * @param array $arguments
-     * @param int $languageArgumentIndex
-     * @param array $languages
+     * @phpstan-param list<mixed> $arguments
      *
-     * @return array
+     * @param string[] $languages
+     *
+     * @return array<int, mixed>
      */
-    protected function setLanguagesLookupExpectedArguments(array $arguments, $languageArgumentIndex, array $languages)
-    {
+    protected function setLanguagesLookupExpectedArguments(
+        array $arguments,
+        int $languageArgumentIndex,
+        array $languages
+    ): array {
         $arguments[$languageArgumentIndex] = $languages;
 
         return $arguments;
@@ -137,12 +153,11 @@ abstract class AbstractServiceTest extends TestCase
     /**
      * Method to be able to customize the logic for setting expected language argument during {@see testForLanguagesLookup()}.
      *
-     * @param array $arguments
-     * @param int $languageArgumentIndex
+     * @phpstan-param list<mixed> $arguments
      *
-     * @return array
+     * @return array<int, mixed>
      */
-    protected function setLanguagesLookupArguments(array $arguments, $languageArgumentIndex)
+    protected function setLanguagesLookupArguments(array $arguments, int $languageArgumentIndex): array
     {
         $arguments[$languageArgumentIndex] = [];
 
@@ -150,22 +165,31 @@ abstract class AbstractServiceTest extends TestCase
     }
 
     /**
-     * Test that language aware methods does a language lookup when language is not set.
+     * Test that language-aware methods do a language lookup when the language is not set.
      *
      * @dataProvider providerForLanguagesLookupMethods
      *
-     * @param string $method
-     * @param array $arguments
-     * @param mixed|null $return
-     * @param int $languageArgumentIndex From 0 and up, so the array index on $arguments.
+     * @phpstan-param list<mixed> $arguments
+     *
+     * @param int $languageArgumentIndex From 0 and up, the array index on $arguments.
      */
-    final public function testForLanguagesLookup($method, array $arguments, $return, $languageArgumentIndex, callable $callback = null, int $alwaysAvailableArgumentIndex = null): void
-    {
+    final public function testForLanguagesLookup(
+        string $method,
+        array $arguments,
+        mixed $return,
+        int $languageArgumentIndex,
+        callable $callback = null,
+        int $alwaysAvailableArgumentIndex = null
+    ): void {
         $languages = ['eng-GB', 'eng-US'];
 
         $arguments = $this->setLanguagesLookupArguments($arguments, $languageArgumentIndex);
 
-        $expectedArguments = $this->setLanguagesLookupExpectedArguments($arguments, $languageArgumentIndex, $languages);
+        $expectedArguments = $this->setLanguagesLookupExpectedArguments(
+            array_values($arguments),
+            $languageArgumentIndex,
+            $languages
+        );
 
         $this->languageResolverMock
             ->expects(self::once())
@@ -203,31 +227,37 @@ abstract class AbstractServiceTest extends TestCase
     /**
      * Method to be able to customize the logic for setting expected language argument during {@see testForLanguagesPassTrough()}.
      *
-     * @param array $arguments
-     * @param int $languageArgumentIndex
-     * @param array $languages
+     * @phpstan-param list<mixed> $arguments
      *
-     * @return array
+     * @param string[] $languages
+     *
+     * @return array<int, mixed>
      */
-    protected function setLanguagesPassTroughArguments(array $arguments, $languageArgumentIndex, array $languages)
-    {
-        $arguments[$languageArgumentIndex] = $languages;
-
-        return $arguments;
+    protected function setLanguagesPassTroughArguments(
+        array $arguments,
+        int $languageArgumentIndex,
+        array $languages
+    ): array {
+        return $this->setLanguagesLookupExpectedArguments($arguments, $languageArgumentIndex, $languages);
     }
 
     /**
-     * Make sure these methods does nothing more then passing the arguments to inner service.
+     * Make sure these methods do nothing more than passing the arguments to inner service.
      *
      * @dataProvider providerForLanguagesLookupMethods
      *
-     * @param string $method
-     * @param array $arguments
-     * @param mixed|null $return
-     * @param int $languageArgumentIndex From 0 and up, so the array index on $arguments.
+     * @phpstan-param list<mixed> $arguments
+     *
+     * @param int $languageArgumentIndex From 0 and up, the array index on $arguments.
      */
-    final public function testForLanguagesPassTrough($method, array $arguments, $return, $languageArgumentIndex, callable $callback = null, int $alwaysAvailableArgumentIndex = null): void
-    {
+    final public function testForLanguagesPassTrough(
+        string $method,
+        array $arguments,
+        mixed $return,
+        int $languageArgumentIndex,
+        callable $callback = null,
+        int $alwaysAvailableArgumentIndex = null
+    ): void {
         $languages = ['eng-GB', 'eng-US'];
         $arguments = $this->setLanguagesPassTroughArguments($arguments, $languageArgumentIndex, $languages);
 
@@ -257,13 +287,16 @@ abstract class AbstractServiceTest extends TestCase
 
         $actualReturn = $this->service->$method(...$arguments);
 
-        if ($return) {
+        if (null !== $return) {
             self::assertEquals($return, $actualReturn);
         }
     }
 
     /**
      * @todo replace with coverage testing (see EZP-31035)
+     *
+     * @throws \ReflectionException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
     final public function testIfThereIsMissingTest(): void
     {
@@ -274,7 +307,7 @@ abstract class AbstractServiceTest extends TestCase
 
         $class = new ReflectionClass($this->getSiteAccessAwareServiceClassName());
         foreach ($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
-            if (!$method->isConstructor() && !in_array($method->getShortName(), $tested)) {
+            if (!$method->isConstructor() && !in_array($method->getShortName(), $tested, true)) {
                 $this->addWarning(
                     sprintf(
                         'Test for the %s::%s method is missing',

@@ -15,12 +15,12 @@ use Ibexa\Core\Repository\SiteAccessAware\SearchService;
 use Ibexa\Core\Repository\Values\Content\Content;
 
 /**
- * @extends \Ibexa\Tests\Core\Repository\SiteAccessAware\AbstractServiceTest<
+ * @extends \Ibexa\Tests\Core\Repository\SiteAccessAware\AbstractServiceTestCase<
  *     \Ibexa\Contracts\Core\Repository\SearchService,
  *     \Ibexa\Core\Repository\SiteAccessAware\SearchService
  * >
  */
-final class SearchServiceTest extends AbstractServiceTest
+final class SearchServiceTest extends AbstractServiceTestCase
 {
     public function getAPIServiceClassName(): string
     {
@@ -37,7 +37,7 @@ final class SearchServiceTest extends AbstractServiceTest
         // string $method, array $arguments, bool $return = true
         return [
             ['suggest', ['prefix', [], 11]],
-            ['supports', [SearchService::CAPABILITY_ADVANCED_FULLTEXT]],
+            ['supports', [APIService::CAPABILITY_ADVANCED_FULLTEXT]],
         ];
     }
 
@@ -66,7 +66,7 @@ final class SearchServiceTest extends AbstractServiceTest
         ];
     }
 
-    protected function setLanguagesLookupArguments(array $arguments, $languageArgumentIndex): array
+    protected function setLanguagesLookupArguments(array $arguments, int $languageArgumentIndex): array
     {
         $arguments[$languageArgumentIndex] = [
             'languages' => [],
@@ -76,7 +76,7 @@ final class SearchServiceTest extends AbstractServiceTest
         return $arguments;
     }
 
-    protected function setLanguagesLookupExpectedArguments(array $arguments, $languageArgumentIndex, array $languages): array
+    protected function setLanguagesLookupExpectedArguments(array $arguments, int $languageArgumentIndex, array $languages): array
     {
         $arguments[$languageArgumentIndex] = [
             'languages' => $languages,
@@ -86,13 +86,8 @@ final class SearchServiceTest extends AbstractServiceTest
         return $arguments;
     }
 
-    protected function setLanguagesPassTroughArguments(array $arguments, $languageArgumentIndex, array $languages): array
+    protected function setLanguagesPassTroughArguments(array $arguments, int $languageArgumentIndex, array $languages): array
     {
-        $arguments[$languageArgumentIndex] = [
-            'languages' => $languages,
-            'useAlwaysAvailable' => true,
-        ];
-
-        return $arguments;
+        return $this->setLanguagesLookupExpectedArguments($arguments, $languageArgumentIndex, $languages);
     }
 }

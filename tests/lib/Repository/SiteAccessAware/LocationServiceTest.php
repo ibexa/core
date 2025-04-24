@@ -19,12 +19,12 @@ use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 
 /**
- * @extends \Ibexa\Tests\Core\Repository\SiteAccessAware\AbstractServiceTest<
+ * @extends \Ibexa\Tests\Core\Repository\SiteAccessAware\AbstractServiceTestCase<
  *     \Ibexa\Contracts\Core\Repository\LocationService,
  *     \Ibexa\Core\Repository\SiteAccessAware\LocationService
  * >
  */
-final class LocationServiceTest extends AbstractServiceTest
+final class LocationServiceTest extends AbstractServiceTestCase
 {
     public function getAPIServiceClassName(): string
     {

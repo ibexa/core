@@ -17,12 +17,12 @@ use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\TrashItem;
 
 /**
- * @extends \Ibexa\Tests\Core\Repository\SiteAccessAware\AbstractServiceTest<
+ * @extends \Ibexa\Tests\Core\Repository\SiteAccessAware\AbstractServiceTestCase<
  *     \Ibexa\Contracts\Core\Repository\TrashService,
  *     \Ibexa\Core\Repository\SiteAccessAware\TrashService
  * >
  */
-final class TrashServiceTest extends AbstractServiceTest
+final class TrashServiceTest extends AbstractServiceTestCase
 {
     public function getAPIServiceClassName(): string
     {

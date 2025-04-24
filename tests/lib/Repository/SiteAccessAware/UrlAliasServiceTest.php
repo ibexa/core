@@ -13,12 +13,12 @@ use Ibexa\Core\Repository\SiteAccessAware\URLAliasService;
 use Ibexa\Core\Repository\Values\Content\Location;
 
 /**
- * @extends \Ibexa\Tests\Core\Repository\SiteAccessAware\AbstractServiceTest<
+ * @extends \Ibexa\Tests\Core\Repository\SiteAccessAware\AbstractServiceTestCase<
  *     \Ibexa\Contracts\Core\Repository\URLAliasService,
  *     \Ibexa\Core\Repository\SiteAccessAware\URLAliasService
  * >
  */
-final class UrlAliasServiceTest extends AbstractServiceTest
+final class UrlAliasServiceTest extends AbstractServiceTestCase
 {
     public function getAPIServiceClassName(): string
     {
@@ -68,16 +68,22 @@ final class UrlAliasServiceTest extends AbstractServiceTest
         ];
     }
 
-    protected function setLanguagesLookupExpectedArguments(array $arguments, $languageArgumentIndex, array $languages): array
-    {
+    protected function setLanguagesLookupExpectedArguments(
+        array $arguments,
+        int $languageArgumentIndex,
+        array $languages
+    ): array {
         $arguments[$languageArgumentIndex] = $languages;
         $arguments[$languageArgumentIndex - 1] = true;
 
         return $arguments;
     }
 
-    protected function setLanguagesPassTroughArguments(array $arguments, $languageArgumentIndex, array $languages)
-    {
+    protected function setLanguagesPassTroughArguments(
+        array $arguments,
+        int $languageArgumentIndex,
+        array $languages
+    ): array {
         return $this->setLanguagesLookupExpectedArguments($arguments, $languageArgumentIndex, $languages);
     }
 }

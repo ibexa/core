@@ -22,12 +22,12 @@ use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Repository\Values\User\User;
 
 /**
- * @extends \Ibexa\Tests\Core\Repository\SiteAccessAware\AbstractServiceTest<
+ * @extends \Ibexa\Tests\Core\Repository\SiteAccessAware\AbstractServiceTestCase<
  *      \Ibexa\Contracts\Core\Repository\ContentTypeService,
  *      \Ibexa\Core\Repository\SiteAccessAware\ContentTypeService
  *  >
  */
-final class ContentTypeServiceTest extends AbstractServiceTest
+final class ContentTypeServiceTest extends AbstractServiceTestCase
 {
     public function getAPIServiceClassName(): string
     {
