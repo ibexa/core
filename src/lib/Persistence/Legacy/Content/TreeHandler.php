@@ -70,7 +70,7 @@ class TreeHandler
         ContentGateway $contentGateway,
         ContentMapper $contentMapper,
         FieldHandler $fieldHandler,
-        iterable $deleteContentHandlers,
+        iterable $deleteContentHandlers
     ) {
         $this->locationGateway = $locationGateway;
         $this->locationMapper = $locationMapper;
