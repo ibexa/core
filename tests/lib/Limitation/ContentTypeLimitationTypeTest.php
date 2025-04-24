@@ -13,7 +13,6 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
@@ -25,14 +24,14 @@ use Ibexa\Core\Limitation\ContentTypeLimitationType;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Core\Repository\Values\Content\Location;
 use PHPUnit\Framework\MockObject\MockObject;
+use RuntimeException;
 
 /**
  * Test Case for LimitationType.
  */
 class ContentTypeLimitationTypeTest extends Base
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $contentTypeHandlerMock;
+    private SPIHandler & MockObject $contentTypeHandlerMock;
 
     /**
      * Setup Location Handler mock.
@@ -61,7 +60,7 @@ class ContentTypeLimitationTypeTest extends Base
     }
 
     /**
-     * @return array
+     * @phpstan-return list<array{\Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation}>
      */
     public function providerForTestAcceptValue(): array
     {
@@ -75,10 +74,12 @@ class ContentTypeLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestAcceptValue
      *
-     * @depends testConstruct
+     * @depends      testConstruct
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation $limitation
      * @param \Ibexa\Core\Limitation\ContentTypeLimitationType $limitationType
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function testAcceptValue(ContentTypeLimitation $limitation, ContentTypeLimitationType $limitationType): void
     {
@@ -86,7 +87,7 @@ class ContentTypeLimitationTypeTest extends Base
     }
 
     /**
-     * @return array
+     * @phpstan-return list<array{\Ibexa\Contracts\Core\Repository\Values\User\Limitation}>
      */
     public function providerForTestAcceptValueException(): array
     {
@@ -112,7 +113,7 @@ class ContentTypeLimitationTypeTest extends Base
     }
 
     /**
-     * @return array
+     * @phpstan-return list<array{\Ibexa\Contracts\Core\Repository\Values\User\Limitation}>
      */
     public function providerForTestValidatePass(): array
     {
@@ -132,9 +133,8 @@ class ContentTypeLimitationTypeTest extends Base
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
-                ->expects(self::any())
                 ->method('contentTypeHandler')
-                ->will(self::returnValue($this->contentTypeHandlerMock));
+                ->willReturn($this->contentTypeHandlerMock);
 
             foreach ($limitation->limitationValues as $key => $value) {
                 $this->contentTypeHandlerMock
@@ -152,7 +152,7 @@ class ContentTypeLimitationTypeTest extends Base
     }
 
     /**
-     * @return array
+     * @phpstan-return list<array{\Ibexa\Contracts\Core\Repository\Values\User\Limitation}>
      */
     public function providerForTestValidateError(): array
     {
@@ -173,9 +173,8 @@ class ContentTypeLimitationTypeTest extends Base
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
-                ->expects(self::any())
                 ->method('contentTypeHandler')
-                ->will(self::returnValue($this->contentTypeHandlerMock));
+                ->willReturn($this->contentTypeHandlerMock);
 
             foreach ($limitation->limitationValues as $key => $value) {
                 $this->contentTypeHandlerMock
@@ -207,36 +206,42 @@ class ContentTypeLimitationTypeTest extends Base
         $expected = ['test', 'test' => 9];
         $value = $limitationType->buildValue($expected);
 
-        self::assertInstanceOf(ContentTypeLimitation::class, $value);
         self::assertIsArray($value->limitationValues);
         self::assertEquals($expected, $value->limitationValues);
     }
 
     /**
-     * @return array
+     * @phpstan-return list<array{
+     *     limitation: \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation,
+     *     object: \Ibexa\Contracts\Core\Repository\Values\ValueObject,
+     *     targets: array<\Ibexa\Contracts\Core\Limitation\Target>,
+     *     expected: bool
+     * }>
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function providerForTestEvaluate(): array
     {
-        // Mocks for testing Content & VersionInfo objects, should only be used once because of expect rules.
+        // Mocks for testing Content & VersionInfo objects should only be used once because of expect rules.
         $contentMock = $this->createMock(APIContent::class);
         $versionInfoMock = $this->createMock(APIVersionInfo::class);
 
         $contentMock
             ->expects(self::once())
             ->method('getVersionInfo')
-            ->will(self::returnValue($versionInfoMock));
+            ->willReturn($versionInfoMock);
 
         $versionInfoMock
             ->expects(self::once())
             ->method('getContentInfo')
-            ->will(self::returnValue(new ContentInfo(['contentTypeId' => 66])));
+            ->willReturn(new ContentInfo(['contentTypeId' => 66]));
 
         $versionInfoMock2 = $this->createMock(APIVersionInfo::class);
 
         $versionInfoMock2
             ->expects(self::once())
             ->method('getContentInfo')
-            ->will(self::returnValue(new ContentInfo(['contentTypeId' => 66])));
+            ->willReturn(new ContentInfo(['contentTypeId' => 66]));
 
         return [
             // ContentInfo, no access
@@ -307,12 +312,16 @@ class ContentTypeLimitationTypeTest extends Base
 
     /**
      * @dataProvider providerForTestEvaluate
+     *
+     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject[] $targets
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
     public function testEvaluate(
         ContentTypeLimitation $limitation,
         ValueObject $object,
         array $targets,
-        $expected
+        bool $expected
     ): void {
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
         $limitationType = $this->testConstruct();
@@ -339,7 +348,11 @@ class ContentTypeLimitationTypeTest extends Base
     }
 
     /**
-     * @return array
+     * @phpstan-return list<array{
+     *      limitation: \Ibexa\Contracts\Core\Repository\Values\User\Limitation,
+     *      object: \Ibexa\Contracts\Core\Repository\Values\ValueObject,
+     *      targets: array<\Ibexa\Contracts\Core\Repository\Values\ValueObject>,
+     * }>
      */
     public function providerForTestEvaluateInvalidArgument(): array
     {
@@ -361,14 +374,16 @@ class ContentTypeLimitationTypeTest extends Base
 
     /**
      * @dataProvider providerForTestEvaluateInvalidArgument
+     *
+     * @param array<\Ibexa\Contracts\Core\Repository\Values\ValueObject> $targets
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
     public function testEvaluateInvalidArgument(
         Limitation $limitation,
         ValueObject $object,
         array $targets
     ): void {
-        $this->expectException(InvalidArgumentException::class);
-
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
         $limitationType = $this->testConstruct();
 
@@ -382,13 +397,13 @@ class ContentTypeLimitationTypeTest extends Base
             ->expects(self::never())
             ->method(self::anything());
 
-        $v = $limitationType->evaluate(
+        $this->expectException(InvalidArgumentException::class);
+        $limitationType->evaluate(
             $limitation,
             $userMock,
             $object,
             $targets
         );
-        var_dump($v); // intentional, debug in case no exception above
     }
 
     /**
@@ -398,7 +413,7 @@ class ContentTypeLimitationTypeTest extends Base
      */
     public function testGetCriterionInvalidValue(ContentTypeLimitationType $limitationType): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
 
         $limitationType->getCriterion(
             new ContentTypeLimitation([]),
@@ -418,7 +433,6 @@ class ContentTypeLimitationTypeTest extends Base
             $this->getUserMock()
         );
 
-        self::assertInstanceOf(ContentTypeId::class, $criterion);
         self::assertIsArray($criterion->value);
         self::assertIsString($criterion->operator);
         self::assertEquals(Operator::EQ, $criterion->operator);
@@ -437,7 +451,6 @@ class ContentTypeLimitationTypeTest extends Base
             $this->getUserMock()
         );
 
-        self::assertInstanceOf(ContentTypeId::class, $criterion);
         self::assertIsArray($criterion->value);
         self::assertIsString($criterion->operator);
         self::assertEquals(Operator::IN, $criterion->operator);
@@ -452,10 +465,6 @@ class ContentTypeLimitationTypeTest extends Base
     public function testValueSchema(ContentTypeLimitationType $limitationType): void
     {
         $this->expectException(NotImplementedException::class);
-
-        self::assertEquals(
-            [],
-            $limitationType->valueSchema()
-        );
+        $limitationType->valueSchema();
     }
 }

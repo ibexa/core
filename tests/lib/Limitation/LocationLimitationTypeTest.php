@@ -30,8 +30,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class LocationLimitationTypeTest extends Base
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $locationHandlerMock;
+    private SPIHandler & MockObject $locationHandlerMock;
 
     /**
      * Setup Location Handler mock.
@@ -212,7 +211,13 @@ class LocationLimitationTypeTest extends Base
     }
 
     /**
-     * @return array
+     * @phpstan-return list<array{
+     *      limitation: \Ibexa\Contracts\Core\Repository\Values\User\Limitation,
+     *      object: \Ibexa\Contracts\Core\Repository\Values\ValueObject,
+     *      targets: null|array<\Ibexa\Contracts\Core\Repository\Values\ValueObject>,
+     *      persistence: array<\Ibexa\Contracts\Core\Repository\Values\Content\Location>,
+     *      expected: \Ibexa\Contracts\Core\Limitation\Type::ACCESS_*
+     * }>
      */
     public function providerForTestEvaluate(): array
     {

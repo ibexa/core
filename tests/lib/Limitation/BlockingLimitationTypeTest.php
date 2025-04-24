@@ -33,7 +33,7 @@ class BlockingLimitationTypeTest extends Base
     }
 
     /**
-     * @return array
+     * @phpstan-return list<array{\Ibexa\Contracts\Core\Repository\Values\User\Limitation}>
      */
     public function providerForTestAcceptValue(): array
     {
@@ -95,13 +95,10 @@ class BlockingLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestValidatePass
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\BlockingLimitation $limitation
+     * @depends testConstruct
      */
-    public function testValidatePass(BlockingLimitation $limitation): void
+    public function testValidatePass(BlockingLimitation $limitation, BlockingLimitationType $limitationType): void
     {
-        // Need to create inline instead of depending on testConstruct() to get correct mock instance
-        $limitationType = $this->testConstruct();
-
         $validationErrors = $limitationType->validate($limitation);
         self::assertEmpty($validationErrors);
     }
@@ -121,17 +118,13 @@ class BlockingLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestValidateError
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\BlockingLimitation $limitation
-     * @param int $errorCount
+     * @depends testConstruct
      */
-    public function testValidateError(BlockingLimitation $limitation, int $errorCount): void
+    public function testValidateError(BlockingLimitation $limitation, int $errorCount, BlockingLimitationType $limitationType): void
     {
         $this->getPersistenceMock()
                 ->expects(self::never())
                 ->method(self::anything());
-
-        // Need to create inline instead of depending on testConstruct() to get correct mock instance
-        $limitationType = $this->testConstruct();
 
         $validationErrors = $limitationType->validate($limitation);
         self::assertCount($errorCount, $validationErrors);
@@ -153,7 +146,11 @@ class BlockingLimitationTypeTest extends Base
     }
 
     /**
-     * @return array
+     * @phpstan-return list<array{
+     *      limitation: \Ibexa\Contracts\Core\Repository\Values\User\Limitation,
+     *      object: \Ibexa\Contracts\Core\Repository\Values\ValueObject,
+     *      targets: null|array<\Ibexa\Contracts\Core\Repository\Values\ValueObject>,
+     * }>
      */
     public function providerForTestEvaluate(): array
     {
@@ -193,15 +190,15 @@ class BlockingLimitationTypeTest extends Base
 
     /**
      * @dataProvider providerForTestEvaluate
+     *
+     * @depends testConstruct
      */
     public function testEvaluate(
         BlockingLimitation $limitation,
         ValueObject $object,
-        array $targets
+        array $targets,
+        BlockingLimitationType $limitationType
     ): void {
-        // Need to create inline instead of depending on testConstruct() to get correct mock instance
-        $limitationType = $this->testConstruct();
-
         $userMock = $this->getUserMock();
         $userMock
             ->expects(self::never())

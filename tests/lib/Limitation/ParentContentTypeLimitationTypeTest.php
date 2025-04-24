@@ -7,10 +7,11 @@
 
 namespace Ibexa\Tests\Core\Limitation;
 
-use Ibexa\Contracts\Core\Persistence\Content\ContentInfo as SPIContentInfo;
-use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
-use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
-use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPIContentTypeHandler;
+use DateTime;
+use Ibexa\Contracts\Core\Persistence\Content\ContentInfo as PersistenceContentInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Handler as PersistenceContentHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Location as PersistenceLocation;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as PersistenceContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
@@ -32,14 +33,11 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ParentContentTypeLimitationTypeTest extends Base
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $locationHandlerMock;
+    private PersistenceLocation\Handler & MockObject $locationHandlerMock;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $contentTypeHandlerMock;
+    private PersistenceContentTypeHandler & MockObject $contentTypeHandlerMock;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $contentHandlerMock;
+    private PersistenceContentHandler & MockObject $contentHandlerMock;
 
     /**
      * Setup Location Handler mock.
@@ -47,9 +45,9 @@ class ParentContentTypeLimitationTypeTest extends Base
     protected function setUp(): void
     {
         parent::setUp();
-        $this->locationHandlerMock = $this->createMock(SPILocation\Handler::class);
-        $this->contentTypeHandlerMock = $this->createMock(SPIContentTypeHandler::class);
-        $this->contentHandlerMock = $this->createMock(SPIContentHandler::class);
+        $this->locationHandlerMock = $this->createMock(PersistenceLocation\Handler::class);
+        $this->contentTypeHandlerMock = $this->createMock(PersistenceContentTypeHandler::class);
+        $this->contentHandlerMock = $this->createMock(PersistenceContentHandler::class);
     }
 
     /**
@@ -104,7 +102,7 @@ class ParentContentTypeLimitationTypeTest extends Base
         return [
             [new ObjectStateLimitation()],
             [new ParentContentTypeLimitation(['limitationValues' => [true]])],
-            [new ParentContentTypeLimitation(['limitationValues' => [new \DateTime()]])],
+            [new ParentContentTypeLimitation(['limitationValues' => [new DateTime()]])],
         ];
     }
 
@@ -263,13 +261,13 @@ class ParentContentTypeLimitationTypeTest extends Base
                 'persistence' => [],
                 'expected' => false,
             ],
-            // ContentInfo, with SPI targets, no access
+            // ContentInfo, with Persistence targets, no access
             [
                 'limitation' => new ParentContentTypeLimitation(),
                 'object' => new ContentInfo(['published' => true]),
-                'targets' => [new SPILocation(['contentId' => 42])],
+                'targets' => [new PersistenceLocation(['contentId' => 42])],
                 'persistence' => [
-                    'contentInfos' => [new SPIContentInfo(['contentTypeId' => '24'])],
+                    'contentInfos' => [new PersistenceContentInfo(['contentTypeId' => '24'])],
                 ],
                 'expected' => false,
             ],
@@ -281,13 +279,13 @@ class ParentContentTypeLimitationTypeTest extends Base
                 'persistence' => [],
                 'expected' => false,
             ],
-            // ContentInfo, with SPI targets, no access
+            // ContentInfo, with Persistence targets, no access
             [
                 'limitation' => new ParentContentTypeLimitation(['limitationValues' => [42]]),
                 'object' => new ContentInfo(['published' => true]),
-                'targets' => [new SPILocation(['contentId' => 42])],
+                'targets' => [new PersistenceLocation(['contentId' => 42])],
                 'persistence' => [
-                    'contentInfos' => [new SPIContentInfo(['contentTypeId' => '24'])],
+                    'contentInfos' => [new PersistenceContentInfo(['contentTypeId' => '24'])],
                 ],
                 'expected' => false,
             ],
@@ -299,13 +297,13 @@ class ParentContentTypeLimitationTypeTest extends Base
                 'persistence' => [],
                 'expected' => true,
             ],
-            // ContentInfo, with SPI targets, with access
+            // ContentInfo, with Persistence targets, with access
             [
                 'limitation' => new ParentContentTypeLimitation(['limitationValues' => [42]]),
                 'object' => new ContentInfo(['published' => true]),
-                'targets' => [new SPILocation(['contentId' => 24])],
+                'targets' => [new PersistenceLocation(['contentId' => 24])],
                 'persistence' => [
-                    'contentInfos' => [new SPIContentInfo(['contentTypeId' => '42'])],
+                    'contentInfos' => [new PersistenceContentInfo(['contentTypeId' => '42'])],
                 ],
                 'expected' => true,
             ],
@@ -315,10 +313,10 @@ class ParentContentTypeLimitationTypeTest extends Base
                 'object' => new ContentInfo(['published' => true, 'id' => 40]),
                 'targets' => [],
                 'persistence' => [
-                    'locations' => [new SPILocation(['id' => 40, 'contentId' => '24', 'parentId' => 43, 'depth' => 1])],
-                    'parentLocations' => [43 => new SPILocation(['id' => 43, 'contentId' => 24])],
-                    'parentContents' => [24 => new SPIContentInfo(['id' => 24, 'contentTypeId' => 43])],
-                    'contentInfos' => [new SPIContentInfo(['contentTypeId' => '42'])],
+                    'locations' => [new PersistenceLocation(['id' => 40, 'contentId' => '24', 'parentId' => 43, 'depth' => 1])],
+                    'parentLocations' => [43 => new PersistenceLocation(['id' => 43, 'contentId' => 24])],
+                    'parentContents' => [24 => new PersistenceContentInfo(['id' => 24, 'contentTypeId' => 43])],
+                    'contentInfos' => [new PersistenceContentInfo(['contentTypeId' => '42'])],
                 ],
                 'expected' => true,
             ],
@@ -328,10 +326,10 @@ class ParentContentTypeLimitationTypeTest extends Base
                 'object' => new ContentInfo(['published' => true, 'id' => 40]),
                 'targets' => [],
                 'persistence' => [
-                    'locations' => [new SPILocation(['id' => 40, 'contentId' => '24', 'parentId' => 43, 'depth' => 1])],
-                    'parentLocations' => [43 => new SPILocation(['id' => 43, 'contentId' => 24])],
-                    'parentContents' => [24 => new SPIContentInfo(['id' => 24, 'contentTypeId' => 39])],
-                    'contentInfos' => [new SPIContentInfo(['contentTypeId' => '42'])],
+                    'locations' => [new PersistenceLocation(['id' => 40, 'contentId' => '24', 'parentId' => 43, 'depth' => 1])],
+                    'parentLocations' => [43 => new PersistenceLocation(['id' => 43, 'contentId' => 24])],
+                    'parentContents' => [24 => new PersistenceContentInfo(['id' => 24, 'contentTypeId' => 39])],
+                    'contentInfos' => [new PersistenceContentInfo(['contentTypeId' => '42'])],
                 ],
                 'expected' => false,
             ],
@@ -341,8 +339,8 @@ class ParentContentTypeLimitationTypeTest extends Base
                 'object' => new ContentInfo(['published' => false]),
                 'targets' => [],
                 'persistence' => [
-                    'locations' => [new SPILocation(['contentId' => '24'])],
-                    'contentInfos' => [new SPIContentInfo(['contentTypeId' => '42'])],
+                    'locations' => [new PersistenceLocation(['contentId' => '24'])],
+                    'contentInfos' => [new PersistenceContentInfo(['contentTypeId' => '42'])],
                 ],
                 'expected' => true,
             ],
@@ -352,8 +350,8 @@ class ParentContentTypeLimitationTypeTest extends Base
                 'object' => new ContentInfo(['published' => false]),
                 'targets' => [],
                 'persistence' => [
-                    'locations' => [new SPILocation(['contentId' => '24'])],
-                    'contentInfos' => [new SPIContentInfo(['contentTypeId' => '4200'])],
+                    'locations' => [new PersistenceLocation(['contentId' => '24'])],
+                    'contentInfos' => [new PersistenceContentInfo(['contentTypeId' => '4200'])],
                 ],
                 'expected' => false,
             ],
@@ -365,13 +363,13 @@ class ParentContentTypeLimitationTypeTest extends Base
                 'persistence' => [],
                 'expected' => true,
             ],
-            // Content, with SPI targets, with access
+            // Content, with Persistence targets, with access
             [
                 'limitation' => new ParentContentTypeLimitation(['limitationValues' => [42]]),
                 'object' => $this->getTestEvaluateContentMock(),
-                'targets' => [new SPILocation(['contentId' => '24'])],
+                'targets' => [new PersistenceLocation(['contentId' => '24'])],
                 'persistence' => [
-                    'contentInfos' => [new SPIContentInfo(['contentTypeId' => '42'])],
+                    'contentInfos' => [new PersistenceContentInfo(['contentTypeId' => '42'])],
                 ],
                 'expected' => true,
             ],
@@ -383,13 +381,13 @@ class ParentContentTypeLimitationTypeTest extends Base
                 'persistence' => [],
                 'expected' => true,
             ],
-            // VersionInfo, with SPI targets, with access
+            // VersionInfo, with Persistence targets, with access
             [
                 'limitation' => new ParentContentTypeLimitation(['limitationValues' => [42]]),
                 'object' => $this->getTestEvaluateVersionInfoMock(),
-                'targets' => [new SPILocation(['contentId' => '24'])],
+                'targets' => [new PersistenceLocation(['contentId' => '24'])],
                 'persistence' => [
-                    'contentInfos' => [new SPIContentInfo(['contentTypeId' => '42'])],
+                    'contentInfos' => [new PersistenceContentInfo(['contentTypeId' => '42'])],
                 ],
                 'expected' => true,
             ],
@@ -399,8 +397,8 @@ class ParentContentTypeLimitationTypeTest extends Base
                 'object' => $this->getTestEvaluateVersionInfoMock(),
                 'targets' => [new LocationCreateStruct(['parentLocationId' => 24])],
                 'persistence' => [
-                    'locations' => [new SPILocation(['contentId' => 100])],
-                    'contentInfos' => [new SPIContentInfo(['contentTypeId' => '42'])],
+                    'locations' => [new PersistenceLocation(['contentId' => 100])],
+                    'contentInfos' => [new PersistenceContentInfo(['contentTypeId' => '42'])],
                 ],
                 'expected' => true,
             ],
@@ -410,8 +408,8 @@ class ParentContentTypeLimitationTypeTest extends Base
                 'object' => $this->getTestEvaluateContentMock(),
                 'targets' => [new LocationCreateStruct(['parentLocationId' => 24])],
                 'persistence' => [
-                    'locations' => [new SPILocation(['contentId' => 100])],
-                    'contentInfos' => [new SPIContentInfo(['contentTypeId' => '24'])],
+                    'locations' => [new PersistenceLocation(['contentId' => 100])],
+                    'contentInfos' => [new PersistenceContentInfo(['contentTypeId' => '24'])],
                 ],
                 'expected' => false,
             ],
@@ -429,8 +427,8 @@ class ParentContentTypeLimitationTypeTest extends Base
                 'object' => new ContentCreateStruct(),
                 'targets' => [new LocationCreateStruct(['parentLocationId' => 24])],
                 'persistence' => [
-                    'locations' => [new SPILocation(['contentId' => 100])],
-                    'contentInfos' => [new SPIContentInfo(['contentTypeId' => 34])],
+                    'locations' => [new PersistenceLocation(['contentId' => 100])],
+                    'contentInfos' => [new PersistenceContentInfo(['contentTypeId' => 34])],
                 ],
                 'expected' => false,
             ],
@@ -440,8 +438,8 @@ class ParentContentTypeLimitationTypeTest extends Base
                 'object' => new ContentCreateStruct(),
                 'targets' => [new LocationCreateStruct(['parentLocationId' => 43])],
                 'persistence' => [
-                    'locations' => [new SPILocation(['contentId' => 100])],
-                    'contentInfos' => [new SPIContentInfo(['contentTypeId' => 12])],
+                    'locations' => [new PersistenceLocation(['contentId' => 100])],
+                    'contentInfos' => [new PersistenceContentInfo(['contentTypeId' => 12])],
                 ],
                 'expected' => true,
             ],

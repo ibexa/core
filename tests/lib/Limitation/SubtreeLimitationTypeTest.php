@@ -33,8 +33,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class SubtreeLimitationTypeTest extends Base
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $locationHandlerMock;
+    private SPILocationHandler & MockObject $locationHandlerMock;
 
     /**
      * Setup Location Handler mock.

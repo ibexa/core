@@ -199,6 +199,13 @@ final class MemberOfLimitationTypeTest extends Base
         self::assertEquals($expected, $value);
     }
 
+    /**
+     * @return array<string, array{
+     *     limitation: \Ibexa\Contracts\Core\Repository\Values\User\Limitation,
+     *     object: \Ibexa\Contracts\Core\Repository\Values\ValueObject,
+     *     expected: bool|null
+     * }>
+     */
     public function providerForTestEvaluate(): array
     {
         return [

@@ -4,51 +4,31 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Limitation;
 
-use Ibexa\Contracts\Core\Persistence\Handler as SPIHandler;
+use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 abstract class Base extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private ?MockObject $persistenceHandlerMock = null;
+    private PersistenceHandler & MockObject $persistenceHandlerMock;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User|\PHPUnit\Framework\MockObject\MockObject */
-    private ?MockObject $userMock = null;
+    private APIUser & MockObject $userMock;
 
-    /**
-     * @param array $mockMethods For specifying the methods to mock, all by default
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject
-     */
-    public function getPersistenceMock(array $mockMethods = [])
+    public function getPersistenceMock(): PersistenceHandler & MockObject
     {
-        if ($this->persistenceHandlerMock !== null) {
-            return $this->persistenceHandlerMock;
-        }
-
-        return $this->persistenceHandlerMock = $this->createMock(SPIHandler::class);
+        return $this->persistenceHandlerMock ?? ($this->persistenceHandlerMock = $this->createMock(
+            PersistenceHandler::class
+        ));
     }
 
-    /**
-     * @param array $mockMethods For specifying the methods to mock, all by default
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User|\PHPUnit\Framework\MockObject\MockObject
-     */
-    public function getUserMock(array $mockMethods = [])
+    public function getUserMock(): APIUser & MockObject
     {
-        if ($this->userMock !== null) {
-            return $this->userMock;
-        }
-
-        return $this->userMock = $this->getMockBuilder(APIUser::class)
-            ->setConstructorArgs([])
-            ->setMethods($mockMethods)
-            ->getMock();
+        return $this->userMock ?? ($this->userMock = $this->createMock(APIUser::class));
     }
 
     /**
@@ -56,11 +36,11 @@ abstract class Base extends TestCase
      */
     protected function tearDown(): void
     {
-        if ($this->persistenceHandlerMock !== null) {
+        if (isset($this->persistenceHandlerMock)) {
             unset($this->persistenceHandlerMock);
         }
 
-        if ($this->userMock !== null) {
+        if (isset($this->userMock)) {
             unset($this->userMock);
         }
 

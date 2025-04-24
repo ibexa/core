@@ -19,14 +19,14 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Limitation\ObjectStateLimitationType;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
 use PHPUnit\Framework\MockObject\MockObject;
+use RuntimeException;
 
 /**
  * Test Case for LimitationType.
  */
 class ObjectStateLimitationTypeTest extends Base
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $objectStateHandlerMock;
+    private SPIHandler & MockObject $objectStateHandlerMock;
 
     /** @var \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group[] */
     private array $allObjectStateGroups;
@@ -85,7 +85,14 @@ class ObjectStateLimitationTypeTest extends Base
     }
 
     /**
-     * @return array
+     * @phpstan-return array<
+     *     string,
+     *     array{
+     *         limitation: \Ibexa\Contracts\Core\Repository\Values\User\Limitation,
+     *         object: \Ibexa\Contracts\Core\Repository\Values\ValueObject,
+     *         expected: bool
+     *     }
+     * >
      */
     public function providerForTestEvaluate(): array
     {
@@ -215,7 +222,7 @@ class ObjectStateLimitationTypeTest extends Base
      */
     public function testGetCriterionInvalidValue(ObjectStateLimitationType $limitationType): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
 
         $limitationType->getCriterion(
             new ObjectStateLimitation([]),

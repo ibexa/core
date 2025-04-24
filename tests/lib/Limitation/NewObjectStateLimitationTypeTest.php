@@ -28,8 +28,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class NewObjectStateLimitationTypeTest extends Base
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $objectStateHandlerMock;
+    private SPIHandler & MockObject $objectStateHandlerMock;
 
     /**
      * Setup Handler mock.
@@ -58,7 +57,7 @@ class NewObjectStateLimitationTypeTest extends Base
     }
 
     /**
-     * @return array
+     * @phpstan-return list<array{\Ibexa\Contracts\Core\Repository\Values\User\Limitation}>
      */
     public function providerForTestAcceptValue(): array
     {
@@ -76,6 +75,8 @@ class NewObjectStateLimitationTypeTest extends Base
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewObjectStateLimitation $limitation
      * @param \Ibexa\Core\Limitation\NewObjectStateLimitationType $limitationType
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function testAcceptValue(NewObjectStateLimitation $limitation, NewObjectStateLimitationType $limitationType): void
     {
@@ -83,7 +84,7 @@ class NewObjectStateLimitationTypeTest extends Base
     }
 
     /**
-     * @return array
+     * @phpstan-return list<array{\Ibexa\Contracts\Core\Repository\Values\User\Limitation}>
      */
     public function providerForTestAcceptValueException(): array
     {
@@ -109,7 +110,7 @@ class NewObjectStateLimitationTypeTest extends Base
     }
 
     /**
-     * @return array
+     * @phpstan-return list<array{\Ibexa\Contracts\Core\Repository\Values\User\Limitation}>
      */
     public function providerForTestValidatePass(): array
     {
@@ -129,9 +130,8 @@ class NewObjectStateLimitationTypeTest extends Base
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
-                ->expects(self::any())
                 ->method('objectStateHandler')
-                ->will(self::returnValue($this->objectStateHandlerMock));
+                ->willReturn($this->objectStateHandlerMock);
 
             foreach ($limitation->limitationValues as $key => $value) {
                 $this->objectStateHandlerMock
@@ -149,7 +149,7 @@ class NewObjectStateLimitationTypeTest extends Base
     }
 
     /**
-     * @return array
+     * @phpstan-return list<array{\Ibexa\Contracts\Core\Repository\Values\User\Limitation}>
      */
     public function providerForTestValidateError(): array
     {
@@ -170,9 +170,8 @@ class NewObjectStateLimitationTypeTest extends Base
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
-                ->expects(self::any())
                 ->method('objectStateHandler')
-                ->will(self::returnValue($this->objectStateHandlerMock));
+                ->willReturn($this->objectStateHandlerMock);
 
             foreach ($limitation->limitationValues as $key => $value) {
                 $this->objectStateHandlerMock
@@ -204,13 +203,17 @@ class NewObjectStateLimitationTypeTest extends Base
         $expected = ['test', 'test' => 9];
         $value = $limitationType->buildValue($expected);
 
-        self::assertInstanceOf(NewObjectStateLimitation::class, $value);
         self::assertIsArray($value->limitationValues);
         self::assertEquals($expected, $value->limitationValues);
     }
 
     /**
-     * @return array
+     * @phpstan-return list<array{
+     *       limitation: \Ibexa\Contracts\Core\Repository\Values\User\Limitation,
+     *       object: \Ibexa\Contracts\Core\Repository\Values\ValueObject,
+     *       targets: null|array<\Ibexa\Contracts\Core\Repository\Values\ValueObject>,
+     *       expected: bool,
+     * }>
      */
     public function providerForTestEvaluate(): array
     {
@@ -229,7 +232,7 @@ class NewObjectStateLimitationTypeTest extends Base
                 'targets' => [new ObjectState(['id' => 66])],
                 'expected' => false,
             ],
-            // Content, no access  (both must match!)
+            // Content, no access (both must match!)
             [
                 'limitation' => new NewObjectStateLimitation(['limitationValues' => [2, 22]]),
                 'object' => new Content(),
@@ -262,16 +265,18 @@ class NewObjectStateLimitationTypeTest extends Base
 
     /**
      * @dataProvider providerForTestEvaluate
+     *
+     * @depends testConstruct
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
     public function testEvaluate(
         NewObjectStateLimitation $limitation,
         ValueObject $object,
         array $targets,
-        $expected
+        bool $expected,
+        NewObjectStateLimitationType $limitationType,
     ): void {
-        // Need to create inline instead of depending on testConstruct() to get correct mock instance
-        $limitationType = $this->testConstruct();
-
         $userMock = $this->getUserMock();
         $userMock
             ->expects(self::never())
@@ -328,8 +333,6 @@ class NewObjectStateLimitationTypeTest extends Base
         ValueObject $object,
         array $targets
     ): void {
-        $this->expectException(InvalidArgumentException::class);
-
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
         $limitationType = $this->testConstruct();
 
@@ -343,13 +346,13 @@ class NewObjectStateLimitationTypeTest extends Base
             ->expects(self::never())
             ->method(self::anything());
 
-        $v = $limitationType->evaluate(
+        $this->expectException(InvalidArgumentException::class);
+        $limitationType->evaluate(
             $limitation,
             $userMock,
             $object,
             $targets
         );
-        var_dump($v); // intentional, debug in case no exception above
     }
 
     /**
@@ -375,10 +378,6 @@ class NewObjectStateLimitationTypeTest extends Base
     public function testValueSchema(NewObjectStateLimitationType $limitationType): void
     {
         $this->expectException(NotImplementedException::class);
-
-        self::assertEquals(
-            [],
-            $limitationType->valueSchema()
-        );
+        $limitationType->valueSchema();
     }
 }

@@ -22,8 +22,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class SiteAccessLimitationTypeTest extends Base
 {
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $siteAccessServiceMock;
+    private SiteAccess\SiteAccessServiceInterface & MockObject $siteAccessServiceMock;
 
     protected function setUp(): void
     {

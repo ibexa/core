@@ -16,7 +16,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\SectionId;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation;
@@ -27,14 +26,15 @@ use Ibexa\Core\Limitation\SectionLimitationType;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Core\Repository\Values\Content\Location;
 use PHPUnit\Framework\MockObject\MockObject;
+use RuntimeException;
+use stdClass;
 
 /**
  * Test Case for LimitationType.
  */
 class SectionLimitationTypeTest extends Base
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Section\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $sectionHandlerMock;
+    private SPISectionHandler & MockObject $sectionHandlerMock;
 
     /**
      * Setup Location Handler mock.
@@ -81,6 +81,8 @@ class SectionLimitationTypeTest extends Base
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation $limitation
      * @param \Ibexa\Core\Limitation\SectionLimitationType $limitationType
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function testAcceptValue(SectionLimitation $limitation, SectionLimitationType $limitationType): void
     {
@@ -95,7 +97,7 @@ class SectionLimitationTypeTest extends Base
         return [
             [new ObjectStateLimitation()],
             [new SectionLimitation(['limitationValues' => [true]])],
-            [new SectionLimitation(['limitationValues' => [new \stdClass()]])],
+            [new SectionLimitation(['limitationValues' => [new stdClass()]])],
             [new SectionLimitation(['limitationValues' => [null]])],
             [new SectionLimitation(['limitationValues' => '/1/2/'])],
         ];
@@ -137,19 +139,16 @@ class SectionLimitationTypeTest extends Base
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
-                ->expects(self::any())
                 ->method('sectionHandler')
-                ->will(self::returnValue($this->sectionHandlerMock));
+                ->willReturn($this->sectionHandlerMock);
 
             foreach ($limitation->limitationValues as $key => $value) {
                 $this->sectionHandlerMock
                     ->expects(self::at($key))
                     ->method('load')
                     ->with($value)
-                    ->will(
-                        self::returnValue(
-                            new SPISection(['id' => $value])
-                        )
+                    ->willReturn(
+                        new SPISection(['id' => $value])
                     );
             }
         }
@@ -183,16 +182,15 @@ class SectionLimitationTypeTest extends Base
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
-                ->expects(self::any())
                 ->method('sectionHandler')
-                ->will(self::returnValue($this->sectionHandlerMock));
+                ->willReturn($this->sectionHandlerMock);
 
             foreach ($limitation->limitationValues as $key => $value) {
                 $this->sectionHandlerMock
                     ->expects(self::at($key))
                     ->method('load')
                     ->with($value)
-                    ->will(self::throwException(new NotFoundException('Section', $value)));
+                    ->willThrowException(new NotFoundException('Section', $value));
             }
         } else {
             $this->getPersistenceMock()
@@ -217,36 +215,40 @@ class SectionLimitationTypeTest extends Base
         $expected = ['test', 'test' => '33'];
         $value = $limitationType->buildValue($expected);
 
-        self::assertInstanceOf(SectionLimitation::class, $value);
         self::assertIsArray($value->limitationValues);
         self::assertEquals($expected, $value->limitationValues);
     }
 
     /**
-     * @return array
+     * @phpstan-return list<array{
+     *      limitation: \Ibexa\Contracts\Core\Repository\Values\User\Limitation,
+     *      object: \Ibexa\Contracts\Core\Repository\Values\ValueObject,
+     *      targets: null|array<\Ibexa\Contracts\Core\Repository\Values\ValueObject>,
+     *      expected: \Ibexa\Contracts\Core\Limitation\Type::ACCESS_*
+     * }>
      */
     public function providerForTestEvaluate(): array
     {
-        // Mocks for testing Content & VersionInfo objects, should only be used once because of expect rules.
+        // Mocks for testing Content & VersionInfo objects should only be used once because of expect rules.
         $contentMock = $this->createMock(APIContent::class);
         $versionInfoMock = $this->createMock(APIVersionInfo::class);
 
         $contentMock
             ->expects(self::once())
             ->method('getVersionInfo')
-            ->will(self::returnValue($versionInfoMock));
+            ->willReturn($versionInfoMock);
 
         $versionInfoMock
             ->expects(self::once())
             ->method('getContentInfo')
-            ->will(self::returnValue(new ContentInfo(['sectionId' => 2])));
+            ->willReturn(new ContentInfo(['sectionId' => 2]));
 
         $versionInfoMock2 = $this->createMock(APIVersionInfo::class);
 
         $versionInfoMock2
             ->expects(self::once())
             ->method('getContentInfo')
-            ->will(self::returnValue(new ContentInfo(['sectionId' => 2])));
+            ->willReturn(new ContentInfo(['sectionId' => 2]));
 
         return [
             // ContentInfo, with targets, no access
@@ -284,14 +286,14 @@ class SectionLimitationTypeTest extends Base
                 'targets' => null,
                 'expected' => LimitationType::ACCESS_DENIED,
             ],
-            // ContentInfo, no targets, un-published, with access
+            // ContentInfo, no targets, unpublished, with access
             [
                 'limitation' => new SectionLimitation(['limitationValues' => ['2']]),
                 'object' => new ContentInfo(['published' => false, 'sectionId' => 2]),
                 'targets' => null,
                 'expected' => LimitationType::ACCESS_GRANTED,
             ],
-            // ContentInfo, no targets, un-published, no access
+            // ContentInfo, no targets, unpublished, no access
             [
                 'limitation' => new SectionLimitation(['limitationValues' => ['2', '43']]),
                 'object' => new ContentInfo(['published' => false, 'sectionId' => 55]),
@@ -357,7 +359,7 @@ class SectionLimitationTypeTest extends Base
         SectionLimitation $limitation,
         ValueObject $object,
         ?array $targets,
-        $expected
+        bool|null $expected
     ): void {
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
         $limitationType = $this->testConstruct();
@@ -382,7 +384,11 @@ class SectionLimitationTypeTest extends Base
     }
 
     /**
-     * @return array
+     * @phpstan-return list<array{
+     *     limitation: \Ibexa\Contracts\Core\Repository\Values\User\Limitation,
+     *     object: \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo,
+     *     targets: null|array<\Ibexa\Contracts\Core\Repository\Values\ValueObject>
+     * }>
      */
     public function providerForTestEvaluateInvalidArgument(): array
     {
@@ -398,14 +404,16 @@ class SectionLimitationTypeTest extends Base
 
     /**
      * @dataProvider providerForTestEvaluateInvalidArgument
+     *
+     * @param array<\Ibexa\Contracts\Core\Repository\Values\ValueObject>|null $targets
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
     public function testEvaluateInvalidArgument(
         Limitation $limitation,
         ValueObject $object,
         ?array $targets
     ): void {
-        $this->expectException(InvalidArgumentException::class);
-
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
         $limitationType = $this->testConstruct();
 
@@ -418,13 +426,13 @@ class SectionLimitationTypeTest extends Base
             ->expects(self::never())
             ->method(self::anything());
 
-        $v = $limitationType->evaluate(
+        $this->expectException(InvalidArgumentException::class);
+        $limitationType->evaluate(
             $limitation,
             $userMock,
             $object,
             $targets
         );
-        var_dump($v); // intentional, debug in case no exception above
     }
 
     /**
@@ -434,7 +442,7 @@ class SectionLimitationTypeTest extends Base
      */
     public function testGetCriterionInvalidValue(SectionLimitationType $limitationType): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
 
         $limitationType->getCriterion(
             new SectionLimitation([]),
@@ -454,7 +462,6 @@ class SectionLimitationTypeTest extends Base
             $this->getUserMock()
         );
 
-        self::assertInstanceOf(SectionId::class, $criterion);
         self::assertIsArray($criterion->value);
         self::assertIsString($criterion->operator);
         self::assertEquals(Operator::EQ, $criterion->operator);
@@ -473,7 +480,6 @@ class SectionLimitationTypeTest extends Base
             $this->getUserMock()
         );
 
-        self::assertInstanceOf(SectionId::class, $criterion);
         self::assertIsArray($criterion->value);
         self::assertIsString($criterion->operator);
         self::assertEquals(Operator::IN, $criterion->operator);
