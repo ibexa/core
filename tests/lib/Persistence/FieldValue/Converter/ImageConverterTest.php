@@ -14,40 +14,34 @@ use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\UrlRedecoratorInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageConverter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class ImageConverterTest extends TestCase
 {
-    private const MIME_TYPES = [
+    private const array MIME_TYPES = [
         'image/png',
         'image/jpeg',
     ];
 
-    private const MIME_TYPES_STORAGE_VALUE = '["image\/png","image\/jpeg"]';
+    private const string MIME_TYPES_STORAGE_VALUE = '["image\/png","image\/jpeg"]';
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageConverter */
     private ImageConverter $imageConverter;
-
-    /** @var \Ibexa\Core\IO\UrlRedecoratorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $urlRedecorator;
-
-    /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $ioService;
 
     protected function setUp(): void
     {
-        $this->ioService = $this->createMock(IOServiceInterface::class);
-        $this->urlRedecorator = $this->createMock(UrlRedecoratorInterface::class);
+        $ioService = $this->createMock(IOServiceInterface::class);
+        $urlRedecorator = $this->createMock(UrlRedecoratorInterface::class);
 
         $this->imageConverter = new ImageConverter(
-            $this->ioService,
-            $this->urlRedecorator
+            $ioService,
+            $urlRedecorator
         );
     }
 
     /**
      * @dataProvider dataProviderForTestToStorageFieldDefinition
+     *
+     * @throws \JsonException
      */
     public function testToStorageFieldDefinition(
         FieldDefinition $fieldDefinition,
@@ -63,6 +57,14 @@ final class ImageConverterTest extends TestCase
         );
     }
 
+    /**
+     * @return iterable<
+     *      string,
+     *      array{
+     *          0: \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition,
+     *          1: \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition
+     * }>
+     */
     public function dataProviderForTestToStorageFieldDefinition(): iterable
     {
         yield 'No validators' => [
