@@ -30,7 +30,7 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
 {
     private array $fieldDefinitions = [];
 
-    public function getExtensions()
+    public function getExtensions(): array
     {
         $configResolver = $this->getConfigResolverMock();
         $twig = $this->createMock(Environment::class);
@@ -56,7 +56,7 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
         ];
     }
 
-    public function getFixturesDir()
+    protected static function getFixturesDirectory(): string
     {
         return __DIR__ . '/_fixtures/field_rendering_functions/';
     }

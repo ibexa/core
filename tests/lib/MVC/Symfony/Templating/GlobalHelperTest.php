@@ -24,22 +24,17 @@ use Symfony\Component\Routing\RouterInterface;
 class GlobalHelperTest extends TestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\Templating\GlobalHelper */
-    protected $helper;
+    protected GlobalHelper $helper;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $container;
+    protected ContainerInterface & MockObject $container;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $locationService;
+    protected LocationService & MockObject $locationService;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $configResolver;
+    protected ConfigResolverInterface & MockObject $configResolver;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $router;
+    protected RouterInterface & MockObject $router;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $translationHelper;
+    protected TranslationHelper & MockObject $translationHelper;
 
     protected function setUp(): void
     {

@@ -28,29 +28,20 @@ use Symfony\Component\Routing\RouterInterface;
 
 class UrlAliasGeneratorTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $repository;
+    private URLAliasService & MockObject $urlAliasService;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $urlAliasService;
+    private LocationService & MockObject $locationService;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $locationService;
+    private RouterInterface & MockObject $router;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $router;
+    private LoggerInterface & MockObject $logger;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $logger;
+    private SiteAccessRouterInterface & MockObject $siteAccessRouter;
+
+    private ConfigResolverInterface & MockObject $configResolver;
 
     /** @var \Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator */
     private UrlAliasGenerator $urlAliasGenerator;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $siteAccessRouter;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $configResolver;
 
     protected function setUp(): void
     {
@@ -60,10 +51,11 @@ class UrlAliasGeneratorTest extends TestCase
         $this->siteAccessRouter = $this->createMock(SiteAccessRouterInterface::class);
         $this->configResolver = $this->createMock(ConfigResolverInterface::class);
         $repositoryClass = Repository::class;
-        $this->repository = $repository = $this
+        /** @var \Ibexa\Core\Repository\Repository&\PHPUnit\Framework\MockObject\MockObject $repository */
+        $repository = $this
             ->getMockBuilder($repositoryClass)
             ->disableOriginalConstructor()
-            ->setMethods(
+            ->onlyMethods(
                 array_diff(
                     get_class_methods($repositoryClass),
                     ['sudo']
@@ -72,18 +64,15 @@ class UrlAliasGeneratorTest extends TestCase
             ->getMock();
         $this->urlAliasService = $this->createMock(URLAliasService::class);
         $this->locationService = $this->createMock(LocationService::class);
-        $this->repository
-            ->expects(self::any())
-            ->method('getURLAliasService')
-            ->will(self::returnValue($this->urlAliasService));
-        $this->repository
-            ->expects(self::any())
-            ->method('getLocationService')
-            ->will(self::returnValue($this->locationService));
         $repository
-            ->expects(self::any())
+            ->method('getURLAliasService')
+            ->willReturn($this->urlAliasService);
+        $repository
+            ->method('getLocationService')
+            ->willReturn($this->locationService);
+        $repository
             ->method('getPermissionResolver')
-            ->will(self::returnValue($this->getPermissionResolverMock()));
+            ->willReturn($this->getPermissionResolverMock());
 
         $urlAliasCharmap = [
             '"' => '%22',
@@ -92,7 +81,7 @@ class UrlAliasGeneratorTest extends TestCase
             '>' => '%3E',
         ];
         $this->urlAliasGenerator = new UrlAliasGenerator(
-            $this->repository,
+            $repository,
             $this->router,
             $this->configResolver,
             $urlAliasCharmap

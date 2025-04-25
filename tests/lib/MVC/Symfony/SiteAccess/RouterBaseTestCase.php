@@ -14,19 +14,18 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilder;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
 use PHPUnit\Framework\TestCase;
 
-abstract class RouterBaseTest extends TestCase
+abstract class RouterBaseTestCase extends TestCase
 {
-    protected const UNDEFINED_SA_NAME = 'undefined_sa';
-    protected const ENV_SA_NAME = 'env_sa';
-    protected const HEADERBASED_SA_NAME = 'headerbased_sa';
+    protected const string UNDEFINED_SA_NAME = 'undefined_sa';
+    protected const string ENV_SA_NAME = 'env_sa';
+    protected const string HEADERBASED_SA_NAME = 'headerbased_sa';
 
-    protected const DEFAULT_SA_NAME = 'default_sa';
+    protected const string DEFAULT_SA_NAME = 'default_sa';
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilder */
-    protected $matcherBuilder;
+    protected MatcherBuilder $matcherBuilder;
 
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface */
-    protected $siteAccessProvider;
+    protected SiteAccess\SiteAccessProviderInterface $siteAccessProvider;
 
     protected function setUp(): void
     {
@@ -54,6 +53,9 @@ abstract class RouterBaseTest extends TestCase
         $router->setSiteAccess();
     }
 
+    /**
+     * @phpstan-return list<array{\Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest, string}>
+     */
     abstract public function matchProvider(): array;
 
     abstract protected function createRouter(): Router;

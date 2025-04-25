@@ -12,7 +12,6 @@ use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\URLAliasService;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
-use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator;
 use Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter;
@@ -21,69 +20,52 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\View\Manager as ViewManager;
 use Ibexa\Core\Repository\Repository;
 use Ibexa\Core\Repository\Values\Content\Location;
+use InvalidArgumentException;
+use LogicException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
+use stdClass;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Routing\RouteCollection;
-use Symfony\Component\Routing\RouterInterface;
 
 class UrlAliasRouterTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $repository;
+    protected Repository & MockObject $repository;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $urlAliasService;
+    protected URLAliasService & MockObject $urlAliasService;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $locationService;
+    protected LocationService & MockObject $locationService;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $contentService;
+    protected ContentService & MockObject $contentService;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $urlALiasGenerator;
+    protected UrlAliasGenerator & MockObject $urlAliasGenerator;
 
-    protected $requestContext;
+    protected RequestContext $requestContext;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter */
-    protected $router;
+    protected UrlAliasRouter $router;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $repositoryClass = Repository::class;
-        $this->repository = $repository = $this
-            ->getMockBuilder($repositoryClass)
-            ->disableOriginalConstructor()
-            ->setMethods(
-                array_diff(
-                    get_class_methods($repositoryClass),
-                    ['sudo']
-                )
-            )
-            ->getMock();
+        $this->repository = $this->createMock(Repository::class);
         $this->urlAliasService = $this->createMock(URLAliasService::class);
         $this->locationService = $this->createMock(LocationService::class);
         $this->contentService = $this->createMock(ContentService::class);
-        $this->urlALiasGenerator = $this
-            ->getMockBuilder(UrlAliasGenerator::class)
-            ->setConstructorArgs(
-                [
-                    $repository,
-                    $this->createMock(RouterInterface::class),
-                    $this->createMock(ConfigResolverInterface::class),
-                ]
-            )
-            ->getMock();
+        $this->urlAliasGenerator = $this->createMock(UrlAliasGenerator::class);
         $this->requestContext = new RequestContext();
 
-        $this->router = $this->getRouter($this->locationService, $this->urlAliasService, $this->contentService, $this->urlALiasGenerator, $this->requestContext);
+        $this->router = $this->getRouter(
+            $this->locationService,
+            $this->urlAliasService,
+            $this->contentService,
+            $this->urlAliasGenerator,
+            $this->requestContext
+        );
     }
 
     /**
@@ -104,7 +86,7 @@ class UrlAliasRouterTest extends TestCase
     {
         self::assertSame($this->requestContext, $this->router->getContext());
         $newContext = new RequestContext();
-        $this->urlALiasGenerator
+        $this->urlAliasGenerator
             ->expects(self::once())
             ->method('setRequestContext')
             ->with($newContext);
@@ -114,7 +96,7 @@ class UrlAliasRouterTest extends TestCase
 
     public function testMatch(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
 
         $this->router->match('/foo');
     }
@@ -122,7 +104,7 @@ class UrlAliasRouterTest extends TestCase
     /**
      * @dataProvider providerTestSupports
      */
-    public function testSupports(Location|\stdClass|string $routeReference, bool $isSupported): void
+    public function testSupports(Location|stdClass|string $routeReference, bool $isSupported): void
     {
         self::assertSame($isSupported, $this->router->supports($routeReference));
     }
@@ -131,15 +113,10 @@ class UrlAliasRouterTest extends TestCase
     {
         return [
             [new Location(), true],
-            [new \stdClass(), false],
+            [new stdClass(), false],
             [UrlAliasRouter::URL_ALIAS_ROUTE_NAME, true],
             ['some_route_name', false],
         ];
-    }
-
-    public function testGetRouteCollection(): void
-    {
-        self::assertInstanceOf(RouteCollection::class, $this->router->getRouteCollection());
     }
 
     /**
@@ -181,7 +158,7 @@ class UrlAliasRouterTest extends TestCase
             ->method('lookup')
             ->with($pathInfo)
             ->will(self::returnValue($urlAlias));
-        $this->urlALiasGenerator
+        $this->urlAliasGenerator
             ->expects(self::once())
             ->method('loadLocation')
             ->will(self::returnValue(new Location(['contentInfo' => new ContentInfo(['id' => 456])])));
@@ -211,7 +188,7 @@ class UrlAliasRouterTest extends TestCase
             ]
         );
         $request = $this->getRequestByPathInfo($pathInfo);
-        $this->urlALiasGenerator
+        $this->urlAliasGenerator
             ->expects(self::once())
             ->method('isUriPrefixExcluded')
             ->with($pathInfo)
@@ -221,7 +198,7 @@ class UrlAliasRouterTest extends TestCase
             ->method('lookup')
             ->with($pathInfo)
             ->will(self::returnValue($urlAlias));
-        $this->urlALiasGenerator
+        $this->urlAliasGenerator
             ->expects(self::once())
             ->method('loadLocation')
             ->will(self::returnValue(new Location(['contentInfo' => new ContentInfo(['id' => 456])])));
@@ -253,7 +230,7 @@ class UrlAliasRouterTest extends TestCase
             ]
         );
         $request = $this->getRequestByPathInfo($pathInfo);
-        $this->urlALiasGenerator
+        $this->urlAliasGenerator
             ->expects(self::once())
             ->method('isUriPrefixExcluded')
             ->with($pathInfo)
@@ -263,7 +240,7 @@ class UrlAliasRouterTest extends TestCase
             ->method('lookup')
             ->with($pathInfo)
             ->will(self::returnValue($urlAlias));
-        $this->urlALiasGenerator
+        $this->urlAliasGenerator
             ->expects(self::once())
             ->method('loadLocation')
             ->will(self::returnValue(new Location(['contentInfo' => new ContentInfo(['id' => 456])])));
@@ -294,7 +271,7 @@ class UrlAliasRouterTest extends TestCase
             ]
         );
         $request = $this->getRequestByPathInfo($pathInfo);
-        $this->urlALiasGenerator
+        $this->urlAliasGenerator
             ->expects(self::once())
             ->method('isUriPrefixExcluded')
             ->with($pathInfo)
@@ -304,7 +281,7 @@ class UrlAliasRouterTest extends TestCase
             ->method('lookup')
             ->with($pathInfo)
             ->will(self::returnValue($urlAlias));
-        $this->urlALiasGenerator
+        $this->urlAliasGenerator
             ->expects(self::once())
             ->method('loadLocation')
             ->will(self::returnValue(new Location(['contentInfo' => new ContentInfo(['id' => 456])])));
@@ -345,12 +322,12 @@ class UrlAliasRouterTest extends TestCase
             ->method('lookup')
             ->with($pathInfo)
             ->will(self::returnValue($urlAlias));
-        $this->urlALiasGenerator
+        $this->urlAliasGenerator
             ->expects(self::once())
             ->method('generate')
             ->with($destinationLocation)
             ->will(self::returnValue($newPathInfo));
-        $this->urlALiasGenerator
+        $this->urlAliasGenerator
             ->expects(self::once())
             ->method('loadLocation')
             ->will(self::returnValue($destinationLocation));
@@ -389,7 +366,7 @@ class UrlAliasRouterTest extends TestCase
             ->method('lookup')
             ->with($pathInfo)
             ->will(self::returnValue($urlAlias));
-        $this->urlALiasGenerator
+        $this->urlAliasGenerator
             ->expects(self::once())
             ->method('loadLocation')
             ->will(self::returnValue(new Location(['contentInfo' => new ContentInfo(['id' => 456])])));
@@ -430,19 +407,19 @@ class UrlAliasRouterTest extends TestCase
             ->method('lookup')
             ->with($pathInfo)
             ->will(self::returnValue($urlAlias));
-        $this->urlALiasGenerator
+        $this->urlAliasGenerator
             ->expects(self::once())
             ->method('loadLocation')
             ->with($destinationId)
             ->will(
                 self::returnValue($destinationLocation)
             );
-        $this->urlALiasGenerator
+        $this->urlAliasGenerator
             ->expects(self::once())
             ->method('generate')
             ->with($destinationLocation)
             ->will(self::returnValue($newPathInfo));
-        $this->urlALiasGenerator
+        $this->urlAliasGenerator
             ->expects(self::once())
             ->method('loadLocation')
             ->will(self::returnValue($destinationLocation));
@@ -542,7 +519,7 @@ class UrlAliasRouterTest extends TestCase
             ]
         );
         $request = $this->getRequestByPathInfo($pathInfo);
-        $this->urlALiasGenerator
+        $this->urlAliasGenerator
             ->expects(self::once())
             ->method('isUriPrefixExcluded')
             ->with($pathInfo)
@@ -628,7 +605,7 @@ class UrlAliasRouterTest extends TestCase
             ]
         );
         $request = $this->getRequestByPathInfo($pathInfo);
-        $this->urlALiasGenerator
+        $this->urlAliasGenerator
             ->expects(self::once())
             ->method('isUriPrefixExcluded')
             ->with($pathInfo)
@@ -664,7 +641,7 @@ class UrlAliasRouterTest extends TestCase
         $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH;
         $generatedLink = '/foo/bar';
 
-        $this->urlALiasGenerator
+        $this->urlAliasGenerator
             ->expects(self::once())
             ->method('generate')
             ->with($location, $parameters, $referenceType)
@@ -684,16 +661,16 @@ class UrlAliasRouterTest extends TestCase
 
     public function testGenerateNoLocation(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $this->router->generate(UrlAliasRouter::URL_ALIAS_ROUTE_NAME, ['foo' => 'bar']);
     }
 
     public function testGenerateInvalidLocation(): void
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
 
-        $this->router->generate(UrlAliasRouter::URL_ALIAS_ROUTE_NAME, ['location' => new \stdClass()]);
+        $this->router->generate(UrlAliasRouter::URL_ALIAS_ROUTE_NAME, ['location' => new stdClass()]);
     }
 
     public function testGenerateWithLocationId(): void
@@ -708,7 +685,7 @@ class UrlAliasRouterTest extends TestCase
             ->method('loadLocation')
             ->with($locationId)
             ->will(self::returnValue($location));
-        $this->urlALiasGenerator
+        $this->urlAliasGenerator
             ->expects(self::once())
             ->method('generate')
             ->with($location, $parameters, $referenceType)
@@ -730,7 +707,7 @@ class UrlAliasRouterTest extends TestCase
         $parameters = ['some' => 'thing'];
         $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH;
         $generatedLink = '/foo/bar';
-        $this->urlALiasGenerator
+        $this->urlAliasGenerator
             ->expects(self::once())
             ->method('generate')
             ->with($location, $parameters, $referenceType)
@@ -764,7 +741,7 @@ class UrlAliasRouterTest extends TestCase
             ->method('loadLocation')
             ->with($contentInfo->mainLocationId)
             ->will(self::returnValue($location));
-        $this->urlALiasGenerator
+        $this->urlAliasGenerator
             ->expects(self::once())
             ->method('generate')
             ->with($location, $parameters, $referenceType)
@@ -781,7 +758,7 @@ class UrlAliasRouterTest extends TestCase
 
     public function testGenerateWithContentIdWithMissingMainLocation(): void
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
 
         $contentId = 456;
         $contentInfo = new ContentInfo(['id' => $contentId, 'mainLocationId' => null]);

@@ -21,21 +21,16 @@ use Symfony\Component\Templating\EngineInterface;
  */
 class ControllerTest extends TestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Controller\Controller */
-    protected MockObject $controller;
+    private Controller & MockObject $controller;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $templateEngineMock;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    protected MockObject $containerMock;
+    private EngineInterface & MockObject $templateEngineMock;
 
     protected function setUp(): void
     {
         $this->templateEngineMock = $this->createMock(EngineInterface::class);
-        $this->containerMock = $this->createMock(ContainerInterface::class);
-        $this->controller = $this->getMockForAbstractClass(Controller::class, [$this->containerMock]);
-        $this->containerMock
+        $containerMock = $this->createMock(ContainerInterface::class);
+        $this->controller = $this->getMockForAbstractClass(Controller::class, [$containerMock]);
+        $containerMock
             ->expects(self::any())
             ->method('get')
             ->with('templating')

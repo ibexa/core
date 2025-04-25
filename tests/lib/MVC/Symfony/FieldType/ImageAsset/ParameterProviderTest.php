@@ -22,17 +22,13 @@ use PHPUnit\Framework\TestCase;
 
 class ParameterProviderTest extends TestCase
 {
-    /** @var \Ibexa\Core\Repository\SiteAccessAware\Repository|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $repository;
+    private Repository & MockObject $repository;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $permissionsResolver;
+    private PermissionResolver & MockObject $permissionsResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\FieldType\ImageAsset\ParameterProvider */
     private ParameterProvider $parameterProvider;
 
-    /** @var \Ibexa\Contracts\Core\Repository\FieldType|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $fieldType;
+    private FieldType & MockObject $fieldType;
 
     protected function setUp(): void
     {

@@ -28,23 +28,15 @@ use Twig\Environment;
  */
 class ViewManagerTest extends TestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\View\Manager */
     private Manager $viewManager;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Twig\Environment */
-    private MockObject $templateEngineMock;
+    private Environment & MockObject $templateEngineMock;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\EventDispatcher\EventDispatcherInterface */
-    private MockObject $eventDispatcherMock;
+    private Repository & MockObject $repositoryMock;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Repository\Repository */
-    private MockObject $repositoryMock;
+    private ConfigResolverInterface & MockObject $configResolverMock;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private MockObject $configResolverMock;
-
-    /** @var \Ibexa\Core\MVC\Symfony\View\Configurator|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $viewConfigurator;
+    private Configurator & MockObject $viewConfigurator;
 
     private string $viewBaseLayout = 'IbexaCoreBundle::viewbase.html.twig';
 
@@ -52,13 +44,13 @@ class ViewManagerTest extends TestCase
     {
         parent::setUp();
         $this->templateEngineMock = $this->createMock(Environment::class);
-        $this->eventDispatcherMock = $this->createMock(EventDispatcherInterface::class);
+        $eventDispatcherMock = $this->createMock(EventDispatcherInterface::class);
         $this->repositoryMock = $this->createMock(Repository::class);
         $this->configResolverMock = $this->createMock(ConfigResolverInterface::class);
         $this->viewConfigurator = $this->createMock(Configurator::class);
         $this->viewManager = new Manager(
             $this->templateEngineMock,
-            $this->eventDispatcherMock,
+            $eventDispatcherMock,
             $this->repositoryMock,
             $this->configResolverMock,
             $this->viewBaseLayout,

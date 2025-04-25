@@ -37,55 +37,47 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class ContentViewBuilderTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $repository;
+    private const string VIEW_CONTENT_CONTROLLER = 'ibexa_content::viewContent';
+    private const string EMBED_CONTENT_CONTROLLER = 'ibexa_content::embedAction';
+    private const string VIEW_ACTION_CONTROLLER = 'ibexa_content::viewAction';
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\Configurator|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $viewConfigurator;
+    private Repository & MockObject $repository;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\ParametersInjector|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $parametersInjector;
+    private ParametersInjector & MockObject $parametersInjector;
 
-    /** @var \Ibexa\Core\Helper\ContentInfoLocationLoader|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $contentInfoLocationLoader;
+    private PermissionResolver & MockObject $permissionResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\Builder\ContentViewBuilder|\PHPUnit\Framework\MockObject\MockObject */
+    private RequestStack & MockObject $requestStack;
+
     private ContentViewBuilder $contentViewBuilder;
-
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $permissionResolver;
-
-    /** @var \Symfony\Component\HttpFoundation\RequestStack|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $requestStack;
 
     protected function setUp(): void
     {
         $this->repository = $this
             ->getMockBuilder(Repository::class)
             ->disableOriginalConstructor()
-            ->setMethods([
+            ->onlyMethods([
                 'sudo',
                 'getPermissionResolver',
                 'getLocationService',
                 'getContentService',
             ])
             ->getMock();
-        $this->viewConfigurator = $this->getMockBuilder(Configurator::class)->getMock();
+        $viewConfigurator = $this->getMockBuilder(Configurator::class)->getMock();
         $this->parametersInjector = $this->getMockBuilder(ParametersInjector::class)->getMock();
-        $this->contentInfoLocationLoader = $this->getMockBuilder(ContentInfoLocationLoader::class)->getMock();
+        $contentInfoLocationLoader = $this->getMockBuilder(ContentInfoLocationLoader::class)->getMock();
         $this->permissionResolver = $this->getMockBuilder(PermissionResolver::class)->getMock();
         $this->requestStack = $this->getMockBuilder(RequestStack::class)->getMock();
         $this->repository
-            ->expects(self::any())
             ->method('getPermissionResolver')
             ->willReturn($this->permissionResolver);
 
         $this->contentViewBuilder = new ContentViewBuilder(
             $this->repository,
-            $this->viewConfigurator,
+            $viewConfigurator,
             $this->parametersInjector,
             $this->requestStack,
-            $this->contentInfoLocationLoader
+            $contentInfoLocationLoader
         );
     }
 
@@ -99,7 +91,7 @@ class ContentViewBuilderTest extends TestCase
     {
         $parameters = [
             'viewType' => 'full',
-            '_controller' => 'ibexa_content:viewContent',
+            '_controller' => self::VIEW_CONTENT_CONTROLLER,
         ];
 
         $this->expectException(InvalidArgumentException::class);
@@ -111,7 +103,7 @@ class ContentViewBuilderTest extends TestCase
     {
         $parameters = [
             'viewType' => 'full',
-            '_controller' => 'ibexa_content:viewContent',
+            '_controller' => self::VIEW_CONTENT_CONTROLLER,
             'locationId' => 865,
         ];
 
@@ -129,7 +121,7 @@ class ContentViewBuilderTest extends TestCase
     {
         $parameters = [
             'viewType' => 'full',
-            '_controller' => 'ibexa_content:viewContent',
+            '_controller' => self::VIEW_CONTENT_CONTROLLER,
             'locationId' => 2,
         ];
 
@@ -161,7 +153,7 @@ class ContentViewBuilderTest extends TestCase
 
         $parameters = [
             'viewType' => 'full',
-            '_controller' => 'ibexa_content:viewContent',
+            '_controller' => self::VIEW_CONTENT_CONTROLLER,
             'locationId' => 2,
         ];
 
@@ -201,7 +193,7 @@ class ContentViewBuilderTest extends TestCase
 
         $parameters = [
             'viewType' => 'embed',
-            '_controller' => 'ibexa_content:viewContent',
+            '_controller' => self::VIEW_CONTENT_CONTROLLER,
             'locationId' => 2,
         ];
 
@@ -238,7 +230,7 @@ class ContentViewBuilderTest extends TestCase
 
         $parameters = [
             'viewType' => 'embed',
-            '_controller' => 'ibexa_content::embedAction',
+            '_controller' => self::EMBED_CONTENT_CONTROLLER,
             'contentId' => $contentId,
         ];
 
@@ -274,7 +266,7 @@ class ContentViewBuilderTest extends TestCase
 
         $parameters = [
             'viewType' => 'embed',
-            '_controller' => 'ibexa_content::embedAction',
+            '_controller' => self::EMBED_CONTENT_CONTROLLER,
             'contentId' => $contentId,
         ];
 
@@ -328,7 +320,7 @@ class ContentViewBuilderTest extends TestCase
 
         $parameters = [
             'viewType' => 'full',
-            '_controller' => 'ibexa_content:viewContent',
+            '_controller' => self::VIEW_CONTENT_CONTROLLER,
             'locationId' => 2,
         ];
 
@@ -348,6 +340,9 @@ class ContentViewBuilderTest extends TestCase
         $this->contentViewBuilder->buildView($parameters);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     */
     public function testBuildViewWithTranslatedContentWithoutLocation(): void
     {
         $contentInfo = new ContentInfo(['id' => 120, 'mainLanguageCode' => 'eng-GB']);
@@ -359,7 +354,7 @@ class ContentViewBuilderTest extends TestCase
 
         $parameters = [
             'viewType' => 'full',
-            '_controller' => 'ibexa_content:viewContent',
+            '_controller' => self::VIEW_CONTENT_CONTROLLER,
             'contentId' => 120,
             'languageCode' => 'eng-GB',
         ];
@@ -389,6 +384,9 @@ class ContentViewBuilderTest extends TestCase
         self::assertEquals($expectedView, $this->contentViewBuilder->buildView($parameters));
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     */
     public function testBuildView(): void
     {
         $contentInfo = new ContentInfo(['id' => 120]);
@@ -411,7 +409,7 @@ class ContentViewBuilderTest extends TestCase
 
         $parameters = [
             'viewType' => 'full',
-            '_controller' => 'ibexa_content::viewAction',
+            '_controller' => self::VIEW_ACTION_CONTROLLER,
             'locationId' => 2,
         ];
 

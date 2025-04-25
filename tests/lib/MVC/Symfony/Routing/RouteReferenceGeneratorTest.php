@@ -20,8 +20,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class RouteReferenceGeneratorTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $dispatcher;
+    private EventDispatcherInterface & MockObject $dispatcher;
 
     protected function setUp(): void
     {
@@ -111,9 +110,6 @@ class RouteReferenceGeneratorTest extends TestCase
 
     public function testGenerateNullResourceWithoutRoute(): void
     {
-        $currentRouteName = 'my_route';
-        $currentRouteParams = ['foo' => 'bar'];
-
         $request = new Request();
         $requestStack = new RequestStack();
         $requestStack->push($request);

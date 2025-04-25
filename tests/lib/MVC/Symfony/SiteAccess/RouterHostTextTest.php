@@ -12,7 +12,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\HostText as HostTextMatcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
 use Psr\Log\LoggerInterface;
 
-class RouterHostTextTest extends RouterBaseTest
+class RouterHostTextTest extends RouterBaseTestCase
 {
     public function matchProvider(): array
     {

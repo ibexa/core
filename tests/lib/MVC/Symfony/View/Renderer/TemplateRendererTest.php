@@ -19,14 +19,11 @@ use Twig\Environment;
 
 class TemplateRendererTest extends TestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\View\Renderer\TemplateRenderer */
     private TemplateRenderer $renderer;
 
-    /** @var \Twig\Environment|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $templateEngineMock;
+    private Environment & MockObject $templateEngineMock;
 
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $eventDispatcherMock;
+    private EventDispatcherInterface & MockObject $eventDispatcherMock;
 
     protected function setUp(): void
     {
@@ -69,13 +66,8 @@ class TemplateRendererTest extends TestCase
         $this->renderer->render($this->createView());
     }
 
-    /**
-     * @return \Ibexa\Core\MVC\Symfony\View\View
-     */
     protected function createView(): ContentView
     {
-        $view = new ContentView();
-
-        return $view;
+        return new ContentView();
     }
 }

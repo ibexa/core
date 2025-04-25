@@ -25,12 +25,10 @@ use Throwable;
 
 final class UserCheckerTest extends TestCase
 {
-    private const EXAMPLE_USER_ID = 14;
+    private const int EXAMPLE_USER_ID = 14;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $userServiceMock;
+    private UserService & MockObject $userServiceMock;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Security\UserChecker */
     private UserChecker $userChecker;
 
     protected function setUp(): void

@@ -19,8 +19,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class ValueObjectVoterTest extends TestCase
 {
-    /** @var \Ibexa\Core\Repository\Permission\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $permissionResolver;
+    private PermissionResolver & MockObject $permissionResolver;
 
     protected function setUp(): void
     {
@@ -31,7 +30,7 @@ class ValueObjectVoterTest extends TestCase
     /**
      * @dataProvider supportsAttributeProvider
      */
-    public function testSupportsAttribute(string|Attribute|\stdClass|array $attribute, bool $expectedResult): void
+    public function testSupportsAttribute(mixed $attribute, bool $expectedResult): void
     {
         $voter = new ValueObjectVoter($this->permissionResolver);
         self::assertSame($expectedResult, $voter->supportsAttribute($attribute));

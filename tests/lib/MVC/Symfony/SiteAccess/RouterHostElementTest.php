@@ -14,7 +14,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Map\Host as HostMapMatcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
 use Psr\Log\LoggerInterface;
 
-class RouterHostElementTest extends RouterBaseTest
+class RouterHostElementTest extends RouterBaseTestCase
 {
     public function matchProvider(): array
     {

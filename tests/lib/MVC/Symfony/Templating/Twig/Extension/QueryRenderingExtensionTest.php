@@ -27,7 +27,7 @@ final class QueryRenderingExtensionTest extends FileSystemTwigIntegrationTestCas
         ];
     }
 
-    protected function getFixturesDir(): string
+    protected static function getFixturesDirectory(): string
     {
         return __DIR__ . '/_fixtures/query_rendering_functions/';
     }

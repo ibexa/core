@@ -19,8 +19,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class CoreVoterTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $permissionResolver;
+    private PermissionResolver & MockObject $permissionResolver;
 
     protected function setUp(): void
     {

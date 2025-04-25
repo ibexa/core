@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\MVC\Symfony\View;
 
+use Closure;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\MVC\Symfony\View\View;
 use InvalidArgumentException;
@@ -16,14 +17,17 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Ibexa\Core\MVC\Symfony\View\View
  */
-abstract class AbstractViewTest extends TestCase
+abstract class AbstractViewTestCase extends TestCase
 {
-    abstract protected function createViewUnderTest($template = null, array $parameters = [], $viewType = 'full'): View;
+    /**
+     * @param array<string, mixed> $parameters
+     */
+    abstract protected function createViewUnderTest(string|Closure $template = null, array $parameters = [], string $viewType = 'full'): View;
 
     /**
      * Returns parameters that are always returned by this view.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     protected function getAlwaysAvailableParams(): array
     {
@@ -87,9 +91,11 @@ abstract class AbstractViewTest extends TestCase
     /**
      * @dataProvider goodTemplateIdentifierProvider
      *
-     * @param string|callable $templateIdentifier
+     * @phpstan-param string|(\Closure(array<string, mixed>):string) $templateIdentifier
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function testSetTemplateIdentifier($templateIdentifier): void
+    public function testSetTemplateIdentifier(string|Closure $templateIdentifier): void
     {
         $contentView = $this->createViewUnderTest();
         $contentView->setTemplateIdentifier($templateIdentifier);
@@ -97,6 +103,9 @@ abstract class AbstractViewTest extends TestCase
         self::assertSame($templateIdentifier, $contentView->getTemplateIdentifier());
     }
 
+    /**
+     * @phpstan-return list<array{string|(\Closure(array<string, mixed>):string)}>
+     */
     public function goodTemplateIdentifierProvider(): array
     {
         return [
@@ -111,10 +120,8 @@ abstract class AbstractViewTest extends TestCase
 
     /**
      * @dataProvider badTemplateIdentifierProvider
-     *
-     * @param mixed $badTemplateIdentifier
      */
-    public function testSetTemplateIdentifierWrongType($badTemplateIdentifier): void
+    public function testSetTemplateIdentifierWrongType(mixed $badTemplateIdentifier): void
     {
         $this->expectException(InvalidArgumentType::class);
 
@@ -122,6 +129,9 @@ abstract class AbstractViewTest extends TestCase
         $contentView->setTemplateIdentifier($badTemplateIdentifier);
     }
 
+    /**
+     * @phpstan-return list<array{mixed}>
+     */
     public function badTemplateIdentifierProvider(): array
     {
         return [

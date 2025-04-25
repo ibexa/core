@@ -20,8 +20,7 @@ use PHPUnit\Framework\TestCase;
 
 class CompoundAndTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $matcherBuilder;
+    private MatcherBuilderInterface & MockObject $matcherBuilder;
 
     protected function setUp(): void
     {
@@ -29,10 +28,7 @@ class CompoundAndTest extends TestCase
         $this->matcherBuilder = $this->createMock(MatcherBuilderInterface::class);
     }
 
-    /**
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound\LogicalAnd
-     */
-    public function testConstruct()
+    public function testConstruct(): LogicalAnd
     {
         return $this->buildMatcher();
     }

@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\MVC\Symfony\View;
 
+use Closure;
 use Ibexa\Core\MVC\Symfony\View\LoginFormView;
 use Ibexa\Core\MVC\Symfony\View\View;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -15,7 +16,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 /**
  * @group mvc
  */
-final class LoginFormViewTest extends AbstractViewTest
+final class LoginFormViewTest extends AbstractViewTestCase
 {
     public function testSetLastUsername(): void
     {
@@ -37,7 +38,7 @@ final class LoginFormViewTest extends AbstractViewTest
         self::assertEquals($exception, $view->getLastAuthenticationException());
     }
 
-    protected function createViewUnderTest($template = null, array $parameters = [], $viewType = 'full'): View
+    protected function createViewUnderTest(string|Closure $template = null, array $parameters = [], $viewType = 'full'): View
     {
         return new LoginFormView($template, $parameters, $viewType);
     }

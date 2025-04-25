@@ -62,17 +62,14 @@ class FileSizeExtensionTest extends IntegrationTestCase
         return [$this->locale];
     }
 
-    /**
-     * @return array
-     */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         return [
             new FileSizeExtension($this->getTranslatorInterfaceMock(), $this->suffixes, $this->getConfigResolverInterfaceMock(), $this->getLocaleConverterInterfaceMock()),
         ];
     }
 
-    protected function getFixturesDir(): string
+    protected static function getFixturesDirectory(): string
     {
         return __DIR__ . '/_fixtures/functions/ibexa_file_size';
     }

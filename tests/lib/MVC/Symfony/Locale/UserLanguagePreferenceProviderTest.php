@@ -21,18 +21,13 @@ use Symfony\Component\Yaml\Yaml;
 
 class UserLanguagePreferenceProviderTest extends TestCase
 {
-    private const LOCALE_FALLBACK = 'en';
-    private const LANGUAGE_PREFERENCE_NAME = 'language';
-    private const LANGUAGE_PREFERENCE_VALUE = 'no';
+    private const string LOCALE_FALLBACK = 'en';
+    private const string LANGUAGE_PREFERENCE_NAME = 'language';
+    private const string LANGUAGE_PREFERENCE_VALUE = 'no';
 
-    /** @var \Ibexa\Core\MVC\Symfony\Locale\UserLanguagePreferenceProviderInterface */
     private UserLanguagePreferenceProvider $userLanguagePreferenceProvider;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\HttpFoundation\RequestStack */
-    private MockObject $requestStackMock;
-
-    /** @var \Ibexa\Contracts\Core\Repository\UserPreferenceService */
-    private MockObject $userPreferenceServiceMock;
+    private RequestStack & MockObject $requestStackMock;
 
     protected function setUp(): void
     {
@@ -43,15 +38,15 @@ class UserLanguagePreferenceProviderTest extends TestCase
             'value' => self::LANGUAGE_PREFERENCE_VALUE,
         ]);
 
-        $this->userPreferenceServiceMock = $this->createMock(UserPreferenceService::class);
-        $this->userPreferenceServiceMock
+        $userPreferenceServiceMock = $this->createMock(UserPreferenceService::class);
+        $userPreferenceServiceMock
             ->method('getUserPreference')
             ->with(self::LANGUAGE_PREFERENCE_NAME)
             ->willReturn($userLanguagePreference);
 
         $this->userLanguagePreferenceProvider = new UserLanguagePreferenceProvider(
             $this->requestStackMock,
-            $this->userPreferenceServiceMock,
+            $userPreferenceServiceMock,
             $this->getLanguageCodesMap(),
             self::LOCALE_FALLBACK
         );
@@ -60,10 +55,10 @@ class UserLanguagePreferenceProviderTest extends TestCase
     /**
      * @dataProvider providerForTestGetPreferredLanguages
      *
-     * @param array $userLanguages
-     * @param array $expectedEzLanguageCodes
+     * @param array<string> $userLanguages
+     * @param array<string> $expectedLanguageCodes
      */
-    public function testGetPreferredLanguagesWithoutUserLanguage(array $userLanguages, array $expectedEzLanguageCodes): void
+    public function testGetPreferredLanguagesWithoutUserLanguage(array $userLanguages, array $expectedLanguageCodes): void
     {
         $request = new Request();
         $request->headers = new HeaderBag(
@@ -81,7 +76,7 @@ class UserLanguagePreferenceProviderTest extends TestCase
         $userPreferenceServiceMock
             ->method('getUserPreference')
             ->with(self::LANGUAGE_PREFERENCE_NAME)
-            ->will(self::throwException(new NotFoundException('User Preference', self::LANGUAGE_PREFERENCE_NAME)));
+            ->willThrowException(new NotFoundException('User Preference', self::LANGUAGE_PREFERENCE_NAME));
 
         $userLanguagePreferenceProvider = new UserLanguagePreferenceProvider(
             $this->requestStackMock,
@@ -91,7 +86,7 @@ class UserLanguagePreferenceProviderTest extends TestCase
         );
 
         self::assertEquals(
-            $expectedEzLanguageCodes,
+            $expectedLanguageCodes,
             $userLanguagePreferenceProvider->getPreferredLanguages()
         );
     }
@@ -116,16 +111,9 @@ class UserLanguagePreferenceProviderTest extends TestCase
             ->method('getCurrentRequest')
             ->willReturn($request);
 
-        $userLanguagePreferenceProvider = new UserLanguagePreferenceProvider(
-            $this->requestStackMock,
-            $this->userPreferenceServiceMock,
-            $this->getLanguageCodesMap(),
-            self::LOCALE_FALLBACK
-        );
-
         self::assertEquals(
             $expectedEzLanguageCodes,
-            $userLanguagePreferenceProvider->getPreferredLanguages()
+            $this->userLanguagePreferenceProvider->getPreferredLanguages()
         );
     }
 

@@ -17,7 +17,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class RouterTest extends RouterBaseTest
+class RouterTest extends RouterBaseTestCase
 {
     protected function tearDown(): void
     {

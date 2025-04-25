@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\MVC\Symfony\FieldType\User;
 
-use DateInterval;
-use DateTimeImmutable;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordInfo;
@@ -21,15 +19,12 @@ use PHPUnit\Framework\TestCase;
 
 class ParameterProviderTest extends TestCase
 {
-    private const EXAMPLE_USER_ID = 1;
+    private const int EXAMPLE_USER_ID = 1;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $userService;
+    private UserService & MockObject $userService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $user;
+    private User & MockObject $user;
 
-    /** @var \Ibexa\Core\MVC\Symfony\FieldType\User\ParameterProvider */
     private ParameterProvider $parameterProvider;
 
     protected function setUp(): void

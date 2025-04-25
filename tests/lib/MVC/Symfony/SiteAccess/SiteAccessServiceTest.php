@@ -20,23 +20,20 @@ use PHPUnit\Framework\TestCase;
 
 class SiteAccessServiceTest extends TestCase
 {
-    private const EXISTING_SA_NAME = 'existing_sa';
-    private const UNDEFINED_SA_NAME = 'undefined_sa';
-    private const SA_GROUP = 'group';
+    private const string EXISTING_SA_NAME = 'existing_sa';
+    private const string UNDEFINED_SA_NAME = 'undefined_sa';
+    private const string SA_GROUP = 'group';
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $provider;
+    private SiteAccessProviderInterface & MockObject $provider;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $configResolver;
+    private ConfigResolverInterface & MockObject $configResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
     private SiteAccess $siteAccess;
 
-    /** @var \ArrayIterator */
+    /** @var \ArrayIterator<int, \Ibexa\Core\MVC\Symfony\SiteAccess> */
     private ArrayIterator $availableSiteAccesses;
 
-    /** @var array */
+    /** @phpstan-var list<array{string, string, string, string|int}> */
     private array $configResolverParameters;
 
     protected function setUp(): void
@@ -148,6 +145,9 @@ class SiteAccessServiceTest extends TestCase
         return new ArrayIterator($availableSitAccesses);
     }
 
+    /**
+     * @phpstan-return list<array{string, string, string, string|int}>
+     */
     private function getConfigResolverParameters(): array
     {
         return [

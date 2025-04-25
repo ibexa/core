@@ -29,12 +29,11 @@ use Psr\Log\LoggerInterface;
 /**
  * Integration tests for ContentExtension templates.
  *
- * Tests ContentExtension in context of site with "fre-FR, eng-US" configured as languages.
+ * Tests ContentExtension in the context of the site with "fre-FR", "eng-US" configured as languages.
  */
 class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService|\PHPUnit\Framework\MockObject\MockObject */
-    private ?MockObject $fieldHelperMock = null;
+    private FieldHelper & MockObject $fieldHelperMock;
 
     /** @var array<int, \Ibexa\Core\Repository\Values\ContentType\FieldDefinition[]> */
     private array $fieldDefinitions = [];
@@ -42,7 +41,7 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
     /** @var int[] */
     private array $identityMap = [];
 
-    public function getExtensions()
+    public function getExtensions(): array
     {
         $this->fieldHelperMock = $this->createMock(FieldHelper::class);
         $configResolver = $this->getConfigResolverMock();
@@ -62,7 +61,7 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
         ];
     }
 
-    public function getFixturesDir()
+    protected static function getFixturesDirectory(): string
     {
         return __DIR__ . '/_fixtures/content_functions/';
     }
@@ -94,8 +93,8 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
                         'identifier' => $fieldInfo['fieldDefIdentifier'],
                         'id' => $fieldInfo['id'],
                         'fieldTypeIdentifier' => $fieldTypeIdentifier,
-                        'names' => isset($fieldInfo['fieldDefNames']) ? $fieldInfo['fieldDefNames'] : [],
-                        'descriptions' => isset($fieldInfo['fieldDefDescriptions']) ? $fieldInfo['fieldDefDescriptions'] : [],
+                        'names' => $fieldInfo['fieldDefNames'] ?? [],
+                        'descriptions' => $fieldInfo['fieldDefDescriptions'] ?? [],
                     ]
                 );
                 unset($fieldInfo['fieldDefNames'], $fieldInfo['fieldDefDescriptions']);
@@ -143,23 +142,21 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
         return $mock;
     }
 
-    private function getConfigResolverMock(): MockObject
+    private function getConfigResolverMock(): ConfigResolverInterface & MockObject
     {
         $mock = $this->createMock(ConfigResolverInterface::class);
         // Signature: ConfigResolverInterface->getParameter( $paramName, $namespace = null, $scope = null )
         $mock->expects(self::any())
             ->method('getParameter')
-            ->will(
-                self::returnValueMap(
+            ->willReturnMap(
+                [
                     [
-                        [
-                            'languages',
-                            null,
-                            null,
-                            ['fre-FR', 'eng-US'],
-                        ],
-                    ]
-                )
+                        'languages',
+                        null,
+                        null,
+                        ['fre-FR', 'eng-US'],
+                    ],
+                ]
             );
 
         return $mock;
@@ -182,48 +179,40 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
         $this->fieldHelperMock
             ->expects(self::once())
             ->method('isFieldEmpty')
-            ->will(self::returnValue($isEmpty));
+            ->willReturn($isEmpty);
 
         return $field;
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getRepositoryMock(): MockObject
+    protected function getRepositoryMock(): Repository & MockObject
     {
         $mock = $this->createMock(Repository::class);
 
-        $mock->expects(self::any())
+        $mock
             ->method('getContentTypeService')
-            ->will(self::returnValue($this->getContentTypeServiceMock()));
+            ->willReturn($this->getContentTypeServiceMock());
 
         return $mock;
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getContentTypeServiceMock(): MockObject
+    protected function getContentTypeServiceMock(): ContentTypeService & MockObject
     {
         $mock = $this->createMock(ContentTypeService::class);
 
-        $mock->expects(self::any())
+        $mock
             ->method('loadContentType')
-            ->will(
-                self::returnCallback(
-                    function ($contentTypeId): ContentType {
-                        return new ContentType(
-                            [
-                                'identifier' => $contentTypeId,
-                                'mainLanguageCode' => 'fre-FR',
-                                'fieldDefinitions' => new FieldDefinitionCollection(
-                                    $this->fieldDefinitions[$contentTypeId]
-                                ),
-                            ]
-                        );
-                    }
-                )
+            ->willReturnCallback(
+                function ($contentTypeId): ContentType {
+                    return new ContentType(
+                        [
+                            'identifier' => $contentTypeId,
+                            'mainLanguageCode' => 'fre-FR',
+                            'fieldDefinitions' => new FieldDefinitionCollection(
+                                $this->fieldDefinitions[$contentTypeId]
+                            ),
+                        ]
+                    );
+                }
             );
 
         return $mock;

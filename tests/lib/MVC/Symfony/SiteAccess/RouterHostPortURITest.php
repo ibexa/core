@@ -13,7 +13,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Map\Port;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
 use Psr\Log\LoggerInterface;
 
-class RouterHostPortURITest extends RouterBaseTest
+class RouterHostPortURITest extends RouterBaseTestCase
 {
     public function matchProvider(): array
     {
