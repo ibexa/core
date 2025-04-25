@@ -17,13 +17,10 @@ use PHPUnit\Framework\TestCase;
 
 final class TargetContentValidatorTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler|\PHPUnit_Framework_MockObject_MockObject */
-    private MockObject $contentHandler;
+    private Content\Handler & MockObject $contentHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler|\PHPUnit_Framework_MockObject_MockObject */
-    private MockObject $contentTypeHandler;
+    private Content\Type\Handler & MockObject $contentTypeHandler;
 
-    /** @var \Ibexa\Core\Repository\Validator\TargetContentValidator */
     private TargetContentValidator $targetContentValidator;
 
     public function setUp(): void
