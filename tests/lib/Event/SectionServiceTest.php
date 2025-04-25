@@ -25,7 +25,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\SectionCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\SectionUpdateStruct;
 use Ibexa\Core\Event\SectionService;
 
-class SectionServiceTest extends AbstractServiceTest
+class SectionServiceTest extends AbstractServiceTestCase
 {
     public function testAssignSectionEvents()
     {

@@ -20,7 +20,7 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification;
 use Ibexa\Core\Event\NotificationService;
 
-class NotificationServiceTest extends AbstractServiceTest
+class NotificationServiceTest extends AbstractServiceTestCase
 {
     public function testCreateNotificationEvents()
     {

@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Repository\Events\Bookmark\DeleteBookmarkEvent;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Event\BookmarkService;
 
-class BookmarkServiceTest extends AbstractServiceTest
+class BookmarkServiceTest extends AbstractServiceTestCase
 {
     public function testCreateBookmarkEvents()
     {

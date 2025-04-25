@@ -20,7 +20,7 @@ use Ibexa\Contracts\Core\Repository\Values\Setting\SettingUpdateStruct;
 use Ibexa\Core\Event\SettingService;
 use Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcher;
 
-class SettingServiceTest extends AbstractServiceTest
+class SettingServiceTest extends AbstractServiceTestCase
 {
     public function testUpdateSettingEvents(): void
     {

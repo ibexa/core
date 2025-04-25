@@ -37,7 +37,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserTokenUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserUpdateStruct;
 use Ibexa\Core\Event\UserService;
 
-class UserServiceTest extends AbstractServiceTest
+class UserServiceTest extends AbstractServiceTestCase
 {
     public function testUpdateUserGroupEvents()
     {

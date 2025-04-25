@@ -14,7 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\URL\URL;
 use Ibexa\Contracts\Core\Repository\Values\URL\URLUpdateStruct;
 use Ibexa\Core\Event\URLService;
 
-class URLServiceTest extends AbstractServiceTest
+class URLServiceTest extends AbstractServiceTestCase
 {
     public function testUpdateUrlEvents()
     {

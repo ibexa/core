@@ -51,7 +51,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStru
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Core\Event\ContentTypeService;
 
-class ContentTypeServiceTest extends AbstractServiceTest
+class ContentTypeServiceTest extends AbstractServiceTestCase
 {
     public function testAddFieldDefinitionEvents()
     {
