@@ -21,7 +21,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardUpdateStruct;
 use Ibexa\Core\Event\URLWildcardService;
 
-class URLWildcardServiceTest extends AbstractServiceTest
+class URLWildcardServiceTest extends AbstractServiceTestCase
 {
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
