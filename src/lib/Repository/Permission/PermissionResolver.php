@@ -203,9 +203,9 @@ class PermissionResolver implements PermissionResolverInterface
                 $limitations = $policy->getLimitations();
 
                 /*
-                 * Return true if policy gives full access (aka no limitations)
+                 * Return true if a policy gives full access (aka no limitations)
                  */
-                if ($limitations === '*') {
+                if (empty($limitations)) {
                     return true;
                 }
 
@@ -280,8 +280,8 @@ class PermissionResolver implements PermissionResolverInterface
             foreach ($permissionSet['policies'] as $policy) {
                 $policyLimitations = $policy->getLimitations();
 
-                /** Return empty array if policy gives full access (aka no limitations) */
-                if ($policyLimitations === '*') {
+                /** Return an empty array if a policy gives full access (aka no limitations) */
+                if (empty($policyLimitations)) {
                     return new LookupLimitationResult(true);
                 }
 
