@@ -107,7 +107,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
         ContentType $contentType,
         array $prioritizedLanguages = [],
         string $fieldAlwaysAvailableLanguage = null
-    ): Content {
+    ): APIContent {
         $prioritizedFieldLanguageCode = null;
         if (!empty($prioritizedLanguages)) {
             $availableFieldLanguageMap = array_fill_keys($spiContent->versionInfo->languageCodes, true);
@@ -293,31 +293,20 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
     }
 
     /**
-     * Builds a VersionInfo domain object from value object returned from persistence.
+     * Builds a VersionInfo domain object from a value object returned from persistence.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $spiVersionInfo
-     * @param array $prioritizedLanguages
-     *
-     * @return \Ibexa\Core\Repository\Values\Content\VersionInfo
+     * @param string[] $prioritizedLanguages
      */
-    public function buildVersionInfoDomainObject(SPIVersionInfo $spiVersionInfo, array $prioritizedLanguages = []): VersionInfo
+    public function buildVersionInfoDomainObject(SPIVersionInfo $spiVersionInfo, array $prioritizedLanguages = []): APIVersionInfo
     {
         // Map SPI statuses to API
-        switch ($spiVersionInfo->status) {
-            case SPIVersionInfo::STATUS_ARCHIVED:
-                $status = APIVersionInfo::STATUS_ARCHIVED;
-                break;
+        $status = match ($spiVersionInfo->status) {
+            SPIVersionInfo::STATUS_ARCHIVED => APIVersionInfo::STATUS_ARCHIVED,
+            SPIVersionInfo::STATUS_PUBLISHED => APIVersionInfo::STATUS_PUBLISHED,
+            default => APIVersionInfo::STATUS_DRAFT,
+        };
 
-            case SPIVersionInfo::STATUS_PUBLISHED:
-                $status = APIVersionInfo::STATUS_PUBLISHED;
-                break;
-
-            case SPIVersionInfo::STATUS_DRAFT:
-            default:
-                $status = APIVersionInfo::STATUS_DRAFT;
-        }
-
-        // Find prioritised language among names
+        // Find prioritized language among names
         $prioritizedNameLanguageCode = null;
         foreach ($prioritizedLanguages as $prioritizedLanguage) {
             if (isset($spiVersionInfo->names[$prioritizedLanguage])) {

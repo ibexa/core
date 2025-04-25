@@ -7,11 +7,12 @@
 
 namespace Ibexa\Core\Repository\Mapper;
 
-use Ibexa\Contracts\Core\Persistence\User\Policy as SPIPolicy;
-use Ibexa\Contracts\Core\Persistence\User\Role as SPIRole;
-use Ibexa\Contracts\Core\Persistence\User\RoleAssignment as SPIRoleAssignment;
-use Ibexa\Contracts\Core\Persistence\User\RoleCopyStruct as SPIRoleCopyStruct;
-use Ibexa\Contracts\Core\Persistence\User\RoleCreateStruct as SPIRoleCreateStruct;
+use Ibexa\Contracts\Core\Persistence\User\Policy as PersistencePolicy;
+use Ibexa\Contracts\Core\Persistence\User\Role as PersistenceRole;
+use Ibexa\Contracts\Core\Persistence\User\RoleAssignment as PersistenceRoleAssignment;
+use Ibexa\Contracts\Core\Persistence\User\RoleCopyStruct as PersistenceRoleCopyStruct;
+use Ibexa\Contracts\Core\Persistence\User\RoleCreateStruct as PersistenceRoleCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\Policy as APIPolicy;
 use Ibexa\Contracts\Core\Repository\Values\User\Role as APIRole;
 use Ibexa\Contracts\Core\Repository\Values\User\RoleCopyStruct as APIRoleCopyStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\RoleCreateStruct as APIRoleCreateStruct;
@@ -26,7 +27,7 @@ use Ibexa\Core\Repository\Values\User\UserGroupRoleAssignment;
 use Ibexa\Core\Repository\Values\User\UserRoleAssignment;
 
 /**
- * Internal service to map Role objects between API and SPI values.
+ * Internal service to map Role objects between API and Persistence values.
  *
  * @internal Meant for internal use by Repository.
  */
@@ -43,13 +44,9 @@ class RoleDomainMapper
     }
 
     /**
-     * Maps provided SPI Role value object to API Role value object.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\User\Role $role
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Role
+     * Maps provided Persistence Role value object to API Role value object.
      */
-    public function buildDomainRoleObject(SPIRole $role): Role
+    public function buildDomainRoleObject(PersistenceRole $role): APIRole
     {
         $rolePolicies = [];
         foreach ($role->policies as $spiPolicy) {
@@ -74,7 +71,7 @@ class RoleDomainMapper
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft
      */
-    public function buildDomainRoleDraftObject(SPIRole $spiRole): RoleDraft
+    public function buildDomainRoleDraftObject(PersistenceRole $spiRole): RoleDraft
     {
         return new RoleDraft(
             [
@@ -84,13 +81,9 @@ class RoleDomainMapper
     }
 
     /**
-     * Maps provided SPI Policy value object to API Policy value object.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\User\Policy $spiPolicy
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Policy|\Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft
+     * Maps provided Persistence Policy value object to API Policy value object.
      */
-    public function buildDomainPolicyObject(SPIPolicy $spiPolicy): Policy|PolicyDraft
+    public function buildDomainPolicyObject(PersistencePolicy $spiPolicy): APIPolicy
     {
         $policyLimitations = [];
         if ($spiPolicy->module !== '*' && $spiPolicy->function !== '*' && $spiPolicy->limitations !== '*') {
@@ -109,7 +102,7 @@ class RoleDomainMapper
             ]
         );
 
-        // Original ID is set on SPI policy, which means that it's a draft.
+        // Original ID is set on a persistence policy object, which means that it's a draft.
         if ($spiPolicy->originalId) {
             $policy = new PolicyDraft(['innerPolicy' => $policy, 'originalId' => $spiPolicy->originalId]);
         }
@@ -118,7 +111,7 @@ class RoleDomainMapper
     }
 
     /**
-     * Builds the API UserRoleAssignment object from provided SPI RoleAssignment object.
+     * Builds the API UserRoleAssignment object from a provided Persistence RoleAssignment object.
      *
      * @param \Ibexa\Contracts\Core\Persistence\User\RoleAssignment $spiRoleAssignment
      * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user
@@ -126,7 +119,7 @@ class RoleDomainMapper
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\UserRoleAssignment
      */
-    public function buildDomainUserRoleAssignmentObject(SPIRoleAssignment $spiRoleAssignment, User $user, APIRole $role): UserRoleAssignment
+    public function buildDomainUserRoleAssignmentObject(PersistenceRoleAssignment $spiRoleAssignment, User $user, APIRole $role): UserRoleAssignment
     {
         $limitation = null;
         if (!empty($spiRoleAssignment->limitationIdentifier)) {
@@ -147,7 +140,7 @@ class RoleDomainMapper
     }
 
     /**
-     * Builds the API UserGroupRoleAssignment object from provided SPI RoleAssignment object.
+     * Builds the API UserGroupRoleAssignment object from provided Persistence RoleAssignment object.
      *
      * @param \Ibexa\Contracts\Core\Persistence\User\RoleAssignment $spiRoleAssignment
      * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $userGroup
@@ -155,7 +148,7 @@ class RoleDomainMapper
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroupRoleAssignment
      */
-    public function buildDomainUserGroupRoleAssignmentObject(SPIRoleAssignment $spiRoleAssignment, UserGroup $userGroup, APIRole $role): UserGroupRoleAssignment
+    public function buildDomainUserGroupRoleAssignmentObject(PersistenceRoleAssignment $spiRoleAssignment, UserGroup $userGroup, APIRole $role): UserGroupRoleAssignment
     {
         $limitation = null;
         if (!empty($spiRoleAssignment->limitationIdentifier)) {
@@ -176,13 +169,13 @@ class RoleDomainMapper
     }
 
     /**
-     * Creates SPI Role create struct from provided API role create struct.
+     * Creates Persistence Role create struct from provided API role create struct.
      */
-    public function buildPersistenceRoleCreateStruct(APIRoleCreateStruct $roleCreateStruct): SPIRoleCreateStruct
+    public function buildPersistenceRoleCreateStruct(APIRoleCreateStruct $roleCreateStruct): PersistenceRoleCreateStruct
     {
         $policiesToCreate = $this->fillRoleStructWithPolicies($roleCreateStruct);
 
-        return new SPIRoleCreateStruct(
+        return new PersistenceRoleCreateStruct(
             [
                 'identifier' => $roleCreateStruct->identifier,
                 'policies' => $policiesToCreate,
@@ -191,13 +184,13 @@ class RoleDomainMapper
     }
 
     /**
-     * Creates SPI Role copy struct from provided API role copy struct.
+     * Creates Persistence Role copy struct from provided API role copy struct.
      */
-    public function buildPersistenceRoleCopyStruct(APIRoleCopyStruct $roleCopyStruct, int $clonedId, int $status): SPIRoleCopyStruct
+    public function buildPersistenceRoleCopyStruct(APIRoleCopyStruct $roleCopyStruct, int $clonedId, int $status): PersistenceRoleCopyStruct
     {
         $policiesToCopy = $this->fillRoleStructWithPolicies($roleCopyStruct);
 
-        return new SPIRoleCopyStruct(
+        return new PersistenceRoleCopyStruct(
             [
                 'clonedId' => $clonedId,
                 'newIdentifier' => $roleCopyStruct->newIdentifier,
@@ -222,7 +215,7 @@ class RoleDomainMapper
     }
 
     /**
-     * Creates SPI Policy value object from provided module, function and limitations.
+     * Creates a Persistence Policy value object from the provided module, function and limitations.
      *
      * @param string $module
      * @param string $function
@@ -230,7 +223,7 @@ class RoleDomainMapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\User\Policy
      */
-    public function buildPersistencePolicyObject($module, $function, array $limitations): SPIPolicy
+    public function buildPersistencePolicyObject($module, $function, array $limitations): PersistencePolicy
     {
         $limitationsToCreate = '*';
         if ($module !== '*' && $function !== '*' && !empty($limitations)) {
@@ -240,7 +233,7 @@ class RoleDomainMapper
             }
         }
 
-        return new SPIPolicy(
+        return new PersistencePolicy(
             [
                 'module' => $module,
                 'function' => $function,
