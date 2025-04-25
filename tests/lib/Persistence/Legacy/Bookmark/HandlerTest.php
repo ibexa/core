@@ -18,13 +18,11 @@ use PHPUnit\Framework\TestCase;
 
 class HandlerTest extends TestCase
 {
-    public const BOOKMARK_ID = 7;
+    public const int BOOKMARK_ID = 7;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Bookmark\Gateway|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $gateway;
+    private Gateway & MockObject $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Bookmark\Mapper|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $mapper;
+    private Mapper & MockObject $mapper;
 
     /** @var \Ibexa\Core\Persistence\Legacy\Bookmark\Handler */
     private Handler $handler;

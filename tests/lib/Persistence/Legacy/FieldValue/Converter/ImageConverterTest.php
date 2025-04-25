@@ -20,14 +20,11 @@ use Symfony\Bridge\PhpUnit\ClockMock;
 
 final class ImageConverterTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageConverter */
     private ImageConverter $imageConverter;
 
-    /** @var \Ibexa\Core\IO\UrlRedecoratorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $urlRedecorator;
+    private UrlRedecoratorInterface & MockObject $urlRedecorator;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $ioService;
+    private IOServiceInterface & MockObject $ioService;
 
     protected function setUp(): void
     {

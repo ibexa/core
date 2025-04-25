@@ -32,38 +32,30 @@ class LocationHandlerTest extends TestCase
 {
     /**
      * Mocked location gateway instance.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
      */
-    protected MockObject $locationGateway;
+    protected Gateway & MockObject $locationGateway;
 
     /**
      * Mocked location mapper instance.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Mapper
      */
-    protected MockObject $locationMapper;
+    protected Mapper & MockObject $locationMapper;
 
     /**
      * Mocked content handler instance.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Handler
      */
-    protected MockObject $contentHandler;
+    protected ContentHandler & MockObject $contentHandler;
 
     /**
      * Mocked object state handler instance.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected ?MockObject $objectStateHandler = null;
+    protected ObjectStateHandler & MockObject $objectStateHandler;
 
     /**
      * Mocked Tree handler instance.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\TreeHandler|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Ibexa\Core\Persistence\Legacy\Content\TreeHandler&\PHPUnit\Framework\MockObject\MockObject
      */
-    protected MockObject $treeHandler;
+    protected TreeHandler & MockObject $treeHandler;
 
     protected function setUp(): void
     {

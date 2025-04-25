@@ -24,18 +24,16 @@ use PHPUnit\Framework\TestCase;
  */
 class SerializableConverterTest extends TestCase
 {
-    private const EXAMPLE_DATA = [
+    private ValueSerializerInterface & MockObject $serializer;
+
+    private SerializableConverter $converter;
+
+    private const array EXAMPLE_DATA = [
         'foo' => 'foo',
         'bar' => 'bar',
     ];
 
-    private const EXAMPLE_JSON = '{"foo":"foo","bar":"bar"}';
-
-    /** @var \Ibexa\Contracts\Core\FieldType\ValueSerializerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $serializer;
-
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\SerializableConverter */
-    private SerializableConverter $converter;
+    private const string EXAMPLE_JSON = '{"foo":"foo","bar":"bar"}';
 
     protected function setUp(): void
     {

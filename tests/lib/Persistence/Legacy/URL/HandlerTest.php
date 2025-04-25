@@ -21,13 +21,12 @@ use PHPUnit\Framework\TestCase;
 
 class HandlerTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\URL\Gateway|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $gateway;
+    private const string TEST_URL = 'http://ibexa.co';
 
-    /** @var \Ibexa\Core\Persistence\Legacy\URL\Mapper|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $mapper;
+    private Gateway & MockObject $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\URL\Handler */
+    private Mapper & MockObject $mapper;
+
     private Handler $handler;
 
     protected function setUp(): void
@@ -41,7 +40,7 @@ class HandlerTest extends TestCase
     public function testUpdateUrl(): void
     {
         $urlUpdateStruct = new URLUpdateStruct();
-        $url = $this->getUrl(1, 'http://ibexa.co');
+        $url = $this->getUrl();
 
         $this->mapper
             ->expects(self::once())
@@ -72,7 +71,7 @@ class HandlerTest extends TestCase
             'rows' => [
                 [
                     'id' => 1,
-                    'url' => 'http://ibexa.co',
+                    'url' => self::TEST_URL,
                 ],
             ],
         ];
@@ -80,7 +79,7 @@ class HandlerTest extends TestCase
         $expected = [
             'count' => 1,
             'items' => [
-                $this->getUrl(1, 'http://ibexa.co'),
+                $this->getUrl(),
             ],
         ];
 
@@ -122,7 +121,7 @@ class HandlerTest extends TestCase
 
     public function testLoadByIdWithUrlData(): void
     {
-        $url = $this->getUrl(1, 'http://ibexa.co');
+        $url = $this->getUrl();
 
         $this->gateway
             ->expects(self::once())
@@ -143,7 +142,7 @@ class HandlerTest extends TestCase
     {
         $this->expectException(NotFoundException::class);
 
-        $url = 'http://ibexa.co';
+        $url = self::TEST_URL;
 
         $this->gateway
             ->expects(self::once())
@@ -162,7 +161,7 @@ class HandlerTest extends TestCase
 
     public function testLoadByUrlWithUrlData(): void
     {
-        $url = $this->getUrl(1, 'http://ibexa.co');
+        $url = $this->getUrl();
 
         $this->gateway
             ->expects(self::once())
@@ -193,11 +192,11 @@ class HandlerTest extends TestCase
         self::assertEquals($ids, $this->handler->findUsages($url->id));
     }
 
-    private function getUrl(int $id = 1, string $urlAddr = 'http://ibexa.co'): URL
+    private function getUrl(): URL
     {
         $url = new URL();
-        $url->id = $id;
-        $url->url = $url;
+        $url->id = 1;
+        $url->url = self::TEST_URL;
 
         return $url;
     }

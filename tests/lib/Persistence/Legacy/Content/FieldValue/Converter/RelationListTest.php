@@ -22,8 +22,7 @@ use PHPUnit\Framework\TestCase;
  */
 class RelationListTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationListConverter */
-    protected MockObject $converter;
+    private RelationListConverter & MockObject $converter;
 
     protected function setUp(): void
     {

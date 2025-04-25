@@ -21,15 +21,12 @@ use PHPUnit\Framework\TestCase;
  */
 class HandlerTest extends TestCase
 {
-    public const USER_PREFERENCE_ID = 1;
+    public const int USER_PREFERENCE_ID = 1;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\UserPreference\Gateway|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $gateway;
+    private Gateway & MockObject $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\UserPreference\Mapper|\PHPUnit\Framework\MockObject\MockObject */
-    private MockObject $mapper;
+    private Mapper & MockObject $mapper;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\UserPreference\Handler */
     private Handler $handler;
 
     protected function setUp(): void
