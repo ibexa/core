@@ -14,12 +14,13 @@ use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute as AuthorizationAttr
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
-use Symfony\Component\Templating\TemplateReferenceInterface;
 
 abstract class Controller implements ServiceSubscriberInterface
 {
@@ -32,13 +33,8 @@ abstract class Controller implements ServiceSubscriberInterface
 
     /**
      * Returns value for $parameterName and fallbacks to $defaultValue if not defined.
-     *
-     * @param string $parameterName
-     * @param mixed $defaultValue
-     *
-     * @return mixed
      */
-    public function getParameter($parameterName, $defaultValue = null)
+    public function getParameter(string $parameterName, mixed $defaultValue = null): mixed
     {
         if ($this->getConfigResolver()->hasParameter($parameterName)) {
             return $this->getConfigResolver()->getParameter($parameterName);
@@ -49,12 +45,8 @@ abstract class Controller implements ServiceSubscriberInterface
 
     /**
      * Checks if $parameterName is defined.
-     *
-     * @param string $parameterName
-     *
-     * @return bool
      */
-    public function hasParameter(string $parameterName)
+    public function hasParameter(string $parameterName): bool
     {
         return $this->getConfigResolver()->hasParameter($parameterName);
     }
@@ -62,7 +54,7 @@ abstract class Controller implements ServiceSubscriberInterface
     /**
      * @return \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
      */
-    public function getConfigResolver()
+    public function getConfigResolver(): ConfigResolverInterface
     {
         return $this->container->get('ibexa.config.resolver');
     }
@@ -76,7 +68,7 @@ abstract class Controller implements ServiceSubscriberInterface
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function render(string|TemplateReferenceInterface $view, array $parameters = [], Response $response = null)
+    public function render(string $view, array $parameters = [], Response $response = null)
     {
         if (!isset($response)) {
             $response = new Response();
@@ -87,18 +79,12 @@ abstract class Controller implements ServiceSubscriberInterface
         return $response;
     }
 
-    /**
-     * @return \Symfony\Component\Templating\EngineInterface
-     */
-    public function getTemplateEngine()
+    public function getTemplateEngine(): EngineInterface
     {
         return $this->container->get('templating');
     }
 
-    /**
-     * @return \Psr\Log\LoggerInterface|null
-     */
-    public function getLogger()
+    public function getLogger(): ?LoggerInterface
     {
         return $this->container->get('logger', ContainerInterface::NULL_ON_INVALID_REFERENCE);
     }
@@ -106,7 +92,7 @@ abstract class Controller implements ServiceSubscriberInterface
     /**
      * @return \Ibexa\Contracts\Core\Repository\Repository
      */
-    public function getRepository()
+    public function getRepository(): Repository
     {
         return $this->container->get('ibexa.api.repository');
     }
@@ -114,7 +100,7 @@ abstract class Controller implements ServiceSubscriberInterface
     /**
      * @return \Symfony\Component\HttpFoundation\Request
      */
-    public function getRequest()
+    public function getRequest(): Request
     {
         return $this->container->get('request_stack')->getCurrentRequest();
     }
@@ -122,19 +108,19 @@ abstract class Controller implements ServiceSubscriberInterface
     /**
      * @return \Symfony\Component\EventDispatcher\EventDispatcherInterface
      */
-    public function getEventDispatcher()
+    public function getEventDispatcher(): EventDispatcherInterface
     {
         return $this->container->get('event_dispatcher');
     }
 
     /**
-     * Checks if current user has granted access to provided attribute.
+     * Checks if the current user has granted access to the provided attribute.
      *
      * @param \Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute $attribute
      *
      * @return bool
      */
-    public function isGranted(AuthorizationAttribute $attribute)
+    public function isGranted(AuthorizationAttribute $attribute): bool
     {
         return $this->container->get('security.authorization_checker')->isGranted($attribute);
     }
