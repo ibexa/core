@@ -23,10 +23,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class PermissionAwareLocationResolverTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
-    private MockObject $locationService;
+    private LocationService & MockObject $locationService;
 
-    /** @var \Ibexa\Core\Repository\LocationResolver\LocationResolver */
     private PermissionAwareLocationResolver $locationResolver;
 
     public function setUp(): void
