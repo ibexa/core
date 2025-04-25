@@ -21,15 +21,15 @@ use PHPUnit\Framework\TestCase;
  *
  * @phpstan-import-type TSearchLanguageFilter from \Ibexa\Contracts\Core\Repository\SearchService
  */
-abstract class AbstractSearchAdapterTest extends TestCase
+abstract class AbstractSearchAdapterTestCase extends TestCase
 {
-    protected const EXAMPLE_LANGUAGE_FILTER = [
+    protected const array EXAMPLE_LANGUAGE_FILTER = [
         'languages' => ['eng-GB', 'pol-PL'],
         'useAlwaysAvailable' => true,
     ];
 
-    protected const EXAMPLE_OFFSET = 7;
-    protected const EXAMPLE_LIMIT = 13;
+    protected const int EXAMPLE_OFFSET = 7;
+    protected const int EXAMPLE_LIMIT = 13;
 
     final public function testFetch(): void
     {
