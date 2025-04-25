@@ -11,9 +11,11 @@ use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringH
 use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler as LocationFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\TransactionHandler;
+use Ibexa\Contracts\Core\Repository\FieldTypeService as APIFieldTypeService;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\PermissionService;
 use Ibexa\Contracts\Core\Repository\Repository as APIRepository;
 use Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy;
@@ -49,19 +51,15 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  */
 abstract class Base extends TestCase
 {
-    private ?Repository $repository = null;
+    private Repository $repository;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository|\PHPUnit\Framework\MockObject\MockObject */
-    private ?MockObject $repositoryMock = null;
+    protected APIRepository & MockObject $repositoryMock;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionService|\PHPUnit\Framework\MockObject\MockObject */
-    private ?MockObject $permissionServiceMock = null;
+    private PermissionService & MockObject $permissionServiceMock;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private ?MockObject $persistenceMock = null;
+    private Handler & MockObject $persistenceMock;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy|\PHPUnit\Framework\MockObject\MockObject */
-    private ?MockObject $thumbnailStrategyMock = null;
+    private ThumbnailStrategy & MockObject $thumbnailStrategyMock;
 
     /**
      * The Content / Location / Search ... handlers for the persistence / Search / .. handler mocks.
@@ -72,45 +70,42 @@ abstract class Base extends TestCase
      */
     private array $spiMockHandlers = [];
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper */
-    private ?MockObject $contentTypeDomainMapperMock = null;
+    private ContentTypeDomainMapper & MockObject $contentTypeDomainMapperMock;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Mapper\ContentDomainMapper */
-    private ?MockObject $contentDomainMapperMock = null;
+    private ContentDomainMapper & MockObject $contentDomainMapperMock;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Permission\LimitationService */
-    private ?MockObject $limitationServiceMock = null;
+    private LimitationService & MockObject $limitationServiceMock;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver|\PHPUnit\Framework\MockObject\MockObject */
-    private ?MockObject $languageResolverMock = null;
+    private LanguageResolver & MockObject $languageResolverMock;
 
-    /** @var \Ibexa\Core\Repository\Mapper\RoleDomainMapper|\PHPUnit\Framework\MockObject\MockObject */
-    protected ?MockObject $roleDomainMapperMock = null;
+    protected RoleDomainMapper & MockObject $roleDomainMapperMock;
 
-    /** @var \Ibexa\Core\Repository\Mapper\ContentMapper|\PHPUnit\Framework\MockObject\MockObject */
-    protected $contentMapperMock;
+    protected ContentMapper & MockObject $contentMapperMock;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Validator\ContentValidator|\PHPUnit\Framework\MockObject\MockObject */
-    protected $contentValidatorStrategyMock;
+    protected ContentValidator & MockObject $contentValidatorStrategyMock;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Filter\Content\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private ?MockObject $contentFilteringHandlerMock = null;
+    private ContentFilteringHandler & MockObject $contentFilteringHandlerMock;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Filter\Location\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private ?MockObject $locationFilteringHandlerMock = null;
+    private LocationFilteringHandler & MockObject $locationFilteringHandlerMock;
 
-    private TransactionHandler&MockObject $transactionHandlerMock;
+    private TransactionHandler & MockObject $transactionHandlerMock;
+
+    protected FieldTypeService & MockObject $fieldTypeServiceMock;
+
+    protected FieldTypeRegistry & MockObject $fieldTypeRegistryMock;
+
+    protected EventDispatcherInterface & MockObject $eventDispatcher;
+
+    private RelationProcessor & MockObject $relationProcessorMock;
 
     /**
-     * Get Real repository with mocked dependencies.
+     * Get a Real repository with mocked dependencies.
      *
-     * @param array $serviceSettings If set then non shared instance of Repository is returned
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Repository
+     * @param array<string, array<string, mixed>> $serviceSettings If set then non-shared instance of Repository is returned
      */
-    protected function getRepository(array $serviceSettings = [])
+    protected function getRepository(array $serviceSettings = []): APIRepository
     {
-        if ($this->repository === null || !empty($serviceSettings)) {
+        if (!isset($this->repository) || !empty($serviceSettings)) {
             $repository = new Repository(
                 $this->getPersistenceMock(),
                 $this->getSPIMockHandler('Search\\Handler'),
@@ -147,12 +142,7 @@ abstract class Base extends TestCase
         return $this->repository;
     }
 
-    protected ?MockObject $fieldTypeServiceMock = null;
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Repository\FieldTypeService
-     */
-    protected function getFieldTypeServiceMock()
+    protected function getFieldTypeServiceMock(): APIFieldTypeService & MockObject
     {
         if (!isset($this->fieldTypeServiceMock)) {
             $this->fieldTypeServiceMock = $this->createMock(FieldTypeService::class);
@@ -161,12 +151,7 @@ abstract class Base extends TestCase
         return $this->fieldTypeServiceMock;
     }
 
-    protected ?MockObject $fieldTypeRegistryMock = null;
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\FieldType\FieldTypeRegistry
-     */
-    protected function getFieldTypeRegistryMock()
+    protected function getFieldTypeRegistryMock(): MockObject & FieldTypeRegistry
     {
         if (!isset($this->fieldTypeRegistryMock)) {
             $this->fieldTypeRegistryMock = $this->createMock(FieldTypeRegistry::class);
@@ -175,12 +160,7 @@ abstract class Base extends TestCase
         return $this->fieldTypeRegistryMock;
     }
 
-    protected EventDispatcherInterface $eventDispatcher;
-
-    /**
-     * @return \Symfony\Contracts\EventDispatcher\EventDispatcherInterface&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getEventDispatcher(): EventDispatcherInterface
+    protected function getEventDispatcher(): EventDispatcherInterface & MockObject
     {
         if (!isset($this->eventDispatcher)) {
             $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
@@ -189,10 +169,7 @@ abstract class Base extends TestCase
         return $this->eventDispatcher;
     }
 
-    /**
-     * @return \Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getThumbnailStrategy()
+    protected function getThumbnailStrategy(): ThumbnailStrategy & MockObject
     {
         if (!isset($this->thumbnailStrategyMock)) {
             $this->thumbnailStrategyMock = $this->createMock(ThumbnailStrategy::class);
@@ -201,10 +178,7 @@ abstract class Base extends TestCase
         return $this->thumbnailStrategyMock;
     }
 
-    /**
-     * @return \Ibexa\Contracts\Core\Repository\Repository|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getRepositoryMock()
+    protected function getRepositoryMock(): APIRepository & MockObject
     {
         if (!isset($this->repositoryMock)) {
             $this->repositoryMock = $this->createMock(APIRepository::class);
@@ -213,18 +187,12 @@ abstract class Base extends TestCase
         return $this->repositoryMock;
     }
 
-    /**
-     * @return \Ibexa\Contracts\Core\Repository\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getPermissionResolverMock()
+    protected function getPermissionResolverMock(): PermissionResolver & MockObject
     {
         return $this->getPermissionServiceMock();
     }
 
-    /**
-     * @return \Ibexa\Contracts\Core\Repository\PermissionService|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getPermissionServiceMock(): PermissionService
+    protected function getPermissionServiceMock(): PermissionService & MockObject
     {
         if (!isset($this->permissionServiceMock)) {
             $this->permissionServiceMock = $this->createMock(PermissionService::class);
@@ -233,10 +201,7 @@ abstract class Base extends TestCase
         return $this->permissionServiceMock;
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Mapper\ContentDomainMapper
-     */
-    protected function getContentDomainMapperMock(): MockObject
+    protected function getContentDomainMapperMock(): ContentDomainMapper & MockObject
     {
         if (!isset($this->contentDomainMapperMock)) {
             $this->contentDomainMapperMock = $this->createMock(ContentDomainMapper::class);
@@ -245,10 +210,7 @@ abstract class Base extends TestCase
         return $this->contentDomainMapperMock;
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper
-     */
-    protected function getContentTypeDomainMapperMock()
+    protected function getContentTypeDomainMapperMock(): ContentTypeDomainMapper & MockObject
     {
         if (!isset($this->contentTypeDomainMapperMock)) {
             $this->contentTypeDomainMapperMock = $this->createMock(ContentTypeDomainMapper::class);
@@ -257,65 +219,60 @@ abstract class Base extends TestCase
         return $this->contentTypeDomainMapperMock;
     }
 
-    /**
-     * Returns a persistence Handler mock.
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getPersistenceMock()
+    protected function getPersistenceMock(): Handler & MockObject
     {
         if (!isset($this->persistenceMock)) {
             $this->persistenceMock = $this->createMock(Handler::class);
 
-            $this->persistenceMock->expects(self::any())
+            $this->persistenceMock
                 ->method('contentHandler')
-                ->will(self::returnValue($this->getPersistenceMockHandler('Content\\Handler')));
+                ->willReturn($this->getPersistenceMockHandler('Content\\Handler'));
 
-            $this->persistenceMock->expects(self::any())
+            $this->persistenceMock
                 ->method('contentTypeHandler')
-                ->will(self::returnValue($this->getPersistenceMockHandler('Content\\Type\\Handler')));
+                ->willReturn($this->getPersistenceMockHandler('Content\\Type\\Handler'));
 
-            $this->persistenceMock->expects(self::any())
+            $this->persistenceMock
                 ->method('contentLanguageHandler')
-                ->will(self::returnValue($this->getPersistenceMockHandler('Content\\Language\\Handler')));
+                ->willReturn($this->getPersistenceMockHandler('Content\\Language\\Handler'));
 
-            $this->persistenceMock->expects(self::any())
+            $this->persistenceMock
                 ->method('locationHandler')
-                ->will(self::returnValue($this->getPersistenceMockHandler('Content\\Location\\Handler')));
+                ->willReturn($this->getPersistenceMockHandler('Content\\Location\\Handler'));
 
-            $this->persistenceMock->expects(self::any())
+            $this->persistenceMock
                 ->method('objectStateHandler')
-                ->will(self::returnValue($this->getPersistenceMockHandler('Content\\ObjectState\\Handler')));
+                ->willReturn($this->getPersistenceMockHandler('Content\\ObjectState\\Handler'));
 
-            $this->persistenceMock->expects(self::any())
+            $this->persistenceMock
                 ->method('trashHandler')
-                ->will(self::returnValue($this->getPersistenceMockHandler('Content\\Location\\Trash\\Handler')));
+                ->willReturn($this->getPersistenceMockHandler('Content\\Location\\Trash\\Handler'));
 
-            $this->persistenceMock->expects(self::any())
+            $this->persistenceMock
                 ->method('userHandler')
-                ->will(self::returnValue($this->getPersistenceMockHandler('User\\Handler')));
+                ->willReturn($this->getPersistenceMockHandler('User\\Handler'));
 
-            $this->persistenceMock->expects(self::any())
+            $this->persistenceMock
                 ->method('sectionHandler')
-                ->will(self::returnValue($this->getPersistenceMockHandler('Content\\Section\\Handler')));
+                ->willReturn($this->getPersistenceMockHandler('Content\\Section\\Handler'));
 
-            $this->persistenceMock->expects(self::any())
+            $this->persistenceMock
                 ->method('urlAliasHandler')
-                ->will(self::returnValue($this->getPersistenceMockHandler('Content\\UrlAlias\\Handler')));
+                ->willReturn($this->getPersistenceMockHandler('Content\\UrlAlias\\Handler'));
 
-            $this->persistenceMock->expects(self::any())
+            $this->persistenceMock
                 ->method('urlWildcardHandler')
-                ->will(self::returnValue($this->getPersistenceMockHandler('Content\\UrlWildcard\\Handler')));
+                ->willReturn($this->getPersistenceMockHandler('Content\\UrlWildcard\\Handler'));
 
-            $this->persistenceMock->expects(self::any())
+            $this->persistenceMock
                 ->method('urlWildcardHandler')
-                ->will(self::returnValue($this->getPersistenceMockHandler('URL\\Handler')));
+                ->willReturn($this->getPersistenceMockHandler('URL\\Handler'));
         }
 
         return $this->persistenceMock;
     }
 
-    protected function getTransactionHandlerMock(): MockObject&TransactionHandler
+    protected function getTransactionHandlerMock(): MockObject & TransactionHandler
     {
         if (!isset($this->transactionHandlerMock)) {
             $this->transactionHandlerMock = $this->createMock(TransactionHandler::class);
@@ -324,9 +281,13 @@ abstract class Base extends TestCase
         return $this->transactionHandlerMock;
     }
 
-    protected function getRelationProcessorMock()
+    protected function getRelationProcessorMock(): RelationProcessor & MockObject
     {
-        return $this->createMock(RelationProcessor::class);
+        if (!isset($this->relationProcessorMock)) {
+            $this->relationProcessorMock = $this->createMock(RelationProcessor::class);
+        }
+
+        return $this->relationProcessorMock;
     }
 
     /**
@@ -353,10 +314,8 @@ abstract class Base extends TestCase
      * Returns a persistence Handler mock.
      *
      * @param string $handler For instance "Content\Type\Handler", must be relative to "Ibexa\Contracts\Core\Persistence"
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getPersistenceMockHandler($handler)
+    protected function getPersistenceMockHandler(string $handler): MockObject
     {
         return $this->getSPIMockHandler("Persistence\\{$handler}");
     }
@@ -386,21 +345,18 @@ abstract class Base extends TestCase
         );
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Permission\LimitationService
-     */
-    protected function getLimitationServiceMock(): MockObject
+    protected function getLimitationServiceMock(): LimitationService & MockObject
     {
-        if ($this->limitationServiceMock === null) {
+        if (!isset($this->limitationServiceMock)) {
             $this->limitationServiceMock = $this->createMock(LimitationService::class);
         }
 
         return $this->limitationServiceMock;
     }
 
-    protected function getLanguageResolverMock(): LanguageResolver
+    protected function getLanguageResolverMock(): LanguageResolver & MockObject
     {
-        if ($this->languageResolverMock === null) {
+        if (!isset($this->languageResolverMock)) {
             $this->languageResolverMock = $this->createMock(LanguageResolver::class);
         }
 
@@ -409,12 +365,10 @@ abstract class Base extends TestCase
 
     /**
      * @param string[] $methods
-     *
-     * @return \Ibexa\Core\Repository\Mapper\RoleDomainMapper|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getRoleDomainMapperMock(array $methods = []): RoleDomainMapper
+    protected function getRoleDomainMapperMock(array $methods = []): RoleDomainMapper & MockObject
     {
-        if ($this->roleDomainMapperMock === null) {
+        if (!isset($this->roleDomainMapperMock)) {
             $mockBuilder = $this->getMockBuilder(RoleDomainMapper::class);
             if (!empty($methods)) {
                 $mockBuilder->onlyMethods($methods);
@@ -455,18 +409,18 @@ abstract class Base extends TestCase
         return new ContentValidatorStrategy($validators);
     }
 
-    protected function getContentFilteringHandlerMock(): ContentFilteringHandler
+    protected function getContentFilteringHandlerMock(): ContentFilteringHandler & MockObject
     {
-        if (null === $this->contentFilteringHandlerMock) {
+        if (!isset($this->contentFilteringHandlerMock)) {
             $this->contentFilteringHandlerMock = $this->createMock(ContentFilteringHandler::class);
         }
 
         return $this->contentFilteringHandlerMock;
     }
 
-    private function getLocationFilteringHandlerMock(): LocationFilteringHandler
+    private function getLocationFilteringHandlerMock(): LocationFilteringHandler & MockObject
     {
-        if (null === $this->locationFilteringHandlerMock) {
+        if (!isset($this->locationFilteringHandlerMock)) {
             $this->locationFilteringHandlerMock = $this->createMock(LocationFilteringHandler::class);
         }
 

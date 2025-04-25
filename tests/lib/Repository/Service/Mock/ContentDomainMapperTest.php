@@ -18,7 +18,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
-use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface;
@@ -52,9 +51,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
         $languageHandlerMock = $this->getLanguageHandlerMock();
         $languageHandlerMock->expects(self::never())->method('load');
 
-        $versionInfo = $this->getContentDomainMapper()->buildVersionInfoDomainObject($spiVersionInfo);
-
-        self::assertInstanceOf(APIVersionInfo::class, $versionInfo);
+        $this->getContentDomainMapper()->buildVersionInfoDomainObject($spiVersionInfo);
     }
 
     public function testBuildLocationWithContentForRootLocation(): void

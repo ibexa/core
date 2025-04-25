@@ -14,7 +14,7 @@ use Ibexa\Contracts\Core\Persistence\User\Role as SPIRole;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\LimitationValidationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
-use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\Repository as APIRepository;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\RoleLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\PolicyCreateStruct;
@@ -1084,14 +1084,10 @@ class RoleTest extends BaseServiceMockTest
         return $this->partlyMockedRoleService;
     }
 
-    /**
-     * @return \Ibexa\Contracts\Core\Repository\Repository|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getRepositoryMock(): Repository
+    protected function getRepositoryMock(): APIRepository & MockObject
     {
         $repositoryMock = parent::getRepositoryMock();
         $repositoryMock
-            ->expects(self::any())
             ->method('getPermissionResolver')
             ->willReturn($this->getPermissionResolverMock());
 

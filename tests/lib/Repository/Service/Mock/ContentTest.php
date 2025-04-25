@@ -30,6 +30,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\LocationService as APILocationService;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\Repository as APIRepository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct as APIContentCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
@@ -48,7 +49,6 @@ use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value;
 use Ibexa\Core\Repository\Collector\ContentCollector;
 use Ibexa\Core\Repository\ContentService;
-use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
@@ -63,20 +63,17 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Mock test case for Content service.
+ *
+ * @covers \Ibexa\Contracts\Core\Repository\ContentService
  */
 class ContentTest extends BaseServiceMockTest
 {
-    private const EMPTY_FIELD_VALUE = 'empty';
+    private const string EMPTY_FIELD_VALUE = 'empty';
 
-    /**
-     * Test for the __construct() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::__construct
-     */
     public function testConstructor(): void
     {
         $repositoryMock = $this->getRepositoryMock();
-        /** @var \Ibexa\Contracts\Core\Persistence\Handler $persistenceHandlerMock */
+        /** @var \Ibexa\Contracts\Core\Persistence\Handler&\PHPUnit\Framework\MockObject\MockObject $persistenceHandlerMock */
         $persistenceHandlerMock = $this->getPersistenceMockHandler('Handler');
         $contentDomainMapperMock = $this->getContentDomainMapperMock();
         $relationProcessorMock = $this->getRelationProcessorMock();
@@ -107,11 +104,6 @@ class ContentTest extends BaseServiceMockTest
         );
     }
 
-    /**
-     * Test for the loadVersionInfo() method, of published version.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfoById
-     */
     public function testLoadVersionInfoById(): void
     {
         $contentServiceMock = $this->getPartlyMockedContentService(['loadContentInfo']);
@@ -156,11 +148,7 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the loadVersionInfo() method, of a draft.
-     *
      * @depends testLoadVersionInfoById
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfoById
      */
     public function testLoadVersionInfoByIdAndVersionNumber(): void
     {
@@ -204,11 +192,6 @@ class ContentTest extends BaseServiceMockTest
         self::assertEquals($versionInfoMock, $result);
     }
 
-    /**
-     * Test for the loadVersionInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfoById
-     */
     public function testLoadVersionInfoByIdThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
@@ -237,11 +220,6 @@ class ContentTest extends BaseServiceMockTest
         $contentServiceMock->loadVersionInfoById(42, 24);
     }
 
-    /**
-     * Test for the loadVersionInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfoById
-     */
     public function testLoadVersionInfoByIdThrowsUnauthorizedExceptionNonPublishedVersion(): void
     {
         $this->expectException(UnauthorizedException::class);
@@ -282,11 +260,6 @@ class ContentTest extends BaseServiceMockTest
         $contentServiceMock->loadVersionInfoById(42, 24);
     }
 
-    /**
-     * Test for the loadVersionInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfoById
-     */
     public function testLoadVersionInfoByIdPublishedVersion(): void
     {
         $contentServiceMock = $this->getPartlyMockedContentService();
@@ -327,11 +300,6 @@ class ContentTest extends BaseServiceMockTest
         self::assertEquals($versionInfoMock, $result);
     }
 
-    /**
-     * Test for the loadVersionInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfoById
-     */
     public function testLoadVersionInfoByIdNonPublishedVersion(): void
     {
         $contentServiceMock = $this->getPartlyMockedContentService();
@@ -373,15 +341,11 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the loadVersionInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfo
-     *
-     * @depends Ibexa\Tests\Core\Repository\Service\Mock\ContentTest::testLoadVersionInfoById
-     * @depends Ibexa\Tests\Core\Repository\Service\Mock\ContentTest::testLoadVersionInfoByIdThrowsNotFoundException
-     * @depends Ibexa\Tests\Core\Repository\Service\Mock\ContentTest::testLoadVersionInfoByIdThrowsUnauthorizedExceptionNonPublishedVersion
-     * @depends Ibexa\Tests\Core\Repository\Service\Mock\ContentTest::testLoadVersionInfoByIdPublishedVersion
-     * @depends Ibexa\Tests\Core\Repository\Service\Mock\ContentTest::testLoadVersionInfoByIdNonPublishedVersion
+     * @depends testLoadVersionInfoById
+     * @depends testLoadVersionInfoByIdThrowsNotFoundException
+     * @depends testLoadVersionInfoByIdThrowsUnauthorizedExceptionNonPublishedVersion
+     * @depends testLoadVersionInfoByIdPublishedVersion
+     * @depends testLoadVersionInfoByIdNonPublishedVersion
      */
     public function testLoadVersionInfo(): void
     {
@@ -704,11 +668,6 @@ class ContentTest extends BaseServiceMockTest
         $contentService->internalLoadContentByRemoteId($remoteId, $languages, $versionNo);
     }
 
-    /**
-     * Test for the loadContentByContentInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentByContentInfo
-     */
     public function testLoadContentByContentInfo(): void
     {
         $versionInfo = $this->createMock(APIVersionInfo::class);
@@ -746,11 +705,6 @@ class ContentTest extends BaseServiceMockTest
         self::assertEquals($content, $result);
     }
 
-    /**
-     * Test for the loadContentByVersionInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentByVersionInfo
-     */
     public function testLoadContentByVersionInfo(): void
     {
         $expectedResult = $this->createMock(Content::class);
@@ -784,11 +738,6 @@ class ContentTest extends BaseServiceMockTest
         self::assertEquals($expectedResult, $result);
     }
 
-    /**
-     * Test for the deleteContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteContent
-     */
     public function testDeleteContentThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
@@ -833,11 +782,6 @@ class ContentTest extends BaseServiceMockTest
         $contentService->deleteContent($contentInfo);
     }
 
-    /**
-     * Test for the deleteContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteContent
-     */
     public function testDeleteContent(): void
     {
         $repository = $this->getRepositoryMock();
@@ -909,11 +853,6 @@ class ContentTest extends BaseServiceMockTest
         $contentService->deleteContent($contentInfo);
     }
 
-    /**
-     * Test for the deleteContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteContent
-     */
     public function testDeleteContentWithRollback(): void
     {
         $this->expectException(Exception::class);
@@ -972,11 +911,6 @@ class ContentTest extends BaseServiceMockTest
         $contentService->deleteContent($contentInfo);
     }
 
-    /**
-     * Test for the deleteVersion() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteVersion
-     */
     public function testDeleteVersionThrowsBadStateExceptionLastVersion(): void
     {
         $this->expectException(BadStateException::class);
@@ -1033,8 +967,6 @@ class ContentTest extends BaseServiceMockTest
 
     /**
      * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
      */
     public function testCreateContentThrowsInvalidArgumentExceptionMainLanguageCodeNotSet(): void
     {
@@ -1047,8 +979,6 @@ class ContentTest extends BaseServiceMockTest
 
     /**
      * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
      */
     public function testCreateContentThrowsInvalidArgumentExceptionContentTypeNotSet(): void
     {
@@ -1056,16 +986,11 @@ class ContentTest extends BaseServiceMockTest
         $this->expectExceptionMessage('Argument \'$contentCreateStruct\' is invalid: the \'contentType\' property must be set');
 
         $mockedService = $this->getPartlyMockedContentService();
-        $mockedService->createContent(
-            new ContentCreateStruct(['mainLanguageCode' => 'eng-US']),
-            []
-        );
+        $mockedService->createContent(new ContentCreateStruct(['mainLanguageCode' => 'eng-US']));
     }
 
     /**
      * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
      */
     public function testCreateContentThrowsUnauthorizedException(): void
     {
@@ -1076,14 +1001,13 @@ class ContentTest extends BaseServiceMockTest
         $permissionResolver = $this->getPermissionResolverMock();
         $permissionResolver->expects(self::once())
             ->method('getCurrentUserReference')
-            ->will(self::returnValue(new UserReference(169)));
+            ->willReturn(new UserReference(169));
 
         $mockedService = $this->getPartlyMockedContentService();
         $contentTypeServiceMock = $this->getContentTypeServiceMock();
         $contentType = new ContentType(
             [
                 'id' => 123,
-                'fieldDefinitions' => [],
             ]
         );
         $contentCreateStruct = new ContentCreateStruct(
@@ -1098,11 +1022,11 @@ class ContentTest extends BaseServiceMockTest
         $contentTypeServiceMock->expects(self::once())
             ->method('loadContentType')
             ->with(self::equalTo(123))
-            ->will(self::returnValue($contentType));
+            ->willReturn($contentType);
 
         $repositoryMock->expects(self::once())
             ->method('getContentTypeService')
-            ->will(self::returnValue($contentTypeServiceMock));
+            ->willReturn($contentTypeServiceMock);
 
         $permissionResolver->expects(self::once())
             ->method('canUser')
@@ -1111,7 +1035,7 @@ class ContentTest extends BaseServiceMockTest
                 self::equalTo('create'),
                 self::isInstanceOf(get_class($contentCreateStruct)),
                 self::equalTo([])
-            )->will(self::returnValue(false));
+            )->willReturn(false);
 
         $mockedService->createContent(
             new ContentCreateStruct(
@@ -1119,15 +1043,13 @@ class ContentTest extends BaseServiceMockTest
                     'mainLanguageCode' => 'eng-US',
                     'contentType' => $contentType,
                 ]
-            ),
-            []
+            )
         );
     }
 
     /**
      * Test for the createContent() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
      *
      * @exceptionMessage Argument '$contentCreateStruct' is invalid: Another content with remoteId 'faraday' exists
      */
@@ -1147,7 +1069,6 @@ class ContentTest extends BaseServiceMockTest
         $contentType = new ContentType(
             [
                 'id' => 123,
-                'fieldDefinitions' => [],
             ]
         );
         $contentCreateStruct = new ContentCreateStruct(
@@ -1523,15 +1444,7 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the createContent() method.
-     *
      * Testing the simplest use case.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::mapFieldsForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::cloneField
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getDefaultObjectStates
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
      *
      * @dataProvider providerForTestCreateContentNonRedundantFieldSet1
      */
@@ -1626,15 +1539,7 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the createContent() method.
-     *
      * Testing multiple languages with multiple translatable fields with empty default value.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::mapFieldsForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::cloneField
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getDefaultObjectStates
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
      *
      * @dataProvider providerForTestCreateContentNonRedundantFieldSet2
      */
@@ -1839,15 +1744,7 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the createContent() method.
-     *
      * Testing multiple languages with multiple translatable fields with empty default value.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::mapFieldsForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::cloneField
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getDefaultObjectStates
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
      *
      * @dataProvider providerForTestCreateContentNonRedundantFieldSetComplex
      */
@@ -1894,11 +1791,6 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the updateContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
-     *
      * @dataProvider providerForTestCreateContentWithInvalidLanguage
      */
     public function testCreateContentWithInvalidLanguage(string $mainLanguageCode, array $structFields): void
@@ -2091,12 +1983,6 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::mapFieldsForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
-     *
      * @dataProvider providerForTestCreateContentThrowsContentValidationExceptionFieldDefinition
      */
     public function testCreateContentThrowsContentValidationExceptionFieldDefinition(string $mainLanguageCode, array $structFields): void
@@ -2130,12 +2016,6 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::mapFieldsForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
-     *
      * @dataProvider providerForTestCreateContentThrowsContentValidationExceptionTranslation
      */
     public function testCreateContentThrowsContentValidationExceptionTranslation(string $mainLanguageCode, array $structFields): void
@@ -2311,12 +2191,6 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::mapFieldsForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
-     *
      * @dataProvider providerForTestCreateContentThrowsContentValidationExceptionRequiredField
      */
     public function testCreateContentRequiredField(
@@ -2499,12 +2373,6 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::mapFieldsForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
-     *
      * @dataProvider providerForTestCreateContentThrowsContentFieldValidationException
      */
     public function testCreateContentThrowsContentFieldValidationException($mainLanguageCode, array $structFields): void
@@ -2594,11 +2462,6 @@ class ContentTest extends BaseServiceMockTest
 
     /**
      * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::mapFieldsForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::buildSPILocationCreateStructs
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
      */
     public function testCreateContentWithLocations(): void
     {
@@ -2731,14 +2594,6 @@ class ContentTest extends BaseServiceMockTest
         $mockedService->createContent($contentCreateStruct, $locationCreateStructs);
     }
 
-    /**
-     * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::mapFieldsForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::buildSPILocationCreateStructs
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
-     */
     public function testCreateContentWithLocationsDuplicateUnderParent(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -2900,14 +2755,6 @@ class ContentTest extends BaseServiceMockTest
         );
     }
 
-    /**
-     * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::mapFieldsForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getDefaultObjectStates
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
-     */
     public function testCreateContentObjectStates(): void
     {
         $spiFields = [
@@ -3007,13 +2854,6 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::mapFieldsForCreate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getDefaultObjectStates
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
-     *
      * @dataProvider providerForTestCreateContentThrowsContentValidationExceptionTranslation
      */
     public function testCreateContentWithRollback(): void
@@ -3070,10 +2910,6 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the updateContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent
-     *
      * @dataProvider providerForTestUpdateContentThrowsBadStateException
      */
     public function testUpdateContentThrowsBadStateException(int $status): void
@@ -3121,11 +2957,6 @@ class ContentTest extends BaseServiceMockTest
         $mockedService->updateContent($versionInfo, $contentUpdateStruct);
     }
 
-    /**
-     * Test for the updateContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent
-     */
     public function testUpdateContentThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
@@ -3606,14 +3437,6 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the updateContent() method.
-     *
-     * Testing the simplest use case.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForUpdate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::mapFieldsForUpdate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent
-     *
      * @dataProvider providerForTestUpdateContentNonRedundantFieldSet1
      */
     public function testUpdateContentNonRedundantFieldSet1(?string $initialLanguageCode, array $structFields, array $spiFields): void
@@ -3820,13 +3643,7 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the updateContent() method.
-     *
      * Testing with translatable field.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForUpdate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::mapFieldsForUpdate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent
      *
      * @dataProvider providerForTestUpdateContentNonRedundantFieldSet2
      */
@@ -4083,13 +3900,7 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the updateContent() method.
-     *
      * Testing with new language and untranslatable field.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForUpdate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::mapFieldsForUpdate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent
      *
      * @dataProvider providerForTestUpdateContentNonRedundantFieldSet3
      */
@@ -4389,13 +4200,8 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the updateContent() method.
-     *
      * Testing with empty values.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForUpdate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::mapFieldsForUpdate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent
      *
      * @dataProvider providerForTestUpdateContentNonRedundantFieldSet4
      */
@@ -4770,19 +4576,13 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the updateContent() method.
-     *
      * Testing more complex cases.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForUpdate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::mapFieldsForUpdate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent
      *
      * @dataProvider providerForTestUpdateContentNonRedundantFieldSetComplex
      */
     public function testUpdateContentNonRedundantFieldSetComplex(string $initialLanguageCode, array $structFields, array $spiFields): void
     {
-        list($existingFields, $fieldDefinitions) = $this->fixturesForTestUpdateContentNonRedundantFieldSetComplex();
+        [$existingFields, $fieldDefinitions] = $this->fixturesForTestUpdateContentNonRedundantFieldSetComplex();
 
         $this->assertForTestUpdateContentNonRedundantFieldSet(
             $initialLanguageCode,
@@ -4824,11 +4624,6 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the updateContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForUpdate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent
-     *
      * @dataProvider providerForTestUpdateContentWithInvalidLanguage
      */
     public function testUpdateContentWithInvalidLanguage(string $initialLanguageCode, array $structFields): void
@@ -5100,12 +4895,6 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the updateContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForUpdate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::mapFieldsForUpdate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent
-     *
      * @dataProvider providerForTestUpdateContentThrowsContentValidationExceptionFieldDefinition
      */
     public function testUpdateContentThrowsContentValidationExceptionFieldDefinition(string $initialLanguageCode, array $structFields): void
@@ -5139,12 +4928,6 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the updateContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForUpdate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::mapFieldsForUpdate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent
-     *
      * @dataProvider providerForTestUpdateContentThrowsContentValidationExceptionTranslation
      */
     public function testUpdateContentThrowsContentValidationExceptionTranslation(string $initialLanguageCode, array $structFields): void
@@ -5269,12 +5052,6 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the updateContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForUpdate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::mapFieldsForUpdate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent
-     *
      * @dataProvider providerForTestUpdateContentRequiredField
      */
     public function testUpdateContentRequiredField(
@@ -5494,12 +5271,6 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the updateContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForUpdate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::mapFieldsForUpdate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent
-     *
      * @dataProvider providerForTestUpdateContentThrowsContentFieldValidationException
      */
     public function testUpdateContentThrowsContentFieldValidationException(
@@ -5529,13 +5300,6 @@ class ContentTest extends BaseServiceMockTest
         }
     }
 
-    /**
-     * Test for the updateContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getLanguageCodesForUpdate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::mapFieldsForUpdate
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent
-     */
     public function testUpdateContentTransactionRollback(): void
     {
         $this->expectException(Exception::class);
@@ -5594,11 +5358,6 @@ class ContentTest extends BaseServiceMockTest
         $this->partlyMockedContentService->updateContent($versionInfo, $contentUpdateStruct);
     }
 
-    /**
-     * Test for the copyContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::copyContent
-     */
     public function testCopyContentThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
@@ -5643,13 +5402,6 @@ class ContentTest extends BaseServiceMockTest
         $contentService->copyContent($contentInfo, $locationCreateStruct);
     }
 
-    /**
-     * Test for the copyContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::copyContent
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getDefaultObjectStates
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::internalPublishVersion
-     */
     public function testCopyContent(): void
     {
         $repositoryMock = $this->getRepositoryMock();
@@ -5780,13 +5532,6 @@ class ContentTest extends BaseServiceMockTest
         $contentService->copyContent($contentInfoMock, $locationCreateStruct, null);
     }
 
-    /**
-     * Test for the copyContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::copyContent
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getDefaultObjectStates
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::internalPublishVersion
-     */
     public function testCopyContentWithVersionInfo(): void
     {
         $repositoryMock = $this->getRepositoryMock();
@@ -5908,13 +5653,6 @@ class ContentTest extends BaseServiceMockTest
         $contentService->copyContent($contentInfoMock, $locationCreateStruct, $versionInfoMock);
     }
 
-    /**
-     * Test for the copyContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::copyContent
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::getDefaultObjectStates
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::internalPublishVersion
-     */
     public function testCopyContentWithRollback(): void
     {
         $this->expectException(Exception::class);
@@ -6217,20 +5955,6 @@ class ContentTest extends BaseServiceMockTest
             ->with(123, 456, ['eng-GB']);
     }
 
-    protected ?MockObject $relationProcessorMock = null;
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Helper\RelationProcessor
-     */
-    protected function getRelationProcessorMock()
-    {
-        if (!isset($this->relationProcessorMock)) {
-            $this->relationProcessorMock = $this->createMock(RelationProcessor::class);
-        }
-
-        return $this->relationProcessorMock;
-    }
-
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject
      * &\Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface
@@ -6319,14 +6043,10 @@ class ContentTest extends BaseServiceMockTest
         return $this->partlyMockedContentService;
     }
 
-    /**
-     * @return \Ibexa\Contracts\Core\Repository\Repository|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getRepositoryMock(): Repository
+    protected function getRepositoryMock(): APIRepository & MockObject
     {
         $repositoryMock = parent::getRepositoryMock();
         $repositoryMock
-            ->expects(self::any())
             ->method('getPermissionResolver')
             ->willReturn($this->getPermissionResolverMock());
 

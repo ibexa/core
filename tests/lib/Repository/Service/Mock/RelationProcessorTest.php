@@ -15,7 +15,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\FieldType\Value;
-use Ibexa\Core\Repository\FieldTypeService;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Values\Content\Relation as RelationValue;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
@@ -679,13 +678,5 @@ class RelationProcessorTest extends BaseServiceMockTest
                 ]
             )
             ->getMock();
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getFieldTypeServiceMock(): MockObject
-    {
-        return $this->createMock(FieldTypeService::class);
     }
 }

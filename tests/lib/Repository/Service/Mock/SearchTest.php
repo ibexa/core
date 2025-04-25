@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Persistence\Content\ContentInfo as SPIContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\PermissionCriterionResolver as APIPermissionCriterionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
@@ -35,11 +36,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class SearchTest extends BaseServiceMockTest
 {
-    protected $repositoryMock;
-
-    protected $contentDomainMapperMock;
-
-    protected ?MockObject $permissionsCriterionResolverMock = null;
+    protected APIPermissionCriterionResolver & MockObject $permissionsCriterionResolverMock;
 
     /**
      * Test for the __construct() method.
@@ -939,10 +936,7 @@ class SearchTest extends BaseServiceMockTest
         );
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Repository\PermissionCriterionResolver
-     */
-    protected function getPermissionCriterionResolverMock()
+    protected function getPermissionCriterionResolverMock(): APIPermissionCriterionResolver & MockObject
     {
         if (!isset($this->permissionsCriterionResolverMock)) {
             $this->permissionsCriterionResolverMock = $this
