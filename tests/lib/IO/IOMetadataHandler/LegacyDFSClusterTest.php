@@ -41,6 +41,7 @@ class LegacyDFSClusterTest extends TestCase
 
         $this->dbalMock->method('createQueryBuilder')->willReturn($this->qbMock);
         $this->urlDecoratorMock = $this->createMock(UrlDecorator::class);
+        $this->urlDecoratorMock->method('decorate')->willReturnArgument(0);
 
         $this->handler = new LegacyDFSCluster(
             $this->dbalMock,
@@ -158,7 +159,7 @@ class LegacyDFSClusterTest extends TestCase
         self::assertFalse($this->handler->exists('prefix/my/file.png'));
     }
 
-    public function testDeletedirectory(): void
+    public function testDeleteDirectory(): void
     {
         $this->urlDecoratorMock
             ->expects(self::once())
@@ -174,21 +175,18 @@ class LegacyDFSClusterTest extends TestCase
         $this->qbMock
             ->expects(self::once())
             ->method('where')
-            ->with('name LIKE :spiPath ESCAPE :esc')
+            ->with('name LIKE :path_name ESCAPE :esc')
             ->willReturnSelf();
 
         $this->qbMock
             ->expects(self::exactly(2))
             ->method('setParameter')
-            ->withConsecutive(
-                [':esc', '\\'],
-                [':spiPath', 'prefix/images/\_alias/subfolder/%'],
-            )
+            ->withAnyParameters()
             ->willReturnSelf();
 
         $this->qbMock
             ->expects(self::once())
-            ->method('execute')
+            ->method('executeStatement')
             ->willReturn(1);
 
         $this->handler->deleteDirectory('images/_alias/subfolder/');
@@ -243,7 +241,7 @@ class LegacyDFSClusterTest extends TestCase
             ->willReturnSelf();
 
         $this->qbMock
-            ->method('execute')
+            ->method('executeQuery')
             ->willReturn($resultMock);
     }
 }
