@@ -7,25 +7,26 @@
 
 namespace Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactory\MetadataHandler;
 
-use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory\MetadataHandler\LegacyDFSCluster;
-use Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactoryTest;
+use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory\MetadataHandler\LegacyDFSCluster as LegacyDFSClusterConfigurationFactory;
+use Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster;
+use Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactoryTestCase;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 
-class LegacyDFSClusterTest extends ConfigurationFactoryTest
+class LegacyDFSClusterTest extends ConfigurationFactoryTestCase
 {
     /**
      * Returns an instance of the tested factory.
-     *
-     * @return \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory
      */
-    public function provideTestedFactory(): LegacyDFSCluster
+    public function provideTestedFactory(): LegacyDFSClusterConfigurationFactory
     {
-        return new LegacyDFSCluster();
+        return new LegacyDFSClusterConfigurationFactory();
     }
 
     public function provideExpectedParentServiceId(): string
     {
-        return \Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster::class;
+        return LegacyDFSCluster::class;
     }
 
     public function provideParentServiceDefinition(): Definition
@@ -38,19 +39,19 @@ class LegacyDFSClusterTest extends ConfigurationFactoryTest
         return ['connection' => 'doctrine.dbal.test_connection'];
     }
 
-    /**
-     * Lets you test the handler definition after it was configured.
-     *
-     * Use the assertContainer* methods from matthiasnoback/SymfonyDependencyInjectionTest.
-     *
-     * @param string $handlerServiceId id of the service that was registered by the compiler pass
-     */
-    public function validateConfiguredHandler($handlerServiceId): void
+    public function testAddConfiguration(): void
     {
-        self::assertContainerBuilderHasServiceDefinitionWithArgument(
+        $node = new ArrayNodeDefinition('handler');
+        $this->factory->addConfiguration($node);
+        self::assertArrayHasKey('connection', $node->getChildNodeDefinitions());
+    }
+
+    public function validateConfiguredHandler(string $handlerServiceId): void
+    {
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
             $handlerServiceId,
             0,
-            'doctrine.dbal.test_connection'
+            new Reference('doctrine.dbal.test_connection')
         );
     }
 }

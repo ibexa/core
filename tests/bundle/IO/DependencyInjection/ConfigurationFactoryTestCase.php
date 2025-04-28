@@ -7,9 +7,8 @@
 
 namespace Ibexa\Tests\Bundle\IO\DependencyInjection;
 
+use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractContainerBuilderTestCase;
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\Definition;
 
 /**
@@ -17,10 +16,11 @@ use Symfony\Component\DependencyInjection\Definition;
  *
  * The part about the container can rely on the matthiasnoback/SymfonyDependencyInjectionTest assertContainer* methods.
  */
-abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
+abstract class ConfigurationFactoryTestCase extends AbstractContainerBuilderTestCase
 {
-    /** @var \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory */
-    protected $factory;
+    protected ConfigurationFactory $factory;
+
+    abstract public function testAddConfiguration(): void;
 
     protected function setUp(): void
     {
@@ -37,15 +37,6 @@ abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
         );
     }
 
-    public function testAddConfiguration(): void
-    {
-        $node = new ArrayNodeDefinition('handler');
-        $this->factory->addConfiguration($node);
-        self::assertInstanceOf(ArrayNodeDefinition::class, $node);
-
-        // @todo customized testing of configuration node ?
-    }
-
     public function testConfigureHandler(): void
     {
         $handlerConfiguration =
@@ -57,16 +48,12 @@ abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
         $this->factory->configureHandler($this->container, $this->container->getDefinition($handlerServiceId), $handlerConfiguration);
 
         $this->validateConfiguredHandler($handlerServiceId);
-
-        if ($this->factory instanceof ContainerAwareInterface) {
-            $this->validateConfiguredContainer();
-        }
     }
 
     /**
      * Registers the handler in the container, like the pass would have done.
      */
-    private function registerHandler($name): string
+    private function registerHandler(string $name): string
     {
         $this->setDefinition($this->provideExpectedParentServiceId(), $this->provideParentServiceDefinition());
         $handlerServiceId = sprintf('%s.%s', $this->provideExpectedParentServiceId(), $name);
@@ -77,33 +64,27 @@ abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
 
     /**
      * Returns an instance of the tested factory.
-     *
-     * @return \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory
      */
-    abstract public function provideTestedFactory();
+    abstract public function provideTestedFactory(): ConfigurationFactory;
 
     /**
      * Returns the expected parent service id.
      */
-    abstract public function provideExpectedParentServiceId();
+    abstract public function provideExpectedParentServiceId(): string;
 
     /**
      * Provides the parent service definition, as defined in the bundle's services definition.
      * Required so that getArguments / replaceCalls work correctly.
-     *
-     * @return \Symfony\Component\DependencyInjection\Definition
      */
-    abstract public function provideParentServiceDefinition();
+    abstract public function provideParentServiceDefinition(): Definition;
 
     /**
-     * Provides the configuration array given to the handler, and initializes the container.
+     * Provides the configuration array given to the handler and initializes the container.
      * The name and type index are automatically set to respectively 'my_handler' and 'my_handler_test'.
      *
-     * The method can also configure the container via $this->container.
-     *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @return array<string, string>
      */
-    abstract public function provideHandlerConfiguration();
+    abstract public function provideHandlerConfiguration(): array;
 
     /**
      * Lets you test the handler definition after it was configured.
@@ -112,12 +93,5 @@ abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
      *
      * @param string $handlerServiceId id of the service that was registered by the compiler pass
      */
-    abstract public function validateConfiguredHandler($handlerServiceId);
-
-    /**
-     * Lets you test extra changes that may have been done to the container during configuration.
-     */
-    public function validateConfiguredContainer()
-    {
-    }
+    abstract public function validateConfiguredHandler(string $handlerServiceId): void;
 }

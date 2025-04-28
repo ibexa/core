@@ -18,11 +18,9 @@ use Symfony\Component\DependencyInjection\Definition;
 
 class IOConfigurationPassTest extends AbstractCompilerPassTestCase
 {
-    /** @var \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory|\PHPUnit\Framework\MockObject\MockObject */
-    protected ?MockObject $metadataConfigurationFactoryMock = null;
+    protected ConfigurationFactory & MockObject $metadataConfigurationFactoryMock;
 
-    /** @var \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory|\PHPUnit\Framework\MockObject\MockObject */
-    protected ?MockObject $binarydataConfigurationFactoryMock = null;
+    protected ConfigurationFactory & MockObject $binarydataConfigurationFactoryMock;
 
     protected function setUp(): void
     {

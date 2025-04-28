@@ -7,17 +7,17 @@
 
 namespace Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactory;
 
-use Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactoryTest;
+use Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactoryTestCase;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-abstract class BaseFlysystemTest extends ConfigurationFactoryTest
+abstract class BaseFlysystemTestCase extends ConfigurationFactoryTestCase
 {
     private string $flysystemAdapterServiceId = 'oneup_flysystem.test_adapter';
 
     private string $filesystemServiceId = 'ezpublish.core.io.flysystem.my_test_handler_filesystem';
 
-    public function provideHandlerConfiguration()
+    public function provideHandlerConfiguration(): array
     {
         $this->setDefinition($this->flysystemAdapterServiceId, new Definition());
 
@@ -26,29 +26,17 @@ abstract class BaseFlysystemTest extends ConfigurationFactoryTest
         ];
     }
 
-    public function provideParentServiceDefinition()
+    public function provideParentServiceDefinition(): Definition
     {
         return new Definition(null, [null]);
     }
 
-    public function validateConfiguredHandler($handlerDefinitionId): void
+    public function validateConfiguredHandler(string $handlerServiceId): void
     {
-        self::assertContainerBuilderHasServiceDefinitionWithArgument(
-            $handlerDefinitionId,
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
+            $handlerServiceId,
             0,
             new Reference($this->filesystemServiceId)
-        );
-    }
-
-    public function validateConfiguredContainer(): void
-    {
-        self::assertContainerBuilderHasService(
-            $this->filesystemServiceId
-        );
-        self::assertContainerBuilderHasServiceDefinitionWithArgument(
-            'ezpublish.core.io.flysystem.my_test_handler_filesystem',
-            0,
-            new Reference($this->flysystemAdapterServiceId)
         );
     }
 }

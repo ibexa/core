@@ -8,9 +8,10 @@
 namespace Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactory\BinarydataHandler;
 
 use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory\BinarydataHandler\Flysystem;
-use Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactory\BaseFlysystemTest;
+use Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactory\BaseFlysystemTestCase;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
-class FlysystemTest extends BaseFlysystemTest
+class FlysystemTest extends BaseFlysystemTestCase
 {
     public function provideTestedFactory(): Flysystem
     {
@@ -23,5 +24,12 @@ class FlysystemTest extends BaseFlysystemTest
     public function provideExpectedParentServiceId(): string
     {
         return 'ibexa.core.io.binarydata_handler.flysystem';
+    }
+
+    public function testAddConfiguration(): void
+    {
+        $node = new ArrayNodeDefinition('handler');
+        $this->factory->addConfiguration($node);
+        self::assertArrayHasKey('adapter', $node->getChildNodeDefinitions());
     }
 }
