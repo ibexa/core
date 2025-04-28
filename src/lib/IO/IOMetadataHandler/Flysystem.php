@@ -49,48 +49,46 @@ class Flysystem implements IOMetadataHandler, LoggerAwareInterface
 
     /**
      * Does really nothing, the binary data handler takes care of it.
-     *
-     * @param $spiBinaryFileId
      */
-    public function delete($spiBinaryFileId)
+    public function delete(string $binaryFileId): void
     {
     }
 
-    public function load($spiBinaryFileId): IOBinaryFile
+    public function load(string $binaryFileId): IOBinaryFile
     {
         try {
-            return $this->getIOBinaryFile($spiBinaryFileId);
+            return $this->getIOBinaryFile($binaryFileId);
         } catch (FilesystemException $e) {
-            throw new BinaryFileNotFoundException($spiBinaryFileId);
+            throw new BinaryFileNotFoundException($binaryFileId);
         }
     }
 
-    public function exists($spiBinaryFileId): bool
+    public function exists(string $binaryFileId): bool
     {
         try {
-            return $this->filesystem->fileExists($spiBinaryFileId);
+            return $this->filesystem->fileExists($binaryFileId);
         } catch (CorruptedPathDetected $e) {
             $this->logger->error(
-                sprintf('Binary file with ID="%s" does not exist: %s', $spiBinaryFileId, $e->getMessage()),
+                sprintf('Binary file with ID="%s" does not exist: %s', $binaryFileId, $e->getMessage()),
                 ['exception' => $e],
             );
 
             return false;
         } catch (FilesystemException $e) {
             throw new IOException(
-                "Unable to check if file '$spiBinaryFileId' exists: {$e->getMessage()}",
+                "Unable to check if file '$binaryFileId' exists: {$e->getMessage()}",
                 $e
             );
         }
     }
 
-    public function getMimeType($spiBinaryFileId): string
+    public function getMimeType(string $binaryFileId): string
     {
         try {
-            return $this->filesystem->mimeType($spiBinaryFileId);
+            return $this->filesystem->mimeType($binaryFileId);
         } catch (FilesystemException $e) {
             throw new IOException(
-                "Unable to get mime type of file '$spiBinaryFileId': {$e->getMessage()}",
+                "Unable to get mime type of file '$binaryFileId': {$e->getMessage()}",
                 $e
             );
         }
@@ -99,12 +97,13 @@ class Flysystem implements IOMetadataHandler, LoggerAwareInterface
     /**
      * Does nothing, as the binary data handler takes care of it.
      */
-    public function deleteDirectory($spiPath)
+    public function deleteDirectory(string $pathName): void
     {
     }
 
     /**
      * @throws \League\Flysystem\FilesystemException
+     * @throws \DateMalformedStringException
      */
     private function getIOBinaryFile(string $spiBinaryFileId): IOBinaryFile
     {

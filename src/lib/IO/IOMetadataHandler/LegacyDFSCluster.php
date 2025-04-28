@@ -88,14 +88,14 @@ class LegacyDFSCluster implements IOMetadataHandler
     /**
      * Deletes file $spiBinaryFileId.
      *
-     * @param string $spiBinaryFileId
+     * @param string $binaryFileId
      *
      * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException If $spiBinaryFileId is not found
      */
-    public function delete($spiBinaryFileId): void
+    public function delete(string $binaryFileId): void
     {
-        $path = $this->addPrefix($spiBinaryFileId);
+        $path = $this->addPrefix($binaryFileId);
 
         // Unlike the legacy cluster, the file is directly deleted. It was inherited from the DB cluster anyway
         $affectedRows = (int)$this->db->delete('ezdfsfile', [
@@ -113,9 +113,9 @@ class LegacyDFSCluster implements IOMetadataHandler
      * @throws \Doctrine\DBAL\Exception Any unhandled DBAL exception
      * @throws \DateMalformedStringException
      */
-    public function load($spiBinaryFileId): SPIBinaryFile
+    public function load(string $binaryFileId): SPIBinaryFile
     {
-        $path = $this->addPrefix($spiBinaryFileId);
+        $path = $this->addPrefix($binaryFileId);
 
         $queryBuilder = $this->db->createQueryBuilder();
         $result = $queryBuilder
@@ -143,7 +143,7 @@ class LegacyDFSCluster implements IOMetadataHandler
         }
 
         /** @var array{id: string, name_hash: string, name_trunk: string, datatype: string, scope: string, size: int, mtime: int, expired: bool, status: bool} $properties */
-        $properties = $row + ['id' => $spiBinaryFileId];
+        $properties = $row + ['id' => $binaryFileId];
 
         return $this->mapArrayToSPIBinaryFile($properties);
     }
@@ -151,9 +151,9 @@ class LegacyDFSCluster implements IOMetadataHandler
     /**
      * @throws \Doctrine\DBAL\Exception Any unhandled DBAL exception
      */
-    public function exists($spiBinaryFileId): bool
+    public function exists(string $binaryFileId): bool
     {
-        $path = $this->addPrefix($spiBinaryFileId);
+        $path = $this->addPrefix($binaryFileId);
 
         $queryBuilder = $this->db->createQueryBuilder();
         $result = $queryBuilder
@@ -226,12 +226,10 @@ class LegacyDFSCluster implements IOMetadataHandler
     }
 
     /**
-     * @param string $spiBinaryFileId
-     *
      * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException
      * @throws \Doctrine\DBAL\Exception
      */
-    public function getMimeType($spiBinaryFileId): string
+    public function getMimeType(string $binaryFileId): string
     {
         $queryBuilder = $this->db->createQueryBuilder();
         $result = $queryBuilder
@@ -240,39 +238,39 @@ class LegacyDFSCluster implements IOMetadataHandler
             ->andWhere('e.name_hash = :' . self::NAME_HASH_PARAM_NAME)
             ->andWhere(self::DFS_IS_EXPIRED_COMPARISON)
             ->andWhere('e.mtime > 0')
-            ->setParameter(self::NAME_HASH_PARAM_NAME, md5($this->addPrefix($spiBinaryFileId)))
+            ->setParameter(self::NAME_HASH_PARAM_NAME, md5($this->addPrefix($binaryFileId)))
             ->executeQuery()
         ;
 
         if ($result->rowCount() === 0) {
-            throw new BinaryFileNotFoundException($spiBinaryFileId);
+            throw new BinaryFileNotFoundException($binaryFileId);
         }
 
         $dataType = $result->fetchOne();
         if (false === $dataType) {
-            throw new LogicException("Failed to get mime type for $spiBinaryFileId");
+            throw new LogicException("Failed to get mime type for $binaryFileId");
         }
 
         return $dataType;
     }
 
     /**
-     * Delete directory and all the content under specified directory.
+     * Delete the directory and all the content under the specified directory.
      *
-     * @param string $spiPath SPI Path, not prefixed by URL decoration
+     * @param string $pathName storage path, not prefixed by URL decoration
      *
      * @throws \Doctrine\DBAL\Exception
      */
-    public function deleteDirectory($spiPath): void
+    public function deleteDirectory(string $pathName): void
     {
         $query = $this->db->createQueryBuilder();
         $query
             ->delete('ezdfsfile')
-            ->where('name LIKE :spiPath ESCAPE :esc')
-            ->setParameter(':esc', '\\')
+            ->where('name LIKE :path_name ESCAPE :esc')
+            ->setParameter('esc', '\\')
             ->setParameter(
-                ':spiPath',
-                addcslashes($this->addPrefix(rtrim($spiPath, '/')), '%_') . '/%'
+                'path_name',
+                addcslashes($this->addPrefix(rtrim($pathName, '/')), '%_') . '/%'
             );
         $query->executeStatement();
     }

@@ -8,6 +8,7 @@
 namespace Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory\MetadataHandler;
 
 use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
+use Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster as LegacyDFSClusterHandler;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition as ServiceDefinition;
@@ -17,12 +18,12 @@ class LegacyDFSCluster implements ConfigurationFactory
 {
     public function getParentServiceId(): string
     {
-        return \Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster::class;
+        return LegacyDFSClusterHandler::class;
     }
 
-    public function configureHandler(ContainerBuilder $container, ServiceDefinition $definition, array $config): void
+    public function configureHandler(ContainerBuilder $container, ServiceDefinition $serviceDefinition, array $config): void
     {
-        $definition->replaceArgument(0, new Reference($config['connection']));
+        $serviceDefinition->replaceArgument(0, new Reference($config['connection']));
     }
 
     public function addConfiguration(ArrayNodeDefinition $node): void

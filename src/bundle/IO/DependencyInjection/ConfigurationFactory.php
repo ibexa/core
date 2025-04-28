@@ -35,16 +35,14 @@ interface ConfigurationFactory
      *
      * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node The handler's configuration node.
      */
-    public function addConfiguration(ArrayNodeDefinition $node);
+    public function addConfiguration(ArrayNodeDefinition $node): void;
 
     /**
      * Returns the ID of the base, abstract service used to create the handlers.
      *
      * It will be used as the base name for instances of this handler, and as the parent of the instances' services.
-     *
-     * @return string
      */
-    public function getParentServiceId();
+    public function getParentServiceId(): string;
 
     /**
      * Configure the handler service based on the configuration.
@@ -54,8 +52,11 @@ interface ConfigurationFactory
      *
      * Note: if the factory implements ContainerAwareInterface, the ContainerBuilder will be made available as $this->container.
      *
-     * @param \Symfony\Component\DependencyInjection\Definition $serviceDefinition
-     * @param array $config
+     * @param array<string, mixed> $config
      */
-    public function configureHandler(ContainerBuilder $container, ServiceDefinition $serviceDefinition, array $config);
+    public function configureHandler(
+        ContainerBuilder $container,
+        ServiceDefinition $serviceDefinition,
+        array $config
+    ): void;
 }
