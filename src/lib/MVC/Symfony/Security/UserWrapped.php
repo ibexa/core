@@ -28,7 +28,7 @@ class UserWrapped implements ReferenceUserInterface, EquatableInterface
 {
     private UserInterface $wrappedUser;
 
-    private APIUser $apiUser;
+    private ?APIUser $apiUser = null;
 
     private APIUserReference $apiUserReference;
 
@@ -52,7 +52,7 @@ class UserWrapped implements ReferenceUserInterface, EquatableInterface
 
     public function getAPIUser(): APIUser
     {
-        if (!isset($this->apiUser)) {
+        if ($this->apiUser === null) {
             throw new LogicException(
                 'Attempted to get APIUser before it has been set by UserProvider, APIUser is not serialized to session'
             );
