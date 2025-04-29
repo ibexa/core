@@ -9,9 +9,12 @@ namespace Ibexa\Bundle\RepositoryInstaller\Command;
 
 use Doctrine\DBAL\Connection;
 use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
+use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
+use LogicException;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -84,9 +87,9 @@ final class InstallPlatformCommand extends Command
         $this->checkParameters();
         $this->checkCreateDatabase($output);
 
+        $io = new SymfonyStyle($input, $output);
         $schemaManager = $this->connection->getSchemaManager();
         if (!empty($schemaManager->listTables())) {
-            $io = new SymfonyStyle($input, $output);
             if (!$io->confirm('Running this command will delete data in all Ibexa generated tables. Continue?')) {
                 return self::SUCCESS;
             }
@@ -108,6 +111,17 @@ final class InstallPlatformCommand extends Command
         $installer->importSchema();
         $installer->importData();
         $installer->importBinaries();
+
+        if ($input->isInteractive()) {
+            $io->warning(
+                'For security reasons, you\'re required to change the default admin password. Remember to follow currently set password validation rules.'
+            );
+
+            do {
+                $exitCode = $this->changeDefaultAdminPassword($input);
+            } while ($exitCode !== self::SUCCESS);
+        }
+
         $this->cacheClear($output);
 
         if (!$input->getOption('skip-indexing')) {
@@ -271,5 +285,33 @@ final class InstallPlatformCommand extends Command
         if (!$process->getExitCode() === 1) {
             throw new \RuntimeException(sprintf('An error occurred when executing the "%s" command.', escapeshellarg($cmd)));
         }
+    }
+
+    private function changeDefaultAdminPassword(InputInterface $input): int
+    {
+        $io = new SymfonyStyle($input, $this->output);
+        $password = $io->askHidden('Password (your input will be hidden)');
+
+        $commandInput = new ArrayInput([
+            'command' => 'ibexa:user:update-user',
+            'user' => 'admin',
+            '--password' => $password,
+        ]);
+
+        $application = $this->getApplication();
+
+        if ($application === null) {
+            throw new LogicException('Command application not found');
+        }
+
+        try {
+            $application->doRun($commandInput, $this->output);
+        } catch (ContentFieldValidationException $e) {
+            $io->error($e->getMessage());
+
+            return self::FAILURE;
+        }
+
+        return self::SUCCESS;
     }
 }
