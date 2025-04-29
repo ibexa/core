@@ -19,7 +19,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCr
 use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
-use Ibexa\Contracts\Core\Repository\Values\Content\Relation as RelationValue;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\FieldHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
@@ -925,14 +925,14 @@ class ContentHandlerTest extends TestCase
         $expectedRelationObject->sourceContentId = 23;
         $expectedRelationObject->sourceContentVersionNo = 1;
         $expectedRelationObject->destinationContentId = 66;
-        $expectedRelationObject->type = RelationValue::COMMON;
+        $expectedRelationObject->type = RelationType::COMMON->value;
 
         // relation create struct
         $relationCreateStruct = new Relation\CreateStruct();
         $relationCreateStruct->destinationContentId = 66;
         $relationCreateStruct->sourceContentId = 23;
         $relationCreateStruct->sourceContentVersionNo = 1;
-        $relationCreateStruct->type = RelationValue::COMMON;
+        $relationCreateStruct->type = RelationType::COMMON->value;
 
         $handler = $this->getContentHandler();
 
@@ -969,10 +969,10 @@ class ContentHandlerTest extends TestCase
             ->method('deleteRelation')
             ->with(
                 self::equalTo(1),
-                self::equalTo(RelationValue::COMMON),
+                self::equalTo(RelationType::COMMON->value),
             );
 
-        $this->getContentHandler()->removeRelation(1, RelationValue::COMMON);
+        $this->getContentHandler()->removeRelation(1, RelationType::COMMON->value);
     }
 
     protected function getRelationFixture()

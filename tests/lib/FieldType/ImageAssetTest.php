@@ -14,7 +14,7 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
-use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -427,7 +427,7 @@ class ImageAssetTest extends FieldTypeTest
 
         self::assertEquals(
             [
-                Relation::ASSET => [$destinationContentId],
+                RelationType::ASSET->value => [$destinationContentId],
             ],
             $fieldType->getRelations($fieldType->acceptValue($destinationContentId))
         );

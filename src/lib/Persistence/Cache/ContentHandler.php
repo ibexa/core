@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Relation;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
-use Ibexa\Contracts\Core\Repository\Values\Content\Relation as APIRelation;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 
 /**
  * @covers \Ibexa\Core\Persistence\Cache\ContentHandler
@@ -364,7 +364,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         // Load reverse field relations first
         $reverseRelations = $this->persistenceHandler->contentHandler()->loadReverseRelations(
             $contentId,
-            APIRelation::FIELD | APIRelation::ASSET
+            RelationType::FIELD->value | RelationType::ASSET->value
         );
 
         $return = $this->persistenceHandler->contentHandler()->deleteContent($contentId);

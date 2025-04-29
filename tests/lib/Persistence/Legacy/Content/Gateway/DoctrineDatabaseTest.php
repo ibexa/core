@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCr
 use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
-use Ibexa\Contracts\Core\Repository\Values\Content\Relation as RelationValue;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
@@ -1250,13 +1250,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway = $this->getDatabaseGateway();
 
-        $relations = $gateway->loadRelations(57, null, RelationValue::COMMON);
+        $relations = $gateway->loadRelations(57, null, RelationType::COMMON->value);
 
         self::assertCount(1, $relations, 'Expecting one relation to be loaded');
 
         $this->assertValuesInRows(
             'ezcontentobject_link_relation_type',
-            [RelationValue::COMMON],
+            [RelationType::COMMON->value],
             $relations
         );
 
@@ -1290,7 +1290,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway = $this->getDatabaseGateway();
 
-        $relations = $gateway->loadRelations(57, 1, RelationValue::EMBED);
+        $relations = $gateway->loadRelations(57, 1, RelationType::EMBED->value);
 
         self::assertCount(0, $relations, 'Expecting no relation to be loaded');
     }
@@ -1318,7 +1318,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway = $this->getDatabaseGateway();
 
-        $relations = $gateway->loadReverseRelations(58, RelationValue::COMMON);
+        $relations = $gateway->loadReverseRelations(58, RelationType::COMMON->value);
 
         self::assertCount(1, $relations);
 
@@ -1330,7 +1330,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $this->assertValuesInRows(
             'ezcontentobject_link_relation_type',
-            [RelationValue::COMMON],
+            [RelationType::COMMON->value],
             $relations
         );
     }
@@ -1399,7 +1399,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertEquals(4, $this->countContentRelations(57));
 
         $gateway = $this->getDatabaseGateway();
-        $gateway->deleteRelation(2, RelationValue::COMMON);
+        $gateway->deleteRelation(2, RelationType::COMMON->value);
 
         self::assertEquals(3, $this->countContentRelations(57));
     }
@@ -1412,11 +1412,11 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $this->insertRelationFixture();
 
         $gateway = $this->getDatabaseGateway();
-        $gateway->deleteRelation(11, RelationValue::COMMON);
+        $gateway->deleteRelation(11, RelationType::COMMON->value);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
         $this->assertQueryResult(
-            [['relation_type' => RelationValue::LINK]],
+            [['relation_type' => RelationType::LINK->value]],
             $query
                 ->select(['relation_type'])
                 ->from('ezcontentobject_link')
@@ -1951,7 +1951,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $struct->sourceContentId = 1;
         $struct->sourceContentVersionNo = 1;
         $struct->sourceFieldDefinitionId = 0;
-        $struct->type = RelationValue::COMMON;
+        $struct->type = RelationType::COMMON->value;
 
         return $struct;
     }

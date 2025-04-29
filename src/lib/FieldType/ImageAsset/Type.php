@@ -14,7 +14,7 @@ use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
-use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\FieldType;
@@ -270,7 +270,7 @@ class Type extends FieldType implements TranslationContainerInterface
     {
         $relations = [];
         if ($fieldValue->destinationContentId !== null) {
-            $relations[Relation::ASSET] = [$fieldValue->destinationContentId];
+            $relations[RelationType::ASSET->value] = [$fieldValue->destinationContentId];
         }
 
         return $relations;
