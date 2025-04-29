@@ -101,7 +101,7 @@ final class IbexaCoreBundle extends Bundle
         $container->registerForAutoconfiguration(VariableProvider::class)->addTag('ezplatform.view.variable_provider');
     }
 
-    public function getContainerExtension(): ?ExtensionInterface
+    public function getContainerExtension(): ExtensionInterface
     {
         if (!isset($this->extension)) {
             $this->extension = new IbexaCoreExtension(
