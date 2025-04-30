@@ -120,18 +120,22 @@ final class InstallPlatformCommand extends Command
         }
     }
 
+    private function getConnectionName(): string
+    {
+        return $this->repositoryConfigurationProvider->getStorageConnectionName();
+    }
+
     private function checkCreateDatabase(OutputInterface $output): void
     {
         $output->writeln(
             sprintf(
-                'Creating database <comment>%s</comment> if it does not exist, using doctrine:database:create --if-not-exists',
-                $this->connection->getDatabase()
+                'Creating connection <comment>%s</comment> if it does not exist, using doctrine:database:create --if-not-exists',
+                $this->getConnectionName()
             )
         );
         try {
             $bufferedOutput = new BufferedOutput();
-            $connectionName = $this->repositoryConfigurationProvider->getStorageConnectionName();
-            $command = sprintf('doctrine:database:create --if-not-exists --connection=%s', $connectionName);
+            $command = sprintf('doctrine:database:create --if-not-exists --connection=%s', $this->getConnectionName());
             $this->executeCommand($bufferedOutput, $command);
             $output->writeln($bufferedOutput->fetch());
         } catch (\RuntimeException $exception) {
