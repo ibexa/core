@@ -39,6 +39,7 @@ return static function (ContainerConfigurator $container): void {
             'url' => '%env(DATABASE_URL)%',
             'logging' => false,
             'platform_service' => $platform,
+            'use_savepoints' => true,
         ],
     ]);
 };
