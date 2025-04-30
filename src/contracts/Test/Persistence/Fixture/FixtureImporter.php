@@ -130,7 +130,7 @@ final class FixtureImporter
             self::$resetSequenceStatements[$tableName] = sprintf(
                 $queryTemplate,
                 $sequenceName,
-                sprintf('MAX(%s),', $this->connection->quoteIdentifier($columnName)),
+                sprintf('MAX(%s)', $this->connection->quoteIdentifier($columnName)),
                 $this->connection->quoteIdentifier($tableName)
             );
         }
