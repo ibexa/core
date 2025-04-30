@@ -117,7 +117,7 @@ class MapperTest extends TestCase
 
         $location = $mapper->createLocationFromRow(
             $this->locationRow,
-            null,
+            '',
             new Trashed()
         );
 

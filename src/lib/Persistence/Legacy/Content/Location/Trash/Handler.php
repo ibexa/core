@@ -73,7 +73,7 @@ class Handler implements BaseTrashHandler
     {
         $data = $this->locationGateway->loadTrashByLocation($id);
 
-        return $this->locationMapper->createLocationFromRow($data, null, new Trashed());
+        return $this->locationMapper->createLocationFromRow($data, '', new Trashed());
     }
 
     /**
@@ -166,7 +166,7 @@ class Handler implements BaseTrashHandler
         $items = [];
 
         foreach ($rows as $row) {
-            $items[] = $this->locationMapper->createLocationFromRow($row, null, new Trashed());
+            $items[] = $this->locationMapper->createLocationFromRow($row, '', new Trashed());
         }
 
         return new TrashResult([
