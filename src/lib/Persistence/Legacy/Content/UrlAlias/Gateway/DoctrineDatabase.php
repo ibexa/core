@@ -1149,8 +1149,8 @@ final class DoctrineDatabase extends Gateway
             ->where('action = :action')
             // fetch rows matching any of the given Languages
             ->andWhere('lang_mask & :languageMask <> 0')
-            ->setParameter(self::ACTION_PARAMETER_NAME, 'eznode:' . $locationId)
-            ->setParameter(self::LANGUAGE_MASK_PARAMETER_NAME, $languageMask);
+            ->setParameter('action', 'eznode:' . $locationId)
+            ->setParameter('languageMask', $languageMask);
 
         return $query->executeQuery()->fetchAllAssociative();
     }
@@ -1283,7 +1283,7 @@ final class DoctrineDatabase extends Gateway
             ->andWhere(
                 $expr->eq('text_md5', ':textMD5')
             )
-            ->setParameter(self::ACTION_PARAMETER_NAME, "eznode:$locationId");
+            ->setParameter('action', "eznode:$locationId");
 
         foreach ($urlAliasesData as $urlAliasData) {
             if ($urlAliasData['is_original'] === 1 || !isset($originalUrlAliases[$urlAliasData['lang_mask']])) {
