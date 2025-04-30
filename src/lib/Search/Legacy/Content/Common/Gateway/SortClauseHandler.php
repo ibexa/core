@@ -69,7 +69,7 @@ abstract class SortClauseHandler
     /**
      * Returns the quoted sort column name.
      */
-    protected function getSortColumnName(string $columnNameExpressions): string
+    protected function getSortColumnName(string|int $columnNameExpressions): string
     {
         return $this->connection->quoteIdentifier('sort_column_' . $columnNameExpressions);
     }
