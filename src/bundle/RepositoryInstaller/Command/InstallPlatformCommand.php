@@ -274,7 +274,7 @@ final class InstallPlatformCommand extends Command
         );
 
         $process->run(static function ($type, $buffer) use ($output) { $output->write($buffer, false); });
-        if (!$process->getExitCode() === 1) {
+        if ($process->getExitCode() != self::SUCCESS) {
             throw new \RuntimeException(sprintf('An error occurred when executing the "%s" command.', escapeshellarg($cmd)));
         }
     }
