@@ -84,7 +84,6 @@ final class InstallPlatformCommand extends Command
     {
         $this->output = $output;
         $this->checkPermissions();
-        $this->checkParameters();
         $this->checkCreateDatabase($output);
 
         $io = new SymfonyStyle($input, $output);
@@ -140,29 +139,22 @@ final class InstallPlatformCommand extends Command
         }
     }
 
-    private function checkParameters()
+    private function getConnectionName(): string
     {
-        // @todo doesn't make sense to check for parameters.yml in sf4 and flex
-        return;
-        $parametersFile = 'app/config/parameters.yml';
-        if (!is_file($parametersFile)) {
-            $this->output->writeln("Required configuration file '$parametersFile' not found");
-            exit(self::EXIT_PARAMETERS_NOT_FOUND);
-        }
+        return $this->repositoryConfigurationProvider->getStorageConnectionName();
     }
 
-    private function checkCreateDatabase(OutputInterface $output)
+    private function checkCreateDatabase(OutputInterface $output): void
     {
         $output->writeln(
             sprintf(
-                'Creating database <comment>%s</comment> if it does not exist, using doctrine:database:create --if-not-exists',
-                $this->connection->getDatabase()
+                'Creating connection <comment>%s</comment> if it does not exist, using doctrine:database:create --if-not-exists',
+                $this->getConnectionName()
             )
         );
         try {
             $bufferedOutput = new BufferedOutput();
-            $connectionName = $this->repositoryConfigurationProvider->getStorageConnectionName();
-            $command = sprintf('doctrine:database:create --if-not-exists --connection=%s', $connectionName);
+            $command = sprintf('doctrine:database:create --if-not-exists --connection=%s', $this->getConnectionName());
             $this->executeCommand($bufferedOutput, $command);
             $output->writeln($bufferedOutput->fetch());
         } catch (\RuntimeException $exception) {
