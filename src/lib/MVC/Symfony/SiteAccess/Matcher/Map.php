@@ -15,7 +15,7 @@ abstract class Map implements VersatileMatcher
     /**
      * String that will be looked up in the map.
      */
-    protected string $key;
+    protected ?string $key = null;
 
     /**
      * Map used for the matching.
@@ -68,14 +68,14 @@ abstract class Map implements VersatileMatcher
     /**
      * Injects the key that will be used for matching against the map configuration.
      */
-    public function setMapKey(string $key): void
+    public function setMapKey(?string $key): void
     {
         $this->key = $key;
     }
 
     public function getMapKey(): ?string
     {
-        return $this->key ?? null;
+        return $this->key;
     }
 
     public function match(): string|bool
