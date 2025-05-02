@@ -572,7 +572,7 @@ class ContentHandlerTest extends TestCase
 
     public function testLoadContentInfoByRemoteId(): void
     {
-        $contentInfoData = [new ContentInfo()];
+        $contentInfoData = new ContentInfo();
         $this->getGatewayMock()->expects(self::once())
             ->method('loadContentInfoByRemoteId')
             ->with(
