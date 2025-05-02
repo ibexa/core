@@ -162,7 +162,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->executeQuery()->fetchAllAssociative();
+        return $query->executeQuery()->fetchAssociative();
     }
 
     /**
