@@ -893,6 +893,7 @@ class ContentHandlerTest extends TestCase
     {
         $handler = $this->getContentHandler();
 
+        $relation = $this->getRelationFixture();
         $gatewayMock = $this->getGatewayMock();
         $mapperMock = $this->getMapperMock();
 
@@ -908,13 +909,17 @@ class ContentHandlerTest extends TestCase
         $mapperMock->expects(self::once())
             ->method('extractRelationsFromRows')
             ->with(self::equalTo([42]))
-            ->will(self::returnValue($this->getRelationFixture()));
+            ->will(self::returnValue([
+                $relation->id => $relation,
+            ]));
 
         $result = $handler->loadReverseRelations(23);
 
         self::assertEquals(
             $result,
-            $this->getRelationFixture()
+            [
+                $relation->id => $relation,
+            ]
         );
     }
 
