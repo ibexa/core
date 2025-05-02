@@ -594,7 +594,7 @@ class HandlerLocationSortTest extends AbstractTestCase
                         ]
                     ),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 999,
                     'sortClauses' => [
                         new SortClause\Field('product', 'price', LocationQuery::SORT_ASC, 'eng-US'),
                     ],
