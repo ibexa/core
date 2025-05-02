@@ -622,7 +622,7 @@ class HandlerLocationSortTest extends AbstractTestCase
                 [
                     'filter' => new Criterion\ParentLocationId(224),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 999,
                     'sortClauses' => [
                         new SortClause\Location\IsMainLocation(LocationQuery::SORT_ASC),
                     ],
