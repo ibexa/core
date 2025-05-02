@@ -455,7 +455,7 @@ class HandlerContentSortTest extends AbstractTestCase
                         ]
                     ),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 999,
                     'sortClauses' => [
                         new SortClause\Field('product', 'price', Query::SORT_ASC, 'eng-US'),
                     ],
