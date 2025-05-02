@@ -375,7 +375,7 @@ class HandlerLocationSortTest extends AbstractTestCase
                 [
                     'filter' => new Criterion\LocationId([13, 15, 44, 45, 228]),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 999,
                     'sortClauses' => [
                         new SortClause\ContentId(),
                     ],
