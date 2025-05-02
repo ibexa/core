@@ -161,7 +161,7 @@ class FieldNameResolver
         $contentTypeIdentifier,
         $fieldDefinitionIdentifier,
         $name = null
-    ): ?false {
+    ): ?string {
         $fieldMap = $this->getSearchableFieldMap();
 
         // First check if field exists in type, there is nothing to do if it doesn't
