@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\Repository\Values\ContentType;
 
 use Ibexa\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Repository\Values\ContentType\ContentTypeDraft;
+use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,7 +21,9 @@ class ContentTypeDraftTest extends TestCase
     {
         $object = new ContentTypeDraft(
             [
-                'innerContentType' => new ContentType(['fieldDefinitions' => []]),
+                'innerContentType' => new ContentType([
+                    'fieldDefinitions' => new FieldDefinitionCollection(),
+                ]),
             ]
         );
         $properties = $object->attributes();
