@@ -134,7 +134,7 @@ class DoctrineDatabase extends Gateway
             ->select('COUNT(' . self::COLUMN_ID . ')')
             ->from(self::TABLE_NOTIFICATION)
             ->where($expr->eq(self::COLUMN_OWNER_ID, ':' . self::USER_ID_PARAM_NAME))
-            ->andWhere($expr->eq(self::COLUMN_IS_PENDING, self::IS_PENDING_PARAM_NAME))
+            ->andWhere($expr->eq(self::COLUMN_IS_PENDING, ':' . self::IS_PENDING_PARAM_NAME))
             ->setParameter(self::IS_PENDING_PARAM_NAME, true, ParameterType::BOOLEAN)
             ->setParameter(self::USER_ID_PARAM_NAME, $userId, ParameterType::INTEGER);
 
