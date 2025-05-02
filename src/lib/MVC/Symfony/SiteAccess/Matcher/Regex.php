@@ -15,7 +15,7 @@ abstract class Regex implements Matcher
     /**
      * Element that will be matched against the regex.
      */
-    protected string $element;
+    protected ?string $element = null;
 
     /**
      * Regular expression used for matching.
