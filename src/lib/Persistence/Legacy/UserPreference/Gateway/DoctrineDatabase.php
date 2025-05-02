@@ -125,7 +125,7 @@ class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(
-                'COUNT(self::COLUMN_ID)'
+                'COUNT(id)'
             )
             ->from(self::TABLE_USER_PREFERENCES)
             ->where($query->expr()->eq(self::COLUMN_USER_ID, ':' . self::USER_ID_PARAM_NAME))
