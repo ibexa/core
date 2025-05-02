@@ -444,7 +444,7 @@ class HandlerLocationSortTest extends AbstractTestCase
                 [
                     'filter' => new Criterion\LocationId([45, 228]),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 999,
                     'sortClauses' => [
                         new SortClause\Location\Visibility(LocationQuery::SORT_DESC),
                     ],
