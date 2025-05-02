@@ -581,7 +581,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->where(
                     $query->expr()->in(
                         'node_id',
-                        $query->createNamedParameter([1, 2, 69, 70, 71, 75], ArrayParameterType::INTEGER, 'node_ids')
+                        $query->createNamedParameter([1, 2, 69, 70, 71, 75], ArrayParameterType::INTEGER, ':node_ids')
                     )
                 )
                 ->orderBy('node_id')
