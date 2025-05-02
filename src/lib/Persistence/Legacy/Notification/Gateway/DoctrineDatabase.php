@@ -150,7 +150,7 @@ class DoctrineDatabase extends Gateway
         $query
             ->select(...$this->getColumns())
             ->from(self::TABLE_NOTIFICATION)
-            ->where($query->expr()->eq(self::COLUMN_OWNER_ID, self::USER_ID_PARAM_NAME))
+            ->where($query->expr()->eq(self::COLUMN_OWNER_ID, ':' . self::USER_ID_PARAM_NAME))
             ->setFirstResult($offset);
 
         if ($limit > 0) {
