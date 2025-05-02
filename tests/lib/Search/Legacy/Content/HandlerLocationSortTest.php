@@ -312,7 +312,7 @@ class HandlerLocationSortTest extends AbstractTestCase
                         [5, 43, 45, 48, 51, 54, 156, 157]
                     ),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 999,
                     'sortClauses' => [
                         new SortClause\SectionIdentifier(),
                     ],
