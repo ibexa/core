@@ -45,7 +45,7 @@ class LogicalAndTest extends CriterionHandlerTest
         $converter = $this->mockConverterForLogicalOperator(
             CompositeExpression::TYPE_AND,
             $queryBuilder,
-            'andX',
+            'and',
             $fooExpr,
             $barExpr,
             $foo,
