@@ -353,7 +353,7 @@ class HandlerContentSortTest extends AbstractTestCase
                 [
                     'filter' => new Criterion\SectionId([2, 3]),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 0,
                     'sortClauses' => [
                         new SortClause\ContentName(),
                     ],
