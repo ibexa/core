@@ -26,7 +26,7 @@ class TreeHandlerTest extends TestCase
 {
     public function testLoadContentInfoByRemoteId(): void
     {
-        $contentInfoData = [new ContentInfo()];
+        $contentInfo = new ContentInfo();
 
         $this->getContentGatewayMock()
             ->expects(self::once())
@@ -38,10 +38,10 @@ class TreeHandlerTest extends TestCase
             ->expects(self::once())
             ->method('extractContentInfoFromRow')
             ->with(self::equalTo([42]))
-            ->will(self::returnValue($contentInfoData));
+            ->will(self::returnValue($contentInfo));
 
         self::assertSame(
-            $contentInfoData,
+            $contentInfo,
             $this->getTreeHandler()->loadContentInfo(42)
         );
     }
