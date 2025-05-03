@@ -10,9 +10,9 @@ namespace Ibexa\Core\Search\Legacy\Content;
 
 use DateTimeInterface;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\ResultStatement;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Result;
 use Generator;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Search\Content\IndexerGateway as SPIIndexerGateway;
@@ -127,12 +127,12 @@ final class IndexerGateway implements SPIIndexerGateway
         return $query;
     }
 
-    private function fetchIteration(ResultStatement $statement, int $iterationCount): Generator
+    private function fetchIteration(Result $result, int $iterationCount): Generator
     {
         do {
             $contentIds = [];
             for ($i = 0; $i < $iterationCount; ++$i) {
-                if ($contentId = $statement->fetchOne()) {
+                if ($contentId = $result->fetchOne()) {
                     $contentIds[] = $contentId;
                 } elseif (empty($contentIds)) {
                     return;
