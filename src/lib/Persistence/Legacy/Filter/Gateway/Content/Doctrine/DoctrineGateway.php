@@ -226,7 +226,7 @@ final class DoctrineGateway implements Gateway
             )
             // reset not needed parts, keeping FROM, other JOINs, and WHERE constraints
             ->setMaxResults(null)
-            ->setFirstResult(null)
+            ->setFirstResult(0)
             ->resetQueryPart('orderBy');
 
         return $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
@@ -262,7 +262,7 @@ final class DoctrineGateway implements Gateway
             )
             // reset not needed parts, keeping FROM, other JOINs, and WHERE constraints
             ->setMaxResults(null)
-            ->setFirstResult(null)
+            ->setFirstResult(0)
             ->resetQueryPart('orderBy');
 
         return $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
