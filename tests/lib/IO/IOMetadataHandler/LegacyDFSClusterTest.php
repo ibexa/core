@@ -191,7 +191,7 @@ class LegacyDFSClusterTest extends TestCase
 
         $this->qbMock
             ->expects(self::once())
-            ->method('execute')
+            ->method('executeStatement')
             ->willReturn(1);
 
         $this->handler->deleteDirectory('images/_alias/subfolder/');
@@ -246,7 +246,7 @@ class LegacyDFSClusterTest extends TestCase
             ->willReturnSelf();
 
         $this->qbMock
-            ->method('execute')
+            ->method('executeQuery')
             ->willReturn($resultMock);
     }
 }
