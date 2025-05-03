@@ -81,7 +81,7 @@ class DoctrineStorage extends Gateway
 
         $statement = $selectQuery->execute();
 
-        return $statement->fetchColumn();
+        return $statement->fetchOne();
     }
 
     /**
@@ -250,7 +250,7 @@ class DoctrineStorage extends Gateway
 
         $statement = $selectQuery->execute();
 
-        return (int) $statement->fetchColumn();
+        return (int) $statement->fetchOne();
     }
 
     public function isImageReferenced(string $uri): bool

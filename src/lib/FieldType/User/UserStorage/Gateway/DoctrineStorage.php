@@ -174,7 +174,7 @@ class DoctrineStorage extends Gateway
 
         $statement = $query->execute();
 
-        return (int) $statement->fetchColumn();
+        return (int) $statement->fetchOne();
     }
 
     /**
@@ -417,7 +417,7 @@ class DoctrineStorage extends Gateway
             ->groupBy('id')
             ->having($countExpr . ' > 1');
 
-        $numRows = (int)$checkQuery->execute()->fetchColumn();
+        $numRows = (int)$checkQuery->execute()->fetchOne();
 
         return $numRows === 0;
     }
@@ -438,6 +438,6 @@ class DoctrineStorage extends Gateway
 
         return $selectQuery
             ->execute()
-            ->fetchColumn();
+            ->fetchOne();
     }
 }

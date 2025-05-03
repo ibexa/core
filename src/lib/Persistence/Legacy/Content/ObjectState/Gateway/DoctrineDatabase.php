@@ -502,7 +502,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->execute()->fetchOne();
     }
 
     public function updateObjectStatePriority(int $stateId, int $priority): void
@@ -711,7 +711,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $priority = $query->execute()->fetchColumn();
+        $priority = $query->execute()->fetchOne();
 
         return null !== $priority ? (int)$priority : null;
     }

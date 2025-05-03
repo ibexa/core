@@ -207,7 +207,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->execute()->fetchOne();
     }
 
     public function countGroupsForType(int $typeId, int $status): int
@@ -230,7 +230,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->execute()->fetchOne();
     }
 
     public function deleteGroup(int $groupId): void
@@ -844,7 +844,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('status', $status, ParameterType::INTEGER)
             ->setParameter('language_id', $languageId, ParameterType::INTEGER);
 
-        return 0 < (int)$existQuery->execute()->fetchColumn();
+        return 0 < (int)$existQuery->execute()->fetchOne();
     }
 
     private function updateFieldDefinitionMultilingualData(
@@ -1106,7 +1106,7 @@ final class DoctrineDatabase extends Gateway
 
         $stmt = $query->execute();
 
-        return (int)$stmt->fetchColumn();
+        return (int)$stmt->fetchOne();
     }
 
     public function deleteFieldDefinitionsForType(int $typeId, int $status): void

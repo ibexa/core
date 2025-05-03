@@ -620,7 +620,7 @@ final class DoctrineDatabase extends Gateway
                     )
                 )
             );
-        $count = (int)$query->execute()->fetchColumn();
+        $count = (int)$query->execute()->fetchOne();
 
         return $count > 0;
     }
@@ -1015,7 +1015,7 @@ final class DoctrineDatabase extends Gateway
             );
         $statement = $query->execute();
 
-        $result = $statement->fetchColumn();
+        $result = $statement->fetchOne();
 
         return false !== $result ? (int)$result : null;
     }
@@ -1268,7 +1268,7 @@ final class DoctrineDatabase extends Gateway
 
         $this->addConditionsByCriterion($criterion, $query);
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->execute()->fetchOne();
     }
 
     /**
@@ -1354,7 +1354,7 @@ final class DoctrineDatabase extends Gateway
             );
         $stmt = $query->execute();
 
-        return (int)$stmt->fetchColumn();
+        return (int)$stmt->fetchOne();
     }
 
     public function changeMainLocation(

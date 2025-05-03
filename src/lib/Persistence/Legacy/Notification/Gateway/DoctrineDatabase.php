@@ -127,7 +127,7 @@ class DoctrineDatabase extends Gateway
             ->setParameter('is_pending', true, PDO::PARAM_BOOL)
             ->setParameter('user_id', $userId, PDO::PARAM_INT);
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->execute()->fetchOne();
     }
 
     /**
