@@ -88,7 +88,7 @@ class SearchIndex
                     'object_count' => ':one',
                 ]
             )
-            ->setParameter(':one', 1, ParameterType::INTEGER);
+            ->setParameter('one', 1, ParameterType::INTEGER);
 
         foreach ($words as $word) {
             $query->setParameter('word', $word);

@@ -75,8 +75,8 @@ class DoctrineStorage extends Gateway
                     )
                 )
             )
-            ->setParameter(':contentObjectId', $versionInfo->contentInfo->id, PDO::PARAM_INT)
-            ->setParameter(':versionNo', $versionInfo->versionNo, PDO::PARAM_INT)
+            ->setParameter('contentObjectId', $versionInfo->contentInfo->id, PDO::PARAM_INT)
+            ->setParameter('versionNo', $versionInfo->versionNo, PDO::PARAM_INT)
         ;
 
         $statement = $selectQuery->execute();
@@ -104,8 +104,8 @@ class DoctrineStorage extends Gateway
                     $this->connection->quoteIdentifier('filepath') => ':path',
                 ]
             )
-            ->setParameter(':fieldId', $fieldId, PDO::PARAM_INT)
-            ->setParameter(':path', $path)
+            ->setParameter('fieldId', $fieldId, PDO::PARAM_INT)
+            ->setParameter('path', $path)
         ;
 
         $insertQuery->execute();
@@ -139,8 +139,8 @@ class DoctrineStorage extends Gateway
                     )
                 )
             )
-            ->setParameter(':versionNo', $versionNo, PDO::PARAM_INT)
-            ->setParameter(':fieldIds', $fieldIds, Connection::PARAM_INT_ARRAY)
+            ->setParameter('versionNo', $versionNo, PDO::PARAM_INT)
+            ->setParameter('fieldIds', $fieldIds, Connection::PARAM_INT_ARRAY)
         ;
 
         $statement = $selectQuery->execute();
@@ -169,7 +169,7 @@ class DoctrineStorage extends Gateway
                     ':field_id'
                 )
             )
-            ->setParameter(':field_id', $fieldId, PDO::PARAM_INT)
+            ->setParameter('field_id', $fieldId, PDO::PARAM_INT)
         ;
 
         $statement = $selectQuery->execute();
@@ -217,8 +217,8 @@ class DoctrineStorage extends Gateway
                     )
                 )
             )
-            ->setParameter(':fieldId', $fieldId, PDO::PARAM_INT)
-            ->setParameter(':likePath', $path . '%')
+            ->setParameter('fieldId', $fieldId, PDO::PARAM_INT)
+            ->setParameter('likePath', $path . '%')
         ;
 
         $deleteQuery->execute();
@@ -245,7 +245,7 @@ class DoctrineStorage extends Gateway
                     ':filepath'
                 )
             )
-            ->setParameter(':filepath', $path)
+            ->setParameter('filepath', $path)
         ;
 
         $statement = $selectQuery->execute();
@@ -267,7 +267,7 @@ class DoctrineStorage extends Gateway
                     ':likePath'
                 )
             )
-            ->setParameter(':likePath', $path)
+            ->setParameter('likePath', $path)
         ;
 
         $statement = $selectQuery->execute();
@@ -323,8 +323,8 @@ class DoctrineStorage extends Gateway
                     ':versionNo'
                 )
             )
-            ->setParameter(':fieldId', $fieldId, PDO::PARAM_INT)
-            ->setParameter(':versionNo', $versionNo, PDO::PARAM_INT)
+            ->setParameter('fieldId', $fieldId, PDO::PARAM_INT)
+            ->setParameter('versionNo', $versionNo, PDO::PARAM_INT)
         ;
 
         $imageXMLs = $selectQuery->execute()->fetchAll(FetchMode::COLUMN);
@@ -420,9 +420,9 @@ class DoctrineStorage extends Gateway
                     ':version_no'
                 )
             )
-            ->setParameter(':field_id', $fieldId, ParameterType::INTEGER)
-            ->setParameter(':version_no', $versionNo, ParameterType::INTEGER)
-            ->setParameter(':xml', $xml, ParameterType::STRING)
+            ->setParameter('field_id', $fieldId, ParameterType::INTEGER)
+            ->setParameter('version_no', $versionNo, ParameterType::INTEGER)
+            ->setParameter('xml', $xml, ParameterType::STRING)
             ->execute()
         ;
     }
@@ -451,9 +451,9 @@ class DoctrineStorage extends Gateway
                     ':old_path'
                 )
             )
-            ->setParameter(':field_id', $fieldId, ParameterType::INTEGER)
-            ->setParameter(':old_path', $oldPath, ParameterType::STRING)
-            ->setParameter(':new_path', $newPath, ParameterType::STRING)
+            ->setParameter('field_id', $fieldId, ParameterType::INTEGER)
+            ->setParameter('old_path', $oldPath, ParameterType::STRING)
+            ->setParameter('new_path', $newPath, ParameterType::STRING)
             ->execute()
         ;
     }
@@ -483,8 +483,8 @@ class DoctrineStorage extends Gateway
                     ':field_id'
                 )
             )
-            ->setParameter(':path', $path)
-            ->setParameter(':field_id', $fieldId)
+            ->setParameter('path', $path)
+            ->setParameter('field_id', $fieldId)
         ;
 
         $statement = $selectQuery->execute();

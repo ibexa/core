@@ -1015,7 +1015,7 @@ final class DoctrineDatabase extends Gateway
             // parameter for bitwise operation has to be placed verbatim (w/o binding) for this to work cross-DBMS
             ->set('lang_mask', 'lang_mask & ~ ' . $languageId)
             ->where('action IN (:actions)')
-            ->setParameter(':actions', $actions, Connection::PARAM_STR_ARRAY);
+            ->setParameter('actions', $actions, Connection::PARAM_STR_ARRAY);
         $query->execute();
 
         // cleanup: delete single language rows (including alwaysAvailable)
@@ -1024,7 +1024,7 @@ final class DoctrineDatabase extends Gateway
             ->delete($this->connection->quoteIdentifier($this->table))
             ->where('action IN (:actions)')
             ->andWhere('lang_mask IN (0, 1)')
-            ->setParameter(':actions', $actions, Connection::PARAM_STR_ARRAY);
+            ->setParameter('actions', $actions, Connection::PARAM_STR_ARRAY);
         $query->execute();
     }
 
@@ -1099,8 +1099,8 @@ final class DoctrineDatabase extends Gateway
             ->where('action = :action')
             // fetch rows matching any of the given Languages
             ->andWhere('lang_mask & :languageMask <> 0')
-            ->setParameter(':action', 'eznode:' . $locationId)
-            ->setParameter(':languageMask', $languageMask);
+            ->setParameter('action', 'eznode:' . $locationId)
+            ->setParameter('languageMask', $languageMask);
 
         $statement = $query->execute();
 
@@ -1223,7 +1223,7 @@ final class DoctrineDatabase extends Gateway
             ->andWhere(
                 $expr->eq('text_md5', ':textMD5')
             )
-            ->setParameter(':action', "eznode:{$locationId}");
+            ->setParameter('action', "eznode:{$locationId}");
 
         foreach ($urlAliasesData as $urlAliasData) {
             if ($urlAliasData['is_original'] === 1 || !isset($originalUrlAliases[$urlAliasData['lang_mask']])) {
@@ -1239,15 +1239,15 @@ final class DoctrineDatabase extends Gateway
             }
 
             $updateQueryBuilder
-                ->setParameter(':linkId', $originalUrlAlias['link'], ParameterType::INTEGER)
+                ->setParameter('linkId', $originalUrlAlias['link'], ParameterType::INTEGER)
                 // attempt to fix missing parent case
                 ->setParameter(
-                    ':newParentId',
+                    'newParentId',
                     $urlAliasData['existing_parent'] ?? $originalUrlAlias['parent'],
                     ParameterType::INTEGER
                 )
-                ->setParameter(':oldParentId', $urlAliasData['parent'], ParameterType::INTEGER)
-                ->setParameter(':textMD5', $urlAliasData['text_md5']);
+                ->setParameter('oldParentId', $urlAliasData['parent'], ParameterType::INTEGER)
+                ->setParameter('textMD5', $urlAliasData['text_md5']);
 
             try {
                 $updateQueryBuilder->execute();

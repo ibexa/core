@@ -44,8 +44,8 @@ class DoctrineDatabase extends Gateway
                 self::COLUMN_USER_ID => ':user_id',
                 self::COLUMN_LOCATION_ID => ':location_id',
             ])
-            ->setParameter(':user_id', $bookmark->userId, PDO::PARAM_INT)
-            ->setParameter(':location_id', $bookmark->locationId, PDO::PARAM_INT);
+            ->setParameter('user_id', $bookmark->userId, PDO::PARAM_INT)
+            ->setParameter('location_id', $bookmark->locationId, PDO::PARAM_INT);
 
         $query->execute();
 
@@ -61,7 +61,7 @@ class DoctrineDatabase extends Gateway
         $query
             ->delete(self::TABLE_BOOKMARKS)
             ->where($query->expr()->eq(self::COLUMN_ID, ':id'))
-            ->setParameter(':id', $id, PDO::PARAM_INT);
+            ->setParameter('id', $id, PDO::PARAM_INT);
 
         $query->execute();
     }
@@ -76,7 +76,7 @@ class DoctrineDatabase extends Gateway
             ->select(...$this->getColumns())
             ->from(self::TABLE_BOOKMARKS)
             ->where($query->expr()->eq(self::COLUMN_ID, ':id'))
-            ->setParameter(':id', $id, PDO::PARAM_INT);
+            ->setParameter('id', $id, PDO::PARAM_INT);
 
         return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -94,8 +94,8 @@ class DoctrineDatabase extends Gateway
                 $query->expr()->eq(self::COLUMN_USER_ID, ':user_id'),
                 $query->expr()->in(self::COLUMN_LOCATION_ID, ':location_id')
             ))
-            ->setParameter(':user_id', $userId, PDO::PARAM_INT)
-            ->setParameter(':location_id', $locationIds, Connection::PARAM_INT_ARRAY);
+            ->setParameter('user_id', $userId, PDO::PARAM_INT)
+            ->setParameter('location_id', $locationIds, Connection::PARAM_INT_ARRAY);
 
         return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -138,7 +138,7 @@ class DoctrineDatabase extends Gateway
         }
 
         $query->orderBy(self::COLUMN_ID, 'DESC');
-        $query->setParameter(':user_id', $userId, PDO::PARAM_INT);
+        $query->setParameter('user_id', $userId, PDO::PARAM_INT);
 
         return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -153,7 +153,7 @@ class DoctrineDatabase extends Gateway
             ->select('COUNT(' . self::COLUMN_ID . ')')
             ->from(self::TABLE_BOOKMARKS)
             ->where($query->expr()->eq(self::COLUMN_USER_ID, ':user_id'))
-            ->setParameter(':user_id', $userId, PDO::PARAM_INT);
+            ->setParameter('user_id', $userId, PDO::PARAM_INT);
 
         return (int) $query->execute()->fetchColumn();
     }

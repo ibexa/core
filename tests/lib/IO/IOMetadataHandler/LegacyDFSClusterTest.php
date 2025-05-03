@@ -184,8 +184,8 @@ class LegacyDFSClusterTest extends TestCase
             ->expects(self::exactly(2))
             ->method('setParameter')
             ->withConsecutive(
-                [':esc', '\\'],
-                [':spiPath', 'prefix/images/\_alias/subfolder/%'],
+                ['esc', '\\'],
+                ['spiPath', 'prefix/images/\_alias/subfolder/%'],
             )
             ->willReturnSelf();
 

@@ -977,8 +977,8 @@ final class DoctrineDatabase extends Gateway
                     $query->expr()->eq('v.creator_id', ':user_id')
                 )
             )
-            ->setParameter(':status', $status, ParameterType::INTEGER)
-            ->setParameter(':user_id', $userId, ParameterType::INTEGER);
+            ->setParameter('status', $status, ParameterType::INTEGER)
+            ->setParameter('user_id', $userId, ParameterType::INTEGER);
 
         return (int) $query->execute()->fetchColumn();
     }
@@ -1017,8 +1017,8 @@ final class DoctrineDatabase extends Gateway
             )
         )
         ->setFirstResult($offset)
-        ->setParameter(':status', $status, ParameterType::INTEGER)
-        ->setParameter(':user_id', $userId, ParameterType::INTEGER);
+        ->setParameter('status', $status, ParameterType::INTEGER)
+        ->setParameter('user_id', $userId, ParameterType::INTEGER);
 
         if ($limit > 0) {
             $query->setMaxResults($limit);
@@ -1657,7 +1657,7 @@ final class DoctrineDatabase extends Gateway
             ->where(
                 $expr->eq('l.to_contentobject_id', ':toContentId')
             )
-            ->setParameter(':toContentId', $toContentId, ParameterType::INTEGER);
+            ->setParameter('toContentId', $toContentId, ParameterType::INTEGER);
 
         // relation type
         if ($relationType !== null) {
@@ -1866,7 +1866,7 @@ final class DoctrineDatabase extends Gateway
         if ($versionNo) {
             $selectQuery
                 ->andWhere('l.from_contentobject_version = :version')
-                ->setParameter(':version', $versionNo, ParameterType::INTEGER);
+                ->setParameter('version', $versionNo, ParameterType::INTEGER);
         }
         // Given we can retain all columns, we just create copies with new `from_contentobject_id` using INSERT INTO SELECT
         $insertQuery = <<<SQL
@@ -1923,8 +1923,8 @@ final class DoctrineDatabase extends Gateway
             ->andWhere('language_code = :languageCode')
             ->setParameters(
                 [
-                    ':contentId' => $contentId,
-                    ':languageCode' => $languageCode,
+                    'contentId' => $contentId,
+                    'languageCode' => $languageCode,
                 ]
             )
         ;
@@ -1932,7 +1932,7 @@ final class DoctrineDatabase extends Gateway
         if (null !== $versionNo) {
             $query
                 ->andWhere('version = :versionNo')
-                ->setParameter(':versionNo', $versionNo)
+                ->setParameter('versionNo', $versionNo)
             ;
         }
 
@@ -1980,8 +1980,8 @@ final class DoctrineDatabase extends Gateway
             ->andWhere('real_translation=:languageCode')
             ->setParameters(
                 [
-                    ':languageCode' => $languageCode,
-                    ':contentId' => $contentId,
+                    'languageCode' => $languageCode,
+                    'contentId' => $contentId,
                 ]
             )
         ;
@@ -1989,7 +1989,7 @@ final class DoctrineDatabase extends Gateway
         if (null !== $versionNo) {
             $query
                 ->andWhere('content_version = :versionNo')
-                ->setParameter(':versionNo', $versionNo)
+                ->setParameter('versionNo', $versionNo)
             ;
         }
 
@@ -2019,8 +2019,8 @@ final class DoctrineDatabase extends Gateway
                     'language_mask & ~ ' . $languageId . ' <> 1'
                 )
             )
-            ->setParameter(':now', time())
-            ->setParameter(':contentId', $contentId)
+            ->setParameter('now', time())
+            ->setParameter('contentId', $contentId)
         ;
 
         $rowCount = $query->execute();
@@ -2067,15 +2067,15 @@ final class DoctrineDatabase extends Gateway
                     'language_mask & ~ ' . $languageId . ' <> 1'
                 )
             )
-            ->setParameter(':now', time())
-            ->setParameter(':contentId', $contentId)
-            ->setParameter(':languageId', $languageId)
+            ->setParameter('now', time())
+            ->setParameter('contentId', $contentId)
+            ->setParameter('languageId', $languageId)
         ;
 
         if (null !== $versionNo) {
             $query
                 ->andWhere('version = :versionNo')
-                ->setParameter(':versionNo', $versionNo)
+                ->setParameter('versionNo', $versionNo)
             ;
         }
 

@@ -62,7 +62,7 @@ class DoctrineStorage extends BaseDoctrineStorage
         $queryBuilder
             ->setValue('download_count', ':downloadCount')
             ->setParameter(
-                ':downloadCount',
+                'downloadCount',
                 $field->value->externalData['downloadCount'],
                 PDO::PARAM_INT
             )

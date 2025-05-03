@@ -468,8 +468,8 @@ EOT
             ->set('a.sort_key_int', $newTimestamp)
             ->where('a.id = :id')
             ->andWhere('a.version = :version')
-            ->setParameter(':id', $contentAttributeId)
-            ->setParameter(':version', $contentAttributeVersion);
+            ->setParameter('id', $contentAttributeId)
+            ->setParameter('version', $contentAttributeVersion);
 
         $query->execute();
     }

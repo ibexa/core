@@ -44,7 +44,7 @@ class MapLocationDistance extends Field
         $longitudePlaceholder = $query->createNamedParameter($target->longitude);
 
         // note: can have literal name for all visits of this Criterion because it's constant
-        $query->setParameter(':longitude_correction', cos(deg2rad($target->latitude)) ** 2);
+        $query->setParameter('longitude_correction', cos(deg2rad($target->latitude)) ** 2);
 
         // build: (latitude1 - latitude2)^2 + (longitude2 - longitude2)^2 * longitude_correction)
         $latitudeSubstrExpr = "({$externalTable}.latitude - {$latitudePlaceholder})";

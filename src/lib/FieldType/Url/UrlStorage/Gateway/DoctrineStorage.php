@@ -48,7 +48,7 @@ class DoctrineStorage extends Gateway
                 )
                 ->from(self::URL_TABLE)
                 ->where('id IN (:ids)')
-                ->setParameter(':ids', $ids, Connection::PARAM_INT_ARRAY);
+                ->setParameter('ids', $ids, Connection::PARAM_INT_ARRAY);
 
             $statement = $query->execute();
             foreach ($statement->fetchAll(PDO::FETCH_ASSOC) as $row) {
@@ -83,7 +83,7 @@ class DoctrineStorage extends Gateway
                 ->where(
                     $query->expr()->in('url', ':urls')
                 )
-                ->setParameter(':urls', $urls, Connection::PARAM_STR_ARRAY);
+                ->setParameter('urls', $urls, Connection::PARAM_STR_ARRAY);
 
             $statement = $query->execute();
             foreach ($statement->fetchAll(PDO::FETCH_ASSOC) as $row) {
@@ -117,10 +117,10 @@ class DoctrineStorage extends Gateway
                     'url' => ':url',
                 ]
             )
-            ->setParameter(':created', $time, PDO::PARAM_INT)
-            ->setParameter(':modified', $time, PDO::PARAM_INT)
-            ->setParameter(':original_url_md5', md5($url))
-            ->setParameter(':url', $url)
+            ->setParameter('created', $time, PDO::PARAM_INT)
+            ->setParameter('modified', $time, PDO::PARAM_INT)
+            ->setParameter('original_url_md5', md5($url))
+            ->setParameter('url', $url)
         ;
 
         $query->execute();
@@ -150,9 +150,9 @@ class DoctrineStorage extends Gateway
                     'url_id' => ':url_id',
                 ]
             )
-            ->setParameter(':contentobject_attribute_id', $fieldId, PDO::PARAM_INT)
-            ->setParameter(':contentobject_attribute_version', $versionNo, PDO::PARAM_INT)
-            ->setParameter(':url_id', $urlId, PDO::PARAM_INT)
+            ->setParameter('contentobject_attribute_id', $fieldId, PDO::PARAM_INT)
+            ->setParameter('contentobject_attribute_version', $versionNo, PDO::PARAM_INT)
+            ->setParameter('url_id', $urlId, PDO::PARAM_INT)
         ;
 
         $query->execute();
@@ -183,8 +183,8 @@ class DoctrineStorage extends Gateway
                     )
                 )
             )
-            ->setParameter(':contentobject_attribute_id', $fieldId, ParameterType::INTEGER)
-            ->setParameter(':contentobject_attribute_version', $versionNo, ParameterType::INTEGER);
+            ->setParameter('contentobject_attribute_id', $fieldId, ParameterType::INTEGER)
+            ->setParameter('contentobject_attribute_version', $versionNo, ParameterType::INTEGER);
 
         $statement = $selectQuery->execute();
         $potentiallyOrphanedUrls = $statement->fetchFirstColumn();
@@ -208,8 +208,8 @@ class DoctrineStorage extends Gateway
                     )
                 )
             )
-            ->setParameter(':contentobject_attribute_id', $fieldId, ParameterType::INTEGER)
-            ->setParameter(':contentobject_attribute_version', $versionNo, ParameterType::INTEGER);
+            ->setParameter('contentobject_attribute_id', $fieldId, ParameterType::INTEGER)
+            ->setParameter('contentobject_attribute_version', $versionNo, ParameterType::INTEGER);
 
         if (empty($excludeUrlIds) === false) {
             $deleteQuery
@@ -269,7 +269,7 @@ class DoctrineStorage extends Gateway
         $deleteQuery
             ->delete($this->connection->quoteIdentifier(self::URL_TABLE))
             ->where($deleteQuery->expr()->in('id', ':ids'))
-            ->setParameter(':ids', $ids, Connection::PARAM_STR_ARRAY)
+            ->setParameter('ids', $ids, Connection::PARAM_STR_ARRAY)
         ;
 
         $deleteQuery->execute();
