@@ -331,7 +331,7 @@ class DoctrineStorage extends Gateway
                     ':userId'
                 )
             )
-            ->setParameter(':userId', $versionInfo->contentInfo->id, ParameterType::INTEGER)
+            ->setParameter('userId', $versionInfo->contentInfo->id, ParameterType::INTEGER)
         ;
 
         $queryBuilder->executeStatement();
@@ -342,15 +342,15 @@ class DoctrineStorage extends Gateway
             ->update($this->connection->quoteIdentifier(self::USER_SETTING_TABLE))
             ->set('is_enabled', ':isEnabled')
             ->set('max_login', ':maxLogin')
-            ->setParameter(':isEnabled', $field->value->externalData['enabled'], ParameterType::INTEGER)
-            ->setParameter(':maxLogin', $field->value->externalData['maxLogin'], ParameterType::INTEGER)
+            ->setParameter('isEnabled', $field->value->externalData['enabled'], ParameterType::INTEGER)
+            ->setParameter('maxLogin', $field->value->externalData['maxLogin'], ParameterType::INTEGER)
             ->where(
                 $queryBuilder->expr()->eq(
                     $this->connection->quoteIdentifier('user_id'),
                     ':userId'
                 )
             )
-            ->setParameter(':userId', $versionInfo->contentInfo->id, ParameterType::INTEGER);
+            ->setParameter('userId', $versionInfo->contentInfo->id, ParameterType::INTEGER);
 
         $settingsQuery->executeStatement();
     }
