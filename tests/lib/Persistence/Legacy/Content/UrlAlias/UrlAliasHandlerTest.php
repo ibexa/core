@@ -5337,7 +5337,7 @@ class UrlAliasHandlerTest extends TestCase
 
         $statement = $query->executeQuery();
 
-        return (int)$statement->fetchColumn();
+        return (int)$statement->fetchOne();
     }
 
     /** @var \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway */
