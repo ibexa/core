@@ -90,7 +90,7 @@ class DoctrineDatabase extends Gateway
         $query
             ->select(...$this->getColumns())
             ->from(self::TABLE_BOOKMARKS)
-            ->where($query->expr()->andX(
+            ->where($query->expr()->and(
                 $query->expr()->eq(self::COLUMN_USER_ID, ':user_id'),
                 $query->expr()->in(self::COLUMN_LOCATION_ID, ':location_id')
             ))
@@ -167,7 +167,7 @@ class DoctrineDatabase extends Gateway
         $query
             ->update(self::TABLE_BOOKMARKS)
             ->set(self::COLUMN_LOCATION_ID, '(CASE WHEN node_id = :source_id THEN :target_id ELSE :source_id END)')
-            ->where($query->expr()->orX(
+            ->where($query->expr()->or(
                 $query->expr()->eq(self::COLUMN_LOCATION_ID, ':source_id'),
                 $query->expr()->eq(self::COLUMN_LOCATION_ID, ':target_id')
             ));

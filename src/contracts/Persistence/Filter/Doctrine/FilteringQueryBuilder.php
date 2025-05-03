@@ -166,7 +166,7 @@ final class FilteringQueryBuilder extends QueryBuilder
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function buildOperatorBasedCriterionConstraint(
         string $columnName,
@@ -215,7 +215,7 @@ final class FilteringQueryBuilder extends QueryBuilder
             'content',
             ContentGateway::CONTENT_VERSION_TABLE,
             'version',
-            (string)$expressionBuilder->andX(
+            (string)$expressionBuilder->and(
                 'content.id = version.contentobject_id',
                 'content.current_version = version.version',
                 $expressionBuilder->eq(

@@ -161,7 +161,7 @@ abstract class DoctrineStorage extends Gateway
         $this->setUpdateColumns($updateQuery, $versionInfo, $field);
         $updateQuery
             ->where(
-                $updateQuery->expr()->andX(
+                $updateQuery->expr()->and(
                     $updateQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
                         ':fieldId'
@@ -226,7 +226,7 @@ abstract class DoctrineStorage extends Gateway
         $selectQuery
             ->from($this->connection->quoteIdentifier($this->getStorageTable()))
             ->where(
-                $selectQuery->expr()->andX(
+                $selectQuery->expr()->and(
                     $selectQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
                         ':fieldId'
@@ -322,7 +322,7 @@ abstract class DoctrineStorage extends Gateway
         $deleteQuery
             ->delete($this->connection->quoteIdentifier($this->getStorageTable()))
             ->where(
-                $deleteQuery->expr()->andX(
+                $deleteQuery->expr()->and(
                     $deleteQuery->expr()->in(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
                         ':fieldIds'
@@ -352,7 +352,7 @@ abstract class DoctrineStorage extends Gateway
         $deleteQuery
             ->delete($this->connection->quoteIdentifier($this->getStorageTable()))
             ->where(
-                $deleteQuery->expr()->andX(
+                $deleteQuery->expr()->and(
                     $deleteQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
                         ':fieldId'
@@ -391,7 +391,7 @@ abstract class DoctrineStorage extends Gateway
             )
             ->from($this->connection->quoteIdentifier($this->getStorageTable()))
             ->where(
-                $selectQuery->expr()->andX(
+                $selectQuery->expr()->and(
                     $selectQuery->expr()->in(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
                         ':fieldIds'

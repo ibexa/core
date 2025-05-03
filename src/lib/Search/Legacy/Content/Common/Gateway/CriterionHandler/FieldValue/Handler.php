@@ -49,7 +49,7 @@ abstract class Handler
     protected $dbPlatform;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct(Connection $connection, TransformationProcessor $transformationProcessor)
     {

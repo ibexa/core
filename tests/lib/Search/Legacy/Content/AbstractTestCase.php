@@ -80,7 +80,7 @@ class AbstractTestCase extends LanguageAwareTestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function getContentTypeHandler(): SPIContentTypeHandler
     {

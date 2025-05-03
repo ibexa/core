@@ -58,7 +58,7 @@ final class LegacySchemaImporter
             );
 
             foreach ($statements as $statement) {
-                $this->connection->exec($statement);
+                $this->connection->executeStatement($statement);
             }
         } catch (InvalidConfigurationException $e) {
             throw new RuntimeException($e->getMessage(), 1, $e);

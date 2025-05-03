@@ -14,7 +14,7 @@ class LegacyStorageImageFileRowReader implements ImageFileRowReader
     /** @var \Doctrine\DBAL\Connection */
     private $connection;
 
-    /** @var \Doctrine\DBAL\Driver\Statement */
+    /** @var \Doctrine\DBAL\ForwardCompatibility\Result */
     private $statement;
 
     public function __construct(Connection $connection)
@@ -31,7 +31,7 @@ class LegacyStorageImageFileRowReader implements ImageFileRowReader
 
     public function getRow()
     {
-        return $this->statement->fetchColumn(0);
+        return $this->statement->fetchOne();
     }
 
     public function getCount()

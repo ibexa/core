@@ -42,6 +42,6 @@ final class SubtreeQueryBuilder extends BaseLocationCriterionQueryBuilder
             $criterion->value
         );
 
-        return (string)$expressionBuilder->orX(...$statements);
+        return (string)$expressionBuilder->or(...$statements);
     }
 }

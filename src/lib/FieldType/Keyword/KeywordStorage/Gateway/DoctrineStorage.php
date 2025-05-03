@@ -195,7 +195,7 @@ class DoctrineStorage extends Gateway
             )
             ->from($this->connection->quoteIdentifier(self::KEYWORD_TABLE))
             ->where(
-                $query->expr()->andX(
+                $query->expr()->and(
                     $query->expr()->in(
                         $this->connection->quoteIdentifier('keyword'),
                         ':keywordList'
@@ -274,7 +274,7 @@ class DoctrineStorage extends Gateway
         $deleteQuery
             ->delete($this->connection->quoteIdentifier(self::KEYWORD_ATTRIBUTE_LINK_TABLE))
             ->where(
-                $deleteQuery->expr()->andX(
+                $deleteQuery->expr()->and(
                     $deleteQuery->expr()->eq(
                         $this->connection->quoteIdentifier('objectattribute_id'),
                         ':fieldId'

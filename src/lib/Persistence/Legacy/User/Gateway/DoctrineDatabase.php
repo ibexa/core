@@ -33,7 +33,7 @@ final class DoctrineDatabase extends Gateway
     private $dbPlatform;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct(Connection $connection)
     {

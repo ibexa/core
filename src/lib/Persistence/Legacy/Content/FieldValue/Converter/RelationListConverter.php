@@ -298,7 +298,7 @@ class RelationListConverter implements Converter
                 'c',
                 LocationGateway::CONTENT_TREE_TABLE,
                 't',
-                $query->expr()->andX(
+                $query->expr()->and(
                     't.contentobject_id = c.id',
                     't.node_id = t.main_node_id'
                 )
@@ -307,7 +307,7 @@ class RelationListConverter implements Converter
                 'c',
                 ContentTypeGateway::CONTENT_TYPE_TABLE,
                 'ct',
-                $query->expr()->andX(
+                $query->expr()->and(
                     'ct.id = c.contentclass_id',
                     // in Legacy Storage ezcontentclass.version contains status (draft, defined)
                     'ct.version = :content_type_status'

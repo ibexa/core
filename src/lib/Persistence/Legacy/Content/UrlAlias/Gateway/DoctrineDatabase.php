@@ -63,7 +63,7 @@ final class DoctrineDatabase extends Gateway
     private $dbPlatform;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct(
         Connection $connection,
@@ -298,7 +298,7 @@ final class DoctrineDatabase extends Gateway
             ->andWhere(
                 sprintf(
                     'NOT (%s)',
-                    $expr->andX(
+                    $expr->and(
                         $expr->eq(
                             'parent',
                             $query->createPositionalParameter($parentId, ParameterType::INTEGER)
@@ -366,7 +366,7 @@ final class DoctrineDatabase extends Gateway
                 )
             )
             ->where(
-                $query->expr()->andX(
+                $query->expr()->and(
                     $query->expr()->eq(
                         'action',
                         $query->createPositionalParameter($action, ParameterType::STRING)
@@ -424,7 +424,7 @@ final class DoctrineDatabase extends Gateway
                 )
             )
             ->where(
-                $query->expr()->andX(
+                $query->expr()->and(
                     $query->expr()->eq(
                         'parent',
                         $query->createPositionalParameter($parentId, ParameterType::INTEGER)
@@ -493,7 +493,7 @@ final class DoctrineDatabase extends Gateway
         )->from(
             $this->connection->quoteIdentifier($this->table)
         )->where(
-            $query->expr()->andX(
+            $query->expr()->and(
                 $query->expr()->eq(
                     'is_alias',
                     $query->createPositionalParameter(0, ParameterType::INTEGER)
@@ -647,7 +647,7 @@ final class DoctrineDatabase extends Gateway
         $query->select('*')->from(
             $this->connection->quoteIdentifier($this->table)
         )->where(
-            $query->expr()->andX(
+            $query->expr()->and(
                 $query->expr()->eq(
                     'parent',
                     $query->createPositionalParameter(
@@ -730,7 +730,7 @@ final class DoctrineDatabase extends Gateway
         )->from(
             $this->connection->quoteIdentifier($this->table)
         )->where(
-            $query->expr()->andX(
+            $query->expr()->and(
                 $query->expr()->eq(
                     'action',
                     $query->createPositionalParameter($action, ParameterType::STRING)
@@ -817,7 +817,7 @@ final class DoctrineDatabase extends Gateway
 
         $hierarchyConditions = [];
         foreach ($hierarchyData as $levelData) {
-            $hierarchyConditions[] = $query->expr()->andX(
+            $hierarchyConditions[] = $query->expr()->and(
                 $query->expr()->eq(
                     'parent',
                     $query->createPositionalParameter(
@@ -849,7 +849,7 @@ final class DoctrineDatabase extends Gateway
         )->from(
             $this->connection->quoteIdentifier($this->table)
         )->where(
-            $query->expr()->orX(...$hierarchyConditions)
+            $query->expr()->or(...$hierarchyConditions)
         );
 
         $statement = $query->execute();
@@ -878,7 +878,7 @@ final class DoctrineDatabase extends Gateway
         $query->delete(
             $this->connection->quoteIdentifier($this->table)
         )->where(
-            $query->expr()->andX(
+            $query->expr()->and(
                 $query->expr()->eq(
                     'parent',
                     $query->createPositionalParameter(
@@ -1108,7 +1108,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function deleteUrlAliasesWithoutLocation(): int
     {
@@ -1259,7 +1259,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function deleteUrlNopAliasesWithoutChildren(): int
     {
@@ -1310,7 +1310,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function getAllChildrenAliases(int $parentId): array
     {

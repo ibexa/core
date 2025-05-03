@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\UserPreference\Gateway;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as DBALException;
 use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct;
 use Ibexa\Core\Persistence\Legacy\UserPreference\Gateway;
 use PDOException;
@@ -40,7 +40,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->getUserPreferenceByUserIdAndName($userId, $name);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw new RuntimeException('Database error', 0, $e);
         }
     }
@@ -52,7 +52,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countUserPreferences($userId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw new RuntimeException('Database error', 0, $e);
         }
     }
@@ -64,7 +64,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadUserPreferences($userId, $offset, $limit);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw new RuntimeException('Database error', 0, $e);
         }
     }
@@ -76,7 +76,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->setUserPreference($setStruct);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw new RuntimeException('Database error', 0, $e);
         }
     }

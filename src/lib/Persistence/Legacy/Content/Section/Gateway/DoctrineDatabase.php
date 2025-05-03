@@ -29,7 +29,7 @@ final class DoctrineDatabase extends Gateway
     /**
      * Creates a new DoctrineDatabase Section Gateway.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct(Connection $connection)
     {
@@ -74,8 +74,7 @@ final class DoctrineDatabase extends Gateway
     public function loadSectionData(int $id): array
     {
         $query = $this->connection->createQueryBuilder();
-        $query
-            ->select(['id', 'identifier', 'name'])
+        $query->select('id', 'identifier', 'name')
             ->from(self::CONTENT_SECTION_TABLE)
             ->where(
                 $query->expr()->eq(
@@ -92,8 +91,7 @@ final class DoctrineDatabase extends Gateway
     public function loadAllSectionData(): array
     {
         $query = $this->connection->createQueryBuilder();
-        $query
-            ->select(['id', 'identifier', 'name'])
+        $query->select('id', 'identifier', 'name')
             ->from(self::CONTENT_SECTION_TABLE);
 
         $statement = $query->execute();

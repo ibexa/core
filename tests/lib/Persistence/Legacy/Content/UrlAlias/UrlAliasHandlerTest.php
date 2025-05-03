@@ -2830,7 +2830,7 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
@@ -5376,7 +5376,7 @@ class UrlAliasHandlerTest extends TestCase
     /**
      * @return \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function getHandler(): Handler
     {
@@ -5410,7 +5410,7 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function getLanguageHandler(): LanguageHandler
     {

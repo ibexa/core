@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -114,7 +113,7 @@ final class DoctrineDatabase extends Gateway
     private $languageMaskGenerator;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct(
         Connection $connection,
@@ -688,21 +687,19 @@ final class DoctrineDatabase extends Gateway
         $this
             ->selectColumns($query, self::FIELD_DEFINITION_TABLE, 'f_def')
             ->addSelect(
-                [
-                    'ct.initial_language_id AS ezcontentclass_initial_language_id',
-                    'transl_f_def.name AS ezcontentclass_attribute_multilingual_name',
-                    'transl_f_def.description AS ezcontentclass_attribute_multilingual_description',
-                    'transl_f_def.language_id AS ezcontentclass_attribute_multilingual_language_id',
-                    'transl_f_def.data_text AS ezcontentclass_attribute_multilingual_data_text',
-                    'transl_f_def.data_json AS ezcontentclass_attribute_multilingual_data_json',
-                ]
+                'ct.initial_language_id AS ezcontentclass_initial_language_id',
+                'transl_f_def.name AS ezcontentclass_attribute_multilingual_name',
+                'transl_f_def.description AS ezcontentclass_attribute_multilingual_description',
+                'transl_f_def.language_id AS ezcontentclass_attribute_multilingual_language_id',
+                'transl_f_def.data_text AS ezcontentclass_attribute_multilingual_data_text',
+                'transl_f_def.data_json AS ezcontentclass_attribute_multilingual_data_json'
             )
             ->from(self::FIELD_DEFINITION_TABLE, 'f_def')
             ->leftJoin(
                 'f_def',
                 self::CONTENT_TYPE_TABLE,
                 'ct',
-                $expr->andX(
+                $expr->and(
                     $expr->eq('f_def.contentclass_id', 'ct.id'),
                     $expr->eq('f_def.version', 'ct.version')
                 )
@@ -711,7 +708,7 @@ final class DoctrineDatabase extends Gateway
                 'f_def',
                 self::MULTILINGUAL_FIELD_DEFINITION_TABLE,
                 'transl_f_def',
-                $expr->andX(
+                $expr->and(
                     $expr->eq(
                         'f_def.id',
                         'transl_f_def.contentclass_attribute_id'
@@ -1010,68 +1007,63 @@ final class DoctrineDatabase extends Gateway
         $expr = $query->expr();
         $query
             ->select(
-                [
-                    'c.id AS ezcontentclass_id',
-                    'c.version AS ezcontentclass_version',
-                    'c.serialized_name_list AS ezcontentclass_serialized_name_list',
-                    'c.serialized_description_list AS ezcontentclass_serialized_description_list',
-                    'c.identifier AS ezcontentclass_identifier',
-                    'c.created AS ezcontentclass_created',
-                    'c.modified AS ezcontentclass_modified',
-                    'c.modifier_id AS ezcontentclass_modifier_id',
-                    'c.creator_id AS ezcontentclass_creator_id',
-                    'c.remote_id AS ezcontentclass_remote_id',
-                    'c.url_alias_name AS ezcontentclass_url_alias_name',
-                    'c.contentobject_name AS ezcontentclass_contentobject_name',
-                    'c.is_container AS ezcontentclass_is_container',
-                    'c.initial_language_id AS ezcontentclass_initial_language_id',
-                    'c.always_available AS ezcontentclass_always_available',
-                    'c.sort_field AS ezcontentclass_sort_field',
-                    'c.sort_order AS ezcontentclass_sort_order',
-                    'c.language_mask AS ezcontentclass_language_mask',
-
-                    'a.id AS ezcontentclass_attribute_id',
-                    'a.serialized_name_list AS ezcontentclass_attribute_serialized_name_list',
-                    'a.serialized_description_list AS ezcontentclass_attribute_serialized_description_list',
-                    'a.identifier AS ezcontentclass_attribute_identifier',
-                    'a.category AS ezcontentclass_attribute_category',
-                    'a.data_type_string AS ezcontentclass_attribute_data_type_string',
-                    'a.can_translate AS ezcontentclass_attribute_can_translate',
-                    'a.is_required AS ezcontentclass_attribute_is_required',
-                    'a.is_information_collector AS ezcontentclass_attribute_is_information_collector',
-                    'a.is_searchable AS ezcontentclass_attribute_is_searchable',
-                    'a.is_thumbnail AS ezcontentclass_attribute_is_thumbnail',
-                    'a.placement AS ezcontentclass_attribute_placement',
-                    'a.data_float1 AS ezcontentclass_attribute_data_float1',
-                    'a.data_float2 AS ezcontentclass_attribute_data_float2',
-                    'a.data_float3 AS ezcontentclass_attribute_data_float3',
-                    'a.data_float4 AS ezcontentclass_attribute_data_float4',
-                    'a.data_int1 AS ezcontentclass_attribute_data_int1',
-                    'a.data_int2 AS ezcontentclass_attribute_data_int2',
-                    'a.data_int3 AS ezcontentclass_attribute_data_int3',
-                    'a.data_int4 AS ezcontentclass_attribute_data_int4',
-                    'a.data_text1 AS ezcontentclass_attribute_data_text1',
-                    'a.data_text2 AS ezcontentclass_attribute_data_text2',
-                    'a.data_text3 AS ezcontentclass_attribute_data_text3',
-                    'a.data_text4 AS ezcontentclass_attribute_data_text4',
-                    'a.data_text5 AS ezcontentclass_attribute_data_text5',
-                    'a.serialized_data_text AS ezcontentclass_attribute_serialized_data_text',
-
-                    'g.group_id AS ezcontentclass_classgroup_group_id',
-
-                    'ml.name AS ezcontentclass_attribute_multilingual_name',
-                    'ml.description AS ezcontentclass_attribute_multilingual_description',
-                    'ml.language_id AS ezcontentclass_attribute_multilingual_language_id',
-                    'ml.data_text AS ezcontentclass_attribute_multilingual_data_text',
-                    'ml.data_json AS ezcontentclass_attribute_multilingual_data_json',
-                ]
+                'c.id AS ezcontentclass_id',
+                'c.version AS ezcontentclass_version',
+                'c.serialized_name_list AS ezcontentclass_serialized_name_list',
+                'c.serialized_description_list AS ezcontentclass_serialized_description_list',
+                'c.identifier AS ezcontentclass_identifier',
+                'c.created AS ezcontentclass_created',
+                'c.modified AS ezcontentclass_modified',
+                'c.modifier_id AS ezcontentclass_modifier_id',
+                'c.creator_id AS ezcontentclass_creator_id',
+                'c.remote_id AS ezcontentclass_remote_id',
+                'c.url_alias_name AS ezcontentclass_url_alias_name',
+                'c.contentobject_name AS ezcontentclass_contentobject_name',
+                'c.is_container AS ezcontentclass_is_container',
+                'c.initial_language_id AS ezcontentclass_initial_language_id',
+                'c.always_available AS ezcontentclass_always_available',
+                'c.sort_field AS ezcontentclass_sort_field',
+                'c.sort_order AS ezcontentclass_sort_order',
+                'c.language_mask AS ezcontentclass_language_mask',
+                'a.id AS ezcontentclass_attribute_id',
+                'a.serialized_name_list AS ezcontentclass_attribute_serialized_name_list',
+                'a.serialized_description_list AS ezcontentclass_attribute_serialized_description_list',
+                'a.identifier AS ezcontentclass_attribute_identifier',
+                'a.category AS ezcontentclass_attribute_category',
+                'a.data_type_string AS ezcontentclass_attribute_data_type_string',
+                'a.can_translate AS ezcontentclass_attribute_can_translate',
+                'a.is_required AS ezcontentclass_attribute_is_required',
+                'a.is_information_collector AS ezcontentclass_attribute_is_information_collector',
+                'a.is_searchable AS ezcontentclass_attribute_is_searchable',
+                'a.is_thumbnail AS ezcontentclass_attribute_is_thumbnail',
+                'a.placement AS ezcontentclass_attribute_placement',
+                'a.data_float1 AS ezcontentclass_attribute_data_float1',
+                'a.data_float2 AS ezcontentclass_attribute_data_float2',
+                'a.data_float3 AS ezcontentclass_attribute_data_float3',
+                'a.data_float4 AS ezcontentclass_attribute_data_float4',
+                'a.data_int1 AS ezcontentclass_attribute_data_int1',
+                'a.data_int2 AS ezcontentclass_attribute_data_int2',
+                'a.data_int3 AS ezcontentclass_attribute_data_int3',
+                'a.data_int4 AS ezcontentclass_attribute_data_int4',
+                'a.data_text1 AS ezcontentclass_attribute_data_text1',
+                'a.data_text2 AS ezcontentclass_attribute_data_text2',
+                'a.data_text3 AS ezcontentclass_attribute_data_text3',
+                'a.data_text4 AS ezcontentclass_attribute_data_text4',
+                'a.data_text5 AS ezcontentclass_attribute_data_text5',
+                'a.serialized_data_text AS ezcontentclass_attribute_serialized_data_text',
+                'g.group_id AS ezcontentclass_classgroup_group_id',
+                'ml.name AS ezcontentclass_attribute_multilingual_name',
+                'ml.description AS ezcontentclass_attribute_multilingual_description',
+                'ml.language_id AS ezcontentclass_attribute_multilingual_language_id',
+                'ml.data_text AS ezcontentclass_attribute_multilingual_data_text',
+                'ml.data_json AS ezcontentclass_attribute_multilingual_data_json'
             )
             ->from(self::CONTENT_TYPE_TABLE, 'c')
             ->leftJoin(
                 'c',
                 self::FIELD_DEFINITION_TABLE,
                 'a',
-                $expr->andX(
+                $expr->and(
                     $expr->eq('c.id', 'a.contentclass_id'),
                     $expr->eq('c.version', 'a.version')
                 )
@@ -1080,7 +1072,7 @@ final class DoctrineDatabase extends Gateway
                 'c',
                 self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE,
                 'g',
-                $expr->andX(
+                $expr->and(
                     $expr->eq('c.id', 'g.contentclass_id'),
                     $expr->eq('c.version', 'g.contentclass_version')
                 )
@@ -1089,7 +1081,7 @@ final class DoctrineDatabase extends Gateway
                 'a',
                 self::MULTILINGUAL_FIELD_DEFINITION_TABLE,
                 'ml',
-                $expr->andX(
+                $expr->and(
                     $expr->eq('a.id', 'ml.contentclass_attribute_id'),
                     $expr->eq('a.version', 'ml.version')
                 )
@@ -1173,7 +1165,7 @@ final class DoctrineDatabase extends Gateway
         $query
             ->delete(self::CONTENT_TYPE_TABLE)
             ->where(
-                $query->expr()->andX(
+                $query->expr()->and(
                     $query->expr()->eq(
                         'id',
                         $query->createPositionalParameter($typeId, ParameterType::INTEGER)
@@ -1379,7 +1371,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function removeByUserAndVersion(int $userId, int $version): void
     {
@@ -1398,7 +1390,7 @@ final class DoctrineDatabase extends Gateway
             $this->cleanupAssociations();
 
             $this->connection->commit();
-        } catch (DBALException $e) {
+        } catch (\Doctrine\DBAL\Exception $e) {
             $this->connection->rollBack();
 
             throw $e;
@@ -1406,7 +1398,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     private function cleanupAssociations(): void
     {
@@ -1417,7 +1409,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     private function cleanupClassAttributeTable(): void
     {
@@ -1429,11 +1421,11 @@ final class DoctrineDatabase extends Gateway
                 AND ezcontentclass.version = ezcontentclass_attribute.version
             )
 SQL;
-        $this->connection->executeUpdate($sql);
+        $this->connection->executeStatement($sql);
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     private function cleanupClassAttributeMLTable(): void
     {
@@ -1445,11 +1437,11 @@ SQL;
                 AND ezcontentclass_attribute.version = ezcontentclass_attribute_ml.version
             )
 SQL;
-        $this->connection->executeUpdate($sql);
+        $this->connection->executeStatement($sql);
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     private function cleanupClassGroupTable(): void
     {
@@ -1461,11 +1453,11 @@ SQL;
                 AND ezcontentclass.version = ezcontentclass_classgroup.contentclass_version
             )
 SQL;
-        $this->connection->executeUpdate($sql);
+        $this->connection->executeStatement($sql);
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     private function cleanupClassNameTable(): void
     {
@@ -1477,6 +1469,6 @@ SQL;
                 AND ezcontentclass.version = ezcontentclass_name.contentclass_version
             )
 SQL;
-        $this->connection->executeUpdate($sql);
+        $this->connection->executeStatement($sql);
     }
 }

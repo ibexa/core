@@ -40,7 +40,7 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testCreateRole(): void
     {
@@ -74,7 +74,7 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testLoadRoleAssignment(): void
     {
@@ -95,7 +95,7 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testLoadRoleAssignmentsByGroupId(): void
     {
@@ -130,7 +130,7 @@ class DoctrineDatabaseTest extends TestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testLoadRoleAssignmentsByRoleId(): void
     {
@@ -197,7 +197,7 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @return \Ibexa\Core\Persistence\Legacy\User\Role\Gateway\DoctrineDatabase
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function getDatabaseGateway(): DoctrineDatabase
     {

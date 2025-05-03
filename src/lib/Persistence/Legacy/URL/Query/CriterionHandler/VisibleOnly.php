@@ -38,7 +38,7 @@ class VisibleOnly extends Base
             'f_def',
             Gateway::CONTENT_TREE_TABLE,
             't',
-            $queryBuilder->expr()->andX(
+            $queryBuilder->expr()->and(
                 't.contentobject_id = f_def.contentobject_id',
                 't.contentobject_version = f_def.version'
             )

@@ -57,7 +57,7 @@ class DatabaseConnectionFactory
      *
      * @return \Doctrine\DBAL\Connection
      *
-     * @throws \Doctrine\DBAL\DBALException if connection failed
+     * @throws \Doctrine\DBAL\Exception if connection failed
      */
     public function createConnection(string $databaseURL): Connection
     {

@@ -10,7 +10,7 @@ namespace Ibexa\Tests\Core\Persistence\Legacy;
 use Doctrine\Common\EventManager as DoctrineEventManager;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ConnectionException;
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FileFixtureFactory;
@@ -106,7 +106,7 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     final public function getSharedGateway(): SharedGateway\Gateway
     {

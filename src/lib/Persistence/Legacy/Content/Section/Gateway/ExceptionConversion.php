@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as DBALException;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
 use PDOException;
@@ -39,7 +39,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->insertSection($name, $identifier);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -48,7 +48,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->updateSection($id, $name, $identifier);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -57,7 +57,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadSectionData($id);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -66,7 +66,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadAllSectionData();
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -75,7 +75,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadSectionDataByIdentifier($identifier);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -84,7 +84,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countContentObjectsInSection($id);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -93,7 +93,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countPoliciesUsingSection($id);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -102,7 +102,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countRoleAssignmentsUsingSection($id);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -111,7 +111,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->deleteSection($id);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -120,7 +120,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->assignSectionToContent($sectionId, $contentId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }

@@ -69,7 +69,7 @@ class DbBasedInstaller
         }
 
         foreach ($queries as $query) {
-            $this->db->exec($query);
+            $this->db->executeStatement($query);
         }
     }
 
@@ -81,7 +81,7 @@ class DbBasedInstaller
      * @return string absolute existing file path
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      *
      * @since 6.13
      */

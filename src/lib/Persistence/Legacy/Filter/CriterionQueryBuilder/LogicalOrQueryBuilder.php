@@ -50,6 +50,6 @@ final class LogicalOrQueryBuilder implements CriterionQueryBuilder
             return null;
         }
 
-        return (string)$queryBuilder->expr()->orX(...$constraints);
+        return (string)$queryBuilder->expr()->or(...$constraints);
     }
 }

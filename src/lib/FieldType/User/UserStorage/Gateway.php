@@ -47,7 +47,7 @@ abstract class Gateway extends StorageGateway
      *
      * @return bool
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     abstract public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): bool;
 

@@ -51,7 +51,7 @@ final class DoctrineDatabase extends Gateway
     /**
      * Construct from database handler.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct(
         Connection $connection,

@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Bookmark\Gateway;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as DBALException;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
@@ -34,7 +34,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->insertBookmark($bookmark);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -43,7 +43,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->deleteBookmark($id);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -52,7 +52,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadBookmarkDataByUserIdAndLocationId($userId, $locationId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -61,7 +61,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadUserBookmarks($userId, $offset, $limit);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -70,7 +70,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countUserBookmarks($userId);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -79,7 +79,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->locationSwapped($location1Id, $location2Id);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -88,7 +88,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadUserIdsByLocation($location);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }

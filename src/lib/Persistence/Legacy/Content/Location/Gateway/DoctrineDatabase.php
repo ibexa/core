@@ -52,7 +52,7 @@ final class DoctrineDatabase extends Gateway
     private $trashSortClauseConverter;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct(
         Connection $connection,
@@ -176,7 +176,7 @@ final class DoctrineDatabase extends Gateway
                 't',
                 'eznode_assignment',
                 'a',
-                $expr->andX(
+                $expr->and(
                     $expr->eq(
                         't.node_id',
                         'a.parent_node'
@@ -198,7 +198,7 @@ final class DoctrineDatabase extends Gateway
                 'a',
                 'ezcontentobject',
                 'c',
-                $expr->andX(
+                $expr->and(
                     $expr->eq(
                         'a.contentobject_id',
                         'c.id'
@@ -656,7 +656,7 @@ final class DoctrineDatabase extends Gateway
             ->from(self::CONTENT_TREE_TABLE, 't')
             ->leftJoin('t', 'ezcontentobject', 'c', 't.contentobject_id = c.id')
             ->where(
-                $expr->orX(
+                $expr->or(
                     $expr->eq(
                         't.is_hidden',
                         $query->createPositionalParameter(1, ParameterType::INTEGER)
@@ -1002,7 +1002,7 @@ final class DoctrineDatabase extends Gateway
             ->select('node_id')
             ->from(self::CONTENT_TREE_TABLE)
             ->where(
-                $query->expr()->andX(
+                $query->expr()->and(
                     $query->expr()->eq(
                         'contentobject_id',
                         $query->createPositionalParameter($contentId, ParameterType::INTEGER)
@@ -1482,7 +1482,7 @@ final class DoctrineDatabase extends Gateway
         );
 
         $queryBuilder->andWhere(
-            $expr->orX(
+            $expr->or(
                 $expr->gt(
                     $this->dbPlatform->getBitAndComparisonExpression('c.language_mask', $mask),
                     0
