@@ -937,7 +937,7 @@ final class DoctrineDatabase extends Gateway
                 )
             )
             ->orderBy('id');
-        $statement = $query->executeStatement();
+        $statement = $query->executeQuery();
 
         // convert all these assignments to nodes
 
