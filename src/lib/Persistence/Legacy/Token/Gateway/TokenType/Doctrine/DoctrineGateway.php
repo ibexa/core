@@ -83,7 +83,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
                 )
             );
 
-        $query->setParameter(':type_id', $typeId, ParameterType::INTEGER);
+        $query->setParameter('type_id', $typeId, ParameterType::INTEGER);
 
         $row = $query->execute()->fetchAssociative();
 
@@ -107,7 +107,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
                 )
             );
 
-        $query->setParameter(':identifier', $identifier, ParameterType::STRING);
+        $query->setParameter('identifier', $identifier, ParameterType::STRING);
 
         $row = $query->execute()->fetchAssociative();
 

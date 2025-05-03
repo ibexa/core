@@ -95,18 +95,18 @@ class DoctrineStorage extends BaseDoctrineStorage
             ->setValue('pluginspage', ':pluginsPage')
             ->setValue('quality', ':quality')
             ->setValue('width', ':width')
-            ->setParameter(':controls', '')
+            ->setParameter('controls', '')
             ->setParameter(
-                ':hasController',
+                'hasController',
                 $field->value->externalData['hasController'],
                 PDO::PARAM_INT
             )
-            ->setParameter(':height', $field->value->externalData['height'], PDO::PARAM_INT)
-            ->setParameter(':isAutoplay', $field->value->externalData['autoplay'], PDO::PARAM_INT)
-            ->setParameter(':isLoop', $field->value->externalData['loop'], PDO::PARAM_INT)
-            ->setParameter(':pluginsPage', '')
-            ->setParameter(':quality', 'high')
-            ->setParameter(':width', $field->value->externalData['width'], PDO::PARAM_INT)
+            ->setParameter('height', $field->value->externalData['height'], PDO::PARAM_INT)
+            ->setParameter('isAutoplay', $field->value->externalData['autoplay'], PDO::PARAM_INT)
+            ->setParameter('isLoop', $field->value->externalData['loop'], PDO::PARAM_INT)
+            ->setParameter('pluginsPage', '')
+            ->setParameter('quality', 'high')
+            ->setParameter('width', $field->value->externalData['width'], PDO::PARAM_INT)
         ;
     }
 
@@ -126,18 +126,18 @@ class DoctrineStorage extends BaseDoctrineStorage
             ->set('pluginspage', ':pluginsPage')
             ->set('quality', ':quality')
             ->set('width', ':width')
-            ->setParameter(':controls', '')
+            ->setParameter('controls', '')
             ->setParameter(
-                ':hasController',
+                'hasController',
                 $field->value->externalData['hasController'],
                 ParameterType::INTEGER
             )
-            ->setParameter(':height', $field->value->externalData['height'], ParameterType::INTEGER)
-            ->setParameter(':isAutoplay', $field->value->externalData['autoplay'], ParameterType::INTEGER)
-            ->setParameter(':isLoop', $field->value->externalData['loop'], ParameterType::INTEGER)
-            ->setParameter(':pluginsPage', '')
-            ->setParameter(':quality', 'high')
-            ->setParameter(':width', $field->value->externalData['width'], ParameterType::INTEGER)
+            ->setParameter('height', $field->value->externalData['height'], ParameterType::INTEGER)
+            ->setParameter('isAutoplay', $field->value->externalData['autoplay'], ParameterType::INTEGER)
+            ->setParameter('isLoop', $field->value->externalData['loop'], ParameterType::INTEGER)
+            ->setParameter('pluginsPage', '')
+            ->setParameter('quality', 'high')
+            ->setParameter('width', $field->value->externalData['width'], ParameterType::INTEGER)
         ;
     }
 }

@@ -131,16 +131,16 @@ final class DoctrineDatabase extends Gateway
             ->set('password_hash', ':passwordHash')
             ->set('password_hash_type', ':passwordHashType')
             ->set('password_updated_at', ':passwordUpdatedAt')
-            ->setParameter(':passwordHash', $user->passwordHash, ParameterType::STRING)
-            ->setParameter(':passwordHashType', $user->hashAlgorithm, ParameterType::INTEGER)
-            ->setParameter(':passwordUpdatedAt', $user->passwordUpdatedAt)
+            ->setParameter('passwordHash', $user->passwordHash, ParameterType::STRING)
+            ->setParameter('passwordHashType', $user->hashAlgorithm, ParameterType::INTEGER)
+            ->setParameter('passwordUpdatedAt', $user->passwordUpdatedAt)
             ->where(
                 $queryBuilder->expr()->eq(
                     $this->connection->quoteIdentifier('contentobject_id'),
                     ':userId'
                 )
             )
-            ->setParameter(':userId', $user->id, ParameterType::INTEGER);
+            ->setParameter('userId', $user->id, ParameterType::INTEGER);
 
         $queryBuilder->execute();
     }

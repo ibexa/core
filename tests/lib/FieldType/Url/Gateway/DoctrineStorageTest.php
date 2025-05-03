@@ -127,7 +127,7 @@ class DoctrineStorageTest extends TestCase
             ->where(
                 $query->expr()->eq($this->connection->quoteIdentifier('url_id'), ':urlId')
             )
-            ->setParameter(':urlId', $urlId, \PDO::PARAM_INT)
+            ->setParameter('urlId', $urlId, \PDO::PARAM_INT)
         ;
 
         $statement = $query->execute();

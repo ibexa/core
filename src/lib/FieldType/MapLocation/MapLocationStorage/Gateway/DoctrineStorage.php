@@ -88,11 +88,11 @@ class DoctrineStorage extends Gateway
                     )
                 )
             )
-            ->setParameter(':latitude', $field->value->externalData['latitude'])
-            ->setParameter(':longitude', $field->value->externalData['longitude'])
-            ->setParameter(':address', $field->value->externalData['address'])
-            ->setParameter(':fieldId', $field->id, PDO::PARAM_INT)
-            ->setParameter(':versionNo', $versionInfo->versionNo, PDO::PARAM_INT)
+            ->setParameter('latitude', $field->value->externalData['latitude'])
+            ->setParameter('longitude', $field->value->externalData['longitude'])
+            ->setParameter('address', $field->value->externalData['address'])
+            ->setParameter('fieldId', $field->id, PDO::PARAM_INT)
+            ->setParameter('versionNo', $versionInfo->versionNo, PDO::PARAM_INT)
         ;
 
         $updateQuery->execute();
@@ -116,11 +116,11 @@ class DoctrineStorage extends Gateway
                 'contentobject_attribute_id' => ':fieldId',
                 'contentobject_version' => ':versionNo',
             ])
-            ->setParameter(':latitude', $field->value->externalData['latitude'])
-            ->setParameter(':longitude', $field->value->externalData['longitude'])
-            ->setParameter(':address', $field->value->externalData['address'])
-            ->setParameter(':fieldId', $field->id)
-            ->setParameter(':versionNo', $versionInfo->versionNo)
+            ->setParameter('latitude', $field->value->externalData['latitude'])
+            ->setParameter('longitude', $field->value->externalData['longitude'])
+            ->setParameter('address', $field->value->externalData['address'])
+            ->setParameter('fieldId', $field->id)
+            ->setParameter('versionNo', $versionInfo->versionNo)
         ;
 
         $insertQuery->execute();
@@ -171,8 +171,8 @@ class DoctrineStorage extends Gateway
                     )
                 )
             )
-            ->setParameter(':fieldId', $fieldId, PDO::PARAM_INT)
-            ->setParameter(':versionNo', $versionNo, PDO::PARAM_INT)
+            ->setParameter('fieldId', $fieldId, PDO::PARAM_INT)
+            ->setParameter('versionNo', $versionNo, PDO::PARAM_INT)
         ;
 
         $statement = $selectQuery->execute();
@@ -230,8 +230,8 @@ class DoctrineStorage extends Gateway
                     )
                 )
             )
-            ->setParameter(':fieldIds', $fieldIds, Connection::PARAM_INT_ARRAY)
-            ->setParameter(':versionNo', $versionInfo->versionNo, PDO::PARAM_INT)
+            ->setParameter('fieldIds', $fieldIds, Connection::PARAM_INT_ARRAY)
+            ->setParameter('versionNo', $versionInfo->versionNo, PDO::PARAM_INT)
         ;
 
         $deleteQuery->execute();

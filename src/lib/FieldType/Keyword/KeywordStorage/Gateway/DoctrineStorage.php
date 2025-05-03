@@ -150,7 +150,7 @@ class DoctrineStorage extends Gateway
             ->where(
                 $query->expr()->eq('id', ':fieldDefinitionId')
             )
-            ->setParameter(':fieldDefinitionId', $fieldDefinitionId);
+            ->setParameter('fieldDefinitionId', $fieldDefinitionId);
 
         $statement = $query->execute();
 
@@ -206,8 +206,8 @@ class DoctrineStorage extends Gateway
                     )
                 )
             )
-            ->setParameter(':keywordList', $keywordList, Connection::PARAM_STR_ARRAY)
-            ->setParameter(':contentTypeId', $contentTypeId);
+            ->setParameter('keywordList', $keywordList, Connection::PARAM_STR_ARRAY)
+            ->setParameter('contentTypeId', $contentTypeId);
 
         $statement = $query->execute();
 
@@ -254,10 +254,10 @@ class DoctrineStorage extends Gateway
                         $this->connection->quoteIdentifier('keyword') => ':keyword',
                     ]
                 )
-                ->setParameter(':contentTypeId', $contentTypeId, \PDO::PARAM_INT);
+                ->setParameter('contentTypeId', $contentTypeId, \PDO::PARAM_INT);
 
             foreach (array_keys($keywordsToInsert) as $keyword) {
-                $insertQuery->setParameter(':keyword', $keyword);
+                $insertQuery->setParameter('keyword', $keyword);
                 $insertQuery->execute();
                 $keywordIdMap[$keyword] = (int)$this->connection->lastInsertId(
                     $this->getSequenceName(self::KEYWORD_TABLE, 'id')
@@ -361,7 +361,7 @@ class DoctrineStorage extends Gateway
             ->where(
                 $deleteQuery->expr()->in($this->connection->quoteIdentifier('id'), ':ids')
             )
-            ->setParameter(':ids', $ids, Connection::PARAM_INT_ARRAY);
+            ->setParameter('ids', $ids, Connection::PARAM_INT_ARRAY);
 
         $deleteQuery->execute();
     }

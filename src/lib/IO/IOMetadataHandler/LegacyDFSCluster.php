@@ -283,9 +283,9 @@ class LegacyDFSCluster implements IOMetadataHandler
         $query
             ->delete('ezdfsfile')
             ->where('name LIKE :spiPath ESCAPE :esc')
-            ->setParameter(':esc', '\\')
+            ->setParameter('esc', '\\')
             ->setParameter(
-                ':spiPath',
+                'spiPath',
                 addcslashes($this->addPrefix(rtrim($spiPath, '/')), '%_') . '/%'
             );
         $query->execute();

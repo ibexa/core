@@ -136,7 +136,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
             ->andWhere(
                 $query->expr()->lt(self::COLUMN_EXPIRES, ':now')
             )
-            ->setParameter(':now', $this->getCurrentUnixTimestamp(), ParameterType::INTEGER);
+            ->setParameter('now', $this->getCurrentUnixTimestamp(), ParameterType::INTEGER);
 
         if (null !== $typeId) {
             $query->andWhere(
@@ -145,7 +145,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
                     ':type_id'
                 )
             );
-            $query->setParameter(':type_id', $typeId, ParameterType::INTEGER);
+            $query->setParameter('type_id', $typeId, ParameterType::INTEGER);
         }
 
         $query->execute();
@@ -179,7 +179,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
                 )
             );
 
-        $query->setParameter(':token_id', $tokenId, ParameterType::INTEGER);
+        $query->setParameter('token_id', $tokenId, ParameterType::INTEGER);
 
         $row = $query->execute()->fetchAssociative();
 
@@ -233,8 +233,8 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
                 )
             );
 
-        $query->setParameter(':token_type', $tokenType, ParameterType::STRING);
-        $query->setParameter(':token', $token, ParameterType::STRING);
+        $query->setParameter('token_type', $tokenType, ParameterType::STRING);
+        $query->setParameter('token', $token, ParameterType::STRING);
 
         if (null !== $identifier) {
             $query->andWhere(
@@ -243,7 +243,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
                     ':identifier'
                 )
             );
-            $query->setParameter(':identifier', $identifier, ParameterType::STRING);
+            $query->setParameter('identifier', $identifier, ParameterType::STRING);
         }
 
         return $query;

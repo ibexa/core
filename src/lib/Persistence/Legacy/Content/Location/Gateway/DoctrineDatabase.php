@@ -254,8 +254,8 @@ final class DoctrineDatabase extends Gateway
             ->innerJoin('n', 'ezcontentobject', 'c', 'n.contentobject_id = c.id')
             ->andWhere('n.parent_node = :parentNode')
             ->andWhere('c.status = :status')
-            ->setParameter(':parentNode', $sourceId, ParameterType::INTEGER)
-            ->setParameter(':status', ContentInfo::STATUS_DRAFT, ParameterType::INTEGER);
+            ->setParameter('parentNode', $sourceId, ParameterType::INTEGER)
+            ->setParameter('status', ContentInfo::STATUS_DRAFT, ParameterType::INTEGER);
 
         $statement = $query->execute();
 
@@ -722,10 +722,10 @@ final class DoctrineDatabase extends Gateway
             );
 
         $queryBuilder
-            ->setParameter(':contentId', $content2data['contentobject_id'])
-            ->setParameter(':versionNo', $content2data['contentobject_version'])
+            ->setParameter('contentId', $content2data['contentobject_id'])
+            ->setParameter('versionNo', $content2data['contentobject_version'])
             ->setParameter(
-                ':mainNodeId',
+                'mainNodeId',
                 // make main Location main again, preserve main Location id of non-main one
                 $content2data['is_main_node']
                     ? $content1data['node_id']
@@ -737,10 +737,10 @@ final class DoctrineDatabase extends Gateway
         $queryBuilder->execute();
 
         $queryBuilder
-            ->setParameter(':contentId', $content1data['contentobject_id'])
-            ->setParameter(':versionNo', $content1data['contentobject_version'])
+            ->setParameter('contentId', $content1data['contentobject_id'])
+            ->setParameter('versionNo', $content1data['contentobject_version'])
             ->setParameter(
-                ':mainNodeId',
+                'mainNodeId',
                 $content1data['is_main_node']
                     // make main Location main again, preserve main Location id of non-main one
                     ? $content2data['node_id']

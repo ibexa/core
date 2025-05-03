@@ -270,7 +270,7 @@ EOT
                         'cl.identifier',
                         ':contentTypes'
                     )
-                )->setParameter(':contentTypes', $excludedContentTypes, Connection::PARAM_STR_ARRAY);
+                )->setParameter('contentTypes', $excludedContentTypes, Connection::PARAM_STR_ARRAY);
         }
 
         /** @var \Doctrine\DBAL\ForwardCompatibility\Result<int> $stmt */
