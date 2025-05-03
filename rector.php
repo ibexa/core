@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 use Ibexa\Contracts\Rector\Sets\IbexaSetList;
 use Rector\Config\RectorConfig;
+use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Symfony\Set\SymfonySetList;
 use Rector\Symfony\Symfony61\Rector\Class_\CommandConfigureToAttributeRector;
 
@@ -23,6 +24,7 @@ return RectorConfig::configure()
         SymfonySetList::SYMFONY_62,
         SymfonySetList::SYMFONY_63,
         SymfonySetList::SYMFONY_64,
+        DoctrineSetList::DOCTRINE_DBAL_211,
     ])
     ->withSkip([
         CommandConfigureToAttributeRector::class => [
