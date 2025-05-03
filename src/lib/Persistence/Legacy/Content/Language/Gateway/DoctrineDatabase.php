@@ -54,7 +54,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        $lastId = (int)$statement->fetchColumn();
+        $lastId = (int)$statement->fetchOne();
 
         // Legacy only supports 8 * PHP_INT_SIZE - 2 languages:
         // One bit cannot be used because PHP uses signed integers and a second one is reserved for the
@@ -221,6 +221,6 @@ final class DoctrineDatabase extends Gateway
                 );
         }
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->execute()->fetchOne();
     }
 }

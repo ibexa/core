@@ -155,7 +155,7 @@ class DoctrineDatabase extends Gateway
             ->where($query->expr()->eq(self::COLUMN_USER_ID, ':user_id'))
             ->setParameter('user_id', $userId, PDO::PARAM_INT);
 
-        return (int) $query->execute()->fetchColumn();
+        return (int) $query->execute()->fetchOne();
     }
 
     /**

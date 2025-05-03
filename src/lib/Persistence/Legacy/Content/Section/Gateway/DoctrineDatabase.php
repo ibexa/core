@@ -136,7 +136,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return (int)$statement->fetchColumn();
+        return (int)$statement->fetchOne();
     }
 
     public function countPoliciesUsingSection(int $id): int
@@ -169,7 +169,7 @@ final class DoctrineDatabase extends Gateway
             )
         ;
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->execute()->fetchOne();
     }
 
     public function countRoleAssignmentsUsingSection(int $id): int
@@ -193,7 +193,7 @@ final class DoctrineDatabase extends Gateway
             )
         ;
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->execute()->fetchOne();
     }
 
     public function deleteSection(int $id): void

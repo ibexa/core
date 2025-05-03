@@ -980,7 +980,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('status', $status, ParameterType::INTEGER)
             ->setParameter('user_id', $userId, ParameterType::INTEGER);
 
-        return (int) $query->execute()->fetchColumn();
+        return (int) $query->execute()->fetchOne();
     }
 
     /**
@@ -1079,7 +1079,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return (int)$statement->fetchColumn();
+        return (int)$statement->fetchOne();
     }
 
     /**
@@ -1592,7 +1592,7 @@ final class DoctrineDatabase extends Gateway
             );
         }
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->execute()->fetchOne();
     }
 
     public function loadReverseRelations(int $toContentId, ?int $relationType = null): array
@@ -1762,7 +1762,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('relation_id', $relationId, ParameterType::INTEGER)
         ;
 
-        $loadedRelationType = $query->execute()->fetchColumn();
+        $loadedRelationType = $query->execute()->fetchOne();
 
         if (!$loadedRelationType) {
             return;

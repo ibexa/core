@@ -998,7 +998,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('locationId', $locationId, ParameterType::INTEGER);
 
         $statement = $queryBuilder->execute();
-        $languageId = $statement->fetchColumn();
+        $languageId = $statement->fetchOne();
 
         if ($languageId === false) {
             throw new RuntimeException("Could not find Content for Location #{$locationId}");
