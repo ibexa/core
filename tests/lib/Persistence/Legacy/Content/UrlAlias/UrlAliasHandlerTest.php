@@ -5335,7 +5335,7 @@ class UrlAliasHandlerTest extends TestCase
             ->select($connection->getDatabasePlatform()->getCountExpression('*'))
             ->from(UrlAliasGateway::TABLE);
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         return (int)$statement->fetchColumn();
     }

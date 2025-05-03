@@ -326,7 +326,7 @@ class RelationListConverter implements Converter
             )
             ->setParameter('content_ids', $destinationContentIds, Connection::PARAM_INT_ARRAY);
 
-        $stmt = $query->execute();
+        $stmt = $query->executeQuery();
 
         return $this->groupResultSetById($stmt->fetchAll(FetchMode::ASSOCIATIVE));
     }

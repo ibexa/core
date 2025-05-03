@@ -155,7 +155,7 @@ final class DoctrineDatabase extends Gateway
         $selectQuery->setMaxResults($limit);
         $selectQuery->setFirstResult($offset);
 
-        $statement = $selectQuery->execute();
+        $statement = $selectQuery->executeQuery();
 
         return [
             'count' => $count,
@@ -224,7 +224,7 @@ final class DoctrineDatabase extends Gateway
             );
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         return (int)$statement->fetchOne();
     }

@@ -79,7 +79,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('versionNo', $versionInfo->versionNo, PDO::PARAM_INT)
         ;
 
-        $statement = $selectQuery->execute();
+        $statement = $selectQuery->executeQuery();
 
         return $statement->fetchOne();
     }
@@ -108,7 +108,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('path', $path)
         ;
 
-        $insertQuery->execute();
+        $insertQuery->executeStatement();
     }
 
     /**
@@ -143,7 +143,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('fieldIds', $fieldIds, Connection::PARAM_INT_ARRAY)
         ;
 
-        $statement = $selectQuery->execute();
+        $statement = $selectQuery->executeQuery();
 
         $fieldLookup = [];
         foreach ($statement->fetchAll(PDO::FETCH_ASSOC) as $row) {
@@ -172,7 +172,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('field_id', $fieldId, PDO::PARAM_INT)
         ;
 
-        $statement = $selectQuery->execute();
+        $statement = $selectQuery->executeQuery();
 
         $fieldLookup = [];
         foreach ($statement->fetchAllAssociative() as $row) {
@@ -221,7 +221,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('likePath', $path . '%')
         ;
 
-        $deleteQuery->execute();
+        $deleteQuery->executeStatement();
     }
 
     /**
@@ -248,7 +248,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('filepath', $path)
         ;
 
-        $statement = $selectQuery->execute();
+        $statement = $selectQuery->executeQuery();
 
         return (int) $statement->fetchOne();
     }
@@ -270,7 +270,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('likePath', $path)
         ;
 
-        $statement = $selectQuery->execute();
+        $statement = $selectQuery->executeQuery();
 
         return (bool)$statement->fetchOne();
     }
@@ -283,7 +283,7 @@ class DoctrineStorage extends Gateway
             ->from($this->connection->quoteIdentifier(self::IMAGE_FILE_TABLE))
         ;
 
-        $statement = $selectQuery->execute();
+        $statement = $selectQuery->executeQuery();
 
         return (int) $statement->fetchOne();
     }
@@ -327,7 +327,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('versionNo', $versionNo, PDO::PARAM_INT)
         ;
 
-        $imageXMLs = $selectQuery->execute()->fetchAll(FetchMode::COLUMN);
+        $imageXMLs = $selectQuery->executeQuery()->fetchAll(FetchMode::COLUMN);
         foreach ($imageXMLs as $imageXML) {
             $storedFilePath = $this->extractFilesFromXml($imageXML)['original'] ?? null;
             if ($storedFilePath === $path) {
@@ -393,7 +393,7 @@ class DoctrineStorage extends Gateway
             ->setFirstResult($offset)
             ->setMaxResults($limit);
 
-        return $selectQuery->execute()->fetchAllAssociative();
+        return $selectQuery->executeQuery()->fetchAllAssociative();
     }
 
     public function updateImageData(int $fieldId, int $versionNo, string $xml): void
@@ -423,7 +423,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('field_id', $fieldId, ParameterType::INTEGER)
             ->setParameter('version_no', $versionNo, ParameterType::INTEGER)
             ->setParameter('xml', $xml, ParameterType::STRING)
-            ->execute()
+            ->executeStatement()
         ;
     }
 
@@ -454,7 +454,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('field_id', $fieldId, ParameterType::INTEGER)
             ->setParameter('old_path', $oldPath, ParameterType::STRING)
             ->setParameter('new_path', $newPath, ParameterType::STRING)
-            ->execute()
+            ->executeStatement()
         ;
     }
 
@@ -487,7 +487,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('field_id', $fieldId)
         ;
 
-        $statement = $selectQuery->execute();
+        $statement = $selectQuery->executeQuery();
 
         return (bool)$statement->fetchOne();
     }

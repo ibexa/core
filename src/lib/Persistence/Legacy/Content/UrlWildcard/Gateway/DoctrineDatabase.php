@@ -74,7 +74,7 @@ final class DoctrineDatabase extends Gateway
                 ]
             );
 
-        $query->execute();
+        $query->executeStatement();
 
         return (int)$this->connection->lastInsertId(self::URL_WILDCARD_SEQ);
     }
@@ -119,7 +119,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function deleteUrlWildcard(int $id): void
@@ -133,7 +133,7 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($id, ParameterType::INTEGER)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     private function buildLoadUrlWildcardDataQuery(): QueryBuilder
@@ -156,7 +156,7 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($id, ParameterType::INTEGER)
                 )
             );
-        $result = $query->execute()->fetch(FetchMode::ASSOCIATIVE);
+        $result = $query->executeQuery()->fetch(FetchMode::ASSOCIATIVE);
 
         return false !== $result ? $result : [];
     }
@@ -168,7 +168,7 @@ final class DoctrineDatabase extends Gateway
             ->setMaxResults($limit > 0 ? $limit : self::MAX_LIMIT)
             ->setFirstResult($offset);
 
-        $stmt = $query->execute();
+        $stmt = $query->executeQuery();
 
         return $stmt->fetchAll(FetchMode::ASSOCIATIVE);
     }
@@ -206,7 +206,7 @@ final class DoctrineDatabase extends Gateway
             $query->addOrderBy($sortClause->target, $this->getQuerySortingDirection($sortClause->direction));
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         return [
             'count' => $count,
@@ -226,7 +226,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $result = $query->execute()->fetch(FetchMode::ASSOCIATIVE);
+        $result = $query->executeQuery()->fetch(FetchMode::ASSOCIATIVE);
 
         return false !== $result ? $result : [];
     }
@@ -238,7 +238,7 @@ final class DoctrineDatabase extends Gateway
             ->select($this->connection->getDatabasePlatform()->getCountExpression('id'))
             ->from(self::URL_WILDCARD_TABLE);
 
-        return (int) $query->execute()->fetchOne();
+        return (int) $query->executeQuery()->fetchOne();
     }
 
     /**
@@ -256,7 +256,7 @@ final class DoctrineDatabase extends Gateway
             ->from(self::URL_WILDCARD_TABLE, 'url_wildcard')
             ->where($this->criteriaConverter->convertCriteria($query, $criterion));
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     /**

@@ -223,7 +223,7 @@ abstract class TestCase extends BaseTestCase
         QueryBuilder $query,
         string $message = ''
     ): void {
-        $result = $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        $result = $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
 
         self::assertEquals(
             self::getResultTextRepresentation($expectation),

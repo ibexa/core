@@ -40,7 +40,7 @@ final class DoctrineDatabase extends Gateway
                 ]
             );
 
-        $query->execute();
+        $query->executeStatement();
 
         return (int)$this->connection->lastInsertId(Gateway::SETTING_SEQ);
     }
@@ -62,7 +62,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function loadSetting(string $group, string $identifier): ?array
@@ -86,7 +86,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
         $result = $statement->fetchAssociative();
 
         if (false === $result) {
@@ -113,7 +113,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
         $result = $statement->fetchAssociative();
 
         if (false === $result) {
@@ -139,6 +139,6 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 }

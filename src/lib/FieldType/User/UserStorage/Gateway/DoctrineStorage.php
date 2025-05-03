@@ -172,7 +172,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('fieldId', $fieldId, PDO::PARAM_INT)
         ;
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         return (int) $statement->fetchOne();
     }
@@ -206,7 +206,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('userId', $userId, PDO::PARAM_INT)
         ;
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -238,7 +238,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('userId', $userId, PDO::PARAM_INT)
         ;
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -293,7 +293,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('passwordUpdatedAt', $field->value->externalData['passwordUpdatedAt'])
         ;
 
-        $insertQuery->execute();
+        $insertQuery->executeStatement();
 
         $settingsQuery = $this->connection->createQueryBuilder();
 
@@ -306,7 +306,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('isEnabled', $field->value->externalData['enabled'], ParameterType::INTEGER)
             ->setParameter('maxLogin', $field->value->externalData['maxLogin'], ParameterType::INTEGER);
 
-        $settingsQuery->execute();
+        $settingsQuery->executeStatement();
     }
 
     protected function updateFieldData(VersionInfo $versionInfo, Field $field): void
@@ -334,7 +334,7 @@ class DoctrineStorage extends Gateway
             ->setParameter(':userId', $versionInfo->contentInfo->id, ParameterType::INTEGER)
         ;
 
-        $queryBuilder->execute();
+        $queryBuilder->executeStatement();
 
         $settingsQuery = $this->connection->createQueryBuilder();
 
@@ -352,7 +352,7 @@ class DoctrineStorage extends Gateway
             )
             ->setParameter(':userId', $versionInfo->contentInfo->id, ParameterType::INTEGER);
 
-        $settingsQuery->execute();
+        $settingsQuery->executeStatement();
     }
 
     public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): bool
@@ -374,7 +374,7 @@ class DoctrineStorage extends Gateway
             )
             ->setParameter('userId', $versionInfo->contentInfo->id, ParameterType::INTEGER);
 
-        $query->execute();
+        $query->executeStatement();
 
         $query = $this->connection->createQueryBuilder();
         $query
@@ -387,7 +387,7 @@ class DoctrineStorage extends Gateway
             )
             ->setParameter('userId', $versionInfo->contentInfo->id, ParameterType::INTEGER);
 
-        $query->execute();
+        $query->executeStatement();
 
         return true;
     }
@@ -417,7 +417,7 @@ class DoctrineStorage extends Gateway
             ->groupBy('id')
             ->having($countExpr . ' > 1');
 
-        $numRows = (int)$checkQuery->execute()->fetchOne();
+        $numRows = (int)$checkQuery->executeQuery()->fetchOne();
 
         return $numRows === 0;
     }
@@ -437,7 +437,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('supportedPasswordHashes', $supportedHashTypes, Connection::PARAM_INT_ARRAY);
 
         return $selectQuery
-            ->execute()
+            ->executeQuery()
             ->fetchOne();
     }
 }

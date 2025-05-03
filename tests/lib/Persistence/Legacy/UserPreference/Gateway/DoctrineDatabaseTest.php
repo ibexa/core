@@ -133,7 +133,7 @@ class DoctrineDatabaseTest extends TestCase
                     $queryBuilder->createPositionalParameter($id, ParameterType::INTEGER)
                 )
             );
-        $result = $queryBuilder->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        $result = $queryBuilder->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
 
         return reset($result);
     }

@@ -435,7 +435,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
                     ),
                 ]
             );
-        $query->execute();
+        $query->executeStatement();
         self::assertSame(2, $handler->countLocationsByContentId(67));
     }
 }

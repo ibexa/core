@@ -165,7 +165,7 @@ final class VirtualFieldDuplicateFixCommand extends Command
             ->from('ezcontentobject_attribute', 'a')
             ->having('instances > 1');
 
-        $count = (int) $query->execute()->rowCount();
+        $count = (int) $query->executeQuery()->rowCount();
 
         if ($count > 0) {
             $style->warning(
@@ -200,7 +200,7 @@ final class VirtualFieldDuplicateFixCommand extends Command
             ->setFirstResult(0)
             ->setMaxResults($batchSize);
 
-        return $query->execute()->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -229,7 +229,7 @@ final class VirtualFieldDuplicateFixCommand extends Command
             ->setFirstResult(1);
 
         $query->setParameters($attribute);
-        $result = $query->execute()->fetchFirstColumn();
+        $result = $query->executeQuery()->fetchFirstColumn();
 
         return array_map('intval', $result);
     }
@@ -259,6 +259,6 @@ final class VirtualFieldDuplicateFixCommand extends Command
             ->delete('ezcontentobject_attribute')
             ->andWhere($query->expr()->in('id', array_map('strval', $ids)));
 
-        return (int)$query->execute();
+        return (int)$query->executeStatement();
     }
 }

@@ -94,7 +94,7 @@ final class DoctrineGateway implements Gateway
             $criterion
         );
 
-        return (int)$query->execute()->fetch(FetchMode::COLUMN);
+        return (int)$query->executeQuery()->fetch(FetchMode::COLUMN);
     }
 
     public function find(
@@ -117,7 +117,7 @@ final class DoctrineGateway implements Gateway
             $wrappedQuery->setMaxResults($limit);
         }
 
-        $resultStatement = $wrappedQuery->execute();
+        $resultStatement = $wrappedQuery->executeQuery();
         while (false !== ($row = $resultStatement->fetch(FetchMode::ASSOCIATIVE))) {
             $contentId = (int)$row['content_id'];
             $versionNo = (int)$row['content_version_no'];
@@ -229,7 +229,7 @@ final class DoctrineGateway implements Gateway
             ->setFirstResult(null)
             ->resetQueryPart('orderBy');
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
     private function bulkFetchFieldValues(FilteringQueryBuilder $query): array
@@ -265,7 +265,7 @@ final class DoctrineGateway implements Gateway
             ->setFirstResult(null)
             ->resetQueryPart('orderBy');
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
     private function getColumns(): Traversable

@@ -51,7 +51,7 @@ class DoctrineDatabase extends Gateway
                 ->setParameter('id', $currentUserPreferenceId, ParameterType::INTEGER)
                 ->setParameter('value', $userPreference->value, ParameterType::STRING);
 
-            $query->execute();
+            $query->executeStatement();
 
             return $currentUserPreferenceId;
         }
@@ -67,7 +67,7 @@ class DoctrineDatabase extends Gateway
             ->setParameter('user_id', $userPreference->userId, ParameterType::INTEGER)
             ->setParameter('value', $userPreference->value, ParameterType::STRING);
 
-        $query->execute();
+        $query->executeStatement();
 
         return (int) $this->connection->lastInsertId();
     }
@@ -84,7 +84,7 @@ class DoctrineDatabase extends Gateway
         $query->setParameter('userId', $userId, ParameterType::INTEGER);
         $query->setParameter('name', $name, ParameterType::STRING);
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
     /**
@@ -106,7 +106,7 @@ class DoctrineDatabase extends Gateway
         $query->orderBy(self::COLUMN_ID, 'ASC');
         $query->setParameter('user_id', $userId, ParameterType::INTEGER);
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
     /**
@@ -123,7 +123,7 @@ class DoctrineDatabase extends Gateway
             ->where($query->expr()->eq(self::COLUMN_USER_ID, ':user_id'))
             ->setParameter('user_id', $userId, ParameterType::INTEGER);
 
-        return (int) $query->execute()->fetchOne();
+        return (int) $query->executeQuery()->fetchOne();
     }
 
     private function getColumns(): array

@@ -176,7 +176,7 @@ abstract class DoctrineStorage extends Gateway
             ->setParameter('versionNo', $versionInfo->versionNo, ParameterType::INTEGER)
         ;
 
-        $updateQuery->execute();
+        $updateQuery->executeQuery();
     }
 
     /**
@@ -192,7 +192,7 @@ abstract class DoctrineStorage extends Gateway
 
         $this->setInsertColumns($insertQuery, $versionInfo, $field);
 
-        $insertQuery->execute();
+        $insertQuery->executeStatement();
     }
 
     /**
@@ -241,7 +241,7 @@ abstract class DoctrineStorage extends Gateway
             ->setParameter('versionNo', $versionNo, PDO::PARAM_INT)
         ;
 
-        $statement = $selectQuery->execute();
+        $statement = $selectQuery->executeQuery();
 
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -337,7 +337,7 @@ abstract class DoctrineStorage extends Gateway
             ->setParameter('versionNo', $versionNo, PDO::PARAM_INT)
         ;
 
-        $deleteQuery->execute();
+        $deleteQuery->executeStatement();
     }
 
     /**
@@ -367,7 +367,7 @@ abstract class DoctrineStorage extends Gateway
             ->setParameter('versionNo', $versionNo, PDO::PARAM_INT)
         ;
 
-        $deleteQuery->execute();
+        $deleteQuery->executeStatement();
     }
 
     /**
@@ -406,7 +406,7 @@ abstract class DoctrineStorage extends Gateway
             ->setParameter('versionNo', $versionNo, PDO::PARAM_INT)
         ;
 
-        $statement = $selectQuery->execute();
+        $statement = $selectQuery->executeQuery();
 
         return array_map(
             function ($row) {
@@ -460,7 +460,7 @@ abstract class DoctrineStorage extends Gateway
             )
         ;
 
-        $statement = $selectQuery->execute();
+        $statement = $selectQuery->executeQuery();
 
         $countMap = [];
         foreach ($statement->fetchAll(PDO::FETCH_ASSOC) as $row) {

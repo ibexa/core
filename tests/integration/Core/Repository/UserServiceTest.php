@@ -3498,7 +3498,7 @@ class UserServiceTest extends BaseTest
             ->setParameter('wrong_hash_type', $newHashType, ParameterType::INTEGER)
             ->setParameter('user_id', $userId);
 
-        $queryBuilder->execute();
+        $queryBuilder->executeStatement();
     }
 
     private function assertIsSameUser(User $expectedUser, User $actualUser): void

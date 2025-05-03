@@ -85,7 +85,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
 
         $query->setParameter('type_id', $typeId, ParameterType::INTEGER);
 
-        $row = $query->execute()->fetchAssociative();
+        $row = $query->executeQuery()->fetchAssociative();
 
         if (false === $row) {
             throw new NotFound('token_type', "id: $typeId");
@@ -109,7 +109,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
 
         $query->setParameter('identifier', $identifier, ParameterType::STRING);
 
-        $row = $query->execute()->fetchAssociative();
+        $row = $query->executeQuery()->fetchAssociative();
 
         if (false === $row) {
             throw new NotFound('token_type', "identifier: $identifier");
