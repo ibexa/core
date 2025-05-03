@@ -13,7 +13,10 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Regex as BaseRegex;
 
 final class RegexMatcher extends BaseRegex
 {
-    public function getName()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     */
+    public function getName(): never
     {
         throw new NotImplementedException(__METHOD__);
     }

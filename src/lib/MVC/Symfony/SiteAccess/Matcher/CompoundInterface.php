@@ -7,30 +7,29 @@
 
 namespace Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 
-use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilderInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
 
 interface CompoundInterface extends VersatileMatcher
 {
     /**
-     * Injects the matcher builder, to allow the Compound matcher to properly build the underlying matchers.
+     * Injects the matcher builder to allow the Compound matcher to properly build the underlying matchers.
      *
      * @param \Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilderInterface $matcherBuilder
      */
-    public function setMatcherBuilder(MatcherBuilderInterface $matcherBuilder);
+    public function setMatcherBuilder(MatcherBuilderInterface $matcherBuilder): void;
 
     /**
      * Returns all used sub-matchers.
      *
      * @return \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher[]
      */
-    public function getSubMatchers();
+    public function getSubMatchers(): array;
 
     /**
      * Replaces sub-matchers.
      *
      * @param \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher[] $subMatchers
      */
-    public function setSubMatchers(array $subMatchers);
+    public function setSubMatchers(array $subMatchers): void;
 }
