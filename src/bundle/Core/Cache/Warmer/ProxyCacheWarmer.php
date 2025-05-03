@@ -47,7 +47,7 @@ final class ProxyCacheWarmer implements CacheWarmerInterface
         return false;
     }
 
-    public function warmUp($cacheDir): array
+    public function warmUp($cacheDir, ?string $buildDir = null): array
     {
         $this->proxyGenerator->warmUp(self::PROXY_CLASSES);
 
