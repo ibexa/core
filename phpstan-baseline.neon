@@ -4021,13 +4021,13 @@ parameters:
 			path: src/bundle/Core/Imagine/VariationPurger/LegacyStorageImageFileRowReader.php
 
 		-
-			message: '#^Property Ibexa\\Bundle\\Core\\Imagine\\VariationPurger\\LegacyStorageImageFileRowReader\:\:\$statement \(Doctrine\\DBAL\\Driver\\Statement\) does not accept Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
+			message: '#^Property Ibexa\\Bundle\\Core\\Imagine\\VariationPurger\\LegacyStorageImageFileRowReader\:\:\$statement \(Doctrine\\DBAL\\ForwardCompatibility\\Result\) does not accept Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
 			identifier: assign.propertyType
 			count: 1
 			path: src/bundle/Core/Imagine/VariationPurger/LegacyStorageImageFileRowReader.php
 
 		-
-			message: '#^Property Ibexa\\Bundle\\Core\\Imagine\\VariationPurger\\LegacyStorageImageFileRowReader\:\:\$statement type has no value type specified in iterable type Doctrine\\DBAL\\Driver\\Statement\.$#'
+			message: '#^Property Ibexa\\Bundle\\Core\\Imagine\\VariationPurger\\LegacyStorageImageFileRowReader\:\:\$statement type has no value type specified in iterable type Doctrine\\DBAL\\ForwardCompatibility\\Result\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/bundle/Core/Imagine/VariationPurger/LegacyStorageImageFileRowReader.php
@@ -16651,7 +16651,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
+			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 14
 			path: src/lib/Persistence/Legacy/Content/Gateway/ExceptionConversion.php
@@ -17221,7 +17221,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
+			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 8
 			path: src/lib/Persistence/Legacy/Content/Location/Gateway/ExceptionConversion.php
@@ -17605,7 +17605,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/ObjectState/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
+			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 4
 			path: src/lib/Persistence/Legacy/Content/ObjectState/Gateway/ExceptionConversion.php
@@ -18073,7 +18073,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Type/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
+			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 4
 			path: src/lib/Persistence/Legacy/Content/Type/Gateway/ExceptionConversion.php
@@ -18739,7 +18739,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
+			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 2
 			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway/ExceptionConversion.php
@@ -19123,7 +19123,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/UrlWildcard/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
+			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/UrlWildcard/Gateway/ExceptionConversion.php
@@ -19849,7 +19849,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/Notification/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
+			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 1
 			path: src/lib/Persistence/Legacy/Notification/Gateway/ExceptionConversion.php
@@ -20131,7 +20131,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/URL/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
+			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 1
 			path: src/lib/Persistence/Legacy/URL/Gateway/ExceptionConversion.php
@@ -24451,7 +24451,7 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
+			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 1
 			path: src/lib/Search/Legacy/Content/Gateway/ExceptionConversion.php
@@ -24769,7 +24769,7 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Location/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
+			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/ExceptionConversion.php
@@ -56461,7 +56461,7 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabaseTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Gateway\\DoctrineDatabaseTest\:\:getDatabaseGateway\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Gateway\\DoctrineDatabaseTest\:\:getDatabaseGateway\(\) has Doctrine\\DBAL\\Exception in PHPDoc @throws tag but it''s not thrown\.$#'
 			identifier: throws.unusedType
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabaseTest.php
@@ -56851,7 +56851,7 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/Language/CachingLanguageHandlerTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\Gateway\\DoctrineDatabaseTest\:\:getDatabaseGateway\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\Gateway\\DoctrineDatabaseTest\:\:getDatabaseGateway\(\) has Doctrine\\DBAL\\Exception in PHPDoc @throws tag but it''s not thrown\.$#'
 			identifier: throws.unusedType
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/Language/Gateway/DoctrineDatabaseTest.php
@@ -58153,7 +58153,7 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/MapperTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\ObjectState\\Gateway\\DoctrineDatabaseTest\:\:getDatabaseGateway\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\ObjectState\\Gateway\\DoctrineDatabaseTest\:\:getDatabaseGateway\(\) has Doctrine\\DBAL\\Exception in PHPDoc @throws tag but it''s not thrown\.$#'
 			identifier: throws.unusedType
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/ObjectState/Gateway/DoctrineDatabaseTest.php
@@ -58495,7 +58495,7 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/ObjectState/ObjectStateHandlerTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Section\\Gateway\\DoctrineDatabaseTest\:\:getDatabaseGateway\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Section\\Gateway\\DoctrineDatabaseTest\:\:getDatabaseGateway\(\) has Doctrine\\DBAL\\Exception in PHPDoc @throws tag but it''s not thrown\.$#'
 			identifier: throws.unusedType
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/Section/Gateway/DoctrineDatabaseTest.php
@@ -59245,7 +59245,7 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/Type/Gateway/DoctrineDatabaseTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Type\\Gateway\\DoctrineDatabaseTest\:\:getGateway\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Type\\Gateway\\DoctrineDatabaseTest\:\:getGateway\(\) has Doctrine\\DBAL\\Exception in PHPDoc @throws tag but it''s not thrown\.$#'
 			identifier: throws.unusedType
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/Type/Gateway/DoctrineDatabaseTest.php
@@ -59623,7 +59623,7 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/Type/Update/Handler/DoctrineDatabaseTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\Gateway\\DoctrineDatabaseTest\:\:getGateway\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\Gateway\\DoctrineDatabaseTest\:\:getGateway\(\) has Doctrine\\DBAL\\Exception in PHPDoc @throws tag but it''s not thrown\.$#'
 			identifier: throws.unusedType
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/UrlAlias/Gateway/DoctrineDatabaseTest.php
@@ -60013,7 +60013,7 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/UrlAlias/UrlAliasHandlerTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\UrlAliasHandlerTest\:\:getLanguageHandler\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\UrlAliasHandlerTest\:\:getLanguageHandler\(\) has Doctrine\\DBAL\\Exception in PHPDoc @throws tag but it''s not thrown\.$#'
 			identifier: throws.unusedType
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/UrlAlias/UrlAliasHandlerTest.php
@@ -61063,7 +61063,7 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/UrlAlias/UrlAliasMapperTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlWildcard\\Gateway\\DoctrineDatabaseTest\:\:getGateway\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlWildcard\\Gateway\\DoctrineDatabaseTest\:\:getGateway\(\) has Doctrine\\DBAL\\Exception in PHPDoc @throws tag but it''s not thrown\.$#'
 			identifier: throws.unusedType
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/UrlWildcard/Gateway/DoctrineDatabaseTest.php
@@ -61117,7 +61117,7 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/UrlWildcard/Gateway/DoctrineDatabaseTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlWildcard\\UrlWildcardHandlerTest\:\:getHandler\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlWildcard\\UrlWildcardHandlerTest\:\:getHandler\(\) has Doctrine\\DBAL\\Exception in PHPDoc @throws tag but it''s not thrown\.$#'
 			identifier: throws.unusedType
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/UrlWildcard/UrlWildcardHandlerTest.php
@@ -61759,7 +61759,7 @@ parameters:
 			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/ValidityTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\User\\Gateway\\DoctrineDatabaseTest\:\:getDatabaseGateway\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\User\\Gateway\\DoctrineDatabaseTest\:\:getDatabaseGateway\(\) has Doctrine\\DBAL\\Exception in PHPDoc @throws tag but it''s not thrown\.$#'
 			identifier: throws.unusedType
 			count: 1
 			path: tests/lib/Persistence/Legacy/User/Gateway/DoctrineDatabaseTest.php
@@ -61771,7 +61771,7 @@ parameters:
 			path: tests/lib/Persistence/Legacy/User/Gateway/DoctrineDatabaseTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\User\\Role\\Gateway\\DoctrineDatabaseTest\:\:getDatabaseGateway\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\User\\Role\\Gateway\\DoctrineDatabaseTest\:\:getDatabaseGateway\(\) has Doctrine\\DBAL\\Exception in PHPDoc @throws tag but it''s not thrown\.$#'
 			identifier: throws.unusedType
 			count: 1
 			path: tests/lib/Persistence/Legacy/User/Role/Gateway/DoctrineDatabaseTest.php
@@ -69001,7 +69001,7 @@ parameters:
 			path: tests/lib/Search/Legacy/Content/AbstractTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\AbstractTestCase\:\:getContentTypeHandler\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\AbstractTestCase\:\:getContentTypeHandler\(\) has Doctrine\\DBAL\\Exception in PHPDoc @throws tag but it''s not thrown\.$#'
 			identifier: throws.unusedType
 			count: 1
 			path: tests/lib/Search/Legacy/Content/AbstractTestCase.php
