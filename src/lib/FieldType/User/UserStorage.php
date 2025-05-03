@@ -50,7 +50,7 @@ class UserStorage extends GatewayBasedStorage
      *
      * @return bool
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
     {

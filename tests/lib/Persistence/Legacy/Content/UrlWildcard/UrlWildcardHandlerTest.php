@@ -228,7 +228,7 @@ class UrlWildcardHandlerTest extends TestCase
     protected $urlWildcardHandler;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function getHandler(): UrlWildcard\Handler
     {

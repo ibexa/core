@@ -115,7 +115,7 @@ class LegacyDFSCluster implements IOMetadataHandler
      * @return \Ibexa\Contracts\Core\IO\BinaryFile
      *
      * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException if no row is found for $spiBinaryFileId
-     * @throws \Doctrine\DBAL\DBALException Any unhandled DBAL exception
+     * @throws \Doctrine\DBAL\Exception Any unhandled DBAL exception
      */
     public function load($spiBinaryFileId)
     {
@@ -157,7 +157,7 @@ class LegacyDFSCluster implements IOMetadataHandler
      * @param string $spiBinaryFileId
      *
      * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
-     * @throws \Doctrine\DBAL\DBALException Any unhandled DBAL exception
+     * @throws \Doctrine\DBAL\Exception Any unhandled DBAL exception
      *
      * @return bool
      */

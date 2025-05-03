@@ -77,7 +77,7 @@ class DoctrineStorage extends Gateway
             ->set($this->connection->quoteIdentifier('longitude'), ':longitude')
             ->set($this->connection->quoteIdentifier('address'), ':address')
             ->where(
-                $updateQuery->expr()->andX(
+                $updateQuery->expr()->and(
                     $updateQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
                         ':fieldId'
@@ -160,7 +160,7 @@ class DoctrineStorage extends Gateway
             )
             ->from($this->connection->quoteIdentifier('ezgmaplocation'))
             ->where(
-                $selectQuery->expr()->andX(
+                $selectQuery->expr()->and(
                     $selectQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
                         ':fieldId'
@@ -219,7 +219,7 @@ class DoctrineStorage extends Gateway
         $deleteQuery
             ->delete($this->connection->quoteIdentifier(self::MAP_LOCATION_TABLE))
             ->where(
-                $deleteQuery->expr()->andX(
+                $deleteQuery->expr()->and(
                     $deleteQuery->expr()->in(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
                         ':fieldIds'

@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Setting\Gateway;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception as DBALException;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Setting\Gateway;
 use PDOException;
@@ -33,7 +33,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->insertSetting($group, $identifier, $serializedValue);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -45,7 +45,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->updateSetting($group, $identifier, $serializedValue);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -57,7 +57,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadSetting($group, $identifier);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -69,7 +69,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadSettingById($id);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -81,7 +81,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->deleteSetting($group, $identifier);
-        } catch (DBALException | PDOException $e) {
+        } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }

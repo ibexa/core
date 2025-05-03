@@ -10,7 +10,7 @@ namespace Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Doctrine;
 
 use function array_filter;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -82,7 +82,7 @@ final class DoctrineGateway implements Gateway
     {
         try {
             return $this->connection->getDatabasePlatform();
-        } catch (DBALException $e) {
+        } catch (Exception $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -152,7 +152,7 @@ final class DoctrineGateway implements Gateway
                 'content',
                 LocationGateway::CONTENT_TREE_TABLE,
                 'main_location',
-                $expressionBuilder->andX(
+                $expressionBuilder->and(
                     'content.id = main_location.contentobject_id',
                     'main_location.main_node_id = main_location.node_id'
                 )
@@ -218,7 +218,7 @@ final class DoctrineGateway implements Gateway
                 'content',
                 ContentGateway::CONTENT_NAME_TABLE,
                 'content_name',
-                (string)$query->expr()->andX(
+                (string)$query->expr()->and(
                     'content.id = content_name.contentobject_id',
                     'version.version = content_name.content_version',
                     'version.language_mask & content_name.language_id > 0'
@@ -254,7 +254,7 @@ final class DoctrineGateway implements Gateway
                 'content',
                 ContentGateway::CONTENT_FIELD_TABLE,
                 'content_field',
-                (string)$query->expr()->andX(
+                (string)$query->expr()->and(
                     'content.id = content_field.contentobject_id',
                     'version.version = content_field.version',
                     'version.language_mask & content_field.language_id = content_field.language_id'

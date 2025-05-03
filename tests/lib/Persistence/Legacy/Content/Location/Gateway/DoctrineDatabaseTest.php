@@ -346,21 +346,19 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ],
             $query
                 ->select(
-                    [
-                        'contentobject_id',
-                        'contentobject_version',
-                        'from_node_id',
-                        'id',
-                        'is_main',
-                        'op_code',
-                        'parent_node',
-                        'parent_remote_id',
-                        'remote_id',
-                        'sort_field',
-                        'sort_order',
-                        'priority',
-                        'is_hidden',
-                    ]
+                    'contentobject_id',
+                    'contentobject_version',
+                    'from_node_id',
+                    'id',
+                    'is_main',
+                    'op_code',
+                    'parent_node',
+                    'parent_remote_id',
+                    'remote_id',
+                    'sort_field',
+                    'sort_order',
+                    'priority',
+                    'is_hidden'
                 )
                 ->from('eznode_assignment')
                 ->where($query->expr()->eq('contentobject_id', 67))
@@ -1206,7 +1204,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      *
      *
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testChangeMainLocation()
     {
@@ -1298,7 +1296,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->select('is_main')
                 ->from('eznode_assignment')
                 ->where(
-                    $query->expr()->andX(
+                    $query->expr()->and(
                         $query->expr()->eq(
                             'contentobject_id',
                             $query->createPositionalParameter(10, ParameterType::INTEGER)
@@ -1322,7 +1320,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->select('is_main')
                 ->from('eznode_assignment')
                 ->where(
-                    $query->expr()->andX(
+                    $query->expr()->and(
                         $query->expr()->eq(
                             'contentobject_id',
                             $query->createPositionalParameter(10, ParameterType::INTEGER)
@@ -1358,7 +1356,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testGetFallbackMainNodeData(): void
     {

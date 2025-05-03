@@ -45,7 +45,7 @@ class LogicalOrTest extends CriterionHandlerTest
         $converter = $this->mockConverterForLogicalOperator(
             CompositeExpression::TYPE_OR,
             $queryBuilder,
-            'orX',
+            'or',
             $fooExpr,
             $barExpr,
             $foo,

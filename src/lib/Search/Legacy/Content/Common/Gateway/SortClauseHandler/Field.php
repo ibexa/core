@@ -134,7 +134,7 @@ class Field extends SortClauseHandler
                 'c',
                 Gateway::CONTENT_FIELD_TABLE,
                 $tableAlias,
-                $query->expr()->andX(
+                $query->expr()->and(
                     $query->expr()->eq(
                         $query->createNamedParameter(
                             $fieldDefinitionId,
@@ -226,7 +226,7 @@ class Field extends SortClauseHandler
             $rightSide = "$rightSide + ($addToRightSide)";
         }
 
-        return $query->expr()->andX(
+        return $query->expr()->and(
             $query->expr()->gt(
                 $this->dbPlatform->getBitAndComparisonExpression(
                     'c.language_mask',

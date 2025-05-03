@@ -27,7 +27,7 @@ class RandomSortClauseHandlerFactory
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      */
     public function getGateway(): AbstractRandom

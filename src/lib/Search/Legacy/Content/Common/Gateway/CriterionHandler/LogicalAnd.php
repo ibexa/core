@@ -41,6 +41,6 @@ class LogicalAnd extends CriterionHandler
             );
         }
 
-        return $queryBuilder->expr()->andX(...$subexpressions);
+        return $queryBuilder->expr()->and(...$subexpressions);
     }
 }

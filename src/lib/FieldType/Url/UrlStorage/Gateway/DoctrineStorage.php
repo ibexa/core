@@ -172,7 +172,7 @@ class DoctrineStorage extends Gateway
             ->select('link.url_id')
             ->from($this->connection->quoteIdentifier(self::URL_LINK_TABLE), 'link')
             ->where(
-                $selectQuery->expr()->andX(
+                $selectQuery->expr()->and(
                     $selectQuery->expr()->in(
                         'link.contentobject_attribute_id',
                         ':contentobject_attribute_id'

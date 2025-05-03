@@ -41,6 +41,6 @@ class LogicalOr extends CriterionHandler
             );
         }
 
-        return $queryBuilder->expr()->orX(...$subexpressions);
+        return $queryBuilder->expr()->or(...$subexpressions);
     }
 }

@@ -63,19 +63,17 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()
                 ->createQueryBuilder()
                 ->select(
-                    [
-                        'name',
-                        'contentclass_id',
-                        'section_id',
-                        'owner_id',
-                        'current_version',
-                        'initial_language_id',
-                        'remote_id',
-                        'language_mask',
-                        'modified',
-                        'published',
-                        'status',
-                    ]
+                    'name',
+                    'contentclass_id',
+                    'section_id',
+                    'owner_id',
+                    'current_version',
+                    'initial_language_id',
+                    'remote_id',
+                    'language_mask',
+                    'modified',
+                    'published',
+                    'status'
                 )->from('ezcontentobject')
         );
     }
@@ -189,17 +187,15 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()
                 ->createQueryBuilder()
                 ->select(
-                    [
-                        'contentobject_id',
-                        'created',
-                        'creator_id',
-                        'modified',
-                        'status',
-                        'workflow_event_pos',
-                        'version',
-                        'language_mask',
-                        'initial_language_id',
-                    ]
+                    'contentobject_id',
+                    'created',
+                    'creator_id',
+                    'modified',
+                    'status',
+                    'workflow_event_pos',
+                    'version',
+                    'language_mask',
+                    'initial_language_id'
                 )->from('ezcontentobject_version')
         );
     }
@@ -375,14 +371,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ],
             $query
                 ->select(
-                    [
-                        'creator_id',
-                        'initial_language_id',
-                        'modified',
-                    ]
-                )->from('ezcontentobject_version')
+                    'creator_id',
+                    'initial_language_id',
+                    'modified'
+                )
+                ->from('ezcontentobject_version')
                 ->where(
-                    $expr->andX(
+                    $expr->and(
                         $expr->eq('contentobject_id', 10),
                         $expr->eq('version', 2)
                     )
@@ -420,19 +415,17 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()
                 ->createQueryBuilder()
                 ->select(
-                    [
-                        'contentclassattribute_id',
-                        'contentobject_id',
-                        'data_float',
-                        'data_int',
-                        'data_text',
-                        'data_type_string',
-                        'language_code',
-                        'language_id',
-                        'sort_key_int',
-                        'sort_key_string',
-                        'version',
-                    ]
+                    'contentclassattribute_id',
+                    'contentobject_id',
+                    'data_float',
+                    'data_int',
+                    'data_text',
+                    'data_type_string',
+                    'language_code',
+                    'language_id',
+                    'sort_key_int',
+                    'sort_key_string',
+                    'version'
                 )->from('ezcontentobject_attribute')
         );
     }
@@ -469,19 +462,17 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()
                 ->createQueryBuilder()
                 ->select(
-                    [
-                        'contentclassattribute_id',
-                        'contentobject_id',
-                        'data_float',
-                        'data_int',
-                        'data_text',
-                        'data_type_string',
-                        'language_code',
-                        'language_id',
-                        'sort_key_int',
-                        'sort_key_string',
-                        'version',
-                    ]
+                    'contentclassattribute_id',
+                    'contentobject_id',
+                    'data_float',
+                    'data_int',
+                    'data_text',
+                    'data_type_string',
+                    'language_code',
+                    'language_id',
+                    'sort_key_int',
+                    'sort_key_string',
+                    'version'
                 )->from('ezcontentobject_attribute')
         );
     }
@@ -522,13 +513,11 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()
                 ->createQueryBuilder()
                 ->select(
-                    [
-                        'data_float',
-                        'data_int',
-                        'data_text',
-                        'sort_key_int',
-                        'sort_key_string',
-                    ]
+                    'data_float',
+                    'data_int',
+                    'data_text',
+                    'sort_key_int',
+                    'sort_key_string'
                 )->from('ezcontentobject_attribute')
         );
     }
@@ -581,13 +570,11 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()
                 ->createQueryBuilder()
                 ->select(
-                    [
-                        'data_float',
-                        'data_int',
-                        'data_text',
-                        'sort_key_int',
-                        'sort_key_string',
-                    ]
+                    'data_float',
+                    'data_int',
+                    'data_text',
+                    'sort_key_int',
+                    'sort_key_string'
                 )->from('ezcontentobject_attribute')
         );
     }
@@ -944,7 +931,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testDeleteField(): void
     {
@@ -1093,14 +1080,12 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [[self::ENG_GB, 2, 14, 4, 'Hello world!', self::ENG_GB]],
             $query
                 ->select(
-                    [
-                        'content_translation',
-                        'content_version',
-                        'contentobject_id',
-                        'language_id',
-                        'name',
-                        'real_translation',
-                    ]
+                    'content_translation',
+                    'content_version',
+                    'contentobject_id',
+                    'language_id',
+                    'name',
+                    'real_translation'
                 )
                 ->from('ezcontentobject_name')
                 ->where('contentobject_id = :content_id')
@@ -1214,7 +1199,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testLoadRelations(): void
     {
@@ -1379,15 +1364,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()
                 ->createQueryBuilder()
                 ->select(
-                    [
-                        'id',
-                        'from_contentobject_id',
-                        'from_contentobject_version',
-                        'contentclassattribute_id',
-                        'to_contentobject_id',
-                        'relation_type',
-                    ]
-                )->from('ezcontentobject_link')
+                    'id',
+                    'from_contentobject_id',
+                    'from_contentobject_version',
+                    'contentclassattribute_id',
+                    'to_contentobject_id',
+                    'relation_type'
+                )
+                ->from('ezcontentobject_link')
                 ->where('id = 1')
         );
     }
@@ -1405,7 +1389,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testDeleteRelationWithCompositeBitmask(): void
     {
@@ -1418,7 +1402,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $this->assertQueryResult(
             [['relation_type' => RelationType::LINK->value]],
             $query
-                ->select(['relation_type'])
+                ->select('relation_type')
                 ->from('ezcontentobject_link')
                 ->where(
                     $query->expr()->eq(
@@ -1430,7 +1414,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testUpdateAlwaysAvailableFlagRemove(): void
     {
@@ -1446,7 +1430,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $this->assertQueryResult(
             [['id' => 2]],
             $query
-                ->select(['language_mask'])
+                ->select('language_mask')
                 ->from('ezcontentobject')
                 ->where(
                     $query->expr()->eq(
@@ -1461,11 +1445,11 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [['language_id' => 2]],
             $query
                 ->select(
-                    ['language_id']
+                    'language_id'
                 )->from(
                     'ezcontentobject_name'
                 )->where(
-                    $query->expr()->andX(
+                    $query->expr()->and(
                         $query->expr()->eq(
                             'contentobject_id',
                             $query->createPositionalParameter(103, ParameterType::INTEGER)
@@ -1487,7 +1471,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->select('DISTINCT language_id')
                 ->from('ezcontentobject_attribute')
                 ->where(
-                    $query->expr()->andX(
+                    $query->expr()->and(
                         $query->expr()->eq('contentobject_id', 103),
                         $query->expr()->eq('version', 1)
                     )
@@ -1496,7 +1480,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testUpdateAlwaysAvailableFlagAdd(): void
     {
@@ -1513,7 +1497,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $this->assertQueryResult(
             [['id' => $expectedLanguageId]],
             $connection->createQueryBuilder()
-                ->select(['language_mask'])
+                ->select('language_mask')
                 ->from('ezcontentobject')
                 ->where('id = 102')
         );
@@ -1528,7 +1512,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->select('language_id')
                 ->from('ezcontentobject_name')
                 ->where(
-                    $query->expr()->andX(
+                    $query->expr()->and(
                         $query->expr()->eq(
                             'contentobject_id',
                             $query->createPositionalParameter($contentId, ParameterType::INTEGER)
@@ -1550,7 +1534,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->select('DISTINCT language_id')
                 ->from('ezcontentobject_attribute')
                 ->where(
-                    $query->expr()->andX(
+                    $query->expr()->and(
                         $query->expr()->eq(
                             'contentobject_id',
                             $query->createPositionalParameter($contentId, ParameterType::INTEGER)
@@ -1565,7 +1549,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function testUpdateContentAddAlwaysAvailableFlagMultilingual(): void
@@ -1586,7 +1570,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $this->assertQueryResult(
             [['id' => 7]],
             $this->getDatabaseConnection()->createQueryBuilder()->select(
-                ['language_mask']
+                'language_mask'
             )->from(
                 'ezcontentobject'
             )->where(
@@ -1614,7 +1598,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function testUpdateContentRemoveAlwaysAvailableFlagMultilingual(): void
@@ -1635,7 +1619,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $this->assertQueryResult(
             [['id' => 6]],
             $this->getDatabaseConnection()->createQueryBuilder()->select(
-                ['language_mask']
+                'language_mask'
             )->from(
                 'ezcontentobject'
             )->where(
@@ -1663,7 +1647,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testLoadVersionInfo(): void
     {
@@ -1691,7 +1675,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      *
      * @return int
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function countContentRelations(?int $fromId = null, ?int $toId = null): int
     {
@@ -1731,7 +1715,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      *
      * @return int
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function countContentFields(?int $contentId = null): int
     {
@@ -1764,7 +1748,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      *
      * @return int
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function countContentVersions(?int $contentId = null): int
     {
@@ -1797,7 +1781,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      *
      * @return int
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function countContentNames(?int $contentId = null): int
     {
@@ -1830,7 +1814,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      *
      * @return int
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function countContent(?int $contentId = null): int
     {
@@ -1920,7 +1904,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns a ready to test DoctrineDatabase gateway.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function getDatabaseGateway(): DoctrineDatabase
     {
@@ -1961,7 +1945,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      * @param int $versionNo
      * @param array $expectation
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     private function assertContentVersionAttributesLanguages(
         int $contentId,
@@ -1975,7 +1959,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->select('DISTINCT id, language_id')
                 ->from('ezcontentobject_attribute')
                 ->where(
-                    $query->expr()->andX(
+                    $query->expr()->and(
                         $query->expr()->eq(
                             'contentobject_id',
                             $query->createPositionalParameter($contentId, ParameterType::INTEGER)

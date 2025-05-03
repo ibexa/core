@@ -397,7 +397,7 @@ class DoctrineStorage extends Gateway
      *
      * @return bool
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function isLastRelationToFieldType(array $fieldIds): bool
     {

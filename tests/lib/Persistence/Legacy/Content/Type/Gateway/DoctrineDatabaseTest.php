@@ -1146,7 +1146,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Return the DoctrineDatabase gateway to test.
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function getGateway(): DoctrineDatabase
     {

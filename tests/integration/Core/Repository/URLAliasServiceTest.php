@@ -1353,7 +1353,7 @@ class URLAliasServiceTest extends BaseTest
                 $queryBuilder
                     ->delete('ezurlalias_ml')
                     ->where(
-                        $expr->andX(
+                        $expr->and(
                             $expr->eq(
                                 'action',
                                 $queryBuilder->createPositionalParameter(

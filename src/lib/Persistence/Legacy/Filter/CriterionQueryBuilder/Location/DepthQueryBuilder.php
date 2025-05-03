@@ -23,7 +23,7 @@ final class DepthQueryBuilder extends BaseLocationCriterionQueryBuilder
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function buildQueryConstraint(
         FilteringQueryBuilder $queryBuilder,

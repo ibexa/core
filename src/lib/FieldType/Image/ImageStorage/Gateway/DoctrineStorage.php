@@ -60,7 +60,7 @@ class DoctrineStorage extends Gateway
             ->select($this->connection->quoteIdentifier('path_identification_string'))
             ->from($this->connection->quoteIdentifier('ezcontentobject_tree'))
             ->where(
-                $selectQuery->expr()->andX(
+                $selectQuery->expr()->and(
                     $selectQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_id'),
                         ':contentObjectId'
@@ -128,7 +128,7 @@ class DoctrineStorage extends Gateway
             )
             ->from($this->connection->quoteIdentifier('ezcontentobject_attribute'), 'attr')
             ->where(
-                $selectQuery->expr()->andX(
+                $selectQuery->expr()->and(
                     $selectQuery->expr()->eq(
                         $this->connection->quoteIdentifier('attr.version'),
                         ':versionNo'
@@ -206,7 +206,7 @@ class DoctrineStorage extends Gateway
         $deleteQuery
             ->delete($this->connection->quoteIdentifier(self::IMAGE_FILE_TABLE))
             ->where(
-                $deleteQuery->expr()->andX(
+                $deleteQuery->expr()->and(
                     $deleteQuery->expr()->eq(
                         $this->connection->quoteIdentifier('contentobject_attribute_id'),
                         ':fieldId'

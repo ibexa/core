@@ -40,7 +40,7 @@ final class DoctrineDatabase extends Gateway
     private $dbPlatform;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct(Connection $connection, MaskGenerator $maskGenerator)
     {
@@ -68,7 +68,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->createObjectStateFindQuery();
         $query->where(
-            $query->expr()->andX(
+            $query->expr()->and(
                 $query->expr()->eq(
                     'state.identifier',
                     $query->createPositionalParameter($identifier, ParameterType::STRING)
@@ -154,7 +154,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function insertObjectState(ObjectState $objectState, int $groupId): void
@@ -206,7 +206,7 @@ final class DoctrineDatabase extends Gateway
 
         // If this is a first state in group, assign it to all content objects
         if ($maxPriority === null) {
-            $this->connection->executeUpdate(
+            $this->connection->executeStatement(
                 'INSERT INTO ezcobj_state_link (contentobject_id, contentobject_state_id) ' .
                 "SELECT id, {$objectState->id} FROM ezcontentobject"
             );

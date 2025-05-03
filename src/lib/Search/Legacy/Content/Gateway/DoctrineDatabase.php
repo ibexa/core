@@ -55,7 +55,7 @@ final class DoctrineDatabase extends Gateway
     private $languageHandler;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct(
         Connection $connection,
@@ -132,7 +132,7 @@ final class DoctrineDatabase extends Gateway
         array $languageFilter
     ) {
         $expr = $query->expr();
-        $condition = $expr->andX(
+        $condition = $expr->and(
             $this->criteriaConverter->convertCriteria($query, $filter, $languageFilter),
             $expr->eq(
                 'c.status',
@@ -146,7 +146,7 @@ final class DoctrineDatabase extends Gateway
 
         // If not main-languages query
         if (!empty($languageFilter['languages'])) {
-            $condition = $expr->andX(
+            $condition = $expr->and(
                 $condition,
                 $expr->gt(
                     $this->dbPlatform->getBitAndComparisonExpression(
@@ -234,7 +234,7 @@ final class DoctrineDatabase extends Gateway
                 'c',
                 LocationGateway::CONTENT_TREE_TABLE,
                 'main_tree',
-                $query->expr()->andX(
+                $query->expr()->and(
                     'main_tree.contentobject_id = c.id',
                     'main_tree.main_node_id = main_tree.node_id'
                 )

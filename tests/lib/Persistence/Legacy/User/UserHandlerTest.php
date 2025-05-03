@@ -29,7 +29,7 @@ class UserHandlerTest extends TestCase
     private const TEST_USER_ID = 42;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function getUserHandler(User\Gateway $userGateway = null): Handler
     {
@@ -293,7 +293,10 @@ class UserHandlerTest extends TestCase
         $this->assertQueryResult(
             [['0800fc577294c34e0b28ad2839435945', 1, 1234567890, self::TEST_USER_ID]],
             $this->getDatabaseConnection()->createQueryBuilder()->select(
-                ['hash_key', 'id', 'time', 'user_id']
+                'hash_key',
+                'id',
+                'time',
+                'user_id'
             )->from('ezuser_accountkey'),
             'Expected user data to be updated.'
         );
@@ -303,7 +306,10 @@ class UserHandlerTest extends TestCase
         $this->assertQueryResult(
             [['0800fc577294c34e0b28ad2839435945', 1, 2234567890, self::TEST_USER_ID]],
             $this->getDatabaseConnection()->createQueryBuilder()->select(
-                ['hash_key', 'id', 'time', 'user_id']
+                'hash_key',
+                'id',
+                'time',
+                'user_id'
             )->from('ezuser_accountkey'),
             'Expected user token data to be updated.'
         );
@@ -318,7 +324,10 @@ class UserHandlerTest extends TestCase
         $this->assertQueryResult(
             [['0800fc577294c34e0b28ad2839435945', 1, 1234567890, self::TEST_USER_ID]],
             $this->getDatabaseConnection()->createQueryBuilder()->select(
-                ['hash_key', 'id', 'time', 'user_id']
+                'hash_key',
+                'id',
+                'time',
+                'user_id'
             )->from('ezuser_accountkey'),
             'Expected user data to be updated.'
         );
@@ -328,7 +337,10 @@ class UserHandlerTest extends TestCase
         $this->assertQueryResult(
             [['0800fc577294c34e0b28ad2839435945', 1, 0, self::TEST_USER_ID]],
             $this->getDatabaseConnection()->createQueryBuilder()->select(
-                ['hash_key', 'id', 'time', 'user_id']
+                'hash_key',
+                'id',
+                'time',
+                'user_id'
             )->from('ezuser_accountkey'),
             'Expected user token to be expired.'
         );
@@ -373,7 +385,11 @@ class UserHandlerTest extends TestCase
 
         $this->assertQueryResult(
             [[1, 'Test', -1]],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'name', 'version')->from('ezrole'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select(
+                'id',
+                'name',
+                'version'
+            )->from('ezrole'),
             'Expected a new role draft.'
         );
     }
@@ -396,7 +412,11 @@ class UserHandlerTest extends TestCase
                 [$publishedRoleId, 'Test', APIRole::STATUS_DEFINED],
                 [2, 'Test', $publishedRoleId],
             ],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'name', 'version')->from('ezrole'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select(
+                'id',
+                'name',
+                'version'
+            )->from('ezrole'),
             'Expected a role and a role draft.'
         );
     }

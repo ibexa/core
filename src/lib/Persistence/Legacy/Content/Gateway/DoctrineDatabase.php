@@ -8,7 +8,6 @@
 namespace Ibexa\Core\Persistence\Legacy\Content\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder as DoctrineQueryBuilder;
@@ -87,7 +86,7 @@ final class DoctrineDatabase extends Gateway
     private $databasePlatform;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function __construct(
         Connection $connection,
@@ -777,7 +776,7 @@ final class DoctrineDatabase extends Gateway
                 'c',
                 'ezcontentobject_version',
                 'v',
-                $expr->andX(
+                $expr->and(
                     $expr->eq('c.id', 'v.contentobject_id'),
                     $expr->eq('v.version', $version ?? 'c.current_version')
                 )
@@ -786,7 +785,7 @@ final class DoctrineDatabase extends Gateway
                 'v',
                 'ezcontentobject_attribute',
                 'a',
-                $expr->andX(
+                $expr->and(
                     $expr->eq('v.contentobject_id', 'a.contentobject_id'),
                     $expr->eq('v.version', 'a.version')
                 )
@@ -795,7 +794,7 @@ final class DoctrineDatabase extends Gateway
                 'c',
                 'ezcontentobject_tree',
                 't',
-                $expr->andX(
+                $expr->and(
                     $expr->eq('c.id', 't.contentobject_id'),
                     $expr->eq('t.node_id', 't.main_node_id')
                 )
@@ -967,13 +966,13 @@ final class DoctrineDatabase extends Gateway
                 'v',
                 'ezcontentobject',
                 'c',
-                $expr->andX(
+                $expr->and(
                     $expr->eq('c.id', 'v.contentobject_id'),
                     $expr->neq('c.status', ContentInfo::STATUS_TRASHED)
                 )
             )
             ->where(
-                $query->expr()->andX(
+                $query->expr()->and(
                     $query->expr()->eq('v.status', ':status'),
                     $query->expr()->eq('v.creator_id', ':user_id')
                 )
@@ -1011,7 +1010,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->queryBuilder->createVersionInfoFindQueryBuilder();
         $expr = $query->expr();
         $query->where(
-            $expr->andX(
+            $expr->and(
                 $expr->eq('v.status', ':status'),
                 $expr->eq('v.creator_id', ':user_id'),
                 $expr->neq('c.status', ContentInfo::STATUS_TRASHED)
@@ -1164,13 +1163,13 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
-            ->select(['a.id', 'a.version', 'a.data_type_string', 'a.data_text'])
+            ->select('a.id', 'a.version', 'a.data_type_string', 'a.data_text')
             ->from(self::CONTENT_FIELD_TABLE, 'a')
             ->innerJoin(
                 'a',
                 'ezcontentobject_link',
                 'l',
-                $expr->andX(
+                $expr->and(
                     'l.from_contentobject_id = a.contentobject_id',
                     'l.from_contentobject_version = a.version',
                     'l.contentclassattribute_id = a.contentclassattribute_id'
@@ -1567,7 +1566,7 @@ final class DoctrineDatabase extends Gateway
                 'l',
                 'ezcontentobject',
                 'c',
-                $expr->andX(
+                $expr->and(
                     $expr->eq('l.from_contentobject_id', 'c.id'),
                     $expr->eq('l.from_contentobject_version', 'c.current_version'),
                     $expr->eq('c.status', ':status')
@@ -1605,7 +1604,7 @@ final class DoctrineDatabase extends Gateway
                 'l',
                 'ezcontentobject',
                 'c',
-                $expr->andX(
+                $expr->and(
                     'c.id = l.from_contentobject_id',
                     'c.current_version = l.from_contentobject_version',
                     'c.status = :status'
@@ -1649,7 +1648,7 @@ final class DoctrineDatabase extends Gateway
                 'l',
                 'ezcontentobject',
                 'c',
-                $expr->andX(
+                $expr->and(
                     $expr->eq('l.from_contentobject_id', 'c.id'),
                     $expr->eq('l.from_contentobject_version', 'c.current_version'),
                     $expr->eq('c.status', ContentInfo::STATUS_PUBLISHED)
@@ -1825,7 +1824,7 @@ final class DoctrineDatabase extends Gateway
         $expr = $query->expr();
         $conditions = [];
         foreach ($rows as $row) {
-            $conditions[] = $expr->andX(
+            $conditions[] = $expr->and(
                 $expr->eq(
                     'contentobject_id',
                     $query->createPositionalParameter($row['id'], ParameterType::INTEGER)
@@ -1837,13 +1836,13 @@ final class DoctrineDatabase extends Gateway
             );
         }
 
-        $query->where($expr->orX(...$conditions));
+        $query->where($expr->or(...$conditions));
 
         return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function copyRelations(
         int $originalContentId,
@@ -1882,7 +1881,7 @@ final class DoctrineDatabase extends Gateway
 
         $insertQuery .= $selectQuery->getSQL();
 
-        $this->connection->executeUpdate(
+        $this->connection->executeStatement(
             $insertQuery,
             $selectQuery->getParameters(),
             $selectQuery->getParameterTypes()
@@ -1893,7 +1892,7 @@ final class DoctrineDatabase extends Gateway
      * {@inheritdoc}
      *
      * @throws \Doctrine\DBAL\ConnectionException
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function deleteTranslationFromContent(int $contentId, string $languageCode): void
     {
@@ -1906,7 +1905,7 @@ final class DoctrineDatabase extends Gateway
             $this->deleteTranslationFromContentObject($contentId, $language->id);
 
             $this->connection->commit();
-        } catch (DBALException $e) {
+        } catch (\Doctrine\DBAL\Exception $e) {
             $this->connection->rollBack();
             throw $e;
         }
@@ -1943,7 +1942,7 @@ final class DoctrineDatabase extends Gateway
     /**
      * {@inheritdoc}
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function deleteTranslationFromVersion(
         int $contentId,
@@ -1958,7 +1957,7 @@ final class DoctrineDatabase extends Gateway
             $this->deleteTranslationFromContentNames($contentId, $languageCode, $versionNo);
 
             $this->connection->commit();
-        } catch (DBALException $e) {
+        } catch (\Doctrine\DBAL\Exception $e) {
             $this->connection->rollBack();
             throw $e;
         }
@@ -2015,7 +2014,7 @@ final class DoctrineDatabase extends Gateway
             ->where('id = :contentId')
             ->andWhere(
                 // make sure removed translation is not the last one (incl. alwaysAvailable)
-                $query->expr()->andX(
+                $query->expr()->and(
                     'language_mask & ~ ' . $languageId . ' <> 0',
                     'language_mask & ~ ' . $languageId . ' <> 1'
                 )
@@ -2063,7 +2062,7 @@ final class DoctrineDatabase extends Gateway
             ->where('contentobject_id = :contentId')
             ->andWhere(
                 // make sure removed translation is not the last one (incl. alwaysAvailable)
-                $query->expr()->andX(
+                $query->expr()->and(
                     'language_mask & ~ ' . $languageId . ' <> 0',
                     'language_mask & ~ ' . $languageId . ' <> 1'
                 )

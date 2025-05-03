@@ -60,7 +60,7 @@ class Collection extends Handler
                 $value = isset($value) ? $value : $this->prepareLikeString($criterion->value);
                 $quotedColumn = $column;
                 $expr = $subQuery->expr();
-                $filter = $expr->orX(
+                $filter = $expr->or(
                     $expr->$singleValueExpr(
                         $quotedColumn,
                         $outerQuery->createNamedParameter($value, ParameterType::STRING)

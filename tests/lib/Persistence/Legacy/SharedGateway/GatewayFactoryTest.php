@@ -25,7 +25,7 @@ final class GatewayFactoryTest extends TestCase
     private $factory;
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function setUp(): void
     {
@@ -45,7 +45,7 @@ final class GatewayFactoryTest extends TestCase
      * @param \Doctrine\DBAL\Connection $connectionMock
      * @param string $expectedInstance
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function testBuildSharedGateway(
         Connection $connectionMock,
