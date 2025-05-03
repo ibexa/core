@@ -189,7 +189,7 @@ final class DoctrineDatabase extends Gateway
             $this->getQueryCondition($filter, $query, $languageFilter)
         );
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         return (int)$statement->fetchOne();
     }
@@ -255,7 +255,7 @@ final class DoctrineDatabase extends Gateway
         $query->setMaxResults($limit);
         $query->setFirstResult($offset);
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         return $statement->fetchAll(FetchMode::ASSOCIATIVE);
     }

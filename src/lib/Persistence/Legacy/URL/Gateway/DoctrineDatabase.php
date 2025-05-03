@@ -88,7 +88,7 @@ class DoctrineDatabase extends Gateway
             $query->addOrderBy($column, $this->getQuerySortingDirection($sortClause->direction));
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         return [
             'count' => $count,
@@ -131,7 +131,7 @@ class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->execute()->fetchAll(FetchMode::COLUMN);
+        return $query->executeQuery()->fetchAll(FetchMode::COLUMN);
     }
 
     /**
@@ -168,7 +168,7 @@ class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -184,7 +184,7 @@ class DoctrineDatabase extends Gateway
             )
         );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
     /**
@@ -200,7 +200,7 @@ class DoctrineDatabase extends Gateway
             )
         );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
     /**
@@ -216,7 +216,7 @@ class DoctrineDatabase extends Gateway
             ->from(self::URL_TABLE, 'url')
             ->where($this->criteriaConverter->convertCriteria($query, $criterion));
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     /**

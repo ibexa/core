@@ -321,7 +321,7 @@ EOT
                 ->setParameter('toTimestamp', $this->to);
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -359,7 +359,7 @@ EOT
                 ->setParameter('toTimestamp', $this->to);
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         return (int) $statement->fetchColumn();
     }
@@ -471,7 +471,7 @@ EOT
             ->setParameter('id', $contentAttributeId)
             ->setParameter('version', $contentAttributeVersion);
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**

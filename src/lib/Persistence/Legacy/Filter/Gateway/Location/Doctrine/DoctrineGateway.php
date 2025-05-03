@@ -60,7 +60,7 @@ final class DoctrineGateway implements Gateway
 
         $query->select($this->getDatabasePlatform()->getCountExpression('DISTINCT location.node_id'));
 
-        return (int)$query->execute()->fetch(FetchMode::COLUMN);
+        return (int)$query->executeQuery()->fetch(FetchMode::COLUMN);
     }
 
     public function find(
@@ -77,7 +77,7 @@ final class DoctrineGateway implements Gateway
             $query->setMaxResults($limit);
         }
 
-        $resultStatement = $query->execute();
+        $resultStatement = $query->executeQuery();
 
         while (false !== ($row = $resultStatement->fetch(FetchMode::ASSOCIATIVE))) {
             yield $row;

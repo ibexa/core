@@ -1631,20 +1631,20 @@ class URLAliasServiceTest extends BaseTest
         $connection = $this->getRawDatabaseConnection();
 
         $query = $connection->createQueryBuilder()->select('*')->from('ezurlalias_ml');
-        $originalRows = $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        $originalRows = $query->executeQuery()->fetchAllAssociative();
 
         $expectedCount = count($originalRows);
         $expectedCount += $this->insertBrokenUrlAliasTableFixtures($connection);
 
         // sanity check
-        $updatedRows = $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        $updatedRows = $query->executeQuery()->fetchAllAssociative();
         self::assertCount($expectedCount, $updatedRows, 'Found unexpected number of new rows');
 
         // BEGIN API use case
         $urlAliasService->deleteCorruptedUrlAliases();
         // END API use case
 
-        $updatedRows = $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        $updatedRows = $query->executeQuery()->fetchAllAssociative();
         self::assertCount(
             // API should also remove already broken pre-existing URL aliases
             count($originalRows) - 4,
@@ -1811,7 +1811,7 @@ class URLAliasServiceTest extends BaseTest
                 $row[$columnName] = $query->createNamedParameter($value);
             }
             $query->values($row);
-            $query->execute();
+            $query->executeStatement();
         }
 
         return count($rows);

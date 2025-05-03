@@ -932,7 +932,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ->where(
                 $query->expr()->eq('contentobject_id', 11)
             );
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
         $nodeAssignmentsCount = (int)$statement->fetchColumn();
 
         $gateway->deleteNodeAssignment(11, 1);
@@ -1021,7 +1021,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             );
 
         if ($field === 'modified_subnode') {
-            $statement = $query->execute();
+            $statement = $query->executeQuery();
             $result = $statement->fetch(FetchMode::ASSOCIATIVE);
             self::assertGreaterThanOrEqual($value, $result);
         } else {
@@ -1240,7 +1240,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     ),
                 ]
             );
-        $query->execute();
+        $query->executeStatement();
 
         $query = $connection->createQueryBuilder();
         $query
@@ -1264,7 +1264,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     ),
                 ]
             );
-        $query->execute();
+        $query->executeStatement();
 
         $gateway = $this->getLocationGateway();
 
@@ -1392,7 +1392,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     ),
                 ]
             );
-        $query->execute();
+        $query->executeStatement();
 
         $gateway = $this->getLocationGateway();
         $data = $gateway->getFallbackMainNodeData(12, 13);

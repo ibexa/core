@@ -57,7 +57,7 @@ class DoctrineDatabase extends Gateway
             ->setParameter('type', $createStruct->type, PDO::PARAM_STR)
             ->setParameter('data', json_encode($createStruct->data), PDO::PARAM_STR);
 
-        $query->execute();
+        $query->executeStatement();
 
         return (int) $this->connection->lastInsertId();
     }
@@ -75,7 +75,7 @@ class DoctrineDatabase extends Gateway
 
         $query->setParameter('id', $notificationId, PDO::PARAM_INT);
 
-        return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        return $query->executeQuery()->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -96,7 +96,7 @@ class DoctrineDatabase extends Gateway
             ->setParameter('is_pending', $notification->isPending, PDO::PARAM_BOOL)
             ->setParameter('id', $notification->id, PDO::PARAM_INT);
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function countUserNotifications(int $userId): int
@@ -109,7 +109,7 @@ class DoctrineDatabase extends Gateway
             ->setParameter('user_id', $userId, PDO::PARAM_INT);
 
         /** @phpstan-var int<0, max> */
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     /**
@@ -127,7 +127,7 @@ class DoctrineDatabase extends Gateway
             ->setParameter('is_pending', true, PDO::PARAM_BOOL)
             ->setParameter('user_id', $userId, PDO::PARAM_INT);
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     /**
@@ -149,7 +149,7 @@ class DoctrineDatabase extends Gateway
         $query->orderBy(self::COLUMN_ID, 'DESC');
         $query->setParameter('user_id', $userId, PDO::PARAM_INT);
 
-        return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        return $query->executeQuery()->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -163,7 +163,7 @@ class DoctrineDatabase extends Gateway
             ->where($query->expr()->eq(self::COLUMN_ID, ':id'))
             ->setParameter('id', $notificationId, PDO::PARAM_INT);
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**

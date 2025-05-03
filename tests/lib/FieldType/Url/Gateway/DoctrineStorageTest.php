@@ -86,7 +86,7 @@ class DoctrineStorageTest extends TestCase
             ->setParameter('id', $id, \PDO::PARAM_INT)
         ;
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
         $result = $statement->fetchAllAssociative();
 
         $expected = [
@@ -130,7 +130,7 @@ class DoctrineStorageTest extends TestCase
             ->setParameter('urlId', $urlId, \PDO::PARAM_INT)
         ;
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         $result = $statement->fetchAllAssociative();
 
@@ -161,7 +161,7 @@ class DoctrineStorageTest extends TestCase
         $query = $this->connection->createQueryBuilder();
         $query->select('*')->from('ezurl_object_link');
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
         $result = $statement->fetchAllAssociative();
 
         $expected = [
@@ -178,7 +178,7 @@ class DoctrineStorageTest extends TestCase
         $query = $this->connection->createQueryBuilder();
         $query->select('*')->from('ezurl');
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         $result = $statement->fetchAllAssociative();
 

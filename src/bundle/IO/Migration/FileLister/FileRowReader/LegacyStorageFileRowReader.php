@@ -29,7 +29,7 @@ abstract class LegacyStorageFileRowReader implements FileRowReaderInterface
         $selectQuery
             ->select('filename', 'mime_type')
             ->from($this->getStorageTable());
-        $this->statement = $selectQuery->execute();
+        $this->statement = $selectQuery->executeQuery();
     }
 
     /**

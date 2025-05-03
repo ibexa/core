@@ -95,7 +95,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('versionNo', $versionInfo->versionNo, PDO::PARAM_INT)
         ;
 
-        $updateQuery->execute();
+        $updateQuery->executeStatement();
     }
 
     /**
@@ -123,7 +123,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('versionNo', $versionInfo->versionNo)
         ;
 
-        $insertQuery->execute();
+        $insertQuery->executeStatement();
     }
 
     /**
@@ -175,7 +175,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('versionNo', $versionNo, PDO::PARAM_INT)
         ;
 
-        $statement = $selectQuery->execute();
+        $statement = $selectQuery->executeQuery();
 
         $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
         if (!isset($rows[0])) {
@@ -234,6 +234,6 @@ class DoctrineStorage extends Gateway
             ->setParameter('versionNo', $versionInfo->versionNo, PDO::PARAM_INT)
         ;
 
-        $deleteQuery->execute();
+        $deleteQuery->executeStatement();
     }
 }

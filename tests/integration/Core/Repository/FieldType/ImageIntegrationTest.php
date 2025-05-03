@@ -864,7 +864,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
             ->setParameter('version', $versionNo, ParameterType::INTEGER)
             ->setParameter('contentobject_id', $contentId, ParameterType::INTEGER);
 
-        $result = $query->execute()->fetchAssociative();
+        $result = $query->executeQuery()->fetchAssociative();
         self::assertNotFalse($result);
 
         return $result;
@@ -912,7 +912,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
             ->setParameter('version', $versionNo, ParameterType::INTEGER)
             ->setParameter('contentobject_id', $contentId, ParameterType::INTEGER);
 
-        $query->execute();
+        $query->executeQuery();
     }
 
     /**

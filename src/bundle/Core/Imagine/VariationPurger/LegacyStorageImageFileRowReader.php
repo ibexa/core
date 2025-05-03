@@ -26,7 +26,7 @@ class LegacyStorageImageFileRowReader implements ImageFileRowReader
     {
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery->select('filepath')->from('ezimagefile');
-        $this->statement = $selectQuery->execute();
+        $this->statement = $selectQuery->executeQuery();
     }
 
     public function getRow()

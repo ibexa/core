@@ -76,7 +76,7 @@ final class DoctrineDatabase extends Gateway
                     ),
                 ]
             );
-        $query->execute();
+        $query->executeStatement();
 
         if (!isset($role->id) || (int)$role->id < 1 || $role->status === Role::STATUS_DRAFT) {
             $role->id = (int)$this->connection->lastInsertId(self::ROLE_SEQ);
@@ -109,7 +109,7 @@ final class DoctrineDatabase extends Gateway
                     ),
                 ]
             );
-        $query->execute();
+        $query->executeStatement();
 
         $role->id = (int)$this->connection->lastInsertId(self::ROLE_SEQ);
 
@@ -160,7 +160,7 @@ final class DoctrineDatabase extends Gateway
             ->addOrderBy('l.identifier', 'ASC')
             ->addOrderBy('v.value', 'ASC');
 
-        return $query->execute()->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -186,7 +186,7 @@ final class DoctrineDatabase extends Gateway
             ->addOrderBy('l.identifier', 'ASC')
             ->addOrderBy('v.value', 'ASC');
 
-        return $query->execute()->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadRoleDraftByRoleId(int $roleId): array
@@ -202,7 +202,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->orderBy('p.id', 'ASC');
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         return $statement->fetchAll(FetchMode::ASSOCIATIVE);
     }
@@ -214,7 +214,7 @@ final class DoctrineDatabase extends Gateway
             $this->buildRoleDraftQueryConstraint($status, $query)
         );
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         return $statement->fetchAll(FetchMode::ASSOCIATIVE);
     }
@@ -260,7 +260,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
     public function loadRoleAssignment(int $roleAssignmentId): array
@@ -281,7 +281,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         return $statement->fetchAll(FetchMode::ASSOCIATIVE);
     }
@@ -317,7 +317,7 @@ final class DoctrineDatabase extends Gateway
             );
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         return $statement->fetchAll(FetchMode::ASSOCIATIVE);
     }
@@ -340,7 +340,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         return $statement->fetchAll(FetchMode::ASSOCIATIVE);
     }
@@ -369,7 +369,7 @@ final class DoctrineDatabase extends Gateway
         }
 
         return $query
-            ->execute()
+            ->executeQuery()
             ->fetchAllAssociative();
     }
 
@@ -384,7 +384,7 @@ final class DoctrineDatabase extends Gateway
             $roleId
         );
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     /**
@@ -450,7 +450,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         return $statement->fetchAll(FetchMode::COLUMN);
     }
@@ -470,7 +470,7 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($role->id, ParameterType::INTEGER)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function deleteRole(int $roleId, int $status = Role::STATUS_DEFINED): void
@@ -492,7 +492,7 @@ final class DoctrineDatabase extends Gateway
         if ($status !== Role::STATUS_DRAFT) {
             $this->deleteRoleAssignments($roleId);
         }
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function publishRoleDraft(int $roleDraftId, ?int $originalRoleId = null): void
@@ -523,7 +523,7 @@ final class DoctrineDatabase extends Gateway
                     'role_id' => $query->createPositionalParameter($roleId, ParameterType::INTEGER),
                 ]
             );
-        $query->execute();
+        $query->executeStatement();
 
         $policy->id = (int)$this->connection->lastInsertId(self::POLICY_SEQ);
         $policy->roleId = $roleId;
@@ -556,7 +556,7 @@ final class DoctrineDatabase extends Gateway
                         ),
                     ]
                 );
-            $query->execute();
+            $query->executeStatement();
 
             $limitationId = (int)$this->connection->lastInsertId(self::POLICY_LIMITATION_SEQ);
 
@@ -576,7 +576,7 @@ final class DoctrineDatabase extends Gateway
                             ),
                         ]
                     );
-                $query->execute();
+                $query->executeStatement();
             }
         }
     }
@@ -594,7 +594,7 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($policyId, ParameterType::INTEGER)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -614,7 +614,7 @@ final class DoctrineDatabase extends Gateway
                     )
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -634,7 +634,7 @@ final class DoctrineDatabase extends Gateway
                     )
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     private function loadPolicyLimitationValues(int $policyId): array
@@ -655,7 +655,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
     public function removePolicyLimitations(int $policyId): void
@@ -694,7 +694,7 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($roleId, ParameterType::INTEGER)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -717,7 +717,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $paths = $query->execute()->fetchAll(FetchMode::COLUMN);
+        $paths = $query->executeQuery()->fetchAll(FetchMode::COLUMN);
         $nodeIds = array_unique(
             array_reduce(
                 array_map(
@@ -778,7 +778,7 @@ final class DoctrineDatabase extends Gateway
                 $query->createPositionalParameter($roleDraftId, ParameterType::INTEGER)
             )
         );
-        $query->execute();
+        $query->executeStatement();
     }
 
     private function publishRolePolicies(int $roleDraftId, ?int $originalRoleId): void
@@ -804,6 +804,6 @@ final class DoctrineDatabase extends Gateway
                 $policyQuery->createPositionalParameter($roleDraftId, ParameterType::INTEGER)
             )
         );
-        $policyQuery->execute();
+        $policyQuery->executeStatement();
     }
 }

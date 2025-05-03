@@ -43,7 +43,7 @@ class SearchIndex
             // use array_map as some DBMS-es do not cast integers to strings by default
             ->setParameter('words', array_map('strval', $words), Connection::PARAM_STR_ARRAY);
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
     /**
@@ -56,7 +56,7 @@ class SearchIndex
         $this
             ->getWordUpdateQuery($wordId)
             ->set('object_count', 'object_count + 1')
-            ->execute();
+            ->executeStatement();
     }
 
     /**
@@ -69,7 +69,7 @@ class SearchIndex
         $this
             ->getWordUpdateQuery($wordId)
             ->set('object_count', 'object_count - 1')
-            ->execute();
+            ->executeStatement();
     }
 
     /**
@@ -92,7 +92,7 @@ class SearchIndex
 
         foreach ($words as $word) {
             $query->setParameter('word', $word);
-            $query->execute();
+            $query->executeStatement();
         }
     }
 
@@ -110,7 +110,7 @@ class SearchIndex
             $this->connection
                 ->createQueryBuilder()
                 ->delete($tableName)
-                ->execute();
+                ->executeStatement();
         }
         $this->connection->commit();
     }
@@ -187,7 +187,7 @@ class SearchIndex
                 ]
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -206,7 +206,7 @@ class SearchIndex
                 )
             );
 
-        return $query->execute()->fetchAll(FetchMode::COLUMN);
+        return $query->executeQuery()->fetchAll(FetchMode::COLUMN);
     }
 
     /**
@@ -224,7 +224,7 @@ class SearchIndex
                 )
             );
 
-        return $query->execute();
+        return $query->executeStatement();
     }
 
     /**
@@ -242,7 +242,7 @@ class SearchIndex
                 )
             );
 
-        return $query->execute();
+        return $query->executeStatement();
     }
 
     /**

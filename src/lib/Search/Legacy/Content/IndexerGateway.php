@@ -35,7 +35,7 @@ final class IndexerGateway implements SPIIndexerGateway
         $query = $this->buildQueryForContentSince($since);
         $query->orderBy('c.modified');
 
-        yield from $this->fetchIteration($query->execute(), $iterationCount);
+        yield from $this->fetchIteration($query->executeQuery(), $iterationCount);
     }
 
     public function countContentSince(DateTimeInterface $since): int
@@ -44,14 +44,14 @@ final class IndexerGateway implements SPIIndexerGateway
             $this->buildQueryForContentSince($since)
         );
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     public function getContentInSubtree(string $locationPath, int $iterationCount): Generator
     {
         $query = $this->buildQueryForContentInSubtree($locationPath);
 
-        yield from $this->fetchIteration($query->execute(), $iterationCount);
+        yield from $this->fetchIteration($query->executeQuery(), $iterationCount);
     }
 
     public function countContentInSubtree(string $locationPath): int
@@ -60,14 +60,14 @@ final class IndexerGateway implements SPIIndexerGateway
             $this->buildQueryForContentInSubtree($locationPath)
         );
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     public function getAllContent(int $iterationCount): Generator
     {
         $query = $this->buildQueryForAllContent();
 
-        yield from $this->fetchIteration($query->execute(), $iterationCount);
+        yield from $this->fetchIteration($query->executeQuery(), $iterationCount);
     }
 
     public function countAllContent(): int
@@ -76,7 +76,7 @@ final class IndexerGateway implements SPIIndexerGateway
             $this->buildQueryForAllContent()
         );
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     private function buildQueryForContentSince(DateTimeInterface $since): QueryBuilder

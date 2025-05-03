@@ -273,8 +273,7 @@ EOT
                 )->setParameter('contentTypes', $excludedContentTypes, Connection::PARAM_STR_ARRAY);
         }
 
-        /** @var \Doctrine\DBAL\ForwardCompatibility\Result<int> $stmt */
-        $stmt = $query->execute();
+        $stmt = $query->executeQuery();
 
         return $stmt->fetchFirstColumn();
     }
