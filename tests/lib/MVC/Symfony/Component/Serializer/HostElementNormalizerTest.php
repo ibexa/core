@@ -21,6 +21,17 @@ use Symfony\Component\Serializer\Serializer;
  */
 final class HostElementNormalizerTest extends TestCase
 {
+    private const array DATA = [
+        'elementNumber' => 2,
+        'hostElements' => [
+            'ibexa',
+            'dev',
+        ],
+    ];
+
+    /**
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
     public function testNormalization(): void
     {
         $normalizer = new HostElementNormalizer();
@@ -33,17 +44,11 @@ final class HostElementNormalizerTest extends TestCase
 
         $matcher = new HostElement(2);
         // Set request and invoke match to initialize HostElement::$hostElements
-        $matcher->setRequest(SimplifiedRequest::fromUrl('http://ibexa.dev/foo/bar'));
+        $matcher->setRequest(SimplifiedRequest::fromUrl('https://ibexa.dev/foo/bar'));
         $matcher->match();
 
         self::assertEquals(
-            [
-                'elementNumber' => 2,
-                'hostElements' => [
-                    'ibexa',
-                    'dev',
-                ],
-            ],
+            self::DATA,
             $serializer->normalize($matcher)
         );
     }
@@ -54,5 +59,18 @@ final class HostElementNormalizerTest extends TestCase
 
         self::assertTrue($normalizer->supportsNormalization($this->createMock(HostElement::class)));
         self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
+    }
+
+    /**
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+    public function testDenormalization(): void
+    {
+        $denormalizer = new HostElementNormalizer();
+        $expectedHostElement = new HostElement(2);
+        $expectedHostElement->setRequest(SimplifiedRequest::fromUrl('https://ibexa.dev/foo/bar'));
+        $actualHostElement = $denormalizer->denormalize(self::DATA, HostElement::class);
+
+        self::assertSame('dev', $actualHostElement->match());
     }
 }

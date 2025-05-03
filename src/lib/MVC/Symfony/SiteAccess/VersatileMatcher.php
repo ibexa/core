@@ -7,6 +7,8 @@
 
 namespace Ibexa\Core\MVC\Symfony\SiteAccess;
 
+use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
+
 /**
  * Interface for SiteAccess matchers.
  *
@@ -16,23 +18,19 @@ namespace Ibexa\Core\MVC\Symfony\SiteAccess;
 interface VersatileMatcher extends Matcher
 {
     /**
-     * Returns matcher object corresponding to $siteAccessName or null if non applicable.
+     * Returns a matcher object corresponding to $siteAccessName or null if non-applicable.
      *
-     * Note: VersatileMatcher objects always receive a request with cleaned up pathinfo (i.e. no SiteAccess part inside).
+     * Note: VersatileMatcher objects always receive a request with cleaned-up pathInfo (i.e. no SiteAccess part inside).
      *
-     * @param string $siteAccessName
-     *
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher|null Typically the current matcher, with updated request.
+     * @return \Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher|null Typically the current matcher, with an updated request.
      */
-    public function reverseMatch($siteAccessName);
+    public function reverseMatch(string $siteAccessName): ?VersatileMatcher;
 
     /**
      * Returns the SimplifiedRequest object corresponding to the reverse match.
      * This request object can then be used to build a link to the "reverse matched" SiteAccess.
      *
      * @see reverseMatch()
-     *
-     * @return \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest
      */
-    public function getRequest();
+    public function getRequest(): SimplifiedRequest;
 }

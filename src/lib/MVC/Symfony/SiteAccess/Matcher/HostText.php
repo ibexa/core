@@ -29,14 +29,14 @@ class HostText extends AffixBasedTextMatcher
 
     public function setRequest(SimplifiedRequest $request): void
     {
-        if (!$this->element) {
+        if (!isset($this->element)) {
             $this->setMatchElement((string)$request->getHost());
         }
 
         parent::setRequest($request);
     }
 
-    public function reverseMatch($siteAccessName): ?VersatileMatcher
+    public function reverseMatch(string $siteAccessName): ?VersatileMatcher
     {
         $this->request->setHost($this->prefix . $siteAccessName . $this->suffix);
 

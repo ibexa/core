@@ -12,6 +12,9 @@ use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
+/**
+ * @covers \Ibexa\Core\MVC\Symfony\Component\Serializer\SimplifiedRequestNormalizer
+ */
 final class SimplifiedRequestNormalizerTest extends TestCase
 {
     /**
@@ -42,7 +45,7 @@ final class SimplifiedRequestNormalizerTest extends TestCase
             'scheme' => 'http',
             'host' => 'www.example.com',
             'port' => 8080,
-            'pathinfo' => '/foo',
+            'pathInfo' => '/foo',
             'queryParams' => ['param' => 'value', 'this' => 'that'],
             'headers' => [],
             'languages' => ['pl-PL', 'en-US'],
@@ -74,7 +77,7 @@ final class SimplifiedRequestNormalizerTest extends TestCase
             'scheme' => 'http',
             'host' => 'www.example.com',
             'port' => 8080,
-            'pathinfo' => '/foo',
+            'pathInfo' => '/foo',
             'queryParams' => ['param' => 'value', 'this' => 'that'],
             'headers' => [],
             'languages' => ['pl-PL', 'en-US'],

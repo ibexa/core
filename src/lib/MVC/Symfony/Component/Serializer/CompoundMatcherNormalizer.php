@@ -4,48 +4,63 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\MVC\Symfony\Component\Serializer;
 
-use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
+use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound;
+use Symfony\Component\Serializer\Exception\LogicException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class CompoundMatcherNormalizer extends AbstractPropertyWhitelistNormalizer implements DenormalizerAwareInterface
+/**
+ * @internal
+ *
+ * @phpstan-type TNormalizedCompoundMatcherData array{type: class-string, subMatchers: array<mixed>, config: array<mixed>, matchersMap: array<mixed>}
+ */
+class CompoundMatcherNormalizer implements NormalizerInterface, NormalizerAwareInterface, DenormalizerInterface, DenormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
+    use NormalizerAwareTrait;
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound $object
+     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound $data
+     *
+     * @phpstan-return TNormalizedCompoundMatcherData $data
      *
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      *
      * @see \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound::__sleep
      */
-    public function normalize($object, string $format = null, array $context = []): array
+    public function normalize(mixed $data, string $format = null, array $context = []): array
     {
-        $data = parent::normalize($object, $format, $context);
+        /** @var array<string, array<mixed>> $subMatchers */
+        $subMatchers = $this->normalizer->normalize($data->getSubMatchers(), $format, $context);
 
-        /** @var array<string, mixed> $data */
-        $data['config'] = [];
-        $data['matchersMap'] = [];
-
-        return $data;
+        return [
+            'type' => $data::class,
+            'subMatchers' => $subMatchers,
+            'config' => [],
+            'matchersMap' => [],
+        ];
     }
 
-    protected function getAllowedProperties(): array
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
-        return ['subMatchers'];
+        return $data instanceof Compound;
     }
 
-    public function supportsNormalization($data, string $format = null): bool
-    {
-        return $data instanceof Matcher\Compound;
-    }
-
-    public function supportsDenormalization($data, string $type, string $format = null): bool
-    {
-        return is_a($type, Matcher\Compound::class, true);
+    public function supportsDenormalization(
+        mixed $data,
+        string $type,
+        ?string $format = null,
+        array $context = []
+    ): bool {
+        return is_a($type, Compound::class, true) && is_a($data['type'] ?? null, Compound::class, true);
     }
 
     /**
@@ -53,20 +68,33 @@ class CompoundMatcherNormalizer extends AbstractPropertyWhitelistNormalizer impl
      *
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function denormalize($data, string $type, ?string $format = null, array $context = []): object
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): object
     {
-        $compoundMatcher = new $type([]);
+        $compoundMatcherType = $data['type'] ?? throw new LogicException('Unknown compound matcher type');
+        if (!is_a($compoundMatcherType, Compound::class, true)) {
+            throw new LogicException(sprintf('%s is not a subtype of %s', $compoundMatcherType, Compound::class));
+        }
+
+        $compoundMatcher = new $compoundMatcherType($data['config'] ?? []);
         $subMatchers = [];
-        foreach ($context['serialized_siteaccess_sub_matchers'] ?? [] as $matcherType => $subMatcher) {
-            $subMatchers[$matcherType] = $this->serializer->deserialize(
+        foreach ($data['subMatchers'] ?? [] as $matcherType => $subMatcher) {
+            $subMatchers[$matcherType] = $this->denormalizer->denormalize(
                 $subMatcher,
                 $matcherType,
-                $format ?? 'json',
+                $format,
                 $context
             );
         }
         $compoundMatcher->setSubMatchers($subMatchers);
 
         return $compoundMatcher;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            // don't cache it, as the normalizer relies on other things besides type
+            Compound::class => false,
+        ];
     }
 }

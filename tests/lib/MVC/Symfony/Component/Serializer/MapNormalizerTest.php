@@ -27,6 +27,7 @@ final class MapNormalizerTest extends TestCase
                 'key' => 'foo',
                 'map' => [],
                 'reverseMap' => [],
+                'type' => $matcher::class,
             ],
             $normalizer->normalize($matcher)
         );

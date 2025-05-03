@@ -151,7 +151,7 @@ class RouterHostPortURITest extends RouterBaseTest
         $result = $matcher->reverseMatch('ibexa_demo_site');
         self::assertInstanceOf(Port::class, $result);
         self::assertSame($request, $matcher->getRequest());
-        self::assertSame(8000, $result->getMapKey());
+        self::assertSame('8000', $result->getMapKey());
         self::assertSame(8000, $result->getRequest()->getPort());
         self::assertSame('http', $result->getRequest()->getScheme());
     }
