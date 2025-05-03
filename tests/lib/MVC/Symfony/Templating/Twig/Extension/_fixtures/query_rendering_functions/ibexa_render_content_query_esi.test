@@ -13,7 +13,6 @@ return array()
 array (
   0 => 
   \Symfony\Component\HttpKernel\Controller\ControllerReference::__set_state(array(
-     'controller' => 'ibexa_query_render::renderQuery',
      'attributes' => 
     array (
       'options' => 
@@ -28,6 +27,7 @@ array (
      'query' => 
     array (
     ),
+     'controller' => 'ibexa_query_render::renderQuery',
   )),
   1 => 'esi',
   2 => 
