@@ -2174,7 +2174,7 @@ final class DoctrineDatabase extends Gateway
             // parameter for bitwise operation has to be placed verbatim (w/o binding) for this to work cross-DBMS
             ->set('language_mask', $this->getLanguageRemovalFromLanguageMaskExpression($languageId))
             ->set('modified', ':now')
-            ->where('id = :contentId')
+            ->where('id = :content_id')
             ->andWhere(
                 // make sure removed translation is not the last one (incl. alwaysAvailable)
                 $query->expr()->and(
