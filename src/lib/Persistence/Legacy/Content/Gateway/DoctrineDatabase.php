@@ -2220,7 +2220,7 @@ final class DoctrineDatabase extends Gateway
             ->set(
                 'initial_language_id',
                 'CASE WHEN initial_language_id = :languageId ' .
-                'THEN (SELECT initial_language_id AS main_language_id FROM ezcontentobject c WHERE c.id = :contentId) ' .
+                'THEN (SELECT initial_language_id AS main_language_id FROM ezcontentobject c WHERE c.id = :content_id) ' .
                 'ELSE initial_language_id END'
             )
             ->where(self::CONTENT_ITEM_ID_EQ_CONTENT_ID_PARAM_COMPARISON)
@@ -2232,7 +2232,7 @@ final class DoctrineDatabase extends Gateway
                 )
             )
             ->setParameter('now', time())
-            ->setParameter(self::CONTENT_ID_PARAM_NAME, $contentId)
+            ->setParameter('content_id', $contentId)
             ->setParameter('languageId', $languageId)
         ;
 
