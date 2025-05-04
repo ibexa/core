@@ -406,7 +406,7 @@ abstract class DoctrineStorage extends Gateway
                 $this->connection->quoteIdentifier('mime_type')
             )
             ->setParameter(
-                ':filenames',
+                'filenames',
                 array_map(
                     [$this, 'removeMimeFromPath'],
                     $files
