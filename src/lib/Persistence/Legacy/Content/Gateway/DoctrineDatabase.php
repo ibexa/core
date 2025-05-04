@@ -2145,8 +2145,8 @@ final class DoctrineDatabase extends Gateway
             ->andWhere('real_translation=:languageCode')
             ->setParameters(
                 [
-                    ':languageCode' => $languageCode,
-                    self::CONTENT_ID_PARAM_NAME => $contentId,
+                    'languageCode' => $languageCode,
+                    'contentId' => $contentId,
                 ]
             )
         ;
