@@ -192,8 +192,12 @@ abstract class DoctrineStorage extends Gateway
     /**
      * Remove the prepended mime-type directory from $path for legacy storage.
      */
-    public function removeMimeFromPath(string $path): string
+    public function removeMimeFromPath(?string $path): string
     {
+        if ($path === null) {
+            return '';
+        }
+
         return substr($path, strpos($path, '/') + 1);
     }
 
