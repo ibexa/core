@@ -2087,7 +2087,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameters(
                 [
                     self::CONTENT_ID_PARAM_NAME => $contentId,
-                    ':languageCode' => $languageCode,
+                    'languageCode' => $languageCode,
                 ]
             )
         ;
