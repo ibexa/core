@@ -52,7 +52,7 @@ final class ContentName extends CriterionHandler
                     self::CONTENTOBJECT_ALIAS . '.current_version'
                 ),
                 $queryBuilder->expr()->like(
-                    $this->toLowerCase(self::CONTENTOBJECT_NAME_ALIAS . '.name'),
+                    $this->toLowerCase(self::CONTENTOBJECT_NAME_ALIAS . '.name', false),
                     $this->toLowerCase(
                         $queryBuilder->createNamedParameter(
                             $this->prepareValue($criterion)
@@ -84,6 +84,6 @@ final class ContentName extends CriterionHandler
 
     private function toLowerCase(string $value): string
     {
-        return sprintf('LOWER( %s )', $this->connection->quote($value));
+        return sprintf('LOWER( %s )', $value);
     }
 }
