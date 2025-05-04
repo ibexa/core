@@ -350,7 +350,7 @@ class DoctrineStorage extends Gateway
     /**
      * @throws \Ibexa\Core\IO\Exception\InvalidBinaryFileIdException
      */
-    public function extractFilesFromXml(string $xml): ?array
+    public function extractFilesFromXml(?string $xml): ?array
     {
         if (empty($xml)) {
             // Empty image value
