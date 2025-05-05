@@ -76,7 +76,7 @@ final class DoctrineDatabase extends Gateway
             $query->expr()->eq('t.node_id', $query->createNamedParameter($nodeId, ParameterType::INTEGER))
         );
 
-        if ($row = $query->executeQuery()->fetch(FetchMode::ASSOCIATIVE)) {
+        if ($row = $query->executeQuery()->fetchAssociative()) {
             return $row;
         }
 
