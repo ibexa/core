@@ -8,6 +8,7 @@
 namespace Ibexa\Core\FieldType\Keyword;
 
 use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
+use Ibexa\Contracts\Core\FieldType\StorageGatewayInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 
@@ -21,7 +22,7 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 class KeywordStorage extends GatewayBasedStorage
 {
     /** @var \Ibexa\Core\FieldType\Keyword\KeywordStorage\Gateway */
-    protected $gateway;
+    protected StorageGatewayInterface $gateway;
 
     /**
      * @see \Ibexa\Contracts\Core\FieldType\FieldStorage

@@ -8,6 +8,7 @@
 namespace Ibexa\Core\FieldType\MapLocation;
 
 use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
+use Ibexa\Contracts\Core\FieldType\StorageGatewayInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 
@@ -17,7 +18,7 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 class MapLocationStorage extends GatewayBasedStorage
 {
     /** @var \Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway */
-    protected $gateway;
+    protected StorageGatewayInterface $gateway;
 
     public function storeFieldData(VersionInfo $versionInfo, Field $field)
     {
