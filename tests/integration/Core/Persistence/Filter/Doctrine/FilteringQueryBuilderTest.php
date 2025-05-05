@@ -9,7 +9,10 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Persistence\Filter\Doctrine;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
+use Doctrine\DBAL\SQL\Builder\DefaultSelectSQLBuilder;
+use Doctrine\DBAL\SQL\Builder\SelectSQLBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use PHPUnit\Framework\TestCase;
@@ -21,7 +24,12 @@ class FilteringQueryBuilderTest extends TestCase
 
     protected function setUp(): void
     {
+        $platform = $this->createMock(AbstractPlatform::class);
+        $platform->method('createSelectSQLBuilder')->willReturn(new DefaultSelectSQLBuilder($platform, null, null));
+
         $connectionMock = $this->createMock(Connection::class);
+        $connectionMock->method('getDatabasePlatform')->willReturn($platform);
+
         $connectionMock->method('getExpressionBuilder')->willReturn(
             new ExpressionBuilder($connectionMock)
         );
