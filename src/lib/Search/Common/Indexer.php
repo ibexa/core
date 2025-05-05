@@ -8,7 +8,6 @@
 namespace Ibexa\Core\Search\Common;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\Result;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
@@ -22,17 +21,13 @@ use Psr\Log\LoggerInterface;
  */
 abstract class Indexer
 {
-    /** @var \Psr\Log\LoggerInterface */
-    protected $logger;
+    protected LoggerInterface $logger;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
-    protected $persistenceHandler;
+    protected PersistenceHandler $persistenceHandler;
 
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
+    protected Connection $connection;
 
-    /** @var \Ibexa\Contracts\Core\Search\Handler */
-    protected $searchHandler;
+    protected SearchHandler $searchHandler;
 
     public function __construct(
         LoggerInterface $logger,
