@@ -38,7 +38,7 @@ class BinaryBaseStorage extends GatewayBasedStorage
     protected PathGeneratorInterface $downloadUrlGenerator;
 
     /** @var \Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway */
-    protected $gateway;
+    protected StorageGatewayInterface $gateway;
 
     /** @var \Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator */
     protected $fileExtensionBlackListValidator;
