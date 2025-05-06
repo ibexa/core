@@ -39,16 +39,4 @@ abstract class BaseFlysystemTest extends ConfigurationFactoryTest
             new Reference($this->filesystemServiceId)
         );
     }
-
-    public function validateConfiguredContainer()
-    {
-        self::assertContainerBuilderHasService(
-            $this->filesystemServiceId
-        );
-        self::assertContainerBuilderHasServiceDefinitionWithArgument(
-            'ezpublish.core.io.flysystem.my_test_handler_filesystem',
-            0,
-            new Reference($this->flysystemAdapterServiceId)
-        );
-    }
 }

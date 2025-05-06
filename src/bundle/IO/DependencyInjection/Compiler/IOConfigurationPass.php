@@ -11,7 +11,6 @@ use ArrayObject;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -86,7 +85,7 @@ class IOConfigurationPass implements CompilerPassInterface
         $handlers = ['default' => new Reference($defaultHandler)];
 
         foreach ($configuredHandlers as $name => $config) {
-            $configurationFactory = $this->getFactory($factories, $config['type'], $container);
+            $configurationFactory = $this->getFactory($factories, $config['type']);
 
             $parentHandlerId = $configurationFactory->getParentServiceId();
             $handlerId = sprintf('%s.%s', $parentHandlerId, $name);
@@ -104,19 +103,15 @@ class IOConfigurationPass implements CompilerPassInterface
     /**
      * Returns from $factories the factory for handler $type.
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      * @param \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory[]|\ArrayObject $factories
      * @param string $type
      *
      * @return \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory
      */
-    protected function getFactory(ArrayObject $factories, $type, ContainerBuilder $container)
+    protected function getFactory(ArrayObject $factories, $type)
     {
         if (!isset($factories[$type])) {
             throw new InvalidConfigurationException("Unknown handler type $type");
-        }
-        if ($factories[$type] instanceof ContainerAwareInterface) {
-            $factories[$type]->setContainer($container);
         }
 
         return $factories[$type];
