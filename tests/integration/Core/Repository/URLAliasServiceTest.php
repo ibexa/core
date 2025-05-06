@@ -16,7 +16,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
 use Ibexa\Tests\Integration\Core\Repository\Common\SlugConverter as TestSlugConverter;
-use PDO;
 use RuntimeException;
 
 /**
