@@ -9,11 +9,11 @@ namespace Ibexa\Core\Base;
 
 use Ibexa\Contracts\Core\Container;
 use RuntimeException;
-use Symfony\Bridge\ProxyManager\LazyProxy\PhpDumper\ProxyDumper;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
+use Symfony\Component\DependencyInjection\LazyProxy\PhpDumper\LazyServiceDumper;
 
 /**
  * Container implementation wrapping Symfony container component.
@@ -188,7 +188,7 @@ class ServiceContainer implements Container
         $dumper = new PhpDumper($this->innerContainer);
 
         if (class_exists('ProxyManager\Configuration')) {
-            $dumper->setProxyDumper(new ProxyDumper());
+            $dumper->setProxyDumper(new LazyServiceDumper());
         }
 
         $content = $dumper->dump(
