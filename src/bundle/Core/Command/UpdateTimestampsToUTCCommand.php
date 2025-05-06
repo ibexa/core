@@ -11,7 +11,6 @@ namespace Ibexa\Bundle\Core\Command;
 use DateTime;
 use DateTimeZone;
 use Doctrine\DBAL\Connection;
-use PDO;
 use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -323,7 +322,7 @@ EOT
 
         $statement = $query->executeQuery();
 
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -361,7 +360,7 @@ EOT
 
         $statement = $query->executeQuery();
 
-        return (int) $statement->fetchColumn();
+        return (int) $statement->fetchOne();
     }
 
     /**
