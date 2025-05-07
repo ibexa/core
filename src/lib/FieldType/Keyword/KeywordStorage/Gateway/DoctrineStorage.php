@@ -349,7 +349,7 @@ class DoctrineStorage extends Gateway
             ->where($query->expr()->isNull('attr.id'));
 
         $statement = $query->executeQuery();
-        $ids = $statement->fetchAllAssociative();
+        $ids = $statement->fetchFirstColumn();
 
         if (empty($ids)) {
             return;
