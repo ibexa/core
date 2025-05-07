@@ -9,8 +9,11 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Persistence;
 
 use Doctrine\Common\EventManager;
+use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Driver\AbstractSQLiteDriver\Middleware\EnableForeignKeys;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 
 /**
  * Database connection factory for integration tests.
@@ -70,15 +73,19 @@ class DatabaseConnectionFactory
         // set DbPlatform based on database url scheme
         $scheme = parse_url($databaseURL, PHP_URL_SCHEME);
         $driverName = 'pdo_' . $scheme;
+        $config = new Configuration();
         if (isset($this->databasePlatforms[$driverName])) {
             $params['platform'] = $this->databasePlatforms[$driverName];
             // add predefined event subscribers only for the relevant connection
             $params['platform']->addEventSubscribers($this->eventManager);
+            if ($params['platform'] instanceof SqlitePlatform) {
+                $config->setMiddlewares([new EnableForeignKeys()]);
+            }
         }
 
         self::$connectionPool[$databaseURL] = DriverManager::getConnection(
             $params,
-            null,
+            $config,
             $this->eventManager
         );
         self::$connectionPool[$databaseURL]->setNestTransactionsWithSavepoints(true);
