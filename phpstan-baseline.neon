@@ -54523,12 +54523,6 @@ parameters:
 			path: tests/lib/Persistence/Cache/UserPreferenceHandlerTest.php
 
 		-
-			message: '#^Property Ibexa\\Tests\\Core\\Persistence\\DatabaseConnectionFactory\:\:\$databasePlatforms type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Persistence/DatabaseConnectionFactory.php
-
-		-
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\FieldType'' and Ibexa\\Contracts\\Core\\Persistence\\FieldType will always evaluate to true\.$#'
 			identifier: staticMethod.alreadyNarrowedType
 			count: 3
