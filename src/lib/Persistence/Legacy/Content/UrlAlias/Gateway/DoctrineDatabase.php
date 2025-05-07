@@ -94,7 +94,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('action', "eznode:{$locationId}", ParameterType::STRING)
             ->setParameter('is_original', 1, ParameterType::INTEGER);
 
-        return $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadLocationEntries(
@@ -155,7 +155,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function listGlobalEntries(
@@ -225,7 +225,7 @@ final class DoctrineDatabase extends Gateway
         }
         $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function isRootEntry(int $id): bool
@@ -518,7 +518,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->executeQuery();
 
-        $rows = $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        $rows = $statement->fetchAllAssociative();
 
         foreach ($rows as $row) {
             $this->historize((int)$row['parent'], $row['text_md5'], $link);
@@ -784,7 +784,7 @@ final class DoctrineDatabase extends Gateway
 
             $statement = $query->executeQuery();
 
-            $rows = $statement->fetchAll(FetchMode::ASSOCIATIVE);
+            $rows = $statement->fetchAllAssociative();
             if (empty($rows)) {
                 // Normally this should never happen
                 $pathDataArray = [];
@@ -854,7 +854,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->executeQuery();
 
-        $rows = $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        $rows = $statement->fetchAllAssociative();
         $rowsMap = [];
         foreach ($rows as $row) {
             $rowsMap[$row['action']][] = $row;
@@ -981,7 +981,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function getLocationContentMainLanguageId(int $locationId): int
@@ -1104,7 +1104,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -1332,7 +1332,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $queryBuilder->executeQuery()->fetchAll();
+        return $queryBuilder->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -1419,7 +1419,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $queryBuilder->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $queryBuilder->executeQuery()->fetchAllAssociative();
     }
 
     /**

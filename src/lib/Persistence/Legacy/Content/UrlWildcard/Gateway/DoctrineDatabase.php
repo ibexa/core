@@ -170,7 +170,7 @@ final class DoctrineDatabase extends Gateway
 
         $stmt = $query->executeQuery();
 
-        return $stmt->fetchAll(FetchMode::ASSOCIATIVE);
+        return $stmt->fetchAllAssociative();
     }
 
     public function find(

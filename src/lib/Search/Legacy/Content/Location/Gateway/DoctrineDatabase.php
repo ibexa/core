@@ -8,7 +8,6 @@
 namespace Ibexa\Core\Search\Legacy\Content\Location\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
@@ -159,7 +158,7 @@ final class DoctrineDatabase extends Gateway
 
         return [
             'count' => $count,
-            'rows' => $statement->fetchAll(FetchMode::ASSOCIATIVE),
+            'rows' => $statement->fetchAllAssociative(),
         ];
     }
 

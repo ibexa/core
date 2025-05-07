@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\User\Role\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\User\Policy;
@@ -204,7 +204,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadRoles(int $status = Role::STATUS_DEFINED): array
@@ -216,7 +216,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadRolesForContentObjects(
@@ -260,7 +260,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadRoleAssignment(int $roleAssignmentId): array
@@ -283,7 +283,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadRoleAssignmentsByGroupId(int $groupId, bool $inherited = false): array
@@ -305,7 +305,7 @@ final class DoctrineDatabase extends Gateway
             $query->where(
                 $query->expr()->in(
                     'contentobject_id',
-                    $groupIds
+                    $query->createNamedParameter($groupIds, ArrayParameterType::INTEGER)
                 )
             );
         } else {
@@ -319,7 +319,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadRoleAssignmentsByRoleId(int $roleId): array
@@ -342,7 +342,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -452,7 +452,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::COLUMN);
+        return $statement->fetchFirstColumn();
     }
 
     public function updateRole(RoleUpdateStruct $role): void
@@ -655,7 +655,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function removePolicyLimitations(int $policyId): void
@@ -717,7 +717,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $paths = $query->executeQuery()->fetchAll(FetchMode::COLUMN);
+        $paths = $query->executeQuery()->fetchFirstColumn();
         $nodeIds = array_unique(
             array_reduce(
                 array_map(

@@ -8,7 +8,6 @@
 namespace Ibexa\Core\FieldType\Image\ImageStorage\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use DOMDocument;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
@@ -146,7 +145,7 @@ class DoctrineStorage extends Gateway
         $statement = $selectQuery->executeQuery();
 
         $fieldLookup = [];
-        foreach ($statement->fetchAll(PDO::FETCH_ASSOC) as $row) {
+        foreach ($statement->fetchAllAssociative() as $row) {
             $fieldLookup[$row['id']] = $row['data_text'];
         }
 
@@ -327,7 +326,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('versionNo', $versionNo, PDO::PARAM_INT)
         ;
 
-        $imageXMLs = $selectQuery->executeQuery()->fetchAll(FetchMode::COLUMN);
+        $imageXMLs = $selectQuery->executeQuery()->fetchFirstColumn();
         foreach ($imageXMLs as $imageXML) {
             $storedFilePath = $this->extractFilesFromXml($imageXML)['original'] ?? null;
             if ($storedFilePath === $path) {

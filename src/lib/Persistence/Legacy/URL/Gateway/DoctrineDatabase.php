@@ -8,7 +8,6 @@
 namespace Ibexa\Core\Persistence\Legacy\URL\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\URL\URL;
@@ -131,7 +130,7 @@ class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->executeQuery()->fetchAll(FetchMode::COLUMN);
+        return $query->executeQuery()->fetchFirstColumn();
     }
 
     /**
@@ -184,7 +183,7 @@ class DoctrineDatabase extends Gateway
             )
         );
 
-        return $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -200,7 +199,7 @@ class DoctrineDatabase extends Gateway
             )
         );
 
-        return $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**

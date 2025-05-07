@@ -177,7 +177,7 @@ class DoctrineStorage extends Gateway
 
         $statement = $selectQuery->executeQuery();
 
-        $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $statement->fetchAllAssociative();
         if (!isset($rows[0])) {
             return null;
         }

@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\UserPreference\Gateway;
 
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct;
 use Ibexa\Core\Persistence\Legacy\UserPreference\Gateway;
@@ -133,7 +132,7 @@ class DoctrineDatabaseTest extends TestCase
                     $queryBuilder->createPositionalParameter($id, ParameterType::INTEGER)
                 )
             );
-        $result = $queryBuilder->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
+        $result = $queryBuilder->executeQuery()->fetchAllAssociative();
 
         return reset($result);
     }

@@ -243,7 +243,7 @@ abstract class DoctrineStorage extends Gateway
 
         $statement = $selectQuery->executeQuery();
 
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAllAssociative();
 
         if (count($result) < 1) {
             return null;
@@ -412,7 +412,7 @@ abstract class DoctrineStorage extends Gateway
             function ($row) {
                 return $this->prependMimeToPath($row['filename'], $row['mime_type']);
             },
-            $statement->fetchAll(PDO::FETCH_ASSOC)
+            $statement->fetchAllAssociative()
         );
     }
 
@@ -463,7 +463,7 @@ abstract class DoctrineStorage extends Gateway
         $statement = $selectQuery->executeQuery();
 
         $countMap = [];
-        foreach ($statement->fetchAll(PDO::FETCH_ASSOC) as $row) {
+        foreach ($statement->fetchAllAssociative() as $row) {
             $path = $this->prependMimeToPath($row['filename'], $row['mime_type']);
             $countMap[$path] = (int)$row['count'];
         }

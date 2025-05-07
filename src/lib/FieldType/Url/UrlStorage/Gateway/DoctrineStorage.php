@@ -51,7 +51,7 @@ class DoctrineStorage extends Gateway
                 ->setParameter('ids', $ids, Connection::PARAM_INT_ARRAY);
 
             $statement = $query->executeQuery();
-            foreach ($statement->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            foreach ($statement->fetchAllAssociative() as $row) {
                 $map[$row['id']] = $row['url'];
             }
         }
@@ -86,7 +86,7 @@ class DoctrineStorage extends Gateway
                 ->setParameter('urls', $urls, Connection::PARAM_STR_ARRAY);
 
             $statement = $query->executeQuery();
-            foreach ($statement->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            foreach ($statement->fetchAllAssociative() as $row) {
                 $map[$row['url']] = $row['id'];
             }
         }
@@ -260,7 +260,7 @@ class DoctrineStorage extends Gateway
 
         $statement = $query->executeQuery();
 
-        $ids = $statement->fetchAll(PDO::FETCH_COLUMN);
+        $ids = $statement->fetchFirstColumn();
         if (empty($ids)) {
             return;
         }

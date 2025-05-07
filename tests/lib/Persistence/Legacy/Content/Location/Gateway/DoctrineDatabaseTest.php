@@ -1190,6 +1190,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->setSectionForSubtree('/1/2/69/70/', 23);
 
         $query = $this->getDatabaseConnection()->createQueryBuilder();
+
         $this->assertQueryResult(
             [[68], [69]],
             $query

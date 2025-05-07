@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\UserPreference\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct;
 use Ibexa\Core\Persistence\Legacy\UserPreference\Gateway;
@@ -84,7 +83,7 @@ class DoctrineDatabase extends Gateway
         $query->setParameter('userId', $userId, ParameterType::INTEGER);
         $query->setParameter('name', $name, ParameterType::STRING);
 
-        return $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -106,7 +105,7 @@ class DoctrineDatabase extends Gateway
         $query->orderBy(self::COLUMN_ID, 'ASC');
         $query->setParameter('user_id', $userId, ParameterType::INTEGER);
 
-        return $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**

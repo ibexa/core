@@ -229,7 +229,7 @@ final class DoctrineGateway implements Gateway
             ->setFirstResult(0)
             ->resetQueryPart('orderBy');
 
-        return $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     private function bulkFetchFieldValues(FilteringQueryBuilder $query): array
@@ -265,7 +265,7 @@ final class DoctrineGateway implements Gateway
             ->setFirstResult(0)
             ->resetQueryPart('orderBy');
 
-        return $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     private function getColumns(): Traversable

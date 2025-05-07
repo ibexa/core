@@ -208,7 +208,7 @@ class DoctrineStorage extends Gateway
 
         $statement = $query->executeQuery();
 
-        $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $statement->fetchAllAssociative();
 
         return isset($rows[0]) ? $this->convertColumnsToProperties($rows[0]) : [];
     }
@@ -240,7 +240,7 @@ class DoctrineStorage extends Gateway
 
         $statement = $query->executeQuery();
 
-        $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $statement->fetchAllAssociative();
 
         return isset($rows[0]) ? $this->convertColumnsToProperties($rows[0]) : [];
     }

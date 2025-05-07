@@ -124,7 +124,7 @@ final class DoctrineDatabase extends Gateway
             ->where('id IN (:ids)')
             ->setParameter('ids', $ids, Connection::PARAM_INT_ARRAY);
 
-        return $query->executeQuery()->fetchAll();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadLanguageListDataByLanguageCode(array $languageCodes): iterable
@@ -134,7 +134,7 @@ final class DoctrineDatabase extends Gateway
             ->where('locale IN (:locale)')
             ->setParameter('locale', $languageCodes, Connection::PARAM_STR_ARRAY);
 
-        return $query->executeQuery()->fetchAll();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -152,7 +152,7 @@ final class DoctrineDatabase extends Gateway
 
     public function loadAllLanguagesData(): array
     {
-        return $this->createFindQuery()->executeQuery()->fetchAll();
+        return $this->createFindQuery()->executeQuery()->fetchAllAssociative();
     }
 
     public function deleteLanguage(int $id): void

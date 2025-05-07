@@ -11,7 +11,6 @@ use Doctrine\Common\EventManager as DoctrineEventManager;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ConnectionException;
 use Doctrine\DBAL\Exception as DBALException;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FileFixtureFactory;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
@@ -223,7 +222,7 @@ abstract class TestCase extends BaseTestCase
         QueryBuilder $query,
         string $message = ''
     ): void {
-        $result = $query->executeQuery()->fetchAll(FetchMode::ASSOCIATIVE);
+        $result = $query->executeQuery()->fetchAllAssociative();
 
         self::assertEquals(
             self::getResultTextRepresentation($expectation),

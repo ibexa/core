@@ -78,7 +78,7 @@ class DoctrineDatabase extends Gateway
             ->where($query->expr()->eq(self::COLUMN_ID, ':id'))
             ->setParameter('id', $id, PDO::PARAM_INT);
 
-        return $query->executeQuery()->fetchAll(PDO::FETCH_ASSOC);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -97,7 +97,7 @@ class DoctrineDatabase extends Gateway
             ->setParameter('user_id', $userId, PDO::PARAM_INT)
             ->setParameter('location_id', $locationIds, Connection::PARAM_INT_ARRAY);
 
-        return $query->executeQuery()->fetchAll(PDO::FETCH_ASSOC);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadUserIdsByLocation(Location $location): array
@@ -140,7 +140,7 @@ class DoctrineDatabase extends Gateway
         $query->orderBy(self::COLUMN_ID, 'DESC');
         $query->setParameter('user_id', $userId, PDO::PARAM_INT);
 
-        return $query->executeQuery()->fetchAll(PDO::FETCH_ASSOC);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
