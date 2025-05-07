@@ -81,6 +81,7 @@ class DatabaseConnectionFactory
             null,
             $this->eventManager
         );
+        self::$connectionPool[$databaseURL]->setNestTransactionsWithSavepoints(true);
 
         return self::$connectionPool[$databaseURL];
     }
