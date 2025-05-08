@@ -69163,7 +69163,7 @@ parameters:
 			path: tests/lib/Repository/Decorator/NotificationServiceDecoratorTest.php
 
 		-
-			message: '#^Parameter \#1 \$innerService of class Ibexa\\Contracts\\Core\\Repository\\Decorator\\NotificationServiceDecorator@anonymous/tests/lib/Repository/Decorator/NotificationServiceDecoratorTest\.php\:22 constructor expects Ibexa\\Contracts\\Core\\Repository\\NotificationService, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			message: '#^Parameter \#1 \$innerService of class Ibexa\\Contracts\\Core\\Repository\\Decorator\\NotificationServiceDecorator@anonymous/tests/lib/Repository/Decorator/NotificationServiceDecoratorTest\.php\:.* constructor expects Ibexa\\Contracts\\Core\\Repository\\NotificationService, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
 			identifier: argument.type
 			count: 1
 			path: tests/lib/Repository/Decorator/NotificationServiceDecoratorTest.php

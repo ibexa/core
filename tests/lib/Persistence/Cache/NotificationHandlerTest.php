@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Notification\Handler as SPINotificationHand
 use Ibexa\Contracts\Core\Persistence\Notification\Notification as SPINotification;
 use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
 
 /**
  * Test case for Persistence\Cache\NotificationHandler.
@@ -103,7 +104,7 @@ class NotificationHandlerTest extends AbstractCacheHandlerTest
                 ],
             ],
             [
-                'loadUserNotifications', [$ownerId, 0, 25], null, null, null, null, [],
+                'loadUserNotifications', [$ownerId, new NotificationQuery([], 0, 25)], null, null, null, null, [],
             ],
         ];
     }

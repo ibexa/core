@@ -12,6 +12,8 @@ use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
 use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification as APINotification;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Type;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway;
 use Ibexa\Core\Persistence\Legacy\Notification\Handler;
 use Ibexa\Core\Persistence\Legacy\Notification\Mapper;
@@ -167,7 +169,7 @@ class HandlerTest extends TestCase
         $ownerId = 9;
         $limit = 5;
         $offset = 0;
-        $query = ['type' => 'Workflow:Review'];
+        $query = new NotificationQuery([new Type('Workflow:Review')], $offset, $limit);
 
         $rows = [
             ['id' => 1, 'owner_id' => 9, 'is_pending' => 1, 'type' => 'Workflow:Review', 'created' => '1530005852', 'data' => null],
@@ -185,12 +187,11 @@ class HandlerTest extends TestCase
             ->expects($this->exactly(2))
             ->method('loadUserNotifications')
             ->with(
+                $this->equalTo($ownerId),
                 $this->logicalOr(
-                    $this->equalTo($ownerId),
+                    $this->equalTo(new NotificationQuery([], $offset, $limit)),
                     $this->equalTo($query)
-                ),
-                $offset,
-                $limit
+                )
             )
             ->willReturn($rows);
 
@@ -200,9 +201,9 @@ class HandlerTest extends TestCase
             ->with($rows)
             ->willReturn($objects);
 
-        $this->assertEquals($objects, $this->handler->loadUserNotifications($ownerId, $offset, $limit));
+        $this->assertEquals($objects, $this->handler->loadUserNotifications($ownerId, new NotificationQuery([], $offset, $limit)));
 
-        $this->assertEquals($objects, $this->handler->loadUserNotifications($ownerId, $offset, $limit, $query));
+        $this->assertEquals($objects, $this->handler->loadUserNotifications($ownerId, $query));
     }
 
     public function testDelete()

@@ -11,6 +11,7 @@ namespace Ibexa\Core\Persistence\Legacy\Notification\Gateway;
 use Doctrine\DBAL\DBALException;
 use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway;
 use PDOException;
@@ -52,10 +53,7 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    /**
-     * @param string[] $query
-     */
-    public function countUserNotifications(int $userId, array $query = []): int
+    public function countUserNotifications(int $userId, ?NotificationQuery $query = null): int
     {
         try {
             return $this->innerGateway->countUserNotifications($userId, $query);
@@ -73,13 +71,10 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    /**
-     * @param string[] $query
-     */
-    public function loadUserNotifications(int $userId, int $offset = 0, int $limit = -1, array $query = []): array
+    public function loadUserNotifications(int $userId, ?NotificationQuery $query = null): array
     {
         try {
-            return $this->innerGateway->loadUserNotifications($userId, $offset, $limit, $query);
+            return $this->innerGateway->loadUserNotifications($userId, $query);
         } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }

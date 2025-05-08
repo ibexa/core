@@ -11,6 +11,7 @@ namespace Ibexa\Contracts\Core\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification;
 use Ibexa\Contracts\Core\Repository\Values\Notification\NotificationList;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
 
 /**
  * Service to manager user notifications. It works in the context of a current User (obtained from
@@ -18,10 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\NotificationList;
  */
 interface NotificationService
 {
-    /**
-     * @param string[] $query
-     */
-    public function loadNotifications(int $offset, int $limit, array $query = []): NotificationList;
+    public function loadNotifications(?NotificationQuery $query = null): NotificationList;
 
     /**
      * Load single notification (by ID).
@@ -59,10 +57,7 @@ interface NotificationService
      */
     public function getPendingNotificationCount(): int;
 
-    /**
-     * @param string[] $query
-     */
-    public function getNotificationCount(array $query = []): int;
+    public function getNotificationCount(?NotificationQuery $query = null): int;
 
     /**
      * Creates a new notification.

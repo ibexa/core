@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Notification\Handler as HandlerInterface;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
 use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification as APINotification;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 
 class Handler implements HandlerInterface
@@ -89,21 +90,15 @@ class Handler implements HandlerInterface
         return $this->getNotificationById($notification->id);
     }
 
-    /**
-     * @param string[] $query
-     */
-    public function countNotifications(int $userId, array $query = []): int
+    public function countNotifications(int $userId, ?NotificationQuery $query = null): int
     {
         return $this->gateway->countUserNotifications($userId, $query);
     }
 
-    /**
-     * @param string[] $query
-     */
-    public function loadUserNotifications(int $userId, int $offset, int $limit, array $query = []): array
+    public function loadUserNotifications(int $userId, ?NotificationQuery $query = null): array
     {
         return $this->mapper->extractNotificationsFromRows(
-            $this->gateway->loadUserNotifications($userId, $offset, $limit, $query)
+            $this->gateway->loadUserNotifications($userId, $query)
         );
     }
 

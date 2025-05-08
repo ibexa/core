@@ -18,6 +18,7 @@ use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Notification\CreateStruct as APICreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification as APINotification;
 use Ibexa\Contracts\Core\Repository\Values\Notification\NotificationList;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
@@ -40,10 +41,7 @@ class NotificationService implements NotificationServiceInterface
         $this->permissionResolver = $permissionResolver;
     }
 
-    /**
-     * @param string[] $query
-     */
-    public function loadNotifications(int $offset = 0, int $limit = 25, array $query = []): NotificationList
+    public function loadNotifications(?NotificationQuery $query = null): NotificationList
     {
         $currentUserId = $this->getCurrentUserId();
 
@@ -53,7 +51,7 @@ class NotificationService implements NotificationServiceInterface
         if ($list->totalCount > 0) {
             $list->items = array_map(function (Notification $spiNotification) {
                 return $this->buildDomainObject($spiNotification);
-            }, $this->persistenceHandler->loadUserNotifications($currentUserId, $offset, $limit, $query));
+            }, $this->persistenceHandler->loadUserNotifications($currentUserId, $query));
         }
 
         return $list;
@@ -146,10 +144,7 @@ class NotificationService implements NotificationServiceInterface
         );
     }
 
-    /**
-     * @param string[] $query
-     */
-    public function getNotificationCount(array $query = []): int
+    public function getNotificationCount(?NotificationQuery $query = null): int
     {
         return $this->persistenceHandler->countNotifications(
             $this->getCurrentUserId(),

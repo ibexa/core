@@ -11,6 +11,8 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Notification\Gateway;
 use Doctrine\DBAL\FetchMode;
 use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Type;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
@@ -114,8 +116,9 @@ class DoctrineDatabaseTest extends TestCase
         $userId = 14;
         $offset = 1;
         $limit = 3;
+        $queryWithoutFilters = new NotificationQuery([], $offset, $limit);
 
-        $resultsWithoutQuery = $this->getGateway()->loadUserNotifications($userId, $offset, $limit);
+        $resultsWithoutQuery = $this->getGateway()->loadUserNotifications($userId, $queryWithoutFilters);
 
         $this->assertEquals([
             [
@@ -144,8 +147,9 @@ class DoctrineDatabaseTest extends TestCase
             ],
         ], $resultsWithoutQuery);
 
-        $query = ['type' => 'Workflow:Review'];
-        $resultsWithQuery = $this->getGateway()->loadUserNotifications($userId, $offset, $limit, $query);
+        $typeCriterion = new Type('Workflow:Review');
+        $queryWithFilters = new NotificationQuery([$typeCriterion], $offset, $limit);
+        $resultsWithQuery = $this->getGateway()->loadUserNotifications($userId, $queryWithFilters);
 
         $this->assertEquals([
             [
@@ -166,8 +170,9 @@ class DoctrineDatabaseTest extends TestCase
             ],
         ], $resultsWithQuery);
 
-        $queryNoResults = ['type' => 'NonExistingType'];
-        $resultsWithNoResults = $this->getGateway()->loadUserNotifications($userId, $offset, $limit, $queryNoResults);
+        $nonExistingTypeCriterion = new Type('NonExistingType');
+        $queryNoResults = new NotificationQuery([$nonExistingTypeCriterion], $offset, $limit);
+        $resultsWithNoResults = $this->getGateway()->loadUserNotifications($userId, $queryNoResults);
 
         $this->assertEquals([], $resultsWithNoResults);
     }
