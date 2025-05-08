@@ -11,10 +11,10 @@ use Exception;
 use PHPUnit\Framework\Constraint\Exception as PHPUnitException;
 use Twig\Environment;
 use Twig\Error\Error;
-use Twig\Error\SyntaxError;
 use Twig\Loader\ArrayLoader;
 use Twig\Loader\ChainLoader;
 use Twig\Loader\FilesystemLoader;
+use Twig\Source;
 use Twig\Test\IntegrationTestCase;
 
 /**
@@ -27,11 +27,23 @@ abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
     /**
      * Overrides the default implementation to use the chain loader so that
      * templates used internally are correctly loaded.
+     *
+     * @param string $file
+     * @param string $message
+     * @param string $condition
+     * @param array<string, string> $templates
+     * @param string|false $exception The expected exception
+     * @param array<int,array<int, string>> $outputs The expected outputs
+     * @param string $deprecation The deprecation message
+     *
+     * @throws \Throwable
      */
-    protected function doIntegrationTest($file, $message, $condition, $templates, $exception, $outputs, $deprecation = '')
+    protected function doIntegrationTest($file, $message, $condition, $templates, $exception, $outputs, $deprecation = ''): void
     {
+        $ret = false;
         if ($condition) {
             eval('$ret = ' . $condition . ';');
+            /** @phpstan-ignore booleanNot.alwaysTrue */
             if (!$ret) {
                 self::markTestSkipped($condition);
             }
@@ -41,7 +53,7 @@ abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
         $loader = new ChainLoader(
             [
                 new ArrayLoader($templates),
-                new FilesystemLoader($this->getFixturesDir()),
+                new FilesystemLoader(static::getFixturesDirectory()),
             ]
         );
         // end changes
@@ -74,13 +86,7 @@ abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
                     return;
                 }
 
-                if ($e instanceof SyntaxError) {
-                    $e->setTemplateFile($file);
-
-                    throw $e;
-                }
-
-                throw new Error(sprintf('%s: %s', get_class($e), $e->getMessage()), -1, $file, $e);
+                throw $this->buildTwigErrorFromException($e, $file);
             }
 
             try {
@@ -97,11 +103,7 @@ abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
                     return;
                 }
 
-                if ($e instanceof SyntaxError) {
-                    $e->setTemplateFile($file);
-                } else {
-                    $e = new Error(sprintf('%s: %s', get_class($e), $e->getMessage()), -1, $file, $e);
-                }
+                $e = $this->buildTwigErrorFromException($e, $file);
 
                 $output = trim(
                     sprintf('%s: %s', get_class($e), $e->getMessage())
@@ -118,7 +120,7 @@ abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
 
             $expected = trim($match[3], "\n ");
 
-            if ($expected != $output) {
+            if ($expected !== $output) {
                 echo 'Compiled template that failed:';
 
                 foreach (array_keys($templates) as $name) {
@@ -131,5 +133,14 @@ abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
             }
             self::assertEquals($expected, $output, $message . ' (in ' . $file . ')');
         }
+    }
+
+    private function buildTwigErrorFromException(Exception $e, string $file): Error
+    {
+        $code = file_get_contents($file);
+        self::assertNotFalse($code, sprintf('Unable to load "%s".', $file));
+        $source = new Source($code, basename($file), $file);
+
+        return new Error(sprintf('%s: %s', get_class($e), $e->getMessage()), -1, $source, $e);
     }
 }
