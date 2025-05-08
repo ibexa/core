@@ -135,7 +135,7 @@ abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
         }
     }
 
-    private function buildTwigErrorFromException(Exception $e, string $file): Error
+    protected function buildTwigErrorFromException(Exception $e, string $file): Error
     {
         $code = file_get_contents($file);
         self::assertNotFalse($code, sprintf('Unable to load "%s".', $file));
