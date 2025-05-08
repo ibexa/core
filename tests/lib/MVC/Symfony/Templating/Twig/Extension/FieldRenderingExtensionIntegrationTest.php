@@ -55,7 +55,7 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
         ];
     }
 
-    public function getFixturesDir()
+    protected static function getFixturesDirectory(): string
     {
         return __DIR__ . '/_fixtures/field_rendering_functions/';
     }
