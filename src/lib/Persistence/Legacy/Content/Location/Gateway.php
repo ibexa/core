@@ -109,8 +109,17 @@ abstract class Gateway
 
     /**
      * Find all content in the given subtree.
+     *
+     * @phpstan-return array<int, array<string, mixed>>
      */
-    abstract public function getSubtreeContent(int $sourceId, bool $onlyIds = false): array;
+    abstract public function getSubtreeContent(int $sourceId): array;
+
+    /**
+     * Find all content in the given subtree, but return only node ID to content ID map.
+     *
+     * @return array<int, int>
+     */
+    abstract public function getSubtreeNodeIdToContentIdMap(int $sourceId): array;
 
     /**
      * Finds draft contents created under the given parent location.

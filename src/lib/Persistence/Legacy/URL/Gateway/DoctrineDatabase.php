@@ -8,7 +8,6 @@
 namespace Ibexa\Core\Persistence\Legacy\URL\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\URL\URL;
@@ -88,7 +87,7 @@ class DoctrineDatabase extends Gateway
             $query->addOrderBy($column, $this->getQuerySortingDirection($sortClause->direction));
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         return [
             'count' => $count,
@@ -131,7 +130,7 @@ class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->execute()->fetchAll(FetchMode::COLUMN);
+        return $query->executeQuery()->fetchFirstColumn();
     }
 
     /**
@@ -168,7 +167,7 @@ class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -184,7 +183,7 @@ class DoctrineDatabase extends Gateway
             )
         );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -200,7 +199,7 @@ class DoctrineDatabase extends Gateway
             )
         );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -216,7 +215,7 @@ class DoctrineDatabase extends Gateway
             ->from(self::URL_TABLE, 'url')
             ->where($this->criteriaConverter->convertCriteria($query, $criterion));
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     /**

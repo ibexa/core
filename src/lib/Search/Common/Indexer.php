@@ -8,7 +8,7 @@
 namespace Ibexa\Core\Search\Common;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\Statement;
+use Doctrine\DBAL\Result;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
@@ -21,17 +21,13 @@ use Psr\Log\LoggerInterface;
  */
 abstract class Indexer
 {
-    /** @var \Psr\Log\LoggerInterface */
-    protected $logger;
+    protected LoggerInterface $logger;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
-    protected $persistenceHandler;
+    protected PersistenceHandler $persistenceHandler;
 
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
+    protected Connection $connection;
 
-    /** @var \Ibexa\Contracts\Core\Search\Handler */
-    protected $searchHandler;
+    protected SearchHandler $searchHandler;
 
     public function __construct(
         LoggerInterface $logger,
@@ -50,7 +46,7 @@ abstract class Indexer
      *
      * @param array $fields fields to select
      */
-    protected function getContentDbFieldsStmt(array $fields): Statement
+    protected function getContentDbFieldsStmt(array $fields): Result
     {
         $query = $this->connection->createQueryBuilder();
         $query
@@ -58,6 +54,6 @@ abstract class Indexer
             ->from(ContentGateway::CONTENT_ITEM_TABLE)
             ->where($query->expr()->eq('status', ContentInfo::STATUS_PUBLISHED));
 
-        return $query->execute();
+        return $query->executeQuery();
     }
 }

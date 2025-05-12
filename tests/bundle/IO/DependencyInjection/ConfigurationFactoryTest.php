@@ -9,8 +9,6 @@ namespace Ibexa\Tests\Bundle\IO\DependencyInjection;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractContainerBuilderTestCase;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\Definition;
 
 /**
  * Abstract class for testing ConfigurationFactory implementations.
@@ -57,10 +55,6 @@ abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
         $this->factory->configureHandler($this->container, $this->container->getDefinition($handlerServiceId), $handlerConfiguration);
 
         $this->validateConfiguredHandler($handlerServiceId);
-
-        if ($this->factory instanceof ContainerAwareInterface) {
-            $this->validateConfiguredContainer();
-        }
     }
 
     /**
@@ -113,11 +107,4 @@ abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
      * @param string $handlerServiceId id of the service that was registered by the compiler pass
      */
     abstract public function validateConfiguredHandler($handlerServiceId);
-
-    /**
-     * Lets you test extra changes that may have been done to the container during configuration.
-     */
-    public function validateConfiguredContainer()
-    {
-    }
 }

@@ -8,7 +8,6 @@
 namespace Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use DOMDocument;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
@@ -326,9 +325,9 @@ class RelationListConverter implements Converter
             )
             ->setParameter('content_ids', $destinationContentIds, Connection::PARAM_INT_ARRAY);
 
-        $stmt = $query->execute();
+        $stmt = $query->executeQuery();
 
-        return $this->groupResultSetById($stmt->fetchAll(FetchMode::ASSOCIATIVE));
+        return $this->groupResultSetById($stmt->fetchAllAssociative());
     }
 
     private static function dbAttributeMap(): array

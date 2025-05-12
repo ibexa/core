@@ -52,7 +52,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->from(self::CONTENT_LANGUAGE_TABLE);
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         $lastId = (int)$statement->fetchOne();
 
@@ -80,7 +80,7 @@ final class DoctrineDatabase extends Gateway
 
         $this->setLanguageQueryParameters($query, $language);
 
-        $query->execute();
+        $query->executeStatement();
 
         return $nextId;
     }
@@ -114,7 +114,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function loadLanguageListData(array $ids): iterable
@@ -124,7 +124,7 @@ final class DoctrineDatabase extends Gateway
             ->where('id IN (:ids)')
             ->setParameter('ids', $ids, Connection::PARAM_INT_ARRAY);
 
-        return $query->execute()->fetchAll();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadLanguageListDataByLanguageCode(array $languageCodes): iterable
@@ -134,7 +134,7 @@ final class DoctrineDatabase extends Gateway
             ->where('locale IN (:locale)')
             ->setParameter('locale', $languageCodes, Connection::PARAM_STR_ARRAY);
 
-        return $query->execute()->fetchAll();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -152,7 +152,7 @@ final class DoctrineDatabase extends Gateway
 
     public function loadAllLanguagesData(): array
     {
-        return $this->createFindQuery()->execute()->fetchAll();
+        return $this->createFindQuery()->executeQuery()->fetchAllAssociative();
     }
 
     public function deleteLanguage(int $id): void
@@ -167,7 +167,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function canDeleteLanguage(int $id): bool
@@ -221,6 +221,6 @@ final class DoctrineDatabase extends Gateway
                 );
         }
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 }

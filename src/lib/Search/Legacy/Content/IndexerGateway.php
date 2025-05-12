@@ -10,9 +10,9 @@ namespace Ibexa\Core\Search\Legacy\Content;
 
 use DateTimeInterface;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\ResultStatement;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Result;
 use Generator;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Search\Content\IndexerGateway as SPIIndexerGateway;
@@ -35,7 +35,7 @@ final class IndexerGateway implements SPIIndexerGateway
         $query = $this->buildQueryForContentSince($since);
         $query->orderBy('c.modified');
 
-        yield from $this->fetchIteration($query->execute(), $iterationCount);
+        yield from $this->fetchIteration($query->executeQuery(), $iterationCount);
     }
 
     public function countContentSince(DateTimeInterface $since): int
@@ -44,14 +44,14 @@ final class IndexerGateway implements SPIIndexerGateway
             $this->buildQueryForContentSince($since)
         );
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     public function getContentInSubtree(string $locationPath, int $iterationCount): Generator
     {
         $query = $this->buildQueryForContentInSubtree($locationPath);
 
-        yield from $this->fetchIteration($query->execute(), $iterationCount);
+        yield from $this->fetchIteration($query->executeQuery(), $iterationCount);
     }
 
     public function countContentInSubtree(string $locationPath): int
@@ -60,14 +60,14 @@ final class IndexerGateway implements SPIIndexerGateway
             $this->buildQueryForContentInSubtree($locationPath)
         );
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     public function getAllContent(int $iterationCount): Generator
     {
         $query = $this->buildQueryForAllContent();
 
-        yield from $this->fetchIteration($query->execute(), $iterationCount);
+        yield from $this->fetchIteration($query->executeQuery(), $iterationCount);
     }
 
     public function countAllContent(): int
@@ -76,7 +76,7 @@ final class IndexerGateway implements SPIIndexerGateway
             $this->buildQueryForAllContent()
         );
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     private function buildQueryForContentSince(DateTimeInterface $since): QueryBuilder
@@ -127,12 +127,12 @@ final class IndexerGateway implements SPIIndexerGateway
         return $query;
     }
 
-    private function fetchIteration(ResultStatement $statement, int $iterationCount): Generator
+    private function fetchIteration(Result $result, int $iterationCount): Generator
     {
         do {
             $contentIds = [];
             for ($i = 0; $i < $iterationCount; ++$i) {
-                if ($contentId = $statement->fetchOne()) {
+                if ($contentId = $result->fetchOne()) {
                     $contentIds[] = $contentId;
                 } elseif (empty($contentIds)) {
                     return;

@@ -217,12 +217,6 @@ parameters:
 			path: src/bundle/Core/Command/UpdateTimestampsToUTCCommand.php
 
 		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/bundle/Core/Command/UpdateTimestampsToUTCCommand.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Command\\UpdateTimestampsToUTCCommand\:\:dateStringToTimestamp\(\) has parameter \$dateString with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
@@ -289,13 +283,7 @@ parameters:
 			path: src/bundle/Core/Command/UpdateTimestampsToUTCCommand.php
 
 		-
-			message: '#^Cannot cast Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string to int\.$#'
-			identifier: cast.int
-			count: 1
-			path: src/bundle/Core/Command/VirtualFieldDuplicateFixCommand.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Command\\VirtualFieldDuplicateFixCommand\:\:getDuplicatedAttributesBatch\(\) should return array\<array\{version\: int, contentclassattribute_id\: int, contentobject_id\: int, language_id\: int\}\> but returns array\<int, array\<string, mixed\>\>\.$#'
+			message: '#^Method Ibexa\\Bundle\\Core\\Command\\VirtualFieldDuplicateFixCommand\:\:getDuplicatedAttributesBatch\(\) should return array\<array\{version\: int, contentclassattribute_id\: int, contentobject_id\: int, language_id\: int\}\> but returns list\<array\<string, mixed\>\>\.$#'
 			identifier: return.type
 			count: 1
 			path: src/bundle/Core/Command/VirtualFieldDuplicateFixCommand.php
@@ -2227,6 +2215,12 @@ parameters:
 			path: src/bundle/Core/EventSubscriber/CrowdinRequestLocaleSubscriber.php
 
 		-
+			message: '#^Parameter \#2 \$trustedHeaderSet of static method Symfony\\Component\\HttpFoundation\\Request\:\:setTrustedProxies\(\) expects int\<0, 63\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/bundle/Core/EventSubscriber/TrustedHeaderClientIpEventSubscriber.php
+
+		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\BasicContentContext\:\:createArticleDraft\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -3463,6 +3457,12 @@ parameters:
 			path: src/bundle/Core/Fragment/SiteAccessSerializationTrait.php
 
 		-
+			message: '#^Method Ibexa\\Bundle\\Core\\IbexaCoreBundle\:\:getContainerExtension\(\) should return Symfony\\Component\\DependencyInjection\\Extension\\ExtensionInterface but returns Symfony\\Component\\DependencyInjection\\Extension\\ExtensionInterface\|false\.$#'
+			identifier: return.type
+			count: 1
+			path: src/bundle/Core/IbexaCoreBundle.php
+
+		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\AliasCleaner\:\:removeAliases\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -4009,26 +4009,8 @@ parameters:
 			path: src/bundle/Core/Imagine/VariationPurger/LegacyStorageImageFileList.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\VariationPurger\\LegacyStorageImageFileRowReader\:\:getCount\(\) should return int but returns int\|string\.$#'
-			identifier: return.type
-			count: 1
-			path: src/bundle/Core/Imagine/VariationPurger/LegacyStorageImageFileRowReader.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\VariationPurger\\LegacyStorageImageFileRowReader\:\:init\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Imagine/VariationPurger/LegacyStorageImageFileRowReader.php
-
-		-
-			message: '#^Property Ibexa\\Bundle\\Core\\Imagine\\VariationPurger\\LegacyStorageImageFileRowReader\:\:\$statement \(Doctrine\\DBAL\\ForwardCompatibility\\Result\) does not accept Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/bundle/Core/Imagine/VariationPurger/LegacyStorageImageFileRowReader.php
-
-		-
-			message: '#^Property Ibexa\\Bundle\\Core\\Imagine\\VariationPurger\\LegacyStorageImageFileRowReader\:\:\$statement type has no value type specified in iterable type Doctrine\\DBAL\\ForwardCompatibility\\Result\.$#'
-			identifier: missingType.iterableValue
 			count: 1
 			path: src/bundle/Core/Imagine/VariationPurger/LegacyStorageImageFileRowReader.php
 
@@ -4037,6 +4019,12 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/bundle/Core/Matcher/ServiceAwareMatcherFactory.php
+
+		-
+			message: '#^Class Ibexa\\Bundle\\Core\\Routing\\DefaultRouter extends @final class Symfony\\Bundle\\FrameworkBundle\\Routing\\Router\.$#'
+			identifier: class.extendsFinalByPhpDoc
+			count: 1
+			path: src/bundle/Core/Routing/DefaultRouter.php
 
 		-
 			message: '#^Cannot access property \$name on Ibexa\\Core\\MVC\\Symfony\\SiteAccess\|null\.$#'
@@ -4573,6 +4561,12 @@ parameters:
 			path: src/bundle/IO/EventListener/StreamFileListener.php
 
 		-
+			message: '#^Method Ibexa\\Bundle\\IO\\IbexaIOBundle\:\:getContainerExtension\(\) should return Symfony\\Component\\DependencyInjection\\Extension\\ExtensionInterface\|null but returns Symfony\\Component\\DependencyInjection\\Extension\\ExtensionInterface\|false\.$#'
+			identifier: return.type
+			count: 1
+			path: src/bundle/IO/IbexaIOBundle.php
+
+		-
 			message: '#^Parameter \#2 \$offset of class LimitIterator constructor expects int, int\|null given\.$#'
 			identifier: argument.type
 			count: 1
@@ -4609,12 +4603,6 @@ parameters:
 			path: src/bundle/IO/Migration/FileLister/FileIteratorInterface.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\IO\\Migration\\FileLister\\FileRowReader\\LegacyStorageFileRowReader\:\:getCount\(\) should return int but returns int\|string\.$#'
-			identifier: return.type
-			count: 1
-			path: src/bundle/IO/Migration/FileLister/FileRowReader/LegacyStorageFileRowReader.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\IO\\Migration\\FileLister\\FileRowReader\\LegacyStorageFileRowReader\:\:init\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -4623,18 +4611,6 @@ parameters:
 		-
 			message: '#^Parameter \#3 \$length of function substr expects int\|null, int\<0, max\>\|false given\.$#'
 			identifier: argument.type
-			count: 1
-			path: src/bundle/IO/Migration/FileLister/FileRowReader/LegacyStorageFileRowReader.php
-
-		-
-			message: '#^Property Ibexa\\Bundle\\IO\\Migration\\FileLister\\FileRowReader\\LegacyStorageFileRowReader\:\:\$statement \(Doctrine\\DBAL\\Driver\\Statement\) does not accept Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/bundle/IO/Migration/FileLister/FileRowReader/LegacyStorageFileRowReader.php
-
-		-
-			message: '#^Property Ibexa\\Bundle\\IO\\Migration\\FileLister\\FileRowReader\\LegacyStorageFileRowReader\:\:\$statement type has no value type specified in iterable type Doctrine\\DBAL\\Driver\\Statement\.$#'
-			identifier: missingType.iterableValue
 			count: 1
 			path: src/bundle/IO/Migration/FileLister/FileRowReader/LegacyStorageFileRowReader.php
 
@@ -4763,6 +4739,12 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: src/bundle/LegacySearchEngine/ApiLoader/ConnectionFactory.php
+
+		-
+			message: '#^Method Ibexa\\Bundle\\LegacySearchEngine\\IbexaLegacySearchEngineBundle\:\:getContainerExtension\(\) should return Symfony\\Component\\DependencyInjection\\Extension\\ExtensionInterface\|null but returns Symfony\\Component\\DependencyInjection\\Extension\\ExtensionInterface\|false\.$#'
+			identifier: return.type
+			count: 1
+			path: src/bundle/LegacySearchEngine/IbexaLegacySearchEngineBundle.php
 
 		-
 			message: '#^Call to an undefined method Ibexa\\Bundle\\RepositoryInstaller\\Installer\\Installer\:\:setOutput\(\)\.$#'
@@ -7855,18 +7837,6 @@ parameters:
 			path: src/contracts/Search/Handler.php
 
 		-
-			message: '#^Call to an undefined method Symfony\\Component\\HttpKernel\\KernelInterface\:\:getFixtures\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/contracts/Test/IbexaKernelTestCase.php
-
-		-
-			message: '#^Call to an undefined method Symfony\\Component\\HttpKernel\\KernelInterface\:\:getSchemaFiles\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/contracts/Test/IbexaKernelTestCase.php
-
-		-
 			message: '#^Call to an undefined method object\:\:import\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -7875,6 +7845,24 @@ parameters:
 		-
 			message: '#^Call to an undefined method object\:\:importSchema\(\)\.$#'
 			identifier: method.notFound
+			count: 1
+			path: src/contracts/Test/IbexaKernelTestCase.php
+
+		-
+			message: '#^Cannot call method getFixtures\(\) on Symfony\\Component\\HttpKernel\\KernelInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/contracts/Test/IbexaKernelTestCase.php
+
+		-
+			message: '#^Cannot call method getSchemaFiles\(\) on Symfony\\Component\\HttpKernel\\KernelInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/contracts/Test/IbexaKernelTestCase.php
+
+		-
+			message: '#^Parameter \#1 \$object of function get_class expects object, Symfony\\Component\\HttpKernel\\KernelInterface\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/contracts/Test/IbexaKernelTestCase.php
 
@@ -7907,6 +7895,12 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/contracts/Test/Persistence/Fixture/BaseInMemoryCachedFileFixture.php
+
+		-
+			message: '#^Caught class Doctrine\\DBAL\\Driver\\PDOException not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/contracts/Test/Persistence/Fixture/FixtureImporter.php
 
 		-
 			message: '#^Method Ibexa\\Contracts\\Core\\Test\\Persistence\\Fixture\\PhpArrayFileFixture\:\:loadFixture\(\) return type has no value type specified in iterable type array\.$#'
@@ -9241,12 +9235,6 @@ parameters:
 			path: src/lib/FieldType/BinaryBase/BinaryBaseStorage/Gateway.php
 
 		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 3
-			path: src/lib/FieldType/BinaryBase/BinaryBaseStorage/Gateway/DoctrineStorage.php
-
-		-
 			message: '#^Method Ibexa\\Core\\FieldType\\BinaryBase\\BinaryBaseStorage\\Gateway\\DoctrineStorage\:\:countFileReferences\(\) has parameter \$files with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -9931,12 +9919,6 @@ parameters:
 			path: src/lib/FieldType/Image/ImageStorage/Gateway/DoctrineStorage.php
 
 		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: src/lib/FieldType/Image/ImageStorage/Gateway/DoctrineStorage.php
-
-		-
 			message: '#^Cannot call method getAttribute\(\) on DOMElement\|null\.$#'
 			identifier: method.nonObject
 			count: 1
@@ -10177,18 +10159,6 @@ parameters:
 			path: src/lib/FieldType/Keyword/KeywordStorage/Gateway.php
 
 		-
-			message: '#^Cannot call method fetch\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/lib/FieldType/Keyword/KeywordStorage/Gateway/DoctrineStorage.php
-
-		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: src/lib/FieldType/Keyword/KeywordStorage/Gateway/DoctrineStorage.php
-
-		-
 			message: '#^Method Ibexa\\Core\\FieldType\\Keyword\\KeywordStorage\\Gateway\\DoctrineStorage\:\:assignKeywords\(\) has parameter \$keywordMap with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -10319,12 +10289,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/FieldType/MapLocation/MapLocationStorage/Gateway.php
-
-		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/lib/FieldType/MapLocation/MapLocationStorage/Gateway/DoctrineStorage.php
 
 		-
 			message: '#^Method Ibexa\\Core\\FieldType\\MapLocation\\MapLocationStorage\\Gateway\\DoctrineStorage\:\:deleteFieldData\(\) has no return type specified\.$#'
@@ -10783,12 +10747,6 @@ parameters:
 			path: src/lib/FieldType/Url/UrlStorage/Gateway.php
 
 		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 3
-			path: src/lib/FieldType/Url/UrlStorage/Gateway/DoctrineStorage.php
-
-		-
 			message: '#^Method Ibexa\\Core\\FieldType\\Url\\UrlStorage\\Gateway\\DoctrineStorage\:\:getIdUrlMap\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -10931,12 +10889,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/FieldType/User/UserStorage/Gateway.php
-
-		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: src/lib/FieldType/User/UserStorage/Gateway/DoctrineStorage.php
 
 		-
 			message: '#^Method Ibexa\\Core\\FieldType\\User\\UserStorage\\Gateway\\DoctrineStorage\:\:convertColumnsToProperties\(\) has parameter \$databaseValues with no value type specified in iterable type array\.$#'
@@ -12007,30 +11959,6 @@ parameters:
 			path: src/lib/MVC/RepositoryAwareInterface.php
 
 		-
-			message: '#^Class Ibexa\\Core\\MVC\\Symfony\\Component\\Serializer\\AbstractPropertyWhitelistNormalizer extends @final class Symfony\\Component\\Serializer\\Normalizer\\PropertyNormalizer\.$#'
-			identifier: class.extendsFinalByPhpDoc
-			count: 1
-			path: src/lib/MVC/Symfony/Component/Serializer/AbstractPropertyWhitelistNormalizer.php
-
-		-
-			message: '#^Class Ibexa\\Core\\MVC\\Symfony\\Component\\Serializer\\MapNormalizer extends @final class Symfony\\Component\\Serializer\\Normalizer\\PropertyNormalizer\.$#'
-			identifier: class.extendsFinalByPhpDoc
-			count: 1
-			path: src/lib/MVC/Symfony/Component/Serializer/MapNormalizer.php
-
-		-
-			message: '#^Class Ibexa\\Core\\MVC\\Symfony\\Component\\Serializer\\SimplifiedRequestNormalizer extends @final class Symfony\\Component\\Serializer\\Normalizer\\PropertyNormalizer\.$#'
-			identifier: class.extendsFinalByPhpDoc
-			count: 1
-			path: src/lib/MVC/Symfony/Component/Serializer/SimplifiedRequestNormalizer.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Component\\Serializer\\SimplifiedRequestNormalizer\:\:supportsNormalization\(\) has parameter \$context with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/Component/Serializer/SimplifiedRequestNormalizer.php
-
-		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\ConfigDumperInterface\:\:dump\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -12233,6 +12161,12 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: src/lib/MVC/Symfony/EventListener/LanguageSwitchListener.php
+
+		-
+			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\ExpressionLanguage\\ExpressionLanguage\:\:__construct\(\) has parameter \$providers with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/lib/MVC/Symfony/ExpressionLanguage/ExpressionLanguage.php
 
 		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\ExpressionLanguage\\TwigVariableProviderExtension\:\:hasParameterProvider\(\) has parameter \$variables with no value type specified in iterable type array\.$#'
@@ -12751,6 +12685,12 @@ parameters:
 			path: src/lib/MVC/Symfony/Security/User.php
 
 		-
+			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Security\\User\:\:getUserIdentifier\(\) should return non\-empty\-string but returns string\.$#'
+			identifier: return.type
+			count: 1
+			path: src/lib/MVC/Symfony/Security/User.php
+
+		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Security\\UserInterface\:\:setAPIUser\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -12781,268 +12721,28 @@ parameters:
 			path: src/lib/MVC/Symfony/SiteAccess/Matcher.php
 
 		-
-			message: '#^Access to undefined constant static\(Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Compound\)\:\:NAME\.$#'
-			identifier: classConstant.notFound
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Compound.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Compound\:\:__construct\(\) has parameter \$config with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Compound.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Compound\:\:setMatcherBuilder\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Compound.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Compound\:\:setRequest\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Compound.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Compound\:\:setSubMatchers\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Compound.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Compound\:\:\$config type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Compound.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Compound\:\:\$matchersMap type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Compound.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Compound\\LogicalAnd\:\:reverseMatch\(\) should return Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\VersatileMatcher\|null but return statement is missing\.$#'
-			identifier: return.missing
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Compound/LogicalAnd.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Compound\\LogicalOr\:\:reverseMatch\(\) should return Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\VersatileMatcher\|null but return statement is missing\.$#'
-			identifier: return.missing
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Compound/LogicalOr.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\CompoundInterface\:\:setMatcherBuilder\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/CompoundInterface.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\CompoundInterface\:\:setSubMatchers\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/CompoundInterface.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\HostElement\:\:__construct\(\) has parameter \$elementNumber with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostElement.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\HostElement\:\:getHostElements\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostElement.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\HostElement\:\:setRequest\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostElement.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\HostElement\:\:\$hostElements \(array\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostElement.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\HostElement\:\:\$hostElements is never written, only read\.$#'
-			identifier: property.onlyRead
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostElement.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\HostElement\:\:\$hostElements type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostElement.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\HostElement\:\:\$request \(Ibexa\\Core\\MVC\\Symfony\\Routing\\SimplifiedRequest\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostElement.php
-
-		-
-			message: '#^Unreachable statement \- code above always terminates\.$#'
-			identifier: deadCode.unreachable
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostElement.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Map\:\:__construct\(\) has parameter \$map with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Map.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Map\:\:getReverseMap\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Map.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Map\:\:getReverseMap\(\) has parameter \$defaultSiteAccess with no type specified\.$#'
+			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\HostElement\:\:reverseMatch\(\) has parameter \$siteAccessName with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Map.php
+			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostElement.php
 
 		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Map\:\:setMapKey\(\) has no return type specified\.$#'
-			identifier: missingType.return
+			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Map\:\:match\(\) should return string\|false but returns bool\|string\.$#'
+			identifier: return.type
 			count: 1
 			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Map.php
 
 		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Map\:\:setRequest\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Map.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Map\:\:\$map type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Map.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Map\:\:\$reverseMap type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Map.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Map\\Host\:\:setRequest\(\) has no return type specified\.$#'
-			identifier: missingType.return
+			message: '#^Parameter \#1 \$host of method Ibexa\\Core\\MVC\\Symfony\\Routing\\SimplifiedRequest\:\:setHost\(\) expects string, string\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Map/Host.php
 
 		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Map\\Port\:\:setRequest\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Map/Port.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Map\\URI\:\:setRequest\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Map/URI.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Regex\:\:match\(\) should return string\|false but returns bool\|string\.$#'
-			identifier: return.type
+			message: '#^Parameter \#2 \$subject of function preg_match expects string, string\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Regex.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Regex\:\:setMatchElement\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Regex.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Regex\:\:setRequest\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Regex.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Regex\:\:\$itemNumber \(string\) does not accept int\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Regex.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Regex\:\:\$matchedSiteAccess \(string\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Regex.php
-
-		-
-			message: '#^Unreachable statement \- code above always terminates\.$#'
-			identifier: deadCode.unreachable
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Regex.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\URIElement\:\:__construct\(\) has parameter \$elementNumber with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIElement.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\URIElement\:\:getURIElements\(\) has LogicException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIElement.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\URIElement\:\:getURIElements\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIElement.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\URIElement\:\:setRequest\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIElement.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\URIElement\:\:\$request \(Ibexa\\Core\\MVC\\Symfony\\Routing\\SimplifiedRequest\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIElement.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\URIElement\:\:\$uriElements \(array\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIElement.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\URIElement\:\:\$uriElements is never written, only read\.$#'
-			identifier: property.onlyRead
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIElement.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\URIElement\:\:\$uriElements type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIElement.php
-
-		-
-			message: '#^Unreachable statement \- code above always terminates\.$#'
-			identifier: deadCode.unreachable
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIElement.php
 
 		-
 			message: '#^Call to an undefined method object\:\:setRequest\(\)\.$#'
@@ -15169,12 +14869,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Bookmark/Gateway.php
 
 		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 3
-			path: src/lib/Persistence/Legacy/Bookmark/Gateway/DoctrineDatabase.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Bookmark\\Gateway\\DoctrineDatabase\:\:getColumns\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -16027,12 +15721,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/RelationListConverter.php
 
 		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/RelationListConverter.php
-
-		-
 			message: '#^Cannot call method getElementsByTagName\(\) on DOMElement\|null\.$#'
 			identifier: method.nonObject
 			count: 1
@@ -16465,18 +16153,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Cannot call method fetch\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: src/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 16
-			path: src/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabase.php
-
-		-
 			message: '#^Cannot call method removeChild\(\) on DOMNode\|null\.$#'
 			identifier: method.nonObject
 			count: 1
@@ -16867,12 +16543,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Language/Gateway.php
 
 		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 3
-			path: src/lib/Persistence/Legacy/Content/Language/Gateway/DoctrineDatabase.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\Gateway\\DoctrineDatabase\:\:loadAllLanguagesData\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -16987,12 +16657,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Location/Gateway.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\:\:getSubtreeContent\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Location/Gateway.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\:\:listTrashed\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -17033,18 +16697,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Location/Gateway.php
-
-		-
-			message: '#^Cannot call method fetch\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 6
-			path: src/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 12
-			path: src/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabase.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\\DoctrineDatabase\:\:addSort\(\) has parameter \$languageSettings with no value type specified in iterable type array\.$#'
@@ -17113,12 +16765,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\\DoctrineDatabase\:\:getSubtreeContent\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabase.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\\DoctrineDatabase\:\:getSubtreeNodesData\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -17151,6 +16797,12 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\\DoctrineDatabase\:\:loadLocationDataByContent\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabase.php
+
+		-
+			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\\DoctrineDatabase\:\:loadLocationDataByTrashContent\(\) should return array\<string\> but returns list\<array\<string, mixed\>\>\.$#'
+			identifier: return.type
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabase.php
 
@@ -17215,7 +16867,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Parameter \#2 \$y of method Doctrine\\DBAL\\Query\\Expression\\ExpressionBuilder\:\:in\(\) expects array\<string\>\|string, array\<int\> given\.$#'
+			message: '#^Parameter \#2 \$y of method Doctrine\\DBAL\\Query\\Expression\\ExpressionBuilder\:\:in\(\) expects array\<string\>\|string, list\<int\> given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabase.php
@@ -17264,12 +16916,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\\ExceptionConversion\:\:getNodeDataList\(\) return type has no value type specified in iterable type iterable\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Location/Gateway/ExceptionConversion.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\\ExceptionConversion\:\:getSubtreeContent\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Location/Gateway/ExceptionConversion.php
@@ -17545,18 +17191,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/ObjectState/Gateway.php
 
 		-
-			message: '#^Cannot call method fetch\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 3
-			path: src/lib/Persistence/Legacy/Content/ObjectState/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 5
-			path: src/lib/Persistence/Legacy/Content/ObjectState/Gateway/DoctrineDatabase.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\ObjectState\\Gateway\\DoctrineDatabase\:\:loadObjectStateData\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -17729,12 +17363,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Section/Gateway.php
-
-		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 3
-			path: src/lib/Persistence/Legacy/Content/Section/Gateway/DoctrineDatabase.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Section\\Gateway\\DoctrineDatabase\:\:loadAllSectionData\(\) return type has no value type specified in iterable type array\.$#'
@@ -17969,18 +17597,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Type/Gateway.php
-
-		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 10
-			path: src/lib/Persistence/Legacy/Content/Type/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Method Doctrine\\DBAL\\Query\\QueryBuilder\:\:execute\(\) invoked with 1 parameter, 0 required\.$#'
-			identifier: arguments.count
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Gateway/DoctrineDatabase.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Gateway\\DoctrineDatabase\:\:getSearchableFieldMapData\(\) return type has no value type specified in iterable type array\.$#'
@@ -18583,48 +18199,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway.php
 
 		-
-			message: '#^Cannot call method fetch\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 5
-			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 10
-			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Cannot cast Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string to int\.$#'
-			identifier: cast.int
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\Gateway\\DoctrineDatabase\:\:deleteRow\(\) should return int but returns Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\Gateway\\DoctrineDatabase\:\:deleteUrlAliasesWithoutLocation\(\) should return int but returns Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\Gateway\\DoctrineDatabase\:\:deleteUrlAliasesWithoutParent\(\) should return int but returns Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\Gateway\\DoctrineDatabase\:\:deleteUrlNopAliasesWithoutChildren\(\) should return int but returns Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway/DoctrineDatabase.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\Gateway\\DoctrineDatabase\:\:filterOriginalAliases\(\) has parameter \$urlAliasesData with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -19085,18 +18659,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/UrlWildcard/Gateway.php
-
-		-
-			message: '#^Cannot call method fetch\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: src/lib/Persistence/Legacy/Content/UrlWildcard/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/UrlWildcard/Gateway/DoctrineDatabase.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\UrlWildcard\\Gateway\\DoctrineDatabase\:\:find\(\) has parameter \$sortClauses with no value type specified in iterable type array\.$#'
@@ -19561,18 +19123,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Filter/CriterionVisitor.php
 
 		-
-			message: '#^Cannot call method fetch\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: src/lib/Persistence/Legacy/Filter/Gateway/Content/Doctrine/DoctrineGateway.php
-
-		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: src/lib/Persistence/Legacy/Filter/Gateway/Content/Doctrine/DoctrineGateway.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Filter\\Gateway\\Content\\Doctrine\\DoctrineGateway\:\:buildQuery\(\) has parameter \$columns with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -19636,12 +19186,6 @@ parameters:
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Filter\\Gateway\\Content\\Doctrine\\DoctrineGateway\:\:getColumns\(\) return type has no value type specified in iterable type Traversable\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: src/lib/Persistence/Legacy/Filter/Gateway/Content/Doctrine/DoctrineGateway.php
-
-		-
-			message: '#^Parameter \#1 \$firstResult of method Doctrine\\DBAL\\Query\\QueryBuilder\:\:setFirstResult\(\) expects int, null given\.$#'
-			identifier: argument.type
-			count: 2
 			path: src/lib/Persistence/Legacy/Filter/Gateway/Content/Doctrine/DoctrineGateway.php
 
 		-
@@ -19715,12 +19259,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Persistence/Legacy/Filter/Gateway/Gateway.php
-
-		-
-			message: '#^Cannot call method fetch\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: src/lib/Persistence/Legacy/Filter/Gateway/Location/Doctrine/DoctrineGateway.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Filter\\Gateway\\Location\\Doctrine\\DoctrineGateway\:\:find\(\) return type has no value type specified in iterable type iterable\.$#'
@@ -19817,12 +19355,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Persistence/Legacy/Notification/Gateway.php
-
-		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: src/lib/Persistence/Legacy/Notification/Gateway/DoctrineDatabase.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Notification\\Gateway\\DoctrineDatabase\:\:getColumns\(\) return type has no value type specified in iterable type array\.$#'
@@ -20095,12 +19627,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/URL/Gateway.php
 
 		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 3
-			path: src/lib/Persistence/Legacy/URL/Gateway/DoctrineDatabase.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\URL\\Gateway\\DoctrineDatabase\:\:findUsages\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -20261,18 +19787,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Persistence/Legacy/User/Gateway.php
-
-		-
-			message: '#^Cannot call method fetch\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/lib/Persistence/Legacy/User/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 4
-			path: src/lib/Persistence/Legacy/User/Gateway/DoctrineDatabase.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\User\\Gateway\\DoctrineDatabase\:\:assignRole\(\) has parameter \$limitation with no value type specified in iterable type array\.$#'
@@ -20533,12 +20047,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/User/Role/Gateway.php
 
 		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 9
-			path: src/lib/Persistence/Legacy/User/Role/Gateway/DoctrineDatabase.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\User\\Role\\Gateway\\DoctrineDatabase\:\:addPolicyLimitations\(\) has parameter \$limitations with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -20747,12 +20255,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Persistence/Legacy/UserPreference/Gateway.php
-
-		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: src/lib/Persistence/Legacy/UserPreference/Gateway/DoctrineDatabase.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\UserPreference\\Gateway\\DoctrineDatabase\:\:getColumns\(\) return type has no value type specified in iterable type array\.$#'
@@ -23593,18 +23095,6 @@ parameters:
 			path: src/lib/Search/Common/Indexer.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Search\\Common\\Indexer\:\:getContentDbFieldsStmt\(\) return type has no value type specified in iterable type Doctrine\\DBAL\\Driver\\Statement\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Search/Common/Indexer.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Search\\Common\\Indexer\:\:getContentDbFieldsStmt\(\) should return Doctrine\\DBAL\\Driver\\Statement but returns Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/Search/Common/Indexer.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Common\\Gateway\\CriteriaConverter\:\:addHandler\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -24379,12 +23869,6 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Gateway/CriterionHandler/Visibility.php
 
 		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/lib/Search/Legacy/Content/Gateway/DoctrineDatabase.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Gateway\\DoctrineDatabase\:\:find\(\) has parameter \$languageFilter with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -24411,6 +23895,12 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Gateway\\DoctrineDatabase\:\:getContentInfoList\(\) has parameter \$sort with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
+			count: 1
+			path: src/lib/Search/Legacy/Content/Gateway/DoctrineDatabase.php
+
+		-
+			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Gateway\\DoctrineDatabase\:\:getContentInfoList\(\) should return array\<int\> but returns list\<array\<string, mixed\>\>\.$#'
+			identifier: return.type
 			count: 1
 			path: src/lib/Search/Legacy/Content/Gateway/DoctrineDatabase.php
 
@@ -24565,24 +24055,6 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Indexer.php
 
 		-
-			message: '#^Call to an undefined method Doctrine\\DBAL\\Driver\\ResultStatement\:\:fetchOne\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/lib/Search/Legacy/Content/IndexerGateway.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\IndexerGateway\:\:fetchIteration\(\) has parameter \$statement with no value type specified in iterable type Doctrine\\DBAL\\Driver\\ResultStatement\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Search/Legacy/Content/IndexerGateway.php
-
-		-
-			message: '#^Parameter \#1 \$statement of method Ibexa\\Core\\Search\\Legacy\\Content\\IndexerGateway\:\:fetchIteration\(\) expects Doctrine\\DBAL\\Driver\\ResultStatement, Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string given\.$#'
-			identifier: argument.type
-			count: 3
-			path: src/lib/Search/Legacy/Content/IndexerGateway.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Location\\Gateway\:\:find\(\) has parameter \$languageFilter with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -24733,25 +24205,19 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Visibility.php
 
 		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/lib/Search/Legacy/Content/Location/Gateway/DoctrineDatabase.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Location\\Gateway\\DoctrineDatabase\:\:find\(\) has parameter \$languageFilter with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Location\\Gateway\\DoctrineDatabase\:\:find\(\) should return array\<array\<mixed\>\> but returns array\<string, array\<mixed\>\|int\|null\>\.$#'
+			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Location\\Gateway\\DoctrineDatabase\:\:find\(\) should return array\<array\<mixed\>\> but returns array\<string, array\|int\|null\>\.$#'
 			identifier: return.type
 			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Location\\Gateway\\DoctrineDatabase\:\:find\(\) should return array\<array\<mixed\>\> but returns array\<string, array\|int\|null\>\.$#'
+			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Location\\Gateway\\DoctrineDatabase\:\:find\(\) should return array\<array\<mixed\>\> but returns array\<string, int\|list\<array\<string, mixed\>\>\|null\>\.$#'
 			identifier: return.type
 			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/DoctrineDatabase.php
@@ -27301,6 +26767,18 @@ parameters:
 			path: tests/bundle/Core/EventSubscriber/TrustedHeaderClientIpEventSubscriberTest.php
 
 		-
+			message: '#^Parameter \#2 \$trustedHeaderSet of static method Symfony\\Component\\HttpFoundation\\Request\:\:setTrustedProxies\(\) expects int\<0, 63\>, \-1 given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/bundle/Core/EventSubscriber/TrustedHeaderClientIpEventSubscriberTest.php
+
+		-
+			message: '#^Parameter \#2 \$trustedHeaderSet of static method Symfony\\Component\\HttpFoundation\\Request\:\:setTrustedProxies\(\) expects int\<0, 63\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/bundle/Core/EventSubscriber/TrustedHeaderClientIpEventSubscriberTest.php
+
+		-
 			message: '#^Binary operation "\." between ''rendered_'' and \(Closure\(array\<string, mixed\>\)\: string\)\|string results in an error\.$#'
 			identifier: binaryOp.invalid
 			count: 1
@@ -28543,12 +28021,6 @@ parameters:
 			path: tests/bundle/IO/DependencyInjection/ConfigurationFactory/BaseFlysystemTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactory\\BaseFlysystemTest\:\:validateConfiguredContainer\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/IO/DependencyInjection/ConfigurationFactory/BaseFlysystemTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactory\\BaseFlysystemTest\:\:validateConfiguredHandler\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -28621,12 +28093,6 @@ parameters:
 			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactoryTest\:\:validateConfiguredContainer\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactoryTest\:\:validateConfiguredHandler\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -28661,6 +28127,12 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: tests/bundle/IO/DependencyInjection/IbexaIOExtensionTest.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Symfony\\Component\\HttpFoundation\\Response\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: tests/bundle/IO/EventListener/StreamFileListenerTest.php
 
 		-
 			message: '#^Call to an undefined method Ibexa\\Core\\IO\\IOBinarydataHandler\\Flysystem\:\:expects\(\)\.$#'
@@ -43021,12 +42493,6 @@ parameters:
 			path: tests/integration/Core/Repository/URLAliasServiceTest.php
 
 		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 3
-			path: tests/integration/Core/Repository/URLAliasServiceTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\URLAliasServiceTest\:\:assertLookupHistory\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -44951,12 +44417,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/integration/Core/User/UserStorage/UserStorageGatewayTest.php
-
-		-
-			message: '#^Property Ibexa\\Tests\\Integration\\RepositoryInstaller\\TestCase\:\:\$class has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: tests/integration/RepositoryInstaller/TestCase.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Base\\Container\\Compiler\\FieldTypeRegistryPassTest\:\:tagsProvider\(\) return type has no value type specified in iterable type array\.$#'
@@ -51205,30 +50665,6 @@ parameters:
 			path: tests/lib/Limitation/SubtreeLimitationTypeTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Component\\Serializer\\Stubs\\CompoundStub\:\:__construct\(\) has parameter \$subMatchers with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/MVC/Symfony/Component/Serializer/Stubs/CompoundStub.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Component\\Serializer\\Stubs\\MatcherStub\:\:__construct\(\) has parameter \$data with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/MVC/Symfony/Component/Serializer/Stubs/MatcherStub.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Component\\Serializer\\Stubs\\MatcherStub\:\:getData\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/Component/Serializer/Stubs/MatcherStub.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Component\\Serializer\\Stubs\\MatcherStub\:\:setRequest\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/Component/Serializer/Stubs/MatcherStub.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Controller\\ControllerTest\:\:testRender\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -52777,14 +52213,8 @@ parameters:
 			path: tests/lib/MVC/Symfony/Security/Voter/ValueObjectVoterTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\Compound\\CompoundAndTest\:\:matchProvider\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/Compound/CompoundAndTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\Compound\\CompoundAndTest\:\:testMatch\(\) has no return type specified\.$#'
-			identifier: missingType.return
+			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\Compound\\CompoundAndTest\:\:matchProvider\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: tests/lib/MVC/Symfony/SiteAccess/Compound/CompoundAndTest.php
 
@@ -52795,111 +52225,9 @@ parameters:
 			path: tests/lib/MVC/Symfony/SiteAccess/Compound/CompoundAndTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\Compound\\CompoundAndTest\:\:testReverseMatch\(\) has no return type specified\.$#'
-			identifier: missingType.return
+			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\Compound\\CompoundOrTest\:\:matchProvider\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/Compound/CompoundAndTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\Compound\\CompoundAndTest\:\:testReverseMatchFail\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/Compound/CompoundAndTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\Compound\\CompoundAndTest\:\:testReverseMatchNotVersatile\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/Compound/CompoundAndTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\Compound\\CompoundAndTest\:\:testReverseMatchSiteAccessNotConfigured\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/Compound/CompoundAndTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\Compound\\CompoundAndTest\:\:testSerialize\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/Compound/CompoundAndTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\Compound\\CompoundAndTest\:\:testSetMatcherBuilder\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/Compound/CompoundAndTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\Compound\\CompoundAndTest\:\:testSetRequest\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/Compound/CompoundAndTest.php
-
-		-
-			message: '#^Parameter \#1 \$matcherBuilder of method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Compound\:\:setMatcherBuilder\(\) expects Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\MatcherBuilderInterface, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
-			identifier: argument.type
-			count: 6
-			path: tests/lib/MVC/Symfony/SiteAccess/Compound/CompoundAndTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\Compound\\CompoundOrTest\:\:matchProvider\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/Compound/CompoundOrTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\Compound\\CompoundOrTest\:\:testMatch\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/Compound/CompoundOrTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\Compound\\CompoundOrTest\:\:testReverseMatch1\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/Compound/CompoundOrTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\Compound\\CompoundOrTest\:\:testReverseMatch2\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/Compound/CompoundOrTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\Compound\\CompoundOrTest\:\:testReverseMatchFail\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/Compound/CompoundOrTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\Compound\\CompoundOrTest\:\:testReverseMatchNotVersatile\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/Compound/CompoundOrTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\Compound\\CompoundOrTest\:\:testReverseMatchSiteAccessNotConfigured\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/Compound/CompoundOrTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\Compound\\CompoundOrTest\:\:testSerialize\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/Compound/CompoundOrTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\Compound\\CompoundOrTest\:\:testSetMatcherBuilder\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/Compound/CompoundOrTest.php
-
-		-
-			message: '#^Parameter \#1 \$matcherBuilder of method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Compound\:\:setMatcherBuilder\(\) expects Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\MatcherBuilderInterface, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
-			identifier: argument.type
-			count: 6
 			path: tests/lib/MVC/Symfony/SiteAccess/Compound/CompoundOrTest.php
 
 		-
@@ -53044,6 +52372,12 @@ parameters:
 			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\RouterHostPortURITest\:\:testSetGetRequestMapPort\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
+			path: tests/lib/MVC/Symfony/SiteAccess/RouterHostPortURITest.php
+
+		-
+			message: '#^Parameter \#1 \$map of class Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Map\\Port constructor expects array\<int\|string, string\>, array\<string, int\> given\.$#'
+			identifier: argument.type
+			count: 2
 			path: tests/lib/MVC/Symfony/SiteAccess/RouterHostPortURITest.php
 
 		-
@@ -53675,66 +53009,6 @@ parameters:
 			identifier: missingType.property
 			count: 1
 			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSizeExtensionTest.php
-
-		-
-			message: '#^Call to an undefined method Twig\\Error\\SyntaxError\:\:setTemplateFile\(\)\.$#'
-			identifier: method.notFound
-			count: 2
-			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSystemTwigIntegrationTestCase.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Templating\\Twig\\Extension\\FileSystemTwigIntegrationTestCase\:\:doIntegrationTest\(\) has parameter \$condition with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSystemTwigIntegrationTestCase.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Templating\\Twig\\Extension\\FileSystemTwigIntegrationTestCase\:\:doIntegrationTest\(\) has parameter \$deprecation with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSystemTwigIntegrationTestCase.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Templating\\Twig\\Extension\\FileSystemTwigIntegrationTestCase\:\:doIntegrationTest\(\) has parameter \$exception with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSystemTwigIntegrationTestCase.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Templating\\Twig\\Extension\\FileSystemTwigIntegrationTestCase\:\:doIntegrationTest\(\) has parameter \$file with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSystemTwigIntegrationTestCase.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Templating\\Twig\\Extension\\FileSystemTwigIntegrationTestCase\:\:doIntegrationTest\(\) has parameter \$message with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSystemTwigIntegrationTestCase.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Templating\\Twig\\Extension\\FileSystemTwigIntegrationTestCase\:\:doIntegrationTest\(\) has parameter \$outputs with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSystemTwigIntegrationTestCase.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Templating\\Twig\\Extension\\FileSystemTwigIntegrationTestCase\:\:doIntegrationTest\(\) has parameter \$templates with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSystemTwigIntegrationTestCase.php
-
-		-
-			message: '#^Parameter \#1 \$name of method Twig\\Loader\\ChainLoader\:\:getSourceContext\(\) expects string, int\|string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSystemTwigIntegrationTestCase.php
-
-		-
-			message: '#^Undefined variable\: \$ret$#'
-			identifier: variable.undefined
-			count: 1
-			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSystemTwigIntegrationTestCase.php
 
 		-
 			message: '#^Anonymous function should return non\-empty\-string but returns non\-empty\-string\|false\.$#'
@@ -55187,12 +54461,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/lib/Persistence/Cache/UserPreferenceHandlerTest.php
-
-		-
-			message: '#^Property Ibexa\\Tests\\Core\\Persistence\\DatabaseConnectionFactory\:\:\$databasePlatforms type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Persistence/DatabaseConnectionFactory.php
 
 		-
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\FieldType'' and Ibexa\\Contracts\\Core\\Persistence\\FieldType will always evaluate to true\.$#'
@@ -57149,12 +56417,6 @@ parameters:
 			identifier: missingType.property
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/LanguageHandlerMock.php
-
-		-
-			message: '#^Cannot call method fetch\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabaseTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\\DoctrineDatabaseTest\:\:assertLoadLocationProperties\(\) has parameter \$locationData with no value type specified in iterable type array\.$#'
@@ -61417,7 +60679,7 @@ parameters:
 			path: tests/lib/Persistence/Legacy/SharedGateway/GatewayFactoryTest.php
 
 		-
-			message: '#^PHPDoc tag @var with type Doctrine\\DBAL\\Platforms\\AbstractPlatform is not subtype of native type Doctrine\\DBAL\\Platforms\\MySQL80Platform\|Doctrine\\DBAL\\Platforms\\MySqlPlatform\|Doctrine\\DBAL\\Platforms\\PostgreSqlPlatform\|Doctrine\\DBAL\\Platforms\\SqlitePlatform\.$#'
+			message: '#^PHPDoc tag @var with type Doctrine\\DBAL\\Platforms\\AbstractPlatform is not subtype of native type Doctrine\\DBAL\\Platforms\\MySQL80Platform\|Doctrine\\DBAL\\Platforms\\MySQLPlatform\|Doctrine\\DBAL\\Platforms\\PostgreSQLPlatform\|Doctrine\\DBAL\\Platforms\\SqlitePlatform\.$#'
 			identifier: varTag.nativeType
 			count: 1
 			path: tests/lib/Persistence/Legacy/SharedGateway/GatewayFactoryTest.php
@@ -61427,12 +60689,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: tests/lib/Persistence/Legacy/SharedGateway/GatewayFactoryTest.php
-
-		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: tests/lib/Persistence/Legacy/TestCase.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\TestCase\:\:assertPropertiesCorrect\(\) has no return type specified\.$#'
@@ -62113,14 +61369,14 @@ parameters:
 			path: tests/lib/Persistence/Legacy/User/UserHandlerTest.php
 
 		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\UserPreference\\Gateway\\DoctrineDatabaseTest\:\:loadUserPreference\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: tests/lib/Persistence/Legacy/UserPreference/Gateway/DoctrineDatabaseTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\UserPreference\\Gateway\\DoctrineDatabaseTest\:\:loadUserPreference\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\UserPreference\\Gateway\\DoctrineDatabaseTest\:\:loadUserPreference\(\) should return array but returns array\<string, mixed\>\|false\.$#'
+			identifier: return.type
 			count: 1
 			path: tests/lib/Persistence/Legacy/UserPreference/Gateway/DoctrineDatabaseTest.php
 

@@ -11,13 +11,13 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound;
 use Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
 
 /**
- * Siteaccess matcher that allows a combination of matchers, with a logical AND.
+ * SiteAccess matcher that allows a combination of matchers, with a logical AND.
  */
-class LogicalAnd extends Compound implements VersatileMatcher
+class LogicalAnd extends Compound
 {
-    public const NAME = 'logicalAnd';
+    public const string NAME = 'logicalAnd';
 
-    public function match()
+    public function match(): string|bool
     {
         foreach ($this->config as $i => $rule) {
             foreach ($rule['matchers'] as $subMatcherClass => $matchingConfig) {
@@ -35,7 +35,7 @@ class LogicalAnd extends Compound implements VersatileMatcher
         return false;
     }
 
-    public function reverseMatch($siteAccessName)
+    public function reverseMatch(string $siteAccessName): ?VersatileMatcher
     {
         foreach ($this->config as $i => $rule) {
             if ($rule['match'] === $siteAccessName) {
@@ -58,5 +58,7 @@ class LogicalAnd extends Compound implements VersatileMatcher
                 return $this;
             }
         }
+
+        return null;
     }
 }

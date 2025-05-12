@@ -32,7 +32,7 @@ class ImageStorage extends GatewayBasedStorage
     protected $aliasCleaner;
 
     /** @var \Ibexa\Core\FieldType\Image\ImageStorage\Gateway */
-    protected $gateway;
+    protected StorageGatewayInterface $gateway;
 
     /** @var \Ibexa\Core\IO\FilePathNormalizerInterface */
     protected $filePathNormalizer;

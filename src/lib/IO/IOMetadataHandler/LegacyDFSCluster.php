@@ -139,7 +139,7 @@ class LegacyDFSCluster implements IOMetadataHandler
             ->andWhere('e.expired != true')
             ->andWhere('e.mtime > 0')
             ->setParameter('name_hash', md5($path))
-            ->execute()
+            ->executeQuery()
         ;
 
         if ($result->rowCount() === 0) {
@@ -183,7 +183,7 @@ class LegacyDFSCluster implements IOMetadataHandler
             ->andWhere('e.expired != true')
             ->andWhere('e.mtime > 0')
             ->setParameter('name_hash', md5($path))
-            ->execute()
+            ->executeQuery()
         ;
 
         return $result->rowCount() === 1;
@@ -260,7 +260,7 @@ class LegacyDFSCluster implements IOMetadataHandler
             ->andWhere('e.expired != true')
             ->andWhere('e.mtime > 0')
             ->setParameter('name_hash', md5($this->addPrefix($spiBinaryFileId)))
-            ->execute()
+            ->executeQuery()
         ;
 
         if ($result->rowCount() == 0) {
@@ -288,7 +288,7 @@ class LegacyDFSCluster implements IOMetadataHandler
                 'spiPath',
                 addcslashes($this->addPrefix(rtrim($spiPath, '/')), '%_') . '/%'
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**

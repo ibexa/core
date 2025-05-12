@@ -8,19 +8,20 @@
 namespace Ibexa\Bundle\IO\Migration\FileLister\FileRowReader;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Result;
 use Ibexa\Bundle\IO\Migration\FileLister\FileRowReaderInterface;
+use LogicException;
 
 abstract class LegacyStorageFileRowReader implements FileRowReaderInterface
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
-    /** @var \Doctrine\DBAL\Driver\Statement */
-    private $statement;
+    private ?Result $result;
 
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
+        $this->result = null;
     }
 
     final public function init()
@@ -29,7 +30,7 @@ abstract class LegacyStorageFileRowReader implements FileRowReaderInterface
         $selectQuery
             ->select('filename', 'mime_type')
             ->from($this->getStorageTable());
-        $this->statement = $selectQuery->execute();
+        $this->result = $selectQuery->executeQuery();
     }
 
     /**
@@ -41,14 +42,22 @@ abstract class LegacyStorageFileRowReader implements FileRowReaderInterface
 
     final public function getRow()
     {
-        $row = $this->statement->fetch();
+        if (null === $this->result) {
+            throw new LogicException('Uninitialized reader. You must call init() before getRow()');
+        }
+
+        $row = $this->result->fetchAssociative();
 
         return false !== $row ? $this->prependMimeToPath($row['filename'], $row['mime_type']) : null;
     }
 
     final public function getCount()
     {
-        return $this->statement->rowCount();
+        if (null === $this->result) {
+            throw new LogicException('Uninitialized reader. You must call init() before getCount()');
+        }
+
+        return $this->result->rowCount();
     }
 
     /**

@@ -131,7 +131,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('field_id', $fieldId, ParameterType::INTEGER)
             ->setParameter('version_no', $versionNo, ParameterType::INTEGER);
 
-        return $query->execute()->fetchFirstColumn();
+        return $query->executeQuery()->fetchFirstColumn();
     }
 
     /**
@@ -152,7 +152,7 @@ class DoctrineStorage extends Gateway
             )
             ->setParameter('fieldDefinitionId', $fieldDefinitionId);
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         $row = $statement->fetch(\PDO::FETCH_ASSOC);
 
@@ -209,10 +209,10 @@ class DoctrineStorage extends Gateway
             ->setParameter('keywordList', $keywordList, Connection::PARAM_STR_ARRAY)
             ->setParameter('contentTypeId', $contentTypeId);
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         $existingKeywordMap = [];
-        foreach ($statement->fetchAll(\PDO::FETCH_ASSOC) as $row) {
+        foreach ($statement->fetchAllAssociative() as $row) {
             // filter out keywords that aren't the exact match (e.g. differ by case)
             if (!in_array($row['keyword'], $keywordList)) {
                 continue;
@@ -258,7 +258,7 @@ class DoctrineStorage extends Gateway
 
             foreach (array_keys($keywordsToInsert) as $keyword) {
                 $insertQuery->setParameter('keyword', $keyword);
-                $insertQuery->execute();
+                $insertQuery->executeStatement();
                 $keywordIdMap[$keyword] = (int)$this->connection->lastInsertId(
                     $this->getSequenceName(self::KEYWORD_TABLE, 'id')
                 );
@@ -288,7 +288,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('fieldId', $fieldId, ParameterType::INTEGER)
             ->setParameter('versionNo', $versionNo, ParameterType::INTEGER);
 
-        $deleteQuery->execute();
+        $deleteQuery->executeStatement();
     }
 
     /**
@@ -321,7 +321,7 @@ class DoctrineStorage extends Gateway
                 ->setParameter('keywordId', $keywordId, ParameterType::INTEGER)
                 ->setParameter('fieldId', $fieldId, ParameterType::INTEGER)
                 ->setParameter('versionNo', $versionNo, ParameterType::INTEGER);
-            $insertQuery->execute();
+            $insertQuery->executeStatement();
         }
     }
 
@@ -348,8 +348,8 @@ class DoctrineStorage extends Gateway
             )
             ->where($query->expr()->isNull('attr.id'));
 
-        $statement = $query->execute();
-        $ids = $statement->fetchAll(\PDO::FETCH_COLUMN);
+        $statement = $query->executeQuery();
+        $ids = $statement->fetchFirstColumn();
 
         if (empty($ids)) {
             return;
@@ -363,6 +363,6 @@ class DoctrineStorage extends Gateway
             )
             ->setParameter('ids', $ids, Connection::PARAM_INT_ARRAY);
 
-        $deleteQuery->execute();
+        $deleteQuery->executeStatement();
     }
 }

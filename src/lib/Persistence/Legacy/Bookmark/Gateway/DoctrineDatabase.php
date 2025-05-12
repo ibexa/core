@@ -47,7 +47,7 @@ class DoctrineDatabase extends Gateway
             ->setParameter('user_id', $bookmark->userId, PDO::PARAM_INT)
             ->setParameter('location_id', $bookmark->locationId, PDO::PARAM_INT);
 
-        $query->execute();
+        $query->executeStatement();
 
         return (int) $this->connection->lastInsertId();
     }
@@ -63,7 +63,7 @@ class DoctrineDatabase extends Gateway
             ->where($query->expr()->eq(self::COLUMN_ID, ':id'))
             ->setParameter('id', $id, PDO::PARAM_INT);
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -78,7 +78,7 @@ class DoctrineDatabase extends Gateway
             ->where($query->expr()->eq(self::COLUMN_ID, ':id'))
             ->setParameter('id', $id, PDO::PARAM_INT);
 
-        return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -97,7 +97,7 @@ class DoctrineDatabase extends Gateway
             ->setParameter('user_id', $userId, PDO::PARAM_INT)
             ->setParameter('location_id', $locationIds, Connection::PARAM_INT_ARRAY);
 
-        return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadUserIdsByLocation(Location $location): array
@@ -118,7 +118,7 @@ class DoctrineDatabase extends Gateway
                     )
             );
 
-        return $queryBuilder->execute()->fetchFirstColumn();
+        return $queryBuilder->executeQuery()->fetchFirstColumn();
     }
 
     /**
@@ -140,7 +140,7 @@ class DoctrineDatabase extends Gateway
         $query->orderBy(self::COLUMN_ID, 'DESC');
         $query->setParameter('user_id', $userId, PDO::PARAM_INT);
 
-        return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -155,7 +155,7 @@ class DoctrineDatabase extends Gateway
             ->where($query->expr()->eq(self::COLUMN_USER_ID, ':user_id'))
             ->setParameter('user_id', $userId, PDO::PARAM_INT);
 
-        return (int) $query->execute()->fetchOne();
+        return (int) $query->executeQuery()->fetchOne();
     }
 
     /**

@@ -59,9 +59,9 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadObjectStateDataByIdentifier(string $identifier, int $groupId): array
@@ -80,9 +80,9 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadObjectStateListData(int $groupId): array
@@ -95,7 +95,7 @@ final class DoctrineDatabase extends Gateway
             )
         )->orderBy('state.priority', 'ASC');
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         $rows = [];
         while ($row = $statement->fetch(FetchMode::ASSOCIATIVE)) {
@@ -115,9 +115,9 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadObjectStateGroupDataByIdentifier(string $identifier): array
@@ -130,9 +130,9 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadObjectStateGroupListData(int $offset, int $limit): array
@@ -143,7 +143,7 @@ final class DoctrineDatabase extends Gateway
             $query->setFirstResult($offset);
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         $rows = [];
         while ($row = $statement->fetch(FetchMode::ASSOCIATIVE)) {
@@ -198,7 +198,7 @@ final class DoctrineDatabase extends Gateway
                 ]
             );
 
-        $query->execute();
+        $query->executeStatement();
 
         $objectState->id = (int)$this->connection->lastInsertId(self::OBJECT_STATE_TABLE_SEQ);
 
@@ -262,7 +262,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function updateObjectState(ObjectState $objectState): void
@@ -296,7 +296,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function updateObjectStateLinks(int $oldStateId, int $newStateId): void
@@ -316,7 +316,7 @@ final class DoctrineDatabase extends Gateway
             )
         ;
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -353,7 +353,7 @@ final class DoctrineDatabase extends Gateway
             )
         ;
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function deleteObjectStateLinks(int $stateId): void
@@ -368,7 +368,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function insertObjectStateGroup(Group $objectStateGroup): void
@@ -400,7 +400,7 @@ final class DoctrineDatabase extends Gateway
             )
         ;
 
-        $query->execute();
+        $query->executeStatement();
 
         $objectStateGroup->id = (int)$this->connection->lastInsertId(
             self::OBJECT_STATE_GROUP_TABLE_SEQ
@@ -441,7 +441,7 @@ final class DoctrineDatabase extends Gateway
             )
         ;
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function setContentState(int $contentId, int $groupId, int $stateId): void
@@ -482,9 +482,9 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function getContentCount(int $stateId): int
@@ -502,7 +502,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     public function updateObjectStatePriority(int $stateId, int $priority): void
@@ -519,7 +519,7 @@ final class DoctrineDatabase extends Gateway
             )
         ;
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -618,7 +618,7 @@ final class DoctrineDatabase extends Gateway
                     ]
                 );
 
-            $query->execute();
+            $query->executeStatement();
         }
     }
 
@@ -639,7 +639,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -674,7 +674,7 @@ final class DoctrineDatabase extends Gateway
                 ->setParameter('language_id', $languageId, ParameterType::INTEGER)
                 ->setParameter('real_language_id', $languageId & ~1, ParameterType::INTEGER);
 
-            $query->execute();
+            $query->executeStatement();
         }
     }
 
@@ -693,7 +693,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     private function getMaxPriorityForObjectStatesInGroup(int $groupId): ?int
@@ -711,7 +711,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $priority = $query->execute()->fetchOne();
+        $priority = $query->executeQuery()->fetchOne();
 
         return null !== $priority ? (int)$priority : null;
     }
@@ -741,7 +741,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $stateId = $query->execute()->fetch(FetchMode::COLUMN);
+        $stateId = $query->executeQuery()->fetch(FetchMode::COLUMN);
 
         return false !== $stateId ? (int)$stateId : null;
     }
@@ -764,6 +764,6 @@ final class DoctrineDatabase extends Gateway
                 ]
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 }

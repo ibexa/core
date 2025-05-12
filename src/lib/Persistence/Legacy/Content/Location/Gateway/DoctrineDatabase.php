@@ -23,7 +23,6 @@ use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
-use PDO;
 use RuntimeException;
 use function time;
 
@@ -77,7 +76,7 @@ final class DoctrineDatabase extends Gateway
             $query->expr()->eq('t.node_id', $query->createNamedParameter($nodeId, ParameterType::INTEGER))
         );
 
-        if ($row = $query->execute()->fetch(FetchMode::ASSOCIATIVE)) {
+        if ($row = $query->executeQuery()->fetchAssociative()) {
             return $row;
         }
 
@@ -94,7 +93,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function getBasicNodeDataByRemoteId(
@@ -107,7 +106,7 @@ final class DoctrineDatabase extends Gateway
             $query->expr()->eq('t.remote_id', $query->createNamedParameter($remoteId, ParameterType::STRING))
         );
 
-        if ($row = $query->execute()->fetch(FetchMode::ASSOCIATIVE)) {
+        if ($row = $query->executeQuery()->fetch(FetchMode::ASSOCIATIVE)) {
             return $row;
         }
 
@@ -135,9 +134,9 @@ final class DoctrineDatabase extends Gateway
             ;
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -160,9 +159,9 @@ final class DoctrineDatabase extends Gateway
             ;
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadParentLocationsDataForDraftContent(int $contentId): array
@@ -213,30 +212,47 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
-    public function getSubtreeContent(int $sourceId, bool $onlyIds = false): array
+    /**
+     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function getSubtreeContent(int $sourceId): array
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select($onlyIds ? 'node_id, contentobject_id, depth' : '*')
+            ->select('*')
             ->from(self::CONTENT_TREE_TABLE, 't')
             ->where($this->getSubtreeLimitationExpression($query, $sourceId))
             ->orderBy('t.depth')
             ->addOrderBy('t.node_id');
-        $statement = $query->execute();
 
-        $results = $statement->fetchAll($onlyIds ? (FetchMode::COLUMN | PDO::FETCH_GROUP) : FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
+    }
 
-        // array_map() is used to map all elements stored as $results[$i][0] to $results[$i]
-        return $onlyIds
-            ? array_map(static function (array $result) {
-                return $result[0];
-            }, $results)
-            : $results;
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Doctrine\DBAL\Driver\Exception
+     */
+    public function getSubtreeNodeIdToContentIdMap(int $sourceId): array
+    {
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->select('node_id', 'contentobject_id')
+            ->from(self::CONTENT_TREE_TABLE, 't')
+            ->where($this->getSubtreeLimitationExpression($query, $sourceId))
+            ->orderBy('t.depth')
+            ->addOrderBy('t.node_id');
+        $statement = $query->executeQuery();
+
+        return array_map(
+            static fn (array $row): int => $row['contentobject_id'],
+            $statement->fetchAllAssociativeIndexed()
+        );
     }
 
     /**
@@ -257,7 +273,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('parentNode', $sourceId, ParameterType::INTEGER)
             ->setParameter('status', ContentInfo::STATUS_DRAFT, ParameterType::INTEGER);
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         return $statement->fetchFirstColumn();
     }
@@ -274,7 +290,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        return (int) $query->execute()->fetchOne();
+        return (int) $query->executeQuery()->fetchOne();
     }
 
     /**
@@ -304,9 +320,9 @@ final class DoctrineDatabase extends Gateway
                 $query->createPositionalParameter($locationId, ParameterType::INTEGER)
             )
         );
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     private function getSubtreeNodesData(string $pathString): array
@@ -327,9 +343,9 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($pathString . '%', ParameterType::STRING)
                 )
             );
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -405,7 +421,7 @@ final class DoctrineDatabase extends Gateway
                     )
                 )
             );
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         $result = $statement->fetchFirstColumn();
 
@@ -490,7 +506,7 @@ final class DoctrineDatabase extends Gateway
                 $query->createPositionalParameter($nodeId, ParameterType::INTEGER)
             )
         );
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function hideSubtree(string $pathString): void
@@ -519,7 +535,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function setNodeHidden(string $pathString): void
@@ -543,7 +559,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function unHideSubtree(string $pathString): void
@@ -601,7 +617,7 @@ final class DoctrineDatabase extends Gateway
             }
         }
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     private function isAnyNodeInPathExplicitlyHidden(string $pathString): bool
@@ -620,7 +636,7 @@ final class DoctrineDatabase extends Gateway
                     )
                 )
             );
-        $count = (int)$query->execute()->fetchOne();
+        $count = (int)$query->executeQuery()->fetchOne();
 
         return $count > 0;
     }
@@ -642,9 +658,9 @@ final class DoctrineDatabase extends Gateway
                     )
                 )
             );
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::COLUMN);
+        return $statement->fetchFirstColumn();
     }
 
     private function buildHiddenSubtreeQuery(string $selectExpr): QueryBuilder
@@ -691,9 +707,9 @@ final class DoctrineDatabase extends Gateway
             )
             ->setParameter('locationIds', [$locationId1, $locationId2], Connection::PARAM_INT_ARRAY)
         ;
-        $statement = $queryBuilder->execute();
+        $statement = $queryBuilder->executeQuery();
         $contentObjects = [];
-        foreach ($statement->fetchAll(FetchMode::ASSOCIATIVE) as $row) {
+        foreach ($statement->fetchAllAssociative() as $row) {
             $row['is_main_node'] = (int)$row['main_node_id'] === (int)$row['node_id'];
             $contentObjects[$row['node_id']] = $row;
         }
@@ -734,7 +750,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('locationId', $locationId1);
 
         // update Location 1 entry
-        $queryBuilder->execute();
+        $queryBuilder->executeStatement();
 
         $queryBuilder
             ->setParameter('contentId', $content1data['contentobject_id'])
@@ -749,7 +765,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('locationId', $locationId2);
 
         // update Location 2 entry
-        $queryBuilder->execute();
+        $queryBuilder->executeStatement();
 
         return true;
     }
@@ -778,7 +794,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
 
         return $location;
     }
@@ -845,7 +861,7 @@ final class DoctrineDatabase extends Gateway
                     'is_hidden' => ParameterType::INTEGER,
                 ]
             );
-        $query->execute();
+        $query->executeQuery();
     }
 
     public function deleteNodeAssignment(int $contentId, ?int $versionNo = null): void
@@ -867,7 +883,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
         }
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function updateNodeAssignment(
@@ -905,7 +921,7 @@ final class DoctrineDatabase extends Gateway
                     )
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function createLocationsFromNodeAssignments(int $contentId, int $versionNo): void
@@ -937,7 +953,7 @@ final class DoctrineDatabase extends Gateway
                 )
             )
             ->orderBy('id');
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         // convert all these assignments to nodes
 
@@ -989,7 +1005,7 @@ final class DoctrineDatabase extends Gateway
                 $contentId
             )
         );
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -1013,7 +1029,7 @@ final class DoctrineDatabase extends Gateway
                     )
                 )
             );
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         $result = $statement->fetchOne();
 
@@ -1056,7 +1072,7 @@ final class DoctrineDatabase extends Gateway
                     $locationId
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function updatePathIdentificationString($locationId, $parentLocationId, $text): void
@@ -1079,7 +1095,7 @@ final class DoctrineDatabase extends Gateway
                 $query->createPositionalParameter($locationId, ParameterType::INTEGER)
             )
         );
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -1098,7 +1114,7 @@ final class DoctrineDatabase extends Gateway
                 $query->createPositionalParameter($locationId, ParameterType::INTEGER)
             )
         );
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -1145,7 +1161,7 @@ final class DoctrineDatabase extends Gateway
             ->orderBy('node_id', 'ASC')
             ->setMaxResults(1);
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         return $statement->fetch(FetchMode::ASSOCIATIVE);
     }
@@ -1163,7 +1179,7 @@ final class DoctrineDatabase extends Gateway
             $query->setValue($key, $query->createPositionalParameter($value));
         }
 
-        $query->execute();
+        $query->executeStatement();
 
         $this->removeLocation($locationRow['node_id']);
         $this->setContentStatus((int)$locationRow['contentobject_id'], ContentInfo::STATUS_TRASHED);
@@ -1210,7 +1226,7 @@ final class DoctrineDatabase extends Gateway
                 $query->createPositionalParameter($contentId, ParameterType::INTEGER)
             )
         );
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function loadTrashByLocation(int $locationId): array
@@ -1225,7 +1241,7 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($locationId, ParameterType::INTEGER)
                 )
             );
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         if ($row = $statement->fetch(FetchMode::ASSOCIATIVE)) {
             return $row;
@@ -1254,9 +1270,9 @@ final class DoctrineDatabase extends Gateway
             $query->setFirstResult($offset);
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function countTrashed(?CriterionInterface $criterion = null): int
@@ -1268,7 +1284,7 @@ final class DoctrineDatabase extends Gateway
 
         $this->addConditionsByCriterion($criterion, $query);
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     /**
@@ -1281,7 +1297,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query->delete('ezcontentobject_trash');
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function removeElementFromTrash(int $id): void
@@ -1295,7 +1311,7 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($id, ParameterType::INTEGER)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function setSectionForSubtree(string $pathString, int $sectionId): bool
@@ -1313,7 +1329,7 @@ final class DoctrineDatabase extends Gateway
 
         $contentIds = array_map(
             'intval',
-            $selectContentIdsQuery->execute()->fetchAll(FetchMode::COLUMN)
+            $selectContentIdsQuery->executeQuery()->fetchFirstColumn()
         );
 
         if (empty($contentIds)) {
@@ -1333,7 +1349,7 @@ final class DoctrineDatabase extends Gateway
                     $contentIds
                 )
             );
-        $affectedRows = $updateSectionQuery->execute();
+        $affectedRows = $updateSectionQuery->executeStatement();
 
         return $affectedRows > 0;
     }
@@ -1352,7 +1368,7 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($contentId, ParameterType::INTEGER)
                 )
             );
-        $stmt = $query->execute();
+        $stmt = $query->executeQuery();
 
         return (int)$stmt->fetchOne();
     }
@@ -1378,7 +1394,7 @@ final class DoctrineDatabase extends Gateway
                 )
             )
         ;
-        $query->execute();
+        $query->executeStatement();
 
         // Update is_main in eznode_assignment table
         $this->setIsMainForContentVersionParentNodeAssignment(
@@ -1394,7 +1410,7 @@ final class DoctrineDatabase extends Gateway
         // exclude absolute Root Location (not to be confused with SiteAccess Tree Root)
         $query->where($query->expr()->neq('node_id', 'parent_node_id'));
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         return (int) $statement->fetch(FetchMode::COLUMN);
     }
@@ -1427,9 +1443,9 @@ final class DoctrineDatabase extends Gateway
             ->addOrderBy('node_id', 'ASC')
         ;
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -1521,7 +1537,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('content_id', $contentId, ParameterType::INTEGER)
             ->setParameter('version_no', $versionNo, ParameterType::INTEGER);
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -1584,7 +1600,7 @@ final class DoctrineDatabase extends Gateway
                     'sort_order' => ParameterType::INTEGER,
                 ]
             );
-        $query->execute();
+        $query->executeStatement();
 
         $location->id = (int)$this->connection->lastInsertId(self::CONTENT_TREE_SEQ);
 

@@ -50,8 +50,8 @@ class DoctrineStorage extends Gateway
                 ->where('id IN (:ids)')
                 ->setParameter('ids', $ids, Connection::PARAM_INT_ARRAY);
 
-            $statement = $query->execute();
-            foreach ($statement->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $statement = $query->executeQuery();
+            foreach ($statement->fetchAllAssociative() as $row) {
                 $map[$row['id']] = $row['url'];
             }
         }
@@ -85,8 +85,8 @@ class DoctrineStorage extends Gateway
                 )
                 ->setParameter('urls', $urls, Connection::PARAM_STR_ARRAY);
 
-            $statement = $query->execute();
-            foreach ($statement->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $statement = $query->executeQuery();
+            foreach ($statement->fetchAllAssociative() as $row) {
                 $map[$row['url']] = $row['id'];
             }
         }
@@ -123,7 +123,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('url', $url)
         ;
 
-        $query->execute();
+        $query->executeStatement();
 
         return (int)$this->connection->lastInsertId(
             $this->getSequenceName(self::URL_TABLE, 'id')
@@ -155,7 +155,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('url_id', $urlId, PDO::PARAM_INT)
         ;
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -186,7 +186,7 @@ class DoctrineStorage extends Gateway
             ->setParameter('contentobject_attribute_id', $fieldId, ParameterType::INTEGER)
             ->setParameter('contentobject_attribute_version', $versionNo, ParameterType::INTEGER);
 
-        $statement = $selectQuery->execute();
+        $statement = $selectQuery->executeQuery();
         $potentiallyOrphanedUrls = $statement->fetchFirstColumn();
 
         if (empty($potentiallyOrphanedUrls)) {
@@ -222,7 +222,7 @@ class DoctrineStorage extends Gateway
                 ->setParameter('url_ids', $excludeUrlIds, Connection::PARAM_INT_ARRAY);
         }
 
-        $deleteQuery->execute();
+        $deleteQuery->executeStatement();
 
         $this->deleteOrphanedUrls($potentiallyOrphanedUrls);
     }
@@ -258,9 +258,9 @@ class DoctrineStorage extends Gateway
             ->setParameter('url_ids', $potentiallyOrphanedUrls, Connection::PARAM_INT_ARRAY)
         ;
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        $ids = $statement->fetchAll(PDO::FETCH_COLUMN);
+        $ids = $statement->fetchFirstColumn();
         if (empty($ids)) {
             return;
         }
@@ -272,6 +272,6 @@ class DoctrineStorage extends Gateway
             ->setParameter('ids', $ids, Connection::PARAM_STR_ARRAY)
         ;
 
-        $deleteQuery->execute();
+        $deleteQuery->executeStatement();
     }
 }

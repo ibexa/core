@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactory\Metadat
 use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory\MetadataHandler\LegacyDFSCluster;
 use Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactoryTest;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 
 class LegacyDFSClusterTest extends ConfigurationFactoryTest
 {
@@ -50,7 +51,7 @@ class LegacyDFSClusterTest extends ConfigurationFactoryTest
         self::assertContainerBuilderHasServiceDefinitionWithArgument(
             $handlerServiceId,
             0,
-            'doctrine.dbal.test_connection'
+            new Reference('doctrine.dbal.test_connection')
         );
     }
 }

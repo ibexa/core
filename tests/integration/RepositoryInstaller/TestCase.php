@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
 abstract class TestCase extends IbexaKernelTestCase
 {
     /** Necessary to allow multiple Kernel classes */
-    protected static $class;
+    protected static ?string $class;
 
     protected static function getKernelClass(): string
     {

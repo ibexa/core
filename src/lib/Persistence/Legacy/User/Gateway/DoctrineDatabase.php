@@ -52,9 +52,9 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadByLogin(string $login): array
@@ -73,7 +73,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadByEmail(string $email): array
@@ -86,9 +86,9 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadUserByToken(string $hash): array
@@ -117,9 +117,9 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function updateUserPassword(User $user): void
@@ -142,7 +142,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->setParameter('userId', $user->id, ParameterType::INTEGER);
 
-        $queryBuilder->execute();
+        $queryBuilder->executeStatement();
     }
 
     public function updateUserToken(UserTokenUpdateStruct $userTokenUpdateStruct): void
@@ -170,7 +170,7 @@ final class DoctrineDatabase extends Gateway
         $query->setParameter('time', $userTokenUpdateStruct->time, ParameterType::INTEGER);
         $query->setParameter('user_id', $userTokenUpdateStruct->userId, ParameterType::INTEGER);
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function expireUserToken(string $hash): void
@@ -187,7 +187,7 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($hash, ParameterType::STRING)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function assignRole(int $contentId, int $roleId, array $limitation): void
@@ -217,7 +217,7 @@ final class DoctrineDatabase extends Gateway
                             ),
                         ]
                     );
-                $query->execute();
+                $query->executeStatement();
             }
         }
     }
@@ -240,7 +240,7 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($roleId, ParameterType::INTEGER)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function removeRoleAssignmentById(int $roleAssignmentId): void
@@ -254,7 +254,7 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($roleAssignmentId, ParameterType::INTEGER)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     private function getLoadUserQueryBuilder(): QueryBuilder
@@ -303,6 +303,6 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return !empty($query->execute()->fetch(FetchMode::ASSOCIATIVE));
+        return !empty($query->executeQuery()->fetch(FetchMode::ASSOCIATIVE));
     }
 }

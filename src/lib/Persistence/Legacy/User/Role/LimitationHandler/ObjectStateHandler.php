@@ -122,7 +122,7 @@ class ObjectStateHandler extends LimitationHandler
             );
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         $map = [];
         $groupValues = $statement->fetchAll(FetchMode::ASSOCIATIVE);

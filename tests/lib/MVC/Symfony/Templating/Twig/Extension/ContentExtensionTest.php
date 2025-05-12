@@ -61,7 +61,7 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
         ];
     }
 
-    public function getFixturesDir()
+    protected static function getFixturesDirectory(): string
     {
         return __DIR__ . '/_fixtures/content_functions/';
     }

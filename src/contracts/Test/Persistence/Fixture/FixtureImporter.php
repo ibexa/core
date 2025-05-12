@@ -77,7 +77,7 @@ final class FixtureImporter
                 );
             } catch (DBALException | PDOException $e) {
                 // Fallback to DELETE if TRUNCATE failed (because of FKs for instance)
-                $this->connection->createQueryBuilder()->delete($table)->execute();
+                $this->connection->createQueryBuilder()->delete($table)->executeStatement();
             }
         }
     }

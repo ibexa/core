@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Type;
@@ -159,7 +158,7 @@ final class DoctrineDatabase extends Gateway
                     ),
                 ]
             );
-        $query->execute();
+        $query->executeStatement();
 
         return (int)$this->connection->lastInsertId(self::CONTENT_TYPE_GROUP_SEQ);
     }
@@ -191,7 +190,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function countTypesInGroup(int $groupId): int
@@ -207,7 +206,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     public function countGroupsForType(int $typeId, int $status): int
@@ -230,7 +229,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     public function deleteGroup(int $groupId): void
@@ -243,7 +242,7 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($groupId, ParameterType::INTEGER)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -289,7 +288,7 @@ final class DoctrineDatabase extends Gateway
                         'name' => $query->createPositionalParameter($name, ParameterType::STRING),
                     ]
                 );
-            $query->execute();
+            $query->executeStatement();
         }
     }
 
@@ -370,7 +369,7 @@ final class DoctrineDatabase extends Gateway
         $query->setParameter('created', $type->created, ParameterType::INTEGER);
         $query->setParameter('creator_id', $type->creatorId, ParameterType::INTEGER);
 
-        $query->execute();
+        $query->executeStatement();
 
         if (empty($typeId)) {
             $typeId = $this->sharedGateway->getLastInsertedId(self::CONTENT_TYPE_SEQ);
@@ -445,7 +444,7 @@ final class DoctrineDatabase extends Gateway
                 ]
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function deleteGroupAssignment(int $groupId, int $typeId, int $status): void
@@ -472,7 +471,7 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($groupId, ParameterType::INTEGER)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function loadGroupData(array $groupIds): array
@@ -482,7 +481,7 @@ final class DoctrineDatabase extends Gateway
             ->where($query->expr()->in('id', ':ids'))
             ->setParameter('ids', $groupIds, Connection::PARAM_INT_ARRAY);
 
-        return $query->execute()->fetchAll();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadGroupDataByIdentifier(string $identifier): array
@@ -495,7 +494,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadAllGroupsData(): array
@@ -509,7 +508,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -542,7 +541,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('gid', $groupId, ParameterType::INTEGER)
             ->setParameter('version', $status, ParameterType::INTEGER);
 
-        return $query->execute()->fetchAll();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function insertFieldDefinition(
@@ -586,7 +585,7 @@ final class DoctrineDatabase extends Gateway
                 ->setParameter($columnName, $columnValue, $parameterType);
         }
 
-        $query->execute();
+        $query->executeStatement();
 
         $fieldDefinitionId = $fieldDefinition->id ?? $this->sharedGateway->getLastInsertedId(
             self::FIELD_DEFINITION_SEQ
@@ -630,7 +629,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('status', $status, ParameterType::INTEGER)
             ->setParameter('language_id', $multilingualData->languageId, ParameterType::INTEGER);
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -732,9 +731,9 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $stmt = $query->execute();
+        $stmt = $query->executeQuery();
 
-        return $stmt->fetchAll(FetchMode::ASSOCIATIVE);
+        return $stmt->fetchAllAssociative();
     }
 
     public function deleteFieldDefinition(
@@ -751,7 +750,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('field_definition_id', $fieldDefinitionId, ParameterType::INTEGER)
             ->setParameter('status', $status, ParameterType::INTEGER);
 
-        $deleteQuery->execute();
+        $deleteQuery->executeStatement();
 
         // Delete legacy Field Definition data
         $query = $this->connection->createQueryBuilder();
@@ -772,7 +771,7 @@ final class DoctrineDatabase extends Gateway
             )
         ;
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function updateFieldDefinition(
@@ -802,7 +801,7 @@ final class DoctrineDatabase extends Gateway
                 );
         }
 
-        $query->execute();
+        $query->executeStatement();
 
         foreach ($storageFieldDef->multilingualData as $data) {
             $dataExists = $this->fieldDefinitionMultilingualDataExist(
@@ -844,7 +843,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('status', $status, ParameterType::INTEGER)
             ->setParameter('language_id', $languageId, ParameterType::INTEGER);
 
-        return 0 < (int)$existQuery->execute()->fetchOne();
+        return 0 < (int)$existQuery->executeQuery()->fetchOne();
     }
 
     private function updateFieldDefinitionMultilingualData(
@@ -870,7 +869,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('status', $status, ParameterType::INTEGER)
             ->setParameter('languageId', $multilingualData->languageId, ParameterType::INTEGER);
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -894,7 +893,7 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($typeStatus, ParameterType::INTEGER)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function updateType(int $typeId, int $status, Type $type): void
@@ -928,7 +927,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
 
         $this->deleteTypeNameData($typeId, $status);
         $this->insertTypeNameData($typeId, $status, $type->name);
@@ -943,7 +942,7 @@ final class DoctrineDatabase extends Gateway
             ->andWhere($query->expr()->eq('c.version', Type::STATUS_DEFINED))
             ->setParameter('ids', $typeIds, Connection::PARAM_INT_ARRAY);
 
-        return $query->execute()->fetchAll();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadTypesDataByFieldDefinitionIdentifier(string $identifier): array
@@ -957,7 +956,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->execute()->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadTypeData(int $typeId, int $status): array
@@ -970,7 +969,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('id', $typeId, ParameterType::INTEGER)
             ->setParameter('version', $status, ParameterType::INTEGER);
 
-        return $query->execute()->fetchAll();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadTypeDataByIdentifier(string $identifier, int $status): array
@@ -983,7 +982,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('identifier', $identifier, ParameterType::STRING)
             ->setParameter('version', $status, ParameterType::INTEGER);
 
-        return $query->execute()->fetchAll();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadTypeDataByRemoteId(string $remoteId, int $status): array
@@ -995,7 +994,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('remote', $remoteId, ParameterType::STRING)
             ->setParameter('version', $status, ParameterType::INTEGER);
 
-        return $query->execute()->fetchAll();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -1104,7 +1103,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $stmt = $query->execute();
+        $stmt = $query->executeQuery();
 
         return (int)$stmt->fetchOne();
     }
@@ -1129,7 +1128,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('content_type_id', $typeId, ParameterType::INTEGER)
             ->setParameter('status', $status, ParameterType::INTEGER);
 
-        $deleteQuery->execute();
+        $deleteQuery->executeStatement();
 
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
@@ -1148,7 +1147,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function delete(int $typeId, int $status): void
@@ -1176,7 +1175,7 @@ final class DoctrineDatabase extends Gateway
                     )
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function deleteGroupAssignmentsForType(int $typeId, int $status): void
@@ -1195,7 +1194,7 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($status, ParameterType::INTEGER)
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -1258,7 +1257,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function publishTypeAndFields(int $typeId, int $sourceStatus, int $targetStatus): void
@@ -1321,7 +1320,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('target_status', $targetStatus, ParameterType::INTEGER)
             ->setParameter('source_status', $sourceStatus, ParameterType::INTEGER);
 
-        $mlDataPublishQuery->execute();
+        $mlDataPublishQuery->executeStatement();
     }
 
     public function getSearchableFieldMapData(): array
@@ -1343,9 +1342,9 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $statement = $query->execute($query);
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function removeFieldDefinitionTranslation(
@@ -1367,7 +1366,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('status', $status, ParameterType::INTEGER)
             ->setParameter('language_id', $languageId, ParameterType::INTEGER);
 
-        $deleteQuery->execute();
+        $deleteQuery->executeStatement();
     }
 
     /**
@@ -1386,7 +1385,7 @@ final class DoctrineDatabase extends Gateway
         try {
             $this->connection->beginTransaction();
 
-            $queryBuilder->execute();
+            $queryBuilder->executeStatement();
             $this->cleanupAssociations();
 
             $this->connection->commit();

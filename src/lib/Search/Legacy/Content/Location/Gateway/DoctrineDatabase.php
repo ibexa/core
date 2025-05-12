@@ -8,7 +8,6 @@
 namespace Ibexa\Core\Search\Legacy\Content\Location\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
@@ -155,11 +154,11 @@ final class DoctrineDatabase extends Gateway
         $selectQuery->setMaxResults($limit);
         $selectQuery->setFirstResult($offset);
 
-        $statement = $selectQuery->execute();
+        $statement = $selectQuery->executeQuery();
 
         return [
             'count' => $count,
-            'rows' => $statement->fetchAll(FetchMode::ASSOCIATIVE),
+            'rows' => $statement->fetchAllAssociative(),
         ];
     }
 
@@ -224,7 +223,7 @@ final class DoctrineDatabase extends Gateway
             );
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         return (int)$statement->fetchOne();
     }

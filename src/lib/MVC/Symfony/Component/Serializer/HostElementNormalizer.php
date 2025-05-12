@@ -9,19 +9,58 @@ declare(strict_types=1);
 namespace Ibexa\Core\MVC\Symfony\Component\Serializer;
 
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\HostElement;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-final class HostElementNormalizer extends AbstractPropertyWhitelistNormalizer
+/**
+ * @internal
+ */
+final class HostElementNormalizer implements NormalizerInterface, DenormalizerInterface
 {
-    public function supportsNormalization($data, string $format = null): bool
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof HostElement;
     }
 
     /**
-     * @see \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\HostElement::__sleep
+     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\HostElement $data
+     *
+     * @return array{elementNumber: int, hostElements: array<int, string>}
      */
-    protected function getAllowedProperties(): array
+    public function normalize(
+        mixed $data,
+        ?string $format = null,
+        array $context = []
+    ): array {
+        return [
+            'elementNumber' => $data->getElementNumber(),
+            'hostElements' => $data->getHostElements(),
+        ];
+    }
+
+    public function getSupportedTypes(?string $format): array
     {
-        return ['elementNumber', 'hostElements'];
+        return [
+            HostElement::class => true,
+        ];
+    }
+
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): HostElement
+    {
+        $hostElement = new HostElement($data['elementNumber']);
+        if (!empty($data['hostElements'])) {
+            $hostElement->setHostElements($data['hostElements']);
+        }
+
+        return $hostElement;
+    }
+
+    public function supportsDenormalization(
+        mixed $data,
+        string $type,
+        ?string $format = null,
+        array $context = []
+    ): bool {
+        return $type === HostElement::class;
     }
 }

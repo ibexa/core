@@ -94,7 +94,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('action', "eznode:{$locationId}", ParameterType::STRING)
             ->setParameter('is_original', 1, ParameterType::INTEGER);
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadLocationEntries(
@@ -153,9 +153,9 @@ final class DoctrineDatabase extends Gateway
             );
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function listGlobalEntries(
@@ -223,9 +223,9 @@ final class DoctrineDatabase extends Gateway
                 )
             );
         }
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function isRootEntry(int $id): bool
@@ -243,7 +243,7 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($id, ParameterType::INTEGER)
                 )
             );
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         $row = $statement->fetch(FetchMode::ASSOCIATIVE);
 
@@ -311,7 +311,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         $row = $statement->fetch(FetchMode::ASSOCIATIVE);
 
@@ -388,7 +388,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -435,7 +435,7 @@ final class DoctrineDatabase extends Gateway
                     )
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**
@@ -477,7 +477,7 @@ final class DoctrineDatabase extends Gateway
                 )
             )
         ;
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function historizeId(int $id, int $link): void
@@ -516,9 +516,9 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        $rows = $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        $rows = $statement->fetchAllAssociative();
 
         foreach ($rows as $row) {
             $this->historize((int)$row['parent'], $row['text_md5'], $link);
@@ -543,7 +543,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function updateRow(int $parentId, string $textMD5, array $values): void
@@ -573,7 +573,7 @@ final class DoctrineDatabase extends Gateway
                     $query->createNamedParameter($textMD5, ParameterType::STRING, ':text_md5')
                 )
             );
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function insertRow(array $values): int
@@ -618,7 +618,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
         }
-        $query->execute();
+        $query->executeStatement();
 
         return (int)$values['id'];
     }
@@ -636,7 +636,7 @@ final class DoctrineDatabase extends Gateway
                 ]
             );
 
-        $query->execute();
+        $query->executeStatement();
 
         return (int)$this->connection->lastInsertId(self::INCR_TABLE_SEQ);
     }
@@ -665,7 +665,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $result = $query->execute()->fetch(FetchMode::ASSOCIATIVE);
+        $result = $query->executeQuery()->fetch(FetchMode::ASSOCIATIVE);
 
         return false !== $result ? $result : [];
     }
@@ -717,7 +717,7 @@ final class DoctrineDatabase extends Gateway
         }
         $query->setMaxResults(1);
 
-        $result = $query->execute()->fetch(FetchMode::ASSOCIATIVE);
+        $result = $query->executeQuery()->fetch(FetchMode::ASSOCIATIVE);
 
         return false !== $result ? $result : [];
     }
@@ -758,7 +758,7 @@ final class DoctrineDatabase extends Gateway
             );
         }
 
-        $entry = $query->execute()->fetch(FetchMode::ASSOCIATIVE);
+        $entry = $query->executeQuery()->fetch(FetchMode::ASSOCIATIVE);
 
         return false !== $entry ? $entry : [];
     }
@@ -782,9 +782,9 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-            $statement = $query->execute();
+            $statement = $query->executeQuery();
 
-            $rows = $statement->fetchAll(FetchMode::ASSOCIATIVE);
+            $rows = $statement->fetchAllAssociative();
             if (empty($rows)) {
                 // Normally this should never happen
                 $pathDataArray = [];
@@ -852,9 +852,9 @@ final class DoctrineDatabase extends Gateway
             $query->expr()->or(...$hierarchyConditions)
         );
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        $rows = $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        $rows = $statement->fetchAllAssociative();
         $rowsMap = [];
         foreach ($rows as $row) {
             $rowsMap[$row['action']][] = $row;
@@ -900,7 +900,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        return $query->execute() === 1;
+        return $query->executeStatement() === 1;
     }
 
     public function remove(string $action, ?int $id = null): void
@@ -935,7 +935,7 @@ final class DoctrineDatabase extends Gateway
                 );
         }
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function loadAutogeneratedEntries(int $parentId, bool $includeHistory = false): array
@@ -979,9 +979,9 @@ final class DoctrineDatabase extends Gateway
             );
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function getLocationContentMainLanguageId(int $locationId): int
@@ -997,7 +997,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->setParameter('locationId', $locationId, ParameterType::INTEGER);
 
-        $statement = $queryBuilder->execute();
+        $statement = $queryBuilder->executeQuery();
         $languageId = $statement->fetchOne();
 
         if ($languageId === false) {
@@ -1016,7 +1016,7 @@ final class DoctrineDatabase extends Gateway
             ->set('lang_mask', 'lang_mask & ~ ' . $languageId)
             ->where('action IN (:actions)')
             ->setParameter('actions', $actions, Connection::PARAM_STR_ARRAY);
-        $query->execute();
+        $query->executeStatement();
 
         // cleanup: delete single language rows (including alwaysAvailable)
         $query = $this->connection->createQueryBuilder();
@@ -1025,7 +1025,7 @@ final class DoctrineDatabase extends Gateway
             ->where('action IN (:actions)')
             ->andWhere('lang_mask IN (0, 1)')
             ->setParameter('actions', $actions, Connection::PARAM_STR_ARRAY);
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function archiveUrlAliasesForDeletedTranslations(
@@ -1102,9 +1102,9 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('action', 'eznode:' . $locationId)
             ->setParameter('languageMask', $languageMask);
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -1145,7 +1145,7 @@ final class DoctrineDatabase extends Gateway
                 sprintf('NOT EXISTS (%s)', $subQuery->getSQL())
             );
 
-        return $deleteQuery->execute();
+        return $deleteQuery->executeStatement();
     }
 
     public function deleteUrlAliasesWithoutParent(): int
@@ -1168,7 +1168,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->execute();
+        return $query->executeStatement();
     }
 
     public function deleteUrlAliasesWithBrokenLink(): int
@@ -1188,7 +1188,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return (int)$query->execute();
+        return (int)$query->executeStatement();
     }
 
     public function repairBrokenUrlAliasesForLocation(int $locationId): void
@@ -1250,7 +1250,7 @@ final class DoctrineDatabase extends Gateway
                 ->setParameter('textMD5', $urlAliasData['text_md5']);
 
             try {
-                $updateQueryBuilder->execute();
+                $updateQueryBuilder->executeStatement();
             } catch (UniqueConstraintViolationException $e) {
                 // edge case: if such row already exists, there's no way to restore history
                 $this->deleteRow((int) $urlAliasData['parent'], $urlAliasData['text_md5']);
@@ -1306,7 +1306,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->setParameter('actionType', self::NOP);
 
-        return $queryBuilder->execute();
+        return $queryBuilder->executeStatement();
     }
 
     /**
@@ -1332,7 +1332,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $queryBuilder->execute()->fetchAll();
+        return $queryBuilder->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -1419,7 +1419,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $queryBuilder->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $queryBuilder->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -1445,6 +1445,6 @@ final class DoctrineDatabase extends Gateway
             )
         ;
 
-        return $queryBuilder->execute();
+        return $queryBuilder->executeStatement();
     }
 }

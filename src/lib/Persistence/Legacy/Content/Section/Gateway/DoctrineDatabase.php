@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
 
@@ -49,7 +48,7 @@ final class DoctrineDatabase extends Gateway
                 ]
             );
 
-        $query->execute();
+        $query->executeStatement();
 
         return (int)$this->connection->lastInsertId(Gateway::CONTENT_SECTION_SEQ);
     }
@@ -68,7 +67,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function loadSectionData(int $id): array
@@ -83,9 +82,9 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadAllSectionData(): array
@@ -94,9 +93,9 @@ final class DoctrineDatabase extends Gateway
         $query->select('id', 'identifier', 'name')
             ->from(self::CONTENT_SECTION_TABLE);
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadSectionDataByIdentifier(string $identifier): array
@@ -115,9 +114,9 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function countContentObjectsInSection(int $id): int
@@ -134,7 +133,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
         return (int)$statement->fetchOne();
     }
@@ -169,7 +168,7 @@ final class DoctrineDatabase extends Gateway
             )
         ;
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     public function countRoleAssignmentsUsingSection(int $id): int
@@ -193,7 +192,7 @@ final class DoctrineDatabase extends Gateway
             )
         ;
 
-        return (int)$query->execute()->fetchOne();
+        return (int)$query->executeQuery()->fetchOne();
     }
 
     public function deleteSection(int $id): void
@@ -208,7 +207,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     public function assignSectionToContent(int $sectionId, int $contentId): void
@@ -227,6 +226,6 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $query->execute();
+        $query->executeStatement();
     }
 }

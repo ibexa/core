@@ -65,8 +65,8 @@ final class GatewayFactoryTest extends TestCase
         $databasePlatformGatewayPairs = [
             [new Platforms\SqlitePlatform(), SqliteGateway::class],
             [new Platforms\MySQL80Platform(), FallbackGateway::class],
-            [new Platforms\MySqlPlatform(), FallbackGateway::class],
-            [new Platforms\PostgreSqlPlatform(), FallbackGateway::class],
+            [new Platforms\MySQLPlatform(), FallbackGateway::class],
+            [new Platforms\PostgreSQLPlatform(), FallbackGateway::class],
         ];
 
         foreach ($databasePlatformGatewayPairs as $databasePlatformGatewayPair) {

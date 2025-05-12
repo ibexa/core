@@ -122,7 +122,7 @@ class Handler implements BaseLocationHandler
      */
     public function loadSubtreeIds($locationId)
     {
-        return $this->locationGateway->getSubtreeContent($locationId, true);
+        return $this->locationGateway->getSubtreeNodeIdToContentIdMap($locationId);
     }
 
     /**

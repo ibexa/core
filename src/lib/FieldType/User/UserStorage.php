@@ -8,6 +8,7 @@
 namespace Ibexa\Core\FieldType\User;
 
 use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
+use Ibexa\Contracts\Core\FieldType\StorageGatewayInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 
@@ -33,7 +34,7 @@ class UserStorage extends GatewayBasedStorage
      *
      * @var \Ibexa\Core\FieldType\User\UserStorage\Gateway
      */
-    protected $gateway;
+    protected StorageGatewayInterface $gateway;
 
     public function storeFieldData(VersionInfo $versionInfo, Field $field)
     {

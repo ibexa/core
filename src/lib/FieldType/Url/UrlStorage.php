@@ -22,7 +22,7 @@ class UrlStorage extends GatewayBasedStorage
     protected $logger;
 
     /** @var \Ibexa\Core\FieldType\Url\UrlStorage\Gateway */
-    protected $gateway;
+    protected StorageGatewayInterface $gateway;
 
     /**
      * Construct from gateways.

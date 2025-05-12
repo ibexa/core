@@ -11,7 +11,6 @@ namespace Ibexa\Bundle\Core\Command;
 use DateTime;
 use DateTimeZone;
 use Doctrine\DBAL\Connection;
-use PDO;
 use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -321,9 +320,9 @@ EOT
                 ->setParameter('toTimestamp', $this->to);
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -359,9 +358,9 @@ EOT
                 ->setParameter('toTimestamp', $this->to);
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return (int) $statement->fetchColumn();
+        return (int) $statement->fetchOne();
     }
 
     /**
@@ -471,7 +470,7 @@ EOT
             ->setParameter('id', $contentAttributeId)
             ->setParameter('version', $contentAttributeVersion);
 
-        $query->execute();
+        $query->executeStatement();
     }
 
     /**

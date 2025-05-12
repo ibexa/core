@@ -8,34 +8,43 @@
 namespace Ibexa\Bundle\Core\Imagine\VariationPurger;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Result;
+use LogicException;
 
 class LegacyStorageImageFileRowReader implements ImageFileRowReader
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
-    /** @var \Doctrine\DBAL\ForwardCompatibility\Result */
-    private $statement;
+    private ?Result $result;
 
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
+        $this->result = null;
     }
 
     public function init()
     {
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery->select('filepath')->from('ezimagefile');
-        $this->statement = $selectQuery->execute();
+        $this->result = $selectQuery->executeQuery();
     }
 
     public function getRow()
     {
-        return $this->statement->fetchOne();
+        if ($this->result === null) {
+            throw new LogicException('Uninitialized reader. You must call init() before getRow()');
+        }
+
+        return $this->result->fetchOne();
     }
 
     public function getCount()
     {
-        return $this->statement->rowCount();
+        if ($this->result === null) {
+            throw new LogicException('Uninitialized reader. You must call init() before getRow()');
+        }
+
+        return $this->result->rowCount();
     }
 }

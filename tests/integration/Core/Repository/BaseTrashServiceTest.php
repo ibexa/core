@@ -56,6 +56,6 @@ abstract class BaseTrashServiceTest extends BaseTest
             ->where('node_id = :location_id')
             ->setParameter('trashed_timestamp', $newTimestamp, ParameterType::INTEGER)
             ->setParameter('location_id', $locationId, ParameterType::INTEGER);
-        $query->execute();
+        $query->executeStatement();
     }
 }

@@ -1703,9 +1703,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             );
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return (int)$statement->fetchColumn();
+        return (int)$statement->fetchOne();
     }
 
     /**
@@ -1736,9 +1736,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             );
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return (int)$statement->fetchColumn();
+        return (int)$statement->fetchOne();
     }
 
     /**
@@ -1769,9 +1769,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             );
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return (int)$statement->fetchColumn();
+        return (int)$statement->fetchOne();
     }
 
     /**
@@ -1802,9 +1802,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             );
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return (int)$statement->fetchColumn();
+        return (int)$statement->fetchOne();
     }
 
     /**
@@ -1834,9 +1834,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             );
         }
 
-        $statement = $query->execute();
+        $statement = $query->executeQuery();
 
-        return (int)$statement->fetchColumn();
+        return (int)$statement->fetchOne();
     }
 
     /**
