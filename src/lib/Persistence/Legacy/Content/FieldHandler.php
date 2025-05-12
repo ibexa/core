@@ -334,10 +334,10 @@ class FieldHandler
                     $field->versionNo = $content->versionInfo->versionNo;
                     if (isset($field->id) && array_key_exists($field->languageCode, $existingLanguageCodes)) {
                         $this->updateField($field, $content);
-                        $updatedFields[$fieldDefinition->id][$languageCode] = $field;
                     } else {
                         $this->createNewField($field, $content);
                     }
+                    $updatedFields[$fieldDefinition->id][$languageCode] = $field;
                 } elseif (!isset($existingLanguageCodes[$languageCode])) {
                     // If field is not set for new language
                     if ($fieldDefinition->isTranslatable) {
