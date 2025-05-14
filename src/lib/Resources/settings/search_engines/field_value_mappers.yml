@@ -73,3 +73,7 @@ services:
     Ibexa\Core\Search\Common\FieldValueMapper\MultipleRemoteIdentifierMapper:
         tags:
             - { name: ibexa.search.common.field_value.mapper, maps: Ibexa\Contracts\Core\Search\FieldType\MultipleRemoteIdentifierField }
+
+    Ibexa\Core\Search\Common\FieldValueMapper\EmbeddingMapper:
+        tags:
+            - { name: ibexa.search.common.field_value.mapper, maps: Ibexa\Contracts\Core\Search\FieldType\EmbeddingField }
