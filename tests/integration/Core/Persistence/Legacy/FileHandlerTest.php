@@ -33,7 +33,6 @@ class FileHandlerTest extends RepositoryTestCase
 
         $contentTypeService->publishContentTypeDraft($contentType);
 
-
         // Create content, with two translations
         $content = $this->createNewContent('Some Content', ['eng-GB', 'ger-DE']);
 
@@ -42,7 +41,6 @@ class FileHandlerTest extends RepositoryTestCase
         $engUpdateStruct = $this->createUpdateStruct($content, '', ['eng-GB']);
         $engDraft = $this->createContentDraft($content, 'eng-GB');
         $engDraft = $this->updateContent($engDraft, $engUpdateStruct);
-
 
         // Create new non-translatable field
         $contentType = $contentTypeService->loadContentTypeByIdentifier('multi_lang_drafts');
