@@ -9,6 +9,7 @@ namespace Ibexa\Bundle\IO;
 use DateTime;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
+use InvalidArgumentException;
 use LogicException;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -118,6 +119,13 @@ class BinaryStreamResponse extends Response
 
         if (empty($filenameFallback)) {
             $filenameFallback = mb_convert_encoding($filename, 'ASCII');
+
+            if ($filenameFallback === false) {
+                throw new InvalidArgumentException(sprintf(
+                    'Could not convert filename "%s" to ASCII. It contains invalid or non-ASCII byte sequences.',
+                    $filename
+                ));
+            }
         }
 
         $dispositionHeader = $this->headers->makeDisposition($disposition, $filename, $filenameFallback);
