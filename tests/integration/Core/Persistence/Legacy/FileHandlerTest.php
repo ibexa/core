@@ -18,7 +18,7 @@ class FileHandlerTest extends RepositoryTestCase
 {
     public function testUpdateFields(): void
     {
-        $contentService =  self::getContentService();
+        $contentService = self::getContentService();
         $contentTypeService = self::getContentTypeService();
 
         // Create new ContentType
@@ -75,7 +75,8 @@ class FileHandlerTest extends RepositoryTestCase
         return $fieldDefCreateStruct;
     }
 
-    private function createTypeCreateStruct(): ContentTypeCreateStruct {
+    private function createTypeCreateStruct(): ContentTypeCreateStruct
+    {
         $contentTypeService = self::getContentTypeService();
         $typeCreateStruct = $contentTypeService->newContentTypeCreateStruct('multi_lang_drafts');
         $typeCreateStruct->mainLanguageCode = 'eng-GB';
@@ -84,7 +85,7 @@ class FileHandlerTest extends RepositoryTestCase
         return $typeCreateStruct;
     }
 
-    protected function createNewContent(string $name, array $languages = ['eng-GB'], int $parentLocationId = 2, ): Content
+    protected function createNewContent(string $name, array $languages = ['eng-GB'], int $parentLocationId = 2): Content
     {
         $contentTypeService = self::getContentTypeService();
         $contentService = self::getContentService();
@@ -103,7 +104,7 @@ class FileHandlerTest extends RepositoryTestCase
         return $contentService->publishVersion($draft->versionInfo);
     }
 
-    protected function createUpdateStruct(Content $content, string $translatedName, array $languages )
+    protected function createUpdateStruct(Content $content, string $translatedName, array $languages)
     {
         $contentService = self::getContentService();
 
@@ -121,6 +122,7 @@ class FileHandlerTest extends RepositoryTestCase
 
             $updateStruct->setField('name', $translatedName, $language);
         }
+
         return $updateStruct;
     }
 
@@ -131,6 +133,7 @@ class FileHandlerTest extends RepositoryTestCase
 
         $language = $contentLanguageService->loadLanguage($languageCode);
         $draft = $contentService->createContentDraft($content->contentInfo, null, null, $language);
+
         return $draft;
     }
 
@@ -142,7 +145,8 @@ class FileHandlerTest extends RepositoryTestCase
         // it will have an additional field (in ger-DE). This does not happen when running the same code in
         // a controller inside the application (you then need to replace 'self::get*Service()' with DI).
         // It seems like for instance decoration Ibexa\Core\Event\ContentService is not used inside tests, maybe other decorations to?
-        $updatedDraft = $contentService->updateContent($draft->versionInfo,$updateStruct);
+        $updatedDraft = $contentService->updateContent($draft->versionInfo, $updateStruct);
+
         return $updatedDraft;
     }
 }
