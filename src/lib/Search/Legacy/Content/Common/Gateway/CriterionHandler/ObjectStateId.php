@@ -39,7 +39,7 @@ class ObjectStateId extends CriterionHandler
             ->select(
                 'contentobject_id'
             )->from(
-                'ezcobj_state_link'
+                \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_LINK_TABLE
             )->where(
                 $queryBuilder->expr()->in(
                     'contentobject_state_id',

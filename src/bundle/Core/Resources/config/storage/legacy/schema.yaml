@@ -48,7 +48,7 @@ tables:
         fields:
             description: { type: text, nullable: false, length: 0 }
             name: { type: string, nullable: false, length: 45, options: { default: '' } }
-    ezcobj_state_link:
+    ibexa_cobj_state_link:
         id:
             contentobject_id: { type: integer, nullable: false, options: { default: '0' } }
             contentobject_state_id: { type: integer, nullable: false, options: { default: '0' } }

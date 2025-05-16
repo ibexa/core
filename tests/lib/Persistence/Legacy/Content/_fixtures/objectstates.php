@@ -60,7 +60,7 @@ return [
         ],
     ],
 
-    'ezcobj_state_link' => [
+    \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_LINK_TABLE => [
         [
             'contentobject_id' => 4,
             'contentobject_state_id' => 1,

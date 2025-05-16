@@ -9,7 +9,7 @@ ibexa_cobj_state_group_language:
 ibexa_cobj_state_language:
   - { contentobject_state_id: 1, description: '', language_id: 3, name: 'Not locked' }
   - { contentobject_state_id: 2, description: '', language_id: 3, name: Locked }
-ezcobj_state_link:
+ibexa_cobj_state_link:
   - { contentobject_id: 4, contentobject_state_id: 1 }
   - { contentobject_id: 10, contentobject_state_id: 1 }
   - { contentobject_id: 11, contentobject_state_id: 1 }

@@ -12,7 +12,7 @@ INSERT INTO "ibexa_cobj_state_language" ("contentobject_state_id", "description"
 VALUES (1,'',3,'Not locked'),
        (2,'',3,'Locked');
 
-INSERT INTO "ezcobj_state_link" ("contentobject_id", "contentobject_state_id")
+INSERT INTO "ibexa_cobj_state_link" ("contentobject_id", "contentobject_state_id")
 VALUES ( 1, 1),
        ( 4, 1),
        (10, 1),

@@ -56,7 +56,7 @@ class ObjectStateIdentifier extends CriterionHandler
         $subSelect = $this->connection->createQueryBuilder();
         $subSelect
             ->select('t1.contentobject_id')
-            ->from('ezcobj_state_link', 't1')
+            ->from(\Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_LINK_TABLE, 't1')
             ->leftJoin(
                 't1',
                 \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_TABLE,

@@ -22,7 +22,7 @@ abstract class Gateway
     public const OBJECT_STATE_LANGUAGE_TABLE = 'ibexa_cobj_state_language';
     public const OBJECT_STATE_GROUP_TABLE = 'ibexa_cobj_state_group';
     public const OBJECT_STATE_GROUP_LANGUAGE_TABLE = 'ibexa_cobj_state_group_language';
-    public const OBJECT_STATE_LINK_TABLE = 'ezcobj_state_link';
+    public const OBJECT_STATE_LINK_TABLE = 'ibexa_cobj_state_link';
 
     public const OBJECT_STATE_TABLE_SEQ = 'ibexa_cobj_state_id_seq';
     public const OBJECT_STATE_GROUP_TABLE_SEQ = 'ibexa_cobj_state_group_id_seq';

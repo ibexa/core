@@ -403,7 +403,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ],
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('contentobject_id', 'contentobject_state_id')
-                ->from('ezcobj_state_link')
+                ->from(\Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_LINK_TABLE)
                 ->where('contentobject_id = 42')
         );
     }
