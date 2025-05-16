@@ -11,13 +11,15 @@ namespace Ibexa\Contracts\Core\Collection;
 use Closure;
 
 /**
- * @template TValue
+ * @template-covariant TValue
  */
 interface StreamableInterface
 {
     /**
      * Returns all the elements of this collection that satisfy the predicate.
      * The order of the elements is preserved.
+     *
+     * @phpstan-param \Closure(TValue, array-key=): bool $predicate
      *
      * @phpstan-return static<TValue>
      */
@@ -27,17 +29,23 @@ interface StreamableInterface
      * Applies the given function to each element in the collection and returns
      * a new collection with the elements returned by the function.
      *
+     * @phpstan-param \Closure(TValue): mixed $function
+     *
      * @phpstan-return static<TValue>
      */
     public function map(Closure $function): self;
 
     /**
      * Tests whether the given predicate holds for all elements of this collection.
+     *
+     * @param \Closure(TValue, array-key=): bool $predicate
      */
     public function forAll(Closure $predicate): bool;
 
     /**
      * Tests the existence of an element that satisfies the given predicate.
+     *
+     * @param \Closure(TValue, array-key=): bool $predicate
      */
     public function exists(Closure $predicate): bool;
 }
