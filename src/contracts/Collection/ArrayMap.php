@@ -14,7 +14,7 @@ use Ibexa\Contracts\Core\Exception\OutOfBoundsException;
  * @template TKey of array-key
  * @template-covariant TValue
  *
- * @template-extends \Ibexa\Contracts\Core\Collection\AbstractInMemoryCollection<TKey, TValue>
+ * @template-extends \Ibexa\Contracts\Core\Collection\AbstractInMemoryCollection<TValue>
  * @template-implements \Ibexa\Contracts\Core\Collection\MapInterface<TKey, TValue>
  */
 class ArrayMap extends AbstractInMemoryCollection implements MapInterface

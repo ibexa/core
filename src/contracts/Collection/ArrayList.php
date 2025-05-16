@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Exception\OutOfBoundsException;
 /**
  * @template TValue
  *
- * @template-extends \Ibexa\Contracts\Core\Collection\AbstractInMemoryCollection<array-key, TValue>
+ * @template-extends \Ibexa\Contracts\Core\Collection\AbstractInMemoryCollection<TValue>
  * @template-implements \Ibexa\Contracts\Core\Collection\ListInterface<TValue>
  */
 class ArrayList extends AbstractInMemoryCollection implements ListInterface

@@ -13,7 +13,6 @@ use Closure;
 use Iterator;
 
 /**
- * @template TKey of array-key
  * @template-covariant TValue
  *
  * @template-implements \Ibexa\Contracts\Core\Collection\CollectionInterface<TValue>
@@ -21,11 +20,11 @@ use Iterator;
  */
 abstract class AbstractInMemoryCollection implements CollectionInterface, StreamableInterface
 {
-    /** @phpstan-var array<TKey, TValue> */
+    /** @phpstan-var TValue[] */
     protected array $items;
 
     /**
-     * @phpstan-param array<TKey, TValue> $items
+     * @phpstan-param TValue[] $items
      */
     public function __construct(array $items = [])
     {
@@ -53,7 +52,7 @@ abstract class AbstractInMemoryCollection implements CollectionInterface, Stream
     }
 
     /**
-     * @phpstan-return static<TKey, TValue>
+     * @phpstan-return static<TValue>
      */
     public function filter(Closure $predicate): self
     {
@@ -61,7 +60,7 @@ abstract class AbstractInMemoryCollection implements CollectionInterface, Stream
     }
 
     /**
-     * @phpstan-return static<TKey, TValue>
+     * @phpstan-return static<TValue>
      */
     public function map(Closure $function): self
     {
@@ -79,9 +78,6 @@ abstract class AbstractInMemoryCollection implements CollectionInterface, Stream
         return true;
     }
 
-    /**
-     * @param \Closure(TValue, TKey): bool $predicate
-     */
     public function exists(Closure $predicate): bool
     {
         foreach ($this->items as $i => $item) {
@@ -96,9 +92,9 @@ abstract class AbstractInMemoryCollection implements CollectionInterface, Stream
     /**
      * @template TValueFrom
      *
-     * @param array<TKey, TValueFrom> $items
+     * @param array<TValueFrom> $items
      *
-     * @phpstan-return static<TKey, TValueFrom>
+     * @phpstan-return static<TValueFrom>
      */
     abstract protected function createFrom(array $items): self;
 }
