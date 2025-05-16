@@ -30,7 +30,7 @@ abstract class Gateway
      */
     public const MULTILINGUAL_TABLES_COLUMNS = [
         \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_TABLE => ['language_mask', 'default_language_id'],
-        'ezcobj_state_group_language' => ['language_id'],
+        \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_GROUP_LANGUAGE_TABLE => ['language_id'],
         \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_GROUP_TABLE => ['language_mask', 'default_language_id'],
         'ezcobj_state_language' => ['language_id'],
         'ezcontentclass_attribute_ml' => ['language_id'],

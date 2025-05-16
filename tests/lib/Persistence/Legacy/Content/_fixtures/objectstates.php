@@ -14,7 +14,7 @@ return [
         ],
     ],
 
-    'ezcobj_state_group_language' => [
+    \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_GROUP_LANGUAGE_TABLE => [
         [
             'contentobject_state_group_id' => 2,
             'description' => '',

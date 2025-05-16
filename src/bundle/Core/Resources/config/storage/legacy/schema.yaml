@@ -33,7 +33,7 @@ tables:
             default_language_id: { type: bigint, nullable: false, options: { default: '0' } }
             identifier: { type: string, nullable: false, length: 45, options: { default: '' } }
             language_mask: { type: bigint, nullable: false, options: { default: '0' } }
-    ezcobj_state_group_language:
+    ibexa_cobj_state_group_language:
         id:
             contentobject_state_group_id: { type: integer, nullable: false, options: { default: '0' } }
             real_language_id: { type: bigint, nullable: false, options: { default: '0' } }
