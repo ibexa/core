@@ -14,7 +14,7 @@ use Iterator;
 
 /**
  * @template TKey of array-key
- * @template TValue
+ * @template-covariant TValue
  *
  * @template-implements \Ibexa\Contracts\Core\Collection\CollectionInterface<TValue>
  * @template-implements \Ibexa\Contracts\Core\Collection\StreamableInterface<TValue>
@@ -53,8 +53,6 @@ abstract class AbstractInMemoryCollection implements CollectionInterface, Stream
     }
 
     /**
-     * @phpstan-param \Closure(TValue, TKey=): bool $predicate
-     *
      * @phpstan-return static<TKey, TValue>
      */
     public function filter(Closure $predicate): self
@@ -63,8 +61,6 @@ abstract class AbstractInMemoryCollection implements CollectionInterface, Stream
     }
 
     /**
-     * @phpstan-param \Closure(TValue): mixed $function
-     *
      * @phpstan-return static<TKey, TValue>
      */
     public function map(Closure $function): self
@@ -72,9 +68,6 @@ abstract class AbstractInMemoryCollection implements CollectionInterface, Stream
         return $this->createFrom(array_map($function, $this->items));
     }
 
-    /**
-     * @param \Closure(TValue, TKey): bool $predicate
-     */
     public function forAll(Closure $predicate): bool
     {
         foreach ($this->items as $i => $item) {

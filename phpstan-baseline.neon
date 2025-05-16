@@ -5881,6 +5881,12 @@ parameters:
 			path: src/bundle/RepositoryInstaller/Installer/Installer.php
 
 		-
+			message: '#^Template type TValue is declared as covariant, but occurs in invariant position in property Ibexa\\Contracts\\Core\\Collection\\AbstractInMemoryCollection\:\:\$items\.$#'
+			identifier: generics.variance
+			count: 1
+			path: src/contracts/Collection/AbstractInMemoryCollection.php
+
+		-
 			message: '#^Parameter \#2 \$offset of function array_splice expects int, int\|string given\.$#'
 			identifier: argument.type
 			count: 1
