@@ -31,17 +31,15 @@ class LocaleListenerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->localeConverter = $this->createMock(LocaleConverterInterface::class);
-        $this->configResolver = $this->createMock(ConfigResolverInterface::class);
-
-        $this->requestStack = new RequestStack();
         $parameterBagMock = $this->createMock(ParameterBag::class);
         $parameterBagMock->expects(self::never())->method(self::anything());
 
         $requestMock = $this->createMock(Request::class);
         $requestMock->attributes = $parameterBagMock;
 
-        $this->requestStack->push($requestMock);
+        $this->localeConverter = $this->createMock(LocaleConverterInterface::class);
+        $this->configResolver = $this->createMock(ConfigResolverInterface::class);
+        $this->requestStack = new RequestStack([$requestMock]);
     }
 
     /**

@@ -26,8 +26,7 @@ class FragmentListenerFactoryTest extends TestCase
         $uriSigner = new UriSigner('my_precious_secret');
         $baseFragmentPath = '/_fragment';
         $request = Request::create($requestUri);
-        $requestStack = new RequestStack();
-        $requestStack->push($request);
+        $requestStack = new RequestStack([$request]);
 
         $factory = new FragmentListenerFactory();
         $factory->setRequestStack($requestStack);

@@ -92,8 +92,7 @@ final class RoutingExtensionTest extends IntegrationTestCase
             $this->createMock(EventDispatcherInterface::class)
         );
         $request = new Request();
-        $requestStack = new RequestStack();
-        $requestStack->push($request);
+        $requestStack = new RequestStack([$request]);
         $generator->setRequestStack($requestStack);
 
         return $generator;

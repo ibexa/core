@@ -36,8 +36,7 @@ class RouteReferenceGeneratorTest extends TestCase
         $request = new Request();
         $request->attributes->set('_route', $currentRouteName);
         $request->attributes->set('_route_params', $currentRouteParams);
-        $requestStack = new RequestStack();
-        $requestStack->push($request);
+        $requestStack = new RequestStack([$request]);
 
         $event = new RouteReferenceGenerationEvent(new RouteReference($currentRouteName, $currentRouteParams), $request);
         $this->dispatcher
@@ -63,8 +62,7 @@ class RouteReferenceGeneratorTest extends TestCase
         $request = new Request();
         $request->attributes->set('_route', $currentRouteName);
         $request->attributes->set('_route_params', $currentRouteParams);
-        $requestStack = new RequestStack();
-        $requestStack->push($request);
+        $requestStack = new RequestStack([$request]);
 
         $event = new RouteReferenceGenerationEvent(new RouteReference($currentRouteName, $expectedParams), $request);
         $this->dispatcher
@@ -91,8 +89,7 @@ class RouteReferenceGeneratorTest extends TestCase
         $request = new Request();
         $request->attributes->set('_route', $currentRouteName);
         $request->attributes->set('_route_params', $currentRouteParams);
-        $requestStack = new RequestStack();
-        $requestStack->push($request);
+        $requestStack = new RequestStack([$request]);
 
         $event = new RouteReferenceGenerationEvent(new RouteReference($resource, $params), $request);
         $this->dispatcher
@@ -114,8 +111,7 @@ class RouteReferenceGeneratorTest extends TestCase
         $currentRouteParams = ['foo' => 'bar'];
 
         $request = new Request();
-        $requestStack = new RequestStack();
-        $requestStack->push($request);
+        $requestStack = new RequestStack([$request]);
 
         $event = new RouteReferenceGenerationEvent(new RouteReference(null, []), $request);
         $this->dispatcher
