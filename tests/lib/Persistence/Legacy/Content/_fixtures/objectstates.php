@@ -5,7 +5,7 @@
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 return [
-    'ezcobj_state_group' => [
+    \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_GROUP_TABLE => [
         [
             'default_language_id' => 2,
             'id' => 2,

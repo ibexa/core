@@ -65,7 +65,7 @@ class ObjectStateIdentifier extends CriterionHandler
             )
             ->leftJoin(
                 't2',
-                'ezcobj_state_group',
+                \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_GROUP_TABLE,
                 't3',
                 't2.group_id = t3.id'
             )

@@ -52,7 +52,7 @@ class Mapper
         $languages = iterator_to_array($this->languageHandler->loadList($languageIds));
 
         $objectState->id = (int)$data[0]['ezcobj_state_id'];
-        $objectState->groupId = (int)$data[0]['ezcobj_state_group_id'];
+        $objectState->groupId = (int)$data[0]['ibexa_cobj_state_group_id'];
         $objectState->identifier = $data[0]['ezcobj_state_identifier'];
         $objectState->priority = (int)$data[0]['ezcobj_state_priority'];
         $objectState->defaultLanguage = $languages[(int)$data[0]['ezcobj_state_default_language_id']]->languageCode;

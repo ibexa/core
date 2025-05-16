@@ -22,11 +22,11 @@ tables:
             identifier: { type: string, nullable: false, length: 45, options: { default: '' } }
             language_mask: { type: bigint, nullable: false, options: { default: '0' } }
             priority: { type: integer, nullable: false, options: { default: '0' } }
-    ezcobj_state_group:
+    ibexa_cobj_state_group:
         indexes:
-            ezcobj_state_group_lmask: { fields: [language_mask] }
+            ibexa_cobj_state_group_lmask: { fields: [language_mask] }
         uniqueConstraints:
-            ezcobj_state_group_identifier: { fields: [identifier] }
+            ibexa_cobj_state_group_identifier: { fields: [identifier] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:

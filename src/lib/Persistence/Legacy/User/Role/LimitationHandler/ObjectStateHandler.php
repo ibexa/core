@@ -105,7 +105,7 @@ class ObjectStateHandler extends LimitationHandler
             ->from(\Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_TABLE, 's')
             ->innerJoin(
                 's',
-                'ezcobj_state_group',
+                \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_GROUP_TABLE,
                 'sg',
                 's.group_id = sg.id'
             );
