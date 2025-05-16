@@ -33,7 +33,7 @@ interface ContextualizerInterface
      * <?php
      * namespace Acme\DemoBundle\DependencyInjection;
      *
-     * use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+     * use Symfony\Component\DependencyInjection\Extension\Extension;
      * use Symfony\Component\DependencyInjection\ContainerBuilder;
      * use Symfony\Component\DependencyInjection\Loader;
      * use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware;
@@ -120,7 +120,7 @@ interface ContextualizerInterface
      * ```php
      * namespace Acme\DemoBundle\DependencyInjection;
      *
-     * use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+     * use Symfony\Component\DependencyInjection\Extension\Extension;
      * use Symfony\Component\DependencyInjection\ContainerBuilder;
      * use Symfony\Component\DependencyInjection\Loader;
      * use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware;
