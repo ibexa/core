@@ -293,7 +293,7 @@ services:
 
     Ibexa\Core\MVC\Symfony\View\GenericVariableProviderRegistry:
         arguments:
-            $twigVariableProviders: !tagged ezplatform.view.variable_provider
+            $twigVariableProviders: !tagged_iterator ezplatform.view.variable_provider
 
     Ibexa\Core\MVC\Symfony\View\VariableProviderRegistry: '@Ibexa\Core\MVC\Symfony\View\GenericVariableProviderRegistry'
 

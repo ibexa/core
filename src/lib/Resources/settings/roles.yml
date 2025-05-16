@@ -17,7 +17,7 @@ services:
         arguments:
             $persistenceLanguageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
             $persistenceContentHandler: '@Ibexa\Contracts\Core\Persistence\Content\Handler'
-            $versionTargetEvaluators: !tagged ibexa.permissions.limitation_type.language_target_evaluator.version
+            $versionTargetEvaluators: !tagged_iterator ibexa.permissions.limitation_type.language_target_evaluator.version
         tags:
             - {name: ibexa.permissions.limitation_type, alias: Language}
 
