@@ -13,6 +13,7 @@ use Closure;
 use Iterator;
 
 /**
+ * @template TKey of array-key
  * @template TValue
  *
  * @template-implements \Ibexa\Contracts\Core\Collection\CollectionInterface<TValue>
@@ -20,11 +21,11 @@ use Iterator;
  */
 abstract class AbstractInMemoryCollection implements CollectionInterface, StreamableInterface
 {
-    /** @phpstan-var TValue[] */
+    /** @phpstan-var array<TKey, TValue> */
     protected array $items;
 
     /**
-     * @phpstan-param TValue[] $items
+     * @phpstan-param array<TKey, TValue> $items
      */
     public function __construct(array $items = [])
     {
@@ -52,7 +53,7 @@ abstract class AbstractInMemoryCollection implements CollectionInterface, Stream
     }
 
     /**
-     * @phpstan-return static<TValue>
+     * @phpstan-param \Closure(TValue, TKey=): bool $predicate
      */
     public function filter(Closure $predicate): self
     {
@@ -60,13 +61,18 @@ abstract class AbstractInMemoryCollection implements CollectionInterface, Stream
     }
 
     /**
-     * @phpstan-return static<TValue>
+     * @phpstan-param \Closure(TValue): mixed $function
+     *
+     * @phpstan-return static<TKey, TValue>
      */
     public function map(Closure $function): self
     {
         return $this->createFrom(array_map($function, $this->items));
     }
 
+    /**
+     * @param \Closure(TValue, TKey): bool $predicate
+     */
     public function forAll(Closure $predicate): bool
     {
         foreach ($this->items as $i => $item) {
@@ -78,6 +84,9 @@ abstract class AbstractInMemoryCollection implements CollectionInterface, Stream
         return true;
     }
 
+    /**
+     * @param \Closure(TValue, TKey): bool $predicate
+     */
     public function exists(Closure $predicate): bool
     {
         foreach ($this->items as $i => $item) {
@@ -90,9 +99,11 @@ abstract class AbstractInMemoryCollection implements CollectionInterface, Stream
     }
 
     /**
-     * @param TValue[] $items
+     * @template TValueFrom
      *
-     * @phpstan-return static<TValue>
+     * @param array<TKey, TValueFrom> $items
+     *
+     * @phpstan-return static<TKey, TValueFrom>
      */
     abstract protected function createFrom(array $items): self;
 }
