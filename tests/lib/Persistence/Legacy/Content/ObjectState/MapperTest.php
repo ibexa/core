@@ -129,15 +129,15 @@ class MapperTest extends LanguageAwareTestCase
     {
         return [
             [
-                'ezcobj_state_default_language_id' => 2,
-                'ezcobj_state_group_id' => 2,
-                'ezcobj_state_id' => 1,
-                'ezcobj_state_identifier' => 'not_locked',
-                'ezcobj_state_language_mask' => 3,
-                'ezcobj_state_priority' => 0,
-                'ezcobj_state_language_description' => '',
-                'ezcobj_state_language_language_id' => 3,
-                'ezcobj_state_language_name' => 'Not locked',
+                'ibexa_cobj_state_default_language_id' => 2,
+                'ibexa_cobj_state_group_id' => 2,
+                'ibexa_cobj_state_id' => 1,
+                'ibexa_cobj_state_identifier' => 'not_locked',
+                'ibexa_cobj_state_language_mask' => 3,
+                'ibexa_cobj_state_priority' => 0,
+                'ibexa_cobj_state_language_description' => '',
+                'ibexa_cobj_state_language_language_id' => 3,
+                'ibexa_cobj_state_language_name' => 'Not locked',
             ],
         ];
     }
@@ -151,14 +151,14 @@ class MapperTest extends LanguageAwareTestCase
     {
         return [
             [
-                'ezcobj_state_group_default_language_id' => 2,
-                'ezcobj_state_group_id' => 1,
-                'ezcobj_state_group_identifier' => 'ez_lock',
-                'ezcobj_state_group_language_mask' => 3,
-                'ezcobj_state_group_language_description' => '',
-                'ezcobj_state_group_language_language_id' => 3,
-                'ezcobj_state_group_language_real_language_id' => 2,
-                'ezcobj_state_group_language_name' => 'Lock',
+                'ibexa_cobj_state_group_default_language_id' => 2,
+                'ibexa_cobj_state_group_id' => 1,
+                'ibexa_cobj_state_group_identifier' => 'ez_lock',
+                'ibexa_cobj_state_group_language_mask' => 3,
+                'ibexa_cobj_state_group_language_description' => '',
+                'ibexa_cobj_state_group_language_language_id' => 3,
+                'ibexa_cobj_state_group_language_real_language_id' => 2,
+                'ibexa_cobj_state_group_language_name' => 'Lock',
             ],
         ];
     }

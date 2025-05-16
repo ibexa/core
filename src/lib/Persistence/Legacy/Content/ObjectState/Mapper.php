@@ -45,27 +45,27 @@ class Mapper
     {
         $objectState = new ObjectState();
 
-        $languageIds = [(int)$data[0]['ezcobj_state_default_language_id']];
+        $languageIds = [(int)$data[0]['ibexa_cobj_state_default_language_id']];
         foreach ($data as $stateTranslation) {
-            $languageIds[] = (int)$stateTranslation['ezcobj_state_language_language_id'] & ~1;
+            $languageIds[] = (int)$stateTranslation['ibexa_cobj_state_language_language_id'] & ~1;
         }
         $languages = iterator_to_array($this->languageHandler->loadList($languageIds));
 
-        $objectState->id = (int)$data[0]['ezcobj_state_id'];
+        $objectState->id = (int)$data[0]['ibexa_cobj_state_id'];
         $objectState->groupId = (int)$data[0]['ibexa_cobj_state_group_id'];
-        $objectState->identifier = $data[0]['ezcobj_state_identifier'];
-        $objectState->priority = (int)$data[0]['ezcobj_state_priority'];
-        $objectState->defaultLanguage = $languages[(int)$data[0]['ezcobj_state_default_language_id']]->languageCode;
+        $objectState->identifier = $data[0]['ibexa_cobj_state_identifier'];
+        $objectState->priority = (int)$data[0]['ibexa_cobj_state_priority'];
+        $objectState->defaultLanguage = $languages[(int)$data[0]['ibexa_cobj_state_default_language_id']]->languageCode;
 
         $objectState->languageCodes = [];
         $objectState->name = [];
         $objectState->description = [];
 
         foreach ($data as $stateTranslation) {
-            $languageCode = $languages[$stateTranslation['ezcobj_state_language_language_id'] & ~1]->languageCode;
+            $languageCode = $languages[$stateTranslation['ibexa_cobj_state_language_language_id'] & ~1]->languageCode;
             $objectState->languageCodes[] = $languageCode;
-            $objectState->name[$languageCode] = $stateTranslation['ezcobj_state_language_name'];
-            $objectState->description[$languageCode] = $stateTranslation['ezcobj_state_language_description'];
+            $objectState->name[$languageCode] = $stateTranslation['ibexa_cobj_state_language_name'];
+            $objectState->description[$languageCode] = $stateTranslation['ibexa_cobj_state_language_description'];
         }
 
         return $objectState;
@@ -100,16 +100,16 @@ class Mapper
     {
         $objectStateGroup = new Group();
 
-        $languageIds = [(int)$data[0]['ezcobj_state_group_default_language_id']];
+        $languageIds = [(int)$data[0]['ibexa_cobj_state_group_default_language_id']];
         foreach ($data as $groupTranslation) {
-            $languageIds[] = (int)$groupTranslation['ezcobj_state_group_language_real_language_id'];
+            $languageIds[] = (int)$groupTranslation['ibexa_cobj_state_group_language_real_language_id'];
         }
         $languages = iterator_to_array($this->languageHandler->loadList($languageIds));
 
-        $objectStateGroup->id = (int)$data[0]['ezcobj_state_group_id'];
-        $objectStateGroup->identifier = $data[0]['ezcobj_state_group_identifier'];
+        $objectStateGroup->id = (int)$data[0]['ibexa_cobj_state_group_id'];
+        $objectStateGroup->identifier = $data[0]['ibexa_cobj_state_group_identifier'];
         $objectStateGroup->defaultLanguage = $languages[
-            (int)$data[0]['ezcobj_state_group_default_language_id']
+            (int)$data[0]['ibexa_cobj_state_group_default_language_id']
         ]->languageCode;
 
         $objectStateGroup->languageCodes = [];
@@ -117,10 +117,10 @@ class Mapper
         $objectStateGroup->description = [];
 
         foreach ($data as $groupTranslation) {
-            $languageCode = $languages[(int)$groupTranslation['ezcobj_state_group_language_real_language_id']]->languageCode;
+            $languageCode = $languages[(int)$groupTranslation['ibexa_cobj_state_group_language_real_language_id']]->languageCode;
             $objectStateGroup->languageCodes[] = $languageCode;
-            $objectStateGroup->name[$languageCode] = $groupTranslation['ezcobj_state_group_language_name'];
-            $objectStateGroup->description[$languageCode] = $groupTranslation['ezcobj_state_group_language_description'];
+            $objectStateGroup->name[$languageCode] = $groupTranslation['ibexa_cobj_state_group_language_name'];
+            $objectStateGroup->description[$languageCode] = $groupTranslation['ibexa_cobj_state_group_language_description'];
         }
 
         return $objectStateGroup;
