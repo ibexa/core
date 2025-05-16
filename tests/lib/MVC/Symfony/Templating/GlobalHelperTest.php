@@ -55,8 +55,7 @@ class GlobalHelperTest extends TestCase
     public function testGetSiteaccess()
     {
         $request = new Request();
-        $requestStack = new RequestStack();
-        $requestStack->push($request);
+        $requestStack = new RequestStack([$request]);
         $siteAccess = $this->createMock(SiteAccess::class);
         $request->attributes->set('siteaccess', $siteAccess);
         $this->helper->setRequestStack($requestStack);
@@ -73,8 +72,7 @@ class GlobalHelperTest extends TestCase
             'somethingelse' => 'héhé-høhø',
         ];
         $request->attributes->set('viewParameters', $viewParameters);
-        $requestStack = new RequestStack();
-        $requestStack->push($request);
+        $requestStack = new RequestStack([$request]);
         $this->helper->setRequestStack($requestStack);
 
         self::assertSame($viewParameters, $this->helper->getViewParameters());
@@ -85,8 +83,7 @@ class GlobalHelperTest extends TestCase
         $request = Request::create('/foo');
         $viewParametersString = '/(foo)/bar/(toto)/tata/(somethingelse)/héhé-høhø';
         $request->attributes->set('viewParametersString', $viewParametersString);
-        $requestStack = new RequestStack();
-        $requestStack->push($request);
+        $requestStack = new RequestStack([$request]);
         $this->helper->setRequestStack($requestStack);
 
         self::assertSame($viewParametersString, $this->helper->getViewParametersString());
@@ -97,8 +94,7 @@ class GlobalHelperTest extends TestCase
         $request = Request::create('/ibexa_demo_site/foo/bar');
         $semanticPathinfo = '/foo/bar';
         $request->attributes->set('semanticPathinfo', $semanticPathinfo);
-        $requestStack = new RequestStack();
-        $requestStack->push($request);
+        $requestStack = new RequestStack([$request]);
         $this->helper->setRequestStack($requestStack);
 
         self::assertSame($semanticPathinfo, $this->helper->getRequestedUriString());
@@ -110,8 +106,7 @@ class GlobalHelperTest extends TestCase
         $semanticPathinfo = '/foo/bar';
         $request->attributes->set('semanticPathinfo', $semanticPathinfo);
         $request->attributes->set('_route', 'someRouteName');
-        $requestStack = new RequestStack();
-        $requestStack->push($request);
+        $requestStack = new RequestStack([$request]);
         $this->helper->setRequestStack($requestStack);
         self::assertSame($semanticPathinfo, $this->helper->getSystemUriString());
     }
@@ -127,8 +122,7 @@ class GlobalHelperTest extends TestCase
         $request->attributes->set('contentId', $contentId);
         $request->attributes->set('locationId', $locationId);
         $request->attributes->set('viewType', $viewType);
-        $requestStack = new RequestStack();
-        $requestStack->push($request);
+        $requestStack = new RequestStack([$request]);
 
         $this->router
             ->expects(self::once())

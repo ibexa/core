@@ -41,7 +41,6 @@ class LocaleParameterProviderTest extends TestCase
 
     protected function getRequestStackMock($hasLocale)
     {
-        $requestStack = new RequestStack();
         $parameterBagMock = $this->createMock(ParameterBag::class);
 
         $parameterBagMock->expects(self::any())
@@ -57,9 +56,7 @@ class LocaleParameterProviderTest extends TestCase
         $requestMock = $this->createMock(Request::class);
         $requestMock->attributes = $parameterBagMock;
 
-        $requestStack->push($requestMock);
-
-        return $requestStack;
+        return new RequestStack([$requestMock]);
     }
 
     protected function getLocaleConverterMock()

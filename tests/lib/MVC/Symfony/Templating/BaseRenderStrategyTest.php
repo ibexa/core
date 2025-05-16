@@ -39,8 +39,7 @@ abstract class BaseRenderStrategyTest extends TestCase
     ): RenderStrategy {
         $siteAccess = new SiteAccess($siteAccessName);
 
-        $requestStack = new RequestStack();
-        $requestStack->push($request ?? new Request());
+        $requestStack = new RequestStack([$request ?? new Request()]);
 
         return new $typeClass(
             $fragmentRenderers,
