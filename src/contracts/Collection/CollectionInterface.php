@@ -13,7 +13,7 @@ use Iterator;
 use IteratorAggregate;
 
 /**
- * @template TValue
+ * @template-covariant TValue
  *
  * @template-extends \IteratorAggregate<TValue>
  */

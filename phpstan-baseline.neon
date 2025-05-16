@@ -4879,22 +4879,16 @@ parameters:
 			path: src/bundle/RepositoryInstaller/Installer/Installer.php
 
 		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Collection\\MutableArrayList\:\:createFrom\(\) return type with generic class Ibexa\\Contracts\\Core\\Collection\\MutableArrayList does not specify its types\: TValue$#'
-			identifier: missingType.generics
+			message: '#^Template type TValue is declared as covariant, but occurs in invariant position in property Ibexa\\Contracts\\Core\\Collection\\AbstractInMemoryCollection\:\:\$items\.$#'
+			identifier: generics.variance
 			count: 1
-			path: src/contracts/Collection/MutableArrayList.php
+			path: src/contracts/Collection/AbstractInMemoryCollection.php
 
 		-
 			message: '#^Parameter \#2 \$offset of function array_splice expects int, int\|string given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/contracts/Collection/MutableArrayList.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Collection\\MutableArrayMap\:\:createFrom\(\) return type with generic class Ibexa\\Contracts\\Core\\Collection\\MutableArrayMap does not specify its types\: TKey, TValue$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/contracts/Collection/MutableArrayMap.php
 
 		-
 			message: '#^Binary operation "\." between array\|bool\|float\|int\|string\|null and ''/'' results in an error\.$#'

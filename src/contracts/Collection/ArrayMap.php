@@ -11,8 +11,8 @@ namespace Ibexa\Contracts\Core\Collection;
 use Ibexa\Contracts\Core\Exception\OutOfBoundsException;
 
 /**
- * @template TKey
- * @template TValue
+ * @template TKey of array-key
+ * @template-covariant TValue
  *
  * @template-extends \Ibexa\Contracts\Core\Collection\AbstractInMemoryCollection<TValue>
  *
@@ -35,9 +35,11 @@ class ArrayMap extends AbstractInMemoryCollection implements MapInterface
     }
 
     /**
-     * @phpstan-param TValue[] $items
+     * @template TValueFrom
      *
-     * @phpstan-return \Ibexa\Contracts\Core\Collection\ArrayMap<TKey,TValue>
+     * @phpstan-param TValueFrom[] $items
+     *
+     * @phpstan-return \Ibexa\Contracts\Core\Collection\ArrayMap<TKey,TValueFrom>
      */
     protected function createFrom(array $items): self
     {

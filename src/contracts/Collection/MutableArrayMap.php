@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Collection;
 
 /**
- * @template TKey
+ * @template TKey of array-key
  * @template TValue
  *
  * @template-extends \Ibexa\Contracts\Core\Collection\ArrayMap<TKey,TValue>
@@ -33,6 +33,13 @@ class MutableArrayMap extends ArrayMap implements MutableMapInterface
         $this->items = [];
     }
 
+    /**
+     * @template TValueFrom
+     *
+     * @phpstan-param TValueFrom[] $items
+     *
+     * @phpstan-return \Ibexa\Contracts\Core\Collection\MutableArrayMap<TKey,TValueFrom>
+     */
     protected function createFrom(array $items): MutableArrayMap
     {
         return new MutableArrayMap($items);

@@ -40,6 +40,13 @@ class MutableArrayList extends ArrayList implements MutableListInterface
         $this->items = [];
     }
 
+    /**
+     * @template TValueFrom
+     *
+     * @phpstan-param TValueFrom[] $items
+     *
+     * @phpstan-return \Ibexa\Contracts\Core\Collection\MutableArrayList<TValueFrom>
+     */
     protected function createFrom(array $items): MutableArrayList
     {
         return new MutableArrayList($items);
