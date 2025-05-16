@@ -59,7 +59,7 @@ class ObjectStateIdentifier extends CriterionHandler
             ->from('ezcobj_state_link', 't1')
             ->leftJoin(
                 't1',
-                'ezcobj_state',
+                \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_TABLE,
                 't2',
                 't1.contentobject_state_id = t2.id',
             )

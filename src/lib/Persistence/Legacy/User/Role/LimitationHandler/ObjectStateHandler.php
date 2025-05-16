@@ -102,7 +102,7 @@ class ObjectStateHandler extends LimitationHandler
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('sg.identifier', 's.id')
-            ->from('ezcobj_state', 's')
+            ->from(\Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_TABLE, 's')
             ->innerJoin(
                 's',
                 'ezcobj_state_group',

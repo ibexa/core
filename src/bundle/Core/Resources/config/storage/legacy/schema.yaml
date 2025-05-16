@@ -8,12 +8,12 @@ tables:
             filename: { type: string, nullable: false, length: 255, options: { default: '' } }
             mime_type: { type: string, nullable: false, length: 255, options: { default: '' } }
             original_filename: { type: string, nullable: false, length: 255, options: { default: '' } }
-    ezcobj_state:
+    ibexa_cobj_state:
         indexes:
-            ezcobj_state_priority: { fields: [priority] }
-            ezcobj_state_lmask: { fields: [language_mask] }
+            ibexa_cobj_state_priority: { fields: [priority] }
+            ibexa_cobj_state_lmask: { fields: [language_mask] }
         uniqueConstraints:
-            ezcobj_state_identifier: { fields: [group_id, identifier] }
+            ibexa_cobj_state_identifier: { fields: [group_id, identifier] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:

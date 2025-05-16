@@ -24,7 +24,7 @@ return [
         ],
     ],
 
-    'ezcobj_state' => [
+    \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_TABLE => [
         [
             'default_language_id' => 2,
             'group_id' => 2,

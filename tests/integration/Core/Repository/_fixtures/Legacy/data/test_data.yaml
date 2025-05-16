@@ -1,5 +1,5 @@
 ezbinaryfile: {  }
-ezcobj_state:
+ibexa_cobj_state:
   - { default_language_id: 2, group_id: 2, id: 1, identifier: not_locked, language_mask: 3, priority: 0 }
   - { default_language_id: 2, group_id: 2, id: 2, identifier: locked, language_mask: 3, priority: 1 }
 ezcobj_state_group:
