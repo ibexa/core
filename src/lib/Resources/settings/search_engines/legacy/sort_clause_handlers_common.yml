@@ -67,7 +67,7 @@ services:
     Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Factory\RandomSortClauseHandlerFactory:
         arguments:
             - '@ibexa.persistence.connection'
-            - !tagged ibexa.search.legacy.gateway.sort_clause_handler.gateway.random
+            - !tagged_iterator ibexa.search.legacy.gateway.sort_clause_handler.gateway.random
 
     Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom:
         class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom

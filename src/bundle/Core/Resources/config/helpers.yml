@@ -22,7 +22,7 @@ services:
 
     Ibexa\Bundle\Core\EventListener\ConfigScopeListener:
         arguments:
-            $configResolvers: !tagged ibexa.site.config.resolver
+            $configResolvers: !tagged_iterator ibexa.site.config.resolver
             $viewManager: '@Ibexa\Core\MVC\Symfony\View\ViewManagerInterface'
         tags:
             - { name: kernel.event_subscriber }
