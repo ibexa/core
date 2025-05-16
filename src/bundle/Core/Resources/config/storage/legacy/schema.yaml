@@ -1,5 +1,5 @@
 tables:
-    ezbinaryfile:
+    ibexa_binaryfile:
         id:
             contentobject_attribute_id: { type: integer, nullable: false, options: { default: '0' } }
             version: { type: integer, nullable: false, options: { default: '0' } }

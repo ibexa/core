@@ -23,7 +23,7 @@ class DoctrineStorage extends BaseDoctrineStorage
      */
     protected function getStorageTable(): string
     {
-        return 'ezbinaryfile';
+        return 'ibexa_binaryfile';
     }
 
     /**
