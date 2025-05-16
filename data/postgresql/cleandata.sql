@@ -8,7 +8,7 @@ VALUES (2, 2, 'ez_lock', 3);
 INSERT INTO "ibexa_cobj_state_group_language" ("contentobject_state_group_id", "description","language_id", "name", "real_language_id")
 VALUES (2, '', 3, 'Lock', 2);
 
-INSERT INTO "ezcobj_state_language" ("contentobject_state_id", "description", "language_id", "name")
+INSERT INTO "ibexa_cobj_state_language" ("contentobject_state_id", "description", "language_id", "name")
 VALUES (1,'',3,'Not locked'),
        (2,'',3,'Locked');
 

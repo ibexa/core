@@ -6,7 +6,7 @@ ibexa_cobj_state_group:
   - { default_language_id: 2, id: 2, identifier: ez_lock, language_mask: 3 }
 ibexa_cobj_state_group_language:
   - { contentobject_state_group_id: 2, description: '', language_id: 3, name: Lock, real_language_id: 2 }
-ezcobj_state_language:
+ibexa_cobj_state_language:
   - { contentobject_state_id: 1, description: '', language_id: 3, name: 'Not locked' }
   - { contentobject_state_id: 2, description: '', language_id: 3, name: Locked }
 ezcobj_state_link:

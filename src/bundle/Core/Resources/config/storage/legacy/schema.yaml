@@ -41,7 +41,7 @@ tables:
             description: { type: text, nullable: false, length: 0 }
             language_id: { type: bigint, nullable: false, options: { default: '0' } }
             name: { type: string, nullable: false, length: 45, options: { default: '' } }
-    ezcobj_state_language:
+    ibexa_cobj_state_language:
         id:
             contentobject_state_id: { type: integer, nullable: false, options: { default: '0' } }
             language_id: { type: bigint, nullable: false, options: { default: '0' } }

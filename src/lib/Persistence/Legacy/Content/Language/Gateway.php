@@ -32,7 +32,7 @@ abstract class Gateway
         \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_TABLE => ['language_mask', 'default_language_id'],
         \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_GROUP_LANGUAGE_TABLE => ['language_id'],
         \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_GROUP_TABLE => ['language_mask', 'default_language_id'],
-        'ezcobj_state_language' => ['language_id'],
+        \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_LANGUAGE_TABLE => ['language_id'],
         'ezcontentclass_attribute_ml' => ['language_id'],
         'ezcontentclass_name' => ['language_id'],
         'ezcontentclass' => ['language_mask', 'initial_language_id'],
