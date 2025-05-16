@@ -54,6 +54,8 @@ abstract class AbstractInMemoryCollection implements CollectionInterface, Stream
 
     /**
      * @phpstan-param \Closure(TValue, TKey=): bool $predicate
+     *
+     * @phpstan-return static<TKey, TValue>
      */
     public function filter(Closure $predicate): self
     {
