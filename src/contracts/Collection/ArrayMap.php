@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Exception\OutOfBoundsException;
 
 /**
  * @template TKey of array-key
+ *
  * @template-covariant TValue
  *
  * @template-extends \Ibexa\Contracts\Core\Collection\AbstractInMemoryCollection<TValue>
