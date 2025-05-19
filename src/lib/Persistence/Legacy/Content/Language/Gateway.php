@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Language;
  */
 abstract class Gateway
 {
-    public const CONTENT_LANGUAGE_TABLE = 'ezcontent_language';
+    public const CONTENT_LANGUAGE_TABLE = 'ibexa_content_language';
 
     /**
      * A map of language-related table name to its language column.

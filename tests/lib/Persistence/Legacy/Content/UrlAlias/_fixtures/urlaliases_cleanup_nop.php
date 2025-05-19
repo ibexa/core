@@ -72,7 +72,7 @@ return [
             'text_md5' => '06a943c59f33a34bb5924aaf72cd2995',
         ],
     ],
-    'ezcontent_language' => [
+    \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway::CONTENT_LANGUAGE_TABLE => [
         0 => [
             'disabled' => 0,
             'id' => 2,

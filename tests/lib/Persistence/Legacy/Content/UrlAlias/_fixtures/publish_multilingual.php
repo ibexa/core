@@ -65,7 +65,7 @@ return [
         ['id' => '3'],
         ['id' => '4'],
     ],
-    'ezcontent_language' => [
+    \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway::CONTENT_LANGUAGE_TABLE => [
         [
             'disabled' => 0,
             'id' => 2,

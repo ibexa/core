@@ -52,9 +52,9 @@ tables:
         id:
             contentobject_id: { type: integer, nullable: false, options: { default: '0' } }
             contentobject_state_id: { type: integer, nullable: false, options: { default: '0' } }
-    ezcontent_language:
+    ibexa_content_language:
         indexes:
-            ezcontent_language_name: { fields: [name], options: { lengths: ['191'] } }
+            ibexa_content_language_name: { fields: [name], options: { lengths: ['191'] } }
         id:
             id: { type: bigint, nullable: false, options: { default: '0' } }
         fields:
@@ -185,7 +185,7 @@ tables:
             data_text: { type: text, nullable: true, length: 65535 }
             data_json: { type: text, nullable: true, length: 65535 }
         foreignKeys:
-            ezcontentclass_attribute_ml_lang_fk: { fields: [language_id], foreignTable: ezcontent_language, foreignFields: [id], options: { onDelete: CASCADE, onUpdate: CASCADE } }
+            ezcontentclass_attribute_ml_lang_fk: { fields: [language_id], foreignTable: ibexa_content_language, foreignFields: [id], options: { onDelete: CASCADE, onUpdate: CASCADE } }
     ezcontentclass_classgroup:
         id:
             contentclass_id: { type: integer, nullable: false, options: { default: '0' } }

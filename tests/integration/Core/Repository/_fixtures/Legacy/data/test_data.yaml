@@ -28,7 +28,7 @@ ibexa_cobj_state_link:
   - { contentobject_id: 57, contentobject_state_id: 1 }
   - { contentobject_id: 58, contentobject_state_id: 1 }
   - { contentobject_id: 59, contentobject_state_id: 1 }
-ezcontent_language:
+ibexa_content_language:
   - { disabled: 0, id: 2, locale: eng-US, name: 'English (American)' }
   - { disabled: 0, id: 4, locale: ger-DE, name: German }
   - { disabled: 0, id: 8, locale: eng-GB, name: 'English (United Kingdom)' }

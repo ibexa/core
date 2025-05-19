@@ -52,7 +52,7 @@ class DoctrineDatabaseTest extends TestCase
             ],
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('id', 'locale', 'name', 'disabled')
-                ->from('ezcontent_language')
+                ->from(\Ibexa\Core\Persistence\Legacy\Content\Language\Gateway::CONTENT_LANGUAGE_TABLE)
                 ->where('id=8')
         );
     }
@@ -93,7 +93,7 @@ class DoctrineDatabaseTest extends TestCase
             ],
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('id', 'locale', 'name', 'disabled')
-                ->from('ezcontent_language')
+                ->from(\Ibexa\Core\Persistence\Legacy\Content\Language\Gateway::CONTENT_LANGUAGE_TABLE)
                 ->where('id=2')
         );
     }
@@ -156,7 +156,7 @@ class DoctrineDatabaseTest extends TestCase
             ],
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('COUNT( * ) AS count')
-                ->from('ezcontent_language')
+                ->from(\Ibexa\Core\Persistence\Legacy\Content\Language\Gateway::CONTENT_LANGUAGE_TABLE)
         );
 
         $this->assertQueryResult(
@@ -167,7 +167,7 @@ class DoctrineDatabaseTest extends TestCase
             ],
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('COUNT( * ) AS count')
-                ->from('ezcontent_language')
+                ->from(\Ibexa\Core\Persistence\Legacy\Content\Language\Gateway::CONTENT_LANGUAGE_TABLE)
                 ->where('id=2')
         );
     }

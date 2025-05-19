@@ -236,5 +236,5 @@ return [
             'name' => 'Folder',
         ],
     ],
-    'ezcontent_language' => [],
+    \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway::CONTENT_LANGUAGE_TABLE => [],
 ];
