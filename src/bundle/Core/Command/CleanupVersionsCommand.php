@@ -249,7 +249,7 @@ EOT
                 ->select('c.id')
                 ->from('ezcontentobject', 'c')
                 ->join('c', 'ezcontentobject_version', 'v', 'v.contentobject_id = c.id')
-                ->join('c', 'ezcontentclass', 'cl', 'cl.id = c.contentclass_id')
+                ->join('c', \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_TABLE, 'cl', 'cl.id = c.contentclass_id')
                 ->groupBy('c.id', 'v.status')
                 ->having('count(c.id) > :keep');
         $query->setParameter('keep', $keep);

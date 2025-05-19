@@ -114,10 +114,10 @@ tables:
         foreignKeys:
             ibexa_content_browsebookmark_location_fk: { fields: [node_id], foreignTable: ezcontentobject_tree, foreignFields: [node_id], options: { onDelete: CASCADE, onUpdate: 'NO ACTION' } }
             ibexa_content_browsebookmark_user_fk: { fields: [user_id], foreignTable: ezuser, foreignFields: [contentobject_id], options: { onDelete: CASCADE, onUpdate: 'NO ACTION' } }
-    ezcontentclass:
+    ibexa_content_type:
         indexes:
-            ezcontentclass_version: { fields: [version] }
-            ezcontentclass_identifier: { fields: [identifier, version] }
+            ibexa_content_type_version: { fields: [version] }
+            ibexa_content_type_identifier: { fields: [identifier, version] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
             version: { type: integer, nullable: false, options: { default: '0' } }
@@ -138,10 +138,10 @@ tables:
             sort_field: { type: integer, nullable: false, options: { default: '1' } }
             sort_order: { type: integer, nullable: false, options: { default: '1' } }
             url_alias_name: { type: string, nullable: true, length: 255 }
-    ezcontentclass_attribute:
+    ibexa_content_type_attribute:
         indexes:
-            ezcontentclass_attr_ccid: { fields: [contentclass_id] }
-            ezcontentclass_attr_dts: { fields: [data_type_string] }
+            ibexa_content_type_attr_ccid: { fields: [contentclass_id] }
+            ibexa_content_type_attr_dts: { fields: [data_type_string] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
             version: { type: integer, nullable: false, options: { default: '0' } }
@@ -172,9 +172,9 @@ tables:
             serialized_data_text: { type: text, nullable: true, length: 0 }
             serialized_description_list: { type: text, nullable: true, length: 0 }
             serialized_name_list: { type: text, nullable: false, length: 0 }
-    ezcontentclass_attribute_ml:
+    ibexa_content_type_attribute_ml:
         indexes:
-            ezcontentclass_attribute_ml_lang_fk: { fields: [language_id] }
+            ibexa_content_type_attribute_ml_lang_fk: { fields: [language_id] }
         id:
             contentclass_attribute_id: { type: integer, nullable: false }
             version: { type: integer, nullable: false }
@@ -185,15 +185,15 @@ tables:
             data_text: { type: text, nullable: true, length: 65535 }
             data_json: { type: text, nullable: true, length: 65535 }
         foreignKeys:
-            ezcontentclass_attribute_ml_lang_fk: { fields: [language_id], foreignTable: ibexa_content_language, foreignFields: [id], options: { onDelete: CASCADE, onUpdate: CASCADE } }
-    ezcontentclass_classgroup:
+            ibexa_content_type_attribute_ml_lang_fk: { fields: [language_id], foreignTable: ibexa_content_language, foreignFields: [id], options: { onDelete: CASCADE, onUpdate: CASCADE } }
+    ibexa_content_type_group_assignment:
         id:
             contentclass_id: { type: integer, nullable: false, options: { default: '0' } }
             contentclass_version: { type: integer, nullable: false, options: { default: '0' } }
             group_id: { type: integer, nullable: false, options: { default: '0' } }
         fields:
             group_name: { type: string, nullable: true, length: 255 }
-    ezcontentclass_name:
+    ibexa_content_type_name:
         id:
             contentclass_id: { type: integer, nullable: false, options: { default: '0' } }
             contentclass_version: { type: integer, nullable: false, options: { default: '0' } }
@@ -201,7 +201,7 @@ tables:
         fields:
             language_locale: { type: string, nullable: false, length: 20, options: { default: '' } }
             name: { type: string, nullable: false, length: 255, options: { default: '' } }
-    ezcontentclassgroup:
+    ibexa_content_type_group:
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:

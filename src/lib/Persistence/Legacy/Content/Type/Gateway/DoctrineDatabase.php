@@ -38,7 +38,7 @@ final class DoctrineDatabase extends Gateway
      * @var array
      */
     private $columns = [
-        'ezcontentclass' => [
+        \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_TABLE => [
             'id',
             'always_available',
             'contentobject_name',
@@ -58,7 +58,7 @@ final class DoctrineDatabase extends Gateway
             'url_alias_name',
             'version',
         ],
-        'ezcontentclass_attribute' => [
+        \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::FIELD_DEFINITION_TABLE => [
             'id',
             'can_translate',
             'category',
@@ -686,12 +686,12 @@ final class DoctrineDatabase extends Gateway
         $this
             ->selectColumns($query, self::FIELD_DEFINITION_TABLE, 'f_def')
             ->addSelect(
-                'ct.initial_language_id AS ezcontentclass_initial_language_id',
-                'transl_f_def.name AS ezcontentclass_attribute_multilingual_name',
-                'transl_f_def.description AS ezcontentclass_attribute_multilingual_description',
-                'transl_f_def.language_id AS ezcontentclass_attribute_multilingual_language_id',
-                'transl_f_def.data_text AS ezcontentclass_attribute_multilingual_data_text',
-                'transl_f_def.data_json AS ezcontentclass_attribute_multilingual_data_json'
+                'ct.initial_language_id AS ibexa_content_type_initial_language_id',
+                'transl_f_def.name AS ibexa_content_type_attribute_multilingual_name',
+                'transl_f_def.description AS ibexa_content_type_attribute_multilingual_description',
+                'transl_f_def.language_id AS ibexa_content_type_attribute_multilingual_language_id',
+                'transl_f_def.data_text AS ibexa_content_type_attribute_multilingual_data_text',
+                'transl_f_def.data_json AS ibexa_content_type_attribute_multilingual_data_json'
             )
             ->from(self::FIELD_DEFINITION_TABLE, 'f_def')
             ->leftJoin(
@@ -1006,56 +1006,56 @@ final class DoctrineDatabase extends Gateway
         $expr = $query->expr();
         $query
             ->select(
-                'c.id AS ezcontentclass_id',
-                'c.version AS ezcontentclass_version',
-                'c.serialized_name_list AS ezcontentclass_serialized_name_list',
-                'c.serialized_description_list AS ezcontentclass_serialized_description_list',
-                'c.identifier AS ezcontentclass_identifier',
-                'c.created AS ezcontentclass_created',
-                'c.modified AS ezcontentclass_modified',
-                'c.modifier_id AS ezcontentclass_modifier_id',
-                'c.creator_id AS ezcontentclass_creator_id',
-                'c.remote_id AS ezcontentclass_remote_id',
-                'c.url_alias_name AS ezcontentclass_url_alias_name',
-                'c.contentobject_name AS ezcontentclass_contentobject_name',
-                'c.is_container AS ezcontentclass_is_container',
-                'c.initial_language_id AS ezcontentclass_initial_language_id',
-                'c.always_available AS ezcontentclass_always_available',
-                'c.sort_field AS ezcontentclass_sort_field',
-                'c.sort_order AS ezcontentclass_sort_order',
-                'c.language_mask AS ezcontentclass_language_mask',
-                'a.id AS ezcontentclass_attribute_id',
-                'a.serialized_name_list AS ezcontentclass_attribute_serialized_name_list',
-                'a.serialized_description_list AS ezcontentclass_attribute_serialized_description_list',
-                'a.identifier AS ezcontentclass_attribute_identifier',
-                'a.category AS ezcontentclass_attribute_category',
-                'a.data_type_string AS ezcontentclass_attribute_data_type_string',
-                'a.can_translate AS ezcontentclass_attribute_can_translate',
-                'a.is_required AS ezcontentclass_attribute_is_required',
-                'a.is_information_collector AS ezcontentclass_attribute_is_information_collector',
-                'a.is_searchable AS ezcontentclass_attribute_is_searchable',
-                'a.is_thumbnail AS ezcontentclass_attribute_is_thumbnail',
-                'a.placement AS ezcontentclass_attribute_placement',
-                'a.data_float1 AS ezcontentclass_attribute_data_float1',
-                'a.data_float2 AS ezcontentclass_attribute_data_float2',
-                'a.data_float3 AS ezcontentclass_attribute_data_float3',
-                'a.data_float4 AS ezcontentclass_attribute_data_float4',
-                'a.data_int1 AS ezcontentclass_attribute_data_int1',
-                'a.data_int2 AS ezcontentclass_attribute_data_int2',
-                'a.data_int3 AS ezcontentclass_attribute_data_int3',
-                'a.data_int4 AS ezcontentclass_attribute_data_int4',
-                'a.data_text1 AS ezcontentclass_attribute_data_text1',
-                'a.data_text2 AS ezcontentclass_attribute_data_text2',
-                'a.data_text3 AS ezcontentclass_attribute_data_text3',
-                'a.data_text4 AS ezcontentclass_attribute_data_text4',
-                'a.data_text5 AS ezcontentclass_attribute_data_text5',
-                'a.serialized_data_text AS ezcontentclass_attribute_serialized_data_text',
-                'g.group_id AS ezcontentclass_classgroup_group_id',
-                'ml.name AS ezcontentclass_attribute_multilingual_name',
-                'ml.description AS ezcontentclass_attribute_multilingual_description',
-                'ml.language_id AS ezcontentclass_attribute_multilingual_language_id',
-                'ml.data_text AS ezcontentclass_attribute_multilingual_data_text',
-                'ml.data_json AS ezcontentclass_attribute_multilingual_data_json'
+                'c.id AS ibexa_content_type_id',
+                'c.version AS ibexa_content_type_version',
+                'c.serialized_name_list AS ibexa_content_type_serialized_name_list',
+                'c.serialized_description_list AS ibexa_content_type_serialized_description_list',
+                'c.identifier AS ibexa_content_type_identifier',
+                'c.created AS ibexa_content_type_created',
+                'c.modified AS ibexa_content_type_modified',
+                'c.modifier_id AS ibexa_content_type_modifier_id',
+                'c.creator_id AS ibexa_content_type_creator_id',
+                'c.remote_id AS ibexa_content_type_remote_id',
+                'c.url_alias_name AS ibexa_content_type_url_alias_name',
+                'c.contentobject_name AS ibexa_content_type_contentobject_name',
+                'c.is_container AS ibexa_content_type_is_container',
+                'c.initial_language_id AS ibexa_content_type_initial_language_id',
+                'c.always_available AS ibexa_content_type_always_available',
+                'c.sort_field AS ibexa_content_type_sort_field',
+                'c.sort_order AS ibexa_content_type_sort_order',
+                'c.language_mask AS ibexa_content_type_language_mask',
+                'a.id AS ibexa_content_type_attribute_id',
+                'a.serialized_name_list AS ibexa_content_type_attribute_serialized_name_list',
+                'a.serialized_description_list AS ibexa_content_type_attribute_serialized_description_list',
+                'a.identifier AS ibexa_content_type_attribute_identifier',
+                'a.category AS ibexa_content_type_attribute_category',
+                'a.data_type_string AS ibexa_content_type_attribute_data_type_string',
+                'a.can_translate AS ibexa_content_type_attribute_can_translate',
+                'a.is_required AS ibexa_content_type_attribute_is_required',
+                'a.is_information_collector AS ibexa_content_type_attribute_is_information_collector',
+                'a.is_searchable AS ibexa_content_type_attribute_is_searchable',
+                'a.is_thumbnail AS ibexa_content_type_attribute_is_thumbnail',
+                'a.placement AS ibexa_content_type_attribute_placement',
+                'a.data_float1 AS ibexa_content_type_attribute_data_float1',
+                'a.data_float2 AS ibexa_content_type_attribute_data_float2',
+                'a.data_float3 AS ibexa_content_type_attribute_data_float3',
+                'a.data_float4 AS ibexa_content_type_attribute_data_float4',
+                'a.data_int1 AS ibexa_content_type_attribute_data_int1',
+                'a.data_int2 AS ibexa_content_type_attribute_data_int2',
+                'a.data_int3 AS ibexa_content_type_attribute_data_int3',
+                'a.data_int4 AS ibexa_content_type_attribute_data_int4',
+                'a.data_text1 AS ibexa_content_type_attribute_data_text1',
+                'a.data_text2 AS ibexa_content_type_attribute_data_text2',
+                'a.data_text3 AS ibexa_content_type_attribute_data_text3',
+                'a.data_text4 AS ibexa_content_type_attribute_data_text4',
+                'a.data_text5 AS ibexa_content_type_attribute_data_text5',
+                'a.serialized_data_text AS ibexa_content_type_attribute_serialized_data_text',
+                'g.group_id AS ibexa_content_type_group_assignment_group_id',
+                'ml.name AS ibexa_content_type_attribute_multilingual_name',
+                'ml.description AS ibexa_content_type_attribute_multilingual_description',
+                'ml.language_id AS ibexa_content_type_attribute_multilingual_language_id',
+                'ml.data_text AS ibexa_content_type_attribute_multilingual_data_text',
+                'ml.data_json AS ibexa_content_type_attribute_multilingual_data_json'
             )
             ->from(self::CONTENT_TYPE_TABLE, 'c')
             ->leftJoin(
@@ -1110,12 +1110,13 @@ final class DoctrineDatabase extends Gateway
 
     public function deleteFieldDefinitionsForType(int $typeId, int $status): void
     {
+        $ctMlTable = \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::MULTILINGUAL_FIELD_DEFINITION_TABLE;
         $subQuery = $this->connection->createQueryBuilder();
         $subQuery
-            ->select('f_def.id as ezcontentclass_attribute_id')
+            ->select('f_def.id as ibexa_content_type_attribute_id')
             ->from(self::FIELD_DEFINITION_TABLE, 'f_def')
             ->where('f_def.contentclass_id = :content_type_id')
-            ->andWhere('f_def.id = ezcontentclass_attribute_ml.contentclass_attribute_id');
+            ->andWhere("f_def.id = {$ctMlTable}.contentclass_attribute_id");
 
         $deleteQuery = $this->connection->createQueryBuilder();
         $deleteQuery
@@ -1297,13 +1298,13 @@ final class DoctrineDatabase extends Gateway
             'contentclass_id',
             'contentclass_version'
         );
-
+        $ctMlTable = \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::MULTILINGUAL_FIELD_DEFINITION_TABLE;
         $subQuery = $this->connection->createQueryBuilder();
         $subQuery
-            ->select('f_def.id as ezcontentclass_attribute_id')
+            ->select('f_def.id as ibexa_content_type_attribute_id')
             ->from(self::FIELD_DEFINITION_TABLE, 'f_def')
             ->where('f_def.contentclass_id = :type_id')
-            ->andWhere('f_def.id = ezcontentclass_attribute_ml.contentclass_attribute_id');
+            ->andWhere("f_def.id = {$ctMlTable}.contentclass_attribute_id");
 
         $mlDataPublishQuery = $this->connection->createQueryBuilder();
         $mlDataPublishQuery
@@ -1412,12 +1413,14 @@ final class DoctrineDatabase extends Gateway
      */
     private function cleanupClassAttributeTable(): void
     {
+        $contentTypeAttrTable = \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::FIELD_DEFINITION_TABLE;
+        $contentTypeTable = \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_TABLE;
         $sql = <<<SQL
-          DELETE FROM ezcontentclass_attribute
+          DELETE FROM {$contentTypeAttrTable} 
             WHERE NOT EXISTS (
-              SELECT 1 FROM ezcontentclass
-                WHERE ezcontentclass.id = ezcontentclass_attribute.contentclass_id 
-                AND ezcontentclass.version = ezcontentclass_attribute.version
+              SELECT 1 FROM {$contentTypeTable} 
+                WHERE {$contentTypeTable}.id = {$contentTypeAttrTable}.contentclass_id 
+                AND {$contentTypeTable}.version = {$contentTypeAttrTable}.version
             )
 SQL;
         $this->connection->executeStatement($sql);
@@ -1428,12 +1431,14 @@ SQL;
      */
     private function cleanupClassAttributeMLTable(): void
     {
+        $contentTypeAttrMlTable = \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::MULTILINGUAL_FIELD_DEFINITION_TABLE;
+        $contentTypeAttrTable = \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::FIELD_DEFINITION_TABLE;
         $sql = <<<SQL
-          DELETE FROM ezcontentclass_attribute_ml 
+          DELETE FROM {$contentTypeAttrMlTable} 
             WHERE NOT EXISTS (
-              SELECT 1 FROM ezcontentclass_attribute 
-                WHERE ezcontentclass_attribute.id = ezcontentclass_attribute_ml.contentclass_attribute_id 
-                AND ezcontentclass_attribute.version = ezcontentclass_attribute_ml.version
+              SELECT 1 FROM {$contentTypeAttrTable} 
+                WHERE {$contentTypeAttrTable}.id = {$contentTypeAttrMlTable}.contentclass_attribute_id 
+                AND {$contentTypeAttrTable}.version = {$contentTypeAttrMlTable}.version
             )
 SQL;
         $this->connection->executeStatement($sql);
@@ -1444,12 +1449,14 @@ SQL;
      */
     private function cleanupClassGroupTable(): void
     {
+        $contentTypeGroupAssignmentTable = \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE;
+        $contentTypeTable = \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_TABLE;
         $sql = <<<SQL
-          DELETE FROM ezcontentclass_classgroup 
+          DELETE FROM {$contentTypeGroupAssignmentTable} 
             WHERE NOT EXISTS (
-              SELECT 1 FROM ezcontentclass 
-                WHERE ezcontentclass.id = ezcontentclass_classgroup.contentclass_id 
-                AND ezcontentclass.version = ezcontentclass_classgroup.contentclass_version
+              SELECT 1 FROM {$contentTypeTable} 
+                WHERE {$contentTypeTable}.id = {$contentTypeGroupAssignmentTable}.contentclass_id 
+                AND {$contentTypeTable}.version = {$contentTypeGroupAssignmentTable}.contentclass_version
             )
 SQL;
         $this->connection->executeStatement($sql);
@@ -1460,12 +1467,14 @@ SQL;
      */
     private function cleanupClassNameTable(): void
     {
+        $contentTypeNameTable = \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_NAME_TABLE;
+        $contentTypeTable = \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_TABLE;
         $sql = <<< SQL
-          DELETE FROM ezcontentclass_name 
+          DELETE FROM {$contentTypeNameTable} 
             WHERE NOT EXISTS (
-              SELECT 1 FROM ezcontentclass 
-                WHERE ezcontentclass.id = ezcontentclass_name.contentclass_id 
-                AND ezcontentclass.version = ezcontentclass_name.contentclass_version
+              SELECT 1 FROM {$contentTypeTable} 
+                WHERE {$contentTypeTable}.id = {$contentTypeNameTable}.contentclass_id 
+                AND {$contentTypeTable}.version = {$contentTypeNameTable}.contentclass_version
             )
 SQL;
         $this->connection->executeStatement($sql);

@@ -5,7 +5,7 @@
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 return [
-    'ezcontentclassgroup' => [
+    \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_GROUP_TABLE => [
         [
             'created' => 1031216928,
             'creator_id' => 14,

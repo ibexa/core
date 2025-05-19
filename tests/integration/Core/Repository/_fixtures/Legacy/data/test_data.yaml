@@ -32,7 +32,7 @@ ibexa_content_language:
   - { disabled: 0, id: 2, locale: eng-US, name: 'English (American)' }
   - { disabled: 0, id: 4, locale: ger-DE, name: German }
   - { disabled: 0, id: 8, locale: eng-GB, name: 'English (United Kingdom)' }
-ezcontentclass:
+ibexa_content_type:
   - { always_available: 1, contentobject_name: '<short_name|name>', created: 1024392098, creator_id: 14, id: 1, identifier: folder, initial_language_id: 2, is_container: 1, language_mask: 3, modified: 1082454875, modifier_id: 14, remote_id: a3d405b81be900468eb153d774f4f0d2, serialized_description_list: 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}', serialized_name_list: 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:6:"Folder";}', sort_field: 1, sort_order: 1, url_alias_name: '', version: 0 }
   - { always_available: 1, contentobject_name: '<name>', created: 1024392098, creator_id: 14, id: 3, identifier: user_group, initial_language_id: 2, is_container: 1, language_mask: 3, modified: 1048494743, modifier_id: 14, remote_id: 25b4268cdcd01921b808a0d854b877ef, serialized_description_list: 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}', serialized_name_list: 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:10:"User group";}', sort_field: 1, sort_order: 1, url_alias_name: '', version: 0 }
   - { always_available: 1, contentobject_name: '<first_name> <last_name>', created: 1024392098, creator_id: 14, id: 4, identifier: user, initial_language_id: 2, is_container: 0, language_mask: 3, modified: 1082018364, modifier_id: 14, remote_id: 40faa822edc579b02c25f6bb7beec3ad, serialized_description_list: 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}', serialized_name_list: 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:4:"User";}', sort_field: 1, sort_order: 1, url_alias_name: '', version: 0 }
@@ -60,7 +60,7 @@ ezcontentclass:
   - { always_available: 0, contentobject_name: '<title>', created: 1343140536, creator_id: 14, id: 34, identifier: forums, initial_language_id: 8, is_container: 1, language_mask: 9, modified: 1343140536, modifier_id: 14, remote_id: 60a921e54c1efbb9456bd2283d9e66cb, serialized_description_list: 'a:0:{}', serialized_name_list: 'a:2:{s:6:"eng-GB";s:6:"Forums";s:16:"always-available";s:6:"eng-GB";}', sort_field: 1, sort_order: 1, url_alias_name: '', version: 0 }
   - { always_available: 0, contentobject_name: '<name>', created: 1343140536, creator_id: 14, id: 35, identifier: video, initial_language_id: 8, is_container: 0, language_mask: 9, modified: 1343140536, modifier_id: 14, remote_id: b38417e8194fb8f893ca918d297b4fa8, serialized_description_list: 'a:2:{s:6:"eng-GB";s:0:"";s:16:"always-available";s:6:"eng-GB";}', serialized_name_list: 'a:2:{s:6:"eng-GB";s:5:"Video";s:16:"always-available";s:6:"eng-GB";}', sort_field: 1, sort_order: 1, url_alias_name: '', version: 0 }
   - { always_available: 0, contentobject_name: '<name>', created: 1343140536, creator_id: 14, id: 36, identifier: url, initial_language_id: 8, is_container: 0, language_mask: 9, modified: 1343140536, modifier_id: 14, remote_id: 20be803fa76256ebff5a3090a351dce6, serialized_description_list: 'a:2:{s:6:"eng-GB";s:0:"";s:16:"always-available";s:6:"eng-GB";}', serialized_name_list: 'a:2:{s:6:"eng-GB";s:3:"Url";s:16:"always-available";s:6:"eng-GB";}', sort_field: 1, sort_order: 1, url_alias_name: '', version: 0 }
-ezcontentclass_attribute:
+ibexa_content_type_attribute:
   - { can_translate: 1, category: '', contentclass_id: 1, data_float1: 0, data_float2: 0, data_float3: 0, data_float4: 0, data_int1: 255, data_int2: 0, data_int3: 0, data_int4: 0, data_text1: Folder, data_text2: '', data_text3: '', data_text4: '', data_text5: '', data_type_string: ezstring, id: 4, identifier: name, is_information_collector: 0, is_required: 1, is_searchable: 1, placement: 1, serialized_data_text: 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}', serialized_description_list: 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}', serialized_name_list: 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:4:"Name";}', version: 0 }
   - { can_translate: 1, category: '', contentclass_id: 3, data_float1: 0, data_float2: 0, data_float3: 0, data_float4: 0, data_int1: 255, data_int2: 0, data_int3: 0, data_int4: 0, data_text1: '', data_text2: '', data_text3: '', data_text4: '', data_text5: '', data_type_string: ezstring, id: 6, identifier: name, is_information_collector: 0, is_required: 1, is_searchable: 1, placement: 1, serialized_data_text: 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}', serialized_description_list: 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}', serialized_name_list: 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:4:"Name";}', version: 0 }
   - { can_translate: 1, category: '', contentclass_id: 3, data_float1: 0, data_float2: 0, data_float3: 0, data_float4: 0, data_int1: 255, data_int2: 0, data_int3: 0, data_int4: 0, data_text1: '', data_text2: '', data_text3: '', data_text4: '', data_text5: '', data_type_string: ezstring, id: 7, identifier: description, is_information_collector: 0, is_required: 0, is_searchable: 1, placement: 2, serialized_data_text: 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}', serialized_description_list: 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}', serialized_name_list: 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:11:"Description";}', version: 0 }
@@ -179,7 +179,7 @@ ezcontentclass_attribute:
   - { can_translate: 1, category: '', contentclass_id: 1, data_float1: 0, data_float2: 0, data_float3: 0, data_float4: 0, data_int1: 0, data_int2: 0, data_int3: 0, data_int4: 0, data_text1: '', data_text2: '', data_text3: '', data_text4: '', data_text5: '', data_type_string: ezkeyword, id: 292, identifier: tags, is_information_collector: 0, is_required: 0, is_searchable: 0, placement: 7, serialized_data_text: 'a:2:{s:6:"eng-US";s:0:"";s:16:"always-available";s:6:"eng-US";}', serialized_description_list: 'a:2:{s:6:"eng-US";s:0:"";s:16:"always-available";s:6:"eng-US";}', serialized_name_list: 'a:2:{s:6:"eng-US";s:4:"Tags";s:16:"always-available";s:6:"eng-US";}', version: 0 }
   - { can_translate: 1, category: '', contentclass_id: 36, data_float1: 0, data_float2: 0, data_float3: 0, data_float4: 0, data_int1: 0, data_int2: 0, data_int3: 0, data_int4: 0, data_text1: '', data_text2: '', data_text3: '', data_text4: '', data_text5: '', data_type_string: ezstring, id: 293, identifier: name, is_information_collector: 0, is_required: 1, is_searchable: 0, placement: 16, serialized_data_text: 'a:2:{s:6:"eng-US";s:0:"";s:16:"always-available";s:6:"eng-US";}', serialized_description_list: 'a:2:{s:6:"eng-US";s:0:"";s:16:"always-available";s:6:"eng-US";}', serialized_name_list: 'a:2:{s:6:"eng-US";s:4:"Name";s:16:"always-available";s:6:"eng-US";}', version: 0 }
   - { can_translate: 1, category: '', contentclass_id: 36, data_float1: 0, data_float2: 0, data_float3: 0, data_float4: 0, data_int1: 0, data_int2: 0, data_int3: 0, data_int4: 0, data_text1: '', data_text2: '', data_text3: '', data_text4: '', data_text5: '', data_type_string: ezurl, id: 294, identifier: url, is_information_collector: 0, is_required: 0, is_searchable: 0, placement: 3, serialized_data_text: 'a:0:{}', serialized_description_list: 'a:0:{}', serialized_name_list: 'a:2:{s:6:"eng-GB";s:3:"URL";s:16:"always-available";s:6:"eng-GB";}', version: 0 }
-ezcontentclass_classgroup:
+ibexa_content_type_group_assignment:
   - { contentclass_id: 1, contentclass_version: 0, group_id: 1, group_name: Content }
   - { contentclass_id: 3, contentclass_version: 0, group_id: 2, group_name: Users }
   - { contentclass_id: 4, contentclass_version: 0, group_id: 2, group_name: Users }
@@ -207,7 +207,7 @@ ezcontentclass_classgroup:
   - { contentclass_id: 34, contentclass_version: 0, group_id: 1, group_name: Content }
   - { contentclass_id: 35, contentclass_version: 0, group_id: 3, group_name: Media }
   - { contentclass_id: 36, contentclass_version: 0, group_id: 1, group_name: Content }
-ezcontentclass_name:
+ibexa_content_type_name:
   - { contentclass_id: 1, contentclass_version: 0, language_id: 3, language_locale: eng-US, name: Folder }
   - { contentclass_id: 3, contentclass_version: 0, language_id: 3, language_locale: eng-US, name: 'User group' }
   - { contentclass_id: 4, contentclass_version: 0, language_id: 3, language_locale: eng-US, name: User }
@@ -234,7 +234,7 @@ ezcontentclass_name:
   - { contentclass_id: 33, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: Banner }
   - { contentclass_id: 34, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: Forums }
   - { contentclass_id: 35, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: Video }
-ezcontentclassgroup:
+ibexa_content_type_group:
   - { created: 1031216928, creator_id: 14, id: 1, modified: 1033922106, modifier_id: 14, name: Content, is_system: 0 }
   - { created: 1031216941, creator_id: 14, id: 2, modified: 1033922113, modifier_id: 14, name: Users, is_system: 0 }
   - { created: 1032009743, creator_id: 14, id: 3, modified: 1033922120, modifier_id: 14, name: Media, is_system: 0 }
@@ -863,4 +863,4 @@ ezpreferences:
   - { id: 5, name: setting_5, user_id: 14, value: value_5 }
 ezmedia: {  }
 ezkeyword: {  }
-ezcontentclass_attribute_ml: {  }
+ibexa_content_type_attribute_ml: {  }

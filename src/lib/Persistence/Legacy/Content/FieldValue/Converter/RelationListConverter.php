@@ -308,7 +308,7 @@ class RelationListConverter implements Converter
                 'ct',
                 $query->expr()->and(
                     'ct.id = c.contentclass_id',
-                    // in Legacy Storage ezcontentclass.version contains status (draft, defined)
+                    // in Legacy Storage ibexa_content_type.version contains status (draft, defined)
                     'ct.version = :content_type_status'
                 )
             )
@@ -340,7 +340,7 @@ class RelationListConverter implements Converter
             'node-id' => 'ezcontentobject_tree_node_id',
             'parent-node-id' => 'ezcontentobject_tree_parent_node_id',
             'contentclass-id' => 'ezcontentobject_contentclass_id',
-            'contentclass-identifier' => 'ezcontentclass_identifier',
+            'contentclass-identifier' => 'ibexa_content_type_identifier',
             'contentobject-remote-id' => 'ezcontentobject_remote_id',
         ];
     }

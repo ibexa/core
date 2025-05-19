@@ -38,7 +38,7 @@ class ContentTypeGroupId extends CriterionHandler
             ->select(
                 'contentclass_id'
             )->from(
-                'ezcontentclass_classgroup'
+                \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE
             )->where(
                 $queryBuilder->expr()->in(
                     'group_id',

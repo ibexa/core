@@ -146,7 +146,7 @@ class DoctrineStorage extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select($this->connection->quoteIdentifier('contentclass_id'))
-            ->from($this->connection->quoteIdentifier('ezcontentclass_attribute'))
+            ->from($this->connection->quoteIdentifier(\Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::FIELD_DEFINITION_TABLE))
             ->where(
                 $query->expr()->eq('id', ':fieldDefinitionId')
             )

@@ -68,7 +68,7 @@ EOT;
                                 'ezcontentobject_contentclass_id' => '14',
                                 'ezcontentobject_tree_node_id' => '15',
                                 'ezcontentobject_tree_parent_node_id' => '16',
-                                'ezcontentclass_identifier' => '17',
+                                'ibexa_content_type_identifier' => '17',
                             ],
                         ],
                         '3' => [
@@ -78,7 +78,7 @@ EOT;
                                 'ezcontentobject_contentclass_id' => '34',
                                 'ezcontentobject_tree_node_id' => '35',
                                 'ezcontentobject_tree_parent_node_id' => '36',
-                                'ezcontentclass_identifier' => '37',
+                                'ibexa_content_type_identifier' => '37',
                             ],
                         ],
                         '2' => [
@@ -88,7 +88,7 @@ EOT;
                                 'ezcontentobject_contentclass_id' => '24',
                                 'ezcontentobject_tree_node_id' => '25',
                                 'ezcontentobject_tree_parent_node_id' => '26',
-                                'ezcontentclass_identifier' => '27',
+                                'ibexa_content_type_identifier' => '27',
                             ],
                         ],
                     ]
