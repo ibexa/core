@@ -306,7 +306,7 @@ SELECT 'focus_mode', u.contentobject_id, '0' FROM "ezuser" u WHERE u.login = 'ad
 -- Set proper sequence values after inserting data
 SELECT SETVAL('ibexa_cobj_state_group_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_cobj_state_group;
 SELECT SETVAL('ibexa_cobj_state_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_cobj_state;
-SELECT SETVAL('ezcontentbrowsebookmark_id_seq', COALESCE(MAX(id), 1) ) FROM ezcontentbrowsebookmark;
+SELECT SETVAL('ibexa_content_browsebookmark_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_content_browsebookmark;
 SELECT SETVAL('ezcontentclass_attribute_id_seq', COALESCE(MAX(id), 1) ) FROM ezcontentclass_attribute;
 SELECT SETVAL('ezcontentclass_id_seq', COALESCE(MAX(id), 1) ) FROM ezcontentclass;
 SELECT SETVAL('ezcontentclassgroup_id_seq', COALESCE(MAX(id), 1) ) FROM ezcontentclassgroup;

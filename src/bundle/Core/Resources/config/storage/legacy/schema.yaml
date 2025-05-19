@@ -100,11 +100,11 @@ tables:
             remote_id: { type: string, nullable: false, length: 100, options: { default: '' } }
             sort_field: { type: integer, nullable: true, options: { default: '1' } }
             sort_order: { type: integer, nullable: true, options: { default: '1' } }
-    ezcontentbrowsebookmark:
+    ibexa_content_browsebookmark:
         indexes:
-            ezcontentbrowsebookmark_location: { fields: [node_id] }
-            ezcontentbrowsebookmark_user: { fields: [user_id] }
-            ezcontentbrowsebookmark_user_location: { fields: [user_id, node_id] }
+            ibexa_content_browsebookmark_location: { fields: [node_id] }
+            ibexa_content_browsebookmark_user: { fields: [user_id] }
+            ibexa_content_browsebookmark_user_location: { fields: [user_id, node_id] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
@@ -112,8 +112,8 @@ tables:
             user_id: { type: integer, nullable: false, options: { default: '0' } }
             name: { type: string, nullable: false, length: 255, options: { default: '' } }
         foreignKeys:
-            ezcontentbrowsebookmark_location_fk: { fields: [node_id], foreignTable: ezcontentobject_tree, foreignFields: [node_id], options: { onDelete: CASCADE, onUpdate: 'NO ACTION' } }
-            ezcontentbrowsebookmark_user_fk: { fields: [user_id], foreignTable: ezuser, foreignFields: [contentobject_id], options: { onDelete: CASCADE, onUpdate: 'NO ACTION' } }
+            ibexa_content_browsebookmark_location_fk: { fields: [node_id], foreignTable: ezcontentobject_tree, foreignFields: [node_id], options: { onDelete: CASCADE, onUpdate: 'NO ACTION' } }
+            ibexa_content_browsebookmark_user_fk: { fields: [user_id], foreignTable: ezuser, foreignFields: [contentobject_id], options: { onDelete: CASCADE, onUpdate: 'NO ACTION' } }
     ezcontentclass:
         indexes:
             ezcontentclass_version: { fields: [version] }

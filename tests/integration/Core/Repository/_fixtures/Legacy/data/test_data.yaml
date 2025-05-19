@@ -842,7 +842,7 @@ ezuser_role:
 ezuser_setting:
   - { is_enabled: 1, max_login: 1000, user_id: 10 }
   - { is_enabled: 1, max_login: 10, user_id: 14 }
-ezcontentbrowsebookmark:
+ibexa_content_browsebookmark:
   - { id: 1, name: '', node_id: 5, user_id: 14 }
   - { id: 3, name: '', node_id: 12, user_id: 14 }
   - { id: 4, name: '', node_id: 13, user_id: 14 }

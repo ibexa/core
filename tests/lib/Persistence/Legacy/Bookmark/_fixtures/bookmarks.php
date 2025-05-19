@@ -160,7 +160,7 @@ return [
             'password_hash_type' => '5',
         ],
     ],
-    'ezcontentbrowsebookmark' => [
+    \Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase::TABLE_BOOKMARKS => [
         0 => [
             'id' => '1',
             'name' => 'Lorem ipsum dolor',
