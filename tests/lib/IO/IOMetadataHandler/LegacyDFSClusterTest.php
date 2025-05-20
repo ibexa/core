@@ -71,7 +71,7 @@ class LegacyDFSClusterTest extends TestCase
         $this->dbalMock
             ->expects(self::once())
             ->method('insert')
-            ->with('ezdfsfile');
+            ->with(\Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster::DFS_FILE_TABLE);
 
         $spiCreateStruct = new SPIBinaryFileCreateStruct();
         $spiCreateStruct->id = $id;
@@ -106,7 +106,7 @@ class LegacyDFSClusterTest extends TestCase
         $this->dbalMock
             ->expects(self::once())
             ->method('delete')
-            ->with('ezdfsfile')
+            ->with(\Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster::DFS_FILE_TABLE)
             ->willReturn(1);
 
         $this->handler->delete('prefix/my/file.png');
@@ -117,7 +117,7 @@ class LegacyDFSClusterTest extends TestCase
         $this->dbalMock
             ->expects(self::once())
             ->method('delete')
-            ->with('ezdfsfile')
+            ->with(\Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster::DFS_FILE_TABLE)
             ->willReturn(0);
 
         $this->expectException(BinaryFileNotFoundException::class);
@@ -171,7 +171,7 @@ class LegacyDFSClusterTest extends TestCase
         $this->qbMock
             ->expects(self::once())
             ->method('delete')
-            ->with('ezdfsfile')
+            ->with(\Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster::DFS_FILE_TABLE)
             ->willReturnSelf();
 
         $this->qbMock

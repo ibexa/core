@@ -331,12 +331,12 @@ tables:
             user_id: { type: integer, nullable: false, options: { default: '0' } }
             version: { type: integer, nullable: false, options: { default: '0' } }
             workflow_event_pos: { type: integer, nullable: true, options: { default: '0' } }
-    ezdfsfile:
+    ibexa_dfs_file:
         indexes:
-            ezdfsfile_name_trunk: { fields: [name_trunk], options: { lengths: ['191'] } }
-            ezdfsfile_expired_name: { fields: [expired, name], options: { lengths: [null, '191'] } }
-            ezdfsfile_name: { fields: [name], options: { lengths: ['191'] } }
-            ezdfsfile_mtime: { fields: [mtime] }
+            ibexa_dfs_file_name_trunk: { fields: [name_trunk], options: { lengths: ['191'] } }
+            ibexa_dfs_file_expired_name: { fields: [expired, name], options: { lengths: [null, '191'] } }
+            ibexa_dfs_file_name: { fields: [name], options: { lengths: ['191'] } }
+            ibexa_dfs_file_mtime: { fields: [mtime] }
         id:
             name_hash: { type: string, nullable: false, length: 34, options: { default: '' } }
         fields:

@@ -29,7 +29,7 @@ class LegacyDFSCluster implements ConfigurationFactory
     {
         $node
             ->info(
-                'A MySQL based handler, compatible with the legacy DFS one, that stores metadata in the ezdfsfile table'
+                'A MySQL based handler, compatible with the legacy DFS one, that stores metadata in the ibexa_dfs_file table'
             )
             ->children()
                 ->scalarNode('connection')
