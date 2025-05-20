@@ -13,7 +13,7 @@ use Closure;
 use Iterator;
 
 /**
- * @template TValue
+ * @template-covariant TValue
  *
  * @template-implements \Ibexa\Contracts\Core\Collection\CollectionInterface<TValue>
  * @template-implements \Ibexa\Contracts\Core\Collection\StreamableInterface<TValue>
@@ -90,9 +90,11 @@ abstract class AbstractInMemoryCollection implements CollectionInterface, Stream
     }
 
     /**
-     * @param TValue[] $items
+     * @template TValueFrom
      *
-     * @phpstan-return static<TValue>
+     * @param array<TValueFrom> $items
+     *
+     * @phpstan-return static<TValueFrom>
      */
     abstract protected function createFrom(array $items): self;
 }

@@ -10,7 +10,7 @@ namespace Ibexa\Contracts\Core\Collection;
 
 /**
  * @template TKey
- * @template TValue
+ * @template-covariant TValue
  *
  * @template-extends \Ibexa\Contracts\Core\Collection\CollectionInterface<TValue>
  */
