@@ -174,7 +174,7 @@ class MapLocationDistance extends FieldBase
 
         $subSelect
             ->select('contentobject_id')
-            ->from('ezcontentobject_attribute', 'f_def')
+            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE, 'f_def')
             ->innerJoin(
                 'f_def',
                 'ezgmaplocation',

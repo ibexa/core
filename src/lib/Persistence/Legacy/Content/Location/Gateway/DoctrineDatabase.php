@@ -147,7 +147,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('*')
-            ->from($this->connection->quoteIdentifier('ezcontentobject_trash'), 't')
+            ->from($this->connection->quoteIdentifier('ibexa_content_trash'), 't')
             ->where('t.contentobject_id = :contentobject_id')
             ->setParameter('contentobject_id', $contentId, ParameterType::INTEGER);
 
@@ -195,7 +195,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->innerJoin(
                 'a',
-                'ezcontentobject',
+                \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE,
                 'c',
                 $expr->and(
                     $expr->eq(
@@ -267,7 +267,7 @@ final class DoctrineDatabase extends Gateway
         $query
             ->select('contentobject_id')
             ->from('eznode_assignment', 'n')
-            ->innerJoin('n', 'ezcontentobject', 'c', 'n.contentobject_id = c.id')
+            ->innerJoin('n', \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE, 'c', 'n.contentobject_id = c.id')
             ->andWhere('n.parent_node = :parentNode')
             ->andWhere('c.status = :status')
             ->setParameter('parentNode', $sourceId, ParameterType::INTEGER)
@@ -316,7 +316,7 @@ final class DoctrineDatabase extends Gateway
             self::CONTENT_TREE_TABLE
         )->where(
             $query->expr()->eq(
-                'ezcontentobject_tree.parent_node_id',
+                'ibexa_content_tree.parent_node_id',
                 $query->createPositionalParameter($locationId, ParameterType::INTEGER)
             )
         );
@@ -670,7 +670,7 @@ final class DoctrineDatabase extends Gateway
         $query
             ->select($selectExpr)
             ->from(self::CONTENT_TREE_TABLE, 't')
-            ->leftJoin('t', 'ezcontentobject', 'c', 't.contentobject_id = c.id')
+            ->leftJoin('t', \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE, 'c', 't.contentobject_id = c.id')
             ->where(
                 $expr->or(
                     $expr->eq(
@@ -1099,7 +1099,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Deletes ezcontentobject_tree row for given $locationId (node_id).
+     * Deletes ibexa_content_tree row for given $locationId (node_id).
      *
      * @param mixed $locationId
      */
@@ -1171,7 +1171,7 @@ final class DoctrineDatabase extends Gateway
         $locationRow = $this->getBasicNodeData($locationId);
 
         $query = $this->connection->createQueryBuilder();
-        $query->insert('ezcontentobject_trash');
+        $query->insert('ibexa_content_trash');
 
         unset($locationRow['contentobject_is_published']);
         $locationRow['trashed'] = time();
@@ -1216,7 +1216,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query->update(
-            'ezcontentobject'
+            \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE
         )->set(
             'status',
             $query->createPositionalParameter($status, ParameterType::INTEGER)
@@ -1234,7 +1234,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('*')
-            ->from('ezcontentobject_trash')
+            ->from('ibexa_content_trash')
             ->where(
                 $query->expr()->eq(
                     'node_id',
@@ -1291,12 +1291,12 @@ final class DoctrineDatabase extends Gateway
      * Removes every entries in the trash.
      * Will NOT remove associated content objects nor attributes.
      *
-     * Basically truncates ezcontentobject_trash table.
+     * Basically truncates ibexa_content_trash table.
      */
     public function cleanupTrash(): void
     {
         $query = $this->connection->createQueryBuilder();
-        $query->delete('ezcontentobject_trash');
+        $query->delete('ibexa_content_trash');
         $query->executeStatement();
     }
 
@@ -1304,7 +1304,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->delete('ezcontentobject_trash')
+            ->delete('ibexa_content_trash')
             ->where(
                 $query->expr()->eq(
                     'node_id',
@@ -1338,7 +1338,7 @@ final class DoctrineDatabase extends Gateway
 
         $updateSectionQuery = $this->connection->createQueryBuilder();
         $updateSectionQuery
-            ->update('ezcontentobject')
+            ->update(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE)
             ->set(
                 'section_id',
                 $updateSectionQuery->createPositionalParameter($sectionId, ParameterType::INTEGER)
@@ -1379,7 +1379,7 @@ final class DoctrineDatabase extends Gateway
         int $versionNo,
         int $parentLocationId
     ): void {
-        // Update ezcontentobject_tree table
+        // Update ibexa_content_tree table
         $query = $this->connection->createQueryBuilder();
         $query
             ->update(self::CONTENT_TREE_TABLE)
@@ -1492,7 +1492,7 @@ final class DoctrineDatabase extends Gateway
 
         $queryBuilder->leftJoin(
             't',
-            'ezcontentobject',
+            \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE,
             'c',
             $expr->eq('t.contentobject_id', 'c.id')
         );

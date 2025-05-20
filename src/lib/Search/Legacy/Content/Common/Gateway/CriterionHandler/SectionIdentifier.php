@@ -35,7 +35,7 @@ class SectionIdentifier extends CriterionHandler
         $value = (array)$criterion->value;
         $subSelect
             ->select('t1.id')
-            ->from('ezcontentobject', 't1')
+            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE, 't1')
             ->leftJoin(
                 't1',
                 'ezsection',

@@ -5,7 +5,7 @@
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 return [
-    'ezcontentobject_attribute' => [
+    \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE => [
         0 => [
             'attribute_original_id' => '0',
             'contentclassattribute_id' => '7',
@@ -67,8 +67,8 @@ return [
             'version' => '2',
         ],
     ],
-    'ezcontentobject_name' => [],
-    'ezcontentobject' => [
+    \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_NAME_TABLE => [],
+    \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE => [
         0 => [
             'contentclass_id' => '3',
             'current_version' => '2',

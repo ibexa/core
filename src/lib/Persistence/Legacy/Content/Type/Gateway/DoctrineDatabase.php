@@ -1095,7 +1095,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select($this->dbPlatform->getCountExpression('id'))
-            ->from('ezcontentobject')
+            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE)
             ->where(
                 $query->expr()->eq(
                     'contentclass_id',

@@ -65,7 +65,7 @@ return [
             'id' => '3',
         ],
     ],
-    'ezcontentobject_tree' => [
+    'ibexa_content_tree' => [
         0 => [
             'node_id' => 2,
             'main_node_id' => 2,
@@ -94,7 +94,7 @@ return [
             'contentobject_id' => 3,
         ],
     ],
-    'ezcontentobject' => [
+    \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE => [
         0 => [
             'id' => 2,
             'initial_language_id' => 2,
@@ -106,7 +106,7 @@ return [
             'current_version' => 1,
         ],
     ],
-    'ezcontentobject_name' => [
+    \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_NAME_TABLE => [
         0 => [
             'contentobject_id' => 2,
             'content_version' => 1,

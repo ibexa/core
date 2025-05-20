@@ -162,7 +162,7 @@ class Handler implements UrlAliasHandlerInterface
      * @param string $name
      * @param int $languageId
      * @param bool $alwaysAvailable
-     * @param bool $updatePathIdentificationString legacy storage specific for updating ezcontentobject_tree.path_identification_string
+     * @param bool $updatePathIdentificationString legacy storage specific for updating ibexa_content_tree.path_identification_string
      * @param int $newId
      */
     private function internalPublishUrlAliasForLocation(
@@ -770,8 +770,8 @@ class Handler implements UrlAliasHandlerInterface
 
         $namesForAllLanguages = [];
         foreach ($nameDataArray as $nameData) {
-            $namesForAllLanguages[$nameData['ezcontentobject_name_content_translation']]
-                = $nameData['ezcontentobject_name_name'];
+            $namesForAllLanguages[$nameData['ibexa_content_name_content_translation']]
+                = $nameData['ibexa_content_name_name'];
         }
 
         return $namesForAllLanguages;

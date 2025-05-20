@@ -44,7 +44,7 @@ class Subtree extends CriterionHandler
         $subSelect = $this->connection->createQueryBuilder();
         $subSelect
             ->select('contentobject_id')
-            ->from('ezcontentobject_tree')
+            ->from('ibexa_content_tree')
             ->where($queryBuilder->expr()->or(...$statements));
 
         return $queryBuilder->expr()->in(

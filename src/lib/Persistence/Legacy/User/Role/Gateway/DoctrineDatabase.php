@@ -441,8 +441,8 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('c.id')
-            ->from('ezcontentobject_tree', 't')
-            ->innerJoin('t', 'ezcontentobject', 'c', 'c.id = t.contentobject_id')
+            ->from('ibexa_content_tree', 't')
+            ->innerJoin('t', \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE, 'c', 'c.id = t.contentobject_id')
             ->where(
                 $query->expr()->in(
                     't.node_id',
@@ -709,7 +709,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('t.path_string')
-            ->from('ezcontentobject_tree', 't')
+            ->from('ibexa_content_tree', 't')
             ->where(
                 $query->expr()->eq(
                     't.contentobject_id',

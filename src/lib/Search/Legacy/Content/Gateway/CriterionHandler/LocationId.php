@@ -39,7 +39,7 @@ class LocationId extends CriterionHandler
             ->select(
                 'contentobject_id'
             )->from(
-                'ezcontentobject_tree'
+                'ibexa_content_tree'
             )->where(
                 $queryBuilder->expr()->in(
                     'node_id',

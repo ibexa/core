@@ -36,10 +36,10 @@ abstract class Gateway
         \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::MULTILINGUAL_FIELD_DEFINITION_TABLE => ['language_id'],
         \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_NAME_TABLE => ['language_id'],
         \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_TABLE => ['language_mask', 'initial_language_id'],
-        'ezcontentobject_attribute' => ['language_id'],
-        'ezcontentobject_name' => ['language_id'],
-        'ezcontentobject_version' => ['language_mask', 'initial_language_id'],
-        'ezcontentobject' => ['language_mask', 'initial_language_id'],
+        \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE => ['language_id'],
+        \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_NAME_TABLE => ['language_id'],
+        \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_VERSION_TABLE => ['language_mask', 'initial_language_id'],
+        \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE => ['language_mask', 'initial_language_id'],
         'ezurlalias_ml' => ['lang_mask'],
     ];
 

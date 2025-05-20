@@ -154,7 +154,7 @@ return [
             'name' => 'English (United Kingdom)',
         ],
     ],
-    'ezcontentobject_tree' => [
+    'ibexa_content_tree' => [
         0 => [
             'node_id' => 1,
             'parent_node_id' => 1,

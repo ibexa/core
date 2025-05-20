@@ -83,7 +83,7 @@ final class IndexerGateway implements SPIIndexerGateway
     {
         return $this->connection->createQueryBuilder()
             ->select('c.id')
-            ->from('ezcontentobject', 'c')
+            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE, 'c')
             ->where('c.status = :status')->andWhere('c.modified >= :since')
             ->setParameter('status', ContentInfo::STATUS_PUBLISHED, ParameterType::INTEGER)
             ->setParameter('since', $since->getTimestamp(), ParameterType::INTEGER);
@@ -93,8 +93,8 @@ final class IndexerGateway implements SPIIndexerGateway
     {
         return $this->connection->createQueryBuilder()
             ->select('DISTINCT c.id')
-            ->from('ezcontentobject', 'c')
-            ->innerJoin('c', 'ezcontentobject_tree', 't', 't.contentobject_id = c.id')
+            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE, 'c')
+            ->innerJoin('c', 'ibexa_content_tree', 't', 't.contentobject_id = c.id')
             ->where('c.status = :status')
             ->andWhere('t.path_string LIKE :path')
             ->setParameter('status', ContentInfo::STATUS_PUBLISHED, ParameterType::INTEGER)
@@ -105,7 +105,7 @@ final class IndexerGateway implements SPIIndexerGateway
     {
         return $this->connection->createQueryBuilder()
             ->select('c.id')
-            ->from('ezcontentobject', 'c')
+            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE, 'c')
             ->where('c.status = :status')
             ->setParameter('status', ContentInfo::STATUS_PUBLISHED, ParameterType::INTEGER);
     }

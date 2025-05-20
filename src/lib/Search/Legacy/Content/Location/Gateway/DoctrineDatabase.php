@@ -95,16 +95,16 @@ final class DoctrineDatabase extends Gateway
         }
 
         $selectQuery
-            ->from('ezcontentobject_tree', 't')
+            ->from('ibexa_content_tree', 't')
             ->innerJoin(
                 't',
-                'ezcontentobject',
+                \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE,
                 'c',
                 't.contentobject_id = c.id'
             )
             ->innerJoin(
                 'c',
-                'ezcontentobject_version',
+                \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_VERSION_TABLE,
                 'v',
                 'c.id = v.contentobject_id',
             );
@@ -175,7 +175,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select($this->dbPlatform->getCountExpression('*'))
-            ->from('ezcontentobject_tree', 't')
+            ->from('ibexa_content_tree', 't')
             ->innerJoin(
                 't',
                 ContentGateway::CONTENT_ITEM_TABLE,

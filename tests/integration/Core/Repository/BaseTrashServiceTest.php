@@ -51,7 +51,7 @@ abstract class BaseTrashServiceTest extends BaseTest
         $connection = $this->getRawDatabaseConnection();
         $query = $connection->createQueryBuilder();
         $query
-            ->update('ezcontentobject_trash')
+            ->update('ibexa_content_trash')
             ->set('trashed', ':trashed_timestamp')
             ->where('node_id = :location_id')
             ->setParameter('trashed_timestamp', $newTimestamp, ParameterType::INTEGER)

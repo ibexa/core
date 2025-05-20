@@ -162,7 +162,7 @@ class DoctrineStorage extends Gateway
             ->select(
                 $this->connection->quoteIdentifier('contentobject_id')
             )
-            ->from($this->connection->quoteIdentifier('ezcontentobject_attribute'))
+            ->from($this->connection->quoteIdentifier(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE))
             ->where(
                 $query->expr()->eq(
                     $this->connection->quoteIdentifier('id'),
@@ -406,7 +406,7 @@ class DoctrineStorage extends Gateway
         $checkQuery = $this->connection->createQueryBuilder();
         $checkQuery
             ->select($countExpr)
-            ->from('ezcontentobject_attribute')
+            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE)
             ->where(
                 $checkQuery->expr()->in(
                     $this->connection->quoteIdentifier('id'),

@@ -5,7 +5,7 @@
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 return [
-    'ezcontentobject_tree' => [
+    'ibexa_content_tree' => [
         ['contentobject_id' => 0, 'contentobject_is_published' => 1, 'contentobject_version' => 1, 'depth' => 0, 'is_hidden' => 0, 'is_invisible' => 0, 'main_node_id' => 1, 'modified_subnode' => 1311065058, 'node_id' => 1, 'parent_node_id' => 1, 'path_identification_string' => '', 'path_string' => '/1/', 'priority' => 0, 'remote_id' => '629709ba256fe317c3ddcee35453a96a', 'sort_field' => 1, 'sort_order' => 1],
         ['contentobject_id' => 65, 'contentobject_is_published' => 1, 'contentobject_version' => 1, 'depth' => 1, 'is_hidden' => 0, 'is_invisible' => 0, 'main_node_id' => 2, 'modified_subnode' => 1311065058, 'node_id' => 2, 'parent_node_id' => 1, 'path_identification_string' => '', 'path_string' => '/1/2/', 'priority' => 0, 'remote_id' => 'f3e90596361e31d496d4026eb624c983', 'sort_field' => 8, 'sort_order' => 1],
         ['contentobject_id' => 4, 'contentobject_is_published' => 1, 'contentobject_version' => 1, 'depth' => 1, 'is_hidden' => 0, 'is_invisible' => 0, 'main_node_id' => 5, 'modified_subnode' => 1311065058, 'node_id' => 5, 'parent_node_id' => 1, 'path_identification_string' => 'users', 'path_string' => '/1/5/', 'priority' => 0, 'remote_id' => '3f6d92f8044aed134f32153517850f5a', 'sort_field' => 1, 'sort_order' => 1],
@@ -382,7 +382,7 @@ return [
         ['contentobject_id' => 11, 'contentobject_version' => 2, 'from_node_id' => -1, 'id' => 213, 'is_main' => 1, 'op_code' => 2, 'parent_node' => 5, 'parent_remote_id' => '', 'remote_id' => 0, 'sort_field' => 1, 'sort_order' => 1, 'priority' => 0, 'is_hidden' => 0],
         ['contentobject_id' => 226, 'contentobject_version' => 1, 'from_node_id' => -1, 'id' => 214, 'is_main' => 1, 'op_code' => 3, 'parent_node' => 77, 'parent_remote_id' => '', 'remote_id' => 0, 'sort_field' => 1, 'sort_order' => 1, 'priority' => 0, 'is_hidden' => 0],
     ],
-    'ezcontentobject' => [
+    \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE => [
         ['id' => 226, 'status' => 0],
         ['id' => 67, 'status' => 0],
         ['id' => 68, 'status' => 0],

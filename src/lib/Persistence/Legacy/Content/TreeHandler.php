@@ -139,7 +139,7 @@ class TreeHandler
             static function ($row) use ($contentId) {
                 return [
                     'id' => $contentId,
-                    'version' => $row['ezcontentobject_version_version'],
+                    'version' => $row['ibexa_content_version_version'],
                 ];
             },
             $rows
@@ -254,7 +254,7 @@ class TreeHandler
     /**
      * Changes main location of content identified by given $contentId to location identified by given $locationId.
      *
-     * Updates ezcontentobject_tree and eznode_assignment tables (eznode_assignment for content current version number).
+     * Updates ibexa_content_tree and eznode_assignment tables (eznode_assignment for content current version number).
      *
      * @param mixed $contentId
      * @param mixed $locationId
@@ -265,7 +265,7 @@ class TreeHandler
     {
         $parentLocationId = $this->loadLocation($locationId)->parentId;
 
-        // Update ezcontentobject_tree and eznode_assignment tables
+        // Update ibexa_content_tree and eznode_assignment tables
         $this->locationGateway->changeMainLocation(
             $contentId,
             $locationId,

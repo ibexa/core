@@ -509,7 +509,7 @@ final class DoctrineDatabase extends Gateway
         $notExistPublishedVersion = <<<SQL
             NOT EXISTS (
                 SELECT 1 FROM (
-                    SELECT 1 FROM ezcontentobject_version
+                    SELECT 1 FROM ibexa_content_version
                     WHERE contentobject_id = :contentId AND status = :status
                 ) as V
             )
@@ -529,7 +529,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->update('ezcontentobject')
+            ->update(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE)
             ->set('status', ':status')
             ->set('current_version', ':versionNo')
             ->where('id =:contentId')
@@ -585,7 +585,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Set the given query field (ezcontentobject_attribute) values.
+     * Set the given query field (ibexa_content_attribute) values.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
@@ -738,43 +738,43 @@ final class DoctrineDatabase extends Gateway
         $expr = $queryBuilder->expr();
         $queryBuilder
             ->select(
-                'c.id AS ezcontentobject_id',
-                'c.contentclass_id AS ezcontentobject_contentclass_id',
-                'c.section_id AS ezcontentobject_section_id',
-                'c.owner_id AS ezcontentobject_owner_id',
-                'c.remote_id AS ezcontentobject_remote_id',
-                'c.current_version AS ezcontentobject_current_version',
-                'c.initial_language_id AS ezcontentobject_initial_language_id',
-                'c.modified AS ezcontentobject_modified',
-                'c.published AS ezcontentobject_published',
-                'c.status AS ezcontentobject_status',
-                'c.name AS ezcontentobject_name',
-                'c.language_mask AS ezcontentobject_language_mask',
-                'c.is_hidden AS ezcontentobject_is_hidden',
-                'v.id AS ezcontentobject_version_id',
-                'v.version AS ezcontentobject_version_version',
-                'v.modified AS ezcontentobject_version_modified',
-                'v.creator_id AS ezcontentobject_version_creator_id',
-                'v.created AS ezcontentobject_version_created',
-                'v.status AS ezcontentobject_version_status',
-                'v.language_mask AS ezcontentobject_version_language_mask',
-                'v.initial_language_id AS ezcontentobject_version_initial_language_id',
-                'a.id AS ezcontentobject_attribute_id',
-                'a.contentclassattribute_id AS ezcontentobject_attribute_contentclassattribute_id',
-                'a.data_type_string AS ezcontentobject_attribute_data_type_string',
-                'a.language_code AS ezcontentobject_attribute_language_code',
-                'a.language_id AS ezcontentobject_attribute_language_id',
-                'a.data_float AS ezcontentobject_attribute_data_float',
-                'a.data_int AS ezcontentobject_attribute_data_int',
-                'a.data_text AS ezcontentobject_attribute_data_text',
-                'a.sort_key_int AS ezcontentobject_attribute_sort_key_int',
-                'a.sort_key_string AS ezcontentobject_attribute_sort_key_string',
-                't.main_node_id AS ezcontentobject_tree_main_node_id'
+                'c.id AS ibexa_content_id',
+                'c.contentclass_id AS ibexa_content_contentclass_id',
+                'c.section_id AS ibexa_content_section_id',
+                'c.owner_id AS ibexa_content_owner_id',
+                'c.remote_id AS ibexa_content_remote_id',
+                'c.current_version AS ibexa_content_current_version',
+                'c.initial_language_id AS ibexa_content_initial_language_id',
+                'c.modified AS ibexa_content_modified',
+                'c.published AS ibexa_content_published',
+                'c.status AS ibexa_content_status',
+                'c.name AS ibexa_content_name',
+                'c.language_mask AS ibexa_content_language_mask',
+                'c.is_hidden AS ibexa_content_is_hidden',
+                'v.id AS ibexa_content_version_id',
+                'v.version AS ibexa_content_version_version',
+                'v.modified AS ibexa_content_version_modified',
+                'v.creator_id AS ibexa_content_version_creator_id',
+                'v.created AS ibexa_content_version_created',
+                'v.status AS ibexa_content_version_status',
+                'v.language_mask AS ibexa_content_version_language_mask',
+                'v.initial_language_id AS ibexa_content_version_initial_language_id',
+                'a.id AS ibexa_content_attribute_id',
+                'a.contentclassattribute_id AS ibexa_content_attribute_contentclassattribute_id',
+                'a.data_type_string AS ibexa_content_attribute_data_type_string',
+                'a.language_code AS ibexa_content_attribute_language_code',
+                'a.language_id AS ibexa_content_attribute_language_id',
+                'a.data_float AS ibexa_content_attribute_data_float',
+                'a.data_int AS ibexa_content_attribute_data_int',
+                'a.data_text AS ibexa_content_attribute_data_text',
+                'a.sort_key_int AS ibexa_content_attribute_sort_key_int',
+                'a.sort_key_string AS ibexa_content_attribute_sort_key_string',
+                't.main_node_id AS ibexa_content_tree_main_node_id'
             )
-            ->from('ezcontentobject', 'c')
+            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE, 'c')
             ->innerJoin(
                 'c',
-                'ezcontentobject_version',
+                \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_VERSION_TABLE,
                 'v',
                 $expr->and(
                     $expr->eq('c.id', 'v.contentobject_id'),
@@ -783,7 +783,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->innerJoin(
                 'v',
-                'ezcontentobject_attribute',
+                \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE,
                 'a',
                 $expr->and(
                     $expr->eq('v.contentobject_id', 'a.contentobject_id'),
@@ -792,7 +792,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->leftJoin(
                 'c',
-                'ezcontentobject_tree',
+                'ibexa_content_tree',
                 't',
                 $expr->and(
                     $expr->eq('c.id', 't.contentobject_id'),
@@ -961,10 +961,10 @@ final class DoctrineDatabase extends Gateway
         $expr = $query->expr();
         $query
             ->select($this->databasePlatform->getCountExpression('v.id'))
-            ->from('ezcontentobject_version', 'v')
+            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_VERSION_TABLE, 'v')
             ->innerJoin(
                 'v',
-                'ezcontentobject',
+                \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE,
                 'c',
                 $expr->and(
                     $expr->eq('c.id', 'v.contentobject_id'),
@@ -1090,7 +1090,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('node_id')
-            ->from('ezcontentobject_tree')
+            ->from('ibexa_content_tree')
             ->where('contentobject_id = :content_id')
             ->setParameter('content_id', $contentId, ParameterType::INTEGER);
 
@@ -1167,7 +1167,7 @@ final class DoctrineDatabase extends Gateway
             ->from(self::CONTENT_FIELD_TABLE, 'a')
             ->innerJoin(
                 'a',
-                'ezcontentobject_link',
+                \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_RELATION_TABLE,
                 'l',
                 $expr->and(
                     'l.from_contentobject_id = a.contentobject_id',
@@ -1564,7 +1564,7 @@ final class DoctrineDatabase extends Gateway
             ->from(self::CONTENT_RELATION_TABLE, 'l')
             ->innerJoin(
                 'l',
-                'ezcontentobject',
+                \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE,
                 'c',
                 $expr->and(
                     $expr->eq('l.from_contentobject_id', 'c.id'),
@@ -1602,7 +1602,7 @@ final class DoctrineDatabase extends Gateway
         $query
             ->join(
                 'l',
-                'ezcontentobject',
+                \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE,
                 'c',
                 $expr->and(
                     'c.id = l.from_contentobject_id',
@@ -1646,7 +1646,7 @@ final class DoctrineDatabase extends Gateway
         $query
             ->innerJoin(
                 'l',
-                'ezcontentobject',
+                \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE,
                 'c',
                 $expr->and(
                     $expr->eq('l.from_contentobject_id', 'c.id'),
@@ -1869,8 +1869,9 @@ final class DoctrineDatabase extends Gateway
                 ->setParameter('version', $versionNo, ParameterType::INTEGER);
         }
         // Given we can retain all columns, we just create copies with new `from_contentobject_id` using INSERT INTO SELECT
+        $contentLinkTable = \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_RELATION_TABLE;
         $insertQuery = <<<SQL
-            INSERT INTO ezcontentobject_link (
+            INSERT INTO {$contentLinkTable} (
                 contentclassattribute_id,
                 from_contentobject_id,
                 from_contentobject_version,
@@ -1918,7 +1919,7 @@ final class DoctrineDatabase extends Gateway
     ): void {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->delete('ezcontentobject_attribute')
+            ->delete(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE)
             ->where('contentobject_id = :contentId')
             ->andWhere('language_code = :languageCode')
             ->setParameters(
@@ -1964,7 +1965,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Delete translation from the ezcontentobject_name table.
+     * Delete translation from the ibexa_content_name table.
      *
      * @param int $versionNo optional, if specified, apply to this Version only.
      */
@@ -1975,7 +1976,7 @@ final class DoctrineDatabase extends Gateway
     ) {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->delete('ezcontentobject_name')
+            ->delete(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_NAME_TABLE)
             ->where('contentobject_id=:contentId')
             ->andWhere('real_translation=:languageCode')
             ->setParameters(
@@ -1997,7 +1998,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Remove language from language_mask of ezcontentobject.
+     * Remove language from language_mask of ibexa_content.
      *
      * @param int $contentId
      * @param int $languageId
@@ -2007,7 +2008,7 @@ final class DoctrineDatabase extends Gateway
     private function deleteTranslationFromContentObject($contentId, $languageId)
     {
         $query = $this->connection->createQueryBuilder();
-        $query->update('ezcontentobject')
+        $query->update(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE)
             // parameter for bitwise operation has to be placed verbatim (w/o binding) for this to work cross-DBMS
             ->set('language_mask', 'language_mask & ~ ' . $languageId)
             ->set('modified', ':now')
@@ -2035,7 +2036,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Remove language from language_mask of ezcontentobject_version and update initialLanguageId
+     * Remove language from language_mask of ibexa_content_version and update initialLanguageId
      * if it matches the removed one.
      *
      * @param int|null $versionNo optional, if specified, apply to this Version only.
@@ -2047,8 +2048,9 @@ final class DoctrineDatabase extends Gateway
         int $languageId,
         ?int $versionNo = null
     ) {
+        $contentTable = \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE;
         $query = $this->connection->createQueryBuilder();
-        $query->update('ezcontentobject_version')
+        $query->update(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_VERSION_TABLE)
             // parameter for bitwise operation has to be placed verbatim (w/o binding) for this to work cross-DBMS
             ->set('language_mask', 'language_mask & ~ ' . $languageId)
             ->set('modified', ':now')
@@ -2056,7 +2058,7 @@ final class DoctrineDatabase extends Gateway
             ->set(
                 'initial_language_id',
                 'CASE WHEN initial_language_id = :languageId ' .
-                'THEN (SELECT initial_language_id AS main_language_id FROM ezcontentobject c WHERE c.id = :contentId) ' .
+                "THEN (SELECT initial_language_id AS main_language_id FROM {$contentTable} c WHERE c.id = :contentId) " .
                 'ELSE initial_language_id END'
             )
             ->where('contentobject_id = :contentId')

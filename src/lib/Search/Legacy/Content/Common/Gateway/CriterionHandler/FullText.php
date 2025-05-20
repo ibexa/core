@@ -265,7 +265,7 @@ class FullText extends CriterionHandler
             return $this->stopWordThresholdValue;
         }
 
-        // Cached value does not exists, do a simple count query on ezcontentobject table
+        // Cached value does not exists, do a simple count query on ibexa_content table
         $query = $this->connection->createQueryBuilder();
         $query
             ->select($this->dbPlatform->getCountExpression('id'))

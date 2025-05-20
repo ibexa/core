@@ -85,7 +85,7 @@ return [
             'text_md5' => '06a943c59f33a34bb5924aaf72cd2995',
         ],
     ],
-    'ezcontentobject_tree' => [
+    'ibexa_content_tree' => [
         0 => [
             'node_id' => 1,
             'parent_node_id' => 1,

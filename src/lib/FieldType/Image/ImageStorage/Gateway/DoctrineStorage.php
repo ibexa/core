@@ -57,7 +57,7 @@ class DoctrineStorage extends Gateway
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
             ->select($this->connection->quoteIdentifier('path_identification_string'))
-            ->from($this->connection->quoteIdentifier('ezcontentobject_tree'))
+            ->from($this->connection->quoteIdentifier('ibexa_content_tree'))
             ->where(
                 $selectQuery->expr()->and(
                     $selectQuery->expr()->eq(
@@ -125,7 +125,7 @@ class DoctrineStorage extends Gateway
                 $this->connection->quoteIdentifier('attr.id'),
                 $this->connection->quoteIdentifier('attr.data_text')
             )
-            ->from($this->connection->quoteIdentifier('ezcontentobject_attribute'), 'attr')
+            ->from($this->connection->quoteIdentifier(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE), 'attr')
             ->where(
                 $selectQuery->expr()->and(
                     $selectQuery->expr()->eq(
@@ -161,7 +161,7 @@ class DoctrineStorage extends Gateway
                 'field.version',
                 'field.data_text'
             )
-            ->from($this->connection->quoteIdentifier('ezcontentobject_attribute'), 'field')
+            ->from($this->connection->quoteIdentifier(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE), 'field')
             ->where(
                 $selectQuery->expr()->eq(
                     $this->connection->quoteIdentifier('id'),
@@ -300,7 +300,7 @@ class DoctrineStorage extends Gateway
         $expressionBuilder = $selectQuery->expr();
         $selectQuery
             ->select('attr.data_text')
-            ->from($this->connection->quoteIdentifier('ezcontentobject_attribute'), 'attr')
+            ->from($this->connection->quoteIdentifier(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE), 'attr')
             ->innerJoin(
                 'attr',
                 $this->connection->quoteIdentifier(self::IMAGE_FILE_TABLE),
@@ -401,7 +401,7 @@ class DoctrineStorage extends Gateway
         $expressionBuilder = $updateQuery->expr();
         $updateQuery
             ->update(
-                $this->connection->quoteIdentifier('ezcontentobject_attribute')
+                $this->connection->quoteIdentifier(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE)
             )
             ->set(
                 $this->connection->quoteIdentifier('data_text'),

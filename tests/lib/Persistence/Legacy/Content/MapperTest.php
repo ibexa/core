@@ -503,14 +503,14 @@ class MapperTest extends LanguageAwareTestCase
         $fixtures = $this->getContentExtractFixture();
         $fixturesNoPrefix = [];
         foreach ($fixtures[0] as $key => $value) {
-            $keyNoPrefix = $key === 'ezcontentobject_tree_main_node_id'
+            $keyNoPrefix = $key === 'ibexa_content_tree_main_node_id'
                 ? $key
-                : str_replace('ezcontentobject_', '', $key);
+                : str_replace('ibexa_content_', '', $key);
             $fixturesNoPrefix[$keyNoPrefix] = $value;
         }
 
         return [
-            [$fixtures[0], 'ezcontentobject_'],
+            [$fixtures[0], 'ibexa_content_'],
             [$fixturesNoPrefix, ''],
         ];
     }
@@ -537,19 +537,19 @@ class MapperTest extends LanguageAwareTestCase
     {
         $fixturesAll = $this->getContentExtractFixture();
         $fixtures = $fixturesAll[0];
-        $fixtures['ezcontentobject_version_names'] = [
+        $fixtures['ibexa_content_version_names'] = [
             ['content_translation' => 'eng-US', 'name' => 'Something'],
         ];
-        $fixtures['ezcontentobject_version_languages'] = [2];
-        $fixtures['ezcontentobject_version_initial_language_code'] = 'eng-US';
+        $fixtures['ibexa_content_version_languages'] = [2];
+        $fixtures['ibexa_content_version_initial_language_code'] = 'eng-US';
         $fixturesNoPrefix = [];
         foreach ($fixtures as $key => $value) {
-            $keyNoPrefix = str_replace('ezcontentobject_version_', '', $key);
+            $keyNoPrefix = str_replace('ibexa_content_version_', '', $key);
             $fixturesNoPrefix[$keyNoPrefix] = $value;
         }
 
         return [
-            [$fixtures, 'ezcontentobject_version_'],
+            [$fixtures, 'ibexa_content_version_'],
             [$fixturesNoPrefix, ''],
         ];
     }
@@ -782,8 +782,8 @@ class MapperTest extends LanguageAwareTestCase
         $fieldDefinitions = [];
 
         foreach ($rows as $row) {
-            $fieldDefinitionId = $row['ezcontentobject_attribute_contentclassattribute_id'];
-            $fieldType = $row['ezcontentobject_attribute_data_type_string'];
+            $fieldDefinitionId = $row['ibexa_content_attribute_contentclassattribute_id'];
+            $fieldType = $row['ibexa_content_attribute_data_type_string'];
 
             if (isset($fieldDefinitions[$fieldDefinitionId])) {
                 continue;

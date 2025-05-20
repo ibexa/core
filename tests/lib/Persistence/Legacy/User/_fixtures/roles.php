@@ -128,7 +128,7 @@ return [
             'role_id' => '4',
         ],
     ],
-    'ezcontentobject' => [
+    \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE => [
         [
             'id' => '11',
         ],

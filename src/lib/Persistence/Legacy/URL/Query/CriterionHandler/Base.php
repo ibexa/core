@@ -31,7 +31,7 @@ abstract class Base implements CriterionHandler
     }
 
     /**
-     * Inner join `ezcontentobject` table if not joined yet.
+     * Inner join `ibexa_content` table if not joined yet.
      */
     protected function joinContentObject(QueryBuilder $query): void
     {
@@ -46,7 +46,7 @@ abstract class Base implements CriterionHandler
     }
 
     /**
-     * Inner join `ezcontentobject_attribute` table if not joined yet.
+     * Inner join `ibexa_content_attribute` table if not joined yet.
      */
     protected function joinContentObjectAttribute(QueryBuilder $query): void
     {

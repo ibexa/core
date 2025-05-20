@@ -5,7 +5,7 @@
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 return [
-  'ezcontentobject_attribute' => [
+  \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE => [
     0 => [
       'attribute_original_id' => '0',
       'contentclassattribute_id' => '7',
@@ -13780,7 +13780,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
       'version' => '2',
     ],
   ],
-  'ezcontentobject_version' => [
+  \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_VERSION_TABLE => [
     0 => [
       'contentobject_id' => '4',
       'created' => '0',
@@ -16239,7 +16239,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
       'workflow_event_pos' => '0',
     ],
   ],
-  'ezcontentobject' => [
+  \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE => [
     0 => [
       'contentclass_id' => '3',
       'current_version' => '1',
@@ -18831,7 +18831,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
       'status' => '1',
     ],
   ],
-  'ezcontentobject_tree' => [
+  'ibexa_content_tree' => [
     0 => [
       'contentobject_id' => '0',
       'contentobject_is_published' => '1',
@@ -22181,7 +22181,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
       'sort_order' => '1',
     ],
   ],
-  'ezcontentobject_link' => [
+  \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_RELATION_TABLE => [
     0 => [
       'contentclassattribute_id' => 237,
       'from_contentobject_id' => 67,
@@ -23231,7 +23231,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
       'to_contentobject_id' => 225,
     ],
   ],
-  'ezcontentobject_name' => [
+  \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_NAME_TABLE => [
     0 => [
       'content_translation' => 'eng-US',
       'content_version' => 1,

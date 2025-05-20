@@ -162,7 +162,7 @@ final class VirtualFieldDuplicateFixCommand extends Command
         $query = $this->connection->createQueryBuilder()
             ->select('COUNT(a.id) as instances')
             ->groupBy('version', 'contentclassattribute_id', 'contentobject_id', 'language_id')
-            ->from('ezcontentobject_attribute', 'a')
+            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE, 'a')
             ->having('instances > 1');
 
         $count = (int) $query->executeQuery()->rowCount();
@@ -195,7 +195,7 @@ final class VirtualFieldDuplicateFixCommand extends Command
         $query
             ->select('version', 'contentclassattribute_id', 'contentobject_id', 'language_id')
             ->groupBy('version', 'contentclassattribute_id', 'contentobject_id', 'language_id')
-            ->from('ezcontentobject_attribute')
+            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE)
             ->having('COUNT(id) > 1')
             ->setFirstResult(0)
             ->setMaxResults($batchSize);
@@ -219,7 +219,7 @@ final class VirtualFieldDuplicateFixCommand extends Command
 
         $query
             ->select('id')
-            ->from('ezcontentobject_attribute')
+            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE)
             ->andWhere('version = :version')
             ->andWhere('contentclassattribute_id = :contentclassattribute_id')
             ->andWhere('contentobject_id = :contentobject_id')
@@ -256,7 +256,7 @@ final class VirtualFieldDuplicateFixCommand extends Command
         $query = $this->connection->createQueryBuilder();
 
         $query
-            ->delete('ezcontentobject_attribute')
+            ->delete(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE)
             ->andWhere($query->expr()->in('id', array_map('strval', $ids)));
 
         return (int)$query->executeStatement();

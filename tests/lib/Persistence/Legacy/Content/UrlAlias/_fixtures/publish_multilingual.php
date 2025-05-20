@@ -85,7 +85,7 @@ return [
             'name' => 'Norwegian',
         ],
     ],
-    'ezcontentobject_tree' => [
+    'ibexa_content_tree' => [
         [
             'node_id' => 1,
             'parent_node_id' => 1,

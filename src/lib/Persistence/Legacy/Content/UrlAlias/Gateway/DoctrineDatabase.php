@@ -990,8 +990,8 @@ final class DoctrineDatabase extends Gateway
         $expr = $queryBuilder->expr();
         $queryBuilder
             ->select('c.initial_language_id')
-            ->from('ezcontentobject', 'c')
-            ->join('c', 'ezcontentobject_tree', 't', $expr->eq('t.contentobject_id', 'c.id'))
+            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE, 'c')
+            ->join('c', 'ibexa_content_tree', 't', $expr->eq('t.contentobject_id', 'c.id'))
             ->where(
                 $expr->eq('t.node_id', ':locationId')
             )
@@ -1117,7 +1117,7 @@ final class DoctrineDatabase extends Gateway
         $subQuery = $this->connection->createQueryBuilder();
         $subQuery
             ->select('node_id')
-            ->from('ezcontentobject_tree', 't')
+            ->from('ibexa_content_tree', 't')
             ->where(
                 $subQuery->expr()->eq(
                     't.node_id',

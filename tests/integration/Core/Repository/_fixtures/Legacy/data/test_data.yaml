@@ -240,7 +240,7 @@ ibexa_content_type_group:
   - { created: 1032009743, creator_id: 14, id: 3, modified: 1033922120, modifier_id: 14, name: Media, is_system: 0 }
   - { created: 1081858024, creator_id: 14, id: 4, modified: 1081858024, modifier_id: 14, name: Setup, is_system: 0 }
   - { created: 1634729305, creator_id: 14, id: 5, modified: 1634729305, modifier_id: 14, name: System, is_system: 1 }
-ezcontentobject:
+ibexa_content:
   - { contentclass_id: 3, current_version: 1, id: 4, initial_language_id: 2, language_mask: 3, modified: 1033917596, name: Users, owner_id: 14, published: 1033917596, remote_id: f5c88a2209584891056f987fd965b0ba, section_id: 2, status: 1 }
   - { contentclass_id: 4, current_version: 2, id: 10, initial_language_id: 2, language_mask: 3, modified: 1072180405, name: 'Anonymous User', owner_id: 14, published: 1033920665, remote_id: faaeb9be3bd98ed09f606fc16d144eca, section_id: 2, status: 1 }
   - { contentclass_id: 3, current_version: 2, id: 11, initial_language_id: 2, language_mask: 3, modified: 1343140542, name: Members, owner_id: 14, published: 1033920746, remote_id: 5f7f0bdb3381d6a461d8c29ff53d908f, section_id: 2, status: 1 }
@@ -259,7 +259,7 @@ ezcontentobject:
   - { contentclass_id: 21, current_version: 1, id: 57, initial_language_id: 8, language_mask: 9, modified: 1196268696, name: Home, owner_id: 14, published: 1195480486, remote_id: 8a9c9c761004866fb458d89910f52bee, section_id: 1, status: 1 }
   - { contentclass_id: 20, current_version: 1, id: 58, initial_language_id: 8, language_mask: 8, modified: 1332927282, name: 'Contact Us', owner_id: 14, published: 1332927205, remote_id: f8cc7a4cf8a964a1a0ea6666f5da7d0d, section_id: 1, status: 1 }
   - { contentclass_id: 3, current_version: 1, id: 59, initial_language_id: 2, language_mask: 3, modified: 1343140541, name: Partners, owner_id: 14, published: 1343140541, remote_id: 14e4411b264a6194a33847843919451a, section_id: 2, status: 1 }
-ezcontentobject_attribute:
+ibexa_content_attribute:
   - { attribute_original_id: 0, contentclassattribute_id: 7, contentobject_id: 4, data_float: null, data_int: null, data_text: 'Main group', data_type_string: ezstring, id: 7, language_code: eng-US, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
   - { attribute_original_id: 0, contentclassattribute_id: 6, contentobject_id: 4, data_float: null, data_int: null, data_text: Users, data_type_string: ezstring, id: 8, language_code: eng-US, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
   - { attribute_original_id: 0, contentclassattribute_id: 8, contentobject_id: 10, data_float: 0, data_int: 0, data_text: Anonymous, data_type_string: ezstring, id: 19, language_code: eng-US, language_id: 3, sort_key_int: 0, sort_key_string: anonymous, version: 2 }
@@ -351,8 +351,8 @@ ezcontentobject_attribute:
   - { attribute_original_id: 0, contentclassattribute_id: 292, contentobject_id: 50, data_float: 0, data_int: null, data_text: '', data_type_string: ezkeyword, id: 218, language_code: eng-US, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
   - { attribute_original_id: 0, contentclassattribute_id: 292, contentobject_id: 51, data_float: 0, data_int: null, data_text: '', data_type_string: ezkeyword, id: 219, language_code: eng-US, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
   - { attribute_original_id: 0, contentclassattribute_id: 292, contentobject_id: 56, data_float: 0, data_int: null, data_text: '', data_type_string: ezkeyword, id: 220, language_code: eng-US, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
-ezcontentobject_link: {  }
-ezcontentobject_name:
+ibexa_content_link: {  }
+ibexa_content_name:
   - { content_translation: eng-US, content_version: 1, contentobject_id: 4, language_id: 3, name: Users, real_translation: eng-US }
   - { content_translation: eng-US, content_version: 2, contentobject_id: 10, language_id: 3, name: 'Anonymous User', real_translation: eng-US }
   - { content_translation: eng-US, content_version: 1, contentobject_id: 11, language_id: 3, name: 'Guest accounts', real_translation: eng-US }
@@ -373,8 +373,8 @@ ezcontentobject_name:
   - { content_translation: eng-GB, content_version: 1, contentobject_id: 57, language_id: 9, name: Home, real_translation: eng-GB }
   - { content_translation: eng-GB, content_version: 1, contentobject_id: 58, language_id: 8, name: 'Contact Us', real_translation: eng-GB }
   - { content_translation: eng-US, content_version: 1, contentobject_id: 59, language_id: 3, name: Partners, real_translation: eng-US }
-ezcontentobject_trash: {  }
-ezcontentobject_tree:
+ibexa_content_trash: {  }
+ibexa_content_tree:
   - { contentobject_id: 0, contentobject_is_published: 1, contentobject_version: 1, depth: 0, is_hidden: 0, is_invisible: 0, main_node_id: 1, modified_subnode: 1343140542, node_id: 1, parent_node_id: 1, path_identification_string: '', path_string: /1/, priority: 0, remote_id: 629709ba256fe317c3ddcee35453a96a, sort_field: 1, sort_order: 1 }
   - { contentobject_id: 57, contentobject_is_published: 1, contentobject_version: 1, depth: 1, is_hidden: 0, is_invisible: 0, main_node_id: 2, modified_subnode: 1343140541, node_id: 2, parent_node_id: 1, path_identification_string: '', path_string: /1/2/, priority: 0, remote_id: f3e90596361e31d496d4026eb624c983, sort_field: 8, sort_order: 1 }
   - { contentobject_id: 4, contentobject_is_published: 1, contentobject_version: 1, depth: 1, is_hidden: 0, is_invisible: 0, main_node_id: 5, modified_subnode: 1343140542, node_id: 5, parent_node_id: 1, path_identification_string: users, path_string: /1/5/, priority: 0, remote_id: 3f6d92f8044aed134f32153517850f5a, sort_field: 1, sort_order: 1 }
@@ -394,7 +394,7 @@ ezcontentobject_tree:
   - { contentobject_id: 56, contentobject_is_published: 1, contentobject_version: 1, depth: 1, is_hidden: 0, is_invisible: 0, main_node_id: 58, modified_subnode: 1343140541, node_id: 58, parent_node_id: 1, path_identification_string: design, path_string: /1/58/, priority: 0, remote_id: 79f2d67372ab56f59b5d65bb9e0ca3b9, sort_field: 2, sort_order: 0 }
   - { contentobject_id: 58, contentobject_is_published: 1, contentobject_version: 1, depth: 2, is_hidden: 0, is_invisible: 0, main_node_id: 60, modified_subnode: 1343140539, node_id: 60, parent_node_id: 2, path_identification_string: contact_us, path_string: /1/2/60/, priority: '-2', remote_id: 86bf306624668ee9b8b979b0d56f7e0d, sort_field: 8, sort_order: 1 }
   - { contentobject_id: 59, contentobject_is_published: 1, contentobject_version: 1, depth: 2, is_hidden: 0, is_invisible: 0, main_node_id: 61, modified_subnode: 1343140541, node_id: 61, parent_node_id: 5, path_identification_string: users/partners, path_string: /1/5/61/, priority: 0, remote_id: 66994c2fce0fd2a1c7ecce7115158971, sort_field: 1, sort_order: 1 }
-ezcontentobject_version:
+ibexa_content_version:
   - { contentobject_id: 4, created: 0, creator_id: 14, id: 4, initial_language_id: 2, language_mask: 3, modified: 0, status: 1, user_id: 0, version: 1, workflow_event_pos: 1 }
   - { contentobject_id: 11, created: 1033920737, creator_id: 14, id: 439, initial_language_id: 2, language_mask: 3, modified: 1033920746, status: 3, user_id: 0, version: 1, workflow_event_pos: 0 }
   - { contentobject_id: 12, created: 1033920760, creator_id: 14, id: 440, initial_language_id: 2, language_mask: 3, modified: 1033920775, status: 1, user_id: 0, version: 1, workflow_event_pos: 0 }

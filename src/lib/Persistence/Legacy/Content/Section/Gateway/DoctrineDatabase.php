@@ -125,7 +125,7 @@ final class DoctrineDatabase extends Gateway
         $query->select(
             $this->dbPlatform->getCountExpression('id')
         )->from(
-            'ezcontentobject'
+            \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE
         )->where(
             $query->expr()->eq(
                 'section_id',
@@ -214,7 +214,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->update('ezcontentobject')
+            ->update(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE)
             ->set(
                 'section_id',
                 $query->createPositionalParameter($sectionId, ParameterType::INTEGER)

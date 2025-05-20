@@ -5,7 +5,7 @@
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 return [
-    'ezcontentobject_tree' => [
+    'ibexa_content_tree' => [
         0 => [
             'contentobject_id' => '0',
             'contentobject_is_published' => '1',

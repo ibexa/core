@@ -39,7 +39,7 @@ class LocationRemoteId extends CriterionHandler
             ->select(
                 'contentobject_id'
             )->from(
-                'ezcontentobject_tree',
+                'ibexa_content_tree',
                 'subquery_location'
             )->where(
                 $queryBuilder->expr()->in(

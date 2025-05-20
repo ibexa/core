@@ -247,8 +247,8 @@ EOT
     {
         $query = $this->connection->createQueryBuilder()
                 ->select('c.id')
-                ->from('ezcontentobject', 'c')
-                ->join('c', 'ezcontentobject_version', 'v', 'v.contentobject_id = c.id')
+                ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE, 'c')
+                ->join('c', \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_VERSION_TABLE, 'v', 'v.contentobject_id = c.id')
                 ->join('c', \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_TABLE, 'cl', 'cl.id = c.contentclass_id')
                 ->groupBy('c.id', 'v.status')
                 ->having('count(c.id) > :keep');

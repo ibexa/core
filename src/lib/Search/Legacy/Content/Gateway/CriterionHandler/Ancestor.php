@@ -42,7 +42,7 @@ class Ancestor extends CriterionHandler
         $subSelect = $this->connection->createQueryBuilder();
         $subSelect
             ->select('contentobject_id')
-            ->from('ezcontentobject_tree')
+            ->from('ibexa_content_tree')
             ->where(
                 $queryBuilder->expr()->in(
                     'node_id',

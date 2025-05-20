@@ -3354,7 +3354,7 @@ class LocationServiceTest extends BaseTest
     }
 
     /**
-     * Test that Legacy ezcontentobject_tree.path_identification_string field is correctly updated
+     * Test that Legacy ibexa_content_tree.path_identification_string field is correctly updated
      * after moving subtree.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::moveSubtree
@@ -3393,7 +3393,7 @@ class LocationServiceTest extends BaseTest
         $query = $connection->createQueryBuilder();
         $query
             ->select('path_identification_string')
-            ->from('ezcontentobject_tree')
+            ->from('ibexa_content_tree')
             ->where('node_id = :nodeId')
             ->setParameter('nodeId', $location->id);
 

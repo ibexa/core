@@ -295,8 +295,8 @@ EOT
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('a.id, a.version, a.data_int')
-            ->from('ezcontentobject_attribute', 'a')
-            ->join('a', 'ezcontentobject_version', 'v', 'a.contentobject_id = v.contentobject_id')
+            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE, 'a')
+            ->join('a', \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_VERSION_TABLE, 'v', 'a.contentobject_id = v.contentobject_id')
             ->where(
                 $query->expr()->in(
                     'a.data_type_string',
@@ -335,8 +335,8 @@ EOT
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('count(*) as count')
-            ->from('ezcontentobject_attribute', 'a')
-            ->join('a', 'ezcontentobject_version', 'v', 'a.contentobject_id = v.contentobject_id')
+            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE, 'a')
+            ->join('a', \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_VERSION_TABLE, 'v', 'a.contentobject_id = v.contentobject_id')
             ->where(
                 $query->expr()->in(
                     'a.data_type_string',
@@ -462,7 +462,7 @@ EOT
     ) {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->update('ezcontentobject_attribute', 'a')
+            ->update(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE, 'a')
             ->set('a.data_int', $newTimestamp)
             ->set('a.sort_key_int', $newTimestamp)
             ->where('a.id = :id')

@@ -49,7 +49,7 @@ class RelationListConverter implements Converter
                 continue;
             }
             $row = $data[$id][0];
-            $row['ezcontentobject_id'] = $id;
+            $row['ibexa_content_id'] = $id;
             $row['priority'] = (++$priority);
 
             $relationItem = $doc->createElement('relation-item');
@@ -335,13 +335,13 @@ class RelationListConverter implements Converter
         return [
             'priority' => 'priority',
             // 'in-trash' => 'in_trash',// false by default and implies
-            'contentobject-id' => 'ezcontentobject_id',
-            'contentobject-version' => 'ezcontentobject_current_version',
-            'node-id' => 'ezcontentobject_tree_node_id',
-            'parent-node-id' => 'ezcontentobject_tree_parent_node_id',
-            'contentclass-id' => 'ezcontentobject_contentclass_id',
+            'contentobject-id' => 'ibexa_content_id',
+            'contentobject-version' => 'ibexa_content_current_version',
+            'node-id' => 'ibexa_content_tree_node_id',
+            'parent-node-id' => 'ibexa_content_tree_parent_node_id',
+            'contentclass-id' => 'ibexa_content_contentclass_id',
             'contentclass-identifier' => 'ibexa_content_type_identifier',
-            'contentobject-remote-id' => 'ezcontentobject_remote_id',
+            'contentobject-remote-id' => 'ibexa_content_remote_id',
         ];
     }
 
