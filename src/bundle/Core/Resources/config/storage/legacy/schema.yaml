@@ -8,12 +8,12 @@ tables:
             filename: { type: string, nullable: false, length: 255, options: { default: '' } }
             mime_type: { type: string, nullable: false, length: 255, options: { default: '' } }
             original_filename: { type: string, nullable: false, length: 255, options: { default: '' } }
-    ibexa_cobj_state:
+    ibexa_object_state:
         indexes:
-            ibexa_cobj_state_priority: { fields: [priority] }
-            ibexa_cobj_state_lmask: { fields: [language_mask] }
+            ibexa_object_state_priority: { fields: [priority] }
+            ibexa_object_state_lmask: { fields: [language_mask] }
         uniqueConstraints:
-            ibexa_cobj_state_identifier: { fields: [group_id, identifier] }
+            ibexa_object_state_identifier: { fields: [group_id, identifier] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
@@ -22,18 +22,18 @@ tables:
             identifier: { type: string, nullable: false, length: 45, options: { default: '' } }
             language_mask: { type: bigint, nullable: false, options: { default: '0' } }
             priority: { type: integer, nullable: false, options: { default: '0' } }
-    ibexa_cobj_state_group:
+    ibexa_object_state_group:
         indexes:
-            ibexa_cobj_state_group_lmask: { fields: [language_mask] }
+            ibexa_object_state_group_lmask: { fields: [language_mask] }
         uniqueConstraints:
-            ibexa_cobj_state_group_identifier: { fields: [identifier] }
+            ibexa_object_state_group_identifier: { fields: [identifier] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
             default_language_id: { type: bigint, nullable: false, options: { default: '0' } }
             identifier: { type: string, nullable: false, length: 45, options: { default: '' } }
             language_mask: { type: bigint, nullable: false, options: { default: '0' } }
-    ibexa_cobj_state_group_language:
+    ibexa_object_state_group_language:
         id:
             contentobject_state_group_id: { type: integer, nullable: false, options: { default: '0' } }
             real_language_id: { type: bigint, nullable: false, options: { default: '0' } }
@@ -41,14 +41,14 @@ tables:
             description: { type: text, nullable: false, length: 0 }
             language_id: { type: bigint, nullable: false, options: { default: '0' } }
             name: { type: string, nullable: false, length: 45, options: { default: '' } }
-    ibexa_cobj_state_language:
+    ibexa_object_state_language:
         id:
             contentobject_state_id: { type: integer, nullable: false, options: { default: '0' } }
             language_id: { type: bigint, nullable: false, options: { default: '0' } }
         fields:
             description: { type: text, nullable: false, length: 0 }
             name: { type: string, nullable: false, length: 45, options: { default: '' } }
-    ibexa_cobj_state_link:
+    ibexa_object_state_link:
         id:
             contentobject_id: { type: integer, nullable: false, options: { default: '0' } }
             contentobject_state_id: { type: integer, nullable: false, options: { default: '0' } }

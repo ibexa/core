@@ -56,15 +56,15 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertEquals(
             [
                 [
-                    'ibexa_cobj_state_default_language_id' => 2,
-                    'ibexa_cobj_state_group_id' => 2,
-                    'ibexa_cobj_state_id' => 1,
-                    'ibexa_cobj_state_identifier' => 'not_locked',
-                    'ibexa_cobj_state_language_mask' => 3,
-                    'ibexa_cobj_state_priority' => 0,
-                    'ibexa_cobj_state_language_description' => '',
-                    'ibexa_cobj_state_language_language_id' => 3,
-                    'ibexa_cobj_state_language_name' => 'Not locked',
+                    'ibexa_object_state_default_language_id' => 2,
+                    'ibexa_object_state_group_id' => 2,
+                    'ibexa_object_state_id' => 1,
+                    'ibexa_object_state_identifier' => 'not_locked',
+                    'ibexa_object_state_language_mask' => 3,
+                    'ibexa_object_state_priority' => 0,
+                    'ibexa_object_state_language_description' => '',
+                    'ibexa_object_state_language_language_id' => 3,
+                    'ibexa_object_state_language_name' => 'Not locked',
                 ],
             ],
             $result
@@ -80,15 +80,15 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertEquals(
             [
                 [
-                    'ibexa_cobj_state_default_language_id' => 2,
-                    'ibexa_cobj_state_group_id' => 2,
-                    'ibexa_cobj_state_id' => 1,
-                    'ibexa_cobj_state_identifier' => 'not_locked',
-                    'ibexa_cobj_state_language_mask' => 3,
-                    'ibexa_cobj_state_priority' => 0,
-                    'ibexa_cobj_state_language_description' => '',
-                    'ibexa_cobj_state_language_language_id' => 3,
-                    'ibexa_cobj_state_language_name' => 'Not locked',
+                    'ibexa_object_state_default_language_id' => 2,
+                    'ibexa_object_state_group_id' => 2,
+                    'ibexa_object_state_id' => 1,
+                    'ibexa_object_state_identifier' => 'not_locked',
+                    'ibexa_object_state_language_mask' => 3,
+                    'ibexa_object_state_priority' => 0,
+                    'ibexa_object_state_language_description' => '',
+                    'ibexa_object_state_language_language_id' => 3,
+                    'ibexa_object_state_language_name' => 'Not locked',
                 ],
             ],
             $result
@@ -105,28 +105,28 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [
                 [
                     [
-                        'ibexa_cobj_state_default_language_id' => 2,
-                        'ibexa_cobj_state_group_id' => 2,
-                        'ibexa_cobj_state_id' => 1,
-                        'ibexa_cobj_state_identifier' => 'not_locked',
-                        'ibexa_cobj_state_language_mask' => 3,
-                        'ibexa_cobj_state_priority' => 0,
-                        'ibexa_cobj_state_language_description' => '',
-                        'ibexa_cobj_state_language_language_id' => 3,
-                        'ibexa_cobj_state_language_name' => 'Not locked',
+                        'ibexa_object_state_default_language_id' => 2,
+                        'ibexa_object_state_group_id' => 2,
+                        'ibexa_object_state_id' => 1,
+                        'ibexa_object_state_identifier' => 'not_locked',
+                        'ibexa_object_state_language_mask' => 3,
+                        'ibexa_object_state_priority' => 0,
+                        'ibexa_object_state_language_description' => '',
+                        'ibexa_object_state_language_language_id' => 3,
+                        'ibexa_object_state_language_name' => 'Not locked',
                     ],
                 ],
                 [
                     [
-                        'ibexa_cobj_state_default_language_id' => 2,
-                        'ibexa_cobj_state_group_id' => 2,
-                        'ibexa_cobj_state_id' => 2,
-                        'ibexa_cobj_state_identifier' => 'locked',
-                        'ibexa_cobj_state_language_mask' => 3,
-                        'ibexa_cobj_state_priority' => 1,
-                        'ibexa_cobj_state_language_description' => '',
-                        'ibexa_cobj_state_language_language_id' => 3,
-                        'ibexa_cobj_state_language_name' => 'Locked',
+                        'ibexa_object_state_default_language_id' => 2,
+                        'ibexa_object_state_group_id' => 2,
+                        'ibexa_object_state_id' => 2,
+                        'ibexa_object_state_identifier' => 'locked',
+                        'ibexa_object_state_language_mask' => 3,
+                        'ibexa_object_state_priority' => 1,
+                        'ibexa_object_state_language_description' => '',
+                        'ibexa_object_state_language_language_id' => 3,
+                        'ibexa_object_state_language_name' => 'Locked',
                     ],
                 ],
             ],
@@ -143,14 +143,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertEquals(
             [
                 [
-                    'ibexa_cobj_state_group_default_language_id' => 2,
-                    'ibexa_cobj_state_group_id' => 2,
-                    'ibexa_cobj_state_group_identifier' => 'ez_lock',
-                    'ibexa_cobj_state_group_language_mask' => 3,
-                    'ibexa_cobj_state_group_language_description' => '',
-                    'ibexa_cobj_state_group_language_language_id' => 3,
-                    'ibexa_cobj_state_group_language_real_language_id' => 2,
-                    'ibexa_cobj_state_group_language_name' => 'Lock',
+                    'ibexa_object_state_group_default_language_id' => 2,
+                    'ibexa_object_state_group_id' => 2,
+                    'ibexa_object_state_group_identifier' => 'ez_lock',
+                    'ibexa_object_state_group_language_mask' => 3,
+                    'ibexa_object_state_group_language_description' => '',
+                    'ibexa_object_state_group_language_language_id' => 3,
+                    'ibexa_object_state_group_language_real_language_id' => 2,
+                    'ibexa_object_state_group_language_name' => 'Lock',
                 ],
             ],
             $result
@@ -166,14 +166,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertEquals(
             [
                 [
-                    'ibexa_cobj_state_group_default_language_id' => 2,
-                    'ibexa_cobj_state_group_id' => 2,
-                    'ibexa_cobj_state_group_identifier' => 'ez_lock',
-                    'ibexa_cobj_state_group_language_mask' => 3,
-                    'ibexa_cobj_state_group_language_description' => '',
-                    'ibexa_cobj_state_group_language_language_id' => 3,
-                    'ibexa_cobj_state_group_language_real_language_id' => 2,
-                    'ibexa_cobj_state_group_language_name' => 'Lock',
+                    'ibexa_object_state_group_default_language_id' => 2,
+                    'ibexa_object_state_group_id' => 2,
+                    'ibexa_object_state_group_identifier' => 'ez_lock',
+                    'ibexa_object_state_group_language_mask' => 3,
+                    'ibexa_object_state_group_language_description' => '',
+                    'ibexa_object_state_group_language_language_id' => 3,
+                    'ibexa_object_state_group_language_real_language_id' => 2,
+                    'ibexa_object_state_group_language_name' => 'Lock',
                 ],
             ],
             $result
@@ -190,14 +190,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [
                 [
                     [
-                        'ibexa_cobj_state_group_default_language_id' => 2,
-                        'ibexa_cobj_state_group_id' => 2,
-                        'ibexa_cobj_state_group_identifier' => 'ez_lock',
-                        'ibexa_cobj_state_group_language_mask' => 3,
-                        'ibexa_cobj_state_group_language_description' => '',
-                        'ibexa_cobj_state_group_language_language_id' => 3,
-                        'ibexa_cobj_state_group_language_real_language_id' => 2,
-                        'ibexa_cobj_state_group_language_name' => 'Lock',
+                        'ibexa_object_state_group_default_language_id' => 2,
+                        'ibexa_object_state_group_id' => 2,
+                        'ibexa_object_state_group_identifier' => 'ez_lock',
+                        'ibexa_object_state_group_language_mask' => 3,
+                        'ibexa_object_state_group_language_description' => '',
+                        'ibexa_object_state_group_language_language_id' => 3,
+                        'ibexa_object_state_group_language_real_language_id' => 2,
+                        'ibexa_object_state_group_language_name' => 'Lock',
                     ],
                 ],
             ],
@@ -214,17 +214,17 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertEquals(
             [
                 [
-                    'ibexa_cobj_state_default_language_id' => 4,
-                    'ibexa_cobj_state_group_id' => 2,
+                    'ibexa_object_state_default_language_id' => 4,
+                    'ibexa_object_state_group_id' => 2,
                     // The new state should be added with state ID = 3
-                    'ibexa_cobj_state_id' => 3,
-                    'ibexa_cobj_state_identifier' => 'test_state',
-                    'ibexa_cobj_state_language_mask' => 5,
+                    'ibexa_object_state_id' => 3,
+                    'ibexa_object_state_identifier' => 'test_state',
+                    'ibexa_object_state_language_mask' => 5,
                     // The new state should have priority = 2
-                    'ibexa_cobj_state_priority' => 2,
-                    'ibexa_cobj_state_language_description' => 'Test state description',
-                    'ibexa_cobj_state_language_language_id' => 5,
-                    'ibexa_cobj_state_language_name' => 'Test state',
+                    'ibexa_object_state_priority' => 2,
+                    'ibexa_object_state_language_description' => 'Test state description',
+                    'ibexa_object_state_language_language_id' => 5,
+                    'ibexa_object_state_language_name' => 'Test state',
                 ],
             ],
             // The new state should be added with state ID = 3
@@ -242,18 +242,18 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertEquals(
             [
                 [
-                    'ibexa_cobj_state_default_language_id' => 4,
+                    'ibexa_object_state_default_language_id' => 4,
                     // New group should be added with group ID = 3
-                    'ibexa_cobj_state_group_id' => 3,
+                    'ibexa_object_state_group_id' => 3,
                     // The new state should be added with state ID = 3
-                    'ibexa_cobj_state_id' => 3,
-                    'ibexa_cobj_state_identifier' => 'test_state',
-                    'ibexa_cobj_state_language_mask' => 5,
+                    'ibexa_object_state_id' => 3,
+                    'ibexa_object_state_identifier' => 'test_state',
+                    'ibexa_object_state_language_mask' => 5,
                     // The new state should have priority = 0
-                    'ibexa_cobj_state_priority' => 0,
-                    'ibexa_cobj_state_language_description' => 'Test state description',
-                    'ibexa_cobj_state_language_language_id' => 5,
-                    'ibexa_cobj_state_language_name' => 'Test state',
+                    'ibexa_object_state_priority' => 0,
+                    'ibexa_object_state_language_description' => 'Test state description',
+                    'ibexa_object_state_language_language_id' => 5,
+                    'ibexa_object_state_language_name' => 'Test state',
                 ],
             ],
             // The new state should be added with state ID = 3
@@ -279,15 +279,15 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertEquals(
             [
                 [
-                    'ibexa_cobj_state_default_language_id' => 4,
-                    'ibexa_cobj_state_group_id' => 2,
-                    'ibexa_cobj_state_id' => 1,
-                    'ibexa_cobj_state_identifier' => 'test_state',
-                    'ibexa_cobj_state_language_mask' => 5,
-                    'ibexa_cobj_state_priority' => 0,
-                    'ibexa_cobj_state_language_description' => 'Test state description',
-                    'ibexa_cobj_state_language_language_id' => 5,
-                    'ibexa_cobj_state_language_name' => 'Test state',
+                    'ibexa_object_state_default_language_id' => 4,
+                    'ibexa_object_state_group_id' => 2,
+                    'ibexa_object_state_id' => 1,
+                    'ibexa_object_state_identifier' => 'test_state',
+                    'ibexa_object_state_language_mask' => 5,
+                    'ibexa_object_state_priority' => 0,
+                    'ibexa_object_state_language_description' => 'Test state description',
+                    'ibexa_object_state_language_language_id' => 5,
+                    'ibexa_object_state_language_name' => 'Test state',
                 ],
             ],
             $this->getDatabaseGateway()->loadObjectStateData(1)
@@ -334,15 +334,15 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertEquals(
             [
                 [
-                    'ibexa_cobj_state_group_default_language_id' => 4,
+                    'ibexa_object_state_group_default_language_id' => 4,
                     // The new state group should be added with state group ID = 3
-                    'ibexa_cobj_state_group_id' => 3,
-                    'ibexa_cobj_state_group_identifier' => 'test_group',
-                    'ibexa_cobj_state_group_language_mask' => 5,
-                    'ibexa_cobj_state_group_language_description' => 'Test group description',
-                    'ibexa_cobj_state_group_language_language_id' => 5,
-                    'ibexa_cobj_state_group_language_real_language_id' => 4,
-                    'ibexa_cobj_state_group_language_name' => 'Test group',
+                    'ibexa_object_state_group_id' => 3,
+                    'ibexa_object_state_group_identifier' => 'test_group',
+                    'ibexa_object_state_group_language_mask' => 5,
+                    'ibexa_object_state_group_language_description' => 'Test group description',
+                    'ibexa_object_state_group_language_language_id' => 5,
+                    'ibexa_object_state_group_language_real_language_id' => 4,
+                    'ibexa_object_state_group_language_name' => 'Test group',
                 ],
             ],
             // The new state group should be added with state group ID = 3
@@ -362,14 +362,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertEquals(
             [
                 [
-                    'ibexa_cobj_state_group_default_language_id' => 4,
-                    'ibexa_cobj_state_group_id' => 2,
-                    'ibexa_cobj_state_group_identifier' => 'test_group',
-                    'ibexa_cobj_state_group_language_mask' => 5,
-                    'ibexa_cobj_state_group_language_description' => 'Test group description',
-                    'ibexa_cobj_state_group_language_language_id' => 5,
-                    'ibexa_cobj_state_group_language_real_language_id' => 4,
-                    'ibexa_cobj_state_group_language_name' => 'Test group',
+                    'ibexa_object_state_group_default_language_id' => 4,
+                    'ibexa_object_state_group_id' => 2,
+                    'ibexa_object_state_group_identifier' => 'test_group',
+                    'ibexa_object_state_group_language_mask' => 5,
+                    'ibexa_object_state_group_language_description' => 'Test group description',
+                    'ibexa_object_state_group_language_language_id' => 5,
+                    'ibexa_object_state_group_language_real_language_id' => 4,
+                    'ibexa_object_state_group_language_name' => 'Test group',
                 ],
             ],
             $this->getDatabaseGateway()->loadObjectStateGroupData(2)
@@ -417,15 +417,15 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertEquals(
             [
                 [
-                    'ibexa_cobj_state_default_language_id' => 2,
-                    'ibexa_cobj_state_group_id' => 2,
-                    'ibexa_cobj_state_id' => 1,
-                    'ibexa_cobj_state_identifier' => 'not_locked',
-                    'ibexa_cobj_state_language_mask' => 3,
-                    'ibexa_cobj_state_priority' => 0,
-                    'ibexa_cobj_state_language_description' => '',
-                    'ibexa_cobj_state_language_language_id' => 3,
-                    'ibexa_cobj_state_language_name' => 'Not locked',
+                    'ibexa_object_state_default_language_id' => 2,
+                    'ibexa_object_state_group_id' => 2,
+                    'ibexa_object_state_id' => 1,
+                    'ibexa_object_state_identifier' => 'not_locked',
+                    'ibexa_object_state_language_mask' => 3,
+                    'ibexa_object_state_priority' => 0,
+                    'ibexa_object_state_language_description' => '',
+                    'ibexa_object_state_language_language_id' => 3,
+                    'ibexa_object_state_language_name' => 'Not locked',
                 ],
             ],
             $result
@@ -453,15 +453,15 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertEquals(
             [
                 [
-                    'ibexa_cobj_state_default_language_id' => 2,
-                    'ibexa_cobj_state_group_id' => 2,
-                    'ibexa_cobj_state_id' => 1,
-                    'ibexa_cobj_state_identifier' => 'not_locked',
-                    'ibexa_cobj_state_language_mask' => 3,
-                    'ibexa_cobj_state_priority' => 10,
-                    'ibexa_cobj_state_language_description' => '',
-                    'ibexa_cobj_state_language_language_id' => 3,
-                    'ibexa_cobj_state_language_name' => 'Not locked',
+                    'ibexa_object_state_default_language_id' => 2,
+                    'ibexa_object_state_group_id' => 2,
+                    'ibexa_object_state_id' => 1,
+                    'ibexa_object_state_identifier' => 'not_locked',
+                    'ibexa_object_state_language_mask' => 3,
+                    'ibexa_object_state_priority' => 10,
+                    'ibexa_object_state_language_description' => '',
+                    'ibexa_object_state_language_language_id' => 3,
+                    'ibexa_object_state_language_name' => 'Not locked',
                 ],
             ],
             $objectStateData

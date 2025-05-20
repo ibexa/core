@@ -1,18 +1,18 @@
-INSERT INTO "ibexa_cobj_state" ("default_language_id", "group_id", "id", "identifier", "language_mask", "priority")
+INSERT INTO "ibexa_object_state" ("default_language_id", "group_id", "id", "identifier", "language_mask", "priority")
 VALUES (2, 2, 1, 'not_locked', 3, 0),
        (2, 2, 2, 'locked', 3, 1);
 
-INSERT INTO "ibexa_cobj_state_group" ("default_language_id", "id", "identifier", "language_mask")
+INSERT INTO "ibexa_object_state_group" ("default_language_id", "id", "identifier", "language_mask")
 VALUES (2, 2, 'ez_lock', 3);
 
-INSERT INTO "ibexa_cobj_state_group_language" ("contentobject_state_group_id", "description","language_id", "name", "real_language_id")
+INSERT INTO "ibexa_object_state_group_language" ("contentobject_state_group_id", "description","language_id", "name", "real_language_id")
 VALUES (2, '', 3, 'Lock', 2);
 
-INSERT INTO "ibexa_cobj_state_language" ("contentobject_state_id", "description", "language_id", "name")
+INSERT INTO "ibexa_object_state_language" ("contentobject_state_id", "description", "language_id", "name")
 VALUES (1,'',3,'Not locked'),
        (2,'',3,'Locked');
 
-INSERT INTO "ibexa_cobj_state_link" ("contentobject_id", "contentobject_state_id")
+INSERT INTO "ibexa_object_state_link" ("contentobject_id", "contentobject_state_id")
 VALUES ( 1, 1),
        ( 4, 1),
        (10, 1),
@@ -304,8 +304,8 @@ INSERT INTO "ezpreferences" ("name", "user_id", "value")
 SELECT 'focus_mode', u.contentobject_id, '0' FROM "ezuser" u WHERE u.login = 'admin';
 
 -- Set proper sequence values after inserting data
-SELECT SETVAL('ibexa_cobj_state_group_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_cobj_state_group;
-SELECT SETVAL('ibexa_cobj_state_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_cobj_state;
+SELECT SETVAL('ibexa_object_state_group_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_object_state_group;
+SELECT SETVAL('ibexa_object_state_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_object_state;
 SELECT SETVAL('ibexa_content_browsebookmark_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_content_browsebookmark;
 SELECT SETVAL('ibexa_content_type_attribute_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_content_type_attribute;
 SELECT SETVAL('ibexa_content_type_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_content_type;
