@@ -144,10 +144,10 @@ final class DoctrineDatabase extends Gateway
         $expr = $query->expr();
         $query
             ->select($this->dbPlatform->getCountExpression('l.id'))
-            ->from('ezpolicy_limitation', 'l')
+            ->from(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway::POLICY_LIMITATION_TABLE, 'l')
             ->join(
                 'l',
-                'ezpolicy_limitation_value',
+                \Ibexa\Core\Persistence\Legacy\User\Role\Gateway::POLICY_LIMITATION_VALUE_TABLE,
                 'lv',
                 $expr->eq(
                     'l.id',

@@ -69,11 +69,11 @@ class Mapper
         /** @var \Ibexa\Contracts\Core\Persistence\User\Policy[] */
         $policies = [];
         foreach ($data as $row) {
-            $policyId = $row['ezpolicy_id'];
+            $policyId = $row['ibexa_policy_id'];
             if (!isset($policies[$policyId]) && ($policyId !== null)) {
                 $originalId = null;
-                if ($row['ezpolicy_original_id']) {
-                    $originalId = (int)$row['ezpolicy_original_id'];
+                if ($row['ibexa_policy_original_id']) {
+                    $originalId = (int)$row['ibexa_policy_original_id'];
                 } elseif ($row['ezrole_version']) {
                     $originalId = (int)$policyId;
                 }
@@ -83,23 +83,23 @@ class Mapper
                         'id' => (int)$policyId,
                         'roleId' => (int)$row['ezrole_id'],
                         'originalId' => $originalId,
-                        'module' => $row['ezpolicy_module_name'],
-                        'function' => $row['ezpolicy_function_name'],
+                        'module' => $row['ibexa_policy_module_name'],
+                        'function' => $row['ibexa_policy_function_name'],
                         'limitations' => '*', // limitations must be '*' if not a non empty array of limitations
                     ]
                 );
             }
 
-            if (!$row['ezpolicy_limitation_identifier']) {
+            if (!$row['ibexa_policy_limitation_identifier']) {
                 continue;
             } elseif ($policies[$policyId]->limitations === '*') {
                 $policies[$policyId]->limitations = [];
             }
 
-            if (!isset($policies[$policyId]->limitations[$row['ezpolicy_limitation_identifier']])) {
-                $policies[$policyId]->limitations[$row['ezpolicy_limitation_identifier']] = [$row['ezpolicy_limitation_value_value']];
-            } elseif (!in_array($row['ezpolicy_limitation_value_value'], $policies[$policyId]->limitations[$row['ezpolicy_limitation_identifier']])) {
-                $policies[$policyId]->limitations[$row['ezpolicy_limitation_identifier']][] = $row['ezpolicy_limitation_value_value'];
+            if (!isset($policies[$policyId]->limitations[$row['ibexa_policy_limitation_identifier']])) {
+                $policies[$policyId]->limitations[$row['ibexa_policy_limitation_identifier']] = [$row['ibexa_policy_limitation_value_value']];
+            } elseif (!in_array($row['ibexa_policy_limitation_value_value'], $policies[$policyId]->limitations[$row['ibexa_policy_limitation_identifier']])) {
+                $policies[$policyId]->limitations[$row['ibexa_policy_limitation_identifier']][] = $row['ibexa_policy_limitation_value_value'];
             }
         }
 

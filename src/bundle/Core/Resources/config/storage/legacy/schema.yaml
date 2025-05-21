@@ -442,10 +442,10 @@ tables:
             install_date: { type: integer, nullable: false, options: { default: '0' } }
             name: { type: string, nullable: false, length: 100, options: { default: '' } }
             version: { type: string, nullable: false, length: 30, options: { default: '0' } }
-    ezpolicy:
+    ibexa_policy:
         indexes:
-            ezpolicy_role_id: { fields: [role_id] }
-            ezpolicy_original_id: { fields: [original_id] }
+            ibexa_policy_role_id: { fields: [role_id] }
+            ibexa_policy_original_id: { fields: [original_id] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
@@ -453,18 +453,18 @@ tables:
             module_name: { type: string, nullable: true, length: 255 }
             original_id: { type: integer, nullable: false, options: { default: '0' } }
             role_id: { type: integer, nullable: true }
-    ezpolicy_limitation:
+    ibexa_policy_limitation:
         indexes:
-            policy_id: { fields: [policy_id] }
+            ibexa_policy_id: { fields: [policy_id] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
             identifier: { type: string, nullable: false, length: 255, options: { default: '' } }
             policy_id: { type: integer, nullable: true }
-    ezpolicy_limitation_value:
+    ibexa_policy_limitation_value:
         indexes:
-            ezpolicy_limit_value_limit_id: { fields: [limitation_id] }
-            ezpolicy_limitation_value_val: { fields: [value], options: { lengths: ['191'] } }
+            ibexa_policy_limit_value_limit_id: { fields: [limitation_id] }
+            ibexa_policy_limitation_value_val: { fields: [value], options: { lengths: ['191'] } }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:

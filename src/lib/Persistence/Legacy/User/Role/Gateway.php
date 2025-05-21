@@ -20,13 +20,13 @@ use Ibexa\Contracts\Core\Persistence\User\RoleUpdateStruct;
 abstract class Gateway
 {
     public const ROLE_TABLE = 'ezrole';
-    public const POLICY_TABLE = 'ezpolicy';
-    public const POLICY_LIMITATION_TABLE = 'ezpolicy_limitation';
-    public const POLICY_LIMITATION_VALUE_TABLE = 'ezpolicy_limitation_value';
+    public const POLICY_TABLE = 'ibexa_policy';
+    public const POLICY_LIMITATION_TABLE = 'ibexa_policy_limitation';
+    public const POLICY_LIMITATION_VALUE_TABLE = 'ibexa_policy_limitation_value';
     public const USER_ROLE_TABLE = 'ezuser_role';
     public const ROLE_SEQ = 'ezrole_id_seq';
-    public const POLICY_SEQ = 'ezpolicy_id_seq';
-    public const POLICY_LIMITATION_SEQ = 'ezpolicy_limitation_id_seq';
+    public const POLICY_SEQ = 'ibexa_policy_id_seq';
+    public const POLICY_LIMITATION_SEQ = 'ibexa_policy_limitation_id_seq';
 
     /**
      * Create a new role.

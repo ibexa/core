@@ -124,12 +124,12 @@ final class DoctrineDatabase extends Gateway
                 'r.id AS ezrole_id',
                 'r.name AS ezrole_name',
                 'r.version AS ezrole_version',
-                'p.id AS ezpolicy_id',
-                'p.function_name AS ezpolicy_function_name',
-                'p.module_name AS ezpolicy_module_name',
-                'p.original_id AS ezpolicy_original_id',
-                'l.identifier AS ezpolicy_limitation_identifier',
-                'v.value AS ezpolicy_limitation_value_value'
+                'p.id AS ibexa_policy_id',
+                'p.function_name AS ibexa_policy_function_name',
+                'p.module_name AS ibexa_policy_module_name',
+                'p.original_id AS ibexa_policy_original_id',
+                'l.identifier AS ibexa_policy_limitation_identifier',
+                'v.value AS ibexa_policy_limitation_value_value'
             )
             ->from(self::ROLE_TABLE, 'r')
             ->leftJoin('r', self::POLICY_TABLE, 'p', 'p.role_id = r.id')
@@ -231,12 +231,12 @@ final class DoctrineDatabase extends Gateway
                 'r.id AS ezrole_id',
                 'r.name AS ezrole_name',
                 'r.version AS ezrole_version',
-                'p.id AS ezpolicy_id',
-                'p.function_name AS ezpolicy_function_name',
-                'p.module_name AS ezpolicy_module_name',
-                'p.original_id AS ezpolicy_original_id',
-                'l.identifier AS ezpolicy_limitation_identifier',
-                'v.value AS ezpolicy_limitation_value_value'
+                'p.id AS ibexa_policy_id',
+                'p.function_name AS ibexa_policy_function_name',
+                'p.module_name AS ibexa_policy_module_name',
+                'p.original_id AS ibexa_policy_original_id',
+                'l.identifier AS ibexa_policy_limitation_identifier',
+                'v.value AS ibexa_policy_limitation_value_value'
             )
             ->from(self::USER_ROLE_TABLE, 'urs')
             ->leftJoin(
@@ -642,8 +642,8 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(
-                'l.id AS ezpolicy_limitation_id',
-                'v.id AS ezpolicy_limitation_value_id'
+                'l.id AS ibexa_policy_limitation_id',
+                'v.id AS ibexa_policy_limitation_value_id'
             )
             ->from(self::POLICY_TABLE, 'p')
             ->leftJoin('p', self::POLICY_LIMITATION_TABLE, 'l', 'l.policy_id = p.id')
@@ -664,11 +664,11 @@ final class DoctrineDatabase extends Gateway
 
         $limitationIds = array_map(
             'intval',
-            array_column($limitationValues, 'ezpolicy_limitation_id')
+            array_column($limitationValues, 'ibexa_policy_limitation_id')
         );
         $limitationValueIds = array_map(
             'intval',
-            array_column($limitationValues, 'ezpolicy_limitation_value_id')
+            array_column($limitationValues, 'ibexa_policy_limitation_value_id')
         );
 
         if (!empty($limitationValueIds)) {

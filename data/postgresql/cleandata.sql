@@ -197,7 +197,7 @@ VALUES (8,2,0,4,1,2,5,'','0',1,1,0,0),
        (51,1,0,29,1,2,43,'','0',9,1,0,0),
        (14,3,-1,38,1,2,13,'','0',1,1,0,0);
 
-INSERT INTO "ezpolicy" ("function_name", "id", "module_name", "original_id", "role_id")
+INSERT INTO "ibexa_policy" ("function_name", "id", "module_name", "original_id", "role_id")
 VALUES ('*',317,'content',0,3),
        ('login',319,'user',0,3),
        ('read',328,'content',0,1),
@@ -207,7 +207,7 @@ VALUES ('*',317,'content',0,3),
        ('view_embed',334,'content',0,1),
        ('*',340,'url',0,3);
 
-INSERT INTO "ezpolicy_limitation" ("id", "identifier", "policy_id")
+INSERT INTO "ibexa_policy_limitation" ("id", "identifier", "policy_id")
 VALUES (251,'Section',328),
        (252,'Section',329),
        (253,'SiteAccess',331),
@@ -215,7 +215,7 @@ VALUES (251,'Section',328),
        (255,'Owner',333),
        (256,'Class',334);
 
-INSERT INTO "ezpolicy_limitation_value" ("id", "limitation_id", "value")
+INSERT INTO "ibexa_policy_limitation_value" ("id", "limitation_id", "value")
 VALUES (477,251,'1'),
        (478,252,'1'),
        (479,253,'1766001124'),
@@ -321,9 +321,9 @@ SELECT SETVAL('ibexa_keyword_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_keyword;
 SELECT SETVAL('ibexa_node_assignment_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_node_assignment;
 SELECT SETVAL('ibexa_notification_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_notification;
 SELECT SETVAL('ibexa_package_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_package;
-SELECT SETVAL('ezpolicy_id_seq', COALESCE(MAX(id), 1) ) FROM ezpolicy;
-SELECT SETVAL('ezpolicy_limitation_id_seq', COALESCE(MAX(id), 1) ) FROM ezpolicy_limitation;
-SELECT SETVAL('ezpolicy_limitation_value_id_seq', COALESCE(MAX(id), 1) ) FROM ezpolicy_limitation_value;
+SELECT SETVAL('ibexa_policy_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_policy;
+SELECT SETVAL('ibexa_policy_limitation_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_policy_limitation;
+SELECT SETVAL('ibexa_policy_limitation_value_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_policy_limitation_value;
 SELECT SETVAL('ezpreferences_id_seq', COALESCE(MAX(id), 1) ) FROM ezpreferences;
 SELECT SETVAL('ezrole_id_seq', COALESCE(MAX(id), 1) ) FROM ezrole;
 SELECT SETVAL('ezsearch_object_word_link_id_seq', COALESCE(MAX(id), 1) ) FROM ezsearch_object_word_link;
