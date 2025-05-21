@@ -14,7 +14,7 @@ return [
             'password_hash_type' => '5',
         ],
     ],
-    'ezpreferences' => [
+    \Ibexa\Core\Persistence\Legacy\UserPreference\Gateway\DoctrineDatabase::TABLE_USER_PREFERENCES => [
         0 => [
             'id' => 1,
             'user_id' => 14,

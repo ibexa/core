@@ -300,7 +300,7 @@ INSERT INTO "ezuser_setting" ("is_enabled", "max_login", "user_id")
 VALUES (1, 1000, 10),
        (1, 10, 14);
 
-INSERT INTO "ezpreferences" ("name", "user_id", "value")
+INSERT INTO "ibexa_preferences" ("name", "user_id", "value")
 SELECT 'focus_mode', u.contentobject_id, '0' FROM "ezuser" u WHERE u.login = 'admin';
 
 -- Set proper sequence values after inserting data
@@ -324,7 +324,7 @@ SELECT SETVAL('ibexa_package_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_package;
 SELECT SETVAL('ibexa_policy_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_policy;
 SELECT SETVAL('ibexa_policy_limitation_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_policy_limitation;
 SELECT SETVAL('ibexa_policy_limitation_value_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_policy_limitation_value;
-SELECT SETVAL('ezpreferences_id_seq', COALESCE(MAX(id), 1) ) FROM ezpreferences;
+SELECT SETVAL('ibexa_preferences_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_preferences;
 SELECT SETVAL('ezrole_id_seq', COALESCE(MAX(id), 1) ) FROM ezrole;
 SELECT SETVAL('ezsearch_object_word_link_id_seq', COALESCE(MAX(id), 1) ) FROM ezsearch_object_word_link;
 SELECT SETVAL('ezsearch_word_id_seq', COALESCE(MAX(id), 1) ) FROM ezsearch_word;
