@@ -5,7 +5,7 @@
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 return [
-    'ezsection' => [
+    \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway::CONTENT_SECTION_TABLE => [
         [
             'id' => 1,
             'identifier' => 'standard',

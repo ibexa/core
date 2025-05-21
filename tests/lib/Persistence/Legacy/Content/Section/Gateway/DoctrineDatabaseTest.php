@@ -53,7 +53,7 @@ class DoctrineDatabaseTest extends TestCase
             ],
             $query
                 ->select('id', 'identifier', 'name', 'locale')
-                ->from('ezsection')
+                ->from(\Ibexa\Core\Persistence\Legacy\Content\Section\Gateway::CONTENT_SECTION_TABLE)
                 ->where(
                     $query->expr()->eq(
                         'identifier',
@@ -80,7 +80,7 @@ class DoctrineDatabaseTest extends TestCase
             ],
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('id', 'identifier', 'name', 'locale')
-                ->from('ezsection')
+                ->from(\Ibexa\Core\Persistence\Legacy\Content\Section\Gateway::CONTENT_SECTION_TABLE)
                 ->where('id=2')
         );
     }
@@ -216,7 +216,7 @@ class DoctrineDatabaseTest extends TestCase
             ],
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('COUNT( * ) AS count')
-                ->from('ezsection')
+                ->from(\Ibexa\Core\Persistence\Legacy\Content\Section\Gateway::CONTENT_SECTION_TABLE)
         );
 
         $this->assertQueryResult(
@@ -227,7 +227,7 @@ class DoctrineDatabaseTest extends TestCase
             ],
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('COUNT( * ) AS count')
-                ->from('ezsection')
+                ->from(\Ibexa\Core\Persistence\Legacy\Content\Section\Gateway::CONTENT_SECTION_TABLE)
                 ->where('id=2')
         );
     }

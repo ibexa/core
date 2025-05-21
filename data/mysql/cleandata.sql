@@ -230,7 +230,7 @@ VALUES (1,0,'Anonymous','',0),
        (3,0,'Editor','',0),
        (4,0,'Member','',0);
 
-INSERT INTO `ezsection` (`id`, `identifier`, `locale`, `name`, `navigation_part_identifier`)
+INSERT INTO `ibexa_section` (`id`, `identifier`, `locale`, `name`, `navigation_part_identifier`)
 VALUES (1,'standard','','Standard','ezcontentnavigationpart'),
        (2,'users','','Users','ezusernavigationpart'),
        (3,'media','','Media','ezmedianavigationpart');

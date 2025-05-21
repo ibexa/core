@@ -38,7 +38,7 @@ class SectionIdentifier extends CriterionHandler
             ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE, 't1')
             ->leftJoin(
                 't1',
-                'ezsection',
+                \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway::CONTENT_SECTION_TABLE,
                 't2',
                 't1.section_id = t2.id'
             )

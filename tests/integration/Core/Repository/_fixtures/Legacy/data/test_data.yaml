@@ -710,7 +710,7 @@ ibexa_search_object_word_link:
   - { id: 4764, contentclass_attribute_id: 216, contentclass_id: 20, contentobject_id: 58, frequency: '0.0', identifier: message, integer_value: 0, next_word_id: 1006, placement: 3, prev_word_id: 1004, published: 1332927205, section_id: 1, word_id: 1005, language_mask: 8 }
   - { id: 4765, contentclass_attribute_id: 216, contentclass_id: 20, contentobject_id: 58, frequency: '0.0', identifier: message, integer_value: 0, next_word_id: 0, placement: 4, prev_word_id: 1005, published: 1332927205, section_id: 1, word_id: 1006, language_mask: 8 }
   - { id: 4766, contentclass_attribute_id: 6, contentclass_id: 3, contentobject_id: 59, frequency: '0.0', identifier: name, integer_value: 0, next_word_id: 0, placement: 0, prev_word_id: 0, published: 1343140541, section_id: 2, word_id: 1007, language_mask: 3 }
-ezsection:
+ibexa_section:
   - { id: 1, identifier: standard, locale: '', name: Standard, navigation_part_identifier: ezcontentnavigationpart }
   - { id: 2, identifier: users, locale: '', name: Users, navigation_part_identifier: ezusernavigationpart }
   - { id: 3, identifier: media, locale: '', name: Media, navigation_part_identifier: ezmedianavigationpart }

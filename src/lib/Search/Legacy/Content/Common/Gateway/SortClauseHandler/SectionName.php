@@ -55,7 +55,7 @@ class SectionName extends SortClauseHandler
         $query
             ->leftJoin(
                 'c',
-                'ezsection',
+                \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway::CONTENT_SECTION_TABLE,
                 $table,
                 "{$table}.id = c.section_id"
             );

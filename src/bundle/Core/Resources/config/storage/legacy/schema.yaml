@@ -520,7 +520,7 @@ tables:
         fields:
             object_count: { type: integer, nullable: false, options: { default: '0' } }
             word: { type: string, nullable: true, length: 150 }
-    ezsection:
+    ibexa_section:
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:

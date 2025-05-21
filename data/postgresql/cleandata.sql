@@ -230,7 +230,7 @@ VALUES (1,0,'Anonymous','',0),
        (3,0,'Editor','',0),
        (4,0,'Member','',0);
 
-INSERT INTO "ezsection" ("id", "identifier", "locale", "name", "navigation_part_identifier")
+INSERT INTO "ibexa_section" ("id", "identifier", "locale", "name", "navigation_part_identifier")
 VALUES (1,'standard','','Standard','ezcontentnavigationpart'),
        (2,'users','','Users','ezusernavigationpart'),
        (3,'media','','Media','ezmedianavigationpart');
@@ -328,7 +328,7 @@ SELECT SETVAL('ibexa_preferences_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_pref
 SELECT SETVAL('ibexa_role_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_role;
 SELECT SETVAL('ibexa_search_object_word_link_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_search_object_word_link;
 SELECT SETVAL('ibexa_search_word_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_search_word;
-SELECT SETVAL('ezsection_id_seq', COALESCE(MAX(id), 1) ) FROM ezsection;
+SELECT SETVAL('ibexa_section_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_section;
 SELECT SETVAL('ezurl_id_seq', COALESCE(MAX(id), 1) ) FROM ezurl;
 SELECT SETVAL('ezurlalias_id_seq', COALESCE(MAX(id), 1) ) FROM ezurlalias;
 SELECT SETVAL('ezurlalias_ml_incr_id_seq', COALESCE(MAX(id), 1) ) FROM ezurlalias_ml_incr;
