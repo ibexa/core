@@ -177,7 +177,7 @@ class MapLocationDistance extends FieldBase
             ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE, 'f_def')
             ->innerJoin(
                 'f_def',
-                'ezgmaplocation',
+                \Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway\DoctrineStorage::MAP_LOCATION_TABLE,
                 'map',
                 $expr->and(
                     'map.contentobject_version = f_def.version',

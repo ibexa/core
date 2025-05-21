@@ -348,9 +348,9 @@ tables:
             mtime: { type: integer, nullable: false, options: { default: '0' } }
             expired: { type: boolean, nullable: false, options: { default: '0' } }
             status: { type: boolean, nullable: false, options: { default: '0' } }
-    ezgmaplocation:
+    ibexa_map_location:
         indexes:
-            latitude_longitude_key: { fields: [latitude, longitude] }
+            ibexa_map_location_latitude_longitude_key: { fields: [latitude, longitude] }
         id:
             contentobject_attribute_id: { type: integer, nullable: false, options: { default: '0' } }
             contentobject_version: { type: integer, nullable: false, options: { default: '0' } }

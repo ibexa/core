@@ -37,7 +37,7 @@ class MapLocationDistance extends Field
     ): array {
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Target\MapLocationTarget $target */
         $target = $sortClause->targetData;
-        $externalTable = $this->getSortTableName($number, 'ezgmaplocation');
+        $externalTable = $this->getSortTableName($number, \Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway\DoctrineStorage::MAP_LOCATION_TABLE);
 
         // note: avoid using literal names for parameters to account for multiple visits of the same Criterion
         $latitudePlaceholder = $query->createNamedParameter($target->latitude);
@@ -80,7 +80,7 @@ class MapLocationDistance extends Field
 
         $fieldDefinitionId = $fieldMap[$fieldTarget->typeIdentifier][$fieldTarget->fieldIdentifier]['field_definition_id'];
         $table = $this->getSortTableName($number);
-        $externalTable = $this->getSortTableName($number, 'ezgmaplocation');
+        $externalTable = $this->getSortTableName($number, \Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway\DoctrineStorage::MAP_LOCATION_TABLE);
 
         $tableAlias = $this->connection->quoteIdentifier($table);
         $externalTableAlias = $this->connection->quoteIdentifier($externalTable);
@@ -107,7 +107,7 @@ class MapLocationDistance extends Field
             )
             ->leftJoin(
                 $tableAlias,
-                'ezgmaplocation',
+                \Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway\DoctrineStorage::MAP_LOCATION_TABLE,
                 $externalTableAlias,
                 $query->expr()->and(
                     $query->expr()->eq(
