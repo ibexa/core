@@ -848,7 +848,7 @@ ibexa_content_browsebookmark:
   - { id: 4, name: '', node_id: 13, user_id: 14 }
   - { id: 5, name: '', node_id: 15, user_id: 14 }
   - { id: 6, name: '', node_id: 14, user_id: 14 }
-eznotification:
+ibexa_notification:
   - { id: 1, owner_id: 14, is_pending: 1, type: 'Workflow:Review', created: 1529995052, data: null }
   - { id: 2, owner_id: 14, is_pending: 0, type: 'Workflow:Approve', created: 1529998652, data: null }
   - { id: 3, owner_id: 14, is_pending: 0, type: 'Workflow:Reject', created: 1530002252, data: null }

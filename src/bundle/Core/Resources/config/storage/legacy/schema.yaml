@@ -423,10 +423,10 @@ tables:
             sort_order: { type: integer, nullable: true, options: { default: '1' } }
             priority: { type: integer, nullable: false, options: { default: '0' } }
             is_hidden: { type: integer, nullable: false, options: { default: '0' } }
-    eznotification:
+    ibexa_notification:
         indexes:
-            eznotification_owner_is_pending: { fields: [owner_id, is_pending] }
-            eznotification_owner: { fields: [owner_id] }
+            ibexa_notification_owner_is_pending: { fields: [owner_id, is_pending] }
+            ibexa_notification_owner: { fields: [owner_id] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:

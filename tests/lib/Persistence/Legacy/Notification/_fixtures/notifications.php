@@ -14,7 +14,7 @@ return [
             'password_hash_type' => '5',
         ],
     ],
-    'eznotification' => [
+    \Ibexa\Core\Persistence\Legacy\Notification\Gateway\DoctrineDatabase::TABLE_NOTIFICATION => [
         0 => [
             'id' => 1,
             'owner_id' => 14,
