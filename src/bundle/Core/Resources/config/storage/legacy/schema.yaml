@@ -435,7 +435,7 @@ tables:
             type: { type: string, nullable: false, length: 128, options: { default: '' } }
             created: { type: integer, nullable: false, options: { default: '0' } }
             data: { type: text, nullable: true }
-    ezpackage:
+    ibexa_package:
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:

@@ -320,7 +320,7 @@ SELECT SETVAL('ibexa_keyword_attribute_link_id_seq', COALESCE(MAX(id), 1) ) FROM
 SELECT SETVAL('ibexa_keyword_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_keyword;
 SELECT SETVAL('ibexa_node_assignment_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_node_assignment;
 SELECT SETVAL('ibexa_notification_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_notification;
-SELECT SETVAL('ezpackage_id_seq', COALESCE(MAX(id), 1) ) FROM ezpackage;
+SELECT SETVAL('ibexa_package_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_package;
 SELECT SETVAL('ezpolicy_id_seq', COALESCE(MAX(id), 1) ) FROM ezpolicy;
 SELECT SETVAL('ezpolicy_limitation_id_seq', COALESCE(MAX(id), 1) ) FROM ezpolicy_limitation;
 SELECT SETVAL('ezpolicy_limitation_value_id_seq', COALESCE(MAX(id), 1) ) FROM ezpolicy_limitation_value;
