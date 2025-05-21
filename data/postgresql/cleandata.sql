@@ -326,8 +326,8 @@ SELECT SETVAL('ibexa_policy_limitation_id_seq', COALESCE(MAX(id), 1) ) FROM ibex
 SELECT SETVAL('ibexa_policy_limitation_value_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_policy_limitation_value;
 SELECT SETVAL('ibexa_preferences_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_preferences;
 SELECT SETVAL('ibexa_role_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_role;
-SELECT SETVAL('ezsearch_object_word_link_id_seq', COALESCE(MAX(id), 1) ) FROM ezsearch_object_word_link;
-SELECT SETVAL('ezsearch_word_id_seq', COALESCE(MAX(id), 1) ) FROM ezsearch_word;
+SELECT SETVAL('ibexa_search_object_word_link_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_search_object_word_link;
+SELECT SETVAL('ibexa_search_word_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_search_word;
 SELECT SETVAL('ezsection_id_seq', COALESCE(MAX(id), 1) ) FROM ezsection;
 SELECT SETVAL('ezurl_id_seq', COALESCE(MAX(id), 1) ) FROM ezurl;
 SELECT SETVAL('ezurlalias_id_seq', COALESCE(MAX(id), 1) ) FROM ezurlalias;

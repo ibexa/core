@@ -192,7 +192,7 @@ class FullText extends CriterionHandler
 
         $subQuery
             ->select('id')
-            ->from('ezsearch_word')
+            ->from(\Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository\SearchIndex::SEARCH_WORD_TABLE)
             ->where($whereCondition);
 
         return $subQuery->getSQL();
@@ -213,7 +213,7 @@ class FullText extends CriterionHandler
             ->select(
                 'contentobject_id'
             )->from(
-                'ezsearch_object_word_link'
+                \Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository\SearchIndex::SEARCH_OBJECT_WORD_LINK_TABLE
             )->where(
                 $expr->in(
                     'word_id',
@@ -231,7 +231,7 @@ class FullText extends CriterionHandler
             $subSelect->andWhere(
                 $expr->gt(
                     $this->dbPlatform->getBitAndComparisonExpression(
-                        'ezsearch_object_word_link.language_mask',
+                        'ibexa_search_object_word_link.language_mask',
                         $queryBuilder->createNamedParameter($languageMask, ParameterType::INTEGER)
                     ),
                     $queryBuilder->createNamedParameter(0, ParameterType::INTEGER)

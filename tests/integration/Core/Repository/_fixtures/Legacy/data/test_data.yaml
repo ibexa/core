@@ -641,7 +641,7 @@ ibexa_role:
   - { id: 3, is_new: 0, name: Editor, value: ' ', version: 0 }
   - { id: 4, is_new: 0, name: Partner, value: null, version: 0 }
   - { id: 5, is_new: 0, name: Member, value: null, version: 0 }
-ezsearch_word:
+ibexa_search_word:
   - { id: 814, object_count: 1, word: the }
   - { id: 930, object_count: 3, word: users }
   - { id: 952, object_count: 2, word: group }
@@ -671,7 +671,7 @@ ezsearch_word:
   - { id: 1005, object_count: 1, word: message }
   - { id: 1006, object_count: 1, word: text }
   - { id: 1007, object_count: 1, word: partners }
-ezsearch_object_word_link:
+ibexa_search_object_word_link:
   - { id: 4729, contentclass_attribute_id: 7, contentclass_id: 3, contentobject_id: 4, frequency: '0.0', identifier: description, integer_value: 0, next_word_id: 952, placement: 0, prev_word_id: 0, published: 1033917596, section_id: 2, word_id: 985, language_mask: 3 }
   - { id: 4730, contentclass_attribute_id: 7, contentclass_id: 3, contentobject_id: 4, frequency: '0.0', identifier: description, integer_value: 0, next_word_id: 930, placement: 1, prev_word_id: 985, published: 1033917596, section_id: 2, word_id: 952, language_mask: 3 }
   - { id: 4731, contentclass_attribute_id: 6, contentclass_id: 3, contentobject_id: 4, frequency: '0.0', identifier: name, integer_value: 0, next_word_id: 0, placement: 2, prev_word_id: 952, published: 1033917596, section_id: 2, word_id: 930, language_mask: 3 }

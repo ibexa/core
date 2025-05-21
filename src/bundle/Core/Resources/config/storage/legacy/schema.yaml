@@ -488,13 +488,13 @@ tables:
             name: { type: string, nullable: false, length: 255, options: { default: '' } }
             value: { type: string, nullable: true, length: 1, options: { fixed: true } }
             version: { type: integer, nullable: true, options: { default: '0' } }
-    ezsearch_object_word_link:
+    ibexa_search_object_word_link:
         indexes:
-            ezsearch_object_word_link_object: { fields: [contentobject_id] }
-            ezsearch_object_word_link_identifier: { fields: [identifier], options: { lengths: ['191'] } }
-            ezsearch_object_word_link_integer_value: { fields: [integer_value] }
-            ezsearch_object_word_link_word: { fields: [word_id] }
-            ezsearch_object_word_link_frequency: { fields: [frequency] }
+            ibexa_search_object_word_link_object: { fields: [contentobject_id] }
+            ibexa_search_object_word_link_identifier: { fields: [identifier], options: { lengths: ['191'] } }
+            ibexa_search_object_word_link_integer_value: { fields: [integer_value] }
+            ibexa_search_object_word_link_word: { fields: [word_id] }
+            ibexa_search_object_word_link_frequency: { fields: [frequency] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
@@ -511,10 +511,10 @@ tables:
             section_id: { type: integer, nullable: false, options: { default: '0' } }
             word_id: { type: integer, nullable: false, options: { default: '0' } }
             language_mask: { type: bigint, nullable: false, options: { default: '0' } }
-    ezsearch_word:
+    ibexa_search_word:
         indexes:
-            ezsearch_word_word_i: { fields: [word] }
-            ezsearch_word_obj_count: { fields: [object_count] }
+            ibexa_search_word_word_i: { fields: [word] }
+            ibexa_search_word_obj_count: { fields: [object_count] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
