@@ -389,7 +389,7 @@ class UserHandlerTest extends TestCase
                 'id',
                 'name',
                 'version'
-            )->from('ezrole'),
+            )->from(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway::ROLE_TABLE),
             'Expected a new role draft.'
         );
     }
@@ -416,7 +416,7 @@ class UserHandlerTest extends TestCase
                 'id',
                 'name',
                 'version'
-            )->from('ezrole'),
+            )->from(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway::ROLE_TABLE),
             'Expected a role and a role draft.'
         );
     }
@@ -594,7 +594,7 @@ class UserHandlerTest extends TestCase
 
         $this->assertQueryResult(
             [[1, 'Changed']],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'name')->from('ezrole'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'name')->from(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway::ROLE_TABLE),
             'Expected a changed role.'
         );
     }
@@ -609,7 +609,7 @@ class UserHandlerTest extends TestCase
 
         $this->assertQueryResult(
             [],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('id')->from('ezrole')->where('id = 3'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('id')->from(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway::ROLE_TABLE)->where('id = 3'),
             'Expected an empty set.'
         );
 
@@ -637,7 +637,7 @@ class UserHandlerTest extends TestCase
 
         $this->assertQueryResult(
             [['3', APIRole::STATUS_DEFINED]],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('id, version')->from('ezrole')->where('id = 3'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('id, version')->from(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway::ROLE_TABLE)->where('id = 3'),
             'Expected a published role.'
         );
 

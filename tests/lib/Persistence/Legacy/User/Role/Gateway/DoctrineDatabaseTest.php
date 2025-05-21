@@ -63,7 +63,7 @@ class DoctrineDatabaseTest extends TestCase
             ],
             $query
                 ->select('id', 'name', 'version')
-                ->from('ezrole')
+                ->from(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway::ROLE_TABLE)
                 ->where(
                     $query->expr()->eq(
                         'name',

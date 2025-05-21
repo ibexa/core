@@ -74,14 +74,14 @@ class Mapper
                 $originalId = null;
                 if ($row['ibexa_policy_original_id']) {
                     $originalId = (int)$row['ibexa_policy_original_id'];
-                } elseif ($row['ezrole_version']) {
+                } elseif ($row['ibexa_role_version']) {
                     $originalId = (int)$policyId;
                 }
 
                 $policies[$policyId] = new Policy(
                     [
                         'id' => (int)$policyId,
-                        'roleId' => (int)$row['ezrole_id'],
+                        'roleId' => (int)$row['ibexa_role_id'],
                         'originalId' => $originalId,
                         'module' => $row['ibexa_policy_module_name'],
                         'function' => $row['ibexa_policy_function_name'],
@@ -117,10 +117,10 @@ class Mapper
 
         foreach ($data as $row) {
             if (empty($role->id)) {
-                $role->id = (int)$row['ezrole_id'];
-                $role->identifier = $row['ezrole_name'];
-                $role->status = $row['ezrole_version'] != 0 ? Role::STATUS_DRAFT : Role::STATUS_DEFINED;
-                $role->originalId = $row['ezrole_version'] ? (int)$row['ezrole_version'] : Role::STATUS_DEFINED;
+                $role->id = (int)$row['ibexa_role_id'];
+                $role->identifier = $row['ibexa_role_name'];
+                $role->status = $row['ibexa_role_version'] != 0 ? Role::STATUS_DRAFT : Role::STATUS_DEFINED;
+                $role->originalId = $row['ibexa_role_version'] ? (int)$row['ibexa_role_version'] : Role::STATUS_DEFINED;
                 // skip name and description as they don't exist in legacy
             }
         }
@@ -139,7 +139,7 @@ class Mapper
     {
         $roleData = [];
         foreach ($data as $row) {
-            $roleData[$row['ezrole_id']][] = $row;
+            $roleData[$row['ibexa_role_id']][] = $row;
         }
 
         $roles = [];

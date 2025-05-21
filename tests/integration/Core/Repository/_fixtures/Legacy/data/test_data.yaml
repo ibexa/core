@@ -635,7 +635,7 @@ ibexa_policy_limitation_value:
   - { id: 568, limitation_id: 296, value: 30 }
   - { id: 569, limitation_id: 297, value: 1 }
   - { id: 570, limitation_id: 298, value: 1 }
-ezrole:
+ibexa_role:
   - { id: 1, is_new: 0, name: Anonymous, value: ' ', version: 0 }
   - { id: 2, is_new: 0, name: Administrator, value: '*', version: 0 }
   - { id: 3, is_new: 0, name: Editor, value: ' ', version: 0 }

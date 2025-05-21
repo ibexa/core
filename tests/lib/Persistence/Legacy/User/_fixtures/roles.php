@@ -5,7 +5,7 @@
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 return [
-    'ezrole' => [
+    \Ibexa\Core\Persistence\Legacy\User\Role\Gateway::ROLE_TABLE => [
         [
             'id' => '1',
             'is_new' => '0',

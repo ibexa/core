@@ -121,9 +121,9 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(
-                'r.id AS ezrole_id',
-                'r.name AS ezrole_name',
-                'r.version AS ezrole_version',
+                'r.id AS ibexa_role_id',
+                'r.name AS ibexa_role_name',
+                'r.version AS ibexa_role_version',
                 'p.id AS ibexa_policy_id',
                 'p.function_name AS ibexa_policy_function_name',
                 'p.module_name AS ibexa_policy_module_name',
@@ -228,9 +228,9 @@ final class DoctrineDatabase extends Gateway
         $query
             ->select(
                 'ur.contentobject_id AS ezuser_role_contentobject_id',
-                'r.id AS ezrole_id',
-                'r.name AS ezrole_name',
-                'r.version AS ezrole_version',
+                'r.id AS ibexa_role_id',
+                'r.name AS ibexa_role_name',
+                'r.version AS ibexa_role_version',
                 'p.id AS ibexa_policy_id',
                 'p.function_name AS ibexa_policy_function_name',
                 'p.module_name AS ibexa_policy_module_name',

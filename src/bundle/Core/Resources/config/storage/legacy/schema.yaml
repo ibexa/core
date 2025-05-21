@@ -480,7 +480,7 @@ tables:
             name: { type: string, nullable: true, length: 100 }
             user_id: { type: integer, nullable: false, options: { default: '0' } }
             value: { type: text, nullable: true, length: 0 }
-    ezrole:
+    ibexa_role:
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:

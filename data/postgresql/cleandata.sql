@@ -224,7 +224,7 @@ VALUES (477,251,'1'),
        (482,256,'5'),
        (483,256,'12');
 
-INSERT INTO "ezrole" ("id", "is_new", "name", "value", "version")
+INSERT INTO "ibexa_role" ("id", "is_new", "name", "value", "version")
 VALUES (1,0,'Anonymous','',0),
        (2,0,'Administrator','0',0),
        (3,0,'Editor','',0),
@@ -325,7 +325,7 @@ SELECT SETVAL('ibexa_policy_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_policy;
 SELECT SETVAL('ibexa_policy_limitation_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_policy_limitation;
 SELECT SETVAL('ibexa_policy_limitation_value_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_policy_limitation_value;
 SELECT SETVAL('ibexa_preferences_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_preferences;
-SELECT SETVAL('ezrole_id_seq', COALESCE(MAX(id), 1) ) FROM ezrole;
+SELECT SETVAL('ibexa_role_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_role;
 SELECT SETVAL('ezsearch_object_word_link_id_seq', COALESCE(MAX(id), 1) ) FROM ezsearch_object_word_link;
 SELECT SETVAL('ezsearch_word_id_seq', COALESCE(MAX(id), 1) ) FROM ezsearch_word;
 SELECT SETVAL('ezsection_id_seq', COALESCE(MAX(id), 1) ) FROM ezsection;
