@@ -861,6 +861,6 @@ ezpreferences:
   - { id: 3, name: setting_3, user_id: 14, value: value_3 }
   - { id: 4, name: setting_4, user_id: 14, value: value_4 }
   - { id: 5, name: setting_5, user_id: 14, value: value_5 }
-ezmedia: {  }
+ibexa_media: {  }
 ibexa_keyword: {  }
 ibexa_content_type_attribute_ml: {  }
