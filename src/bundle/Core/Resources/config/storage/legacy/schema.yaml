@@ -533,9 +533,9 @@ tables:
             name: { type: string, nullable: false, length: 60, options: { default: '' } }
         fields:
             value: { type: text, nullable: false, length: 0 }
-    ezurl:
+    ibexa_url:
         indexes:
-            ezurl_url: { fields: [url], options: { lengths: ['191'] } }
+            ibexa_url_url: { fields: [url], options: { lengths: ['191'] } }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
@@ -545,24 +545,24 @@ tables:
             modified: { type: integer, nullable: false, options: { default: '0' } }
             original_url_md5: { type: string, nullable: false, length: 32, options: { default: '' } }
             url: { type: text, nullable: true, length: 0 }
-    ezurl_object_link:
+    ibexa_url_content_link:
         indexes:
-            ezurl_ol_coa_id: { fields: [contentobject_attribute_id] }
-            ezurl_ol_url_id: { fields: [url_id] }
-            ezurl_ol_coa_version: { fields: [contentobject_attribute_version] }
-            ezurl_ol_coa_id_cav: { fields: [contentobject_attribute_id, contentobject_attribute_version] }
+            ibexa_url_ol_coa_id: { fields: [contentobject_attribute_id] }
+            ibexa_url_ol_url_id: { fields: [url_id] }
+            ibexa_url_ol_coa_version: { fields: [contentobject_attribute_version] }
+            ibexa_url_ol_coa_id_cav: { fields: [contentobject_attribute_id, contentobject_attribute_version] }
         fields:
             contentobject_attribute_id: { type: integer, nullable: false, options: { default: '0' } }
             contentobject_attribute_version: { type: integer, nullable: false, options: { default: '0' } }
             url_id: { type: integer, nullable: false, options: { default: '0' } }
-    ezurlalias:
+    ibexa_url_alias:
         indexes:
-            ezurlalias_source_md5: { fields: [source_md5] }
-            ezurlalias_wcard_fwd: { fields: [is_wildcard, forward_to_id] }
-            ezurlalias_forward_to_id: { fields: [forward_to_id] }
-            ezurlalias_imp_wcard_fwd: { fields: [is_imported, is_wildcard, forward_to_id] }
-            ezurlalias_source_url: { fields: [source_url], options: { lengths: ['191'] } }
-            ezurlalias_desturl: { fields: [destination_url], options: { lengths: ['191'] } }
+            ibexa_url_alias_source_md5: { fields: [source_md5] }
+            ibexa_url_alias_wcard_fwd: { fields: [is_wildcard, forward_to_id] }
+            ibexa_url_alias_forward_to_id: { fields: [forward_to_id] }
+            ibexa_url_alias_imp_wcard_fwd: { fields: [is_imported, is_wildcard, forward_to_id] }
+            ibexa_url_alias_source_url: { fields: [source_url], options: { lengths: ['191'] } }
+            ibexa_url_alias_desturl: { fields: [destination_url], options: { lengths: ['191'] } }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
@@ -573,15 +573,15 @@ tables:
             is_wildcard: { type: integer, nullable: false, options: { default: '0' } }
             source_md5: { type: string, nullable: true, length: 32 }
             source_url: { type: text, nullable: false, length: 0 }
-    ezurlalias_ml:
+    ibexa_url_alias_ml:
         indexes:
-            ezurlalias_ml_actt_org_al: { fields: [action_type, is_original, is_alias] }
-            ezurlalias_ml_text_lang: { fields: [text, lang_mask, parent], options: { lengths: ['32', null, null] } }
-            ezurlalias_ml_par_act_id_lnk: { fields: [action, id, link, parent], options: { lengths: ['32', null, null, null] } }
-            ezurlalias_ml_par_lnk_txt: { fields: [parent, text, link], options: { lengths: [null, '32', null] } }
-            ezurlalias_ml_act_org: { fields: [action, is_original], options: { lengths: ['32', null] } }
-            ezurlalias_ml_text: { fields: [text, id, link], options: { lengths: ['32', null, null] } }
-            ezurlalias_ml_id: { fields: [id] }
+            ibexa_url_alias_ml_actt_org_al: { fields: [action_type, is_original, is_alias] }
+            ibexa_url_alias_ml_text_lang: { fields: [text, lang_mask, parent], options: { lengths: ['32', null, null] } }
+            ibexa_url_alias_ml_par_act_id_lnk: { fields: [action, id, link, parent], options: { lengths: ['32', null, null, null] } }
+            ibexa_url_alias_ml_par_lnk_txt: { fields: [parent, text, link], options: { lengths: [null, '32', null] } }
+            ibexa_url_alias_ml_act_org: { fields: [action, is_original], options: { lengths: ['32', null] } }
+            ibexa_url_alias_ml_text: { fields: [text, id, link], options: { lengths: ['32', null, null] } }
+            ibexa_url_alias_ml_id: { fields: [id] }
         id:
             parent: { type: integer, nullable: false, options: { default: '0' } }
             text_md5: { type: string, nullable: false, length: 32, options: { default: '' } }
@@ -595,10 +595,10 @@ tables:
             lang_mask: { type: bigint, nullable: false, options: { default: '0' } }
             link: { type: integer, nullable: false, options: { default: '0' } }
             text: { type: text, nullable: false, length: 0 }
-    ezurlalias_ml_incr:
+    ibexa_url_alias_ml_incr:
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
-    ezurlwildcard:
+    ibexa_url_wildcard:
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:

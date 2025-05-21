@@ -5,7 +5,7 @@
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 return [
-    'ezurlwildcard' => [
+    \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway::URL_WILDCARD_TABLE => [
         0 => [
             'id' => '1',
             'source_url' => 'developer/*',

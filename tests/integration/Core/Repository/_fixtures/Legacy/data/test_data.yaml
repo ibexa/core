@@ -717,13 +717,13 @@ ibexa_section:
   - { id: 4, identifier: setup, locale: '', name: Setup, navigation_part_identifier: ezsetupnavigationpart }
   - { id: 5, identifier: design, locale: '', name: Design, navigation_part_identifier: ezvisualnavigationpart }
   - { id: 6, identifier: '', locale: '', name: Restricted, navigation_part_identifier: ezcontentnavigationpart }
-ezurl:
+ibexa_url:
   - { created: 1343140541, id: 23, is_valid: 1, last_checked: 0, modified: 1343140541, original_url_md5: 9b492048041e95b32de08bafc86d759b, url: /content/view/sitemap/2 }
   - { created: 1343140541, id: 24, is_valid: 0, last_checked: 1343140585, modified: 1343140541, original_url_md5: c86bcb109d8e70f9db65c803baafd550, url: /content/view/tagcloud/2 }
-ezurl_object_link:
+ibexa_url_content_link:
   - { contentobject_attribute_id: 195, contentobject_attribute_version: 2, url_id: 23 }
   - { contentobject_attribute_id: 196, contentobject_attribute_version: 2, url_id: 24 }
-ezurlalias:
+ibexa_url_alias:
   - { destination_url: content/view/full/2, forward_to_id: 0, id: 12, is_imported: 1, is_internal: 1, is_wildcard: 0, source_md5: d41d8cd98f00b204e9800998ecf8427e, source_url: '' }
   - { destination_url: content/view/full/5, forward_to_id: 0, id: 13, is_imported: 1, is_internal: 1, is_wildcard: 0, source_md5: 9bc65c2abec141778ffaa729489f3e87, source_url: users }
   - { destination_url: content/view/full/12, forward_to_id: 0, id: 15, is_imported: 1, is_internal: 1, is_wildcard: 0, source_md5: 02d4e844e3a660857a3f81585995ffe1, source_url: users/guest_accounts }
@@ -741,7 +741,7 @@ ezurlalias:
   - { destination_url: content/view/full/54, forward_to_id: 0, id: 31, is_imported: 1, is_internal: 1, is_wildcard: 0, source_md5: e501fe6c81ed14a5af2b322d248102d8, source_url: setup/common_ini_settings }
   - { destination_url: content/view/full/56, forward_to_id: 0, id: 32, is_imported: 1, is_internal: 1, is_wildcard: 0, source_md5: 2dd3db5dc7122ea5f3ee539bb18fe97d, source_url: design/ez_publish }
   - { destination_url: content/view/full/58, forward_to_id: 0, id: 33, is_imported: 1, is_internal: 1, is_wildcard: 0, source_md5: 31c13f47ad87dd7baa2d558a91e0fbb9, source_url: design }
-ezurlalias_ml:
+ibexa_url_alias_ml:
   - { action: 'nop:', action_type: nop, alias_redirects: 1, id: 14, is_alias: 0, is_original: 0, lang_mask: 1, link: 14, parent: 0, text: foo_bar_folder, text_md5: 0288b6883046492fa92e4a84eb67acc9 }
   - { action: 'eznode:60', action_type: eznode, alias_redirects: 1, id: 39, is_alias: 0, is_original: 1, lang_mask: 8, link: 39, parent: 0, text: Contact-Us, text_md5: 03f2197d47a602c679c5f667e3482855 }
   - { action: 'eznode:59', action_type: eznode, alias_redirects: 1, id: 38, is_alias: 0, is_original: 1, lang_mask: 9, link: 38, parent: 0, text: Home, text_md5: 106a6c241b8797f52e1e77317b96a201 }
@@ -782,7 +782,7 @@ ezurlalias_ml:
   - { action: 'eznode:54', action_type: eznode, alias_redirects: 1, id: 35, is_alias: 0, is_original: 0, lang_mask: 1, link: 22, parent: 21, text: common_ini_settings, text_md5: e59d6834e86cee752ed841f9cd8d5baf }
   - { action: 'eznode:56', action_type: eznode, alias_redirects: 1, id: 37, is_alias: 0, is_original: 0, lang_mask: 2, link: 24, parent: 25, text: eZ-publish, text_md5: 10e4c3cb527fb9963258469986c16240 }
   - { action: 'eznode:56', action_type: eznode, alias_redirects: 1, id: 24, is_alias: 0, is_original: 1, lang_mask: 2, link: 24, parent: 25, text: Plain-site, text_md5: 49a39d99a955d95aa5d636275656a07a }
-ezurlalias_ml_incr:
+ibexa_url_alias_ml_incr:
   - { id: 1 }
   - { id: 2 }
   - { id: 3 }
@@ -823,7 +823,7 @@ ezurlalias_ml_incr:
   - { id: 39 }
   - { id: 40 }
   - { id: 41 }
-ezurlwildcard: {  }
+ibexa_url_wildcard: {  }
 ezuser:
   - { contentobject_id: 10, email: anonymous@link.invalid, login: anonymous, password_hash: $2y$10$35gOSQs6JK4u4whyERaeUuVeQBi2TUBIZIfP7HEj7sfz.MxvTuOeC, password_hash_type: 7 }
   - { contentobject_id: 14, email: admin@link.invalid, login: admin, password_hash: $2y$10$FDn9NPwzhq85cLLxfD5Wu.L3SL3Z/LNCvhkltJUV0wcJj7ciJg2oy, password_hash_type: 7 }

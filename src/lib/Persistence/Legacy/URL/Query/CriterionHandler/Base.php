@@ -16,7 +16,7 @@ use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 abstract class Base implements CriterionHandler
 {
     /**
-     * Inner join `ezurl_object_link` table if not joined yet.
+     * Inner join `ibexa_url_content_link` table if not joined yet.
      */
     protected function joinContentObjectLink(QueryBuilder $query): void
     {

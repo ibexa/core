@@ -7,7 +7,7 @@
 declare(strict_types=1);
 
 return [
-    'ezurl' => [
+    \Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase::URL_TABLE => [
         [
             'id' => 23,
             'created' => 1448832197,

@@ -1350,7 +1350,7 @@ class URLAliasServiceTest extends BaseTest
                 $queryBuilder = $connection->createQueryBuilder();
                 $expr = $queryBuilder->expr();
                 $queryBuilder
-                    ->delete('ezurlalias_ml')
+                    ->delete(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway::TABLE)
                     ->where(
                         $expr->and(
                             $expr->eq(
@@ -1432,7 +1432,7 @@ class URLAliasServiceTest extends BaseTest
                 $queryBuilder = $connection->createQueryBuilder();
                 $expr = $queryBuilder->expr();
                 $queryBuilder
-                    ->update('ezurlalias_ml')
+                    ->update(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway::TABLE)
                     ->set('link', $queryBuilder->createPositionalParameter(666, \PDO::PARAM_INT))
                     ->where(
                         $expr->eq(
@@ -1629,7 +1629,7 @@ class URLAliasServiceTest extends BaseTest
         $urlAliasService = $repository->getURLAliasService();
         $connection = $this->getRawDatabaseConnection();
 
-        $query = $connection->createQueryBuilder()->select('*')->from('ezurlalias_ml');
+        $query = $connection->createQueryBuilder()->select('*')->from(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway::TABLE);
         $originalRows = $query->executeQuery()->fetchAllAssociative();
 
         $expectedCount = count($originalRows);
@@ -1746,7 +1746,7 @@ class URLAliasServiceTest extends BaseTest
     }
 
     /**
-     * Insert intentionally broken rows into ezurlalias_ml table to test cleanup API.
+     * Insert intentionally broken rows into ibexa_url_alias_ml table to test cleanup API.
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::deleteCorruptedUrlAliases
      *
@@ -1803,7 +1803,7 @@ class URLAliasServiceTest extends BaseTest
             ],
         ];
 
-        $query = $connection->createQueryBuilder()->insert('ezurlalias_ml');
+        $query = $connection->createQueryBuilder()->insert(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway::TABLE);
 
         foreach ($rows as $row) {
             foreach ($row as $columnName => $value) {

@@ -40,7 +40,7 @@ abstract class Gateway
         \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_NAME_TABLE => ['language_id'],
         \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_VERSION_TABLE => ['language_mask', 'initial_language_id'],
         \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE => ['language_mask', 'initial_language_id'],
-        'ezurlalias_ml' => ['lang_mask'],
+        \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway::TABLE => ['lang_mask'],
     ];
 
     /**

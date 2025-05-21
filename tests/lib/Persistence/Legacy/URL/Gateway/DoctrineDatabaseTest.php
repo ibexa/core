@@ -34,7 +34,7 @@ class DoctrineDatabaseTest extends TestCase
         parent::setUp();
 
         $fixtureLocation = __DIR__ . '/_fixtures/urls.php';
-        $this->fixtureData = (require $fixtureLocation)['ezurl'];
+        $this->fixtureData = (require $fixtureLocation)[\Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase::URL_TABLE];
         $this->insertDatabaseFixture($fixtureLocation);
         $this->initGateway();
     }

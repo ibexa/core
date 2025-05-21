@@ -5,7 +5,7 @@
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 return [
-    'ezurlalias_ml' => [
+    \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway::TABLE => [
         [
             'action' => 'eznode:2',
             'action_type' => 'eznode',
@@ -59,7 +59,7 @@ return [
             'text_md5' => 'f67a51e1a7085ae8b69d08f0697d9092',
         ],
     ],
-    'ezurlalias_ml_incr' => [
+    \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway::INCR_TABLE => [
         ['id' => '1'],
         ['id' => '2'],
         ['id' => '3'],
