@@ -402,12 +402,12 @@ tables:
             pluginspage: { type: string, nullable: true, length: 255 }
             quality: { type: string, nullable: true, length: 50 }
             width: { type: integer, nullable: true }
-    eznode_assignment:
+    ibexa_node_assignment:
         indexes:
-            eznode_assignment_is_main: { fields: [is_main] }
-            eznode_assignment_coid_cov: { fields: [contentobject_id, contentobject_version] }
-            eznode_assignment_parent_node: { fields: [parent_node] }
-            eznode_assignment_co_version: { fields: [contentobject_version] }
+            ibexa_node_assignment_is_main: { fields: [is_main] }
+            ibexa_node_assignment_coid_cov: { fields: [contentobject_id, contentobject_version] }
+            ibexa_node_assignment_parent_node: { fields: [parent_node] }
+            ibexa_node_assignment_co_version: { fields: [contentobject_version] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:

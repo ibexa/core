@@ -342,12 +342,12 @@ abstract class Gateway
     /**
      * Changes main location of content identified by given $contentId to location identified by given $locationId.
      *
-     * Updates ibexa_content_tree table for the given $contentId and eznode_assignment table for the given
+     * Updates ibexa_content_tree table for the given $contentId and ibexa_node_assignment table for the given
      * $contentId, $parentLocationId and $versionNo
      *
-     * @param int $versionNo version number, needed to update eznode_assignment table
+     * @param int $versionNo version number, needed to update ibexa_node_assignment table
      * @param int $parentLocationId parent location of location identified by $locationId, needed to update
-     *        eznode_assignment table
+     *        ibexa_node_assignment table
      */
     abstract public function changeMainLocation(
         int $contentId,

@@ -252,7 +252,7 @@ class Handler implements BaseContentHandler
      * version of the referred Content from it.
      *
      * Note: When creating a new draft in the old admin interface there will
-     * also be an entry in the `eznode_assignment` created for the draft. This
+     * also be an entry in the `ibexa_node_assignment` created for the draft. This
      * is ignored in this implementation.
      *
      * @param mixed $contentId

@@ -183,7 +183,7 @@ VALUES (4,0,14,4,2,3,0,1,0,1,1),
        (14,1301061783,14,499,2,3,1301062024,1,0,3,0),
        (1,1448889045,14,506,2,3,1448889046,1,0,9,0);
 
-INSERT INTO "eznode_assignment" ("contentobject_id", "contentobject_version", "from_node_id", "id", "is_main", "op_code", "parent_node", "parent_remote_id", "remote_id", "sort_field", "sort_order", "priority", "is_hidden")
+INSERT INTO "ibexa_node_assignment" ("contentobject_id", "contentobject_version", "from_node_id", "id", "is_main", "op_code", "parent_node", "parent_remote_id", "remote_id", "sort_field", "sort_order", "priority", "is_hidden")
 VALUES (8,2,0,4,1,2,5,'','0',1,1,0,0),
        (42,1,0,5,1,2,5,'','0',9,1,0,0),
        (10,2,-1,6,1,2,44,'','0',9,1,0,0),
@@ -318,7 +318,7 @@ SELECT SETVAL('ibexa_content_version_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_
 SELECT SETVAL('ibexa_image_file_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_image_file;
 SELECT SETVAL('ibexa_keyword_attribute_link_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_keyword_attribute_link;
 SELECT SETVAL('ibexa_keyword_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_keyword;
-SELECT SETVAL('eznode_assignment_id_seq', COALESCE(MAX(id), 1) ) FROM eznode_assignment;
+SELECT SETVAL('ibexa_node_assignment_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_node_assignment;
 SELECT SETVAL('eznotification_id_seq', COALESCE(MAX(id), 1) ) FROM eznotification;
 SELECT SETVAL('ezpackage_id_seq', COALESCE(MAX(id), 1) ) FROM ezpackage;
 SELECT SETVAL('ezpolicy_id_seq', COALESCE(MAX(id), 1) ) FROM ezpolicy;

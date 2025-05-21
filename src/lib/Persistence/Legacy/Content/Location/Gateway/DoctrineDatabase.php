@@ -35,6 +35,8 @@ use function time;
  */
 final class DoctrineDatabase extends Gateway
 {
+    public const string NODE_ASSIGNMENT_TABLE = 'ibexa_node_assignment';
+
     /** @var \Doctrine\DBAL\Connection */
     private $connection;
 
@@ -173,7 +175,7 @@ final class DoctrineDatabase extends Gateway
             ->from(self::CONTENT_TREE_TABLE, 't')
             ->innerJoin(
                 't',
-                'eznode_assignment',
+                self::NODE_ASSIGNMENT_TABLE,
                 'a',
                 $expr->and(
                     $expr->eq(
@@ -266,7 +268,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('contentobject_id')
-            ->from('eznode_assignment', 'n')
+            ->from(self::NODE_ASSIGNMENT_TABLE, 'n')
             ->innerJoin('n', \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE, 'c', 'n.contentobject_id = c.id')
             ->andWhere('n.parent_node = :parentNode')
             ->andWhere('c.status = :status')
@@ -808,7 +810,7 @@ final class DoctrineDatabase extends Gateway
 
         $query = $this->connection->createQueryBuilder();
         $query
-            ->insert('eznode_assignment')
+            ->insert(self::NODE_ASSIGNMENT_TABLE)
             ->values(
                 [
                     'contentobject_id' => ':contentobject_id',
@@ -868,7 +870,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query->delete(
-            'eznode_assignment'
+            self::NODE_ASSIGNMENT_TABLE
         )->where(
             $query->expr()->eq(
                 'contentobject_id',
@@ -894,7 +896,7 @@ final class DoctrineDatabase extends Gateway
     ): void {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->update('eznode_assignment')
+            ->update(self::NODE_ASSIGNMENT_TABLE)
             ->set(
                 'parent_node',
                 $query->createPositionalParameter($newParent, ParameterType::INTEGER)
@@ -930,7 +932,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('*')
-            ->from('eznode_assignment')
+            ->from(self::NODE_ASSIGNMENT_TABLE)
             ->where(
                 $query->expr()->eq(
                     'contentobject_id',
@@ -1396,7 +1398,7 @@ final class DoctrineDatabase extends Gateway
         ;
         $query->executeStatement();
 
-        // Update is_main in eznode_assignment table
+        // Update is_main in ibexa_node_assignment table
         $this->setIsMainForContentVersionParentNodeAssignment(
             $contentId,
             $versionNo,
@@ -1513,7 +1515,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Mark eznode_assignment entry, identified by Content ID and Version ID, as main for the given
+     * Mark ibexa_node_assignment entry, identified by Content ID and Version ID, as main for the given
      * parent Location ID.
      *
      * **NOTE**: The method erases is_main from the other entries related to Content and Version IDs
@@ -1525,7 +1527,7 @@ final class DoctrineDatabase extends Gateway
     ): void {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->update('eznode_assignment')
+            ->update(self::NODE_ASSIGNMENT_TABLE)
             ->set(
                 'is_main',
                 // set is_main = 1 only for current parent, set 0 for other entries

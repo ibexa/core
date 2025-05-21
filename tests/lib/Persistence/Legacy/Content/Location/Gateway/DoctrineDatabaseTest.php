@@ -360,7 +360,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'priority',
                     'is_hidden'
                 )
-                ->from('eznode_assignment')
+                ->from(\Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
                 ->where($query->expr()->eq('contentobject_id', 67))
         );
     }
@@ -777,7 +777,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         return $this->buildGenericNodeSelectContentWithParentQuery(
             $contentId,
             $parentLocationId,
-            'eznode_assignment',
+            \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase::NODE_ASSIGNMENT_TABLE,
             'parent_node',
             $fields
         );
@@ -913,7 +913,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [[0]],
             $query
                 ->select('count(*)')
-                ->from('eznode_assignment')
+                ->from(\Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
                 ->where(
                     $query->expr()->eq('contentobject_id', 11)
                 )
@@ -928,7 +928,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $query = $this->getDatabaseConnection()->createQueryBuilder();
         $query
             ->select('count(*)')
-            ->from('eznode_assignment')
+            ->from(\Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
             ->where(
                 $query->expr()->eq('contentobject_id', 11)
             );
@@ -942,7 +942,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [[$nodeAssignmentsCount - 1]],
             $query
                 ->select('count(*)')
-                ->from('eznode_assignment')
+                ->from(\Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
                 ->where(
                     $query->expr()->eq('contentobject_id', 11)
                 )
@@ -1245,7 +1245,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $query = $connection->createQueryBuilder();
         $query
-            ->insert('eznode_assignment')
+            ->insert(\Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
             ->values(
                 [
                     'contentobject_id' => $query->createPositionalParameter(
@@ -1295,7 +1295,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [[1]],
             $query
                 ->select('is_main')
-                ->from('eznode_assignment')
+                ->from(\Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
                 ->where(
                     $query->expr()->and(
                         $query->expr()->eq(
@@ -1319,7 +1319,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [[0]],
             $query
                 ->select('is_main')
-                ->from('eznode_assignment')
+                ->from(\Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
                 ->where(
                     $query->expr()->and(
                         $query->expr()->eq(
