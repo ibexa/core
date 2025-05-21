@@ -235,7 +235,7 @@ VALUES (1,'standard','','Standard','ezcontentnavigationpart'),
        (2,'users','','Users','ezusernavigationpart'),
        (3,'media','','Media','ezmedianavigationpart');
 
-INSERT INTO "ezsite_data" ("name", "value")
+INSERT INTO "ibexa_site_data" ("name", "value")
 VALUES ('ibexa-release','4.6');
 
 INSERT INTO "ezurlalias" ("destination_url", "forward_to_id", "id", "is_imported", "is_internal", "is_wildcard", "source_md5", "source_url")
