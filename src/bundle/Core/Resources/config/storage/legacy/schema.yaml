@@ -358,10 +358,10 @@ tables:
             latitude: { type: float, nullable: false, length: 0, options: { default: '0' } }
             longitude: { type: float, nullable: false, length: 0, options: { default: '0' } }
             address: { type: string, nullable: true, length: 150 }
-    ezimagefile:
+    ibexa_image_file:
         indexes:
-            ezimagefile_file: { fields: [filepath], options: { lengths: ['191'] } }
-            ezimagefile_coid: { fields: [contentobject_attribute_id] }
+            ibexa_image_file_file: { fields: [filepath], options: { lengths: ['191'] } }
+            ibexa_image_file_coid: { fields: [contentobject_attribute_id] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:

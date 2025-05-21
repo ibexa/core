@@ -20,7 +20,7 @@ use PDO;
  */
 class DoctrineStorage extends Gateway
 {
-    public const IMAGE_FILE_TABLE = 'ezimagefile';
+    public const IMAGE_FILE_TABLE = 'ibexa_image_file';
 
     /** @var \Doctrine\DBAL\Connection */
     protected $connection;

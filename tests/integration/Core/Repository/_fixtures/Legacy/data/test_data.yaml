@@ -415,7 +415,7 @@ ibexa_content_version:
   - { contentobject_id: 14, created: 1343140540, creator_id: 14, id: 506, initial_language_id: 2, language_mask: 3, modified: 1343140540, status: 1, user_id: 0, version: 4, workflow_event_pos: 0 }
   - { contentobject_id: 59, created: 1343140541, creator_id: 14, id: 507, initial_language_id: 2, language_mask: 3, modified: 1343140541, status: 1, user_id: 0, version: 1, workflow_event_pos: 0 }
   - { contentobject_id: 11, created: 1343140541, creator_id: 14, id: 508, initial_language_id: 2, language_mask: 3, modified: 1343140541, status: 1, user_id: 0, version: 2, workflow_event_pos: 0 }
-ezimagefile:
+ibexa_image_file:
   - { contentobject_attribute_id: 172, filepath: var/storage/images/setup/ez_publish/172-1-eng-GB/ez_publish., id: 1 }
   - { contentobject_attribute_id: 172, filepath: var/ibexa_demo_site/storage/images/design/plain-site/172-2-eng-US/Ibexa-Demo-Design-without-demo-content1.png, id: 2 }
 eznode_assignment:

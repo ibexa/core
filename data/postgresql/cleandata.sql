@@ -315,7 +315,7 @@ SELECT SETVAL('ibexa_content_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_content;
 SELECT SETVAL('ibexa_content_link_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_content_link;
 SELECT SETVAL('ibexa_content_tree_node_id_seq', COALESCE(MAX(node_id), 1) ) FROM ibexa_content_tree;
 SELECT SETVAL('ibexa_content_version_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_content_version;
-SELECT SETVAL('ezimagefile_id_seq', COALESCE(MAX(id), 1) ) FROM ezimagefile;
+SELECT SETVAL('ibexa_image_file_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_image_file;
 SELECT SETVAL('ezkeyword_attribute_link_id_seq', COALESCE(MAX(id), 1) ) FROM ezkeyword_attribute_link;
 SELECT SETVAL('ezkeyword_id_seq', COALESCE(MAX(id), 1) ) FROM ezkeyword;
 SELECT SETVAL('eznode_assignment_id_seq', COALESCE(MAX(id), 1) ) FROM eznode_assignment;
