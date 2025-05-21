@@ -367,19 +367,19 @@ tables:
         fields:
             contentobject_attribute_id: { type: integer, nullable: false, options: { default: '0' } }
             filepath: { type: text, nullable: false, length: 0 }
-    ezkeyword:
+    ibexa_keyword:
         indexes:
-            ezkeyword_keyword: { fields: [keyword], options: { lengths: ['191'] } }
+            ibexa_keyword_keyword: { fields: [keyword], options: { lengths: ['191'] } }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
             class_id: { type: integer, nullable: false, options: { default: '0' } }
             keyword: { type: string, nullable: true, length: 255 }
-    ezkeyword_attribute_link:
+    ibexa_keyword_attribute_link:
         indexes:
-            ezkeyword_attr_link_oaid: { fields: [objectattribute_id] }
-            ezkeyword_attr_link_kid_oaid: { fields: [keyword_id, objectattribute_id] }
-            ezkeyword_attr_link_oaid_ver: { fields: [objectattribute_id, version] }
+            ibexa_keyword_attr_link_oaid: { fields: [objectattribute_id] }
+            ibexa_keyword_attr_link_kid_oaid: { fields: [keyword_id, objectattribute_id] }
+            ibexa_keyword_attr_link_oaid_ver: { fields: [objectattribute_id, version] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:

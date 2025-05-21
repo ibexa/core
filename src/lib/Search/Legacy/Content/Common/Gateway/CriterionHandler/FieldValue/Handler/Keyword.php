@@ -24,13 +24,13 @@ class Keyword extends Collection
         $subQuery
             ->innerJoin(
                 'f_def',
-                'ezkeyword_attribute_link',
+                \Ibexa\Core\FieldType\Keyword\KeywordStorage\Gateway\DoctrineStorage::KEYWORD_ATTRIBUTE_LINK_TABLE,
                 'kwd_lnk',
                 'f_def.id = kwd_lnk.objectattribute_id'
             )
             ->innerJoin(
                 'kwd_lnk',
-                'ezkeyword',
+                \Ibexa\Core\FieldType\Keyword\KeywordStorage\Gateway\DoctrineStorage::KEYWORD_TABLE,
                 'kwd',
                 'kwd.id = kwd_lnk.keyword_id'
             );
