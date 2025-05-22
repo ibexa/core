@@ -69,7 +69,7 @@ class DoctrineDatabaseTest extends TestCase
             ],
             $query
                 ->select('contentobject_id', 'id', 'limit_identifier', 'limit_value', 'role_id')
-                ->from('ezuser_role')
+                ->from(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway::USER_ROLE_TABLE)
                 ->where(
                     $query->expr()->eq(
                         'role_id',

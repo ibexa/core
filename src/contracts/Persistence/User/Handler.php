@@ -226,7 +226,7 @@ interface Handler
      *
      * Role Assignments with same roleId and limitationIdentifier will be merged together into one.
      *
-     * @param mixed $groupId In legacy storage engine this is the content object id roles are assigned to in ezuser_role.
+     * @param mixed $groupId In legacy storage engine this is the content object id roles are assigned to in ibexa_user_role.
      *                      By the nature of legacy this can currently also be used to get by $userId.
      * @param bool $inherit If true also return inherited role assignments from user groups.
      *

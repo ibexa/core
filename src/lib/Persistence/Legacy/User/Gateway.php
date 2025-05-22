@@ -18,7 +18,9 @@ use Ibexa\Contracts\Core\Persistence\User\UserTokenUpdateStruct;
  */
 abstract class Gateway
 {
-    public const USER_TABLE = 'ezuser';
+    public const USER_TABLE = 'ibexa_user';
+
+    public const string USER_ACCOUNTKEY_TABLE = 'ibexa_user_accountkey';
 
     /**
      * Load a User by User ID.

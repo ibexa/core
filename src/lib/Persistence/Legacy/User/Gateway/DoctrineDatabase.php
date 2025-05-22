@@ -97,7 +97,7 @@ final class DoctrineDatabase extends Gateway
         $query
             ->leftJoin(
                 'u',
-                'ezuser_accountkey',
+                \Ibexa\Core\Persistence\Legacy\User\Gateway::USER_ACCOUNTKEY_TABLE,
                 'token',
                 $query->expr()->eq(
                     'token.user_id',
@@ -150,7 +150,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         if (false === $this->userHasToken($userTokenUpdateStruct->userId)) {
             $query
-                ->insert('ezuser_accountkey')
+                ->insert(\Ibexa\Core\Persistence\Legacy\User\Gateway::USER_ACCOUNTKEY_TABLE)
                 ->values(
                     [
                         'hash_key' => ':hash_key',
@@ -160,7 +160,7 @@ final class DoctrineDatabase extends Gateway
                 );
         } else {
             $query
-                ->update('ezuser_accountkey')
+                ->update(\Ibexa\Core\Persistence\Legacy\User\Gateway::USER_ACCOUNTKEY_TABLE)
                 ->set('hash_key', ':hash_key')
                 ->set('time', ':time')
                 ->where('user_id = :user_id');
@@ -177,7 +177,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->update('ezuser_accountkey')
+            ->update(\Ibexa\Core\Persistence\Legacy\User\Gateway::USER_ACCOUNTKEY_TABLE)
             ->set(
                 'time',
                 $query->createPositionalParameter(0, ParameterType::INTEGER)
@@ -196,7 +196,7 @@ final class DoctrineDatabase extends Gateway
             foreach ($values as $value) {
                 $query = $this->connection->createQueryBuilder();
                 $query
-                    ->insert('ezuser_role')
+                    ->insert(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway::USER_ROLE_TABLE)
                     ->values(
                         [
                             'contentobject_id' => $query->createPositionalParameter(
@@ -227,7 +227,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
-            ->delete('ezuser_role')
+            ->delete(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway::USER_ROLE_TABLE)
             ->where(
                 $expr->eq(
                     'contentobject_id',
@@ -247,7 +247,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->delete('ezuser_role')
+            ->delete(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway::USER_ROLE_TABLE)
             ->where(
                 $query->expr()->eq(
                     'id',
@@ -272,10 +272,10 @@ final class DoctrineDatabase extends Gateway
                 's.is_enabled',
                 's.max_login'
             )
-            ->from('ezuser', 'u')
+            ->from(\Ibexa\Core\Persistence\Legacy\User\Gateway::USER_TABLE, 'u')
             ->leftJoin(
                 'u',
-                'ezuser_setting',
+                \Ibexa\Core\FieldType\User\UserStorage\Gateway\DoctrineStorage::USER_SETTING_TABLE,
                 's',
                 $expr->eq(
                     's.user_id',
@@ -292,7 +292,7 @@ final class DoctrineDatabase extends Gateway
         $expr = $query->expr();
         $query
             ->select('token.id')
-            ->from('ezuser_accountkey', 'token')
+            ->from(\Ibexa\Core\Persistence\Legacy\User\Gateway::USER_ACCOUNTKEY_TABLE, 'token')
             ->where(
                 $expr->eq(
                     'token.user_id',

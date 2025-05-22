@@ -5,7 +5,7 @@
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 return [
-    'ezuser' => [
+    \Ibexa\Core\Persistence\Legacy\User\Gateway::USER_TABLE => [
         0 => [
             'contentobject_id' => '14',
             'email' => 'foo@example.com',

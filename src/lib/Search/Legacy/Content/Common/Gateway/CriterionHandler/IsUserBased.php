@@ -37,7 +37,7 @@ class IsUserBased extends CriterionHandler
             ->select(
                 'contentobject_id'
             )->from(
-                'ezuser'
+                \Ibexa\Core\Persistence\Legacy\User\Gateway::USER_TABLE
             );
 
         $queryExpression = $queryBuilder->expr()->in(

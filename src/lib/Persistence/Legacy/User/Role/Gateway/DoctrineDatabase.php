@@ -227,7 +227,7 @@ final class DoctrineDatabase extends Gateway
         $expr = $query->expr();
         $query
             ->select(
-                'ur.contentobject_id AS ezuser_role_contentobject_id',
+                'ur.contentobject_id AS ibexa_user_role_contentobject_id',
                 'r.id AS ibexa_role_id',
                 'r.name AS ibexa_role_name',
                 'r.version AS ibexa_role_version',

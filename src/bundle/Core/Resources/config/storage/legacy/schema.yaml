@@ -61,9 +61,9 @@ tables:
             disabled: { type: integer, nullable: false, options: { default: '0' } }
             locale: { type: string, nullable: false, length: 20, options: { default: '' } }
             name: { type: string, nullable: false, length: 255, options: { default: '' } }
-    ezuser:
+    ibexa_user:
         uniqueConstraints:
-            ezuser_login: { fields: [login] }
+            ibexa_user_login: { fields: [login] }
         id:
             contentobject_id: { type: integer, nullable: false, options: { default: '0' } }
         fields:
@@ -113,7 +113,7 @@ tables:
             name: { type: string, nullable: false, length: 255, options: { default: '' } }
         foreignKeys:
             ibexa_content_browsebookmark_location_fk: { fields: [node_id], foreignTable: ibexa_content_tree, foreignFields: [node_id], options: { onDelete: CASCADE, onUpdate: 'NO ACTION' } }
-            ibexa_content_browsebookmark_user_fk: { fields: [user_id], foreignTable: ezuser, foreignFields: [contentobject_id], options: { onDelete: CASCADE, onUpdate: 'NO ACTION' } }
+            ibexa_content_browsebookmark_user_fk: { fields: [user_id], foreignTable: ibexa_user, foreignFields: [contentobject_id], options: { onDelete: CASCADE, onUpdate: 'NO ACTION' } }
     ibexa_content_type:
         indexes:
             ibexa_content_type_version: { fields: [version] }
@@ -605,7 +605,7 @@ tables:
             destination_url: { type: text, nullable: false, length: 0 }
             source_url: { type: text, nullable: false, length: 0 }
             type: { type: integer, nullable: false, options: { default: '0' } }
-    ezuser_accountkey:
+    ibexa_user_accountkey:
         indexes:
             hash_key: { fields: [hash_key] }
         id:
@@ -614,10 +614,10 @@ tables:
             hash_key: { type: string, nullable: false, length: 32, options: { default: '' } }
             time: { type: integer, nullable: false, options: { default: '0' } }
             user_id: { type: integer, nullable: false, options: { default: '0' } }
-    ezuser_role:
+    ibexa_user_role:
         indexes:
-            ezuser_role_role_id: { fields: [role_id] }
-            ezuser_role_contentobject_id: { fields: [contentobject_id] }
+            ibexa_user_role_role_id: { fields: [role_id] }
+            ibexa_user_role_contentobject_id: { fields: [contentobject_id] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
@@ -625,7 +625,7 @@ tables:
             limit_identifier: { type: string, nullable: true, length: 255, options: { default: '' } }
             limit_value: { type: string, nullable: true, length: 255, options: { default: '' } }
             role_id: { type: integer, nullable: true }
-    ezuser_setting:
+    ibexa_user_setting:
         id:
             user_id: { type: integer, nullable: false, options: { default: '0' } }
         fields:

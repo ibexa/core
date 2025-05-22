@@ -21,8 +21,9 @@ use PDO;
  */
 class DoctrineStorage extends Gateway
 {
-    public const USER_TABLE = 'ezuser';
-    public const USER_SETTING_TABLE = 'ezuser_setting';
+    public const USER_TABLE = \Ibexa\Core\Persistence\Legacy\User\Gateway::USER_TABLE;
+    public const USER_SETTING_TABLE = 'ibexa_user_setting';
+
 
     /** @var \Doctrine\DBAL\Connection */
     protected $connection;

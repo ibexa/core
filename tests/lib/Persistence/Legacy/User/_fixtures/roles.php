@@ -42,7 +42,7 @@ return [
             'version' => '0',
         ],
     ],
-    'ezuser_role' => [
+    \Ibexa\Core\Persistence\Legacy\User\Role\Gateway::USER_ROLE_TABLE => [
         [
             'contentobject_id' => '12',
             'id' => '25',

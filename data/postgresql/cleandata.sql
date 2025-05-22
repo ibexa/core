@@ -284,11 +284,11 @@ VALUES (1), (2), (3), (4), (5), (6), (7), (8), (9), (10), (11), (12), (13), (14)
        (18), (19), (20), (21), (22), (24), (25), (26), (27), (28), (29), (30), (31), (32), (33),
        (34), (35), (36), (37);
 
-INSERT INTO "ezuser" ("contentobject_id", "email", "login", "password_hash", "password_hash_type")
+INSERT INTO "ibexa_user" ("contentobject_id", "email", "login", "password_hash", "password_hash_type")
 VALUES (10,'anonymous@link.invalid','anonymous','$2y$10$35gOSQs6JK4u4whyERaeUuVeQBi2TUBIZIfP7HEj7sfz.MxvTuOeC',7),
        (14,'admin@link.invalid','admin','$2y$10$FDn9NPwzhq85cLLxfD5Wu.L3SL3Z/LNCvhkltJUV0wcJj7ciJg2oy',7);
 
-INSERT INTO "ezuser_role" ("contentobject_id", "id", "limit_identifier", "limit_value", "role_id")
+INSERT INTO "ibexa_user_role" ("contentobject_id", "id", "limit_identifier", "limit_value", "role_id")
 VALUES (11,28,'','',1),
        (42,31,'','',1),
        (13,32,'Subtree','/1/2/',3),
@@ -296,12 +296,12 @@ VALUES (11,28,'','',1),
        (12,34,'','',2),
        (13,35,'','',4);
 
-INSERT INTO "ezuser_setting" ("is_enabled", "max_login", "user_id")
+INSERT INTO "ibexa_user_setting" ("is_enabled", "max_login", "user_id")
 VALUES (1, 1000, 10),
        (1, 10, 14);
 
 INSERT INTO "ibexa_preferences" ("name", "user_id", "value")
-SELECT 'focus_mode', u.contentobject_id, '0' FROM "ezuser" u WHERE u.login = 'admin';
+SELECT 'focus_mode', u.contentobject_id, '0' FROM "ibexa_user" u WHERE u.login = 'admin';
 
 -- Set proper sequence values after inserting data
 SELECT SETVAL('ibexa_object_state_group_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_object_state_group;
@@ -333,5 +333,5 @@ SELECT SETVAL('ibexa_url_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_url;
 SELECT SETVAL('ibexa_url_alias_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_url_alias;
 SELECT SETVAL('ibexa_url_alias_ml_incr_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_url_alias_ml_incr;
 SELECT SETVAL('ibexa_url_wildcard_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_url_wildcard;
-SELECT SETVAL('ezuser_accountkey_id_seq', COALESCE(MAX(id), 1) ) FROM ezuser_accountkey;
-SELECT SETVAL('ezuser_role_id_seq', COALESCE(MAX(id), 1) ) FROM ezuser_role;
+SELECT SETVAL('ibexa_user_accountkey_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_user_accountkey;
+SELECT SETVAL('ibexa_user_role_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_user_role;

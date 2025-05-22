@@ -151,7 +151,7 @@ return [
             'sort_order' => '1',
         ],
     ],
-    'ezuser' => [
+    \Ibexa\Core\Persistence\Legacy\User\Gateway::USER_TABLE => [
         0 => [
             'contentobject_id' => '14',
             'email' => 'foo@example.com',

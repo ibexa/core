@@ -297,7 +297,7 @@ class UserHandlerTest extends TestCase
                 'id',
                 'time',
                 'user_id'
-            )->from('ezuser_accountkey'),
+            )->from(\Ibexa\Core\Persistence\Legacy\User\Gateway::USER_ACCOUNTKEY_TABLE),
             'Expected user data to be updated.'
         );
 
@@ -310,7 +310,7 @@ class UserHandlerTest extends TestCase
                 'id',
                 'time',
                 'user_id'
-            )->from('ezuser_accountkey'),
+            )->from(\Ibexa\Core\Persistence\Legacy\User\Gateway::USER_ACCOUNTKEY_TABLE),
             'Expected user token data to be updated.'
         );
     }
@@ -328,7 +328,7 @@ class UserHandlerTest extends TestCase
                 'id',
                 'time',
                 'user_id'
-            )->from('ezuser_accountkey'),
+            )->from(\Ibexa\Core\Persistence\Legacy\User\Gateway::USER_ACCOUNTKEY_TABLE),
             'Expected user data to be updated.'
         );
 
@@ -341,7 +341,7 @@ class UserHandlerTest extends TestCase
                 'id',
                 'time',
                 'user_id'
-            )->from('ezuser_accountkey'),
+            )->from(\Ibexa\Core\Persistence\Legacy\User\Gateway::USER_ACCOUNTKEY_TABLE),
             'Expected user token to be expired.'
         );
     }
@@ -621,7 +621,7 @@ class UserHandlerTest extends TestCase
 
         $this->assertQueryResult(
             [],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('role_id')->from('ezuser_role')->where('role_id = 3'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('role_id')->from(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway::USER_ROLE_TABLE)->where('role_id = 3'),
             'Expected an empty set.'
         );
     }
@@ -649,7 +649,7 @@ class UserHandlerTest extends TestCase
 
         $this->assertQueryResult(
             [[3], [3]],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('role_id')->from('ezuser_role')->where('role_id = 3'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('role_id')->from(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway::USER_ROLE_TABLE)->where('role_id = 3'),
             'Expected that role assignments still exist.'
         );
     }
@@ -845,7 +845,7 @@ class UserHandlerTest extends TestCase
             [
                 [1, self::TEST_USER_ID, 1, null, null],
             ],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'contentobject_id', 'role_id', 'limit_identifier', 'limit_value')->from('ezuser_role'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'contentobject_id', 'role_id', 'limit_identifier', 'limit_value')->from(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway::USER_ROLE_TABLE),
             'Expected a new user policy association.'
         );
     }
@@ -871,7 +871,7 @@ class UserHandlerTest extends TestCase
             [
                 [1, self::TEST_USER_ID, 1, 'Subtree', '/1'],
             ],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'contentobject_id', 'role_id', 'limit_identifier', 'limit_value')->from('ezuser_role'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'contentobject_id', 'role_id', 'limit_identifier', 'limit_value')->from(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway::USER_ROLE_TABLE),
             'Expected a new user policy association.'
         );
     }
@@ -900,7 +900,7 @@ class UserHandlerTest extends TestCase
                 [2, self::TEST_USER_ID, 1, 'Subtree', '/1/2'],
                 [3, self::TEST_USER_ID, 1, 'Foo', 'Bar'],
             ],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'contentobject_id', 'role_id', 'limit_identifier', 'limit_value')->from('ezuser_role'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'contentobject_id', 'role_id', 'limit_identifier', 'limit_value')->from(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway::USER_ROLE_TABLE),
             'Expected a new user policy association.'
         );
     }
@@ -927,7 +927,7 @@ class UserHandlerTest extends TestCase
 
         $this->assertQueryResult(
             [],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'contentobject_id', 'role_id', 'limit_identifier', 'limit_value')->from('ezuser_role'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'contentobject_id', 'role_id', 'limit_identifier', 'limit_value')->from(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway::USER_ROLE_TABLE),
             'Expected no user policy associations.'
         );
     }

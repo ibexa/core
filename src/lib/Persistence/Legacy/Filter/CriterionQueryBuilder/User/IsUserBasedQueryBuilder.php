@@ -34,7 +34,7 @@ final class IsUserBasedQueryBuilder extends BaseUserCriterionQueryBuilder
         $queryBuilder
             ->leftJoinOnce(
                 'content',
-                'ezuser',
+                \Ibexa\Core\Persistence\Legacy\User\Gateway::USER_TABLE,
                 'user_storage',
                 'content.id = user_storage.contentobject_id'
             );

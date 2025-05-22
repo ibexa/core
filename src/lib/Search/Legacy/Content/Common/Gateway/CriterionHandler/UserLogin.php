@@ -73,7 +73,7 @@ class UserLogin extends CriterionHandler
         $subSelect = $this->connection->createQueryBuilder();
         $subSelect
             ->select('t1.contentobject_id')
-            ->from('ezuser', 't1')
+            ->from(\Ibexa\Core\Persistence\Legacy\User\Gateway::USER_TABLE, 't1')
             ->where($expression);
 
         return $expr->in(

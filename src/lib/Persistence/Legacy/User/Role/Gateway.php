@@ -23,7 +23,7 @@ abstract class Gateway
     public const POLICY_TABLE = 'ibexa_policy';
     public const POLICY_LIMITATION_TABLE = 'ibexa_policy_limitation';
     public const POLICY_LIMITATION_VALUE_TABLE = 'ibexa_policy_limitation_value';
-    public const USER_ROLE_TABLE = 'ezuser_role';
+    public const USER_ROLE_TABLE = 'ibexa_user_role';
     public const ROLE_SEQ = 'ibexa_role_id_seq';
     public const POLICY_SEQ = 'ibexa_policy_id_seq';
     public const POLICY_LIMITATION_SEQ = 'ibexa_policy_limitation_id_seq';

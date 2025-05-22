@@ -177,7 +177,7 @@ final class DoctrineDatabase extends Gateway
         $expr = $query->expr();
         $query
             ->select($this->dbPlatform->getCountExpression('ur.id'))
-            ->from('ezuser_role', 'ur')
+            ->from(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway::USER_ROLE_TABLE, 'ur')
             ->where(
                 $expr->eq(
                     'ur.limit_identifier',
