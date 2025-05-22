@@ -5155,12 +5155,6 @@ parameters:
 			path: src/contracts/Limitation/Type.php
 
 		-
-			message: '#^Comparison operation "\>" between int\<80300, 80499\> and 80200 is always true\.$#'
-			identifier: greater.alwaysTrue
-			count: 1
-			path: src/contracts/MVC/Symfony/ErrorHandler/Php82HideDeprecationsErrorHandler.php
-
-		-
 			message: '#^Method Ibexa\\Contracts\\Core\\MVC\\Templating\\BaseRenderStrategy\:\:__construct\(\) has parameter \$fragmentRenderers with no value type specified in iterable type iterable\.$#'
 			identifier: missingType.iterableValue
 			count: 1
