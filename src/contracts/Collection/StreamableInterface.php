@@ -38,14 +38,14 @@ interface StreamableInterface
     /**
      * Tests whether the given predicate holds for all elements of this collection.
      *
-     * @param \Closure(TValue, array-key=): bool $predicate
+     * @phpstan-param \Closure(TValue, array-key=): bool $predicate
      */
     public function forAll(Closure $predicate): bool;
 
     /**
      * Tests the existence of an element that satisfies the given predicate.
      *
-     * @param \Closure(TValue, array-key=): bool $predicate
+     * @phpstan-param \Closure(TValue, array-key=): bool $predicate
      */
     public function exists(Closure $predicate): bool;
 }

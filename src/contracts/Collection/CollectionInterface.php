@@ -22,7 +22,7 @@ interface CollectionInterface extends Countable, IteratorAggregate
     public function isEmpty(): bool;
 
     /**
-     * @return TValue[]
+     * @phpstan-return TValue[]
      */
     public function toArray(): array;
 
