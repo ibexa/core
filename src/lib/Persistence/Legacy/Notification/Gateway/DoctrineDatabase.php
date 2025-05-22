@@ -9,8 +9,15 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Notification\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\DateCreated;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\LogicalAnd;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Status;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Type;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway;
 use PDO;
@@ -25,20 +32,13 @@ class DoctrineDatabase extends Gateway
     public const COLUMN_CREATED = 'created';
     public const COLUMN_DATA = 'data';
 
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
-    /**
-     * @param \Doctrine\DBAL\Connection $connection
-     */
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function insert(CreateStruct $createStruct): int
     {
         $query = $this->connection->createQueryBuilder();
@@ -62,9 +62,6 @@ class DoctrineDatabase extends Gateway
         return (int) $this->connection->lastInsertId();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNotificationById(int $notificationId): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -78,9 +75,6 @@ class DoctrineDatabase extends Gateway
         return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function updateNotification(Notification $notification): void
     {
         if (!isset($notification->id) || !is_numeric($notification->id)) {
@@ -99,24 +93,22 @@ class DoctrineDatabase extends Gateway
         $query->execute();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function countUserNotifications(int $userId): int
+    public function countUserNotifications(int $userId, ?NotificationQuery $query = null): int
     {
-        $query = $this->connection->createQueryBuilder();
-        $query
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder
             ->select('COUNT(' . self::COLUMN_ID . ')')
             ->from(self::TABLE_NOTIFICATION)
-            ->where($query->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
+            ->where($queryBuilder->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
             ->setParameter(':user_id', $userId, PDO::PARAM_INT);
 
-        return (int)$query->execute()->fetchColumn();
+        if (($query !== null) && !empty($query->criteria)) {
+            $this->applyFilters($queryBuilder, $query->criteria);
+        }
+
+        return (int)$queryBuilder->execute()->fetchColumn();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function countUserPendingNotifications(int $userId): int
     {
         $query = $this->connection->createQueryBuilder();
@@ -132,31 +124,96 @@ class DoctrineDatabase extends Gateway
         return (int)$query->execute()->fetchColumn();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function loadUserNotifications(int $userId, int $offset = 0, int $limit = -1): array
+    public function loadUserNotifications(int $userId, ?NotificationQuery $query = null): array
     {
-        $query = $this->connection->createQueryBuilder();
-        $query
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder
             ->select(...$this->getColumns())
             ->from(self::TABLE_NOTIFICATION)
-            ->where($query->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
-            ->setFirstResult($offset);
+            ->where($queryBuilder->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
+            ->setParameter(':user_id', $userId, PDO::PARAM_INT)
+            ->orderBy(self::COLUMN_ID, 'DESC');
 
-        if ($limit > 0) {
-            $query->setMaxResults($limit);
+        if ($query !== null) {
+            if (!empty($query->criteria)) {
+                $this->applyFilters($queryBuilder, $query->criteria);
+            }
+
+            if ($query->offset > 0) {
+                $queryBuilder->setFirstResult($query->offset);
+            }
+
+            if ($query->limit > 0) {
+                $queryBuilder->setMaxResults($query->limit);
+            }
         }
 
-        $query->orderBy(self::COLUMN_ID, 'DESC');
-        $query->setParameter(':user_id', $userId, PDO::PARAM_INT);
-
-        return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        return $queryBuilder->execute()->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
-     * {@inheritdoc}
+     * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion[] $criteria
      */
+    private function applyFilters(QueryBuilder $qb, array $criteria): void
+    {
+        foreach ($criteria as $criterion) {
+            $this->applyCriterion($qb, $criterion);
+        }
+    }
+
+    private function applyCriterion(QueryBuilder $qb, Criterion $criterion): void
+    {
+        switch (true) {
+            case $criterion instanceof Type:
+                $qb->andWhere($qb->expr()->eq(self::COLUMN_TYPE, ':type'));
+                $qb->setParameter(':type', $criterion->value);
+                break;
+
+            case $criterion instanceof Status:
+                $qb->andWhere($qb->expr()->in(self::COLUMN_IS_PENDING, ':status'));
+                $qb->setParameter(':status', $criterion->statuses, Connection::PARAM_STR_ARRAY);
+                break;
+
+            case $criterion instanceof DateCreated:
+                if ($criterion->from !== null) {
+                    $qb->andWhere($qb->expr()->gte(self::COLUMN_CREATED, ':created_from'));
+                    $qb->setParameter(':created_from', $criterion->from->getTimestamp());
+                }
+                if ($criterion->to !== null) {
+                    $qb->andWhere($qb->expr()->lte(self::COLUMN_CREATED, ':created_to'));
+                    $qb->setParameter(':created_to', $criterion->to->getTimestamp());
+                }
+                break;
+
+            case $criterion instanceof LogicalAnd:
+                $this->applyLogicalOperator($qb, $criterion->criteria, 'and');
+                break;
+
+            default:
+                throw new InvalidArgumentException(get_class($criterion), 'Unknown criterion');
+        }
+    }
+
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion[] $criteria
+     */
+    private function applyLogicalOperator(QueryBuilder $qb, array $criteria, string $type): void
+    {
+        $expr = $qb->expr();
+        $parts = [];
+
+        foreach ($criteria as $index => $criterion) {
+            $subQb = $this->connection->createQueryBuilder();
+            $this->applyCriterion($subQb, $criterion);
+            $parts[] = '(' . $subQb->getSQL() . ')';
+        }
+
+        if (!empty($parts)) {
+            $logicalExpr = $type === 'and' ? $expr->and(...$parts) : $expr->or(...$parts);
+            $qb->andWhere($logicalExpr);
+        }
+    }
+
     public function delete(int $notificationId): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -168,9 +225,6 @@ class DoctrineDatabase extends Gateway
         $query->execute();
     }
 
-    /**
-     * @return array
-     */
     private function getColumns(): array
     {
         return [

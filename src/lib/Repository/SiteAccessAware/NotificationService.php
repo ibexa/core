@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\NotificationService as NotificationServiceIn
 use Ibexa\Contracts\Core\Repository\Values\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification;
 use Ibexa\Contracts\Core\Repository\Values\Notification\NotificationList;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
 
 class NotificationService implements NotificationServiceInterface
 {
@@ -29,17 +30,9 @@ class NotificationService implements NotificationServiceInterface
         $this->service = $service;
     }
 
-    /**
-     * Get currently logged user notifications.
-     *
-     * @param int $offset
-     * @param int $limit
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Notification\NotificationList
-     */
-    public function loadNotifications(int $offset, int $limit): NotificationList
+    public function loadNotifications(?NotificationQuery $query = null): NotificationList
     {
-        return $this->service->loadNotifications($offset, $limit);
+        return $this->service->loadNotifications($query);
     }
 
     /**
@@ -77,14 +70,9 @@ class NotificationService implements NotificationServiceInterface
         return $this->service->getPendingNotificationCount();
     }
 
-    /**
-     * Get count of total users notifications.
-     *
-     * @return int
-     */
-    public function getNotificationCount(): int
+    public function getNotificationCount(?NotificationQuery $query = null): int
     {
-        return $this->service->getNotificationCount();
+        return $this->service->getNotificationCount($query);
     }
 
     /**

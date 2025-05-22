@@ -12,6 +12,8 @@ use Ibexa\Contracts\Core\Repository\Decorator\NotificationServiceDecorator;
 use Ibexa\Contracts\Core\Repository\NotificationService;
 use Ibexa\Contracts\Core\Repository\Values\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Type;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -32,15 +34,14 @@ class NotificationServiceDecoratorTest extends TestCase
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
+        $typeCriterion = new Type('Workflow:Review');
+        $query = new NotificationQuery([$typeCriterion], 264, 959);
 
-        $parameters = [
-            264,
-            959,
-        ];
+        $serviceMock->expects($this->once())
+            ->method('loadNotifications')
+            ->with($query);
 
-        $serviceMock->expects($this->once())->method('loadNotifications')->with(...$parameters);
-
-        $decoratedService->loadNotifications(...$parameters);
+        $decoratedService->loadNotifications($query);
     }
 
     public function testGetNotificationDecorator()

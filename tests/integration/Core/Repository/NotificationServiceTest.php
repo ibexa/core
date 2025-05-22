@@ -13,6 +13,8 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification;
 use Ibexa\Contracts\Core\Repository\Values\Notification\NotificationList;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Type;
 
 /**
  * Test case for the NotificationService.
@@ -28,15 +30,22 @@ class NotificationServiceTest extends BaseTest
     {
         $repository = $this->getRepository();
 
-        /* BEGIN: Use Case */
         $notificationService = $repository->getNotificationService();
-        $notificationList = $notificationService->loadNotifications(0, 25);
-        /* END: Use Case */
+        $query = new NotificationQuery(
+            [],
+            0,
+            25
+        );
+        $query->addCriterion(new Type('Workflow:Review'));
+
+        $notificationList = $notificationService->loadNotifications($query);
 
         $this->assertInstanceOf(NotificationList::class, $notificationList);
         $this->assertIsArray($notificationList->items);
         $this->assertIsInt($notificationList->totalCount);
-        $this->assertEquals(5, $notificationList->totalCount);
+
+        $expectedCount = 3;
+        $this->assertEquals($expectedCount, $notificationList->totalCount);
     }
 
     /**
