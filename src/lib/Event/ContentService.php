@@ -20,6 +20,7 @@ use Ibexa\Contracts\Core\Repository\Events\Content\BeforeDeleteRelationEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\BeforeDeleteTranslationEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\BeforeDeleteVersionEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\BeforeHideContentEvent;
+use Ibexa\Contracts\Core\Repository\Events\Content\BeforeLoadContentEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\BeforePublishVersionEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\BeforeRevealContentEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\BeforeUpdateContentEvent;
@@ -32,6 +33,7 @@ use Ibexa\Contracts\Core\Repository\Events\Content\DeleteRelationEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\DeleteTranslationEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\DeleteVersionEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\HideContentEvent;
+use Ibexa\Contracts\Core\Repository\Events\Content\LoadContentEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\PublishVersionEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\RevealContentEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\UpdateContentEvent;
@@ -379,6 +381,37 @@ class ContentService extends ContentServiceDecorator
         $this->eventDispatcher->dispatch(
             new RevealContentEvent(...$eventData)
         );
+    }
+
+    public function loadContent(
+        int $contentId,
+        ?array $languages = null,
+        ?int $versionNo = null,
+        bool $useAlwaysAvailable = true
+    ): Content {
+        $eventData = [
+            $contentId,
+            $languages,
+            $versionNo,
+            $useAlwaysAvailable,
+        ];
+
+        $beforeEvent = new BeforeLoadContentEvent(...$eventData);
+
+        $this->eventDispatcher->dispatch($beforeEvent);
+        if ($beforeEvent->isPropagationStopped()) {
+            return $beforeEvent->getContent();
+        }
+
+        $content = $beforeEvent->hasContent()
+            ? $beforeEvent->getContent()
+            : $this->innerService->loadContent($contentId, $languages, $versionNo, $useAlwaysAvailable);
+
+        $this->eventDispatcher->dispatch(
+            new LoadContentEvent($content, ...$eventData)
+        );
+
+        return $content;
     }
 }
 
