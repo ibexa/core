@@ -10,6 +10,7 @@ namespace Ibexa\Core\Persistence;
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
 use Ibexa\Contracts\Core\Persistence\FieldType as FieldTypeInterface;
 use Ibexa\Core\Base\Exceptions\NotFound\FieldTypeNotFoundException;
+use Ibexa\Core\FieldType\FieldTypeAliasRegistry;
 
 /**
  * Registry for field types available to storage engines.
@@ -41,8 +42,11 @@ class FieldTypeRegistry
      * @param \Ibexa\Contracts\Core\FieldType\FieldType[] $fieldTypes A map where key is field type identifier and value is
      *                                                          a callable factory to get FieldType OR FieldType object.
      */
-    public function __construct(array $coreFieldTypes = [], array $fieldTypes = [])
-    {
+    public function __construct(
+        private readonly FieldTypeAliasRegistry $fieldTypeAliasRegistry,
+        array $coreFieldTypes = [],
+        array $fieldTypes = []
+    ) {
         $this->coreFieldTypes = $coreFieldTypes;
         $this->fieldTypes = $fieldTypes;
     }
@@ -74,7 +78,11 @@ class FieldTypeRegistry
     protected function getCoreFieldType(string $identifier): SPIFieldType
     {
         if (!isset($this->coreFieldTypes[$identifier])) {
-            throw new FieldTypeNotFoundException($identifier);
+            if (!$this->fieldTypeAliasRegistry->hasAlias($identifier)) {
+                throw new FieldTypeNotFoundException($identifier);
+            }
+
+            return $this->coreFieldTypes[$this->fieldTypeAliasRegistry->getNewAlias($identifier)];
         }
 
         return $this->coreFieldTypes[$identifier];
