@@ -37,7 +37,7 @@ class ContentTypeGroupId extends CriterionHandler
         $subSelect = $this->connection->createQueryBuilder();
         $subSelect
             ->select(
-                'contentclass_id'
+                'content_type_id'
             )->from(
                 Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE
             )->where(
@@ -48,7 +48,7 @@ class ContentTypeGroupId extends CriterionHandler
             );
 
         return $queryBuilder->expr()->in(
-            'c.contentclass_id',
+            'c.content_type_id',
             $subSelect->getSQL()
         );
     }

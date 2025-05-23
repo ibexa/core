@@ -65,7 +65,7 @@ EOT;
                             [
                                 'ibexa_content_remote_id' => '12',
                                 'ibexa_content_current_version' => '13',
-                                'ibexa_content_contentclass_id' => '14',
+                                'ibexa_content_content_type_id' => '14',
                                 'ibexa_content_tree_node_id' => '15',
                                 'ibexa_content_tree_parent_node_id' => '16',
                                 'ibexa_content_type_identifier' => '17',
@@ -75,7 +75,7 @@ EOT;
                             [
                                 'ibexa_content_remote_id' => '32',
                                 'ibexa_content_current_version' => '33',
-                                'ibexa_content_contentclass_id' => '34',
+                                'ibexa_content_content_type_id' => '34',
                                 'ibexa_content_tree_node_id' => '35',
                                 'ibexa_content_tree_parent_node_id' => '36',
                                 'ibexa_content_type_identifier' => '37',
@@ -85,7 +85,7 @@ EOT;
                             [
                                 'ibexa_content_remote_id' => '22',
                                 'ibexa_content_current_version' => '23',
-                                'ibexa_content_contentclass_id' => '24',
+                                'ibexa_content_content_type_id' => '24',
                                 'ibexa_content_tree_node_id' => '25',
                                 'ibexa_content_tree_parent_node_id' => '26',
                                 'ibexa_content_type_identifier' => '27',

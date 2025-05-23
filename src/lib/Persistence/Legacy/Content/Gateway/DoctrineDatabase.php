@@ -121,7 +121,7 @@ final class DoctrineDatabase extends Gateway
                         ParameterType::INTEGER
                     ),
                     'name' => $query->createPositionalParameter($name),
-                    'contentclass_id' => $query->createPositionalParameter(
+                    'content_type_id' => $query->createPositionalParameter(
                         $struct->typeId,
                         ParameterType::INTEGER
                     ),
@@ -740,7 +740,7 @@ final class DoctrineDatabase extends Gateway
         $queryBuilder
             ->select(
                 'c.id AS content_id',
-                'c.contentclass_id AS content_contentclass_id',
+                'c.contentclass_id AS content_content_type_id',
                 'c.section_id AS content_section_id',
                 'c.owner_id AS content_owner_id',
                 'c.remote_id AS content_remote_id',
@@ -1811,7 +1811,7 @@ final class DoctrineDatabase extends Gateway
         $query
             ->select('id')
             ->from(self::CONTENT_ITEM_TABLE)
-            ->where('contentclass_id = :content_type_id')
+            ->where('content_type_id = :content_type_id')
             ->setParameter('content_type_id', $contentTypeId, ParameterType::INTEGER);
 
         $statement = $query->executeQuery();

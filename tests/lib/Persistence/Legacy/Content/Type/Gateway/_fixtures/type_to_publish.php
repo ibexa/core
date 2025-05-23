@@ -52,7 +52,7 @@ return [
     Gateway::FIELD_DEFINITION_TABLE => [
         [
             'id' => 4,
-            'contentclass_id' => 1,
+            'content_type_id' => 1,
             'can_translate' => 1,
             'category' => '',
             'data_float1' => 0,
@@ -81,7 +81,7 @@ return [
         ],
         [
             'id' => 155,
-            'contentclass_id' => 1,
+            'content_type_id' => 1,
             'can_translate' => 1,
             'category' => '',
             'data_float1' => 0,
@@ -110,7 +110,7 @@ return [
         ],
         [
             'id' => 158,
-            'contentclass_id' => 1,
+            'content_type_id' => 1,
             'can_translate' => 0,
             'category' => '',
             'data_float1' => 0,
@@ -139,7 +139,7 @@ return [
         ],
         [
             'id' => 160,
-            'contentclass_id' => 2,
+            'content_type_id' => 2,
             'can_translate' => 0,
             'category' => '',
             'data_float1' => 0,
@@ -169,7 +169,7 @@ return [
     ],
     Gateway::CONTENT_TYPE_NAME_TABLE => [
          [
-            'contentclass_id' => 1,
+            'content_type_id' => 1,
             'contentclass_version' => 1,
             'language_id' => 3,
             'language_locale' => 'eng-US',
@@ -178,13 +178,13 @@ return [
     ],
     Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE => [
         [
-            'contentclass_id' => 1,
+            'content_type_id' => 1,
             'contentclass_version' => 1,
             'group_id' => 1,
             'group_name' => 'Content',
         ],
         [
-            'contentclass_id' => 1,
+            'content_type_id' => 1,
             'contentclass_version' => 1,
             'group_id' => 4,
             'group_name' => 'Setup',

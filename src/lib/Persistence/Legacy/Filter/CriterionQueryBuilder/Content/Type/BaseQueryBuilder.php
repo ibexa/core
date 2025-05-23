@@ -29,7 +29,7 @@ abstract class BaseQueryBuilder implements CriterionQueryBuilder
                 'content',
                 ContentTypeGateway::CONTENT_TYPE_TABLE,
                 'content_type',
-                'content.contentclass_id = content_type.id AND content_type.version = 0'
+                'content.content_type_id = content_type.id AND content_type.version = 0'
             );
 
         // the returned query constraint depends on concrete implementations

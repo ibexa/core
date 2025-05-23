@@ -146,7 +146,7 @@ class DoctrineStorage extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select($this->connection->quoteIdentifier('contentclass_id'))
+            ->select($this->connection->quoteIdentifier('content_type_id'))
             ->from($this->connection->quoteIdentifier(ContentTypeGateway::FIELD_DEFINITION_TABLE))
             ->where(
                 $query->expr()->eq('id', ':fieldDefinitionId')
@@ -166,7 +166,7 @@ class DoctrineStorage extends Gateway
             );
         }
 
-        return (int) $row['contentclass_id'];
+        return (int) $row['content_type_id'];
     }
 
     /**

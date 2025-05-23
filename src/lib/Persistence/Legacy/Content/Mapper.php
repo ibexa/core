@@ -346,7 +346,7 @@ class Mapper
         foreach ($rows as $row) {
             $contentId = (int)$row["{$prefix}id"];
             $versionId = (int)$row["{$prefix}version_id"];
-            $contentTypeId = (int)$row["{$prefix}contentclass_id"];
+            $contentTypeId = (int)$row["{$prefix}content_type_id"];
             $languageMask = (int)$row["{$prefix}version_language_mask"];
 
             if (isset($fieldDefinitions[$contentId][$versionId])) {
@@ -384,7 +384,7 @@ class Mapper
         $contentInfo = new ContentInfo();
         $contentInfo->id = (int)$row["{$prefix}id"];
         $contentInfo->name = (string)$row["{$prefix}name"];
-        $contentInfo->contentTypeId = (int)$row["{$prefix}contentclass_id"];
+        $contentInfo->contentTypeId = (int)$row["{$prefix}content_type_id"];
         $contentInfo->sectionId = (int)$row["{$prefix}section_id"];
         $contentInfo->currentVersionNo = (int)$row["{$prefix}current_version"];
         $contentInfo->ownerId = (int)$row["{$prefix}owner_id"];
