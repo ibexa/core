@@ -19,7 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
  */
 abstract class Gateway
 {
-    public const TRASH_TABLE = 'ezcontentobject_trash';
+    public const TRASH_TABLE = 'ibexa_content_trash';
 
     /**
      * Constants for node assignment op codes.
@@ -35,8 +35,8 @@ abstract class Gateway
     public const NODE_ASSIGNMENT_OP_CODE_SET_NOP = 8;
     public const NODE_ASSIGNMENT_OP_CODE_SET = 9;
 
-    public const CONTENT_TREE_TABLE = 'ezcontentobject_tree';
-    public const CONTENT_TREE_SEQ = 'ezcontentobject_tree_node_id_seq';
+    public const CONTENT_TREE_TABLE = 'ibexa_content_tree';
+    public const CONTENT_TREE_SEQ = 'ibexa_content_tree_node_id_seq';
 
     /**
      * Returns an array with basic node data.
@@ -136,7 +136,7 @@ abstract class Gateway
     abstract public function getChildren(int $locationId): array;
 
     /**
-     * Update path strings to move nodes in the ezcontentobject_tree table.
+     * Update path strings to move nodes in the ibexa_content_tree table.
      *
      * This query can likely be optimized to use some more advanced string
      * operations, which then depend on the respective database.
@@ -250,7 +250,7 @@ abstract class Gateway
     ): void;
 
     /**
-     * Deletes ezcontentobject_tree row for given $locationId (node_id).
+     * Deletes ibexa_content_tree row for given $locationId (node_id).
      */
     abstract public function removeLocation(int $locationId): void;
 
@@ -295,7 +295,7 @@ abstract class Gateway
      * Removes every entries in the trash.
      * Will NOT remove associated content objects nor attributes.
      *
-     * Basically truncates ezcontentobject_trash table.
+     * Basically truncates ibexa_content_trash table.
      */
     abstract public function cleanupTrash(): void;
 
@@ -307,7 +307,7 @@ abstract class Gateway
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sort
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface|null $criterion
      *
-     * @return array entries from ezcontentobject_trash.
+     * @return array entries from ibexa_content_trash.
      */
     abstract public function listTrashed(
         int $offset,
@@ -342,12 +342,12 @@ abstract class Gateway
     /**
      * Changes main location of content identified by given $contentId to location identified by given $locationId.
      *
-     * Updates ezcontentobject_tree table for the given $contentId and eznode_assignment table for the given
+     * Updates ibexa_content_tree table for the given $contentId and ibexa_node_assignment table for the given
      * $contentId, $parentLocationId and $versionNo
      *
-     * @param int $versionNo version number, needed to update eznode_assignment table
+     * @param int $versionNo version number, needed to update ibexa_node_assignment table
      * @param int $parentLocationId parent location of location identified by $locationId, needed to update
-     *        eznode_assignment table
+     *        ibexa_node_assignment table
      */
     abstract public function changeMainLocation(
         int $contentId,

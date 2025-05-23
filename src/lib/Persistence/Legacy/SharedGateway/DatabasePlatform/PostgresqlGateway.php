@@ -27,7 +27,7 @@ final class PostgresqlGateway extends AbstractGateway
                     THEN (cast(:language_id as BIGINT) | 1)
                     ELSE :language_id
                 END
-                FROM ezcontentobject
+                FROM ibexa_content
                 WHERE id = :content_id)
             SQL;
     }

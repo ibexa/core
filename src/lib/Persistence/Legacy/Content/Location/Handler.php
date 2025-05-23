@@ -544,7 +544,7 @@ class Handler implements BaseLocationHandler
     /**
      * Changes main location of content identified by given $contentId to location identified by given $locationId.
      *
-     * Updates ezcontentobject_tree and eznode_assignment tables (eznode_assignment for content current version number).
+     * Updates ibexa_content_tree and ibexa_node_assignment tables (ibexa_node_assignment for content current version number).
      *
      * @param mixed $contentId
      * @param mixed $locationId

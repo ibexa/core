@@ -16,6 +16,8 @@ use Doctrine\DBAL\Result;
 use Generator;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Search\Content\IndexerGateway as SPIIndexerGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 
 /**
  * @internal
@@ -83,7 +85,7 @@ final class IndexerGateway implements SPIIndexerGateway
     {
         return $this->connection->createQueryBuilder()
             ->select('c.id')
-            ->from('ezcontentobject', 'c')
+            ->from(ContentGateway::CONTENT_ITEM_TABLE, 'c')
             ->where('c.status = :status')->andWhere('c.modified >= :since')
             ->setParameter('status', ContentInfo::STATUS_PUBLISHED, ParameterType::INTEGER)
             ->setParameter('since', $since->getTimestamp(), ParameterType::INTEGER);
@@ -93,8 +95,8 @@ final class IndexerGateway implements SPIIndexerGateway
     {
         return $this->connection->createQueryBuilder()
             ->select('DISTINCT c.id')
-            ->from('ezcontentobject', 'c')
-            ->innerJoin('c', 'ezcontentobject_tree', 't', 't.contentobject_id = c.id')
+            ->from(ContentGateway::CONTENT_ITEM_TABLE, 'c')
+            ->innerJoin('c', LocationGateway::CONTENT_TREE_TABLE, 't', 't.contentobject_id = c.id')
             ->where('c.status = :status')
             ->andWhere('t.path_string LIKE :path')
             ->setParameter('status', ContentInfo::STATUS_PUBLISHED, ParameterType::INTEGER)
@@ -105,7 +107,7 @@ final class IndexerGateway implements SPIIndexerGateway
     {
         return $this->connection->createQueryBuilder()
             ->select('c.id')
-            ->from('ezcontentobject', 'c')
+            ->from(ContentGateway::CONTENT_ITEM_TABLE, 'c')
             ->where('c.status = :status')
             ->setParameter('status', ContentInfo::STATUS_PUBLISHED, ParameterType::INTEGER);
     }

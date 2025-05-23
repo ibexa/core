@@ -13,7 +13,9 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Core\Base\Exceptions\BadStateException;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
 use RuntimeException;
 
@@ -990,8 +992,8 @@ final class DoctrineDatabase extends Gateway
         $expr = $queryBuilder->expr();
         $queryBuilder
             ->select('c.initial_language_id')
-            ->from('ezcontentobject', 'c')
-            ->join('c', 'ezcontentobject_tree', 't', $expr->eq('t.contentobject_id', 'c.id'))
+            ->from(ContentGateway::CONTENT_ITEM_TABLE, 'c')
+            ->join('c', LocationGateway::CONTENT_TREE_TABLE, 't', $expr->eq('t.contentobject_id', 'c.id'))
             ->where(
                 $expr->eq('t.node_id', ':locationId')
             )
@@ -1117,7 +1119,7 @@ final class DoctrineDatabase extends Gateway
         $subQuery = $this->connection->createQueryBuilder();
         $subQuery
             ->select('node_id')
-            ->from('ezcontentobject_tree', 't')
+            ->from(LocationGateway::CONTENT_TREE_TABLE, 't')
             ->where(
                 $subQuery->expr()->eq(
                     't.node_id',

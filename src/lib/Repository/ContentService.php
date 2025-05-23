@@ -1001,7 +1001,7 @@ class ContentService implements ContentServiceInterface
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      * @param bool $updatePathIdentificationString this parameter is legacy storage specific for updating
-     *                      ezcontentobject_tree.path_identification_string, it is ignored by other storage engines
+     *                      ibexa_content_tree.path_identification_string, it is ignored by other storage engines
      */
     protected function publishUrlAliasesForContent(APIContent $content, bool $updatePathIdentificationString = true): void
     {

@@ -166,8 +166,9 @@ class DoctrineDatabaseTest extends TestCase
 
     private function loadNotification(int $id): array
     {
+        $table = DoctrineDatabase::TABLE_NOTIFICATION;
         $data = $this->connection
-            ->executeQuery('SELECT * FROM eznotification WHERE id = :id', ['id' => $id])
+            ->executeQuery("SELECT * FROM {$table} WHERE id = :id", ['id' => $id])
             ->fetch(FetchMode::ASSOCIATIVE);
 
         return is_array($data) ? $data : [];

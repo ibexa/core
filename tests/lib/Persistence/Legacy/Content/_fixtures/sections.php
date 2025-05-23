@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+use Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
+
 return [
-    'ezsection' => [
+    Gateway::CONTENT_SECTION_TABLE => [
         [
             'id' => 1,
             'identifier' => 'standard',

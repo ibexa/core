@@ -69,37 +69,37 @@ class Mapper
         /** @var \Ibexa\Contracts\Core\Persistence\User\Policy[] */
         $policies = [];
         foreach ($data as $row) {
-            $policyId = $row['ezpolicy_id'];
+            $policyId = $row['ibexa_policy_id'];
             if (!isset($policies[$policyId]) && ($policyId !== null)) {
                 $originalId = null;
-                if ($row['ezpolicy_original_id']) {
-                    $originalId = (int)$row['ezpolicy_original_id'];
-                } elseif ($row['ezrole_version']) {
+                if ($row['ibexa_policy_original_id']) {
+                    $originalId = (int)$row['ibexa_policy_original_id'];
+                } elseif ($row['ibexa_role_version']) {
                     $originalId = (int)$policyId;
                 }
 
                 $policies[$policyId] = new Policy(
                     [
                         'id' => (int)$policyId,
-                        'roleId' => (int)$row['ezrole_id'],
+                        'roleId' => (int)$row['ibexa_role_id'],
                         'originalId' => $originalId,
-                        'module' => $row['ezpolicy_module_name'],
-                        'function' => $row['ezpolicy_function_name'],
+                        'module' => $row['ibexa_policy_module_name'],
+                        'function' => $row['ibexa_policy_function_name'],
                         'limitations' => '*', // limitations must be '*' if not a non empty array of limitations
                     ]
                 );
             }
 
-            if (!$row['ezpolicy_limitation_identifier']) {
+            if (!$row['ibexa_policy_limitation_identifier']) {
                 continue;
             } elseif ($policies[$policyId]->limitations === '*') {
                 $policies[$policyId]->limitations = [];
             }
 
-            if (!isset($policies[$policyId]->limitations[$row['ezpolicy_limitation_identifier']])) {
-                $policies[$policyId]->limitations[$row['ezpolicy_limitation_identifier']] = [$row['ezpolicy_limitation_value_value']];
-            } elseif (!in_array($row['ezpolicy_limitation_value_value'], $policies[$policyId]->limitations[$row['ezpolicy_limitation_identifier']])) {
-                $policies[$policyId]->limitations[$row['ezpolicy_limitation_identifier']][] = $row['ezpolicy_limitation_value_value'];
+            if (!isset($policies[$policyId]->limitations[$row['ibexa_policy_limitation_identifier']])) {
+                $policies[$policyId]->limitations[$row['ibexa_policy_limitation_identifier']] = [$row['ibexa_policy_limitation_value_value']];
+            } elseif (!in_array($row['ibexa_policy_limitation_value_value'], $policies[$policyId]->limitations[$row['ibexa_policy_limitation_identifier']])) {
+                $policies[$policyId]->limitations[$row['ibexa_policy_limitation_identifier']][] = $row['ibexa_policy_limitation_value_value'];
             }
         }
 
@@ -117,10 +117,10 @@ class Mapper
 
         foreach ($data as $row) {
             if (empty($role->id)) {
-                $role->id = (int)$row['ezrole_id'];
-                $role->identifier = $row['ezrole_name'];
-                $role->status = $row['ezrole_version'] != 0 ? Role::STATUS_DRAFT : Role::STATUS_DEFINED;
-                $role->originalId = $row['ezrole_version'] ? (int)$row['ezrole_version'] : Role::STATUS_DEFINED;
+                $role->id = (int)$row['ibexa_role_id'];
+                $role->identifier = $row['ibexa_role_name'];
+                $role->status = $row['ibexa_role_version'] != 0 ? Role::STATUS_DRAFT : Role::STATUS_DEFINED;
+                $role->originalId = $row['ibexa_role_version'] ? (int)$row['ibexa_role_version'] : Role::STATUS_DEFINED;
                 // skip name and description as they don't exist in legacy
             }
         }
@@ -139,7 +139,7 @@ class Mapper
     {
         $roleData = [];
         foreach ($data as $row) {
-            $roleData[$row['ezrole_id']][] = $row;
+            $roleData[$row['ibexa_role_id']][] = $row;
         }
 
         $roles = [];

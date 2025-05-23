@@ -4,8 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+use Ibexa\Core\Persistence\Legacy\User\Gateway;
+use Ibexa\Core\Persistence\Legacy\UserPreference\Gateway\DoctrineDatabase;
+
 return [
-    'ezuser' => [
+    Gateway::USER_TABLE => [
         0 => [
             'contentobject_id' => '14',
             'email' => 'foo@example.com',
@@ -14,7 +17,7 @@ return [
             'password_hash_type' => '5',
         ],
     ],
-    'ezpreferences' => [
+    DoctrineDatabase::TABLE_USER_PREFERENCES => [
         0 => [
             'id' => 1,
             'user_id' => 14,

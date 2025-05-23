@@ -9,6 +9,10 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\Language;
 
 use Ibexa\Contracts\Core\Persistence\Content\Language;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway as ObjectStateGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway as ContentTypeGateway;
+use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway as UrlAliasGateway;
 
 /**
  * Content Model language gateway.
@@ -17,7 +21,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Language;
  */
 abstract class Gateway
 {
-    public const CONTENT_LANGUAGE_TABLE = 'ezcontent_language';
+    public const CONTENT_LANGUAGE_TABLE = 'ibexa_content_language';
 
     /**
      * A map of language-related table name to its language column.
@@ -29,18 +33,18 @@ abstract class Gateway
      * <code>./src/bundle/Core/Resources/config/storage/legacy/schema.yaml</code>
      */
     public const MULTILINGUAL_TABLES_COLUMNS = [
-        'ezcobj_state' => ['language_mask', 'default_language_id'],
-        'ezcobj_state_group_language' => ['language_id'],
-        'ezcobj_state_group' => ['language_mask', 'default_language_id'],
-        'ezcobj_state_language' => ['language_id'],
-        'ezcontentclass_attribute_ml' => ['language_id'],
-        'ezcontentclass_name' => ['language_id'],
-        'ezcontentclass' => ['language_mask', 'initial_language_id'],
-        'ezcontentobject_attribute' => ['language_id'],
-        'ezcontentobject_name' => ['language_id'],
-        'ezcontentobject_version' => ['language_mask', 'initial_language_id'],
-        'ezcontentobject' => ['language_mask', 'initial_language_id'],
-        'ezurlalias_ml' => ['lang_mask'],
+        ObjectStateGateway::OBJECT_STATE_TABLE => ['language_mask', 'default_language_id'],
+        ObjectStateGateway::OBJECT_STATE_GROUP_LANGUAGE_TABLE => ['language_id'],
+        ObjectStateGateway::OBJECT_STATE_GROUP_TABLE => ['language_mask', 'default_language_id'],
+        ObjectStateGateway::OBJECT_STATE_LANGUAGE_TABLE => ['language_id'],
+        ContentTypeGateway::MULTILINGUAL_FIELD_DEFINITION_TABLE => ['language_id'],
+        ContentTypeGateway::CONTENT_TYPE_NAME_TABLE => ['language_id'],
+        ContentTypeGateway::CONTENT_TYPE_TABLE => ['language_mask', 'initial_language_id'],
+        ContentGateway::CONTENT_FIELD_TABLE => ['language_id'],
+        ContentGateway::CONTENT_NAME_TABLE => ['language_id'],
+        ContentGateway::CONTENT_VERSION_TABLE => ['language_mask', 'initial_language_id'],
+        ContentGateway::CONTENT_ITEM_TABLE => ['language_mask', 'initial_language_id'],
+        UrlAliasGateway::TABLE => ['lang_mask'],
     ];
 
     /**

@@ -18,12 +18,14 @@ use Ibexa\Core\IO\IOMetadataHandler;
 use Ibexa\Core\IO\UrlDecorator;
 
 /**
- * Manages IO metadata in a mysql table, ezdfsfile.
+ * Manages IO metadata in a mysql table, ibexa_dfs_file.
  *
  * It will prevent simultaneous writes to the same file.
  */
 class LegacyDFSCluster implements IOMetadataHandler
 {
+    public const string DFS_FILE_TABLE = 'ibexa_dfs_file';
+
     /** @var \Doctrine\DBAL\Connection */
     private $db;
 
@@ -70,9 +72,9 @@ class LegacyDFSCluster implements IOMetadataHandler
         ];
 
         try {
-            $this->db->insert('ezdfsfile', $params);
+            $this->db->insert(self::DFS_FILE_TABLE, $params);
         } catch (Exception $e) {
-            $this->db->update('ezdfsfile', [
+            $this->db->update(self::DFS_FILE_TABLE, [
                 'mtime' => $params['mtime'],
                 'size' => $params['size'],
                 'scope' => $params['scope'],
@@ -97,7 +99,7 @@ class LegacyDFSCluster implements IOMetadataHandler
         $path = (string)$this->addPrefix($spiBinaryFileId);
 
         // Unlike the legacy cluster, the file is directly deleted. It was inherited from the DB cluster anyway
-        $affectedRows = (int)$this->db->delete('ezdfsfile', [
+        $affectedRows = (int)$this->db->delete(self::DFS_FILE_TABLE, [
             'name_hash' => md5($path),
         ]);
 
@@ -134,7 +136,7 @@ class LegacyDFSCluster implements IOMetadataHandler
                 'e.expired',
                 'e.status',
             )
-            ->from('ezdfsfile', 'e')
+            ->from(self::DFS_FILE_TABLE, 'e')
             ->andWhere('e.name_hash = :name_hash')
             ->andWhere('e.expired != true')
             ->andWhere('e.mtime > 0')
@@ -178,7 +180,7 @@ class LegacyDFSCluster implements IOMetadataHandler
                 'e.expired',
                 'e.status',
             )
-            ->from('ezdfsfile', 'e')
+            ->from(self::DFS_FILE_TABLE, 'e')
             ->andWhere('e.name_hash = :name_hash')
             ->andWhere('e.expired != true')
             ->andWhere('e.mtime > 0')
@@ -255,7 +257,7 @@ class LegacyDFSCluster implements IOMetadataHandler
         $queryBuilder = $this->db->createQueryBuilder();
         $result = $queryBuilder
             ->select('e.datatype')
-            ->from('ezdfsfile', 'e')
+            ->from(self::DFS_FILE_TABLE, 'e')
             ->andWhere('e.name_hash = :name_hash')
             ->andWhere('e.expired != true')
             ->andWhere('e.mtime > 0')
@@ -281,7 +283,7 @@ class LegacyDFSCluster implements IOMetadataHandler
     {
         $query = $this->db->createQueryBuilder();
         $query
-            ->delete('ezdfsfile')
+            ->delete(self::DFS_FILE_TABLE)
             ->where('name LIKE :spiPath ESCAPE :esc')
             ->setParameter('esc', '\\')
             ->setParameter(

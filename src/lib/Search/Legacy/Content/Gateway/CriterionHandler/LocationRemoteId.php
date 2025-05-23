@@ -11,6 +11,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
@@ -39,7 +40,7 @@ class LocationRemoteId extends CriterionHandler
             ->select(
                 'contentobject_id'
             )->from(
-                'ezcontentobject_tree',
+                Gateway::CONTENT_TREE_TABLE,
                 'subquery_location'
             )->where(
                 $queryBuilder->expr()->in(

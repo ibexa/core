@@ -232,7 +232,7 @@ class DoctrineStorage extends Gateway
      *
      * That could be avoided if the feature is implemented there.
      *
-     * URL is orphaned if it is not linked to a content attribute through ezurl_object_link table.
+     * URL is orphaned if it is not linked to a content attribute through ibexa_url_content_link table.
      *
      * @param int[] $potentiallyOrphanedUrls
      */

@@ -24,7 +24,7 @@ class DoctrineStorage extends BaseDoctrineStorage
      */
     protected function getStorageTable(): string
     {
-        return 'ezmedia';
+        return 'ibexa_media';
     }
 
     /**

@@ -11,7 +11,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\IO\IOConfigProvider;
 
 /**
- * Iterator for entries in legacy's ezimagefile table.
+ * Iterator for entries in legacy's ibexa_image_file table.
  *
  * The returned items are id of Image BinaryFile (ibexa-mountains/mount-aconcagua/605-1-eng-GB/Mount-Aconcagua.jpg).
  */

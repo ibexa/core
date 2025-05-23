@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
+use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
 use Ibexa\Tests\Integration\Core\Repository\Common\SlugConverter as TestSlugConverter;
 use RuntimeException;
@@ -1350,7 +1351,7 @@ class URLAliasServiceTest extends BaseTest
                 $queryBuilder = $connection->createQueryBuilder();
                 $expr = $queryBuilder->expr();
                 $queryBuilder
-                    ->delete('ezurlalias_ml')
+                    ->delete(Gateway::TABLE)
                     ->where(
                         $expr->and(
                             $expr->eq(
@@ -1432,7 +1433,7 @@ class URLAliasServiceTest extends BaseTest
                 $queryBuilder = $connection->createQueryBuilder();
                 $expr = $queryBuilder->expr();
                 $queryBuilder
-                    ->update('ezurlalias_ml')
+                    ->update(Gateway::TABLE)
                     ->set('link', $queryBuilder->createPositionalParameter(666, \PDO::PARAM_INT))
                     ->where(
                         $expr->eq(
@@ -1629,7 +1630,7 @@ class URLAliasServiceTest extends BaseTest
         $urlAliasService = $repository->getURLAliasService();
         $connection = $this->getRawDatabaseConnection();
 
-        $query = $connection->createQueryBuilder()->select('*')->from('ezurlalias_ml');
+        $query = $connection->createQueryBuilder()->select('*')->from(Gateway::TABLE);
         $originalRows = $query->executeQuery()->fetchAllAssociative();
 
         $expectedCount = count($originalRows);
@@ -1746,7 +1747,7 @@ class URLAliasServiceTest extends BaseTest
     }
 
     /**
-     * Insert intentionally broken rows into ezurlalias_ml table to test cleanup API.
+     * Insert intentionally broken rows into ibexa_url_alias_ml table to test cleanup API.
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::deleteCorruptedUrlAliases
      *
@@ -1803,7 +1804,7 @@ class URLAliasServiceTest extends BaseTest
             ],
         ];
 
-        $query = $connection->createQueryBuilder()->insert('ezurlalias_ml');
+        $query = $connection->createQueryBuilder()->insert(Gateway::TABLE);
 
         foreach ($rows as $row) {
             foreach ($row as $columnName => $value) {

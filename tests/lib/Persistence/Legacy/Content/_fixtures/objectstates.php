@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway;
+
 return [
-    'ezcobj_state_group' => [
+    Gateway::OBJECT_STATE_GROUP_TABLE => [
         [
             'default_language_id' => 2,
             'id' => 2,
@@ -14,7 +16,7 @@ return [
         ],
     ],
 
-    'ezcobj_state_group_language' => [
+    Gateway::OBJECT_STATE_GROUP_LANGUAGE_TABLE => [
         [
             'contentobject_state_group_id' => 2,
             'description' => '',
@@ -24,7 +26,7 @@ return [
         ],
     ],
 
-    'ezcobj_state' => [
+    Gateway::OBJECT_STATE_TABLE => [
         [
             'default_language_id' => 2,
             'group_id' => 2,
@@ -44,7 +46,7 @@ return [
         ],
     ],
 
-    'ezcobj_state_language' => [
+    Gateway::OBJECT_STATE_LANGUAGE_TABLE => [
         [
             'contentobject_state_id' => 1,
             'description' => '',
@@ -60,7 +62,7 @@ return [
         ],
     ],
 
-    'ezcobj_state_link' => [
+    Gateway::OBJECT_STATE_LINK_TABLE => [
         [
             'contentobject_id' => 4,
             'contentobject_state_id' => 1,

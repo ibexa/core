@@ -48,7 +48,7 @@ abstract class AbstractGateway implements Gateway
                     THEN (:language_id | 1)
                     ELSE :language_id
                 END
-                FROM ezcontentobject
+                FROM ibexa_content
                 WHERE id = :content_id)
             SQL;
     }

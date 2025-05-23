@@ -288,7 +288,7 @@ class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Build WordIDArray and update ezsearch_word table.
+     * Build WordIDArray and update ibexa_search_word table.
      *
      * Ported from the legacy code
      *

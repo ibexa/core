@@ -10,6 +10,7 @@ namespace Ibexa\Core\Search\Legacy\Content\Gateway\CriterionHandler;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
@@ -42,7 +43,7 @@ class Ancestor extends CriterionHandler
         $subSelect = $this->connection->createQueryBuilder();
         $subSelect
             ->select('contentobject_id')
-            ->from('ezcontentobject_tree')
+            ->from(Gateway::CONTENT_TREE_TABLE)
             ->where(
                 $queryBuilder->expr()->in(
                     'node_id',

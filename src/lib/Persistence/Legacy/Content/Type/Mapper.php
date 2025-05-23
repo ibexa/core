@@ -122,7 +122,7 @@ class Mapper
 
         $rowsByAttributeId = [];
         foreach ($rows as $row) {
-            $attributeId = (int)$row['ezcontentclass_attribute_id'];
+            $attributeId = (int)$row['ibexa_content_type_attribute_id'];
             if (!isset($rowsByAttributeId[$attributeId])) {
                 $rowsByAttributeId[$attributeId] = [];
             }
@@ -131,12 +131,12 @@ class Mapper
         }
 
         foreach ($rows as $row) {
-            $typeId = (int)$row['ezcontentclass_id'];
+            $typeId = (int)$row['ibexa_content_type_id'];
             if (!isset($types[$typeId])) {
                 $types[$typeId] = $this->extractTypeFromRow($row);
             }
 
-            $fieldId = (int)$row['ezcontentclass_attribute_id'];
+            $fieldId = (int)$row['ibexa_content_type_attribute_id'];
 
             if ($fieldId && !isset($fields[$fieldId])) {
                 $fieldDataRows = $rowsByAttributeId[$fieldId];
@@ -146,7 +146,7 @@ class Mapper
                 $types[$typeId]->fieldDefinitions[] = $fields[$fieldId] = $this->extractFieldFromRow($row, $multilingualData, $types[$typeId]->status);
             }
 
-            $groupId = (int)$row['ezcontentclass_classgroup_group_id'];
+            $groupId = (int)$row['ibexa_content_type_group_assignment_group_id'];
             if (!in_array($groupId, $types[$typeId]->groupIds)) {
                 $types[$typeId]->groupIds[] = $groupId;
             }
@@ -168,11 +168,11 @@ class Mapper
     {
         return array_map(static function (array $fieldData) {
             return [
-                'ezcontentclass_attribute_multilingual_name' => $fieldData['ezcontentclass_attribute_multilingual_name'] ?? null,
-                'ezcontentclass_attribute_multilingual_description' => $fieldData['ezcontentclass_attribute_multilingual_description'] ?? null,
-                'ezcontentclass_attribute_multilingual_language_id' => $fieldData['ezcontentclass_attribute_multilingual_language_id'] ?? null,
-                'ezcontentclass_attribute_multilingual_data_text' => $fieldData['ezcontentclass_attribute_multilingual_data_text'] ?? null,
-                'ezcontentclass_attribute_multilingual_data_json' => $fieldData['ezcontentclass_attribute_multilingual_data_json'] ?? null,
+                'ibexa_content_type_attribute_multilingual_name' => $fieldData['ibexa_content_type_attribute_multilingual_name'] ?? null,
+                'ibexa_content_type_attribute_multilingual_description' => $fieldData['ibexa_content_type_attribute_multilingual_description'] ?? null,
+                'ibexa_content_type_attribute_multilingual_language_id' => $fieldData['ibexa_content_type_attribute_multilingual_language_id'] ?? null,
+                'ibexa_content_type_attribute_multilingual_data_text' => $fieldData['ibexa_content_type_attribute_multilingual_data_text'] ?? null,
+                'ibexa_content_type_attribute_multilingual_data_json' => $fieldData['ibexa_content_type_attribute_multilingual_data_json'] ?? null,
             ];
         }, $fieldDefinitionRows);
     }
@@ -188,10 +188,10 @@ class Mapper
     {
         $type = new Type();
 
-        $type->id = (int)$row['ezcontentclass_id'];
-        $type->status = (int)$row['ezcontentclass_version'];
-        $type->name = $this->unserialize($row['ezcontentclass_serialized_name_list']);
-        $type->description = $this->unserialize($row['ezcontentclass_serialized_description_list']);
+        $type->id = (int)$row['ibexa_content_type_id'];
+        $type->status = (int)$row['ibexa_content_type_version'];
+        $type->name = $this->unserialize($row['ibexa_content_type_serialized_name_list']);
+        $type->description = $this->unserialize($row['ibexa_content_type_serialized_description_list']);
         // Unset redundant data
         unset(
             $type->name['always-available'],
@@ -199,20 +199,20 @@ class Mapper
             $type->description['always-available'],
             $type->description[0]
         );
-        $type->identifier = $row['ezcontentclass_identifier'];
-        $type->created = (int)$row['ezcontentclass_created'];
-        $type->modified = (int)$row['ezcontentclass_modified'];
-        $type->modifierId = (int)$row['ezcontentclass_modifier_id'];
-        $type->creatorId = (int)$row['ezcontentclass_creator_id'];
-        $type->remoteId = $row['ezcontentclass_remote_id'];
-        $type->urlAliasSchema = $row['ezcontentclass_url_alias_name'];
-        $type->nameSchema = $row['ezcontentclass_contentobject_name'];
-        $type->isContainer = ($row['ezcontentclass_is_container'] == 1);
-        $type->initialLanguageId = (int)$row['ezcontentclass_initial_language_id'];
-        $type->defaultAlwaysAvailable = ($row['ezcontentclass_always_available'] == 1);
-        $type->sortField = (int)$row['ezcontentclass_sort_field'];
-        $type->sortOrder = (int)$row['ezcontentclass_sort_order'];
-        $type->languageCodes = $this->maskGenerator->extractLanguageCodesFromMask((int)$row['ezcontentclass_language_mask']);
+        $type->identifier = $row['ibexa_content_type_identifier'];
+        $type->created = (int)$row['ibexa_content_type_created'];
+        $type->modified = (int)$row['ibexa_content_type_modified'];
+        $type->modifierId = (int)$row['ibexa_content_type_modifier_id'];
+        $type->creatorId = (int)$row['ibexa_content_type_creator_id'];
+        $type->remoteId = $row['ibexa_content_type_remote_id'];
+        $type->urlAliasSchema = $row['ibexa_content_type_url_alias_name'];
+        $type->nameSchema = $row['ibexa_content_type_contentobject_name'];
+        $type->isContainer = ($row['ibexa_content_type_is_container'] == 1);
+        $type->initialLanguageId = (int)$row['ibexa_content_type_initial_language_id'];
+        $type->defaultAlwaysAvailable = ($row['ibexa_content_type_always_available'] == 1);
+        $type->sortField = (int)$row['ibexa_content_type_sort_field'];
+        $type->sortOrder = (int)$row['ibexa_content_type_sort_order'];
+        $type->languageCodes = $this->maskGenerator->extractLanguageCodesFromMask((int)$row['ibexa_content_type_language_mask']);
 
         $type->groupIds = [];
         $type->fieldDefinitions = [];
@@ -234,9 +234,9 @@ class Mapper
 
         $field = new FieldDefinition();
 
-        $field->id = (int)$row['ezcontentclass_attribute_id'];
-        $field->name = $this->unserialize($row['ezcontentclass_attribute_serialized_name_list']);
-        $field->description = $this->unserialize($row['ezcontentclass_attribute_serialized_description_list']);
+        $field->id = (int)$row['ibexa_content_type_attribute_id'];
+        $field->name = $this->unserialize($row['ibexa_content_type_attribute_serialized_name_list']);
+        $field->description = $this->unserialize($row['ibexa_content_type_attribute_serialized_description_list']);
         // Unset redundant data
         unset(
             $field->name['always-available'],
@@ -244,18 +244,18 @@ class Mapper
             $field->description['always-available'],
             $field->description[0]
         );
-        $field->identifier = $row['ezcontentclass_attribute_identifier'];
-        $field->fieldGroup = $row['ezcontentclass_attribute_category'];
-        $field->fieldType = $row['ezcontentclass_attribute_data_type_string'];
-        $field->isTranslatable = ($row['ezcontentclass_attribute_can_translate'] == 1);
-        $field->isRequired = $row['ezcontentclass_attribute_is_required'] == 1;
-        $field->isThumbnail = !empty($row['ezcontentclass_attribute_is_thumbnail']);
-        $field->isInfoCollector = $row['ezcontentclass_attribute_is_information_collector'] == 1;
+        $field->identifier = $row['ibexa_content_type_attribute_identifier'];
+        $field->fieldGroup = $row['ibexa_content_type_attribute_category'];
+        $field->fieldType = $row['ibexa_content_type_attribute_data_type_string'];
+        $field->isTranslatable = ($row['ibexa_content_type_attribute_can_translate'] == 1);
+        $field->isRequired = $row['ibexa_content_type_attribute_is_required'] == 1;
+        $field->isThumbnail = !empty($row['ibexa_content_type_attribute_is_thumbnail']);
+        $field->isInfoCollector = $row['ibexa_content_type_attribute_is_information_collector'] == 1;
 
-        $field->isSearchable = (bool)$row['ezcontentclass_attribute_is_searchable'];
-        $field->position = (int)$row['ezcontentclass_attribute_placement'];
+        $field->isSearchable = (bool)$row['ibexa_content_type_attribute_is_searchable'];
+        $field->position = (int)$row['ibexa_content_type_attribute_placement'];
 
-        $mainLanguageCode = $this->maskGenerator->extractLanguageCodesFromMask((int)$row['ezcontentclass_initial_language_id']);
+        $mainLanguageCode = $this->maskGenerator->extractLanguageCodesFromMask((int)$row['ibexa_content_type_initial_language_id']);
         $field->mainLanguageCode = array_shift($mainLanguageCode);
 
         $this->toFieldDefinition($storageFieldDef, $field, $status);
@@ -275,39 +275,39 @@ class Mapper
     {
         $storageFieldDef = new StorageFieldDefinition();
 
-        $storageFieldDef->dataFloat1 = isset($row['ezcontentclass_attribute_data_float1'])
-            ? (float)$row['ezcontentclass_attribute_data_float1']
+        $storageFieldDef->dataFloat1 = isset($row['ibexa_content_type_attribute_data_float1'])
+            ? (float)$row['ibexa_content_type_attribute_data_float1']
             : null;
-        $storageFieldDef->dataFloat2 = isset($row['ezcontentclass_attribute_data_float2'])
-            ? (float)$row['ezcontentclass_attribute_data_float2']
+        $storageFieldDef->dataFloat2 = isset($row['ibexa_content_type_attribute_data_float2'])
+            ? (float)$row['ibexa_content_type_attribute_data_float2']
             : null;
-        $storageFieldDef->dataFloat3 = isset($row['ezcontentclass_attribute_data_float3'])
-            ? (float)$row['ezcontentclass_attribute_data_float3']
+        $storageFieldDef->dataFloat3 = isset($row['ibexa_content_type_attribute_data_float3'])
+            ? (float)$row['ibexa_content_type_attribute_data_float3']
             : null;
-        $storageFieldDef->dataFloat4 = isset($row['ezcontentclass_attribute_data_float4'])
-            ? (float)$row['ezcontentclass_attribute_data_float4']
+        $storageFieldDef->dataFloat4 = isset($row['ibexa_content_type_attribute_data_float4'])
+            ? (float)$row['ibexa_content_type_attribute_data_float4']
             : null;
-        $storageFieldDef->dataInt1 = isset($row['ezcontentclass_attribute_data_int1'])
-            ? (int)$row['ezcontentclass_attribute_data_int1']
+        $storageFieldDef->dataInt1 = isset($row['ibexa_content_type_attribute_data_int1'])
+            ? (int)$row['ibexa_content_type_attribute_data_int1']
             : null;
-        $storageFieldDef->dataInt2 = isset($row['ezcontentclass_attribute_data_int2'])
-            ? (int)$row['ezcontentclass_attribute_data_int2']
+        $storageFieldDef->dataInt2 = isset($row['ibexa_content_type_attribute_data_int2'])
+            ? (int)$row['ibexa_content_type_attribute_data_int2']
             : null;
-        $storageFieldDef->dataInt3 = isset($row['ezcontentclass_attribute_data_int3'])
-            ? (int)$row['ezcontentclass_attribute_data_int3']
+        $storageFieldDef->dataInt3 = isset($row['ibexa_content_type_attribute_data_int3'])
+            ? (int)$row['ibexa_content_type_attribute_data_int3']
             : null;
-        $storageFieldDef->dataInt4 = isset($row['ezcontentclass_attribute_data_int4'])
-            ? (int)$row['ezcontentclass_attribute_data_int4']
+        $storageFieldDef->dataInt4 = isset($row['ibexa_content_type_attribute_data_int4'])
+            ? (int)$row['ibexa_content_type_attribute_data_int4']
             : null;
-        $storageFieldDef->dataText1 = $row['ezcontentclass_attribute_data_text1'];
-        $storageFieldDef->dataText2 = $row['ezcontentclass_attribute_data_text2'];
-        $storageFieldDef->dataText3 = $row['ezcontentclass_attribute_data_text3'];
-        $storageFieldDef->dataText4 = $row['ezcontentclass_attribute_data_text4'];
-        $storageFieldDef->dataText5 = $row['ezcontentclass_attribute_data_text5'];
-        $storageFieldDef->serializedDataText = $row['ezcontentclass_attribute_serialized_data_text'];
+        $storageFieldDef->dataText1 = $row['ibexa_content_type_attribute_data_text1'];
+        $storageFieldDef->dataText2 = $row['ibexa_content_type_attribute_data_text2'];
+        $storageFieldDef->dataText3 = $row['ibexa_content_type_attribute_data_text3'];
+        $storageFieldDef->dataText4 = $row['ibexa_content_type_attribute_data_text4'];
+        $storageFieldDef->dataText5 = $row['ibexa_content_type_attribute_data_text5'];
+        $storageFieldDef->serializedDataText = $row['ibexa_content_type_attribute_serialized_data_text'];
 
         foreach ($multilingualDataRow as $languageDataRow) {
-            $languageCodes = $this->maskGenerator->extractLanguageCodesFromMask((int)$languageDataRow['ezcontentclass_attribute_multilingual_language_id']);
+            $languageCodes = $this->maskGenerator->extractLanguageCodesFromMask((int)$languageDataRow['ibexa_content_type_attribute_multilingual_language_id']);
 
             if (empty($languageCodes)) {
                 continue;
@@ -316,15 +316,15 @@ class Mapper
 
             $multilingualData = new MultilingualStorageFieldDefinition();
 
-            $nameList = $this->unserialize($row['ezcontentclass_attribute_serialized_name_list']);
+            $nameList = $this->unserialize($row['ibexa_content_type_attribute_serialized_name_list']);
             $name = $nameList[$languageCode] ?? reset($nameList);
-            $description = $this->unserialize($row['ezcontentclass_attribute_serialized_description_list'])[$languageCode] ?? null;
+            $description = $this->unserialize($row['ibexa_content_type_attribute_serialized_description_list'])[$languageCode] ?? null;
 
-            $multilingualData->name = $languageDataRow['ezcontentclass_attribute_multilingual_name'] ?? $name;
-            $multilingualData->description = $languageDataRow['ezcontentclass_attribute_multilingual_description'] ?? $description;
-            $multilingualData->dataText = $languageDataRow['ezcontentclass_attribute_multilingual_data_text'];
-            $multilingualData->dataJson = $languageDataRow['ezcontentclass_attribute_multilingual_data_json'];
-            $multilingualData->languageId = (int)$languageDataRow['ezcontentclass_attribute_multilingual_language_id'];
+            $multilingualData->name = $languageDataRow['ibexa_content_type_attribute_multilingual_name'] ?? $name;
+            $multilingualData->description = $languageDataRow['ibexa_content_type_attribute_multilingual_description'] ?? $description;
+            $multilingualData->dataText = $languageDataRow['ibexa_content_type_attribute_multilingual_data_text'];
+            $multilingualData->dataJson = $languageDataRow['ibexa_content_type_attribute_multilingual_data_json'];
+            $multilingualData->languageId = (int)$languageDataRow['ibexa_content_type_attribute_multilingual_language_id'];
 
             $storageFieldDef->multilingualData[$languageCode] = $multilingualData;
         }
@@ -526,11 +526,11 @@ class Mapper
         $mlFieldDefinitionData = [];
         foreach ($mlFieldDefinitionsRows as $row) {
             $mlStorageFieldDefinition = new MultilingualStorageFieldDefinition();
-            $mlStorageFieldDefinition->name = $row['ezcontentclass_attribute_multilingual_name'];
-            $mlStorageFieldDefinition->description = $row['ezcontentclass_attribute_multilingual_description'];
-            $mlStorageFieldDefinition->languageId = $row['ezcontentclass_attribute_multilingual_language_id'];
-            $mlStorageFieldDefinition->dataText = $row['ezcontentclass_attribute_multilingual_data_text'];
-            $mlStorageFieldDefinition->dataJson = $row['ezcontentclass_attribute_multilingual_data_json'];
+            $mlStorageFieldDefinition->name = $row['ibexa_content_type_attribute_multilingual_name'];
+            $mlStorageFieldDefinition->description = $row['ibexa_content_type_attribute_multilingual_description'];
+            $mlStorageFieldDefinition->languageId = $row['ibexa_content_type_attribute_multilingual_language_id'];
+            $mlStorageFieldDefinition->dataText = $row['ibexa_content_type_attribute_multilingual_data_text'];
+            $mlStorageFieldDefinition->dataJson = $row['ibexa_content_type_attribute_multilingual_data_json'];
 
             $mlFieldDefinitionData[] = $mlStorageFieldDefinition;
         }

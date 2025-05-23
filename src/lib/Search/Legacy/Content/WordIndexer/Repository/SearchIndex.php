@@ -17,8 +17,8 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class SearchIndex
 {
-    public const SEARCH_WORD_TABLE = 'ezsearch_word';
-    public const SEARCH_OBJECT_WORD_LINK_TABLE = 'ezsearch_object_word_link';
+    public const SEARCH_WORD_TABLE = 'ibexa_search_word';
+    public const SEARCH_OBJECT_WORD_LINK_TABLE = 'ibexa_search_object_word_link';
 
     protected $connection;
 
@@ -28,7 +28,7 @@ class SearchIndex
     }
 
     /**
-     * Fetch already indexed words from database (legacy db table: ezsearch_word).
+     * Fetch already indexed words from database (legacy db table: ibexa_search_word).
      *
      * @param string[] $words
      */
@@ -73,7 +73,7 @@ class SearchIndex
     }
 
     /**
-     * Insert new words (legacy db table: ezsearch_word).
+     * Insert new words (legacy db table: ibexa_search_word).
      *
      * @param string[] $words
      */
@@ -116,7 +116,7 @@ class SearchIndex
     }
 
     /**
-     * Link word with specific content object (legacy db table: ezsearch_object_word_link).
+     * Link word with specific content object (legacy db table: ibexa_search_object_word_link).
      */
     public function addObjectWordLink(
         int $wordId,
@@ -191,7 +191,7 @@ class SearchIndex
     }
 
     /**
-     * Get all words related to the content object (legacy db table: ezsearch_object_word_link).
+     * Get all words related to the content object (legacy db table: ibexa_search_object_word_link).
      */
     public function getContentObjectWords(int $contentId): array
     {
@@ -246,7 +246,7 @@ class SearchIndex
     }
 
     /**
-     * Build ezsearch_word update query, without any columns set.
+     * Build ibexa_search_word update query, without any columns set.
      *
      * @param array $wordIds list of word IDs
      */

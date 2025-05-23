@@ -9,6 +9,7 @@ namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Field
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Core\FieldType\Keyword\KeywordStorage\Gateway\DoctrineStorage;
 
 /**
  * FieldValue CriterionHandler handling ezkeyword External Storage for Legacy/SQL Search.
@@ -24,13 +25,13 @@ class Keyword extends Collection
         $subQuery
             ->innerJoin(
                 'f_def',
-                'ezkeyword_attribute_link',
+                DoctrineStorage::KEYWORD_ATTRIBUTE_LINK_TABLE,
                 'kwd_lnk',
                 'f_def.id = kwd_lnk.objectattribute_id'
             )
             ->innerJoin(
                 'kwd_lnk',
-                'ezkeyword',
+                DoctrineStorage::KEYWORD_TABLE,
                 'kwd',
                 'kwd.id = kwd_lnk.keyword_id'
             );

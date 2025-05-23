@@ -4,8 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\User\Role\Gateway;
+
 return [
-    'ezrole' => [
+    Gateway::ROLE_TABLE => [
         [
             'id' => '1',
             'is_new' => '0',
@@ -42,7 +45,7 @@ return [
             'version' => '0',
         ],
     ],
-    'ezuser_role' => [
+    Gateway::USER_ROLE_TABLE => [
         [
             'contentobject_id' => '12',
             'id' => '25',
@@ -128,7 +131,7 @@ return [
             'role_id' => '4',
         ],
     ],
-    'ezcontentobject' => [
+    ContentGateway::CONTENT_ITEM_TABLE => [
         [
             'id' => '11',
         ],

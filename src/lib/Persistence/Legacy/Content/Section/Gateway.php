@@ -15,8 +15,8 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Section;
  */
 abstract class Gateway
 {
-    public const CONTENT_SECTION_SEQ = 'ezsection_id_seq';
-    public const CONTENT_SECTION_TABLE = 'ezsection';
+    public const CONTENT_SECTION_SEQ = 'ibexa_section_id_seq';
+    public const CONTENT_SECTION_TABLE = 'ibexa_section';
 
     /**
      * Inserts a new section with $name and $identifier.

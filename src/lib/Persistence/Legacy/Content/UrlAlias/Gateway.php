@@ -15,13 +15,12 @@ namespace Ibexa\Core\Persistence\Legacy\Content\UrlAlias;
  */
 abstract class Gateway
 {
-    /**
-     * Default database table.
-     */
-    public const TABLE = 'ezurlalias_ml';
+    public const URL_ALIAS_TABLE = 'ibexa_url_alias';
 
-    public const INCR_TABLE = 'ezurlalias_ml_incr';
-    public const INCR_TABLE_SEQ = 'ezurlalias_ml_incr_id_seq';
+    public const TABLE = 'ibexa_url_alias_ml';
+
+    public const INCR_TABLE = 'ibexa_url_alias_ml_incr';
+    public const INCR_TABLE_SEQ = 'ibexa_url_alias_ml_incr_id_seq';
 
     public const NOP = 'nop';
     public const NOP_ACTION = self::NOP . ':';

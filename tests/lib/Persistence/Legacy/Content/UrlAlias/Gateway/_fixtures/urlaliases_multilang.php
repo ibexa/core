@@ -4,8 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway as LanguageGateway;
+use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
+
 return [
-    'ezurlalias_ml' => [
+    Gateway::TABLE => [
         0 => [
             'action' => 'eznode:2',
             'action_type' => 'eznode',
@@ -98,7 +101,7 @@ return [
             'text_md5' => 'bc3644bfb4f44ebbd4dd2de0de2ce6c2',
         ],
     ],
-    'ezcontent_language' => [
+    LanguageGateway::CONTENT_LANGUAGE_TABLE => [
         0 => [
             'disabled' => 0,
             'id' => 2,
@@ -118,7 +121,7 @@ return [
             'name' => 'Polish (polski)',
         ],
     ],
-    'ezurlalias_ml_incr' => [
+    Gateway::INCR_TABLE => [
         0 => [
             'id' => '1',
         ],

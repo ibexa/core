@@ -12,10 +12,9 @@ use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
-use PDO;
 
 /**
- * @covers \Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase::insertBookmark
+ * @covers \DoctrineDatabase::insertBookmark
  */
 class DoctrineDatabaseTest extends TestCase
 {
@@ -149,9 +148,13 @@ class DoctrineDatabaseTest extends TestCase
 
     private function loadBookmark(int $id): array
     {
-        $data = $this->connection
-            ->executeQuery('SELECT * FROM ezcontentbrowsebookmark WHERE id = :id', ['id' => $id])
-            ->fetch(PDO::FETCH_ASSOC);
+        $qb = $this->connection->createQueryBuilder();
+        $qb->select('*')
+            ->from(DoctrineDatabase::TABLE_BOOKMARKS)
+            ->where('id = :id')
+            ->setParameter('id', $id);
+
+        $data = $this->connection->executeQuery($qb->getSQL(), $qb->getParameters())->fetchAssociative();
 
         return is_array($data) ? $data : [];
     }

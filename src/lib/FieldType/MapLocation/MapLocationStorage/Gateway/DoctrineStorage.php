@@ -15,7 +15,7 @@ use PDO;
 
 class DoctrineStorage extends Gateway
 {
-    public const MAP_LOCATION_TABLE = 'ezgmaplocation';
+    public const MAP_LOCATION_TABLE = 'ibexa_map_location';
 
     /** @var \Doctrine\DBAL\Connection */
     protected $connection;
@@ -158,7 +158,7 @@ class DoctrineStorage extends Gateway
                 $this->connection->quoteIdentifier('longitude'),
                 $this->connection->quoteIdentifier('address')
             )
-            ->from($this->connection->quoteIdentifier('ezgmaplocation'))
+            ->from($this->connection->quoteIdentifier(DoctrineStorage::MAP_LOCATION_TABLE))
             ->where(
                 $selectQuery->expr()->and(
                     $selectQuery->expr()->eq(

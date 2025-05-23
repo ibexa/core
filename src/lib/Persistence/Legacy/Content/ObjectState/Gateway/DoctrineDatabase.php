@@ -99,7 +99,7 @@ final class DoctrineDatabase extends Gateway
 
         $rows = [];
         while ($row = $statement->fetch(FetchMode::ASSOCIATIVE)) {
-            $rows[$row['ezcobj_state_id']][] = $row;
+            $rows[$row['ibexa_object_state_id']][] = $row;
         }
 
         return array_values($rows);
@@ -147,7 +147,7 @@ final class DoctrineDatabase extends Gateway
 
         $rows = [];
         while ($row = $statement->fetch(FetchMode::ASSOCIATIVE)) {
-            $rows[$row['ezcobj_state_group_id']][] = $row;
+            $rows[$row['ibexa_object_state_group_id']][] = $row;
         }
 
         return array_values($rows);
@@ -207,8 +207,8 @@ final class DoctrineDatabase extends Gateway
         // If this is a first state in group, assign it to all content objects
         if ($maxPriority === null) {
             $this->connection->executeStatement(
-                'INSERT INTO ezcobj_state_link (contentobject_id, contentobject_state_id) ' .
-                "SELECT id, {$objectState->id} FROM ezcontentobject"
+                'INSERT INTO ' . Gateway::OBJECT_STATE_LINK_TABLE . ' (contentobject_id, contentobject_state_id) ' .
+                "SELECT id, {$objectState->id} FROM ibexa_content"
             );
         }
     }
@@ -465,7 +465,7 @@ final class DoctrineDatabase extends Gateway
         $query
             ->innerJoin(
                 'state',
-                'ezcobj_state_link',
+                Gateway::OBJECT_STATE_LINK_TABLE,
                 'link',
                 'state.id = link.contentobject_state_id'
             )
@@ -531,16 +531,16 @@ final class DoctrineDatabase extends Gateway
         $query
             ->select(
                 // Object state
-                'state.default_language_id AS ezcobj_state_default_language_id',
-                'state.group_id AS ezcobj_state_group_id',
-                'state.id AS ezcobj_state_id',
-                'state.identifier AS ezcobj_state_identifier',
-                'state.language_mask AS ezcobj_state_language_mask',
-                'state.priority AS ezcobj_state_priority',
+                'state.default_language_id AS ibexa_object_state_default_language_id',
+                'state.group_id AS ibexa_object_state_group_id',
+                'state.id AS ibexa_object_state_id',
+                'state.identifier AS ibexa_object_state_identifier',
+                'state.language_mask AS ibexa_object_state_language_mask',
+                'state.priority AS ibexa_object_state_priority',
                 // Object state language
-                'lang.description AS ezcobj_state_language_description',
-                'lang.language_id AS ezcobj_state_language_language_id',
-                'lang.name AS ezcobj_state_language_name'
+                'lang.description AS ibexa_object_state_language_description',
+                'lang.language_id AS ibexa_object_state_language_language_id',
+                'lang.name AS ibexa_object_state_language_name'
             )
             ->from(self::OBJECT_STATE_TABLE, 'state')
             ->innerJoin(
@@ -562,15 +562,15 @@ final class DoctrineDatabase extends Gateway
         $query
             ->select(
                 // Object state group
-                'state_group.default_language_id AS ezcobj_state_group_default_language_id',
-                'state_group.id AS ezcobj_state_group_id',
-                'state_group.identifier AS ezcobj_state_group_identifier',
-                'state_group.language_mask AS ezcobj_state_group_language_mask',
+                'state_group.default_language_id AS ibexa_object_state_group_default_language_id',
+                'state_group.id AS ibexa_object_state_group_id',
+                'state_group.identifier AS ibexa_object_state_group_identifier',
+                'state_group.language_mask AS ibexa_object_state_group_language_mask',
                 // Object state group language
-                'state_group_lang.description AS ezcobj_state_group_language_description',
-                'state_group_lang.language_id AS ezcobj_state_group_language_language_id',
-                'state_group_lang.real_language_id AS ezcobj_state_group_language_real_language_id',
-                'state_group_lang.name AS ezcobj_state_group_language_name'
+                'state_group_lang.description AS ibexa_object_state_group_language_description',
+                'state_group_lang.language_id AS ibexa_object_state_group_language_language_id',
+                'state_group_lang.real_language_id AS ibexa_object_state_group_language_real_language_id',
+                'state_group_lang.name AS ibexa_object_state_group_language_name'
             )
             ->from(self::OBJECT_STATE_GROUP_TABLE, 'state_group')
             ->innerJoin(

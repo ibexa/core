@@ -16,6 +16,6 @@ final class LegacyStorageMediaFileRowReader extends LegacyStorageFileRowReader
      */
     protected function getStorageTable(): string
     {
-        return 'ezmedia';
+        return 'ibexa_media';
     }
 }

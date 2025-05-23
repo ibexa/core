@@ -4,8 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway as LanguageGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
+use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
+
 return [
-    'ezurlalias_ml' => [
+    Gateway::TABLE => [
         0 => [
             'action' => 'eznode:2',
             'action_type' => 'eznode',
@@ -72,7 +77,7 @@ return [
             'text_md5' => 'f0a1dfdc675b0a14a64099f7ac1cee83',
         ],
     ],
-    'ezcontent_language' => [
+    LanguageGateway::CONTENT_LANGUAGE_TABLE => [
         0 => [
             'disabled' => 0,
             'id' => 2,
@@ -80,7 +85,7 @@ return [
             'name' => 'Croatian (Hrvatski)',
         ],
     ],
-    'ezurlalias_ml_incr' => [
+    Gateway::INCR_TABLE => [
         0 => [
             'id' => '1',
         ],
@@ -97,7 +102,7 @@ return [
             'id' => '5',
         ],
     ],
-    'ezcontentobject_tree' => [
+    LocationGateway::CONTENT_TREE_TABLE => [
         0 => [
             'node_id' => 314,
             'main_node_id' => 314,
@@ -135,7 +140,7 @@ return [
             'contentobject_id' => 4,
         ],
     ],
-    'ezcontentobject' => [
+    ContentGateway::CONTENT_ITEM_TABLE => [
         0 => [
             'id' => 3,
             'initial_language_id' => 2,
@@ -147,7 +152,7 @@ return [
             'current_version' => 1,
         ],
     ],
-    'ezcontentobject_name' => [
+    ContentGateway::CONTENT_NAME_TABLE => [
         0 => [
             'contentobject_id' => 3,
             'content_version' => 1,

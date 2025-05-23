@@ -14,6 +14,8 @@ use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\Base\Exceptions\ForbiddenException;
 use Ibexa\Core\FieldType\User\UserStorage\Gateway;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\User\Gateway as UserGateway;
 use PDO;
 
 /**
@@ -21,8 +23,8 @@ use PDO;
  */
 class DoctrineStorage extends Gateway
 {
-    public const USER_TABLE = 'ezuser';
-    public const USER_SETTING_TABLE = 'ezuser_setting';
+    public const USER_TABLE = UserGateway::USER_TABLE;
+    public const USER_SETTING_TABLE = 'ibexa_user_setting';
 
     /** @var \Doctrine\DBAL\Connection */
     protected $connection;
@@ -162,7 +164,7 @@ class DoctrineStorage extends Gateway
             ->select(
                 $this->connection->quoteIdentifier('contentobject_id')
             )
-            ->from($this->connection->quoteIdentifier('ezcontentobject_attribute'))
+            ->from($this->connection->quoteIdentifier(ContentGateway::CONTENT_FIELD_TABLE))
             ->where(
                 $query->expr()->eq(
                     $this->connection->quoteIdentifier('id'),
@@ -406,7 +408,7 @@ class DoctrineStorage extends Gateway
         $checkQuery = $this->connection->createQueryBuilder();
         $checkQuery
             ->select($countExpr)
-            ->from('ezcontentobject_attribute')
+            ->from(ContentGateway::CONTENT_FIELD_TABLE)
             ->where(
                 $checkQuery->expr()->in(
                     $this->connection->quoteIdentifier('id'),

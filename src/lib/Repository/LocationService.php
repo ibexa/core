@@ -469,7 +469,7 @@ class LocationService implements LocationServiceInterface
                     $name,
                     $languageCode,
                     $contentInfo->alwaysAvailable,
-                    // @todo: this is legacy storage specific for updating ezcontentobject_tree.path_identification_string, to be removed
+                    // @todo: this is legacy storage specific for updating ibexa_content_tree.path_identification_string, to be removed
                     $languageCode === $contentInfo->mainLanguageCode
                 );
             }

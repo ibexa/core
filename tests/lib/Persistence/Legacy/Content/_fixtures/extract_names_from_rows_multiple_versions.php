@@ -6,15 +6,15 @@
  */
 return [
   0 => [
-    'ezcontentobject_name_contentobject_id' => '11',
-    'ezcontentobject_name_content_version' => '1',
-    'ezcontentobject_name_name' => 'Guest accounts',
-    'ezcontentobject_name_content_translation' => 'eng-US',
+    'ibexa_content_name_contentobject_id' => '11',
+    'ibexa_content_name_content_version' => '1',
+    'ibexa_content_name_name' => 'Guest accounts',
+    'ibexa_content_name_content_translation' => 'eng-US',
   ],
   1 => [
-    'ezcontentobject_name_contentobject_id' => '11',
-    'ezcontentobject_name_content_version' => '2',
-    'ezcontentobject_name_name' => 'Members',
-    'ezcontentobject_name_content_translation' => 'eng-US',
+    'ibexa_content_name_contentobject_id' => '11',
+    'ibexa_content_name_content_version' => '2',
+    'ibexa_content_name_name' => 'Members',
+    'ibexa_content_name_content_translation' => 'eng-US',
   ],
 ];

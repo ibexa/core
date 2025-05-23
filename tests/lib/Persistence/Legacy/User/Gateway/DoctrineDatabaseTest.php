@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\User\Gateway;
 
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Core\Persistence\Legacy\User\Gateway\DoctrineDatabase;
+use Ibexa\Core\Persistence\Legacy\User\Role\Gateway;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
 /**
@@ -69,7 +70,7 @@ class DoctrineDatabaseTest extends TestCase
             ],
             $query
                 ->select('contentobject_id', 'id', 'limit_identifier', 'limit_value', 'role_id')
-                ->from('ezuser_role')
+                ->from(Gateway::USER_ROLE_TABLE)
                 ->where(
                     $query->expr()->eq(
                         'role_id',

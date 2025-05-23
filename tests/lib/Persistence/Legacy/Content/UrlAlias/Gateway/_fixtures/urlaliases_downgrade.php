@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
+
 return [
-    'ezurlalias_ml' => [
+    Gateway::TABLE => [
         0 => [
             'action' => 'eznode:2',
             'action_type' => 'eznode',
@@ -72,7 +74,7 @@ return [
             'text_md5' => '538dca05643d220317ad233cd7be7a0a',
         ],
     ],
-    'ezurlalias_ml_incr' => [
+    Gateway::INCR_TABLE => [
         0 => [
             'id' => '1',
         ],

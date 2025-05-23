@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+use Ibexa\Core\Persistence\Legacy\Content\Gateway;
+
 return [
-    'ezcontentobject_attribute' => [
+    Gateway::CONTENT_FIELD_TABLE => [
         0 => [
             'attribute_original_id' => '0',
             'contentclassattribute_id' => '7',
@@ -67,8 +69,8 @@ return [
             'version' => '2',
         ],
     ],
-    'ezcontentobject_name' => [],
-    'ezcontentobject' => [
+    Gateway::CONTENT_NAME_TABLE => [],
+    Gateway::CONTENT_ITEM_TABLE => [
         0 => [
             'contentclass_id' => '3',
             'current_version' => '2',
