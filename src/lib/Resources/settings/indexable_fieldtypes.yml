@@ -14,7 +14,7 @@ services:
     Ibexa\Core\FieldType\TextLine\SearchField:
         class: Ibexa\Core\FieldType\TextLine\SearchField
         tags:
-            - {name: ibexa.field_type.indexable, alias: ezstring}
+            - {name: ibexa.field_type.indexable, alias: ibexa_string}
 
     Ibexa\Core\FieldType\MapLocation\SearchField:
         class: Ibexa\Core\FieldType\MapLocation\SearchField

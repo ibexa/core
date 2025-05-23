@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Base\Container\Compiler\Search;
 
+use Ibexa\Core\FieldType\FieldTypeAliasRegistry;
 use Ibexa\Core\Search\Common\FieldRegistry;
 use LogicException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -24,6 +25,10 @@ class FieldRegistryPass implements CompilerPassInterface
         }
 
         $fieldRegistryDefinition = $container->getDefinition(FieldRegistry::class);
+        $fieldRegistryDefinition->setArgument(
+            '$fieldTypeAliasRegistry',
+            new Reference(FieldTypeAliasRegistry::class),
+        );
 
         $serviceTags = $container->findTaggedServiceIds(self::FIELD_TYPE_INDEXABLE_SERVICE_TAG);
         foreach ($serviceTags as $serviceId => $attributes) {

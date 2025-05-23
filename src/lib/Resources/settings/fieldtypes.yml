@@ -390,7 +390,7 @@ services:
         class: Ibexa\Core\FieldType\TextLine\Type
         parent: Ibexa\Core\FieldType\FieldType
         tags:
-            - {name: ibexa.field_type, alias: ezstring}
+            - {name: ibexa.field_type, alias: ibexa_string, old_alias: ezstring}
 
     Ibexa\Core\FieldType\Url\Type:
         class: Ibexa\Core\FieldType\Url\Type

@@ -11,6 +11,7 @@ namespace Ibexa\Core\MVC\Symfony\Templating\Twig;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\MVC\Symfony\Templating\Exception\MissingFieldBlockException;
 use Ibexa\Core\MVC\Symfony\Templating\FieldBlockRendererInterface;
 use Twig\Environment;
@@ -36,11 +37,11 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
         self::EDIT => 'fieldDefinitionEditResources',
     ];
 
-    /** @var \Twig\Environment */
-    private $twig;
+    private Environment $twig;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Templating\Twig\ResourceProviderInterface */
-    private $resourceProvider;
+    private ResourceProviderInterface $resourceProvider;
+
+    private FieldTypeAliasResolverInterface $fieldTypeAliasResolver;
 
     /**
      * A \Twig\Template instance used to render template blocks, or path to the template to use.
@@ -57,19 +58,19 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
     private $blocks;
 
     /**
-     * @param \Twig\Environment $twig
-     * @param \Ibexa\Core\MVC\Symfony\Templating\Twig\ResourceProviderInterface $resourceProvider
      * @param string|\Twig\Template $baseTemplate
      * @param array $blocks
      */
     public function __construct(
         Environment $twig,
         ResourceProviderInterface $resourceProvider,
+        FieldTypeAliasResolverInterface $fieldTypeAliasResolver,
         $baseTemplate,
         array $blocks = []
     ) {
         $this->twig = $twig;
         $this->resourceProvider = $resourceProvider;
+        $this->fieldTypeAliasResolver = $fieldTypeAliasResolver;
         $this->baseTemplate = $baseTemplate;
         $this->blocks = $blocks;
     }
@@ -102,8 +103,14 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
      *
      * @return string
      */
-    private function renderContentField(Field $field, $fieldTypeIdentifier, array $params, $type): string
-    {
+    private function renderContentField(
+        Field $field,
+        string $fieldTypeIdentifier,
+        array $params,
+        int $type,
+    ): string {
+        $fieldTypeIdentifier = $this->fieldTypeAliasResolver->resolveIdentifier($fieldTypeIdentifier);
+
         $localTemplate = null;
         if (isset($params['template'])) {
             // local override of the template
@@ -151,6 +158,10 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
      */
     private function renderFieldDefinition(FieldDefinition $fieldDefinition, array $params, $type): string
     {
+        $fieldTypeIdentifier = $this->fieldTypeAliasResolver->resolveIdentifier(
+            $fieldDefinition->getFieldTypeIdentifier(),
+        );
+
         if (is_string($this->baseTemplate)) {
             $this->baseTemplate = $this->twig->loadTemplate(
                 $this->twig->getTemplateClass($this->baseTemplate),
@@ -164,7 +175,10 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
         ];
         $blockName = $this->getRenderFieldDefinitionBlockName($fieldDefinition->fieldTypeIdentifier, $type);
         $context = $params + $this->twig->getGlobals();
-        $blocks = $this->getBlocksByFieldDefinition($fieldDefinition, $type);
+        $blocks = $this->getBlockByName(
+            $this->getRenderFieldDefinitionBlockName($fieldTypeIdentifier, $type),
+            self::FIELD_DEFINITION_RESOURCES_MAP[$type]
+        );
 
         if (!$this->baseTemplate->hasBlock($blockName, $context, $blocks)) {
             return '';
@@ -227,22 +241,6 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
         }
 
         return $this->getBlockByName($fieldBlockName, self::FIELD_RESOURCES_MAP[$type]);
-    }
-
-    /**
-     * Returns the template block for the settings of the field definition $definition.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $definition
-     * @param int $type Either self::VIEW or self::EDIT
-     *
-     * @return array
-     */
-    private function getBlocksByFieldDefinition(FieldDefinition $definition, $type): array
-    {
-        return $this->getBlockByName(
-            $this->getRenderFieldDefinitionBlockName($definition->fieldTypeIdentifier, $type),
-            self::FIELD_DEFINITION_RESOURCES_MAP[$type]
-        );
     }
 
     /**

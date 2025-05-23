@@ -123,3 +123,9 @@ services:
             $locationService: '@ibexa.api.service.location'
             $contentTypeService: '@ibexa.api.service.content_type'
             $configResolver: '@ibexa.config.resolver'
+
+    Ibexa\Core\FieldType\FieldTypeAliasResolverInterface: '@Ibexa\Core\FieldType\FieldTypeAliasResolver'
+
+    Ibexa\Core\FieldType\FieldTypeAliasResolver:
+        arguments:
+            $fieldTypeAliasRegistry: '@Ibexa\Core\FieldType\FieldTypeAliasRegistry'
