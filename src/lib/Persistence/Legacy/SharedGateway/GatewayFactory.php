@@ -34,13 +34,10 @@ final class GatewayFactory
      */
     public function buildSharedGateway(Connection $connection): Gateway
     {
-        return $this->getGatewayForDatabasePlatform($connection->getDatabasePlatform()->getName());
-    }
+        $platform = $connection->getDatabasePlatform();
 
-    private function getGatewayForDatabasePlatform(string $currentDatabasePlatformName): Gateway
-    {
-        foreach ($this->gateways as $databasePlatformName => $gateway) {
-            if ($currentDatabasePlatformName === $databasePlatformName) {
+        foreach ($this->gateways as $platformClass => $gateway) {
+            if ($platform instanceof $platformClass) {
                 return $gateway;
             }
         }
