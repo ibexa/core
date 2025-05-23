@@ -180,60 +180,60 @@ ibexa_content_type_field_definition:
   - { can_translate: 1, category: '', content_type_id: 36, data_float1: 0, data_float2: 0, data_float3: 0, data_float4: 0, data_int1: 0, data_int2: 0, data_int3: 0, data_int4: 0, data_text1: '', data_text2: '', data_text3: '', data_text4: '', data_text5: '', data_type_string: ezstring, id: 293, identifier: name, is_information_collector: 0, is_required: 1, is_searchable: 0, placement: 16, serialized_data_text: 'a:2:{s:6:"eng-US";s:0:"";s:16:"always-available";s:6:"eng-US";}', serialized_description_list: 'a:2:{s:6:"eng-US";s:0:"";s:16:"always-available";s:6:"eng-US";}', serialized_name_list: 'a:2:{s:6:"eng-US";s:4:"Name";s:16:"always-available";s:6:"eng-US";}', version: 0 }
   - { can_translate: 1, category: '', content_type_id: 36, data_float1: 0, data_float2: 0, data_float3: 0, data_float4: 0, data_int1: 0, data_int2: 0, data_int3: 0, data_int4: 0, data_text1: '', data_text2: '', data_text3: '', data_text4: '', data_text5: '', data_type_string: ezurl, id: 294, identifier: url, is_information_collector: 0, is_required: 0, is_searchable: 0, placement: 3, serialized_data_text: 'a:0:{}', serialized_description_list: 'a:0:{}', serialized_name_list: 'a:2:{s:6:"eng-GB";s:3:"URL";s:16:"always-available";s:6:"eng-GB";}', version: 0 }
 ibexa_content_type_group_assignment:
-  - { content_type_id: 1, contentclass_version: 0, group_id: 1, group_name: Content }
-  - { content_type_id: 3, contentclass_version: 0, group_id: 2, group_name: Users }
-  - { content_type_id: 4, contentclass_version: 0, group_id: 2, group_name: Users }
-  - { content_type_id: 13, contentclass_version: 0, group_id: 1, group_name: Content }
-  - { content_type_id: 14, contentclass_version: 0, group_id: 4, group_name: Setup }
-  - { content_type_id: 15, contentclass_version: 0, group_id: 4, group_name: Setup }
-  - { content_type_id: 16, contentclass_version: 0, group_id: 1, group_name: Content }
-  - { content_type_id: 17, contentclass_version: 0, group_id: 1, group_name: Content }
-  - { content_type_id: 18, contentclass_version: 0, group_id: 1, group_name: Content }
-  - { content_type_id: 19, contentclass_version: 0, group_id: 1, group_name: Content }
-  - { content_type_id: 20, contentclass_version: 0, group_id: 1, group_name: Content }
-  - { content_type_id: 21, contentclass_version: 0, group_id: 1, group_name: Content }
-  - { content_type_id: 22, contentclass_version: 0, group_id: 1, group_name: Content }
-  - { content_type_id: 23, contentclass_version: 0, group_id: 1, group_name: Content }
-  - { content_type_id: 24, contentclass_version: 0, group_id: 3, group_name: Media }
-  - { content_type_id: 25, contentclass_version: 0, group_id: 3, group_name: Media }
-  - { content_type_id: 26, contentclass_version: 0, group_id: 1, group_name: Content }
-  - { content_type_id: 27, contentclass_version: 0, group_id: 1, group_name: Content }
-  - { content_type_id: 28, contentclass_version: 0, group_id: 1, group_name: Content }
-  - { content_type_id: 29, contentclass_version: 0, group_id: 1, group_name: Content }
-  - { content_type_id: 30, contentclass_version: 0, group_id: 1, group_name: Content }
-  - { content_type_id: 31, contentclass_version: 0, group_id: 1, group_name: Content }
-  - { content_type_id: 32, contentclass_version: 0, group_id: 1, group_name: Content }
-  - { content_type_id: 33, contentclass_version: 0, group_id: 1, group_name: Content }
-  - { content_type_id: 34, contentclass_version: 0, group_id: 1, group_name: Content }
-  - { content_type_id: 35, contentclass_version: 0, group_id: 3, group_name: Media }
-  - { content_type_id: 36, contentclass_version: 0, group_id: 1, group_name: Content }
+  - { content_type_id: 1, content_type_version: 0, group_id: 1, group_name: Content }
+  - { content_type_id: 3, content_type_version: 0, group_id: 2, group_name: Users }
+  - { content_type_id: 4, content_type_version: 0, group_id: 2, group_name: Users }
+  - { content_type_id: 13, content_type_version: 0, group_id: 1, group_name: Content }
+  - { content_type_id: 14, content_type_version: 0, group_id: 4, group_name: Setup }
+  - { content_type_id: 15, content_type_version: 0, group_id: 4, group_name: Setup }
+  - { content_type_id: 16, content_type_version: 0, group_id: 1, group_name: Content }
+  - { content_type_id: 17, content_type_version: 0, group_id: 1, group_name: Content }
+  - { content_type_id: 18, content_type_version: 0, group_id: 1, group_name: Content }
+  - { content_type_id: 19, content_type_version: 0, group_id: 1, group_name: Content }
+  - { content_type_id: 20, content_type_version: 0, group_id: 1, group_name: Content }
+  - { content_type_id: 21, content_type_version: 0, group_id: 1, group_name: Content }
+  - { content_type_id: 22, content_type_version: 0, group_id: 1, group_name: Content }
+  - { content_type_id: 23, content_type_version: 0, group_id: 1, group_name: Content }
+  - { content_type_id: 24, content_type_version: 0, group_id: 3, group_name: Media }
+  - { content_type_id: 25, content_type_version: 0, group_id: 3, group_name: Media }
+  - { content_type_id: 26, content_type_version: 0, group_id: 1, group_name: Content }
+  - { content_type_id: 27, content_type_version: 0, group_id: 1, group_name: Content }
+  - { content_type_id: 28, content_type_version: 0, group_id: 1, group_name: Content }
+  - { content_type_id: 29, content_type_version: 0, group_id: 1, group_name: Content }
+  - { content_type_id: 30, content_type_version: 0, group_id: 1, group_name: Content }
+  - { content_type_id: 31, content_type_version: 0, group_id: 1, group_name: Content }
+  - { content_type_id: 32, content_type_version: 0, group_id: 1, group_name: Content }
+  - { content_type_id: 33, content_type_version: 0, group_id: 1, group_name: Content }
+  - { content_type_id: 34, content_type_version: 0, group_id: 1, group_name: Content }
+  - { content_type_id: 35, content_type_version: 0, group_id: 3, group_name: Media }
+  - { content_type_id: 36, content_type_version: 0, group_id: 1, group_name: Content }
 ibexa_content_type_name:
-  - { content_type_id: 1, contentclass_version: 0, language_id: 3, language_locale: eng-US, name: Folder }
-  - { content_type_id: 3, contentclass_version: 0, language_id: 3, language_locale: eng-US, name: 'User group' }
-  - { content_type_id: 4, contentclass_version: 0, language_id: 3, language_locale: eng-US, name: User }
-  - { content_type_id: 13, contentclass_version: 0, language_id: 3, language_locale: eng-US, name: Comment }
-  - { content_type_id: 14, contentclass_version: 0, language_id: 3, language_locale: eng-US, name: 'Common ini settings' }
-  - { content_type_id: 15, contentclass_version: 0, language_id: 3, language_locale: eng-US, name: 'Template look' }
-  - { content_type_id: 16, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: Article }
-  - { content_type_id: 17, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: Blog }
-  - { content_type_id: 18, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: 'Blog post' }
-  - { content_type_id: 19, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: Product }
-  - { content_type_id: 20, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: 'Feedback form' }
-  - { content_type_id: 21, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: 'Landing Page' }
-  - { content_type_id: 22, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: 'Wiki Page' }
-  - { content_type_id: 23, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: Poll }
-  - { content_type_id: 24, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: File }
-  - { content_type_id: 25, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: Image }
-  - { content_type_id: 26, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: Link }
-  - { content_type_id: 27, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: Gallery }
-  - { content_type_id: 28, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: Forum }
-  - { content_type_id: 29, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: 'Forum topic' }
-  - { content_type_id: 30, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: 'Forum reply' }
-  - { content_type_id: 31, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: Event }
-  - { content_type_id: 32, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: 'Event calendar' }
-  - { content_type_id: 33, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: Banner }
-  - { content_type_id: 34, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: Forums }
-  - { content_type_id: 35, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: Video }
+  - { content_type_id: 1, content_type_version: 0, language_id: 3, language_locale: eng-US, name: Folder }
+  - { content_type_id: 3, content_type_version: 0, language_id: 3, language_locale: eng-US, name: 'User group' }
+  - { content_type_id: 4, content_type_version: 0, language_id: 3, language_locale: eng-US, name: User }
+  - { content_type_id: 13, content_type_version: 0, language_id: 3, language_locale: eng-US, name: Comment }
+  - { content_type_id: 14, content_type_version: 0, language_id: 3, language_locale: eng-US, name: 'Common ini settings' }
+  - { content_type_id: 15, content_type_version: 0, language_id: 3, language_locale: eng-US, name: 'Template look' }
+  - { content_type_id: 16, content_type_version: 0, language_id: 9, language_locale: eng-GB, name: Article }
+  - { content_type_id: 17, content_type_version: 0, language_id: 9, language_locale: eng-GB, name: Blog }
+  - { content_type_id: 18, content_type_version: 0, language_id: 9, language_locale: eng-GB, name: 'Blog post' }
+  - { content_type_id: 19, content_type_version: 0, language_id: 9, language_locale: eng-GB, name: Product }
+  - { content_type_id: 20, content_type_version: 0, language_id: 9, language_locale: eng-GB, name: 'Feedback form' }
+  - { content_type_id: 21, content_type_version: 0, language_id: 9, language_locale: eng-GB, name: 'Landing Page' }
+  - { content_type_id: 22, content_type_version: 0, language_id: 9, language_locale: eng-GB, name: 'Wiki Page' }
+  - { content_type_id: 23, content_type_version: 0, language_id: 9, language_locale: eng-GB, name: Poll }
+  - { content_type_id: 24, content_type_version: 0, language_id: 9, language_locale: eng-GB, name: File }
+  - { content_type_id: 25, content_type_version: 0, language_id: 9, language_locale: eng-GB, name: Image }
+  - { content_type_id: 26, content_type_version: 0, language_id: 9, language_locale: eng-GB, name: Link }
+  - { content_type_id: 27, content_type_version: 0, language_id: 9, language_locale: eng-GB, name: Gallery }
+  - { content_type_id: 28, content_type_version: 0, language_id: 9, language_locale: eng-GB, name: Forum }
+  - { content_type_id: 29, content_type_version: 0, language_id: 9, language_locale: eng-GB, name: 'Forum topic' }
+  - { content_type_id: 30, content_type_version: 0, language_id: 9, language_locale: eng-GB, name: 'Forum reply' }
+  - { content_type_id: 31, content_type_version: 0, language_id: 9, language_locale: eng-GB, name: Event }
+  - { content_type_id: 32, content_type_version: 0, language_id: 9, language_locale: eng-GB, name: 'Event calendar' }
+  - { content_type_id: 33, content_type_version: 0, language_id: 9, language_locale: eng-GB, name: Banner }
+  - { content_type_id: 34, content_type_version: 0, language_id: 9, language_locale: eng-GB, name: Forums }
+  - { content_type_id: 35, content_type_version: 0, language_id: 9, language_locale: eng-GB, name: Video }
 ibexa_content_type_group:
   - { created: 1031216928, creator_id: 14, id: 1, modified: 1033922106, modifier_id: 14, name: Content, is_system: 0 }
   - { created: 1031216941, creator_id: 14, id: 2, modified: 1033922113, modifier_id: 14, name: Users, is_system: 0 }

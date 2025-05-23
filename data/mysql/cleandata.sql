@@ -63,7 +63,7 @@ VALUES (1,'',2,0,0,0,0,255,0,0,0,'New article','','','','','ezstring',1,'title',
        (1,'',4,0,0,0,0,10,0,0,0,'','','','','','eztext',179,'signature',0,0,1,0,4,NULL,NULL,'a:2:{s:6:\"eng-GB\";s:9:\"Signature\";s:16:\"always-available\";s:6:\"eng-GB\";}',0),
        (1,'',4,10.0,0,0,0,0,0,0,0,'MB','','','','','ezimage',180,'image',0,0,0,1,5,NULL,NULL,'a:2:{s:6:\"eng-GB\";s:5:\"Image\";s:16:\"always-available\";s:6:\"eng-GB\";}',0);
 
-INSERT INTO `ibexa_content_type_group_assignment` (`content_type_id`, `contentclass_version`, `group_id`, `group_name`)
+INSERT INTO `ibexa_content_type_group_assignment` (`content_type_id`, `content_type_version`, `group_id`, `group_name`)
 VALUES (1, 0, 1, 'Content'),
        (2, 0, 1, 'Content'),
        (3, 0, 2, 'Users'),
@@ -71,7 +71,7 @@ VALUES (1, 0, 1, 'Content'),
        (5, 0, 3, 'Media'),
        (12, 0, 3, 'Media');
 
-INSERT INTO `ibexa_content_type_name` (`content_type_id`, `contentclass_version`, `language_id`, `language_locale`, `name`)
+INSERT INTO `ibexa_content_type_name` (`content_type_id`, `content_type_version`, `language_id`, `language_locale`, `name`)
 VALUES (1, 0, 2, 'eng-GB', 'Folder'),
        (2, 0, 3, 'eng-GB', 'Article'),
        (3, 0, 3, 'eng-GB', 'User group'),

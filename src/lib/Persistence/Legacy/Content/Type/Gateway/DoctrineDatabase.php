@@ -225,7 +225,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->andWhere(
                 $expr->eq(
-                    'contentclass_version',
+                    'content_type_version',
                     $query->createPositionalParameter($status, ParameterType::INTEGER)
                 )
             );
@@ -268,7 +268,7 @@ final class DoctrineDatabase extends Gateway
                             $typeId,
                             ParameterType::INTEGER
                         ),
-                        'contentclass_version' => $query->createPositionalParameter(
+                        'content_type_version' => $query->createPositionalParameter(
                             $typeStatus,
                             ParameterType::INTEGER
                         ),
@@ -430,7 +430,7 @@ final class DoctrineDatabase extends Gateway
                         $typeId,
                         ParameterType::INTEGER
                     ),
-                    'contentclass_version' => $query->createPositionalParameter(
+                    'content_type_version' => $query->createPositionalParameter(
                         $status,
                         ParameterType::INTEGER
                     ),
@@ -462,7 +462,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->andWhere(
                 $expr->eq(
-                    'contentclass_version',
+                    'content_type_version',
                     $query->createPositionalParameter($status, ParameterType::INTEGER)
                 )
             )
@@ -890,7 +890,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->andWhere(
                 $expr->eq(
-                    'contentclass_version',
+                    'content_type_version',
                     $query->createPositionalParameter($typeStatus, ParameterType::INTEGER)
                 )
             );
@@ -1074,7 +1074,7 @@ final class DoctrineDatabase extends Gateway
                 'g',
                 $expr->and(
                     $expr->eq('c.id', 'g.content_type_id'),
-                    $expr->eq('c.version', 'g.contentclass_version')
+                    $expr->eq('c.version', 'g.content_type_version')
                 )
             )
             ->leftJoin(
@@ -1192,7 +1192,7 @@ final class DoctrineDatabase extends Gateway
                 )
             )->andWhere(
                 $query->expr()->eq(
-                    'contentclass_version',
+                    'content_type_version',
                     $query->createPositionalParameter($status, ParameterType::INTEGER)
                 )
             );
@@ -1279,7 +1279,7 @@ final class DoctrineDatabase extends Gateway
             $targetStatus,
             self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE,
             'content_type_id',
-            'contentclass_version'
+            'content_type_version'
         );
 
         $this->internalChangeContentTypeStatus(
@@ -1297,7 +1297,7 @@ final class DoctrineDatabase extends Gateway
             $targetStatus,
             self::CONTENT_TYPE_NAME_TABLE,
             'content_type_id',
-            'contentclass_version'
+            'content_type_version'
         );
         $ctMlTable = Gateway::MULTILINGUAL_FIELD_DEFINITION_TABLE;
         $subQuery = $this->connection->createQueryBuilder();
@@ -1457,7 +1457,7 @@ SQL;
             WHERE NOT EXISTS (
               SELECT 1 FROM $contentTypeTable
                 WHERE $contentTypeTable.id = $contentTypeGroupAssignmentTable.content_type_id
-                AND $contentTypeTable.version = $contentTypeGroupAssignmentTable.contentclass_version
+                AND $contentTypeTable.version = $contentTypeGroupAssignmentTable.content_type_version
             )
 SQL;
         $this->connection->executeStatement($sql);
@@ -1475,7 +1475,7 @@ SQL;
             WHERE NOT EXISTS (
               SELECT 1 FROM $contentTypeTable
                 WHERE $contentTypeTable.id = $contentTypeNameTable.content_type_id
-                AND $contentTypeTable.version = $contentTypeNameTable.contentclass_version
+                AND $contentTypeTable.version = $contentTypeNameTable.content_type_version
             )
 SQL;
         $this->connection->executeStatement($sql);

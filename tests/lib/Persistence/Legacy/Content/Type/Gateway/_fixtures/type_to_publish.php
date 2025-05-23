@@ -170,7 +170,7 @@ return [
     Gateway::CONTENT_TYPE_NAME_TABLE => [
          [
             'content_type_id' => 1,
-            'contentclass_version' => 1,
+            'content_type_version' => 1,
             'language_id' => 3,
             'language_locale' => 'eng-US',
             'name' => 'Folder',
@@ -179,13 +179,13 @@ return [
     Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE => [
         [
             'content_type_id' => 1,
-            'contentclass_version' => 1,
+            'content_type_version' => 1,
             'group_id' => 1,
             'group_name' => 'Content',
         ],
         [
             'content_type_id' => 1,
-            'contentclass_version' => 1,
+            'content_type_version' => 1,
             'group_id' => 4,
             'group_name' => 'Setup',
         ],

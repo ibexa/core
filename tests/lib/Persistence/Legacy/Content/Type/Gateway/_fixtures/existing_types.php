@@ -211,21 +211,21 @@ return [
         // loaded
         [
             'content_type_id' => 1,
-            'contentclass_version' => 0,
+            'content_type_version' => 0,
             'group_id' => 1,
             'group_name' => 'Content',
         ],
         // not loaded, version mismatch
         [
             'content_type_id' => 1,
-            'contentclass_version' => 1,
+            'content_type_version' => 1,
             'group_id' => 1,
             'group_name' => 'Content',
         ],
         // not loaded, id mismatch
         [
             'content_type_id' => 2,
-            'contentclass_version' => 0,
+            'content_type_version' => 0,
             'group_id' => 1,
             'group_name' => 'Content',
         ],
@@ -233,7 +233,7 @@ return [
     Gateway::CONTENT_TYPE_NAME_TABLE => [
         [
             'content_type_id' => 1,
-            'contentclass_version' => 0,
+            'content_type_version' => 0,
             'language_id' => 3,
             'language_locale' => 'eng-US',
             'name' => 'Folder',

@@ -189,14 +189,14 @@ tables:
     ibexa_content_type_group_assignment:
         id:
             content_type_id: { type: integer, nullable: false, options: { default: '0' } }
-            contentclass_version: { type: integer, nullable: false, options: { default: '0' } }
+            content_type_version: { type: integer, nullable: false, options: { default: '0' } }
             group_id: { type: integer, nullable: false, options: { default: '0' } }
         fields:
             group_name: { type: string, nullable: true, length: 255 }
     ibexa_content_type_name:
         id:
             content_type_id: { type: integer, nullable: false, options: { default: '0' } }
-            contentclass_version: { type: integer, nullable: false, options: { default: '0' } }
+            content_type_version: { type: integer, nullable: false, options: { default: '0' } }
             language_id: { type: bigint, nullable: false, options: { default: '0' } }
         fields:
             language_locale: { type: string, nullable: false, length: 20, options: { default: '' } }
