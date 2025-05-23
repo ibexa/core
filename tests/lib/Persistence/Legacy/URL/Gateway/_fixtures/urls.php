@@ -6,8 +6,10 @@
  */
 declare(strict_types=1);
 
+use Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase;
+
 return [
-    \Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase::URL_TABLE => [
+    DoctrineDatabase::URL_TABLE => [
         [
             'id' => 23,
             'created' => 1448832197,

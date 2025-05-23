@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\MultilingualStorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
@@ -38,7 +39,7 @@ final class DoctrineDatabase extends Gateway
      * @var array
      */
     private $columns = [
-        \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_TABLE => [
+        Gateway::CONTENT_TYPE_TABLE => [
             'id',
             'always_available',
             'contentobject_name',
@@ -58,7 +59,7 @@ final class DoctrineDatabase extends Gateway
             'url_alias_name',
             'version',
         ],
-        \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::FIELD_DEFINITION_TABLE => [
+        Gateway::FIELD_DEFINITION_TABLE => [
             'id',
             'can_translate',
             'category',
@@ -1095,7 +1096,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select($this->dbPlatform->getCountExpression('id'))
-            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE)
+            ->from(ContentGateway::CONTENT_ITEM_TABLE)
             ->where(
                 $query->expr()->eq(
                     'contentclass_id',
@@ -1110,7 +1111,7 @@ final class DoctrineDatabase extends Gateway
 
     public function deleteFieldDefinitionsForType(int $typeId, int $status): void
     {
-        $ctMlTable = \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::MULTILINGUAL_FIELD_DEFINITION_TABLE;
+        $ctMlTable = Gateway::MULTILINGUAL_FIELD_DEFINITION_TABLE;
         $subQuery = $this->connection->createQueryBuilder();
         $subQuery
             ->select('f_def.id as ibexa_content_type_attribute_id')
@@ -1298,7 +1299,7 @@ final class DoctrineDatabase extends Gateway
             'contentclass_id',
             'contentclass_version'
         );
-        $ctMlTable = \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::MULTILINGUAL_FIELD_DEFINITION_TABLE;
+        $ctMlTable = Gateway::MULTILINGUAL_FIELD_DEFINITION_TABLE;
         $subQuery = $this->connection->createQueryBuilder();
         $subQuery
             ->select('f_def.id as ibexa_content_type_attribute_id')
@@ -1413,8 +1414,8 @@ final class DoctrineDatabase extends Gateway
      */
     private function cleanupClassAttributeTable(): void
     {
-        $contentTypeAttrTable = \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::FIELD_DEFINITION_TABLE;
-        $contentTypeTable = \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_TABLE;
+        $contentTypeAttrTable = Gateway::FIELD_DEFINITION_TABLE;
+        $contentTypeTable = Gateway::CONTENT_TYPE_TABLE;
         $sql = <<<SQL
           DELETE FROM {$contentTypeAttrTable} 
             WHERE NOT EXISTS (
@@ -1431,8 +1432,8 @@ SQL;
      */
     private function cleanupClassAttributeMLTable(): void
     {
-        $contentTypeAttrMlTable = \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::MULTILINGUAL_FIELD_DEFINITION_TABLE;
-        $contentTypeAttrTable = \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::FIELD_DEFINITION_TABLE;
+        $contentTypeAttrMlTable = Gateway::MULTILINGUAL_FIELD_DEFINITION_TABLE;
+        $contentTypeAttrTable = Gateway::FIELD_DEFINITION_TABLE;
         $sql = <<<SQL
           DELETE FROM {$contentTypeAttrMlTable} 
             WHERE NOT EXISTS (
@@ -1449,8 +1450,8 @@ SQL;
      */
     private function cleanupClassGroupTable(): void
     {
-        $contentTypeGroupAssignmentTable = \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE;
-        $contentTypeTable = \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_TABLE;
+        $contentTypeGroupAssignmentTable = Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE;
+        $contentTypeTable = Gateway::CONTENT_TYPE_TABLE;
         $sql = <<<SQL
           DELETE FROM {$contentTypeGroupAssignmentTable} 
             WHERE NOT EXISTS (
@@ -1467,8 +1468,8 @@ SQL;
      */
     private function cleanupClassNameTable(): void
     {
-        $contentTypeNameTable = \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_NAME_TABLE;
-        $contentTypeTable = \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_TABLE;
+        $contentTypeNameTable = Gateway::CONTENT_TYPE_NAME_TABLE;
+        $contentTypeTable = Gateway::CONTENT_TYPE_TABLE;
         $sql = <<< SQL
           DELETE FROM {$contentTypeNameTable} 
             WHERE NOT EXISTS (

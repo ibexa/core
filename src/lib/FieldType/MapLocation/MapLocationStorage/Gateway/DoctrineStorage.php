@@ -158,7 +158,7 @@ class DoctrineStorage extends Gateway
                 $this->connection->quoteIdentifier('longitude'),
                 $this->connection->quoteIdentifier('address')
             )
-            ->from($this->connection->quoteIdentifier(\Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway\DoctrineStorage::MAP_LOCATION_TABLE))
+            ->from($this->connection->quoteIdentifier(DoctrineStorage::MAP_LOCATION_TABLE))
             ->where(
                 $selectQuery->expr()->and(
                     $selectQuery->expr()->eq(

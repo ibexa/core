@@ -4,8 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway as LanguageGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
+use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
+
 return [
-    \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway::TABLE => [
+    Gateway::TABLE => [
         0 => [
             'action' => 'eznode:2',
             'action_type' => 'eznode',
@@ -72,7 +77,7 @@ return [
             'text_md5' => '15d55d085e6eda9586293acad7c0a4f4',
         ],
     ],
-    \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway::CONTENT_LANGUAGE_TABLE => [
+    LanguageGateway::CONTENT_LANGUAGE_TABLE => [
         0 => [
             'disabled' => 0,
             'id' => 2,
@@ -92,7 +97,7 @@ return [
             'name' => 'German',
         ],
     ],
-    \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway::INCR_TABLE => [
+    Gateway::INCR_TABLE => [
         0 => [
             'id' => '1',
         ],
@@ -103,7 +108,7 @@ return [
             'id' => '3',
         ],
     ],
-    'ibexa_content_tree' => [
+    LocationGateway::CONTENT_TREE_TABLE => [
         0 => [
             'node_id' => 2,
             'main_node_id' => 2,
@@ -132,7 +137,7 @@ return [
             'contentobject_id' => 3,
         ],
     ],
-    \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE => [
+    ContentGateway::CONTENT_ITEM_TABLE => [
         0 => [
             'id' => 2,
             'initial_language_id' => 2,
@@ -144,7 +149,7 @@ return [
             'current_version' => 1,
         ],
     ],
-    \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_NAME_TABLE => [
+    ContentGateway::CONTENT_NAME_TABLE => [
         0 => [
             'contentobject_id' => 2,
             'content_version' => 1,

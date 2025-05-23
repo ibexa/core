@@ -11,6 +11,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
@@ -38,7 +39,7 @@ class ContentTypeGroupId extends CriterionHandler
             ->select(
                 'contentclass_id'
             )->from(
-                \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE
+                Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE
             )->where(
                 $queryBuilder->expr()->in(
                     'group_id',

@@ -11,6 +11,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Core\FieldType\Keyword\KeywordStorage\Gateway;
+use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway as ContentTypeGateway;
 use RuntimeException;
 
 class DoctrineStorage extends Gateway
@@ -146,7 +147,7 @@ class DoctrineStorage extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select($this->connection->quoteIdentifier('contentclass_id'))
-            ->from($this->connection->quoteIdentifier(\Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::FIELD_DEFINITION_TABLE))
+            ->from($this->connection->quoteIdentifier(ContentTypeGateway::FIELD_DEFINITION_TABLE))
             ->where(
                 $query->expr()->eq('id', ':fieldDefinitionId')
             )

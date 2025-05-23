@@ -125,7 +125,7 @@ class DoctrineDatabaseTest extends TestCase
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder
             ->select('id', 'user_id', 'name', 'value')
-            ->from(\Ibexa\Core\Persistence\Legacy\UserPreference\Gateway\DoctrineDatabase::TABLE_USER_PREFERENCES, 'p')
+            ->from(DoctrineDatabase::TABLE_USER_PREFERENCES, 'p')
             ->where(
                 $queryBuilder->expr()->eq(
                     'p.id',

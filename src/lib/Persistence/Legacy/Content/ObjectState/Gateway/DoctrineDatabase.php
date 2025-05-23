@@ -207,7 +207,7 @@ final class DoctrineDatabase extends Gateway
         // If this is a first state in group, assign it to all content objects
         if ($maxPriority === null) {
             $this->connection->executeStatement(
-                'INSERT INTO ' . \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_LINK_TABLE . ' (contentobject_id, contentobject_state_id) ' .
+                'INSERT INTO ' . Gateway::OBJECT_STATE_LINK_TABLE . ' (contentobject_id, contentobject_state_id) ' .
                 "SELECT id, {$objectState->id} FROM ibexa_content"
             );
         }
@@ -465,7 +465,7 @@ final class DoctrineDatabase extends Gateway
         $query
             ->innerJoin(
                 'state',
-                \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_LINK_TABLE,
+                Gateway::OBJECT_STATE_LINK_TABLE,
                 'link',
                 'state.id = link.contentobject_state_id'
             )

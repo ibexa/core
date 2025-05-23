@@ -9,6 +9,7 @@ namespace Ibexa\Bundle\Core\Imagine\VariationPurger;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Result;
+use Ibexa\Core\FieldType\Image\ImageStorage\Gateway\DoctrineStorage;
 use LogicException;
 
 class LegacyStorageImageFileRowReader implements ImageFileRowReader
@@ -26,7 +27,7 @@ class LegacyStorageImageFileRowReader implements ImageFileRowReader
     public function init()
     {
         $selectQuery = $this->connection->createQueryBuilder();
-        $selectQuery->select('filepath')->from('ibexa_image_file');
+        $selectQuery->select('filepath')->from(DoctrineStorage::IMAGE_FILE_TABLE);
         $this->result = $selectQuery->executeQuery();
     }
 

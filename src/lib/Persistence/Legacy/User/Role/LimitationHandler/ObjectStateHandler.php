@@ -11,6 +11,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\FetchMode;
 use Ibexa\Contracts\Core\Persistence\User\Policy;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
+use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway;
 use Ibexa\Core\Persistence\Legacy\User\Role\LimitationHandler;
 
 /**
@@ -102,10 +103,10 @@ class ObjectStateHandler extends LimitationHandler
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('sg.identifier', 's.id')
-            ->from(\Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_TABLE, 's')
+            ->from(Gateway::OBJECT_STATE_TABLE, 's')
             ->innerJoin(
                 's',
-                \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_GROUP_TABLE,
+                Gateway::OBJECT_STATE_GROUP_TABLE,
                 'sg',
                 's.group_id = sg.id'
             );

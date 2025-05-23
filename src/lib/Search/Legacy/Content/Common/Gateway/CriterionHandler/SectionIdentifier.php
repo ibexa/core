@@ -12,6 +12,8 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
@@ -35,10 +37,10 @@ class SectionIdentifier extends CriterionHandler
         $value = (array)$criterion->value;
         $subSelect
             ->select('t1.id')
-            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE, 't1')
+            ->from(ContentGateway::CONTENT_ITEM_TABLE, 't1')
             ->leftJoin(
                 't1',
-                \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway::CONTENT_SECTION_TABLE,
+                Gateway::CONTENT_SECTION_TABLE,
                 't2',
                 't1.section_id = t2.id'
             )

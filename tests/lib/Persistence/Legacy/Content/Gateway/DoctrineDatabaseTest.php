@@ -18,6 +18,7 @@ use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
@@ -74,7 +75,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'modified',
                     'published',
                     'status'
-                )->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE)
+                )->from(Gateway::CONTENT_ITEM_TABLE)
         );
     }
 
@@ -196,7 +197,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'version',
                     'language_mask',
                     'initial_language_id'
-                )->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_VERSION_TABLE)
+                )->from(Gateway::CONTENT_VERSION_TABLE)
         );
     }
 
@@ -222,7 +223,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()
                 ->createQueryBuilder()
                 ->select('status')
-                ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_VERSION_TABLE)
+                ->from(Gateway::CONTENT_VERSION_TABLE)
         );
 
         // check that content status has not been set to published
@@ -231,7 +232,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()
                 ->createQueryBuilder()
                 ->select('status')
-                ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE)
+                ->from(Gateway::CONTENT_ITEM_TABLE)
         );
     }
 
@@ -257,7 +258,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()
                 ->createQueryBuilder()
                 ->select('status')
-                ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_VERSION_TABLE)
+                ->from(Gateway::CONTENT_VERSION_TABLE)
         );
 
         // check that content status has been set to published
@@ -266,7 +267,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()
                 ->createQueryBuilder()
                 ->select('status')
-                ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE)
+                ->from(Gateway::CONTENT_ITEM_TABLE)
         );
     }
 
@@ -310,7 +311,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'published',
                     'remote_id',
                     'name'
-                )->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE)
+                )->from(Gateway::CONTENT_ITEM_TABLE)
                 ->where('id = 10')
         );
     }
@@ -375,7 +376,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'initial_language_id',
                     'modified'
                 )
-                ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_VERSION_TABLE)
+                ->from(Gateway::CONTENT_VERSION_TABLE)
                 ->where(
                     $expr->and(
                         $expr->eq('contentobject_id', 10),
@@ -426,7 +427,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'sort_key_int',
                     'sort_key_string',
                     'version'
-                )->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE)
+                )->from(Gateway::CONTENT_FIELD_TABLE)
         );
     }
 
@@ -473,7 +474,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'sort_key_int',
                     'sort_key_string',
                     'version'
-                )->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE)
+                )->from(Gateway::CONTENT_FIELD_TABLE)
         );
     }
 
@@ -518,7 +519,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'data_text',
                     'sort_key_int',
                     'sort_key_string'
-                )->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE)
+                )->from(Gateway::CONTENT_FIELD_TABLE)
         );
     }
 
@@ -575,7 +576,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'data_text',
                     'sort_key_int',
                     'sort_key_string'
-                )->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE)
+                )->from(Gateway::CONTENT_FIELD_TABLE)
         );
     }
 
@@ -953,7 +954,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [],
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('*')
-                ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE)
+                ->from(Gateway::CONTENT_FIELD_TABLE)
                 ->where('id=22')
         );
     }
@@ -1087,7 +1088,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'name',
                     'real_translation'
                 )
-                ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_NAME_TABLE)
+                ->from(Gateway::CONTENT_NAME_TABLE)
                 ->where('contentobject_id = :content_id')
                 ->andWhere('content_version = :version_no')
                 ->andWhere('content_translation = :language_code')
@@ -1371,7 +1372,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'to_contentobject_id',
                     'relation_type'
                 )
-                ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_RELATION_TABLE)
+                ->from(Gateway::CONTENT_RELATION_TABLE)
                 ->where('id = 1')
         );
     }
@@ -1403,7 +1404,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [['relation_type' => RelationType::LINK->value]],
             $query
                 ->select('relation_type')
-                ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_RELATION_TABLE)
+                ->from(Gateway::CONTENT_RELATION_TABLE)
                 ->where(
                     $query->expr()->eq(
                         'id',
@@ -1431,7 +1432,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [['id' => 2]],
             $query
                 ->select('language_mask')
-                ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE)
+                ->from(Gateway::CONTENT_ITEM_TABLE)
                 ->where(
                     $query->expr()->eq(
                         'id',
@@ -1447,7 +1448,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->select(
                     'language_id'
                 )->from(
-                    \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_NAME_TABLE
+                    Gateway::CONTENT_NAME_TABLE
                 )->where(
                     $query->expr()->and(
                         $query->expr()->eq(
@@ -1469,7 +1470,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ],
             $query
                 ->select('DISTINCT language_id')
-                ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE)
+                ->from(Gateway::CONTENT_FIELD_TABLE)
                 ->where(
                     $query->expr()->and(
                         $query->expr()->eq('contentobject_id', 103),
@@ -1498,7 +1499,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [['id' => $expectedLanguageId]],
             $connection->createQueryBuilder()
                 ->select('language_mask')
-                ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE)
+                ->from(Gateway::CONTENT_ITEM_TABLE)
                 ->where('id = 102')
         );
 
@@ -1510,7 +1511,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ],
             $query
                 ->select('language_id')
-                ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_NAME_TABLE)
+                ->from(Gateway::CONTENT_NAME_TABLE)
                 ->where(
                     $query->expr()->and(
                         $query->expr()->eq(
@@ -1532,7 +1533,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ],
             $query
                 ->select('DISTINCT language_id')
-                ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE)
+                ->from(Gateway::CONTENT_FIELD_TABLE)
                 ->where(
                     $query->expr()->and(
                         $query->expr()->eq(
@@ -1572,7 +1573,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()->createQueryBuilder()->select(
                 'language_mask'
             )->from(
-                \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE
+                Gateway::CONTENT_ITEM_TABLE
             )->where(
                 'id = 4'
             )
@@ -1621,7 +1622,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()->createQueryBuilder()->select(
                 'language_mask'
             )->from(
-                \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE
+                Gateway::CONTENT_ITEM_TABLE
             )->where(
                 'id = 4'
             )
@@ -1684,7 +1685,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $query = $connection->createQueryBuilder();
         $query
             ->select($dbPlatform->getCountExpression('id'))
-            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_RELATION_TABLE);
+            ->from(Gateway::CONTENT_RELATION_TABLE);
 
         if ($fromId !== null) {
             $query->where(
@@ -1725,7 +1726,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $query = $connection->createQueryBuilder();
         $query
             ->select($dbPlatform->getCountExpression('id'))
-            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE);
+            ->from(Gateway::CONTENT_FIELD_TABLE);
 
         if ($contentId !== null) {
             $query->where(
@@ -1758,7 +1759,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $query = $connection->createQueryBuilder();
         $query
             ->select($dbPlatform->getCountExpression('id'))
-            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_VERSION_TABLE);
+            ->from(Gateway::CONTENT_VERSION_TABLE);
 
         if ($contentId !== null) {
             $query->where(
@@ -1791,7 +1792,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $query = $connection->createQueryBuilder();
         $query
             ->select($dbPlatform->getCountExpression('contentobject_id'))
-            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_NAME_TABLE);
+            ->from(Gateway::CONTENT_NAME_TABLE);
 
         if ($contentId !== null) {
             $query->where(
@@ -1823,7 +1824,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $query = $connection->createQueryBuilder();
         $query
             ->select($dbPlatform->getCountExpression('id'))
-            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE);
+            ->from(Gateway::CONTENT_ITEM_TABLE);
 
         if ($contentId !== null) {
             $query->where(
@@ -1957,7 +1958,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $expectation,
             $query
                 ->select('DISTINCT id, language_id')
-                ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE)
+                ->from(Gateway::CONTENT_FIELD_TABLE)
                 ->where(
                     $query->expr()->and(
                         $query->expr()->eq(

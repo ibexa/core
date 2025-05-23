@@ -9,6 +9,10 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\Language;
 
 use Ibexa\Contracts\Core\Persistence\Content\Language;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway as ObjectStateGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway as ContentTypeGateway;
+use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway as UrlAliasGateway;
 
 /**
  * Content Model language gateway.
@@ -29,18 +33,18 @@ abstract class Gateway
      * <code>./src/bundle/Core/Resources/config/storage/legacy/schema.yaml</code>
      */
     public const MULTILINGUAL_TABLES_COLUMNS = [
-        \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_TABLE => ['language_mask', 'default_language_id'],
-        \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_GROUP_LANGUAGE_TABLE => ['language_id'],
-        \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_GROUP_TABLE => ['language_mask', 'default_language_id'],
-        \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_LANGUAGE_TABLE => ['language_id'],
-        \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::MULTILINGUAL_FIELD_DEFINITION_TABLE => ['language_id'],
-        \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_NAME_TABLE => ['language_id'],
-        \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_TABLE => ['language_mask', 'initial_language_id'],
-        \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE => ['language_id'],
-        \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_NAME_TABLE => ['language_id'],
-        \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_VERSION_TABLE => ['language_mask', 'initial_language_id'],
-        \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE => ['language_mask', 'initial_language_id'],
-        \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway::TABLE => ['lang_mask'],
+        ObjectStateGateway::OBJECT_STATE_TABLE => ['language_mask', 'default_language_id'],
+        ObjectStateGateway::OBJECT_STATE_GROUP_LANGUAGE_TABLE => ['language_id'],
+        ObjectStateGateway::OBJECT_STATE_GROUP_TABLE => ['language_mask', 'default_language_id'],
+        ObjectStateGateway::OBJECT_STATE_LANGUAGE_TABLE => ['language_id'],
+        ContentTypeGateway::MULTILINGUAL_FIELD_DEFINITION_TABLE => ['language_id'],
+        ContentTypeGateway::CONTENT_TYPE_NAME_TABLE => ['language_id'],
+        ContentTypeGateway::CONTENT_TYPE_TABLE => ['language_mask', 'initial_language_id'],
+        ContentGateway::CONTENT_FIELD_TABLE => ['language_id'],
+        ContentGateway::CONTENT_NAME_TABLE => ['language_id'],
+        ContentGateway::CONTENT_VERSION_TABLE => ['language_mask', 'initial_language_id'],
+        ContentGateway::CONTENT_ITEM_TABLE => ['language_mask', 'initial_language_id'],
+        UrlAliasGateway::TABLE => ['lang_mask'],
     ];
 
     /**

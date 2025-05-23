@@ -24,6 +24,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 
 /**
@@ -3393,7 +3394,7 @@ class LocationServiceTest extends BaseTest
         $query = $connection->createQueryBuilder();
         $query
             ->select('path_identification_string')
-            ->from('ibexa_content_tree')
+            ->from(Gateway::CONTENT_TREE_TABLE)
             ->where('node_id = :nodeId')
             ->setParameter('nodeId', $location->id);
 

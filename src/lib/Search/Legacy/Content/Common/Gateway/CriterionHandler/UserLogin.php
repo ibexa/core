@@ -12,6 +12,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Core\Persistence\Legacy\User\Gateway;
 use Ibexa\Core\Persistence\TransformationProcessor;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
@@ -73,7 +74,7 @@ class UserLogin extends CriterionHandler
         $subSelect = $this->connection->createQueryBuilder();
         $subSelect
             ->select('t1.contentobject_id')
-            ->from(\Ibexa\Core\Persistence\Legacy\User\Gateway::USER_TABLE, 't1')
+            ->from(Gateway::USER_TABLE, 't1')
             ->where($expression);
 
         return $expr->in(

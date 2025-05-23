@@ -4,8 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase as DoctrineLocationGateway;
+
 return [
-    'ibexa_content_tree' => [
+    LocationGateway::CONTENT_TREE_TABLE => [
         ['contentobject_id' => 0, 'contentobject_is_published' => 1, 'contentobject_version' => 1, 'depth' => 0, 'is_hidden' => 0, 'is_invisible' => 0, 'main_node_id' => 1, 'modified_subnode' => 1311065058, 'node_id' => 1, 'parent_node_id' => 1, 'path_identification_string' => '', 'path_string' => '/1/', 'priority' => 0, 'remote_id' => '629709ba256fe317c3ddcee35453a96a', 'sort_field' => 1, 'sort_order' => 1],
         ['contentobject_id' => 65, 'contentobject_is_published' => 1, 'contentobject_version' => 1, 'depth' => 1, 'is_hidden' => 0, 'is_invisible' => 0, 'main_node_id' => 2, 'modified_subnode' => 1311065058, 'node_id' => 2, 'parent_node_id' => 1, 'path_identification_string' => '', 'path_string' => '/1/2/', 'priority' => 0, 'remote_id' => 'f3e90596361e31d496d4026eb624c983', 'sort_field' => 8, 'sort_order' => 1],
         ['contentobject_id' => 4, 'contentobject_is_published' => 1, 'contentobject_version' => 1, 'depth' => 1, 'is_hidden' => 0, 'is_invisible' => 0, 'main_node_id' => 5, 'modified_subnode' => 1311065058, 'node_id' => 5, 'parent_node_id' => 1, 'path_identification_string' => 'users', 'path_string' => '/1/5/', 'priority' => 0, 'remote_id' => '3f6d92f8044aed134f32153517850f5a', 'sort_field' => 1, 'sort_order' => 1],
@@ -192,7 +196,7 @@ return [
         ['contentobject_id' => 224, 'contentobject_is_published' => 1, 'contentobject_version' => 1, 'depth' => 3, 'is_hidden' => 0, 'is_invisible' => 0, 'main_node_id' => 226, 'modified_subnode' => 1311065055, 'node_id' => 226, 'parent_node_id' => 190, 'path_identification_string' => 'company/company_banner', 'path_string' => '/1/2/190/226/', 'priority' => 0, 'remote_id' => '9ae96e2ecc3a5a79964405273cc8542a', 'sort_field' => 1, 'sort_order' => 1],
         ['contentobject_id' => 225, 'contentobject_is_published' => 1, 'contentobject_version' => 1, 'depth' => 2, 'is_hidden' => 0, 'is_invisible' => 0, 'main_node_id' => 227, 'modified_subnode' => 1311065058, 'node_id' => 227, 'parent_node_id' => 5, 'path_identification_string' => 'users/partners', 'path_string' => '/1/5/227/', 'priority' => 0, 'remote_id' => '5238a276bf8231fbcf8a986cdc82a6a5', 'sort_field' => 1, 'sort_order' => 1],
     ],
-    \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase::NODE_ASSIGNMENT_TABLE => [
+    DoctrineLocationGateway::NODE_ASSIGNMENT_TABLE => [
         ['contentobject_id' => 8, 'contentobject_version' => 2, 'from_node_id' => 0, 'id' => 4, 'is_main' => 1, 'op_code' => 2, 'parent_node' => 5, 'parent_remote_id' => '', 'remote_id' => 0, 'sort_field' => 1, 'sort_order' => 1, 'priority' => 0, 'is_hidden' => 0],
         ['contentobject_id' => 42, 'contentobject_version' => 1, 'from_node_id' => 0, 'id' => 5, 'is_main' => 1, 'op_code' => 2, 'parent_node' => 5, 'parent_remote_id' => '', 'remote_id' => 0, 'sort_field' => 9, 'sort_order' => 1, 'priority' => 0, 'is_hidden' => 0],
         ['contentobject_id' => 10, 'contentobject_version' => 2, 'from_node_id' => -1, 'id' => 6, 'is_main' => 1, 'op_code' => 2, 'parent_node' => 44, 'parent_remote_id' => '', 'remote_id' => 0, 'sort_field' => 9, 'sort_order' => 1, 'priority' => 0, 'is_hidden' => 0],
@@ -382,7 +386,7 @@ return [
         ['contentobject_id' => 11, 'contentobject_version' => 2, 'from_node_id' => -1, 'id' => 213, 'is_main' => 1, 'op_code' => 2, 'parent_node' => 5, 'parent_remote_id' => '', 'remote_id' => 0, 'sort_field' => 1, 'sort_order' => 1, 'priority' => 0, 'is_hidden' => 0],
         ['contentobject_id' => 226, 'contentobject_version' => 1, 'from_node_id' => -1, 'id' => 214, 'is_main' => 1, 'op_code' => 3, 'parent_node' => 77, 'parent_remote_id' => '', 'remote_id' => 0, 'sort_field' => 1, 'sort_order' => 1, 'priority' => 0, 'is_hidden' => 0],
     ],
-    \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE => [
+    ContentGateway::CONTENT_ITEM_TABLE => [
         ['id' => 226, 'status' => 0],
         ['id' => 67, 'status' => 0],
         ['id' => 68, 'status' => 0],

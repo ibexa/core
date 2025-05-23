@@ -13,6 +13,8 @@ use DOMDocument;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\FieldType\Image\ImageStorage\Gateway;
 use Ibexa\Core\IO\UrlRedecoratorInterface;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use PDO;
 
 /**
@@ -57,7 +59,7 @@ class DoctrineStorage extends Gateway
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
             ->select($this->connection->quoteIdentifier('path_identification_string'))
-            ->from($this->connection->quoteIdentifier('ibexa_content_tree'))
+            ->from($this->connection->quoteIdentifier(LocationGateway::CONTENT_TREE_TABLE))
             ->where(
                 $selectQuery->expr()->and(
                     $selectQuery->expr()->eq(
@@ -125,7 +127,7 @@ class DoctrineStorage extends Gateway
                 $this->connection->quoteIdentifier('attr.id'),
                 $this->connection->quoteIdentifier('attr.data_text')
             )
-            ->from($this->connection->quoteIdentifier(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE), 'attr')
+            ->from($this->connection->quoteIdentifier(ContentGateway::CONTENT_FIELD_TABLE), 'attr')
             ->where(
                 $selectQuery->expr()->and(
                     $selectQuery->expr()->eq(
@@ -161,7 +163,7 @@ class DoctrineStorage extends Gateway
                 'field.version',
                 'field.data_text'
             )
-            ->from($this->connection->quoteIdentifier(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE), 'field')
+            ->from($this->connection->quoteIdentifier(ContentGateway::CONTENT_FIELD_TABLE), 'field')
             ->where(
                 $selectQuery->expr()->eq(
                     $this->connection->quoteIdentifier('id'),
@@ -300,7 +302,7 @@ class DoctrineStorage extends Gateway
         $expressionBuilder = $selectQuery->expr();
         $selectQuery
             ->select('attr.data_text')
-            ->from($this->connection->quoteIdentifier(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE), 'attr')
+            ->from($this->connection->quoteIdentifier(ContentGateway::CONTENT_FIELD_TABLE), 'attr')
             ->innerJoin(
                 'attr',
                 $this->connection->quoteIdentifier(self::IMAGE_FILE_TABLE),
@@ -401,7 +403,7 @@ class DoctrineStorage extends Gateway
         $expressionBuilder = $updateQuery->expr();
         $updateQuery
             ->update(
-                $this->connection->quoteIdentifier(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE)
+                $this->connection->quoteIdentifier(ContentGateway::CONTENT_FIELD_TABLE)
             )
             ->set(
                 $this->connection->quoteIdentifier('data_text'),

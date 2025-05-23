@@ -11,6 +11,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
@@ -39,7 +40,7 @@ class ObjectStateId extends CriterionHandler
             ->select(
                 'contentobject_id'
             )->from(
-                \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_LINK_TABLE
+                Gateway::OBJECT_STATE_LINK_TABLE
             )->where(
                 $queryBuilder->expr()->in(
                     'contentobject_state_id',

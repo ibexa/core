@@ -11,6 +11,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder as DoctrineQueryBuilder;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 
 /**
  * @internal For internal use by the Content gateway.
@@ -117,7 +118,7 @@ final class QueryBuilder
             ->from(Gateway::CONTENT_ITEM_TABLE, 'c')
             ->leftJoin(
                 'c',
-                'ibexa_content_tree',
+                LocationGateway::CONTENT_TREE_TABLE,
                 't',
                 $joinCondition
             );
@@ -174,7 +175,7 @@ final class QueryBuilder
             )
             ->leftJoin(
                 'v',
-                'ibexa_content_tree',
+                LocationGateway::CONTENT_TREE_TABLE,
                 't',
                 $expr->and(
                     $expr->eq('t.contentobject_id', 'v.contentobject_id'),

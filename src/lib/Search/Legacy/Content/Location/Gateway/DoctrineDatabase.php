@@ -12,6 +12,7 @@ use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
 use Ibexa\Core\Search\Legacy\Content\Location\Gateway;
@@ -95,16 +96,16 @@ final class DoctrineDatabase extends Gateway
         }
 
         $selectQuery
-            ->from('ibexa_content_tree', 't')
+            ->from(LocationGateway::CONTENT_TREE_TABLE, 't')
             ->innerJoin(
                 't',
-                \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE,
+                ContentGateway::CONTENT_ITEM_TABLE,
                 'c',
                 't.contentobject_id = c.id'
             )
             ->innerJoin(
                 'c',
-                \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_VERSION_TABLE,
+                ContentGateway::CONTENT_VERSION_TABLE,
                 'v',
                 'c.id = v.contentobject_id',
             );
@@ -175,7 +176,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select($this->dbPlatform->getCountExpression('*'))
-            ->from('ibexa_content_tree', 't')
+            ->from(LocationGateway::CONTENT_TREE_TABLE, 't')
             ->innerJoin(
                 't',
                 ContentGateway::CONTENT_ITEM_TABLE,

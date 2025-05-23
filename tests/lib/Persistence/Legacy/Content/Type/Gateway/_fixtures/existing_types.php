@@ -4,8 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway as LanguageGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
+
 return [
-    \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_TABLE => [
+    Gateway::CONTENT_TYPE_TABLE => [
         // loaded
         [
             'id' => 1,
@@ -49,7 +52,7 @@ return [
             'version' => 0,
         ],
     ],
-    \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::FIELD_DEFINITION_TABLE => [
+    Gateway::FIELD_DEFINITION_TABLE => [
         // loaded
         [
             'id' => 4,
@@ -204,7 +207,7 @@ return [
             'version' => 0,
         ],
     ],
-    \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE => [
+    Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE => [
         // loaded
         [
             'contentclass_id' => 1,
@@ -227,7 +230,7 @@ return [
             'group_name' => 'Content',
         ],
     ],
-    \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_NAME_TABLE => [
+    Gateway::CONTENT_TYPE_NAME_TABLE => [
         [
             'contentclass_id' => 1,
             'contentclass_version' => 0,
@@ -236,5 +239,5 @@ return [
             'name' => 'Folder',
         ],
     ],
-    \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway::CONTENT_LANGUAGE_TABLE => [],
+    LanguageGateway::CONTENT_LANGUAGE_TABLE => [],
 ];

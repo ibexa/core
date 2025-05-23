@@ -14,7 +14,7 @@ use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
 /**
- * @covers \Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase::insertBookmark
+ * @covers \DoctrineDatabase::insertBookmark
  */
 class DoctrineDatabaseTest extends TestCase
 {
@@ -150,7 +150,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $qb = $this->connection->createQueryBuilder();
         $qb->select('*')
-            ->from(\Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase::TABLE_BOOKMARKS)
+            ->from(DoctrineDatabase::TABLE_BOOKMARKS)
             ->where('id = :id')
             ->setParameter('id', $id);
 

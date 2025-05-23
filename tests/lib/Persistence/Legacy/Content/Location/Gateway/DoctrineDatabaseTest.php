@@ -13,13 +13,14 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase;
 use Ibexa\Core\Search\Legacy\Content;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
 
 /**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase
+ * @covers \DoctrineDatabase
  */
 class DoctrineDatabaseTest extends LanguageAwareTestCase
 {
@@ -184,7 +185,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'is_hidden',
                     'is_invisible'
                 )
-                ->from('ibexa_content_tree')
+                ->from(Gateway::CONTENT_TREE_TABLE)
                 ->where($query->expr()->in('node_id', [69, 71, 75, 77, 2]))
                 ->orderBy('contentobject_id')
         );
@@ -230,7 +231,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'is_hidden',
                     'is_invisible'
                 )
-                ->from('ibexa_content_tree')
+                ->from(Gateway::CONTENT_TREE_TABLE)
                 ->where($query->expr()->in('node_id', [69, 71, 75, 77, 2]))
                 ->orderBy('contentobject_id')
         );
@@ -276,7 +277,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'is_hidden',
                     'is_invisible'
                 )
-                ->from('ibexa_content_tree')
+                ->from(Gateway::CONTENT_TREE_TABLE)
                 ->where($query->expr()->in('node_id', [69, 71, 75, 77, 2]))
                 ->orderBy('contentobject_id')
         );
@@ -324,7 +325,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'is_hidden',
                     'is_invisible'
                 )
-                ->from('ibexa_content_tree')
+                ->from(Gateway::CONTENT_TREE_TABLE)
                 ->where($query->expr()->in('node_id', [69, 70, 71, 75, 77, 2]))
                 ->orderBy('contentobject_id')
         );
@@ -360,7 +361,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'priority',
                     'is_hidden'
                 )
-                ->from(\Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
+                ->from(DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
                 ->where($query->expr()->eq('contentobject_id', 67))
         );
     }
@@ -381,7 +382,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ],
             $query
                 ->select('node_id', 'is_hidden', 'is_invisible')
-                ->from('ibexa_content_tree')
+                ->from(Gateway::CONTENT_TREE_TABLE)
                 ->where($query->expr()->in('node_id', [1, 2, 69, 75]))
                 ->orderBy('node_id')
         );
@@ -407,7 +408,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ],
             $query
                 ->select('node_id', 'is_hidden', 'is_invisible')
-                ->from('ibexa_content_tree')
+                ->from(Gateway::CONTENT_TREE_TABLE)
                 ->where($query->expr()->in('node_id', [1, 2, 69, 75]))
                 ->orderBy('node_id')
         );
@@ -436,7 +437,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ],
             $query
                 ->select('node_id', 'is_hidden', 'is_invisible')
-                ->from('ibexa_content_tree')
+                ->from(Gateway::CONTENT_TREE_TABLE)
                 ->where($query->expr()->in('node_id', [1, 2, 69, 70, 71, 75]))
                 ->orderBy('node_id')
         );
@@ -465,7 +466,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ],
             $query
                 ->select('node_id', 'is_hidden', 'is_invisible')
-                ->from('ibexa_content_tree')
+                ->from(Gateway::CONTENT_TREE_TABLE)
                 ->where($query->expr()->in('node_id', [1, 2, 69, 70, 71, 75]))
                 ->orderBy('node_id')
         );
@@ -485,7 +486,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ],
             $query
                 ->select('node_id', 'contentobject_id')
-                ->from('ibexa_content_tree')
+                ->from(Gateway::CONTENT_TREE_TABLE)
                 ->where($query->expr()->in('node_id', [70, 78]))
                 ->orderBy('node_id')
         );
@@ -518,7 +519,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ],
             $query
                 ->select('node_id', 'path_string')
-                ->from('ibexa_content_tree')
+                ->from(Gateway::CONTENT_TREE_TABLE)
                 ->where($query->expr()->in('contentobject_id', [68, 75]))
                 ->orderBy('node_id')
         );
@@ -625,7 +626,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [[$value]],
             $query
                 ->select($field)
-                ->from('ibexa_content_tree')
+                ->from(Gateway::CONTENT_TREE_TABLE)
                 ->where($query->expr()->eq('node_id', 228))
         );
     }
@@ -717,7 +718,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [[$value]],
             $query
                 ->select($field)
-                ->from('ibexa_content_tree')
+                ->from(Gateway::CONTENT_TREE_TABLE)
                 ->where($query->expr()->in('node_id', [70]))
         );
     }
@@ -777,7 +778,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         return $this->buildGenericNodeSelectContentWithParentQuery(
             $contentId,
             $parentLocationId,
-            \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase::NODE_ASSIGNMENT_TABLE,
+            DoctrineDatabase::NODE_ASSIGNMENT_TABLE,
             'parent_node',
             $fields
         );
@@ -891,7 +892,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $query->select(
                 'contentobject_version'
             )->from(
-                'ibexa_content_tree'
+                Gateway::CONTENT_TREE_TABLE
             )->where(
                 $query->expr()->eq(
                     'contentobject_id',
@@ -913,7 +914,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [[0]],
             $query
                 ->select('count(*)')
-                ->from(\Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
+                ->from(DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
                 ->where(
                     $query->expr()->eq('contentobject_id', 11)
                 )
@@ -928,7 +929,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $query = $this->getDatabaseConnection()->createQueryBuilder();
         $query
             ->select('count(*)')
-            ->from(\Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
+            ->from(DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
             ->where(
                 $query->expr()->eq('contentobject_id', 11)
             );
@@ -942,7 +943,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [[$nodeAssignmentsCount - 1]],
             $query
                 ->select('count(*)')
-                ->from(\Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
+                ->from(DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
                 ->where(
                     $query->expr()->eq('contentobject_id', 11)
                 )
@@ -1195,7 +1196,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [[68], [69]],
             $query
                 ->select('id')
-                ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE)
+                ->from(ContentGateway::CONTENT_ITEM_TABLE)
                 ->where($query->expr()->eq('section_id', 23))
         );
     }
@@ -1214,7 +1215,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $connection = $this->getDatabaseConnection();
         $query = $connection->createQueryBuilder();
         $query
-            ->insert('ibexa_content_tree')
+            ->insert(Gateway::CONTENT_TREE_TABLE)
             ->values(
                 [
                     'contentobject_id' => $query->createPositionalParameter(
@@ -1245,7 +1246,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $query = $connection->createQueryBuilder();
         $query
-            ->insert(\Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
+            ->insert(DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
             ->values(
                 [
                     'contentobject_id' => $query->createPositionalParameter(
@@ -1281,7 +1282,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [[228], [228]],
             $query
                 ->select('main_node_id')
-                ->from('ibexa_content_tree')
+                ->from(Gateway::CONTENT_TREE_TABLE)
                 ->where(
                     $query->expr()->eq(
                         'contentobject_id',
@@ -1295,7 +1296,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [[1]],
             $query
                 ->select('is_main')
-                ->from(\Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
+                ->from(DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
                 ->where(
                     $query->expr()->and(
                         $query->expr()->eq(
@@ -1319,7 +1320,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [[0]],
             $query
                 ->select('is_main')
-                ->from(\Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
+                ->from(DoctrineDatabase::NODE_ASSIGNMENT_TABLE)
                 ->where(
                     $query->expr()->and(
                         $query->expr()->eq(
@@ -1366,7 +1367,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $connection = $this->getDatabaseConnection();
         $query = $connection->createQueryBuilder();
         $query
-            ->insert('ibexa_content_tree')
+            ->insert(Gateway::CONTENT_TREE_TABLE)
             ->values(
                 [
                     'contentobject_id' => $query->createPositionalParameter(
@@ -1452,7 +1453,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $query->select(
                 'path_identification_string'
             )->from(
-                'ibexa_content_tree'
+                Gateway::CONTENT_TREE_TABLE
             )->where(
                 $query->expr()->eq('node_id', $locationId)
             )

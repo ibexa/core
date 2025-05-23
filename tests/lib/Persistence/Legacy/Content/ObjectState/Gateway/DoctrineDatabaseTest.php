@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Content\ObjectState\Gateway;
 
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
+use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
 
@@ -403,7 +404,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ],
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('contentobject_id', 'contentobject_state_id')
-                ->from(\Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_LINK_TABLE)
+                ->from(Gateway::OBJECT_STATE_LINK_TABLE)
                 ->where('contentobject_id = 42')
         );
     }

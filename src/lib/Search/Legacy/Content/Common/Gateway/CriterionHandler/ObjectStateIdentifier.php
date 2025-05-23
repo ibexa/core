@@ -12,6 +12,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
@@ -56,16 +57,16 @@ class ObjectStateIdentifier extends CriterionHandler
         $subSelect = $this->connection->createQueryBuilder();
         $subSelect
             ->select('t1.contentobject_id')
-            ->from(\Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_LINK_TABLE, 't1')
+            ->from(Gateway::OBJECT_STATE_LINK_TABLE, 't1')
             ->leftJoin(
                 't1',
-                \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_TABLE,
+                Gateway::OBJECT_STATE_TABLE,
                 't2',
                 't1.contentobject_state_id = t2.id',
             )
             ->leftJoin(
                 't2',
-                \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway::OBJECT_STATE_GROUP_TABLE,
+                Gateway::OBJECT_STATE_GROUP_TABLE,
                 't3',
                 't2.group_id = t3.id'
             )

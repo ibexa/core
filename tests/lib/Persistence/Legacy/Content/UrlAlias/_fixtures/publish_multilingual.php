@@ -4,8 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway as LanguageGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
+use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
+
 return [
-    \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway::TABLE => [
+    Gateway::TABLE => [
         [
             'action' => 'eznode:2',
             'action_type' => 'eznode',
@@ -59,13 +63,13 @@ return [
             'text_md5' => 'f67a51e1a7085ae8b69d08f0697d9092',
         ],
     ],
-    \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway::INCR_TABLE => [
+    Gateway::INCR_TABLE => [
         ['id' => '1'],
         ['id' => '2'],
         ['id' => '3'],
         ['id' => '4'],
     ],
-    \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway::CONTENT_LANGUAGE_TABLE => [
+    LanguageGateway::CONTENT_LANGUAGE_TABLE => [
         [
             'disabled' => 0,
             'id' => 2,
@@ -85,7 +89,7 @@ return [
             'name' => 'Norwegian',
         ],
     ],
-    'ibexa_content_tree' => [
+    LocationGateway::CONTENT_TREE_TABLE => [
         [
             'node_id' => 1,
             'parent_node_id' => 1,

@@ -13,6 +13,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Value\MapLocationValue;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway\DoctrineStorage;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use RuntimeException;
 
@@ -174,10 +176,10 @@ class MapLocationDistance extends FieldBase
 
         $subSelect
             ->select('contentobject_id')
-            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE, 'f_def')
+            ->from(Gateway::CONTENT_FIELD_TABLE, 'f_def')
             ->innerJoin(
                 'f_def',
-                \Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway\DoctrineStorage::MAP_LOCATION_TABLE,
+                DoctrineStorage::MAP_LOCATION_TABLE,
                 'map',
                 $expr->and(
                     'map.contentobject_version = f_def.version',

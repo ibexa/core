@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
+
 return [
-    \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway::CONTENT_TYPE_GROUP_TABLE => [
+    Gateway::CONTENT_TYPE_GROUP_TABLE => [
         [
             'created' => 1031216928,
             'creator_id' => 14,

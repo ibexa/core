@@ -30,6 +30,7 @@ use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase\QueryBuilder;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway as SharedGateway;
 use LogicException;
@@ -529,7 +530,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->update(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE)
+            ->update(Gateway::CONTENT_ITEM_TABLE)
             ->set('status', ':status')
             ->set('current_version', ':versionNo')
             ->where('id =:contentId')
@@ -771,10 +772,10 @@ final class DoctrineDatabase extends Gateway
                 'a.sort_key_string AS ibexa_content_attribute_sort_key_string',
                 't.main_node_id AS ibexa_content_tree_main_node_id'
             )
-            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE, 'c')
+            ->from(Gateway::CONTENT_ITEM_TABLE, 'c')
             ->innerJoin(
                 'c',
-                \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_VERSION_TABLE,
+                Gateway::CONTENT_VERSION_TABLE,
                 'v',
                 $expr->and(
                     $expr->eq('c.id', 'v.contentobject_id'),
@@ -783,7 +784,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->innerJoin(
                 'v',
-                \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE,
+                Gateway::CONTENT_FIELD_TABLE,
                 'a',
                 $expr->and(
                     $expr->eq('v.contentobject_id', 'a.contentobject_id'),
@@ -792,7 +793,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->leftJoin(
                 'c',
-                'ibexa_content_tree',
+                LocationGateway::CONTENT_TREE_TABLE,
                 't',
                 $expr->and(
                     $expr->eq('c.id', 't.contentobject_id'),
@@ -961,10 +962,10 @@ final class DoctrineDatabase extends Gateway
         $expr = $query->expr();
         $query
             ->select($this->databasePlatform->getCountExpression('v.id'))
-            ->from(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_VERSION_TABLE, 'v')
+            ->from(Gateway::CONTENT_VERSION_TABLE, 'v')
             ->innerJoin(
                 'v',
-                \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE,
+                Gateway::CONTENT_ITEM_TABLE,
                 'c',
                 $expr->and(
                     $expr->eq('c.id', 'v.contentobject_id'),
@@ -1090,7 +1091,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('node_id')
-            ->from('ibexa_content_tree')
+            ->from(LocationGateway::CONTENT_TREE_TABLE)
             ->where('contentobject_id = :content_id')
             ->setParameter('content_id', $contentId, ParameterType::INTEGER);
 
@@ -1167,7 +1168,7 @@ final class DoctrineDatabase extends Gateway
             ->from(self::CONTENT_FIELD_TABLE, 'a')
             ->innerJoin(
                 'a',
-                \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_RELATION_TABLE,
+                Gateway::CONTENT_RELATION_TABLE,
                 'l',
                 $expr->and(
                     'l.from_contentobject_id = a.contentobject_id',
@@ -1564,7 +1565,7 @@ final class DoctrineDatabase extends Gateway
             ->from(self::CONTENT_RELATION_TABLE, 'l')
             ->innerJoin(
                 'l',
-                \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE,
+                Gateway::CONTENT_ITEM_TABLE,
                 'c',
                 $expr->and(
                     $expr->eq('l.from_contentobject_id', 'c.id'),
@@ -1602,7 +1603,7 @@ final class DoctrineDatabase extends Gateway
         $query
             ->join(
                 'l',
-                \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE,
+                Gateway::CONTENT_ITEM_TABLE,
                 'c',
                 $expr->and(
                     'c.id = l.from_contentobject_id',
@@ -1646,7 +1647,7 @@ final class DoctrineDatabase extends Gateway
         $query
             ->innerJoin(
                 'l',
-                \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE,
+                Gateway::CONTENT_ITEM_TABLE,
                 'c',
                 $expr->and(
                     $expr->eq('l.from_contentobject_id', 'c.id'),
@@ -1869,7 +1870,7 @@ final class DoctrineDatabase extends Gateway
                 ->setParameter('version', $versionNo, ParameterType::INTEGER);
         }
         // Given we can retain all columns, we just create copies with new `from_contentobject_id` using INSERT INTO SELECT
-        $contentLinkTable = \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_RELATION_TABLE;
+        $contentLinkTable = Gateway::CONTENT_RELATION_TABLE;
         $insertQuery = <<<SQL
             INSERT INTO {$contentLinkTable} (
                 contentclassattribute_id,
@@ -1919,7 +1920,7 @@ final class DoctrineDatabase extends Gateway
     ): void {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->delete(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_FIELD_TABLE)
+            ->delete(Gateway::CONTENT_FIELD_TABLE)
             ->where('contentobject_id = :contentId')
             ->andWhere('language_code = :languageCode')
             ->setParameters(
@@ -1976,7 +1977,7 @@ final class DoctrineDatabase extends Gateway
     ) {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->delete(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_NAME_TABLE)
+            ->delete(Gateway::CONTENT_NAME_TABLE)
             ->where('contentobject_id=:contentId')
             ->andWhere('real_translation=:languageCode')
             ->setParameters(
@@ -2008,7 +2009,7 @@ final class DoctrineDatabase extends Gateway
     private function deleteTranslationFromContentObject($contentId, $languageId)
     {
         $query = $this->connection->createQueryBuilder();
-        $query->update(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE)
+        $query->update(Gateway::CONTENT_ITEM_TABLE)
             // parameter for bitwise operation has to be placed verbatim (w/o binding) for this to work cross-DBMS
             ->set('language_mask', 'language_mask & ~ ' . $languageId)
             ->set('modified', ':now')
@@ -2048,9 +2049,9 @@ final class DoctrineDatabase extends Gateway
         int $languageId,
         ?int $versionNo = null
     ) {
-        $contentTable = \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE;
+        $contentTable = Gateway::CONTENT_ITEM_TABLE;
         $query = $this->connection->createQueryBuilder();
-        $query->update(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_VERSION_TABLE)
+        $query->update(Gateway::CONTENT_VERSION_TABLE)
             // parameter for bitwise operation has to be placed verbatim (w/o binding) for this to work cross-DBMS
             ->set('language_mask', 'language_mask & ~ ' . $languageId)
             ->set('modified', ':now')

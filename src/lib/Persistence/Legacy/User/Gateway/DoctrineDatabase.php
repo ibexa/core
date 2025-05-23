@@ -14,7 +14,9 @@ use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\User;
 use Ibexa\Contracts\Core\Persistence\User\UserTokenUpdateStruct;
+use Ibexa\Core\FieldType\User\UserStorage\Gateway\DoctrineStorage;
 use Ibexa\Core\Persistence\Legacy\User\Gateway;
+use Ibexa\Core\Persistence\Legacy\User\Role\Gateway as RoleGateway;
 use function time;
 
 /**
@@ -97,7 +99,7 @@ final class DoctrineDatabase extends Gateway
         $query
             ->leftJoin(
                 'u',
-                \Ibexa\Core\Persistence\Legacy\User\Gateway::USER_ACCOUNTKEY_TABLE,
+                Gateway::USER_ACCOUNTKEY_TABLE,
                 'token',
                 $query->expr()->eq(
                     'token.user_id',
@@ -150,7 +152,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         if (false === $this->userHasToken($userTokenUpdateStruct->userId)) {
             $query
-                ->insert(\Ibexa\Core\Persistence\Legacy\User\Gateway::USER_ACCOUNTKEY_TABLE)
+                ->insert(Gateway::USER_ACCOUNTKEY_TABLE)
                 ->values(
                     [
                         'hash_key' => ':hash_key',
@@ -160,7 +162,7 @@ final class DoctrineDatabase extends Gateway
                 );
         } else {
             $query
-                ->update(\Ibexa\Core\Persistence\Legacy\User\Gateway::USER_ACCOUNTKEY_TABLE)
+                ->update(Gateway::USER_ACCOUNTKEY_TABLE)
                 ->set('hash_key', ':hash_key')
                 ->set('time', ':time')
                 ->where('user_id = :user_id');
@@ -177,7 +179,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->update(\Ibexa\Core\Persistence\Legacy\User\Gateway::USER_ACCOUNTKEY_TABLE)
+            ->update(Gateway::USER_ACCOUNTKEY_TABLE)
             ->set(
                 'time',
                 $query->createPositionalParameter(0, ParameterType::INTEGER)
@@ -196,7 +198,7 @@ final class DoctrineDatabase extends Gateway
             foreach ($values as $value) {
                 $query = $this->connection->createQueryBuilder();
                 $query
-                    ->insert(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway::USER_ROLE_TABLE)
+                    ->insert(RoleGateway::USER_ROLE_TABLE)
                     ->values(
                         [
                             'contentobject_id' => $query->createPositionalParameter(
@@ -227,7 +229,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
-            ->delete(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway::USER_ROLE_TABLE)
+            ->delete(RoleGateway::USER_ROLE_TABLE)
             ->where(
                 $expr->eq(
                     'contentobject_id',
@@ -247,7 +249,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->delete(\Ibexa\Core\Persistence\Legacy\User\Role\Gateway::USER_ROLE_TABLE)
+            ->delete(RoleGateway::USER_ROLE_TABLE)
             ->where(
                 $query->expr()->eq(
                     'id',
@@ -272,10 +274,10 @@ final class DoctrineDatabase extends Gateway
                 's.is_enabled',
                 's.max_login'
             )
-            ->from(\Ibexa\Core\Persistence\Legacy\User\Gateway::USER_TABLE, 'u')
+            ->from(Gateway::USER_TABLE, 'u')
             ->leftJoin(
                 'u',
-                \Ibexa\Core\FieldType\User\UserStorage\Gateway\DoctrineStorage::USER_SETTING_TABLE,
+                DoctrineStorage::USER_SETTING_TABLE,
                 's',
                 $expr->eq(
                     's.user_id',
@@ -292,7 +294,7 @@ final class DoctrineDatabase extends Gateway
         $expr = $query->expr();
         $query
             ->select('token.id')
-            ->from(\Ibexa\Core\Persistence\Legacy\User\Gateway::USER_ACCOUNTKEY_TABLE, 'token')
+            ->from(Gateway::USER_ACCOUNTKEY_TABLE, 'token')
             ->where(
                 $expr->eq(
                     'token.user_id',

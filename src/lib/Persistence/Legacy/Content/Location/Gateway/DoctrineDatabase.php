@@ -197,7 +197,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->innerJoin(
                 'a',
-                \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE,
+                ContentGateway::CONTENT_ITEM_TABLE,
                 'c',
                 $expr->and(
                     $expr->eq(
@@ -269,7 +269,7 @@ final class DoctrineDatabase extends Gateway
         $query
             ->select('contentobject_id')
             ->from(self::NODE_ASSIGNMENT_TABLE, 'n')
-            ->innerJoin('n', \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE, 'c', 'n.contentobject_id = c.id')
+            ->innerJoin('n', ContentGateway::CONTENT_ITEM_TABLE, 'c', 'n.contentobject_id = c.id')
             ->andWhere('n.parent_node = :parentNode')
             ->andWhere('c.status = :status')
             ->setParameter('parentNode', $sourceId, ParameterType::INTEGER)
@@ -672,7 +672,7 @@ final class DoctrineDatabase extends Gateway
         $query
             ->select($selectExpr)
             ->from(self::CONTENT_TREE_TABLE, 't')
-            ->leftJoin('t', \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE, 'c', 't.contentobject_id = c.id')
+            ->leftJoin('t', ContentGateway::CONTENT_ITEM_TABLE, 'c', 't.contentobject_id = c.id')
             ->where(
                 $expr->or(
                     $expr->eq(
@@ -1218,7 +1218,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query->update(
-            \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE
+            ContentGateway::CONTENT_ITEM_TABLE
         )->set(
             'status',
             $query->createPositionalParameter($status, ParameterType::INTEGER)
@@ -1340,7 +1340,7 @@ final class DoctrineDatabase extends Gateway
 
         $updateSectionQuery = $this->connection->createQueryBuilder();
         $updateSectionQuery
-            ->update(\Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE)
+            ->update(ContentGateway::CONTENT_ITEM_TABLE)
             ->set(
                 'section_id',
                 $updateSectionQuery->createPositionalParameter($sectionId, ParameterType::INTEGER)
@@ -1494,7 +1494,7 @@ final class DoctrineDatabase extends Gateway
 
         $queryBuilder->leftJoin(
             't',
-            \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_ITEM_TABLE,
+            ContentGateway::CONTENT_ITEM_TABLE,
             'c',
             $expr->eq('t.contentobject_id', 'c.id')
         );

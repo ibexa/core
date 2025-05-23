@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway;
+
 return [
-    \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway::URL_WILDCARD_TABLE => [
+    Gateway::URL_WILDCARD_TABLE => [
         0 => [
             'id' => '1',
             'source_url' => 'developer/*',

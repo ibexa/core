@@ -37,7 +37,7 @@ class IsUserEnabled extends CriterionHandler
             ->from(UserGateway::USER_TABLE, 't1')
             ->leftJoin(
                 't1',
-                \Ibexa\Core\FieldType\User\UserStorage\Gateway\DoctrineStorage::USER_SETTING_TABLE,
+                UserGateway::USER_SETTING_TABLE,
                 't2',
                 't1.contentobject_id = t2.user_id'
             )

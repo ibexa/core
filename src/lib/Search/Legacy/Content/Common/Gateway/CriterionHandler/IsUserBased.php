@@ -11,6 +11,7 @@ namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Core\Persistence\Legacy\User\Gateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
@@ -37,7 +38,7 @@ class IsUserBased extends CriterionHandler
             ->select(
                 'contentobject_id'
             )->from(
-                \Ibexa\Core\Persistence\Legacy\User\Gateway::USER_TABLE
+                Gateway::USER_TABLE
             );
 
         $queryExpression = $queryBuilder->expr()->in(
