@@ -28,6 +28,7 @@ return RectorConfig::configure()
         SymfonySetList::SYMFONY_71,
         SymfonySetList::SYMFONY_72,
         DoctrineSetList::DOCTRINE_DBAL_211,
+        \Rector\Set\ValueObject\SetList::TYPE_DECLARATION
     ])
     ->withSkip([
         CommandConfigureToAttributeRector::class => [

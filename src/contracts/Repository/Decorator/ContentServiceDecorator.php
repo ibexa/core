@@ -29,8 +29,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 abstract class ContentServiceDecorator implements ContentService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    protected $innerService;
+    protected ContentService $innerService;
 
     public function __construct(ContentService $innerService)
     {
@@ -129,7 +128,7 @@ abstract class ContentServiceDecorator implements ContentService
         return $this->innerService->updateContentMetadata($contentInfo, $contentMetadataUpdateStruct);
     }
 
-    public function deleteContent(ContentInfo $contentInfo): iterable
+    public function deleteContent(ContentInfo $contentInfo): array
     {
         return $this->innerService->deleteContent($contentInfo);
     }

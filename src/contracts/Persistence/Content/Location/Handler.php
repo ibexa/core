@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Persistence\Content\Location;
 
@@ -17,15 +18,12 @@ interface Handler
     /**
      * Loads the data for the location identified by $locationId.
      *
-     * @param int $locationId
      * @param string[]|null $translations If set, NotFound is thrown if content is not in given translation.
      * @param bool $useAlwaysAvailable Respect always available flag on content, where main language is valid translation fallback.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location
      */
-    public function load($locationId, array $translations = null, bool $useAlwaysAvailable = true);
+    public function load(int $locationId, ?array $translations = null, bool $useAlwaysAvailable = true): Location;
 
     /**
      * Return list of unique Locations, with location id as key.
@@ -44,37 +42,29 @@ interface Handler
     /**
      * Loads the subtree ids of the location identified by $locationId.
      *
-     * @param int $locationId
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      *
-     * @return array Location ids are in the index, Content ids in the value.
+     * @return int[] Location ids are in the index, Content ids in the value.
      */
-    public function loadSubtreeIds($locationId);
+    public function loadSubtreeIds(int $locationId): array;
 
     /**
      * Loads the data for the location identified by $remoteId.
      *
-     * @param string $remoteId
      * @param string[]|null $translations If set, NotFound is thrown if content is not in given translation.
      * @param bool $useAlwaysAvailable Respect always available flag on content, where main language is valid translation fallback.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location
      */
-    public function loadByRemoteId($remoteId, array $translations = null, bool $useAlwaysAvailable = true);
+    public function loadByRemoteId(string $remoteId, array $translations = null, bool $useAlwaysAvailable = true): Location;
 
     /**
      * Loads all locations for $contentId, optionally limited to a sub tree
      * identified by $rootLocationId.
      *
-     * @param int $contentId
-     * @param int $rootLocationId
-     *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Location[]
      */
-    public function loadLocationsByContent($contentId, $rootLocationId = null);
+    public function loadLocationsByContent(int $contentId, ?int $rootLocationId = null): array;
 
     /**
      * Loads all locations for $contentId in trash, optionally limited to a sub tree
@@ -87,12 +77,9 @@ interface Handler
     /**
      * Loads all parent Locations for unpublished Content by given $contentId.
      *
-     *
-     * @param mixed $contentId
-     *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Location[]
      */
-    public function loadParentLocationsForDraftContent($contentId);
+    public function loadParentLocationsForDraftContent(int $contentId): array;
 
     /**
      * Copy location object identified by $sourceId, into destination identified by $destinationParentId.
@@ -102,14 +89,9 @@ interface Handler
      * for each location to a new content object without any additional version
      * information. Relations for published version are copied. URLs are not touched at all.
      *
-     * @param mixed $sourceId
-     * @param mixed $destinationParentId
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If $sourceId or $destinationParentId are invalid
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location the newly created Location.
      */
-    public function copySubtree($sourceId, $destinationParentId);
+    public function copySubtree(int $sourceId, int $destinationParentId): Location;
 
     public function getSubtreeSize(string $path): int;
 
@@ -119,40 +101,27 @@ interface Handler
      * Performs a full move of the location identified by $sourceId to a new
      * destination, identified by $destinationParentId. Relations do not need
      * to be updated, since they refer to Content. URLs are not touched.
-     *
-     * @param mixed $sourceId
-     * @param mixed $destinationParentId
-     *
-     * @return bool
      */
-    public function move($sourceId, $destinationParentId);
+    public function move(int $sourceId, int $destinationParentId): void;
 
     /**
      * Sets a location to be hidden, and it self + all children to invisible.
-     *
-     * @param mixed $id Location ID
      */
-    public function hide($id);
+    public function hide(int $id): void;
 
     /**
      * Sets a location to be unhidden, and self + children to visible unless a parent is hiding the tree.
      * If not make sure only children down to first hidden node is marked visible.
-     *
-     * @param mixed $id
      */
-    public function unHide($id);
+    public function unHide(int $id): void;
 
     /**
      * Sets a location + all children to invisible.
-     *
-     * @param int $id Location ID
      */
     public function setInvisible(int $id): void;
 
     /**
      * Sets a location + all children to visible.
-     *
-     * @param int $id Location ID
      */
     public function setVisible(int $id): void;
 
@@ -161,32 +130,20 @@ interface Handler
      *
      * Make the location identified by $locationId1 refer to the Content
      * referred to by $locationId2 and vice versa.
-     *
-     * @param mixed $locationId1
-     * @param mixed $locationId2
-     *
-     * @return bool
      */
-    public function swap($locationId1, $locationId2);
+    public function swap(int $locationId1, int $locationId2): void;
 
     /**
      * Updates an existing location.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Location\UpdateStruct $location
-     * @param int $locationId
      */
-    public function update(UpdateStruct $location, $locationId);
+    public function update(UpdateStruct $location, int $locationId): void;
 
     /**
      * Creates a new location rooted at $location->parentId.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct $location
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if parent Location does not exist
      */
-    public function create(CreateStruct $location);
+    public function create(CreateStruct $location): Location;
 
     /**
      * Removes all Locations under and including $locationId.
@@ -196,12 +153,8 @@ interface Handler
      * by any other location is automatically removed. Content which looses its
      * main Location will get the first of its other Locations assigned as the
      * new main Location.
-     *
-     * @param mixed $locationId
-     *
-     * @return bool
      */
-    public function removeSubtree($locationId);
+    public function removeSubtree(int $locationId): void;
 
     /**
      * Removes all draft contents that have no location assigned to them under the given parent location.
@@ -215,36 +168,25 @@ interface Handler
      * @todo This can be confusing (regarding permissions and main/multi location).
      * So method is for the time being not in PublicAPI so people can instead
      * write scripts using their own logic against the assignSectionToContent() api.
-     *
-     * @param mixed $locationId
-     * @param mixed $sectionId
      */
-    public function setSectionForSubtree($locationId, $sectionId);
+    public function setSectionForSubtree(int $locationId, int $sectionId): void;
 
     /**
      * Changes main location of content identified by given $contentId to location identified by given $locationId.
-     *
-     * @param mixed $contentId
-     * @param mixed $locationId
      */
-    public function changeMainLocation($contentId, $locationId);
+    public function changeMainLocation(int $contentId, int $locationId): void;
 
     /**
      * Get the total number of all existing Locations. Can be combined with loadAllLocations.
-     *
-     * @return int
      */
-    public function countAllLocations();
+    public function countAllLocations(): int;
 
     /**
      * Bulk-load all existing Locations, constrained by $limit and $offset to paginate results.
      *
-     * @param int $offset
-     * @param int $limit
-     *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Location[]
      */
-    public function loadAllLocations($offset, $limit);
+    public function loadAllLocations(int $offset, int $limit): array;
 
     /**
      * Counts locations for a given content represented by its id.

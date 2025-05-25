@@ -14,11 +14,9 @@ use UnexpectedValueException;
 
 final class BeforeUnhideLocationEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-    private $location;
+    private Location $location;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location|null */
-    private $revealedLocation;
+    private ?Location $revealedLocation = null;
 
     public function __construct(Location $location)
     {

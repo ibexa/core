@@ -13,9 +13,11 @@ use Traversable;
 
 final class RawRangeAggregation extends AbstractRangeAggregation implements RawAggregation
 {
-    /** @var string */
-    private $fieldName;
+    private string $fieldName;
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range[] $ranges
+     */
     public function __construct(string $name, string $fieldName, array $ranges = [])
     {
         parent::__construct($name, $ranges);

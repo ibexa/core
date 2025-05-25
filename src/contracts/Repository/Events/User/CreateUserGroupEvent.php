@@ -14,14 +14,11 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct;
 
 final class CreateUserGroupEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct */
-    private $userGroupCreateStruct;
+    private UserGroupCreateStruct $userGroupCreateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup */
-    private $parentGroup;
+    private UserGroup $parentGroup;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup */
-    private $userGroup;
+    private UserGroup $userGroup;
 
     public function __construct(
         UserGroup $userGroup,

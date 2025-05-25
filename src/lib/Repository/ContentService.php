@@ -1039,7 +1039,7 @@ class ContentService implements ContentServiceInterface
      *
      * @return mixed[] Affected Location Id's
      */
-    public function deleteContent(ContentInfo $contentInfo): iterable
+    public function deleteContent(ContentInfo $contentInfo): array
     {
         $contentInfo = $this->internalLoadContentInfoById($contentInfo->id);
         $versionInfo = $this->persistenceHandler->contentHandler()->loadVersionInfo(

@@ -13,12 +13,14 @@ use Ibexa\Contracts\Core\Repository\Values\User\User;
 
 final class DeleteUserEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
-    private $user;
+    private User $user;
 
-    /** @var array */
-    private $locations;
+    /** @var int[] */
+    private array $locations;
 
+    /**
+     * @param int[] $locations
+     */
     public function __construct(
         array $locations,
         User $user
@@ -32,6 +34,9 @@ final class DeleteUserEvent extends AfterEvent
         return $this->user;
     }
 
+    /**
+     * @return int[]
+     */
     public function getLocations(): array
     {
         return $this->locations;

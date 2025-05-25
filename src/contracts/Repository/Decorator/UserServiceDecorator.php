@@ -4,10 +4,6 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-/**
- * @copyright Copyright (C) Ibexa AS. All rights reserved.
- * @license For full copyright and license information view LICENSE file distributed with this source code.
- */
 declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Decorator;
@@ -24,11 +20,11 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserTokenUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserUpdateStruct;
+use SensitiveParameter;
 
 abstract class UserServiceDecorator implements UserService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
-    protected $innerService;
+    protected UserService $innerService;
 
     public function __construct(UserService $innerService)
     {
@@ -65,7 +61,7 @@ abstract class UserServiceDecorator implements UserService
         return $this->innerService->loadSubUserGroups($userGroup, $offset, $limit, $prioritizedLanguages);
     }
 
-    public function deleteUserGroup(UserGroup $userGroup): iterable
+    public function deleteUserGroup(UserGroup $userGroup): array
     {
         return $this->innerService->deleteUserGroup($userGroup);
     }
@@ -100,7 +96,7 @@ abstract class UserServiceDecorator implements UserService
 
     public function checkUserCredentials(
         User $user,
-        #[\SensitiveParameter]
+        #[SensitiveParameter]
         string $credentials
     ): bool {
         return $this->innerService->checkUserCredentials($user, $credentials);
@@ -134,7 +130,7 @@ abstract class UserServiceDecorator implements UserService
         return $this->innerService->loadUserByToken($hash, $prioritizedLanguages);
     }
 
-    public function deleteUser(User $user): iterable
+    public function deleteUser(User $user): array
     {
         return $this->innerService->deleteUser($user);
     }

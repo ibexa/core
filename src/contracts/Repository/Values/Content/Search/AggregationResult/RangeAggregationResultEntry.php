@@ -13,11 +13,9 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 final class RangeAggregationResultEntry extends ValueObject
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range */
-    private $key;
+    private Range $key;
 
-    /** @var int */
-    private $count;
+    private int $count;
 
     public function __construct(Range $key, int $count)
     {

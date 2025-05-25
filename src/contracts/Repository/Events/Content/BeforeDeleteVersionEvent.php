@@ -13,8 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 
 final class BeforeDeleteVersionEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo */
-    private $versionInfo;
+    private VersionInfo $versionInfo;
 
     public function __construct(VersionInfo $versionInfo)
     {

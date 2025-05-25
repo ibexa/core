@@ -17,21 +17,17 @@ use Ibexa\Contracts\Core\Repository\Values\Translation\Message;
  */
 abstract class AbstractValidationError implements ValidationError
 {
-    /** @var string */
-    protected $message;
+    protected string $message;
 
-    /** @var array */
-    protected $parameters;
+    protected array $parameters;
 
     /**
      * Element on which the error occurred
      * e.g. property name or property path compatible with Symfony PropertyAccess component.
      *
      * Example: StringLengthValidator[minStringLength]
-     *
-     * @var string
      */
-    protected $target;
+    protected string $target;
 
     public function __construct(string $message, array $parameters, string $target)
     {

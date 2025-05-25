@@ -15,11 +15,9 @@ use UnexpectedValueException;
 
 final class BeforeCreateObjectStateGroupEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroupCreateStruct */
-    private $objectStateGroupCreateStruct;
+    private ObjectStateGroupCreateStruct $objectStateGroupCreateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup|null */
-    private $objectStateGroup;
+    private ?ObjectStateGroup $objectStateGroup = null;
 
     public function __construct(ObjectStateGroupCreateStruct $objectStateGroupCreateStruct)
     {

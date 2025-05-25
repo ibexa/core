@@ -95,7 +95,7 @@ interface UserService
      *
      * @return int[] Affected Location Id's (List of Locations of the Content that was deleted)
      */
-    public function deleteUserGroup(UserGroup $userGroup): iterable;
+    public function deleteUserGroup(UserGroup $userGroup): array;
 
     /**
      * Moves the user group to another parent.
@@ -228,7 +228,7 @@ interface UserService
      *
      * @return int[] Affected Location Id's (List of Locations of the Content that was deleted)
      */
-    public function deleteUser(User $user): iterable;
+    public function deleteUser(User $user): array;
 
     /**
      * Updates a user.

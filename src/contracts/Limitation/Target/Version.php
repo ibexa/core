@@ -78,7 +78,7 @@ final class Version extends ValueObject implements Target
      *
      * @var string[]
      */
-    private $translationsToDelete = [];
+    private array $translationsToDelete = [];
 
     /**
      * @param string[] $translationsToDelete List of language codes of translations to delete

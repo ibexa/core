@@ -14,13 +14,11 @@ use Ibexa\Contracts\Core\Repository\Values\User\RoleDraft;
 
 final class AddPolicyByRoleDraftEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft */
-    private $roleDraft;
+    private RoleDraft $roleDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyCreateStruct */
-    private $policyCreateStruct;
+    private PolicyCreateStruct $policyCreateStruct;
 
-    private $updatedRoleDraft;
+    private RoleDraft $updatedRoleDraft;
 
     public function __construct(
         RoleDraft $updatedRoleDraft,

@@ -13,10 +13,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult;
 
 final class TranslateEvent extends AfterEvent
 {
-    private $url;
+    private string $url;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult */
-    private $result;
+    private URLWildcardTranslationResult $result;
 
     public function __construct(
         URLWildcardTranslationResult $result,
@@ -26,7 +25,7 @@ final class TranslateEvent extends AfterEvent
         $this->result = $result;
     }
 
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }

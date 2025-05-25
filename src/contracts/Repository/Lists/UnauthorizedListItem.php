@@ -13,19 +13,15 @@ namespace Ibexa\Contracts\Core\Repository\Lists;
  */
 abstract class UnauthorizedListItem
 {
-    /** @var string */
-    private $module;
+    private string $module;
 
-    /** @var string */
-    private $function;
+    private string $function;
 
-    /** @var array */
-    private $payload;
+    /** @var array<string, mixed> */
+    private array $payload;
 
     /**
-     * @param string $module
-     * @param string $function
-     * @param array $payload
+     * @param array<string, mixed> $payload
      */
     public function __construct(string $module, string $function, array $payload)
     {
@@ -34,24 +30,18 @@ abstract class UnauthorizedListItem
         $this->payload = $payload;
     }
 
-    /**
-     * @return string
-     */
     public function getModule(): string
     {
         return $this->module;
     }
 
-    /**
-     * @return string
-     */
     public function getFunction(): string
     {
         return $this->function;
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function getPayload(): array
     {

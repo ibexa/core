@@ -82,7 +82,7 @@ class UserService extends UserServiceDecorator
         return $userGroup;
     }
 
-    public function deleteUserGroup(UserGroup $userGroup): iterable
+    public function deleteUserGroup(UserGroup $userGroup): array
     {
         $eventData = [$userGroup];
 
@@ -181,7 +181,7 @@ class UserService extends UserServiceDecorator
         return $user;
     }
 
-    public function deleteUser(User $user): iterable
+    public function deleteUser(User $user): array
     {
         $eventData = [$user];
 

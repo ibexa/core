@@ -14,8 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreferenceList;
 
 abstract class UserPreferenceServiceDecorator implements UserPreferenceService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\UserPreferenceService */
-    protected $innerService;
+    protected UserPreferenceService $innerService;
 
     public function __construct(UserPreferenceService $innerService)
     {

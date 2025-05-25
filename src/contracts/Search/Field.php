@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Search;
 
@@ -20,33 +21,22 @@ class Field extends ValueObject
 {
     /**
      * Name of the document field. Will be used to query this field.
-     *
-     * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * Value of the document field.
      *
      * Might be about anything depending on the type of the document field.
-     *
-     * @var mixed
      */
-    protected $value;
+    protected mixed $value;
 
     /**
      * Type of the search field.
-     *
-     * @var \Ibexa\Contracts\Core\Search\FieldType
      */
-    protected $type;
+    protected FieldType $type;
 
-    /**
-     * @param string $name
-     * @param mixed $value
-     * @param \Ibexa\Contracts\Core\Search\FieldType $type
-     */
-    public function __construct($name, $value, FieldType $type)
+    public function __construct(string $name, mixed $value, FieldType $type)
     {
         parent::__construct();
         $this->name = $name;
@@ -59,10 +49,7 @@ class Field extends ValueObject
         return $this->name;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getValue()
+    public function getValue(): mixed
     {
         return $this->value;
     }

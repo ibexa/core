@@ -283,7 +283,7 @@ class UserService implements UserServiceInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to create a user group
      */
-    public function deleteUserGroup(APIUserGroup $userGroup): iterable
+    public function deleteUserGroup(APIUserGroup $userGroup): array
     {
         $loadedUserGroup = $this->loadUserGroup($userGroup->id);
 
@@ -624,7 +624,7 @@ class UserService implements UserServiceInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to delete the user
      */
-    public function deleteUser(APIUser $user): iterable
+    public function deleteUser(APIUser $user): array
     {
         $loadedUser = $this->loadUser($user->id);
 

@@ -21,11 +21,10 @@ use Ibexa\Contracts\Core\Test\Persistence\Fixture;
  */
 final class FixtureImporter
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private \Doctrine\DBAL\Connection $connection;
 
     /** @var array<string, string|null> */
-    private static $resetSequenceStatements = [];
+    private static array $resetSequenceStatements = [];
 
     public function __construct(Connection $connection)
     {

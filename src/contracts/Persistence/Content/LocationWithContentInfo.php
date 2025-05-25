@@ -19,18 +19,16 @@ use Ibexa\Contracts\Core\Persistence\ValueObject;
  */
 class LocationWithContentInfo extends ValueObject
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location */
-    protected $location;
+    protected Location $location;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\ContentInfo */
-    protected $contentInfo;
+    protected ContentInfo $contentInfo;
 
     /**
      * @internal for internal use by Repository Storage abstraction
      */
     public function __construct(Location $location, ContentInfo $contentInfo)
     {
-        parent::__construct([]);
+        parent::__construct();
         $this->location = $location;
         $this->contentInfo = $contentInfo;
     }

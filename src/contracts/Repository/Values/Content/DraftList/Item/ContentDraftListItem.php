@@ -16,32 +16,20 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
  */
 class ContentDraftListItem implements ContentDraftListItemInterface
 {
-    /**
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo
-     */
-    private $versionInfo;
+    private VersionInfo $versionInfo;
 
-    /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo
-     */
     public function __construct(VersionInfo $versionInfo)
     {
         $this->versionInfo = $versionInfo;
     }
 
-    /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo|null
-     */
     public function getVersionInfo(): ?VersionInfo
     {
         return $this->versionInfo;
     }
 
-    /**
-     * @return bool
-     */
     public function hasVersionInfo(): bool
     {
-        return $this->versionInfo instanceof VersionInfo;
+        return true;
     }
 }

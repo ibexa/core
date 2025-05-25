@@ -18,7 +18,7 @@ use IteratorAggregate;
 class TermAggregationResult extends AggregationResult implements IteratorAggregate, Countable
 {
     /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry[] */
-    private $entries;
+    private iterable $entries;
 
     public function __construct(string $name, iterable $entries = [])
     {
@@ -43,7 +43,7 @@ class TermAggregationResult extends AggregationResult implements IteratorAggrega
     /**
      * @param object|string|int $key
      */
-    public function getEntry($key): ?TermAggregationResultEntry
+    public function getEntry(object|string|int $key): ?TermAggregationResultEntry
     {
         foreach ($this->entries as $entry) {
             if ($entry->getKey() == $key) {
@@ -57,7 +57,7 @@ class TermAggregationResult extends AggregationResult implements IteratorAggrega
     /**
      * @param object|string|int $key
      */
-    public function hasEntry($key): bool
+    public function hasEntry(object|string|int $key): bool
     {
         return $this->getEntry($key) !== null;
     }
@@ -65,7 +65,7 @@ class TermAggregationResult extends AggregationResult implements IteratorAggrega
     /**
      * Returns available keys (terms).
      *
-     * @return iterable<object|string|int>
+     * @return iterable<object|string|int|bool>
      */
     public function getKeys(): iterable
     {
@@ -76,7 +76,7 @@ class TermAggregationResult extends AggregationResult implements IteratorAggrega
 
     public function count(): int
     {
-        return count($this->entries);
+        return iterator_count($this->entries);
     }
 
     public function getIterator(): Iterator

@@ -4,10 +4,6 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-/**
- * @copyright Copyright (C) Ibexa AS. All rights reserved.
- * @license For full copyright and license information view LICENSE file distributed with this source code.
- */
 declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Decorator;
@@ -21,8 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\SectionUpdateStruct;
 
 abstract class SectionServiceDecorator implements SectionService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\SectionService */
-    protected $innerService;
+    protected SectionService $innerService;
 
     public function __construct(SectionService $innerService)
     {

@@ -12,14 +12,20 @@ use Ibexa\Contracts\Core\Repository\Event\BeforeEvent;
 
 final class BeforeRemoveAliasesEvent extends BeforeEvent
 {
-    /** @var array */
-    private $aliasList;
+    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias[] */
+    private array $aliasList;
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias[] $aliasList
+     */
     public function __construct(array $aliasList)
     {
         $this->aliasList = $aliasList;
     }
 
+    /**
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias[]
+     */
     public function getAliasList(): array
     {
         return $this->aliasList;

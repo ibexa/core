@@ -18,11 +18,9 @@ use PHPUnit\Runner\Exception;
  */
 abstract class BaseInMemoryCachedFileFixture implements Fixture
 {
-    /** @var array|null */
-    private static $inMemoryCachedLoadedData = null;
+    private static ?array $inMemoryCachedLoadedData = null;
 
-    /** @var string */
-    private $filePath;
+    private string $filePath;
 
     /**
      * Perform uncached load of data (always done only once).
@@ -36,10 +34,12 @@ abstract class BaseInMemoryCachedFileFixture implements Fixture
 
     final public function __construct(string $filePath)
     {
-        $this->filePath = realpath($filePath);
-        if (false === $this->filePath) {
+        $filePath = realpath($filePath);
+        if (false === $filePath) {
             throw new Exception("The fixture file does not exist: {$filePath}");
         }
+
+        $this->filePath = $filePath;
     }
 
     final public function load(): array

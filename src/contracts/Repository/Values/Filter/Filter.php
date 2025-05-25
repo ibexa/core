@@ -18,22 +18,21 @@ use function sprintf;
  */
 final class Filter
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion|null */
-    private $criterion;
+    private ?FilteringCriterion $criterion;
 
     /** @var \Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause[] */
-    private $sortClauses = [];
+    private array $sortClauses = [];
 
-    /** @var int */
-    private $offset = 0;
+    private int $offset = 0;
 
-    /** @var int */
-    private $limit = 0;
+    private int $limit = 0;
 
     /**
      * Build Filter.
      *
      * It's recommended to skip arguments and use `with...` and `andWith...` methods to build Filter.
+     *
+     * @param \Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause[] $sortClauses
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException for invalid Sort Clause
      */

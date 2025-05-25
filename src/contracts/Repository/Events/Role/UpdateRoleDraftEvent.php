@@ -14,14 +14,11 @@ use Ibexa\Contracts\Core\Repository\Values\User\RoleUpdateStruct;
 
 final class UpdateRoleDraftEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft */
-    private $roleDraft;
+    private RoleDraft $roleDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleUpdateStruct */
-    private $roleUpdateStruct;
+    private RoleUpdateStruct $roleUpdateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft */
-    private $updatedRoleDraft;
+    private RoleDraft $updatedRoleDraft;
 
     public function __construct(
         RoleDraft $updatedRoleDraft,

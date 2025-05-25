@@ -12,19 +12,15 @@ use Iterator;
 
 final class BatchIterator implements Iterator
 {
-    public const DEFAULT_BATCH_SIZE = 25;
+    public const int DEFAULT_BATCH_SIZE = 25;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter */
-    private $adapter;
+    private BatchIteratorAdapter $adapter;
 
-    /** @var \Iterator|null */
-    private $innerIterator;
+    private ?Iterator $innerIterator = null;
 
-    /** @var int */
-    private $batchSize;
+    private int $batchSize;
 
-    /** @var int */
-    private $position;
+    private int $position;
 
     public function __construct(
         BatchIteratorAdapter $adapter,

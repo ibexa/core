@@ -12,13 +12,11 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 final class TermAggregationResultEntry extends ValueObject
 {
-    /** @var mixed */
-    private $key;
+    private object|string|int|bool $key;
 
-    /** @var int */
-    private $count;
+    private int $count;
 
-    public function __construct($key, int $count)
+    public function __construct(object|string|int|bool $key, int $count)
     {
         parent::__construct();
 
@@ -26,10 +24,7 @@ final class TermAggregationResultEntry extends ValueObject
         $this->count = $count;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getKey()
+    public function getKey(): object|string|int|bool
     {
         return $this->key;
     }

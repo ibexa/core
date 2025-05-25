@@ -15,24 +15,25 @@ use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 
 abstract class BaseRenderStrategy implements RenderStrategy
 {
-    /** @var \Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface[] */
-    protected $fragmentRenderers;
+    /** @phpstan-var array<string, \Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface> */
+    protected array $fragmentRenderers;
 
-    /** @var string */
-    protected $defaultRenderer;
+    protected string $defaultRenderer;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    protected $siteAccess;
+    protected SiteAccess $siteAccess;
 
-    /** @var \Symfony\Component\HttpFoundation\RequestStack */
-    protected $requestStack;
+    protected RequestStack $requestStack;
 
+    /**
+     * @param \Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface[] $fragmentRenderers
+     */
     public function __construct(
-        iterable $fragmentRenderers,
+        array $fragmentRenderers,
         string $defaultRenderer,
         SiteAccess $siteAccess,
         RequestStack $requestStack
     ) {
+        $this->fragmentRenderers = [];
         foreach ($fragmentRenderers as $fragmentRenderer) {
             $this->fragmentRenderers[$fragmentRenderer->getName()] = $fragmentRenderer;
         }
