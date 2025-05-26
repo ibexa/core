@@ -11,6 +11,7 @@ use Doctrine\Common\EventManager as DoctrineEventManager;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ConnectionException;
 use Doctrine\DBAL\Exception as DBALException;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FileFixtureFactory;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
@@ -114,7 +115,7 @@ abstract class TestCase extends BaseTestCase
             $factory = new SharedGateway\GatewayFactory(
                 new SharedGateway\DatabasePlatform\FallbackGateway($connection),
                 [
-                    'Doctrine\DBAL\Platforms\SqlitePlatform' => new SharedGateway\DatabasePlatform\SqliteGateway($connection),
+                    SqlitePlatform::class => new SharedGateway\DatabasePlatform\SqliteGateway($connection),
                 ]
             );
 
