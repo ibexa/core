@@ -26,12 +26,12 @@ abstract class Gateway
 
     public const CONTENT_TYPE_TABLE = 'ibexa_content_type';
     public const CONTENT_TYPE_NAME_TABLE = 'ibexa_content_type_name';
-    public const FIELD_DEFINITION_TABLE = 'ibexa_content_type_attribute';
-    public const MULTILINGUAL_FIELD_DEFINITION_TABLE = 'ibexa_content_type_attribute_ml';
+    public const FIELD_DEFINITION_TABLE = 'ibexa_content_type_field_definition';
+    public const MULTILINGUAL_FIELD_DEFINITION_TABLE = 'ibexa_content_type_field_definition_ml';
 
     public const CONTENT_TYPE_GROUP_SEQ = 'ibexa_content_type_group_id_seq';
     public const CONTENT_TYPE_SEQ = 'ibexa_content_type_id_seq';
-    public const FIELD_DEFINITION_SEQ = 'ibexa_content_type_attribute_id_seq';
+    public const FIELD_DEFINITION_SEQ = 'ibexa_content_type_field_definition_id_seq';
 
     abstract public function insertGroup(Group $group): int;
 

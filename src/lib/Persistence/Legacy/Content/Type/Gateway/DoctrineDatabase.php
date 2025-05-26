@@ -688,11 +688,11 @@ final class DoctrineDatabase extends Gateway
             ->selectColumns($query, self::FIELD_DEFINITION_TABLE, 'f_def')
             ->addSelect(
                 'ct.initial_language_id AS ibexa_content_type_initial_language_id',
-                'transl_f_def.name AS ibexa_content_type_attribute_multilingual_name',
-                'transl_f_def.description AS ibexa_content_type_attribute_multilingual_description',
-                'transl_f_def.language_id AS ibexa_content_type_attribute_multilingual_language_id',
-                'transl_f_def.data_text AS ibexa_content_type_attribute_multilingual_data_text',
-                'transl_f_def.data_json AS ibexa_content_type_attribute_multilingual_data_json'
+                'transl_f_def.name AS content_type_field_definition_multilingual_name',
+                'transl_f_def.description AS content_type_field_definition_multilingual_description',
+                'transl_f_def.language_id AS content_type_field_definition_multilingual_language_id',
+                'transl_f_def.data_text AS content_type_field_definition_multilingual_data_text',
+                'transl_f_def.data_json AS content_type_field_definition_multilingual_data_json'
             )
             ->from(self::FIELD_DEFINITION_TABLE, 'f_def')
             ->leftJoin(
@@ -1025,38 +1025,38 @@ final class DoctrineDatabase extends Gateway
                 'c.sort_field AS ibexa_content_type_sort_field',
                 'c.sort_order AS ibexa_content_type_sort_order',
                 'c.language_mask AS ibexa_content_type_language_mask',
-                'a.id AS ibexa_content_type_attribute_id',
-                'a.serialized_name_list AS ibexa_content_type_attribute_serialized_name_list',
-                'a.serialized_description_list AS ibexa_content_type_attribute_serialized_description_list',
-                'a.identifier AS ibexa_content_type_attribute_identifier',
-                'a.category AS ibexa_content_type_attribute_category',
-                'a.data_type_string AS ibexa_content_type_attribute_data_type_string',
-                'a.can_translate AS ibexa_content_type_attribute_can_translate',
-                'a.is_required AS ibexa_content_type_attribute_is_required',
-                'a.is_information_collector AS ibexa_content_type_attribute_is_information_collector',
-                'a.is_searchable AS ibexa_content_type_attribute_is_searchable',
-                'a.is_thumbnail AS ibexa_content_type_attribute_is_thumbnail',
-                'a.placement AS ibexa_content_type_attribute_placement',
-                'a.data_float1 AS ibexa_content_type_attribute_data_float1',
-                'a.data_float2 AS ibexa_content_type_attribute_data_float2',
-                'a.data_float3 AS ibexa_content_type_attribute_data_float3',
-                'a.data_float4 AS ibexa_content_type_attribute_data_float4',
-                'a.data_int1 AS ibexa_content_type_attribute_data_int1',
-                'a.data_int2 AS ibexa_content_type_attribute_data_int2',
-                'a.data_int3 AS ibexa_content_type_attribute_data_int3',
-                'a.data_int4 AS ibexa_content_type_attribute_data_int4',
-                'a.data_text1 AS ibexa_content_type_attribute_data_text1',
-                'a.data_text2 AS ibexa_content_type_attribute_data_text2',
-                'a.data_text3 AS ibexa_content_type_attribute_data_text3',
-                'a.data_text4 AS ibexa_content_type_attribute_data_text4',
-                'a.data_text5 AS ibexa_content_type_attribute_data_text5',
-                'a.serialized_data_text AS ibexa_content_type_attribute_serialized_data_text',
+                'a.id AS content_type_field_definition_id',
+                'a.serialized_name_list AS content_type_field_definition_serialized_name_list',
+                'a.serialized_description_list AS content_type_field_definition_serialized_description_list',
+                'a.identifier AS content_type_field_definition_identifier',
+                'a.category AS content_type_field_definition_category',
+                'a.data_type_string AS content_type_field_definition_data_type_string',
+                'a.can_translate AS content_type_field_definition_can_translate',
+                'a.is_required AS content_type_field_definition_is_required',
+                'a.is_information_collector AS content_type_field_definition_is_information_collector',
+                'a.is_searchable AS content_type_field_definition_is_searchable',
+                'a.is_thumbnail AS content_type_field_definition_is_thumbnail',
+                'a.placement AS content_type_field_definition_placement',
+                'a.data_float1 AS content_type_field_definition_data_float1',
+                'a.data_float2 AS content_type_field_definition_data_float2',
+                'a.data_float3 AS content_type_field_definition_data_float3',
+                'a.data_float4 AS content_type_field_definition_data_float4',
+                'a.data_int1 AS content_type_field_definition_data_int1',
+                'a.data_int2 AS content_type_field_definition_data_int2',
+                'a.data_int3 AS content_type_field_definition_data_int3',
+                'a.data_int4 AS content_type_field_definition_data_int4',
+                'a.data_text1 AS content_type_field_definition_data_text1',
+                'a.data_text2 AS content_type_field_definition_data_text2',
+                'a.data_text3 AS content_type_field_definition_data_text3',
+                'a.data_text4 AS content_type_field_definition_data_text4',
+                'a.data_text5 AS content_type_field_definition_data_text5',
+                'a.serialized_data_text AS content_type_field_definition_serialized_data_text',
                 'g.group_id AS ibexa_content_type_group_assignment_group_id',
-                'ml.name AS ibexa_content_type_attribute_multilingual_name',
-                'ml.description AS ibexa_content_type_attribute_multilingual_description',
-                'ml.language_id AS ibexa_content_type_attribute_multilingual_language_id',
-                'ml.data_text AS ibexa_content_type_attribute_multilingual_data_text',
-                'ml.data_json AS ibexa_content_type_attribute_multilingual_data_json'
+                'ml.name AS content_type_field_definition_multilingual_name',
+                'ml.description AS content_type_field_definition_multilingual_description',
+                'ml.language_id AS content_type_field_definition_multilingual_language_id',
+                'ml.data_text AS content_type_field_definition_multilingual_data_text',
+                'ml.data_json AS content_type_field_definition_multilingual_data_json'
             )
             ->from(self::CONTENT_TYPE_TABLE, 'c')
             ->leftJoin(
@@ -1114,7 +1114,7 @@ final class DoctrineDatabase extends Gateway
         $ctMlTable = Gateway::MULTILINGUAL_FIELD_DEFINITION_TABLE;
         $subQuery = $this->connection->createQueryBuilder();
         $subQuery
-            ->select('f_def.id as ibexa_content_type_attribute_id')
+            ->select('f_def.id as content_type_field_definition_id')
             ->from(self::FIELD_DEFINITION_TABLE, 'f_def')
             ->where('f_def.contentclass_id = :content_type_id')
             ->andWhere("f_def.id = {$ctMlTable}.contentclass_attribute_id");
@@ -1221,7 +1221,7 @@ final class DoctrineDatabase extends Gateway
                             '%s.%s as %s_%s',
                             $tableAlias,
                             $this->connection->quoteIdentifier($columnName),
-                            $tableName,
+                            preg_replace('/^ibexa_/', '', $tableName),
                             $columnName
                         );
                     },
@@ -1302,7 +1302,7 @@ final class DoctrineDatabase extends Gateway
         $ctMlTable = Gateway::MULTILINGUAL_FIELD_DEFINITION_TABLE;
         $subQuery = $this->connection->createQueryBuilder();
         $subQuery
-            ->select('f_def.id as ibexa_content_type_attribute_id')
+            ->select('f_def.id as content_type_field_definition_id')
             ->from(self::FIELD_DEFINITION_TABLE, 'f_def')
             ->where('f_def.contentclass_id = :type_id')
             ->andWhere("f_def.id = {$ctMlTable}.contentclass_attribute_id");

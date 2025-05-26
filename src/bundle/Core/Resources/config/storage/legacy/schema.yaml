@@ -138,10 +138,10 @@ tables:
             sort_field: { type: integer, nullable: false, options: { default: '1' } }
             sort_order: { type: integer, nullable: false, options: { default: '1' } }
             url_alias_name: { type: string, nullable: true, length: 255 }
-    ibexa_content_type_attribute:
+    ibexa_content_type_field_definition:
         indexes:
-            ibexa_content_type_attr_ccid: { fields: [contentclass_id] }
-            ibexa_content_type_attr_dts: { fields: [data_type_string] }
+            ibexa_content_type_field_definition_ccid: { fields: [contentclass_id] }
+            ibexa_content_type_field_definition_dts: { fields: [data_type_string] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
             version: { type: integer, nullable: false, options: { default: '0' } }
@@ -172,9 +172,9 @@ tables:
             serialized_data_text: { type: text, nullable: true, length: 0 }
             serialized_description_list: { type: text, nullable: true, length: 0 }
             serialized_name_list: { type: text, nullable: false, length: 0 }
-    ibexa_content_type_attribute_ml:
+    ibexa_content_type_field_definition_ml:
         indexes:
-            ibexa_content_type_attribute_ml_lang_fk: { fields: [language_id] }
+            ibexa_content_type_field_definition_ml_lang_fk: { fields: [language_id] }
         id:
             contentclass_attribute_id: { type: integer, nullable: false }
             version: { type: integer, nullable: false }
@@ -185,7 +185,7 @@ tables:
             data_text: { type: text, nullable: true, length: 65535 }
             data_json: { type: text, nullable: true, length: 65535 }
         foreignKeys:
-            ibexa_content_type_attribute_ml_lang_fk: { fields: [language_id], foreignTable: ibexa_content_language, foreignFields: [id], options: { onDelete: CASCADE, onUpdate: CASCADE } }
+            ibexa_content_type_field_definition_ml_lang_fk: { fields: [language_id], foreignTable: ibexa_content_language, foreignFields: [id], options: { onDelete: CASCADE, onUpdate: CASCADE } }
     ibexa_content_type_group_assignment:
         id:
             contentclass_id: { type: integer, nullable: false, options: { default: '0' } }
