@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Search\Embedding\EmbeddingConfigurationInterface;
 use Ibexa\Contracts\Core\Search\Embedding\EmbeddingProviderInterface;
 use Ibexa\Contracts\Core\Search\Embedding\EmbeddingProviderRegistryInterface;
 use Ibexa\Contracts\Core\Search\Embedding\EmbeddingProviderResolverInterface;
-use RuntimeException;
+use Ibexa\Contracts\Core\Search\Embedding\EmbeddingResolverNotFoundException;
 
 final class EmbeddingProviderResolver implements EmbeddingProviderResolverInterface
 {
@@ -33,8 +33,8 @@ final class EmbeddingProviderResolver implements EmbeddingProviderResolverInterf
         $defaultEmbeddingProvider = $this->embeddingConfiguration->getDefaultEmbeddingProvider();
 
         if (!$this->registry->hasEmbeddingProvider($defaultEmbeddingProvider)) {
-            throw new RuntimeException(
-                sprintf('No embedding provider registered for identifier "%s".', $defaultEmbeddingProvider)
+            throw new EmbeddingResolverNotFoundException(
+                $defaultEmbeddingProvider
             );
         }
 
