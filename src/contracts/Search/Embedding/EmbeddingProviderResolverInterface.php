@@ -10,5 +10,8 @@ namespace Ibexa\Contracts\Core\Search\Embedding;
 
 interface EmbeddingProviderResolverInterface
 {
+    /**
+     * @throws \Ibexa\Contracts\Core\Search\Embedding\EmbeddingResolverNotFoundException
+     */
     public function resolve(): EmbeddingProviderInterface;
 }
