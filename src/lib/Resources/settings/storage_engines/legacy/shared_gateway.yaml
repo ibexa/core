@@ -12,11 +12,11 @@ services:
 
     Ibexa\Core\Persistence\Legacy\SharedGateway\DatabasePlatform\SqliteGateway:
         tags:
-            - { name: ibexa.storage.legacy.gateway.shared, platform: Doctrine\\DBAL\\Platforms\\SqlitePlatform }
+            - { name: ibexa.storage.legacy.gateway.shared, platform: Doctrine\DBAL\Platforms\SqlitePlatform }
 
     Ibexa\Core\Persistence\Legacy\SharedGateway\DatabasePlatform\PostgresqlGateway:
         tags:
-            - { name: ibexa.storage.legacy.gateway.shared, platform: Doctrine\\DBAL\\Platforms\\PostgreSQLPlatform }
+            - { name: ibexa.storage.legacy.gateway.shared, platform: Doctrine\DBAL\Platforms\PostgreSQLPlatform }
 
     Ibexa\Core\Persistence\Legacy\SharedGateway\GatewayFactory:
         arguments:
