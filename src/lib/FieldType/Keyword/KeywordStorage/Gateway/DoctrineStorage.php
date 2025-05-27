@@ -17,7 +17,7 @@ use RuntimeException;
 class DoctrineStorage extends Gateway
 {
     public const KEYWORD_TABLE = 'ibexa_keyword';
-    public const KEYWORD_ATTRIBUTE_LINK_TABLE = 'ibexa_keyword_attribute_link';
+    public const KEYWORD_ATTRIBUTE_LINK_TABLE = 'ibexa_keyword_field_link';
 
     /** @var \Doctrine\DBAL\Connection */
     protected $connection;
@@ -330,7 +330,7 @@ class DoctrineStorage extends Gateway
      * Deletes all orphaned keywords.
      *
      * Keyword is orphaned if it is not linked to a content attribute through
-     * ibexa_keyword_attribute_link table.
+     * ibexa_keyword_field_link table.
      */
     protected function deleteOrphanedKeywords()
     {

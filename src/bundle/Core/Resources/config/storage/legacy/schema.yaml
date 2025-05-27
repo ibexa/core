@@ -375,11 +375,11 @@ tables:
         fields:
             class_id: { type: integer, nullable: false, options: { default: '0' } }
             keyword: { type: string, nullable: true, length: 255 }
-    ibexa_keyword_attribute_link:
+    ibexa_keyword_field_link:
         indexes:
-            ibexa_keyword_attr_link_oaid: { fields: [objectattribute_id] }
-            ibexa_keyword_attr_link_kid_oaid: { fields: [keyword_id, objectattribute_id] }
-            ibexa_keyword_attr_link_oaid_ver: { fields: [objectattribute_id, version] }
+            ibexa_keyword_field_link_oaid: { fields: [objectattribute_id] }
+            ibexa_keyword_field_link_kid_oaid: { fields: [keyword_id, objectattribute_id] }
+            ibexa_keyword_field_link_oaid_ver: { fields: [objectattribute_id, version] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
