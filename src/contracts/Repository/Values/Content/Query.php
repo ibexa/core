@@ -14,7 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 /**
  * This class is used to perform a Content query.
  */
-class Query extends ValueObject
+class Query extends ValueObject implements QueryValidatorInterface
 {
     public const SORT_ASC = 'ascending';
     public const SORT_DESC = 'descending';
@@ -102,6 +102,11 @@ class Query extends ValueObject
      * @var bool
      */
     public $performCount = true;
+
+    public function isValid(): bool
+    {
+        return true;
+    }
 }
 
 class_alias(Query::class, 'eZ\Publish\API\Repository\Values\Content\Query');

@@ -1,0 +1,24 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Ibexa\Contracts\Core\Search\Embedding\EmbeddingProviderRegistryInterface:
+        alias: Ibexa\Core\Search\Embedding\EmbeddingProviderRegistry
+
+    Ibexa\Core\Search\Embedding\EmbeddingProviderRegistry:
+        arguments:
+            $embeddingProviders: !tagged_iterator { tag: 'ibexa.embedding_provider', index_by: 'provider_name' }
+
+    Ibexa\Contracts\Core\Search\Embedding\EmbeddingProviderResolverInterface:
+        alias: Ibexa\Core\Search\Embedding\EmbeddingProviderResolver
+
+    Ibexa\Core\Search\Embedding\EmbeddingProviderResolver: ~
+
+    Ibexa\Contracts\Core\Search\Embedding\EmbeddingConfigurationInterface:
+        alias: Ibexa\Core\Search\Embedding\EmbeddingConfiguration
+
+    Ibexa\Core\Search\Embedding\EmbeddingConfiguration: ~
+
+    Ibexa\Contracts\Core\Search\FieldType\EmbeddingFieldFactory: ~
