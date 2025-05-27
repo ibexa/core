@@ -131,7 +131,7 @@ class Mapper
         }
 
         foreach ($rows as $row) {
-            $typeId = (int)$row['ibexa_content_type_id'];
+            $typeId = (int)$row['content_type_id'];
             if (!isset($types[$typeId])) {
                 $types[$typeId] = $this->extractTypeFromRow($row);
             }
@@ -146,7 +146,7 @@ class Mapper
                 $types[$typeId]->fieldDefinitions[] = $fields[$fieldId] = $this->extractFieldFromRow($row, $multilingualData, $types[$typeId]->status);
             }
 
-            $groupId = (int)$row['ibexa_content_type_group_assignment_group_id'];
+            $groupId = (int)$row['content_type_group_assignment_group_id'];
             if (!in_array($groupId, $types[$typeId]->groupIds)) {
                 $types[$typeId]->groupIds[] = $groupId;
             }
@@ -188,10 +188,10 @@ class Mapper
     {
         $type = new Type();
 
-        $type->id = (int)$row['ibexa_content_type_id'];
-        $type->status = (int)$row['ibexa_content_type_version'];
-        $type->name = $this->unserialize($row['ibexa_content_type_serialized_name_list']);
-        $type->description = $this->unserialize($row['ibexa_content_type_serialized_description_list']);
+        $type->id = (int)$row['content_type_id'];
+        $type->status = (int)$row['content_type_version'];
+        $type->name = $this->unserialize($row['content_type_serialized_name_list']);
+        $type->description = $this->unserialize($row['content_type_serialized_description_list']);
         // Unset redundant data
         unset(
             $type->name['always-available'],
@@ -199,20 +199,20 @@ class Mapper
             $type->description['always-available'],
             $type->description[0]
         );
-        $type->identifier = $row['ibexa_content_type_identifier'];
-        $type->created = (int)$row['ibexa_content_type_created'];
-        $type->modified = (int)$row['ibexa_content_type_modified'];
-        $type->modifierId = (int)$row['ibexa_content_type_modifier_id'];
-        $type->creatorId = (int)$row['ibexa_content_type_creator_id'];
-        $type->remoteId = $row['ibexa_content_type_remote_id'];
-        $type->urlAliasSchema = $row['ibexa_content_type_url_alias_name'];
-        $type->nameSchema = $row['ibexa_content_type_contentobject_name'];
-        $type->isContainer = ($row['ibexa_content_type_is_container'] == 1);
-        $type->initialLanguageId = (int)$row['ibexa_content_type_initial_language_id'];
-        $type->defaultAlwaysAvailable = ($row['ibexa_content_type_always_available'] == 1);
-        $type->sortField = (int)$row['ibexa_content_type_sort_field'];
-        $type->sortOrder = (int)$row['ibexa_content_type_sort_order'];
-        $type->languageCodes = $this->maskGenerator->extractLanguageCodesFromMask((int)$row['ibexa_content_type_language_mask']);
+        $type->identifier = $row['content_type_identifier'];
+        $type->created = (int)$row['content_type_created'];
+        $type->modified = (int)$row['content_type_modified'];
+        $type->modifierId = (int)$row['content_type_modifier_id'];
+        $type->creatorId = (int)$row['content_type_creator_id'];
+        $type->remoteId = $row['content_type_remote_id'];
+        $type->urlAliasSchema = $row['content_type_url_alias_name'];
+        $type->nameSchema = $row['content_type_contentobject_name'];
+        $type->isContainer = ($row['content_type_is_container'] == 1);
+        $type->initialLanguageId = (int)$row['content_type_initial_language_id'];
+        $type->defaultAlwaysAvailable = ($row['content_type_always_available'] == 1);
+        $type->sortField = (int)$row['content_type_sort_field'];
+        $type->sortOrder = (int)$row['content_type_sort_order'];
+        $type->languageCodes = $this->maskGenerator->extractLanguageCodesFromMask((int)$row['content_type_language_mask']);
 
         $type->groupIds = [];
         $type->fieldDefinitions = [];
@@ -255,7 +255,7 @@ class Mapper
         $field->isSearchable = (bool)$row['content_type_field_definition_is_searchable'];
         $field->position = (int)$row['content_type_field_definition_placement'];
 
-        $mainLanguageCode = $this->maskGenerator->extractLanguageCodesFromMask((int)$row['ibexa_content_type_initial_language_id']);
+        $mainLanguageCode = $this->maskGenerator->extractLanguageCodesFromMask((int)$row['content_type_initial_language_id']);
         $field->mainLanguageCode = array_shift($mainLanguageCode);
 
         $this->toFieldDefinition($storageFieldDef, $field, $status);

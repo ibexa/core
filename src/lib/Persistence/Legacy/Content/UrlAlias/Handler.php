@@ -770,8 +770,8 @@ class Handler implements UrlAliasHandlerInterface
 
         $namesForAllLanguages = [];
         foreach ($nameDataArray as $nameData) {
-            $namesForAllLanguages[$nameData['ibexa_content_name_content_translation']]
-                = $nameData['ibexa_content_name_name'];
+            $namesForAllLanguages[$nameData['content_name_content_translation']]
+                = $nameData['content_name_name'];
         }
 
         return $namesForAllLanguages;

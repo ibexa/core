@@ -51,7 +51,7 @@ class TreeHandlerTest extends TestCase
             ->expects(self::once())
             ->method('listVersions')
             ->with(self::equalTo(23))
-            ->will(self::returnValue([['ibexa_content_version_version' => 2]]));
+            ->will(self::returnValue([['content_version_version' => 2]]));
 
         $this->getContentGatewayMock()
             ->expects(self::once())
@@ -62,7 +62,7 @@ class TreeHandlerTest extends TestCase
         $this->getContentMapperMock()
             ->expects(self::once())
             ->method('extractVersionInfoListFromRows')
-            ->with(self::equalTo([['ibexa_content_version_version' => 2]]), [])
+            ->with(self::equalTo([['content_version_version' => 2]]), [])
             ->will(self::returnValue([new VersionInfo()]));
 
         $versions = $this->getTreeHandler()->listVersions(23);

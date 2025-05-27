@@ -98,7 +98,7 @@ VALUES (1,9,1,2,3,1448889046,'Ibexa Platform',14,1448889046,'9459d3c29e15006e451
        (1,1,50,2,3,1080220220,'Files',14,1080220220,'732a5acd01b51a6fe6eab448ad4138a9',3,1),
        (1,1,51,2,3,1080220233,'Multimedia',14,1080220233,'09082deb98662a104f325aaa8c4933d3',3,1);
 
-INSERT INTO "ibexa_content_attribute" ("attribute_original_id", "contentclassattribute_id", "contentobject_id", "data_float", "data_int", "data_text", "data_type_string", "id", "language_code", "language_id", "sort_key_int", "sort_key_string", "version")
+INSERT INTO "ibexa_content_field" ("attribute_original_id", "contentclassattribute_id", "contentobject_id", "data_float", "data_int", "data_text", "data_type_string", "id", "language_code", "language_id", "sort_key_int", "sort_key_string", "version")
 VALUES (0,4,1,NULL,NULL,'Ibexa Platform','ezstring',1,'eng-GB',3,0,'ibexa platform',9),
        (0,119,1,NULL,NULL,E'<?xml version="1.0" encoding="UTF-8"?><section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"><para><emphasis role="strong">You are now ready to start your project.</emphasis></para></section>','ezrichtext',2,'eng-GB',3,0,'',9),
        (0,7,4,NULL,NULL,'Main group','ezstring',7,'eng-GB',3,0,'',1),
@@ -310,7 +310,7 @@ SELECT SETVAL('ibexa_content_browsebookmark_id_seq', COALESCE(MAX(id), 1) ) FROM
 SELECT SETVAL('ibexa_content_type_field_definition_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_content_type_field_definition;
 SELECT SETVAL('ibexa_content_type_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_content_type;
 SELECT SETVAL('ibexa_content_type_group_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_content_type_group;
-SELECT SETVAL('ibexa_content_attribute_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_content_attribute;
+SELECT SETVAL('ibexa_content_field_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_content_field;
 SELECT SETVAL('ibexa_content_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_content;
 SELECT SETVAL('ibexa_content_link_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_content_link;
 SELECT SETVAL('ibexa_content_tree_node_id_seq', COALESCE(MAX(node_id), 1) ) FROM ibexa_content_tree;

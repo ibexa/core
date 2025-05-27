@@ -46,7 +46,7 @@ abstract class Base implements CriterionHandler
     }
 
     /**
-     * Inner join `ibexa_content_attribute` table if not joined yet.
+     * Inner join `ibexa_content_field` table if not joined yet.
      */
     protected function joinContentObjectAttribute(QueryBuilder $query): void
     {

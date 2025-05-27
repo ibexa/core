@@ -210,7 +210,7 @@ class Mapper
     public function extractContentFromRows(
         array $rows,
         array $nameRows,
-        string $prefix = 'ibexa_content_',
+        string $prefix = 'content_',
         ?array $translations = null
     ): array {
         $versionedNameData = [];
@@ -248,9 +248,9 @@ class Mapper
                 $versionInfos[$contentId][$versionId] = $this->extractVersionInfoFromRow($row);
             }
 
-            $fieldId = (int)$row["{$prefix}attribute_id"];
-            $fieldDefinitionId = (int)$row["{$prefix}attribute_contentclassattribute_id"];
-            $languageCode = $row["{$prefix}attribute_language_code"];
+            $fieldId = (int)$row["{$prefix}field_id"];
+            $fieldDefinitionId = (int)$row["{$prefix}field_contentclassattribute_id"];
+            $languageCode = $row["{$prefix}field_language_code"];
 
             if (!isset($fields[$contentId][$versionId][$fieldId])
                 && isset($fieldDefinitions[$contentId][$versionId][$languageCode][$fieldDefinitionId])
@@ -379,7 +379,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\ContentInfo
      */
-    public function extractContentInfoFromRow(array $row, $prefix = '', $treePrefix = 'ibexa_content_tree_')
+    public function extractContentInfoFromRow(array $row, $prefix = '', $treePrefix = 'content_tree_')
     {
         $contentInfo = new ContentInfo();
         $contentInfo->id = (int)$row["{$prefix}id"];
@@ -409,7 +409,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\ContentInfo[]
      */
-    public function extractContentInfoFromRows(array $rows, $prefix = '', $treePrefix = 'ibexa_content_tree_')
+    public function extractContentInfoFromRows(array $rows, $prefix = '', $treePrefix = 'content_tree_')
     {
         $contentInfoObjects = [];
         foreach ($rows as $row) {
@@ -433,23 +433,23 @@ class Mapper
     private function extractVersionInfoFromRow(array $row, array $names = [])
     {
         $versionInfo = new VersionInfo();
-        $versionInfo->id = (int)$row['ibexa_content_version_id'];
+        $versionInfo->id = (int)$row['content_version_id'];
         $versionInfo->contentInfo = null;
-        $versionInfo->versionNo = (int)$row['ibexa_content_version_version'];
-        $versionInfo->creatorId = (int)$row['ibexa_content_version_creator_id'];
-        $versionInfo->creationDate = (int)$row['ibexa_content_version_created'];
-        $versionInfo->modificationDate = (int)$row['ibexa_content_version_modified'];
-        $versionInfo->status = (int)$row['ibexa_content_version_status'];
+        $versionInfo->versionNo = (int)$row['content_version_version'];
+        $versionInfo->creatorId = (int)$row['content_version_creator_id'];
+        $versionInfo->creationDate = (int)$row['content_version_created'];
+        $versionInfo->modificationDate = (int)$row['content_version_modified'];
+        $versionInfo->status = (int)$row['content_version_status'];
         $versionInfo->names = $names;
 
         // Map language codes
         $allLanguages = $this->loadAllLanguagesWithIdKey();
         $versionInfo->languageCodes = $this->extractLanguageCodesFromMask(
-            (int)$row['ibexa_content_version_language_mask'],
+            (int)$row['content_version_language_mask'],
             $allLanguages,
             $missing
         );
-        $initialLanguageId = (int)$row['ibexa_content_version_initial_language_id'];
+        $initialLanguageId = (int)$row['content_version_initial_language_id'];
         if (isset($allLanguages[$initialLanguageId])) {
             $versionInfo->initialLanguageCode = $allLanguages[$initialLanguageId]->languageCode;
         } else {
@@ -459,7 +459,7 @@ class Mapper
         if (!empty($missing)) {
             throw new NotFoundException(
                 'Language',
-                implode(', ', $missing) . "' when building content '" . $row['ibexa_content_id']
+                implode(', ', $missing) . "' when building content '" . $row['content_id']
             );
         }
 
@@ -478,31 +478,31 @@ class Mapper
     {
         $nameData = [];
         foreach ($nameRows as $row) {
-            $versionId = $row['ibexa_content_name_contentobject_id'] . '_' . $row['ibexa_content_name_content_version'];
-            $nameData[$versionId][$row['ibexa_content_name_content_translation']] = $row['ibexa_content_name_name'];
+            $versionId = $row['content_name_contentobject_id'] . '_' . $row['content_name_content_version'];
+            $nameData[$versionId][$row['content_name_content_translation']] = $row['content_name_name'];
         }
 
         $allLanguages = $this->loadAllLanguagesWithIdKey();
         $versionInfoList = [];
         foreach ($rows as $row) {
-            $versionId = $row['ibexa_content_id'] . '_' . $row['ibexa_content_version_version'];
+            $versionId = $row['content_id'] . '_' . $row['content_version_version'];
             if (!isset($versionInfoList[$versionId])) {
                 $versionInfo = new VersionInfo();
-                $versionInfo->id = (int)$row['ibexa_content_version_id'];
-                $versionInfo->contentInfo = $this->extractContentInfoFromRow($row, 'ibexa_content_');
-                $versionInfo->versionNo = (int)$row['ibexa_content_version_version'];
-                $versionInfo->creatorId = (int)$row['ibexa_content_version_creator_id'];
-                $versionInfo->creationDate = (int)$row['ibexa_content_version_created'];
-                $versionInfo->modificationDate = (int)$row['ibexa_content_version_modified'];
-                $versionInfo->status = (int)$row['ibexa_content_version_status'];
+                $versionInfo->id = (int)$row['content_version_id'];
+                $versionInfo->contentInfo = $this->extractContentInfoFromRow($row, 'content_');
+                $versionInfo->versionNo = (int)$row['content_version_version'];
+                $versionInfo->creatorId = (int)$row['content_version_creator_id'];
+                $versionInfo->creationDate = (int)$row['content_version_created'];
+                $versionInfo->modificationDate = (int)$row['content_version_modified'];
+                $versionInfo->status = (int)$row['content_version_status'];
                 $versionInfo->names = $nameData[$versionId];
                 $versionInfoList[$versionId] = $versionInfo;
                 $versionInfo->languageCodes = $this->extractLanguageCodesFromMask(
-                    (int)$row['ibexa_content_version_language_mask'],
+                    (int)$row['content_version_language_mask'],
                     $allLanguages,
                     $missing
                 );
-                $initialLanguageId = (int)$row['ibexa_content_version_initial_language_id'];
+                $initialLanguageId = (int)$row['content_version_initial_language_id'];
                 if (isset($allLanguages[$initialLanguageId])) {
                     $versionInfo->initialLanguageCode = $allLanguages[$initialLanguageId]->languageCode;
                 } else {
@@ -512,7 +512,7 @@ class Mapper
                 if (!empty($missing)) {
                     throw new NotFoundException(
                         'Language',
-                        implode(', ', $missing) . "' when building content '" . $row['ibexa_content_id']
+                        implode(', ', $missing) . "' when building content '" . $row['content_id']
                     );
                 }
             }
@@ -574,14 +574,14 @@ class Mapper
     {
         $field = new Field();
 
-        $field->id = (int)$row['ibexa_content_attribute_id'];
-        $field->fieldDefinitionId = (int)$row['ibexa_content_attribute_contentclassattribute_id'];
-        $field->type = $row['ibexa_content_attribute_data_type_string'];
+        $field->id = (int)$row['content_field_id'];
+        $field->fieldDefinitionId = (int)$row['content_field_contentclassattribute_id'];
+        $field->type = $row['content_field_data_type_string'];
         $field->value = $this->extractFieldValueFromRow($row, $field->type);
-        $field->languageCode = $row['ibexa_content_attribute_language_code'];
-        $field->versionNo = isset($row['ibexa_content_version_version']) ?
-            (int)$row['ibexa_content_version_version'] :
-            (int)$row['ibexa_content_attribute_version'];
+        $field->languageCode = $row['content_field_language_code'];
+        $field->versionNo = isset($row['content_version_version']) ?
+            (int)$row['content_version_version'] :
+            (int)$row['content_field_version'];
 
         return $field;
     }
@@ -602,17 +602,17 @@ class Mapper
         $storageValue = new StorageFieldValue();
 
         // Nullable field
-        $storageValue->dataFloat = isset($row['ibexa_content_attribute_data_float'])
-            ? (float)$row['ibexa_content_attribute_data_float']
+        $storageValue->dataFloat = isset($row['content_field_data_float'])
+            ? (float)$row['content_field_data_float']
             : null;
         // Nullable field
-        $storageValue->dataInt = isset($row['ibexa_content_attribute_data_int'])
-            ? (int)$row['ibexa_content_attribute_data_int']
+        $storageValue->dataInt = isset($row['content_field_data_int'])
+            ? (int)$row['content_field_data_int']
             : null;
-        $storageValue->dataText = $row['ibexa_content_attribute_data_text'];
+        $storageValue->dataText = $row['content_field_data_text'];
         // Not nullable field
-        $storageValue->sortKeyInt = (int)$row['ibexa_content_attribute_sort_key_int'];
-        $storageValue->sortKeyString = $row['ibexa_content_attribute_sort_key_string'];
+        $storageValue->sortKeyInt = (int)$row['content_field_sort_key_int'];
+        $storageValue->sortKeyString = $row['content_field_sort_key_string'];
 
         $fieldValue = new FieldValue();
 
@@ -661,7 +661,7 @@ class Mapper
         $relations = [];
 
         foreach ($rows as $row) {
-            $id = (int)$row['ibexa_content_link_id'];
+            $id = (int)$row['content_link_id'];
             if (!isset($relations[$id])) {
                 $relations[$id] = $this->extractRelationFromRow($row);
             }
@@ -680,13 +680,13 @@ class Mapper
     public function extractRelationFromRow(array $row)
     {
         $relation = new Relation();
-        $relation->id = (int)$row['ibexa_content_link_id'];
-        $relation->sourceContentId = (int)$row['ibexa_content_link_from_contentobject_id'];
-        $relation->sourceContentVersionNo = (int)$row['ibexa_content_link_from_contentobject_version'];
-        $relation->destinationContentId = (int)$row['ibexa_content_link_to_contentobject_id'];
-        $relation->type = (int)$row['ibexa_content_link_relation_type'];
+        $relation->id = (int)$row['content_link_id'];
+        $relation->sourceContentId = (int)$row['content_link_from_contentobject_id'];
+        $relation->sourceContentVersionNo = (int)$row['content_link_from_contentobject_version'];
+        $relation->destinationContentId = (int)$row['content_link_to_contentobject_id'];
+        $relation->type = (int)$row['content_link_relation_type'];
 
-        $contentClassAttributeId = (int)$row['ibexa_content_link_contentclassattribute_id'];
+        $contentClassAttributeId = (int)$row['content_link_contentclassattribute_id'];
         if ($contentClassAttributeId > 0) {
             $relation->sourceFieldDefinitionId = $contentClassAttributeId;
         }

@@ -603,11 +603,11 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         self::assertEquals(
             675,
-            $res[0]['ibexa_content_version_id']
+            $res[0]['content_version_id']
         );
         self::assertEquals(
             676,
-            $res[1]['ibexa_content_version_id']
+            $res[1]['content_version_id']
         );
     }
 
@@ -646,19 +646,19 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         self::assertEquals(
             677,
-            $res[0]['ibexa_content_version_id']
+            $res[0]['content_version_id']
         );
         self::assertEquals(
             0,
-            $res[0]['ibexa_content_version_status']
+            $res[0]['content_version_status']
         );
         self::assertEquals(
             678,
-            $res[1]['ibexa_content_version_id']
+            $res[1]['content_version_id']
         );
         self::assertEquals(
             0,
-            $res[1]['ibexa_content_version_status']
+            $res[1]['content_version_status']
         );
     }
 
@@ -672,13 +672,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $res = $gateway->load(226, 2);
 
         $this->assertValuesInRows(
-            'ibexa_content_attribute_language_code',
+            'content_field_language_code',
             ['eng-US', self::ENG_GB],
             $res
         );
 
         $this->assertValuesInRows(
-            'ibexa_content_attribute_language_id',
+            'content_field_language_id',
             ['2', '4'],
             $res
         );
@@ -737,12 +737,12 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $res = $gateway->load(226, 2, [self::ENG_GB]);
 
         $this->assertValuesInRows(
-            'ibexa_content_attribute_language_code',
+            'content_field_language_code',
             [self::ENG_GB],
             $res
         );
         $this->assertValuesInRows(
-            'ibexa_content_attribute_language_id',
+            'content_field_language_id',
             ['4'],
             $res
         );
@@ -1195,7 +1195,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         self::assertEquals(
             $relationId,
-            $relation['ibexa_content_link_id']
+            $relation['content_link_id']
         );
     }
 
@@ -1213,18 +1213,18 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertCount(3, $relations);
 
         $this->assertValuesInRows(
-            'ibexa_content_link_to_contentobject_id',
+            'content_link_to_contentobject_id',
             [58, 59, 60],
             $relations
         );
 
         $this->assertValuesInRows(
-            'ibexa_content_link_from_contentobject_id',
+            'content_link_from_contentobject_id',
             [57],
             $relations
         );
         $this->assertValuesInRows(
-            'ibexa_content_link_from_contentobject_version',
+            'content_link_from_contentobject_version',
             [2],
             $relations
         );
@@ -1241,13 +1241,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertCount(1, $relations, 'Expecting one relation to be loaded');
 
         $this->assertValuesInRows(
-            'ibexa_content_link_relation_type',
+            'content_link_relation_type',
             [RelationType::COMMON->value],
             $relations
         );
 
         $this->assertValuesInRows(
-            'ibexa_content_link_to_contentobject_id',
+            'content_link_to_contentobject_id',
             [58],
             $relations
         );
@@ -1264,7 +1264,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertCount(1, $relations, 'Expecting one relation to be loaded');
 
         $this->assertValuesInRows(
-            'ibexa_content_link_to_contentobject_id',
+            'content_link_to_contentobject_id',
             [58],
             $relations
         );
@@ -1292,7 +1292,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertCount(2, $relations);
 
         $this->assertValuesInRows(
-            'ibexa_content_link_from_contentobject_id',
+            'content_link_from_contentobject_id',
             [57, 61],
             $relations
         );
@@ -1309,13 +1309,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertCount(1, $relations);
 
         $this->assertValuesInRows(
-            'ibexa_content_link_from_contentobject_id',
+            'content_link_from_contentobject_id',
             [57],
             $relations
         );
 
         $this->assertValuesInRows(
-            'ibexa_content_link_relation_type',
+            'content_link_relation_type',
             [RelationType::COMMON->value],
             $relations
         );

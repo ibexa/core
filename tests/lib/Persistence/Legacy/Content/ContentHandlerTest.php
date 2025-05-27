@@ -242,7 +242,7 @@ class ContentHandlerTest extends TestCase
                 )
             );
 
-        $contentRows = [['ibexa_content_version_version' => 1]];
+        $contentRows = [['content_version_version' => 1]];
 
         $gatewayMock->expects(self::once())
             ->method('load')
@@ -324,7 +324,7 @@ class ContentHandlerTest extends TestCase
             ->method('setStatus')
             ->with(23, VersionInfo::STATUS_ARCHIVED, 1);
 
-        $contentRows = [['ibexa_content_version_version' => 2]];
+        $contentRows = [['content_version_version' => 2]];
 
         $gatewayMock->expects(self::once())
             ->method('load')
@@ -432,9 +432,9 @@ class ContentHandlerTest extends TestCase
 
         $relationData = [
             [
-                'ibexa_content_link_contentclassattribute_id' => 0,
-                'ibexa_content_link_to_contentobject_id' => 42,
-                'ibexa_content_link_relation_type' => 1,
+                'content_link_contentclassattribute_id' => 0,
+                'content_link_to_contentobject_id' => 42,
+                'content_link_relation_type' => 1,
             ],
         ];
 
@@ -480,7 +480,7 @@ class ContentHandlerTest extends TestCase
         $mapperMock = $this->getMapperMock();
         $fieldHandlerMock = $this->getFieldHandlerMock();
 
-        $contentRows = [['ibexa_content_version_version' => 2]];
+        $contentRows = [['content_version_version' => 2]];
 
         $gatewayMock->expects(self::once())
             ->method('load')
@@ -525,8 +525,8 @@ class ContentHandlerTest extends TestCase
         $mapperMock = $this->getMapperMock();
         $fieldHandlerMock = $this->getFieldHandlerMock();
         $contentRows = [
-            ['ibexa_content_id' => 2, 'ibexa_content_version_version' => 2],
-            ['ibexa_content_id' => 3, 'ibexa_content_version_version' => 1],
+            ['content_id' => 2, 'content_version_version' => 2],
+            ['content_id' => 3, 'content_version_version' => 1],
         ];
         $gatewayMock->expects(self::once())
             ->method('loadContentList')
@@ -534,8 +534,8 @@ class ContentHandlerTest extends TestCase
             ->willReturn($contentRows);
 
         $nameDataRows = [
-            ['ibexa_content_name_contentobject_id' => 2, 'ibexa_content_name_content_version' => 2],
-            ['ibexa_content_name_contentobject_id' => 3, 'ibexa_content_name_content_version' => 1],
+            ['content_name_contentobject_id' => 2, 'content_name_content_version' => 2],
+            ['content_name_contentobject_id' => 3, 'content_name_content_version' => 1],
         ];
 
         $gatewayMock->expects(self::once())
@@ -1023,7 +1023,7 @@ class ContentHandlerTest extends TestCase
     public function testLoadDraftsForUser()
     {
         $handler = $this->getContentHandler();
-        $rows = [['ibexa_content_version_contentobject_id' => 42, 'ibexa_content_version_version' => 2]];
+        $rows = [['content_version_contentobject_id' => 42, 'content_version_version' => 2]];
 
         $gatewayMock = $this->getGatewayMock();
         $mapperMock = $this->getMapperMock();
@@ -1137,7 +1137,7 @@ class ContentHandlerTest extends TestCase
         $locationHandlerMock = $this->getLocationGatewayMock();
         $fieldHandlerMock = $this->getFieldHandlerMock();
 
-        $rows = [['ibexa_content_version_version' => 2]];
+        $rows = [['content_version_version' => 2]];
 
         // Load VersionInfo to delete fields
         $gatewayMock->expects(self::once())
@@ -1476,8 +1476,8 @@ class ContentHandlerTest extends TestCase
         ]);
 
         $versionRows = [
-            ['ibexa_content_id' => 2, 'ibexa_content_version_version' => 2],
-            ['ibexa_content_id' => 3, 'ibexa_content_version_version' => 1],
+            ['content_id' => 2, 'content_version_version' => 2],
+            ['content_id' => 3, 'content_version_version' => 1],
         ];
 
         $gatewayMock->expects(self::once())
@@ -1486,8 +1486,8 @@ class ContentHandlerTest extends TestCase
             ->willReturn($versionRows);
 
         $nameDataRows = [
-            ['ibexa_content_name_contentobject_id' => 2, 'ibexa_content_name_content_version' => 2],
-            ['ibexa_content_name_contentobject_id' => 3, 'ibexa_content_name_content_version' => 1],
+            ['content_name_contentobject_id' => 2, 'content_name_content_version' => 2],
+            ['content_name_contentobject_id' => 3, 'content_name_content_version' => 1],
         ];
 
         $gatewayMock->expects(self::once())

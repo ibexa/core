@@ -34,10 +34,10 @@ final class QueryBuilder
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(
-                'contentobject_id AS ibexa_content_name_contentobject_id',
-                'content_version AS ibexa_content_name_content_version',
-                'name AS ibexa_content_name_name',
-                'content_translation AS ibexa_content_name_content_translation'
+                'contentobject_id AS content_name_contentobject_id',
+                'content_version AS content_name_content_version',
+                'name AS content_name_name',
+                'content_translation AS content_name_content_translation'
             )
             ->from(Gateway::CONTENT_NAME_TABLE);
 
@@ -52,12 +52,12 @@ final class QueryBuilder
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(
-                'l.id AS ibexa_content_link_id',
-                'l.contentclassattribute_id AS ibexa_content_link_contentclassattribute_id',
-                'l.from_contentobject_id AS ibexa_content_link_from_contentobject_id',
-                'l.from_contentobject_version AS ibexa_content_link_from_contentobject_version',
-                'l.relation_type AS ibexa_content_link_relation_type',
-                'l.to_contentobject_id AS ibexa_content_link_to_contentobject_id'
+                'l.id AS content_link_id',
+                'l.contentclassattribute_id AS content_link_contentclassattribute_id',
+                'l.from_contentobject_id AS content_link_from_contentobject_id',
+                'l.from_contentobject_version AS content_link_from_contentobject_version',
+                'l.relation_type AS content_link_relation_type',
+                'l.to_contentobject_id AS content_link_to_contentobject_id'
             )
             ->from(
                 Gateway::CONTENT_RELATION_TABLE,
@@ -114,7 +114,7 @@ final class QueryBuilder
         }
 
         $queryBuilder
-            ->select('c.*', 't.main_node_id AS ibexa_content_tree_main_node_id')
+            ->select('c.*', 't.main_node_id AS content_tree_main_node_id')
             ->from(Gateway::CONTENT_ITEM_TABLE, 'c')
             ->leftJoin(
                 'c',
@@ -140,31 +140,31 @@ final class QueryBuilder
 
         $query
             ->select(
-                'v.id AS ibexa_content_version_id',
-                'v.version AS ibexa_content_version_version',
-                'v.modified AS ibexa_content_version_modified',
-                'v.creator_id AS ibexa_content_version_creator_id',
-                'v.created AS ibexa_content_version_created',
-                'v.status AS ibexa_content_version_status',
-                'v.contentobject_id AS ibexa_content_version_contentobject_id',
-                'v.initial_language_id AS ibexa_content_version_initial_language_id',
-                'v.language_mask AS ibexa_content_version_language_mask',
+                'v.id AS content_version_id',
+                'v.version AS content_version_version',
+                'v.modified AS content_version_modified',
+                'v.creator_id AS content_version_creator_id',
+                'v.created AS content_version_created',
+                'v.status AS content_version_status',
+                'v.contentobject_id AS content_version_contentobject_id',
+                'v.initial_language_id AS content_version_initial_language_id',
+                'v.language_mask AS content_version_language_mask',
                 // Content main location
-                't.main_node_id AS ibexa_content_tree_main_node_id',
+                't.main_node_id AS content_tree_main_node_id',
                 // Content object
-                'c.id AS ibexa_content_id',
-                'c.contentclass_id AS ibexa_content_contentclass_id',
-                'c.section_id AS ibexa_content_section_id',
-                'c.owner_id AS ibexa_content_owner_id',
-                'c.remote_id AS ibexa_content_remote_id',
-                'c.current_version AS ibexa_content_current_version',
-                'c.initial_language_id AS ibexa_content_initial_language_id',
-                'c.modified AS ibexa_content_modified',
-                'c.published AS ibexa_content_published',
-                'c.status AS ibexa_content_status',
-                'c.name AS ibexa_content_name',
-                'c.language_mask AS ibexa_content_language_mask',
-                'c.is_hidden AS ibexa_content_is_hidden'
+                'c.id AS content_id',
+                'c.contentclass_id AS content_contentclass_id',
+                'c.section_id AS content_section_id',
+                'c.owner_id AS content_owner_id',
+                'c.remote_id AS content_remote_id',
+                'c.current_version AS content_current_version',
+                'c.initial_language_id AS content_initial_language_id',
+                'c.modified AS content_modified',
+                'c.published AS content_published',
+                'c.status AS content_status',
+                'c.name AS content_name',
+                'c.language_mask AS content_language_mask',
+                'c.is_hidden AS content_is_hidden'
             )
             ->from(Gateway::CONTENT_VERSION_TABLE, 'v')
             ->innerJoin(

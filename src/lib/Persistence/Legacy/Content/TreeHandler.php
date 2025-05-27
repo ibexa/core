@@ -139,7 +139,7 @@ class TreeHandler
             static function ($row) use ($contentId) {
                 return [
                     'id' => $contentId,
-                    'version' => $row['ibexa_content_version_version'],
+                    'version' => $row['content_version_version'],
                 ];
             },
             $rows

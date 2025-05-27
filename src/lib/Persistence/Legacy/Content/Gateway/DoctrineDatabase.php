@@ -586,7 +586,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Set the given query field (ibexa_content_attribute) values.
+     * Set the given query field (ibexa_content_field) values.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
@@ -739,38 +739,38 @@ final class DoctrineDatabase extends Gateway
         $expr = $queryBuilder->expr();
         $queryBuilder
             ->select(
-                'c.id AS ibexa_content_id',
-                'c.contentclass_id AS ibexa_content_contentclass_id',
-                'c.section_id AS ibexa_content_section_id',
-                'c.owner_id AS ibexa_content_owner_id',
-                'c.remote_id AS ibexa_content_remote_id',
-                'c.current_version AS ibexa_content_current_version',
-                'c.initial_language_id AS ibexa_content_initial_language_id',
-                'c.modified AS ibexa_content_modified',
-                'c.published AS ibexa_content_published',
-                'c.status AS ibexa_content_status',
-                'c.name AS ibexa_content_name',
-                'c.language_mask AS ibexa_content_language_mask',
-                'c.is_hidden AS ibexa_content_is_hidden',
-                'v.id AS ibexa_content_version_id',
-                'v.version AS ibexa_content_version_version',
-                'v.modified AS ibexa_content_version_modified',
-                'v.creator_id AS ibexa_content_version_creator_id',
-                'v.created AS ibexa_content_version_created',
-                'v.status AS ibexa_content_version_status',
-                'v.language_mask AS ibexa_content_version_language_mask',
-                'v.initial_language_id AS ibexa_content_version_initial_language_id',
-                'a.id AS ibexa_content_attribute_id',
-                'a.contentclassattribute_id AS ibexa_content_attribute_contentclassattribute_id',
-                'a.data_type_string AS ibexa_content_attribute_data_type_string',
-                'a.language_code AS ibexa_content_attribute_language_code',
-                'a.language_id AS ibexa_content_attribute_language_id',
-                'a.data_float AS ibexa_content_attribute_data_float',
-                'a.data_int AS ibexa_content_attribute_data_int',
-                'a.data_text AS ibexa_content_attribute_data_text',
-                'a.sort_key_int AS ibexa_content_attribute_sort_key_int',
-                'a.sort_key_string AS ibexa_content_attribute_sort_key_string',
-                't.main_node_id AS ibexa_content_tree_main_node_id'
+                'c.id AS content_id',
+                'c.contentclass_id AS content_contentclass_id',
+                'c.section_id AS content_section_id',
+                'c.owner_id AS content_owner_id',
+                'c.remote_id AS content_remote_id',
+                'c.current_version AS content_current_version',
+                'c.initial_language_id AS content_initial_language_id',
+                'c.modified AS content_modified',
+                'c.published AS content_published',
+                'c.status AS content_status',
+                'c.name AS content_name',
+                'c.language_mask AS content_language_mask',
+                'c.is_hidden AS content_is_hidden',
+                'v.id AS content_version_id',
+                'v.version AS content_version_version',
+                'v.modified AS content_version_modified',
+                'v.creator_id AS content_version_creator_id',
+                'v.created AS content_version_created',
+                'v.status AS content_version_status',
+                'v.language_mask AS content_version_language_mask',
+                'v.initial_language_id AS content_version_initial_language_id',
+                'a.id AS content_field_id',
+                'a.contentclassattribute_id AS content_field_contentclassattribute_id',
+                'a.data_type_string AS content_field_data_type_string',
+                'a.language_code AS content_field_language_code',
+                'a.language_id AS content_field_language_id',
+                'a.data_float AS content_field_data_float',
+                'a.data_int AS content_field_data_int',
+                'a.data_text AS content_field_data_text',
+                'a.sort_key_int AS content_field_sort_key_int',
+                'a.sort_key_string AS content_field_sort_key_string',
+                't.main_node_id AS content_tree_main_node_id'
             )
             ->from(Gateway::CONTENT_ITEM_TABLE, 'c')
             ->innerJoin(
