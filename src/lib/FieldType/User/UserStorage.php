@@ -36,12 +36,12 @@ class UserStorage extends GatewayBasedStorage
      */
     protected StorageGatewayInterface $gateway;
 
-    public function storeFieldData(VersionInfo $versionInfo, Field $field)
+    public function storeFieldData(VersionInfo $versionInfo, Field $field): ?bool
     {
         return $this->gateway->storeFieldData($versionInfo, $field);
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field)
+    public function getFieldData(VersionInfo $versionInfo, Field $field): void
     {
         $field->value->externalData = $this->gateway->getFieldData($field->id);
     }
@@ -49,13 +49,11 @@ class UserStorage extends GatewayBasedStorage
     /**
      * @param int[] $fieldIds Array of field Ids
      *
-     * @return bool
-     *
      * @throws \Doctrine\DBAL\Exception
      */
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): void
     {
-        return $this->gateway->deleteFieldData($versionInfo, $fieldIds);
+        $this->gateway->deleteFieldData($versionInfo, $fieldIds);
     }
 
     /**

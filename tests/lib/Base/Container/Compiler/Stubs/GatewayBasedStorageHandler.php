@@ -16,19 +16,21 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
  */
 class GatewayBasedStorageHandler extends GatewayBasedStorage
 {
-    public function storeFieldData(VersionInfo $versionInfo, Field $field)
+    public function storeFieldData(VersionInfo $versionInfo, Field $field): ?bool
+    {
+        return null;
+    }
+
+    public function getFieldData(VersionInfo $versionInfo, Field $field): void
     {
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field)
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): void
     {
     }
 
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
+    public function hasFieldData(): bool
     {
-    }
-
-    public function hasFieldData()
-    {
+        return true;
     }
 }

@@ -26,31 +26,27 @@ class KeywordStorage extends GatewayBasedStorage
 
     /**
      * @see \Ibexa\Contracts\Core\FieldType\FieldStorage
-     *
-     * @return mixed
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field)
+    public function storeFieldData(VersionInfo $versionInfo, Field $field): ?bool
     {
         $contentTypeId = $this->gateway->getContentTypeId($field);
 
         return $this->gateway->storeFieldData($field, $contentTypeId);
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field)
+    public function getFieldData(VersionInfo $versionInfo, Field $field): void
     {
-        return $this->gateway->getFieldData($field);
+        $this->gateway->getFieldData($field);
     }
 
     /**
      * @param array $fieldIds
      */
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): bool
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): void
     {
         foreach ($fieldIds as $fieldId) {
             $this->gateway->deleteFieldData($fieldId, $versionInfo->versionNo);
         }
-
-        return true;
     }
 
     public function hasFieldData(): bool

@@ -20,17 +20,17 @@ class MapLocationStorage extends GatewayBasedStorage
     /** @var \Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway */
     protected StorageGatewayInterface $gateway;
 
-    public function storeFieldData(VersionInfo $versionInfo, Field $field)
+    public function storeFieldData(VersionInfo $versionInfo, Field $field): ?bool
     {
         return $this->gateway->storeFieldData($versionInfo, $field);
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field)
+    public function getFieldData(VersionInfo $versionInfo, Field $field): void
     {
         $this->gateway->getFieldData($versionInfo, $field);
     }
 
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): void
     {
         $this->gateway->deleteFieldData($versionInfo, $fieldIds);
     }

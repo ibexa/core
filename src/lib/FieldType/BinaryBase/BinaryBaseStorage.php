@@ -66,7 +66,7 @@ class BinaryBaseStorage extends GatewayBasedStorage
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field)
+    public function storeFieldData(VersionInfo $versionInfo, Field $field): ?bool
     {
         if ($field->value->externalData === null) {
             $this->deleteFieldData($versionInfo, [$field->id]);
@@ -109,6 +109,8 @@ class BinaryBaseStorage extends GatewayBasedStorage
         }
 
         $this->gateway->storeFileReference($versionInfo, $field);
+
+        return null;
     }
 
     public function copyLegacyField(VersionInfo $versionInfo, Field $field, Field $originalField)
@@ -150,7 +152,7 @@ class BinaryBaseStorage extends GatewayBasedStorage
         }
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field)
+    public function getFieldData(VersionInfo $versionInfo, Field $field): void
     {
         $field->value->externalData = $this->gateway->getFileReferenceData($field->id, $versionInfo->versionNo);
         if ($field->value->externalData !== null) {
@@ -174,7 +176,7 @@ class BinaryBaseStorage extends GatewayBasedStorage
         }
     }
 
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): void
     {
         if (empty($fieldIds)) {
             return;
@@ -194,7 +196,7 @@ class BinaryBaseStorage extends GatewayBasedStorage
         }
     }
 
-    public function hasFieldData()
+    public function hasFieldData(): bool
     {
         return true;
     }

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\FieldType;
 
@@ -32,40 +33,29 @@ interface FieldStorage
      *
      * This method might return true if $field needs to be updated after storage done here (to store a PK for instance).
      * In any other case, this method must not return anything (null).
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     *
-     * @return mixed null|true
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field);
+    public function storeFieldData(VersionInfo $versionInfo, Field $field): ?bool;
 
     /**
      * Populates $field value property based on the external data.
      * $field->value is a {@see \Ibexa\Contracts\Core\Persistence\Content\FieldValue} object.
      * This value holds the data as a {@see \Ibexa\Core\FieldType\Value} based object,
      * according to the field type (e.g. for TextLine, it will be a {@see \Ibexa\Core\FieldType\TextLine\Value} object).
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
      */
-    public function getFieldData(VersionInfo $versionInfo, Field $field);
+    public function getFieldData(VersionInfo $versionInfo, Field $field): void;
 
     /**
      * Deletes field data for all $fieldIds in the version identified by
      * $versionInfo.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
      * @param array $fieldIds Array of field IDs
-     *
-     * @return bool
      */
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds);
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): void;
 
     /**
      * Checks if field type has external data to deal with.
      *
      * @return bool
      */
-    public function hasFieldData();
+    public function hasFieldData(): bool;
 }

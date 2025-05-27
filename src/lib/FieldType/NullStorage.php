@@ -27,7 +27,7 @@ class NullStorage implements FieldStorage
     /**
      * @see \Ibexa\Contracts\Core\FieldType\FieldStorage::getFieldData()
      */
-    public function getFieldData(VersionInfo $versionInfo, Field $field)
+    public function getFieldData(VersionInfo $versionInfo, Field $field): void
     {
         return;
     }
@@ -35,9 +35,8 @@ class NullStorage implements FieldStorage
     /**
      * @see \Ibexa\Contracts\Core\FieldType\FieldStorage::deleteFieldData()
      */
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): bool
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): void
     {
-        return true;
     }
 
     /**

@@ -62,7 +62,7 @@ class UrlStorage extends GatewayBasedStorage
         return true;
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field)
+    public function getFieldData(VersionInfo $versionInfo, Field $field): void
     {
         $id = $field->value->data['urlId'];
         if (empty($id)) {
@@ -81,7 +81,7 @@ class UrlStorage extends GatewayBasedStorage
         $field->value->externalData = isset($map[$id]) ? $map[$id] : '';
     }
 
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): void
     {
         foreach ($fieldIds as $fieldId) {
             $this->gateway->unlinkUrl($fieldId, $versionInfo->versionNo);
