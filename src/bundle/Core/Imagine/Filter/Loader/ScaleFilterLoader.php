@@ -24,7 +24,7 @@ class ScaleFilterLoader extends FilterLoaderWrapped
             throw new InvalidArgumentException('Missing width and/or height options');
         }
 
-        list($width, $height) = $options;
+        [$width, $height] = $options;
         $size = $image->getSize();
         $ratioWidth = $width / $size->getWidth();
         $ratioHeight = $height / $size->getHeight();
