@@ -22,7 +22,7 @@ interface ListInterface extends CollectionInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\OutOfBoundsException if collection is empty
      */
-    public function first();
+    public function first(): mixed;
 
     /**
      * Return last element of collection.
@@ -31,7 +31,7 @@ interface ListInterface extends CollectionInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\OutOfBoundsException if collection is empty
      */
-    public function last();
+    public function last(): mixed;
 
     /**
      * @param TValue $value

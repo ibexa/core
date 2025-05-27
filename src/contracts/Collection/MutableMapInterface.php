@@ -20,12 +20,12 @@ interface MutableMapInterface extends MapInterface
      * @param TKey $key
      * @param TValue $value
      */
-    public function set($key, $value): void;
+    public function set(mixed $key, mixed $value): void;
 
     /**
      * @param TKey $key
      */
-    public function unset($key): void;
+    public function unset(mixed $key): void;
 
     public function clear(): void;
 }

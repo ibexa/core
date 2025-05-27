@@ -18,17 +18,17 @@ interface MutableListInterface extends ListInterface
     /**
      * @param TValue $value
      */
-    public function append($value): void;
+    public function append(mixed $value): void;
 
     /**
      * @param TValue $value
      */
-    public function prepend($value): void;
+    public function prepend(mixed $value): void;
 
     /**
      * @param TValue $value
      */
-    public function remove($value): void;
+    public function remove(mixed $value): void;
 
     public function clear(): void;
 }
