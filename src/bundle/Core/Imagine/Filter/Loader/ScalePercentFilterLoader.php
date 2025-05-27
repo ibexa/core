@@ -27,7 +27,7 @@ class ScalePercentFilterLoader extends FilterLoaderWrapped
         $size = $image->getSize();
         $origWidth = $size->getWidth();
         $origHeight = $size->getHeight();
-        [$widthPercent, $heightPercent] = $options;
+        list($widthPercent, $heightPercent) = $options;
 
         $targetWidth = ($origWidth * $widthPercent) / 100;
         $targetHeight = ($origHeight * $heightPercent) / 100;

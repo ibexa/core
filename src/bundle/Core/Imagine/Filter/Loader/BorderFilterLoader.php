@@ -33,9 +33,9 @@ class BorderFilterLoader implements LoaderInterface
 
         $color = static::DEFAULT_BORDER_COLOR;
         if ($optionsCount > 2) {
-            [$width, $height, $color] = $options;
+            list($width, $height, $color) = $options;
         } else {
-            [$width, $height] = $options;
+            list($width, $height) = $options;
         }
 
         $border = new Border($image->palette()->color($color), $width, $height);
