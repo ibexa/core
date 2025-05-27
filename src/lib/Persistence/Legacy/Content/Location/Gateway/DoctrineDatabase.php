@@ -149,7 +149,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('*')
-            ->from($this->connection->quoteIdentifier('ibexa_content_trash'), 't')
+            ->from($this->connection->quoteIdentifier(Gateway::TRASH_TABLE), 't')
             ->where('t.contentobject_id = :contentobject_id')
             ->setParameter('contentobject_id', $contentId, ParameterType::INTEGER);
 
@@ -1173,7 +1173,7 @@ final class DoctrineDatabase extends Gateway
         $locationRow = $this->getBasicNodeData($locationId);
 
         $query = $this->connection->createQueryBuilder();
-        $query->insert('ibexa_content_trash');
+        $query->insert(Gateway::TRASH_TABLE);
 
         unset($locationRow['contentobject_is_published']);
         $locationRow['trashed'] = time();
@@ -1236,7 +1236,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('*')
-            ->from('ibexa_content_trash')
+            ->from(Gateway::TRASH_TABLE)
             ->where(
                 $query->expr()->eq(
                     'node_id',
@@ -1298,7 +1298,7 @@ final class DoctrineDatabase extends Gateway
     public function cleanupTrash(): void
     {
         $query = $this->connection->createQueryBuilder();
-        $query->delete('ibexa_content_trash');
+        $query->delete(Gateway::TRASH_TABLE);
         $query->executeStatement();
     }
 
@@ -1306,7 +1306,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->delete('ibexa_content_trash')
+            ->delete(Gateway::TRASH_TABLE)
             ->where(
                 $query->expr()->eq(
                     'node_id',

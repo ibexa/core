@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Doctrine\DBAL\ParameterType;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 
 /**
  * Base class for trash specific tests.
@@ -51,7 +52,7 @@ abstract class BaseTrashServiceTest extends BaseTest
         $connection = $this->getRawDatabaseConnection();
         $query = $connection->createQueryBuilder();
         $query
-            ->update('ibexa_content_trash')
+            ->update(Gateway::TRASH_TABLE)
             ->set('trashed', ':trashed_timestamp')
             ->where('node_id = :location_id')
             ->setParameter('trashed_timestamp', $newTimestamp, ParameterType::INTEGER)

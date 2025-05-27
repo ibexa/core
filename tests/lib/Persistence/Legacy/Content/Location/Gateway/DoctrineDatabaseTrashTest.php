@@ -67,7 +67,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
             ],
             $query
                 ->select('node_id', 'path_string')
-                ->from('ibexa_content_trash')
+                ->from(Gateway::TRASH_TABLE)
         );
     }
 
@@ -379,7 +379,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
             [],
             $query
                 ->select('*')
-                ->from('ibexa_content_trash')
+                ->from(Gateway::TRASH_TABLE)
         );
     }
 
@@ -395,7 +395,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
             [],
             $query
                 ->select('*')
-                ->from('ibexa_content_trash')
+                ->from(Gateway::TRASH_TABLE)
                 ->where($query->expr()->eq('node_id', 71))
         );
     }
