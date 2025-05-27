@@ -62,7 +62,7 @@ services:
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextLineConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextLineConverter
         tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: ezstring}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_string}
 
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextBlockConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextBlockConverter

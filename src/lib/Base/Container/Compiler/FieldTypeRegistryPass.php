@@ -7,28 +7,26 @@
 
 namespace Ibexa\Core\Base\Container\Compiler;
 
+use Ibexa\Core\FieldType\FieldTypeAliasRegistry;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\FieldType\Null\Type;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * This compiler pass will register Ibexa Field Types.
- */
 class FieldTypeRegistryPass extends AbstractFieldTypeBasedPass
 {
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     *
-     * @throws \LogicException
-     */
     public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition(FieldTypeRegistry::class)) {
             return;
         }
 
+        $aliasRegistryDefinition = new Definition(FieldTypeAliasRegistry::class);
+        $container->setDefinition(FieldTypeAliasRegistry::class, $aliasRegistryDefinition);
+
         $fieldTypeRegistryDefinition = $container->getDefinition(FieldTypeRegistry::class);
+        $fieldTypeRegistryDefinition->setArgument(0, $aliasRegistryDefinition);
 
         foreach ($this->getFieldTypeServiceIds($container) as $id => $attributes) {
             foreach ($attributes as $attribute) {
@@ -39,6 +37,16 @@ class FieldTypeRegistryPass extends AbstractFieldTypeBasedPass
                         new Reference($id),
                     ]
                 );
+
+                if (isset($attribute['old_alias'])) {
+                    $aliasRegistryDefinition->addMethodCall(
+                        'register',
+                        [
+                            $attribute['old_alias'],
+                            $attribute['alias'],
+                        ],
+                    );
+                }
 
                 // Add FieldType to the "concrete" list if it's not a fake.
                 $class = $container->findDefinition($id)->getClass();
