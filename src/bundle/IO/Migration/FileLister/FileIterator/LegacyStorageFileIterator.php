@@ -35,7 +35,7 @@ final class LegacyStorageFileIterator implements FileIteratorInterface
     }
 
     #[\ReturnTypeWillChange]
-    public function current()
+    public function current(): mixed
     {
         return $this->item;
     }
@@ -46,7 +46,7 @@ final class LegacyStorageFileIterator implements FileIteratorInterface
     }
 
     #[\ReturnTypeWillChange]
-    public function key()
+    public function key(): mixed
     {
         return $this->cursor;
     }

@@ -24,7 +24,7 @@ class BorderFilterLoader implements LoaderInterface
 
     public const DEFAULT_BORDER_COLOR = '#000';
 
-    public function load(ImageInterface $image, array $options = [])
+    public function load(ImageInterface $image, array $options = []): ImageInterface
     {
         $optionsCount = count($options);
         if ($optionsCount < 2) {
@@ -33,9 +33,9 @@ class BorderFilterLoader implements LoaderInterface
 
         $color = static::DEFAULT_BORDER_COLOR;
         if ($optionsCount > 2) {
-            list($width, $height, $color) = $options;
+            [$width, $height, $color] = $options;
         } else {
-            list($width, $height) = $options;
+            [$width, $height] = $options;
         }
 
         $border = new Border($image->palette()->color($color), $width, $height);

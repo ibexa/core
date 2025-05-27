@@ -18,7 +18,7 @@ class ScaleExactFilterLoader extends FilterLoaderWrapped
 {
     public const IDENTIFIER = 'geometry/scaleexact';
 
-    public function load(ImageInterface $image, array $options = [])
+    public function load(ImageInterface $image, array $options = []): ImageInterface
     {
         if (count($options) < 2) {
             throw new InvalidArgumentException('Missing width and/or height options');

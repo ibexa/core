@@ -18,7 +18,7 @@ class ScalePercentFilterLoader extends FilterLoaderWrapped
 {
     public const IDENTIFIER = 'geometry/scalepercent';
 
-    public function load(ImageInterface $image, array $options = [])
+    public function load(ImageInterface $image, array $options = []): ImageInterface
     {
         if (count($options) < 2) {
             throw new InvalidArgumentException('Missing width and/or height percent options');
@@ -27,7 +27,7 @@ class ScalePercentFilterLoader extends FilterLoaderWrapped
         $size = $image->getSize();
         $origWidth = $size->getWidth();
         $origHeight = $size->getHeight();
-        list($widthPercent, $heightPercent) = $options;
+        [$widthPercent, $heightPercent] = $options;
 
         $targetWidth = ($origWidth * $widthPercent) / 100;
         $targetHeight = ($origHeight * $heightPercent) / 100;
