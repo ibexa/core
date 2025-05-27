@@ -13,5 +13,5 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 
 interface PathGeneratorInterface
 {
-    public function getStoragePathForField(Field $field, VersionInfo $versionInfo);
+    public function getStoragePathForField(Field $field, VersionInfo $versionInfo): string;
 }
