@@ -17,17 +17,17 @@ namespace Ibexa\Contracts\Core\Collection;
  */
 class MutableArrayList extends ArrayList implements MutableListInterface
 {
-    public function append($value): void
+    public function append(mixed $value): void
     {
         $this->items[] = $value;
     }
 
-    public function prepend($value): void
+    public function prepend(mixed $value): void
     {
         array_unshift($this->items, $value);
     }
 
-    public function remove($value): void
+    public function remove(mixed $value): void
     {
         $idx = array_search($value, $this->items, true);
         if ($idx !== false) {
