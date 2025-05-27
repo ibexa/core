@@ -740,7 +740,7 @@ final class DoctrineDatabase extends Gateway
         $queryBuilder
             ->select(
                 'c.id AS content_id',
-                'c.contentclass_id AS content_content_type_id',
+                'c.content_type_id AS content_content_type_id',
                 'c.section_id AS content_section_id',
                 'c.owner_id AS content_owner_id',
                 'c.remote_id AS content_remote_id',

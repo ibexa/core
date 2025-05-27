@@ -505,7 +505,7 @@ class MapperTest extends LanguageAwareTestCase
         foreach ($fixtures[0] as $key => $value) {
             $keyNoPrefix = $key === 'content_tree_main_node_id'
                 ? $key
-                : str_replace('content_', '', $key);
+                : preg_replace('/^content_/', '', $key);
             $fixturesNoPrefix[$keyNoPrefix] = $value;
         }
 
