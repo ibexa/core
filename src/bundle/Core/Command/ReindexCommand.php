@@ -97,7 +97,7 @@ class ReindexCommand extends Command
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      */
-    public function initialize(InputInterface $input, OutputInterface $output)
+    public function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
         if (!$this->searchIndexer instanceof Indexer) {
@@ -113,7 +113,7 @@ class ReindexCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addOption(

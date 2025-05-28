@@ -53,7 +53,7 @@ class DeleteContentTranslationCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addArgument('content-id', InputArgument::REQUIRED, 'Content Object Id')
@@ -71,7 +71,7 @@ class DeleteContentTranslationCommand extends Command
             );
     }
 
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
         $this->input = $input;

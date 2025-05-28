@@ -52,7 +52,7 @@ final class SetSystemContentTypeGroupCommand extends Command
         $this->userService = $userService;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addArgument('content-type-group-identifier', InputArgument::REQUIRED, 'ContentTypGroup identifier')
