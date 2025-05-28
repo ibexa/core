@@ -7,21 +7,16 @@
 
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
+use const PHP_SAPI;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * Cache related compiler pass.
- *
- * Ensures class cache warmup is disabled in console mode.
- */
 class ConsoleCacheWarmupPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
-        // This pass is CLI only as CLI class cache warmup conflicts with web access, see EZP-29034
-        if (\PHP_SAPI !== 'cli' ||
+        if (PHP_SAPI !== 'cli' ||
             !$container->hasDefinition('kernel.class_cache.cache_warmer')) {
             return;
         }
@@ -32,7 +27,7 @@ class ConsoleCacheWarmupPass implements CompilerPassInterface
                 continue;
             }
 
-            $priority = isset($attributes[0]['priority']) ? $attributes[0]['priority'] : 0;
+            $priority = $attributes[0]['priority'] ?? 0;
             $warmers[$priority][] = new Reference($id);
         }
 
@@ -40,9 +35,8 @@ class ConsoleCacheWarmupPass implements CompilerPassInterface
             return;
         }
 
-        // sort by priority and flatten
         krsort($warmers);
-        $warmers = \call_user_func_array('array_merge', $warmers);
+        $warmers = array_merge(...$warmers);
 
         $container->getDefinition('cache_warmer')->replaceArgument(0, $warmers);
     }

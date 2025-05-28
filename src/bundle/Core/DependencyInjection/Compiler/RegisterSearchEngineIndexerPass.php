@@ -13,30 +13,13 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * This compiler pass registers Ibexa search engines indexers.
- */
 class RegisterSearchEngineIndexerPass implements CompilerPassInterface
 {
-    public const SEARCH_ENGINE_INDEXER_SERVICE_TAG = 'ibexa.search.engine.indexer';
+    public const string SEARCH_ENGINE_INDEXER_SERVICE_TAG = 'ibexa.search.engine.indexer';
 
-    /**
-     * Container service id of the SearchEngineIndexerFactory.
-     *
-     * @see \Ibexa\Bundle\Core\ApiLoader\SearchEngineIndexerFactory
-     *
-     * @var string
-     */
-    protected $factoryId = SearchEngineIndexerFactory::class;
+    protected string $factoryId = SearchEngineIndexerFactory::class;
 
-    /**
-     * Register all found search engine indexers to the SearchEngineIndexerFactory.
-     *
-     * @throws \LogicException
-     *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition($this->factoryId)) {
             return;
@@ -57,7 +40,6 @@ class RegisterSearchEngineIndexerPass implements CompilerPassInterface
                     );
                 }
 
-                // Register the search engine with the search engine factory
                 $searchEngineIndexerFactoryDefinition->addMethodCall(
                     'registerSearchEngineIndexer',
                     [

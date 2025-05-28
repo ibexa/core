@@ -13,19 +13,11 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * This compiler pass will register Ibexa indexable field types.
- */
 class FieldRegistryPass implements CompilerPassInterface
 {
-    public const FIELD_TYPE_INDEXABLE_SERVICE_TAG = 'ibexa.field_type.indexable';
+    public const string FIELD_TYPE_INDEXABLE_SERVICE_TAG = 'ibexa.field_type.indexable';
 
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     *
-     * @throws \LogicException
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition(FieldRegistry::class)) {
             return;

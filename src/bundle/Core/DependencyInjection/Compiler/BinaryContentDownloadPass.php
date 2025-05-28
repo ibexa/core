@@ -14,12 +14,9 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * Injects the downloadUrlGenerator into the binary fieldtype external storage services.
- */
 class BinaryContentDownloadPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->has(ContentDownloadUrlGenerator::class)) {
             return;
@@ -31,7 +28,7 @@ class BinaryContentDownloadPass implements CompilerPassInterface
         $this->addCall($container, $downloadUrlReference, BinaryFileStorage::class);
     }
 
-    private function addCall(ContainerBuilder $container, Reference $reference, $targetServiceName)
+    private function addCall(ContainerBuilder $container, Reference $reference, string $targetServiceName): void
     {
         if (!$container->has($targetServiceName)) {
             return;

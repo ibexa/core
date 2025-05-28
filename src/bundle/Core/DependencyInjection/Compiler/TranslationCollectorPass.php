@@ -11,15 +11,11 @@ use Ibexa\Bundle\Core\Translation\GlobCollector;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-/**
- * This compilation pass loads every ezplatform available translations into symfony translator.
- */
 class TranslationCollectorPass implements CompilerPassInterface
 {
-    public const ORIGINAL_TRANSLATION = 'en';
+    public const string ORIGINAL_TRANSLATION = 'en';
 
-    /** @var array */
-    public const LOCALES_MAP = [
+    public const array LOCALES_MAP = [
         'de_DE' => 'de',
         'el_GR' => 'el',
         'es_ES' => 'es',
@@ -36,7 +32,7 @@ class TranslationCollectorPass implements CompilerPassInterface
         'ru_RU' => 'ru',
     ];
 
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('translator.default')) {
             return;

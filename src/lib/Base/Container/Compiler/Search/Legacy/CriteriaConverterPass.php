@@ -13,15 +13,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * This compiler pass will register Legacy Search Engine criterion handlers.
- */
 class CriteriaConverterPass implements CompilerPassInterface
 {
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (
             !$container->hasDefinition('ibexa.search.legacy.gateway.criteria_converter.content') &&
@@ -63,7 +57,10 @@ class CriteriaConverterPass implements CompilerPassInterface
         }
     }
 
-    protected function addHandlers(Definition $definition, $handlers)
+    /**
+     * @param array<string, array<array<string, mixed>>> $handlers
+     */
+    protected function addHandlers(Definition $definition, array $handlers): void
     {
         foreach ($handlers as $id => $attributes) {
             $definition->addMethodCall('addHandler', [new Reference($id)]);

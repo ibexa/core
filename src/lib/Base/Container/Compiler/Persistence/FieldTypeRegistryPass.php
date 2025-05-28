@@ -14,12 +14,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class FieldTypeRegistryPass extends AbstractFieldTypeBasedPass
 {
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     *
-     * @throws \LogicException
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition(FieldTypeRegistry::class)) {
             return;

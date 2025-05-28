@@ -8,6 +8,7 @@
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\EventListener\ConfigScopeListener;
+use Ibexa\Core\MVC\Symfony\View\ContentView;
 use Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker;
 use Ibexa\Core\MVC\Symfony\View\Provider\Registry;
 use LogicException;
@@ -15,22 +16,15 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * Registers services tagged as "ibexa.view.provider" into the view_provider registry.
- */
 class ViewProvidersPass implements CompilerPassInterface
 {
-    private const VIEW_PROVIDER_TAG = 'ibexa.view.provider';
+    private const string VIEW_PROVIDER_TAG = 'ibexa.view.provider';
 
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $rawViewProviders = [];
         foreach ($container->findTaggedServiceIds(self::VIEW_PROVIDER_TAG) as $serviceId => $tags) {
             foreach ($tags as $attributes) {
-                // Priority range is between -255 (the lowest) and 255 (the highest)
                 $priority = isset($attributes['priority']) ? max(min((int)$attributes['priority'], 255), -255) : 0;
 
                 if (!isset($attributes['type'])) {
@@ -84,7 +78,7 @@ class ViewProvidersPass implements CompilerPassInterface
         if ($container->hasDefinition(CustomLocationControllerChecker::class)) {
             $container->getDefinition(CustomLocationControllerChecker::class)->addMethodCall(
                 'addViewProviders',
-                [$viewProviders['Ibexa\Core\MVC\Symfony\View\ContentView']]
+                [$viewProviders[ContentView::class]]
             );
         }
     }

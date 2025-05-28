@@ -12,17 +12,9 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * This compiler pass will register Legacy Storage role limitation converters.
- */
 class RoleLimitationConverterPass implements CompilerPassInterface
 {
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     *
-     * @throws \LogicException
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition(LimitationConverter::class)) {
             return;

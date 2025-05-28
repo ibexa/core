@@ -14,15 +14,9 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * The ChainRoutingPass will register all services tagged as "router" to the chain router.
- */
 class ChainRoutingPass implements CompilerPassInterface
 {
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition(ChainRouter::class)) {
             return;
@@ -54,7 +48,6 @@ class ChainRoutingPass implements CompilerPassInterface
 
         foreach ($container->findTaggedServiceIds('router') as $id => $attributes) {
             $priority = isset($attributes[0]['priority']) ? (int)$attributes[0]['priority'] : 0;
-            // Priority range is between -255 (the lowest) and 255 (the highest)
             if ($priority > 255) {
                 $priority = 255;
             }
