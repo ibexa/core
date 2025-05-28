@@ -8,12 +8,12 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 
 return [
     Gateway::CONTENT_RELATION_TABLE => [
-        ['contentclassattribute_id' => '0', 'from_contentobject_id' => '57', 'from_contentobject_version' => '1', 'id' => '2', 'relation_type' => '1', 'to_contentobject_id' => '58'],
-        ['contentclassattribute_id' => '0', 'from_contentobject_id' => '57', 'from_contentobject_version' => '2', 'id' => '8', 'relation_type' => '1', 'to_contentobject_id' => '58'],
-        ['contentclassattribute_id' => '0', 'from_contentobject_id' => '57', 'from_contentobject_version' => '2', 'id' => '9', 'relation_type' => '2', 'to_contentobject_id' => '59'],
-        ['contentclassattribute_id' => '0', 'from_contentobject_id' => '57', 'from_contentobject_version' => '2', 'id' => '10', 'relation_type' => '4', 'to_contentobject_id' => '60'],
-        ['contentclassattribute_id' => '0', 'from_contentobject_id' => '58', 'from_contentobject_version' => '1', 'id' => '11', 'relation_type' => '5', 'to_contentobject_id' => '60'],
-        ['contentclassattribute_id' => '0', 'from_contentobject_id' => '61', 'from_contentobject_version' => '1', 'id' => '12', 'relation_type' => '2', 'to_contentobject_id' => '58'],
+        ['content_type_field_definition_id' => '0', 'from_contentobject_id' => '57', 'from_contentobject_version' => '1', 'id' => '2', 'relation_type' => '1', 'to_contentobject_id' => '58'],
+        ['content_type_field_definition_id' => '0', 'from_contentobject_id' => '57', 'from_contentobject_version' => '2', 'id' => '8', 'relation_type' => '1', 'to_contentobject_id' => '58'],
+        ['content_type_field_definition_id' => '0', 'from_contentobject_id' => '57', 'from_contentobject_version' => '2', 'id' => '9', 'relation_type' => '2', 'to_contentobject_id' => '59'],
+        ['content_type_field_definition_id' => '0', 'from_contentobject_id' => '57', 'from_contentobject_version' => '2', 'id' => '10', 'relation_type' => '4', 'to_contentobject_id' => '60'],
+        ['content_type_field_definition_id' => '0', 'from_contentobject_id' => '58', 'from_contentobject_version' => '1', 'id' => '11', 'relation_type' => '5', 'to_contentobject_id' => '60'],
+        ['content_type_field_definition_id' => '0', 'from_contentobject_id' => '61', 'from_contentobject_version' => '1', 'id' => '12', 'relation_type' => '2', 'to_contentobject_id' => '58'],
     ],
     Gateway::CONTENT_ITEM_TABLE => [
         ['content_type_id' => '16', 'current_version' => '2', 'id' => '57', 'initial_language_id' => '2', 'language_mask' => '2', 'modified' => '1331139665', 'name' => 'Source object 1', 'owner_id' => '14', 'published' => '1331139554', 'remote_id' => '23e48f5c29729a227307853c9663b1b8', 'section_id' => '1', 'status' => '1'],

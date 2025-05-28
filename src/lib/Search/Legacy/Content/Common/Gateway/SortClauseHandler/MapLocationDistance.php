@@ -93,7 +93,7 @@ class MapLocationDistance extends Field
                 $query->expr()->and(
                     $query->expr()->eq(
                         $query->createNamedParameter($fieldDefinitionId, ParameterType::INTEGER),
-                        $tableAlias . '.contentclassattribute_id'
+                        $tableAlias . '.content_type_field_definition_id'
                     ),
                     $query->expr()->eq(
                         $tableAlias . '.contentobject_id',

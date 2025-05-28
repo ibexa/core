@@ -240,7 +240,7 @@ tables:
     ibexa_content_field:
         indexes:
             ibexa_content_field_co_id_ver_lang_code: { fields: [contentobject_id, version, language_code] }
-            ibexa_content_field_classattr_id: { fields: [contentclassattribute_id] }
+            ibexa_content_field_field_definition_id: { fields: [content_type_field_definition_id] }
             sort_key_string: { fields: [sort_key_string], options: { lengths: ['191'] } }
             ibexa_content_field_language_code: { fields: [language_code] }
             sort_key_int: { fields: [sort_key_int] }
@@ -250,7 +250,7 @@ tables:
             version: { type: integer, nullable: false, options: { default: '0' } }
         fields:
             attribute_original_id: { type: integer, nullable: true, options: { default: '0' } }
-            contentclassattribute_id: { type: integer, nullable: false, options: { default: '0' } }
+            content_type_field_definition_id: { type: integer, nullable: false, options: { default: '0' } }
             contentobject_id: { type: integer, nullable: false, options: { default: '0' } }
             data_float: { type: float, nullable: true, length: 0 }
             data_int: { type: integer, nullable: true }
@@ -263,12 +263,12 @@ tables:
     ibexa_content_relation:
         indexes:
             ibexa_content_relation_to_co_id: { fields: [to_contentobject_id] }
-            ibexa_content_relation_from: { fields: [from_contentobject_id, from_contentobject_version, contentclassattribute_id] }
-            ibexa_content_relation_cca_id: { fields: [ contentclassattribute_id ] }
+            ibexa_content_relation_from: { fields: [from_contentobject_id, from_contentobject_version, content_type_field_definition_id] }
+            ibexa_content_relation_ccfd_id: { fields: [ content_type_field_definition_id ] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
-            contentclassattribute_id: { type: integer, nullable: false, options: { default: '0' } }
+            content_type_field_definition_id: { type: integer, nullable: false, options: { default: '0' } }
             from_contentobject_id: { type: integer, nullable: false, options: { default: '0' } }
             from_contentobject_version: { type: integer, nullable: false, options: { default: '0' } }
             relation_type: { type: integer, nullable: false, options: { default: '1' } }

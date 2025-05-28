@@ -432,7 +432,7 @@ class ContentHandlerTest extends TestCase
 
         $relationData = [
             [
-                'content_link_contentclassattribute_id' => 0,
+                'content_link_content_type_field_definition_id' => 0,
                 'content_link_to_contentobject_id' => 42,
                 'content_link_relation_type' => 1,
             ],
