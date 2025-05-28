@@ -44,7 +44,7 @@ class DebugConfigResolverCommand extends Command
     /**
      * {@inheritdoc}.
      */
-    public function configure()
+    public function configure(): void
     {
         $this->addArgument(
             'parameter',

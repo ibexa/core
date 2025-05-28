@@ -71,7 +71,7 @@ EOT;
         $this->ioService = $ioService;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $beforeRunningHints = self::BEFORE_RUNNING_HINTS;
 

@@ -62,7 +62,7 @@ EOT;
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $beforeRunningHints = self::BEFORE_RUNNING_HINTS;
         $this
