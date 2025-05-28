@@ -799,7 +799,7 @@ class MapperTest extends LanguageAwareTestCase
         $fieldDefinitions = [];
 
         foreach ($rows as $row) {
-            $fieldDefinitionId = $row['content_field_contentclassattribute_id'];
+            $fieldDefinitionId = $row['content_field_content_type_field_definition_id'];
             $fieldType = $row['content_field_data_type_string'];
 
             if (isset($fieldDefinitions[$fieldDefinitionId])) {

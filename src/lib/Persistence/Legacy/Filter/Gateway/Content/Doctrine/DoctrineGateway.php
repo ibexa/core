@@ -216,7 +216,7 @@ final class DoctrineGateway implements Gateway
                 'content_field.contentobject_id AS content_id',
                 'content_field.version AS version_no',
                 'content_field.id AS field_id',
-                'content_field.contentclassattribute_id AS field_definition_id',
+                'content_field.content_type_field_definition_id AS field_definition_id',
                 'content_field.data_type_string AS field_type',
                 'content_field.language_code AS field_language_code',
                 'content_field.data_float AS field_data_float',
