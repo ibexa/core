@@ -18,7 +18,7 @@ class ScaleWidthDownOnlyFilterLoader extends FilterLoaderWrapped
 {
     public const IDENTIFIER = 'geometry/scalewidthdownonly';
 
-    public function load(ImageInterface $image, array $options = [])
+    public function load(ImageInterface $image, array $options = []): ImageInterface
     {
         if (empty($options)) {
             throw new InvalidArgumentException('Missing width option');

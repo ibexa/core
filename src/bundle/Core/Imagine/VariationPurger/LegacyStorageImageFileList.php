@@ -55,7 +55,7 @@ class LegacyStorageImageFileList implements ImageFileList
     }
 
     #[\ReturnTypeWillChange]
-    public function current()
+    public function current(): mixed
     {
         return $this->item;
     }
