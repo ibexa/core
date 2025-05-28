@@ -176,7 +176,7 @@ tables:
         indexes:
             ibexa_content_type_field_definition_ml_lang_fk: { fields: [language_id] }
         id:
-            contentclass_attribute_id: { type: integer, nullable: false }
+            content_type_field_definition_id: { type: integer, nullable: false }
             status: { type: integer, nullable: false }
             language_id: { type: bigint, nullable: false }
         fields:
@@ -498,7 +498,7 @@ tables:
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
-            contentclass_attribute_id: { type: integer, nullable: false, options: { default: '0' } }
+            content_type_field_definition_id: { type: integer, nullable: false, options: { default: '0' } }
             content_type_id: { type: integer, nullable: false, options: { default: '0' } }
             contentobject_id: { type: integer, nullable: false, options: { default: '0' } }
             frequency: { type: float, nullable: false, length: 0, options: { default: '0' } }
