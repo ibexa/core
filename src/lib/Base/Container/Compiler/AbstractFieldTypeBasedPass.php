@@ -13,19 +13,12 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 abstract class AbstractFieldTypeBasedPass implements CompilerPassInterface
 {
-    public const FIELD_TYPE_SERVICE_TAG = 'ibexa.field_type';
+    public const string FIELD_TYPE_SERVICE_TAG = 'ibexa.field_type';
 
-    public const FIELD_TYPE_SERVICE_TAGS = [
+    public const array FIELD_TYPE_SERVICE_TAGS = [
         self::FIELD_TYPE_SERVICE_TAG,
     ];
 
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     *
-     * @return array
-     *
-     * @throws \LogicException
-     */
     public function getFieldTypeServiceIds(ContainerBuilder $container): iterable
     {
         $serviceTags = $container->findTaggedServiceIds(self::FIELD_TYPE_SERVICE_TAG);
@@ -46,5 +39,5 @@ abstract class AbstractFieldTypeBasedPass implements CompilerPassInterface
         return $serviceTags;
     }
 
-    abstract public function process(ContainerBuilder $container);
+    abstract public function process(ContainerBuilder $container): void;
 }

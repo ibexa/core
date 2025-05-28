@@ -13,17 +13,11 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * This compiler pass will register Legacy Search Engine criterion field value handlers.
- */
 class CriterionFieldValueHandlerRegistryPass implements CompilerPassInterface
 {
-    private const SEARCH_LEGACY_GATEWAY_CRITERION_HANDLER_FIELD_VALUE_TAG = 'ibexa.search.legacy.gateway.criterion_handler.field_value';
+    private const string SEARCH_LEGACY_GATEWAY_CRITERION_HANDLER_FIELD_VALUE_TAG = 'ibexa.search.legacy.gateway.criterion_handler.field_value';
 
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition(HandlerRegistry::class)) {
             return;

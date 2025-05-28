@@ -15,10 +15,10 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class PlaceholderProviderPass implements CompilerPassInterface
 {
-    public const TAG_NAME = 'ibexa.media.images.placeholder.provider';
-    public const REGISTRY_DEFINITION_ID = PlaceholderProviderRegistry::class;
+    public const string TAG_NAME = 'ibexa.media.images.placeholder.provider';
+    public const string REGISTRY_DEFINITION_ID = PlaceholderProviderRegistry::class;
 
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition(self::REGISTRY_DEFINITION_ID)) {
             return;

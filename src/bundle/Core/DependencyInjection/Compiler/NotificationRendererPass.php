@@ -15,10 +15,10 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class NotificationRendererPass implements CompilerPassInterface
 {
-    public const TAG_NAME = 'ibexa.notification.renderer';
-    public const REGISTRY_DEFINITION_ID = 'notification.renderer.registry';
+    public const string TAG_NAME = 'ibexa.notification.renderer';
+    public const string REGISTRY_DEFINITION_ID = 'notification.renderer.registry';
 
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->has(self::REGISTRY_DEFINITION_ID)) {
             return;

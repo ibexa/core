@@ -13,20 +13,12 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * This compiler pass will register Ibexa external storage handlers and gateways.
- */
 class ExternalStorageRegistryPass implements CompilerPassInterface
 {
-    public const EXTERNAL_STORAGE_HANDLER_SERVICE_TAG = 'ibexa.field_type.storage.external.handler';
-    public const EXTERNAL_STORAGE_HANDLER_GATEWAY_SERVICE_TAG = 'ibexa.field_type.storage.external.handler.gateway';
+    public const string EXTERNAL_STORAGE_HANDLER_SERVICE_TAG = 'ibexa.field_type.storage.external.handler';
+    public const string EXTERNAL_STORAGE_HANDLER_GATEWAY_SERVICE_TAG = 'ibexa.field_type.storage.external.handler.gateway';
 
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     *
-     * @throws \LogicException
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition(StorageRegistry::class)) {
             return;

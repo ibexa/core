@@ -289,18 +289,6 @@ parameters:
 			path: src/bundle/Core/Command/VirtualFieldDuplicateFixCommand.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Compiler\\BinaryContentDownloadPass\:\:addCall\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Compiler/BinaryContentDownloadPass.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Compiler\\BinaryContentDownloadPass\:\:addCall\(\) has parameter \$targetServiceName with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Compiler/BinaryContentDownloadPass.php
-
-		-
 			message: '#^Argument of an invalid type array\|bool\|float\|int\|string\|null supplied for foreach, only iterables are supported\.$#'
 			identifier: foreach.nonIterable
 			count: 1
@@ -311,30 +299,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Compiler/EntityManagerFactoryServiceLocatorPass.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Compiler\\ImaginePass\:\:processReduceNoiseFilter\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Compiler/ImaginePass.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Compiler\\ImaginePass\:\:processReduceNoiseFilter\(\) has parameter \$driver with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Compiler/ImaginePass.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Compiler\\ImaginePass\:\:processSwirlFilter\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Compiler/ImaginePass.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Compiler\\ImaginePass\:\:processSwirlFilter\(\) has parameter \$driver with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Compiler/ImaginePass.php
 
 		-
 			message: '#^Argument of an invalid type array\|bool\|float\|int\|string\|null supplied for foreach, only iterables are supported\.$#'
@@ -425,12 +389,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Compiler/SessionConfigurationPass.php
-
-		-
-			message: '#^Constant Ibexa\\Bundle\\Core\\DependencyInjection\\Compiler\\TranslationCollectorPass\:\:LOCALES_MAP type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Compiler/TranslationCollectorPass.php
 
 		-
 			message: '#^Parameter \#1 \$kernelRootDir of class Ibexa\\Bundle\\Core\\Translation\\GlobCollector constructor expects string, array\|bool\|float\|int\|string\|null given\.$#'
@@ -8033,30 +7991,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Base/Container/Compiler/GenericFieldTypeConverterPass.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Base\\Container\\Compiler\\Search\\Legacy\\CriteriaConverterPass\:\:addHandlers\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Base/Container/Compiler/Search/Legacy/CriteriaConverterPass.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Base\\Container\\Compiler\\Search\\Legacy\\CriteriaConverterPass\:\:addHandlers\(\) has parameter \$handlers with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/lib/Base/Container/Compiler/Search/Legacy/CriteriaConverterPass.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Base\\Container\\Compiler\\Search\\Legacy\\SortClauseConverterPass\:\:addHandlers\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Base/Container/Compiler/Search/Legacy/SortClauseConverterPass.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Base\\Container\\Compiler\\Search\\Legacy\\SortClauseConverterPass\:\:addHandlers\(\) has parameter \$handlers with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/lib/Base/Container/Compiler/Search/Legacy/SortClauseConverterPass.php
 
 		-
 			message: '#^Class Ibexa\\Core\\Base\\Container\\Compiler\\TaggedServiceIdsIterator\\BackwardCompatibleIterator implements generic interface IteratorAggregate but does not specify its types\: TKey, TValue$#'

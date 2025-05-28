@@ -13,24 +13,11 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * This compiler pass will register Ibexa storage engines.
- */
 class RegisterStorageEnginePass implements CompilerPassInterface
 {
-    public const STORAGE_ENGINE_TAG = 'ibexa.storage';
+    public const string STORAGE_ENGINE_TAG = 'ibexa.storage';
 
-    /**
-     * Performs compiler passes for persistence factories.
-     *
-     * Does:
-     * - Registers all storage engines to ezpublish.api.storage_engine.factory
-     *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     *
-     * @throws \LogicException
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition(StorageEngineFactory::class)) {
             return;
@@ -50,7 +37,6 @@ class RegisterStorageEnginePass implements CompilerPassInterface
                     );
                 }
 
-                // Register the storage engine on the main storage engine factory
                 $storageEngineFactoryDef->addMethodCall(
                     'registerStorageEngine',
                     [

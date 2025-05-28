@@ -12,16 +12,9 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * The ChainConfigResolverPass will register all services tagged as "ibexa.site.config.resolver"
- * to the chain config resolver.
- */
 class ChainConfigResolverPass implements CompilerPassInterface
 {
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition(ChainConfigResolver::class)) {
             return;
@@ -31,7 +24,6 @@ class ChainConfigResolverPass implements CompilerPassInterface
 
         foreach ($container->findTaggedServiceIds('ibexa.site.config.resolver') as $id => $attributes) {
             $priority = isset($attributes[0]['priority']) ? (int)$attributes[0]['priority'] : 0;
-            // Priority range is between -255 (the lowest) and 255 (the highest)
             if ($priority > 255) {
                 $priority = 255;
             }

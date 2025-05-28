@@ -11,13 +11,9 @@ use LogicException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-/**
- * This compiler pass will create aliases for storage engine database handler connections
- * to the storage connection factory.
- */
 class StorageConnectionPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $taggedServiceIds = $container->findTaggedServiceIds(
             RegisterStorageEnginePass::STORAGE_ENGINE_TAG

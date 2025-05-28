@@ -11,15 +11,9 @@ use Ibexa\Bundle\Core\Routing\DefaultRouter;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-/**
- * Routing related compiler pass.
- *
- * Manipulates Symfony default router services to adapt them to eZ routing needs,
- * specifically to implement the RequestMatcherInterface.
- */
 class RouterPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('router.default')) {
             return;

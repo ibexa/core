@@ -8,23 +8,16 @@
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry;
+use LogicException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * This compiler pass will register Ibexa field type parameter providers.
- */
 class FieldTypeParameterProviderRegistryPass implements CompilerPassInterface
 {
-    public const FIELD_TYPE_PARAMETER_PROVIDER_SERVICE_TAG = 'ibexa.field_type.view.parameter.provider';
+    public const string FIELD_TYPE_PARAMETER_PROVIDER_SERVICE_TAG = 'ibexa.field_type.view.parameter.provider';
 
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     *
-     * @throws \LogicException
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition(ParameterProviderRegistry::class)) {
             return;
@@ -38,7 +31,7 @@ class FieldTypeParameterProviderRegistryPass implements CompilerPassInterface
         foreach ($serviceTags as $serviceId => $attributes) {
             foreach ($attributes as $attribute) {
                 if (!isset($attribute['alias'])) {
-                    throw new \LogicException(
+                    throw new LogicException(
                         sprintf(
                             'Service "%s" tagged with "%s" service tag needs an "alias" attribute to identify the Field Type.',
                             $serviceId,

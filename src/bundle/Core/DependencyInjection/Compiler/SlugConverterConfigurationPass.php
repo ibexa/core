@@ -12,20 +12,14 @@ use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-/**
- * This compiler pass will create configuration injected into SlugConverter responsible for url pattern creation.
- */
 class SlugConverterConfigurationPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
-        if (!$container->has(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter::class)) {
+        if (!$container->has(SlugConverter::class)) {
             return;
         }
-        $slugConverterDefinition = $container->getDefinition(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter::class);
+        $slugConverterDefinition = $container->getDefinition(SlugConverter::class);
 
         $parameterConfiguration = $slugConverterDefinition->getArgument(1);
         $semanticConfiguration = $container->getParameter('ibexa.url_alias.slug_converter');
@@ -62,7 +56,9 @@ class SlugConverterConfigurationPass implements CompilerPassInterface
                 $mergedConfiguration['transformation'],
                 implode(', ', array_keys($mergedConfiguration['transformationGroups']))
             ));
-        } elseif (empty($mergedConfiguration['transformation'])) {
+        }
+
+        if (empty($mergedConfiguration['transformation'])) {
             @trigger_error(
                 sprintf(
                     'Relying on default url_alias.slug_converter.transformation setting ("%s") is deprecated and might change in the next major. Set it explicitly to one of the following: %s',
