@@ -14,12 +14,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 final class MigrationFileListerPass implements CompilerPassInterface
 {
-    /**
-     * Registers the FileListerInterface into the file lister registry.
-     *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->has(ConfigurableRegistry::class)) {
             return;

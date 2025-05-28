@@ -8,6 +8,7 @@
 namespace Ibexa\Bundle\IO\DependencyInjection\Compiler;
 
 use ArrayObject;
+use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -16,8 +17,6 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * This compiler pass will create the metadata and binarydata IO handlers depending on container configuration.
- *
  * @todo Refactor into two passes, since they're very very close.
  */
 class IOConfigurationPass implements CompilerPassInterface
@@ -36,12 +35,7 @@ class IOConfigurationPass implements CompilerPassInterface
         $this->binarydataHandlerFactories = $binarydataHandlerFactories;
     }
 
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     *
-     * @throws \LogicException
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $ioMetadataHandlers = $container->hasParameter('ibexa.io.metadata_handlers') ?
             $container->getParameter('ibexa.io.metadata_handlers') :
@@ -80,8 +74,8 @@ class IOConfigurationPass implements CompilerPassInterface
         Definition $factory,
         array $configuredHandlers,
         ArrayObject $factories,
-        $defaultHandler
-    ) {
+        string $defaultHandler
+    ): void {
         $handlers = ['default' => new Reference($defaultHandler)];
 
         foreach ($configuredHandlers as $name => $config) {
@@ -105,10 +99,8 @@ class IOConfigurationPass implements CompilerPassInterface
      *
      * @param \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory[]|\ArrayObject $factories
      * @param string $type
-     *
-     * @return \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory
      */
-    protected function getFactory(ArrayObject $factories, $type)
+    protected function getFactory(ArrayObject $factories, string $type): ConfigurationFactory
     {
         if (!isset($factories[$type])) {
             throw new InvalidConfigurationException("Unknown handler type $type");

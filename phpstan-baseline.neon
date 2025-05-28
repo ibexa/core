@@ -4387,12 +4387,6 @@ parameters:
 			path: src/bundle/IO/DependencyInjection/Compiler/IOConfigurationPass.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\IO\\DependencyInjection\\Compiler\\IOConfigurationPass\:\:processHandlers\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/IO/DependencyInjection/Compiler/IOConfigurationPass.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\IO\\DependencyInjection\\Compiler\\IOConfigurationPass\:\:processHandlers\(\) has parameter \$configuredHandlers with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
