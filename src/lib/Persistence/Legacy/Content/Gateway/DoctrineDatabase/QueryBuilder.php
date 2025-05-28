@@ -53,7 +53,7 @@ final class QueryBuilder
         $query
             ->select(
                 'l.id AS content_link_id',
-                'l.contentclassattribute_id AS content_link_contentclassattribute_id',
+                'l.content_type_field_definition_id AS content_link_content_type_field_definition_id',
                 'l.from_contentobject_id AS content_link_from_contentobject_id',
                 'l.from_contentobject_version AS content_link_from_contentobject_version',
                 'l.relation_type AS content_link_relation_type',

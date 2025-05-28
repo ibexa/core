@@ -559,7 +559,7 @@ final class DoctrineDatabase extends Gateway
             ->values(
                 [
                     'contentobject_id' => ':content_id',
-                    'contentclassattribute_id' => ':field_definition_id',
+                    'content_type_field_definition_id' => ':field_definition_id',
                     'data_type_string' => ':data_type_string',
                     'language_code' => ':language_code',
                     'version' => ':version_no',
@@ -660,7 +660,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $this->setFieldUpdateValues($query, $value);
         $query
-            ->where('contentclassattribute_id = :field_definition_id')
+            ->where('content_type_field_definition_id = :field_definition_id')
             ->andWhere('contentobject_id = :content_id')
             ->andWhere('version = :version_no')
             ->setParameter('field_definition_id', $field->fieldDefinitionId, ParameterType::INTEGER)
@@ -719,7 +719,7 @@ final class DoctrineDatabase extends Gateway
                 'v.language_mask AS content_version_language_mask',
                 'v.initial_language_id AS content_version_initial_language_id',
                 'a.id AS content_field_id',
-                'a.contentclassattribute_id AS content_field_contentclassattribute_id',
+                'a.content_type_field_definition_id AS content_field_content_type_field_definition_id',
                 'a.data_type_string AS content_field_data_type_string',
                 'a.language_code AS content_field_language_code',
                 'a.language_id AS content_field_language_id',
@@ -1129,7 +1129,7 @@ final class DoctrineDatabase extends Gateway
                 $expr->and(
                     'l.from_contentobject_id = a.contentobject_id',
                     'l.from_contentobject_version = a.version',
-                    'l.contentclassattribute_id = a.contentclassattribute_id'
+                    'l.content_type_field_definition_id = a.content_type_field_definition_id'
                 )
             )
             ->where('l.to_contentobject_id = :content_id')
@@ -1166,7 +1166,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query->delete(self::CONTENT_RELATION_TABLE)
-            ->where('contentclassattribute_id = :field_definition_id')
+            ->where('content_type_field_definition_id = :field_definition_id')
             ->setParameter('field_definition_id', $fieldDefinitionId, ParameterType::INTEGER);
 
         $query->executeStatement();
@@ -1645,7 +1645,7 @@ final class DoctrineDatabase extends Gateway
             ->insert(self::CONTENT_RELATION_TABLE)
             ->values(
                 [
-                    'contentclassattribute_id' => ':field_definition_id',
+                    'content_type_field_definition_id' => ':field_definition_id',
                     'from_contentobject_id' => ':from_content_id',
                     'from_contentobject_version' => ':from_version_no',
                     'relation_type' => ':relation_type',
@@ -1810,7 +1810,7 @@ final class DoctrineDatabase extends Gateway
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
             ->select(
-                'l.contentclassattribute_id',
+                'l.content_type_field_definition_id',
                 ':copied_id',
                 'l.from_contentobject_version',
                 'l.relation_type',
@@ -1830,7 +1830,7 @@ final class DoctrineDatabase extends Gateway
         $contentLinkTable = Gateway::CONTENT_RELATION_TABLE;
         $insertQuery = <<<SQL
             INSERT INTO $contentLinkTable (
-                contentclassattribute_id,
+                content_type_field_definition_id,
                 from_contentobject_id,
                 from_contentobject_version,
                 relation_type,

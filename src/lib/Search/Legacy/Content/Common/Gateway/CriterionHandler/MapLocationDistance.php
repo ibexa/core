@@ -194,7 +194,7 @@ class MapLocationDistance extends FieldBase
             ->where('f_def.version = c.current_version')
             ->andWhere(
                 $expr->in(
-                    'f_def.contentclassattribute_id',
+                    'f_def.content_type_field_definition_id',
                     $queryBuilder->createNamedParameter($fieldDefinitionIds, Connection::PARAM_INT_ARRAY)
                 )
             )
