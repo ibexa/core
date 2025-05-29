@@ -1117,7 +1117,7 @@ final class DoctrineDatabase extends Gateway
             ->select('f_def.id as content_type_field_definition_id')
             ->from(self::FIELD_DEFINITION_TABLE, 'f_def')
             ->where('f_def.contentclass_id = :content_type_id')
-            ->andWhere("f_def.id = {$ctMlTable}.contentclass_attribute_id");
+            ->andWhere("f_def.id = $ctMlTable.contentclass_attribute_id");
 
         $deleteQuery = $this->connection->createQueryBuilder();
         $deleteQuery
@@ -1305,7 +1305,7 @@ final class DoctrineDatabase extends Gateway
             ->select('f_def.id as content_type_field_definition_id')
             ->from(self::FIELD_DEFINITION_TABLE, 'f_def')
             ->where('f_def.contentclass_id = :type_id')
-            ->andWhere("f_def.id = {$ctMlTable}.contentclass_attribute_id");
+            ->andWhere("f_def.id = $ctMlTable.contentclass_attribute_id");
 
         $mlDataPublishQuery = $this->connection->createQueryBuilder();
         $mlDataPublishQuery
@@ -1417,11 +1417,11 @@ final class DoctrineDatabase extends Gateway
         $contentTypeAttrTable = Gateway::FIELD_DEFINITION_TABLE;
         $contentTypeTable = Gateway::CONTENT_TYPE_TABLE;
         $sql = <<<SQL
-          DELETE FROM {$contentTypeAttrTable} 
+          DELETE FROM $contentTypeAttrTable 
             WHERE NOT EXISTS (
-              SELECT 1 FROM {$contentTypeTable} 
-                WHERE {$contentTypeTable}.id = {$contentTypeAttrTable}.contentclass_id 
-                AND {$contentTypeTable}.version = {$contentTypeAttrTable}.version
+              SELECT 1 FROM $contentTypeTable
+                WHERE $contentTypeTable.id = $contentTypeAttrTable.contentclass_id
+                AND $contentTypeTable.version = $contentTypeAttrTable.version
             )
 SQL;
         $this->connection->executeStatement($sql);
@@ -1435,11 +1435,11 @@ SQL;
         $contentTypeAttrMlTable = Gateway::MULTILINGUAL_FIELD_DEFINITION_TABLE;
         $contentTypeAttrTable = Gateway::FIELD_DEFINITION_TABLE;
         $sql = <<<SQL
-          DELETE FROM {$contentTypeAttrMlTable} 
+          DELETE FROM $contentTypeAttrMlTable
             WHERE NOT EXISTS (
-              SELECT 1 FROM {$contentTypeAttrTable} 
-                WHERE {$contentTypeAttrTable}.id = {$contentTypeAttrMlTable}.contentclass_attribute_id 
-                AND {$contentTypeAttrTable}.version = {$contentTypeAttrMlTable}.version
+              SELECT 1 FROM $contentTypeAttrTable
+                WHERE $contentTypeAttrTable.id = $contentTypeAttrMlTable.contentclass_attribute_id
+                AND $contentTypeAttrTable.version = $contentTypeAttrMlTable.version
             )
 SQL;
         $this->connection->executeStatement($sql);
@@ -1453,11 +1453,11 @@ SQL;
         $contentTypeGroupAssignmentTable = Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE;
         $contentTypeTable = Gateway::CONTENT_TYPE_TABLE;
         $sql = <<<SQL
-          DELETE FROM {$contentTypeGroupAssignmentTable} 
+          DELETE FROM $contentTypeGroupAssignmentTable
             WHERE NOT EXISTS (
-              SELECT 1 FROM {$contentTypeTable} 
-                WHERE {$contentTypeTable}.id = {$contentTypeGroupAssignmentTable}.contentclass_id 
-                AND {$contentTypeTable}.version = {$contentTypeGroupAssignmentTable}.contentclass_version
+              SELECT 1 FROM $contentTypeTable
+                WHERE $contentTypeTable.id = $contentTypeGroupAssignmentTable.contentclass_id
+                AND $contentTypeTable.version = $contentTypeGroupAssignmentTable.contentclass_version
             )
 SQL;
         $this->connection->executeStatement($sql);
@@ -1471,11 +1471,11 @@ SQL;
         $contentTypeNameTable = Gateway::CONTENT_TYPE_NAME_TABLE;
         $contentTypeTable = Gateway::CONTENT_TYPE_TABLE;
         $sql = <<< SQL
-          DELETE FROM {$contentTypeNameTable} 
+          DELETE FROM $contentTypeNameTable
             WHERE NOT EXISTS (
-              SELECT 1 FROM {$contentTypeTable} 
-                WHERE {$contentTypeTable}.id = {$contentTypeNameTable}.contentclass_id 
-                AND {$contentTypeTable}.version = {$contentTypeNameTable}.contentclass_version
+              SELECT 1 FROM $contentTypeTable
+                WHERE $contentTypeTable.id = $contentTypeNameTable.contentclass_id
+                AND $contentTypeTable.version = $contentTypeNameTable.contentclass_version
             )
 SQL;
         $this->connection->executeStatement($sql);
