@@ -14,7 +14,7 @@ use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
 /**
- * @covers \DoctrineDatabase::insertBookmark
+ * @covers \Ibexa\Core\Persistence\Legacy\Bookmark\Gateway
  */
 class DoctrineDatabaseTest extends TestCase
 {
