@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Notification\Gateway;
 
-use Doctrine\DBAL\FetchMode;
 use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway\DoctrineDatabase;
@@ -164,12 +163,20 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
+    /**
+     * @return array<string,mixed>
+     *
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function loadNotification(int $id): array
     {
         $table = DoctrineDatabase::TABLE_NOTIFICATION;
         $data = $this->connection
-            ->executeQuery("SELECT * FROM {$table} WHERE id = :id", ['id' => $id])
-            ->fetch(FetchMode::ASSOCIATIVE);
+            ->executeQuery(
+                "SELECT id, owner_id, is_pending, type, created, data FROM $table WHERE id = :id",
+                ['id' => $id]
+            )
+            ->fetchAssociative();
 
         return is_array($data) ? $data : [];
     }
