@@ -208,7 +208,7 @@ final class DoctrineDatabase extends Gateway
         if ($maxPriority === null) {
             $this->connection->executeStatement(
                 'INSERT INTO ' . Gateway::OBJECT_STATE_LINK_TABLE . ' (contentobject_id, contentobject_state_id) ' .
-                "SELECT id, {$objectState->id} FROM ibexa_content"
+                "SELECT id, $objectState->id FROM ibexa_content"
             );
         }
     }

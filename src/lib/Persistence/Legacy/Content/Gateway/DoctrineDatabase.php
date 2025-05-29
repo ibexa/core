@@ -1872,7 +1872,7 @@ final class DoctrineDatabase extends Gateway
         // Given we can retain all columns, we just create copies with new `from_contentobject_id` using INSERT INTO SELECT
         $contentLinkTable = Gateway::CONTENT_RELATION_TABLE;
         $insertQuery = <<<SQL
-            INSERT INTO {$contentLinkTable} (
+            INSERT INTO $contentLinkTable (
                 contentclassattribute_id,
                 from_contentobject_id,
                 from_contentobject_version,
@@ -2059,7 +2059,7 @@ final class DoctrineDatabase extends Gateway
             ->set(
                 'initial_language_id',
                 'CASE WHEN initial_language_id = :languageId ' .
-                "THEN (SELECT initial_language_id AS main_language_id FROM {$contentTable} c WHERE c.id = :contentId) " .
+                "THEN (SELECT initial_language_id AS main_language_id FROM $contentTable c WHERE c.id = :contentId) " .
                 'ELSE initial_language_id END'
             )
             ->where('contentobject_id = :contentId')
