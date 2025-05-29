@@ -28,7 +28,7 @@ class BinaryBaseStorageGatewayTest extends BaseCoreFieldTypeIntegrationTest
         parent::setUp();
 
         $importer = new FixtureImporter($this->getDatabaseConnection());
-        $importer->import(new YamlFixture(__DIR__ . '/_fixtures/ezbinaryfile.yaml'));
+        $importer->import(new YamlFixture(__DIR__ . '/_fixtures/ibexa_binary_file.yaml'));
     }
 
     protected function getGateway(): BinaryBaseStorageGateway
