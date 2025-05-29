@@ -351,7 +351,7 @@ ibexa_content_field:
   - { attribute_original_id: 0, contentclassattribute_id: 292, contentobject_id: 50, data_float: 0, data_int: null, data_text: '', data_type_string: ezkeyword, id: 218, language_code: eng-US, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
   - { attribute_original_id: 0, contentclassattribute_id: 292, contentobject_id: 51, data_float: 0, data_int: null, data_text: '', data_type_string: ezkeyword, id: 219, language_code: eng-US, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
   - { attribute_original_id: 0, contentclassattribute_id: 292, contentobject_id: 56, data_float: 0, data_int: null, data_text: '', data_type_string: ezkeyword, id: 220, language_code: eng-US, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
-ibexa_content_link: {  }
+ibexa_content_relation: {  }
 ibexa_content_name:
   - { content_translation: eng-US, content_version: 1, contentobject_id: 4, language_id: 3, name: Users, real_translation: eng-US }
   - { content_translation: eng-US, content_version: 2, contentobject_id: 10, language_id: 3, name: 'Anonymous User', real_translation: eng-US }

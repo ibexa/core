@@ -18,6 +18,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\TransformationProcessor;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
+use Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository\SearchIndex;
 
 /**
  * Full text criterion handler.
@@ -192,7 +193,7 @@ class FullText extends CriterionHandler
 
         $subQuery
             ->select('id')
-            ->from(\Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository\SearchIndex::SEARCH_WORD_TABLE)
+            ->from(SearchIndex::SEARCH_WORD_TABLE)
             ->where($whereCondition);
 
         return $subQuery->getSQL();
@@ -213,7 +214,7 @@ class FullText extends CriterionHandler
             ->select(
                 'contentobject_id'
             )->from(
-                \Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository\SearchIndex::SEARCH_OBJECT_WORD_LINK_TABLE
+                SearchIndex::SEARCH_OBJECT_WORD_LINK_TABLE
             )->where(
                 $expr->in(
                     'word_id',

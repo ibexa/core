@@ -260,11 +260,11 @@ tables:
             language_id: { type: bigint, nullable: false, options: { default: '0' } }
             sort_key_int: { type: integer, nullable: false, options: { default: '0' } }
             sort_key_string: { type: string, nullable: false, length: 255, options: { default: '' } }
-    ibexa_content_link:
+    ibexa_content_relation:
         indexes:
-            ibexa_content_link_to_co_id: { fields: [to_contentobject_id] }
-            ibexa_content_link_from: { fields: [from_contentobject_id, from_contentobject_version, contentclassattribute_id] }
-            ibexa_content_link_cca_id: { fields: [ contentclassattribute_id ] }
+            ibexa_content_relation_to_co_id: { fields: [to_contentobject_id] }
+            ibexa_content_relation_from: { fields: [from_contentobject_id, from_contentobject_version, contentclassattribute_id] }
+            ibexa_content_relation_cca_id: { fields: [ contentclassattribute_id ] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
