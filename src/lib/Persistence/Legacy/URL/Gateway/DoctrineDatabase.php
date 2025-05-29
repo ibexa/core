@@ -24,11 +24,9 @@ use RuntimeException;
  */
 class DoctrineDatabase extends Gateway
 {
-    /** @internal */
-    public const URL_TABLE = 'ezurl';
+    public const URL_TABLE = 'ibexa_url';
 
-    /** @internal */
-    public const URL_LINK_TABLE = 'ezurl_object_link';
+    public const URL_LINK_TABLE = 'ibexa_url_content_link';
 
     public const COLUMN_ID = 'id';
     public const COLUMN_URL = 'url';

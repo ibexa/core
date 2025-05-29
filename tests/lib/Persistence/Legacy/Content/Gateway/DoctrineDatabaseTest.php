@@ -18,6 +18,7 @@ use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
@@ -74,7 +75,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'modified',
                     'published',
                     'status'
-                )->from('ezcontentobject')
+                )->from(Gateway::CONTENT_ITEM_TABLE)
         );
     }
 
@@ -196,7 +197,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'version',
                     'language_mask',
                     'initial_language_id'
-                )->from('ezcontentobject_version')
+                )->from(Gateway::CONTENT_VERSION_TABLE)
         );
     }
 
@@ -222,7 +223,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()
                 ->createQueryBuilder()
                 ->select('status')
-                ->from('ezcontentobject_version')
+                ->from(Gateway::CONTENT_VERSION_TABLE)
         );
 
         // check that content status has not been set to published
@@ -231,7 +232,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()
                 ->createQueryBuilder()
                 ->select('status')
-                ->from('ezcontentobject')
+                ->from(Gateway::CONTENT_ITEM_TABLE)
         );
     }
 
@@ -257,7 +258,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()
                 ->createQueryBuilder()
                 ->select('status')
-                ->from('ezcontentobject_version')
+                ->from(Gateway::CONTENT_VERSION_TABLE)
         );
 
         // check that content status has been set to published
@@ -266,7 +267,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()
                 ->createQueryBuilder()
                 ->select('status')
-                ->from('ezcontentobject')
+                ->from(Gateway::CONTENT_ITEM_TABLE)
         );
     }
 
@@ -310,7 +311,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'published',
                     'remote_id',
                     'name'
-                )->from('ezcontentobject')
+                )->from(Gateway::CONTENT_ITEM_TABLE)
                 ->where('id = 10')
         );
     }
@@ -375,7 +376,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'initial_language_id',
                     'modified'
                 )
-                ->from('ezcontentobject_version')
+                ->from(Gateway::CONTENT_VERSION_TABLE)
                 ->where(
                     $expr->and(
                         $expr->eq('contentobject_id', 10),
@@ -426,7 +427,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'sort_key_int',
                     'sort_key_string',
                     'version'
-                )->from('ezcontentobject_attribute')
+                )->from(Gateway::CONTENT_FIELD_TABLE)
         );
     }
 
@@ -473,7 +474,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'sort_key_int',
                     'sort_key_string',
                     'version'
-                )->from('ezcontentobject_attribute')
+                )->from(Gateway::CONTENT_FIELD_TABLE)
         );
     }
 
@@ -518,7 +519,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'data_text',
                     'sort_key_int',
                     'sort_key_string'
-                )->from('ezcontentobject_attribute')
+                )->from(Gateway::CONTENT_FIELD_TABLE)
         );
     }
 
@@ -575,7 +576,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'data_text',
                     'sort_key_int',
                     'sort_key_string'
-                )->from('ezcontentobject_attribute')
+                )->from(Gateway::CONTENT_FIELD_TABLE)
         );
     }
 
@@ -602,11 +603,11 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         self::assertEquals(
             675,
-            $res[0]['ezcontentobject_version_id']
+            $res[0]['content_version_id']
         );
         self::assertEquals(
             676,
-            $res[1]['ezcontentobject_version_id']
+            $res[1]['content_version_id']
         );
     }
 
@@ -645,19 +646,19 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         self::assertEquals(
             677,
-            $res[0]['ezcontentobject_version_id']
+            $res[0]['content_version_id']
         );
         self::assertEquals(
             0,
-            $res[0]['ezcontentobject_version_status']
+            $res[0]['content_version_status']
         );
         self::assertEquals(
             678,
-            $res[1]['ezcontentobject_version_id']
+            $res[1]['content_version_id']
         );
         self::assertEquals(
             0,
-            $res[1]['ezcontentobject_version_status']
+            $res[1]['content_version_status']
         );
     }
 
@@ -671,13 +672,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $res = $gateway->load(226, 2);
 
         $this->assertValuesInRows(
-            'ezcontentobject_attribute_language_code',
+            'content_field_language_code',
             ['eng-US', self::ENG_GB],
             $res
         );
 
         $this->assertValuesInRows(
-            'ezcontentobject_attribute_language_id',
+            'content_field_language_id',
             ['2', '4'],
             $res
         );
@@ -736,12 +737,12 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $res = $gateway->load(226, 2, [self::ENG_GB]);
 
         $this->assertValuesInRows(
-            'ezcontentobject_attribute_language_code',
+            'content_field_language_code',
             [self::ENG_GB],
             $res
         );
         $this->assertValuesInRows(
-            'ezcontentobject_attribute_language_id',
+            'content_field_language_id',
             ['4'],
             $res
         );
@@ -953,7 +954,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [],
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('*')
-                ->from('ezcontentobject_attribute')
+                ->from(Gateway::CONTENT_FIELD_TABLE)
                 ->where('id=22')
         );
     }
@@ -1087,7 +1088,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'name',
                     'real_translation'
                 )
-                ->from('ezcontentobject_name')
+                ->from(Gateway::CONTENT_NAME_TABLE)
                 ->where('contentobject_id = :content_id')
                 ->andWhere('content_version = :version_no')
                 ->andWhere('content_translation = :language_code')
@@ -1194,7 +1195,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         self::assertEquals(
             $relationId,
-            $relation['ezcontentobject_link_id']
+            $relation['content_link_id']
         );
     }
 
@@ -1212,18 +1213,18 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertCount(3, $relations);
 
         $this->assertValuesInRows(
-            'ezcontentobject_link_to_contentobject_id',
+            'content_link_to_contentobject_id',
             [58, 59, 60],
             $relations
         );
 
         $this->assertValuesInRows(
-            'ezcontentobject_link_from_contentobject_id',
+            'content_link_from_contentobject_id',
             [57],
             $relations
         );
         $this->assertValuesInRows(
-            'ezcontentobject_link_from_contentobject_version',
+            'content_link_from_contentobject_version',
             [2],
             $relations
         );
@@ -1240,13 +1241,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertCount(1, $relations, 'Expecting one relation to be loaded');
 
         $this->assertValuesInRows(
-            'ezcontentobject_link_relation_type',
+            'content_link_relation_type',
             [RelationType::COMMON->value],
             $relations
         );
 
         $this->assertValuesInRows(
-            'ezcontentobject_link_to_contentobject_id',
+            'content_link_to_contentobject_id',
             [58],
             $relations
         );
@@ -1263,7 +1264,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertCount(1, $relations, 'Expecting one relation to be loaded');
 
         $this->assertValuesInRows(
-            'ezcontentobject_link_to_contentobject_id',
+            'content_link_to_contentobject_id',
             [58],
             $relations
         );
@@ -1291,7 +1292,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertCount(2, $relations);
 
         $this->assertValuesInRows(
-            'ezcontentobject_link_from_contentobject_id',
+            'content_link_from_contentobject_id',
             [57, 61],
             $relations
         );
@@ -1308,13 +1309,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         self::assertCount(1, $relations);
 
         $this->assertValuesInRows(
-            'ezcontentobject_link_from_contentobject_id',
+            'content_link_from_contentobject_id',
             [57],
             $relations
         );
 
         $this->assertValuesInRows(
-            'ezcontentobject_link_relation_type',
+            'content_link_relation_type',
             [RelationType::COMMON->value],
             $relations
         );
@@ -1371,7 +1372,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'to_contentobject_id',
                     'relation_type'
                 )
-                ->from('ezcontentobject_link')
+                ->from(Gateway::CONTENT_RELATION_TABLE)
                 ->where('id = 1')
         );
     }
@@ -1403,7 +1404,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [['relation_type' => RelationType::LINK->value]],
             $query
                 ->select('relation_type')
-                ->from('ezcontentobject_link')
+                ->from(Gateway::CONTENT_RELATION_TABLE)
                 ->where(
                     $query->expr()->eq(
                         'id',
@@ -1431,7 +1432,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [['id' => 2]],
             $query
                 ->select('language_mask')
-                ->from('ezcontentobject')
+                ->from(Gateway::CONTENT_ITEM_TABLE)
                 ->where(
                     $query->expr()->eq(
                         'id',
@@ -1447,7 +1448,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->select(
                     'language_id'
                 )->from(
-                    'ezcontentobject_name'
+                    Gateway::CONTENT_NAME_TABLE
                 )->where(
                     $query->expr()->and(
                         $query->expr()->eq(
@@ -1469,7 +1470,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ],
             $query
                 ->select('DISTINCT language_id')
-                ->from('ezcontentobject_attribute')
+                ->from(Gateway::CONTENT_FIELD_TABLE)
                 ->where(
                     $query->expr()->and(
                         $query->expr()->eq('contentobject_id', 103),
@@ -1498,7 +1499,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [['id' => $expectedLanguageId]],
             $connection->createQueryBuilder()
                 ->select('language_mask')
-                ->from('ezcontentobject')
+                ->from(Gateway::CONTENT_ITEM_TABLE)
                 ->where('id = 102')
         );
 
@@ -1510,7 +1511,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ],
             $query
                 ->select('language_id')
-                ->from('ezcontentobject_name')
+                ->from(Gateway::CONTENT_NAME_TABLE)
                 ->where(
                     $query->expr()->and(
                         $query->expr()->eq(
@@ -1532,7 +1533,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ],
             $query
                 ->select('DISTINCT language_id')
-                ->from('ezcontentobject_attribute')
+                ->from(Gateway::CONTENT_FIELD_TABLE)
                 ->where(
                     $query->expr()->and(
                         $query->expr()->eq(
@@ -1572,7 +1573,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()->createQueryBuilder()->select(
                 'language_mask'
             )->from(
-                'ezcontentobject'
+                Gateway::CONTENT_ITEM_TABLE
             )->where(
                 'id = 4'
             )
@@ -1621,7 +1622,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()->createQueryBuilder()->select(
                 'language_mask'
             )->from(
-                'ezcontentobject'
+                Gateway::CONTENT_ITEM_TABLE
             )->where(
                 'id = 4'
             )
@@ -1684,7 +1685,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $query = $connection->createQueryBuilder();
         $query
             ->select($dbPlatform->getCountExpression('id'))
-            ->from('ezcontentobject_link');
+            ->from(Gateway::CONTENT_RELATION_TABLE);
 
         if ($fromId !== null) {
             $query->where(
@@ -1725,7 +1726,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $query = $connection->createQueryBuilder();
         $query
             ->select($dbPlatform->getCountExpression('id'))
-            ->from('ezcontentobject_attribute');
+            ->from(Gateway::CONTENT_FIELD_TABLE);
 
         if ($contentId !== null) {
             $query->where(
@@ -1758,7 +1759,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $query = $connection->createQueryBuilder();
         $query
             ->select($dbPlatform->getCountExpression('id'))
-            ->from('ezcontentobject_version');
+            ->from(Gateway::CONTENT_VERSION_TABLE);
 
         if ($contentId !== null) {
             $query->where(
@@ -1791,7 +1792,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $query = $connection->createQueryBuilder();
         $query
             ->select($dbPlatform->getCountExpression('contentobject_id'))
-            ->from('ezcontentobject_name');
+            ->from(Gateway::CONTENT_NAME_TABLE);
 
         if ($contentId !== null) {
             $query->where(
@@ -1823,7 +1824,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $query = $connection->createQueryBuilder();
         $query
             ->select($dbPlatform->getCountExpression('id'))
-            ->from('ezcontentobject');
+            ->from(Gateway::CONTENT_ITEM_TABLE);
 
         if ($contentId !== null) {
             $query->where(
@@ -1957,7 +1958,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $expectation,
             $query
                 ->select('DISTINCT id, language_id')
-                ->from('ezcontentobject_attribute')
+                ->from(Gateway::CONTENT_FIELD_TABLE)
                 ->where(
                     $query->expr()->and(
                         $query->expr()->eq(

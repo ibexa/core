@@ -11,6 +11,7 @@ namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\User;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsUserBased;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
+use Ibexa\Core\Persistence\Legacy\User\Gateway;
 
 /**
  * @internal for internal use by Repository Filtering
@@ -34,7 +35,7 @@ final class IsUserBasedQueryBuilder extends BaseUserCriterionQueryBuilder
         $queryBuilder
             ->leftJoinOnce(
                 'content',
-                'ezuser',
+                Gateway::USER_TABLE,
                 'user_storage',
                 'content.id = user_storage.contentobject_id'
             );

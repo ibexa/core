@@ -1,15 +1,15 @@
-ezbinaryfile: {  }
-ezcobj_state:
+ibexa_binary_file: {  }
+ibexa_object_state:
   - { default_language_id: 2, group_id: 2, id: 1, identifier: not_locked, language_mask: 3, priority: 0 }
   - { default_language_id: 2, group_id: 2, id: 2, identifier: locked, language_mask: 3, priority: 1 }
-ezcobj_state_group:
+ibexa_object_state_group:
   - { default_language_id: 2, id: 2, identifier: ez_lock, language_mask: 3 }
-ezcobj_state_group_language:
+ibexa_object_state_group_language:
   - { contentobject_state_group_id: 2, description: '', language_id: 3, name: Lock, real_language_id: 2 }
-ezcobj_state_language:
+ibexa_object_state_language:
   - { contentobject_state_id: 1, description: '', language_id: 3, name: 'Not locked' }
   - { contentobject_state_id: 2, description: '', language_id: 3, name: Locked }
-ezcobj_state_link:
+ibexa_object_state_link:
   - { contentobject_id: 4, contentobject_state_id: 1 }
   - { contentobject_id: 10, contentobject_state_id: 1 }
   - { contentobject_id: 11, contentobject_state_id: 1 }
@@ -28,11 +28,11 @@ ezcobj_state_link:
   - { contentobject_id: 57, contentobject_state_id: 1 }
   - { contentobject_id: 58, contentobject_state_id: 1 }
   - { contentobject_id: 59, contentobject_state_id: 1 }
-ezcontent_language:
+ibexa_content_language:
   - { disabled: 0, id: 2, locale: eng-US, name: 'English (American)' }
   - { disabled: 0, id: 4, locale: ger-DE, name: German }
   - { disabled: 0, id: 8, locale: eng-GB, name: 'English (United Kingdom)' }
-ezcontentclass:
+ibexa_content_type:
   - { always_available: 1, contentobject_name: '<short_name|name>', created: 1024392098, creator_id: 14, id: 1, identifier: folder, initial_language_id: 2, is_container: 1, language_mask: 3, modified: 1082454875, modifier_id: 14, remote_id: a3d405b81be900468eb153d774f4f0d2, serialized_description_list: 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}', serialized_name_list: 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:6:"Folder";}', sort_field: 1, sort_order: 1, url_alias_name: '', version: 0 }
   - { always_available: 1, contentobject_name: '<name>', created: 1024392098, creator_id: 14, id: 3, identifier: user_group, initial_language_id: 2, is_container: 1, language_mask: 3, modified: 1048494743, modifier_id: 14, remote_id: 25b4268cdcd01921b808a0d854b877ef, serialized_description_list: 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}', serialized_name_list: 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:10:"User group";}', sort_field: 1, sort_order: 1, url_alias_name: '', version: 0 }
   - { always_available: 1, contentobject_name: '<first_name> <last_name>', created: 1024392098, creator_id: 14, id: 4, identifier: user, initial_language_id: 2, is_container: 0, language_mask: 3, modified: 1082018364, modifier_id: 14, remote_id: 40faa822edc579b02c25f6bb7beec3ad, serialized_description_list: 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}', serialized_name_list: 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:4:"User";}', sort_field: 1, sort_order: 1, url_alias_name: '', version: 0 }
@@ -60,7 +60,7 @@ ezcontentclass:
   - { always_available: 0, contentobject_name: '<title>', created: 1343140536, creator_id: 14, id: 34, identifier: forums, initial_language_id: 8, is_container: 1, language_mask: 9, modified: 1343140536, modifier_id: 14, remote_id: 60a921e54c1efbb9456bd2283d9e66cb, serialized_description_list: 'a:0:{}', serialized_name_list: 'a:2:{s:6:"eng-GB";s:6:"Forums";s:16:"always-available";s:6:"eng-GB";}', sort_field: 1, sort_order: 1, url_alias_name: '', version: 0 }
   - { always_available: 0, contentobject_name: '<name>', created: 1343140536, creator_id: 14, id: 35, identifier: video, initial_language_id: 8, is_container: 0, language_mask: 9, modified: 1343140536, modifier_id: 14, remote_id: b38417e8194fb8f893ca918d297b4fa8, serialized_description_list: 'a:2:{s:6:"eng-GB";s:0:"";s:16:"always-available";s:6:"eng-GB";}', serialized_name_list: 'a:2:{s:6:"eng-GB";s:5:"Video";s:16:"always-available";s:6:"eng-GB";}', sort_field: 1, sort_order: 1, url_alias_name: '', version: 0 }
   - { always_available: 0, contentobject_name: '<name>', created: 1343140536, creator_id: 14, id: 36, identifier: url, initial_language_id: 8, is_container: 0, language_mask: 9, modified: 1343140536, modifier_id: 14, remote_id: 20be803fa76256ebff5a3090a351dce6, serialized_description_list: 'a:2:{s:6:"eng-GB";s:0:"";s:16:"always-available";s:6:"eng-GB";}', serialized_name_list: 'a:2:{s:6:"eng-GB";s:3:"Url";s:16:"always-available";s:6:"eng-GB";}', sort_field: 1, sort_order: 1, url_alias_name: '', version: 0 }
-ezcontentclass_attribute:
+ibexa_content_type_field_definition:
   - { can_translate: 1, category: '', contentclass_id: 1, data_float1: 0, data_float2: 0, data_float3: 0, data_float4: 0, data_int1: 255, data_int2: 0, data_int3: 0, data_int4: 0, data_text1: Folder, data_text2: '', data_text3: '', data_text4: '', data_text5: '', data_type_string: ezstring, id: 4, identifier: name, is_information_collector: 0, is_required: 1, is_searchable: 1, placement: 1, serialized_data_text: 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}', serialized_description_list: 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}', serialized_name_list: 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:4:"Name";}', version: 0 }
   - { can_translate: 1, category: '', contentclass_id: 3, data_float1: 0, data_float2: 0, data_float3: 0, data_float4: 0, data_int1: 255, data_int2: 0, data_int3: 0, data_int4: 0, data_text1: '', data_text2: '', data_text3: '', data_text4: '', data_text5: '', data_type_string: ezstring, id: 6, identifier: name, is_information_collector: 0, is_required: 1, is_searchable: 1, placement: 1, serialized_data_text: 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}', serialized_description_list: 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}', serialized_name_list: 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:4:"Name";}', version: 0 }
   - { can_translate: 1, category: '', contentclass_id: 3, data_float1: 0, data_float2: 0, data_float3: 0, data_float4: 0, data_int1: 255, data_int2: 0, data_int3: 0, data_int4: 0, data_text1: '', data_text2: '', data_text3: '', data_text4: '', data_text5: '', data_type_string: ezstring, id: 7, identifier: description, is_information_collector: 0, is_required: 0, is_searchable: 1, placement: 2, serialized_data_text: 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}', serialized_description_list: 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}', serialized_name_list: 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:11:"Description";}', version: 0 }
@@ -179,7 +179,7 @@ ezcontentclass_attribute:
   - { can_translate: 1, category: '', contentclass_id: 1, data_float1: 0, data_float2: 0, data_float3: 0, data_float4: 0, data_int1: 0, data_int2: 0, data_int3: 0, data_int4: 0, data_text1: '', data_text2: '', data_text3: '', data_text4: '', data_text5: '', data_type_string: ezkeyword, id: 292, identifier: tags, is_information_collector: 0, is_required: 0, is_searchable: 0, placement: 7, serialized_data_text: 'a:2:{s:6:"eng-US";s:0:"";s:16:"always-available";s:6:"eng-US";}', serialized_description_list: 'a:2:{s:6:"eng-US";s:0:"";s:16:"always-available";s:6:"eng-US";}', serialized_name_list: 'a:2:{s:6:"eng-US";s:4:"Tags";s:16:"always-available";s:6:"eng-US";}', version: 0 }
   - { can_translate: 1, category: '', contentclass_id: 36, data_float1: 0, data_float2: 0, data_float3: 0, data_float4: 0, data_int1: 0, data_int2: 0, data_int3: 0, data_int4: 0, data_text1: '', data_text2: '', data_text3: '', data_text4: '', data_text5: '', data_type_string: ezstring, id: 293, identifier: name, is_information_collector: 0, is_required: 1, is_searchable: 0, placement: 16, serialized_data_text: 'a:2:{s:6:"eng-US";s:0:"";s:16:"always-available";s:6:"eng-US";}', serialized_description_list: 'a:2:{s:6:"eng-US";s:0:"";s:16:"always-available";s:6:"eng-US";}', serialized_name_list: 'a:2:{s:6:"eng-US";s:4:"Name";s:16:"always-available";s:6:"eng-US";}', version: 0 }
   - { can_translate: 1, category: '', contentclass_id: 36, data_float1: 0, data_float2: 0, data_float3: 0, data_float4: 0, data_int1: 0, data_int2: 0, data_int3: 0, data_int4: 0, data_text1: '', data_text2: '', data_text3: '', data_text4: '', data_text5: '', data_type_string: ezurl, id: 294, identifier: url, is_information_collector: 0, is_required: 0, is_searchable: 0, placement: 3, serialized_data_text: 'a:0:{}', serialized_description_list: 'a:0:{}', serialized_name_list: 'a:2:{s:6:"eng-GB";s:3:"URL";s:16:"always-available";s:6:"eng-GB";}', version: 0 }
-ezcontentclass_classgroup:
+ibexa_content_type_group_assignment:
   - { contentclass_id: 1, contentclass_version: 0, group_id: 1, group_name: Content }
   - { contentclass_id: 3, contentclass_version: 0, group_id: 2, group_name: Users }
   - { contentclass_id: 4, contentclass_version: 0, group_id: 2, group_name: Users }
@@ -207,7 +207,7 @@ ezcontentclass_classgroup:
   - { contentclass_id: 34, contentclass_version: 0, group_id: 1, group_name: Content }
   - { contentclass_id: 35, contentclass_version: 0, group_id: 3, group_name: Media }
   - { contentclass_id: 36, contentclass_version: 0, group_id: 1, group_name: Content }
-ezcontentclass_name:
+ibexa_content_type_name:
   - { contentclass_id: 1, contentclass_version: 0, language_id: 3, language_locale: eng-US, name: Folder }
   - { contentclass_id: 3, contentclass_version: 0, language_id: 3, language_locale: eng-US, name: 'User group' }
   - { contentclass_id: 4, contentclass_version: 0, language_id: 3, language_locale: eng-US, name: User }
@@ -234,13 +234,13 @@ ezcontentclass_name:
   - { contentclass_id: 33, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: Banner }
   - { contentclass_id: 34, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: Forums }
   - { contentclass_id: 35, contentclass_version: 0, language_id: 9, language_locale: eng-GB, name: Video }
-ezcontentclassgroup:
+ibexa_content_type_group:
   - { created: 1031216928, creator_id: 14, id: 1, modified: 1033922106, modifier_id: 14, name: Content, is_system: 0 }
   - { created: 1031216941, creator_id: 14, id: 2, modified: 1033922113, modifier_id: 14, name: Users, is_system: 0 }
   - { created: 1032009743, creator_id: 14, id: 3, modified: 1033922120, modifier_id: 14, name: Media, is_system: 0 }
   - { created: 1081858024, creator_id: 14, id: 4, modified: 1081858024, modifier_id: 14, name: Setup, is_system: 0 }
   - { created: 1634729305, creator_id: 14, id: 5, modified: 1634729305, modifier_id: 14, name: System, is_system: 1 }
-ezcontentobject:
+ibexa_content:
   - { contentclass_id: 3, current_version: 1, id: 4, initial_language_id: 2, language_mask: 3, modified: 1033917596, name: Users, owner_id: 14, published: 1033917596, remote_id: f5c88a2209584891056f987fd965b0ba, section_id: 2, status: 1 }
   - { contentclass_id: 4, current_version: 2, id: 10, initial_language_id: 2, language_mask: 3, modified: 1072180405, name: 'Anonymous User', owner_id: 14, published: 1033920665, remote_id: faaeb9be3bd98ed09f606fc16d144eca, section_id: 2, status: 1 }
   - { contentclass_id: 3, current_version: 2, id: 11, initial_language_id: 2, language_mask: 3, modified: 1343140542, name: Members, owner_id: 14, published: 1033920746, remote_id: 5f7f0bdb3381d6a461d8c29ff53d908f, section_id: 2, status: 1 }
@@ -259,7 +259,7 @@ ezcontentobject:
   - { contentclass_id: 21, current_version: 1, id: 57, initial_language_id: 8, language_mask: 9, modified: 1196268696, name: Home, owner_id: 14, published: 1195480486, remote_id: 8a9c9c761004866fb458d89910f52bee, section_id: 1, status: 1 }
   - { contentclass_id: 20, current_version: 1, id: 58, initial_language_id: 8, language_mask: 8, modified: 1332927282, name: 'Contact Us', owner_id: 14, published: 1332927205, remote_id: f8cc7a4cf8a964a1a0ea6666f5da7d0d, section_id: 1, status: 1 }
   - { contentclass_id: 3, current_version: 1, id: 59, initial_language_id: 2, language_mask: 3, modified: 1343140541, name: Partners, owner_id: 14, published: 1343140541, remote_id: 14e4411b264a6194a33847843919451a, section_id: 2, status: 1 }
-ezcontentobject_attribute:
+ibexa_content_field:
   - { attribute_original_id: 0, contentclassattribute_id: 7, contentobject_id: 4, data_float: null, data_int: null, data_text: 'Main group', data_type_string: ezstring, id: 7, language_code: eng-US, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
   - { attribute_original_id: 0, contentclassattribute_id: 6, contentobject_id: 4, data_float: null, data_int: null, data_text: Users, data_type_string: ezstring, id: 8, language_code: eng-US, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
   - { attribute_original_id: 0, contentclassattribute_id: 8, contentobject_id: 10, data_float: 0, data_int: 0, data_text: Anonymous, data_type_string: ezstring, id: 19, language_code: eng-US, language_id: 3, sort_key_int: 0, sort_key_string: anonymous, version: 2 }
@@ -351,8 +351,8 @@ ezcontentobject_attribute:
   - { attribute_original_id: 0, contentclassattribute_id: 292, contentobject_id: 50, data_float: 0, data_int: null, data_text: '', data_type_string: ezkeyword, id: 218, language_code: eng-US, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
   - { attribute_original_id: 0, contentclassattribute_id: 292, contentobject_id: 51, data_float: 0, data_int: null, data_text: '', data_type_string: ezkeyword, id: 219, language_code: eng-US, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
   - { attribute_original_id: 0, contentclassattribute_id: 292, contentobject_id: 56, data_float: 0, data_int: null, data_text: '', data_type_string: ezkeyword, id: 220, language_code: eng-US, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
-ezcontentobject_link: {  }
-ezcontentobject_name:
+ibexa_content_relation: {  }
+ibexa_content_name:
   - { content_translation: eng-US, content_version: 1, contentobject_id: 4, language_id: 3, name: Users, real_translation: eng-US }
   - { content_translation: eng-US, content_version: 2, contentobject_id: 10, language_id: 3, name: 'Anonymous User', real_translation: eng-US }
   - { content_translation: eng-US, content_version: 1, contentobject_id: 11, language_id: 3, name: 'Guest accounts', real_translation: eng-US }
@@ -373,8 +373,8 @@ ezcontentobject_name:
   - { content_translation: eng-GB, content_version: 1, contentobject_id: 57, language_id: 9, name: Home, real_translation: eng-GB }
   - { content_translation: eng-GB, content_version: 1, contentobject_id: 58, language_id: 8, name: 'Contact Us', real_translation: eng-GB }
   - { content_translation: eng-US, content_version: 1, contentobject_id: 59, language_id: 3, name: Partners, real_translation: eng-US }
-ezcontentobject_trash: {  }
-ezcontentobject_tree:
+ibexa_content_trash: {  }
+ibexa_content_tree:
   - { contentobject_id: 0, contentobject_is_published: 1, contentobject_version: 1, depth: 0, is_hidden: 0, is_invisible: 0, main_node_id: 1, modified_subnode: 1343140542, node_id: 1, parent_node_id: 1, path_identification_string: '', path_string: /1/, priority: 0, remote_id: 629709ba256fe317c3ddcee35453a96a, sort_field: 1, sort_order: 1 }
   - { contentobject_id: 57, contentobject_is_published: 1, contentobject_version: 1, depth: 1, is_hidden: 0, is_invisible: 0, main_node_id: 2, modified_subnode: 1343140541, node_id: 2, parent_node_id: 1, path_identification_string: '', path_string: /1/2/, priority: 0, remote_id: f3e90596361e31d496d4026eb624c983, sort_field: 8, sort_order: 1 }
   - { contentobject_id: 4, contentobject_is_published: 1, contentobject_version: 1, depth: 1, is_hidden: 0, is_invisible: 0, main_node_id: 5, modified_subnode: 1343140542, node_id: 5, parent_node_id: 1, path_identification_string: users, path_string: /1/5/, priority: 0, remote_id: 3f6d92f8044aed134f32153517850f5a, sort_field: 1, sort_order: 1 }
@@ -394,7 +394,7 @@ ezcontentobject_tree:
   - { contentobject_id: 56, contentobject_is_published: 1, contentobject_version: 1, depth: 1, is_hidden: 0, is_invisible: 0, main_node_id: 58, modified_subnode: 1343140541, node_id: 58, parent_node_id: 1, path_identification_string: design, path_string: /1/58/, priority: 0, remote_id: 79f2d67372ab56f59b5d65bb9e0ca3b9, sort_field: 2, sort_order: 0 }
   - { contentobject_id: 58, contentobject_is_published: 1, contentobject_version: 1, depth: 2, is_hidden: 0, is_invisible: 0, main_node_id: 60, modified_subnode: 1343140539, node_id: 60, parent_node_id: 2, path_identification_string: contact_us, path_string: /1/2/60/, priority: '-2', remote_id: 86bf306624668ee9b8b979b0d56f7e0d, sort_field: 8, sort_order: 1 }
   - { contentobject_id: 59, contentobject_is_published: 1, contentobject_version: 1, depth: 2, is_hidden: 0, is_invisible: 0, main_node_id: 61, modified_subnode: 1343140541, node_id: 61, parent_node_id: 5, path_identification_string: users/partners, path_string: /1/5/61/, priority: 0, remote_id: 66994c2fce0fd2a1c7ecce7115158971, sort_field: 1, sort_order: 1 }
-ezcontentobject_version:
+ibexa_content_version:
   - { contentobject_id: 4, created: 0, creator_id: 14, id: 4, initial_language_id: 2, language_mask: 3, modified: 0, status: 1, user_id: 0, version: 1, workflow_event_pos: 1 }
   - { contentobject_id: 11, created: 1033920737, creator_id: 14, id: 439, initial_language_id: 2, language_mask: 3, modified: 1033920746, status: 3, user_id: 0, version: 1, workflow_event_pos: 0 }
   - { contentobject_id: 12, created: 1033920760, creator_id: 14, id: 440, initial_language_id: 2, language_mask: 3, modified: 1033920775, status: 1, user_id: 0, version: 1, workflow_event_pos: 0 }
@@ -415,10 +415,10 @@ ezcontentobject_version:
   - { contentobject_id: 14, created: 1343140540, creator_id: 14, id: 506, initial_language_id: 2, language_mask: 3, modified: 1343140540, status: 1, user_id: 0, version: 4, workflow_event_pos: 0 }
   - { contentobject_id: 59, created: 1343140541, creator_id: 14, id: 507, initial_language_id: 2, language_mask: 3, modified: 1343140541, status: 1, user_id: 0, version: 1, workflow_event_pos: 0 }
   - { contentobject_id: 11, created: 1343140541, creator_id: 14, id: 508, initial_language_id: 2, language_mask: 3, modified: 1343140541, status: 1, user_id: 0, version: 2, workflow_event_pos: 0 }
-ezimagefile:
+ibexa_image_file:
   - { contentobject_attribute_id: 172, filepath: var/storage/images/setup/ez_publish/172-1-eng-GB/ez_publish., id: 1 }
   - { contentobject_attribute_id: 172, filepath: var/ibexa_demo_site/storage/images/design/plain-site/172-2-eng-US/Ibexa-Demo-Design-without-demo-content1.png, id: 2 }
-eznode_assignment:
+ibexa_node_assignment:
   - { contentobject_id: 8, contentobject_version: 2, from_node_id: 0, id: 4, is_main: 1, op_code: 2, parent_node: 5, parent_remote_id: '', remote_id: 0, sort_field: 1, sort_order: 1, priority: 0, is_hidden: 0 }
   - { contentobject_id: 42, contentobject_version: 1, from_node_id: 0, id: 5, is_main: 1, op_code: 2, parent_node: 5, parent_remote_id: '', remote_id: 0, sort_field: 9, sort_order: 1, priority: 0, is_hidden: 0 }
   - { contentobject_id: 10, contentobject_version: 2, from_node_id: '-1', id: 6, is_main: 1, op_code: 2, parent_node: 44, parent_remote_id: '', remote_id: 0, sort_field: 9, sort_order: 1, priority: 0, is_hidden: 0 }
@@ -440,7 +440,7 @@ eznode_assignment:
   - { contentobject_id: 14, contentobject_version: 4, from_node_id: '-1', id: 45, is_main: 1, op_code: 2, parent_node: 13, parent_remote_id: '', remote_id: 0, sort_field: 1, sort_order: 1, priority: 0, is_hidden: 0 }
   - { contentobject_id: 59, contentobject_version: 1, from_node_id: 0, id: 46, is_main: 1, op_code: 2, parent_node: 5, parent_remote_id: '', remote_id: 0, sort_field: 1, sort_order: 1, priority: 0, is_hidden: 0 }
   - { contentobject_id: 11, contentobject_version: 2, from_node_id: '-1', id: 47, is_main: 1, op_code: 2, parent_node: 5, parent_remote_id: '', remote_id: 0, sort_field: 1, sort_order: 1, priority: 0, is_hidden: 0 }
-ezpolicy:
+ibexa_policy:
   - { function_name: '*', id: 308, module_name: '*', original_id: 0, role_id: 2 }
   - { function_name: login, id: 319, module_name: user, original_id: 0, role_id: 3 }
   - { function_name: read, id: 328, module_name: content, original_id: 0, role_id: 1 }
@@ -493,7 +493,7 @@ ezpolicy:
   - { function_name: password, id: 376, module_name: user, original_id: 0, role_id: 5 }
   - { function_name: call, id: 377, module_name: ezjscore, original_id: 0, role_id: 5 }
   - { function_name: publish, id: 378, module_name: content, original_id: 0, role_id: 3 }
-ezpolicy_limitation:
+ibexa_policy_limitation:
   - { id: 251, identifier: Section, policy_id: 328 }
   - { id: 252, identifier: Section, policy_id: 329 }
   - { id: 254, identifier: SiteAccess, policy_id: 334 }
@@ -541,7 +541,7 @@ ezpolicy_limitation:
   - { id: 296, identifier: Class, policy_id: 373 }
   - { id: 297, identifier: Section, policy_id: 373 }
   - { id: 298, identifier: Owner, policy_id: 373 }
-ezpolicy_limitation_value:
+ibexa_policy_limitation_value:
   - { id: 477, limitation_id: 251, value: 1 }
   - { id: 478, limitation_id: 252, value: 1 }
   - { id: 480, limitation_id: 254, value: 2339567439 }
@@ -635,13 +635,13 @@ ezpolicy_limitation_value:
   - { id: 568, limitation_id: 296, value: 30 }
   - { id: 569, limitation_id: 297, value: 1 }
   - { id: 570, limitation_id: 298, value: 1 }
-ezrole:
+ibexa_role:
   - { id: 1, is_new: 0, name: Anonymous, value: ' ', version: 0 }
   - { id: 2, is_new: 0, name: Administrator, value: '*', version: 0 }
   - { id: 3, is_new: 0, name: Editor, value: ' ', version: 0 }
   - { id: 4, is_new: 0, name: Partner, value: null, version: 0 }
   - { id: 5, is_new: 0, name: Member, value: null, version: 0 }
-ezsearch_word:
+ibexa_search_word:
   - { id: 814, object_count: 1, word: the }
   - { id: 930, object_count: 3, word: users }
   - { id: 952, object_count: 2, word: group }
@@ -671,7 +671,7 @@ ezsearch_word:
   - { id: 1005, object_count: 1, word: message }
   - { id: 1006, object_count: 1, word: text }
   - { id: 1007, object_count: 1, word: partners }
-ezsearch_object_word_link:
+ibexa_search_object_word_link:
   - { id: 4729, contentclass_attribute_id: 7, contentclass_id: 3, contentobject_id: 4, frequency: '0.0', identifier: description, integer_value: 0, next_word_id: 952, placement: 0, prev_word_id: 0, published: 1033917596, section_id: 2, word_id: 985, language_mask: 3 }
   - { id: 4730, contentclass_attribute_id: 7, contentclass_id: 3, contentobject_id: 4, frequency: '0.0', identifier: description, integer_value: 0, next_word_id: 930, placement: 1, prev_word_id: 985, published: 1033917596, section_id: 2, word_id: 952, language_mask: 3 }
   - { id: 4731, contentclass_attribute_id: 6, contentclass_id: 3, contentobject_id: 4, frequency: '0.0', identifier: name, integer_value: 0, next_word_id: 0, placement: 2, prev_word_id: 952, published: 1033917596, section_id: 2, word_id: 930, language_mask: 3 }
@@ -710,20 +710,20 @@ ezsearch_object_word_link:
   - { id: 4764, contentclass_attribute_id: 216, contentclass_id: 20, contentobject_id: 58, frequency: '0.0', identifier: message, integer_value: 0, next_word_id: 1006, placement: 3, prev_word_id: 1004, published: 1332927205, section_id: 1, word_id: 1005, language_mask: 8 }
   - { id: 4765, contentclass_attribute_id: 216, contentclass_id: 20, contentobject_id: 58, frequency: '0.0', identifier: message, integer_value: 0, next_word_id: 0, placement: 4, prev_word_id: 1005, published: 1332927205, section_id: 1, word_id: 1006, language_mask: 8 }
   - { id: 4766, contentclass_attribute_id: 6, contentclass_id: 3, contentobject_id: 59, frequency: '0.0', identifier: name, integer_value: 0, next_word_id: 0, placement: 0, prev_word_id: 0, published: 1343140541, section_id: 2, word_id: 1007, language_mask: 3 }
-ezsection:
+ibexa_section:
   - { id: 1, identifier: standard, locale: '', name: Standard, navigation_part_identifier: ezcontentnavigationpart }
   - { id: 2, identifier: users, locale: '', name: Users, navigation_part_identifier: ezusernavigationpart }
   - { id: 3, identifier: media, locale: '', name: Media, navigation_part_identifier: ezmedianavigationpart }
   - { id: 4, identifier: setup, locale: '', name: Setup, navigation_part_identifier: ezsetupnavigationpart }
   - { id: 5, identifier: design, locale: '', name: Design, navigation_part_identifier: ezvisualnavigationpart }
   - { id: 6, identifier: '', locale: '', name: Restricted, navigation_part_identifier: ezcontentnavigationpart }
-ezurl:
+ibexa_url:
   - { created: 1343140541, id: 23, is_valid: 1, last_checked: 0, modified: 1343140541, original_url_md5: 9b492048041e95b32de08bafc86d759b, url: /content/view/sitemap/2 }
   - { created: 1343140541, id: 24, is_valid: 0, last_checked: 1343140585, modified: 1343140541, original_url_md5: c86bcb109d8e70f9db65c803baafd550, url: /content/view/tagcloud/2 }
-ezurl_object_link:
+ibexa_url_content_link:
   - { contentobject_attribute_id: 195, contentobject_attribute_version: 2, url_id: 23 }
   - { contentobject_attribute_id: 196, contentobject_attribute_version: 2, url_id: 24 }
-ezurlalias:
+ibexa_url_alias:
   - { destination_url: content/view/full/2, forward_to_id: 0, id: 12, is_imported: 1, is_internal: 1, is_wildcard: 0, source_md5: d41d8cd98f00b204e9800998ecf8427e, source_url: '' }
   - { destination_url: content/view/full/5, forward_to_id: 0, id: 13, is_imported: 1, is_internal: 1, is_wildcard: 0, source_md5: 9bc65c2abec141778ffaa729489f3e87, source_url: users }
   - { destination_url: content/view/full/12, forward_to_id: 0, id: 15, is_imported: 1, is_internal: 1, is_wildcard: 0, source_md5: 02d4e844e3a660857a3f81585995ffe1, source_url: users/guest_accounts }
@@ -741,7 +741,7 @@ ezurlalias:
   - { destination_url: content/view/full/54, forward_to_id: 0, id: 31, is_imported: 1, is_internal: 1, is_wildcard: 0, source_md5: e501fe6c81ed14a5af2b322d248102d8, source_url: setup/common_ini_settings }
   - { destination_url: content/view/full/56, forward_to_id: 0, id: 32, is_imported: 1, is_internal: 1, is_wildcard: 0, source_md5: 2dd3db5dc7122ea5f3ee539bb18fe97d, source_url: design/ez_publish }
   - { destination_url: content/view/full/58, forward_to_id: 0, id: 33, is_imported: 1, is_internal: 1, is_wildcard: 0, source_md5: 31c13f47ad87dd7baa2d558a91e0fbb9, source_url: design }
-ezurlalias_ml:
+ibexa_url_alias_ml:
   - { action: 'nop:', action_type: nop, alias_redirects: 1, id: 14, is_alias: 0, is_original: 0, lang_mask: 1, link: 14, parent: 0, text: foo_bar_folder, text_md5: 0288b6883046492fa92e4a84eb67acc9 }
   - { action: 'eznode:60', action_type: eznode, alias_redirects: 1, id: 39, is_alias: 0, is_original: 1, lang_mask: 8, link: 39, parent: 0, text: Contact-Us, text_md5: 03f2197d47a602c679c5f667e3482855 }
   - { action: 'eznode:59', action_type: eznode, alias_redirects: 1, id: 38, is_alias: 0, is_original: 1, lang_mask: 9, link: 38, parent: 0, text: Home, text_md5: 106a6c241b8797f52e1e77317b96a201 }
@@ -782,7 +782,7 @@ ezurlalias_ml:
   - { action: 'eznode:54', action_type: eznode, alias_redirects: 1, id: 35, is_alias: 0, is_original: 0, lang_mask: 1, link: 22, parent: 21, text: common_ini_settings, text_md5: e59d6834e86cee752ed841f9cd8d5baf }
   - { action: 'eznode:56', action_type: eznode, alias_redirects: 1, id: 37, is_alias: 0, is_original: 0, lang_mask: 2, link: 24, parent: 25, text: eZ-publish, text_md5: 10e4c3cb527fb9963258469986c16240 }
   - { action: 'eznode:56', action_type: eznode, alias_redirects: 1, id: 24, is_alias: 0, is_original: 1, lang_mask: 2, link: 24, parent: 25, text: Plain-site, text_md5: 49a39d99a955d95aa5d636275656a07a }
-ezurlalias_ml_incr:
+ibexa_url_alias_ml_incr:
   - { id: 1 }
   - { id: 2 }
   - { id: 3 }
@@ -823,12 +823,12 @@ ezurlalias_ml_incr:
   - { id: 39 }
   - { id: 40 }
   - { id: 41 }
-ezurlwildcard: {  }
-ezuser:
+ibexa_url_wildcard: {  }
+ibexa_user:
   - { contentobject_id: 10, email: anonymous@link.invalid, login: anonymous, password_hash: $2y$10$35gOSQs6JK4u4whyERaeUuVeQBi2TUBIZIfP7HEj7sfz.MxvTuOeC, password_hash_type: 7 }
   - { contentobject_id: 14, email: admin@link.invalid, login: admin, password_hash: $2y$10$FDn9NPwzhq85cLLxfD5Wu.L3SL3Z/LNCvhkltJUV0wcJj7ciJg2oy, password_hash_type: 7 }
-ezuser_accountkey: {  }
-ezuser_role:
+ibexa_user_accountkey: {  }
+ibexa_user_role:
   - { contentobject_id: 12, id: 25, limit_identifier: '', limit_value: '', role_id: 2 }
   - { contentobject_id: 11, id: 28, limit_identifier: '', limit_value: '', role_id: 1 }
   - { contentobject_id: 42, id: 31, limit_identifier: '', limit_value: '', role_id: 1 }
@@ -839,28 +839,28 @@ ezuser_role:
   - { contentobject_id: 59, id: 36, limit_identifier: '', limit_value: '', role_id: 5 }
   - { contentobject_id: 59, id: 37, limit_identifier: '', limit_value: '', role_id: 1 }
   - { contentobject_id: 13, id: 38, limit_identifier: '', limit_value: '', role_id: 5 }
-ezuser_setting:
+ibexa_user_setting:
   - { is_enabled: 1, max_login: 1000, user_id: 10 }
   - { is_enabled: 1, max_login: 10, user_id: 14 }
-ezcontentbrowsebookmark:
+ibexa_content_bookmark:
   - { id: 1, name: '', node_id: 5, user_id: 14 }
   - { id: 3, name: '', node_id: 12, user_id: 14 }
   - { id: 4, name: '', node_id: 13, user_id: 14 }
   - { id: 5, name: '', node_id: 15, user_id: 14 }
   - { id: 6, name: '', node_id: 14, user_id: 14 }
-eznotification:
+ibexa_notification:
   - { id: 1, owner_id: 14, is_pending: 1, type: 'Workflow:Review', created: 1529995052, data: null }
   - { id: 2, owner_id: 14, is_pending: 0, type: 'Workflow:Approve', created: 1529998652, data: null }
   - { id: 3, owner_id: 14, is_pending: 0, type: 'Workflow:Reject', created: 1530002252, data: null }
   - { id: 4, owner_id: 14, is_pending: 1, type: 'Workflow:Review', created: 1530005852, data: null }
   - { id: 5, owner_id: 14, is_pending: 1, type: 'Workflow:Review', created: 1530009452, data: null }
   - { id: 6, owner_id: 10, is_pending: 0, type: 'Workflow:Review', created: 1530009452, data: null }
-ezpreferences:
+ibexa_preferences:
   - { id: 1, name: setting_1, user_id: 14, value: value_1 }
   - { id: 2, name: setting_2, user_id: 14, value: value_2 }
   - { id: 3, name: setting_3, user_id: 14, value: value_3 }
   - { id: 4, name: setting_4, user_id: 14, value: value_4 }
   - { id: 5, name: setting_5, user_id: 14, value: value_5 }
-ezmedia: {  }
-ezkeyword: {  }
-ezcontentclass_attribute_ml: {  }
+ibexa_media: {  }
+ibexa_keyword: {  }
+ibexa_content_type_field_definition_ml: {  }

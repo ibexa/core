@@ -11,12 +11,13 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Core\FieldType\Keyword\KeywordStorage\Gateway;
+use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway as ContentTypeGateway;
 use RuntimeException;
 
 class DoctrineStorage extends Gateway
 {
-    public const KEYWORD_TABLE = 'ezkeyword';
-    public const KEYWORD_ATTRIBUTE_LINK_TABLE = 'ezkeyword_attribute_link';
+    public const KEYWORD_TABLE = 'ibexa_keyword';
+    public const KEYWORD_ATTRIBUTE_LINK_TABLE = 'ibexa_keyword_field_link';
 
     /** @var \Doctrine\DBAL\Connection */
     protected $connection;
@@ -146,7 +147,7 @@ class DoctrineStorage extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             ->select($this->connection->quoteIdentifier('contentclass_id'))
-            ->from($this->connection->quoteIdentifier('ezcontentclass_attribute'))
+            ->from($this->connection->quoteIdentifier(ContentTypeGateway::FIELD_DEFINITION_TABLE))
             ->where(
                 $query->expr()->eq('id', ':fieldDefinitionId')
             )
@@ -329,7 +330,7 @@ class DoctrineStorage extends Gateway
      * Deletes all orphaned keywords.
      *
      * Keyword is orphaned if it is not linked to a content attribute through
-     * ezkeyword_attribute_link table.
+     * ibexa_keyword_field_link table.
      */
     protected function deleteOrphanedKeywords()
     {

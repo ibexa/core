@@ -10,7 +10,9 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
+use Ibexa\Core\Persistence\Legacy\User\Role\Gateway as RoleGateway;
 
 /**
  * @internal Gateway implementation is considered internal. Use Persistence Section Handler instead.
@@ -125,7 +127,7 @@ final class DoctrineDatabase extends Gateway
         $query->select(
             $this->dbPlatform->getCountExpression('id')
         )->from(
-            'ezcontentobject'
+            ContentGateway::CONTENT_ITEM_TABLE
         )->where(
             $query->expr()->eq(
                 'section_id',
@@ -144,10 +146,10 @@ final class DoctrineDatabase extends Gateway
         $expr = $query->expr();
         $query
             ->select($this->dbPlatform->getCountExpression('l.id'))
-            ->from('ezpolicy_limitation', 'l')
+            ->from(RoleGateway::POLICY_LIMITATION_TABLE, 'l')
             ->join(
                 'l',
-                'ezpolicy_limitation_value',
+                RoleGateway::POLICY_LIMITATION_VALUE_TABLE,
                 'lv',
                 $expr->eq(
                     'l.id',
@@ -177,7 +179,7 @@ final class DoctrineDatabase extends Gateway
         $expr = $query->expr();
         $query
             ->select($this->dbPlatform->getCountExpression('ur.id'))
-            ->from('ezuser_role', 'ur')
+            ->from(RoleGateway::USER_ROLE_TABLE, 'ur')
             ->where(
                 $expr->eq(
                     'ur.limit_identifier',
@@ -214,7 +216,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->update('ezcontentobject')
+            ->update(ContentGateway::CONTENT_ITEM_TABLE)
             ->set(
                 'section_id',
                 $query->createPositionalParameter($sectionId, ParameterType::INTEGER)

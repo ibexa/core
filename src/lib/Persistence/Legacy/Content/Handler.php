@@ -252,7 +252,7 @@ class Handler implements BaseContentHandler
      * version of the referred Content from it.
      *
      * Note: When creating a new draft in the old admin interface there will
-     * also be an entry in the `eznode_assignment` created for the draft. This
+     * also be an entry in the `ibexa_node_assignment` created for the draft. This
      * is ignored in this implementation.
      *
      * @param mixed $contentId
@@ -299,9 +299,9 @@ class Handler implements BaseContentHandler
                     [
                         'sourceContentId' => $contentId,
                         'sourceContentVersionNo' => $content->versionInfo->versionNo,
-                        'sourceFieldDefinitionId' => $relation['ezcontentobject_link_contentclassattribute_id'],
-                        'destinationContentId' => $relation['ezcontentobject_link_to_contentobject_id'],
-                        'type' => (int)$relation['ezcontentobject_link_relation_type'],
+                        'sourceFieldDefinitionId' => $relation['content_link_contentclassattribute_id'],
+                        'destinationContentId' => $relation['content_link_to_contentobject_id'],
+                        'type' => (int)$relation['content_link_relation_type'],
                     ]
                 )
             );
@@ -335,9 +335,9 @@ class Handler implements BaseContentHandler
             $rows,
             $this->contentGateway->loadVersionedNameData([[
                 'id' => $id,
-                'version' => $rows[0]['ezcontentobject_version_version'],
+                'version' => $rows[0]['content_version_version'],
             ]]),
-            'ezcontentobject_',
+            'content_',
             $translations
         );
         $content = $contentObjects[0];
@@ -361,9 +361,9 @@ class Handler implements BaseContentHandler
         $idVersionPairs = [];
         foreach ($rawList as $row) {
             // As there is only one version per id, set id as key to avoid duplicates
-            $idVersionPairs[$row['ezcontentobject_id']] = [
-                'id' => $row['ezcontentobject_id'],
-                'version' => $row['ezcontentobject_version_version'],
+            $idVersionPairs[$row['content_id']] = [
+                'id' => $row['content_id'],
+                'version' => $row['content_version_version'],
             ];
         }
 
@@ -371,14 +371,14 @@ class Handler implements BaseContentHandler
         $nameData = $this->contentGateway->loadVersionedNameData(array_values($idVersionPairs));
         $contentItemNameData = [];
         foreach ($nameData as $nameDataRow) {
-            $contentId = $nameDataRow['ezcontentobject_name_contentobject_id'];
+            $contentId = $nameDataRow['content_name_contentobject_id'];
             $contentItemNameData[$contentId][] = $nameDataRow;
         }
 
         // group rows per Content Id be able to ignore Content items with erroneous data
         $contentItemsRows = [];
         foreach ($rawList as $row) {
-            $contentId = $row['ezcontentobject_id'];
+            $contentId = $row['content_id'];
             $contentItemsRows[$contentId][] = $row;
         }
         unset($rawList, $idVersionPairs);
@@ -390,7 +390,7 @@ class Handler implements BaseContentHandler
                 $contentList = $this->mapper->extractContentFromRows(
                     $contentItemsRow,
                     $contentItemNameData[$contentId],
-                    'ezcontentobject_',
+                    'content_',
                     $translations
                 );
                 $contentItems[$contentId] = $contentList[0];
@@ -475,7 +475,7 @@ class Handler implements BaseContentHandler
 
         $versionInfo = $this->mapper->extractVersionInfoListFromRows(
             $rows,
-            $this->contentGateway->loadVersionedNameData([['id' => $contentId, 'version' => $rows[0]['ezcontentobject_version_version']]])
+            $this->contentGateway->loadVersionedNameData([['id' => $contentId, 'version' => $rows[0]['content_version_version']]])
         );
 
         $versionInfo = reset($versionInfo);
@@ -495,7 +495,7 @@ class Handler implements BaseContentHandler
 
         $archivedVersionNos = [];
         foreach ($rows as $row) {
-            $archivedVersionNos[] = (int) $row['ezcontentobject_version_version'];
+            $archivedVersionNos[] = (int) $row['content_version_version'];
         }
 
         return $archivedVersionNos;
@@ -523,8 +523,8 @@ class Handler implements BaseContentHandler
         $idVersionPairs = array_map(
             static function ($row) {
                 return [
-                    'id' => $row['ezcontentobject_version_contentobject_id'],
-                    'version' => $row['ezcontentobject_version_version'],
+                    'id' => $row['content_version_contentobject_id'],
+                    'version' => $row['content_version_version'],
                 ];
             },
             $rows
@@ -544,8 +544,8 @@ class Handler implements BaseContentHandler
         $idVersionPairs = array_map(
             static function (array $row): array {
                 return [
-                    'id' => $row['ezcontentobject_version_contentobject_id'],
-                    'version' => $row['ezcontentobject_version_version'],
+                    'id' => $row['content_version_contentobject_id'],
+                    'version' => $row['content_version_version'],
                 ];
             },
             $rows
@@ -965,8 +965,8 @@ class Handler implements BaseContentHandler
         $mappedRows = array_map(
             static function (array $row): array {
                 return [
-                    'id' => $row['ezcontentobject_id'],
-                    'version' => $row['ezcontentobject_version_version'],
+                    'id' => $row['content_id'],
+                    'version' => $row['content_version_version'],
                 ];
             },
             $rows,

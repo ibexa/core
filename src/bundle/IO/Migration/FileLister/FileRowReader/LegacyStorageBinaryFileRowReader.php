@@ -16,6 +16,6 @@ final class LegacyStorageBinaryFileRowReader extends LegacyStorageFileRowReader
      */
     protected function getStorageTable(): string
     {
-        return 'ezbinaryfile';
+        return 'ibexa_binary_file';
     }
 }

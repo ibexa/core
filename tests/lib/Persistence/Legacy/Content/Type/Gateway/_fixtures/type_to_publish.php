@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
+
 return [
-    'ezcontentclass' => [
+    Gateway::CONTENT_TYPE_TABLE => [
         [
             'id' => 1,
             'always_available' => 1,
@@ -47,7 +49,7 @@ return [
             'version' => 0,
         ],
     ],
-    'ezcontentclass_attribute' => [
+    Gateway::FIELD_DEFINITION_TABLE => [
         [
             'id' => 4,
             'contentclass_id' => 1,
@@ -165,7 +167,7 @@ return [
             'version' => 0,
         ],
     ],
-    'ezcontentclass_name' => [
+    Gateway::CONTENT_TYPE_NAME_TABLE => [
          [
             'contentclass_id' => 1,
             'contentclass_version' => 1,
@@ -174,7 +176,7 @@ return [
             'name' => 'Folder',
         ],
     ],
-    'ezcontentclass_classgroup' => [
+    Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE => [
         [
             'contentclass_id' => 1,
             'contentclass_version' => 1,

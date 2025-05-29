@@ -4,8 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+use Ibexa\Core\Persistence\Legacy\Notification\Gateway\DoctrineDatabase;
+use Ibexa\Core\Persistence\Legacy\User\Gateway;
+
 return [
-    'ezuser' => [
+    Gateway::USER_TABLE => [
         0 => [
             'contentobject_id' => '14',
             'email' => 'foo@example.com',
@@ -14,7 +17,7 @@ return [
             'password_hash_type' => '5',
         ],
     ],
-    'eznotification' => [
+    DoctrineDatabase::TABLE_NOTIFICATION => [
         0 => [
             'id' => 1,
             'owner_id' => 14,

@@ -16,7 +16,7 @@ use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 abstract class Base implements CriterionHandler
 {
     /**
-     * Inner join `ezurl_object_link` table if not joined yet.
+     * Inner join `ibexa_url_content_link` table if not joined yet.
      */
     protected function joinContentObjectLink(QueryBuilder $query): void
     {
@@ -31,7 +31,7 @@ abstract class Base implements CriterionHandler
     }
 
     /**
-     * Inner join `ezcontentobject` table if not joined yet.
+     * Inner join `ibexa_content` table if not joined yet.
      */
     protected function joinContentObject(QueryBuilder $query): void
     {
@@ -46,7 +46,7 @@ abstract class Base implements CriterionHandler
     }
 
     /**
-     * Inner join `ezcontentobject_attribute` table if not joined yet.
+     * Inner join `ibexa_content_field` table if not joined yet.
      */
     protected function joinContentObjectAttribute(QueryBuilder $query): void
     {

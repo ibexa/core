@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\FieldType\Url\Gateway;
 
 use Ibexa\Core\FieldType\Url\UrlStorage\Gateway;
 use Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage;
+use Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
 /**
@@ -76,7 +77,7 @@ class DoctrineStorageTest extends TestCase
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('*')
-            ->from('ezurl')
+            ->from(DoctrineDatabase::URL_TABLE)
             ->where(
                 $query->expr()->eq(
                     $this->connection->quoteIdentifier('id'),
@@ -123,7 +124,7 @@ class DoctrineStorageTest extends TestCase
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('*')
-            ->from('ezurl_object_link')
+            ->from(DoctrineDatabase::URL_LINK_TABLE)
             ->where(
                 $query->expr()->eq($this->connection->quoteIdentifier('url_id'), ':urlId')
             )
@@ -159,7 +160,7 @@ class DoctrineStorageTest extends TestCase
         $gateway->unlinkUrl($fieldId, $versionNo);
 
         $query = $this->connection->createQueryBuilder();
-        $query->select('*')->from('ezurl_object_link');
+        $query->select('*')->from(DoctrineDatabase::URL_LINK_TABLE);
 
         $statement = $query->executeQuery();
         $result = $statement->fetchAllAssociative();
@@ -176,7 +177,7 @@ class DoctrineStorageTest extends TestCase
 
         // Check that orphaned URLs are correctly removed
         $query = $this->connection->createQueryBuilder();
-        $query->select('*')->from('ezurl');
+        $query->select('*')->from(DoctrineDatabase::URL_TABLE);
 
         $statement = $query->executeQuery();
 

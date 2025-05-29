@@ -23,16 +23,16 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
  */
 abstract class Gateway
 {
-    public const CONTENT_ITEM_TABLE = 'ezcontentobject';
-    public const CONTENT_NAME_TABLE = 'ezcontentobject_name';
-    public const CONTENT_FIELD_TABLE = 'ezcontentobject_attribute';
-    public const CONTENT_VERSION_TABLE = 'ezcontentobject_version';
-    public const CONTENT_RELATION_TABLE = 'ezcontentobject_link';
+    public const CONTENT_ITEM_TABLE = 'ibexa_content';
+    public const CONTENT_NAME_TABLE = 'ibexa_content_name';
+    public const CONTENT_FIELD_TABLE = 'ibexa_content_field';
+    public const CONTENT_VERSION_TABLE = 'ibexa_content_version';
+    public const CONTENT_RELATION_TABLE = 'ibexa_content_relation';
 
-    public const CONTENT_ITEM_SEQ = 'ezcontentobject_id_seq';
-    public const CONTENT_VERSION_SEQ = 'ezcontentobject_version_id_seq';
-    public const CONTENT_FIELD_SEQ = 'ezcontentobject_attribute_id_seq';
-    public const CONTENT_RELATION_SEQ = 'ezcontentobject_link_id_seq';
+    public const CONTENT_ITEM_SEQ = 'ibexa_content_id_seq';
+    public const CONTENT_VERSION_SEQ = 'ibexa_content_version_id_seq';
+    public const CONTENT_FIELD_SEQ = 'ibexa_content_field_id_seq';
+    public const CONTENT_RELATION_SEQ = 'ibexa_content_relation_id_seq';
 
     /**
      * Insert a new Content item.
@@ -184,7 +184,7 @@ abstract class Gateway
 
     /**
      * Load info for content identified by $contentId.
-     * Will basically return a hash containing all field values for ezcontentobject table plus following keys:
+     * Will basically return a hash containing all field values for ibexa_content table plus following keys:
      *  - always_available => Boolean indicating if content's language mask contains alwaysAvailable bit field
      *  - main_language_code => Language code for main (initial) language. E.g. "eng-GB".
      *
@@ -204,7 +204,7 @@ abstract class Gateway
 
     /**
      * Load version info for content identified by $contentId and $versionNo.
-     * Will basically return a hash containing all field values from ezcontentobject_version table plus following keys:
+     * Will basically return a hash containing all field values from ibexa_content_version table plus following keys:
      *  - names => Hash of content object names. Key is the language code, value is the name.
      *  - languages => Hash of language ids. Key is the language code (e.g. "eng-GB"), value is the language numeric id without the always available bit.
      *  - initial_language_code => Language code for initial language in this version.

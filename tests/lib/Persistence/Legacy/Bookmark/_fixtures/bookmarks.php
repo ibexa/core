@@ -4,8 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
+use Ibexa\Core\Persistence\Legacy\User\Gateway as UserGateway;
+
 return [
-    'ezcontentobject_tree' => [
+    Gateway::CONTENT_TREE_TABLE => [
         0 => [
             'contentobject_id' => '0',
             'contentobject_is_published' => '1',
@@ -151,7 +155,7 @@ return [
             'sort_order' => '1',
         ],
     ],
-    'ezuser' => [
+    UserGateway::USER_TABLE => [
         0 => [
             'contentobject_id' => '14',
             'email' => 'foo@example.com',
@@ -160,7 +164,7 @@ return [
             'password_hash_type' => '5',
         ],
     ],
-    'ezcontentbrowsebookmark' => [
+    DoctrineDatabase::TABLE_BOOKMARKS => [
         0 => [
             'id' => '1',
             'name' => 'Lorem ipsum dolor',

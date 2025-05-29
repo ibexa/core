@@ -24,6 +24,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 
 /**
@@ -3354,7 +3355,7 @@ class LocationServiceTest extends BaseTest
     }
 
     /**
-     * Test that Legacy ezcontentobject_tree.path_identification_string field is correctly updated
+     * Test that Legacy ibexa_content_tree.path_identification_string field is correctly updated
      * after moving subtree.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::moveSubtree
@@ -3393,7 +3394,7 @@ class LocationServiceTest extends BaseTest
         $query = $connection->createQueryBuilder();
         $query
             ->select('path_identification_string')
-            ->from('ezcontentobject_tree')
+            ->from(Gateway::CONTENT_TREE_TABLE)
             ->where('node_id = :nodeId')
             ->setParameter('nodeId', $location->id);
 

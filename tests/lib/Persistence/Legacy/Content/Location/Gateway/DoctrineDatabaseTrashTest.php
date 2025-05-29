@@ -11,6 +11,7 @@ use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
 
@@ -48,7 +49,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
             ],
             $query
                 ->select('node_id', 'priority')
-                ->from('ezcontentobject_tree')
+                ->from(Gateway::CONTENT_TREE_TABLE)
                 ->where($query->expr()->in('node_id', [1, 2, 69, 70, 71]))
         );
     }
@@ -66,7 +67,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
             ],
             $query
                 ->select('node_id', 'path_string')
-                ->from('ezcontentobject_trash')
+                ->from(Gateway::TRASH_TABLE)
         );
     }
 
@@ -106,7 +107,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
             [[$value]],
             $query
                 ->select($property)
-                ->from('ezcontentobject_tree')
+                ->from(Gateway::CONTENT_TREE_TABLE)
                 ->where($query->expr()->in('contentobject_id', [69]))
         );
     }
@@ -124,7 +125,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
             [['228', '1', '/1/228/']],
             $query
                 ->select('node_id', 'parent_node_id', 'path_string')
-                ->from('ezcontentobject_tree')
+                ->from(Gateway::CONTENT_TREE_TABLE)
                 ->where($query->expr()->in('contentobject_id', [69]))
         );
     }
@@ -378,7 +379,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
             [],
             $query
                 ->select('*')
-                ->from('ezcontentobject_trash')
+                ->from(Gateway::TRASH_TABLE)
         );
     }
 
@@ -394,7 +395,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
             [],
             $query
                 ->select('*')
-                ->from('ezcontentobject_trash')
+                ->from(Gateway::TRASH_TABLE)
                 ->where($query->expr()->eq('node_id', 71))
         );
     }
@@ -410,7 +411,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         // Insert a new node and count again
         $query = $this->getDatabaseConnection()->createQueryBuilder();
         $query
-            ->insert('ezcontentobject_tree')
+            ->insert(Gateway::CONTENT_TREE_TABLE)
             ->values(
                 [
                     'contentobject_id' => $query->createPositionalParameter(

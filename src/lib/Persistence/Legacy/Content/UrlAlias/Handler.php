@@ -162,7 +162,7 @@ class Handler implements UrlAliasHandlerInterface
      * @param string $name
      * @param int $languageId
      * @param bool $alwaysAvailable
-     * @param bool $updatePathIdentificationString legacy storage specific for updating ezcontentobject_tree.path_identification_string
+     * @param bool $updatePathIdentificationString legacy storage specific for updating ibexa_content_tree.path_identification_string
      * @param int $newId
      */
     private function internalPublishUrlAliasForLocation(
@@ -590,7 +590,7 @@ class Handler implements UrlAliasHandlerInterface
         $hierarchyData = [];
         $isPathHistory = false;
         for ($level = 0; $level < $pathDepth; ++$level) {
-            $prefix = $level === $pathDepth - 1 ? '' : 'ezurlalias_ml' . $level . '_';
+            $prefix = $level === $pathDepth - 1 ? '' : 'ibexa_url_alias_ml' . $level . '_';
             $isPathHistory = $isPathHistory ?: ($data[$prefix . 'link'] != $data[$prefix . 'id']);
             $hierarchyData[$level] = [
                 'id' => $data[$prefix . 'id'],
@@ -770,8 +770,8 @@ class Handler implements UrlAliasHandlerInterface
 
         $namesForAllLanguages = [];
         foreach ($nameDataArray as $nameData) {
-            $namesForAllLanguages[$nameData['ezcontentobject_name_content_translation']]
-                = $nameData['ezcontentobject_name_name'];
+            $namesForAllLanguages[$nameData['content_name_content_translation']]
+                = $nameData['content_name_name'];
         }
 
         return $namesForAllLanguages;
@@ -926,7 +926,7 @@ class Handler implements UrlAliasHandlerInterface
      * First level entries must have parent id set to 0 instead of their parent location alias id.
      * There are two cases when alias id needs to be corrected:
      * 1) location is special location without URL alias (location with id=1 in standard installation)
-     * 2) location is site root location, having special root entry in the ezurlalias_ml table (location with id=2
+     * 2) location is site root location, having special root entry in the ibexa_url_alias_ml table (location with id=2
      *    in standard installation)
      *
      * @param mixed $locationId

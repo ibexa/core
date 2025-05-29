@@ -4,8 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+use Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase;
+
 return [
-    'ezurl' => [
+    DoctrineDatabase::URL_TABLE => [
         0 => [
             'created' => '1343140541',
             'id' => '23',
@@ -25,7 +27,7 @@ return [
             'url' => '/content/view/tagcloud/2',
         ],
     ],
-    'ezurl_object_link' => [
+    DoctrineDatabase::URL_LINK_TABLE => [
         0 => [
             'contentobject_attribute_id' => 42,
             'contentobject_attribute_version' => 5,

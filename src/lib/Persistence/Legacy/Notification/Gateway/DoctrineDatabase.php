@@ -17,7 +17,7 @@ use PDO;
 
 class DoctrineDatabase extends Gateway
 {
-    public const TABLE_NOTIFICATION = 'eznotification';
+    public const TABLE_NOTIFICATION = 'ibexa_notification';
     public const COLUMN_ID = 'id';
     public const COLUMN_OWNER_ID = 'owner_id';
     public const COLUMN_IS_PENDING = 'is_pending';

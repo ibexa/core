@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Role as APIRole;
 use Ibexa\Core\Persistence\Legacy\User;
+use Ibexa\Core\Persistence\Legacy\User\Role\Gateway;
 use Ibexa\Core\Persistence\Legacy\User\Role\LimitationConverter;
 use Ibexa\Core\Persistence\Legacy\User\Role\LimitationHandler\ObjectStateHandler as ObjectStateLimitationHandler;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
@@ -297,7 +298,7 @@ class UserHandlerTest extends TestCase
                 'id',
                 'time',
                 'user_id'
-            )->from('ezuser_accountkey'),
+            )->from(User\Gateway::USER_ACCOUNTKEY_TABLE),
             'Expected user data to be updated.'
         );
 
@@ -310,7 +311,7 @@ class UserHandlerTest extends TestCase
                 'id',
                 'time',
                 'user_id'
-            )->from('ezuser_accountkey'),
+            )->from(User\Gateway::USER_ACCOUNTKEY_TABLE),
             'Expected user token data to be updated.'
         );
     }
@@ -328,7 +329,7 @@ class UserHandlerTest extends TestCase
                 'id',
                 'time',
                 'user_id'
-            )->from('ezuser_accountkey'),
+            )->from(User\Gateway::USER_ACCOUNTKEY_TABLE),
             'Expected user data to be updated.'
         );
 
@@ -341,7 +342,7 @@ class UserHandlerTest extends TestCase
                 'id',
                 'time',
                 'user_id'
-            )->from('ezuser_accountkey'),
+            )->from(User\Gateway::USER_ACCOUNTKEY_TABLE),
             'Expected user token to be expired.'
         );
     }
@@ -389,7 +390,7 @@ class UserHandlerTest extends TestCase
                 'id',
                 'name',
                 'version'
-            )->from('ezrole'),
+            )->from(Gateway::ROLE_TABLE),
             'Expected a new role draft.'
         );
     }
@@ -416,7 +417,7 @@ class UserHandlerTest extends TestCase
                 'id',
                 'name',
                 'version'
-            )->from('ezrole'),
+            )->from(Gateway::ROLE_TABLE),
             'Expected a role and a role draft.'
         );
     }
@@ -594,7 +595,7 @@ class UserHandlerTest extends TestCase
 
         $this->assertQueryResult(
             [[1, 'Changed']],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'name')->from('ezrole'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'name')->from(Gateway::ROLE_TABLE),
             'Expected a changed role.'
         );
     }
@@ -609,19 +610,19 @@ class UserHandlerTest extends TestCase
 
         $this->assertQueryResult(
             [],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('id')->from('ezrole')->where('id = 3'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('id')->from(Gateway::ROLE_TABLE)->where('id = 3'),
             'Expected an empty set.'
         );
 
         $this->assertQueryResult(
             [],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('role_id')->from('ezpolicy')->where('role_id = 3'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('role_id')->from(Gateway::POLICY_TABLE)->where('role_id = 3'),
             'Expected an empty set.'
         );
 
         $this->assertQueryResult(
             [],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('role_id')->from('ezuser_role')->where('role_id = 3'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('role_id')->from(Gateway::USER_ROLE_TABLE)->where('role_id = 3'),
             'Expected an empty set.'
         );
     }
@@ -637,19 +638,19 @@ class UserHandlerTest extends TestCase
 
         $this->assertQueryResult(
             [['3', APIRole::STATUS_DEFINED]],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('id, version')->from('ezrole')->where('id = 3'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('id, version')->from(Gateway::ROLE_TABLE)->where('id = 3'),
             'Expected a published role.'
         );
 
         $this->assertQueryResult(
             [[implode("\n", array_fill(0, 28, '3, ' . APIRole::STATUS_DEFINED))]],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('role_id, original_id')->from('ezpolicy')->where('role_id = 3'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('role_id, original_id')->from(Gateway::POLICY_TABLE)->where('role_id = 3'),
             'Expected 28 policies for the published role.'
         );
 
         $this->assertQueryResult(
             [[3], [3]],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('role_id')->from('ezuser_role')->where('role_id = 3'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('role_id')->from(Gateway::USER_ROLE_TABLE)->where('role_id = 3'),
             'Expected that role assignments still exist.'
         );
     }
@@ -668,7 +669,7 @@ class UserHandlerTest extends TestCase
 
         $this->assertQueryResult(
             [[1, 'foo', 'bar', 1]],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'module_name', 'function_name', 'role_id')->from('ezpolicy'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'module_name', 'function_name', 'role_id')->from(Gateway::POLICY_TABLE),
             'Expected a new policy.'
         );
     }
@@ -697,7 +698,7 @@ class UserHandlerTest extends TestCase
                 [1, 'Subtree', 1],
                 [2, 'Foo', 1],
             ],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'identifier', 'policy_id')->from('ezpolicy_limitation'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'identifier', 'policy_id')->from(Gateway::POLICY_LIMITATION_TABLE),
             'Expected a new policy.'
         );
     }
@@ -712,7 +713,7 @@ class UserHandlerTest extends TestCase
                 [2, '/1/2', 1],
                 [3, 'Bar', 2],
             ],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'value', 'limitation_id')->from('ezpolicy_limitation_value'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'value', 'limitation_id')->from(Gateway::POLICY_LIMITATION_VALUE_TABLE),
             'Expected a new policy.'
         );
     }
@@ -752,7 +753,7 @@ class UserHandlerTest extends TestCase
                 [1, 'foo', 'bar', 1],
                 [2, 'foo', 'blubb', 1],
             ],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'module_name', 'function_name', 'role_id')->from('ezpolicy'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'module_name', 'function_name', 'role_id')->from(Gateway::POLICY_TABLE),
             'Expected a new policy.'
         );
     }
@@ -769,7 +770,7 @@ class UserHandlerTest extends TestCase
             [
                 [2, 'foo', 'blubb', 1],
             ],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'module_name', 'function_name', 'role_id')->from('ezpolicy')->where('original_id = 0'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'module_name', 'function_name', 'role_id')->from(Gateway::POLICY_TABLE)->where('original_id = 0'),
             'Expected a new policy.'
         );
     }
@@ -783,7 +784,7 @@ class UserHandlerTest extends TestCase
 
         $this->assertQueryResult(
             [[3, 'Foo', 2]],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('*')->from('ezpolicy_limitation')
+            $this->getDatabaseConnection()->createQueryBuilder()->select('*')->from(Gateway::POLICY_LIMITATION_TABLE)
         );
     }
 
@@ -796,7 +797,7 @@ class UserHandlerTest extends TestCase
 
         $this->assertQueryResult(
             [[4, 3, 'Blubb']],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('*')->from('ezpolicy_limitation_value')
+            $this->getDatabaseConnection()->createQueryBuilder()->select('*')->from(Gateway::POLICY_LIMITATION_VALUE_TABLE)
         );
     }
 
@@ -818,7 +819,7 @@ class UserHandlerTest extends TestCase
                 [3, 'Foo', 2],
                 [4, 'new', 1],
             ],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('*')->from('ezpolicy_limitation')
+            $this->getDatabaseConnection()->createQueryBuilder()->select('*')->from(Gateway::POLICY_LIMITATION_TABLE)
         );
 
         $this->assertQueryResult(
@@ -826,7 +827,7 @@ class UserHandlerTest extends TestCase
                 [4, 3, 'Blubb'],
                 [5, 4, 'something'],
             ],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('*')->from('ezpolicy_limitation_value')
+            $this->getDatabaseConnection()->createQueryBuilder()->select('*')->from(Gateway::POLICY_LIMITATION_VALUE_TABLE)
         );
     }
 
@@ -845,7 +846,7 @@ class UserHandlerTest extends TestCase
             [
                 [1, self::TEST_USER_ID, 1, null, null],
             ],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'contentobject_id', 'role_id', 'limit_identifier', 'limit_value')->from('ezuser_role'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'contentobject_id', 'role_id', 'limit_identifier', 'limit_value')->from(Gateway::USER_ROLE_TABLE),
             'Expected a new user policy association.'
         );
     }
@@ -871,7 +872,7 @@ class UserHandlerTest extends TestCase
             [
                 [1, self::TEST_USER_ID, 1, 'Subtree', '/1'],
             ],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'contentobject_id', 'role_id', 'limit_identifier', 'limit_value')->from('ezuser_role'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'contentobject_id', 'role_id', 'limit_identifier', 'limit_value')->from(Gateway::USER_ROLE_TABLE),
             'Expected a new user policy association.'
         );
     }
@@ -900,7 +901,7 @@ class UserHandlerTest extends TestCase
                 [2, self::TEST_USER_ID, 1, 'Subtree', '/1/2'],
                 [3, self::TEST_USER_ID, 1, 'Foo', 'Bar'],
             ],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'contentobject_id', 'role_id', 'limit_identifier', 'limit_value')->from('ezuser_role'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'contentobject_id', 'role_id', 'limit_identifier', 'limit_value')->from(Gateway::USER_ROLE_TABLE),
             'Expected a new user policy association.'
         );
     }
@@ -927,7 +928,7 @@ class UserHandlerTest extends TestCase
 
         $this->assertQueryResult(
             [],
-            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'contentobject_id', 'role_id', 'limit_identifier', 'limit_value')->from('ezuser_role'),
+            $this->getDatabaseConnection()->createQueryBuilder()->select('id', 'contentobject_id', 'role_id', 'limit_identifier', 'limit_value')->from(Gateway::USER_ROLE_TABLE),
             'Expected no user policy associations.'
         );
     }

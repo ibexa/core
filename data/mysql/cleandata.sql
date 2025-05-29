@@ -1,18 +1,18 @@
-INSERT INTO `ezcobj_state` (`default_language_id`, `group_id`, `id`, `identifier`, `language_mask`, `priority`)
+INSERT INTO `ibexa_object_state` (`default_language_id`, `group_id`, `id`, `identifier`, `language_mask`, `priority`)
 VALUES (2, 2, 1, 'not_locked', 3, 0),
        (2, 2, 2, 'locked', 3, 1);
 
-INSERT INTO `ezcobj_state_group` (`default_language_id`, `id`, `identifier`, `language_mask`)
+INSERT INTO `ibexa_object_state_group` (`default_language_id`, `id`, `identifier`, `language_mask`)
 VALUES (2,2,'ez_lock',3);
 
-INSERT INTO `ezcobj_state_group_language` (`contentobject_state_group_id`, `description`, `language_id`, `name`, `real_language_id`)
+INSERT INTO `ibexa_object_state_group_language` (`contentobject_state_group_id`, `description`, `language_id`, `name`, `real_language_id`)
 VALUES (2,'',3,'Lock',2);
 
-INSERT INTO `ezcobj_state_language` (`contentobject_state_id`, `description`, `language_id`, `name`)
+INSERT INTO `ibexa_object_state_language` (`contentobject_state_id`, `description`, `language_id`, `name`)
 VALUES (1,'',3,'Not locked'),
        (2,'',3,'Locked');
 
-INSERT INTO `ezcobj_state_link` (`contentobject_id`, `contentobject_state_id`)
+INSERT INTO `ibexa_object_state_link` (`contentobject_id`, `contentobject_state_id`)
 VALUES (1, 1),
        (4, 1),
        (10, 1),
@@ -26,10 +26,10 @@ VALUES (1, 1),
        (50, 1),
        (51, 1);
 
-INSERT INTO `ezcontent_language` (`disabled`, `id`, `locale`, `name`)
+INSERT INTO `ibexa_content_language` (`disabled`, `id`, `locale`, `name`)
 VALUES (0, 2, 'eng-GB', 'English (United Kingdom)');
 
-INSERT INTO `ezcontentclass` (`always_available`, `contentobject_name`, `created`, `creator_id`, `id`, `identifier`, `initial_language_id`, `is_container`, `language_mask`, `modified`, `modifier_id`, `remote_id`, `serialized_description_list`, `serialized_name_list`, `sort_field`, `sort_order`, `url_alias_name`, `version`)
+INSERT INTO `ibexa_content_type` (`always_available`, `contentobject_name`, `created`, `creator_id`, `id`, `identifier`, `initial_language_id`, `is_container`, `language_mask`, `modified`, `modifier_id`, `remote_id`, `serialized_description_list`, `serialized_name_list`, `sort_field`, `sort_order`, `url_alias_name`, `version`)
 VALUES (1,'<short_name|name>',1024392098,14,1,'folder',2,1,2,1448831672,14,'a3d405b81be900468eb153d774f4f0d2','a:0:{}','a:1:{s:6:\"eng-GB\";s:6:\"Folder\";}',1,1,NULL,0),
        (0,'<short_title|title>',1024392098,14,2,'article',2,1,3,1082454989,14,'c15b600eb9198b1924063b5a68758232',NULL,'a:2:{s:6:\"eng-GB\";s:7:\"Article\";s:16:\"always-available\";s:6:\"eng-GB\";}',1,1,NULL,0),
        (1,'<name>',1024392098,14,3,'user_group',2,1,3,1048494743,14,'25b4268cdcd01921b808a0d854b877ef',NULL,'a:2:{s:6:\"eng-GB\";s:10:\"User group\";s:16:\"always-available\";s:6:\"eng-GB\";}',1,1,NULL,0),
@@ -37,7 +37,7 @@ VALUES (1,'<short_name|name>',1024392098,14,1,'folder',2,1,2,1448831672,14,'a3d4
        (1,'<name>',1031484992,14,5,'image',2,0,3,1048494784,14,'f6df12aa74e36230eb675f364fccd25a',NULL,'a:2:{s:6:\"eng-GB\";s:5:\"Image\";s:16:\"always-available\";s:6:\"eng-GB\";}',1,1,NULL,0),
        (1,'<name>',1052385472,14,12,'file',2,0,3,1052385669,14,'637d58bfddf164627bdfd265733280a0',NULL,'a:2:{s:6:\"eng-GB\";s:4:\"File\";s:16:\"always-available\";s:6:\"eng-GB\";}',1,1,NULL,0);
 
-INSERT INTO `ezcontentclass_attribute` (`can_translate`, `category`, `contentclass_id`, `data_float1`, `data_float2`, `data_float3`, `data_float4`, `data_int1`, `data_int2`, `data_int3`, `data_int4`, `data_text1`, `data_text2`, `data_text3`, `data_text4`, `data_text5`, `data_type_string`, `id`, `identifier`, `is_information_collector`, `is_required`, `is_searchable`, `is_thumbnail`, `placement`, `serialized_data_text`, `serialized_description_list`, `serialized_name_list`, `version`)
+INSERT INTO `ibexa_content_type_field_definition` (`can_translate`, `category`, `contentclass_id`, `data_float1`, `data_float2`, `data_float3`, `data_float4`, `data_int1`, `data_int2`, `data_int3`, `data_int4`, `data_text1`, `data_text2`, `data_text3`, `data_text4`, `data_text5`, `data_type_string`, `id`, `identifier`, `is_information_collector`, `is_required`, `is_searchable`, `is_thumbnail`, `placement`, `serialized_data_text`, `serialized_description_list`, `serialized_name_list`, `version`)
 VALUES (1,'',2,0,0,0,0,255,0,0,0,'New article','','','','','ezstring',1,'title',0,1,1,1,0,NULL,NULL,'a:2:{s:6:\"eng-GB\";s:5:\"Title\";s:16:\"always-available\";s:6:\"eng-GB\";}',0),
        (1,'',1,NULL,NULL,NULL,NULL,255,0,NULL,NULL,'Folder',NULL,NULL,NULL,NULL,'ezstring',4,'name',0,1,1,0,1,'N;','a:0:{}','a:1:{s:6:\"eng-GB\";s:4:\"Name\";}',0),
        (1,'',3,0,0,0,0,255,0,0,0,'','','','',NULL,'ezstring',6,'name',0,1,1,0,1,NULL,NULL,'a:2:{s:6:\"eng-GB\";s:4:\"Name\";s:16:\"always-available\";s:6:\"eng-GB\";}',0),
@@ -63,7 +63,7 @@ VALUES (1,'',2,0,0,0,0,255,0,0,0,'New article','','','','','ezstring',1,'title',
        (1,'',4,0,0,0,0,10,0,0,0,'','','','','','eztext',179,'signature',0,0,1,0,4,NULL,NULL,'a:2:{s:6:\"eng-GB\";s:9:\"Signature\";s:16:\"always-available\";s:6:\"eng-GB\";}',0),
        (1,'',4,10.0,0,0,0,0,0,0,0,'MB','','','','','ezimage',180,'image',0,0,0,1,5,NULL,NULL,'a:2:{s:6:\"eng-GB\";s:5:\"Image\";s:16:\"always-available\";s:6:\"eng-GB\";}',0);
 
-INSERT INTO `ezcontentclass_classgroup` (`contentclass_id`, `contentclass_version`, `group_id`, `group_name`)
+INSERT INTO `ibexa_content_type_group_assignment` (`contentclass_id`, `contentclass_version`, `group_id`, `group_name`)
 VALUES (1, 0, 1, 'Content'),
        (2, 0, 1, 'Content'),
        (3, 0, 2, 'Users'),
@@ -71,7 +71,7 @@ VALUES (1, 0, 1, 'Content'),
        (5, 0, 3, 'Media'),
        (12, 0, 3, 'Media');
 
-INSERT INTO `ezcontentclass_name` (`contentclass_id`, `contentclass_version`, `language_id`, `language_locale`, `name`)
+INSERT INTO `ibexa_content_type_name` (`contentclass_id`, `contentclass_version`, `language_id`, `language_locale`, `name`)
 VALUES (1, 0, 2, 'eng-GB', 'Folder'),
        (2, 0, 3, 'eng-GB', 'Article'),
        (3, 0, 3, 'eng-GB', 'User group'),
@@ -79,12 +79,12 @@ VALUES (1, 0, 2, 'eng-GB', 'Folder'),
        (5, 0, 3, 'eng-GB', 'Image'),
        (12, 0, 3, 'eng-GB', 'File');
 
-INSERT INTO `ezcontentclassgroup` (`created`, `creator_id`, `id`, `modified`, `modifier_id`, `name`)
+INSERT INTO `ibexa_content_type_group` (`created`, `creator_id`, `id`, `modified`, `modifier_id`, `name`)
 VALUES (1031216928, 14, 1, 1033922106, 14, 'Content'),
        (1031216941, 14, 2, 1033922113, 14, 'Users'),
        (1032009743, 14, 3, 1033922120, 14, 'Media');
 
-INSERT INTO `ezcontentobject` (`contentclass_id`, `current_version`, `id`, `initial_language_id`, `language_mask`, `modified`, `name`, `owner_id`, `published`, `remote_id`, `section_id`, `status`)
+INSERT INTO `ibexa_content` (`contentclass_id`, `current_version`, `id`, `initial_language_id`, `language_mask`, `modified`, `name`, `owner_id`, `published`, `remote_id`, `section_id`, `status`)
 VALUES (1,9,1,2,3,1448889046,'Ibexa Platform',14,1448889046,'9459d3c29e15006e45197295722c7ade',1,1),
        (3,1,4,2,3,1033917596,'Users',14,1033917596,'f5c88a2209584891056f987fd965b0ba',2,1),
        (4,2,10,2,3,1072180405,'Anonymous User',14,1033920665,'faaeb9be3bd98ed09f606fc16d144eca',2,1),
@@ -98,7 +98,7 @@ VALUES (1,9,1,2,3,1448889046,'Ibexa Platform',14,1448889046,'9459d3c29e15006e451
        (1,1,50,2,3,1080220220,'Files',14,1080220220,'732a5acd01b51a6fe6eab448ad4138a9',3,1),
        (1,1,51,2,3,1080220233,'Multimedia',14,1080220233,'09082deb98662a104f325aaa8c4933d3',3,1);
 
-INSERT INTO `ezcontentobject_attribute` (`attribute_original_id`, `contentclassattribute_id`, `contentobject_id`, `data_float`, `data_int`, `data_text`, `data_type_string`, `id`, `language_code`, `language_id`, `sort_key_int`, `sort_key_string`, `version`)
+INSERT INTO `ibexa_content_field` (`attribute_original_id`, `contentclassattribute_id`, `contentobject_id`, `data_float`, `data_int`, `data_text`, `data_type_string`, `id`, `language_code`, `language_id`, `sort_key_int`, `sort_key_string`, `version`)
 VALUES (0,4,1,NULL,NULL,'Ibexa Platform','ezstring',1,'eng-GB',3,0,'ibexa platform',9),
        (0,119,1,NULL,NULL,'<?xml version="1.0" encoding="UTF-8"?><section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"><para><emphasis role="strong">You are now ready to start your project.</emphasis></para></section>','ezrichtext',2,'eng-GB',3,0,'',9),
        (0,7,4,NULL,NULL,'Main group','ezstring',7,'eng-GB',3,0,'',1),
@@ -140,7 +140,7 @@ VALUES (0,4,1,NULL,NULL,'Ibexa Platform','ezstring',1,'eng-GB',3,0,'ibexa platfo
        (0,180,10,0,0,'','ezimage',179,'eng-GB',3,0,'',2),
        (0,180,14,0,0,'<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<ezimage serial_number=\"1\" is_valid=\"\" filename=\"\" suffix=\"\" basename=\"\" dirpath=\"\" url=\"\" original_filename=\"\" mime_type=\"\" width=\"\" height=\"\" alternative_text=\"\" alias_key=\"1293033771\" timestamp=\"1301057722\"><original attribute_id=\"180\" attribute_version=\"3\" attribute_language=\"eng-GB\"/></ezimage>\n','ezimage',180,'eng-GB',3,0,'',3);
 
-INSERT INTO `ezcontentobject_name` (`content_translation`, `content_version`, `contentobject_id`, `language_id`, `name`, `real_translation`)
+INSERT INTO `ibexa_content_name` (`content_translation`, `content_version`, `contentobject_id`, `language_id`, `name`, `real_translation`)
 VALUES ('eng-GB',9,1,2,'Ibexa Platform','eng-GB'),
        ('eng-GB',1,4,3,'Users','eng-GB'),
        ('eng-GB',2,10,3,'Anonymous User','eng-GB'),
@@ -154,7 +154,7 @@ VALUES ('eng-GB',9,1,2,'Ibexa Platform','eng-GB'),
        ('eng-GB',1,50,3,'Files','eng-GB'),
        ('eng-GB',1,51,3,'Multimedia','eng-GB');
 
-INSERT INTO `ezcontentobject_tree` (`contentobject_id`, `contentobject_is_published`, `contentobject_version`, `depth`, `is_hidden`, `is_invisible`, `main_node_id`, `modified_subnode`, `node_id`, `parent_node_id`, `path_identification_string`, `path_string`, `priority`, `remote_id`, `sort_field`, `sort_order`)
+INSERT INTO `ibexa_content_tree` (`contentobject_id`, `contentobject_is_published`, `contentobject_version`, `depth`, `is_hidden`, `is_invisible`, `main_node_id`, `modified_subnode`, `node_id`, `parent_node_id`, `path_identification_string`, `path_string`, `priority`, `remote_id`, `sort_field`, `sort_order`)
 VALUES (0,1,1,0,0,0,1,1448999778,1,1,'','/1/',0,'629709ba256fe317c3ddcee35453a96a',1,1),
        (1,1,9,1,0,0,2,1301073466,2,1,'node_2','/1/2/',0,'f3e90596361e31d496d4026eb624c983',8,1),
        (4,1,1,1,0,0,5,1301062024,5,1,'users','/1/5/',0,'3f6d92f8044aed134f32153517850f5a',1,1),
@@ -169,7 +169,7 @@ VALUES (0,1,1,0,0,0,1,1448999778,1,1,'','/1/',0,'629709ba256fe317c3ddcee35453a96
        (50,1,1,2,0,0,52,1081860720,52,43,'media/files','/1/43/52/',0,'0b113a208f7890f9ad3c24444ff5988c',9,1),
        (51,1,1,2,0,0,53,1081860720,53,43,'media/multimedia','/1/43/53/',0,'4f18b82c75f10aad476cae5adf98c11f',9,1);
 
-INSERT INTO `ezcontentobject_version` (`contentobject_id`, `created`, `creator_id`, `id`, `initial_language_id`, `language_mask`, `modified`, `status`, `user_id`, `version`, `workflow_event_pos`)
+INSERT INTO `ibexa_content_version` (`contentobject_id`, `created`, `creator_id`, `id`, `initial_language_id`, `language_mask`, `modified`, `status`, `user_id`, `version`, `workflow_event_pos`)
 VALUES (4,0,14,4,2,3,0,1,0,1,1),
        (11,1033920737,14,439,2,3,1033920746,1,0,1,0),
        (12,1033920760,14,440,2,3,1033920775,1,0,1,0),
@@ -183,7 +183,7 @@ VALUES (4,0,14,4,2,3,0,1,0,1,1),
        (14,1301061783,14,499,2,3,1301062024,1,0,3,0),
        (1,1448889045,14,506,2,3,1448889046,1,0,9,0);
 
-INSERT INTO `eznode_assignment` (`contentobject_id`, `contentobject_version`, `from_node_id`, `id`, `is_main`, `op_code`, `parent_node`, `parent_remote_id`, `remote_id`, `sort_field`, `sort_order`, `priority`, `is_hidden`)
+INSERT INTO `ibexa_node_assignment` (`contentobject_id`, `contentobject_version`, `from_node_id`, `id`, `is_main`, `op_code`, `parent_node`, `parent_remote_id`, `remote_id`, `sort_field`, `sort_order`, `priority`, `is_hidden`)
 VALUES (8,2,0,4,1,2,5,'','0',1,1,0,0),
        (42,1,0,5,1,2,5,'','0',9,1,0,0),
        (10,2,-1,6,1,2,44,'','0',9,1,0,0),
@@ -197,7 +197,7 @@ VALUES (8,2,0,4,1,2,5,'','0',1,1,0,0),
        (51,1,0,29,1,2,43,'','0',9,1,0,0),
        (14,3,-1,38,1,2,13,'','0',1,1,0,0);
 
-INSERT INTO `ezpolicy` (`function_name`, `id`, `module_name`, `original_id`, `role_id`)
+INSERT INTO `ibexa_policy` (`function_name`, `id`, `module_name`, `original_id`, `role_id`)
 VALUES ('*',317,'content',0,3),
        ('login',319,'user',0,3),
        ('read',328,'content',0,1),
@@ -207,7 +207,7 @@ VALUES ('*',317,'content',0,3),
        ('view_embed',334,'content',0,1),
        ('*',340,'url',0,3);
 
-INSERT INTO `ezpolicy_limitation` (`id`, `identifier`, `policy_id`)
+INSERT INTO `ibexa_policy_limitation` (`id`, `identifier`, `policy_id`)
 VALUES (251,'Section',328),
        (252,'Section',329),
        (253,'SiteAccess',331),
@@ -215,7 +215,7 @@ VALUES (251,'Section',328),
        (255,'Owner',333),
        (256,'Class',334);
 
-INSERT INTO `ezpolicy_limitation_value` (`id`, `limitation_id`, `value`)
+INSERT INTO `ibexa_policy_limitation_value` (`id`, `limitation_id`, `value`)
 VALUES (477,251,'1'),
        (478,252,'1'),
        (479,253,'1766001124'),
@@ -224,21 +224,21 @@ VALUES (477,251,'1'),
        (482,256,'5'),
        (483,256,'12');
 
-INSERT INTO `ezrole` (`id`, `is_new`, `name`, `value`, `version`)
+INSERT INTO `ibexa_role` (`id`, `is_new`, `name`, `value`, `version`)
 VALUES (1,0,'Anonymous','',0),
        (2,0,'Administrator','0',0),
        (3,0,'Editor','',0),
        (4,0,'Member','',0);
 
-INSERT INTO `ezsection` (`id`, `identifier`, `locale`, `name`, `navigation_part_identifier`)
+INSERT INTO `ibexa_section` (`id`, `identifier`, `locale`, `name`, `navigation_part_identifier`)
 VALUES (1,'standard','','Standard','ezcontentnavigationpart'),
        (2,'users','','Users','ezusernavigationpart'),
        (3,'media','','Media','ezmedianavigationpart');
 
-INSERT INTO `ezsite_data` (`name`, `value`)
+INSERT INTO `ibexa_site_data` (`name`, `value`)
 VALUES ('ibexa-release','4.6');
 
-INSERT INTO `ezurlalias` (`destination_url`, `forward_to_id`, `id`, `is_imported`, `is_internal`, `is_wildcard`, `source_md5`, `source_url`)
+INSERT INTO `ibexa_url_alias` (`destination_url`, `forward_to_id`, `id`, `is_imported`, `is_internal`, `is_wildcard`, `source_md5`, `source_url`)
 VALUES ('content/view/full/2',0,12,1,1,0,'d41d8cd98f00b204e9800998ecf8427e',''),
        ('content/view/full/5',0,13,1,1,0,'9bc65c2abec141778ffaa729489f3e87','users'),
        ('content/view/full/12',0,15,1,1,0,'02d4e844e3a660857a3f81585995ffe1','users/guest_accounts'),
@@ -252,7 +252,7 @@ VALUES ('content/view/full/2',0,12,1,1,0,'d41d8cd98f00b204e9800998ecf8427e',''),
        ('content/view/full/52',0,29,1,1,0,'ad5a8c6f6aac3b1b9df267fe22e7aef6','media/files'),
        ('content/view/full/53',0,30,1,1,0,'562a0ac498571c6c3529173184a2657c','media/multimedia');
 
-INSERT INTO `ezurlalias_ml` (`action`, `action_type`, `alias_redirects`, `id`, `is_alias`, `is_original`, `lang_mask`, `link`, `parent`, `text`, `text_md5`)
+INSERT INTO `ibexa_url_alias_ml` (`action`, `action_type`, `alias_redirects`, `id`, `is_alias`, `is_original`, `lang_mask`, `link`, `parent`, `text`, `text_md5`)
 VALUES ('nop:','nop',1,17,0,0,1,17,0,'media2','50e2736330de124f6edea9b008556fe6'),
        ('eznode:43','eznode',1,9,0,1,3,9,0,'Media','62933a2951ef01f4eafd9bdf4d3cd2f0'),
        ('nop:','nop',1,3,0,0,1,3,0,'users2','86425c35a33507d479f71ade53a669aa'),
@@ -279,16 +279,16 @@ VALUES ('nop:','nop',1,17,0,0,1,17,0,'media2','50e2736330de124f6edea9b008556fe6'
        ('eznode:52','eznode',1,33,0,0,1,19,17,'files','45b963397aa40d4a0063e0d85e4fe7a1'),
        ('eznode:51','eznode',1,32,0,0,1,18,17,'images','59b514174bffe4ae402b3d63aad79fe0');
 
-INSERT INTO `ezurlalias_ml_incr` (`id`)
+INSERT INTO `ibexa_url_alias_ml_incr` (`id`)
 VALUES (1), (2), (3), (4), (5), (6), (7), (8), (9), (10), (11), (12), (13), (14), (15), (16), (17),
        (18), (19), (20), (21), (22), (24), (25), (26), (27), (28), (29), (30), (31), (32), (33),
        (34), (35), (36), (37);
 
-INSERT INTO `ezuser` (`contentobject_id`, `email`, `login`, `password_hash`, `password_hash_type`)
+INSERT INTO `ibexa_user` (`contentobject_id`, `email`, `login`, `password_hash`, `password_hash_type`)
 VALUES (10,'anonymous@link.invalid','anonymous','$2y$10$35gOSQs6JK4u4whyERaeUuVeQBi2TUBIZIfP7HEj7sfz.MxvTuOeC',7),
        (14,'admin@link.invalid','admin','$2y$10$FDn9NPwzhq85cLLxfD5Wu.L3SL3Z/LNCvhkltJUV0wcJj7ciJg2oy',7);
 
-INSERT INTO `ezuser_role` (`contentobject_id`, `id`, `limit_identifier`, `limit_value`, `role_id`)
+INSERT INTO `ibexa_user_role` (`contentobject_id`, `id`, `limit_identifier`, `limit_value`, `role_id`)
 VALUES (11,28,'','',1),
        (42,31,'','',1),
        (13,32,'Subtree','/1/2/',3),
@@ -296,9 +296,9 @@ VALUES (11,28,'','',1),
        (12,34,'','',2),
        (13,35,'','',4);
 
-INSERT INTO `ezuser_setting` (`is_enabled`, `max_login`, `user_id`)
+INSERT INTO `ibexa_user_setting` (`is_enabled`, `max_login`, `user_id`)
 VALUES (1,1000,10),
        (1,10,14);
 
-INSERT INTO `ezpreferences` (`name`, `user_id`, `value`)
-SELECT 'focus_mode', u.contentobject_id, '0' FROM `ezuser` u WHERE u.login = 'admin';
+INSERT INTO `ibexa_preferences` (`name`, `user_id`, `value`)
+SELECT 'focus_mode', u.contentobject_id, '0' FROM `ibexa_user` u WHERE u.login = 'admin';

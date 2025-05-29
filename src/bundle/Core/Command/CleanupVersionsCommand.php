@@ -13,6 +13,8 @@ use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInte
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway;
+use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway as ContentTypeGateway;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -247,9 +249,9 @@ EOT
     {
         $query = $this->connection->createQueryBuilder()
                 ->select('c.id')
-                ->from('ezcontentobject', 'c')
-                ->join('c', 'ezcontentobject_version', 'v', 'v.contentobject_id = c.id')
-                ->join('c', 'ezcontentclass', 'cl', 'cl.id = c.contentclass_id')
+                ->from(Gateway::CONTENT_ITEM_TABLE, 'c')
+                ->join('c', Gateway::CONTENT_VERSION_TABLE, 'v', 'v.contentobject_id = c.id')
+                ->join('c', ContentTypeGateway::CONTENT_TYPE_TABLE, 'cl', 'cl.id = c.contentclass_id')
                 ->groupBy('c.id', 'v.status')
                 ->having('count(c.id) > :keep');
         $query->setParameter('keep', $keep);

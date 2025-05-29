@@ -18,8 +18,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion;
  */
 abstract class Gateway
 {
-    public const URL_WILDCARD_TABLE = 'ezurlwildcard';
-    public const URL_WILDCARD_SEQ = 'ezurlwildcard_id_seq';
+    public const URL_WILDCARD_TABLE = 'ibexa_url_wildcard';
+    public const URL_WILDCARD_SEQ = 'ibexa_url_wildcard_id_seq';
 
     /**
      * Insert the given UrlWildcard.

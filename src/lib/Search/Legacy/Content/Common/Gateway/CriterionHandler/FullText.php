@@ -18,6 +18,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\TransformationProcessor;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
+use Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository\SearchIndex;
 
 /**
  * Full text criterion handler.
@@ -192,7 +193,7 @@ class FullText extends CriterionHandler
 
         $subQuery
             ->select('id')
-            ->from('ezsearch_word')
+            ->from(SearchIndex::SEARCH_WORD_TABLE)
             ->where($whereCondition);
 
         return $subQuery->getSQL();
@@ -213,7 +214,7 @@ class FullText extends CriterionHandler
             ->select(
                 'contentobject_id'
             )->from(
-                'ezsearch_object_word_link'
+                SearchIndex::SEARCH_OBJECT_WORD_LINK_TABLE
             )->where(
                 $expr->in(
                     'word_id',
@@ -231,7 +232,7 @@ class FullText extends CriterionHandler
             $subSelect->andWhere(
                 $expr->gt(
                     $this->dbPlatform->getBitAndComparisonExpression(
-                        'ezsearch_object_word_link.language_mask',
+                        'ibexa_search_object_word_link.language_mask',
                         $queryBuilder->createNamedParameter($languageMask, ParameterType::INTEGER)
                     ),
                     $queryBuilder->createNamedParameter(0, ParameterType::INTEGER)
@@ -265,7 +266,7 @@ class FullText extends CriterionHandler
             return $this->stopWordThresholdValue;
         }
 
-        // Cached value does not exists, do a simple count query on ezcontentobject table
+        // Cached value does not exists, do a simple count query on ibexa_content table
         $query = $this->connection->createQueryBuilder();
         $query
             ->select($this->dbPlatform->getCountExpression('id'))

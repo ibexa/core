@@ -15,7 +15,7 @@ use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\MatchAll;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
 /**
- * @covers \Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase
+ * @covers \DoctrineDatabase
  */
 class DoctrineDatabaseTest extends TestCase
 {
@@ -34,7 +34,7 @@ class DoctrineDatabaseTest extends TestCase
         parent::setUp();
 
         $fixtureLocation = __DIR__ . '/_fixtures/urls.php';
-        $this->fixtureData = (require $fixtureLocation)['ezurl'];
+        $this->fixtureData = (require $fixtureLocation)[DoctrineDatabase::URL_TABLE];
         $this->insertDatabaseFixture($fixtureLocation);
         $this->initGateway();
     }
