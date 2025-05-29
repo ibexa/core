@@ -149,7 +149,7 @@ class DoctrineDatabaseTest extends TestCase
     private function loadBookmark(int $id): array
     {
         $qb = $this->connection->createQueryBuilder();
-        $qb->select('*')
+        $qb->select('id', 'name', 'node_id', 'user_id')
             ->from(DoctrineDatabase::TABLE_BOOKMARKS)
             ->where('id = :id')
             ->setParameter('id', $id);
