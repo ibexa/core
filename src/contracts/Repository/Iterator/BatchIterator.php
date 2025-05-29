@@ -36,7 +36,7 @@ final class BatchIterator implements Iterator
     }
 
     #[\ReturnTypeWillChange]
-    public function current()
+    public function current(): mixed
     {
         if (!$this->isInitialized()) {
             $this->initialize();
