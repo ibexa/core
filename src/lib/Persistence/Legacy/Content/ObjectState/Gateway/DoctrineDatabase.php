@@ -161,8 +161,8 @@ final class DoctrineDatabase extends Gateway
     {
         $maxPriority = $this->getMaxPriorityForObjectStatesInGroup($groupId);
 
-        $objectState->priority = $maxPriority === null ? 0 : (int)$maxPriority + 1;
-        $objectState->groupId = (int)$groupId;
+        $objectState->priority = $maxPriority === null ? 0 : $maxPriority + 1;
+        $objectState->groupId = $groupId;
 
         $query = $this->connection->createQueryBuilder();
         $query
@@ -208,7 +208,13 @@ final class DoctrineDatabase extends Gateway
         if ($maxPriority === null) {
             $this->connection->executeStatement(
                 'INSERT INTO ' . Gateway::OBJECT_STATE_LINK_TABLE . ' (contentobject_id, contentobject_state_id) ' .
-                "SELECT id, $objectState->id FROM ibexa_content"
+                'SELECT id, :object_state_id FROM ibexa_content',
+                [
+                    'object_state_id' => $objectState->id,
+                ],
+                [
+                    'object_state_id' => ParameterType::INTEGER,
+                ]
             );
         }
     }
