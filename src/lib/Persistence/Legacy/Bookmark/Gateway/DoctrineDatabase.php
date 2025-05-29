@@ -17,7 +17,7 @@ use PDO;
 
 class DoctrineDatabase extends Gateway
 {
-    public const TABLE_BOOKMARKS = 'ibexa_content_browsebookmark';
+    public const TABLE_BOOKMARKS = 'ibexa_content_bookmark';
 
     public const COLUMN_ID = 'id';
     public const COLUMN_USER_ID = 'user_id';

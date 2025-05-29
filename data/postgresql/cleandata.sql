@@ -306,7 +306,7 @@ SELECT 'focus_mode', u.contentobject_id, '0' FROM "ibexa_user" u WHERE u.login =
 -- Set proper sequence values after inserting data
 SELECT SETVAL('ibexa_object_state_group_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_object_state_group;
 SELECT SETVAL('ibexa_object_state_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_object_state;
-SELECT SETVAL('ibexa_content_browsebookmark_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_content_browsebookmark;
+SELECT SETVAL('ibexa_content_bookmark_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_content_bookmark;
 SELECT SETVAL('ibexa_content_type_field_definition_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_content_type_field_definition;
 SELECT SETVAL('ibexa_content_type_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_content_type;
 SELECT SETVAL('ibexa_content_type_group_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_content_type_group;
