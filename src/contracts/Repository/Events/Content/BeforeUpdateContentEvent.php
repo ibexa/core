@@ -16,17 +16,14 @@ use UnexpectedValueException;
 
 final class BeforeUpdateContentEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo */
-    private $versionInfo;
+    private VersionInfo $versionInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentUpdateStruct */
-    private $contentUpdateStruct;
+    private ContentUpdateStruct $contentUpdateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content|null */
-    private $content;
+    private ?Content $content = null;
 
     /** @var string[]|null */
-    private $fieldIdentifiersToValidate;
+    private ?array $fieldIdentifiersToValidate;
 
     public function __construct(
         VersionInfo $versionInfo,

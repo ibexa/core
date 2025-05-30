@@ -13,8 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 
 final class BeforeRevealContentEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
-    private $contentInfo;
+    private ContentInfo $contentInfo;
 
     public function __construct(ContentInfo $contentInfo)
     {

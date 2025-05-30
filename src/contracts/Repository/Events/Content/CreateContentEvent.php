@@ -14,18 +14,20 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
 
 final class CreateContentEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct */
-    private $contentCreateStruct;
+    private ContentCreateStruct $contentCreateStruct;
 
-    /** @var array */
-    private $locationCreateStructs;
+    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct[] */
+    private array $locationCreateStructs;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-    private $content;
+    private Content $content;
 
     /** @var string[]|null */
-    private $fieldIdentifiersToValidate;
+    private ?array $fieldIdentifiersToValidate;
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct[]  $locationCreateStructs
+     * @param string[]|null $fieldIdentifiersToValidate
+     */
     public function __construct(
         Content $content,
         ContentCreateStruct $contentCreateStruct,
@@ -43,6 +45,9 @@ final class CreateContentEvent extends AfterEvent
         return $this->contentCreateStruct;
     }
 
+    /**
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct[]
+     */
     public function getLocationCreateStructs(): array
     {
         return $this->locationCreateStructs;

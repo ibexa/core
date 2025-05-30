@@ -14,11 +14,10 @@ use UnexpectedValueException;
 
 final class BeforeDeleteContentEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
-    private $contentInfo;
+    private ContentInfo $contentInfo;
 
-    /** @var array|null */
-    private $locations;
+    /** @var int[]|null */
+    private ?array $locations = null;
 
     public function __construct(ContentInfo $contentInfo)
     {
@@ -30,6 +29,9 @@ final class BeforeDeleteContentEvent extends BeforeEvent
         return $this->contentInfo;
     }
 
+    /**
+     * @return int[]
+     */
     public function getLocations(): array
     {
         if (!$this->hasLocations()) {
@@ -39,11 +41,17 @@ final class BeforeDeleteContentEvent extends BeforeEvent
         return $this->locations;
     }
 
+    /**
+     * @param int[]|null $locations
+     */
     public function setLocations(?array $locations): void
     {
         $this->locations = $locations;
     }
 
+    /**
+     * @phpstan-assert-if-true !null $this->locations
+     */
     public function hasLocations(): bool
     {
         return is_array($this->locations);

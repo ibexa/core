@@ -15,15 +15,16 @@ use UnexpectedValueException;
 
 final class BeforeCreateUserEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct */
-    private $userCreateStruct;
+    private UserCreateStruct $userCreateStruct;
 
-    /** @var array */
-    private $parentGroups;
+    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup[] */
+    private array $parentGroups;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User|null */
-    private $user;
+    private ?User $user = null;
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroup[] $parentGroups
+     */
     public function __construct(UserCreateStruct $userCreateStruct, array $parentGroups)
     {
         $this->userCreateStruct = $userCreateStruct;
@@ -35,6 +36,9 @@ final class BeforeCreateUserEvent extends BeforeEvent
         return $this->userCreateStruct;
     }
 
+    /**
+     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroup[]
+     */
     public function getParentGroups(): array
     {
         return $this->parentGroups;
@@ -54,6 +58,9 @@ final class BeforeCreateUserEvent extends BeforeEvent
         $this->user = $user;
     }
 
+    /**
+     * @phpstan-assert-if-true !null $this->user
+     */
     public function hasUser(): bool
     {
         return $this->user instanceof User;

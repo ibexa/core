@@ -14,15 +14,16 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct;
 
 final class CreateUserEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct */
-    private $userCreateStruct;
+    private UserCreateStruct $userCreateStruct;
 
-    /** @var array */
-    private $parentGroups;
+    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup[] */
+    private array $parentGroups;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
-    private $user;
+    private User $user;
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroup[] $parentGroups
+     */
     public function __construct(
         User $user,
         UserCreateStruct $userCreateStruct,
@@ -38,6 +39,9 @@ final class CreateUserEvent extends AfterEvent
         return $this->userCreateStruct;
     }
 
+    /**
+     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroup[]
+     */
     public function getParentGroups(): array
     {
         return $this->parentGroups;

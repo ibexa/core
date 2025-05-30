@@ -14,14 +14,11 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserTokenUpdateStruct;
 
 final class UpdateUserTokenEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
-    private $user;
+    private User $user;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserTokenUpdateStruct */
-    private $userTokenUpdateStruct;
+    private UserTokenUpdateStruct $userTokenUpdateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
-    private $updatedUser;
+    private User $updatedUser;
 
     public function __construct(
         User $updatedUser,

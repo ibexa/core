@@ -13,14 +13,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 
 final class DeleteTranslationEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
-    private $contentInfo;
+    private ContentInfo $contentInfo;
 
-    private $languageCode;
+    private string $languageCode;
 
     public function __construct(
         ContentInfo $contentInfo,
-        $languageCode
+        string $languageCode
     ) {
         $this->contentInfo = $contentInfo;
         $this->languageCode = $languageCode;
@@ -31,7 +30,7 @@ final class DeleteTranslationEvent extends AfterEvent
         return $this->contentInfo;
     }
 
-    public function getLanguageCode()
+    public function getLanguageCode(): string
     {
         return $this->languageCode;
     }

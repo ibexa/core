@@ -13,14 +13,11 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft;
 
 final class RemoveContentTypeTranslationEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft */
-    private $newContentTypeDraft;
+    private ContentTypeDraft $newContentTypeDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft */
-    private $contentTypeDraft;
+    private ContentTypeDraft $contentTypeDraft;
 
-    /** @var string */
-    private $languageCode;
+    private string $languageCode;
 
     public function __construct(
         ContentTypeDraft $newContentTypeDraft,

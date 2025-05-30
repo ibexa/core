@@ -13,20 +13,19 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard;
 
 final class CreateEvent extends AfterEvent
 {
-    private $sourceUrl;
+    private string $sourceUrl;
 
-    private $destinationUrl;
+    private string $destinationUrl;
 
-    private $forward;
+    private bool $forward;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard */
-    private $urlWildcard;
+    private URLWildcard $urlWildcard;
 
     public function __construct(
         URLWildcard $urlWildcard,
-        $sourceUrl,
-        $destinationUrl,
-        $forward
+        string $sourceUrl,
+        string $destinationUrl,
+        bool $forward
     ) {
         $this->sourceUrl = $sourceUrl;
         $this->destinationUrl = $destinationUrl;
@@ -34,17 +33,17 @@ final class CreateEvent extends AfterEvent
         $this->urlWildcard = $urlWildcard;
     }
 
-    public function getSourceUrl()
+    public function getSourceUrl(): string
     {
         return $this->sourceUrl;
     }
 
-    public function getDestinationUrl()
+    public function getDestinationUrl(): string
     {
         return $this->destinationUrl;
     }
 
-    public function getForward()
+    public function getForward(): bool
     {
         return $this->forward;
     }

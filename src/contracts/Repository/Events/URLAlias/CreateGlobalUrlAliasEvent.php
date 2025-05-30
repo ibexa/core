@@ -13,18 +13,17 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 
 final class CreateGlobalUrlAliasEvent extends AfterEvent
 {
-    private $resource;
+    private string $resource;
 
-    private $path;
+    private string $path;
 
-    private $languageCode;
+    private string $languageCode;
 
-    private $forwarding;
+    private bool $forwarding;
 
-    private $alwaysAvailable;
+    private bool $alwaysAvailable;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias */
-    private $urlAlias;
+    private URLAlias $urlAlias;
 
     public function __construct(
         URLAlias $urlAlias,
@@ -42,27 +41,27 @@ final class CreateGlobalUrlAliasEvent extends AfterEvent
         $this->urlAlias = $urlAlias;
     }
 
-    public function getResource()
+    public function getResource(): string
     {
         return $this->resource;
     }
 
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
 
-    public function getLanguageCode()
+    public function getLanguageCode(): string
     {
         return $this->languageCode;
     }
 
-    public function getForwarding()
+    public function getForwarding(): bool
     {
         return $this->forwarding;
     }
 
-    public function getAlwaysAvailable()
+    public function getAlwaysAvailable(): bool
     {
         return $this->alwaysAvailable;
     }

@@ -14,14 +14,11 @@ use UnexpectedValueException;
 
 final class BeforeUpdateUserPasswordEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
-    private $user;
+    private User $user;
 
-    /** @var string */
-    private $newPassword;
+    private string $newPassword;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User|null */
-    private $updatedUser;
+    private ?User $updatedUser = null;
 
     public function __construct(User $user, string $newPassword)
     {
@@ -53,6 +50,9 @@ final class BeforeUpdateUserPasswordEvent extends BeforeEvent
         $this->updatedUser = $updatedUser;
     }
 
+    /**
+     * @phpstan-assert-if-true !null $this->updatedUser
+     */
     public function hasUpdatedUser(): bool
     {
         return $this->updatedUser instanceof User;

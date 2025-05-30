@@ -17,17 +17,13 @@ use UnexpectedValueException;
 
 final class BeforeCopyContentEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
-    private $contentInfo;
+    private ContentInfo $contentInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct */
-    private $destinationLocationCreateStruct;
+    private LocationCreateStruct $destinationLocationCreateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo */
-    private $versionInfo;
+    private ?VersionInfo $versionInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content|null */
-    private $content;
+    private ?Content $content = null;
 
     public function __construct(
         ContentInfo $contentInfo,
