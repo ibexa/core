@@ -331,7 +331,7 @@ class AssetMapperTest extends TestCase
         $mock = $this->createMock(ConfigResolverInterface::class);
         $mock
             ->method('getParameter')
-            ->with('fieldtypes.ezimageasset.mappings', null, null)
+            ->with('fieldtypes.ibexa_image_asset.mappings', null, null)
             ->willReturn($this->mappings)
         ;
 

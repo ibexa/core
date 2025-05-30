@@ -44,7 +44,7 @@ class Type extends FieldType implements TranslationContainerInterface
      */
     public function getFieldTypeIdentifier(): string
     {
-        return 'ezdate';
+        return 'ibexa_date';
     }
 
     /**
@@ -241,7 +241,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public static function getTranslationMessages(): array
     {
         return [
-            Message::create('ezdate.name', 'ibexa_fieldtypes')->setDesc('Date'),
+            Message::create('ibexa_date.name', 'ibexa_fieldtypes')->setDesc('Date'),
         ];
     }
 }

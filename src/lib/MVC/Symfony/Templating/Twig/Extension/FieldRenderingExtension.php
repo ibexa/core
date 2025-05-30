@@ -34,7 +34,7 @@ class FieldRenderingExtension extends AbstractExtension
     private $translationHelper;
 
     /**
-     * Hash of field type identifiers (i.e. "ezstring"), indexed by field definition identifier.
+     * Hash of field type identifiers (i.e. "ibexa_string"), indexed by field definition identifier.
      *
      * @var array
      */

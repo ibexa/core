@@ -30,7 +30,7 @@ use LogicException;
  */
 class Type extends FieldType implements TranslationContainerInterface
 {
-    public const FIELD_TYPE_IDENTIFIER = 'ezuser';
+    public const FIELD_TYPE_IDENTIFIER = 'ibexa_user';
 
     public const PASSWORD_TTL_SETTING = 'PasswordTTL';
     public const PASSWORD_TTL_WARNING_SETTING = 'PasswordTTLWarning';
@@ -550,7 +550,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public static function getTranslationMessages(): array
     {
         return [
-            Message::create('ezuser.name', 'ibexa_fieldtypes')->setDesc('User account'),
+            Message::create('ibexa_user.name', 'ibexa_fieldtypes')->setDesc('User account'),
         ];
     }
 }

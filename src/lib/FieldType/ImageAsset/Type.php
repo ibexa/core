@@ -25,7 +25,7 @@ use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 class Type extends FieldType implements TranslationContainerInterface
 {
-    public const FIELD_TYPE_IDENTIFIER = 'ezimageasset';
+    public const FIELD_TYPE_IDENTIFIER = 'ibexa_image_asset';
 
     /** @var \Ibexa\Contracts\Core\Repository\ContentService */
     private $contentService;
@@ -289,7 +289,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public static function getTranslationMessages(): array
     {
         return [
-            Message::create('ezimageasset.name', 'ibexa_fieldtypes')->setDesc('Image Asset'),
+            Message::create('ibexa_image_asset.name', 'ibexa_fieldtypes')->setDesc('Image Asset'),
         ];
     }
 

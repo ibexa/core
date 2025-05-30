@@ -31,7 +31,7 @@ class Type extends BaseTextType
 
     public function getFieldTypeIdentifier(): string
     {
-        return 'eztext';
+        return 'ibexa_text';
     }
 
     public function getEmptyValue(): Value
@@ -129,7 +129,7 @@ class Type extends BaseTextType
     public static function getTranslationMessages(): array
     {
         return [
-            Message::create('eztext.name', 'ibexa_fieldtypes')->setDesc('Text block'),
+            Message::create('ibexa_text.name', 'ibexa_fieldtypes')->setDesc('Text block'),
         ];
     }
 }

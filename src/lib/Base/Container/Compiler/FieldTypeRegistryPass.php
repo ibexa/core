@@ -38,11 +38,11 @@ class FieldTypeRegistryPass extends AbstractFieldTypeBasedPass
                     ]
                 );
 
-                if (isset($attribute['old_alias'])) {
+                if (isset($attribute['legacy_alias'])) {
                     $aliasRegistryDefinition->addMethodCall(
                         'register',
                         [
-                            $attribute['old_alias'],
+                            $attribute['legacy_alias'],
                             $attribute['alias'],
                         ],
                     );

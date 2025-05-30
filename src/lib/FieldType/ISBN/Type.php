@@ -43,7 +43,7 @@ class Type extends FieldType implements TranslationContainerInterface
      */
     public function getFieldTypeIdentifier(): string
     {
-        return 'ezisbn';
+        return 'ibexa_isbn';
     }
 
     /**
@@ -351,7 +351,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public static function getTranslationMessages(): array
     {
         return [
-            Message::create('ezisbn.name', 'ibexa_fieldtypes')->setDesc('ISBN'),
+            Message::create('ibexa_isbn.name', 'ibexa_fieldtypes')->setDesc('ISBN'),
         ];
     }
 }

@@ -9,38 +9,38 @@ services:
         calls:
             - [setRequestStack, ["@request_stack"]]
         tags:
-            - {name: ibexa.field_type.view.parameter.provider, alias: ezdatetime}
-            - {name: ibexa.field_type.view.parameter.provider, alias: ezdate}
-            - {name: ibexa.field_type.view.parameter.provider, alias: eztime}
+            - {name: ibexa.field_type.view.parameter.provider, alias: ibexa_datetime}
+            - {name: ibexa.field_type.view.parameter.provider, alias: ibexa_date}
+            - {name: ibexa.field_type.view.parameter.provider, alias: ibexa_time}
 
     Ibexa\Core\MVC\Symfony\FieldType\Relation\ParameterProvider:
         class: Ibexa\Core\MVC\Symfony\FieldType\Relation\ParameterProvider
         arguments:
             - '@ibexa.api.service.content'
         tags:
-            - {name: ibexa.field_type.view.parameter.provider, alias: ezobjectrelation}
+            - {name: ibexa.field_type.view.parameter.provider, alias: ibexa_object_relation}
 
     Ibexa\Core\MVC\Symfony\FieldType\RelationList\ParameterProvider:
         class: Ibexa\Core\MVC\Symfony\FieldType\RelationList\ParameterProvider
         arguments:
             - '@ibexa.api.service.content'
         tags:
-            - {name: ibexa.field_type.view.parameter.provider, alias: ezobjectrelationlist}
+            - {name: ibexa.field_type.view.parameter.provider, alias: ibexa_object_relation_list}
 
-    ibexa.field_type.ezimageasset.parameterProvider:
+    ibexa.field_type.ibexa_image_asset.parameterProvider:
         class: Ibexa\Core\MVC\Symfony\FieldType\ImageAsset\ParameterProvider
         lazy: true
         arguments:
             - '@ibexa.siteaccessaware.repository'
         tags:
-            - {name: ibexa.field_type.view.parameter.provider, alias: ezimageasset}
+            - {name: ibexa.field_type.view.parameter.provider, alias: ibexa_image_asset}
 
     Ibexa\Core\MVC\Symfony\FieldType\User\ParameterProvider:
         lazy: true
         arguments:
             - '@ibexa.api.service.user'
         tags:
-            - {name: ibexa.field_type.view.parameter.provider, alias: ezuser}
+            - {name: ibexa.field_type.view.parameter.provider, alias: ibexa_user}
 
     # Image
     Ibexa\Core\FieldType\Image\IO\Legacy:

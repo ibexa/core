@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct as GroupCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct;
+use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\MultilingualStorageFieldDefinition;
@@ -46,7 +47,8 @@ class Mapper
     public function __construct(
         ConverterRegistry $converterRegistry,
         MaskGenerator $maskGenerator,
-        StorageDispatcherInterface $storageDispatcher
+        StorageDispatcherInterface $storageDispatcher,
+        private readonly FieldTypeAliasResolverInterface $fieldTypeAliasResolver
     ) {
         $this->converterRegistry = $converterRegistry;
         $this->maskGenerator = $maskGenerator;
@@ -244,9 +246,13 @@ class Mapper
             $field->description['always-available'],
             $field->description[0]
         );
+
+        $dataTypeString = $row['ezcontentclass_attribute_data_type_string'];
+        $dataTypeString = $this->fieldTypeAliasResolver->resolveIdentifier($dataTypeString);
+
         $field->identifier = $row['ezcontentclass_attribute_identifier'];
         $field->fieldGroup = $row['ezcontentclass_attribute_category'];
-        $field->fieldType = $row['ezcontentclass_attribute_data_type_string'];
+        $field->fieldType = $dataTypeString;
         $field->isTranslatable = ($row['ezcontentclass_attribute_can_translate'] == 1);
         $field->isRequired = $row['ezcontentclass_attribute_is_required'] == 1;
         $field->isThumbnail = !empty($row['ezcontentclass_attribute_is_thumbnail']);

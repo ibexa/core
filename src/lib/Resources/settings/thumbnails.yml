@@ -6,7 +6,7 @@ services:
 
     Ibexa\Core\FieldType\Image\ImageThumbnailStrategy:
         arguments:
-            $fieldTypeIdentifier: 'ezimage'
+            $fieldTypeIdentifier: 'ibexa_image'
             $variationHandler: '@Ibexa\Bundle\Core\Imagine\Cache\AliasGeneratorDecorator'
             $variationName: 'medium'
         tags:
@@ -21,7 +21,7 @@ services:
     Ibexa\Core\FieldType\ImageAsset\ImageAssetThumbnailStrategy:
         lazy: true
         arguments:
-            $fieldTypeIdentifier: 'ezimageasset'
+            $fieldTypeIdentifier: 'ibexa_image_asset'
             $thumbnailStrategy: '@Ibexa\Core\Repository\Strategy\ContentThumbnail\ThumbnailChainStrategy'
             $contentService: '@ibexa.api.service.content'
         tags:

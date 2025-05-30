@@ -29,7 +29,7 @@ class ImageAssetTest extends AbstractParserTestCase
         $this->load();
 
         $this->assertConfigResolverParameterValue(
-            'fieldtypes.ezimageasset.mappings',
+            'fieldtypes.ibexa_image_asset.mappings',
             [
                 'content_type_identifier' => 'image',
                 'content_field_identifier' => 'image',
@@ -73,7 +73,7 @@ class ImageAssetTest extends AbstractParserTestCase
                     ],
                 ],
                 [
-                    'fieldtypes.ezimageasset.mappings' => [
+                    'fieldtypes.ibexa_image_asset.mappings' => [
                         'content_type_identifier' => 'photo',
                         'content_field_identifier' => 'file',
                         'name_field_identifier' => 'title',

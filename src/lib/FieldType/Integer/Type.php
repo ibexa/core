@@ -47,7 +47,7 @@ class Type extends BaseNumericType
      */
     public function getFieldTypeIdentifier(): string
     {
-        return 'ezinteger';
+        return 'ibexa_integer';
     }
 
     /**
@@ -162,7 +162,7 @@ class Type extends BaseNumericType
     public static function getTranslationMessages(): array
     {
         return [
-            Message::create('ezinteger.name', 'ibexa_fieldtypes')->setDesc('Integer'),
+            Message::create('ibexa_integer.name', 'ibexa_fieldtypes')->setDesc('Integer'),
         ];
     }
 }

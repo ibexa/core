@@ -48,7 +48,7 @@ class Type extends FieldType implements TranslationContainerInterface
      */
     public function getFieldTypeIdentifier(): string
     {
-        return 'eztime';
+        return 'ibexa_time';
     }
 
     /**
@@ -253,7 +253,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public static function getTranslationMessages(): array
     {
         return [
-            Message::create('eztime.name', 'ibexa_fieldtypes')->setDesc('Time'),
+            Message::create('ibexa_time.name', 'ibexa_fieldtypes')->setDesc('Time'),
         ];
     }
 }

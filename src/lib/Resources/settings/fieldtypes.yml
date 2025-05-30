@@ -271,7 +271,7 @@ services:
         class: Ibexa\Core\FieldType\Author\Type
         parent: Ibexa\Core\FieldType\FieldType
         tags:
-            - {name: ibexa.field_type, alias: ezauthor}
+            - {name: ibexa.field_type, alias: ibexa_author, legacy_alias: ezauthor}
 
     Ibexa\Core\FieldType\BinaryFile\Type:
         class: Ibexa\Core\FieldType\BinaryFile\Type
@@ -280,58 +280,58 @@ services:
             - '@?Ibexa\Core\MVC\Symfony\FieldType\BinaryBase\ContentDownloadUrlGenerator'
         parent: Ibexa\Core\FieldType\FieldType
         tags:
-            - {name: ibexa.field_type, alias: ezbinaryfile}
+            - {name: ibexa.field_type, alias: ibexa_binaryfile, legacy_alias: ezbinaryfile}
 
     Ibexa\Core\FieldType\Checkbox\Type:
         class: Ibexa\Core\FieldType\Checkbox\Type
         parent: Ibexa\Core\FieldType\FieldType
         tags:
-            - {name: ibexa.field_type, alias: ezboolean}
+            - {name: ibexa.field_type, alias: ibexa_boolean, legacy_alias: ezboolean}
 
     Ibexa\Core\FieldType\Country\Type:
         class: Ibexa\Core\FieldType\Country\Type
         arguments: ['%ibexa.field_type.country.data%']
         parent: Ibexa\Core\FieldType\FieldType
         tags:
-            - {name: ibexa.field_type, alias: ezcountry}
+            - {name: ibexa.field_type, alias: ibexa_country, legacy_alias: ezcountry}
 
     Ibexa\Core\FieldType\Date\Type:
         class: Ibexa\Core\FieldType\Date\Type
         parent: Ibexa\Core\FieldType\FieldType
-        arguments: [ "ezdate" ]
+        arguments: [ "ibexa_date" ]
         tags:
-            - {name: ibexa.field_type, alias: ezdate}
+            - {name: ibexa.field_type, alias: ibexa_date, legacy_alias: ezdate}
 
     Ibexa\Core\FieldType\DateAndTime\Type:
         class: Ibexa\Core\FieldType\DateAndTime\Type
         parent: Ibexa\Core\FieldType\FieldType
         tags:
-            - {name: ibexa.field_type, alias: ezdatetime}
+            - {name: ibexa.field_type, alias: ibexa_datetime, legacy_alias: ezdatetime}
 
     Ibexa\Core\FieldType\Time\Type:
         class: Ibexa\Core\FieldType\Time\Type
         parent: Ibexa\Core\FieldType\FieldType
-        arguments: [ "eztime" ]
+        arguments: [ "ibexa_time" ]
         tags:
-            - {name: ibexa.field_type, alias: eztime}
+            - {name: ibexa.field_type, alias: ibexa_time, legacy_alias: eztime}
 
     Ibexa\Core\FieldType\EmailAddress\Type:
         class: Ibexa\Core\FieldType\EmailAddress\Type
         parent: Ibexa\Core\FieldType\FieldType
         tags:
-            - {name: ibexa.field_type, alias: ezemail}
+            - {name: ibexa.field_type, alias: ibexa_email, legacy_alias: ezemail}
 
     Ibexa\Core\FieldType\Float\Type:
         class: Ibexa\Core\FieldType\Float\Type
         parent: Ibexa\Core\FieldType\FieldType
         tags:
-            - {name: ibexa.field_type, alias: ezfloat}
+            - {name: ibexa.field_type, alias: ibexa_float, legacy_alias: ezfloat}
 
     Ibexa\Core\FieldType\Integer\Type:
         class: Ibexa\Core\FieldType\Integer\Type
         parent: Ibexa\Core\FieldType\FieldType
         tags:
-            - {name: ibexa.field_type, alias: ezinteger}
+            - {name: ibexa.field_type, alias: ibexa_integer, legacy_alias: ezinteger}
 
     Ibexa\Core\FieldType\Image\Type:
         class: Ibexa\Core\FieldType\Image\Type
@@ -342,19 +342,19 @@ services:
             $mimeTypes: '%ibexa.field_type.ezimage.mime_types%'
         parent: Ibexa\Core\FieldType\FieldType
         tags:
-            - {name: ibexa.field_type, alias: ezimage}
+            - {name: ibexa.field_type, alias: ibexa_image, legacy_alias: ezimage}
 
     Ibexa\Core\FieldType\ISBN\Type:
         class: Ibexa\Core\FieldType\ISBN\Type
         parent: Ibexa\Core\FieldType\FieldType
         tags:
-            - {name: ibexa.field_type, alias: ezisbn}
+            - {name: ibexa.field_type, alias: ibexa_isbn, legacy_alias: ezisbn}
 
     Ibexa\Core\FieldType\Keyword\Type:
         class: Ibexa\Core\FieldType\Keyword\Type
         parent: Ibexa\Core\FieldType\FieldType
         tags:
-            - {name: ibexa.field_type, alias: ezkeyword}
+            - {name: ibexa.field_type, alias: ibexa_keyword, legacy_alias: ezkeyword}
 
     Ibexa\Core\FieldType\Media\Type:
         class: Ibexa\Core\FieldType\Media\Type
@@ -363,7 +363,7 @@ services:
             - '@?Ibexa\Core\MVC\Symfony\FieldType\BinaryBase\ContentDownloadUrlGenerator'
         parent: Ibexa\Core\FieldType\FieldType
         tags:
-            - {name: ibexa.field_type, alias: ezmedia}
+            - {name: ibexa.field_type, alias: ibexa_media, legacy_alias: ezmedia}
 
     Ibexa\Core\FieldType\Relation\Type:
         class: Ibexa\Core\FieldType\Relation\Type
@@ -372,37 +372,37 @@ services:
             $handler: '@Ibexa\Core\Persistence\Cache\ContentHandler'
             $targetContentValidator: '@Ibexa\Core\Repository\Validator\TargetContentValidatorInterface'
         tags:
-            - {name: ibexa.field_type, alias: ezobjectrelation}
+            - {name: ibexa.field_type, alias: ibexa_object_relation, legacy_alias: ezobjectrelation}
 
     Ibexa\Core\FieldType\Selection\Type:
         class: Ibexa\Core\FieldType\Selection\Type
         parent: Ibexa\Core\FieldType\FieldType
         tags:
-            - {name: ibexa.field_type, alias: ezselection}
+            - {name: ibexa.field_type, alias: ibexa_selection, legacy_alias: ezselection}
 
     Ibexa\Core\FieldType\TextBlock\Type:
         class: Ibexa\Core\FieldType\TextBlock\Type
         parent: Ibexa\Core\FieldType\FieldType
         tags:
-            - {name: ibexa.field_type, alias: eztext}
+            - {name: ibexa.field_type, alias: ibexa_text, legacy_alias: eztext}
 
     Ibexa\Core\FieldType\TextLine\Type:
         class: Ibexa\Core\FieldType\TextLine\Type
         parent: Ibexa\Core\FieldType\FieldType
         tags:
-            - {name: ibexa.field_type, alias: ibexa_string, old_alias: ezstring}
+            - {name: ibexa.field_type, alias: ibexa_string, legacy_alias: ezstring}
 
     Ibexa\Core\FieldType\Url\Type:
         class: Ibexa\Core\FieldType\Url\Type
         parent: Ibexa\Core\FieldType\FieldType
         tags:
-            - {name: ibexa.field_type, alias: ezurl}
+            - {name: ibexa.field_type, alias: ibexa_url, legacy_alias: ezurl}
 
     Ibexa\Core\FieldType\MapLocation\Type:
         class: Ibexa\Core\FieldType\MapLocation\Type
         parent: Ibexa\Core\FieldType\FieldType
         tags:
-            - {name: ibexa.field_type, alias: ezgmaplocation}
+            - {name: ibexa.field_type, alias: ibexa_gmap_location, legacy_alias: ezgmaplocation}
 
     Ibexa\Core\FieldType\RelationList\Type:
         class: Ibexa\Core\FieldType\RelationList\Type
@@ -411,7 +411,7 @@ services:
             $handler: '@Ibexa\Core\Persistence\Cache\ContentHandler'
             $targetContentValidator: '@Ibexa\Core\Repository\Validator\TargetContentValidatorInterface'
         tags:
-            - {name: ibexa.field_type, alias: ezobjectrelationlist}
+            - {name: ibexa.field_type, alias: ibexa_object_relation_list, legacy_alias: ezobjectrelationlist}
 
     Ibexa\Core\FieldType\User\Type:
         class: Ibexa\Core\FieldType\User\Type
@@ -421,130 +421,17 @@ services:
             - '@Ibexa\Contracts\Core\Repository\PasswordHashService'
             - '@Ibexa\Core\Repository\User\PasswordValidatorInterface'
         tags:
-            - {name: ibexa.field_type, alias: ezuser}
+            - {name: ibexa.field_type, alias: ibexa_user, legacy_alias: ezuser}
 
     # Not implemented fieldtypes
     # Configured to use the Null type to not throw exception
 
-    ibexa.field_type.ezenum:
+    ibexa.field_type.ibexa_matrix:
         class: Ibexa\Core\FieldType\Null\Type
         parent: Ibexa\Core\FieldType\FieldType
-        arguments: [ "ezenum" ]
+        arguments: [ "ibexa_matrix" ]
         tags:
-            - {name: ibexa.field_type, alias: ezenum}
-
-    ibexa.field_type.ezidentifier:
-        class: Ibexa\Core\FieldType\Null\Type
-        parent: Ibexa\Core\FieldType\FieldType
-        arguments: [ "ezidentifier" ]
-        tags:
-            - {name: ibexa.field_type, alias: ezidentifier}
-
-    ibexa.field_type.ezinisetting:
-        class: Ibexa\Core\FieldType\Null\Type
-        parent: Ibexa\Core\FieldType\FieldType
-        arguments: [ "ezinisetting" ]
-        tags:
-            - {name: ibexa.field_type, alias: ezinisetting}
-
-    ibexa.field_type.ezmatrix:
-        class: Ibexa\Core\FieldType\Null\Type
-        parent: Ibexa\Core\FieldType\FieldType
-        arguments: [ "ezmatrix" ]
-        tags:
-            - {name: ibexa.field_type, alias: ezmatrix}
-
-    ibexa.field_type.ezmultioption:
-        class: Ibexa\Core\FieldType\Null\Type
-        parent: Ibexa\Core\FieldType\FieldType
-        arguments: [ "ezmultioption" ]
-        tags:
-            - {name: ibexa.field_type, alias: ezmultioption}
-
-    ibexa.field_type.ezmultioption2:
-        class: Ibexa\Core\FieldType\Null\Type
-        parent: Ibexa\Core\FieldType\FieldType
-        arguments: [ "ezmultioption2" ]
-        tags:
-            - {name: ibexa.field_type, alias: ezmultioption2}
-
-    ibexa.field_type.ezmultiprice:
-        class: Ibexa\Core\FieldType\Null\Type
-        parent: Ibexa\Core\FieldType\FieldType
-        arguments: [ "ezmultiprice" ]
-        tags:
-            - {name: ibexa.field_type, alias: ezmultiprice}
-
-    ibexa.field_type.ezoption:
-        class: Ibexa\Core\FieldType\Null\Type
-        parent: Ibexa\Core\FieldType\FieldType
-        arguments: [ "ezoption" ]
-        tags:
-            - {name: ibexa.field_type, alias: ezoption}
-
-    ibexa.field_type.ezpackage:
-        class: Ibexa\Core\FieldType\Null\Type
-        parent: Ibexa\Core\FieldType\FieldType
-        arguments: [ "ezpackage" ]
-        tags:
-            - {name: ibexa.field_type, alias: ezpackage}
-
-    ibexa.field_type.ezproductcategory:
-        class: Ibexa\Core\FieldType\Null\Type
-        parent: Ibexa\Core\FieldType\FieldType
-        arguments: [ "ezproductcategory" ]
-        tags:
-            - {name: ibexa.field_type, alias: ezproductcategory}
-
-    ibexa.field_type.ezrangeoption:
-        class: Ibexa\Core\FieldType\Null\Type
-        parent: Ibexa\Core\FieldType\FieldType
-        arguments: [ "ezrangeoption" ]
-        tags:
-            - {name: ibexa.field_type, alias: ezrangeoption}
-
-    ibexa.field_type.ezsubtreesubscription:
-        class: Ibexa\Core\FieldType\Null\Type
-        parent: Ibexa\Core\FieldType\FieldType
-        arguments: [ "ezsubtreesubscription" ]
-        tags:
-            - {name: ibexa.field_type, alias: ezsubtreesubscription}
-
-    # not implemented fieldtypes from extensions
-    ibexa.field_type.ezcomcomments:
-        class: Ibexa\Core\FieldType\Null\Type
-        parent: Ibexa\Core\FieldType\FieldType
-        arguments: [ "ezcomcomments" ]
-        tags:
-            - {name: ibexa.field_type, alias: ezcomcomments}
-
-    ibexa.field_type.ezpaex:
-        class: Ibexa\Core\FieldType\Null\Type
-        parent: Ibexa\Core\FieldType\FieldType
-        arguments: [ "ezpaex" ]
-        tags:
-            - {name: ibexa.field_type, alias: ezpaex}
-
-    ibexa.field_type.ezsurvey:
-        class: Ibexa\Core\FieldType\Null\Type
-        parent: Ibexa\Core\FieldType\FieldType
-        arguments: [ "ezsurvey" ]
-        tags:
-            - {name: ibexa.field_type, alias: ezsurvey}
-
-    ibexa.field_type.eztags:
-        class: Ibexa\Core\FieldType\Null\Type
-        parent: Ibexa\Core\FieldType\FieldType
-        arguments: [ "eztags" ]
-        tags:
-            - {name: ibexa.field_type, alias: eztags}
-
-    ibexa.field_type.ezrecommendation:
-        class: Ibexa\Core\FieldType\Null\Type
-        parent: Ibexa\Core\FieldType\FieldType
-        arguments: [ "ezrecommendation" ]
-        tags:
-            - {name: ibexa.field_type, alias: ezrecommendation}
+            - {name: ibexa.field_type, alias: ibexa_matrix, legacy_alias: ezmatrix}
 
     Ibexa\Core\FieldType\ImageAsset\Type:
         parent: Ibexa\Core\FieldType\FieldType
@@ -553,9 +440,9 @@ services:
             - '@Ibexa\Core\FieldType\ImageAsset\AssetMapper'
             - '@Ibexa\Core\Persistence\Cache\ContentHandler'
         tags:
-            - {name: ibexa.field_type, alias: ezimageasset}
+            - {name: ibexa.field_type, alias: ibexa_image_asset, legacy_alias: ezimageasset}
 
-    ibexa.field_type.ezimageasset:
+    ibexa.field_type.ibexa_image_asset:
         alias: Ibexa\Core\FieldType\ImageAsset\Type
 
     Ibexa\Core\FieldType\ValueSerializer\SymfonySerializerAdapter:

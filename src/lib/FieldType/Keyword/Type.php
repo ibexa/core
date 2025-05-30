@@ -30,7 +30,7 @@ class Type extends FieldType implements TranslationContainerInterface
      */
     public function getFieldTypeIdentifier(): string
     {
-        return 'ezkeyword';
+        return 'ibexa_keyword';
     }
 
     /**
@@ -165,7 +165,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public static function getTranslationMessages(): array
     {
         return [
-            Message::create('ezkeyword.name', 'ibexa_fieldtypes')->setDesc('Keywords'),
+            Message::create('ibexa_keyword.name', 'ibexa_fieldtypes')->setDesc('Keywords'),
         ];
     }
 }

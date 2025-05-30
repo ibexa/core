@@ -183,6 +183,6 @@ class AssetMapper
 
     protected function getMappings(): array
     {
-        return $this->configResolver->getParameter('fieldtypes.ezimageasset.mappings');
+        return $this->configResolver->getParameter('fieldtypes.ibexa_image_asset.mappings');
     }
 }
