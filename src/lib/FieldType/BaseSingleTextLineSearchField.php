@@ -44,12 +44,12 @@ abstract class BaseSingleTextLineSearchField implements Indexable
         ];
     }
 
-    public function getDefaultMatchField(): string
+    public function getDefaultMatchField(): ?string
     {
         return 'value';
     }
 
-    public function getDefaultSortField(): string
+    public function getDefaultSortField(): ?string
     {
         return $this->getDefaultMatchField();
     }

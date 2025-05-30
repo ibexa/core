@@ -24,14 +24,14 @@ interface Indexable
      *
      * @return \Ibexa\Contracts\Core\Search\Field[]
      */
-    public function getIndexData(Field $field, FieldDefinition $fieldDefinition);
+    public function getIndexData(Field $field, FieldDefinition $fieldDefinition): array;
 
     /**
      * Get index field types for search backend.
      *
      * @return array<string, \Ibexa\Contracts\Core\Search\FieldType>
      */
-    public function getIndexDefinition();
+    public function getIndexDefinition(): array;
 
     /**
      * Get name of the default field to be used for matching.
@@ -42,7 +42,7 @@ interface Indexable
      *
      * @return string|null
      */
-    public function getDefaultMatchField();
+    public function getDefaultMatchField(): ?string;
 
     /**
      * Get name of the default field to be used for sorting.
@@ -53,5 +53,5 @@ interface Indexable
      *
      * @return string|null
      */
-    public function getDefaultSortField();
+    public function getDefaultSortField(): ?string;
 }

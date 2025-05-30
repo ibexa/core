@@ -54,12 +54,12 @@ abstract class AbstractBinarySearchField implements Indexable
         ];
     }
 
-    public function getDefaultMatchField(): string
+    public function getDefaultMatchField(): ?string
     {
         return 'file_name';
     }
 
-    public function getDefaultSortField(): string
+    public function getDefaultSortField(): ?string
     {
         return $this->getDefaultMatchField();
     }
