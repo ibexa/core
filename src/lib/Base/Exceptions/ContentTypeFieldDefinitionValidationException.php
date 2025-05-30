@@ -50,7 +50,7 @@ class ContentTypeFieldDefinitionValidationException extends APIContentTypeFieldD
      *
      * @return \Ibexa\Core\FieldType\ValidationError[]
      */
-    public function getFieldErrors()
+    public function getFieldErrors(): array
     {
         return $this->errors;
     }

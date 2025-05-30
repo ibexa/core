@@ -10,7 +10,7 @@ namespace Ibexa\Contracts\Core\Repository\Exceptions;
 
 final class InvalidCriterionArgumentException extends InvalidArgumentException
 {
-    public function __construct($key, $criterion, string $expectedCriterionFQCN)
+    public function __construct(string|int $key, mixed $criterion, string $expectedCriterionFQCN)
     {
         if ($criterion === null) {
             $type = 'null';

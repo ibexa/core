@@ -45,7 +45,7 @@ class LimitationValidationException extends APILimitationValidationException imp
      *
      * @return \Ibexa\Core\FieldType\ValidationError[]
      */
-    public function getLimitationErrors()
+    public function getLimitationErrors(): array
     {
         return $this->errors;
     }

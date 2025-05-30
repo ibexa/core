@@ -17,7 +17,7 @@ abstract class LimitationValidationException extends ForbiddenException
     /**
      * Returns an array of limitation validation error messages.
      *
-     * @return array
+     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    abstract public function getLimitationErrors();
+    abstract public function getLimitationErrors(): array;
 }
