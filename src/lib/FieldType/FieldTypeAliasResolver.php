@@ -15,12 +15,12 @@ final readonly class FieldTypeAliasResolver implements FieldTypeAliasResolverInt
     ) {
     }
 
-    public function resolveIdentifier(string $forAlias): string
+    public function resolveIdentifier(string $alias): string
     {
-        if ($this->fieldTypeAliasRegistry->hasAlias($forAlias)) {
-            return $this->fieldTypeAliasRegistry->getNewAlias($forAlias);
+        if ($this->fieldTypeAliasRegistry->hasAlias($alias)) {
+            return $this->fieldTypeAliasRegistry->getNewAlias($alias);
         }
 
-        return $forAlias;
+        return $alias;
     }
 }

@@ -10,5 +10,5 @@ namespace Ibexa\Core\FieldType;
 
 interface FieldTypeAliasResolverInterface
 {
-    public function resolveIdentifier(string $forAlias): string;
+    public function resolveIdentifier(string $alias): string;
 }
