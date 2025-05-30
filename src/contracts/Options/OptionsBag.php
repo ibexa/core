@@ -12,12 +12,7 @@ interface OptionsBag
 {
     public function all(): array;
 
-    /**
-     * @param mixed|null $default
-     *
-     * @return mixed|null
-     */
-    public function get(string $key, $default = null);
+    public function get(string $key, mixed $default = null): mixed;
 
     public function has(string $key): bool;
 }
