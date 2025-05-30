@@ -1803,7 +1803,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     public function testAddFieldDefinitionThrowsBadStateExceptionNonRepeatableField()
     {
         $this->expectException(BadStateException::class);
-        $this->expectExceptionMessage('The content type already contains a Field definition of the singular Field Type \'ezuser\'');
+        $this->expectExceptionMessage('The content type already contains a Field definition of the singular Field Type \'ibexa_user\'');
 
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();

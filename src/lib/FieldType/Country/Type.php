@@ -49,7 +49,7 @@ class Type extends FieldType implements TranslationContainerInterface
      */
     public function getFieldTypeIdentifier(): string
     {
-        return 'ezcountry';
+        return 'ibexa_country';
     }
 
     /**
@@ -271,7 +271,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public static function getTranslationMessages(): array
     {
         return [
-            Message::create('ezcountry.name', 'ibexa_fieldtypes')->setDesc('Country'),
+            Message::create('ibexa_country.name', 'ibexa_fieldtypes')->setDesc('Country'),
         ];
     }
 }

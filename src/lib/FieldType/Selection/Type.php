@@ -123,7 +123,7 @@ class Type extends FieldType implements TranslationContainerInterface
      */
     public function getFieldTypeIdentifier(): string
     {
-        return 'ezselection';
+        return 'ibexa_selection';
     }
 
     /**
@@ -315,7 +315,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public static function getTranslationMessages(): array
     {
         return [
-            Message::create('ezselection.name', 'ibexa_fieldtypes')->setDesc('Selection'),
+            Message::create('ibexa_selection.name', 'ibexa_fieldtypes')->setDesc('Selection'),
         ];
     }
 }

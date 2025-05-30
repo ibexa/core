@@ -32,7 +32,7 @@ parameters:
     ibexa.default_templates.fielddefinition_settings_templates: '@@IbexaCore/fielddefinition_settings.html.twig'
 
     # Image Asset mappings
-    ibexa.site_access.config.default.fieldtypes.ezimageasset.mappings:
+    ibexa.site_access.config.default.fieldtypes.ibexa_image_asset.mappings:
         content_type_identifier: image
         content_field_identifier: image
         name_field_identifier: name

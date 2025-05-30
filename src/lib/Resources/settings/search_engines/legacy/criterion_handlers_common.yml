@@ -316,15 +316,15 @@ services:
         arguments:
             $separator: ','
         tags:
-            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ezauthor}
-            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ezcountry}
-            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ezobjectrelationlist}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ibexa_author}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ibexa_country}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ibexa_object_relation_list}
 
     Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler\Keyword:
         parent: ibexa.search.legacy.gateway.criterion_field_value_handler.collection.comma_separated
         class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler\Keyword
         tags:
-            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ezkeyword}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ibexa_keyword}
 
     ibexa.search.legacy.gateway.criterion_field_value_handler.collection.hypen_separated:
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler
@@ -332,7 +332,7 @@ services:
         arguments:
             $separator: '-'
         tags:
-            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ezselection}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ibexa_selection}
 
     Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler\Composite:
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler
@@ -342,13 +342,13 @@ services:
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler
         class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler\Simple
         tags:
-            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ezboolean}
-            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ezdate}
-            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ezdatetime}
-            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ezemail}
-            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ezinteger}
-            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ezobjectrelation}
-            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: eztime}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ibexa_boolean}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ibexa_date}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ibexa_datetime}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ibexa_email}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ibexa_integer}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ibexa_object_relation}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ibexa_time}
 
     ibexa.search.legacy.gateway.criterion_field_value_handler.default:
         alias: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler\Composite

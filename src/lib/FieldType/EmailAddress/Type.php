@@ -105,7 +105,7 @@ class Type extends FieldType implements TranslationContainerInterface
      */
     public function getFieldTypeIdentifier(): string
     {
-        return 'ezemail';
+        return 'ibexa_email';
     }
 
     /**
@@ -212,7 +212,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public static function getTranslationMessages(): array
     {
         return [
-            Message::create('ezemail.name', 'ibexa_fieldtypes')->setDesc('Email address'),
+            Message::create('ibexa_email.name', 'ibexa_fieldtypes')->setDesc('Email address'),
         ];
     }
 }

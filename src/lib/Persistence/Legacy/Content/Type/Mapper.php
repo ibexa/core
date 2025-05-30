@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct as GroupCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct;
+use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\MultilingualStorageFieldDefinition;
@@ -46,7 +47,8 @@ class Mapper
     public function __construct(
         ConverterRegistry $converterRegistry,
         MaskGenerator $maskGenerator,
-        StorageDispatcherInterface $storageDispatcher
+        StorageDispatcherInterface $storageDispatcher,
+        private readonly FieldTypeAliasResolverInterface $fieldTypeAliasResolver
     ) {
         $this->converterRegistry = $converterRegistry;
         $this->maskGenerator = $maskGenerator;
@@ -244,9 +246,13 @@ class Mapper
             $field->description['always-available'],
             $field->description[0]
         );
+
+        $dataTypeString = $row['content_type_field_definition_data_type_string'];
+        $dataTypeString = $this->fieldTypeAliasResolver->resolveIdentifier($dataTypeString);
+
         $field->identifier = $row['content_type_field_definition_identifier'];
         $field->fieldGroup = $row['content_type_field_definition_category'];
-        $field->fieldType = $row['content_type_field_definition_data_type_string'];
+        $field->fieldType = $dataTypeString;
         $field->isTranslatable = ($row['content_type_field_definition_can_translate'] == 1);
         $field->isRequired = $row['content_type_field_definition_is_required'] == 1;
         $field->isThumbnail = !empty($row['content_type_field_definition_is_thumbnail']);

@@ -10,7 +10,7 @@ namespace Ibexa\Core\FieldType;
 
 final class FieldTypeAliasRegistry
 {
-    /** @var array<string, string> Map of old_alias => alias */
+    /** @var array<string, string> Map of legacy_alias => alias */
     private array $aliasMap = [];
 
     public function register(string $oldAlias, string $newAlias): void

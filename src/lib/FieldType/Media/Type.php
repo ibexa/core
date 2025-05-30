@@ -62,7 +62,7 @@ class Type extends BaseType implements TranslationContainerInterface
      */
     public function getFieldTypeIdentifier(): string
     {
-        return 'ezmedia';
+        return 'ibexa_media';
     }
 
     /**
@@ -271,7 +271,7 @@ class Type extends BaseType implements TranslationContainerInterface
     public static function getTranslationMessages(): array
     {
         return [
-            Message::create('ezmedia.name', 'ibexa_fieldtypes')->setDesc('Media'),
+            Message::create('ibexa_media.name', 'ibexa_fieldtypes')->setDesc('Media'),
         ];
     }
 }

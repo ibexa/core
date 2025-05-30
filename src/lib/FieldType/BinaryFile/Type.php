@@ -28,7 +28,7 @@ class Type extends BinaryBaseType implements TranslationContainerInterface
      */
     public function getFieldTypeIdentifier(): string
     {
-        return 'ezbinaryfile';
+        return 'ibexa_binaryfile';
     }
 
     /**
@@ -117,7 +117,7 @@ class Type extends BinaryBaseType implements TranslationContainerInterface
     public static function getTranslationMessages(): array
     {
         return [
-            Message::create('ezbinaryfile.name', 'ibexa_fieldtypes')->setDesc('File'),
+            Message::create('ibexa_binaryfile.name', 'ibexa_fieldtypes')->setDesc('File'),
         ];
     }
 }

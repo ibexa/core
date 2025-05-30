@@ -214,7 +214,7 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
     /**
      * Returns template blocks for $fieldTypeIdentifier. First check in the $localTemplate if it's provided.
      * Template block convention name is <fieldTypeIdentifier>_field
-     * Example: 'ezstring_field' will be relevant for a full view of ezstring field type.
+     * Example: 'ibexa_string_field' will be relevant for a full view of ibexa_string field type.
      *
      * @param string $fieldTypeIdentifier
      * @param int $type Either self::VIEW or self::EDIT

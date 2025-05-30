@@ -240,7 +240,7 @@ class ContentExtension extends AbstractExtension
                 ->getFieldDefinition($field->fieldDefIdentifier)
                 ->fieldTypeIdentifier;
 
-            if ($fieldTypeIdentifier !== 'ezimage') {
+            if ($fieldTypeIdentifier !== 'ibexa_image') {
                 continue;
             }
 

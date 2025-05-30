@@ -28,7 +28,8 @@ class DateConverter implements Converter
      */
     public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
     {
-        $storageFieldValue->dataInt = ($value->data !== null ? $value->data['timestamp'] : null);
+        //TODO?
+        $storageFieldValue->dataInt = ($value->data !== null ? ($value->data['timestamp'] ?? null) : null);
         $storageFieldValue->sortKeyInt = (int)$value->sortKey;
     }
 

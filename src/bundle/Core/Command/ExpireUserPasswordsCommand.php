@@ -38,7 +38,7 @@ final class ExpireUserPasswordsCommand extends Command
 
     public const DEFAULT_PASSWORD_TTL = 90;
 
-    public const USER_FIELDTYPE_IDENTIFIER = 'ezuser';
+    public const USER_FIELDTYPE_IDENTIFIER = 'ezuser';//TODO?
 
     public const BEFORE_RUNNING_HINTS = <<<EOT
 <error>Before you continue:</error>

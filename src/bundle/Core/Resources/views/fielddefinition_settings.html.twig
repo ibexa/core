@@ -109,7 +109,7 @@
 </ul>
 {% endblock %}
 
-{% block eztime_settings %}
+{% block ibexa_time_settings %}
 <ul class="ibexa-fielddefinition-settings ibexa-fielddefinition-{{ fielddefinition.fieldTypeIdentifier }}-settings">
     {% if settings.defaultType == constant( 'Ibexa\\Core\\Core\\FieldType\\Time\\Type::DEFAULT_EMPTY' ) %}
         {% set defaultValue = 'fielddefinition.default-value.empty'|trans|desc("Empty") %}
@@ -146,7 +146,7 @@
 </ul>
 {% endblock %}
 
-{% block ezselection_settings %}
+{% block ibexa_selection_settings %}
 <ul class="ibexa-fielddefinition-settings ibexa-fielddefinition-{{ fielddefinition.fieldTypeIdentifier }}-settings">
     <li class="ibexa-fielddefinition-setting options">
         <div class="ibexa-fielddefinition-setting-name">{{ 'fielddefinition.options.label'|trans|desc("Defined options")}}</div>
@@ -170,7 +170,7 @@
 </ul>
 {% endblock %}
 
-{% block ezmedia_settings %}
+{% block ibexa_media_settings %}
 {% set type = settings.mediaType %}
 <ul class="ibexa-fielddefinition-settings ibexa-fielddefinition-{{ fielddefinition.fieldTypeIdentifier }}-settings">
     {{ block( 'settings_maxfilesize' ) }}
@@ -399,5 +399,5 @@
     </li>
 {% endblock %}
 
-{% block ezimageasset_settings %}
+{% block ibexa_image_asset_settings %}
 {% endblock %}

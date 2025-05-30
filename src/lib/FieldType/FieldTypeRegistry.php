@@ -57,6 +57,7 @@ class FieldTypeRegistry
         }
 
         if (!isset($this->fieldTypes[$identifier])) {
+            dd($identifier, array_keys($this->fieldTypes));
             throw new FieldTypeNotFoundException($identifier);
         }
 

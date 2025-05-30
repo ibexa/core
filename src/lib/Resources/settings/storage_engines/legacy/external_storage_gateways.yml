@@ -3,6 +3,7 @@ services:
         class: Ibexa\Core\Persistence\Legacy\Content\StorageHandler
         arguments:
             - '@Ibexa\Core\Persistence\Legacy\Content\StorageRegistry'
+            - '@Ibexa\Core\FieldType\FieldTypeAliasResolverInterface'
             -
                 identifier: "LegacyStorage"
 

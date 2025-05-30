@@ -99,7 +99,7 @@ abstract class FieldType
      * Best practice:
      *
      * It is considered best practice to return a hash map, which contains
-     * rudimentary settings structures, like e.g. for the "ezstring" FieldType
+     * rudimentary settings structures, like e.g. for the "ibexa_string" FieldType
      *
      * ```
      * [

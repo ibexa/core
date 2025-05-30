@@ -44,7 +44,7 @@ class Common extends AbstractParser
             ->end()
             ->scalarNode('binary_dir')
                 ->cannotBeEmpty()
-                ->info('Directory where binary files (from ezbinaryfile field type) are stored. Default value is "original"')
+                ->info('Directory where binary files (from ibexa_binaryfile field type) are stored. Default value is "original"')
             ->end()
             ->arrayNode('session')
                 ->info('Session options. Will override options defined in Symfony framework.session.*')
