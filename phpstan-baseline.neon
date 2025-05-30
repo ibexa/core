@@ -23947,16 +23947,16 @@ parameters:
 			path: tests/bundle/Core/DependencyInjection/Configuration/ConfigResolver/ChainConfigResolverTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigResolver\\ConfigResolverTest\:\:parameterProvider\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigResolver\\ConfigResolverTestCase\:\:parameterProvider\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/bundle/Core/DependencyInjection/Configuration/ConfigResolver/ConfigResolverTest.php
+			path: tests/bundle/Core/DependencyInjection/Configuration/ConfigResolver/ConfigResolverTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigResolver\\ConfigResolverTest\:\:testGetParameterGlobalScope\(\) has parameter \$expectedValue with no type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigResolver\\ConfigResolverTestCase\:\:testGetParameterGlobalScope\(\) has parameter \$expectedValue with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: tests/bundle/Core/DependencyInjection/Configuration/ConfigResolver/ConfigResolverTest.php
+			path: tests/bundle/Core/DependencyInjection/Configuration/ConfigResolver/ConfigResolverTestCase.php
 
 		-
 			message: '#^Parameter \#2 \$groupsBySiteAccess of class Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Provider\\StaticSiteAccessProvider constructor expects array\<string\>, array\<string, array\<int, string\>\> given\.$#'
@@ -26791,28 +26791,28 @@ parameters:
 			path: tests/bundle/IO/DependencyInjection/Compiler/IOConfigurationPassTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactory\\BaseFlysystemTest\:\:provideHandlerConfiguration\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactory\\BaseFlysystemTestCase\:\:provideHandlerConfiguration\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/bundle/IO/DependencyInjection/ConfigurationFactory/BaseFlysystemTest.php
+			path: tests/bundle/IO/DependencyInjection/ConfigurationFactory/BaseFlysystemTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactory\\BaseFlysystemTest\:\:validateConfiguredHandler\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactory\\BaseFlysystemTestCase\:\:validateConfiguredHandler\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/bundle/IO/DependencyInjection/ConfigurationFactory/BaseFlysystemTest.php
+			path: tests/bundle/IO/DependencyInjection/ConfigurationFactory/BaseFlysystemTestCase.php
 
 		-
-			message: '#^Property Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactory\\BaseFlysystemTest\:\:\$filesystemServiceId has no type specified\.$#'
+			message: '#^Property Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactory\\BaseFlysystemTestCase\:\:\$filesystemServiceId has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
-			path: tests/bundle/IO/DependencyInjection/ConfigurationFactory/BaseFlysystemTest.php
+			path: tests/bundle/IO/DependencyInjection/ConfigurationFactory/BaseFlysystemTestCase.php
 
 		-
-			message: '#^Property Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactory\\BaseFlysystemTest\:\:\$flysystemAdapterServiceId has no type specified\.$#'
+			message: '#^Property Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactory\\BaseFlysystemTestCase\:\:\$flysystemAdapterServiceId has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
-			path: tests/bundle/IO/DependencyInjection/ConfigurationFactory/BaseFlysystemTest.php
+			path: tests/bundle/IO/DependencyInjection/ConfigurationFactory/BaseFlysystemTestCase.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactory\\MetadataHandler\\LegacyDFSClusterTest\:\:provideHandlerConfiguration\(\) has no return type specified\.$#'
@@ -26830,55 +26830,55 @@ parameters:
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\ArrayNodeDefinition'' and Symfony\\Component\\Config\\Definition\\Builder\\ArrayNodeDefinition will always evaluate to true\.$#'
 			identifier: staticMethod.alreadyNarrowedType
 			count: 1
-			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTest.php
+			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactoryTest\:\:provideExpectedParentServiceId\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactoryTestCase\:\:provideExpectedParentServiceId\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTest.php
+			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactoryTest\:\:provideHandlerConfiguration\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactoryTestCase\:\:provideHandlerConfiguration\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTest.php
+			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactoryTest\:\:registerHandler\(\) has parameter \$name with no type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactoryTestCase\:\:registerHandler\(\) has parameter \$name with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTest.php
+			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactoryTest\:\:testAddConfiguration\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactoryTestCase\:\:testAddConfiguration\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTest.php
+			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactoryTest\:\:testConfigureHandler\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactoryTestCase\:\:testConfigureHandler\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTest.php
+			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactoryTest\:\:testGetParentServiceId\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactoryTestCase\:\:testGetParentServiceId\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTest.php
+			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactoryTest\:\:validateConfiguredHandler\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactoryTestCase\:\:validateConfiguredHandler\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTest.php
+			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTestCase.php
 
 		-
 			message: '#^PHPDoc tag @param references unknown parameter\: \$container$#'
 			identifier: parameter.notFound
 			count: 1
-			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTest.php
+			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTestCase.php
 
 		-
 			message: '#^Call to an undefined method object\:\:decorate\(\)\.$#'
@@ -43384,73 +43384,73 @@ parameters:
 			message: '#^Call to an undefined method Ibexa\\Contracts\\Core\\Collection\\CollectionInterface\:\:filter\(\)\.$#'
 			identifier: method.notFound
 			count: 2
-			path: tests/lib/Collection/AbstractCollectionTest.php
+			path: tests/lib/Collection/AbstractCollectionTestCase.php
 
 		-
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''IteratorAggregate'' and Ibexa\\Contracts\\Core\\Collection\\CollectionInterface will always evaluate to true\.$#'
 			identifier: staticMethod.alreadyNarrowedType
 			count: 1
-			path: tests/lib/Collection/AbstractCollectionTest.php
+			path: tests/lib/Collection/AbstractCollectionTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTest\:\:createCollection\(\) has invalid return type Ibexa\\Contracts\\Core\\Repository\\Collection\\CollectionInterfaces\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTestCase\:\:createCollection\(\) has invalid return type Ibexa\\Contracts\\Core\\Repository\\Collection\\CollectionInterfaces\.$#'
 			identifier: class.notFound
 			count: 1
-			path: tests/lib/Collection/AbstractCollectionTest.php
+			path: tests/lib/Collection/AbstractCollectionTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTest\:\:createCollection\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTestCase\:\:createCollection\(\) has parameter \$data with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Collection/AbstractCollectionTest.php
+			path: tests/lib/Collection/AbstractCollectionTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTest\:\:createCollection\(\) return type with generic interface Ibexa\\Contracts\\Core\\Collection\\CollectionInterface does not specify its types\: TValue$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTestCase\:\:createCollection\(\) return type with generic interface Ibexa\\Contracts\\Core\\Collection\\CollectionInterface does not specify its types\: TValue$#'
 			identifier: missingType.generics
 			count: 1
-			path: tests/lib/Collection/AbstractCollectionTest.php
+			path: tests/lib/Collection/AbstractCollectionTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTest\:\:createCollectionWithExampleData\(\) has invalid return type Ibexa\\Contracts\\Core\\Repository\\Collection\\CollectionInterfaces\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTestCase\:\:createCollectionWithExampleData\(\) has invalid return type Ibexa\\Contracts\\Core\\Repository\\Collection\\CollectionInterfaces\.$#'
 			identifier: class.notFound
 			count: 1
-			path: tests/lib/Collection/AbstractCollectionTest.php
+			path: tests/lib/Collection/AbstractCollectionTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTest\:\:createCollectionWithExampleData\(\) return type with generic interface Ibexa\\Contracts\\Core\\Collection\\CollectionInterface does not specify its types\: TValue$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTestCase\:\:createCollectionWithExampleData\(\) return type with generic interface Ibexa\\Contracts\\Core\\Collection\\CollectionInterface does not specify its types\: TValue$#'
 			identifier: missingType.generics
 			count: 1
-			path: tests/lib/Collection/AbstractCollectionTest.php
+			path: tests/lib/Collection/AbstractCollectionTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTest\:\:createEmptyCollection\(\) has invalid return type Ibexa\\Contracts\\Core\\Repository\\Collection\\CollectionInterfaces\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTestCase\:\:createEmptyCollection\(\) has invalid return type Ibexa\\Contracts\\Core\\Repository\\Collection\\CollectionInterfaces\.$#'
 			identifier: class.notFound
 			count: 1
-			path: tests/lib/Collection/AbstractCollectionTest.php
+			path: tests/lib/Collection/AbstractCollectionTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTest\:\:createEmptyCollection\(\) return type with generic interface Ibexa\\Contracts\\Core\\Collection\\CollectionInterface does not specify its types\: TValue$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTestCase\:\:createEmptyCollection\(\) return type with generic interface Ibexa\\Contracts\\Core\\Collection\\CollectionInterface does not specify its types\: TValue$#'
 			identifier: missingType.generics
 			count: 1
-			path: tests/lib/Collection/AbstractCollectionTest.php
+			path: tests/lib/Collection/AbstractCollectionTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTest\:\:getExampleData\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTestCase\:\:getExampleData\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Collection/AbstractCollectionTest.php
+			path: tests/lib/Collection/AbstractCollectionTestCase.php
 
 		-
 			message: '#^PHPDoc tag @return with type TCollection of Ibexa\\Contracts\\Core\\Repository\\Collection\\CollectionInterfaces is not subtype of native type Ibexa\\Contracts\\Core\\Collection\\CollectionInterface\.$#'
 			identifier: return.phpDocType
 			count: 3
-			path: tests/lib/Collection/AbstractCollectionTest.php
+			path: tests/lib/Collection/AbstractCollectionTestCase.php
 
 		-
-			message: '#^PHPDoc tag @template TCollection for class Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTest has invalid bound type Ibexa\\Contracts\\Core\\Repository\\Collection\\CollectionInterfaces\.$#'
+			message: '#^PHPDoc tag @template TCollection for class Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTestCase has invalid bound type Ibexa\\Contracts\\Core\\Repository\\Collection\\CollectionInterfaces\.$#'
 			identifier: class.notFound
 			count: 1
-			path: tests/lib/Collection/AbstractCollectionTest.php
+			path: tests/lib/Collection/AbstractCollectionTestCase.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Collection\\ArrayListTest\:\:createCollection\(\) has parameter \$data with no value type specified in iterable type array\.$#'
@@ -43471,7 +43471,7 @@ parameters:
 			path: tests/lib/Collection/ArrayListTest.php
 
 		-
-			message: '#^Type Ibexa\\Contracts\\Core\\Collection\\ArrayList in generic type Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTest\<Ibexa\\Contracts\\Core\\Collection\\ArrayList\> in PHPDoc tag @extends is not subtype of template type TCollection of Ibexa\\Contracts\\Core\\Repository\\Collection\\CollectionInterfaces of class Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTest\.$#'
+			message: '#^Type Ibexa\\Contracts\\Core\\Collection\\ArrayList in generic type Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTestCase\<Ibexa\\Contracts\\Core\\Collection\\ArrayList\> in PHPDoc tag @extends is not subtype of template type TCollection of Ibexa\\Contracts\\Core\\Repository\\Collection\\CollectionInterfaces of class Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTestCase\.$#'
 			identifier: generics.notSubtype
 			count: 1
 			path: tests/lib/Collection/ArrayListTest.php
@@ -43531,7 +43531,7 @@ parameters:
 			path: tests/lib/Collection/ArrayMapTest.php
 
 		-
-			message: '#^Type Ibexa\\Contracts\\Core\\Collection\\ArrayMap in generic type Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTest\<Ibexa\\Contracts\\Core\\Collection\\ArrayMap\> in PHPDoc tag @extends is not subtype of template type TCollection of Ibexa\\Contracts\\Core\\Repository\\Collection\\CollectionInterfaces of class Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTest\.$#'
+			message: '#^Type Ibexa\\Contracts\\Core\\Collection\\ArrayMap in generic type Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTestCase\<Ibexa\\Contracts\\Core\\Collection\\ArrayMap\> in PHPDoc tag @extends is not subtype of template type TCollection of Ibexa\\Contracts\\Core\\Repository\\Collection\\CollectionInterfaces of class Ibexa\\Tests\\Core\\Collection\\AbstractCollectionTestCase\.$#'
 			identifier: generics.notSubtype
 			count: 1
 			path: tests/lib/Collection/ArrayMapTest.php
@@ -43571,18 +43571,6 @@ parameters:
 			identifier: argument.type
 			count: 2
 			path: tests/lib/Container/Encore/ConfigurationDumperTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Event\\AbstractServiceTest\:\:getListenersStack\(\) has parameter \$listeners with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Event/AbstractServiceTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Event\\AbstractServiceTest\:\:getListenersStack\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Event/AbstractServiceTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Event\\BookmarkServiceTest\:\:testCreateBookmarkEvents\(\) has no return type specified\.$#'
@@ -45217,382 +45205,382 @@ parameters:
 			path: tests/lib/FieldType/AuthorTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:assertIsValidHashValue\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:assertIsValidHashValue\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:assertIsValidHashValue\(\) has parameter \$keyChain with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:assertIsValidHashValue\(\) has parameter \$keyChain with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:doValidate\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:doValidate\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:doValidate\(\) has parameter \$fieldDefinitionData with no type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:doValidate\(\) has parameter \$fieldDefinitionData with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:doValidate\(\) has parameter \$value with no type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:doValidate\(\) has parameter \$value with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:getFieldDefinitionMock\(\) has parameter \$fieldSettings with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:getFieldDefinitionMock\(\) has parameter \$fieldSettings with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:getSettingsSchemaExpectation\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:getSettingsSchemaExpectation\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:getValidatorConfigurationSchemaExpectation\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:getValidatorConfigurationSchemaExpectation\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:provideDataForGetName\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:provideDataForGetName\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:provideInValidFieldSettings\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:provideInValidFieldSettings\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:provideInputForFromHash\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:provideInputForFromHash\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:provideInputForToHash\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:provideInputForToHash\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:provideInvalidDataForValidate\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:provideInvalidDataForValidate\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:provideInvalidInputForAcceptValue\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:provideInvalidInputForAcceptValue\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:provideInvalidValidatorConfiguration\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:provideInvalidValidatorConfiguration\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:provideValidDataForValidate\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:provideValidDataForValidate\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:provideValidFieldSettings\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:provideValidFieldSettings\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:provideValidInputForAcceptValue\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:provideValidInputForAcceptValue\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:provideValidValidatorConfiguration\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:provideValidValidatorConfiguration\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testAcceptGetEmptyValue\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testAcceptGetEmptyValue\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testAcceptValue\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testAcceptValue\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testEmptyValue\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testEmptyValue\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testEmptyValueIsEmpty\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testEmptyValueIsEmpty\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testFieldSettingsFromHash\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testFieldSettingsFromHash\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testFieldSettingsFromHash\(\) has parameter \$inputSettings with no type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testFieldSettingsFromHash\(\) has parameter \$inputSettings with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testFieldSettingsToHash\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testFieldSettingsToHash\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testFieldSettingsToHash\(\) has parameter \$inputSettings with no type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testFieldSettingsToHash\(\) has parameter \$inputSettings with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testFromHash\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testFromHash\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testFromHash\(\) has parameter \$expectedResult with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testFromHash\(\) has parameter \$expectedResult with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testFromHash\(\) has parameter \$inputHash with no type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testFromHash\(\) has parameter \$inputHash with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testGetFieldTypeIdentifier\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testGetFieldTypeIdentifier\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testGetName\(\) has parameter \$fieldSettings with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testGetName\(\) has parameter \$fieldSettings with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testSettingsSchema\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testSettingsSchema\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testToHash\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testToHash\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testToHash\(\) has parameter \$expectedResult with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testToHash\(\) has parameter \$expectedResult with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testValidateFieldSettingsInvalid\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testValidateFieldSettingsInvalid\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testValidateFieldSettingsValid\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testValidateFieldSettingsValid\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testValidateInvalid\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testValidateInvalid\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testValidateInvalid\(\) has parameter \$errors with no type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testValidateInvalid\(\) has parameter \$errors with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testValidateInvalid\(\) has parameter \$fieldDefinitionData with no type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testValidateInvalid\(\) has parameter \$fieldDefinitionData with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testValidateInvalid\(\) has parameter \$value with no type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testValidateInvalid\(\) has parameter \$value with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testValidateValid\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testValidateValid\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testValidateValid\(\) has parameter \$fieldDefinitionData with no type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testValidateValid\(\) has parameter \$fieldDefinitionData with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testValidateValid\(\) has parameter \$value with no type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testValidateValid\(\) has parameter \$value with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testValidateValidatorConfigurationInvalid\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testValidateValidatorConfigurationInvalid\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testValidateValidatorConfigurationValid\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testValidateValidatorConfigurationValid\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testValidatorConfigurationFromHash\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testValidatorConfigurationFromHash\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testValidatorConfigurationSchema\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testValidatorConfigurationSchema\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:testValidatorConfigurationToHash\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:testValidatorConfigurationToHash\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
 			message: '#^PHPDoc tag @param references unknown parameter\: \$inputConfiguration$#'
 			identifier: parameter.notFound
 			count: 2
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
 			message: '#^PHPDoc tag @param references unknown parameter\: \$inputValue$#'
 			identifier: parameter.notFound
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
 			message: '#^PHPDoc tag @var has invalid value \(\|\\PHPUnit\\Framework\\MockObject\\MockObject \$fieldDefinitionMock\)\: Unexpected token "\|", expected type at offset 9 on line 1$#'
 			identifier: phpDoc.parseError
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
 			message: '#^Parameter \#1 \$exception of method PHPUnit\\Framework\\TestCase\:\:expectException\(\) expects class\-string\<Throwable\>, string given\.$#'
 			identifier: argument.type
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
 			message: '#^Parameter \#1 \$expected of static method PHPUnit\\Framework\\Assert\:\:assertSame\(\) contains unresolvable type\.$#'
 			identifier: argument.unresolvableType
 			count: 2
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Property Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTest\:\:\$fieldTypeUnderTest \(Ibexa\\Contracts\\Core\\FieldType\\FieldType\) in isset\(\) is not nullable\.$#'
+			message: '#^Property Ibexa\\Tests\\Core\\FieldType\\BaseFieldTypeTestCase\:\:\$fieldTypeUnderTest \(Ibexa\\Contracts\\Core\\FieldType\\FieldType\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
-			path: tests/lib/FieldType/BaseFieldTypeTest.php
+			path: tests/lib/FieldType/BaseFieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BinaryBaseTest\:\:getBlackListValidatorMock\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BinaryBaseTestCase\:\:getBlackListValidatorMock\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BinaryBaseTest.php
+			path: tests/lib/FieldType/BinaryBaseTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BinaryBaseTest\:\:getConfigResolverMock\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BinaryBaseTestCase\:\:getConfigResolverMock\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/FieldType/BinaryBaseTest.php
+			path: tests/lib/FieldType/BinaryBaseTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BinaryBaseTest\:\:getSettingsSchemaExpectation\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BinaryBaseTestCase\:\:getSettingsSchemaExpectation\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BinaryBaseTest.php
+			path: tests/lib/FieldType/BinaryBaseTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BinaryBaseTest\:\:getValidatorConfigurationSchemaExpectation\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BinaryBaseTestCase\:\:getValidatorConfigurationSchemaExpectation\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BinaryBaseTest.php
+			path: tests/lib/FieldType/BinaryBaseTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BinaryBaseTest\:\:provideInvalidInputForAcceptValue\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BinaryBaseTestCase\:\:provideInvalidInputForAcceptValue\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BinaryBaseTest.php
+			path: tests/lib/FieldType/BinaryBaseTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BinaryBaseTest\:\:provideInvalidValidatorConfiguration\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BinaryBaseTestCase\:\:provideInvalidValidatorConfiguration\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BinaryBaseTest.php
+			path: tests/lib/FieldType/BinaryBaseTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BinaryBaseTest\:\:provideValidValidatorConfiguration\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BinaryBaseTestCase\:\:provideValidValidatorConfiguration\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/BinaryBaseTest.php
+			path: tests/lib/FieldType/BinaryBaseTestCase.php
 
 		-
-			message: '#^Property Ibexa\\Tests\\Core\\FieldType\\BinaryBaseTest\:\:\$blackListedExtensions has no type specified\.$#'
+			message: '#^Property Ibexa\\Tests\\Core\\FieldType\\BinaryBaseTestCase\:\:\$blackListedExtensions has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
-			path: tests/lib/FieldType/BinaryBaseTest.php
+			path: tests/lib/FieldType/BinaryBaseTestCase.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\BinaryFileTest\:\:provideDataForGetName\(\) return type has no value type specified in iterable type array\.$#'
@@ -46120,13 +46108,13 @@ parameters:
 			message: '#^Call to an undefined method Ibexa\\Contracts\\Core\\FieldType\\FieldType\:\:valuesEqual\(\)\.$#'
 			identifier: method.notFound
 			count: 1
-			path: tests/lib/FieldType/FieldTypeTest.php
+			path: tests/lib/FieldType/FieldTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\FieldTypeTest\:\:provideInputForValuesEqual\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\FieldTypeTestCase\:\:provideInputForValuesEqual\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/FieldType/FieldTypeTest.php
+			path: tests/lib/FieldType/FieldTypeTestCase.php
 
 		-
 			message: '#^Access to an undefined property Ibexa\\Core\\FieldType\\Validator\\FileSizeValidator\:\:\$unexisting\.$#'
@@ -47875,28 +47863,28 @@ parameters:
 			path: tests/lib/IO/FilePathNormalizer/FlysystemTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\IO\\Flysystem\\VisibilityConverter\\BaseVisibilityConverterTest\:\:getDataForTestForDirectory\(\) return type has no value type specified in iterable type iterable\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\IO\\Flysystem\\VisibilityConverter\\BaseVisibilityConverterTestCase\:\:getDataForTestForDirectory\(\) return type has no value type specified in iterable type iterable\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/IO/Flysystem/VisibilityConverter/BaseVisibilityConverterTest.php
+			path: tests/lib/IO/Flysystem/VisibilityConverter/BaseVisibilityConverterTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\IO\\Flysystem\\VisibilityConverter\\BaseVisibilityConverterTest\:\:getDataForTestForFile\(\) return type has no value type specified in iterable type iterable\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\IO\\Flysystem\\VisibilityConverter\\BaseVisibilityConverterTestCase\:\:getDataForTestForFile\(\) return type has no value type specified in iterable type iterable\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/IO/Flysystem/VisibilityConverter/BaseVisibilityConverterTest.php
+			path: tests/lib/IO/Flysystem/VisibilityConverter/BaseVisibilityConverterTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\IO\\Flysystem\\VisibilityConverter\\BaseVisibilityConverterTest\:\:getDataForTestInverseForDirectory\(\) return type has no value type specified in iterable type iterable\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\IO\\Flysystem\\VisibilityConverter\\BaseVisibilityConverterTestCase\:\:getDataForTestInverseForDirectory\(\) return type has no value type specified in iterable type iterable\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/IO/Flysystem/VisibilityConverter/BaseVisibilityConverterTest.php
+			path: tests/lib/IO/Flysystem/VisibilityConverter/BaseVisibilityConverterTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\IO\\Flysystem\\VisibilityConverter\\BaseVisibilityConverterTest\:\:getDataForTestInverseForFile\(\) return type has no value type specified in iterable type iterable\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\IO\\Flysystem\\VisibilityConverter\\BaseVisibilityConverterTestCase\:\:getDataForTestInverseForFile\(\) return type has no value type specified in iterable type iterable\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/IO/Flysystem/VisibilityConverter/BaseVisibilityConverterTest.php
+			path: tests/lib/IO/Flysystem/VisibilityConverter/BaseVisibilityConverterTestCase.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\IO\\Flysystem\\VisibilityConverter\\DFSVisibilityConverterTest\:\:getDataForTestForDirectory\(\) return type has no value type specified in iterable type iterable\.$#'
@@ -49735,28 +49723,28 @@ parameters:
 			path: tests/lib/MVC/Symfony/Locale/UserLanguagePreferenceProviderTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\BaseTest\:\:getContentInfoMock\(\) has parameter \$properties with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\BaseTestCase\:\:getContentInfoMock\(\) has parameter \$properties with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/MVC/Symfony/Matcher/ContentBased/BaseTest.php
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/BaseTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\BaseTest\:\:getLocationMock\(\) has parameter \$properties with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\BaseTestCase\:\:getLocationMock\(\) has parameter \$properties with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/MVC/Symfony/Matcher/ContentBased/BaseTest.php
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/BaseTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\BaseTest\:\:getPartiallyMockedViewProvider\(\) has parameter \$matchingConfig with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\BaseTestCase\:\:getPartiallyMockedViewProvider\(\) has parameter \$matchingConfig with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/MVC/Symfony/Matcher/ContentBased/BaseTest.php
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/BaseTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\BaseTest\:\:getPermissionResolverMock\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\BaseTestCase\:\:getPermissionResolverMock\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/MVC/Symfony/Matcher/ContentBased/BaseTest.php
+			path: tests/lib/MVC/Symfony/Matcher/ContentBased/BaseTestCase.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Matcher\\ContentBased\\DepthTest\:\:matchContentInfoProvider\(\) has no return type specified\.$#'
@@ -51037,16 +51025,16 @@ parameters:
 			path: tests/lib/MVC/Symfony/SiteAccess/Provider/ChainSiteAccessProviderTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\RouterBaseTest\:\:matchProvider\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\RouterBaseTestCase\:\:matchProvider\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/RouterBaseTest.php
+			path: tests/lib/MVC/Symfony/SiteAccess/RouterBaseTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\RouterBaseTest\:\:testMatch\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\SiteAccess\\RouterBaseTestCase\:\:testMatch\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/RouterBaseTest.php
+			path: tests/lib/MVC/Symfony/SiteAccess/RouterBaseTestCase.php
 
 		-
 			message: '#^Class Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\Map\\Host constructor invoked with 2 parameters, 1 required\.$#'
@@ -51973,46 +51961,46 @@ parameters:
 			path: tests/lib/MVC/Symfony/Translation/fixtures/WrongTranslationId.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\View\\AbstractViewTest\:\:badTemplateIdentifierProvider\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\View\\AbstractViewTestCase\:\:badTemplateIdentifierProvider\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/MVC/Symfony/View/AbstractViewTest.php
+			path: tests/lib/MVC/Symfony/View/AbstractViewTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\View\\AbstractViewTest\:\:createViewUnderTest\(\) has parameter \$parameters with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\View\\AbstractViewTestCase\:\:createViewUnderTest\(\) has parameter \$parameters with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/MVC/Symfony/View/AbstractViewTest.php
+			path: tests/lib/MVC/Symfony/View/AbstractViewTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\View\\AbstractViewTest\:\:createViewUnderTest\(\) has parameter \$template with no type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\View\\AbstractViewTestCase\:\:createViewUnderTest\(\) has parameter \$template with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: tests/lib/MVC/Symfony/View/AbstractViewTest.php
+			path: tests/lib/MVC/Symfony/View/AbstractViewTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\View\\AbstractViewTest\:\:createViewUnderTest\(\) has parameter \$viewType with no type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\View\\AbstractViewTestCase\:\:createViewUnderTest\(\) has parameter \$viewType with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: tests/lib/MVC/Symfony/View/AbstractViewTest.php
+			path: tests/lib/MVC/Symfony/View/AbstractViewTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\View\\AbstractViewTest\:\:getAlwaysAvailableParams\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\View\\AbstractViewTestCase\:\:getAlwaysAvailableParams\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/MVC/Symfony/View/AbstractViewTest.php
+			path: tests/lib/MVC/Symfony/View/AbstractViewTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\View\\AbstractViewTest\:\:goodTemplateIdentifierProvider\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\View\\AbstractViewTestCase\:\:goodTemplateIdentifierProvider\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/MVC/Symfony/View/AbstractViewTest.php
+			path: tests/lib/MVC/Symfony/View/AbstractViewTestCase.php
 
 		-
 			message: '#^Parameter \#1 \$templateIdentifier of method Ibexa\\Core\\MVC\\Symfony\\View\\View\:\:setTemplateIdentifier\(\) expects \(Closure\(array\<string, mixed\>\)\: string\)\|string, \(callable\(\)\: mixed\)\|string given\.$#'
 			identifier: argument.type
 			count: 1
-			path: tests/lib/MVC/Symfony/View/AbstractViewTest.php
+			path: tests/lib/MVC/Symfony/View/AbstractViewTestCase.php
 
 		-
 			message: '#^Property Ibexa\\Tests\\Core\\MVC\\Symfony\\View\\Builder\\ContentViewBuilderTest\:\:\$contentViewBuilder \(Ibexa\\Core\\MVC\\Symfony\\View\\Builder\\ContentViewBuilder&PHPUnit\\Framework\\MockObject\\MockObject\) does not accept Ibexa\\Core\\MVC\\Symfony\\View\\Builder\\ContentViewBuilder\.$#'
@@ -52195,382 +52183,382 @@ parameters:
 			path: tests/lib/Pagination/ContentFilteringAdapterTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractBaseHandlerTest\:\:getCacheItem\(\) has parameter \$key with no type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractBaseHandlerTestCase\:\:getCacheItem\(\) has parameter \$key with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractBaseHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractBaseHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractBaseHandlerTest\:\:provideAbstractCacheHandlerArguments\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractBaseHandlerTestCase\:\:provideAbstractCacheHandlerArguments\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractBaseHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractBaseHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractBaseHandlerTest\:\:provideInMemoryCacheHandlerArguments\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractBaseHandlerTestCase\:\:provideInMemoryCacheHandlerArguments\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractBaseHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractBaseHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:providerForCachedLoadMethodsHit\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:providerForCachedLoadMethodsHit\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:providerForCachedLoadMethodsMiss\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:providerForCachedLoadMethodsMiss\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:providerForUnCachedMethods\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:providerForUnCachedMethods\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:testLoadMethodsCacheHit\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:testLoadMethodsCacheHit\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:testLoadMethodsCacheHit\(\) has parameter \$additionalCalls with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:testLoadMethodsCacheHit\(\) has parameter \$additionalCalls with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:testLoadMethodsCacheHit\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:testLoadMethodsCacheHit\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:testLoadMethodsCacheHit\(\) has parameter \$keyGeneratingArguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:testLoadMethodsCacheHit\(\) has parameter \$keyGeneratingArguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:testLoadMethodsCacheHit\(\) has parameter \$keyGeneratingResults with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:testLoadMethodsCacheHit\(\) has parameter \$keyGeneratingResults with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:testLoadMethodsCacheHit\(\) has parameter \$tagGeneratingArguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:testLoadMethodsCacheHit\(\) has parameter \$tagGeneratingArguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:testLoadMethodsCacheHit\(\) has parameter \$tagGeneratingResults with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:testLoadMethodsCacheHit\(\) has parameter \$tagGeneratingResults with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:testLoadMethodsCacheMiss\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:testLoadMethodsCacheMiss\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:testLoadMethodsCacheMiss\(\) has parameter \$additionalCalls with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:testLoadMethodsCacheMiss\(\) has parameter \$additionalCalls with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:testLoadMethodsCacheMiss\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:testLoadMethodsCacheMiss\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:testLoadMethodsCacheMiss\(\) has parameter \$keyGeneratingArguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:testLoadMethodsCacheMiss\(\) has parameter \$keyGeneratingArguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:testLoadMethodsCacheMiss\(\) has parameter \$keyGeneratingResults with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:testLoadMethodsCacheMiss\(\) has parameter \$keyGeneratingResults with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:testLoadMethodsCacheMiss\(\) has parameter \$tagGeneratingArguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:testLoadMethodsCacheMiss\(\) has parameter \$tagGeneratingArguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:testLoadMethodsCacheMiss\(\) has parameter \$tagGeneratingResults with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:testLoadMethodsCacheMiss\(\) has parameter \$tagGeneratingResults with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:testUnCachedMethods\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:testUnCachedMethods\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:testUnCachedMethods\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:testUnCachedMethods\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:testUnCachedMethods\(\) has parameter \$key with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:testUnCachedMethods\(\) has parameter \$key with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:testUnCachedMethods\(\) has parameter \$keyGeneratingArguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:testUnCachedMethods\(\) has parameter \$keyGeneratingArguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:testUnCachedMethods\(\) has parameter \$tagGeneratingArguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:testUnCachedMethods\(\) has parameter \$tagGeneratingArguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTest\:\:testUnCachedMethods\(\) has parameter \$tags with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractCacheHandlerTestCase\:\:testUnCachedMethods\(\) has parameter \$tags with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
 			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:willReturnOnConsecutiveCalls\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
 			identifier: argument.named
 			count: 6
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
 			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:with\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
 			identifier: argument.named
 			count: 2
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
 			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:withConsecutive\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
 			identifier: argument.named
 			count: 6
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
 			message: '#^Only iterables can be unpacked, array\|null given in argument \#1\.$#'
 			identifier: argument.unpackNonIterable
 			count: 5
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
 			message: '#^Parameter \#1 \$callback of function call_user_func_array expects callable\(\)\: mixed, array\{mixed, string\} given\.$#'
 			identifier: argument.type
 			count: 3
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
 			message: '#^Parameter \#1 \$originalClassName of method PHPUnit\\Framework\\TestCase\:\:createMock\(\) expects class\-string\<mixed\>, string given\.$#'
 			identifier: argument.type
 			count: 2
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
 			message: '#^Unable to resolve the template type T in call to method PHPUnit\\Framework\\TestCase\:\:createMock\(\)$#'
 			identifier: argument.templateType
 			count: 3
-			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:providerForCachedLoadMethodsHit\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:providerForCachedLoadMethodsHit\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:providerForCachedLoadMethodsMiss\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:providerForCachedLoadMethodsMiss\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:providerForUnCachedMethods\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:providerForUnCachedMethods\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:testLoadMethodsCacheHit\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:testLoadMethodsCacheHit\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:testLoadMethodsCacheHit\(\) has parameter \$additionalCalls with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:testLoadMethodsCacheHit\(\) has parameter \$additionalCalls with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:testLoadMethodsCacheHit\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:testLoadMethodsCacheHit\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:testLoadMethodsCacheHit\(\) has parameter \$keyGeneratingArguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:testLoadMethodsCacheHit\(\) has parameter \$keyGeneratingArguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:testLoadMethodsCacheHit\(\) has parameter \$keyGeneratingResults with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:testLoadMethodsCacheHit\(\) has parameter \$keyGeneratingResults with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:testLoadMethodsCacheHit\(\) has parameter \$tagGeneratingArguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:testLoadMethodsCacheHit\(\) has parameter \$tagGeneratingArguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:testLoadMethodsCacheHit\(\) has parameter \$tagGeneratingResults with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:testLoadMethodsCacheHit\(\) has parameter \$tagGeneratingResults with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:testLoadMethodsCacheMiss\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:testLoadMethodsCacheMiss\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:testLoadMethodsCacheMiss\(\) has parameter \$additionalCalls with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:testLoadMethodsCacheMiss\(\) has parameter \$additionalCalls with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:testLoadMethodsCacheMiss\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:testLoadMethodsCacheMiss\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:testLoadMethodsCacheMiss\(\) has parameter \$keyGeneratingArguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:testLoadMethodsCacheMiss\(\) has parameter \$keyGeneratingArguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:testLoadMethodsCacheMiss\(\) has parameter \$keyGeneratingResults with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:testLoadMethodsCacheMiss\(\) has parameter \$keyGeneratingResults with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:testLoadMethodsCacheMiss\(\) has parameter \$tagGeneratingArguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:testLoadMethodsCacheMiss\(\) has parameter \$tagGeneratingArguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:testLoadMethodsCacheMiss\(\) has parameter \$tagGeneratingResults with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:testLoadMethodsCacheMiss\(\) has parameter \$tagGeneratingResults with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:testUnCachedMethods\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:testUnCachedMethods\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:testUnCachedMethods\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:testUnCachedMethods\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:testUnCachedMethods\(\) has parameter \$key with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:testUnCachedMethods\(\) has parameter \$key with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:testUnCachedMethods\(\) has parameter \$keyGeneratingArguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:testUnCachedMethods\(\) has parameter \$keyGeneratingArguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:testUnCachedMethods\(\) has parameter \$tagGeneratingArguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:testUnCachedMethods\(\) has parameter \$tagGeneratingArguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTest\:\:testUnCachedMethods\(\) has parameter \$tags with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractInMemoryCacheHandlerTestCase\:\:testUnCachedMethods\(\) has parameter \$tags with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
 			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:willReturnOnConsecutiveCalls\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
 			identifier: argument.named
 			count: 6
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
 			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:with\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
 			identifier: argument.named
 			count: 2
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
 			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:withConsecutive\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
 			identifier: argument.named
 			count: 6
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
 			message: '#^Only iterables can be unpacked, array\|null given in argument \#1\.$#'
 			identifier: argument.unpackNonIterable
 			count: 5
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
 			message: '#^Parameter \#1 \$callback of function call_user_func_array expects callable\(\)\: mixed, array\{mixed, string\} given\.$#'
 			identifier: argument.type
 			count: 3
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
 			message: '#^Parameter \#1 \$originalClassName of method PHPUnit\\Framework\\TestCase\:\:createMock\(\) expects class\-string\<mixed\>, string given\.$#'
 			identifier: argument.type
 			count: 2
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
 			message: '#^Unable to resolve the template type T in call to method PHPUnit\\Framework\\TestCase\:\:createMock\(\)$#'
 			identifier: argument.templateType
 			count: 3
-			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTestCase.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\Adapter\\InMemoryClearingProxyAdapterTest\:\:arrayAsGenerator\(\) has parameter \$array with no value type specified in iterable type array\.$#'
@@ -52741,7 +52729,7 @@ parameters:
 			path: tests/lib/Persistence/Cache/ContentTypeHandlerTest.php
 
 		-
-			message: '#^Parameter \#2 \$value of method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractBaseHandlerTest\:\:getCacheItem\(\) expects null, Ibexa\\Contracts\\Core\\Persistence\\Content\\Type given\.$#'
+			message: '#^Parameter \#2 \$value of method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractBaseHandlerTestCase\:\:getCacheItem\(\) expects null, Ibexa\\Contracts\\Core\\Persistence\\Content\\Type given\.$#'
 			identifier: argument.type
 			count: 1
 			path: tests/lib/Persistence/Cache/ContentTypeHandlerTest.php
@@ -59677,46 +59665,46 @@ parameters:
 			path: tests/lib/Persistence/Legacy/URL/MapperTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\URL\\Query\\CriterionHandler\\CriterionHandlerTest\:\:assertHandlerAcceptsCriterion\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\URL\\Query\\CriterionHandler\\CriterionHandlerTestCase\:\:assertHandlerAcceptsCriterion\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/CriterionHandlerTest.php
+			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/CriterionHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\URL\\Query\\CriterionHandler\\CriterionHandlerTest\:\:assertHandlerRejectsCriterion\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\URL\\Query\\CriterionHandler\\CriterionHandlerTestCase\:\:assertHandlerRejectsCriterion\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/CriterionHandlerTest.php
+			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/CriterionHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\URL\\Query\\CriterionHandler\\CriterionHandlerTest\:\:testAccept\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\URL\\Query\\CriterionHandler\\CriterionHandlerTestCase\:\:testAccept\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/CriterionHandlerTest.php
+			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/CriterionHandlerTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\URL\\Query\\CriterionHandler\\CriterionHandlerTest\:\:testHandle\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\URL\\Query\\CriterionHandler\\CriterionHandlerTestCase\:\:testHandle\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/CriterionHandlerTest.php
+			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/CriterionHandlerTestCase.php
 
 		-
 			message: '#^Parameter \#1 \$criterion of method Ibexa\\Core\\Persistence\\Legacy\\URL\\Query\\CriterionHandler\:\:accept\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\URL\\Query\\Criterion, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
 			identifier: argument.type
 			count: 2
-			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/CriterionHandlerTest.php
+			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/CriterionHandlerTestCase.php
 
 		-
 			message: '#^Parameter \#1 \$originalClassName of method PHPUnit\\Framework\\TestCase\:\:createMock\(\) expects class\-string\<mixed\>, string given\.$#'
 			identifier: argument.type
 			count: 2
-			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/CriterionHandlerTest.php
+			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/CriterionHandlerTestCase.php
 
 		-
 			message: '#^Unable to resolve the template type T in call to method PHPUnit\\Framework\\TestCase\:\:createMock\(\)$#'
 			identifier: argument.templateType
 			count: 2
-			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/CriterionHandlerTest.php
+			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/CriterionHandlerTestCase.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\URL\\Query\\CriterionHandler\\LogicalAndTest\:\:testAccept\(\) has no return type specified\.$#'
@@ -60373,22 +60361,22 @@ parameters:
 			path: tests/lib/Persistence/TransformationProcessor/TransformationProcessorPreprocessedBasedTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\QueryType\\BuiltIn\\AbstractQueryTypeTest\:\:dataProviderForGetQuery\(\) return type has no value type specified in iterable type iterable\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\QueryType\\BuiltIn\\AbstractQueryTypeTestCase\:\:dataProviderForGetQuery\(\) return type has no value type specified in iterable type iterable\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/QueryType/BuiltIn/AbstractQueryTypeTest.php
+			path: tests/lib/QueryType/BuiltIn/AbstractQueryTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\QueryType\\BuiltIn\\AbstractQueryTypeTest\:\:getExpectedSupportedParameters\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\QueryType\\BuiltIn\\AbstractQueryTypeTestCase\:\:getExpectedSupportedParameters\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/QueryType/BuiltIn/AbstractQueryTypeTest.php
+			path: tests/lib/QueryType/BuiltIn/AbstractQueryTypeTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\QueryType\\BuiltIn\\AbstractQueryTypeTest\:\:testGetQuery\(\) has parameter \$parameters with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\QueryType\\BuiltIn\\AbstractQueryTypeTestCase\:\:testGetQuery\(\) has parameter \$parameters with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/QueryType/BuiltIn/AbstractQueryTypeTest.php
+			path: tests/lib/QueryType/BuiltIn/AbstractQueryTypeTestCase.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\QueryType\\BuiltIn\\AncestorsQueryTypeTest\:\:dataProviderForGetQuery\(\) return type has no value type specified in iterable type iterable\.$#'
@@ -65992,139 +65980,139 @@ parameters:
 			message: '#^Call to method expects\(\) on an unknown class object\.$#'
 			identifier: class.notFound
 			count: 4
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTest\:\:getAPIServiceClassName\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:getAPIServiceClassName\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTest\:\:getSiteAccessAwareServiceClassName\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:getSiteAccessAwareServiceClassName\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTest\:\:providerForLanguagesLookupMethods\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:providerForLanguagesLookupMethods\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTest\:\:providerForPassTroughMethods\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:providerForPassTroughMethods\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTest\:\:setLanguagesLookupArguments\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:setLanguagesLookupArguments\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTest\:\:setLanguagesLookupArguments\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:setLanguagesLookupArguments\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTest\:\:setLanguagesLookupExpectedArguments\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:setLanguagesLookupExpectedArguments\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTest\:\:setLanguagesLookupExpectedArguments\(\) has parameter \$languages with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:setLanguagesLookupExpectedArguments\(\) has parameter \$languages with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTest\:\:setLanguagesLookupExpectedArguments\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:setLanguagesLookupExpectedArguments\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTest\:\:setLanguagesPassTroughArguments\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:setLanguagesPassTroughArguments\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTest\:\:setLanguagesPassTroughArguments\(\) has parameter \$languages with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:setLanguagesPassTroughArguments\(\) has parameter \$languages with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTest\:\:setLanguagesPassTroughArguments\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:setLanguagesPassTroughArguments\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTest\:\:testForLanguagesLookup\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:testForLanguagesLookup\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTest\:\:testForLanguagesLookup\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:testForLanguagesLookup\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTest\:\:testForLanguagesPassTrough\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:testForLanguagesPassTrough\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTest\:\:testForLanguagesPassTrough\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:testForLanguagesPassTrough\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTest\:\:testForPassTrough\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:testForPassTrough\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTest\:\:testForPassTrough\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:testForPassTrough\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
 			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:with\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
 			identifier: argument.named
 			count: 4
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
-			message: '#^Property Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTest\:\:\$innerApiServiceMock \(object&PHPUnit\\Framework\\MockObject\\MockObject\) does not accept PHPUnit\\Framework\\MockObject\\MockObject\.$#'
+			message: '#^Property Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:\$innerApiServiceMock \(object&PHPUnit\\Framework\\MockObject\\MockObject\) does not accept PHPUnit\\Framework\\MockObject\\MockObject\.$#'
 			identifier: assign.propertyType
 			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
-			message: '#^Property Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTest\:\:\$innerApiServiceMock has unknown class object as its type\.$#'
+			message: '#^Property Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:\$innerApiServiceMock has unknown class object as its type\.$#'
 			identifier: class.notFound
 			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
 			message: '#^Unable to resolve the template type T in call to method PHPUnit\\Framework\\TestCase\:\:getMockBuilder\(\)$#'
 			identifier: argument.templateType
 			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\ContentServiceTest\:\:providerForLanguagesLookupMethods\(\) return type has no value type specified in iterable type array\.$#'
