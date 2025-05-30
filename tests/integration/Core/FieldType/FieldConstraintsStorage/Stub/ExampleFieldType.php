@@ -46,7 +46,7 @@ final class ExampleFieldType extends FieldType
         // Nothing to do here.
     }
 
-    public function toHash(Value $value)
+    public function toHash(Value $value): null|string|float|array|bool|int
     {
         return null;
     }
@@ -56,12 +56,12 @@ final class ExampleFieldType extends FieldType
         // Nothing to do here.
     }
 
-    public function validateFieldSettings($fieldSettings): array
+    public function validateFieldSettings(array $fieldSettings): array
     {
         return [];
     }
 
-    public function validateValidatorConfiguration($validatorConfiguration): array
+    public function validateValidatorConfiguration(array $validatorConfiguration): array
     {
         return [];
     }

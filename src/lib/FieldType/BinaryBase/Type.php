@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\FieldType\BinaryBase\RouteAwarePathGenerator;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue as PersistenceValue;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\Media\Value;
@@ -182,14 +183,16 @@ abstract class Type extends FieldType
     /**
      * Converts an $hash to the Value defined by the field type.
      *
-     * @param mixed $hash
-     *
      * @return \Ibexa\Core\FieldType\BinaryBase\Value $value
      */
-    public function fromHash($hash)
+    public function fromHash(null|string|float|int|bool|array $hash): SPIValue
     {
         if ($hash === null) {
             return $this->getEmptyValue();
+        }
+
+        if (!is_array($hash)) {
+            throw new InvalidArgumentType('$hash', 'array|null', $hash);
         }
 
         return $this->createValue($hash);
@@ -199,10 +202,8 @@ abstract class Type extends FieldType
      * Converts a $Value to a hash.
      *
      * @param \Ibexa\Core\FieldType\BinaryBase\Value $value
-     *
-     * @return mixed
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): null|string|float|array|bool|int
     {
         return [
             'id' => $value->id,
@@ -216,7 +217,7 @@ abstract class Type extends FieldType
         ];
     }
 
-    public function toPersistenceValue(SPIValue $value)
+    public function toPersistenceValue(SPIValue $value): PersistenceValue
     {
         // Store original data as external (to indicate they need to be stored)
         return new PersistenceValue(
@@ -237,7 +238,7 @@ abstract class Type extends FieldType
      *
      * @return \Ibexa\Core\FieldType\BinaryBase\Value
      */
-    public function fromPersistenceValue(PersistenceValue $fieldValue)
+    public function fromPersistenceValue(PersistenceValue $fieldValue): SPIValue
     {
         // Restored data comes in $data, since it has already been processed
         // there might be more data in the persistence value than needed here
@@ -270,7 +271,7 @@ abstract class Type extends FieldType
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue)
+    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue): array
     {
         $errors = [];
 
@@ -314,11 +315,11 @@ abstract class Type extends FieldType
     /**
      * Validates the validatorConfiguration of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
      *
-     * @param mixed $validatorConfiguration
+     * @param array<string, mixed> $validatorConfiguration
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateValidatorConfiguration($validatorConfiguration)
+    public function validateValidatorConfiguration(array $validatorConfiguration): array
     {
         $validationErrors = [];
 
@@ -370,7 +371,7 @@ abstract class Type extends FieldType
      *
      * @return bool
      */
-    public function isSearchable()
+    public function isSearchable(): bool
     {
         return true;
     }

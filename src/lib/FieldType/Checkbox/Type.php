@@ -46,7 +46,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\Checkbox\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): SPIValue
     {
         return new Value(false);
     }
@@ -113,12 +113,14 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Converts an $hash to the Value defined by the field type.
      *
-     * @param mixed $hash
-     *
      * @return \Ibexa\Core\FieldType\Checkbox\Value $value
      */
-    public function fromHash($hash)
+    public function fromHash(null|string|float|array|bool|int $hash): SPIValue
     {
+        if (!is_bool($hash)) {
+            throw new InvalidArgumentType('$hash', 'boolean', $hash);
+        }
+
         return new Value($hash);
     }
 
@@ -126,10 +128,8 @@ class Type extends FieldType implements TranslationContainerInterface
      * Converts a $Value to a hash.
      *
      * @param \Ibexa\Core\FieldType\Checkbox\Value $value
-     *
-     * @return mixed
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): null|string|float|array|bool|int
     {
         return $value->bool;
     }

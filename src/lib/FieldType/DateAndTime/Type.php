@@ -75,7 +75,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\DateAndTime\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): SPIValue
     {
         return new Value();
     }
@@ -141,17 +141,21 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Converts an $hash to the Value defined by the field type.
      *
-     * @param mixed $hash Null or associative array containing one of the following (first value found in the order below is picked):
-     *                    'rfc850': Date in RFC 850 format (DateTime::RFC850)
-     *                    'timestring': Date in parseable string format supported by DateTime (e.g. 'now', '+3 days')
-     *                    'timestamp': Unix timestamp
+     * @param array<string, mixed>|null $hash Null or associative array containing one of the following (first value found in the order below is picked):
+     *                                        'rfc850': Date in RFC 850 format (DateTime::RFC850)
+     *                                        'timestring': Date in parseable string format supported by DateTime (e.g. 'now', '+3 days')
+     *                                        'timestamp': Unix timestamp
      *
      * @return \Ibexa\Core\FieldType\DateAndTime\Value $value
      */
-    public function fromHash($hash)
+    public function fromHash(null|string|float|array|bool|int $hash): SPIValue
     {
         if ($hash === null) {
             return $this->getEmptyValue();
+        }
+
+        if (!is_array($hash)) {
+            throw new InvalidArgumentType('$hash', 'array|null', $hash);
         }
 
         if (isset($hash['rfc850']) && $hash['rfc850']) {
@@ -169,10 +173,8 @@ class Type extends FieldType implements TranslationContainerInterface
      * Converts a $Value to a hash.
      *
      * @param \Ibexa\Core\FieldType\DateAndTime\Value $value
-     *
-     * @return mixed
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): null|string|float|array|bool|int
     {
         if ($this->isEmptyValue($value)) {
             return null;
@@ -203,12 +205,8 @@ class Type extends FieldType implements TranslationContainerInterface
 
     /**
      * Validates the fieldSettings of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
-     *
-     * @param mixed $fieldSettings
-     *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings(array $fieldSettings): array
     {
         $validationErrors = [];
 
@@ -286,12 +284,8 @@ class Type extends FieldType implements TranslationContainerInterface
      * This is the default implementation, which just returns the given
      * $fieldSettings, assuming they are already in a hash format. Overwrite
      * this in your specific implementation, if necessary.
-     *
-     * @param mixed $fieldSettings
-     *
-     * @return array|scalar|null
      */
-    public function fieldSettingsToHash($fieldSettings)
+    public function fieldSettingsToHash(array $fieldSettings): float|int|bool|array|string|null
     {
         $fieldSettingsHash = parent::fieldSettingsToHash($fieldSettings);
 
@@ -313,12 +307,8 @@ class Type extends FieldType implements TranslationContainerInterface
      * $fieldSettingsHash, assuming the supported field settings are already in
      * a hash format. Overwrite this in your specific implementation, if
      * necessary.
-     *
-     * @param array|scalar|null $fieldSettingsHash
-     *
-     * @return mixed
      */
-    public function fieldSettingsFromHash($fieldSettingsHash)
+    public function fieldSettingsFromHash(float|array|bool|int|string|null $fieldSettingsHash): array
     {
         $fieldSettings = parent::fieldSettingsFromHash($fieldSettingsHash);
 

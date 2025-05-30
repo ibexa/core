@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Persistence\User\Handler as SPIUserHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
@@ -154,7 +155,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\User\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): SPIValue
     {
         return new Value();
     }
@@ -198,14 +199,16 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Converts an $hash to the Value defined by the field type.
      *
-     * @param mixed $hash
-     *
      * @return \Ibexa\Core\FieldType\User\Value $value
      */
-    public function fromHash($hash)
+    public function fromHash(null|string|float|array|bool|int $hash): SPIValue
     {
         if ($hash === null) {
             return $this->getEmptyValue();
+        }
+
+        if (!is_array($hash)) {
+            throw new InvalidArgumentType('$hash', 'array|null', $hash);
         }
 
         if (isset($hash['passwordUpdatedAt']) && $hash['passwordUpdatedAt'] !== null) {
@@ -219,10 +222,8 @@ class Type extends FieldType implements TranslationContainerInterface
      * Converts a $Value to a hash.
      *
      * @param \Ibexa\Core\FieldType\User\Value $value
-     *
-     * @return mixed
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): null|string|float|array|bool|int
     {
         if ($this->isEmptyValue($value)) {
             return null;
@@ -236,7 +237,7 @@ class Type extends FieldType implements TranslationContainerInterface
         return $hash;
     }
 
-    public function toPersistenceValue(SPIValue $value)
+    public function toPersistenceValue(SPIValue $value): FieldValue
     {
         $value->passwordHashType = $this->getPasswordHashTypeForPersistenceValue($value);
         if ($value->plainPassword) {
@@ -278,7 +279,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\User\Value
      */
-    public function fromPersistenceValue(FieldValue $fieldValue)
+    public function fromPersistenceValue(FieldValue $fieldValue): SPIValue
     {
         return $this->acceptValue($fieldValue->externalData);
     }
@@ -293,7 +294,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue)
+    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue): array
     {
         $errors = [];
 
@@ -427,7 +428,7 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * {@inheritdoc}
      */
-    public function validateValidatorConfiguration($validatorConfiguration)
+    public function validateValidatorConfiguration(array $validatorConfiguration): array
     {
         $validationErrors = [];
 
@@ -450,7 +451,7 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * {@inheritdoc}
      */
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings(array $fieldSettings): array
     {
         $validationErrors = [];
 

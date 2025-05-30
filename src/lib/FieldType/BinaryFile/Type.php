@@ -37,7 +37,7 @@ class Type extends BinaryBaseType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\BinaryFile\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): SPIValue
     {
         return new Value();
     }
@@ -74,10 +74,8 @@ class Type extends BinaryBaseType implements TranslationContainerInterface
      * Converts a $Value to a hash.
      *
      * @param \Ibexa\Core\FieldType\BinaryFile\Value $value
-     *
-     * @return mixed
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): null|string|float|int|bool|array
     {
         if ($this->isEmptyValue($value)) {
             return null;
@@ -99,7 +97,7 @@ class Type extends BinaryBaseType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\BinaryFile\Value
      */
-    public function fromPersistenceValue(FieldValue $fieldValue)
+    public function fromPersistenceValue(FieldValue $fieldValue): SPIValue
     {
         if ($fieldValue->externalData === null) {
             return $this->getEmptyValue();

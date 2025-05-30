@@ -4933,12 +4933,6 @@ parameters:
 			path: src/contracts/Container/Encore/ConfigurationDumper.php
 
 		-
-			message: '#^Method Ibexa\\Contracts\\Core\\FieldType\\BinaryBase\\PathGeneratorInterface\:\:getStoragePathForField\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/contracts/FieldType/BinaryBase/PathGeneratorInterface.php
-
-		-
 			message: '#^Method Ibexa\\Contracts\\Core\\FieldType\\BinaryBase\\RouteAwarePathGenerator\:\:generate\(\) has parameter \$parameters with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -4957,30 +4951,6 @@ parameters:
 			path: src/contracts/FieldType/FieldStorage.php
 
 		-
-			message: '#^Method Ibexa\\Contracts\\Core\\FieldType\\FieldStorage\:\:getFieldData\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/contracts/FieldType/FieldStorage.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\FieldType\\FieldType\:\:applyDefaultSettings\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/contracts/FieldType/FieldType.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\FieldType\\FieldType\:\:applyDefaultValidatorConfiguration\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/contracts/FieldType/FieldType.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\FieldType\\FieldType\:\:fieldSettingsFromHash\(\) has parameter \$fieldSettingsHash with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/FieldType/FieldType.php
-
-		-
 			message: '#^Method Ibexa\\Contracts\\Core\\FieldType\\FieldType\:\:fieldSettingsToHash\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -4991,24 +4961,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/contracts/FieldType/FieldType.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\FieldType\\FieldType\:\:validatorConfigurationFromHash\(\) has parameter \$validatorConfigurationHash with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/FieldType/FieldType.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\FieldType\\FieldType\:\:validatorConfigurationToHash\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/FieldType/FieldType.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\FieldType\\Generic\\Type\:\:fieldSettingsFromHash\(\) has parameter \$fieldSettingsHash with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/FieldType/Generic/Type.php
 
 		-
 			message: '#^Method Ibexa\\Contracts\\Core\\FieldType\\Generic\\Type\:\:fieldSettingsToHash\(\) return type has no value type specified in iterable type array\.$#'
@@ -5029,18 +4981,6 @@ parameters:
 			path: src/contracts/FieldType/Generic/Type.php
 
 		-
-			message: '#^Method Ibexa\\Contracts\\Core\\FieldType\\Generic\\Type\:\:getSettingsSchema\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/FieldType/Generic/Type.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\FieldType\\Generic\\Type\:\:getValidatorConfigurationSchema\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/FieldType/Generic/Type.php
-
-		-
 			message: '#^Method Ibexa\\Contracts\\Core\\FieldType\\Generic\\Type\:\:mapConstraintViolationList\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -5048,18 +4988,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Contracts\\Core\\FieldType\\Generic\\Type\:\:toHash\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/FieldType/Generic/Type.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\FieldType\\Generic\\Type\:\:validatorConfigurationFromHash\(\) has parameter \$validatorConfiguration with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/FieldType/Generic/Type.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\FieldType\\Generic\\Type\:\:validatorConfigurationToHash\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/contracts/FieldType/Generic/Type.php
@@ -7891,24 +7819,6 @@ parameters:
 			path: src/lib/FieldType/BinaryBase/BinaryBaseStorage.php
 
 		-
-			message: '#^Method Ibexa\\Core\\FieldType\\BinaryBase\\BinaryBaseStorage\:\:deleteFieldData\(\) should return bool but empty return statement found\.$#'
-			identifier: return.empty
-			count: 1
-			path: src/lib/FieldType/BinaryBase/BinaryBaseStorage.php
-
-		-
-			message: '#^Method Ibexa\\Core\\FieldType\\BinaryBase\\BinaryBaseStorage\:\:deleteFieldData\(\) should return bool but return statement is missing\.$#'
-			identifier: return.missing
-			count: 1
-			path: src/lib/FieldType/BinaryBase/BinaryBaseStorage.php
-
-		-
-			message: '#^Method Ibexa\\Core\\FieldType\\BinaryBase\\BinaryBaseStorage\:\:getFieldData\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/FieldType/BinaryBase/BinaryBaseStorage.php
-
-		-
 			message: '#^Method Ibexa\\Core\\FieldType\\BinaryBase\\BinaryBaseStorage\:\:removeOldFile\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -8191,6 +8101,12 @@ parameters:
 			path: src/lib/FieldType/BinaryFile/Type.php
 
 		-
+			message: '#^Cannot access offset ''downloadCount'' on array\<mixed\>\|bool\|float\|int\|string\|null\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/lib/FieldType/BinaryFile/Type.php
+
+		-
 			message: '#^Method Ibexa\\Core\\FieldType\\BinaryFile\\Type\:\:completeValue\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -8374,18 +8290,6 @@ parameters:
 			message: '#^Method Ibexa\\Core\\FieldType\\FieldType\:\:acceptValue\(\) should return Ibexa\\Core\\FieldType\\Value but returns Ibexa\\Contracts\\Core\\FieldType\\Value\.$#'
 			identifier: return.type
 			count: 2
-			path: src/lib/FieldType/FieldType.php
-
-		-
-			message: '#^Method Ibexa\\Core\\FieldType\\FieldType\:\:applyDefaultSettings\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/FieldType/FieldType.php
-
-		-
-			message: '#^Method Ibexa\\Core\\FieldType\\FieldType\:\:applyDefaultValidatorConfiguration\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
 			path: src/lib/FieldType/FieldType.php
 
 		-
@@ -8601,18 +8505,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\FieldType\\Image\\ImageStorage\:\:deleteFieldData\(\) has parameter \$fieldIds with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/FieldType/Image/ImageStorage.php
-
-		-
-			message: '#^Method Ibexa\\Core\\FieldType\\Image\\ImageStorage\:\:deleteFieldData\(\) should return bool but return statement is missing\.$#'
-			identifier: return.missing
-			count: 1
-			path: src/lib/FieldType/Image/ImageStorage.php
-
-		-
-			message: '#^Method Ibexa\\Core\\FieldType\\Image\\ImageStorage\:\:getFieldData\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: src/lib/FieldType/Image/ImageStorage.php
 
@@ -8875,12 +8767,6 @@ parameters:
 			path: src/lib/FieldType/Keyword/KeywordStorage.php
 
 		-
-			message: '#^Method Ibexa\\Core\\FieldType\\Keyword\\KeywordStorage\:\:getFieldData\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/FieldType/Keyword/KeywordStorage.php
-
-		-
 			message: '#^Method Ibexa\\Core\\FieldType\\Keyword\\KeywordStorage\\Gateway\:\:deleteFieldData\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -9015,18 +8901,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\FieldType\\MapLocation\\MapLocationStorage\:\:deleteFieldData\(\) has parameter \$fieldIds with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/FieldType/MapLocation/MapLocationStorage.php
-
-		-
-			message: '#^Method Ibexa\\Core\\FieldType\\MapLocation\\MapLocationStorage\:\:deleteFieldData\(\) should return bool but return statement is missing\.$#'
-			identifier: return.missing
-			count: 1
-			path: src/lib/FieldType/MapLocation/MapLocationStorage.php
-
-		-
-			message: '#^Method Ibexa\\Core\\FieldType\\MapLocation\\MapLocationStorage\:\:getFieldData\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: src/lib/FieldType/MapLocation/MapLocationStorage.php
 
@@ -9187,6 +9061,12 @@ parameters:
 			path: src/lib/FieldType/Media/Type.php
 
 		-
+			message: '#^Cannot access offset ''hasController'' on array\<mixed\>\|bool\|float\|int\|string\|null\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/lib/FieldType/Media/Type.php
+
+		-
 			message: '#^Method Ibexa\\Core\\FieldType\\Media\\Type\:\:checkValueStructure\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -9253,12 +9133,6 @@ parameters:
 			path: src/lib/FieldType/NullStorage.php
 
 		-
-			message: '#^Method Ibexa\\Core\\FieldType\\NullStorage\:\:getFieldData\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/FieldType/NullStorage.php
-
-		-
 			message: '#^Parameter \#1 \$array of function reset expects array\|object, array\|bool\|float\|int\|string\|null given\.$#'
 			identifier: argument.type
 			count: 1
@@ -9273,6 +9147,12 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Core\\FieldType\\Value\:\:\$destinationContentId\.$#'
 			identifier: property.notFound
+			count: 1
+			path: src/lib/FieldType/Relation/Type.php
+
+		-
+			message: '#^Cannot access offset ''destinationContentId'' on array\<mixed\>\|bool\|float\|int\|string\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/lib/FieldType/Relation/Type.php
 
@@ -9457,18 +9337,6 @@ parameters:
 			path: src/lib/FieldType/Url/UrlStorage.php
 
 		-
-			message: '#^Method Ibexa\\Core\\FieldType\\Url\\UrlStorage\:\:deleteFieldData\(\) should return bool but return statement is missing\.$#'
-			identifier: return.missing
-			count: 1
-			path: src/lib/FieldType/Url/UrlStorage.php
-
-		-
-			message: '#^Method Ibexa\\Core\\FieldType\\Url\\UrlStorage\:\:getFieldData\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/FieldType/Url/UrlStorage.php
-
-		-
 			message: '#^Property Ibexa\\Core\\FieldType\\Url\\UrlStorage\:\:\$logger \(Psr\\Log\\LoggerInterface\) does not accept Psr\\Log\\LoggerInterface\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -9633,12 +9501,6 @@ parameters:
 		-
 			message: '#^Class Ibexa\\Core\\FieldType\\User\\UserStorage extends generic class Ibexa\\Contracts\\Core\\FieldType\\GatewayBasedStorage but does not specify its types\: T$#'
 			identifier: missingType.generics
-			count: 1
-			path: src/lib/FieldType/User/UserStorage.php
-
-		-
-			message: '#^Method Ibexa\\Core\\FieldType\\User\\UserStorage\:\:getFieldData\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: src/lib/FieldType/User/UserStorage.php
 
@@ -43219,24 +43081,6 @@ parameters:
 			path: tests/lib/Base/Container/Compiler/Stubs/GatewayBasedStorageHandler.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Base\\Container\\Compiler\\Stubs\\GatewayBasedStorageHandler\:\:deleteFieldData\(\) should return bool but return statement is missing\.$#'
-			identifier: return.missing
-			count: 1
-			path: tests/lib/Base/Container/Compiler/Stubs/GatewayBasedStorageHandler.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Base\\Container\\Compiler\\Stubs\\GatewayBasedStorageHandler\:\:getFieldData\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Base/Container/Compiler/Stubs/GatewayBasedStorageHandler.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Base\\Container\\Compiler\\Stubs\\GatewayBasedStorageHandler\:\:hasFieldData\(\) should return bool but return statement is missing\.$#'
-			identifier: return.missing
-			count: 1
-			path: tests/lib/Base/Container/Compiler/Stubs/GatewayBasedStorageHandler.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Base\\Container\\Compiler\\TaggedServiceIdsIterator\\DeprecationErrorCollector\:\:getErrors\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -45949,12 +45793,6 @@ parameters:
 			path: tests/lib/FieldType/FieldTypeMockTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\FieldTypeMockTest\:\:testApplyDefaultSettingsThrowsInvalidArgumentException\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/FieldType/FieldTypeMockTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\FieldTypeMockTest\:\:testApplyDefaultValidatorConfiguration\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -45974,12 +45812,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\FieldTypeMockTest\:\:testApplyDefaultValidatorConfigurationEmpty\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/FieldType/FieldTypeMockTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\FieldTypeMockTest\:\:testApplyDefaultValidatorConfigurationEmptyThrowsInvalidArgumentException\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/FieldType/FieldTypeMockTest.php

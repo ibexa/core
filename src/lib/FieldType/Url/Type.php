@@ -47,7 +47,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\Url\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): SPIValue
     {
         return new Value();
     }
@@ -105,14 +105,16 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Converts an $hash to the Value defined by the field type.
      *
-     * @param mixed $hash
-     *
      * @return \Ibexa\Core\FieldType\Url\Value $value
      */
-    public function fromHash($hash)
+    public function fromHash(null|string|float|array|bool|int $hash): SPIValue
     {
         if ($hash === null) {
             return $this->getEmptyValue();
+        }
+
+        if (!is_array($hash)) {
+            throw new InvalidArgumentType('$hash', 'array|null', $hash);
         }
 
         if (isset($hash['text'])) {
@@ -126,10 +128,8 @@ class Type extends FieldType implements TranslationContainerInterface
      * Converts a $Value to a hash.
      *
      * @param \Ibexa\Core\FieldType\Url\Value $value
-     *
-     * @return mixed
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): null|string|float|array|bool|int
     {
         if ($this->isEmptyValue($value)) {
             return null;
@@ -138,7 +138,7 @@ class Type extends FieldType implements TranslationContainerInterface
         return ['link' => $value->link, 'text' => $value->text];
     }
 
-    public function toPersistenceValue(SPIValue $value)
+    public function toPersistenceValue(SPIValue $value): FieldValue
     {
         if ($value === null) {
             return new FieldValue(
@@ -171,7 +171,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\Url\Value
      */
-    public function fromPersistenceValue(FieldValue $fieldValue)
+    public function fromPersistenceValue(FieldValue $fieldValue): SPIValue
     {
         if ($fieldValue->externalData === null) {
             return $this->getEmptyValue();

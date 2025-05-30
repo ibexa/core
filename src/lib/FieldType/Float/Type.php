@@ -123,14 +123,16 @@ class Type extends BaseNumericType
     /**
      * Converts an $hash to the Value defined by the field type.
      *
-     * @param mixed $hash
-     *
      * @return \Ibexa\Core\FieldType\Float\Value $value
      */
-    public function fromHash($hash): Value
+    public function fromHash(null|string|float|array|bool|int $hash): Value
     {
         if ($hash === null) {
             return $this->getEmptyValue();
+        }
+
+        if (!is_numeric($hash)) {
+            throw new InvalidArgumentType('$hash', 'null|float|int', $hash);
         }
 
         return new Value((float)$hash);
@@ -140,10 +142,8 @@ class Type extends BaseNumericType
      * Converts a $Value to a hash.
      *
      * @param \Ibexa\Core\FieldType\Float\Value $value
-     *
-     * @return mixed
      */
-    public function toHash(SPIValue $value): mixed
+    public function toHash(SPIValue $value): null|string|float|array|bool|int
     {
         if ($this->isEmptyValue($value)) {
             return null;

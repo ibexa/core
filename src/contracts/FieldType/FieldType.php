@@ -26,6 +26,8 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
  * these. It must by no means contain objects, resources or cyclic references.
  * The corresponding {@see FieldType::fromHash()} method must convert such a
  * representation back into a value, which is understood by the FieldType.
+ *
+ * @phpstan-type THash array<mixed>|scalar|null
  */
 abstract class FieldType
 {
@@ -37,10 +39,8 @@ abstract class FieldType
      * to prefix the field-type identifier by a unique string that identifies
      * the implementer. A good identifier could for example take your companies main
      * domain name as a prefix in reverse order.
-     *
-     * @return string
      */
-    abstract public function getFieldTypeIdentifier();
+    abstract public function getFieldTypeIdentifier(): string;
 
     /**
      * Returns a human readable string representation from a given value.
@@ -49,12 +49,6 @@ abstract class FieldType
      * is designated to be used in the content name/urlAlias pattern.
      *
      * The used $value can be assumed to be already accepted by {@see FieldType::acceptValue()}.
-     *
-     * @param \Ibexa\Contracts\Core\FieldType\Value $value
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition
-     * @param string $languageCode
-     *
-     * @return string
      */
     abstract public function getName(Value $value, FieldDefinition $fieldDefinition, string $languageCode): string;
 
@@ -75,9 +69,9 @@ abstract class FieldType
      * available for a specific FieldType, it will not be usable with the
      * consumer.
      *
-     * @return mixed
+     * @return array<string, mixed>
      */
-    abstract public function getSettingsSchema();
+    abstract public function getSettingsSchema(): array;
 
     /**
      * Returns a schema for the validator configuration expected by the FieldType.
@@ -116,9 +110,9 @@ abstract class FieldType
      * ];
      * ```
      *
-     * @return mixed
+     * @return array<string, mixed>
      */
-    abstract public function getValidatorConfigurationSchema();
+    abstract public function getValidatorConfigurationSchema(): array;
 
     /**
      * Validates a field based on the validator configuration in the field definition.
@@ -130,7 +124,7 @@ abstract class FieldType
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    abstract public function validate(FieldDefinition $fieldDef, Value $value);
+    abstract public function validate(FieldDefinition $fieldDef, Value $value): array;
 
     /**
      * Validates the validatorConfiguration of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
@@ -139,20 +133,20 @@ abstract class FieldType
      * structurally correct and complies to the validator configuration schema
      * returned by {@see FieldType::getValidatorConfigurationSchema()}.
      *
-     * @param mixed $validatorConfiguration
+     * @param array<string, mixed> $validatorConfiguration
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    abstract public function validateValidatorConfiguration($validatorConfiguration);
+    abstract public function validateValidatorConfiguration(array $validatorConfiguration): array;
 
     /**
      * Applies the default values to the given $validatorConfiguration of a FieldDefinitionCreateStruct.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @param array<string, mixed> $validatorConfiguration
      *
-     * @param mixed $validatorConfiguration
+     *@throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    abstract public function applyDefaultValidatorConfiguration(&$validatorConfiguration);
+    abstract public function applyDefaultValidatorConfiguration(array &$validatorConfiguration): void;
 
     /**
      * Validates the fieldSettings of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
@@ -160,41 +154,35 @@ abstract class FieldType
      * This methods determines if the given $fieldSettings are structurally
      * correct and comply to the settings schema returned by {@see FieldType::getSettingsSchema()}.
      *
-     * @param mixed $fieldSettings
+     * @param array<string, mixed> $fieldSettings
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    abstract public function validateFieldSettings($fieldSettings);
+    abstract public function validateFieldSettings(array $fieldSettings): array;
 
     /**
      * Applies the default values to the fieldSettings of a FieldDefinitionCreateStruct.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @param array<string, mixed> $fieldSettings
      *
-     * @param mixed $fieldSettings
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    abstract public function applyDefaultSettings(&$fieldSettings);
+    abstract public function applyDefaultSettings(array &$fieldSettings): void;
 
     /**
      * Indicates if the field type supports indexing and sort keys for searching.
-     *
-     * @return bool
      */
-    abstract public function isSearchable();
+    abstract public function isSearchable(): bool;
 
     /**
      * Indicates if the field definition of this type can appear only once in the same ContentType.
-     *
-     * @return bool
      */
-    abstract public function isSingular();
+    abstract public function isSingular(): bool;
 
     /**
      * Indicates if the field definition of this type can be added to a ContentType with Content instances.
-     *
-     * @return bool
      */
-    abstract public function onlyEmptyInstance();
+    abstract public function onlyEmptyInstance(): bool;
 
     /**
      * Returns the empty value for this field type.
@@ -203,10 +191,8 @@ abstract class FieldType
      * type and no default value was specified in the field definition. It is
      * also used to determine that a user intentionally (or unintentionally) did not
      * set a non-empty value.
-     *
-     * @return \Ibexa\Contracts\Core\FieldType\Value
      */
-    abstract public function getEmptyValue();
+    abstract public function getEmptyValue(): Value;
 
     /**
      * Returns if the given $value is considered empty by the field type.
@@ -214,12 +200,8 @@ abstract class FieldType
      * Usually, only the value returned by {@see FieldType::getEmptyValue()} is
      * considered empty. The given $value can be safely assumed to have already
      * been processed by {@see FieldType::acceptValue()}.
-     *
-     * @param \Ibexa\Contracts\Core\FieldType\Value $value
-     *
-     * @return bool
      */
-    abstract public function isEmptyValue(Value $value);
+    abstract public function isEmptyValue(Value $value): bool;
 
     /**
      * Potentially builds and checks the type and structure of the $inputValue.
@@ -238,11 +220,9 @@ abstract class FieldType
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the parameter is not of the supported value sub type
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the value does not match the expected structure
      *
-     * @param mixed $inputValue
-     *
      * @return \Ibexa\Contracts\Core\FieldType\Value The potentially converted and structurally plausible value.
      */
-    abstract public function acceptValue($inputValue);
+    abstract public function acceptValue(mixed $inputValue): Value;
 
     /**
      * Converts an $hash to the Value defined by the field type.
@@ -252,11 +232,9 @@ abstract class FieldType
      * Additional formats might be supported in the rare case that this is
      * necessary. See the class description for more details on a hash format.
      *
-     * @param mixed $hash
-     *
-     * @return \Ibexa\Contracts\Core\FieldType\Value
+     * @phpstan-param THash $hash
      */
-    abstract public function fromHash($hash);
+    abstract public function fromHash(array|string|float|int|bool|null $hash): Value;
 
     /**
      * Converts the given $value into a plain hash format.
@@ -266,22 +244,18 @@ abstract class FieldType
      * support complex structures like objects. See the class level doc block
      * for additional information. See the class description for more details on a hash format.
      *
-     * @param \Ibexa\Contracts\Core\FieldType\Value $value
-     *
-     * @return mixed
+     * @phpstan-return THash
      */
-    abstract public function toHash(Value $value);
+    abstract public function toHash(Value $value): array|int|float|bool|string|null;
 
     /**
      * Converts the given $fieldSettings to a simple hash format.
      *
      * See the class description for more details on a hash format.
      *
-     * @param mixed $fieldSettings
-     *
-     * @return array|scalar|null
+     * @param array<string, mixed> $fieldSettings
      */
-    abstract public function fieldSettingsToHash($fieldSettings);
+    abstract public function fieldSettingsToHash(array $fieldSettings): array|string|float|int|bool|null;
 
     /**
      * Converts the given $fieldSettingsHash to field settings of the type.
@@ -289,22 +263,22 @@ abstract class FieldType
      * This is the reverse operation of {@see FieldType::fieldSettingsToHash()}.
      * See the class description for more details on a hash format.
      *
-     * @param array|scalar|null $fieldSettingsHash
+     * @phpstan-param THash $fieldSettingsHash
      *
-     * @return mixed
+     * @return array<string, mixed>
      */
-    abstract public function fieldSettingsFromHash($fieldSettingsHash);
+    abstract public function fieldSettingsFromHash(array|string|float|int|bool|null $fieldSettingsHash): array;
 
     /**
      * Converts the given $validatorConfiguration to a simple hash format.
      *
      * See the class description for more details on a hash format.
      *
-     * @param mixed $validatorConfiguration
+     * @param array<string, mixed> $validatorConfiguration
      *
-     * @return array|scalar|null
+     * @phpstan-return THash
      */
-    abstract public function validatorConfigurationToHash($validatorConfiguration);
+    abstract public function validatorConfigurationToHash(array $validatorConfiguration): array|int|float|string|bool|null;
 
     /**
      * Converts the given $validatorConfigurationHash to a validator
@@ -312,11 +286,9 @@ abstract class FieldType
      *
      * See the class description for more details on a hash format.
      *
-     * @param array|scalar|null $validatorConfigurationHash
-     *
-     * @return mixed
+     * @phpstan-param THash $validatorConfigurationHash
      */
-    abstract public function validatorConfigurationFromHash($validatorConfigurationHash);
+    abstract public function validatorConfigurationFromHash(array|int|float|bool|string|null $validatorConfigurationHash): mixed;
 
     /**
      * Converts a $value to a persistence value.
@@ -340,7 +312,7 @@ abstract class FieldType
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\FieldValue the value processed by the storage engine
      */
-    abstract public function toPersistenceValue(Value $value);
+    abstract public function toPersistenceValue(Value $value): FieldValue;
 
     /**
      * Converts a persistence $value to a Value.
@@ -351,7 +323,7 @@ abstract class FieldType
      *
      * @return \Ibexa\Contracts\Core\FieldType\Value
      */
-    abstract public function fromPersistenceValue(FieldValue $fieldValue);
+    abstract public function fromPersistenceValue(FieldValue $fieldValue): Value;
 
     /**
      * Returns relation data extracted from value.
@@ -378,5 +350,5 @@ abstract class FieldType
      * ]
      * ```
      */
-    abstract public function getRelations(Value $value);
+    abstract public function getRelations(Value $value): array;
 }

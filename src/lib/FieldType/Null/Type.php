@@ -37,7 +37,7 @@ class Type extends FieldType
      *
      * @return string
      */
-    public function getFieldTypeIdentifier()
+    public function getFieldTypeIdentifier(): string
     {
         return $this->fieldTypeIdentifier;
     }
@@ -56,7 +56,7 @@ class Type extends FieldType
      *
      * @return \Ibexa\Core\FieldType\Null\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): SPIValue
     {
         return new Value(null);
     }
@@ -96,11 +96,9 @@ class Type extends FieldType
     /**
      * Converts an $hash to the Value defined by the field type.
      *
-     * @param mixed $hash
-     *
      * @return \Ibexa\Core\FieldType\Null\Value $value
      */
-    public function fromHash($hash)
+    public function fromHash(null|string|float|array|bool|int $hash): SPIValue
     {
         return new Value($hash);
     }
@@ -109,10 +107,8 @@ class Type extends FieldType
      * Converts a $Value to a hash.
      *
      * @param \Ibexa\Core\FieldType\Null\Value $value
-     *
-     * @return mixed
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): null|string|float|array|bool|int
     {
         if (isset($value->value)) {
             return $value->value;

@@ -71,7 +71,7 @@ class Type extends BaseType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\Media\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): SPIValue
     {
         return new Value();
     }
@@ -79,11 +79,9 @@ class Type extends BaseType implements TranslationContainerInterface
     /**
      * Validates the fieldSettings of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
      *
-     * @param mixed $fieldSettings
-     *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings(array $fieldSettings): array
     {
         $validationErrors = [];
 
@@ -212,10 +210,8 @@ class Type extends BaseType implements TranslationContainerInterface
      * Converts a $Value to a hash.
      *
      * @param \Ibexa\Core\FieldType\Media\Value $value
-     *
-     * @return mixed
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): null|string|float|int|bool|array
     {
         if ($this->isEmptyValue($value)) {
             return null;
@@ -241,7 +237,7 @@ class Type extends BaseType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\Media\Value
      */
-    public function fromPersistenceValue(FieldValue $fieldValue)
+    public function fromPersistenceValue(FieldValue $fieldValue): SPIValue
     {
         if ($fieldValue->externalData === null) {
             return $this->getEmptyValue();

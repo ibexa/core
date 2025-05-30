@@ -45,13 +45,17 @@ abstract class Type extends FieldType
         return new $class();
     }
 
-    public function fromHash($hash): Value
+    public function fromHash(array|string|float|int|bool|null $hash): Value
     {
-        if ($hash) {
+        if ($hash === null || $hash === []) {
+            return $this->getEmptyValue();
+        }
+
+        if (is_array($hash)) {
             return $this->serializer->denormalize($hash, $this->getValueClass());
         }
 
-        return $this->getEmptyValue();
+        throw new InvalidArgumentType('$hash', 'array|null', $hash);
     }
 
     public function toHash(Value $value): ?array
@@ -112,7 +116,7 @@ abstract class Type extends FieldType
         );
     }
 
-    public function validateValidatorConfiguration($validatorConfiguration): array
+    public function validateValidatorConfiguration(array $validatorConfiguration): array
     {
         $validationErrors = [];
 
@@ -126,12 +130,8 @@ abstract class Type extends FieldType
         return $validationErrors;
     }
 
-    public function applyDefaultValidatorConfiguration(&$validatorConfiguration): void
+    public function applyDefaultValidatorConfiguration(array &$validatorConfiguration): void
     {
-        if ($validatorConfiguration !== null && !is_array($validatorConfiguration)) {
-            throw new InvalidArgumentType('$validatorConfiguration', 'array|null', $validatorConfiguration);
-        }
-
         foreach ($this->getValidatorConfigurationSchema() as $validatorName => $configurationSchema) {
             // Set configuration of specific validator to empty array if it is not already provided
             if (!isset($validatorConfiguration[$validatorName])) {
@@ -147,7 +147,7 @@ abstract class Type extends FieldType
         }
     }
 
-    public function validateFieldSettings($fieldSettings): array
+    public function validateFieldSettings(array $fieldSettings): array
     {
         if (empty($this->getSettingsSchema()) && !empty($fieldSettings)) {
             return [
@@ -164,12 +164,8 @@ abstract class Type extends FieldType
         );
     }
 
-    public function applyDefaultSettings(&$fieldSettings): void
+    public function applyDefaultSettings(array &$fieldSettings): void
     {
-        if ($fieldSettings !== null && !is_array($fieldSettings)) {
-            throw new InvalidArgumentType('$fieldSettings', 'array|null', $fieldSettings);
-        }
-
         foreach ($this->getSettingsSchema() as $settingName => $settingConfiguration) {
             // Checking that a default entry exists in the settingsSchema but that no value has been provided
             if (!array_key_exists($settingName, (array)$fieldSettings) && array_key_exists('default', $settingConfiguration)) {
@@ -210,7 +206,7 @@ abstract class Type extends FieldType
         );
     }
 
-    public function fromPersistenceValue(PersistenceValue $fieldValue)
+    public function fromPersistenceValue(PersistenceValue $fieldValue): Value
     {
         return $this->fromHash($fieldValue->data);
     }
@@ -235,7 +231,7 @@ abstract class Type extends FieldType
         return $value == $this->getEmptyValue();
     }
 
-    final public function acceptValue($inputValue): Value
+    final public function acceptValue(mixed $inputValue): Value
     {
         if ($inputValue === null) {
             return $this->getEmptyValue();
@@ -330,22 +326,30 @@ abstract class Type extends FieldType
         }
     }
 
-    public function fieldSettingsToHash($fieldSettings)
+    public function fieldSettingsToHash(array $fieldSettings): float|array|bool|int|string|null
     {
         return $fieldSettings;
     }
 
-    public function fieldSettingsFromHash($fieldSettingsHash)
+    public function fieldSettingsFromHash(array|string|float|int|bool|null $fieldSettingsHash): array
     {
-        return $fieldSettingsHash;
+        if ($fieldSettingsHash === null) {
+            return [];
+        }
+
+        if (is_array($fieldSettingsHash)) {
+            return $fieldSettingsHash;
+        }
+
+        throw new InvalidArgumentType('$fieldSettingsHash', 'array|null', $fieldSettingsHash);
     }
 
-    public function validatorConfigurationToHash($validatorConfiguration)
+    public function validatorConfigurationToHash(mixed $validatorConfiguration): float|array|bool|int|string|null
     {
         return $validatorConfiguration;
     }
 
-    public function validatorConfigurationFromHash($validatorConfiguration)
+    public function validatorConfigurationFromHash(array|int|float|bool|string|null $validatorConfiguration): mixed
     {
         return $validatorConfiguration;
     }

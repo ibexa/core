@@ -68,7 +68,7 @@ class Type extends FieldType implements TranslationContainerInterface
         $this->targetContentValidator = $targetContentValidator;
     }
 
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings(array $fieldSettings): array
     {
         $validationErrors = [];
 
@@ -204,7 +204,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\Relation\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): SPIValue
     {
         return new Value();
     }
@@ -274,11 +274,9 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Converts an $hash to the Value defined by the field type.
      *
-     * @param mixed $hash
-     *
      * @return \Ibexa\Core\FieldType\Relation\Value $value
      */
-    public function fromHash($hash)
+    public function fromHash(null|string|float|array|bool|int $hash): SPIValue
     {
         if ($hash !== null) {
             $destinationContentId = $hash['destinationContentId'];
@@ -294,10 +292,8 @@ class Type extends FieldType implements TranslationContainerInterface
      * Converts a $Value to a hash.
      *
      * @param \Ibexa\Core\FieldType\Relation\Value $value
-     *
-     * @return mixed
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): null|string|float|array|bool|int
     {
         $destinationContentId = null;
         if ($value->destinationContentId !== null) {
@@ -344,7 +340,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *  )
      * </code>
      */
-    public function getRelations(SPIValue $fieldValue)
+    public function getRelations(SPIValue $fieldValue): array
     {
         $relations = [];
         if ($fieldValue->destinationContentId !== null) {

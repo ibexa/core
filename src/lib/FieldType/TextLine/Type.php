@@ -42,7 +42,7 @@ class Type extends BaseTextType
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateValidatorConfiguration($validatorConfiguration): array
+    public function validateValidatorConfiguration(array $validatorConfiguration): array
     {
         $validationErrors = [];
         $validators = ['StringLengthValidator' => new StringLengthValidator()];

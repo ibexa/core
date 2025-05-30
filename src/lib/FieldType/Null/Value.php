@@ -23,10 +23,8 @@ class Value extends BaseValue
 
     /**
      * Construct a new Value object and initialize with $value.
-     *
-     * @param int $value
      */
-    public function __construct($value = null)
+    public function __construct(mixed $value = null)
     {
         $this->value = $value;
     }

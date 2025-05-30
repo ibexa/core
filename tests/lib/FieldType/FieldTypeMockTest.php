@@ -7,29 +7,11 @@
 
 namespace Ibexa\Tests\Core\FieldType;
 
-use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\FieldType;
 use PHPUnit\Framework\TestCase;
 
 class FieldTypeMockTest extends TestCase
 {
-    public function testApplyDefaultSettingsThrowsInvalidArgumentException()
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        /** @var \Ibexa\Core\FieldType\FieldType|\PHPUnit\Framework\MockObject\MockObject $stub */
-        $stub = $this->getMockForAbstractClass(
-            FieldType::class,
-            [],
-            '',
-            false
-        );
-
-        $fieldSettings = new \DateTime();
-
-        $stub->applyDefaultSettings($fieldSettings);
-    }
-
     /**
      * @dataProvider providerForTestApplyDefaultSettings
      *
@@ -161,23 +143,6 @@ class FieldTypeMockTest extends TestCase
         ];
     }
 
-    public function testApplyDefaultValidatorConfigurationEmptyThrowsInvalidArgumentException()
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        /** @var \Ibexa\Core\FieldType\FieldType|\PHPUnit\Framework\MockObject\MockObject $stub */
-        $stub = $this->getMockForAbstractClass(
-            FieldType::class,
-            [],
-            '',
-            false
-        );
-
-        $validatorConfiguration = new \DateTime();
-
-        $stub->applyDefaultValidatorConfiguration($validatorConfiguration);
-    }
-
     public function testApplyDefaultValidatorConfigurationEmpty()
     {
         /** @var \Ibexa\Core\FieldType\FieldType|\PHPUnit\Framework\MockObject\MockObject $stub */
@@ -198,11 +163,9 @@ class FieldTypeMockTest extends TestCase
                 self::returnValue([])
             );
 
-        $validatorConfiguration = null;
+        $validatorConfiguration = [];
         $stub->applyDefaultValidatorConfiguration($validatorConfiguration);
-        self::assertNull(
-            $validatorConfiguration
-        );
+        self::assertEmpty($validatorConfiguration);
     }
 
     /**

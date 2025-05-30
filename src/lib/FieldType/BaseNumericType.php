@@ -31,7 +31,7 @@ abstract class BaseNumericType extends FieldType implements TranslationContainer
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateValidatorConfiguration($validatorConfiguration): array
+    public function validateValidatorConfiguration(array $validatorConfiguration): array
     {
         $validationErrors = [];
         $validatorValidationErrors = [];

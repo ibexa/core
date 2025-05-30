@@ -78,10 +78,8 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * This implementation returns an array.
      * where the key is the setting name, and the value is the default value for given
      * setting and set to null if no particular default should be set.
-     *
-     * @return mixed
      */
-    public function getSettingsSchema()
+    public function getSettingsSchema(): array
     {
         return $this->settingsSchema;
     }
@@ -109,10 +107,8 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *      ),
      *  );
      * </code>
-     *
-     * @return mixed
      */
-    public function getValidatorConfigurationSchema()
+    public function getValidatorConfigurationSchema(): array
     {
         return $this->validatorConfigurationSchema;
     }
@@ -131,7 +127,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $value)
+    public function validate(FieldDefinition $fieldDefinition, SPIValue $value): array
     {
         return [];
     }
@@ -146,11 +142,11 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * specified validator, since by default no validators are supported.
      * Overwrite in derived types, if validation is supported.
      *
-     * @param mixed $validatorConfiguration
+     * @param array<string, mixed> $validatorConfiguration
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateValidatorConfiguration($validatorConfiguration)
+    public function validateValidatorConfiguration(array $validatorConfiguration): array
     {
         $validationErrors = [];
 
@@ -175,15 +171,9 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * field types in standard Ibexa installation. Overwrite in derived types if needed.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     *
-     * @param mixed $validatorConfiguration
      */
-    public function applyDefaultValidatorConfiguration(&$validatorConfiguration)
+    public function applyDefaultValidatorConfiguration(array &$validatorConfiguration): void
     {
-        if ($validatorConfiguration !== null && !is_array($validatorConfiguration)) {
-            throw new InvalidArgumentType('$validatorConfiguration', 'array|null', $validatorConfiguration);
-        }
-
         foreach ($this->getValidatorConfigurationSchema() as $validatorName => $configurationSchema) {
             // Set configuration of specific validator to empty array if it is not already provided
             if (!isset($validatorConfiguration[$validatorName])) {
@@ -204,12 +194,8 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * This method expects that given $fieldSettings are complete, for this purpose method
      * {@link self::applyDefaultSettings()} is provided.
-     *
-     * @param mixed $fieldSettings
-     *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings(array $fieldSettings): array
     {
         if (!empty($fieldSettings)) {
             return [
@@ -234,15 +220,9 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * field types in standard Ibexa installation. Overwrite in derived types if needed.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     *
-     * @param mixed $fieldSettings
      */
-    public function applyDefaultSettings(&$fieldSettings)
+    public function applyDefaultSettings(array &$fieldSettings): void
     {
-        if ($fieldSettings !== null && !is_array($fieldSettings)) {
-            throw new InvalidArgumentType('$fieldSettings', 'array|null', $fieldSettings);
-        }
-
         foreach ($this->getSettingsSchema() as $settingName => $settingConfiguration) {
             // Checking that a default entry exists in the settingsSchema but that no value has been provided
             if (!array_key_exists($settingName, (array)$fieldSettings) && array_key_exists('default', $settingConfiguration)) {
@@ -281,7 +261,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\FieldValue
      */
-    public function toPersistenceValue(SPIValue $value)
+    public function toPersistenceValue(SPIValue $value): PersistenceValue
     {
         // @todo Evaluate if creating the sortKey in every case is really needed
         //       Couldn't this be retrieved with a method, which would initialize
@@ -302,7 +282,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * @return \Ibexa\Core\FieldType\Value
      */
-    public function fromPersistenceValue(PersistenceValue $fieldValue)
+    public function fromPersistenceValue(PersistenceValue $fieldValue): SPIValue
     {
         return $this->fromHash($fieldValue->data);
     }
@@ -312,7 +292,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * @return bool
      */
-    public function isSearchable()
+    public function isSearchable(): bool
     {
         return false;
     }
@@ -322,7 +302,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * @return bool
      */
-    public function isSingular()
+    public function isSingular(): bool
     {
         return false;
     }
@@ -332,7 +312,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * @return bool
      */
-    public function onlyEmptyInstance()
+    public function onlyEmptyInstance(): bool
     {
         return false;
     }
@@ -348,7 +328,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * @return bool
      */
-    public function isEmptyValue(SPIValue $value)
+    public function isEmptyValue(SPIValue $value): bool
     {
         return $value == $this->getEmptyValue();
     }
@@ -374,7 +354,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * @return \Ibexa\Core\FieldType\Value The potentially converted and structurally plausible value.
      */
-    final public function acceptValue($inputValue)
+    final public function acceptValue(mixed $inputValue): SPIValue
     {
         if ($inputValue === null) {
             return $this->getEmptyValue();
@@ -486,11 +466,11 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * $fieldSettings, assuming they are already in a hash format. Overwrite
      * this in your specific implementation, if necessary.
      *
-     * @param mixed $fieldSettings
+     * @param array<string, mixed> $fieldSettings
      *
      * @return array|scalar|null
      */
-    public function fieldSettingsToHash($fieldSettings)
+    public function fieldSettingsToHash(array $fieldSettings): float|array|bool|int|string|null
     {
         return $fieldSettings;
     }
@@ -507,10 +487,18 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * @param array|scalar|null $fieldSettingsHash
      *
-     * @return mixed
+     * @return array<string, mixed>
      */
-    public function fieldSettingsFromHash($fieldSettingsHash)
+    public function fieldSettingsFromHash(float|array|bool|int|string|null $fieldSettingsHash): array
     {
+        if ($fieldSettingsHash === null) {
+            return [];
+        }
+
+        if (!is_array($fieldSettingsHash)) {
+            throw new InvalidArgumentType('$fieldSettingsHash', 'array|null', $fieldSettingsHash);
+        }
+
         return $fieldSettingsHash;
     }
 
@@ -525,7 +513,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * @return array|scalar|null
      */
-    public function validatorConfigurationToHash($validatorConfiguration)
+    public function validatorConfigurationToHash(mixed $validatorConfiguration): float|array|bool|int|string|null
     {
         return $validatorConfiguration;
     }
@@ -543,7 +531,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * @return mixed
      */
-    public function validatorConfigurationFromHash($validatorConfigurationHash)
+    public function validatorConfigurationFromHash(float|array|bool|int|string|null $validatorConfigurationHash): mixed
     {
         return $validatorConfigurationHash;
     }
@@ -573,7 +561,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *  )
      * </code>
      */
-    public function getRelations(SPIValue $fieldValue)
+    public function getRelations(SPIValue $fieldValue): array
     {
         return [];
     }
