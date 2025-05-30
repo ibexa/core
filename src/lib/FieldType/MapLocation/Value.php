@@ -52,7 +52,7 @@ class Value extends BaseValue
      *
      * @return string A comma separated list of tags, eg: "php, Ibexa, html5"
      */
-    public function __toString()
+    public function __toString(): string
     {
         if (is_array($this->address)) {
             return implode(', ', $this->address);

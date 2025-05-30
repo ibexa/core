@@ -29,7 +29,7 @@ class Value extends BaseValue
         $this->value = $value;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return (string)$this->value;
     }

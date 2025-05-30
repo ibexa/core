@@ -73,7 +73,7 @@ class Value extends BaseValue
         }
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         if (!$this->value instanceof DateTime) {
             return '';

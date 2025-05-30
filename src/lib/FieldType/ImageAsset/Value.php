@@ -41,7 +41,7 @@ class Value extends BaseValue
     /**
      * {@inheritdoc}
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->destinationContentId;
     }
