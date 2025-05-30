@@ -10,6 +10,7 @@ namespace Ibexa\Contracts\Core\Repository\Exceptions;
 
 use Exception;
 use Ibexa\Contracts\Core\Repository\Exceptions\Exception as RepositoryException;
+use Throwable;
 
 /**
  * This Exception is thrown on a write attempt in a read only property in a value object.
@@ -21,7 +22,7 @@ class PropertyReadOnlyException extends Exception implements RepositoryException
      *
      * @param string|null $className Optionally to specify class in abstract/parent classes
      */
-    public function __construct(string $propertyName, ?string $className = null, ?Exception $previous = null)
+    public function __construct(string $propertyName, ?string $className = null, ?Throwable $previous = null)
     {
         if ($className === null) {
             parent::__construct("Property '{$propertyName}' is readonly", 0, $previous);
