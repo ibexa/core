@@ -86,7 +86,7 @@ services:
     Ibexa\Core\MVC\Symfony\SiteAccess\Provider\ChainSiteAccessProvider:
         class: Ibexa\Core\MVC\Symfony\SiteAccess\Provider\ChainSiteAccessProvider
         arguments:
-            $providers: !tagged ibexa.site_access.provider
+            $providers: !tagged_iterator ibexa.site_access.provider
 
     ibexa.siteaccess.provider:
         alias: Ibexa\Core\MVC\Symfony\SiteAccess\Provider\ChainSiteAccessProvider
