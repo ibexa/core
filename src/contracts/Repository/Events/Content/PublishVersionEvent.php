@@ -14,14 +14,12 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 
 final class PublishVersionEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-    private $content;
+    private Content $content;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo */
-    private $versionInfo;
+    private VersionInfo $versionInfo;
 
     /** @var string[] */
-    private $translations;
+    private array $translations;
 
     public function __construct(
         Content $content,
@@ -43,6 +41,9 @@ final class PublishVersionEvent extends AfterEvent
         return $this->versionInfo;
     }
 
+    /**
+     * @return string[]
+     */
     public function getTranslations(): array
     {
         return $this->translations;

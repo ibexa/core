@@ -14,11 +14,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 
 final class BeforeAssignSectionToSubtreeEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-    private $location;
+    private Location $location;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Section */
-    private $section;
+    private Section $section;
 
     public function __construct(Location $location, Section $section)
     {

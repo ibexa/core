@@ -14,14 +14,11 @@ use Ibexa\Contracts\Core\Repository\Values\Content\TrashItem;
 
 final class RecoverEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\TrashItem */
-    private $trashItem;
+    private TrashItem $trashItem;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-    private $newParentLocation;
+    private ?Location $newParentLocation;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-    private $location;
+    private Location $location;
 
     public function __construct(
         Location $location,

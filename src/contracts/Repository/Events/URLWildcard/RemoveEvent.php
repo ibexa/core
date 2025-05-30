@@ -13,8 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard;
 
 final class RemoveEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard */
-    private $urlWildcard;
+    private URLWildcard $urlWildcard;
 
     public function __construct(
         URLWildcard $urlWildcard

@@ -14,20 +14,19 @@ use UnexpectedValueException;
 
 final class BeforeCreateGlobalUrlAliasEvent extends BeforeEvent
 {
-    private $resource;
+    private string $resource;
 
-    private $path;
+    private string $path;
 
-    private $languageCode;
+    private string $languageCode;
 
-    private $forwarding;
+    private bool $forwarding;
 
-    private $alwaysAvailable;
+    private bool $alwaysAvailable;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias|null */
-    private $urlAlias;
+    private ?URLAlias $urlAlias = null;
 
-    public function __construct($resource, $path, $languageCode, $forwarding, $alwaysAvailable)
+    public function __construct(string $resource, string $path, string $languageCode, bool $forwarding, bool $alwaysAvailable)
     {
         $this->resource = $resource;
         $this->path = $path;
@@ -36,27 +35,27 @@ final class BeforeCreateGlobalUrlAliasEvent extends BeforeEvent
         $this->alwaysAvailable = $alwaysAvailable;
     }
 
-    public function getResource()
+    public function getResource(): string
     {
         return $this->resource;
     }
 
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
 
-    public function getLanguageCode()
+    public function getLanguageCode(): string
     {
         return $this->languageCode;
     }
 
-    public function getForwarding()
+    public function getForwarding(): bool
     {
         return $this->forwarding;
     }
 
-    public function getAlwaysAvailable()
+    public function getAlwaysAvailable(): bool
     {
         return $this->alwaysAvailable;
     }

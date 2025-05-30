@@ -14,14 +14,11 @@ use UnexpectedValueException;
 
 final class BeforeUpdateLanguageNameEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Language */
-    private $language;
+    private Language $language;
 
-    /** @var string */
-    private $newName;
+    private string $newName;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Language|null */
-    private $updatedLanguage;
+    private ?Language $updatedLanguage = null;
 
     public function __construct(Language $language, string $newName)
     {

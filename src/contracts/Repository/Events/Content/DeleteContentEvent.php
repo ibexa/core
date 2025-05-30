@@ -13,12 +13,14 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 
 final class DeleteContentEvent extends AfterEvent
 {
-    /** @var array */
-    private $locations;
+    /** @var int[] */
+    private array $locations;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
-    private $contentInfo;
+    private ContentInfo $contentInfo;
 
+    /**
+     * @param int[] $locations
+     */
     public function __construct(
         array $locations,
         ContentInfo $contentInfo
@@ -27,6 +29,9 @@ final class DeleteContentEvent extends AfterEvent
         $this->contentInfo = $contentInfo;
     }
 
+    /**
+     * @return int[]
+     */
     public function getLocations(): array
     {
         return $this->locations;

@@ -14,11 +14,10 @@ use UnexpectedValueException;
 
 final class BeforeDeleteUserGroupEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup */
-    private $userGroup;
+    private UserGroup $userGroup;
 
-    /** @var array|null */
-    private $locations;
+    /** @var int[] */
+    private ?array $locations = null;
 
     public function __construct(UserGroup $userGroup)
     {
@@ -30,6 +29,9 @@ final class BeforeDeleteUserGroupEvent extends BeforeEvent
         return $this->userGroup;
     }
 
+    /**
+     * @return int[]
+     */
     public function getLocations(): array
     {
         if (!$this->hasLocations()) {
@@ -39,11 +41,17 @@ final class BeforeDeleteUserGroupEvent extends BeforeEvent
         return $this->locations;
     }
 
+    /**
+     * @param int[]|null $locations
+     */
     public function setLocations(?array $locations): void
     {
         $this->locations = $locations;
     }
 
+    /**
+     * @phpstan-assert-if-true !null $this->locations
+     */
     public function hasLocations(): bool
     {
         return is_array($this->locations);

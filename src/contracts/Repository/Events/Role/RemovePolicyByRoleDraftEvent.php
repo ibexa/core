@@ -14,14 +14,11 @@ use Ibexa\Contracts\Core\Repository\Values\User\RoleDraft;
 
 final class RemovePolicyByRoleDraftEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft */
-    private $roleDraft;
+    private RoleDraft $roleDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft */
-    private $policyDraft;
+    private PolicyDraft $policyDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft */
-    private $updatedRoleDraft;
+    private RoleDraft $updatedRoleDraft;
 
     public function __construct(
         RoleDraft $updatedRoleDraft,

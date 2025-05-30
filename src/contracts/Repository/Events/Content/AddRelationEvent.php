@@ -15,14 +15,11 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 
 final class AddRelationEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Relation */
-    private $relation;
+    private Relation $relation;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo */
-    private $sourceVersion;
+    private VersionInfo $sourceVersion;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
-    private $destinationContent;
+    private ContentInfo $destinationContent;
 
     public function __construct(
         Relation $relation,

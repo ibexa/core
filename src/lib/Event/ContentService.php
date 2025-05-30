@@ -118,7 +118,7 @@ class ContentService extends ContentServiceDecorator
         return $content;
     }
 
-    public function deleteContent(ContentInfo $contentInfo): iterable
+    public function deleteContent(ContentInfo $contentInfo): array
     {
         $eventData = [$contentInfo];
 

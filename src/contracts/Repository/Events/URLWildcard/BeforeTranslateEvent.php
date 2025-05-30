@@ -14,17 +14,16 @@ use UnexpectedValueException;
 
 final class BeforeTranslateEvent extends BeforeEvent
 {
-    private $url;
+    private string $url;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult|null */
-    private $result;
+    private ?URLWildcardTranslationResult $result = null;
 
-    public function __construct($url)
+    public function __construct(string $url)
     {
         $this->url = $url;
     }
 
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }

@@ -13,12 +13,14 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 
 final class DeleteUserGroupEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup */
-    private $userGroup;
+    private UserGroup $userGroup;
 
-    /** @var array */
-    private $locations;
+    /** @var int[] */
+    private array $locations;
 
+    /**
+     * @param int[] $locations
+     */
     public function __construct(
         array $locations,
         UserGroup $userGroup
@@ -32,6 +34,9 @@ final class DeleteUserGroupEvent extends AfterEvent
         return $this->userGroup;
     }
 
+    /**
+     * @return int[]
+     */
     public function getLocations(): array
     {
         return $this->locations;

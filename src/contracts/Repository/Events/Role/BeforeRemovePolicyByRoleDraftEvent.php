@@ -15,14 +15,11 @@ use UnexpectedValueException;
 
 final class BeforeRemovePolicyByRoleDraftEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft */
-    private $roleDraft;
+    private RoleDraft $roleDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft */
-    private $policyDraft;
+    private PolicyDraft $policyDraft;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft|null */
-    private $updatedRoleDraft;
+    private ?RoleDraft $updatedRoleDraft = null;
 
     public function __construct(RoleDraft $roleDraft, PolicyDraft $policyDraft)
     {

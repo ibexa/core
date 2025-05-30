@@ -14,33 +14,32 @@ use UnexpectedValueException;
 
 final class BeforeCreateEvent extends BeforeEvent
 {
-    private $sourceUrl;
+    private string $sourceUrl;
 
-    private $destinationUrl;
+    private string $destinationUrl;
 
-    private $forward;
+    private bool $forward;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard|null */
-    private $urlWildcard;
+    private ?URLWildcard $urlWildcard = null;
 
-    public function __construct($sourceUrl, $destinationUrl, $forward)
+    public function __construct(string $sourceUrl, string $destinationUrl, bool $forward)
     {
         $this->sourceUrl = $sourceUrl;
         $this->destinationUrl = $destinationUrl;
         $this->forward = $forward;
     }
 
-    public function getSourceUrl()
+    public function getSourceUrl(): string
     {
         return $this->sourceUrl;
     }
 
-    public function getDestinationUrl()
+    public function getDestinationUrl(): string
     {
         return $this->destinationUrl;
     }
 
-    public function getForward()
+    public function getForward(): bool
     {
         return $this->forward;
     }

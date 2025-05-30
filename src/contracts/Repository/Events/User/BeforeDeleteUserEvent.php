@@ -14,11 +14,10 @@ use UnexpectedValueException;
 
 final class BeforeDeleteUserEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
-    private $user;
+    private User $user;
 
-    /** @var array|null */
-    private $locations;
+    /** @var int[]|null */
+    private ?array $locations = null;
 
     public function __construct(User $user)
     {
@@ -30,6 +29,9 @@ final class BeforeDeleteUserEvent extends BeforeEvent
         return $this->user;
     }
 
+    /**
+     * @return int[]
+     */
     public function getLocations(): array
     {
         if (!$this->hasLocations()) {
@@ -39,11 +41,17 @@ final class BeforeDeleteUserEvent extends BeforeEvent
         return $this->locations;
     }
 
+    /**
+     * @param int[]|null $locations
+     */
     public function setLocations(?array $locations): void
     {
         $this->locations = $locations;
     }
 
+    /**
+     * @phpstan-assert-if-true !null $this->locations
+     */
     public function hasLocations(): bool
     {
         return is_array($this->locations);

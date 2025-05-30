@@ -91,11 +91,11 @@ interface UserService
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $userGroup
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to create a user group
-     *
      * @return int[] Affected Location Id's (List of Locations of the Content that was deleted)
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to create a user group
      */
-    public function deleteUserGroup(UserGroup $userGroup): iterable;
+    public function deleteUserGroup(UserGroup $userGroup): array;
 
     /**
      * Moves the user group to another parent.
@@ -224,11 +224,11 @@ interface UserService
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to delete the user
-     *
      * @return int[] Affected Location Id's (List of Locations of the Content that was deleted)
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to delete the user
      */
-    public function deleteUser(User $user): iterable;
+    public function deleteUser(User $user): array;
 
     /**
      * Updates a user.

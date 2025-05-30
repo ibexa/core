@@ -138,7 +138,7 @@ class ContentService implements ContentServiceInterface
         return $this->service->updateContentMetadata($contentInfo, $contentMetadataUpdateStruct);
     }
 
-    public function deleteContent(ContentInfo $contentInfo): iterable
+    public function deleteContent(ContentInfo $contentInfo): array
     {
         return $this->service->deleteContent($contentInfo);
     }

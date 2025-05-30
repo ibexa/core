@@ -65,7 +65,7 @@ abstract class UserServiceDecorator implements UserService
         return $this->innerService->loadSubUserGroups($userGroup, $offset, $limit, $prioritizedLanguages);
     }
 
-    public function deleteUserGroup(UserGroup $userGroup): iterable
+    public function deleteUserGroup(UserGroup $userGroup): array
     {
         return $this->innerService->deleteUserGroup($userGroup);
     }
@@ -134,7 +134,7 @@ abstract class UserServiceDecorator implements UserService
         return $this->innerService->loadUserByToken($hash, $prioritizedLanguages);
     }
 
-    public function deleteUser(User $user): iterable
+    public function deleteUser(User $user): array
     {
         return $this->innerService->deleteUser($user);
     }
