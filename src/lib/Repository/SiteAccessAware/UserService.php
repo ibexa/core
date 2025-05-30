@@ -75,7 +75,7 @@ class UserService implements UserServiceInterface
         return $this->service->loadSubUserGroups($userGroup, $offset, $limit, $prioritizedLanguages);
     }
 
-    public function deleteUserGroup(UserGroup $userGroup): iterable
+    public function deleteUserGroup(UserGroup $userGroup): array
     {
         return $this->service->deleteUserGroup($userGroup);
     }
@@ -131,7 +131,7 @@ class UserService implements UserServiceInterface
         return $this->service->loadUsersByEmail($email, $prioritizedLanguages);
     }
 
-    public function deleteUser(User $user): iterable
+    public function deleteUser(User $user): array
     {
         return $this->service->deleteUser($user);
     }
