@@ -45,7 +45,7 @@ final class ConstraintViolationAdapter implements ValidationErrorInterface
         );
     }
 
-    public function setTarget($target): void
+    public function setTarget(string $target): void
     {
         $this->target = $target;
     }

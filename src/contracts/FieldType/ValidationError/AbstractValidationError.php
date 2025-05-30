@@ -41,7 +41,7 @@ abstract class AbstractValidationError implements ValidationError
         return new Message($this->message, $this->parameters);
     }
 
-    public function setTarget($target): void
+    public function setTarget(string $target): void
     {
         $this->target = $target;
     }

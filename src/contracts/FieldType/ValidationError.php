@@ -27,15 +27,11 @@ interface ValidationError extends Translatable
      * Examples:
      * - "[StringLengthValidator][minStringLength]" => Target is "minStringLength" key under "StringLengthValidator" key (fieldtype validator configuration)
      * - "my_field_definition_identifier"
-     *
-     * @param string $target
      */
-    public function setTarget($target);
+    public function setTarget(string $target): void;
 
     /**
      * Returns the target element on which the error occurred.
-     *
-     * @return string
      */
-    public function getTarget();
+    public function getTarget(): string;
 }

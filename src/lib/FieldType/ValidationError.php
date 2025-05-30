@@ -69,12 +69,12 @@ class ValidationError implements ValidationErrorInterface
         }
     }
 
-    public function setTarget($target)
+    public function setTarget(string $target): void
     {
         $this->target = $target;
     }
 
-    public function getTarget()
+    public function getTarget(): string
     {
         return $this->target;
     }
