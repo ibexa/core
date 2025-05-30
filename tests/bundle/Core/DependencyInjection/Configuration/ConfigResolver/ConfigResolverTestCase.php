@@ -14,7 +14,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-abstract class ConfigResolverTest extends TestCase
+abstract class ConfigResolverTestCase extends TestCase
 {
     protected const EXISTING_SA_NAME = 'existing_sa';
     protected const UNDEFINED_SA_NAME = 'undefined_sa';

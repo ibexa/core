@@ -11,7 +11,7 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\ConfigResolv
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver\GlobalScopeConfigResolver;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 
-class GlobalScopeConfigResolverTest extends ConfigResolverTest
+class GlobalScopeConfigResolverTest extends ConfigResolverTestCase
 {
     protected function getResolver(string $defaultNamespace = self::DEFAULT_NAMESPACE): ConfigResolverInterface
     {
