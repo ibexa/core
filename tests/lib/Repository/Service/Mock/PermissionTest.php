@@ -622,7 +622,10 @@ class PermissionTest extends BaseServiceMockTest
                     ->will(self::returnValue($policyName));
             }
 
-            $permissionSet['limitation'] = "limitation-{$i}";
+            $limitation = $this->createMock(Limitation::class);
+            $limitation->method('getIdentifier')->willReturn("limitation-{$i}");
+
+            $permissionSet['limitation'] = $limitation;
             $limitationTypeMock
                 ->expects(self::at($i))
                 ->method('buildValue')
