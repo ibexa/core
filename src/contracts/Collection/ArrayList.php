@@ -27,7 +27,7 @@ class ArrayList extends AbstractInMemoryCollection implements ListInterface
         parent::__construct(array_values($items));
     }
 
-    public function first()
+    public function first(): mixed
     {
         if (($result = reset($this->items)) !== false) {
             return $result;
@@ -36,7 +36,7 @@ class ArrayList extends AbstractInMemoryCollection implements ListInterface
         throw new OutOfBoundsException('Collection is empty');
     }
 
-    public function last()
+    public function last(): mixed
     {
         if (($result = end($this->items)) !== false) {
             return $result;

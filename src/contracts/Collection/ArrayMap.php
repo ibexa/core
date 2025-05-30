@@ -21,7 +21,7 @@ use Ibexa\Contracts\Core\Exception\OutOfBoundsException;
  */
 class ArrayMap extends AbstractInMemoryCollection implements MapInterface
 {
-    public function get($key)
+    public function get($key): mixed
     {
         if (!$this->has($key)) {
             throw new OutOfBoundsException(sprintf("Collection does not contain element with key '%s'", $key));

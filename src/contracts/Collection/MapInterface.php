@@ -26,7 +26,7 @@ interface MapInterface extends CollectionInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\OutOfBoundsException if map does not contain element with given key
      */
-    public function get($key);
+    public function get($key): mixed;
 
     /**
      * Returns true if the given key is defined within the map.
