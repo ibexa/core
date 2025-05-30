@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Limitation;
 
+use Ibexa\Contracts\Core\Limitation\Limitation;
 use Ibexa\Contracts\Core\Limitation\Type as SPILimitationTypeInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
@@ -16,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation as APILocationLimitation;
@@ -35,11 +37,11 @@ class LocationLimitationType extends AbstractPersistenceLimitationType implement
      *
      * Makes sure LimitationValue object and ->limitationValues is of correct type.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected type/structure
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
+     *
+     *@throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected type/structure
      */
-    public function acceptValue(APILimitationValue $limitationValue)
+    public function acceptValue(APILimitationValue $limitationValue): void
     {
         if (!$limitationValue instanceof APILocationLimitation) {
             throw new InvalidArgumentType('$limitationValue', 'APILocationLimitation', $limitationValue);
@@ -63,7 +65,7 @@ class LocationLimitationType extends AbstractPersistenceLimitationType implement
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(APILimitationValue $limitationValue)
+    public function validate(APILimitationValue $limitationValue): array
     {
         $validationErrors = [];
         foreach ($limitationValue->limitationValues as $key => $id) {
@@ -91,7 +93,7 @@ class LocationLimitationType extends AbstractPersistenceLimitationType implement
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
      */
-    public function buildValue(array $limitationValues)
+    public function buildValue(array $limitationValues): APILimitationValue
     {
         return new APILocationLimitation(['limitationValues' => $limitationValues]);
     }
@@ -99,19 +101,19 @@ class LocationLimitationType extends AbstractPersistenceLimitationType implement
     /**
      * Evaluate permission against content & target(placement/parent/assignment).
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
-     *         Example: If LimitationValue is instance of ContentTypeLimitationValue, and Type is SectionLimitationType.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
-     *         Example if OwnerLimitationValue->limitationValues[0] is not one of: [ 1,  2 ]
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
      * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
      * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object
      * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject[]|null $targets The context of the $object, like Location of Content, if null none where provided by caller
      *
-     * @return bool
+     * @return bool|null
+     *
+     *@throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
+     *         Example if OwnerLimitationValue->limitationValues[0] is not one of: [ 1,  2 ]
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
+     *         Example: If LimitationValue is instance of ContentTypeLimitationValue, and Type is SectionLimitationType.
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null)
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null): ?bool
     {
         if (!$value instanceof APILocationLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: APILocationLimitation');
@@ -208,7 +210,7 @@ class LocationLimitationType extends AbstractPersistenceLimitationType implement
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
      */
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser)
+    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser): CriterionInterface
     {
         if (empty($value->limitationValues)) {
             // A Policy should not have empty limitationValues stored
@@ -224,7 +226,7 @@ class LocationLimitationType extends AbstractPersistenceLimitationType implement
         return new Criterion\LocationId($value->limitationValues);
     }
 
-    public function valueSchema(): int
+    public function valueSchema(): array|int
     {
         return self::VALUE_SCHEMA_LOCATION_ID;
     }

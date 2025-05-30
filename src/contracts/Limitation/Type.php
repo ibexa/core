@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Limitation;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject as APIValueObject;
@@ -28,7 +30,7 @@ interface Type
      *
      * Note: In future version constant values might change to 1, 0 and -1 as used in Symfony.
      */
-    public const ACCESS_GRANTED = true;
+    public const ?bool ACCESS_GRANTED = true;
 
     /**
      * The type abstains from voting.
@@ -40,7 +42,7 @@ interface Type
      *
      * Note: In future version constant values might change to 1, 0 and -1 as used in Symfony.
      */
-    public const ACCESS_ABSTAIN = null;
+    public const ?bool ACCESS_ABSTAIN = null;
 
     /**
      * Access is denied.
@@ -49,7 +51,7 @@ interface Type
      *
      * Note: In future version constant values might change to 1, 0 and -1 as used in Symfony.
      */
-    public const ACCESS_DENIED = false;
+    public const ?bool ACCESS_DENIED = false;
 
     /**
      * Limitation's value must be an array of location IDs.
@@ -58,7 +60,7 @@ interface Type
      *
      * GUI should typically present option to browse content tree to select limitation value(s).
      */
-    public const VALUE_SCHEMA_LOCATION_ID = 1;
+    public const int VALUE_SCHEMA_LOCATION_ID = 1;
 
     /**
      * Limitation's value must be an array of location paths.
@@ -67,7 +69,7 @@ interface Type
      *
      * GUI should typically present option to browse content tree to select limitation value(s).
      */
-    public const VALUE_SCHEMA_LOCATION_PATH = 2;
+    public const int VALUE_SCHEMA_LOCATION_PATH = 2;
 
     /**
      * Accepts a Limitation value and checks for structural validity.
@@ -78,7 +80,7 @@ interface Type
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
      */
-    public function acceptValue(APILimitationValue $limitationValue);
+    public function acceptValue(APILimitationValue $limitationValue): void;
 
     /**
      * Makes sure LimitationValue->limitationValues is valid according to valueSchema().
@@ -89,7 +91,7 @@ interface Type
      *
      * @return array<int, \Ibexa\Contracts\Core\FieldType\ValidationError>
      */
-    public function validate(APILimitationValue $limitationValue);
+    public function validate(APILimitationValue $limitationValue): array;
 
     /**
      * Create the Limitation Value.
@@ -101,16 +103,10 @@ interface Type
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
      */
-    public function buildValue(array $limitationValues);
+    public function buildValue(array $limitationValues): APILimitationValue;
 
     /**
      * Evaluate ("Vote") against a main value object and targets for the context.
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
-     *         Example: If LimitationValue is instance of ContentTypeLimitationValue, and Type is SectionLimitationType.
-     *         However if $object or $targets is unsupported by ROLE limitation, ACCESS_ABSTAIN should be returned!
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
-     *         Example if OwnerLimitationValue->limitationValues[0] is not one of: [ 1,  2 ]
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
      * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
@@ -120,7 +116,7 @@ interface Type
      *
      * @return bool|null Returns one of ACCESS_* constants, {@see Type::ACCESS_GRANTED}, {@see Type::ACCESS_ABSTAIN}, or {@see Type::ACCESS_DENIED}.
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, APIValueObject $object, array $targets = null);
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, APIValueObject $object, array $targets = null): ?bool;
 
     /**
      * Returns Criterion for use in find() query.
@@ -131,16 +127,16 @@ interface Type
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
      * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface|\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOperator
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
      */
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser);
+    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser): CriterionInterface;
 
     /**
      * Returns info on valid $limitationValues.
      *
-     * @return mixed[]|int In case of array, a hash with key as valid limitations value and value as human readable name
+     * @return int|mixed[] In case of array, a hash with key as valid limitations value and value as human readable name
      *                     of that option, in case of int on of VALUE_SCHEMA_* constants.
      *                     Note: The hash might be an instance of Traversable, and not a native php array.
      */
-    public function valueSchema();
+    public function valueSchema(): array|int;
 }
