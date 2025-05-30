@@ -22,9 +22,9 @@ use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\UrlRedecoratorInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
-use Ibexa\Tests\Integration\Core\BaseCoreFieldTypeIntegrationTest;
+use Ibexa\Tests\Integration\Core\BaseCoreFieldTypeIntegrationTestCase;
 
-final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
+final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
 {
     /** @var \Ibexa\Core\FieldType\Image\ImageStorage\Gateway */
     private $gateway;
