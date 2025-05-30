@@ -44,12 +44,8 @@ class ParameterProviderTest extends TestCase
         $this->parameterProvider = new ParameterProvider($this->userService);
     }
 
-    /**
-     * @requires PHP < 8.1
-     */
     public function testGetViewParameters(): void
     {
-        $passwordExpiresIn = 14;
         $passwordExpiresAt = (new DateTimeImmutable())->add(new DateInterval('P14D'));
 
         $this->userService
@@ -63,7 +59,9 @@ class ParameterProviderTest extends TestCase
 
         self::assertFalse($parameters['is_password_expired']);
         self::assertEquals($passwordExpiresAt, $parameters['password_expires_at']);
-        self::assertEquals($passwordExpiresIn, $parameters['password_expires_in']->days);
+        // since PHP 8.1 computing date time includes microseconds, so the difference is not deterministic
+        self::assertGreaterThanOrEqual(13, $parameters['password_expires_in']->days);
+        self::assertLessThanOrEqual(14, $parameters['password_expires_in']->days);
     }
 
     public function testGetViewParametersWhenPasswordExpirationDateIsNull(): void
