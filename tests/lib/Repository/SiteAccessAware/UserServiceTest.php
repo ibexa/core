@@ -22,7 +22,7 @@ use Ibexa\Core\Repository\Values\User\UserCreateStruct;
 use Ibexa\Core\Repository\Values\User\UserGroup;
 use Ibexa\Core\Repository\Values\User\UserGroupCreateStruct;
 
-class UserServiceTest extends AbstractServiceTest
+class UserServiceTest extends AbstractServiceTestCase
 {
     public function getAPIServiceClassName(): string
     {

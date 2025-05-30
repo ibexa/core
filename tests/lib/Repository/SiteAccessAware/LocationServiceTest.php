@@ -18,7 +18,7 @@ use Ibexa\Core\Repository\SiteAccessAware\LocationService;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 
-class LocationServiceTest extends AbstractServiceTest
+class LocationServiceTest extends AbstractServiceTestCase
 {
     public function getAPIServiceClassName(): string
     {
