@@ -41,7 +41,7 @@ final class Version extends ValueObject implements Target
     /**
      * Language code of a translation used when updated, can be null for e.g. multiple translations changed.
      */
-    protected ?string $forUpdateInitialLanguageCode;
+    protected ?string $forUpdateInitialLanguageCode = null;
 
     /**
      * List of language codes of translations to update. All must match Limitation values.
@@ -66,7 +66,7 @@ final class Version extends ValueObject implements Target
      *
      * @var int|null
      */
-    protected ?int $newStatus;
+    protected ?int $newStatus = null;
 
     /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Field[] */
     protected array $updatedFields = [];
