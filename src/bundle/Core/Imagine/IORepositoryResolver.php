@@ -24,32 +24,19 @@ use Symfony\Component\Routing\RequestContext;
  */
 class IORepositoryResolver extends PathResolver implements ResolverInterface
 {
-    public const VARIATION_ORIGINAL = 'original';
-
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
-    private $ioService;
-
-    /** @var \Liip\ImagineBundle\Imagine\Filter\FilterConfiguration */
-    private $filterConfiguration;
-
-    /** @var \Ibexa\Contracts\Core\Variation\VariationPurger */
-    private $variationPurger;
+    public const string VARIATION_ORIGINAL = 'original';
 
     public function __construct(
-        IOServiceInterface $ioService,
+        private readonly IOServiceInterface $ioService,
         RequestContext $requestContext,
-        FilterConfiguration $filterConfiguration,
-        VariationPurger $variationPurger,
+        private readonly FilterConfiguration $filterConfiguration,
+        private readonly VariationPurger $variationPurger,
         VariationPathGenerator $variationPathGenerator
     ) {
         parent::__construct($requestContext, $variationPathGenerator);
-
-        $this->ioService = $ioService;
-        $this->filterConfiguration = $filterConfiguration;
-        $this->variationPurger = $variationPurger;
     }
 
-    public function isStored($path, $filter)
+    public function isStored($path, $filter): bool
     {
         return $this->ioService->exists($this->getFilePath($path, $filter));
     }
@@ -85,10 +72,8 @@ class IORepositoryResolver extends PathResolver implements ResolverInterface
     /**
      * Stores image alias in the IO Repository.
      * A temporary file is created to dump the filtered image and is used as basis for creation in the IO Repository.
-     *
-     * {@inheritdoc}
      */
-    public function store(BinaryInterface $binary, $path, $filter)
+    public function store(BinaryInterface $binary, $path, $filter): void
     {
         $tmpFile = tmpfile();
         fwrite($tmpFile, $binary->getContent());
@@ -105,7 +90,7 @@ class IORepositoryResolver extends PathResolver implements ResolverInterface
      * @param string[] $paths The paths where the original files are expected to be.
      * @param string[] $filters The imagine filters in effect.
      */
-    public function remove(array $paths, array $filters)
+    public function remove(array $paths, array $filters): void
     {
         if (empty($filters)) {
             $filters = array_keys($this->filterConfiguration->all());
