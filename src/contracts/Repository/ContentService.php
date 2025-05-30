@@ -223,7 +223,7 @@ interface ContentService
      *
      * @return array<int, int> Affected Location IDs (List of Location IDs of the Content that was deleted).
      */
-    public function deleteContent(ContentInfo $contentInfo): iterable;
+    public function deleteContent(ContentInfo $contentInfo): array;
 
     /**
      * Creates a draft from a published or archived version.

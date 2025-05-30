@@ -129,7 +129,7 @@ abstract class ContentServiceDecorator implements ContentService
         return $this->innerService->updateContentMetadata($contentInfo, $contentMetadataUpdateStruct);
     }
 
-    public function deleteContent(ContentInfo $contentInfo): iterable
+    public function deleteContent(ContentInfo $contentInfo): array
     {
         return $this->innerService->deleteContent($contentInfo);
     }
