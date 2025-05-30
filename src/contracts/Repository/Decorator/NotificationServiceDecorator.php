@@ -15,8 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\NotificationList;
 
 abstract class NotificationServiceDecorator implements NotificationService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\NotificationService */
-    protected $innerService;
+    protected NotificationService $innerService;
 
     public function __construct(NotificationService $innerService)
     {
