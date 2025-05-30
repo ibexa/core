@@ -19,8 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 
 abstract class LocationServiceDecorator implements LocationService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
-    protected $innerService;
+    protected LocationService $innerService;
 
     public function __construct(LocationService $innerService)
     {
