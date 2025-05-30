@@ -113,7 +113,7 @@ class BinaryBaseStorage extends GatewayBasedStorage
         return null;
     }
 
-    public function copyLegacyField(VersionInfo $versionInfo, Field $field, Field $originalField)
+    public function copyLegacyField(VersionInfo $versionInfo, Field $field, Field $originalField): ?bool
     {
         if ($originalField->value->externalData === null) {
             return false;
