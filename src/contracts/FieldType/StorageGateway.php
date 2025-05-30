@@ -14,13 +14,8 @@ abstract class StorageGateway implements StorageGatewayInterface
 {
     /**
      * Get sequence name bound to database table and column.
-     *
-     * @param string $table
-     * @param string $column
-     *
-     * @return string
      */
-    protected function getSequenceName($table, $column)
+    protected function getSequenceName(string $table, string $column): string
     {
         return sprintf('%s_%s_seq', $table, $column);
     }
