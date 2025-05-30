@@ -75,7 +75,7 @@ class ContentFieldValidationException extends APIContentFieldValidationException
      *
      * @return array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError|\Ibexa\Contracts\Core\FieldType\ValidationError[]>>
      */
-    public function getFieldErrors()
+    public function getFieldErrors(): array
     {
         return $this->errors;
     }
