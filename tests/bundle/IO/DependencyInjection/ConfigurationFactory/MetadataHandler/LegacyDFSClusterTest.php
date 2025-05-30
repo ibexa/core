@@ -8,11 +8,11 @@
 namespace Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactory\MetadataHandler;
 
 use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory\MetadataHandler\LegacyDFSCluster;
-use Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactoryTest;
+use Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactoryTestCase;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class LegacyDFSClusterTest extends ConfigurationFactoryTest
+final class LegacyDFSClusterTest extends ConfigurationFactoryTestCase
 {
     /**
      * Returns an instance of the tested factory.
