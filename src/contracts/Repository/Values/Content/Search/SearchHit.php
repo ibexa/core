@@ -26,31 +26,21 @@ class SearchHit extends ValueObject
 
     /**
      * The score of this value;.
-     *
-     * @var float
      */
-    public $score;
+    public ?float $score = null;
 
     /**
      * The index identifier where this value was found.
-     *
-     * @var string
      */
-    public $index;
+    public ?string $index = null;
 
     /**
      * Language code of the Content translation that matched the query.
-     *
-     * @since 5.4.5
-     *
-     * @var string
      */
-    public $matchedTranslation;
+    public string $matchedTranslation;
 
     /**
      * A representation of the search hit including highlighted terms.
-     *
-     * @var string
      */
-    public $highlight;
+    public ?string $highlight = null;
 }
