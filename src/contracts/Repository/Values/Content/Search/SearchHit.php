@@ -37,7 +37,7 @@ class SearchHit extends ValueObject
     /**
      * Language code of the Content translation that matched the query.
      */
-    public string $matchedTranslation;
+    public ?string $matchedTranslation;
 
     /**
      * A representation of the search hit including highlighted terms.
