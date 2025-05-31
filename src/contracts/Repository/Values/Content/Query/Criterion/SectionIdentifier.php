@@ -17,7 +17,7 @@ class SectionIdentifier extends Criterion implements FilteringCriterion
     /**
      * @param string|string[] $value
      */
-    public function __construct($value)
+    public function __construct(string|array $value)
     {
         parent::__construct(null, null, $value);
     }
@@ -30,11 +30,13 @@ class SectionIdentifier extends Criterion implements FilteringCriterion
         return [
             new Specifications(
                 Operator::IN,
-                Specifications::FORMAT_ARRAY
+                Specifications::FORMAT_ARRAY,
+                Specifications::TYPE_STRING
             ),
             new Specifications(
                 Operator::EQ,
-                Specifications::FORMAT_SINGLE
+                Specifications::FORMAT_SINGLE,
+                Specifications::TYPE_STRING
             ),
         ];
     }
