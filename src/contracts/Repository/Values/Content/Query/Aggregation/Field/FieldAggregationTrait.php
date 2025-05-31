@@ -10,11 +10,9 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Field
 
 trait FieldAggregationTrait
 {
-    /** @var string */
-    public $contentTypeIdentifier;
+    public string $contentTypeIdentifier;
 
-    /** @var string */
-    public $fieldDefinitionIdentifier;
+    public string $fieldDefinitionIdentifier;
 
     public function getContentTypeIdentifier(): string
     {
