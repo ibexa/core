@@ -12,8 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Target;
 
 final class CustomFieldTarget extends Target
 {
-    /** @var string */
-    public $fieldName;
+    public string $fieldName;
 
     public function __construct(string $fieldName)
     {
