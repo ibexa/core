@@ -31,7 +31,7 @@ final class VariationHandlerResolver implements VariationHandler
     public function getVariation(
         Field $field,
         VersionInfo $versionInfo,
-        $variationName,
+        string $variationName,
         array $parameters = []
     ): Variation {
         $variationHandlerIdentifier = $this->configResolver->getParameter('variation_handler_identifier');

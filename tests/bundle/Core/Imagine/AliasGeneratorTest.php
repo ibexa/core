@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Bundle\Core\Imagine;
 
+use DateTime;
 use Ibexa\Bundle\Core\Imagine\AliasGenerator;
 use Ibexa\Bundle\Core\Imagine\Variation\ImagineAwareAliasGenerator;
 use Ibexa\Contracts\Core\FieldType\Value as FieldTypeValue;
@@ -428,7 +429,7 @@ class AliasGeneratorTest extends TestCase
             [
                 'id' => 'foo/bar/image.jpg',
                 'uri' => "_aliases/{$variationName}/foo/bar/image.jpg",
-                'mtime' => null,
+                'mtime' => new DateTime('2020-01-01 00:00:00'),
                 'size' => 123,
             ]
         );
@@ -457,11 +458,17 @@ class AliasGeneratorTest extends TestCase
             ->with($binaryFile)
             ->willReturn('file contents mock');
 
+        $this->ioService
+            ->method('getMimeType')
+            ->with($binaryFile->id)
+            ->willReturn('image/jpeg');
+
         $this->imagine
             ->expects(self::once())
             ->method('load')
             ->with('file contents mock')
             ->willReturn($this->image);
+
         $this->image
             ->expects(self::once())
             ->method('getSize')
@@ -486,6 +493,8 @@ class AliasGeneratorTest extends TestCase
                 'imageId' => $imageId,
                 'height' => $imageHeight,
                 'width' => $imageWidth,
+                'mimeType' => 'image/jpeg',
+                'lastModified' => new DateTime('2020-01-01 00:00:00'),
             ]
         );
         self::assertEquals(
