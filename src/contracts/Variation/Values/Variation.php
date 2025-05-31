@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Variation\Values;
 
@@ -23,43 +24,31 @@ class Variation extends ValueObject
 {
     /**
      * Number of bytes for current variation.
-     *
-     * @var int
      */
-    protected $fileSize;
+    protected int $fileSize;
 
     /**
      * The MIME type (for example "image/png").
-     *
-     * @var string
      */
-    protected $mimeType;
+    protected string $mimeType;
 
     /**
      * The name of the file (for example "my_image.png").
-     *
-     * @var string
      */
-    protected $fileName;
+    protected string $fileName;
 
     /**
      * The path to the file (for example "var/storage/images/test/199-2-eng-GB").
-     *
-     * @var string
      */
-    protected $dirPath;
+    protected string $dirPath;
 
     /**
      * Complete path + name of image file (for example "var/storage/images/test/199-2-eng-GB/apple.png").
-     *
-     * @var string
      */
-    protected $uri;
+    protected string $uri;
 
     /**
      * When the variation was last modified.
-     *
-     * @var \DateTime
      */
-    protected $lastModified;
+    protected \DateTime $lastModified;
 }
