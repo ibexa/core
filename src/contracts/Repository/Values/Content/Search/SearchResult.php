@@ -41,7 +41,7 @@ class SearchResult extends ValueObject implements IteratorAggregate, Aggregation
     /**
      * Indicates if the search has timed out.
      */
-    public bool $timedOut;
+    public ?bool $timedOut;
 
     /**
      * The maximum score of this query.
