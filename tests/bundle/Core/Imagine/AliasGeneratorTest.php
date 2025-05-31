@@ -137,7 +137,10 @@ class AliasGeneratorTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $field = new Field(['value' => $this->createMock(FieldTypeValue::class)]);
+        $field = new Field([
+            'value' => $this->createMock(FieldTypeValue::class),
+            'fieldDefIdentifier' => 'image_field',
+        ]);
         $this->aliasGenerator->getVariation($field, new VersionInfo(), 'foo');
     }
 
@@ -208,7 +211,10 @@ class AliasGeneratorTest extends TestCase
                 'height' => $imageHeight,
             ]
         );
-        $field = new Field(['value' => $imageValue]);
+        $field = new Field([
+            'value' => $imageValue,
+            'fieldDefIdentifier' => 'image_field',
+        ]);
         $expectedUrl = 'http://localhost/foo/bar/image.jpg';
 
         $this->ioResolver
@@ -365,7 +371,10 @@ class AliasGeneratorTest extends TestCase
             ->method('find')
             ->will(self::throwException(new NotLoadableException()));
 
-        $field = new Field(['value' => new ImageValue()]);
+        $field = new Field([
+            'value' => new ImageValue(),
+            'fieldDefIdentifier' => 'image_field',
+        ]);
         $this->aliasGenerator->getVariation($field, new VersionInfo(), 'foo');
     }
 
@@ -377,7 +386,7 @@ class AliasGeneratorTest extends TestCase
         $variationName = 'my_variation';
         $imageId = '123-45';
         $imageValue = new ImageValue(['id' => $originalPath, 'imageId' => $imageId]);
-        $field = new Field(['value' => $imageValue]);
+        $field = new Field(['value' => $imageValue, 'fieldDefIdentifier' => 'image_field']);
 
         $this->ioResolver
             ->expects(self::once())
@@ -423,7 +432,10 @@ class AliasGeneratorTest extends TestCase
         int $imageHeight
     ): void {
         $imageValue = new ImageValue(['id' => $originalPath, 'imageId' => $imageId]);
-        $field = new Field(['value' => $imageValue]);
+        $field = new Field([
+            'value' => $imageValue,
+            'fieldDefIdentifier' => 'image_field',
+        ]);
 
         $binaryFile = new BinaryFile(
             [

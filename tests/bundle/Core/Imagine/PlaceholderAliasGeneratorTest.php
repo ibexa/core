@@ -70,6 +70,7 @@ class PlaceholderAliasGeneratorTest extends TestCase
 
         $field = new Field([
             'value' => $this->createMock(FieldTypeValue::class),
+            'fieldDefIdentifier' => 'image',
         ]);
 
         $this->aliasGenerator->setPlaceholderProvider(
