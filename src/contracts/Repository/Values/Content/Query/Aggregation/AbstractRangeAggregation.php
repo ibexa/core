@@ -14,20 +14,24 @@ abstract class AbstractRangeAggregation implements Aggregation
 {
     /**
      * The name of the aggregation.
-     *
-     * @var string
      */
-    protected $name;
+    protected string $name;
 
     /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range[] */
-    protected $ranges;
+    protected array $ranges;
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range[] $ranges
+     */
     public function __construct(string $name, array $ranges = [])
     {
         $this->name = $name;
         $this->ranges = $ranges;
     }
 
+    /**
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range[]
+     */
     public function getRanges(): array
     {
         return $this->ranges;

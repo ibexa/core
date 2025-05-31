@@ -13,24 +13,22 @@ final class UserMetadataTermAggregation extends AbstractTermAggregation
     /**
      * Owner user.
      */
-    public const OWNER = 'owner';
+    public const string OWNER = 'owner';
 
     /**
      * Owner user group.
      */
-    public const GROUP = 'group';
+    public const string GROUP = 'group';
 
     /**
      * Modifier.
      */
-    public const MODIFIER = 'modifier';
+    public const string MODIFIER = 'modifier';
 
     /**
      * The type of the user facet.
-     *
-     * @var string
      */
-    private $type;
+    private string $type;
 
     public function __construct(
         string $name,

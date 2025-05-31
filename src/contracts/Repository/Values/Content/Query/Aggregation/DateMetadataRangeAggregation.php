@@ -13,13 +13,15 @@ use Traversable;
 
 final class DateMetadataRangeAggregation extends AbstractRangeAggregation
 {
-    public const MODIFIED = 'modified';
-    public const CREATED = 'created';
-    public const PUBLISHED = 'published';
+    public const string MODIFIED = 'modified';
+    public const string CREATED = 'created';
+    public const string PUBLISHED = 'published';
 
-    /** @var string */
-    private $type;
+    private string $type;
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range[] $ranges
+     */
     public function __construct(string $name, string $type, array $ranges = [])
     {
         parent::__construct($name, $ranges);
