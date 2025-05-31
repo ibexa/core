@@ -11,6 +11,7 @@ namespace Ibexa\Core\Limitation;
 use Ibexa\Contracts\Core\Limitation\Type as SPILimitationTypeInterface;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\MemberOfLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
@@ -55,7 +56,7 @@ final class MemberOfLimitationType extends AbstractPersistenceLimitationType imp
         }
     }
 
-    public function validate(APILimitationValue $limitationValue)
+    public function validate(APILimitationValue $limitationValue): array
     {
         $validationErrors = [];
 
@@ -88,7 +89,7 @@ final class MemberOfLimitationType extends AbstractPersistenceLimitationType imp
         return new MemberOfLimitation(['limitationValues' => $limitationValues]);
     }
 
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null)
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null): ?bool
     {
         if (!$value instanceof MemberOfLimitation) {
             throw new InvalidArgumentException(
@@ -124,12 +125,12 @@ final class MemberOfLimitationType extends AbstractPersistenceLimitationType imp
         return self::ACCESS_DENIED;
     }
 
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser)
+    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser): CriterionInterface
     {
         throw new NotImplementedException('Member of Limitation Criterion');
     }
 
-    public function valueSchema()
+    public function valueSchema(): array|int
     {
         throw new NotImplementedException(__METHOD__);
     }

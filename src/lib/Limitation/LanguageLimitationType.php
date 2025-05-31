@@ -333,7 +333,7 @@ class LanguageLimitationType implements SPITargetAwareLimitationType
      *
      * @see validate for business logic.
      */
-    public function valueSchema(): array
+    public function valueSchema(): array|int
     {
         return [];
     }

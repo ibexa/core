@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Limitation\Type as SPILimitationTypeInterface;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ChangeOwnerLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
@@ -63,7 +64,7 @@ final class ChangeOwnerLimitationType extends AbstractPersistenceLimitationType 
         return $validationErrors;
     }
 
-    public function buildValue(array $limitationValues): ChangeOwnerLimitation
+    public function buildValue(array $limitationValues): Limitation
     {
         return new ChangeOwnerLimitation($limitationValues);
     }
@@ -101,7 +102,7 @@ final class ChangeOwnerLimitationType extends AbstractPersistenceLimitationType 
         return self::ACCESS_DENIED;
     }
 
-    public function getCriterion(Limitation $value, APIUserReference $currentUser): Criterion\UserMetadata
+    public function getCriterion(Limitation $value, APIUserReference $currentUser): CriterionInterface
     {
         return new Criterion\UserMetadata(
             Criterion\UserMetadata::OWNER,
@@ -113,7 +114,7 @@ final class ChangeOwnerLimitationType extends AbstractPersistenceLimitationType 
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
-    public function valueSchema(): void
+    public function valueSchema(): array|int
     {
         throw new NotImplementedException(__METHOD__);
     }

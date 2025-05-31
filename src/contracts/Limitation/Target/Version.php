@@ -29,35 +29,33 @@ final class Version extends ValueObject implements Target
      *
      * @var string[]
      */
-    protected $allLanguageCodesList = [];
+    protected array $allLanguageCodesList = [];
 
     /**
      * List of content types. At least one must match Limitation values.
      *
      * @var int[]
      */
-    protected $allContentTypeIdsList = [];
+    protected array $allContentTypeIdsList = [];
 
     /**
      * Language code of a translation used when updated, can be null for e.g. multiple translations changed.
-     *
-     * @var string|null
      */
-    protected $forUpdateInitialLanguageCode;
+    protected ?string $forUpdateInitialLanguageCode = null;
 
     /**
      * List of language codes of translations to update. All must match Limitation values.
      *
      * @var string[]
      */
-    protected $forUpdateLanguageCodesList = [];
+    protected array $forUpdateLanguageCodesList = [];
 
     /**
      * List of language codes of translations to publish. All must match Limitation values.
      *
      * @var string[]
      */
-    protected $forPublishLanguageCodesList = [];
+    protected array $forPublishLanguageCodesList = [];
 
     /**
      * One of the following: STATUS_DRAFT, STATUS_PUBLISHED, STATUS_ARCHIVED.
@@ -68,10 +66,10 @@ final class Version extends ValueObject implements Target
      *
      * @var int|null
      */
-    protected $newStatus;
+    protected ?int $newStatus = null;
 
     /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Field[] */
-    protected $updatedFields = [];
+    protected array $updatedFields = [];
 
     /**
      * List of language codes of translations to delete. All must match Limitation values.
