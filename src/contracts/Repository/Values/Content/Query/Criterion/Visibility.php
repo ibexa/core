@@ -25,12 +25,12 @@ class Visibility extends Criterion implements FilteringCriterion
     /**
      * Visibility constant: visible.
      */
-    public const VISIBLE = 0;
+    public const int VISIBLE = 0;
 
     /**
      * Visibility constant: hidden.
      */
-    public const HIDDEN = 1;
+    public const int HIDDEN = 1;
 
     /**
      * Creates a new Visibility criterion.
