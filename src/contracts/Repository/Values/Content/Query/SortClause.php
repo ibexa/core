@@ -20,29 +20,22 @@ abstract class SortClause
     /**
      * Sort direction
      * One of Query::SORT_ASC or Query::SORT_DESC;.
-     *
-     * @var string
      */
-    public $direction = Query::SORT_ASC;
+    public string $direction = Query::SORT_ASC;
 
     /**
      * Sort target, high level: section_identifier, attribute_value, etc.
-     *
-     * @var string
      */
-    public $target;
+    public string $target;
 
     /**
      * Extra target data, required by some sort clauses, field for instance.
-     *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Target|null
      */
-    public $targetData;
+    public ?Target $targetData;
 
     /**
      * Constructs a new SortClause on $sortTarget in direction $sortDirection.
      *
-     * @param string $sortTarget
      * @param string $sortDirection one of Query::SORT_ASC or Query::SORT_DESC
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Target|null $targetData Extra target data, used by some clauses (field for instance)
      *
