@@ -629,14 +629,6 @@ class ContentService implements ContentServiceInterface
      */
     public function createContent(APIContentCreateStruct $contentCreateStruct, array $locationCreateStructs = [], ?array $fieldIdentifiersToValidate = null): APIContent
     {
-        if ($contentCreateStruct->mainLanguageCode === null) {
-            throw new InvalidArgumentException('$contentCreateStruct', "the 'mainLanguageCode' property must be set");
-        }
-
-        if ($contentCreateStruct->contentType === null) {
-            throw new InvalidArgumentException('$contentCreateStruct', "the 'contentType' property must be set");
-        }
-
         $contentCreateStruct = clone $contentCreateStruct;
 
         if ($contentCreateStruct->ownerId === null) {
