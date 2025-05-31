@@ -16,9 +16,8 @@ class ObjectStateIdentifier extends Criterion implements FilteringCriterion
 {
     /**
      * @param string|string[] $value
-     * @param string|null $target
      */
-    public function __construct($value, ?string $target = null)
+    public function __construct(string|array $value, ?string $target = null)
     {
         parent::__construct($target, null, $value);
     }
