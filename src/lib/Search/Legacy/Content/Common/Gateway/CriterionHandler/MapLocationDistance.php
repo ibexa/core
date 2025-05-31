@@ -41,14 +41,17 @@ class MapLocationDistance extends FieldBase
     /**
      * Returns a list of IDs of searchable FieldDefinitions for the given criterion target.
      *
-     * @param string $fieldIdentifier
-     *
-     * @return array
-     *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException If no searchable fields are found for the given $fieldIdentifier.
      */
-    protected function getFieldDefinitionIds($fieldIdentifier)
+    protected function getFieldDefinitionIds(?string $fieldIdentifier): array
     {
+        if ($fieldIdentifier === null) {
+            throw new InvalidArgumentException(
+                '$criterion->target',
+                sprintf('Criterion target must be set for %s criterion.', Criterion\MapLocationDistance::class)
+            );
+        }
+
         $fieldDefinitionIdList = [];
         $fieldMap = $this->contentTypeHandler->getSearchableFieldMap();
 

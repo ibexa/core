@@ -22,10 +22,7 @@ use IteratorAggregate;
  */
 class SearchResult extends ValueObject implements IteratorAggregate, AggregationResultAwareInterface
 {
-    /**
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResultCollection
-     */
-    public $aggregations;
+    public AggregationResultCollection $aggregations;
 
     /**
      * The value objects found for the query.
@@ -38,24 +35,18 @@ class SearchResult extends ValueObject implements IteratorAggregate, Aggregation
 
     /**
      * The duration of the search processing in ms.
-     *
-     * @var int
      */
-    public $time;
+    public int $time = 0;
 
     /**
      * Indicates if the search has timed out.
-     *
-     * @var bool
      */
-    public $timedOut;
+    public ?bool $timedOut = null;
 
     /**
      * The maximum score of this query.
-     *
-     * @var float
      */
-    public $maxScore;
+    public ?float $maxScore = null;
 
     /**
      * The total number of searchHits.

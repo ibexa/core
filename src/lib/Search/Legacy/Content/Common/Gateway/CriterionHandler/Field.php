@@ -72,16 +72,21 @@ class Field extends FieldBase
      * The returned information is returned as an array of the attribute
      * identifier and the sort column, which should be used.
      *
-     * @param string $fieldIdentifier
-     *
      * @return array
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If no searchable fields are found for the given $fieldIdentifier.
      * @throws \RuntimeException if no converter is found
      * @throws \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\Exception\NotFound
      */
-    protected function getFieldsInformation($fieldIdentifier)
+    protected function getFieldsInformation(?string $fieldIdentifier): array
     {
+        if ($fieldIdentifier === null) {
+            throw new InvalidArgumentException(
+                '$criterion->target',
+                sprintf('Criterion target must be set for %s criterion.', Criterion\Field::class)
+            );
+        }
+
         $fieldMapArray = [];
         $fieldMap = $this->contentTypeHandler->getSearchableFieldMap();
 

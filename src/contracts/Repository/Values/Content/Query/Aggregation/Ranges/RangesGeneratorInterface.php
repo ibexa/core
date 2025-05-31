@@ -8,10 +8,15 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Ranges;
 
+/**
+ * Interface for generating ranges for aggregations.
+ *
+ * @phpstan-template TValue
+ */
 interface RangesGeneratorInterface
 {
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<TValue>[]
      */
     public function generate(): iterable;
 }

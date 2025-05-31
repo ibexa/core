@@ -14,6 +14,14 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range;
 
+/**
+ * Generates ranges for date and datetime aggregations with a fixed step.
+ *
+ * This generator creates ranges based on a start date, end date, and a step interval.
+ * It supports both open and closed ranges on the left and right sides.
+ *
+ * @phpstan-implements \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Ranges\RangesGeneratorInterface<\DateTimeInterface>
+ */
 final class DateTimeStepRangesGenerator implements RangesGeneratorInterface
 {
     private DateTimeInterface $start;
@@ -92,13 +100,13 @@ final class DateTimeStepRangesGenerator implements RangesGeneratorInterface
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<\DateTimeInterface>[]
      */
     public function generate(): array
     {
         if ($this->start == $this->end && $this->isLeftOpen && $this->isRightOpen) {
             return [
-                new Range(Range::INF, Range::INF),
+                Range::ofDateTime(Range::INF, Range::INF),
             ];
         }
 

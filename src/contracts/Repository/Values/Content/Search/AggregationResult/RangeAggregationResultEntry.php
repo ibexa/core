@@ -11,14 +11,21 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResul
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
+/**
+ * @phpstan-template TValue
+ */
 final class RangeAggregationResultEntry extends ValueObject
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range */
-    private $key;
+    /**
+     * @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<TValue>
+     */
+    private Range $key;
 
-    /** @var int */
-    private $count;
+    private int $count;
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<TValue> $key
+     */
     public function __construct(Range $key, int $count)
     {
         parent::__construct();
@@ -27,6 +34,9 @@ final class RangeAggregationResultEntry extends ValueObject
         $this->count = $count;
     }
 
+    /**
+     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<TValue>
+     */
     public function getKey(): Range
     {
         return $this->key;

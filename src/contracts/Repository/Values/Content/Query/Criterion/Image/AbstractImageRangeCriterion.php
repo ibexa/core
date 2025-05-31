@@ -16,15 +16,15 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 abstract class AbstractImageRangeCriterion extends Criterion
 {
     /**
-     * @param numeric|null $minValue
-     * @param numeric|null $maxValue
+     * @phpstan-param int|float|numeric-string|null $minValue
+     * @phpstan-param int|float|numeric-string|null $maxValue
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function __construct(
         string $fieldDefIdentifier,
-        $minValue = null,
-        $maxValue = null
+        int|float|string|null $minValue = null,
+        int|float|string|null $maxValue = null
     ) {
         $this->validate($minValue, $maxValue);
         $value[] = $minValue ?? 0;
@@ -59,12 +59,12 @@ abstract class AbstractImageRangeCriterion extends Criterion
     }
 
     /**
-     * @param numeric|null $minValue
-     * @param numeric|null $maxValue
+     * @phpstan-param int|float|numeric-string|null $minValue
+     * @phpstan-param int|float|numeric-string|null $maxValue
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    protected function validate($minValue, $maxValue): void
+    protected function validate(int|float|string|null $minValue, int|float|string|null $maxValue): void
     {
         if (
             null === $minValue
@@ -105,7 +105,7 @@ abstract class AbstractImageRangeCriterion extends Criterion
     }
 
     /**
-     * @param array{0: numeric, 1?: numeric|null} $value
+     * @phpstan-param array{0: int|float|numeric-string|null, 1?: int|float|numeric-string|null} $value
      */
     private function getOperator(array $value): string
     {

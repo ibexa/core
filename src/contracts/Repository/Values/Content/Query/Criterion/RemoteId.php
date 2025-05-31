@@ -22,14 +22,14 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 class RemoteId extends Criterion implements FilteringCriterion
 {
     /**
-     * Creates a new remoteId criterion.
+     * Creates a new remote id criterion.
      *
-     * @param string|string[] $value One or more remoteId that must be matched
+     * @param string|string[] $value One or more remote id that must be matched
      *
-     * @throws \InvalidArgumentException if a non numeric id is given
+     * @throws \InvalidArgumentException if a non string id is given
      * @throws \InvalidArgumentException if the value type doesn't match the operator
      */
-    public function __construct($value)
+    public function __construct(string|array $value)
     {
         parent::__construct(null, null, $value);
     }

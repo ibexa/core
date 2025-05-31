@@ -13,19 +13,15 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult;
 final class StatsAggregationResult extends AggregationResult
 {
     /** @var float|null */
-    public $sum;
+    public ?float $sum;
 
-    /** @var int|null */
-    private $count;
+    private ?int $count;
 
-    /** @var float|null */
-    private $min;
+    private ?float $min;
 
-    /** @var float|null */
-    private $max;
+    private ?float $max;
 
-    /** @var float|null */
-    private $avg;
+    private ?float $avg;
 
     public function __construct(string $name, ?int $count, ?float $min, ?float $max, ?float $avg, ?float $sum)
     {

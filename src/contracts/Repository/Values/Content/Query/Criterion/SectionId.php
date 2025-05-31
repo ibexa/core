@@ -27,10 +27,10 @@ class SectionId extends Criterion implements TrashCriterion, FilteringCriterion
      *
      * @param int|int[] $value One or more sectionId that must be matched
      *
-     * @throws \InvalidArgumentException if a non numeric id is given
+     * @throws \InvalidArgumentException if a non-numeric id is given
      * @throws \InvalidArgumentException if the value type doesn't match the operator
      */
-    public function __construct($value)
+    public function __construct(int|array $value)
     {
         parent::__construct(null, null, $value);
     }
@@ -41,12 +41,12 @@ class SectionId extends Criterion implements TrashCriterion, FilteringCriterion
             new Specifications(
                 Operator::IN,
                 Specifications::FORMAT_ARRAY,
-                Specifications::TYPE_INTEGER | Specifications::TYPE_STRING
+                Specifications::TYPE_INTEGER
             ),
             new Specifications(
                 Operator::EQ,
                 Specifications::FORMAT_SINGLE,
-                Specifications::TYPE_INTEGER | Specifications::TYPE_STRING
+                Specifications::TYPE_INTEGER
             ),
         ];
     }

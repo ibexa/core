@@ -55,6 +55,9 @@ final class TermAggregationDataSetBuilder
         ];
     }
 
+    /**
+     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResult<object|scalar>
+     */
     private function buildExpectedTermAggregationResult(): TermAggregationResult
     {
         $entries = [];

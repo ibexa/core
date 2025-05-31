@@ -16,9 +16,8 @@ class UserEmail extends Criterion implements FilteringCriterion
 {
     /**
      * @param string|string[] $value
-     * @param string|null $operator
      */
-    public function __construct($value, ?string $operator = null)
+    public function __construct(string|array $value, ?string $operator = null)
     {
         parent::__construct(null, $operator, $value);
     }

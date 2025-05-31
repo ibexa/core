@@ -17,38 +17,24 @@ class MapLocationTarget extends Target
 {
     /**
      * Latitude of a geographical location.
-     *
-     * @var float
      */
-    public $latitude;
+    public float $latitude;
 
     /**
      * Longitude of a geographical location.
-     *
-     * @var float
      */
-    public $longitude;
+    public float $longitude;
 
     /**
      * Identifier of a targeted Field ContentType.
-     *
-     * @var string
      */
-    public $typeIdentifier;
+    public string $typeIdentifier;
 
     /**
      * Identifier of a targeted Field FieldDefinition.
-     *
-     * @var string
      */
-    public $fieldIdentifier;
+    public string $fieldIdentifier;
 
-    /**
-     * @param float $latitude
-     * @param float $longitude
-     * @param string $typeIdentifier
-     * @param string $fieldIdentifier
-     */
     public function __construct(
         float $latitude,
         float $longitude,

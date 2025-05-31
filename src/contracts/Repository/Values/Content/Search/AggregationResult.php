@@ -14,10 +14,8 @@ abstract class AggregationResult extends ValueObject
 {
     /**
      * The name of the aggregation.
-     *
-     * @var string
      */
-    private $name;
+    private string $name;
 
     public function __construct(string $name)
     {

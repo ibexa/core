@@ -11,7 +11,6 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
-use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 
 /**
  * A criterion that matches content based on its language code and always-available state.
@@ -24,10 +23,8 @@ class LanguageCode extends Criterion implements FilteringCriterion
 {
     /**
      * Switch for matching Content that is always-available.
-     *
-     * @var bool
      */
-    public $matchAlwaysAvailable;
+    public bool $matchAlwaysAvailable;
 
     /**
      * Creates a new LanguageCode criterion.
@@ -39,14 +36,11 @@ class LanguageCode extends Criterion implements FilteringCriterion
      * @throws \InvalidArgumentException if non string value is given
      * @throws \InvalidArgumentException if the value type doesn't match the operator
      */
-    public function __construct($value, bool $matchAlwaysAvailable = true)
+    public function __construct(string|array $value, bool $matchAlwaysAvailable = true)
     {
-        if (!is_bool($matchAlwaysAvailable)) {
-            throw new InvalidArgumentType('matchAlwaysAvailable', 'boolean', $matchAlwaysAvailable);
-        }
+        parent::__construct(null, null, $value);
 
         $this->matchAlwaysAvailable = $matchAlwaysAvailable;
-        parent::__construct(null, null, $value);
     }
 
     public function getSpecifications(): array
