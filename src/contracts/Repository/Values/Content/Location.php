@@ -33,24 +33,24 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 abstract class Location extends ValueObject
 {
     // @todo Rename these to better fit current naming, also reuse these in Persistence or copy the change over.
-    public const SORT_FIELD_PATH = 1;
-    public const SORT_FIELD_PUBLISHED = 2;
-    public const SORT_FIELD_MODIFIED = 3;
-    public const SORT_FIELD_SECTION = 4;
-    public const SORT_FIELD_DEPTH = 5;
-    public const SORT_FIELD_CLASS_IDENTIFIER = 6;
-    public const SORT_FIELD_CLASS_NAME = 7;
-    public const SORT_FIELD_PRIORITY = 8;
-    public const SORT_FIELD_NAME = 9;
+    public const int SORT_FIELD_PATH = 1;
+    public const int SORT_FIELD_PUBLISHED = 2;
+    public const int SORT_FIELD_MODIFIED = 3;
+    public const int SORT_FIELD_SECTION = 4;
+    public const int SORT_FIELD_DEPTH = 5;
+    public const int SORT_FIELD_CLASS_IDENTIFIER = 6;
+    public const int SORT_FIELD_CLASS_NAME = 7;
+    public const int SORT_FIELD_PRIORITY = 8;
+    public const int SORT_FIELD_NAME = 9;
 
-    public const SORT_FIELD_NODE_ID = 11;
-    public const SORT_FIELD_CONTENTOBJECT_ID = 12;
+    public const int SORT_FIELD_NODE_ID = 11;
+    public const int SORT_FIELD_CONTENTOBJECT_ID = 12;
 
-    public const SORT_ORDER_DESC = 0;
-    public const SORT_ORDER_ASC = 1;
+    public const int SORT_ORDER_DESC = 0;
+    public const int SORT_ORDER_ASC = 1;
 
-    public const STATUS_DRAFT = 0;
-    public const STATUS_PUBLISHED = 1;
+    public const int STATUS_DRAFT = 0;
+    public const int STATUS_PUBLISHED = 1;
 
     /**
      * Map for Location sort fields to their respective SortClauses.
@@ -58,7 +58,7 @@ abstract class Location extends ValueObject
      * Those not here (class name/identifier and modified subnode) are
      * missing/deprecated and will most likely be removed in the future.
      */
-    public const SORT_FIELD_MAP = [
+    public const array SORT_FIELD_MAP = [
         self::SORT_FIELD_PATH => SortClause\Location\Path::class,
         self::SORT_FIELD_PUBLISHED => SortClause\DatePublished::class,
         self::SORT_FIELD_MODIFIED => SortClause\DateModified::class,
@@ -73,80 +73,61 @@ abstract class Location extends ValueObject
     /**
      * Map for Location sort order to their respective Query SORT constants.
      */
-    public const SORT_ORDER_MAP = [
+    public const array SORT_ORDER_MAP = [
         self::SORT_ORDER_DESC => Query::SORT_DESC,
         self::SORT_ORDER_ASC => Query::SORT_ASC,
     ];
 
-    /**
-     * @var int
-     */
-    protected $id;
+    protected int $id;
 
     /**
      * The status of the location.
      *
      * A location gets the status {@see Location::STATUS_DRAFT} on newly created content which is not published.
      * When content is published the location gets the status {@see Location::STATUS_PUBLISHED}.
-     *
-     * @var int
      */
-    public $status = self::STATUS_PUBLISHED;
+    public int $status = self::STATUS_PUBLISHED;
 
     /**
      * Location priority.
      *
      * Position of the Location among its siblings when sorted using priority
      * sort order.
-     *
-     * @var int
      */
-    protected $priority;
+    protected int $priority;
 
     /**
      * Indicates that the Location entity is hidden (explicitly or hidden by content).
-     *
-     * @var bool
      */
-    protected $hidden;
+    protected bool $hidden;
 
     /**
      * Indicates that the Location is not visible, being either marked as hidden itself,
      * or implicitly hidden by its Content or an ancestor Location.
-     *
-     * @var bool
      */
-    protected $invisible;
+    protected bool $invisible;
 
     /**
      * Indicates that the Location entity has been explicitly marked as hidden.
-     *
-     * @var bool
      */
-    protected $explicitlyHidden;
+    protected bool $explicitlyHidden;
 
     /**
      * Remote ID.
      *
      * A universally unique identifier.
-     *
-     * @var string
      */
-    protected $remoteId;
+    protected string $remoteId;
 
     /**
      * Parent ID.
-     *
-     * @var int Location ID.
      */
-    protected $parentLocationId;
+    protected int $parentLocationId;
 
     /**
      * The materialized path of the location entry, eg: /1/2/4/23/.
-     *
-     * @var string
      */
-    protected $pathString;
+    protected string $pathString;
 
     /**
      * The list of ancestor locations' IDs, ordered by increasing depth,
@@ -160,31 +141,24 @@ abstract class Location extends ValueObject
 
     /**
      * Depth location has in the location tree.
-     *
-     * @var int
      */
-    protected $depth;
+    protected int $depth;
 
     /**
      * Specifies which property the child locations should be sorted on.
      *
      * Valid values are found at {@link Location::SORT_FIELD_*}
-     *
-     * @var int
      */
-    protected $sortField;
+    protected int $sortField;
 
     /**
      * Specifies whether the sort order should be ascending or descending.
      *
      * Valid values are {@link Location::SORT_ORDER_*}
-     *
-     * @var int
      */
-    protected $sortOrder;
+    protected int $sortOrder;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-    protected $content;
+    protected Content $content;
 
     /**
      * Returns the content info of the content object of this location.
