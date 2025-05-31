@@ -85,7 +85,7 @@ class RelationListConverter implements Converter
         $priorityByContentId = [];
 
         $dom = new DOMDocument('1.0', 'utf-8');
-        if ($dom->loadXML($value->dataText) === true) {
+        if ($value->dataText != "" && $dom->loadXML($value->dataText) === true) {
             foreach ($dom->getElementsByTagName('relation-item') as $relationItem) {
                 /* @var \DOMElement $relationItem */
                 $priorityByContentId[$relationItem->getAttribute('contentobject-id')] =
