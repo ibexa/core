@@ -22,9 +22,9 @@ class Field extends Criterion implements CustomFieldInterface
     /**
      * Custom field definitions to query instead of default field.
      *
-     * @var array
+     * @var array<string, array<string, string>>
      */
-    protected $customFields = [];
+    protected array $customFields = [];
 
     public function getSpecifications(): array
     {
