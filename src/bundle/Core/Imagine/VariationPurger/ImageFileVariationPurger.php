@@ -39,12 +39,7 @@ class ImageFileVariationPurger implements VariationPurger
         $this->variationPathGenerator = $variationPathGenerator;
     }
 
-    /**
-     * Purge all variations generated for aliases in $aliasName.
-     *
-     * @param array $aliasNames
-     */
-    public function purge(array $aliasNames)
+    public function purge(array $aliasNames): void
     {
         foreach ($this->imageFileList as $originalImageId) {
             foreach ($aliasNames as $aliasName) {
