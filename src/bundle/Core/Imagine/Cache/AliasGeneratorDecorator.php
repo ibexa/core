@@ -9,6 +9,7 @@ namespace Ibexa\Bundle\Core\Imagine\Cache;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Contracts\Core\Variation\Values\Variation;
 use Ibexa\Contracts\Core\Variation\VariationHandler;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
@@ -72,7 +73,7 @@ class AliasGeneratorDecorator implements VariationHandler, SiteAccessAware
      *
      * @throws \Psr\Cache\InvalidArgumentException
      */
-    public function getVariation(Field $field, VersionInfo $versionInfo, $variationName, array $parameters = [])
+    public function getVariation(Field $field, VersionInfo $versionInfo, string $variationName, array $parameters = []): Variation
     {
         $item = $this->cache->getItem($this->getCacheKey($field, $versionInfo, $variationName));
         $image = $item->get();
