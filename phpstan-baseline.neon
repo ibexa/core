@@ -11851,18 +11851,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Templating/RenderLocationStrategy.php
 
 		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Templating\\RenderOptions\:\:__construct\(\) has parameter \$options with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/Templating/RenderOptions.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\Templating\\RenderOptions\:\:\$options type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/Templating/RenderOptions.php
-
-		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Templating\\RenderStrategy\:\:__construct\(\) has parameter \$strategies with no value type specified in iterable type iterable\.$#'
 			identifier: missingType.iterableValue
 			count: 1
