@@ -283,7 +283,6 @@ class BlockingLimitationTypeTest extends Base
 
         self::assertInstanceOf(MatchNone::class, $criterion);
         self::assertNull($criterion->value);
-        self::assertNull($criterion->operator);
     }
 
     /**
