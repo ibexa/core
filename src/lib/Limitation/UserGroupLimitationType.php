@@ -144,6 +144,10 @@ class UserGroupLimitationType extends AbstractPersistenceLimitationType implemen
             return true;
         }
 
+        if ($object->ownerId === null) {
+            return false;
+        }
+
         /*
          * As long as SPI userHandler and API UserService does not speak the same language, this is the ugly truth;
          */
