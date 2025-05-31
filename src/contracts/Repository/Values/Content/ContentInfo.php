@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content;
 
+use DateTimeInterface;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
@@ -33,153 +34,110 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  */
 class ContentInfo extends ValueObject
 {
-    public const STATUS_DRAFT = 0;
-    public const STATUS_PUBLISHED = 1;
-    public const STATUS_TRASHED = 2;
+    public const int STATUS_DRAFT = 0;
+    public const int STATUS_PUBLISHED = 1;
+    public const int STATUS_TRASHED = 2;
 
     /**
      * The unique id of the Content object.
-     *
-     * @var int
      */
-    protected $id;
+    protected int $id;
 
     /**
      * The content type id of the Content object.
-     *
-     * @var int
      */
-    protected $contentTypeId;
+    protected int $contentTypeId;
 
     /**
      * The computed name (via name schema) in the main language of the Content object.
      *
      * For names in other languages then main see {@see \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo}
-     *
-     * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * The section to which the Content object is assigned.
-     *
-     * @var int
      */
     protected int $sectionId;
 
     /**
      * Current Version number is the version number of the published version or the version number of
      * a newly created draft (which is 1).
-     *
-     * @var int
      */
-    protected $currentVersionNo;
+    protected int $currentVersionNo;
 
     /**
      * True if there exists a published version, false otherwise.
-     *
-     * @var bool Constant.
      */
-    protected $published;
+    protected bool $published;
 
     /**
      * The owner of the Content object.
-     *
-     * @var int
      */
-    protected $ownerId;
+    protected int $ownerId;
 
     /**
      * Content modification date.
-     *
-     * @var \DateTime
      */
-    protected $modificationDate;
+    protected DateTimeInterface $modificationDate;
 
     /**
      * Content publication date.
-     *
-     * @var \DateTime
      */
-    protected $publishedDate;
+    protected DateTimeInterface $publishedDate;
 
     /**
      * Indicates if the Content object is shown in the mainlanguage if its not present in an other requested language.
-     *
-     * @var bool
      */
-    protected $alwaysAvailable;
+    protected bool $alwaysAvailable = false;
 
     /**
      * Remote identifier used as a custom identifier for the object.
-     *
-     * @var string
      */
-    protected $remoteId;
+    protected string $remoteId;
 
     /**
      * The main language code of the Content object.
-     *
-     * @var string
      */
-    protected $mainLanguageCode;
+    protected string $mainLanguageCode;
 
     /**
      * Identifier of the main location.
      *
      * If the Content object has multiple locations,
      * $mainLocationId will point to the main one.
-     *
-     * @var int|null
      */
-    protected $mainLocationId;
+    protected ?int $mainLocationId = null;
 
     /**
      * Status of the content.
      *
      * Replaces deprecated API\ContentInfo::$published.
-     *
-     * @var int
      */
-    protected $status;
+    protected int $status;
 
-    /** @var bool */
-    protected $isHidden;
+    protected bool $isHidden;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType */
-    protected $contentType;
+    protected ContentType $contentType;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Section */
-    protected $section;
+    protected Section $section;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Language */
-    protected $mainLanguage;
+    protected Language $mainLanguage;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location|null */
-    protected $mainLocation;
+    protected ?Location $mainLocation;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
-    protected $owner;
+    protected User $owner;
 
-    /**
-     * @return bool
-     */
     public function isDraft(): bool
     {
         return $this->status === self::STATUS_DRAFT;
     }
 
-    /**
-     * @return bool
-     */
     public function isPublished(): bool
     {
         return $this->status === self::STATUS_PUBLISHED;
     }
 
-    /**
-     * @return bool
-     */
     public function isTrashed(): bool
     {
         return $this->status === self::STATUS_TRASHED;
