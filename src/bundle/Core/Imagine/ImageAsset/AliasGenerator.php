@@ -49,7 +49,7 @@ class AliasGenerator implements VariationHandler
     /**
      * {@inheritdoc}
      */
-    public function getVariation(Field $field, VersionInfo $versionInfo, $variationName, array $parameters = []): Variation
+    public function getVariation(Field $field, VersionInfo $versionInfo, string $variationName, array $parameters = []): Variation
     {
         if ($this->supportsValue($field->value)) {
             $destinationContent = $this->contentService->loadContent(
