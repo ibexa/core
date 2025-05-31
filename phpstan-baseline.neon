@@ -6259,12 +6259,6 @@ parameters:
 			path: src/contracts/Repository/Values/Content/Query/Criterion/LogicalNot.php
 
 		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\\Operator\\Specifications\:\:\$valueTypes \(int\) does not accept int\|null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/Operator/Specifications.php
-
-		-
 			message: '#^Class Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\RelationList implements generic interface IteratorAggregate but does not specify its types\: TKey, TValue$#'
 			identifier: missingType.generics
 			count: 1
@@ -12667,12 +12661,6 @@ parameters:
 			path: src/lib/Pagination/Pagerfanta/AbstractSearchResultAdapter.php
 
 		-
-			message: '#^Property Ibexa\\Core\\Pagination\\Pagerfanta\\AbstractSearchResultAdapter\:\:\$timedOut \(bool\|null\) is never assigned null so it can be removed from the property type\.$#'
-			identifier: property.unusedType
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/AbstractSearchResultAdapter.php
-
-		-
 			message: '#^Property Ibexa\\Core\\Pagination\\Pagerfanta\\AbstractSearchResultAdapter\:\:\$totalCount \(int\<0, max\>\|null\) is never assigned null so it can be removed from the property type\.$#'
 			identifier: property.unusedType
 			count: 1
@@ -12692,12 +12680,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Core\\Pagination\\Pagerfanta\\FixedSearchResultHitAdapter\:\:getTime\(\) never returns null so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/FixedSearchResultHitAdapter.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Pagination\\Pagerfanta\\FixedSearchResultHitAdapter\:\:getTimedOut\(\) never returns null so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
 			path: src/lib/Pagination/Pagerfanta/FixedSearchResultHitAdapter.php
@@ -66327,12 +66309,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Filter\\FilterTest\:\:testConstructorThrowsBadStateException\(\) has parameter \$sortClauses with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Repository/Values/Filter/FilterTest.php
-
-		-
-			message: '#^Parameter \#1 \$value of class Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\\RemoteId constructor expects array\<string\>\|string, int given\.$#'
-			identifier: argument.type
 			count: 1
 			path: tests/lib/Repository/Values/Filter/FilterTest.php
 
