@@ -74,24 +74,6 @@ class FullText extends Criterion implements CustomFieldInterface
     public array $boost = [];
 
     /**
-     * Analyzer configuration.
-     *
-     * @TODO: Define how this could look like
-     *
-     * @var mixed
-     */
-    public $analyzers;
-
-    /**
-     * Analyzer wildcard handling configuration.
-     *
-     * @TODO: Define how this could look like
-     *
-     * @var mixed
-     */
-    public $wildcards;
-
-    /**
      * Custom field definitions to query instead of default field.
      *
      * @var array<string, array<string, string>>
