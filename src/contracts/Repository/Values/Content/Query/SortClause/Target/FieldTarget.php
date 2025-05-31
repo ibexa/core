@@ -11,23 +11,19 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Target
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Target;
 
 /**
- * Struct that stores extra target informations for a SortClause object.
+ * Struct that stores extra target information for a SortClause object.
  */
 class FieldTarget extends Target
 {
     /**
      * Identifier of a targeted Field ContentType.
-     *
-     * @var string
      */
-    public $typeIdentifier;
+    public string $typeIdentifier;
 
     /**
      * Identifier of a targeted Field FieldDefinition.
-     *
-     * @var string
      */
-    public $fieldIdentifier;
+    public string $fieldIdentifier;
 
     public function __construct(string $typeIdentifier, string $fieldIdentifier)
     {
