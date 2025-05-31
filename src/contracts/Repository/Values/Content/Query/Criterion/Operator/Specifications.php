@@ -50,7 +50,7 @@ class Specifications
      * @see Specifications::TYPE_STRING
      * @see Specifications::TYPE_BOOLEAN
      */
-    public int $valueTypes;
+    public ?int $valueTypes;
 
     /**
      * Limitation on the number of items as the value.
