@@ -10,6 +10,11 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range;
 
+/**
+ * Generates ranges for float values with a specified step.
+ *
+ * @phpstan-implements \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Ranges\RangesGeneratorInterface<float>
+ */
 final class FloatStepRangesGenerator implements RangesGeneratorInterface
 {
     private float $start;
@@ -89,13 +94,13 @@ final class FloatStepRangesGenerator implements RangesGeneratorInterface
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<float>[]
      */
     public function generate(): array
     {
         if ($this->start === $this->end && $this->isLeftOpen && $this->isRightOpen) {
             return [
-                new Range(Range::INF, Range::INF),
+                Range::ofFloat(Range::INF, Range::INF),
             ];
         }
 

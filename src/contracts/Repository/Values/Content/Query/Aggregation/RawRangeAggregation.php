@@ -11,12 +11,17 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Ranges\RangesGeneratorInterface;
 use Traversable;
 
+/**
+ * @phpstan-template TValue
+ *
+ * @phpstan-extends \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\AbstractRangeAggregation<TValue>
+ */
 final class RawRangeAggregation extends AbstractRangeAggregation implements RawAggregation
 {
     private string $fieldName;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range[] $ranges
+     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<TValue>[] $ranges
      */
     public function __construct(string $name, string $fieldName, array $ranges = [])
     {
@@ -30,6 +35,11 @@ final class RawRangeAggregation extends AbstractRangeAggregation implements RawA
         return $this->fieldName;
     }
 
+    /**
+     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Ranges\RangesGeneratorInterface<TValue> $generator
+     *
+     * @phpstan-return self<TValue>
+     */
     public static function fromGenerator(
         string $name,
         string $fieldName,
