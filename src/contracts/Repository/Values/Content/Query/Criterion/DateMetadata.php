@@ -34,20 +34,20 @@ use InvalidArgumentException;
  */
 class DateMetadata extends Criterion implements TrashCriterion, FilteringCriterion
 {
-    public const MODIFIED = 'modified';
+    public const string MODIFIED = 'modified';
 
-    public const CREATED = 'created';
+    public const string CREATED = 'created';
 
-    public const PUBLISHED = 'published';
+    public const string PUBLISHED = 'published';
 
     /**
      * To search for contents based on when they have been sent to trash.
      *
      * Applies to {@see \Ibexa\Contracts\Core\Repository\TrashService::findTrashItems()} only.
      */
-    public const TRASHED = 'trashed';
+    public const string TRASHED = 'trashed';
 
-    public const TARGETS = [
+    public const array TARGETS = [
         self::MODIFIED,
         self::CREATED,
         self::PUBLISHED,
@@ -61,9 +61,9 @@ class DateMetadata extends Criterion implements TrashCriterion, FilteringCriteri
      *
      * @param string $target One of {@see DateMetadata::CREATED}, {@see DateMetadata::MODIFIED}, or {@see DateMetadata::TRASHED} (applies to {@see \Ibexa\Contracts\Core\Repository\TrashService::findTrashItems()} only)
      * @param string $operator One of the {@see Operator} constants
-     * @param mixed $value The match value, either as an array of as a single value, depending on the operator
+     * @param int|int[] $value The match value, either as an array of as a single value, depending on the operator
      */
-    public function __construct(string $target, string $operator, $value)
+    public function __construct(string $target, string $operator, int|array $value)
     {
         if (!in_array($target, self::TARGETS)) {
             throw new InvalidArgumentException(sprintf(
