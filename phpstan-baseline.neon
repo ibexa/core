@@ -6235,109 +6235,13 @@ parameters:
 			path: src/contracts/Repository/Values/Content/LocationList.php
 
 		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Aggregation\\AbstractRangeAggregation\:\:__construct\(\) has parameter \$ranges with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Aggregation/AbstractRangeAggregation.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Aggregation\\AbstractRangeAggregation\:\:getRanges\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Aggregation/AbstractRangeAggregation.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Aggregation\\DateMetadataRangeAggregation\:\:__construct\(\) has parameter \$ranges with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Aggregation/DateMetadataRangeAggregation.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Aggregation\\Field\\AbstractFieldRangeAggregation\:\:__construct\(\) has parameter \$ranges with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Aggregation/Field/AbstractFieldRangeAggregation.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Aggregation\\Range\:\:__construct\(\) has parameter \$from with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Aggregation/Range.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Aggregation\\Range\:\:__construct\(\) has parameter \$to with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Aggregation/Range.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Aggregation\\Range\:\:getFrom\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Aggregation/Range.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Aggregation\\Range\:\:getRangeValueAsString\(\) has parameter \$value with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Aggregation/Range.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Aggregation\\Range\:\:getTo\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Aggregation/Range.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Aggregation\\RawRangeAggregation\:\:__construct\(\) has parameter \$ranges with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Aggregation/RawRangeAggregation.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\:\:\$target \(string\) does not accept string\|null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\:\:\$valueData \(Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\\Value\) does not accept Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\\Value\|null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion.php
-
-		-
 			message: '#^Right side of \|\| is always false\.$#'
 			identifier: booleanOr.rightAlwaysFalse
 			count: 1
 			path: src/contracts/Repository/Values/Content/Query/Criterion.php
 
 		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\\Field\:\:\$customFields type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/Field.php
-
-		-
 			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\\FullText\:\:__construct\(\) has parameter \$properties with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/FullText.php
-
-		-
-			message: '#^PHPDoc tag @return with type mixed is not subtype of native type string\|null\.$#'
-			identifier: return.phpDocType
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/FullText.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\\FullText\:\:\$boost type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/FullText.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\\FullText\:\:\$customFields type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/contracts/Repository/Values/Content/Query/Criterion/FullText.php
@@ -6349,70 +6253,16 @@ parameters:
 			path: src/contracts/Repository/Values/Content/Query/Criterion/IsFieldEmpty.php
 
 		-
-			message: '#^Call to function is_bool\(\) with bool will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/LanguageCode.php
-
-		-
 			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\\LogicalNot\:\:__construct\(\) has InvalidArgumentException in PHPDoc @throws tag but it''s not thrown\.$#'
 			identifier: throws.unusedType
 			count: 1
 			path: src/contracts/Repository/Values/Content/Query/Criterion/LogicalNot.php
 
 		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\\MapLocationDistance\:\:\$boost type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/MapLocationDistance.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\\MapLocationDistance\:\:\$customFields type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/MapLocationDistance.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\\Operator\\Specifications\:\:\$operator has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/Operator/Specifications.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\\Operator\\Specifications\:\:\$valueCount \(int\) does not accept int\|null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/Operator/Specifications.php
-
-		-
 			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\\Operator\\Specifications\:\:\$valueTypes \(int\) does not accept int\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
 			path: src/contracts/Repository/Values/Content/Query/Criterion/Operator/Specifications.php
-
-		-
-			message: '#^PHPDoc tag @return with type mixed is not subtype of native type string\|null\.$#'
-			identifier: return.phpDocType
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/SortClause/Field.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\SortClause\\Field\:\:\$customFields type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/SortClause/Field.php
-
-		-
-			message: '#^PHPDoc tag @return with type mixed is not subtype of native type string\|null\.$#'
-			identifier: return.phpDocType
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/SortClause/MapLocationDistance.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\SortClause\\MapLocationDistance\:\:\$customFields type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/SortClause/MapLocationDistance.php
 
 		-
 			message: '#^Class Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\RelationList implements generic interface IteratorAggregate but does not specify its types\: TKey, TValue$#'
@@ -6427,40 +6277,10 @@ parameters:
 			path: src/contracts/Repository/Values/Content/Search/AggregationResult/RangeAggregationResult.php
 
 		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\AggregationResult\\RangeAggregationResult\:\:\$entries \(array\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\AggregationResult\\RangeAggregationResultEntry\>\) does not accept iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\AggregationResult\\RangeAggregationResultEntry\>\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/AggregationResult/RangeAggregationResult.php
-
-		-
 			message: '#^Class Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\AggregationResult\\TermAggregationResult implements generic interface IteratorAggregate but does not specify its types\: TKey, TValue$#'
 			identifier: missingType.generics
 			count: 1
 			path: src/contracts/Repository/Values/Content/Search/AggregationResult/TermAggregationResult.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\AggregationResult\\TermAggregationResult\:\:__construct\(\) has parameter \$entries with no value type specified in iterable type iterable\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/AggregationResult/TermAggregationResult.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\AggregationResult\\TermAggregationResult\:\:createForAggregation\(\) has parameter \$entries with no value type specified in iterable type iterable\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/AggregationResult/TermAggregationResult.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\AggregationResult\\TermAggregationResult\:\:\$entries \(array\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\AggregationResult\\TermAggregationResultEntry\>\) does not accept iterable\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/AggregationResult/TermAggregationResult.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\AggregationResult\\TermAggregationResultEntry\:\:__construct\(\) has parameter \$key with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/AggregationResult/TermAggregationResultEntry.php
 
 		-
 			message: '#^Class Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\AggregationResultCollection implements generic interface IteratorAggregate but does not specify its types\: TKey, TValue$#'
@@ -12835,12 +12655,6 @@ parameters:
 			path: src/lib/MVC/Symfony/View/ViewManagerInterface.php
 
 		-
-			message: '#^Property Ibexa\\Core\\Pagination\\Pagerfanta\\AbstractSearchResultAdapter\:\:\$maxScore \(float\|null\) is never assigned null so it can be removed from the property type\.$#'
-			identifier: property.unusedType
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/AbstractSearchResultAdapter.php
-
-		-
 			message: '#^Property Ibexa\\Core\\Pagination\\Pagerfanta\\AbstractSearchResultAdapter\:\:\$time \(float\|null\) is never assigned float so it can be removed from the property type\.$#'
 			identifier: property.unusedType
 			count: 1
@@ -12867,12 +12681,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\Pagination\\Pagerfanta\\FixedSearchResultHitAdapter\:\:getAggregations\(\) should return Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\AggregationResultCollection but returns Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\AggregationResultCollection\|null\.$#'
 			identifier: return.type
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/FixedSearchResultHitAdapter.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Pagination\\Pagerfanta\\FixedSearchResultHitAdapter\:\:getMaxScore\(\) never returns null so it can be removed from the return type\.$#'
-			identifier: return.unusedType
 			count: 1
 			path: src/lib/Pagination/Pagerfanta/FixedSearchResultHitAdapter.php
 
@@ -66377,12 +66185,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/Repository/Values/Content/LocationTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\Query\\Aggregation\\RangeTest\:\:dataProviderForTestToString\(\) return type has no value type specified in iterable type iterable\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Repository/Values/Content/Query/Aggregation/RangeTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\Query\\Criterion\\DateMetadataTest\:\:testConstruction\(\) has parameter \$value with no type specified\.$#'
