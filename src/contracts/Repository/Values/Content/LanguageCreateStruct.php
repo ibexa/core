@@ -19,22 +19,16 @@ class LanguageCreateStruct extends ValueObject
      * The languageCode code.
      *
      * Needs to be a unique.
-     *
-     * @var string
      */
-    public $languageCode;
+    public ?string $languageCode = null;
 
     /**
      * Human readable name of the language.
-     *
-     * @var string
      */
-    public $name;
+    public ?string $name;
 
     /**
      * Indicates if the language is enabled or not.
-     *
-     * @var bool
      */
-    public $enabled = true;
+    public bool $enabled = true;
 }
