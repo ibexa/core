@@ -16,30 +16,31 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 class LocationCreateStruct extends ValueObject
 {
     /**
+     * The id of the parent location under which the new location should be created.
+     *
+     * Required.
+     */
+    public int $parentLocationId;
+
+    /**
      * Location priority.
      *
      * Position of the Location among its siblings when sorted using priority
      * sort order.
-     *
-     * @var int
      */
-    public $priority = 0;
+    public int $priority = 0;
 
     /**
      * Indicates that the Location entity has been explicitly marked as hidden.
-     *
-     * @var bool
      */
-    public $hidden = false;
+    public bool $hidden = false;
 
     /**
      * An universally unique string identifier.
      *
      * Needs to be a unique Location->remoteId string value.
-     *
-     * @var mixed
      */
-    public $remoteId;
+    public ?string $remoteId = null;
 
     /**
      * Specifies which property the child locations should be sorted on.
@@ -47,10 +48,8 @@ class LocationCreateStruct extends ValueObject
      * Valid values are found at {@link Location::SORT_FIELD_*}
      *
      * If not set, will be taken out of ContentType's default sort field
-     *
-     * @var mixed
      */
-    public $sortField = null;
+    public ?int $sortField = null;
 
     /**
      * Specifies whether the sort order should be ascending or descending.
@@ -58,17 +57,6 @@ class LocationCreateStruct extends ValueObject
      * Valid values are {@link Location::SORT_ORDER_*}
      *
      * If not set, will be taken out of ContentType's default sort order
-     *
-     * @var mixed
      */
-    public $sortOrder = null;
-
-    /**
-     * The id of the parent location under which the new location should be created.
-     *
-     * Required.
-     *
-     * @var mixed
-     */
-    public $parentLocationId;
+    public ?int $sortOrder = null;
 }
