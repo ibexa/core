@@ -30,7 +30,7 @@ class ContentTypeIdentifier extends Criterion implements FilteringCriterion
      *
      * @throws \InvalidArgumentException if the value type doesn't match the operator
      */
-    public function __construct($value)
+    public function __construct(string|array $value)
     {
         parent::__construct(null, null, $value);
     }
