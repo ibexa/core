@@ -18,15 +18,12 @@ use Traversable;
  */
 class ContentDraftList extends ValueObject implements IteratorAggregate
 {
-    /**
-     * @var int
-     */
-    public $totalCount = 0;
+    public int $totalCount = 0;
 
     /**
      * @var \Ibexa\Contracts\Core\Repository\Values\Content\DraftList\ContentDraftListItemInterface[]
      */
-    public $items = [];
+    public array $items = [];
 
     /**
      * {@inheritdoc}
