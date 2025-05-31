@@ -30,18 +30,15 @@ class UserEmail extends Criterion implements FilteringCriterion
         return [
             new Specifications(
                 Operator::EQ,
-                Specifications::FORMAT_SINGLE,
-                Specifications::TYPE_STRING
+                Specifications::FORMAT_SINGLE
             ),
             new Specifications(
                 Operator::IN,
-                Specifications::FORMAT_ARRAY,
-                Specifications::TYPE_STRING
+                Specifications::FORMAT_ARRAY
             ),
             new Specifications(
                 Operator::LIKE,
-                Specifications::FORMAT_SINGLE,
-                Specifications::TYPE_STRING
+                Specifications::FORMAT_SINGLE
             ),
         ];
     }
