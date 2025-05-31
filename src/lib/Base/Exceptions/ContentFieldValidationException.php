@@ -29,7 +29,7 @@ class ContentFieldValidationException extends APIContentFieldValidationException
      *  $fieldErrors[43]["eng-GB"]->getTranslatableMessage();
      * </code>
      *
-     * @var array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError|\Ibexa\Contracts\Core\FieldType\ValidationError[]>>
+     * @var array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError[]>>
      */
     protected $errors;
 
@@ -41,7 +41,7 @@ class ContentFieldValidationException extends APIContentFieldValidationException
      *
      * Also sets the given $fieldErrors to the internal property, retrievable by getFieldErrors()
      *
-     * @param array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError|\Ibexa\Contracts\Core\FieldType\ValidationError[]>> $errors
+     * @param array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError[]>> $errors
      */
     public function __construct(array $errors)
     {
@@ -53,7 +53,7 @@ class ContentFieldValidationException extends APIContentFieldValidationException
     /**
      * Generates: Content fields did not validate exception with additional information on affected fields.
      *
-     * @param array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError|\Ibexa\Contracts\Core\FieldType\ValidationError[]>> $errors
+     * @param array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError[]>> $errors
      */
     public static function createNewWithMultiline(array $errors, ?string $contentName = null): self
     {
@@ -73,7 +73,7 @@ class ContentFieldValidationException extends APIContentFieldValidationException
     /**
      * Returns an array of field validation error messages.
      *
-     * @return array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError|\Ibexa\Contracts\Core\FieldType\ValidationError[]>>
+     * @return array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError[]>>
      */
     public function getFieldErrors(): array
     {
