@@ -17,15 +17,15 @@ use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
  */
 class OriginalDirectoryVariationPathGenerator implements VariationPathGenerator
 {
-    public function getVariationPath($originalPath, $filter): string
+    public function getVariationPath(string $path, string $variation): string
     {
-        $info = pathinfo($originalPath);
+        $info = pathinfo($path);
 
         return sprintf(
             '%s/%s_%s%s',
             $info['dirname'],
             $info['filename'],
-            $filter,
+            $variation,
             empty($info['extension']) ? '' : '.' . $info['extension']
         );
     }
