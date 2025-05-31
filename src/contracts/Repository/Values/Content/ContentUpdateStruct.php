@@ -19,10 +19,8 @@ abstract class ContentUpdateStruct extends ContentStruct
      * The language code of the version. In 4.x this code will be used as the language code of the translation
      * (which is shown in the admin interface).
      * It is also used as default language for added fields.
-     *
-     * @var string
      */
-    public $initialLanguageCode;
+    public ?string $initialLanguageCode = null;
 
     /**
      * Creator user ID.
@@ -34,7 +32,7 @@ abstract class ContentUpdateStruct extends ContentStruct
      *
      * @since 5.4
      *
-     * @var mixed Optional creator of version, current user will be used if null
+     * @var int|null Optional creator of version, current user will be used if null
      */
-    public $creatorId;
+    public ?int $creatorId = null;
 }
