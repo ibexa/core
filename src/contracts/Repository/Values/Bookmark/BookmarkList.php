@@ -20,21 +20,16 @@ class BookmarkList extends ValueObject implements IteratorAggregate
 {
     /**
      * The total number of bookmarks.
-     *
-     * @var int
      */
-    public $totalCount = 0;
+    public int $totalCount = 0;
 
     /**
      * List of bookmarked locations.
      *
      * @var \Ibexa\Contracts\Core\Repository\Values\Content\Location[]
      */
-    public $items = [];
+    public array $items = [];
 
-    /**
-     * {@inheritdoc}
-     */
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->items);
