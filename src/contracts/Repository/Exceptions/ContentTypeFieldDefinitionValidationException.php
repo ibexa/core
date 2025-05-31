@@ -16,7 +16,9 @@ abstract class ContentTypeFieldDefinitionValidationException extends ForbiddenEx
     /**
      * Returns an array of field definition validation error messages.
      *
-     * @return array
+     * The array is indexed by field definition identifier.
+     *
+     * @return array<string, \Ibexa\Contracts\Core\FieldType\ValidationError[]>
      */
-    abstract public function getFieldErrors();
+    abstract public function getFieldErrors(): array;
 }

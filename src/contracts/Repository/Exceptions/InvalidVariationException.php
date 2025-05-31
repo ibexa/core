@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Exceptions;
 
-use Exception;
+use Throwable;
 
 class InvalidVariationException extends InvalidArgumentException
 {
-    public function __construct($variationName, $variationType, $code = 0, Exception $previous = null)
+    public function __construct(string $variationName, string $variationType, int $code = 0, ?Throwable $previous = null)
     {
         parent::__construct("Invalid variation '$variationName' for $variationType", $code, $previous);
     }

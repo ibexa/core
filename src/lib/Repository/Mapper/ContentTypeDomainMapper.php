@@ -287,7 +287,7 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
         );
 
         if (!empty($validationErrors)) {
-            throw new ContentTypeFieldDefinitionValidationException($validationErrors);
+            throw new ContentTypeFieldDefinitionValidationException([$fieldDefinition->identifier => $validationErrors]);
         }
 
         $spiFieldDefinition = new SPIFieldDefinition(

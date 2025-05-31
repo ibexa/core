@@ -18,25 +18,13 @@ class ContentTypeFieldDefinitionValidationException extends APIContentTypeFieldD
 {
     use TranslatableBase;
 
-    /**
-     * Contains an array of field ValidationError objects indexed with FieldDefinition id and language code.
-     *
-     * Example:
-     * <code>
-     *  $fieldErrors = $exception->getFieldErrors();
-     *  $fieldErrors["43"]["eng-GB"]->getTranslatableMessage();
-     * </code>
-     *
-     * @var \Ibexa\Core\FieldType\ValidationError[]
-     */
-    protected $errors;
+    /** @var array<string, \Ibexa\Contracts\Core\FieldType\ValidationError[]> */
+    protected array $errors;
 
     /**
-     * Generates: Content fields did not validate.
+     * Generates: Content type field definitions did not validate.
      *
-     * Also sets the given $fieldErrors to the internal property, retrievable by getFieldErrors()
-     *
-     * @param \Ibexa\Core\FieldType\ValidationError[] $errors
+     * @param array<string, \Ibexa\Contracts\Core\FieldType\ValidationError[]> $errors
      */
     public function __construct(array $errors)
     {
@@ -45,12 +33,7 @@ class ContentTypeFieldDefinitionValidationException extends APIContentTypeFieldD
         parent::__construct($this->getBaseTranslation());
     }
 
-    /**
-     * Returns an array of field validation error messages.
-     *
-     * @return \Ibexa\Core\FieldType\ValidationError[]
-     */
-    public function getFieldErrors()
+    public function getFieldErrors(): array
     {
         return $this->errors;
     }

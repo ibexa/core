@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Exceptions;
 
-use Exception;
+use Throwable;
 
 /**
  * This Exception is thrown if a feature has not been implemented
@@ -19,12 +19,8 @@ class NotImplementedException extends ForbiddenException
 {
     /**
      * Generates: Intentionally not implemented: {$feature}.
-     *
-     * @param string $feature
-     * @param int $code
-     * @param \Exception|null $previous
      */
-    public function __construct($feature, $code = 0, Exception $previous = null)
+    public function __construct(string $feature, int $code = 0, ?Throwable $previous = null)
     {
         parent::__construct("Intentionally not implemented: {$feature}", $code, $previous);
     }
