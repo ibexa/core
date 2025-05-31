@@ -31,14 +31,14 @@ class LocationList extends ValueObject implements IteratorAggregate, TotalCountA
      *
      * @phpstan-var int<0, max>
      */
-    protected $totalCount = 0;
+    protected int $totalCount = 0;
 
     /**
      * the partial list of locations controlled by offset/limit.
      *
      * @var \Ibexa\Contracts\Core\Repository\Values\Content\Location[]
      */
-    protected $locations = [];
+    protected array $locations = [];
 
     /**
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location[]|\Traversable
