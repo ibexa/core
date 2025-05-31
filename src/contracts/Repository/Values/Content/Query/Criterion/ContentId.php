@@ -29,7 +29,7 @@ class ContentId extends Criterion implements FilteringCriterion
      * @throws \InvalidArgumentException if a non numeric id is given
      * @throws \InvalidArgumentException if the value type doesn't match the operator
      */
-    public function __construct($value)
+    public function __construct(int|array $value)
     {
         parent::__construct(null, null, $value);
     }
