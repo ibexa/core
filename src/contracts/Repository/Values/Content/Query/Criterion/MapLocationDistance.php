@@ -28,13 +28,6 @@ class MapLocationDistance extends Criterion implements CustomFieldInterface
     protected array $customFields = [];
 
     /**
-     * @todo needs to be defined, could be a string identifying one of the predefined easing methods
-     *
-     * @var array
-     */
-    protected $boost;
-
-    /**
      * @param string $target FieldDefinition identifier
      * @param string $operator One of the supported Operator constants
      * @param float|float[] $distance The match value in kilometers, either as an array
