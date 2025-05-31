@@ -23,9 +23,9 @@ class MapLocationDistance extends Criterion implements CustomFieldInterface
     /**
      * Custom field definitions to query instead of default field.
      *
-     * @var array
+     * @var array<string, array<string, string>>
      */
-    protected $customFields = [];
+    protected array $customFields = [];
 
     /**
      * @todo needs to be defined, could be a string identifying one of the predefined easing methods
@@ -42,7 +42,7 @@ class MapLocationDistance extends Criterion implements CustomFieldInterface
      * @param float $latitude Latitude of the location that distance is calculated from
      * @param float $longitude Longitude of the location that distance is calculated from
      */
-    public function __construct(string $target, string $operator, $distance, float $latitude, float $longitude)
+    public function __construct(string $target, string $operator, float|array $distance, float $latitude, float $longitude)
     {
         $distanceStart = new MapLocationValue($latitude, $longitude);
         parent::__construct($target, $operator, $distance, $distanceStart);
@@ -65,10 +65,6 @@ class MapLocationDistance extends Criterion implements CustomFieldInterface
      * Set a custom field to query.
      *
      * Set a custom field to query for a defined field in a defined type.
-     *
-     * @param string $type
-     * @param string $field
-     * @param string $customField
      */
     public function setCustomField(string $type, string $field, string $customField): void
     {
@@ -79,19 +75,9 @@ class MapLocationDistance extends Criterion implements CustomFieldInterface
      * Return custom field.
      *
      * If no custom field is set, return null
-     *
-     * @param string $type
-     * @param string $field
-     *
-     * @return ?string
      */
     public function getCustomField(string $type, string $field): ?string
     {
-        if (!isset($this->customFields[$type]) ||
-             !isset($this->customFields[$type][$field])) {
-            return null;
-        }
-
-        return $this->customFields[$type][$field];
+        return $this->customFields[$type][$field] ?? null;
     }
 }
