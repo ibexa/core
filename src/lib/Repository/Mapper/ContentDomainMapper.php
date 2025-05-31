@@ -818,18 +818,14 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
 
     /**
      * Checks if given $priority is valid.
-     *
-     * @param int $priority
-     *
-     * @return bool
      */
-    public function isValidLocationPriority($priority): bool
+    public function isValidLocationPriority(?int $priority): bool
     {
         if ($priority === null) {
             return true;
         }
 
-        return is_int($priority) && $priority >= self::MIN_LOCATION_PRIORITY && $priority <= self::MAX_LOCATION_PRIORITY;
+        return $priority >= self::MIN_LOCATION_PRIORITY && $priority <= self::MAX_LOCATION_PRIORITY;
     }
 
     /**
