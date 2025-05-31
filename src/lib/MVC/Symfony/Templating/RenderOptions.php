@@ -12,9 +12,12 @@ use Ibexa\Contracts\Core\Options\MutableOptionsBag;
 
 final class RenderOptions implements MutableOptionsBag
 {
-    /** @var array */
-    private $options;
+    /** @var array<string, mixed> */
+    private array $options;
 
+    /**
+     * @param array<string, mixed> $options
+     */
     public function __construct(array $options = [])
     {
         $this->options = $options;
@@ -25,12 +28,7 @@ final class RenderOptions implements MutableOptionsBag
         return $this->options;
     }
 
-    /**
-     * @param mixed|null $default
-     *
-     * @return mixed|null
-     */
-    public function get(string $key, $default = null)
+    public function get(string $key, mixed $default = null): mixed
     {
         if ($this->has($key)) {
             return $this->options[$key];
@@ -39,10 +37,7 @@ final class RenderOptions implements MutableOptionsBag
         return $default;
     }
 
-    /**
-     * @param mixed|null $value
-     */
-    public function set(string $key, $value): void
+    public function set(string $key, mixed $value): void
     {
         $this->options[$key] = $value;
     }

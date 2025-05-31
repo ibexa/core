@@ -10,14 +10,22 @@ namespace Ibexa\Contracts\Core\Options;
 
 interface OptionsBag
 {
+    /**
+     * Returns all options as an associative array.
+     *
+     * @return array<string, mixed>
+     */
     public function all(): array;
 
     /**
-     * @param mixed|null $default
+     * Returns the value of the option identified by $key.
      *
-     * @return mixed|null
+     * If the option does not exist, returns $default.
      */
-    public function get(string $key, $default = null);
+    public function get(string $key, mixed $default = null): mixed;
 
+    /**
+     * Checks if the option identified by $key exists.
+     */
     public function has(string $key): bool;
 }
