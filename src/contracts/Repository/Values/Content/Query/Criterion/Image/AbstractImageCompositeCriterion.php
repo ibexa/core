@@ -91,21 +91,21 @@ abstract class AbstractImageCompositeCriterion extends CompositeCriterion
     }
 
     /**
-     * @param array{min?: numeric|null} $data
+     * @phpstan-param array{min?: numeric|null} $data
      *
-     * @return numeric
+     * @phpstan-return numeric
      */
-    protected function getMinValue(array $data)
+    protected function getMinValue(array $data): int|float|string
     {
         return $data['min'] ?? 0;
     }
 
     /**
-     * @param array{max?: numeric|null} $data
+     * @phpstan-param array{max?: numeric|null} $data
      *
-     * @return numeric|null
+     * @phpstan-return numeric|null
      */
-    protected function getMaxValue(array $data)
+    protected function getMaxValue(array $data): int|float|string|null
     {
         return $data['max'] ?? null;
     }
