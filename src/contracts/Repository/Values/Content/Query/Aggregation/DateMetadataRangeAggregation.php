@@ -11,6 +11,9 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Ranges\RangesGeneratorInterface;
 use Traversable;
 
+/**
+ * @phpstan-extends \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\AbstractRangeAggregation<\DateTimeInterface>
+ */
 final class DateMetadataRangeAggregation extends AbstractRangeAggregation
 {
     public const string MODIFIED = 'modified';
@@ -20,7 +23,7 @@ final class DateMetadataRangeAggregation extends AbstractRangeAggregation
     private string $type;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range[] $ranges
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<covariant \DateTimeInterface>[] $ranges
      */
     public function __construct(string $name, string $type, array $ranges = [])
     {
@@ -33,6 +36,9 @@ final class DateMetadataRangeAggregation extends AbstractRangeAggregation
         return $this->type;
     }
 
+    /**
+     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Ranges\RangesGeneratorInterface<covariant \DateTimeInterface> $generator
+     */
     public static function fromGenerator(
         string $name,
         string $type,

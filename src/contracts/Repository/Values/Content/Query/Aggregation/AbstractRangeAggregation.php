@@ -10,6 +10,9 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 
+/**
+ * @phpstan-template TValue
+ */
 abstract class AbstractRangeAggregation implements Aggregation
 {
     /**
@@ -17,11 +20,11 @@ abstract class AbstractRangeAggregation implements Aggregation
      */
     protected string $name;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range[] */
+    /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<covariant TValue>[] */
     protected array $ranges;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range[] $ranges
+     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<covariant TValue>[] $ranges
      */
     public function __construct(string $name, array $ranges = [])
     {
@@ -30,7 +33,7 @@ abstract class AbstractRangeAggregation implements Aggregation
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range[]
+     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<covariant TValue>[]
      */
     public function getRanges(): array
     {

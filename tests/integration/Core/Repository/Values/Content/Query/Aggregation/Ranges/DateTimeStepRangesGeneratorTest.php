@@ -96,6 +96,9 @@ final class DateTimeStepRangesGeneratorTest extends TestCase
         self::assertGeneratorResults([], $generator);
     }
 
+    /**
+     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<\DateTimeInterface>
+     */
     private function createRange(?string $start, ?string $end): Range
     {
         return Range::ofDateTime(
@@ -105,7 +108,7 @@ final class DateTimeStepRangesGeneratorTest extends TestCase
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range[] $expectedResult
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<\DateTimeInterface>[] $expectedResult
      */
     private static function assertGeneratorResults(array $expectedResult, DateTimeStepRangesGenerator $generator): void
     {

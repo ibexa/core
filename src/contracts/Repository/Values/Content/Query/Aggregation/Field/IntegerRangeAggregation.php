@@ -11,8 +11,14 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Field
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Ranges\RangesGeneratorInterface;
 use Traversable;
 
+/**
+ * @phpstan-extends \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Field\AbstractFieldRangeAggregation<int>
+ */
 final class IntegerRangeAggregation extends AbstractFieldRangeAggregation
 {
+    /**
+     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Ranges\RangesGeneratorInterface<int> $generator
+     */
     public static function fromGenerator(
         string $name,
         string $contentTypeIdentifier,

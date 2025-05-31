@@ -10,13 +10,24 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResul
 
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
+/**
+ * Represents a single entry in a term aggregation result.
+ *
+ * @see \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\AbstractTermAggregation
+ *
+ * @phpstan-template TKey of object|scalar
+ */
 final class TermAggregationResultEntry extends ValueObject
 {
-    private object|string|int|bool $key;
+    /** @phpstan-var TKey */
+    private mixed $key;
 
     private int $count;
 
-    public function __construct(object|string|int|bool $key, int $count)
+    /**
+     * @phpstan-param TKey $key
+     */
+    public function __construct(mixed $key, int $count)
     {
         parent::__construct();
 
@@ -24,7 +35,10 @@ final class TermAggregationResultEntry extends ValueObject
         $this->count = $count;
     }
 
-    public function getKey(): object|string|int|bool
+    /**
+     * @phpstan-return TKey
+     */
+    public function getKey(): mixed
     {
         return $this->key;
     }
