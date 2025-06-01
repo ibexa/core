@@ -25,7 +25,7 @@ use Ibexa\Core\QueryType\BuiltIn\SortClausesFactoryInterface;
 use Ibexa\Core\QueryType\QueryType;
 use Ibexa\Core\Repository\Values\Content\Location;
 
-final class AncestorsQueryTypeTest extends AbstractQueryTypeTest
+final class AncestorsQueryTypeTest extends AbstractQueryTypeTestCase
 {
     private const EXAMPLE_LOCATION_ID = 54;
     private const EXAMPLE_LOCATION_PATH_STRING = '/1/2/54/';

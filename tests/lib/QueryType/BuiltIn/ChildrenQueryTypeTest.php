@@ -23,7 +23,7 @@ use Ibexa\Core\QueryType\BuiltIn\SortClausesFactoryInterface;
 use Ibexa\Core\QueryType\QueryType;
 use Ibexa\Core\Repository\Values\Content\Location;
 
-final class ChildrenQueryTypeTest extends AbstractQueryTypeTest
+final class ChildrenQueryTypeTest extends AbstractQueryTypeTestCase
 {
     private const EXAMPLE_LOCATION_ID = 54;
 
