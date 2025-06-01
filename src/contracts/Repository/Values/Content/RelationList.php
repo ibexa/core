@@ -11,7 +11,6 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content;
 use ArrayIterator;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use IteratorAggregate;
-use Traversable;
 
 /**
  * List of relations.

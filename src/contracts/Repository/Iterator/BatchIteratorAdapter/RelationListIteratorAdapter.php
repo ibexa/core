@@ -13,7 +13,6 @@ use Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Iterator;
-use IteratorIterator;
 
 final class RelationListIteratorAdapter implements BatchIteratorAdapter
 {
