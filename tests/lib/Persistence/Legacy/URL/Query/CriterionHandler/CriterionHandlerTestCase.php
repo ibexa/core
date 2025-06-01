@@ -15,7 +15,7 @@ use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 use PHPUnit\Framework\TestCase;
 
-abstract class CriterionHandlerTest extends TestCase
+abstract class CriterionHandlerTestCase extends TestCase
 {
     abstract public function testAccept();
 

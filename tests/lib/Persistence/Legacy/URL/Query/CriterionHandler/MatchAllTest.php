@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion\MatchAll;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\MatchAll as MatchAllHandler;
 
-class MatchAllTest extends CriterionHandlerTest
+class MatchAllTest extends CriterionHandlerTestCase
 {
     /**
      * {@inheritdoc}

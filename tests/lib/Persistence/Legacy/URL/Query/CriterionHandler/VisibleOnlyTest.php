@@ -18,7 +18,7 @@ use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\VisibleOnly as Visi
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\VisibleOnly
  */
-class VisibleOnlyTest extends CriterionHandlerTest
+class VisibleOnlyTest extends CriterionHandlerTestCase
 {
     /**
      * {@inheritdoc}

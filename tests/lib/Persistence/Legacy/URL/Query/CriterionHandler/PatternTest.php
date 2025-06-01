@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion\Pattern;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\Pattern as PatternHandler;
 
-class PatternTest extends CriterionHandlerTest
+class PatternTest extends CriterionHandlerTestCase
 {
     /**
      * {@inheritdoc}

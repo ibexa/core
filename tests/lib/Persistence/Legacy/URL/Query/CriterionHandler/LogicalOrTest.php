@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion\LogicalOr;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\LogicalOr as LogicalOrHandler;
 
-class LogicalOrTest extends CriterionHandlerTest
+class LogicalOrTest extends CriterionHandlerTestCase
 {
     /**
      * {@inheritdoc}
