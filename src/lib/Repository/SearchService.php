@@ -24,7 +24,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Search\Capable;
 use Ibexa\Contracts\Core\Search\Handler;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
-use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
 use Ibexa\Core\Search\Common\BackgroundIndexer;
