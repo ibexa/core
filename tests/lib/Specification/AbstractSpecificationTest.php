@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Specification;
 
-class AbstractSpecificationTest extends BaseSpecificationTest
+class AbstractSpecificationTest extends BaseSpecificationTestCase
 {
     public function testSpecification(): void
     {

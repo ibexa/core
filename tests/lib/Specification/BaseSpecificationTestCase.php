@@ -11,7 +11,7 @@ use Ibexa\Contracts\Core\Specification\AbstractSpecification;
 use Ibexa\Contracts\Core\Specification\SpecificationInterface;
 use PHPUnit\Framework\TestCase;
 
-abstract class BaseSpecificationTest extends TestCase
+abstract class BaseSpecificationTestCase extends TestCase
 {
     protected function getIsStringSpecification(): SpecificationInterface
     {

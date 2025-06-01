@@ -9,7 +9,7 @@ namespace Ibexa\Tests\Core\Specification;
 
 use Ibexa\Contracts\Core\Specification\OrSpecification;
 
-class OrSpecificationTest extends BaseSpecificationTest
+class OrSpecificationTest extends BaseSpecificationTestCase
 {
     public function testOrSpecification(): void
     {
