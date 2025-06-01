@@ -99,18 +99,18 @@ abstract class Location extends ValueObject
     /**
      * Indicates that the Location entity is hidden (explicitly or hidden by content).
      */
-    protected bool $hidden;
+    protected bool $hidden = false;
 
     /**
      * Indicates that the Location is not visible, being either marked as hidden itself,
      * or implicitly hidden by its Content or an ancestor Location.
      */
-    protected bool $invisible;
+    protected bool $invisible = false;
 
     /**
      * Indicates that the Location entity has been explicitly marked as hidden.
      */
-    protected bool $explicitlyHidden;
+    protected bool $explicitlyHidden = false;
 
     /**
      * Remote ID.
@@ -137,12 +137,12 @@ abstract class Location extends ValueObject
      *
      * @var array<int, string>
      */
-    protected array $path;
+    protected array $path = [];
 
     /**
      * Depth location has in the location tree.
      */
-    protected int $depth;
+    protected int $depth = 0;
 
     /**
      * Specifies which property the child locations should be sorted on.
