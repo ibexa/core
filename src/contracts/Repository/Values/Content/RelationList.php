@@ -11,24 +11,23 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content;
 use ArrayIterator;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use IteratorAggregate;
-use Traversable;
 
 /**
  * List of relations.
  */
 class RelationList extends ValueObject implements IteratorAggregate
 {
-    /**
-     * @var int
-     */
-    public $totalCount = 0;
+    public int $totalCount = 0;
 
     /**
      * @var \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface[]
      */
-    public $items = [];
+    public array $items = [];
 
-    public function getIterator(): Traversable
+    /**
+     * @return \Iterator<int, \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface>
+     */
+    public function getIterator(): \Iterator
     {
         return new ArrayIterator($this->items);
     }

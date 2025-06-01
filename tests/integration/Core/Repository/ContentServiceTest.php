@@ -3703,10 +3703,13 @@ class ContentServiceTest extends BaseContentServiceTestCase
         // in this case relation towards it will not be loaded.
         $trashService->trash($demoDesignLocation);
 
-        // Load all relations
-        $relations = iterator_to_array($this->contentService->loadRelationList($draft->getVersionInfo())->getIterator());
+        // Load all items
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface[] $items */
+        $items = iterator_to_array($this->contentService->loadRelationList($draft->getVersionInfo())->getIterator());
 
-        self::assertCount(1, $relations);
+        self::assertCount(1, $items);
+        $relation = $items[0]->getRelation();
+        self::assertNotNull($relation);
         self::assertEquals(
             [
                 [
@@ -3716,8 +3719,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
             ],
             [
                 [
-                    'sourceContentInfo' => $relations[0]->sourceContentInfo->remoteId,
-                    'destinationContentInfo' => $relations[0]->destinationContentInfo->remoteId,
+                    'sourceContentInfo' => $relation->sourceContentInfo->remoteId,
+                    'destinationContentInfo' => $relation->destinationContentInfo->remoteId,
                 ],
             ]
         );
@@ -3755,9 +3758,12 @@ class ContentServiceTest extends BaseContentServiceTestCase
             $demoDesign
         );
 
-        $relations = iterator_to_array($this->contentService->loadRelationList($mediaDraft->getVersionInfo())->getIterator());
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface[] $items */
+        $items = iterator_to_array($this->contentService->loadRelationList($mediaDraft->getVersionInfo())->getIterator());
 
-        self::assertCount(1, $relations);
+        self::assertCount(1, $items);
+        $relation = $items[0]->getRelation();
+        self::assertNotNull($relation);
         self::assertEquals(
             [
                 [
@@ -3767,8 +3773,8 @@ class ContentServiceTest extends BaseContentServiceTestCase
             ],
             [
                 [
-                    'sourceContentInfo' => $relations[0]->sourceContentInfo->remoteId,
-                    'destinationContentInfo' => $relations[0]->destinationContentInfo->remoteId,
+                    'sourceContentInfo' => $relation->sourceContentInfo->remoteId,
+                    'destinationContentInfo' => $relation->destinationContentInfo->remoteId,
                 ],
             ]
         );

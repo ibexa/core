@@ -13,7 +13,6 @@ use Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Iterator;
-use IteratorIterator;
 
 final class RelationListIteratorAdapter implements BatchIteratorAdapter
 {
@@ -24,19 +23,16 @@ final class RelationListIteratorAdapter implements BatchIteratorAdapter
     ) {
     }
 
+    /**
+     * @phpstan-return Iterator<int, \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface>
+     */
     public function fetch(int $offset, int $limit): Iterator
     {
-        $iterator = $this->contentService->loadRelationList(
+        return $this->contentService->loadRelationList(
             $this->versionInfo,
             $offset,
             $limit,
             $this->relationType
         )->getIterator();
-
-        if ($iterator instanceof Iterator) {
-            return $iterator;
-        }
-
-        return new IteratorIterator($iterator);
     }
 }
