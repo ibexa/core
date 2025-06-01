@@ -26,7 +26,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
  * @group integration
  * @group authorization
  */
-class ContentServiceAuthorizationTest extends BaseContentServiceTest
+class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
     private $administratorUser;
