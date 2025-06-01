@@ -26,7 +26,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
  * @group integration
  * @group url
  */
-class URLServiceTest extends BaseURLServiceTest
+class URLServiceTest extends BaseURLServiceTestCase
 {
     private const TOTAL_URLS_COUNT = 20;
 
