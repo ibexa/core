@@ -22,29 +22,21 @@ class URLWildcard extends ValueObject
 {
     /**
      * The unique id.
-     *
-     * @var mixed
      */
-    protected $id;
+    protected int $id;
 
     /**
      * The source url including "*".
-     *
-     * @var string
      */
-    protected $sourceUrl;
+    protected string $sourceUrl;
 
     /**
      * The destination url containing placeholders e.g. /destination/{1}.
-     *
-     * @var string
      */
-    protected $destinationUrl;
+    protected string $destinationUrl;
 
     /**
      * Indicates if the url is redirected or not.
-     *
-     * @var bool
      */
-    protected $forward;
+    protected bool $forward;
 }
