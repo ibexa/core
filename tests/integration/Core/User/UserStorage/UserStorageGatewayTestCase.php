@@ -16,7 +16,7 @@ use Ibexa\Tests\Integration\Core\BaseCoreFieldTypeIntegrationTestCase;
 /**
  * User Field Type external storage gateway tests.
  */
-abstract class UserStorageGatewayTest extends BaseCoreFieldTypeIntegrationTestCase
+abstract class UserStorageGatewayTestCase extends BaseCoreFieldTypeIntegrationTestCase
 {
     abstract protected function getGateway(): Gateway;
 
