@@ -18,7 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
  * @group integration
  * @group authorization
  */
-class SectionServiceAuthorizationTest extends BaseTest
+class SectionServiceAuthorizationTest extends BaseTestCase
 {
     /**
      * Test for the createSection() method.

@@ -32,7 +32,7 @@ use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
  * @group integration
  * @group search
  */
-class SearchServiceTest extends BaseTest
+class SearchServiceTest extends BaseTestCase
 {
     public const QUERY_CLASS = Query::class;
 

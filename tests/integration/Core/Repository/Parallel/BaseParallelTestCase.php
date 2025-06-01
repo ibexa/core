@@ -9,10 +9,10 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\Parallel;
 
 use Ibexa\Tests\Core\Repository\Parallel\ParallelProcessList;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 use Jenner\SimpleFork\Process;
 
-abstract class BaseParallelTestCase extends BaseTest
+abstract class BaseParallelTestCase extends BaseTestCase
 {
     protected function setUp(): void
     {

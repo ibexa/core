@@ -7,14 +7,14 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Test case for 11+ string issue in EZP-21771.
  *
  * Issue EZP-21711
  */
-class EZP21771EzStringTest extends BaseTest
+class EZP21771EzStringTest extends BaseTestCase
 {
     /**
      * This is an integration test for issue EZP-21771.

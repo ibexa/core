@@ -20,7 +20,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserRoleAssignment;
  * @group integration
  * @group authorization
  */
-class RoleServiceAuthorizationTest extends BaseTest
+class RoleServiceAuthorizationTest extends BaseTestCase
 {
     /**
      * Test for the createRole() method.

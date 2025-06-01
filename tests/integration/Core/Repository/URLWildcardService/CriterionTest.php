@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\URLWildcardQuery;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion as CriterionURL;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Test case criterion for URLWildcard.
@@ -22,7 +22,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
  *
  * @group url-wildcard
  */
-class CriterionTest extends BaseTest
+class CriterionTest extends BaseTestCase
 {
     protected function setUp(): void
     {

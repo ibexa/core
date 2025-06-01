@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
  * @group integration
  * @group authorization
  */
-class URLWildcardServiceAuthorizationTest extends BaseTest
+class URLWildcardServiceAuthorizationTest extends BaseTestCase
 {
     /**
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create

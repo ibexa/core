@@ -21,7 +21,7 @@ use Ibexa\Contracts\Core\Repository\Values\Setting\Setting;
  * @group integration
  * @group setting
  */
-final class SettingServiceTest extends BaseTest
+final class SettingServiceTest extends BaseTestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
     protected $permissionResolver;

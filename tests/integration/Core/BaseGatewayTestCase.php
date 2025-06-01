@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core;
 
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
-abstract class BaseGatewayTestCase extends BaseTest
+abstract class BaseGatewayTestCase extends BaseTestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\Repository */
     protected $repository;

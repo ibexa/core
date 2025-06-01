@@ -24,7 +24,7 @@ use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateUpdateStruct;
  *
  * @group object-state
  */
-class ObjectStateServiceTest extends BaseTest
+class ObjectStateServiceTest extends BaseTestCase
 {
     private const EXISTING_OBJECT_STATE_GROUP_IDENTIFIER = 'ez_lock';
     private const EXISTING_OBJECT_STATE_IDENTIFIER = 'locked';

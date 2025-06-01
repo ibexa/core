@@ -19,7 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\NotificationList;
  *
  * @covers \Ibexa\Contracts\Core\Repository\NotificationService
  */
-class NotificationServiceTest extends BaseTest
+class NotificationServiceTest extends BaseTestCase
 {
     /**
      * @covers \Ibexa\Contracts\Core\Repository\NotificationService::loadNotifications()

@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 /**
  * Base class for content type specific tests.
  */
-abstract class BaseContentTypeServiceTest extends BaseTest
+abstract class BaseContentTypeServiceTest extends BaseTestCase
 {
     /**
      * Creates a fully functional ContentTypeDraft and returns it.

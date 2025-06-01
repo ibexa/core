@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\Values\Content;
 
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
-final class DefaultLanguageCodeForContentTest extends BaseTest
+final class DefaultLanguageCodeForContentTest extends BaseTestCase
 {
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException

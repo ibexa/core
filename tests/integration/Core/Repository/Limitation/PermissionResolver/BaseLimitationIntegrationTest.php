@@ -9,12 +9,12 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver;
 
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Base class for all Limitation integration tests.
  */
-abstract class BaseLimitationIntegrationTest extends BaseTest
+abstract class BaseLimitationIntegrationTest extends BaseTestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
     protected $permissionResolver;

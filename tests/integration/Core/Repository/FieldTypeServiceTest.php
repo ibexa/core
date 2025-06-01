@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\FieldType;
  *
  * @group field-type
  */
-class FieldTypeServiceTest extends BaseTest
+class FieldTypeServiceTest extends BaseTestCase
 {
     /**
      * Test for the getFieldTypes() method.

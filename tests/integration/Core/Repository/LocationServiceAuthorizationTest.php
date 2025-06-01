@@ -23,7 +23,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
  * @group integration
  * @group authorization
  */
-class LocationServiceAuthorizationTest extends BaseTest
+class LocationServiceAuthorizationTest extends BaseTestCase
 {
     /**
      * Test for the createLocation() method.

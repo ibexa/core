@@ -7,7 +7,7 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Issue https://issues.ibexa.co/browse/EZP-26367.
@@ -18,7 +18,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
  * @group cache-invalidation
  * @group cache-spi
  */
-class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTest
+class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTestCase
 {
     public function testReverseLookupReturnsHistoryAlias()
     {

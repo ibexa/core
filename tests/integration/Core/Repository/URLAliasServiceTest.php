@@ -26,7 +26,7 @@ use RuntimeException;
  *
  * @group url-alias
  */
-class URLAliasServiceTest extends BaseTest
+class URLAliasServiceTest extends BaseTestCase
 {
     /**
      * Tests that the required <b>LocationService::loadLocation()</b>

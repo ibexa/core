@@ -10,7 +10,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * This test will try to execute search queries that might be interpreted as "pure negative"
@@ -18,7 +18,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
  *
  * @group regression
  */
-class PureNegativeQueryTest extends BaseTest
+class PureNegativeQueryTest extends BaseTestCase
 {
     public function providerForTestMatchAll()
     {

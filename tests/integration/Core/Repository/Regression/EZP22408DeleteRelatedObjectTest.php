@@ -8,9 +8,9 @@
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
-class EZP22408DeleteRelatedObjectTest extends BaseTest
+class EZP22408DeleteRelatedObjectTest extends BaseTestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType */
     private $testContentType;

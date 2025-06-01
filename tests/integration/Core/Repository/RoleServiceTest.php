@@ -52,7 +52,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserRoleAssignment;
  *
  * @group role
  */
-class RoleServiceTest extends BaseTest
+class RoleServiceTest extends BaseTestCase
 {
     /**
      * Test for the newRoleCreateStruct() method.

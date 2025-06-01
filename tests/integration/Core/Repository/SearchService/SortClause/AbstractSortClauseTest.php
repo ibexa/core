@@ -10,9 +10,9 @@ namespace Ibexa\Tests\Integration\Core\Repository\SearchService\SortClause;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
-abstract class AbstractSortClauseTest extends BaseTest
+abstract class AbstractSortClauseTest extends BaseTestCase
 {
     protected function assertSearchResultOrderByRemoteId(
         array $expectedOrderedIds,

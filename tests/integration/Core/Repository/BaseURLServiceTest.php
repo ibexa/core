@@ -19,7 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\URL\UsageSearchResult;
 /**
  * Base class for URLService tests.
  */
-abstract class BaseURLServiceTest extends BaseTest
+abstract class BaseURLServiceTest extends BaseTestCase
 {
     private const URL_CONTENT_TYPE_IDENTIFIER = 'link_ct';
 

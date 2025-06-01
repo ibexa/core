@@ -15,9 +15,9 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeCreateStruct;
 use Ibexa\Tests\Integration\Core\FieldType\FieldConstraintsStorage\Stub\ExampleFieldConstraintsStorage;
 use Ibexa\Tests\Integration\Core\FieldType\FieldConstraintsStorage\Stub\ExampleFieldType;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
-final class FieldConstraintsStorageTest extends BaseTest
+final class FieldConstraintsStorageTest extends BaseTestCase
 {
     private const EXAMPLE_FIELD_IDENTIFIER = 'example';
 

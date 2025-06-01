@@ -18,7 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreferenceSetStruc
  *
  * @covers \Ibexa\Contracts\Core\Repository\UserPreferenceService
  */
-class UserPreferenceServiceTest extends BaseTest
+class UserPreferenceServiceTest extends BaseTestCase
 {
     /**
      * @covers \Ibexa\Contracts\Core\Repository\UserPreferenceService::loadUserPreferences()
