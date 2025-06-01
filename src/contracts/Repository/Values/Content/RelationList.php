@@ -26,9 +26,9 @@ class RelationList extends ValueObject implements IteratorAggregate
     public array $items = [];
 
     /**
-     * @return \ArrayIterator<\Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface>
+     * @return \Iterator<int, \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Iterator
     {
         return new ArrayIterator($this->items);
     }
