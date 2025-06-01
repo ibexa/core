@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content;
 
+use DateTimeInterface;
+
 /**
  * this class represents a trash item, which is actually a trashed location.
  */
@@ -15,8 +17,6 @@ abstract class TrashItem extends Location
 {
     /**
      * Trashed timestamp.
-     *
-     * @var \DateTime
      */
-    protected $trashed;
+    protected DateTimeInterface $trashed;
 }
