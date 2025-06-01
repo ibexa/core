@@ -21,7 +21,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
  * @group integration
  * @group limitation
  */
-abstract class BaseLimitationTest extends BaseTestCase
+abstract class BaseLimitationTestCase extends BaseTestCase
 {
     /**
      * Creates a published wiki page.

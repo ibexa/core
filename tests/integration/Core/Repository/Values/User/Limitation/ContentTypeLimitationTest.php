@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation
  * @group integration
  * @group limitation
  */
-class ContentTypeLimitationTest extends BaseLimitationTest
+class ContentTypeLimitationTest extends BaseLimitationTestCase
 {
     /**
      * Test for the ContentTypeLimitation.

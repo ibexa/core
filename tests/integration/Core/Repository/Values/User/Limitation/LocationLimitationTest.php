@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation;
  * @group integration
  * @group limitation
  */
-class LocationLimitationTest extends BaseLimitationTest
+class LocationLimitationTest extends BaseLimitationTestCase
 {
     /**
      * Tests a LocationLimitation.

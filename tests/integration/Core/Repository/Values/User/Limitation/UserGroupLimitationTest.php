@@ -18,7 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
  * @group integration
  * @group limitation
  */
-class UserGroupLimitationTest extends BaseLimitationTest
+class UserGroupLimitationTest extends BaseLimitationTestCase
 {
     public function testUserGroupLimitationAllow()
     {

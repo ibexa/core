@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
  * @group integration
  * @group limitation
  */
-class SectionLimitationTest extends BaseLimitationTest
+class SectionLimitationTest extends BaseLimitationTestCase
 {
     public function testSectionLimitationAllow()
     {

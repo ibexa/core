@@ -10,9 +10,9 @@ namespace Ibexa\Tests\Integration\Core\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\UserRoleLimitation;
-use Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver\BaseLimitationIntegrationTest;
+use Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver\BaseLimitationIntegrationTestCase;
 
-final class RoleLimitationTest extends BaseLimitationIntegrationTest
+final class RoleLimitationTest extends BaseLimitationIntegrationTestCase
 {
     private const USERS_GROUP_ID = 4;
 

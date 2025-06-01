@@ -14,7 +14,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 /**
  * Base class for all Limitation integration tests.
  */
-abstract class BaseLimitationIntegrationTest extends BaseTestCase
+abstract class BaseLimitationIntegrationTestCase extends BaseTestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
     protected $permissionResolver;

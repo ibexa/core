@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewObjectStateLimitat
  * @group integration
  * @group limitation
  */
-class NewObjectStateLimitationTest extends BaseLimitationTest
+class NewObjectStateLimitationTest extends BaseLimitationTestCase
 {
     public function testNewObjectStateLimitationAllow()
     {

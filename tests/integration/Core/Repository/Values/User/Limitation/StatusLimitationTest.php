@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\StatusLimitation;
  * @group integration
  * @group limitation
  */
-class StatusLimitationTest extends BaseLimitationTest
+class StatusLimitationTest extends BaseLimitationTestCase
 {
     public function testStatusLimitationAllow()
     {

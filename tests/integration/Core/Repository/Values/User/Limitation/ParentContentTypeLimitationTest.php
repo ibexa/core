@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentContentTypeLimi
  * @group integration
  * @group limitation
  */
-class ParentContentTypeLimitationTest extends BaseLimitationTest
+class ParentContentTypeLimitationTest extends BaseLimitationTestCase
 {
     public function testParentContentTypeLimitationAllow()
     {

@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Limitation\Target\Version;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation;
 
-class LocationLimitationIntegrationTest extends BaseLimitationIntegrationTest
+class LocationLimitationIntegrationTest extends BaseLimitationIntegrationTestCase
 {
     private const LOCATION_ID = 2;
 
