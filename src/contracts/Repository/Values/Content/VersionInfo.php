@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content;
 
+use DateTimeInterface;
 use Ibexa\Contracts\Core\Repository\Values\MultiLanguageName;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
@@ -36,53 +37,40 @@ abstract class VersionInfo extends ValueObject implements MultiLanguageName
 
     /**
      * Version ID.
-     *
-     * @var mixed
      */
-    protected $id;
+    protected int $id;
 
     /**
      * Version number.
      *
      * In contrast to {@see VersionInfo::$id}, this is the version number, which only
      * increments in scope of a single Content object.
-     *
-     * @var int
      */
-    protected $versionNo;
+    protected int $versionNo;
 
     /**
      * the last modified date of this version.
-     *
-     * @var \DateTime
      */
-    protected $modificationDate;
+    protected DateTimeInterface $modificationDate;
 
     /**
      * Creator user ID.
      *
      * Creator of the version, in the search API this is referred to as the modifier of the published content.
-     *
-     * @var mixed
      */
-    protected $creatorId;
+    protected int $creatorId;
 
-    /** @var \DateTime */
-    protected $creationDate;
+    protected DateTimeInterface $creationDate;
 
     /**
      * One of VersionInfo::STATUS_DRAFT, VersionInfo::STATUS_PUBLISHED, VersionInfo::STATUS_ARCHIVED.
-     *
-     * @var int Constant.
      */
-    protected $status;
+    protected int $status = self::STATUS_DRAFT;
 
     /**
      * In 4.x this is the language code which is used for labeling a translation.
-     *
-     * @var string
      */
-    protected $initialLanguageCode;
+    protected string $initialLanguageCode;
 
     /**
      * List of languages in this version.
