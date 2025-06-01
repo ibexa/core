@@ -10,14 +10,14 @@ namespace Ibexa\Tests\Integration\Core\Persistence\Search\Content;
 
 use DateTimeImmutable;
 use Ibexa\Core\Search\Legacy\Content\IndexerGateway;
-use Ibexa\Tests\Integration\Core\BaseGatewayTest;
+use Ibexa\Tests\Integration\Core\BaseGatewayTestCase;
 
 /**
  * @internal
  *
  * @covers \Ibexa\Core\Search\Legacy\Content\IndexerGateway
  */
-final class IndexerGatewayTest extends BaseGatewayTest
+final class IndexerGatewayTest extends BaseGatewayTestCase
 {
     /** @var \Ibexa\Core\Search\Legacy\Content\IndexerGateway */
     private $gateway;
