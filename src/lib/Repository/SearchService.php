@@ -137,22 +137,6 @@ class SearchService implements SearchServiceInterface
      */
     protected function internalFindContentInfo(Query $query, array $languageFilter = [], $filterOnUserPermissions = true)
     {
-        if (!is_int($query->offset)) {
-            throw new InvalidArgumentType(
-                '$query->offset',
-                'integer',
-                $query->offset
-            );
-        }
-
-        if (!is_int($query->limit)) {
-            throw new InvalidArgumentType(
-                '$query->limit',
-                'integer',
-                $query->limit
-            );
-        }
-
         $query = clone $query;
         $query->filter = $query->filter ?: new Criterion\MatchAll();
 
@@ -263,22 +247,6 @@ class SearchService implements SearchServiceInterface
      */
     public function findLocations(LocationQuery $query, array $languageFilter = [], bool $filterOnUserPermissions = true): SearchResult
     {
-        if (!is_int($query->offset)) {
-            throw new InvalidArgumentType(
-                '$query->offset',
-                'integer',
-                $query->offset
-            );
-        }
-
-        if (!is_int($query->limit)) {
-            throw new InvalidArgumentType(
-                '$query->limit',
-                'integer',
-                $query->limit
-            );
-        }
-
         $query = clone $query;
         $query->filter = $query->filter ?: new Criterion\MatchAll();
 
