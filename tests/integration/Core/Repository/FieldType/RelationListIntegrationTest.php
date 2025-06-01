@@ -20,7 +20,7 @@ use Ibexa\Core\Repository\Values\Content\Relation;
  * @group integration
  * @group field-type
  */
-class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
+class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
 {
     use RelationSearchBaseIntegrationTestTrait;
 

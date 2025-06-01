@@ -18,7 +18,7 @@ use Ibexa\Core\FieldType\Integer\Value as IntegerValue;
  * @group integration
  * @group field-type
  */
-class IntegerIntegrationTest extends SearchBaseIntegrationTest
+class IntegerIntegrationTest extends SearchBaseIntegrationTestCase
 {
     /**
      * Get name of tested field type.

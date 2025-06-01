@@ -17,7 +17,7 @@ use Ibexa\Core\FieldType\MapLocation\Value as MapLocationValue;
  * @group integration
  * @group field-type
  */
-class MapLocationIntegrationTest extends BaseIntegrationTest
+class MapLocationIntegrationTest extends BaseIntegrationTestCase
 {
     /**
      * Get name of tested field type.

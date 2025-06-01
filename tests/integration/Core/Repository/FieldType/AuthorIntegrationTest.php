@@ -20,7 +20,7 @@ use Ibexa\Core\FieldType\Author\Value as AuthorValue;
  * @group integration
  * @group field-type
  */
-class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
+class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
 {
     /**
      * Get name of tested field type.

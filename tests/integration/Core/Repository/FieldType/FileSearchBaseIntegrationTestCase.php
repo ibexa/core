@@ -18,7 +18,7 @@ use UnexpectedValueException;
  * @group integration
  * @group field-type
  */
-abstract class FileSearchBaseIntegrationTest extends SearchBaseIntegrationTest
+abstract class FileSearchBaseIntegrationTestCase extends SearchBaseIntegrationTestCase
 {
     /**
      * Base install dir.

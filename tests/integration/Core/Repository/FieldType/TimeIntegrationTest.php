@@ -18,7 +18,7 @@ use Ibexa\Core\FieldType\Time\Value as TimeValue;
  * @group integration
  * @group field-type
  */
-class TimeIntegrationTest extends SearchBaseIntegrationTest
+class TimeIntegrationTest extends SearchBaseIntegrationTestCase
 {
     /**
      * Get name of tested field type.

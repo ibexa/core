@@ -18,7 +18,7 @@ use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
  * @group integration
  * @group field-type
  */
-class TextLineIntegrationTest extends SearchBaseIntegrationTest
+class TextLineIntegrationTest extends SearchBaseIntegrationTestCase
 {
     /**
      * Get name of tested field type.

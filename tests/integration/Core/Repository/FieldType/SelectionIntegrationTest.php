@@ -18,7 +18,7 @@ use Ibexa\Core\FieldType\Selection\Value as SelectionValue;
  * @group integration
  * @group field-type
  */
-class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
+class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
 {
     /**
      * Get name of tested field type.

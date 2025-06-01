@@ -42,7 +42,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
  *
  * @todo Finalize dependencies to other tests (including groups!)
  */
-abstract class BaseIntegrationTest extends BaseTest
+abstract class BaseIntegrationTestCase extends BaseTest
 {
     /**
      * Content version archive limit (default).
