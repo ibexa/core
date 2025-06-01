@@ -15,7 +15,7 @@ use Ibexa\Core\IO\IOConfigProvider;
 /**
  * @covers \Ibexa\Core\IO\Flysystem\PathPrefixer\LocalSiteAccessAwarePathPrefixer
  */
-final class LocalSiteAccessAwarePathPrefixerTest extends BaseSiteAccessAwarePathPrefixerTest
+final class LocalSiteAccessAwarePathPrefixerTest extends BaseSiteAccessAwarePathPrefixerTestCase
 {
     public function getDataForTestPrefixPath(): iterable
     {

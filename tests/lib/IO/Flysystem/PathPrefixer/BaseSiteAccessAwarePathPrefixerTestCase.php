@@ -14,7 +14,7 @@ use Ibexa\Tests\Core\Search\TestCase;
 /**
  * @covers \Ibexa\Core\IO\Flysystem\PathPrefixer\PathPrefixerInterface
  */
-abstract class BaseSiteAccessAwarePathPrefixerTest extends TestCase
+abstract class BaseSiteAccessAwarePathPrefixerTestCase extends TestCase
 {
     abstract protected function getPrefixer(): PathPrefixerInterface;
 
