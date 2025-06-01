@@ -20,17 +20,12 @@ class Thumbnail extends ValueObject
 {
     /**
      * Can be target URL or Base64 data (or anything else).
-     *
-     * @var string
      */
-    protected $resource;
+    protected string $resource;
 
-    /** @var int|null */
-    protected $width;
+    protected ?int $width;
 
-    /** @var int|null */
-    protected $height;
+    protected ?int $height;
 
-    /** @var string|null */
-    protected $mimeType;
+    protected ?string $mimeType;
 }
