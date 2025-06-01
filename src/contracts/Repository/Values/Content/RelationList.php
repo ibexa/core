@@ -18,16 +18,16 @@ use Traversable;
  */
 class RelationList extends ValueObject implements IteratorAggregate
 {
-    /**
-     * @var int
-     */
-    public $totalCount = 0;
+    public int $totalCount = 0;
 
     /**
      * @var \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface[]
      */
-    public $items = [];
+    public array $items = [];
 
+    /**
+     * @return \ArrayIterator<\Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface>
+     */
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->items);
