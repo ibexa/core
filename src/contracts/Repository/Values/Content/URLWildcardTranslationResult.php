@@ -20,15 +20,11 @@ class URLWildcardTranslationResult extends ValueObject
 {
     /**
      * The found resource uri.
-     *
-     * @var string
      */
-    protected $uri;
+    protected string $uri;
 
     /**
      * Indicates if the url is redirected or not.
-     *
-     * @var bool
      */
-    protected $forward;
+    protected bool $forward;
 }
