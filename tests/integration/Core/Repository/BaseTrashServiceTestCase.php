@@ -13,7 +13,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 /**
  * Base class for trash specific tests.
  */
-abstract class BaseTrashServiceTest extends BaseTestCase
+abstract class BaseTrashServiceTestCase extends BaseTestCase
 {
     /**
      * Creates a trashed item from the <b>Community</b> page location and stores
