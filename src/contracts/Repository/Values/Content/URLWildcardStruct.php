@@ -12,9 +12,9 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 class URLWildcardStruct extends ValueObject
 {
-    public ?string $destinationUrl = null;
+    public string $destinationUrl;
 
-    public ?string $sourceUrl = null;
+    public string $sourceUrl;
 
-    public ?bool $forward = null;
+    public bool $forward;
 }
