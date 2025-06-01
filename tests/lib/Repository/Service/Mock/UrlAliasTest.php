@@ -30,6 +30,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class UrlAliasTest extends BaseServiceMockTest
 {
     private const EXAMPLE_ID = 'eznode:42';
+    private const EXAMPLE_LOCATION_ID = 42;
     private const EXAMPLE_LANGUAGE_CODE = 'pol-PL';
     private const EXAMPLE_PATH = 'folder/article';
     private const EXAMPLE_OFFSET = 10;
@@ -77,7 +78,24 @@ class UrlAliasTest extends BaseServiceMockTest
             ->expects(self::once())
             ->method('loadUrlAlias')
             ->with(self::EXAMPLE_ID)
-            ->willReturn(new SPIUrlAlias());
+            ->willReturn(new SPIUrlAlias([
+                'id' => self::EXAMPLE_ID,
+                'type' => SPIUrlAlias::LOCATION,
+                'destination' => self::EXAMPLE_LOCATION_ID,
+                'pathData' => [
+                    [
+                        'always-available' => true,
+                        'translations' => [
+                            self::EXAMPLE_LANGUAGE_CODE => self::EXAMPLE_PATH,
+                        ],
+                    ],
+                ],
+                'languageCodes' => ['eng-GB'],
+                'alwaysAvailable' => false,
+                'isHistory' => false,
+                'isCustom' => false,
+                'forward' => false,
+            ]));
 
         $mockedService
             ->expects(self::once())
@@ -136,9 +154,14 @@ class UrlAliasTest extends BaseServiceMockTest
         return new SPIUrlAlias(
             [
                 'id' => '3',
+                'type' => SPIUrlAlias::LOCATION,
+                'destination' => self::EXAMPLE_LOCATION_ID,
                 'pathData' => [$pathElement1, $pathElement2, $pathElement3],
                 'languageCodes' => ['ger-DE'],
                 'alwaysAvailable' => false,
+                'isHistory' => false,
+                'isCustom' => false,
+                'forward' => false,
             ]
         );
     }
@@ -190,8 +213,23 @@ class UrlAliasTest extends BaseServiceMockTest
      */
     public function testRemoveAliases()
     {
-        $aliasList = [new URLAlias(['isCustom' => true])];
-        $spiAliasList = [new SPIUrlAlias(['isCustom' => true])];
+        $aliasList = [
+            new URLAlias([
+                'id' => self::EXAMPLE_ID,
+                'type' => URLAlias::LOCATION,
+                'destination' => self::EXAMPLE_LOCATION_ID,
+                'isCustom' => true,
+            ]),
+        ];
+        $spiAliasList = [
+            new SPIUrlAlias([
+                'id' => self::EXAMPLE_ID,
+                'type' => SPIUrlAlias::LOCATION,
+                'destination' => self::EXAMPLE_LOCATION_ID,
+                'isCustom' => true,
+            ]),
+        ];
+
         $this->permissionResolver
             ->expects(self::once())
             ->method('hasAccess')->with(
@@ -225,8 +263,23 @@ class UrlAliasTest extends BaseServiceMockTest
      */
     public function testRemoveAliasesWithRollback()
     {
-        $aliasList = [new URLAlias(['isCustom' => true])];
-        $spiAliasList = [new SPIUrlAlias(['isCustom' => true])];
+        $aliasList = [
+            new URLAlias([
+                'id' => self::EXAMPLE_ID,
+                'type' => SPIUrlAlias::LOCATION,
+                'destination' => self::EXAMPLE_LOCATION_ID,
+                'isCustom' => true,
+            ]),
+        ];
+
+        $spiAliasList = [
+            new SPIUrlAlias([
+                'id' => self::EXAMPLE_ID,
+                'type' => SPIUrlAlias::LOCATION,
+                'destination' => self::EXAMPLE_LOCATION_ID,
+                'isCustom' => true,
+            ]),
+        ];
         $this->permissionResolver
             ->expects(self::once())
             ->method('hasAccess')->with(
@@ -289,9 +342,14 @@ class UrlAliasTest extends BaseServiceMockTest
             new SPIUrlAlias(
                 [
                     'id' => '1',
+                    'type' => SPIUrlAlias::LOCATION,
+                    'destination' => self::EXAMPLE_LOCATION_ID,
                     'pathData' => $pathData1,
                     'languageCodes' => ['cro-HR'],
                     'alwaysAvailable' => true,
+                    'isHistory' => false,
+                    'isCustom' => false,
+                    'forward' => false,
                 ]
             ),
         ];
@@ -299,17 +357,27 @@ class UrlAliasTest extends BaseServiceMockTest
             new SPIUrlAlias(
                 [
                     'id' => '1',
+                    'type' => SPIUrlAlias::LOCATION,
+                    'destination' => self::EXAMPLE_LOCATION_ID,
                     'pathData' => $pathData2,
                     'languageCodes' => ['cro-HR'],
                     'alwaysAvailable' => false,
+                    'isHistory' => false,
+                    'isCustom' => false,
+                    'forward' => false,
                 ]
             ),
             new SPIUrlAlias(
                 [
                     'id' => '2',
+                    'type' => SPIUrlAlias::LOCATION,
+                    'destination' => self::EXAMPLE_LOCATION_ID,
                     'pathData' => $pathData2,
                     'languageCodes' => ['eng-GB'],
                     'alwaysAvailable' => false,
+                    'isHistory' => false,
+                    'isCustom' => false,
+                    'forward' => false,
                 ]
             ),
         ];
@@ -317,25 +385,40 @@ class UrlAliasTest extends BaseServiceMockTest
             new SPIUrlAlias(
                 [
                     'id' => '1',
+                    'type' => SPIUrlAlias::LOCATION,
+                    'destination' => self::EXAMPLE_LOCATION_ID,
                     'pathData' => $pathData3,
                     'languageCodes' => ['cro-HR'],
                     'alwaysAvailable' => false,
+                    'isHistory' => false,
+                    'isCustom' => false,
+                    'forward' => false,
                 ]
             ),
             new SPIUrlAlias(
                 [
                     'id' => '2',
+                    'type' => SPIUrlAlias::LOCATION,
+                    'destination' => self::EXAMPLE_LOCATION_ID,
                     'pathData' => $pathData3,
                     'languageCodes' => ['eng-GB'],
                     'alwaysAvailable' => false,
+                    'isHistory' => false,
+                    'isCustom' => false,
+                    'forward' => false,
                 ]
             ),
             new SPIUrlAlias(
                 [
                     'id' => '3',
+                    'type' => SPIUrlAlias::LOCATION,
+                    'destination' => self::EXAMPLE_LOCATION_ID,
                     'pathData' => $pathData3,
                     'languageCodes' => ['ger-DE'],
                     'alwaysAvailable' => false,
+                    'isHistory' => false,
+                    'isCustom' => false,
+                    'forward' => false,
                 ]
             ),
         ];
@@ -733,9 +816,14 @@ class UrlAliasTest extends BaseServiceMockTest
         $spiUrlAlias = new SPIUrlAlias(
             [
                 'id' => '3',
+                'type' => SPIUrlAlias::LOCATION,
+                'destination' => self::EXAMPLE_LOCATION_ID,
                 'pathData' => [$pathElement1, $pathElement2, $pathElement3],
                 'languageCodes' => ['ger-DE'],
                 'alwaysAvailable' => false,
+                'isHistory' => false,
+                'isCustom' => false,
+                'forward' => false,
             ]
         );
         $urlAliasService = $this->getPartlyMockedURLAliasServiceService(
@@ -790,9 +878,14 @@ class UrlAliasTest extends BaseServiceMockTest
         $spiUrlAlias = new SPIUrlAlias(
             [
                 'id' => '3',
+                'type' => SPIUrlAlias::LOCATION,
+                'destination' => self::EXAMPLE_LOCATION_ID,
                 'pathData' => [$pathElement1, $pathElement2, $pathElement3],
                 'languageCodes' => ['ger-DE'],
                 'alwaysAvailable' => false,
+                'isHistory' => false,
+                'isCustom' => false,
+                'forward' => false,
             ]
         );
         $urlAliasService = $this->getPartlyMockedURLAliasServiceService(
@@ -979,48 +1072,84 @@ class UrlAliasTest extends BaseServiceMockTest
         $spiUrlAliases1 = [
             new SPIUrlAlias(
                 [
+                    'id' => self::EXAMPLE_ID,
+                    'type' => SPIUrlAlias::LOCATION,
+                    'destination' => self::EXAMPLE_LOCATION_ID,
                     'pathData' => $pathData1,
                     'languageCodes' => ['cro-HR'],
                     'alwaysAvailable' => true,
+                    'isHistory' => false,
+                    'isCustom' => false,
+                    'forward' => false,
                 ]
             ),
         ];
         $spiUrlAliases2 = [
             new SPIUrlAlias(
                 [
+                    'id' => self::EXAMPLE_ID,
+                    'type' => SPIUrlAlias::LOCATION,
+                    'destination' => self::EXAMPLE_LOCATION_ID,
                     'pathData' => $pathData2,
                     'languageCodes' => ['cro-HR'],
                     'alwaysAvailable' => false,
+                    'isHistory' => false,
+                    'isCustom' => false,
+                    'forward' => false,
                 ]
             ),
             new SPIUrlAlias(
                 [
+                    'id' => self::EXAMPLE_ID,
+                    'type' => SPIUrlAlias::LOCATION,
+                    'destination' => self::EXAMPLE_LOCATION_ID,
                     'pathData' => $pathData2,
                     'languageCodes' => ['eng-GB'],
                     'alwaysAvailable' => false,
+                    'isHistory' => false,
+                    'isCustom' => false,
+                    'forward' => false,
                 ]
             ),
         ];
         $spiUrlAliases3 = [
             new SPIUrlAlias(
                 [
+                    'id' => self::EXAMPLE_ID,
+                    'type' => SPIUrlAlias::LOCATION,
+                    'destination' => self::EXAMPLE_LOCATION_ID,
                     'pathData' => $pathData3,
                     'languageCodes' => ['cro-HR'],
                     'alwaysAvailable' => false,
+                    'isHistory' => false,
+                    'isCustom' => false,
+                    'forward' => false,
                 ]
             ),
             new SPIUrlAlias(
                 [
+                    'id' => self::EXAMPLE_ID,
+                    'type' => SPIUrlAlias::LOCATION,
+                    'destination' => self::EXAMPLE_LOCATION_ID,
                     'pathData' => $pathData3,
                     'languageCodes' => ['eng-GB'],
                     'alwaysAvailable' => false,
+                    'isHistory' => false,
+                    'isCustom' => false,
+                    'forward' => false,
                 ]
             ),
             new SPIUrlAlias(
                 [
+                    'id' => self::EXAMPLE_ID,
+                    'type' => SPIUrlAlias::LOCATION,
+                    'destination' => self::EXAMPLE_LOCATION_ID,
                     'pathData' => $pathData3,
                     'languageCodes' => ['ger-DE'],
                     'alwaysAvailable' => false,
+                    'isHistory' => false,
+                    'isCustom' => false,
+                    'forward' => false,
                 ]
             ),
         ];
@@ -1589,6 +1718,9 @@ class UrlAliasTest extends BaseServiceMockTest
         $spiUrlAliases = [
             new SPIUrlAlias(
                 [
+                    'id' => self::EXAMPLE_ID,
+                    'type' => SPIUrlAlias::LOCATION,
+                    'destination' => self::EXAMPLE_LOCATION_ID,
                     'pathData' => [
                         [
                             'always-available' => false,
@@ -1607,6 +1739,9 @@ class UrlAliasTest extends BaseServiceMockTest
                     ],
                     'languageCodes' => ['eng-GB', 'ger-DE'],
                     'alwaysAvailable' => false,
+                    'isHistory' => false,
+                    'isCustom' => false,
+                    'forward' => false,
                 ]
             ),
         ];
@@ -1803,6 +1938,9 @@ class UrlAliasTest extends BaseServiceMockTest
         $spiUrlAliases = [
             new SPIUrlAlias(
                 [
+                    'id' => self::EXAMPLE_ID,
+                    'type' => SPIUrlAlias::LOCATION,
+                    'destination' => self::EXAMPLE_LOCATION_ID,
                     'pathData' => [
                         [
                             'always-available' => false,
@@ -1821,6 +1959,9 @@ class UrlAliasTest extends BaseServiceMockTest
                     ],
                     'languageCodes' => ['eng-GB', 'ger-DE'],
                     'alwaysAvailable' => false,
+                    'isHistory' => false,
+                    'isCustom' => false,
+                    'forward' => false,
                 ]
             ),
         ];
@@ -2039,6 +2180,9 @@ class UrlAliasTest extends BaseServiceMockTest
         $spiUrlAliases = [
             new SPIUrlAlias(
                 [
+                    'id' => self::EXAMPLE_ID,
+                    'type' => SPIUrlAlias::LOCATION,
+                    'destination' => self::EXAMPLE_LOCATION_ID,
                     'pathData' => [
                         [
                             'always-available' => false,
@@ -2056,6 +2200,9 @@ class UrlAliasTest extends BaseServiceMockTest
                     ],
                     'languageCodes' => ['ger-DE'],
                     'alwaysAvailable' => true,
+                    'isHistory' => false,
+                    'isCustom' => false,
+                    'forward' => false,
                 ]
             ),
         ];
@@ -2174,6 +2321,9 @@ class UrlAliasTest extends BaseServiceMockTest
         $spiUrlAliases = [
             new SPIUrlAlias(
                 [
+                    'id' => self::EXAMPLE_ID,
+                    'type' => SPIUrlAlias::LOCATION,
+                    'destination' => self::EXAMPLE_LOCATION_ID,
                     'pathData' => [
                         [
                             'always-available' => false,
@@ -2191,6 +2341,9 @@ class UrlAliasTest extends BaseServiceMockTest
                     ],
                     'languageCodes' => ['ger-DE'],
                     'alwaysAvailable' => true,
+                    'isHistory' => false,
+                    'isCustom' => false,
+                    'forward' => false,
                 ]
             ),
         ];
@@ -2403,21 +2556,27 @@ class UrlAliasTest extends BaseServiceMockTest
             self::equalTo(-1)
         )->willReturn(
             [
-                    new SPIUrlAlias(
-                        [
-                            'pathData' => [
-                                [
-                                    'always-available' => true,
-                                    'translations' => [
-                                        'ger-DE' => 'squirrel',
-                                    ],
+                new SPIUrlAlias(
+                    [
+                        'id' => self::EXAMPLE_ID,
+                        'type' => SPIUrlAlias::LOCATION,
+                        'destination' => self::EXAMPLE_LOCATION_ID,
+                        'pathData' => [
+                            [
+                                'always-available' => true,
+                                'translations' => [
+                                    'ger-DE' => 'squirrel',
                                 ],
                             ],
-                            'languageCodes' => ['ger-DE'],
-                            'alwaysAvailable' => true,
-                        ]
-                    ),
-                ]
+                        ],
+                        'languageCodes' => ['ger-DE'],
+                        'alwaysAvailable' => true,
+                        'isHistory' => false,
+                        'isCustom' => false,
+                        'forward' => false,
+                    ]
+                ),
+            ]
         );
 
         $urlAliases = iterator_to_array($urlAliasService->listGlobalAliases());
@@ -2608,22 +2767,28 @@ class UrlAliasTest extends BaseServiceMockTest
         )->willReturn(
             new SPIUrlAlias(
                 [
-                        'pathData' => [
-                            [
-                                'always-available' => $alwaysAvailable,
-                                'translations' => ['cro-HR' => 'jedan'],
-                            ],
-                            [
-                                'always-available' => $alwaysAvailable,
-                                'translations' => [
-                                    'cro-HR' => 'dva',
-                                    'eng-GB' => 'two',
-                                ],
+                    'id' => self::EXAMPLE_ID,
+                    'type' => SPIUrlAlias::LOCATION,
+                    'destination' => self::EXAMPLE_LOCATION_ID,
+                    'pathData' => [
+                        [
+                            'always-available' => $alwaysAvailable,
+                            'translations' => ['cro-HR' => 'jedan'],
+                        ],
+                        [
+                            'always-available' => $alwaysAvailable,
+                            'translations' => [
+                                'cro-HR' => 'dva',
+                                'eng-GB' => 'two',
                             ],
                         ],
-                        'languageCodes' => ['eng-GB', 'cro-HR'],
-                        'alwaysAvailable' => $alwaysAvailable,
-                    ]
+                    ],
+                    'languageCodes' => ['eng-GB', 'cro-HR'],
+                    'alwaysAvailable' => $alwaysAvailable,
+                    'isHistory' => false,
+                    'isCustom' => false,
+                    'forward' => false,
+                ]
             )
         );
 
@@ -2682,25 +2847,31 @@ class UrlAliasTest extends BaseServiceMockTest
         )->willReturn(
             new SPIUrlAlias(
                 [
-                        'pathData' => [
-                            [
-                                'always-available' => $alwaysAvailable,
-                                'translations' => [
-                                    'cro-HR' => 'jedan',
-                                    'eng-GB' => 'jedan',
-                                ],
-                            ],
-                            [
-                                'always-available' => $alwaysAvailable,
-                                'translations' => [
-                                    'cro-HR' => 'two',
-                                    'eng-GB' => 'two',
-                                ],
+                    'id' => self::EXAMPLE_ID,
+                    'type' => SPIUrlAlias::LOCATION,
+                    'destination' => self::EXAMPLE_LOCATION_ID,
+                    'pathData' => [
+                        [
+                            'always-available' => $alwaysAvailable,
+                            'translations' => [
+                                'cro-HR' => 'jedan',
+                                'eng-GB' => 'jedan',
                             ],
                         ],
-                        'languageCodes' => ['eng-GB', 'cro-HR'],
-                        'alwaysAvailable' => $alwaysAvailable,
-                    ]
+                        [
+                            'always-available' => $alwaysAvailable,
+                            'translations' => [
+                                'cro-HR' => 'two',
+                                'eng-GB' => 'two',
+                            ],
+                        ],
+                    ],
+                    'languageCodes' => ['eng-GB', 'cro-HR'],
+                    'alwaysAvailable' => $alwaysAvailable,
+                    'isHistory' => false,
+                    'isCustom' => false,
+                    'forward' => false,
+                ]
             )
         );
 
@@ -2891,7 +3062,22 @@ class UrlAliasTest extends BaseServiceMockTest
             self::equalTo(self::EXAMPLE_LANGUAGE_CODE),
             self::equalTo(true)
         )->willReturn(
-            new SPIUrlAlias()
+            new SPIUrlAlias([
+                'id' => self::EXAMPLE_ID,
+                'type' => SPIUrlAlias::LOCATION,
+                'destination' => self::EXAMPLE_LOCATION_ID,
+                'pathData' => [
+                    [
+                        'always-available' => true,
+                        'translations' => ['ger-DE' => 'squirrel'],
+                    ],
+                ],
+                'languageCodes' => ['ger-DE'],
+                'alwaysAvailable' => true,
+                'isHistory' => false,
+                'isCustom' => false,
+                'forward' => false,
+            ])
         );
 
         $urlAlias = $mockedService->createUrlAlias(
@@ -3047,7 +3233,22 @@ class UrlAliasTest extends BaseServiceMockTest
             self::equalTo(self::EXAMPLE_LANGUAGE_CODE),
             self::equalTo(true)
         )->willReturn(
-            new SPIUrlAlias()
+            new SPIUrlAlias([
+                'id' => self::EXAMPLE_ID,
+                'type' => SPIUrlAlias::LOCATION,
+                'destination' => self::EXAMPLE_LOCATION_ID,
+                'pathData' => [
+                    [
+                        'always-available' => true,
+                        'translations' => ['ger-DE' => 'squirrel'],
+                    ],
+                ],
+                'languageCodes' => ['ger-DE'],
+                'alwaysAvailable' => true,
+                'isHistory' => false,
+                'isCustom' => false,
+                'forward' => false,
+            ])
         );
 
         $urlAlias = $mockedService->createGlobalUrlAlias(
