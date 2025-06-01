@@ -12,11 +12,11 @@ use Ibexa\Contracts\Core\Collection\ArrayList;
 use Ibexa\Contracts\Core\Exception\OutOfBoundsException;
 
 /**
- * @template-extends \Ibexa\Tests\Core\Collection\AbstractCollectionTest<
+ * @template-extends \Ibexa\Tests\Core\Collection\AbstractCollectionTestCase<
  *     \Ibexa\Contracts\Core\Collection\ArrayList
  * >
  */
-class ArrayListTest extends AbstractCollectionTest
+class ArrayListTest extends AbstractCollectionTestCase
 {
     public function testFirst(): void
     {

@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @template TCollection of \Ibexa\Contracts\Core\Repository\Collection\CollectionInterfaces
  */
-abstract class AbstractCollectionTest extends TestCase
+abstract class AbstractCollectionTestCase extends TestCase
 {
     public function testIsEmptyReturnsTrue(): void
     {

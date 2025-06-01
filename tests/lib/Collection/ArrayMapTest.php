@@ -13,11 +13,11 @@ use Ibexa\Contracts\Core\Collection\MapInterface;
 use Ibexa\Contracts\Core\Exception\OutOfBoundsException;
 
 /**
- * @template-extends \Ibexa\Tests\Core\Collection\AbstractCollectionTest<
+ * @template-extends \Ibexa\Tests\Core\Collection\AbstractCollectionTestCase<
  *     \Ibexa\Contracts\Core\Collection\ArrayMap
  * >
  */
-class ArrayMapTest extends AbstractCollectionTest
+class ArrayMapTest extends AbstractCollectionTestCase
 {
     protected const EXAMPLE_DATA = [
         'A' => 'foo',
