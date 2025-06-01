@@ -69,6 +69,7 @@ class PreviewLocationProvider
             // NOTE: Once Repository adds support for draft locations (and draft  location ops), then this can be removed
             $location = new Location(
                 [
+                    'id' => 0,
                     'content' => $content,
                     'contentInfo' => $contentInfo,
                     'status' => Location::STATUS_DRAFT,
