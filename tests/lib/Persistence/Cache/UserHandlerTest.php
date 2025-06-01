@@ -21,7 +21,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Location\Handler as SPILocationHandler
 /**
  * Test case for Persistence\Cache\UserHandler.
  */
-class UserHandlerTest extends AbstractInMemoryCacheHandlerTest
+class UserHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {

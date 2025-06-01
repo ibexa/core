@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Persistence\Cache;
 
 /**
- * Abstract test case for spi cache impl, with in-memory handling.
+ * Abstract test case for spi cache impl.
  */
-abstract class AbstractInMemoryCacheHandlerTest extends AbstractBaseHandlerTest
+abstract class AbstractCacheHandlerTestCase extends AbstractBaseHandlerTestCase
 {
     abstract public function getHandlerMethodName(): string;
 
@@ -27,7 +27,7 @@ abstract class AbstractInMemoryCacheHandlerTest extends AbstractBaseHandlerTest
      * @param array|null $tagGeneratingArguments
      * @param array|null $keyGeneratingArguments
      * @param array|null $tags
-     * @param array|null $key
+     * @param string|array|null $key
      * @param mixed $returnValue
      */
     final public function testUnCachedMethods(
@@ -36,9 +36,8 @@ abstract class AbstractInMemoryCacheHandlerTest extends AbstractBaseHandlerTest
         array $tagGeneratingArguments = null,
         array $keyGeneratingArguments = null,
         array $tags = null,
-        array $key = null,
-        $returnValue = null,
-        bool $callInnerHandler = true
+        $key = null,
+        $returnValue = null
     ) {
         $handlerMethodName = $this->getHandlerMethodName();
 
@@ -48,12 +47,12 @@ abstract class AbstractInMemoryCacheHandlerTest extends AbstractBaseHandlerTest
 
         $innerHandler = $this->createMock($this->getHandlerClassName());
         $this->persistenceHandlerMock
-            ->expects($callInnerHandler ? self::once() : self::never())
+            ->expects(self::once())
             ->method($handlerMethodName)
             ->willReturn($innerHandler);
 
         $invocationMocker = $innerHandler
-            ->expects($callInnerHandler ? self::once() : self::never())
+            ->expects(self::once())
             ->method($method)
             ->with(...$arguments);
         // workaround for mocking void-returning methods, null in this case denotes that, not null value
@@ -94,13 +93,14 @@ abstract class AbstractInMemoryCacheHandlerTest extends AbstractBaseHandlerTest
                 ->with($tags);
 
             $this->cacheMock
-                ->expects(!empty($key) ? self::once() : self::never())
+                ->expects(!empty($key) && is_string($key) ? self::once() : self::never())
+                ->method('deleteItem')
+                ->with($key);
+
+            $this->cacheMock
+                ->expects(!empty($key) && is_array($key) ? self::once() : self::never())
                 ->method('deleteItems')
                 ->with($key);
-        } else {
-            $this->cacheMock
-                ->expects(self::never())
-                ->method(self::anything());
         }
 
         $handler = $this->persistenceCacheHandler->$handlerMethodName();
@@ -140,9 +140,7 @@ abstract class AbstractInMemoryCacheHandlerTest extends AbstractBaseHandlerTest
         $cacheItem = $this->getCacheItem($key, $multi ? reset($data) : $data);
         $handlerMethodName = $this->getHandlerMethodName();
 
-        $this->loggerMock->expects(self::once())->method('logCacheHit');
         $this->loggerMock->expects(self::never())->method('logCall');
-        $this->loggerMock->expects(self::never())->method('logCacheMiss');
 
         if ($tagGeneratingArguments) {
             $this->cacheIdentifierGeneratorMock
@@ -202,7 +200,7 @@ abstract class AbstractInMemoryCacheHandlerTest extends AbstractBaseHandlerTest
      * @param array|null $tagGeneratingResults
      * @param array|null $keyGeneratingArguments
      * @param array|null $keyGeneratingResults
-     * @param null $data
+     * @param object $data
      * @param bool $multi Default false, set to true if method will lookup several cache items.
      * @param array $additionalCalls Sets of additional calls being made to handlers, with 4 values (0: handler name, 1: handler class, 2: method, 3: return data)
      */
@@ -221,9 +219,11 @@ abstract class AbstractInMemoryCacheHandlerTest extends AbstractBaseHandlerTest
         $cacheItem = $this->getCacheItem($key, null);
         $handlerMethodName = $this->getHandlerMethodName();
 
-        $this->loggerMock->expects(self::once())->method('logCacheMiss');
-        $this->loggerMock->expects(self::never())->method('logCall');
-        $this->loggerMock->expects(self::never())->method('logCacheHit');
+        $handler = $this->persistenceCacheHandler->$handlerMethodName();
+        $this->loggerMock
+            ->expects(self::once())
+            ->method('logCall')
+            ->with(get_class($handler) . '::' . $method, self::isType('array'));
 
         if ($tagGeneratingArguments) {
             $this->cacheIdentifierGeneratorMock
@@ -285,12 +285,11 @@ abstract class AbstractInMemoryCacheHandlerTest extends AbstractBaseHandlerTest
             ->method('save')
             ->with($cacheItem);
 
-        $handler = $this->persistenceCacheHandler->$handlerMethodName();
         $return = call_user_func_array([$handler, $method], $arguments);
 
         self::assertEquals($data, $return);
 
-        // Assert use of tags would probably need custom logic as internal property is [$tag => $tag] value, and we don't want to know that.
+        // Assert use of tags would probably need custom logic as internal property is [$tag => $tag] value and we don't want to know that.
         //$this->assertAttributeEquals([], 'tags', $cacheItem);
     }
 }

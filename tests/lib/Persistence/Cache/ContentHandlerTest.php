@@ -23,7 +23,7 @@ use Ibexa\Core\Persistence\Cache\ContentHandler;
 /**
  * @covers \Ibexa\Core\Persistence\Cache\ContentHandler
  */
-class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
+class ContentHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {

@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Content\UrlAlias\Handler as SPIUrlAliasHand
 /**
  * Test case for Persistence\Cache\UrlAliasHandler.
  */
-class UrlAliasHandlerTest extends AbstractInMemoryCacheHandlerTest
+class UrlAliasHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {

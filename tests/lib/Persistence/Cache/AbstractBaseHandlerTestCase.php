@@ -39,7 +39,7 @@ use Symfony\Component\Cache\CacheItem;
 /**
  * Abstract test case for spi cache impl.
  */
-abstract class AbstractBaseHandlerTest extends TestCase
+abstract class AbstractBaseHandlerTestCase extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter|\PHPUnit\Framework\MockObject\MockObject */
     protected $cacheMock;

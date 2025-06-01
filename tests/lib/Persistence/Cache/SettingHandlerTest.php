@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Setting\Setting;
 /**
  * Test case for Persistence\Cache\SettingHandler.
  */
-class SettingHandlerTest extends AbstractCacheHandlerTest
+class SettingHandlerTest extends AbstractCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {
