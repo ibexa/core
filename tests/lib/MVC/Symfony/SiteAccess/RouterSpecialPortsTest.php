@@ -12,7 +12,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Map\Port as PortMatcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
 use Psr\Log\LoggerInterface;
 
-class RouterSpecialPortsTest extends RouterBaseTest
+class RouterSpecialPortsTest extends RouterBaseTestCase
 {
     public function matchProvider(): array
     {

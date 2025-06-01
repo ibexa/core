@@ -10,9 +10,9 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Id;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Location as LocationIdMatcher;
-use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTest;
+use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
 
-class LocationTest extends BaseTest
+class LocationTest extends BaseTestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Location */
     private $matcher;

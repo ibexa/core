@@ -12,9 +12,9 @@ use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ParentContentType as ParentContentTypeMatcher;
-use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTest;
+use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
 
-class ParentContentTypeTest extends BaseTest
+class ParentContentTypeTest extends BaseTestCase
 {
     private const EXAMPLE_LOCATION_ID = 54;
     private const EXAMPLE_PARENT_LOCATION_ID = 2;

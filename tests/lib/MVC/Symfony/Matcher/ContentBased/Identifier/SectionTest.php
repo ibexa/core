@@ -12,9 +12,9 @@ use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\SectionService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\Section as SectionIdentifierMatcher;
-use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTest;
+use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
 
-class SectionTest extends BaseTest
+class SectionTest extends BaseTestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\Section */
     private $matcher;
