@@ -5107,12 +5107,6 @@ parameters:
 			path: src/contracts/MVC/View/VariableProvider.php
 
 		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Options\\OptionsBag\:\:all\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Options/OptionsBag.php
-
-		-
 			message: '#^Method Ibexa\\Contracts\\Core\\Persistence\\Bookmark\\Handler\:\:loadByUserIdAndLocationId\(\) has parameter \$locationIds with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -11855,24 +11849,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: src/lib/MVC/Symfony/Templating/RenderLocationStrategy.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Templating\\RenderOptions\:\:__construct\(\) has parameter \$options with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/Templating/RenderOptions.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Templating\\RenderOptions\:\:all\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/Templating/RenderOptions.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\Templating\\RenderOptions\:\:\$options type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/Templating/RenderOptions.php
 
 		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Templating\\RenderStrategy\:\:__construct\(\) has parameter \$strategies with no value type specified in iterable type iterable\.$#'

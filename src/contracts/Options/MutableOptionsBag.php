@@ -11,9 +11,12 @@ namespace Ibexa\Contracts\Core\Options;
 interface MutableOptionsBag extends OptionsBag
 {
     /**
-     * @param mixed|null $value
+     * Sets the value of the option identified by $key.
      */
-    public function set(string $key, $value): void;
+    public function set(string $key, mixed $value): void;
 
+    /**
+     * Removes the option identified by $key.
+     */
     public function remove(string $key): void;
 }
