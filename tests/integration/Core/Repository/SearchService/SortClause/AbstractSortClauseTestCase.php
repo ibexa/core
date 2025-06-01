@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
-abstract class AbstractSortClauseTest extends BaseTestCase
+abstract class AbstractSortClauseTestCase extends BaseTestCase
 {
     protected function assertSearchResultOrderByRemoteId(
         array $expectedOrderedIds,

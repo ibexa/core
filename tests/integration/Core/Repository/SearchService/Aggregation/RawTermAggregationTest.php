@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\RawTermAggr
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry;
 
-final class RawTermAggregationTest extends AbstractAggregationTest
+final class RawTermAggregationTest extends AbstractAggregationTestCase
 {
     public function dataProviderForTestFindContentWithAggregation(): iterable
     {
