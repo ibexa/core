@@ -17,10 +17,10 @@ abstract class SectionStruct extends ValueObject
      *
      * Needs to be a unique Section->identifier string value.
      */
-    public ?string $identifier;
+    public ?string $identifier = null;
 
     /**
      * If set the name of the section is changed.
      */
-    public ?string $name;
+    public ?string $name = null;
 }
