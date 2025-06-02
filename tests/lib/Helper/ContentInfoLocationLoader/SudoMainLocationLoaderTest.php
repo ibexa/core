@@ -34,7 +34,7 @@ class SudoMainLocationLoaderTest extends TestCase
     {
         $this->expectException(NotFoundException::class);
 
-        $contentInfo = new ContentInfo();
+        $contentInfo = new ContentInfo(['id' => 123]);
 
         $this->getLocationServiceMock()
             ->expects(self::never())
@@ -45,8 +45,11 @@ class SudoMainLocationLoaderTest extends TestCase
 
     public function testLoadLocation()
     {
-        $contentInfo = new ContentInfo(['mainLocationId' => 42]);
-        $location = new Location();
+        $contentInfo = new ContentInfo([
+            'id' => 123,
+            'mainLocationId' => 42,
+        ]);
+        $location = new Location(['id' => 42]);
 
         $this->getRepositoryMock()
             ->expects(self::any())
@@ -71,8 +74,8 @@ class SudoMainLocationLoaderTest extends TestCase
     {
         $this->expectException(NotFoundException::class);
 
-        $contentInfo = new ContentInfo(['mainLocationId' => 42]);
-        $location = new Location();
+        $contentInfo = new ContentInfo(['id' => 123, 'mainLocationId' => 42]);
+        $location = new Location(['id' => 42]);
 
         $this->getRepositoryMock()
             ->expects(self::any())
