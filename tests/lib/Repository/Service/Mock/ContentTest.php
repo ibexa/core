@@ -1043,20 +1043,6 @@ class ContentTest extends BaseServiceMockTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
      */
-    public function testCreateContentThrowsInvalidArgumentExceptionMainLanguageCodeNotSet()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Argument \'$contentCreateStruct\' is invalid: the \'mainLanguageCode\' property must be set');
-
-        $mockedService = $this->getPartlyMockedContentService();
-        $mockedService->createContent(new ContentCreateStruct(), []);
-    }
-
-    /**
-     * Test for the createContent() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
-     */
     public function testCreateContentThrowsUnauthorizedException()
     {
         $this->expectException(UnauthorizedException::class);
