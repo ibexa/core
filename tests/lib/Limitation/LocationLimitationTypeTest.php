@@ -241,7 +241,7 @@ class LocationLimitationTypeTest extends Base
             [
                 'limitation' => new LocationLimitation(),
                 'object' => new ContentInfo(['published' => true]),
-                'targets' => [new Location()],
+                'targets' => [new Location(['id' => 55])],
                 'persistence' => [],
                 'expected' => false,
             ],
@@ -256,7 +256,7 @@ class LocationLimitationTypeTest extends Base
             // ContentInfo, with targets, with access
             [
                 'limitation' => new LocationLimitation(['limitationValues' => [2]]),
-                'object' => new ContentInfo(['published' => true]),
+                'object' => new ContentInfo(['id' => 23, 'published' => true]),
                 'targets' => [new Location(['id' => 2])],
                 'persistence' => [],
                 'expected' => true,
@@ -264,7 +264,7 @@ class LocationLimitationTypeTest extends Base
             // ContentInfo, no targets, with access
             [
                 'limitation' => new LocationLimitation(['limitationValues' => [2]]),
-                'object' => new ContentInfo(['published' => true]),
+                'object' => new ContentInfo(['id' => 23, 'published' => true]),
                 'targets' => null,
                 'persistence' => [new Location(['id' => 2])],
                 'expected' => true,
@@ -272,7 +272,7 @@ class LocationLimitationTypeTest extends Base
             // ContentInfo, no targets, no access
             [
                 'limitation' => new LocationLimitation(['limitationValues' => [2, 43]]),
-                'object' => new ContentInfo(['published' => true]),
+                'object' => new ContentInfo(['id' => 23, 'published' => true]),
                 'targets' => null,
                 'persistence' => [new Location(['id' => 55])],
                 'expected' => false,
@@ -280,7 +280,11 @@ class LocationLimitationTypeTest extends Base
             // ContentInfo, no targets, un-published, with access
             [
                 'limitation' => new LocationLimitation(['limitationValues' => [2]]),
-                'object' => new ContentInfo(['published' => false]),
+                'object' => new ContentInfo([
+                    'id' => 23,
+                    'published' => false,
+                    'status' => ContentInfo::STATUS_DRAFT,
+                ]),
                 'targets' => null,
                 'persistence' => [new Location(['id' => 2])],
                 'expected' => true,
@@ -288,7 +292,11 @@ class LocationLimitationTypeTest extends Base
             // ContentInfo, no targets, un-published, no access
             [
                 'limitation' => new LocationLimitation(['limitationValues' => [2, 43]]),
-                'object' => new ContentInfo(['published' => false]),
+                'object' => new ContentInfo([
+                    'id' => 23,
+                    'published' => false,
+                    'status' => ContentInfo::STATUS_DRAFT,
+                ]),
                 'targets' => null,
                 'persistence' => [new Location(['id' => 55])],
                 'expected' => false,
