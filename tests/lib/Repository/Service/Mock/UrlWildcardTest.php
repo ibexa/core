@@ -290,7 +290,7 @@ class UrlWildcardTest extends BaseServiceMockTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $wildcard = new URLWildcard(['id' => 'McBoom']);
+        $wildcard = new URLWildcard(['id' => self::EXAMPLE_URL_WILDCARD_ID]);
 
         $mockedService = $this->getPartlyMockedURLWildcardService();
 
@@ -321,7 +321,7 @@ class UrlWildcardTest extends BaseServiceMockTest
      */
     public function testRemove()
     {
-        $wildcard = new URLWildcard(['id' => 'McBomb']);
+        $wildcard = new URLWildcard(['id' => self::EXAMPLE_URL_WILDCARD_ID]);
 
         $mockedService = $this->getPartlyMockedURLWildcardService();
 
@@ -346,7 +346,7 @@ class UrlWildcardTest extends BaseServiceMockTest
         )->method(
             'remove'
         )->with(
-            self::equalTo('McBomb')
+            self::equalTo(self::EXAMPLE_URL_WILDCARD_ID)
         );
 
         $mockedService->remove($wildcard);
@@ -361,7 +361,7 @@ class UrlWildcardTest extends BaseServiceMockTest
     {
         $this->expectException(\Exception::class);
 
-        $wildcard = new URLWildcard(['id' => 'McBoo']);
+        $wildcard = new URLWildcard(['id' => self::EXAMPLE_URL_WILDCARD_ID]);
 
         $mockedService = $this->getPartlyMockedURLWildcardService();
 
@@ -386,7 +386,7 @@ class UrlWildcardTest extends BaseServiceMockTest
         )->method(
             'remove'
         )->with(
-            self::equalTo('McBoo')
+            self::equalTo(self::EXAMPLE_URL_WILDCARD_ID)
         )->will(
             self::throwException(new Exception())
         );
