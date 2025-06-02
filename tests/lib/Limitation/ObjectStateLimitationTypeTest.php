@@ -24,6 +24,8 @@ use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
  */
 class ObjectStateLimitationTypeTest extends Base
 {
+    public const int EXAMPLE_MAIN_LOCATION_ID = 879;
+
     /** @var \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler|\PHPUnit\Framework\MockObject\MockObject */
     private $objectStateHandlerMock;
 
@@ -96,37 +98,65 @@ class ObjectStateLimitationTypeTest extends Base
             ],
             'ContentInfo, published, with Limitation=2, no access' => [
                 'limitation' => new ObjectStateLimitation(['limitationValues' => [2]]),
-                'object' => new ContentInfo(['id' => 1, 'published' => true]),
+                'object' => new ContentInfo([
+                    'id' => 1,
+                    'published' => true,
+                    'mainLocationId' => self::EXAMPLE_MAIN_LOCATION_ID,
+                ]),
                 'expected' => false,
             ],
             'ContentInfo, published, with Limitations=(2, 3), no access' => [
                 'limitation' => new ObjectStateLimitation(['limitationValues' => [2, 3]]),
-                'object' => new ContentInfo(['id' => 1, 'published' => true]),
+                'object' => new ContentInfo([
+                    'id' => 1,
+                    'published' => true,
+                    'mainLocationId' => self::EXAMPLE_MAIN_LOCATION_ID,
+                ]),
                 'expected' => false,
             ],
             'ContentInfo, published, with Limitations=(2, 4), no access' => [
                 'limitation' => new ObjectStateLimitation(['limitationValues' => [2, 4]]),
-                'object' => new ContentInfo(['id' => 1, 'published' => true]),
+                'object' => new ContentInfo([
+                    'id' => 1,
+                    'published' => true,
+                    'mainLocationId' => self::EXAMPLE_MAIN_LOCATION_ID,
+                ]),
                 'expected' => false,
             ],
             'ContentInfo, published, with Limitation=1, with access' => [
                 'limitation' => new ObjectStateLimitation(['limitationValues' => [1]]),
-                'object' => new ContentInfo(['id' => 1, 'published' => true]),
+                'object' => new ContentInfo([
+                    'id' => 1,
+                    'published' => true,
+                    'mainLocationId' => self::EXAMPLE_MAIN_LOCATION_ID,
+                ]),
                 'expected' => true,
             ],
             'ContentInfo, published, with Limitations=(1, 3), with access' => [
                 'limitation' => new ObjectStateLimitation(['limitationValues' => [1, 3]]),
-                'object' => new ContentInfo(['id' => 1, 'published' => true]),
+                'object' => new ContentInfo([
+                    'id' => 1,
+                    'published' => true,
+                    'mainLocationId' => self::EXAMPLE_MAIN_LOCATION_ID,
+                ]),
                 'expected' => true,
             ],
             'ContentInfo, not published, with Limitation=2, no access' => [
                 'limitation' => new ObjectStateLimitation(['limitationValues' => [2]]),
-                'object' => new ContentInfo(['id' => 1, 'published' => false]),
+                'object' => new ContentInfo([
+                    'id' => 1,
+                    'published' => false,
+                    'mainLocationId' => self::EXAMPLE_MAIN_LOCATION_ID,
+                ]),
                 'expected' => false,
             ],
             'ContentInfo, not published, with Limitation=(1, 3), with access' => [
                 'limitation' => new ObjectStateLimitation(['limitationValues' => [1, 3]]),
-                'object' => new ContentInfo(['id' => 1, 'published' => false]),
+                'object' => new ContentInfo([
+                    'id' => 1,
+                    'published' => false,
+                    'mainLocationId' => self::EXAMPLE_MAIN_LOCATION_ID,
+                ]),
                 'expected' => true,
             ],
             'RootLocation, no object states assigned' => [
