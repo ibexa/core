@@ -194,7 +194,7 @@ class Handler implements SearchHandlerInterface
         $searchQuery->offset = 0;
         $searchQuery->limit = 2; // Because we optimize away the count query below
         $searchQuery->performCount = true;
-        $searchQuery->sortClauses = null;
+        $searchQuery->sortClauses = [];
         $result = $this->findContent($searchQuery, $languageFilter);
 
         if (empty($result->searchHits)) {
