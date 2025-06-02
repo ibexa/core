@@ -191,7 +191,7 @@ final class ContentTranslatedNameTest extends AbstractSortClauseTestCase
         $contentTypeCreateStruct->nameSchema = '<value>';
         $contentTypeCreateStruct->defaultAlwaysAvailable = true;
 
-        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('value', 'ezstring');
+        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('value', 'ibexa_string');
         $fieldCreate->names = ['eng-GB' => 'value'];
         $fieldCreate->fieldGroup = 'main';
         $fieldCreate->position = 1;

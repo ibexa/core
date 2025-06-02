@@ -66,7 +66,7 @@ final class VersionValidatorTest extends BaseTestCase
             self::CONTENT_TYPE_IDENTIFIER,
             self::ENG_GB,
             [
-                self::FIELD_IDENTIFIER => 'ezstring',
+                self::FIELD_IDENTIFIER => 'ibexa_string',
             ],
         );
 

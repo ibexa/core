@@ -205,7 +205,7 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
         $field = new Field();
         $field->id = 125;
         $field->fieldDefinitionId = 232;
-        $field->type = 'ezimage';
+        $field->type = 'ibexa_image';
         $field->versionNo = 1;
         $field->value = new FieldValue([
             'externalData' => [

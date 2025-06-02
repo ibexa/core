@@ -44,7 +44,7 @@ abstract class BaseNonRedundantFieldSetTestCase extends BaseTestCase
         ];
 
         // Field #1
-        $field1Create = $contentTypeService->newFieldDefinitionCreateStruct('field1', 'ezstring');
+        $field1Create = $contentTypeService->newFieldDefinitionCreateStruct('field1', 'ibexa_string');
         $field1Create->names = ['eng-US' => 'Field #1'];
         $field1Create->descriptions = ['eng-US' => 'Field #1 is not translatable and has empty default value'];
         $field1Create->fieldGroup = 'test';
@@ -60,7 +60,7 @@ abstract class BaseNonRedundantFieldSetTestCase extends BaseTestCase
         $typeCreate->addFieldDefinition($field1Create);
 
         // Field #2
-        $field2Create = $contentTypeService->newFieldDefinitionCreateStruct('field2', 'ezstring');
+        $field2Create = $contentTypeService->newFieldDefinitionCreateStruct('field2', 'ibexa_string');
         $field2Create->names = ['eng-US' => 'Field #2'];
         $field2Create->descriptions = ['eng-US' => 'Field #2 is not translatable and has non-empty default value'];
         $field2Create->fieldGroup = 'test';
@@ -76,7 +76,7 @@ abstract class BaseNonRedundantFieldSetTestCase extends BaseTestCase
         $typeCreate->addFieldDefinition($field2Create);
 
         // Field #3
-        $field3Create = $contentTypeService->newFieldDefinitionCreateStruct('field3', 'ezstring');
+        $field3Create = $contentTypeService->newFieldDefinitionCreateStruct('field3', 'ibexa_string');
         $field3Create->names = ['eng-US' => 'Field #3'];
         $field3Create->descriptions = ['eng-US' => 'Field #3 is translatable and has empty default value'];
         $field3Create->fieldGroup = 'test';
@@ -92,7 +92,7 @@ abstract class BaseNonRedundantFieldSetTestCase extends BaseTestCase
         $typeCreate->addFieldDefinition($field3Create);
 
         // Field #4
-        $field4Create = $contentTypeService->newFieldDefinitionCreateStruct('field4', 'ezstring');
+        $field4Create = $contentTypeService->newFieldDefinitionCreateStruct('field4', 'ibexa_string');
         $field4Create->names = ['eng-US' => 'Field #4'];
         $field4Create->descriptions = ['eng-US' => 'Field #4 is translatable and has non empty default value'];
         $field4Create->fieldGroup = 'test';

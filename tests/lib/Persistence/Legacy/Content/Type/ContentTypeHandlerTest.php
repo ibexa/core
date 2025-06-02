@@ -290,7 +290,7 @@ class ContentTypeHandlerTest extends TestCase
         $gatewayMock = $this->getGatewayMock();
         $gatewayMock->expects(self::once())
             ->method('loadTypesDataByFieldDefinitionIdentifier')
-            ->with('ezstring')
+            ->with('ibexa_string')
             ->willReturn([]);
 
         $mapperMock = $this->getMapperMock();
@@ -300,7 +300,7 @@ class ContentTypeHandlerTest extends TestCase
             ->willReturn([23 => new Type()]);
 
         $handler = $this->getHandler();
-        $types = $handler->loadContentTypesByFieldDefinitionIdentifier('ezstring');
+        $types = $handler->loadContentTypesByFieldDefinitionIdentifier('ibexa_string');
 
         self::assertEquals(
             [23 => new Type()],
@@ -943,7 +943,7 @@ class ContentTypeHandlerTest extends TestCase
         $storageDispatcherMock
             ->expects(self::once())
             ->method('deleteFieldConstraintsData')
-            ->with('ezstring', 42);
+            ->with('ibexa_string', 42);
 
         $gatewayMock = $this->getGatewayMock();
         $gatewayMock->expects(self::once())
@@ -955,7 +955,7 @@ class ContentTypeHandlerTest extends TestCase
             );
 
         $handler = $this->getHandler();
-        $handler->removeFieldDefinition(23, 1, new FieldDefinition(['id' => 42, 'fieldType' => 'ezstring']));
+        $handler->removeFieldDefinition(23, 1, new FieldDefinition(['id' => 42, 'fieldType' => 'ibexa_string']));
     }
 
     public function testUpdateFieldDefinition()

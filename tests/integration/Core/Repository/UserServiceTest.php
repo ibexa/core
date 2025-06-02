@@ -2985,7 +2985,7 @@ class UserServiceTest extends BaseTestCase
         // Get User fieldType.
         $userFieldDef = null;
         foreach ($createStruct->fields as $field) {
-            if ($field->fieldTypeIdentifier === 'ezuser') {
+            if ($field->fieldTypeIdentifier === 'ibexa_user') {
                 $userFieldDef = $field;
                 break;
             }
@@ -3408,7 +3408,7 @@ class UserServiceTest extends BaseTestCase
         $typeCreate->creatorId = $this->generateId('user', $permissionResolver->getCurrentUserReference()->getUserId());
         $typeCreate->creationDate = $this->createDateTime();
 
-        $firstNameFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('first_name', 'ezstring');
+        $firstNameFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('first_name', 'ibexa_string');
         $firstNameFieldCreate->names = [
             'eng-GB' => 'First name',
         ];
@@ -3432,7 +3432,7 @@ class UserServiceTest extends BaseTestCase
 
         $typeCreate->addFieldDefinition($firstNameFieldCreate);
 
-        $lastNameFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('last_name', 'ezstring');
+        $lastNameFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('last_name', 'ibexa_string');
         $lastNameFieldCreate->names = [
             'eng-GB' => 'Last name',
         ];
@@ -3456,7 +3456,7 @@ class UserServiceTest extends BaseTestCase
 
         $typeCreate->addFieldDefinition($lastNameFieldCreate);
 
-        $accountFieldCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('user_account', 'ezuser');
+        $accountFieldCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('user_account', 'ibexa_user');
         $accountFieldCreateStruct->names = [
             'eng-GB' => 'User account',
         ];

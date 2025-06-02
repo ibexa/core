@@ -44,7 +44,7 @@ final class FloatRangeAggregationTest extends AbstractAggregationTestCase
         $generator = new FieldAggregationFixtureGenerator($this->getRepository());
         $generator->setContentTypeIdentifier('content_type');
         $generator->setFieldDefinitionIdentifier('float_field');
-        $generator->setFieldTypeIdentifier('ezfloat');
+        $generator->setFieldTypeIdentifier('ibexa_float');
         $generator->setValues(range(1.0, 100.0, 2.5));
 
         $generator->execute();

@@ -28,7 +28,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
      */
     public function getTypeName(): string
     {
-        return 'ezdatetime';
+        return 'ibexa_datetime';
     }
 
     /**

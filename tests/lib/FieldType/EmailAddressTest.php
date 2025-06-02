@@ -14,7 +14,7 @@ use Ibexa\Core\FieldType\ValidationError;
 
 /**
  * @group fieldType
- * @group ezemail
+ * @group ibexa_email
  */
 class EmailAddressTest extends FieldTypeTestCase
 {
@@ -368,7 +368,7 @@ class EmailAddressTest extends FieldTypeTestCase
 
     protected function provideFieldTypeIdentifier(): string
     {
-        return 'ezemail';
+        return 'ibexa_email';
     }
 
     public function provideDataForGetName(): array

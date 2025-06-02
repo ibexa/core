@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\AuthorConverter
  *
  * @group fieldType
- * @group ezauthor
+ * @group ibexa_author
  */
 class AuthorTest extends TestCase
 {

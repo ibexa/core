@@ -193,7 +193,7 @@ services:
     Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\ImageExtension:
         class: Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\ImageExtension
         arguments:
-            - '@ibexa.field_type.ezimage.variation_service'
+            - '@ibexa.field_type.ibexa_image.variation_service'
             - '@Ibexa\Core\FieldType\ImageAsset\AssetMapper'
         tags:
             - { name: twig.extension }

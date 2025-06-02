@@ -56,7 +56,7 @@ final class ContentMapperTest extends TestCase
                 'value' => new TextLine\Value('updated one'),
                 'languageCode' => 'fre-FR',
                 'fieldDefIdentifier' => 'name',
-                'fieldTypeIdentifier' => 'ezstring',
+                'fieldTypeIdentifier' => 'ibexa_string',
             ]
         );
         $updatedField2 = new Field(
@@ -65,7 +65,7 @@ final class ContentMapperTest extends TestCase
                 'value' => new TextLine\Value('two'),
                 'languageCode' => 'fre-FR',
                 'fieldDefIdentifier' => 'name',
-                'fieldTypeIdentifier' => 'ezstring',
+                'fieldTypeIdentifier' => 'ibexa_string',
             ]
         );
         $updatedFields = [$updatedField, $updatedField2];
@@ -87,7 +87,7 @@ final class ContentMapperTest extends TestCase
                             'value' => new TextLine\Value('one'),
                             'languageCode' => 'eng-GB',
                             'fieldDefIdentifier' => 'name',
-                            'fieldTypeIdentifier' => 'ezstring',
+                            'fieldTypeIdentifier' => 'ibexa_string',
                         ]
                     ),
                     $updatedField2,
@@ -96,7 +96,7 @@ final class ContentMapperTest extends TestCase
                     'fieldDefinitions' => new FieldDefinitionCollection([
                         new FieldDefinition([
                             'identifier' => 'name',
-                            'fieldTypeIdentifier' => 'ezstring',
+                            'fieldTypeIdentifier' => 'ibexa_string',
                         ]),
                     ]),
                 ]),

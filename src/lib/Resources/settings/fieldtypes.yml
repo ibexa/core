@@ -250,7 +250,7 @@ parameters:
         ZM: {Name: "Zambia", Alpha2: "ZM", Alpha3: "ZMB", IDC: "260"}
         ZW: {Name: "Zimbabwe", Alpha2: "ZW", Alpha3: "ZWE", IDC: "263"}
 
-    ibexa.field_type.ezimage.mime_types:
+    ibexa.field_type.ibexa_image.mime_types:
         - image/jpeg
         - image/pjpeg
         - image/png
@@ -339,7 +339,7 @@ services:
             $validators:
                 - '@Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator'
                 - '@Ibexa\Core\FieldType\Validator\ImageValidator'
-            $mimeTypes: '%ibexa.field_type.ezimage.mime_types%'
+            $mimeTypes: '%ibexa.field_type.ibexa_image.mime_types%'
         parent: Ibexa\Core\FieldType\FieldType
         tags:
             - {name: ibexa.field_type, alias: ibexa_image, legacy_alias: ezimage}

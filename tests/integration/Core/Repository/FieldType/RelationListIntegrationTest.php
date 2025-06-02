@@ -31,7 +31,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTestCa
      */
     public function getTypeName(): string
     {
-        return 'ezobjectrelationlist';
+        return 'ibexa_object_relation_list';
     }
 
     /**

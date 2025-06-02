@@ -75,7 +75,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
      */
     public function getTypeName(): string
     {
-        return 'ezimage';
+        return 'ibexa_image';
     }
 
     /**
@@ -625,7 +625,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
     {
         if ($this->getSetupFactory() instanceof Legacy) {
             self::markTestSkipped(
-                "'ezimage' field type is not searchable with Legacy Search Engine"
+                "'ibexa_image' field type is not searchable with Legacy Search Engine"
             );
         }
     }
@@ -879,7 +879,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
 
         $document = new DOMDocument('1.0', 'utf-8');
         $document->loadXML($row['data_text']);
-        $elements = $document->getElementsByTagName('ezimage');
+        $elements = $document->getElementsByTagName('ibexa_image');
         $element = $elements->item(0);
         self::assertInstanceOf(DOMElement::class, $element);
         $element->setAttribute('filename', $element->getAttribute('filename') . $corruptedChar);

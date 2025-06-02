@@ -55,7 +55,7 @@ class BinaryBaseStorageGatewayTest extends BaseCoreFieldTypeIntegrationTestCase
         $field = new Field();
         $field->id = 123;
         $field->fieldDefinitionId = 231;
-        $field->type = 'ezbinaryfile';
+        $field->type = 'ibexa_binaryfile';
         $field->versionNo = 1;
         $field->value = new FieldValue([
             'externalData' => [

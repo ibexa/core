@@ -102,7 +102,7 @@ final class CountryTermAggregationTest extends AbstractAggregationTestCase
         $generator = new FieldAggregationFixtureGenerator($this->getRepository());
         $generator->setContentTypeIdentifier('content_type');
         $generator->setFieldDefinitionIdentifier('country');
-        $generator->setFieldTypeIdentifier('ezcountry');
+        $generator->setFieldTypeIdentifier('ibexa_country');
         $generator->setValues([
             ['PL', 'US'],
             ['FR', 'US'],

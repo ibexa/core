@@ -3,7 +3,7 @@ services:
         class: Ibexa\Core\FieldType\BinaryFile\BinaryFileStorage
         arguments:
             $gateway: '@Ibexa\Core\FieldType\BinaryFile\BinaryFileStorage\Gateway\DoctrineStorage'
-            $ioService: '@ibexa.field_type.ezbinaryfile.io_service'
+            $ioService: '@ibexa.field_type.ibexa_binaryfile.io_service'
             $pathGenerator: '@Ibexa\Core\FieldType\BinaryBase\PathGenerator\LegacyPathGenerator'
             $mimeTypeDetector: '@ibexa.core.io.mimeTypeDetector'
             $fileExtensionBlackListValidator: '@Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator'
@@ -32,7 +32,7 @@ services:
         class: Ibexa\Core\FieldType\Media\MediaStorage
         arguments:
             $gateway: '@Ibexa\Core\FieldType\Media\MediaStorage\Gateway\DoctrineStorage'
-            $ioService: '@ibexa.field_type.ezbinaryfile.io_service'
+            $ioService: '@ibexa.field_type.ibexa_binaryfile.io_service'
             $pathGenerator: '@Ibexa\Core\FieldType\BinaryBase\PathGenerator\LegacyPathGenerator'
             $mimeTypeDetector: '@ibexa.core.io.mimeTypeDetector'
             $fileExtensionBlackListValidator: '@Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator'

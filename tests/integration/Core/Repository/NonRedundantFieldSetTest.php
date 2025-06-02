@@ -109,7 +109,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      */
     public function testCreateContentEmptyValuesFields(Content $content)
     {
-        $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ezstring')->getEmptyValue();
+        $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
         self::assertCount(1, $content->versionInfo->languageCodes);
         self::assertContains('eng-US', $content->versionInfo->languageCodes);
@@ -162,7 +162,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      */
     public function testCreateContentEmptyValuesTranslationNotStoredFields(Content $content)
     {
-        $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ezstring')->getEmptyValue();
+        $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
         self::assertCount(1, $content->versionInfo->languageCodes);
         self::assertContains('eng-US', $content->versionInfo->languageCodes);
@@ -217,7 +217,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      */
     public function testCreateContentTwoLanguagesMainTranslationStoredFields(Content $content)
     {
-        $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ezstring')->getEmptyValue();
+        $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
         self::assertCount(2, $content->versionInfo->languageCodes);
         self::assertContains('ger-DE', $content->versionInfo->languageCodes);
@@ -276,7 +276,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      */
     public function testCreateContentTwoLanguagesSecondTranslationNotStoredFields(Content $content)
     {
-        $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ezstring')->getEmptyValue();
+        $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
         self::assertCount(1, $content->versionInfo->languageCodes);
         self::assertContains('eng-US', $content->versionInfo->languageCodes);
@@ -327,7 +327,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      */
     public function testCreateContentDefaultValuesNoStructFieldsFields(Content $content)
     {
-        $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ezstring')->getEmptyValue();
+        $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
         self::assertCount(1, $content->versionInfo->languageCodes);
         self::assertContains('eng-US', $content->versionInfo->languageCodes);
@@ -377,7 +377,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      */
     public function testCreateContentTwoLanguagesNoValuesForMainLanguageFields(Content $content)
     {
-        $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ezstring')->getEmptyValue();
+        $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
         self::assertCount(2, $content->versionInfo->languageCodes);
         self::assertContains('ger-DE', $content->versionInfo->languageCodes);
@@ -503,7 +503,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      */
     public function testUpdateContentWithNewLanguageFields(Content $content)
     {
-        $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ezstring')->getEmptyValue();
+        $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
         self::assertCount(3, $content->versionInfo->languageCodes);
         self::assertContains('ger-DE', $content->versionInfo->languageCodes);
@@ -572,7 +572,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      */
     public function testUpdateContentWithNewLanguageVariantFields(Content $content)
     {
-        $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ezstring')->getEmptyValue();
+        $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
         self::assertCount(3, $content->versionInfo->languageCodes);
         self::assertContains('ger-DE', $content->versionInfo->languageCodes);
@@ -633,7 +633,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      */
     public function testUpdateContentWithNewLanguageNoValuesFields(Content $content)
     {
-        $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ezstring')->getEmptyValue();
+        $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
         self::assertCount(3, $content->versionInfo->languageCodes);
         self::assertContains('ger-DE', $content->versionInfo->languageCodes);
@@ -698,7 +698,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      */
     public function testUpdateContentUpdatingNonTranslatableFieldUpdatesFieldCopyFields(Content $content)
     {
-        $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ezstring')->getEmptyValue();
+        $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
         self::assertCount(2, $content->versionInfo->languageCodes);
         self::assertContains('eng-US', $content->versionInfo->languageCodes);
@@ -756,7 +756,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
      */
     public function testUpdateContentWithTwoLanguagesInitialLanguageTranslationNotCreatedFields(Content $content)
     {
-        $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ezstring')->getEmptyValue();
+        $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ibexa_string')->getEmptyValue();
 
         self::assertCount(3, $content->versionInfo->languageCodes);
         self::assertContains('ger-DE', $content->versionInfo->languageCodes);

@@ -13,7 +13,7 @@ use Ibexa\Core\FieldType\Checkbox\Value as CheckboxValue;
 
 /**
  * @group fieldType
- * @group ezboolean
+ * @group ibexa_boolean
  */
 class CheckboxTest extends FieldTypeTestCase
 {
@@ -265,7 +265,7 @@ class CheckboxTest extends FieldTypeTestCase
 
     protected function provideFieldTypeIdentifier(): string
     {
-        return 'ezboolean';
+        return 'ibexa_boolean';
     }
 
     public function provideDataForGetName(): array

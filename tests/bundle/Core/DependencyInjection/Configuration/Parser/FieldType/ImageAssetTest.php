@@ -64,7 +64,7 @@ class ImageAssetTest extends AbstractParserTestCase
             [
                 [
                     'fieldtypes' => [
-                        'ezimageasset' => [
+                        'ibexa_image_asset' => [
                             'content_type_identifier' => 'photo',
                             'content_field_identifier' => 'file',
                             'name_field_identifier' => 'title',

@@ -87,7 +87,7 @@ class EZP21109EzIntegerTest extends BaseTestCase
     }
 
     /**
-     * Creates a Test ContentType for this test holding an ezintegerfield.
+     * Creates a Test ContentType for this test holding an ibexa_integerfield.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
      */
@@ -112,7 +112,7 @@ class EZP21109EzIntegerTest extends BaseTestCase
         $contentType->defaultAlwaysAvailable = true;
 
         // Field: IntegerTest
-        $field = $contentTypeService->newFieldDefinitionCreateStruct('test', 'ezinteger');
+        $field = $contentTypeService->newFieldDefinitionCreateStruct('test', 'ibexa_integer');
         $field->names = [
             'eng-GB' => 'Test',
         ];

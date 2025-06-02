@@ -15,7 +15,7 @@ use Ibexa\Core\FieldType\Date\Value as DateValue;
 
 /**
  * @group fieldType
- * @group ezdate
+ * @group ibexa_date
  */
 class DateTest extends FieldTypeTestCase
 {
@@ -339,7 +339,7 @@ class DateTest extends FieldTypeTestCase
 
     protected function provideFieldTypeIdentifier(): string
     {
-        return 'ezdate';
+        return 'ibexa_date';
     }
 
     public function provideDataForGetName(): array

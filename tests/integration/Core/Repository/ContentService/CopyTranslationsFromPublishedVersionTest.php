@@ -107,7 +107,7 @@ final class CopyTranslationsFromPublishedVersionTest extends RepositoryTestCase
         $typeCreate->addFieldDefinition(
             new FieldDefinitionCreateStruct(
                 [
-                    'fieldTypeIdentifier' => 'ezstring',
+                    'fieldTypeIdentifier' => 'ibexa_string',
                     'identifier' => 'title',
                     'names' => ['eng-GB' => 'Title'],
                     'isRequired' => false,

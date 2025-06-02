@@ -127,16 +127,16 @@ class HandlerContentTest extends AbstractTestCase
                             new Content\Common\Gateway\CriterionHandler\FieldValue\Converter(
                                 new Content\Common\Gateway\CriterionHandler\FieldValue\HandlerRegistry(
                                     [
-                                        'ezboolean' => $simpleValueHandler,
-                                        'ezcountry' => $commaSeparatedCollectionValueHandler,
-                                        'ezdate' => $simpleValueHandler,
-                                        'ezdatetime' => $simpleValueHandler,
-                                        'ezemail' => $simpleValueHandler,
-                                        'ezinteger' => $simpleValueHandler,
-                                        'ezobjectrelation' => $simpleValueHandler,
-                                        'ezobjectrelationlist' => $commaSeparatedCollectionValueHandler,
-                                        'ezselection' => $hyphenSeparatedCollectionValueHandler,
-                                        'eztime' => $simpleValueHandler,
+                                        'ibexa_boolean' => $simpleValueHandler,
+                                        'ibexa_country' => $commaSeparatedCollectionValueHandler,
+                                        'ibexa_date' => $simpleValueHandler,
+                                        'ibexa_datetime' => $simpleValueHandler,
+                                        'ibexa_email' => $simpleValueHandler,
+                                        'ibexa_integer' => $simpleValueHandler,
+                                        'ibexa_object_relation' => $simpleValueHandler,
+                                        'ibexa_object_relation_list' => $commaSeparatedCollectionValueHandler,
+                                        'ibexa_selection' => $hyphenSeparatedCollectionValueHandler,
+                                        'ibexa_time' => $simpleValueHandler,
                                     ]
                                 ),
                                 $compositeValueHandler

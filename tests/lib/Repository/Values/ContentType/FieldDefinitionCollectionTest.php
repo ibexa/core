@@ -176,13 +176,13 @@ final class FieldDefinitionCollectionTest extends TestCase
 
     public function testFilterByType(): void
     {
-        list($a, $b, $c) = $this->createFieldDefinitionsWith('fieldTypeIdentifier', ['ezstring', 'ezstring', 'ezimage']);
+        list($a, $b, $c) = $this->createFieldDefinitionsWith('fieldTypeIdentifier', ['ibexa_string', 'ibexa_string', 'ibexa_image']);
 
         $collection = new FieldDefinitionCollection([$a, $b, $c]);
 
         self::assertEquals(
             new FieldDefinitionCollection([$a, $b]),
-            $collection->filterByType('ezstring')
+            $collection->filterByType('ibexa_string')
         );
     }
 
@@ -223,10 +223,10 @@ final class FieldDefinitionCollectionTest extends TestCase
     public function testAnyOfType(): void
     {
         $collection = new FieldDefinitionCollection(
-            $this->createFieldDefinitionsWith('fieldTypeIdentifier', ['ezstring', 'ezstring', 'ezimage'])
+            $this->createFieldDefinitionsWith('fieldTypeIdentifier', ['ibexa_string', 'ibexa_string', 'ibexa_image'])
         );
 
-        self::assertTrue($collection->anyOfType('ezstring'));
+        self::assertTrue($collection->anyOfType('ibexa_string'));
         self::assertFalse($collection->anyOfType('ezrichtext'));
     }
 

@@ -35,7 +35,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Mime\MimeTypesInterface;
 
 /**
- * This command resizes original images stored in ezimage FieldType in given ContentType using the selected filter.
+ * This command resizes original images stored in  FieldType in given ContentType using the selected filter.
  */
 #[AsCommand(name: 'ibexa:images:resize-original')]
 class ResizeOriginalImagesCommand extends Command
@@ -109,12 +109,12 @@ class ResizeOriginalImagesCommand extends Command
             ->addArgument(
                 'imageFieldIdentifier',
                 InputArgument::REQUIRED,
-                'Identifier of a Field of ezimage type.'
+                'Identifier of a Field of  type.'
             )
             ->addArgument(
                 'contentTypeIdentifier',
                 InputArgument::REQUIRED,
-                'Identifier of a content type which has an ezimage Field Type.'
+                'Identifier of a content type which has an  Field Type.'
             )
             ->addOption(
                 'filter',
@@ -147,10 +147,10 @@ class ResizeOriginalImagesCommand extends Command
 
         $contentType = $this->contentTypeService->loadContentTypeByIdentifier($contentTypeIdentifier);
         $fieldType = $contentType->getFieldDefinition($imageFieldIdentifier);
-        if (!$fieldType || $fieldType->fieldTypeIdentifier !== 'ezimage') {
+        if (!$fieldType || $fieldType->fieldTypeIdentifier !== '') {
             $output->writeln(
                 sprintf(
-                    "<error>Field Type with identifier '%s' in content type '%s' must be 'ezimage', you provided '%s'.</error>",
+                    "<error>Field Type with identifier '%s' in content type '%s' must be '', you provided '%s'.</error>",
                     $imageFieldIdentifier,
                     $contentType->identifier,
                     $fieldType ? $fieldType->fieldTypeIdentifier : ''

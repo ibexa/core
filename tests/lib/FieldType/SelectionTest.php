@@ -15,7 +15,7 @@ use Ibexa\Core\FieldType\ValidationError;
 
 /**
  * @group fieldType
- * @group ezselection
+ * @group ibexa_selection
  */
 class SelectionTest extends FieldTypeTestCase
 {
@@ -330,7 +330,7 @@ class SelectionTest extends FieldTypeTestCase
 
     protected function provideFieldTypeIdentifier(): string
     {
-        return 'ezselection';
+        return 'ibexa_selection';
     }
 
     /**

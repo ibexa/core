@@ -339,7 +339,7 @@ abstract class BaseIntegrationTestCase extends BaseTestCase
             $createStruct->urlAliasSchema = '<data>';
         }
 
-        $nameFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ezstring');
+        $nameFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ibexa_string');
         $nameFieldCreate->names = ['eng-GB' => 'Title'];
         $nameFieldCreate->fieldGroup = 'main';
         $nameFieldCreate->position = 1;

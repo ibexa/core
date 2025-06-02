@@ -29,7 +29,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTestCase
      */
     public function getTypeName(): string
     {
-        return 'ezdate';
+        return 'ibexa_date';
     }
 
     /**

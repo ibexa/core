@@ -27,7 +27,7 @@ class ISBNIntegrationTest extends SearchBaseIntegrationTestCase
      */
     public function getTypeName(): string
     {
-        return 'ezisbn';
+        return 'ibexa_isbn';
     }
 
     /**

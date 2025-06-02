@@ -24,7 +24,7 @@ use Ibexa\Core\FieldType\ValidationError;
 
 /**
  * @group fieldType
- * @group ezimageasset
+ * @group ibexa_image_asset
  */
 class ImageAssetTest extends FieldTypeTestCase
 {

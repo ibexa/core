@@ -587,7 +587,7 @@ class AddFieldTest extends TestCase
         $fieldDef = new Content\Type\FieldDefinition();
         $fieldDef->id = 42;
         $fieldDef->isTranslatable = true;
-        $fieldDef->fieldType = 'ezstring';
+        $fieldDef->fieldType = 'ibexa_string';
         $fieldDef->defaultValue = new Content\FieldValue();
 
         return $fieldDef;
@@ -608,7 +608,7 @@ class AddFieldTest extends TestCase
 
         $field->id = $id;
         $field->fieldDefinitionId = 42;
-        $field->type = 'ezstring';
+        $field->type = 'ibexa_string';
         $field->value = new Content\FieldValue();
         $field->versionNo = $versionNo;
         $field->languageCode = $languageCode;

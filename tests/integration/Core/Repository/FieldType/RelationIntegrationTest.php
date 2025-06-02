@@ -31,7 +31,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTestCase
      */
     public function getTypeName(): string
     {
-        return 'ezobjectrelation';
+        return 'ibexa_object_relation';
     }
 
     /**

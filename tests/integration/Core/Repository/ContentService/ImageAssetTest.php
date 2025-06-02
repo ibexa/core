@@ -64,7 +64,7 @@ final class ImageAssetTest extends RepositoryTestCase
         $struct->names = ['eng-US' => 'Content Type with Image Asset'];
 
         $struct->addFieldDefinition(
-            $this->contentTypeService->newFieldDefinitionCreateStruct('asset', 'ezimageasset')
+            $this->contentTypeService->newFieldDefinitionCreateStruct('asset', 'ibexa_image_asset')
         );
         $struct->mainLanguageCode = 'eng-US';
         $contentType = $this->contentTypeService->createContentType(

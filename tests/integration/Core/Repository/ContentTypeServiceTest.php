@@ -724,7 +724,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         /* BEGIN: Use Case */
         $contentTypeService = $repository->getContentTypeService();
 
-        $fieldDefinitionCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ezstring');
+        $fieldDefinitionCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
         /* END: Use Case */
 
         self::assertInstanceOf(
@@ -746,7 +746,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     {
         $this->assertPropertiesCorrect(
             [
-                'fieldTypeIdentifier' => 'ezstring',
+                'fieldTypeIdentifier' => 'ibexa_string',
                 'identifier' => 'title',
                 'names' => null,
                 'descriptions' => null,
@@ -823,7 +823,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $typeCreate->creatorId = $this->generateId('user', $permissionResolver->getCurrentUserReference()->getUserId());
         $typeCreate->creationDate = $this->createDateTime();
 
-        $titleFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ezstring');
+        $titleFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
         $titleFieldCreate->names = [
             'eng-GB' => 'Title',
             'ger-DE' => 'Titel',
@@ -849,7 +849,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
 
         $typeCreate->addFieldDefinition($titleFieldCreate);
 
-        $bodyFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('body', 'ezstring');
+        $bodyFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('body', 'ibexa_string');
         $bodyFieldCreate->names = [
             'eng-GB' => 'Body',
             'ger-DE' => 'Textkörper',
@@ -1055,7 +1055,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $typeCreate->mainLanguageCode = 'eng-GB';
         $typeCreate->names = ['eng-GB' => 'Article'];
 
-        $firstFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ezstring');
+        $firstFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
         $typeCreate->addFieldDefinition($firstFieldCreate);
 
         $groups = [
@@ -1091,7 +1091,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $typeCreate->mainLanguageCode = 'eng-GB';
         $typeCreate->names = ['eng-GB' => 'Article'];
 
-        $firstFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ezstring');
+        $firstFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
         $typeCreate->addFieldDefinition($firstFieldCreate);
 
         $groups = [
@@ -1125,10 +1125,10 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $typeCreate->mainLanguageCode = 'eng-GB';
         $typeCreate->names = ['eng-GB' => 'Blog post'];
 
-        $firstFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ezstring');
+        $firstFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
         $typeCreate->addFieldDefinition($firstFieldCreate);
 
-        $secondFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ezstring');
+        $secondFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
         $typeCreate->addFieldDefinition($secondFieldCreate);
 
         $groups = [
@@ -1169,7 +1169,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $typeCreateStruct->names = ['eng-US' => 'A name.'];
         $typeCreateStruct->descriptions = ['eng-US' => 'A description.'];
 
-        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('test', 'eztext');
+        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('test', 'ibexa_text');
         $typeCreateStruct->addFieldDefinition($fieldCreate);
 
         // Throws an exception because content type with identifier "blog-post" already exists
@@ -1199,7 +1199,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $typeCreate->mainLanguageCode = 'eng-GB';
         $typeCreate->names = ['eng-GB' => 'Blog post'];
 
-        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('temperature', 'ezinteger');
+        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('temperature', 'ibexa_integer');
         $fieldCreate->isSearchable = true;
         $fieldCreate->validatorConfiguration = [
             'IntegerValueValidator' => [
@@ -1638,7 +1638,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         /* BEGIN: Use Case */
         $contentTypeDraft = $this->createContentTypeDraft();
 
-        $fieldDefCreate = $contentTypeService->newFieldDefinitionCreateStruct('tags', 'ezstring');
+        $fieldDefCreate = $contentTypeService->newFieldDefinitionCreateStruct('tags', 'ibexa_string');
         $fieldDefCreate->names = [
             'eng-GB' => 'Tags',
             'ger-DE' => 'Schlagworte',
@@ -1723,7 +1723,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         /* BEGIN: Use Case */
         $contentTypeDraft = $this->createContentTypeDraft();
 
-        $fieldDefCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ezstring');
+        $fieldDefCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
 
         // Throws an exception
         $contentTypeService->addFieldDefinition($contentTypeDraft, $fieldDefCreate);
@@ -1749,7 +1749,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $userContentType = $contentTypeService->loadContentTypeByIdentifier('user');
         $userContentTypeDraft = $contentTypeService->createContentTypeDraft($userContentType);
 
-        $fieldDefCreate = $contentTypeService->newFieldDefinitionCreateStruct('temperature', 'ezinteger');
+        $fieldDefCreate = $contentTypeService->newFieldDefinitionCreateStruct('temperature', 'ibexa_integer');
         $fieldDefCreate->isSearchable = true;
         $fieldDefCreate->validatorConfiguration = [
             'IntegerValueValidator' => [
@@ -1812,7 +1812,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $userContentType = $contentTypeService->loadContentTypeByIdentifier('user');
         $userContentTypeDraft = $contentTypeService->createContentTypeDraft($userContentType);
 
-        $fieldDefCreate = $contentTypeService->newFieldDefinitionCreateStruct('second_user_account', 'ezuser');
+        $fieldDefCreate = $contentTypeService->newFieldDefinitionCreateStruct('second_user_account', 'ibexa_user');
         $fieldDefCreate->names = [
             'eng-GB' => 'Second user account',
         ];
@@ -1828,7 +1828,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $fieldDefCreate->fieldSettings = [];
         $fieldDefCreate->isSearchable = false;
 
-        // Throws an exception because $userContentTypeDraft already contains non-repeatable field type definition 'ezuser'
+        // Throws an exception because $userContentTypeDraft already contains non-repeatable field type definition 'ibexa_user'
         $contentTypeService->addFieldDefinition($userContentTypeDraft, $fieldDefCreate);
         /* END: Use Case */
     }
@@ -1844,7 +1844,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     public function testCreateContentThrowsContentTypeValidationException()
     {
         $this->expectException(ContentTypeValidationException::class);
-        $this->expectExceptionMessage('Field Type \'ezuser\' is singular and cannot be used more than once in a content type');
+        $this->expectExceptionMessage('Field Type \'ibexa_user\' is singular and cannot be used more than once in a content type');
 
         $repository = $this->getRepository();
 
@@ -1857,7 +1857,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         // create first field definition
         $firstFieldDefinition = $contentTypeService->newFieldDefinitionCreateStruct(
             'first_user',
-            'ezuser'
+            'ibexa_user'
         );
         $firstFieldDefinition->names = [
             'eng-GB' => 'First user account',
@@ -1869,7 +1869,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         // create second field definition
         $secondFieldDefinition = $contentTypeService->newFieldDefinitionCreateStruct(
             'second_user',
-            'ezuser'
+            'ibexa_user'
         );
         $secondFieldDefinition->names = [
             'eng-GB' => 'Second user account',
@@ -1899,7 +1899,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
     public function testAddFieldDefinitionThrowsBadStateExceptionContentInstances()
     {
         $this->expectException(BadStateException::class);
-        $this->expectExceptionMessage('A Field definition of the \'ezuser\' Field Type cannot be added because the content type already has Content items');
+        $this->expectExceptionMessage('A Field definition of the \'ibexa_user\' Field Type cannot be added because the content type already has Content items');
 
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -1908,7 +1908,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $folderContentType = $contentTypeService->loadContentTypeByIdentifier('folder');
         $folderContentTypeDraft = $contentTypeService->createContentTypeDraft($folderContentType);
 
-        $fieldDefCreate = $contentTypeService->newFieldDefinitionCreateStruct('user_account', 'ezuser');
+        $fieldDefCreate = $contentTypeService->newFieldDefinitionCreateStruct('user_account', 'ibexa_user');
         $fieldDefCreate->names = [
             'eng-GB' => 'User account',
         ];
@@ -1924,7 +1924,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $fieldDefCreate->fieldSettings = [];
         $fieldDefCreate->isSearchable = false;
 
-        // Throws an exception because 'ezuser' type field definition can't be added to ContentType that already has Content instances
+        // Throws an exception because 'ibexa_user' type field definition can't be added to ContentType that already has Content instances
         $contentTypeService->addFieldDefinition($folderContentTypeDraft, $fieldDefCreate);
         /* END: Use Case */
     }
@@ -2169,7 +2169,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         // Add field definition to ContentType
         $contentTypeDraft = $contentTypeService->createContentTypeDraft($publishedType);
 
-        $fieldDefinitionCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('byline', 'ezstring');
+        $fieldDefinitionCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('byline', 'ibexa_string');
         $fieldDefinitionCreateStruct->names = [
             'eng-US' => 'Byline',
         ];
@@ -2615,7 +2615,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         ];
         $typeCreateStruct->mainLanguageCode = 'eng-GB';
 
-        $titleFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ezstring');
+        $titleFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
         $titleFieldCreate->position = 1;
         $typeCreateStruct->addFieldDefinition($titleFieldCreate);
 
@@ -2885,7 +2885,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
                 'identifier' => 'name',
                 'fieldGroup' => '',
                 'position' => 1,
-                'fieldTypeIdentifier' => 'ezstring',
+                'fieldTypeIdentifier' => 'ibexa_string',
                 'isTranslatable' => true,
                 'isRequired' => true,
                 'isInfoCollector' => false,
@@ -2900,7 +2900,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
                 'identifier' => 'description',
                 'fieldGroup' => '',
                 'position' => 2,
-                'fieldTypeIdentifier' => 'ezstring',
+                'fieldTypeIdentifier' => 'ibexa_string',
                 'isTranslatable' => true,
                 'isRequired' => false,
                 'isInfoCollector' => false,
@@ -4016,7 +4016,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
             $typeCreate->mainLanguageCode = 'eng-GB';
             $typeCreate->names = ['eng-GB' => 'Blog post'];
 
-            $titleFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ezstring');
+            $titleFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
             $titleFieldCreate->names = ['eng-GB' => 'Title'];
             $titleFieldCreate->position = 1;
             $typeCreate->addFieldDefinition($titleFieldCreate);
@@ -4077,7 +4077,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
             $typeCreate->mainLanguageCode = 'eng-GB';
             $typeCreate->names = ['eng-GB' => 'Blog post'];
 
-            $titleFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ezstring');
+            $titleFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
             $titleFieldCreate->names = ['eng-GB' => 'Title'];
             $titleFieldCreate->position = 1;
             $typeCreate->addFieldDefinition($titleFieldCreate);
@@ -4452,7 +4452,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
 
-        $selectionFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('selection', 'ezselection');
+        $selectionFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('selection', 'ibexa_selection');
 
         $selectionFieldCreate->names = [
             'eng-US' => 'Selection',
@@ -4514,7 +4514,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
 
-        $selectionFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('selection', 'ezselection');
+        $selectionFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('selection', 'ibexa_selection');
 
         $selectionFieldCreate->names = [
             'eng-US' => 'Selection',

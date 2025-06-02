@@ -75,7 +75,7 @@ class EZP22408DeleteRelatedObjectTest extends BaseTestCase
         $createStruct->addFieldDefinition(
             new FieldDefinitionCreateStruct(
                 [
-                    'fieldTypeIdentifier' => 'ezstring',
+                    'fieldTypeIdentifier' => 'ibexa_string',
                     'identifier' => 'name',
                     'names' => [$languageCode => 'Name'],
                     'position' => 1,
@@ -86,7 +86,7 @@ class EZP22408DeleteRelatedObjectTest extends BaseTestCase
         $createStruct->addFieldDefinition(
             new FieldDefinitionCreateStruct(
                 [
-                    'fieldTypeIdentifier' => 'ezobjectrelationlist',
+                    'fieldTypeIdentifier' => 'ibexa_object_relation_list',
                     'identifier' => 'relation_list',
                     'names' => [$languageCode => 'Relation List'],
                     'position' => 2,
@@ -97,7 +97,7 @@ class EZP22408DeleteRelatedObjectTest extends BaseTestCase
         $createStruct->addFieldDefinition(
             new FieldDefinitionCreateStruct(
                 [
-                    'fieldTypeIdentifier' => 'ezobjectrelation',
+                    'fieldTypeIdentifier' => 'ibexa_object_relation',
                     'identifier' => 'single_relation',
                     'names' => [$languageCode => 'Single Relation'],
                     'position' => 3,

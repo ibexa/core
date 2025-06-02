@@ -36,7 +36,7 @@ final class IntegerStatsAggregationTest extends AbstractAggregationTestCase
         $generator = new FieldAggregationFixtureGenerator($this->getRepository());
         $generator->setContentTypeIdentifier('content_type');
         $generator->setFieldDefinitionIdentifier('integer_field');
-        $generator->setFieldTypeIdentifier('ezinteger');
+        $generator->setFieldTypeIdentifier('ibexa_integer');
         $generator->setValues([1, 2, 3, 5, 8, 13, 21]);
         $generator->execute();
 

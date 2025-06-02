@@ -15,13 +15,13 @@ use Ibexa\Core\FieldType\ValidationError;
 
 /**
  * @group fieldType
- * @group ezcountry
+ * @group ibexa_country
  */
 class CountryTest extends FieldTypeTestCase
 {
     protected function provideFieldTypeIdentifier(): string
     {
-        return 'ezcountry';
+        return 'ibexa_country';
     }
 
     /**

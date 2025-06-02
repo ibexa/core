@@ -27,7 +27,7 @@ class FloatIntegrationTest extends SearchBaseIntegrationTestCase
      */
     public function getTypeName(): string
     {
-        return 'ezfloat';
+        return 'ibexa_float';
     }
 
     /**

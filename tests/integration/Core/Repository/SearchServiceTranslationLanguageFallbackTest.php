@@ -50,7 +50,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new DateTime();
 
-        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('search_field', 'ezinteger');
+        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('search_field', 'ibexa_integer');
         $fieldCreate->names = ['eng-GB' => 'Search field'];
         $fieldCreate->fieldGroup = 'main';
         $fieldCreate->position = 1;
@@ -59,7 +59,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
 
         $createStruct->addFieldDefinition($fieldCreate);
 
-        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('sort_field', 'ezinteger');
+        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('sort_field', 'ibexa_integer');
         $fieldCreate->names = ['eng-GB' => 'Sort field'];
         $fieldCreate->fieldGroup = 'main';
         $fieldCreate->position = 2;

@@ -56,7 +56,7 @@ abstract class BaseContentTypeServiceTestCase extends BaseTestCase
         $typeCreate->creatorId = $creatorId;
         $typeCreate->creationDate = $this->createDateTime();
 
-        $titleFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ezstring');
+        $titleFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
         $titleFieldCreate->names = [
             'eng-US' => 'Title',
             'ger-DE' => 'Titel',
@@ -81,7 +81,7 @@ abstract class BaseContentTypeServiceTestCase extends BaseTestCase
 
         $typeCreate->addFieldDefinition($titleFieldCreate);
 
-        $bodyFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('body', 'eztext');
+        $bodyFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('body', 'ibexa_text');
         $bodyFieldCreate->names = [
             'eng-US' => 'Body',
             'ger-DE' => 'Textkörper',

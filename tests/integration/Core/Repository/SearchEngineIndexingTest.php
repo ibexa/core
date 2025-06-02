@@ -586,7 +586,7 @@ class SearchEngineIndexingTest extends BaseTestCase
 
         $translatableFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct(
             'integer',
-            'ezinteger'
+            'ibexa_integer'
         );
         $translatableFieldCreate->names = ['eng-GB' => 'Simple translatable integer field'];
         $translatableFieldCreate->fieldGroup = 'main';
@@ -1172,7 +1172,7 @@ class SearchEngineIndexingTest extends BaseTestCase
      */
     protected function createTestContentType(
         string $identifier = 'name',
-        string $fieldTypeIdentifier = 'ezstring',
+        string $fieldTypeIdentifier = 'ibexa_string',
         string $contentTypeIdentifier = 'test-type'
     ): ContentType {
         $repository = $this->getRepository();
@@ -1233,7 +1233,7 @@ class SearchEngineIndexingTest extends BaseTestCase
      */
     protected function createContentEmailWithAddress(string $address, array $parentLocationIdList = []): Content
     {
-        $testableContentType = $this->createTestContentType('email', 'ezemail', 'test-email-type');
+        $testableContentType = $this->createTestContentType('email', 'ibexa_email', 'test-email-type');
 
         return $this->createContent($testableContentType, $address, 'email', $parentLocationIdList);
     }
@@ -1276,7 +1276,7 @@ class SearchEngineIndexingTest extends BaseTestCase
         $contentService = $repository->getContentService();
         $contentTypeService = $repository->getContentTypeService();
         $publishedContent = $this->createContentWithName($contentName, $parentLocationIdList);
-        $descriptionField = $contentTypeService->newFieldDefinitionCreateStruct('description', 'ezstring');
+        $descriptionField = $contentTypeService->newFieldDefinitionCreateStruct('description', 'ibexa_string');
         $descriptionField->fieldGroup = 'main';
         $descriptionField->position = 2;
         $descriptionField->isTranslatable = true;

@@ -44,7 +44,7 @@ final class IntegerRangeAggregationTest extends AbstractAggregationTestCase
         $generator = new FieldAggregationFixtureGenerator($this->getRepository());
         $generator->setContentTypeIdentifier('content_type');
         $generator->setFieldDefinitionIdentifier('integer_field');
-        $generator->setFieldTypeIdentifier('ezinteger');
+        $generator->setFieldTypeIdentifier('ibexa_integer');
         $generator->setValues(range(1, 100));
 
         $generator->execute();

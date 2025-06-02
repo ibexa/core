@@ -171,12 +171,12 @@ class MapperTest extends LanguageAwareTestCase
         $contentTypeHandlerMock->method('load')->willReturn($contentType);
 
         $reg = $this->getFieldRegistry([
-            'ezauthor',
-            'ezstring',
-            'ezboolean',
-            'ezimage',
-            'ezdatetime',
-            'ezkeyword',
+            'ibexa_author',
+            'ibexa_string',
+            'ibexa_boolean',
+            'ibexa_image',
+            'ibexa_datetime',
+            'ibexa_keyword',
         ], count($rowsFixture) - 1);
 
         $mapper = new Mapper(
@@ -209,12 +209,12 @@ class MapperTest extends LanguageAwareTestCase
         $contentTypeHandlerMock->method('load')->willReturn($contentType);
 
         $reg = $this->getFieldRegistry([
-            'ezauthor',
-            'ezstring',
-            'ezboolean',
-            'ezimage',
-            'ezdatetime',
-            'ezkeyword',
+            'ibexa_author',
+            'ibexa_string',
+            'ibexa_boolean',
+            'ibexa_image',
+            'ibexa_datetime',
+            'ibexa_keyword',
             'eznumber',
         ], count($rowsFixture) - 1);
 
@@ -251,7 +251,7 @@ class MapperTest extends LanguageAwareTestCase
         $contentType->fieldDefinitions = array_filter(
             $contentType->fieldDefinitions,
             static function (Content\Type\FieldDefinition $fieldDefinition): bool {
-                // ref. fixtures, ezauthor
+                // ref. fixtures, ibexa_author
                 return $fieldDefinition->id !== 185;
             }
         );
@@ -260,11 +260,11 @@ class MapperTest extends LanguageAwareTestCase
         $contentTypeHandlerMock->method('load')->willReturn($contentType);
 
         $reg = $this->getFieldRegistry([
-            'ezstring',
-            'ezboolean',
-            'ezimage',
-            'ezdatetime',
-            'ezkeyword',
+            'ibexa_string',
+            'ibexa_boolean',
+            'ibexa_image',
+            'ibexa_datetime',
+            'ibexa_keyword',
         ], count($rowsFixture) - 2);
 
         $mapper = new Mapper(
@@ -299,8 +299,8 @@ class MapperTest extends LanguageAwareTestCase
 
         $reg = new Registry(
             [
-                'ezstring' => $convMock,
-                'ezdatetime' => $convMock,
+                'ibexa_string' => $convMock,
+                'ibexa_datetime' => $convMock,
             ]
         );
 

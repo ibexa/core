@@ -35,7 +35,7 @@ class UserIntegrationTest extends BaseIntegrationTestCase
      */
     public function getTypeName(): string
     {
-        return 'ezuser';
+        return 'ibexa_user';
     }
 
     /**
@@ -512,7 +512,7 @@ class UserIntegrationTest extends BaseIntegrationTestCase
     }
 
     /**
-     * Finds ezuser field definition in given $contentType or mark test as failed if it doens't exists.
+     * Finds ibexa_user field definition in given $contentType or mark test as failed if it doens't exists.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
      *
@@ -520,10 +520,10 @@ class UserIntegrationTest extends BaseIntegrationTestCase
      */
     private function getUserFieldDefinition(ContentType $contentType): FieldDefinition
     {
-        $fieldDefinition = $contentType->getFirstFieldDefinitionOfType('ezuser');
+        $fieldDefinition = $contentType->getFirstFieldDefinitionOfType('ibexa_user');
 
         if ($fieldDefinition === null) {
-            self::fail("'ezuser' field definition was not found");
+            self::fail("'ibexa_user' field definition was not found");
         }
 
         return $fieldDefinition;

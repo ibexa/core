@@ -49,7 +49,7 @@ class EZP22409RelationListTypeStateTest extends BaseTestCase
         // create content fields
         $titleFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct(
             'title',
-            'ezstring'
+            'ibexa_string'
         );
         $titleFieldCreate->names = [
             'eng-GB' => 'title',
@@ -68,7 +68,7 @@ class EZP22409RelationListTypeStateTest extends BaseTestCase
 
         $objectRelationListFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct(
             'relationlist',
-            'ezobjectrelationlist'
+            'ibexa_object_relation_list'
         );
         $objectRelationListFieldCreate->names = [
             'eng-GB' => 'object relation list',

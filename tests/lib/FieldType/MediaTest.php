@@ -15,7 +15,7 @@ use Ibexa\Core\FieldType\ValidationError;
 
 /**
  * @group fieldType
- * @group ezbinaryfile
+ * @group ibexa_binaryfile
  */
 class MediaTest extends BinaryBaseTestCase
 {
@@ -666,7 +666,7 @@ class MediaTest extends BinaryBaseTestCase
 
     protected function provideFieldTypeIdentifier(): string
     {
-        return 'ezmedia';
+        return 'ibexa_media';
     }
 
     public function provideDataForGetName(): array

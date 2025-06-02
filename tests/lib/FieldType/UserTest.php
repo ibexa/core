@@ -27,7 +27,7 @@ use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
 
 /**
  * @group fieldType
- * @group ezurl
+ * @group ibexa_url
  */
 class UserTest extends FieldTypeTestCase
 {
@@ -837,7 +837,7 @@ class UserTest extends FieldTypeTestCase
 
     protected function provideFieldTypeIdentifier(): string
     {
-        return 'ezuser';
+        return 'ibexa_user';
     }
 
     public function provideDataForGetName(): array

@@ -109,15 +109,15 @@ class AbstractTestCase extends LanguageAwareTestCase
         if (!isset($this->converterRegistry)) {
             $this->converterRegistry = new ConverterRegistry(
                 [
-                    'ezdatetime' => new Converter\DateAndTimeConverter(),
-                    'ezinteger' => new Converter\IntegerConverter(),
-                    'ezstring' => new Converter\TextLineConverter(),
-                    'ezfloat' => new Converter\FloatConverter(),
-                    'ezurl' => new Converter\UrlConverter(),
-                    'ezboolean' => new Converter\CheckboxConverter(),
-                    'ezkeyword' => new Converter\KeywordConverter(),
-                    'ezauthor' => new Converter\AuthorConverter(),
-                    'ezimage' => new Converter\NullConverter(),
+                    'ibexa_datetime' => new Converter\DateAndTimeConverter(),
+                    'ibexa_integer' => new Converter\IntegerConverter(),
+                    'ibexa_string' => new Converter\TextLineConverter(),
+                    'ibexa_float' => new Converter\FloatConverter(),
+                    'ibexa_url' => new Converter\UrlConverter(),
+                    'ibexa_boolean' => new Converter\CheckboxConverter(),
+                    'ibexa_keyword' => new Converter\KeywordConverter(),
+                    'ibexa_author' => new Converter\AuthorConverter(),
+                    'ibexa_image' => new Converter\NullConverter(),
                 ]
             );
         }

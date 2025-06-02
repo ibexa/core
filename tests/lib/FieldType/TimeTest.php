@@ -14,7 +14,7 @@ use Ibexa\Core\FieldType\Time\Value as TimeValue;
 
 /**
  * @group fieldType
- * @group eztime
+ * @group ibexa_time
  */
 class TimeTest extends FieldTypeTestCase
 {
@@ -348,7 +348,7 @@ class TimeTest extends FieldTypeTestCase
 
     protected function provideFieldTypeIdentifier(): string
     {
-        return 'eztime';
+        return 'ibexa_time';
     }
 
     public function provideDataForGetName(): array

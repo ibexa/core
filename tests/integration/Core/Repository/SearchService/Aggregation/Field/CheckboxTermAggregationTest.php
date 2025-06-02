@@ -37,7 +37,7 @@ final class CheckboxTermAggregationTest extends AbstractAggregationTestCase
         $generator = new FieldAggregationFixtureGenerator($this->getRepository());
         $generator->setContentTypeIdentifier('content_type');
         $generator->setFieldDefinitionIdentifier('boolean');
-        $generator->setFieldTypeIdentifier('ezboolean');
+        $generator->setFieldTypeIdentifier('ibexa_boolean');
         $generator->setValues([
             new CheckboxValue(true),
             new CheckboxValue(true),

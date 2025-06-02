@@ -27,7 +27,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      */
     public function getTypeName(): string
     {
-        return 'ezcountry';
+        return 'ibexa_country';
     }
 
     /**

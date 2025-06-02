@@ -16,7 +16,7 @@ use Ibexa\Core\FieldType\ValidationError;
 
 /**
  * @group fieldType
- * @group ezbinaryfile
+ * @group ibexa_binaryfile
  *
  * @covers \Ibexa\Core\FieldType\BinaryFile\Type
  */
@@ -508,7 +508,7 @@ class BinaryFileTest extends BinaryBaseTestCase
 
     protected function provideFieldTypeIdentifier(): string
     {
-        return 'ezbinaryfile';
+        return 'ibexa_binaryfile';
     }
 
     public function provideDataForGetName(): array

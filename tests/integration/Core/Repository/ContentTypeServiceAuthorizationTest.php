@@ -192,7 +192,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
         $typeCreate->names = ['eng-GB' => 'A name.'];
         $typeCreate->descriptions = ['eng-GB' => 'A description.'];
 
-        $titleFieldCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ezstring');
+        $titleFieldCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
         $titleFieldCreateStruct->names = ['eng-GB' => 'Title'];
         $titleFieldCreateStruct->descriptions = ['eng-GB' => 'The Title'];
         $titleFieldCreateStruct->fieldGroup = 'content';

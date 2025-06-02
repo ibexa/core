@@ -15,7 +15,7 @@ use stdClass;
 
 /**
  * @group fieldType
- * @group ezdatetime
+ * @group ibexa_datetime
  */
 class DateAndTimeTest extends FieldTypeTestCase
 {
@@ -428,7 +428,7 @@ class DateAndTimeTest extends FieldTypeTestCase
 
     protected function provideFieldTypeIdentifier(): string
     {
-        return 'ezdatetime';
+        return 'ibexa_datetime';
     }
 
     public function provideDataForGetName(): array
