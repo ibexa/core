@@ -19513,6 +19513,12 @@ parameters:
 			path: src/lib/Repository/Mapper/ContentDomainMapper.php
 
 		-
+			message: '#^Property Ibexa\\Contracts\\Core\\Persistence\\Content\\ContentInfo\:\:\$isHidden \(bool\) on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.property
+			count: 1
+			path: src/lib/Repository/Mapper/ContentDomainMapper.php
+
+		-
 			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\SearchResult\<Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject\>\:\:\$searchHits \(list\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\SearchHit\<Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject\>\>\) does not accept array\<int\<0, max\>, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\SearchHit\<Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject\>\>\.$#'
 			identifier: assign.propertyType
 			count: 2

@@ -395,7 +395,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
                 'mainLanguageCode' => $spiContentInfo->mainLanguageCode,
                 'mainLocationId' => $spiContentInfo->mainLocationId,
                 'status' => $status,
-                'isHidden' => $spiContentInfo->isHidden,
+                'isHidden' => $spiContentInfo->isHidden ?? false,
                 'contentType' => $this->proxyFactory->createContentTypeProxy($spiContentInfo->contentTypeId),
                 'section' => $this->proxyFactory->createSectionProxy($spiContentInfo->sectionId),
                 'mainLocation' => $spiContentInfo->mainLocationId !== null ? $this->proxyFactory->createLocationProxy($spiContentInfo->mainLocationId) : null,
