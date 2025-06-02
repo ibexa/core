@@ -243,7 +243,7 @@ abstract class Location extends ValueObject
      */
     public function getPath(): array
     {
-        if (isset($this->path)) {
+        if (!empty($this->path)) {
             return $this->path;
         }
 
