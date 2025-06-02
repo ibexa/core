@@ -254,7 +254,7 @@ class HandlerContentSortTest extends AbstractTestCase
                 [
                     'filter' => new Criterion\SectionId([4, 2, 6, 3]),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 999,
                     'sortClauses' => [
                         new SortClause\SectionIdentifier(),
                     ],
@@ -299,7 +299,7 @@ class HandlerContentSortTest extends AbstractTestCase
                 [
                     'filter' => new Criterion\SectionId([4, 2, 6, 3]),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 999,
                     'sortClauses' => [
                         new SortClause\SectionName(),
                     ],
@@ -352,7 +352,7 @@ class HandlerContentSortTest extends AbstractTestCase
                 [
                     'filter' => new Criterion\SectionId([2, 3]),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 23,
                     'sortClauses' => [
                         new SortClause\ContentName(),
                     ],
@@ -385,7 +385,7 @@ class HandlerContentSortTest extends AbstractTestCase
                         ]
                     ),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 999,
                     'sortClauses' => [
                         new SortClause\Field('article', 'title', Query::SORT_ASC, 'eng-US'),
                     ],
@@ -455,7 +455,7 @@ class HandlerContentSortTest extends AbstractTestCase
                         ]
                     ),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 4,
                     'sortClauses' => [
                         new SortClause\Field('product', 'price', Query::SORT_ASC, 'eng-US'),
                     ],
