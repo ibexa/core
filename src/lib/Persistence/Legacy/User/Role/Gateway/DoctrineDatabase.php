@@ -28,21 +28,8 @@ use Ibexa\Core\Persistence\Legacy\User\Role\Gateway;
  */
 final class DoctrineDatabase extends Gateway
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
-
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
-    private $dbPlatform;
-
-    /**
-     * Construct from database handler.
-     *
-     * @throws \Doctrine\DBAL\Exception
-     */
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
-        $this->dbPlatform = $this->connection->getDatabasePlatform();
     }
 
     public function createRole(Role $role): Role
@@ -203,9 +190,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->orderBy('p.id', 'ASC');
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadRoles(int $status = Role::STATUS_DEFINED): array
@@ -215,9 +200,7 @@ final class DoctrineDatabase extends Gateway
             $this->buildRoleDraftQueryConstraint($status, $query)
         );
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadRolesForContentObjects(
@@ -282,9 +265,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadRoleAssignmentsByGroupId(int $groupId, bool $inherited = false): array
@@ -318,9 +299,7 @@ final class DoctrineDatabase extends Gateway
             );
         }
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadRoleAssignmentsByRoleId(int $roleId): array
@@ -341,9 +320,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -381,7 +358,7 @@ final class DoctrineDatabase extends Gateway
     public function countRoleAssignments(int $roleId): int
     {
         $query = $this->buildLoadRoleAssignmentsQuery(
-            [$this->connection->getDatabasePlatform()->getCountExpression('user_role.id')],
+            ['COUNT(user_role.id)'],
             $roleId
         );
 
@@ -451,9 +428,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchFirstColumn();
+        return $query->executeQuery()->fetchFirstColumn();
     }
 
     public function updateRole(RoleUpdateStruct $role): void

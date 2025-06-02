@@ -10,15 +10,12 @@ namespace Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Doctrine;
 
 use function array_filter;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\FetchMode;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\SortClauseVisitor;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
-use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway;
@@ -31,7 +28,7 @@ use Traversable;
  */
 final class DoctrineGateway implements Gateway
 {
-    public const COLUMN_MAP = [
+    public const array COLUMN_MAP = [
         // Content Info
         'content_id' => 'content.id',
         'content_type_id' => 'content.contentclass_id',
@@ -59,38 +56,17 @@ final class DoctrineGateway implements Gateway
         'content_main_location_id' => 'main_location.main_node_id',
     ];
 
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
-
-    /** @var \Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor */
-    private $criterionVisitor;
-
-    /** @var \Ibexa\Contracts\Core\Persistence\Filter\SortClauseVisitor */
-    private $sortClauseVisitor;
-
     public function __construct(
-        Connection $connection,
-        CriterionVisitor $criterionVisitor,
-        SortClauseVisitor $sortClauseVisitor
+        private readonly Connection $connection,
+        private readonly CriterionVisitor $criterionVisitor,
+        private readonly SortClauseVisitor $sortClauseVisitor
     ) {
-        $this->connection = $connection;
-        $this->criterionVisitor = $criterionVisitor;
-        $this->sortClauseVisitor = $sortClauseVisitor;
-    }
-
-    private function getDatabasePlatform(): AbstractPlatform
-    {
-        try {
-            return $this->connection->getDatabasePlatform();
-        } catch (Exception $e) {
-            throw DatabaseException::wrap($e);
-        }
     }
 
     public function count(FilteringCriterion $criterion): int
     {
         $query = $this->buildQuery(
-            [$this->getDatabasePlatform()->getCountExpression('DISTINCT content.id')],
+            ['COUNT(DISTINCT content.id)'],
             $criterion
         );
 
@@ -159,7 +135,7 @@ final class DoctrineGateway implements Gateway
             );
 
         $constraint = $this->criterionVisitor->visitCriteria($queryBuilder, $criterion);
-        if (null !== $constraint) {
+        if ('' !== $constraint) {
             $queryBuilder->where($constraint);
         }
 

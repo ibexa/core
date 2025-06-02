@@ -8701,18 +8701,6 @@ parameters:
 			path: src/lib/FieldType/Image/ImageStorage.php
 
 		-
-			message: '#^Method Ibexa\\Core\\FieldType\\Image\\ImageStorage\\Gateway\:\:extractFilesFromXml\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/FieldType/Image/ImageStorage/Gateway.php
-
-		-
-			message: '#^Method Ibexa\\Core\\FieldType\\Image\\ImageStorage\\Gateway\:\:extractFilesFromXml\(\) has parameter \$xml with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/lib/FieldType/Image/ImageStorage/Gateway.php
-
-		-
 			message: '#^Method Ibexa\\Core\\FieldType\\Image\\ImageStorage\\Gateway\:\:getAllVersionsImageXmlForFieldId\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -8737,18 +8725,6 @@ parameters:
 			path: src/lib/FieldType/Image/ImageStorage/Gateway.php
 
 		-
-			message: '#^Method Ibexa\\Core\\FieldType\\Image\\ImageStorage\\Gateway\:\:removeImageReferences\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/FieldType/Image/ImageStorage/Gateway.php
-
-		-
-			message: '#^Method Ibexa\\Core\\FieldType\\Image\\ImageStorage\\Gateway\:\:storeImageReference\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/FieldType/Image/ImageStorage/Gateway.php
-
-		-
 			message: '#^Cannot access property \$childNodes on DOMElement\|null\.$#'
 			identifier: property.nonObject
 			count: 1
@@ -8763,12 +8739,6 @@ parameters:
 		-
 			message: '#^Cannot call method hasAttribute\(\) on DOMElement\|null\.$#'
 			identifier: method.nonObject
-			count: 1
-			path: src/lib/FieldType/Image/ImageStorage/Gateway/DoctrineStorage.php
-
-		-
-			message: '#^Method Ibexa\\Core\\FieldType\\Image\\ImageStorage\\Gateway\\DoctrineStorage\:\:extractFilesFromXml\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/FieldType/Image/ImageStorage/Gateway/DoctrineStorage.php
 
@@ -8793,12 +8763,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\FieldType\\Image\\ImageStorage\\Gateway\\DoctrineStorage\:\:getXmlForImages\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/FieldType/Image/ImageStorage/Gateway/DoctrineStorage.php
-
-		-
-			message: '#^Method Ibexa\\Core\\FieldType\\Image\\ImageStorage\\Gateway\\DoctrineStorage\:\:storeImageReference\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: src/lib/FieldType/Image/ImageStorage/Gateway/DoctrineStorage.php
 
@@ -15127,12 +15091,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\Gateway\\DoctrineDatabase\:\:\$languageHandler \(Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\CachingHandler\) does not accept Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\\Handler\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabase.php
-
-		-
 			message: '#^Result of \|\| is always true\.$#'
 			identifier: booleanOr.alwaysTrue
 			count: 1
@@ -15657,24 +15615,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\\DoctrineDatabase\:\:moveSubtreeNodes\(\) has parameter \$sourceNodeData with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\\DoctrineDatabase\:\:updatePathIdentificationString\(\) has parameter \$locationId with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\\DoctrineDatabase\:\:updatePathIdentificationString\(\) has parameter \$parentLocationId with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\\DoctrineDatabase\:\:updatePathIdentificationString\(\) has parameter \$text with no type specified\.$#'
-			identifier: missingType.parameter
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabase.php
 
@@ -18949,12 +18889,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/User/Role/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\User\\Role\\Gateway\\DoctrineDatabase\:\:\$dbPlatform is never read, only written\.$#'
-			identifier: property.onlyWritten
-			count: 1
-			path: src/lib/Persistence/Legacy/User/Role/Gateway/DoctrineDatabase.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\User\\Role\\Gateway\\ExceptionConversion\:\:addPolicyLimitations\(\) has parameter \$limitations with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -22169,42 +22103,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FieldValue/HandlerRegistry.php
-
-		-
-			message: '#^Cannot call method getBitAndComparisonExpression\(\) on Doctrine\\DBAL\\Platforms\\AbstractPlatform\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FullText.php
-
-		-
-			message: '#^Cannot call method getCountExpression\(\) on Doctrine\\DBAL\\Platforms\\AbstractPlatform\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FullText.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Common\\Gateway\\CriterionHandler\\FullText\:\:__construct\(\) has parameter \$configuration with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FullText.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Common\\Gateway\\CriterionHandler\\FullText\:\:handle\(\) has parameter \$languageSettings with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FullText.php
-
-		-
-			message: '#^Parameter \#2 \$string of method Ibexa\\Core\\Search\\Legacy\\Content\\Common\\Gateway\\CriterionHandler\\FullText\:\:getWordIdSubquery\(\) expects string, array\<bool\|float\|int\|string\>\|bool\|float\|int\|string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FullText.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Search\\Legacy\\Content\\Common\\Gateway\\CriterionHandler\\FullText\:\:\$configuration type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FullText.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Common\\Gateway\\CriterionHandler\\IsContainer\:\:handle\(\) never returns Doctrine\\DBAL\\Query\\Expression\\CompositeExpression so it can be removed from the return type\.$#'

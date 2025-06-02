@@ -33,23 +33,17 @@ final class DoctrineDatabase extends Gateway
      * 2^30, since PHP_INT_MAX can cause overflows in DB systems, if PHP is run
      * on 64 bit systems.
      */
-    private const MAX_LIMIT = 1073741824;
+    private const int MAX_LIMIT = 1073741824;
 
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
-
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriteriaConverter */
-    protected $criteriaConverter;
-
-    public const SORT_DIRECTION_MAP = [
+    public const array SORT_DIRECTION_MAP = [
         SortClause::SORT_ASC => 'ASC',
         SortClause::SORT_DESC => 'DESC',
     ];
 
-    public function __construct(Connection $connection, CriteriaConverter $criteriaConverter)
-    {
-        $this->connection = $connection;
-        $this->criteriaConverter = $criteriaConverter;
+    public function __construct(
+        private readonly Connection $connection,
+        protected CriteriaConverter $criteriaConverter
+    ) {
     }
 
     public function insertUrlWildcard(UrlWildcard $urlWildcard): int
@@ -168,9 +162,7 @@ final class DoctrineDatabase extends Gateway
             ->setMaxResults($limit > 0 ? $limit : self::MAX_LIMIT)
             ->setFirstResult($offset);
 
-        $stmt = $query->executeQuery();
-
-        return $stmt->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function find(
@@ -235,15 +227,13 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select($this->connection->getDatabasePlatform()->getCountExpression('id'))
+            ->select('COUNT(id)')
             ->from(self::URL_WILDCARD_TABLE);
 
         return (int) $query->executeQuery()->fetchOne();
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion $criterion
-     *
      * @throws \Doctrine\DBAL\Driver\Exception
      * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
@@ -252,7 +242,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select($this->connection->getDatabasePlatform()->getCountExpression('url_wildcard.id'))
+            ->select('COUNT(url_wildcard.id)')
             ->from(self::URL_WILDCARD_TABLE, 'url_wildcard')
             ->where($this->criteriaConverter->convertCriteria($query, $criterion));
 

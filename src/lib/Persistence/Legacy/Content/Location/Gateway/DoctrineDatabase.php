@@ -8,8 +8,10 @@
 namespace Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
@@ -17,6 +19,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Location\UpdateStruct;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
@@ -37,35 +40,12 @@ final class DoctrineDatabase extends Gateway
 {
     public const string NODE_ASSIGNMENT_TABLE = 'ibexa_node_assignment';
 
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
-
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
-    private $languageMaskGenerator;
-
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
-    private $dbPlatform;
-
-    /** @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter */
-    private $trashCriteriaConverter;
-
-    /** @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter */
-    private $trashSortClauseConverter;
-
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
     public function __construct(
-        Connection $connection,
-        MaskGenerator $languageMaskGenerator,
-        CriteriaConverter $trashCriteriaConverter,
-        SortClauseConverter $trashSortClauseConverter
+        private readonly Connection $connection,
+        private readonly MaskGenerator $languageMaskGenerator,
+        private readonly CriteriaConverter $trashCriteriaConverter,
+        private readonly SortClauseConverter $trashSortClauseConverter
     ) {
-        $this->connection = $connection;
-        $this->dbPlatform = $this->connection->getDatabasePlatform();
-        $this->languageMaskGenerator = $languageMaskGenerator;
-        $this->trashCriteriaConverter = $trashCriteriaConverter;
-        $this->trashSortClauseConverter = $trashSortClauseConverter;
     }
 
     public function getBasicNodeData(
@@ -108,7 +88,7 @@ final class DoctrineDatabase extends Gateway
             $query->expr()->eq('t.remote_id', $query->createNamedParameter($remoteId, ParameterType::STRING))
         );
 
-        if ($row = $query->executeQuery()->fetch(FetchMode::ASSOCIATIVE)) {
+        if ($row = $query->executeQuery()->fetchAssociative()) {
             return $row;
         }
 
@@ -136,14 +116,9 @@ final class DoctrineDatabase extends Gateway
             ;
         }
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadLocationDataByTrashContent(int $contentId, ?int $rootLocationId = null): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -161,9 +136,7 @@ final class DoctrineDatabase extends Gateway
             ;
         }
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadParentLocationsDataForDraftContent(int $contentId): array
@@ -214,9 +187,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -275,14 +246,12 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('parentNode', $sourceId, ParameterType::INTEGER)
             ->setParameter('status', ContentInfo::STATUS_DRAFT, ParameterType::INTEGER);
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchFirstColumn();
+        return $query->executeQuery()->fetchFirstColumn();
     }
 
     public function getSubtreeSize(string $path): int
     {
-        $query = $this->createNodeQueryBuilder([$this->dbPlatform->getCountExpression('node_id')]);
+        $query = $this->createNodeQueryBuilder(['COUNT(node_id)']);
         $query->andWhere(
             $query->expr()->like(
                 't.path_string',
@@ -322,9 +291,8 @@ final class DoctrineDatabase extends Gateway
                 $query->createPositionalParameter($locationId, ParameterType::INTEGER)
             )
         );
-        $statement = $query->executeQuery();
 
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     private function getSubtreeNodesData(string $pathString): array
@@ -345,9 +313,8 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($pathString . '%', ParameterType::STRING)
                 )
             );
-        $statement = $query->executeQuery();
 
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -402,8 +369,6 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @param int $contentObjectId
-     *
      * @return int[]
      *
      * @throws \Doctrine\DBAL\Driver\Exception
@@ -446,8 +411,6 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @param array $sourceNodeData
-     * @param array $destinationNodeData
      * @param int[] $hiddenNodeIds
      */
     private function moveSingleSubtreeNode(
@@ -624,9 +587,7 @@ final class DoctrineDatabase extends Gateway
 
     private function isAnyNodeInPathExplicitlyHidden(string $pathString): bool
     {
-        $query = $this->buildHiddenSubtreeQuery(
-            $this->dbPlatform->getCountExpression('path_string')
-        );
+        $query = $this->buildHiddenSubtreeQuery('COUNT(path_string)');
         $expr = $query->expr();
         $query
             ->andWhere(
@@ -643,9 +604,6 @@ final class DoctrineDatabase extends Gateway
         return $count > 0;
     }
 
-    /**
-     * @return array list of path strings
-     */
     private function loadHiddenSubtreesByPath(string $pathString): array
     {
         $query = $this->buildHiddenSubtreeQuery('path_string');
@@ -660,9 +618,8 @@ final class DoctrineDatabase extends Gateway
                     )
                 )
             );
-        $statement = $query->executeQuery();
 
-        return $statement->fetchFirstColumn();
+        return $query->executeQuery()->fetchFirstColumn();
     }
 
     private function buildHiddenSubtreeQuery(string $selectExpr): QueryBuilder
@@ -1042,11 +999,8 @@ final class DoctrineDatabase extends Gateway
      * Updates an existing location.
      *
      * Will not throw anything if location id is invalid or no entries are affected.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Location\UpdateStruct $location
-     * @param int $locationId
      */
-    public function update(UpdateStruct $location, $locationId): void
+    public function update(UpdateStruct $location, int $locationId): void
     {
         $query = $this->connection->createQueryBuilder();
 
@@ -1077,7 +1031,7 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
-    public function updatePathIdentificationString($locationId, $parentLocationId, $text): void
+    public function updatePathIdentificationString(int $locationId, int $parentLocationId, string $text): void
     {
         $parentData = $this->getBasicNodeData($parentLocationId);
 
@@ -1102,10 +1056,8 @@ final class DoctrineDatabase extends Gateway
 
     /**
      * Deletes ibexa_content_tree row for given $locationId (node_id).
-     *
-     * @param mixed $locationId
      */
-    public function removeLocation($locationId): void
+    public function removeLocation(mixed $locationId): void
     {
         $query = $this->connection->createQueryBuilder();
         $query->delete(
@@ -1125,13 +1077,8 @@ final class DoctrineDatabase extends Gateway
      * This returns lowest node id for content identified by $contentId, and not of
      * the node identified by given $locationId (current main node).
      * Assumes that content has more than one location.
-     *
-     * @param mixed $contentId
-     * @param mixed $locationId
-     *
-     * @return array
      */
-    public function getFallbackMainNodeData($contentId, $locationId): array
+    public function getFallbackMainNodeData(mixed $contentId, mixed $locationId): array
     {
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
@@ -1163,9 +1110,7 @@ final class DoctrineDatabase extends Gateway
             ->orderBy('node_id', 'ASC')
             ->setMaxResults(1);
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetch(FetchMode::ASSOCIATIVE);
+        return $query->executeQuery()->fetchAssociative() ?: [];
     }
 
     public function trashLocation(int $locationId): void
@@ -1272,15 +1217,13 @@ final class DoctrineDatabase extends Gateway
             $query->setFirstResult($offset);
         }
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function countTrashed(?CriterionInterface $criterion = null): int
     {
         $query = $this->connection->createQueryBuilder()
-            ->select($this->dbPlatform->getCountExpression(1))
+            ->select('COUNT(1)')
             ->from(self::TRASH_TABLE, 't')
             ->innerJoin('t', ContentGateway::CONTENT_ITEM_TABLE, 'c', 't.contentobject_id = c.id');
 
@@ -1360,9 +1303,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select(
-                $this->dbPlatform->getCountExpression('*')
-            )
+            ->select('COUNT(*)')
             ->from(self::CONTENT_TREE_TABLE)
             ->where(
                 $query->expr()->eq(
@@ -1445,19 +1386,11 @@ final class DoctrineDatabase extends Gateway
             ->addOrderBy('node_id', 'ASC')
         ;
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     /**
      * Create QueryBuilder for selecting Location (node) data.
-     *
-     * @param array $columns column or expression list
-     * @param array|null $translations Filters on language mask of content if provided.
-     * @param bool $useAlwaysAvailable Respect always available flag on content when filtering on $translations.
-     *
-     * @return \Doctrine\DBAL\Query\QueryBuilder
      */
     private function createNodeQueryBuilder(
         array $columns,
@@ -1502,7 +1435,7 @@ final class DoctrineDatabase extends Gateway
         $queryBuilder->andWhere(
             $expr->or(
                 $expr->gt(
-                    $this->dbPlatform->getBitAndComparisonExpression('c.language_mask', $mask),
+                    $this->getDatabasePlatform()->getBitAndComparisonExpression('c.language_mask', $mask),
                     0
                 ),
                 // Root location doesn't have language mask
@@ -1542,9 +1475,6 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
-    /**
-     * @param array $parentNode raw Location data
-     */
     private function insertLocationIntoContentTree(
         CreateStruct $createStruct,
         array $parentNode
@@ -1634,5 +1564,14 @@ final class DoctrineDatabase extends Gateway
         $this->trashSortClauseConverter->applySelect($query, $sort);
         $this->trashSortClauseConverter->applyJoin($query, $sort, $languageSettings);
         $this->trashSortClauseConverter->applyOrderBy($query);
+    }
+
+    private function getDatabasePlatform(): AbstractPlatform
+    {
+        try {
+            return $this->connection->getDatabasePlatform();
+        } catch (Exception $e) {
+            throw DatabaseException::wrap($e);
+        }
     }
 }

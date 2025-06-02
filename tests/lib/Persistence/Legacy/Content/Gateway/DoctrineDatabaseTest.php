@@ -1671,20 +1671,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Counts the number of relations in the database.
      *
-     * @param int $fromId
-     * @param int $toId
-     *
-     * @return int
-     *
      * @throws \Doctrine\DBAL\Exception
      */
     protected function countContentRelations(?int $fromId = null, ?int $toId = null): int
     {
         $connection = $this->getDatabaseConnection();
-        $dbPlatform = $connection->getDatabasePlatform();
         $query = $connection->createQueryBuilder();
         $query
-            ->select($dbPlatform->getCountExpression('id'))
+            ->select('COUNT(id)')
             ->from(Gateway::CONTENT_RELATION_TABLE);
 
         if ($fromId !== null) {
@@ -1712,20 +1706,15 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Counts the number of fields.
      *
-     * @param int $contentId
-     *
-     * @return int
-     *
      * @throws \Doctrine\DBAL\Exception
      */
     protected function countContentFields(?int $contentId = null): int
     {
         $connection = $this->getDatabaseConnection();
-        $dbPlatform = $connection->getDatabasePlatform();
 
         $query = $connection->createQueryBuilder();
         $query
-            ->select($dbPlatform->getCountExpression('id'))
+            ->select('COUNT(id)')
             ->from(Gateway::CONTENT_FIELD_TABLE);
 
         if ($contentId !== null) {
@@ -1745,20 +1734,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Counts the number of versions.
      *
-     * @param int $contentId
-     *
-     * @return int
-     *
      * @throws \Doctrine\DBAL\Exception
      */
     protected function countContentVersions(?int $contentId = null): int
     {
         $connection = $this->getDatabaseConnection();
-        $dbPlatform = $connection->getDatabasePlatform();
-
         $query = $connection->createQueryBuilder();
         $query
-            ->select($dbPlatform->getCountExpression('id'))
+            ->select('COUNT(id)')
             ->from(Gateway::CONTENT_VERSION_TABLE);
 
         if ($contentId !== null) {
@@ -1778,20 +1761,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Counts the number of content names.
      *
-     * @param int $contentId
-     *
-     * @return int
-     *
      * @throws \Doctrine\DBAL\Exception
      */
     protected function countContentNames(?int $contentId = null): int
     {
         $connection = $this->getDatabaseConnection();
-        $dbPlatform = $connection->getDatabasePlatform();
-
         $query = $connection->createQueryBuilder();
         $query
-            ->select($dbPlatform->getCountExpression('contentobject_id'))
+            ->select('COUNT(contentobject_id)')
             ->from(Gateway::CONTENT_NAME_TABLE);
 
         if ($contentId !== null) {
@@ -1811,19 +1788,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Counts the number of content objects.
      *
-     * @param int|null $contentId
-     *
-     * @return int
-     *
      * @throws \Doctrine\DBAL\Exception
      */
     protected function countContent(?int $contentId = null): int
     {
         $connection = $this->getDatabaseConnection();
-        $dbPlatform = $connection->getDatabasePlatform();
         $query = $connection->createQueryBuilder();
         $query
-            ->select($dbPlatform->getCountExpression('id'))
+            ->select('COUNT(id)')
             ->from(Gateway::CONTENT_ITEM_TABLE);
 
         if ($contentId !== null) {

@@ -8,8 +8,10 @@
 namespace Ibexa\Core\Persistence\Legacy\Content\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder as DoctrineQueryBuilder;
 use DOMDocument;
 use DOMXPath;
@@ -25,6 +27,7 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
 use Ibexa\Core\Base\Exceptions\BadStateException;
+use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
@@ -48,60 +51,15 @@ final class DoctrineDatabase extends Gateway
      * Pre-computed integer constant which, when combined with proper bit-wise operator,
      * removes always available flag from the mask.
      */
-    private const REMOVE_ALWAYS_AVAILABLE_LANG_MASK_OPERAND = -2;
+    private const int REMOVE_ALWAYS_AVAILABLE_LANG_MASK_OPERAND = -2;
 
-    /**
-     * The native Doctrine connection.
-     *
-     * Meant to be used to transition from eZ/Zeta interface to Doctrine.
-     *
-     * @var \Doctrine\DBAL\Connection
-     */
-    protected $connection;
-
-    /**
-     * Query builder.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase\QueryBuilder
-     */
-    protected $queryBuilder;
-
-    /**
-     * Caching language handler.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler
-     */
-    protected $languageHandler;
-
-    /**
-     * Language mask generator.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
-     */
-    protected $languageMaskGenerator;
-
-    /** @var \Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway */
-    private $sharedGateway;
-
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
-    private $databasePlatform;
-
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
     public function __construct(
-        Connection $connection,
-        SharedGateway $sharedGateway,
-        QueryBuilder $queryBuilder,
-        LanguageHandler $languageHandler,
-        LanguageMaskGenerator $languageMaskGenerator
+        protected Connection $connection,
+        private readonly SharedGateway $sharedGateway,
+        protected QueryBuilder $queryBuilder,
+        protected LanguageHandler $languageHandler,
+        protected LanguageMaskGenerator $languageMaskGenerator
     ) {
-        $this->connection = $connection;
-        $this->databasePlatform = $connection->getDatabasePlatform();
-        $this->sharedGateway = $sharedGateway;
-        $this->queryBuilder = $queryBuilder;
-        $this->languageHandler = $languageHandler;
-        $this->languageMaskGenerator = $languageMaskGenerator;
     }
 
     public function insertContentObject(CreateStruct $struct, int $currentVersionNo = 1): int
@@ -306,7 +264,7 @@ final class DoctrineDatabase extends Gateway
             ->set('initial_language_id', ':initial_language_id')
             ->set(
                 'language_mask',
-                $this->databasePlatform->getBitOrComparisonExpression(
+                $this->getDatabasePlatform()->getBitOrComparisonExpression(
                     'language_mask',
                     ':language_mask'
                 )
@@ -445,7 +403,7 @@ final class DoctrineDatabase extends Gateway
         $query
             ->set(
                 'language_id',
-                $this->databasePlatform->getBitAndComparisonExpression(
+                $this->getDatabasePlatform()->getBitAndComparisonExpression(
                     'language_id',
                     ':languageMaskOperand'
                 )
@@ -460,7 +418,7 @@ final class DoctrineDatabase extends Gateway
             $query
                 ->set(
                     'language_id',
-                    $this->databasePlatform->getBitOrComparisonExpression(
+                    $this->getDatabasePlatform()->getBitOrComparisonExpression(
                         'language_id',
                         ':languageMaskOperand'
                     )
@@ -472,7 +430,7 @@ final class DoctrineDatabase extends Gateway
 
             $query->andWhere(
                 $expr->gt(
-                    $this->databasePlatform->getBitAndComparisonExpression(
+                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
                         'language_id',
                         $query->createNamedParameter($initialLanguageId, ParameterType::INTEGER, ':initialLanguageId')
                     ),
@@ -961,7 +919,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
-            ->select($this->databasePlatform->getCountExpression('v.id'))
+            ->select('COUNT(v.id)')
             ->from(Gateway::CONTENT_VERSION_TABLE, 'v')
             ->innerJoin(
                 'v',
@@ -1073,7 +1031,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select($this->databasePlatform->getMaxExpression('version'))
+            ->select('MAX(version)')
             ->from(self::CONTENT_VERSION_TABLE)
             ->where('contentobject_id = :content_id')
             ->setParameter('content_id', $contentId, ParameterType::INTEGER);
@@ -1095,9 +1053,7 @@ final class DoctrineDatabase extends Gateway
             ->where('contentobject_id = :content_id')
             ->setParameter('content_id', $contentId, ParameterType::INTEGER);
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchFirstColumn();
+        return $query->executeQuery()->fetchFirstColumn();
     }
 
     /**
@@ -1179,7 +1135,7 @@ final class DoctrineDatabase extends Gateway
             ->where('l.to_contentobject_id = :content_id')
             ->andWhere(
                 $expr->gt(
-                    $this->databasePlatform->getBitAndComparisonExpression(
+                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
                         'l.relation_type',
                         ':relation_type'
                     ),
@@ -1368,7 +1324,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select($this->databasePlatform->getCountExpression('contentobject_id'))
+            ->select('COUNT(contentobject_id)')
             ->from(self::CONTENT_NAME_TABLE)
             ->where('contentobject_id = :content_id')
             ->andWhere('content_version = :version_no')
@@ -1466,7 +1422,8 @@ final class DoctrineDatabase extends Gateway
         ?int $relationType = null
     ): int {
         $query = $this->connection->createQueryBuilder();
-        $query->select($this->databasePlatform->getCountExpression('l.id'))
+        $query
+            ->select('COUNT(l.id)')
             ->from(self::CONTENT_RELATION_TABLE, 'l');
 
         $query = $this->prepareRelationQuery($query, $contentId, $contentVersionNo, $relationType);
@@ -1543,7 +1500,7 @@ final class DoctrineDatabase extends Gateway
             $query
                 ->andWhere(
                     $expr->gt(
-                        $this->databasePlatform->getBitAndComparisonExpression(
+                        $this->getDatabasePlatform()->getBitAndComparisonExpression(
                             'l.relation_type',
                             ':relation_type'
                         ),
@@ -1561,7 +1518,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
-            ->select($this->databasePlatform->getCountExpression('l.id'))
+            ->select('COUNT(l.id)')
             ->from(self::CONTENT_RELATION_TABLE, 'l')
             ->innerJoin(
                 'l',
@@ -1584,7 +1541,7 @@ final class DoctrineDatabase extends Gateway
         if ($relationType !== null) {
             $query->andWhere(
                 $expr->gt(
-                    $this->databasePlatform->getBitAndComparisonExpression(
+                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
                         'l.relation_type',
                         $relationType
                     ),
@@ -1623,7 +1580,7 @@ final class DoctrineDatabase extends Gateway
         if (null !== $relationType) {
             $query->andWhere(
                 $expr->gt(
-                    $this->databasePlatform->getBitAndComparisonExpression(
+                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
                         'l.relation_type',
                         ':relation_type'
                     ),
@@ -1664,7 +1621,7 @@ final class DoctrineDatabase extends Gateway
         if ($relationType !== null) {
             $query->andWhere(
                 $expr->gt(
-                    $this->databasePlatform->getBitAndComparisonExpression(
+                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
                         'l.relation_type',
                         $relationType
                     ),
@@ -1787,7 +1744,7 @@ final class DoctrineDatabase extends Gateway
                 ->set(
                     'relation_type',
                     // make & operation removing given $type from the bitmask
-                    $this->databasePlatform->getBitAndComparisonExpression(
+                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
                         'relation_type',
                         ':relation_type'
                     )
@@ -2104,12 +2061,12 @@ final class DoctrineDatabase extends Gateway
         string $languageMaskColumnName
     ): DoctrineQueryBuilder {
         if ($alwaysAvailable) {
-            $languageMaskExpr = $this->databasePlatform->getBitOrComparisonExpression(
+            $languageMaskExpr = $this->getDatabasePlatform()->getBitOrComparisonExpression(
                 $languageMaskColumnName,
                 ':languageMaskOperand'
             );
         } else {
-            $languageMaskExpr = $this->databasePlatform->getBitAndComparisonExpression(
+            $languageMaskExpr = $this->getDatabasePlatform()->getBitAndComparisonExpression(
                 $languageMaskColumnName,
                 ':languageMaskOperand'
             );
@@ -2146,5 +2103,14 @@ final class DoctrineDatabase extends Gateway
             );
 
         return $queryBuilder->executeQuery()->fetchAllAssociative();
+    }
+
+    private function getDatabasePlatform(): AbstractPlatform
+    {
+        try {
+            return $this->connection->getDatabasePlatform();
+        } catch (Exception $e) {
+            throw DatabaseException::wrap($e);
+        }
     }
 }

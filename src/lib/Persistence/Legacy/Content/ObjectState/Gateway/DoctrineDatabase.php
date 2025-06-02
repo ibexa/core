@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
@@ -26,27 +25,10 @@ use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway;
  */
 final class DoctrineDatabase extends Gateway
 {
-    /**
-     * Language mask generator.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
-     */
-    private $maskGenerator;
-
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
-
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
-    private $dbPlatform;
-
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
-    public function __construct(Connection $connection, MaskGenerator $maskGenerator)
-    {
-        $this->connection = $connection;
-        $this->dbPlatform = $this->connection->getDatabasePlatform();
-        $this->maskGenerator = $maskGenerator;
+    public function __construct(
+        private readonly Connection $connection,
+        private readonly MaskGenerator $maskGenerator
+    ) {
     }
 
     public function loadObjectStateData(int $stateId): array
@@ -59,9 +41,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadObjectStateDataByIdentifier(string $identifier, int $groupId): array
@@ -80,9 +60,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadObjectStateListData(int $groupId): array
@@ -98,7 +76,7 @@ final class DoctrineDatabase extends Gateway
         $statement = $query->executeQuery();
 
         $rows = [];
-        while ($row = $statement->fetch(FetchMode::ASSOCIATIVE)) {
+        while ($row = $statement->fetchAssociative()) {
             $rows[$row['ibexa_object_state_id']][] = $row;
         }
 
@@ -115,9 +93,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadObjectStateGroupDataByIdentifier(string $identifier): array
@@ -130,9 +106,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadObjectStateGroupListData(int $offset, int $limit): array
@@ -146,7 +120,7 @@ final class DoctrineDatabase extends Gateway
         $statement = $query->executeQuery();
 
         $rows = [];
-        while ($row = $statement->fetch(FetchMode::ASSOCIATIVE)) {
+        while ($row = $statement->fetchAssociative()) {
             $rows[$row['ibexa_object_state_group_id']][] = $row;
         }
 
@@ -488,18 +462,14 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function getContentCount(int $stateId): int
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select(
-                $this->dbPlatform->getCountExpression('contentobject_id')
-            )
+            ->select('COUNT(contentobject_id)')
             ->from(self::OBJECT_STATE_LINK_TABLE)
             ->where(
                 $query->expr()->eq(
@@ -706,9 +676,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select(
-                $this->dbPlatform->getMaxExpression('priority')
-            )
+            ->select('MAX(priority)')
             ->from(self::OBJECT_STATE_TABLE)
             ->where(
                 $query->expr()->eq(
@@ -747,7 +715,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $stateId = $query->executeQuery()->fetch(FetchMode::COLUMN);
+        $stateId = $query->executeQuery()->fetchOne();
 
         return false !== $stateId ? (int)$stateId : null;
     }

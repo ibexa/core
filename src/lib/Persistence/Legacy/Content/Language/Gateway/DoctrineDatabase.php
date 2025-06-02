@@ -9,9 +9,12 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language;
+use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
 use RuntimeException;
 
@@ -24,32 +27,15 @@ use RuntimeException;
  */
 final class DoctrineDatabase extends Gateway
 {
-    /**
-     * The native Doctrine connection.
-     *
-     * @var \Doctrine\DBAL\Connection
-     */
-    private $connection;
-
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
-    private $dbPlatform;
-
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
-        $this->dbPlatform = $this->connection->getDatabasePlatform();
     }
 
     public function insertLanguage(Language $language): int
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select(
-                $this->dbPlatform->getMaxExpression('id')
-            )
+            ->select('MAX(id)')
             ->from(self::CONTENT_LANGUAGE_TABLE);
 
         $statement = $query->executeQuery();
@@ -200,11 +186,11 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query
             // avoiding using "*" as count argument, but don't specify column name because it varies
-            ->select($this->dbPlatform->getCountExpression(1))
+            ->select('COUNT(1)')
             ->from($tableName)
             ->where(
                 $query->expr()->gt(
-                    $this->dbPlatform->getBitAndComparisonExpression(
+                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
                         $languageMaskColumn,
                         $query->createPositionalParameter($languageId, ParameterType::INTEGER)
                     ),
@@ -222,5 +208,14 @@ final class DoctrineDatabase extends Gateway
         }
 
         return (int)$query->executeQuery()->fetchOne();
+    }
+
+    private function getDatabasePlatform(): AbstractPlatform
+    {
+        try {
+            return $this->connection->getDatabasePlatform();
+        } catch (Exception $e) {
+            throw DatabaseException::wrap($e);
+        }
     }
 }

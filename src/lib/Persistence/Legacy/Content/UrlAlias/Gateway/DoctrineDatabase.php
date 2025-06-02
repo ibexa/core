@@ -9,10 +9,13 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Ibexa\Core\Base\Exceptions\BadStateException;
+use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
@@ -48,33 +51,13 @@ final class DoctrineDatabase extends Gateway
         'text_md5' => ParameterType::STRING,
     ];
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
-    private $languageMaskGenerator;
+    private string $table;
 
-    /**
-     * Main URL database table name.
-     *
-     * @var string
-     */
-    private $table;
-
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
-
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
-    private $dbPlatform;
-
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
     public function __construct(
-        Connection $connection,
-        LanguageMaskGenerator $languageMaskGenerator
+        private Connection $connection,
+        private LanguageMaskGenerator $languageMaskGenerator
     ) {
-        $this->connection = $connection;
-        $this->languageMaskGenerator = $languageMaskGenerator;
         $this->table = static::TABLE;
-        $this->dbPlatform = $this->connection->getDatabasePlatform();
     }
 
     public function setTable(string $name): void
@@ -146,7 +129,7 @@ final class DoctrineDatabase extends Gateway
         if (null !== $languageId) {
             $query->andWhere(
                 $expr->gt(
-                    $this->dbPlatform->getBitAndComparisonExpression(
+                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
                         'lang_mask',
                         $query->createPositionalParameter($languageId, ParameterType::INTEGER)
                     ),
@@ -211,7 +194,7 @@ final class DoctrineDatabase extends Gateway
         if (isset($languageCode)) {
             $query->andWhere(
                 $expr->gt(
-                    $this->dbPlatform->getBitAndComparisonExpression(
+                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
                         'lang_mask',
                         $query->createPositionalParameter(
                             $this->languageMaskGenerator->generateLanguageIndicator(
@@ -289,7 +272,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->andWhere(
                 $expr->gt(
-                    $this->dbPlatform->getBitAndComparisonExpression(
+                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
                         'lang_mask',
                         $query->createPositionalParameter($languageId, ParameterType::INTEGER)
                     ),
@@ -378,7 +361,7 @@ final class DoctrineDatabase extends Gateway
                         $query->createPositionalParameter(1, ParameterType::INTEGER)
                     ),
                     $query->expr()->gt(
-                        $this->dbPlatform->getBitAndComparisonExpression(
+                        $this->getDatabasePlatform()->getBitAndComparisonExpression(
                             'lang_mask',
                             $query->createPositionalParameter(
                                 $languageMask & ~1,
@@ -452,7 +435,7 @@ final class DoctrineDatabase extends Gateway
             ->update($this->connection->quoteIdentifier($this->table))
             ->set(
                 'lang_mask',
-                $this->dbPlatform->getBitAndComparisonExpression(
+                $this->getDatabasePlatform()->getBitAndComparisonExpression(
                     'lang_mask',
                     $query->createPositionalParameter(
                         ~$languageId,
@@ -632,7 +615,7 @@ final class DoctrineDatabase extends Gateway
             ->insert(self::INCR_TABLE)
             ->values(
                 [
-                    'id' => $this->dbPlatform->supportsSequences()
+                    'id' => $this->getDatabasePlatform()->supportsSequences()
                         ? sprintf('NEXTVAL(\'%s\')', self::INCR_TABLE_SEQ)
                         : $query->createPositionalParameter(null, ParameterType::NULL),
                 ]
@@ -1114,8 +1097,6 @@ final class DoctrineDatabase extends Gateway
      */
     public function deleteUrlAliasesWithoutLocation(): int
     {
-        $dbPlatform = $this->connection->getDatabasePlatform();
-
         $subQuery = $this->connection->createQueryBuilder();
         $subQuery
             ->select('node_id')
@@ -1125,7 +1106,7 @@ final class DoctrineDatabase extends Gateway
                     't.node_id',
                     sprintf(
                         'CAST(%s as %s)',
-                        $dbPlatform->getSubstringExpression(
+                        $this->getDatabasePlatform()->getSubstringExpression(
                             $this->connection->quoteIdentifier($this->table) . '.action',
                             8
                         ),
@@ -1265,7 +1246,6 @@ final class DoctrineDatabase extends Gateway
      */
     public function deleteUrlNopAliasesWithoutChildren(): int
     {
-        $platform = $this->connection->getDatabasePlatform();
         $queryBuilder = $this->connection->createQueryBuilder();
 
         // The wrapper select is needed for SQL "Derived Table Merge" issue for deleting
@@ -1290,7 +1270,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->groupBy('u_parent.id')
             ->having(
-                $expressionBuilder->eq($platform->getCountExpression('u.id'), 0)
+                $expressionBuilder->eq('COUNT(u.id)', 0)
             );
 
         $wrapperQueryBuilder
@@ -1386,7 +1366,7 @@ final class DoctrineDatabase extends Gateway
      */
     private function getIntegerType(): string
     {
-        return $this->dbPlatform->getName() === 'mysql' ? 'signed' : 'integer';
+        return $this->getDatabasePlatform()->getName() === 'mysql' ? 'signed' : 'integer';
     }
 
     /**
@@ -1448,5 +1428,14 @@ final class DoctrineDatabase extends Gateway
         ;
 
         return $queryBuilder->executeStatement();
+    }
+
+    private function getDatabasePlatform(): AbstractPlatform
+    {
+        try {
+            return $this->connection->getDatabasePlatform();
+        } catch (Exception $e) {
+            throw DatabaseException::wrap($e);
+        }
     }
 }

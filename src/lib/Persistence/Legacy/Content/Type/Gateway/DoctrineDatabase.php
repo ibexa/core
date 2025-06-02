@@ -33,12 +33,7 @@ use function sprintf;
  */
 final class DoctrineDatabase extends Gateway
 {
-    /**
-     * Columns of database tables.
-     *
-     * @var array
-     */
-    private $columns = [
+    private array $columns = [
         Gateway::CONTENT_TYPE_TABLE => [
             'id',
             'always_available',
@@ -90,40 +85,11 @@ final class DoctrineDatabase extends Gateway
         ],
     ];
 
-    /**
-     * The native Doctrine connection.
-     *
-     * Meant to be used to transition from eZ/Zeta interface to Doctrine.
-     *
-     * @var \Doctrine\DBAL\Connection
-     */
-    private $connection;
-
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
-    private $dbPlatform;
-
-    /** @var \Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway */
-    private $sharedGateway;
-
-    /**
-     * Language mask generator.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
-     */
-    private $languageMaskGenerator;
-
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
     public function __construct(
-        Connection $connection,
-        SharedGateway $sharedGateway,
-        MaskGenerator $languageMaskGenerator
+        private Connection $connection,
+        private SharedGateway $sharedGateway,
+        private MaskGenerator $languageMaskGenerator
     ) {
-        $this->connection = $connection;
-        $this->dbPlatform = $connection->getDatabasePlatform();
-        $this->sharedGateway = $sharedGateway;
-        $this->languageMaskGenerator = $languageMaskGenerator;
     }
 
     public function insertGroup(Group $group): int
@@ -198,7 +164,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select($this->dbPlatform->getCountExpression('contentclass_id'))
+            ->select('COUNT(contentclass_id)')
             ->from(self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE)
             ->where(
                 $query->expr()->eq(
@@ -215,7 +181,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
-            ->select($this->dbPlatform->getCountExpression('group_id'))
+            ->select('COUNT(group_id)')
             ->from(self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE)
             ->where(
                 $expr->eq(
@@ -835,7 +801,7 @@ final class DoctrineDatabase extends Gateway
     ): bool {
         $existQuery = $this->connection->createQueryBuilder();
         $existQuery
-            ->select($this->dbPlatform->getCountExpression('1'))
+            ->select('COUNT(1)')
             ->from(self::MULTILINGUAL_FIELD_DEFINITION_TABLE)
             ->where('contentclass_attribute_id = :field_definition_id')
             ->andWhere('version = :status')
@@ -1095,7 +1061,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select($this->dbPlatform->getCountExpression('id'))
+            ->select('COUNT(id)')
             ->from(ContentGateway::CONTENT_ITEM_TABLE)
             ->where(
                 $query->expr()->eq(

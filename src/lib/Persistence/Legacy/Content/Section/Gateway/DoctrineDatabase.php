@@ -21,21 +21,8 @@ use Ibexa\Core\Persistence\Legacy\User\Role\Gateway as RoleGateway;
  */
 final class DoctrineDatabase extends Gateway
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
-
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
-    private $dbPlatform;
-
-    /**
-     * Creates a new DoctrineDatabase Section Gateway.
-     *
-     * @throws \Doctrine\DBAL\Exception
-     */
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
-        $this->dbPlatform = $this->connection->getDatabasePlatform();
     }
 
     public function insertSection(string $name, string $identifier): int
@@ -84,9 +71,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadAllSectionData(): array
@@ -95,9 +80,7 @@ final class DoctrineDatabase extends Gateway
         $query->select('id', 'identifier', 'name')
             ->from(self::CONTENT_SECTION_TABLE);
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function loadSectionDataByIdentifier(string $identifier): array
@@ -116,16 +99,14 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchAllAssociative();
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     public function countContentObjectsInSection(int $id): int
     {
         $query = $this->connection->createQueryBuilder();
         $query->select(
-            $this->dbPlatform->getCountExpression('id')
+            'COUNT(id)'
         )->from(
             ContentGateway::CONTENT_ITEM_TABLE
         )->where(
@@ -145,7 +126,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
-            ->select($this->dbPlatform->getCountExpression('l.id'))
+            ->select('COUNT(l.id)')
             ->from(RoleGateway::POLICY_LIMITATION_TABLE, 'l')
             ->join(
                 'l',
@@ -178,7 +159,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
-            ->select($this->dbPlatform->getCountExpression('ur.id'))
+            ->select('COUNT(ur.id)')
             ->from(RoleGateway::USER_ROLE_TABLE, 'ur')
             ->where(
                 $expr->eq(
