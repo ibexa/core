@@ -19,6 +19,9 @@ use Psr\Log\LoggerInterface;
 
 class TranslationHelperTest extends TestCase
 {
+    private const int EXAMPLE_MAIN_LOCATION_ID = 999;
+    private const string EXAMPLE_LANGUAGE_CODE = 'fre-FR';
+
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
@@ -124,7 +127,10 @@ class TranslationHelperTest extends TestCase
     public function testGetTranslatedNameByContentInfo(array $prioritizedLanguages, $expectedLocale)
     {
         $versionInfo = $this->generateVersionInfo();
-        $contentInfo = new ContentInfo(['id' => 123]);
+        $contentInfo = new ContentInfo([
+            'id' => 123,
+            'mainLocationId' => self::EXAMPLE_MAIN_LOCATION_ID,
+        ]);
         $this->configResolver
             ->expects(self::once())
             ->method('getParameter')
@@ -154,7 +160,11 @@ class TranslationHelperTest extends TestCase
     public function testGetTranslatedNameByContentInfoForcedLanguage()
     {
         $versionInfo = $this->generateVersionInfo();
-        $contentInfo = new ContentInfo(['id' => 123]);
+        $contentInfo = new ContentInfo([
+            'id' => 123,
+            'mainLocationId' => self::EXAMPLE_MAIN_LOCATION_ID,
+            'mainLanguageCode' => self::EXAMPLE_LANGUAGE_CODE,
+        ]);
         $this->configResolver
             ->expects(self::never())
             ->method('getParameter');
@@ -178,6 +188,7 @@ class TranslationHelperTest extends TestCase
                 'id' => 123,
                 'mainLanguageCode' => $mainLanguage,
                 'name' => $name,
+                'mainLocationId' => self::EXAMPLE_MAIN_LOCATION_ID,
             ]
         );
         $this->configResolver
