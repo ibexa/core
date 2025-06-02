@@ -24,6 +24,7 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Limitation\ContentTypeLimitationType;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Core\Repository\Values\Content\Location;
+use Ibexa\Core\Repository\Values\ContentType\ContentType;
 
 /**
  * Test Case for LimitationType.
@@ -248,7 +249,7 @@ class ContentTypeLimitationTypeTest extends Base
             // ContentInfo, no access
             [
                 'limitation' => new ContentTypeLimitation(['limitationValues' => [2]]),
-                'object' => new ContentInfo(),
+                'object' => new ContentInfo(['contentTypeId' => 23]),
                 'targets' => [],
                 'expected' => false,
             ],
@@ -276,28 +277,28 @@ class ContentTypeLimitationTypeTest extends Base
             // ContentCreateStruct, no access
             [
                 'limitation' => new ContentTypeLimitation(['limitationValues' => [2]]),
-                'object' => new ContentCreateStruct(['contentType' => ((object)['id' => 22])]),
+                'object' => new ContentCreateStruct(['contentType' => new ContentType(['id' => 22])]),
                 'targets' => [],
                 'expected' => false,
             ],
             // ContentCreateStruct, with access
             [
                 'limitation' => new ContentTypeLimitation(['limitationValues' => [2, 43]]),
-                'object' => new ContentCreateStruct(['contentType' => ((object)['id' => 43])]),
+                'object' => new ContentCreateStruct(['contentType' => new ContentType(['id' => 43])]),
                 'targets' => [],
                 'expected' => true,
             ],
             // ContentType intention test, with access
             [
                 'limitation' => new ContentTypeLimitation(['limitationValues' => [2, 43]]),
-                'object' => new ContentCreateStruct(['contentType' => (object)['id' => 22]]),
+                'object' => new ContentCreateStruct(['contentType' => new ContentType(['id' => 22])]),
                 'targets' => [(new VersionBuilder())->createFromAnyContentTypeOf([43])->build()],
                 'expected' => true,
             ],
             // ContentType intention test, no access
             [
                 'limitation' => new ContentTypeLimitation(['limitationValues' => [2, 43]]),
-                'object' => new ContentCreateStruct(['contentType' => (object)['id' => 22]]),
+                'object' => new ContentCreateStruct(['contentType' => new ContentType(['id' => 22])]),
                 'targets' => [(new VersionBuilder())->createFromAnyContentTypeOf([23])->build()],
                 'expected' => false,
             ],
