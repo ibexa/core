@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use DateTime;
+use DateTimeImmutable;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo as SPIContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Field as PersistenceContentField;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
@@ -36,13 +37,16 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
 {
     use ExpectDeprecationTrait;
 
+    private const EXAMPLE_CONTENT_INFO_ID = 1;
     private const EXAMPLE_CONTENT_TYPE_ID = 1;
+    private const EXAMPLE_NAME = 'Example';
     private const EXAMPLE_SECTION_ID = 1;
     private const EXAMPLE_MAIN_LOCATION_ID = 1;
     private const EXAMPLE_MAIN_LANGUAGE_CODE = 'ger-DE';
     private const EXAMPLE_OWNER_ID = 1;
     private const EXAMPLE_INITIAL_LANGUAGE_CODE = 'eng-GB';
     private const EXAMPLE_CREATOR_ID = 23;
+    private const int EXAMPLE_VERSION_INFO_ID = 12;
 
     /**
      * @dataProvider providerForBuildVersionInfo
@@ -59,7 +63,18 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
 
     public function testBuildLocationWithContentForRootLocation()
     {
-        $spiRootLocation = new Location(['id' => 1, 'parentId' => 1]);
+        $spiRootLocation = new Location([
+            'id' => 1,
+            'parentId' => 1,
+            'priority' => 0,
+            'hidden' => false,
+            'invisible' => false,
+            'remoteId' => 'a0b21e72f98a4637d169c4144edf39c3',
+            'pathString' => '/1',
+            'depth' => 0,
+            'sortField' => Location::SORT_FIELD_PRIORITY,
+            'sortOrder' => Location::SORT_ORDER_ASC,
+        ]);
         $apiRootLocation = $this->getContentDomainMapper()->buildLocationWithContent($spiRootLocation, null);
 
         $legacyDateTime = new DateTime();
@@ -77,8 +92,9 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
             'modificationDate' => $legacyDateTime,
             'publishedDate' => $legacyDateTime,
             'alwaysAvailable' => 1,
-            'remoteId' => null,
+            'remoteId' => 'IBEXA_ROOT_385b2cd4737a459c999ba4b7595a0016',
             'mainLanguageCode' => 'eng-GB',
+            'isHidden' => false,
         ]);
 
         $expectedContent = new Content([
@@ -112,7 +128,18 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
 
     public function testBuildLocationWithContentIsAlignedWithBuildLocation()
     {
-        $spiRootLocation = new Location(['id' => 1, 'parentId' => 1]);
+        $spiRootLocation = new Location([
+            'id' => 1,
+            'parentId' => 1,
+            'priority' => 0,
+            'invisible' => false,
+            'hidden' => false,
+            'remoteId' => 'a0b21e72f98a4637d169c4144edf39c3',
+            'pathString' => '/1',
+            'depth' => 0,
+            'sortField' => Location::SORT_FIELD_PRIORITY,
+            'sortOrder' => Location::SORT_ORDER_ASC,
+        ]);
 
         self::assertEquals(
             $this->getContentDomainMapper()->buildLocationWithContent($spiRootLocation, null),
@@ -151,12 +178,21 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
     public function providerForBuildVersionInfo()
     {
         $properties = [
+            'id' => self::EXAMPLE_VERSION_INFO_ID,
+            'versionNo' => 1,
             'contentInfo' => new SPIContentInfo([
+                'id' => self::EXAMPLE_CONTENT_INFO_ID,
+                'name' => self::EXAMPLE_NAME,
                 'contentTypeId' => self::EXAMPLE_CONTENT_TYPE_ID,
                 'sectionId' => self::EXAMPLE_SECTION_ID,
                 'mainLocationId' => self::EXAMPLE_MAIN_LOCATION_ID,
                 'mainLanguageCode' => self::EXAMPLE_MAIN_LANGUAGE_CODE,
                 'ownerId' => self::EXAMPLE_OWNER_ID,
+                'currentVersionNo' => 1,
+                'modificationDate' => (new DateTimeImmutable('2025-06-01 00:00:00'))->getTimestamp(),
+                'publicationDate' => (new DateTimeImmutable('2025-06-01 00:00:00'))->getTimestamp(),
+                'alwaysAvailable' => false,
+                'remoteId' => 'a0b21e72f98a4637d169c4144edf39c3',
             ]),
             'creatorId' => self::EXAMPLE_CREATOR_ID,
             'initialLanguageCode' => self::EXAMPLE_INITIAL_LANGUAGE_CODE,
@@ -205,16 +241,46 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
     public function providerForBuildLocationDomainObjectsOnSearchResult()
     {
         $properties = [
+            'name' => self::EXAMPLE_NAME,
             'contentTypeId' => self::EXAMPLE_CONTENT_TYPE_ID,
             'sectionId' => self::EXAMPLE_SECTION_ID,
             'mainLocationId' => self::EXAMPLE_MAIN_LOCATION_ID,
             'mainLanguageCode' => self::EXAMPLE_MAIN_LANGUAGE_CODE,
             'ownerId' => self::EXAMPLE_OWNER_ID,
+            'currentVersionNo' => 1,
+            'modificationDate' => (new DateTimeImmutable('2025-06-01 00:00:00'))->getTimestamp(),
+            'publicationDate' => (new DateTimeImmutable('2025-06-01 00:00:00'))->getTimestamp(),
+            'alwaysAvailable' => true,
+            'remoteId' => 'a0b21e72f98a4637d169c4144edf39c3',
         ];
 
         $locationHits = [
-            new Location(['id' => 21, 'contentId' => 32, 'parentId' => 1]),
-            new Location(['id' => 22, 'contentId' => 33, 'parentId' => 1]),
+            new Location([
+                'id' => 21,
+                'contentId' => 32,
+                'parentId' => 1,
+                'priority' => 0,
+                'invisible' => false,
+                'hidden' => false,
+                'remoteId' => 'a0b21e72f98a4637d169c4144edf39c3',
+                'pathString' => '/1/21',
+                'depth' => 1,
+                'sortField' => Location::SORT_FIELD_PRIORITY,
+                'sortOrder' => Location::SORT_ORDER_ASC,
+            ]),
+            new Location([
+                'id' => 22,
+                'contentId' => 33,
+                'parentId' => 1,
+                'priority' => 0,
+                'invisible' => false,
+                'hidden' => false,
+                'remoteId' => 'b0b21e72f98a4637d169c4144edf39c3',
+                'pathString' => '/1/22',
+                'depth' => 1,
+                'sortField' => Location::SORT_FIELD_PRIORITY,
+                'sortOrder' => Location::SORT_ORDER_ASC,
+            ]),
         ];
 
         return [
