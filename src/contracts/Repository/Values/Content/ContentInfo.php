@@ -107,7 +107,7 @@ class ContentInfo extends ValueObject
      * If the Content object has multiple locations,
      * $mainLocationId will point to the main one.
      */
-    protected ?int $mainLocationId;
+    protected ?int $mainLocationId = null;
 
     /**
      * Status of the content.
