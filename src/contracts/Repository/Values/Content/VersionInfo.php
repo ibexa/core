@@ -65,7 +65,7 @@ abstract class VersionInfo extends ValueObject implements MultiLanguageName
     /**
      * One of VersionInfo::STATUS_DRAFT, VersionInfo::STATUS_PUBLISHED, VersionInfo::STATUS_ARCHIVED.
      */
-    protected int $status;
+    protected int $status = self::STATUS_DRAFT;
 
     /**
      * In 4.x this is the language code which is used for labeling a translation.
