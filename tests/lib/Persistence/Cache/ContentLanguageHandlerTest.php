@@ -14,7 +14,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 /**
  * Test case for Persistence\Cache\ContentLanguageHandler.
  */
-class ContentLanguageHandlerTest extends AbstractInMemoryCacheHandlerTest
+class ContentLanguageHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {

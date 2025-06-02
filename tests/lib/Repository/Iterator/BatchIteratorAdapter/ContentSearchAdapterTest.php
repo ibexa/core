@@ -16,9 +16,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 /**
  * @phpstan-import-type TSearchLanguageFilter from \Ibexa\Contracts\Core\Repository\SearchService
  *
- * @extends \Ibexa\Tests\Core\Repository\Iterator\BatchIteratorAdapter\AbstractSearchAdapterTest<\Ibexa\Contracts\Core\Repository\Values\Content\Content>
+ * @extends \Ibexa\Tests\Core\Repository\Iterator\BatchIteratorAdapter\AbstractSearchAdapterTestCase<\Ibexa\Contracts\Core\Repository\Values\Content\Content>
  */
-final class ContentSearchAdapterTest extends AbstractSearchAdapterTest
+final class ContentSearchAdapterTest extends AbstractSearchAdapterTestCase
 {
     protected function createAdapterUnderTest(
         SearchService $searchService,

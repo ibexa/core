@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Persistence\TransactionHandler;
 /**
  * @covers \Ibexa\Core\Persistence\Cache\TransactionHandler
  */
-class TransactionHandlerTest extends AbstractCacheHandlerTest
+class TransactionHandlerTest extends AbstractCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {

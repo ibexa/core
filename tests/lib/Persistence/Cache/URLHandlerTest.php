@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Persistence\URL\URL;
 use Ibexa\Contracts\Core\Persistence\URL\URLUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
 
-class URLHandlerTest extends AbstractCacheHandlerTest
+class URLHandlerTest extends AbstractCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {

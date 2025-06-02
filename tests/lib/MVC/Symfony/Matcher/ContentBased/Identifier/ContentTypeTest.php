@@ -11,9 +11,9 @@ use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ContentType as ContentTypeIdentifierMatcher;
-use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTest;
+use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
 
-class ContentTypeTest extends BaseTest
+class ContentTypeTest extends BaseTestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ContentType */
     private $matcher;

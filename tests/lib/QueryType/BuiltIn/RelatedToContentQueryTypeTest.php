@@ -22,7 +22,7 @@ use Ibexa\Core\QueryType\BuiltIn\RelatedToContentQueryType;
 use Ibexa\Core\QueryType\BuiltIn\SortClausesFactoryInterface;
 use Ibexa\Core\QueryType\QueryType;
 
-final class RelatedToContentQueryTypeTest extends AbstractQueryTypeTest
+final class RelatedToContentQueryTypeTest extends AbstractQueryTypeTestCase
 {
     private const EXAMPLE_CONTENT_ID = 52;
     private const EXAMPLE_FIELD = 'related';

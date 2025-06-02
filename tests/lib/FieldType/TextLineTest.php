@@ -17,7 +17,7 @@ use Ibexa\Core\FieldType\ValidationError;
  * @group fieldType
  * @group ezstring
  */
-final class TextLineTest extends FieldTypeTest
+final class TextLineTest extends FieldTypeTestCase
 {
     private const string STRING_TOO_SHORT_EXPECTED_SINGULAR_MESSAGE = 'The string cannot be shorter than %size% character.';
     private const string STRING_TOO_SHORT_EXPECTED_PLURAL_MESSAGE = 'The string cannot be shorter than %size% characters.';

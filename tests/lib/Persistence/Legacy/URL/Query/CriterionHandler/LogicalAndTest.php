@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion\LogicalAnd;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\LogicalAnd as LogicalAndHandler;
 
-class LogicalAndTest extends CriterionHandlerTest
+class LogicalAndTest extends CriterionHandlerTestCase
 {
     /**
      * {@inheritdoc}

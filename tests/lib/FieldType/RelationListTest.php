@@ -18,7 +18,7 @@ use Ibexa\Core\FieldType\RelationList\Value;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\Repository\Validator\TargetContentValidatorInterface;
 
-class RelationListTest extends FieldTypeTest
+class RelationListTest extends FieldTypeTestCase
 {
     private const DESTINATION_CONTENT_ID_14 = 14;
     private const DESTINATION_CONTENT_ID_22 = 22;

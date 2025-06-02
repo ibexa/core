@@ -14,7 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Core\Repository\SiteAccessAware\SearchService;
 use Ibexa\Core\Repository\Values\Content\Content;
 
-class SearchServiceTest extends AbstractServiceTest
+class SearchServiceTest extends AbstractServiceTestCase
 {
     public function getAPIServiceClassName(): string
     {

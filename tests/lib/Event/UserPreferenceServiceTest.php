@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Repository\Events\UserPreference\SetUserPreferenceEvent
 use Ibexa\Contracts\Core\Repository\UserPreferenceService as UserPreferenceServiceInterface;
 use Ibexa\Core\Event\UserPreferenceService;
 
-class UserPreferenceServiceTest extends AbstractServiceTest
+class UserPreferenceServiceTest extends AbstractServiceTestCase
 {
     public function testSetUserPreferenceEvents()
     {

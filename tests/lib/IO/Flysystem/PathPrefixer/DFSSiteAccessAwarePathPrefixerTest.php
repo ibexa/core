@@ -15,7 +15,7 @@ use Ibexa\Core\IO\Flysystem\PathPrefixer\PathPrefixerInterface;
 /**
  * @covers \Ibexa\Core\IO\Flysystem\PathPrefixer\DFSSiteAccessAwarePathPrefixer
  */
-final class DFSSiteAccessAwarePathPrefixerTest extends BaseSiteAccessAwarePathPrefixerTest
+final class DFSSiteAccessAwarePathPrefixerTest extends BaseSiteAccessAwarePathPrefixerTestCase
 {
     public function getDataForTestPrefixPath(): iterable
     {

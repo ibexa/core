@@ -17,7 +17,7 @@ use Ibexa\Core\QueryType\QueryType;
 use Ibexa\Core\Repository\Values\Content\Location;
 use PHPUnit\Framework\TestCase;
 
-abstract class AbstractQueryTypeTest extends TestCase
+abstract class AbstractQueryTypeTestCase extends TestCase
 {
     protected const ROOT_LOCATION_ID = 2;
     protected const ROOT_LOCATION_PATH_STRING = '/1/2/';

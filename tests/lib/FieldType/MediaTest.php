@@ -17,7 +17,7 @@ use Ibexa\Core\FieldType\ValidationError;
  * @group fieldType
  * @group ezbinaryfile
  */
-class MediaTest extends BinaryBaseTest
+class MediaTest extends BinaryBaseTestCase
 {
     /**
      * Returns the field type under test.

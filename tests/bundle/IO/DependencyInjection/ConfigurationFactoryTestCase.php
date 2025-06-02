@@ -15,7 +15,7 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
  *
  * The part about the container can rely on the matthiasnoback/SymfonyDependencyInjectionTest assertContainer* methods.
  */
-abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
+abstract class ConfigurationFactoryTestCase extends AbstractContainerBuilderTestCase
 {
     /** @var \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory */
     protected $factory;

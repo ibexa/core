@@ -9,7 +9,7 @@ namespace Ibexa\Tests\Core\Specification;
 
 use Ibexa\Contracts\Core\Specification\AndSpecification;
 
-class AndSpecificationTest extends BaseSpecificationTest
+class AndSpecificationTest extends BaseSpecificationTestCase
 {
     public function testAndSpecification(): void
     {

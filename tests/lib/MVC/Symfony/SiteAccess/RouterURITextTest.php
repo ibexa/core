@@ -13,7 +13,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIText as URITextMatcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
 use Psr\Log\LoggerInterface;
 
-class RouterURITextTest extends RouterBaseTest
+class RouterURITextTest extends RouterBaseTestCase
 {
     public function matchProvider(): array
     {

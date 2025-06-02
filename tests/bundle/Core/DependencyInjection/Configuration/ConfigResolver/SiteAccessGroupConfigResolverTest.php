@@ -14,7 +14,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Provider\StaticSiteAccessProvider;
 
-class SiteAccessGroupConfigResolverTest extends ConfigResolverTest
+class SiteAccessGroupConfigResolverTest extends ConfigResolverTestCase
 {
     protected function getResolver(string $defaultNamespace = self::DEFAULT_NAMESPACE): ConfigResolverInterface
     {

@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion\MatchNone;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\MatchNone as MatchNoneHandler;
 
-class MatchNoneTest extends CriterionHandlerTest
+class MatchNoneTest extends CriterionHandlerTestCase
 {
     /**
      * {@inheritdoc}

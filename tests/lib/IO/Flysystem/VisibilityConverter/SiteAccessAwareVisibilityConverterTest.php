@@ -16,7 +16,7 @@ use League\Flysystem\Visibility;
 /**
  * @covers \Ibexa\Core\IO\Flysystem\VisibilityConverter\SiteAccessAwareVisibilityConverter
  */
-final class SiteAccessAwareVisibilityConverterTest extends BaseVisibilityConverterTest
+final class SiteAccessAwareVisibilityConverterTest extends BaseVisibilityConverterTestCase
 {
     private const int SITE_FILE_FLAGS = 0644;
     private const int SITE_DIRECTORY_FLAGS = 0755;

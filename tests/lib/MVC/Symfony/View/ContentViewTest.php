@@ -17,7 +17,7 @@ use Ibexa\Core\MVC\Symfony\View\View;
  *
  * @covers \Ibexa\Core\MVC\Symfony\View\ContentView
  */
-class ContentViewTest extends AbstractViewTest
+class ContentViewTest extends AbstractViewTestCase
 {
     /**
      * Params that are always returned by this view.

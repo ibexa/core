@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Notification;
 /**
  * Test case for Persistence\Cache\NotificationHandler.
  */
-class NotificationHandlerTest extends AbstractCacheHandlerTest
+class NotificationHandlerTest extends AbstractCacheHandlerTestCase
 {
     /**
      * {@inheritdoc}

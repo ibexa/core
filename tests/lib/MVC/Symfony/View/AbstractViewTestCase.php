@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Ibexa\Core\MVC\Symfony\View\View
  */
-abstract class AbstractViewTest extends TestCase
+abstract class AbstractViewTestCase extends TestCase
 {
     abstract protected function createViewUnderTest($template = null, array $parameters = [], $viewType = 'full'): View;
 

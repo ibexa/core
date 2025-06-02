@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 
-abstract class BaseRenderStrategyTest extends TestCase
+abstract class BaseRenderStrategyTestCase extends TestCase
 {
     /**
      * @phpstan-param class-string<\Ibexa\Contracts\Core\MVC\Templating\BaseRenderStrategy> $typeClass

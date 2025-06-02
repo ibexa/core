@@ -8,9 +8,9 @@
 namespace Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactory\BinarydataHandler;
 
 use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory\BinarydataHandler\Flysystem;
-use Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactory\BaseFlysystemTest;
+use Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactory\BaseFlysystemTestCase;
 
-class FlysystemTest extends BaseFlysystemTest
+final class FlysystemTest extends BaseFlysystemTestCase
 {
     public function provideTestedFactory(): Flysystem
     {

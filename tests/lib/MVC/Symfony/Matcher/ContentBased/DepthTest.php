@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth as DepthMatcher;
 
-class DepthTest extends BaseTest
+class DepthTest extends BaseTestCase
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth */
     private $matcher;

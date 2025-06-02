@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct;
 /**
  * Test case for Persistence\Cache\UserPreferenceHandler.
  */
-class UserPreferenceHandlerTest extends AbstractInMemoryCacheHandlerTest
+class UserPreferenceHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 {
     /**
      * {@inheritdoc}

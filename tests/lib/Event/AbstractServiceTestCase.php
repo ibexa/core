@@ -14,7 +14,7 @@ use Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Stopwatch\Stopwatch;
 
-abstract class AbstractServiceTest extends TestCase
+abstract class AbstractServiceTestCase extends TestCase
 {
     public function getEventDispatcher(string $beforeEventName, string $eventName): TraceableEventDispatcher
     {
@@ -28,6 +28,11 @@ abstract class AbstractServiceTest extends TestCase
         );
     }
 
+    /**
+     * @param array<array{event: string, priority: int}> $listeners
+     *
+     * @return array<array{0: string, 1: int}>
+     */
     public function getListenersStack(array $listeners): array
     {
         $stack = [];

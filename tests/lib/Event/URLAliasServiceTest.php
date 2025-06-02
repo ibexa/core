@@ -20,7 +20,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Core\Event\URLAliasService;
 
-class URLAliasServiceTest extends AbstractServiceTest
+class URLAliasServiceTest extends AbstractServiceTestCase
 {
     public function testCreateGlobalUrlAliasEvents()
     {

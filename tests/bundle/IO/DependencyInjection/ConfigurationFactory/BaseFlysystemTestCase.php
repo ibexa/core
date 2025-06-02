@@ -7,11 +7,11 @@
 
 namespace Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactory;
 
-use Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactoryTest;
+use Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactoryTestCase;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-abstract class BaseFlysystemTest extends ConfigurationFactoryTest
+abstract class BaseFlysystemTestCase extends ConfigurationFactoryTestCase
 {
     private $flysystemAdapterServiceId = 'oneup_flysystem.test_adapter';
 

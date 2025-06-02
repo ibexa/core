@@ -20,7 +20,7 @@ use ReflectionMethod;
  * - Do nothing, pass-through call and optionally (default:true) return value
  * - lookup languages [IF not defined by callee] on one of the arguments given and pass it to next one.
  */
-abstract class AbstractServiceTest extends TestCase
+abstract class AbstractServiceTestCase extends TestCase
 {
     /**
      * Purely to attempt to make tests easier to read.

@@ -45,7 +45,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Core\Event\ContentService;
 
-class ContentServiceTest extends AbstractServiceTest
+class ContentServiceTest extends AbstractServiceTestCase
 {
     public function testDeleteContentEvents()
     {

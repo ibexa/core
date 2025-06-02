@@ -15,7 +15,7 @@ use League\Flysystem\Visibility;
 /**
  * @covers \Ibexa\Core\IO\Flysystem\VisibilityConverter\DFSVisibilityConverter
  */
-final class DFSVisibilityConverterTest extends BaseVisibilityConverterTest
+final class DFSVisibilityConverterTest extends BaseVisibilityConverterTestCase
 {
     private const DFS_FILE_FLAGS = 0640;
     private const DFS_DIRECTORY_FLAGS = 0750;

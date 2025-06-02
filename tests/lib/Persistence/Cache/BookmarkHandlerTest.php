@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as SPILocationHand
 /**
  * Test case for Persistence\Cache\BookmarkHandler.
  */
-class BookmarkHandlerTest extends AbstractCacheHandlerTest
+class BookmarkHandlerTest extends AbstractCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {

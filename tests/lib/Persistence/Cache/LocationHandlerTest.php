@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Location\UpdateStruct;
 /**
  * Test case for Persistence\Cache\LocationHandler.
  */
-class LocationHandlerTest extends AbstractInMemoryCacheHandlerTest
+class LocationHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {

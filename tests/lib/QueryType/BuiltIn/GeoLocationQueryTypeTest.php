@@ -22,7 +22,7 @@ use Ibexa\Core\QueryType\BuiltIn\GeoLocationQueryType;
 use Ibexa\Core\QueryType\BuiltIn\SortClausesFactoryInterface;
 use Ibexa\Core\QueryType\QueryType;
 
-final class GeoLocationQueryTypeTest extends AbstractQueryTypeTest
+final class GeoLocationQueryTypeTest extends AbstractQueryTypeTestCase
 {
     private const EXAMPLE_FIELD = 'location';
     private const EXAMPLE_DISTANCE = 40.0;

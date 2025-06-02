@@ -11,7 +11,7 @@ use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
 use Psr\Log\LoggerInterface;
 
-class RouterPortHostURITest extends RouterBaseTest
+class RouterPortHostURITest extends RouterBaseTestCase
 {
     public function matchProvider(): array
     {

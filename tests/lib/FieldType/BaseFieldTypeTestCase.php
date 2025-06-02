@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
 use PHPUnit\Framework\TestCase;
 
-abstract class BaseFieldTypeTest extends TestCase
+abstract class BaseFieldTypeTestCase extends TestCase
 {
     /**
      * Generic cache for the getFieldTypeUnderTest() method.

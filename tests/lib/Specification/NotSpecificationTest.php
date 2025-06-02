@@ -9,7 +9,7 @@ namespace Ibexa\Tests\Core\Specification;
 
 use Ibexa\Contracts\Core\Specification\NotSpecification;
 
-class NotSpecificationTest extends BaseSpecificationTest
+class NotSpecificationTest extends BaseSpecificationTestCase
 {
     public function testNotSpecification(): void
     {

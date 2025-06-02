@@ -30,7 +30,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationUpdateStruct;
 use Ibexa\Core\Event\LocationService;
 
-class LocationServiceTest extends AbstractServiceTest
+class LocationServiceTest extends AbstractServiceTestCase
 {
     public function testCopySubtreeEvents()
     {

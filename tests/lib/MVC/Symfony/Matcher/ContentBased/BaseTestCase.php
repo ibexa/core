@@ -18,7 +18,7 @@ use Ibexa\Core\Repository\Permission\PermissionResolver;
 use Ibexa\Core\Repository\Repository;
 use PHPUnit\Framework\TestCase;
 
-abstract class BaseTest extends TestCase
+abstract class BaseTestCase extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject */
     protected $repositoryMock;

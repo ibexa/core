@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Ibexa\Core\IO\Flysystem\VisibilityConverter\BaseVisibilityConverter
  */
-abstract class BaseVisibilityConverterTest extends TestCase
+abstract class BaseVisibilityConverterTestCase extends TestCase
 {
     protected const FLYSYSTEM_FILE_FLAGS = 0600;
     protected const FLYSYSTEM_DIRECTORY_FLAGS = 0700;

@@ -10,7 +10,7 @@ namespace Ibexa\Tests\Core\Persistence\Cache;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler as SpiUrlWildcardHandler;
 
-class UrlWildcardHandlerTest extends AbstractCacheHandlerTest
+class UrlWildcardHandlerTest extends AbstractCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {

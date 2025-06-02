@@ -33,7 +33,7 @@ use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroupUpdateStr
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateUpdateStruct;
 use Ibexa\Core\Event\ObjectStateService;
 
-class ObjectStateServiceTest extends AbstractServiceTest
+class ObjectStateServiceTest extends AbstractServiceTestCase
 {
     public function testSetContentStateEvents()
     {

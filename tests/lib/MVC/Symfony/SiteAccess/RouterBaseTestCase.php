@@ -14,7 +14,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilder;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
 use PHPUnit\Framework\TestCase;
 
-abstract class RouterBaseTest extends TestCase
+abstract class RouterBaseTestCase extends TestCase
 {
     protected const UNDEFINED_SA_NAME = 'undefined_sa';
     protected const ENV_SA_NAME = 'env_sa';
