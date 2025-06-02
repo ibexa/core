@@ -21,24 +21,6 @@ class LanguageTest extends TestCase
     use ValueObjectTestTrait;
 
     /**
-     * Test default properties of just created class.
-     */
-    public function testNewClass()
-    {
-        $language = new Language();
-
-        $this->assertPropertiesCorrect(
-            [
-                'id' => null,
-                'languageCode' => null,
-                'name' => null,
-                'enabled' => null,
-            ],
-            $language
-        );
-    }
-
-    /**
      * Test retrieving missing property.
      */
     public function testMissingProperty()

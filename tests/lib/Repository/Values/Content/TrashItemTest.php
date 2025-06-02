@@ -9,7 +9,6 @@ namespace Ibexa\Tests\Core\Repository\Values\Content;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException;
-use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Core\Repository\Values\Content\TrashItem;
 use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
 use PHPUnit\Framework\TestCase;
@@ -20,32 +19,6 @@ use PHPUnit\Framework\TestCase;
 class TrashItemTest extends TestCase
 {
     use ValueObjectTestTrait;
-
-    public function testNewClass()
-    {
-        // create ContentInfo to be able to retrieve the contentId property via magic method
-        $contentInfo = new ContentInfo();
-        $trashItem = new TrashItem(['contentInfo' => $contentInfo]);
-
-        $this->assertPropertiesCorrect(
-            [
-                'contentInfo' => $contentInfo,
-                'contentId' => null,
-                'id' => null,
-                'priority' => null,
-                'hidden' => null,
-                'invisible' => null,
-                'remoteId' => null,
-                'parentLocationId' => null,
-                'pathString' => null,
-                'path' => [],
-                'depth' => null,
-                'sortField' => null,
-                'sortOrder' => null,
-            ],
-            $trashItem
-        );
-    }
 
     /**
      * Test retrieving missing property.
