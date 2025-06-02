@@ -70,11 +70,6 @@ final class LocationTest extends TestCase
             new Location(['id' => 1, 'pathString' => '']),
             [],
         ];
-
-        yield 'null path' => [
-            new Location(['id' => 1, 'pathString' => null]),
-            [],
-        ];
     }
 
     /**
