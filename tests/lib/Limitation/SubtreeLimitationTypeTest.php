@@ -32,6 +32,8 @@ use Ibexa\Core\Repository\Values\Content\Query\Criterion\PermissionSubtree;
  */
 class SubtreeLimitationTypeTest extends Base
 {
+    public const int EXAMPLE_CONTENT_INFO_ID = 12312;
+
     /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler|\PHPUnit\Framework\MockObject\MockObject */
     private $locationHandlerMock;
 
@@ -306,7 +308,11 @@ class SubtreeLimitationTypeTest extends Base
             // ContentInfo, no targets, with access
             [
                 'limitation' => new SubtreeLimitation(['limitationValues' => ['/1/2/']]),
-                'object' => new ContentInfo(['published' => true, 'status' => ContentInfo::STATUS_PUBLISHED]),
+                'object' => new ContentInfo([
+                    'id' => self::EXAMPLE_CONTENT_INFO_ID,
+                    'published' => true,
+                    'status' => ContentInfo::STATUS_PUBLISHED,
+                ]),
                 'targets' => null,
                 'persistence' => [new Location(['pathString' => '/1/2/'])],
                 'expected' => LimitationType::ACCESS_GRANTED,
@@ -314,7 +320,11 @@ class SubtreeLimitationTypeTest extends Base
             // ContentInfo, no targets, no access
             [
                 'limitation' => new SubtreeLimitation(['limitationValues' => ['/1/2/', '/1/43/']]),
-                'object' => new ContentInfo(['published' => true, 'status' => ContentInfo::STATUS_PUBLISHED]),
+                'object' => new ContentInfo([
+                    'id' => self::EXAMPLE_CONTENT_INFO_ID,
+                    'published' => true,
+                    'status' => ContentInfo::STATUS_PUBLISHED,
+                ]),
                 'targets' => null,
                 'persistence' => [new Location(['pathString' => '/1/55/'])],
                 'expected' => LimitationType::ACCESS_DENIED,
@@ -322,7 +332,11 @@ class SubtreeLimitationTypeTest extends Base
             // ContentInfo, no targets, un-published, with access
             [
                 'limitation' => new SubtreeLimitation(['limitationValues' => ['/1/2/']]),
-                'object' => new ContentInfo(['published' => false, 'status' => ContentInfo::STATUS_DRAFT]),
+                'object' => new ContentInfo([
+                    'id' => self::EXAMPLE_CONTENT_INFO_ID,
+                    'published' => false,
+                    'status' => ContentInfo::STATUS_DRAFT,
+                ]),
                 'targets' => null,
                 'persistence' => [new Location(['pathString' => '/1/2/'])],
                 'expected' => LimitationType::ACCESS_GRANTED,
@@ -330,7 +344,11 @@ class SubtreeLimitationTypeTest extends Base
             // ContentInfo, no targets, un-published, no access
             [
                 'limitation' => new SubtreeLimitation(['limitationValues' => ['/1/2/', '/1/43/']]),
-                'object' => new ContentInfo(['published' => false, 'status' => ContentInfo::STATUS_DRAFT]),
+                'object' => new ContentInfo([
+                    'id' => self::EXAMPLE_CONTENT_INFO_ID,
+                    'published' => false,
+                    'status' => ContentInfo::STATUS_DRAFT,
+                ]),
                 'targets' => null,
                 'persistence' => [new Location(['pathString' => '/1/55/'])],
                 'expected' => LimitationType::ACCESS_DENIED,
