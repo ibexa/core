@@ -66,6 +66,7 @@ use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 class ContentTest extends BaseServiceMockTest
 {
     private const EMPTY_FIELD_VALUE = 'empty';
+    private const EXAMPLE_FIELD_TYPE_IDENTIFIER = 'field_type_identifier';
 
     private const int EXAMPLE_FIELD_DEFINITION_ID = 1;
 
@@ -1520,6 +1521,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue'),
                             'languageCode' => null,
                         ]
@@ -1616,6 +1618,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier1',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue1'),
                             'languageCode' => null,
                         ]
@@ -1623,6 +1626,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier2',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue2'),
                             'languageCode' => 'ger-DE',
                         ]
@@ -1776,6 +1780,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier1',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue1'),
                             'languageCode' => 'ger-DE',
                         ]
@@ -1783,6 +1788,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier2',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue2'),
                             'languageCode' => null,
                         ]
@@ -1790,6 +1796,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier4',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue4'),
                             'languageCode' => null,
                         ]
@@ -2307,6 +2314,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub(self::EMPTY_FIELD_VALUE),
                             'languageCode' => null,
                         ]
@@ -3597,6 +3605,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue'),
                             'languageCode' => null,
                         ]
@@ -3730,6 +3739,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue'),
                             'languageCode' => null,
                         ]
@@ -3758,6 +3768,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue'),
                             'languageCode' => null,
                         ]
@@ -3793,6 +3804,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue1'),
                             'languageCode' => null,
                         ]
@@ -3976,6 +3988,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier1',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue1'),
                             'languageCode' => null,
                         ]
@@ -4011,6 +4024,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier1',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue1'),
                             'languageCode' => null,
                         ]
@@ -4060,6 +4074,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier1',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue1'),
                             'languageCode' => null,
                         ]
@@ -4067,6 +4082,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier1',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue2'),
                             'languageCode' => 'eng-GB',
                         ]
@@ -4074,6 +4090,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier2',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue3'),
                             'languageCode' => null,
                         ]
@@ -4225,6 +4242,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier1',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue1'),
                             'languageCode' => null,
                         ]
@@ -4260,6 +4278,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier1',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue1'),
                             'languageCode' => null,
                         ]
@@ -4267,6 +4286,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier2',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub(self::EMPTY_FIELD_VALUE),
                             'languageCode' => null,
                         ]
@@ -4302,6 +4322,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier1',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue1'),
                             'languageCode' => null,
                         ]
@@ -4345,6 +4366,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier1',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub(self::EMPTY_FIELD_VALUE),
                             'languageCode' => null,
                         ]
@@ -4386,6 +4408,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier1',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub(self::EMPTY_FIELD_VALUE),
                             'languageCode' => null,
                         ]
@@ -4593,6 +4616,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier4',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue4'),
                             'languageCode' => null,
                         ]
@@ -4600,6 +4624,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier1',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue1-eng-GB'),
                             'languageCode' => 'eng-GB',
                         ]
@@ -4635,6 +4660,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier2',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue2'),
                             'languageCode' => null,
                         ]
@@ -4642,6 +4668,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier1',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue1-eng-GB'),
                             'languageCode' => 'eng-GB',
                         ]
@@ -4677,6 +4704,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier2',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue2'),
                             'languageCode' => 'eng-US',
                         ]
@@ -4684,6 +4712,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier1',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub('newValue1-eng-GB'),
                             'languageCode' => null,
                         ]
@@ -5266,6 +5295,7 @@ class ContentTest extends BaseServiceMockTest
                     new Field(
                         [
                             'fieldDefIdentifier' => 'identifier',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'value' => new ValueStub(self::EMPTY_FIELD_VALUE),
                             'languageCode' => null,
                         ]
