@@ -32,22 +32,22 @@ class Field extends ValueObject
     /**
      * The field definition identifier.
      */
-    protected string $fieldDefIdentifier;
+    protected string $fieldDefIdentifier = '';
 
     /**
      * A field type value or a value type which can be converted by the corresponding field type.
      */
-    protected mixed $value;
+    protected mixed $value = null;
 
     /**
      * The language code.
      */
-    protected ?string $languageCode;
+    protected ?string $languageCode = null;
 
     /**
      * Field type identifier.
      */
-    protected string $fieldTypeIdentifier;
+    protected string $fieldTypeIdentifier = '';
 
     public function getId(): ?int
     {

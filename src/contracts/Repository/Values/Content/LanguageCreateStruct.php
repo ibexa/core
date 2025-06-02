@@ -23,9 +23,9 @@ class LanguageCreateStruct extends ValueObject
     public ?string $languageCode = null;
 
     /**
-     * Human readable name of the language.
+     * Human-readable name of the language.
      */
-    public ?string $name;
+    public ?string $name = null;
 
     /**
      * Indicates if the language is enabled or not.

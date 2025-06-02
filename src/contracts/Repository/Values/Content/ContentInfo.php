@@ -79,12 +79,12 @@ class ContentInfo extends ValueObject
     /**
      * Content modification date.
      */
-    protected DateTimeInterface $modificationDate;
+    protected ?DateTimeInterface $modificationDate;
 
     /**
      * Content publication date.
      */
-    protected DateTimeInterface $publishedDate;
+    protected ?DateTimeInterface $publishedDate;
 
     /**
      * Indicates if the Content object is shown in the mainlanguage if its not present in an other requested language.
