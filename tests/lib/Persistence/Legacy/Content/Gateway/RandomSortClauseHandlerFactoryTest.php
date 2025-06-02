@@ -43,7 +43,7 @@ class RandomSortClauseHandlerFactoryTest extends TestCase
 
         $handlerFactory = new RandomSortClauseHandlerFactory($connection, [$badGateway, $goodGateway]);
 
-        $this->assertSame($goodGateway, $handlerFactory->getGateway());
+        self::assertSame($goodGateway, $handlerFactory->getGateway());
     }
 
     /**
@@ -72,7 +72,7 @@ class RandomSortClauseHandlerFactoryTest extends TestCase
 
         $handlerFactory = new RandomSortClauseHandlerFactory($connection, [$badGateway1, $badGateway2]);
 
-        $this->expectException(InvalidArgumentException::class);
+        self::expectException(InvalidArgumentException::class);
         $handlerFactory->getGateway();
     }
 }
