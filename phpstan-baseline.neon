@@ -19705,7 +19705,7 @@ parameters:
 			path: src/lib/Repository/ContentService.php
 
 		-
-			message: '#^PHPDoc tag @param has invalid value \(\\Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Language\|null if not set the draft is created with the initialLanguage code of the source version or if not present with the main language\.\)\: Unexpected token "if", expected variable at offset 565 on line 9$#'
+			message: '#^PHPDoc tag @param has invalid value \(\\Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Language\|null if not set the draft is created with the initialLanguage code of the source version or if not present with the main language\.\)\: Unexpected token "if", expected variable at offset 573 on line 9$#'
 			identifier: phpDoc.parseError
 			count: 1
 			path: src/lib/Repository/ContentService.php
@@ -54677,12 +54677,6 @@ parameters:
 			identifier: isset.property
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabaseTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Gateway\\RandomSortClauseHandlerFactoryTest\:\:getGateways\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Gateway/RandomSortClauseHandlerFactoryTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Gateway\\RandomSortClauseHandlerFactoryTest\:\:testGetGateway\(\) has no return type specified\.$#'
