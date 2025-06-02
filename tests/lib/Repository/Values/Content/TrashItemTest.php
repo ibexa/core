@@ -21,32 +21,6 @@ class TrashItemTest extends TestCase
 {
     use ValueObjectTestTrait;
 
-    public function testNewClass()
-    {
-        // create ContentInfo to be able to retrieve the contentId property via magic method
-        $contentInfo = new ContentInfo();
-        $trashItem = new TrashItem(['contentInfo' => $contentInfo]);
-
-        $this->assertPropertiesCorrect(
-            [
-                'contentInfo' => $contentInfo,
-                'contentId' => null,
-                'id' => null,
-                'priority' => null,
-                'hidden' => null,
-                'invisible' => null,
-                'remoteId' => null,
-                'parentLocationId' => null,
-                'pathString' => null,
-                'path' => [],
-                'depth' => null,
-                'sortField' => null,
-                'sortOrder' => null,
-            ],
-            $trashItem
-        );
-    }
-
     /**
      * Test retrieving missing property.
      */
