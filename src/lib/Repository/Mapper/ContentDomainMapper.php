@@ -539,7 +539,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
             'modificationDate' => $legacyDateTime,
             'publishedDate' => $legacyDateTime,
             'alwaysAvailable' => 1,
-            'remoteId' => null,
+            'remoteId' => 'IBEXA_ROOT_385b2cd4737a459c999ba4b7595a0016',
             'mainLanguageCode' => 'eng-GB',
             'isHidden' => false,
         ]);
