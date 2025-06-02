@@ -89,7 +89,7 @@ class ContentInfo extends ValueObject
     /**
      * Indicates if the Content object is shown in the mainlanguage if its not present in an other requested language.
      */
-    protected bool $alwaysAvailable;
+    protected bool $alwaysAvailable = false;
 
     /**
      * Remote identifier used as a custom identifier for the object.
