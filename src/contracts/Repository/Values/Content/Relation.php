@@ -62,13 +62,11 @@ abstract class Relation extends ValueObject
     protected int $id;
 
     /**
-     * Source content type Field Definition Id.
-     * For relation not of type RelationType::COMMON this field denotes the field definition id
+     * Source content type Field Definition identifier.
+     * For relation not of type RelationType::COMMON this field denotes the field definition identifier
      * of the attribute where the relation is anchored.
-     *
-     * @var string
      */
-    protected string $sourceFieldDefinitionIdentifier;
+    protected ?string $sourceFieldDefinitionIdentifier = null;
 
     /**
      * The relation type bitmask.
