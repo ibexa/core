@@ -54679,18 +54679,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabaseTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Gateway\\RandomSortClauseHandlerFactoryTest\:\:testGetGateway\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Gateway/RandomSortClauseHandlerFactoryTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Gateway\\RandomSortClauseHandlerFactoryTest\:\:testGetGatewayNotImplemented\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Gateway/RandomSortClauseHandlerFactoryTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\CachingLanguageHandlerTest\:\:getCacheIdentifierGeneratorMock\(\) should return Ibexa\\Core\\Persistence\\Cache\\Identifier\\CacheIdentifierGeneratorInterface&PHPUnit\\Framework\\MockObject\\MockObject but returns Ibexa\\Core\\Persistence\\Cache\\Identifier\\CacheIdentifierGeneratorInterface\.$#'
 			identifier: return.type
 			count: 1
