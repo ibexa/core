@@ -307,7 +307,7 @@ class HandlerLocationSortTest extends AbstractTestCase
                         [5, 43, 45, 48, 51, 54, 156, 157]
                     ),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 8,
                     'sortClauses' => [
                         new SortClause\SectionIdentifier(),
                     ],
@@ -347,7 +347,7 @@ class HandlerLocationSortTest extends AbstractTestCase
                 [
                     'filter' => new Criterion\LocationId([13, 15, 44, 45, 228]),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 5,
                     'sortClauses' => [
                         new SortClause\ContentName(),
                     ],
@@ -370,7 +370,7 @@ class HandlerLocationSortTest extends AbstractTestCase
                 [
                     'filter' => new Criterion\LocationId([13, 15, 44, 45, 228]),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 5,
                     'sortClauses' => [
                         new SortClause\ContentId(),
                     ],
@@ -393,7 +393,7 @@ class HandlerLocationSortTest extends AbstractTestCase
                 [
                     'filter' => new Criterion\LocationId([13, 15, 44, 45, 228]),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 5,
                     'sortClauses' => [
                         new SortClause\Location\Id(LocationQuery::SORT_DESC),
                     ],
@@ -416,7 +416,7 @@ class HandlerLocationSortTest extends AbstractTestCase
                 [
                     'filter' => new Criterion\LocationId([45, 228]),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 2,
                     'sortClauses' => [
                         new SortClause\Location\Visibility(LocationQuery::SORT_ASC),
                     ],
@@ -439,7 +439,7 @@ class HandlerLocationSortTest extends AbstractTestCase
                 [
                     'filter' => new Criterion\LocationId([45, 228]),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 2,
                     'sortClauses' => [
                         new SortClause\Location\Visibility(LocationQuery::SORT_DESC),
                     ],
@@ -462,7 +462,7 @@ class HandlerLocationSortTest extends AbstractTestCase
                 [
                     'filter' => new Criterion\SectionId([4, 2, 6, 3]),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 999,
                     'sortClauses' => [
                         new SortClause\SectionName(),
                     ],
@@ -520,7 +520,7 @@ class HandlerLocationSortTest extends AbstractTestCase
                         ]
                     ),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 999,
                     'sortClauses' => [
                         new SortClause\Field('article', 'title', LocationQuery::SORT_ASC, 'eng-US'),
                     ],
@@ -590,7 +590,7 @@ class HandlerLocationSortTest extends AbstractTestCase
                         ]
                     ),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 4,
                     'sortClauses' => [
                         new SortClause\Field('product', 'price', LocationQuery::SORT_ASC, 'eng-US'),
                     ],
@@ -618,7 +618,7 @@ class HandlerLocationSortTest extends AbstractTestCase
                 [
                     'filter' => new Criterion\ParentLocationId(224),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 2,
                     'sortClauses' => [
                         new SortClause\Location\IsMainLocation(LocationQuery::SORT_ASC),
                     ],
@@ -641,7 +641,7 @@ class HandlerLocationSortTest extends AbstractTestCase
                 [
                     'filter' => new Criterion\ParentLocationId(224),
                     'offset' => 0,
-                    'limit' => null,
+                    'limit' => 2,
                     'sortClauses' => [
                         new SortClause\Location\IsMainLocation(LocationQuery::SORT_DESC),
                     ],
