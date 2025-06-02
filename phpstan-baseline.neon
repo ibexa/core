@@ -5929,18 +5929,6 @@ parameters:
 			path: src/contracts/Repository/Iterator/BatchIteratorAdapter/ContentFilteringAdapter.php
 
 		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Iterator\\BatchIteratorAdapter\\LocationFilteringAdapter\:\:__construct\(\) has parameter \$languages with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Repository/Iterator/BatchIteratorAdapter/LocationFilteringAdapter.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Iterator\\BatchIteratorAdapter\\LocationFilteringAdapter\:\:fetch\(\) should return Iterator but returns iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\>&Traversable\.$#'
-			identifier: return.type
-			count: 1
-			path: src/contracts/Repository/Iterator/BatchIteratorAdapter/LocationFilteringAdapter.php
-
-		-
 			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\LanguageResolver\:\:getPrioritizedLanguages\(\) has parameter \$forcedLanguages with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -6053,36 +6041,6 @@ parameters:
 			identifier: missingType.generics
 			count: 1
 			path: src/contracts/Repository/Values/Content/ContentDraftList.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\DraftList\\Item\\UnauthorizedContentDraftListItem\:\:__construct\(\) has parameter \$payload with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Repository/Values/Content/DraftList/Item/UnauthorizedContentDraftListItem.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\DraftList\\Item\\UnauthorizedContentDraftListItem\:\:getPayload\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Repository/Values/Content/DraftList/Item/UnauthorizedContentDraftListItem.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\DraftList\\Item\\UnauthorizedContentDraftListItem\:\:\$payload type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Repository/Values/Content/DraftList/Item/UnauthorizedContentDraftListItem.php
-
-		-
-			message: '#^Class Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location has PHPDoc tag @property\-read for property \$path with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Repository/Values/Content/Location.php
-
-		-
-			message: '#^Class Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\LocationList implements generic interface IteratorAggregate but does not specify its types\: TKey, TValue$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/contracts/Repository/Values/Content/LocationList.php
 
 		-
 			message: '#^Right side of \|\| is always false\.$#'
@@ -9101,12 +9059,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Limitation/TargetOnlyLimitationType.php
-
-		-
-			message: '#^PHPDoc tag @var does not specify variable name\.$#'
-			identifier: varTag.noVariable
-			count: 1
-			path: src/lib/Limitation/UserGroupLimitationType.php
 
 		-
 			message: '#^Method Ibexa\\Core\\MVC\\Exception\\NoViewTemplateException\:\:getView\(\) has no return type specified\.$#'
@@ -17989,12 +17941,6 @@ parameters:
 			path: src/lib/Repository/ContentService.php
 
 		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\ContentCreateStruct\:\:\$modificationDate \(DateTime\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: src/lib/Repository/ContentService.php
-
-		-
 			message: '#^Property Ibexa\\Core\\Repository\\ContentService\:\:\$repository \(Ibexa\\Core\\Repository\\Repository\) does not accept Ibexa\\Contracts\\Core\\Repository\\Repository\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -19573,18 +19519,6 @@ parameters:
 			path: src/lib/Repository/Values/Content/Content.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Repository\\Values\\Content\\Location\:\:getProperties\(\) has parameter \$dynamicProperties with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Repository/Values/Content/Location.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Repository\\Values\\Content\\Location\:\:getProperties\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Repository/Values/Content/Location.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Repository\\Values\\Content\\TrashItem\:\:getProperties\(\) has parameter \$dynamicProperties with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -20991,12 +20925,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Handler\:\:suggest\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/lib/Search/Legacy/Content/Handler.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\:\:\$sortClauses \(array\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\SortClause\>\) does not accept null\.$#'
-			identifier: assign.propertyType
 			count: 1
 			path: src/lib/Search/Legacy/Content/Handler.php
 
@@ -25401,12 +25329,6 @@ parameters:
 		-
 			message: '#^Parameter \#2 \$string2 of function strcmp expects string, bool\|float\|int\|string given\.$#'
 			identifier: argument.type
-			count: 1
-			path: tests/integration/Core/Repository/BaseTestCase.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\ContentCreateStruct\:\:\$remoteId \(string\) does not accept string\|null\.$#'
-			identifier: assign.propertyType
 			count: 1
 			path: tests/integration/Core/Repository/BaseTestCase.php
 
@@ -58525,19 +58447,7 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:testCreateContentThrowsInvalidArgumentExceptionContentTypeNotSet\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:testCreateContentThrowsInvalidArgumentExceptionDuplicateRemoteId\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:testCreateContentThrowsInvalidArgumentExceptionMainLanguageCodeNotSet\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
@@ -61705,12 +61615,6 @@ parameters:
 			path: tests/lib/Repository/Values/Content/LanguageTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\LanguageTest\:\:testNewClass\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Values/Content/LanguageTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\LanguageTest\:\:testReadOnlyProperty\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -61765,12 +61669,6 @@ parameters:
 			path: tests/lib/Repository/Values/Content/SectionTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\SectionTest\:\:testNewClass\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Values/Content/SectionTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\SectionTest\:\:testReadOnlyProperty\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -61802,12 +61700,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\TrashItemTest\:\:testMissingProperty\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Values/Content/TrashItemTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\TrashItemTest\:\:testNewClass\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/Repository/Values/Content/TrashItemTest.php
@@ -62623,12 +62515,6 @@ parameters:
 			path: tests/lib/Search/Legacy/Content/HandlerContentTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\HandlerContentTest\:\:testFindWithNullLimit\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Search/Legacy/Content/HandlerContentTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\HandlerContentTest\:\:testFindWithOffsetToNonexistent\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -63140,12 +63026,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\HandlerLocationTest\:\:testFieldRelationFilterInArrayNotMatch\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Search/Legacy/Content/HandlerLocationTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\HandlerLocationTest\:\:testFindWithNullLimit\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/Search/Legacy/Content/HandlerLocationTest.php
