@@ -56083,12 +56083,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/MapperTest.php
 
 		-
-			message: '#^Possibly invalid array key type \(list\<string\>\|string\)\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 2
-			path: tests/lib/Persistence/Legacy/Content/MapperTest.php
-
-		-
 			message: '#^Property Ibexa\\Contracts\\Core\\Persistence\\Content\\CreateStruct\:\:\$name \(array\<string\>\) does not accept string\.$#'
 			identifier: assign.propertyType
 			count: 1
