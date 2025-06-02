@@ -18,7 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
  * @group integration
  * @group limitation
  */
-class SubtreeLimitationTest extends BaseLimitationTest
+class SubtreeLimitationTest extends BaseLimitationTestCase
 {
     /**
      * Tests a combination of SubtreeLimitation, SectionLimitation and

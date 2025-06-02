@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Test case for delete content translation with the SearchService.
@@ -25,7 +25,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
  * @group integration
  * @group search
  */
-final class DeleteTranslationTest extends BaseTest
+final class DeleteTranslationTest extends BaseTestCase
 {
     /**
      * @param array $languages

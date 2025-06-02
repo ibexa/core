@@ -8,12 +8,12 @@
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * @see https://issues.ibexa.co/browse/EZP-28799
  */
-class EZP28799SubtreeSearchTest extends BaseTest
+class EZP28799SubtreeSearchTest extends BaseTestCase
 {
     /**
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content[]

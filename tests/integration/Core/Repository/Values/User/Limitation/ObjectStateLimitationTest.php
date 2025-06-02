@@ -25,7 +25,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\User;
  * @group integration
  * @group limitation
  */
-class ObjectStateLimitationTest extends BaseLimitationTest
+class ObjectStateLimitationTest extends BaseLimitationTestCase
 {
     public const OBJECT_STATE_LOCK_GROUP_ID = 2;
     public const OBJECT_STATE_NOT_LOCKED_STATE_ID = 1;

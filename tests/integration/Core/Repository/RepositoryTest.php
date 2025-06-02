@@ -32,7 +32,7 @@ use Ibexa\Contracts\Core\Repository\UserService;
  *
  * @group integration
  */
-class RepositoryTest extends BaseTest
+class RepositoryTest extends BaseTestCase
 {
     /**
      * Test for the getRepository() method.

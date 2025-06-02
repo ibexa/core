@@ -17,7 +17,7 @@ use Ibexa\Core\FieldType\Url\Value as UrlValue;
  * @group integration
  * @group field-type
  */
-class UrlIntegrationTest extends SearchBaseIntegrationTest
+class UrlIntegrationTest extends SearchBaseIntegrationTestCase
 {
     /**
      * Get name of tested field type.

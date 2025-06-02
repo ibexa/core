@@ -22,7 +22,7 @@ use Ibexa\Core\Repository\Values\Content\Content;
  * @group integration
  * @group authorization
  */
-class SearchServiceAuthorizationTest extends BaseTest
+class SearchServiceAuthorizationTest extends BaseTestCase
 {
     /**
      * Test for the findContent() method but with anonymous user.

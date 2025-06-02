@@ -17,7 +17,7 @@ use Ibexa\Core\FieldType\TextBlock\Value as TextBlockValue;
  * @group integration
  * @group field-type
  */
-class TextBlockIntegrationTest extends SearchBaseIntegrationTest
+class TextBlockIntegrationTest extends SearchBaseIntegrationTestCase
 {
     /**
      * Get name of tested field type.

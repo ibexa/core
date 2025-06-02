@@ -33,7 +33,7 @@ use Ibexa\Core\Repository\Values\Content\TrashItem;
  * @group integration
  * @group trash
  */
-class TrashServiceTest extends BaseTrashServiceTest
+class TrashServiceTest extends BaseTrashServiceTestCase
 {
     /**
      * Test for the trash() method.

@@ -13,7 +13,7 @@ use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
  * Base class for for create and update Content operations in the ContentService with regard to
  * non-redundant set of fields being passed to the storage.
  */
-abstract class BaseNonRedundantFieldSetTest extends BaseTest
+abstract class BaseNonRedundantFieldSetTestCase extends BaseTestCase
 {
     /**
      * Creates a fully functional ContentType and returns it.

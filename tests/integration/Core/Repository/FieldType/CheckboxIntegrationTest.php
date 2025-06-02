@@ -23,7 +23,7 @@ use Ibexa\Core\FieldType\Checkbox\Value as CheckboxValue;
  * @group integration
  * @group field-type
  */
-class CheckboxIntegrationTest extends SearchBaseIntegrationTest
+class CheckboxIntegrationTest extends SearchBaseIntegrationTestCase
 {
     private const IS_ACTIVE_FIELD_DEF_IDENTIFIER = 'is_active';
 

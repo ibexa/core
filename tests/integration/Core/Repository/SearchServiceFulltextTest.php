@@ -26,7 +26,7 @@ use RuntimeException;
  * @group search
  * @group fulltext
  */
-class SearchServiceFulltextTest extends BaseTest
+class SearchServiceFulltextTest extends BaseTestCase
 {
     protected function setUp(): void
     {

@@ -13,10 +13,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Field\Count
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
-use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\AbstractAggregationTest;
+use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\AbstractAggregationTestCase;
 use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\FixtureGenerator\FieldAggregationFixtureGenerator;
 
-final class CountryTermAggregationTest extends AbstractAggregationTest
+final class CountryTermAggregationTest extends AbstractAggregationTestCase
 {
     public function dataProviderForTestFindContentWithAggregation(): iterable
     {

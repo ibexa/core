@@ -20,7 +20,7 @@ use Ibexa\Core\FieldType\Date\Value as DateValue;
  * @group integration
  * @group field-type
  */
-class DateIntegrationTest extends SearchBaseIntegrationTest
+class DateIntegrationTest extends SearchBaseIntegrationTestCase
 {
     /**
      * Get name of tested field type.

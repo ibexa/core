@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Location\Lo
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult;
 use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\DataSetBuilder\TermAggregationDataSetBuilder;
 
-final class LocationChildrenTermAggregationTest extends AbstractAggregationTest
+final class LocationChildrenTermAggregationTest extends AbstractAggregationTestCase
 {
     /**
      * @dataProvider dataProviderForTestFindContentWithAggregation

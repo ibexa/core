@@ -26,7 +26,7 @@ use stdClass;
  * @group integration
  * @group field-type
  */
-class ImageIntegrationTest extends FileSearchBaseIntegrationTest
+class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
 {
     /**
      * Stores the loaded image path for copy test.

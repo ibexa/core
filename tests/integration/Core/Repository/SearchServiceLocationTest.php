@@ -27,7 +27,7 @@ use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
  * @group integration
  * @group search
  */
-class SearchServiceLocationTest extends BaseTest
+class SearchServiceLocationTest extends BaseTestCase
 {
     public const QUERY_CLASS = LocationQuery::class;
 

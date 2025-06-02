@@ -21,7 +21,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardUpdateStruct;
  *
  * @group url-wildcard
  */
-class URLWildcardServiceTest extends BaseTest
+class URLWildcardServiceTest extends BaseTestCase
 {
     /**
      * Test for the create() method.

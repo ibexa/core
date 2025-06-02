@@ -8,7 +8,7 @@
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * @issue https://issues.ibexa.co/browse/EZP-26551
@@ -16,7 +16,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
  * @group regression
  * @group ezp26551
  */
-class EZP26551DeleteContentTypeDraftTest extends BaseTest
+class EZP26551DeleteContentTypeDraftTest extends BaseTestCase
 {
     public function testDeleteContentTypeGroup()
     {

@@ -20,7 +20,7 @@ use Ibexa\Core\FieldType\Keyword\Value as KeywordValue;
  * @group integration
  * @group field-type
  */
-class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
+class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
 {
     /**
      * Get name of tested field type.

@@ -9,7 +9,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Visibility;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Test case for Visibility issues in EZP-20018.
@@ -18,7 +18,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
  *
  * Issue EZP-20018
  */
-class EZP20018VisibilityTest extends BaseTest
+class EZP20018VisibilityTest extends BaseTestCase
 {
     public function testSearchForHiddenContent()
     {

@@ -11,12 +11,12 @@ use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
 use Ibexa\Core\FieldType\User\UserStorage\Gateway;
 use Ibexa\Core\Repository\Values\User\User;
-use Ibexa\Tests\Integration\Core\BaseCoreFieldTypeIntegrationTest;
+use Ibexa\Tests\Integration\Core\BaseCoreFieldTypeIntegrationTestCase;
 
 /**
  * User Field Type external storage gateway tests.
  */
-abstract class UserStorageGatewayTest extends BaseCoreFieldTypeIntegrationTest
+abstract class UserStorageGatewayTestCase extends BaseCoreFieldTypeIntegrationTestCase
 {
     abstract protected function getGateway(): Gateway;
 

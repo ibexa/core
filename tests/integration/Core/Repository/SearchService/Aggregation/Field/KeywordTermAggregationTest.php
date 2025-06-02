@@ -12,10 +12,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Field\KeywordTermAggregation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry;
-use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\AbstractAggregationTest;
+use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\AbstractAggregationTestCase;
 use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\FixtureGenerator\FieldAggregationFixtureGenerator;
 
-final class KeywordTermAggregationTest extends AbstractAggregationTest
+final class KeywordTermAggregationTest extends AbstractAggregationTestCase
 {
     public function dataProviderForTestFindContentWithAggregation(): iterable
     {

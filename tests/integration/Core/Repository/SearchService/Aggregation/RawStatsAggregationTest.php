@@ -11,7 +11,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\RawStatsAggregation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\StatsAggregationResult;
 
-final class RawStatsAggregationTest extends AbstractAggregationTest
+final class RawStatsAggregationTest extends AbstractAggregationTestCase
 {
     public function dataProviderForTestFindContentWithAggregation(): iterable
     {

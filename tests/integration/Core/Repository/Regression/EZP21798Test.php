@@ -8,14 +8,14 @@
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Test case for language issues in EZP-21798.
  *
  * Issue EZP-21798
  */
-class EZP21798Test extends BaseTest
+class EZP21798Test extends BaseTestCase
 {
     /**
      * Test for EZP-21798 - Role changes not working correctly on Postgres 9.1.

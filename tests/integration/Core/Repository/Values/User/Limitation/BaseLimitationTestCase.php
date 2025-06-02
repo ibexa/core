@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\PolicyCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\Role;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Abstract base class for limitation tests.
@@ -21,7 +21,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
  * @group integration
  * @group limitation
  */
-abstract class BaseLimitationTest extends BaseTest
+abstract class BaseLimitationTestCase extends BaseTestCase
 {
     /**
      * Creates a published wiki page.

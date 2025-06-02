@@ -18,7 +18,7 @@ use Ibexa\Core\FieldType\Float\Value as FloatValue;
  * @group integration
  * @group field-type
  */
-class FloatIntegrationTest extends SearchBaseIntegrationTest
+class FloatIntegrationTest extends SearchBaseIntegrationTestCase
 {
     /**
      * Get name of tested field type.

@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy as LegacySetupFacto
  * @group integration
  * @group language
  */
-class LanguageServiceMaximumSupportedLanguagesTest extends BaseTest
+class LanguageServiceMaximumSupportedLanguagesTest extends BaseTestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\LanguageService */
     private $languageService;

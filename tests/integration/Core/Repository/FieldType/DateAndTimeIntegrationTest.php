@@ -19,7 +19,7 @@ use Ibexa\Core\FieldType\DateAndTime\Value as DateAndTimeValue;
  * @group integration
  * @group field-type
  */
-class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
+class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
 {
     /**
      * Get name of tested field type.

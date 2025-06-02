@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Section;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 class TestContentProvider
 {
@@ -31,10 +31,10 @@ class TestContentProvider
     /** @var \Ibexa\Contracts\Core\Repository\Repository */
     private $repository;
 
-    /** @var \Ibexa\Tests\Integration\Core\Repository\BaseTest */
+    /** @var \Ibexa\Tests\Integration\Core\Repository\BaseTestCase */
     private $testInstance;
 
-    public function __construct(Repository $repository, BaseTest $testInstance)
+    public function __construct(Repository $repository, BaseTestCase $testInstance)
     {
         $this->repository = $repository;
         $this->testInstance = $testInstance;

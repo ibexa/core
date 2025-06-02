@@ -34,7 +34,7 @@ use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
  *
  * @group location
  */
-class LocationServiceTest extends BaseTest
+class LocationServiceTest extends BaseTestCase
 {
     /**
      * Test for the newLocationCreateStruct() method.

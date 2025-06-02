@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
  * @group integration
  * @group authorization
  */
-class UserServiceAuthorizationTest extends BaseTest
+class UserServiceAuthorizationTest extends BaseTestCase
 {
     /**
      * Test for the loadUserGroup() method.

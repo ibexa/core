@@ -16,12 +16,12 @@ use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
 use Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway as BinaryBaseStorageGateway;
 use Ibexa\Core\FieldType\BinaryFile\BinaryFileStorage\Gateway\DoctrineStorage;
-use Ibexa\Tests\Integration\Core\BaseCoreFieldTypeIntegrationTest;
+use Ibexa\Tests\Integration\Core\BaseCoreFieldTypeIntegrationTestCase;
 
 /**
  * BinaryBase Field Type external storage gateway tests.
  */
-class BinaryBaseStorageGatewayTest extends BaseCoreFieldTypeIntegrationTest
+class BinaryBaseStorageGatewayTest extends BaseCoreFieldTypeIntegrationTestCase
 {
     protected function setUp(): void
     {

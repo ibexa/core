@@ -18,7 +18,7 @@ use Ibexa\Core\FieldType\Country\Value as CountryValue;
  * @group integration
  * @group field-type
  */
-class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
+class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
 {
     /**
      * Get name of tested field type.

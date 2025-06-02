@@ -13,10 +13,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Field\Check
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry;
 use Ibexa\Core\FieldType\Checkbox\Value as CheckboxValue;
-use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\AbstractAggregationTest;
+use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\AbstractAggregationTestCase;
 use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\FixtureGenerator\FieldAggregationFixtureGenerator;
 
-final class CheckboxTermAggregationTest extends AbstractAggregationTest
+final class CheckboxTermAggregationTest extends AbstractAggregationTestCase
 {
     public function dataProviderForTestFindContentWithAggregation(): iterable
     {

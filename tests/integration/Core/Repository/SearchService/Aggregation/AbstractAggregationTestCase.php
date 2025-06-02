@@ -14,9 +14,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\MatchAll;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
-abstract class AbstractAggregationTest extends BaseTest
+abstract class AbstractAggregationTestCase extends BaseTestCase
 {
     protected function setUp(): void
     {

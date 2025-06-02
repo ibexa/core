@@ -25,7 +25,7 @@ use RuntimeException;
  * @group integration
  * @group limitation
  */
-final class ChangeOwnerLimitationTest extends BaseLimitationTest
+final class ChangeOwnerLimitationTest extends BaseLimitationTestCase
 {
     private PermissionResolver $permissionResolver;
 

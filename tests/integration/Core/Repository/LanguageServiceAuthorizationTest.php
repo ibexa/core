@@ -19,7 +19,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
  * @group integration
  * @group authorization
  */
-class LanguageServiceAuthorizationTest extends BaseTest
+class LanguageServiceAuthorizationTest extends BaseTestCase
 {
     /**
      * Test for the createLanguage() method.

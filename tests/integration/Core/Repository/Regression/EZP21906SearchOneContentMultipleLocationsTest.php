@@ -10,12 +10,12 @@ namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Issue EZP-21906.
  */
-class EZP21906SearchOneContentMultipleLocationsTest extends BaseTest
+class EZP21906SearchOneContentMultipleLocationsTest extends BaseTestCase
 {
     protected function setUp(): void
     {

@@ -21,10 +21,10 @@ use Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
-use Ibexa\Tests\Integration\Core\BaseCoreFieldTypeIntegrationTest;
+use Ibexa\Tests\Integration\Core\BaseCoreFieldTypeIntegrationTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTest
+class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTestCase
 {
     /** @var \Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway|\PHPUnit\Framework\MockObject\MockObject */
     protected $gateway;

@@ -16,7 +16,7 @@ use Ibexa\Core\FieldType\BinaryBase\Value as BinaryBaseValue;
  * @phpstan-type TBaseBinaryFileFieldValueHash array{id: string|null, uri?: string|null, inputUri: string|null, fileName?: string, fileSize?: false|int, mimeType?: string, downloadCount?: int}
  * @phpstan-type TFixtureDataHash array{create: TBaseBinaryFileFieldValueHash, update: TBaseBinaryFileFieldValueHash}
  */
-abstract class BaseBinaryFileIntegrationTestCase extends FileSearchBaseIntegrationTest
+abstract class BaseBinaryFileIntegrationTestCaseCase extends FileSearchBaseIntegrationTestCase
 {
     private const string FOO_BAR_SAMPLE_FILE_PATH = '/foo/bar/sindelfingen.pdf';
 

@@ -11,7 +11,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\LanguageTermAggregation;
 use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\DataSetBuilder\TermAggregationDataSetBuilder;
 
-final class LanguageTermAggregationTest extends AbstractAggregationTest
+final class LanguageTermAggregationTest extends AbstractAggregationTestCase
 {
     public function dataProviderForTestFindContentWithAggregation(): iterable
     {

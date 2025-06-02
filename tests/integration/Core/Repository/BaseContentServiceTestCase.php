@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\User;
 /**
  * Base class for content specific tests.
  */
-abstract class BaseContentServiceTest extends BaseTest
+abstract class BaseContentServiceTestCase extends BaseTestCase
 {
     /**
      * Creates a fresh clean content draft.

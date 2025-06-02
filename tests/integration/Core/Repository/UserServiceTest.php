@@ -45,7 +45,7 @@ use Symfony\Bridge\PhpUnit\ClockMock;
  * @group integration
  * @group user
  */
-class UserServiceTest extends BaseTest
+class UserServiceTest extends BaseTestCase
 {
     // Example password matching default rules
     private const EXAMPLE_PASSWORD = 'P@ssword123!';

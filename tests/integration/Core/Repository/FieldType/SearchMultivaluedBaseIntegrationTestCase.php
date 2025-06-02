@@ -37,7 +37,7 @@ use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
  *
  * Value should contain at least two distinct values, appearing in ascending order.
  */
-abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegrationTest
+abstract class SearchMultivaluedBaseIntegrationTestCase extends SearchBaseIntegrationTestCase
 {
     /**
      * Get search field multivalued value One.

@@ -8,7 +8,7 @@
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use DateTime;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Test case for issue EZP-21089.
@@ -20,7 +20,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
  *     Creating an article with the public api will throw the following warning
  *     Warning: array_flip(): Can only flip STRING and INTEGER values! in eZ/Publish/Core/Repository/RelationProcessor.php on line 108
  */
-class EZP21089Test extends BaseTest
+class EZP21089Test extends BaseTestCase
 {
     /** @var \Ibexa\Core\Repository\Values\ContentType\ContentType */
     private $contentType;

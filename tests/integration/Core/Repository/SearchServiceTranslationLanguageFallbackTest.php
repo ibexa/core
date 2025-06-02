@@ -29,7 +29,7 @@ use RuntimeException;
  *
  * @phpstan-type TIndexMap array{dedicated: string, shared: string, single: string, cloud: string}
  */
-class SearchServiceTranslationLanguageFallbackTest extends BaseTest
+class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
 {
     public const SETUP_DEDICATED = 'dedicated';
     public const SETUP_SHARED = 'shared';

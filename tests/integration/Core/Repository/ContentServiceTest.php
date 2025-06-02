@@ -47,7 +47,7 @@ use Symfony\Bridge\PhpUnit\ClockMock;
  *
  * @group content
  */
-class ContentServiceTest extends BaseContentServiceTest
+class ContentServiceTest extends BaseContentServiceTestCase
 {
     private const ADMINISTRATORS_USER_GROUP_NAME = 'Administrators';
     private const ADMINISTRATORS_USER_GROUP_ID = 12;

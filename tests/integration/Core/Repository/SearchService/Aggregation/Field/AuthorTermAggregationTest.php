@@ -14,10 +14,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\Term
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry;
 use Ibexa\Core\FieldType\Author\Author;
 use Ibexa\Core\FieldType\Author\Value as AuthorValue;
-use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\AbstractAggregationTest;
+use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\AbstractAggregationTestCase;
 use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\FixtureGenerator\FieldAggregationFixtureGenerator;
 
-final class AuthorTermAggregationTest extends AbstractAggregationTest
+final class AuthorTermAggregationTest extends AbstractAggregationTestCase
 {
     public function dataProviderForTestFindContentWithAggregation(): iterable
     {

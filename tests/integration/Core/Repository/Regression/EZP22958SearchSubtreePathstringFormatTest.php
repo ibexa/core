@@ -9,12 +9,12 @@ namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Issue EZP-21906.
  */
-class EZP22958SearchSubtreePathstringFormatTest extends BaseTest
+class EZP22958SearchSubtreePathstringFormatTest extends BaseTestCase
 {
     protected function setUp(): void
     {

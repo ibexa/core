@@ -29,7 +29,7 @@ use Ibexa\Core\Repository\Values\User\UserReference;
  * @group integration
  * @group permission
  */
-class PermissionResolverTest extends BaseTest
+class PermissionResolverTest extends BaseTestCase
 {
     /**
      * Test for the getCurrentUserReference() method.

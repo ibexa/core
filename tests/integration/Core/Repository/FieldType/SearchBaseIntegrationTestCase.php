@@ -102,7 +102,7 @@ use Ibexa\Core\Search\Common\FieldNameResolver;
  * elsewhere as a general field search cases, which enables keeping this test case
  * simple.
  */
-abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
+abstract class SearchBaseIntegrationTestCase extends BaseIntegrationTestCase
 {
     /**
      * Get search field value One.

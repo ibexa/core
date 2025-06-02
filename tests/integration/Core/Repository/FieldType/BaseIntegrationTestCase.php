@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Integration test for legacy storage field types.
@@ -42,7 +42,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
  *
  * @todo Finalize dependencies to other tests (including groups!)
  */
-abstract class BaseIntegrationTest extends BaseTest
+abstract class BaseIntegrationTestCase extends BaseTestCase
 {
     /**
      * Content version archive limit (default).

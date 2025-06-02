@@ -19,7 +19,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
  * @group integration
  * @group authorization
  */
-class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
+class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTestCase
 {
     /**
      * Test for the createContentTypeGroup() method.

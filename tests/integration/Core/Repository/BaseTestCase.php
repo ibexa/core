@@ -35,7 +35,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Base class for api specific tests.
  */
-abstract class BaseTest extends TestCase
+abstract class BaseTestCase extends TestCase
 {
     /**
      * Maximum integer number accepted by the different backends.
@@ -257,9 +257,9 @@ abstract class BaseTest extends TestCase
     }
 
     /**
-     * @see \Ibexa\Tests\Integration\Core\Repository\BaseTest::assertPropertiesCorrectUnsorted
-     *
      * @param array $items An array of scalar values
+     *
+     * @see \Ibexa\Tests\Integration\Core\Repository\BaseTestCase::assertPropertiesCorrectUnsorted
      */
     private function sortItems(array &$items)
     {

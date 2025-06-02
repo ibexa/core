@@ -9,12 +9,12 @@ namespace Ibexa\Tests\Integration\Core;
 
 use Doctrine\DBAL\Connection;
 use ErrorException;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest as APIBaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase as APIBaseTest;
 
 /**
  * Base class for non-API Field Type integration tests (like Gateway w/ DBMS integration).
  */
-abstract class BaseCoreFieldTypeIntegrationTest extends APIBaseTest
+abstract class BaseCoreFieldTypeIntegrationTestCase extends APIBaseTest
 {
     public static function setUpBeforeClass(): void
     {

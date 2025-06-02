@@ -11,7 +11,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
 
-class URLServiceAuthorizationTest extends BaseURLServiceTest
+class URLServiceAuthorizationTest extends BaseURLServiceTestCase
 {
     /**
      * Test for the findUrls() method.

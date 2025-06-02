@@ -10,12 +10,12 @@ namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewObjectStateLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Issue EZP-22840.
  */
-class EZP22840RoleLimitations extends BaseTest
+class EZP22840RoleLimitations extends BaseTestCase
 {
     /**
      * Test Subtree Role Assignment Limitation against state/assign.

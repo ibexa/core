@@ -9,7 +9,7 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 
-class URLAliasServiceAuthorizationTest extends BaseTest
+class URLAliasServiceAuthorizationTest extends BaseTestCase
 {
     /**
      * Test for the createUrlAlias() method.

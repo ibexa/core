@@ -14,9 +14,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\UserGroupLimitation;
-use Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver\BaseLimitationIntegrationTest;
+use Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver\BaseLimitationIntegrationTestCase;
 
-final class UserGroupLimitationTest extends BaseLimitationIntegrationTest
+final class UserGroupLimitationTest extends BaseLimitationIntegrationTestCase
 {
     private const FOLDER_CONTENT_TYPE_ID = 1;
 
