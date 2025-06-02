@@ -14,6 +14,28 @@ use Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct;
  */
 class Mapper
 {
+    public static $IS_PREVIEW_MODE = null;
+
+    /**
+     * Check if siteaccess is in preview mode.
+     * Update config/app/services.yaml
+     * Add the settting in parameters:
+     *     ibexa.{siteaccess_name}.show_hidden_locations: true
+     * @return bool
+     */
+    public static function isPreviewMode() {
+        // caching preview mode
+        if(self::$IS_PREVIEW_MODE === null) {
+            $container = (method_exists($GLOBALS[ 'app' ], 'getKernel') ? $GLOBALS[ 'app' ]->getKernel()->getContainer() : $GLOBALS[ 'app' ]->getContainer());
+            $siteaccessName = $container->get('ibexa.siteaccess')->getCurrent()->name;
+            if($container->hasParameter( "ibexa.$siteaccessName.show_hidden_locations" )) {
+                self::$IS_PREVIEW_MODE = $container->getParameter( "ibexa.$siteaccessName.show_hidden_locations" );
+            } else {
+                self::$IS_PREVIEW_MODE = false;
+            }
+        }
+        return self::$IS_PREVIEW_MODE;
+    }
     /**
      * Creates a Location from a $data row.
      *
@@ -33,8 +55,13 @@ class Mapper
 
         $location->id = (int)$data[$prefix . 'node_id'];
         $location->priority = (int)$data[$prefix . 'priority'];
-        $location->hidden = (bool)$data[$prefix . 'is_hidden'];
-        $location->invisible = (bool)$data[$prefix . 'is_invisible'];
+        if(self::isPreviewMode()) {
+            $location->hidden = false;
+            $location->invisible = false;
+        } else {
+            $location->hidden = (bool)$data[$prefix . 'is_hidden'];
+            $location->invisible = (bool)$data[$prefix . 'is_invisible'];
+        }
         $location->remoteId = $data[$prefix . 'remote_id'];
         $location->contentId = (int)$data[$prefix . 'contentobject_id'];
         $location->parentId = (int)$data[$prefix . 'parent_node_id'];

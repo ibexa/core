@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use RuntimeException;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper;
 
 /**
  * Location visibility criterion handler.
@@ -37,24 +38,28 @@ class Visibility extends CriterionHandler
         array $languageSettings
     ) {
         $column = 't.is_invisible';
+        if(!Mapper::isPreviewMode()) {
+            switch ($criterion->value[0]) {
+                case Criterion\Visibility::VISIBLE:
+                    return $queryBuilder->expr()->eq(
+                        $column,
+                        $queryBuilder->createNamedParameter(0, ParameterType::INTEGER)
+                    );
 
-        switch ($criterion->value[0]) {
-            case Criterion\Visibility::VISIBLE:
-                return $queryBuilder->expr()->eq(
-                    $column,
-                    $queryBuilder->createNamedParameter(0, ParameterType::INTEGER)
-                );
+                case Criterion\Visibility::HIDDEN:
+                    return $queryBuilder->expr()->eq(
+                        $column,
+                        $queryBuilder->createNamedParameter(1, ParameterType::INTEGER)
+                    );
 
-            case Criterion\Visibility::HIDDEN:
-                return $queryBuilder->expr()->eq(
-                    $column,
-                    $queryBuilder->createNamedParameter(1, ParameterType::INTEGER)
-                );
-
-            default:
-                throw new RuntimeException(
-                    "Unknown value '{$criterion->value[0]}' for Visibility Criterion handler."
-                );
+                default:
+                    throw new RuntimeException(
+                        "Unknown value '{$criterion->value[0]}' for Visibility Criterion handler."
+                    );
+            }
+        } else {
+            // Dummy query to not break the WHERE statement
+            return $queryBuilder->expr()->eq( '1', '1' );
         }
     }
 }

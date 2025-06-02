@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper;
 
 /**
  * Visibility criterion handler.
@@ -36,29 +37,33 @@ class Visibility extends CriterionHandler
         array $languageSettings
     ) {
         $subSelect = $this->connection->createQueryBuilder();
-
-        if ($criterion->value[0] === Criterion\Visibility::VISIBLE) {
-            $expression = $queryBuilder->expr()->andX(
-                $queryBuilder->expr()->eq(
-                    'subquery_location.is_hidden',
-                    0
-                ),
-                $queryBuilder->expr()->eq(
-                    'subquery_location.is_invisible',
-                    0
-                )
-            );
+        if(!Mapper::isPreviewMode()) {
+            if ($criterion->value[0] === Criterion\Visibility::VISIBLE) {
+                $expression = $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->eq(
+                        'subquery_location.is_hidden',
+                        0
+                    ),
+                    $queryBuilder->expr()->eq(
+                        'subquery_location.is_invisible',
+                        0
+                    )
+                );
+            } else {
+                $expression = $queryBuilder->expr()->orX(
+                    $queryBuilder->expr()->eq(
+                        'subquery_location.is_hidden',
+                        1
+                    ),
+                    $queryBuilder->expr()->eq(
+                        'subquery_location.is_invisible',
+                        1
+                    )
+                );
+            }
         } else {
-            $expression = $queryBuilder->expr()->orX(
-                $queryBuilder->expr()->eq(
-                    'subquery_location.is_hidden',
-                    1
-                ),
-                $queryBuilder->expr()->eq(
-                    'subquery_location.is_invisible',
-                    1
-                )
-            );
+            // Dummy query to not break the WHERE statement
+            $expression = $queryBuilder->expr()->eq( '1', '1' );
         }
 
         $subSelect
