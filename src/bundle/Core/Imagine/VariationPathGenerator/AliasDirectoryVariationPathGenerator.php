@@ -17,13 +17,13 @@ use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
  */
 class AliasDirectoryVariationPathGenerator implements VariationPathGenerator
 {
-    public function getVariationPath($originalPath, $filter): string
+    public function getVariationPath(string $path, string $variation): string
     {
-        $info = pathinfo($originalPath);
+        $info = pathinfo($path);
 
         return sprintf(
             '_aliases/%s/%s/%s%s',
-            $filter,
+            $variation,
             $info['dirname'],
             $info['filename'],
             empty($info['extension']) ? '' : '.' . $info['extension']

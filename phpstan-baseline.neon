@@ -3427,12 +3427,6 @@ parameters:
 			path: src/bundle/Core/Imagine/AliasCleaner.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\AliasGenerator\:\:getVariation\(\) has parameter \$parameters with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/Imagine/AliasGenerator.php
-
-		-
 			message: '#^Parameter \#1 \$image of method Ibexa\\Bundle\\Core\\Imagine\\AliasGenerator\:\:applyFilter\(\) expects Liip\\ImagineBundle\\Binary\\BinaryInterface, Liip\\ImagineBundle\\Binary\\BinaryInterface\|string given\.$#'
 			identifier: argument.type
 			count: 1
@@ -3715,18 +3709,6 @@ parameters:
 			path: src/bundle/Core/Imagine/IORepositoryResolver.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\ImageAsset\\AliasGenerator\:\:getVariation\(\) has parameter \$parameters with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/Imagine/ImageAsset/AliasGenerator.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\PlaceholderAliasGenerator\:\:getVariation\(\) has parameter \$parameters with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/Imagine/PlaceholderAliasGenerator.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\PlaceholderAliasGenerator\:\:setPlaceholderProvider\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -3859,12 +3841,6 @@ parameters:
 			path: src/bundle/Core/Imagine/PlaceholderProviderRegistry.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\Variation\\ImagineAwareAliasGenerator\:\:getVariation\(\) has parameter \$parameters with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/Imagine/Variation/ImagineAwareAliasGenerator.php
-
-		-
 			message: '#^Property Ibexa\\Bundle\\Core\\Imagine\\Variation\\ImagineAwareAliasGenerator\:\:\$configResolver is unused\.$#'
 			identifier: property.unused
 			count: 1
@@ -3881,18 +3857,6 @@ parameters:
 			identifier: offsetAccess.notFound
 			count: 1
 			path: src/bundle/Core/Imagine/VariationPathGenerator/OriginalDirectoryVariationPathGenerator.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\VariationPurger\\IOVariationPurger\:\:purge\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Imagine/VariationPurger/IOVariationPurger.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\VariationPurger\\IOVariationPurger\:\:purge\(\) has parameter \$aliasNames with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/Imagine/VariationPurger/IOVariationPurger.php
 
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\VariationPurger\\IOVariationPurger\:\:setLogger\(\) has no return type specified\.$#'
@@ -3917,18 +3881,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: src/bundle/Core/Imagine/VariationPurger/ImageFileRowReader.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\VariationPurger\\ImageFileVariationPurger\:\:purge\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Imagine/VariationPurger/ImageFileVariationPurger.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\VariationPurger\\ImageFileVariationPurger\:\:purge\(\) has parameter \$aliasNames with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/Imagine/VariationPurger/ImageFileVariationPurger.php
 
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\VariationPurger\\ImageFileVariationPurger\:\:setLogger\(\) has no return type specified\.$#'
@@ -4169,12 +4121,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: src/bundle/Core/Variation/PathResolver.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Variation\\VariationHandlerResolver\:\:getVariation\(\) has parameter \$parameters with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/Variation/VariationHandlerResolver.php
 
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\View\\Provider\\Configured\:\:setSiteAccess\(\) has no return type specified\.$#'
@@ -6905,24 +6851,6 @@ parameters:
 			identifier: isset.property
 			count: 1
 			path: src/contracts/Test/Repository/SetupFactory/Legacy.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Variation\\VariationHandler\:\:getVariation\(\) has parameter \$parameters with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Variation/VariationHandler.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Variation\\VariationPurger\:\:purge\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/contracts/Variation/VariationPurger.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Variation\\VariationPurger\:\:purge\(\) has parameter \$aliasNames with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Variation/VariationPurger.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Base\\Container\\Compiler\\AbstractFieldTypeBasedPass\:\:getFieldTypeServiceIds\(\) return type has no value type specified in iterable type iterable\.$#'
@@ -27023,12 +26951,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/integration/Core/Persistence/Search/Content/IndexerGatewayTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Persistence\\Variation\\InMemoryVariationHandler\:\:getVariation\(\) has parameter \$parameters with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/integration/Core/Persistence/Variation/InMemoryVariationHandler.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\BaseContentServiceTest\:\:createContentDraft\(\) has parameter \$fieldValues with no value type specified in iterable type array\.$#'

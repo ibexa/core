@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException as APIIn
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Contracts\Core\Variation\Values\Variation;
 use Ibexa\Contracts\Core\Variation\VariationHandler;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
 use Ibexa\Core\FieldType\Value;
@@ -52,7 +53,7 @@ class PlaceholderAliasGenerator implements VariationHandler
     /**
      * {@inheritdoc}
      */
-    public function getVariation(Field $field, VersionInfo $versionInfo, $variationName, array $parameters = [])
+    public function getVariation(Field $field, VersionInfo $versionInfo, string $variationName, array $parameters = []): Variation
     {
         if ($this->placeholderProvider !== null) {
             /** @var \Ibexa\Core\FieldType\Image\Value $imageValue */

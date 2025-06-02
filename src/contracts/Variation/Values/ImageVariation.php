@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Variation\Values;
 
@@ -18,24 +19,18 @@ class ImageVariation extends Variation
 {
     /**
      * The width as number of pixels (for example "320").
-     *
-     * @var int|null
      */
-    protected $width;
+    protected ?int $width = null;
 
     /**
      * The height as number of pixels (for example "256").
-     *
-     * @var int|null
      */
-    protected $height;
+    protected ?int $height = null;
 
     /**
      * The name of the image alias (for example "original").
-     *
-     * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * Contains extra information about the image, depending on the image type.
@@ -44,13 +39,10 @@ class ImageVariation extends Variation
      *
      * Beware: This information may contain e.g. HTML, JavaScript, or PHP code, and should be treated like any
      * other user-submitted data. Make sure it is properly escaped before use.
-     *
-     * @var mixed
      */
-    protected $info;
+    protected mixed $info;
 
-    /** @var mixed */
-    protected $imageId;
+    protected mixed $imageId;
 
     /**
      * Contains identifier of variation handler used to generate this particular variation.

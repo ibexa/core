@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidVariationException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Variation\Values\ImageVariation;
+use Ibexa\Contracts\Core\Variation\Values\Variation;
 use Ibexa\Contracts\Core\Variation\VariationHandler;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
 use Ibexa\Core\MVC\Exception\SourceImageNotFoundException;
@@ -77,7 +78,7 @@ class AliasGenerator implements VariationHandler
      * @throws \Ibexa\Core\MVC\Exception\SourceImageNotFoundException If source image cannot be found.
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidVariationException If a problem occurs with generated variation.
      */
-    public function getVariation(Field $field, VersionInfo $versionInfo, $variationName, array $parameters = [])
+    public function getVariation(Field $field, VersionInfo $versionInfo, string $variationName, array $parameters = []): Variation
     {
         /** @var \Ibexa\Core\FieldType\Image\Value $imageValue */
         $imageValue = $field->value;
