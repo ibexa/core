@@ -25,7 +25,7 @@ class ImageVariation extends Variation
     /**
      * The height as number of pixels (for example "256").
      */
-    protected ?int $height;
+    protected ?int $height = null;
 
     /**
      * The name of the image alias (for example "original").
