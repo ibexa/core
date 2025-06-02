@@ -22261,12 +22261,6 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Handler.php
 
 		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\:\:\$sortClauses \(array\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\SortClause\>\) does not accept null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/Search/Legacy/Content/Handler.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Indexer\:\:purge\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -60385,19 +60379,7 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:testCreateContentThrowsInvalidArgumentExceptionContentTypeNotSet\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:testCreateContentThrowsInvalidArgumentExceptionDuplicateRemoteId\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:testCreateContentThrowsInvalidArgumentExceptionMainLanguageCodeNotSet\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
@@ -63565,12 +63547,6 @@ parameters:
 			path: tests/lib/Repository/Values/Content/LanguageTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\LanguageTest\:\:testNewClass\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Values/Content/LanguageTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\LanguageTest\:\:testReadOnlyProperty\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -63625,12 +63601,6 @@ parameters:
 			path: tests/lib/Repository/Values/Content/SectionTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\SectionTest\:\:testNewClass\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Values/Content/SectionTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\SectionTest\:\:testReadOnlyProperty\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -63662,12 +63632,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\TrashItemTest\:\:testMissingProperty\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Values/Content/TrashItemTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\TrashItemTest\:\:testNewClass\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/Repository/Values/Content/TrashItemTest.php
@@ -64483,12 +64447,6 @@ parameters:
 			path: tests/lib/Search/Legacy/Content/HandlerContentTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\HandlerContentTest\:\:testFindWithNullLimit\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Search/Legacy/Content/HandlerContentTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\HandlerContentTest\:\:testFindWithOffsetToNonexistent\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -65006,12 +64964,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\HandlerLocationTest\:\:testFieldRelationFilterInArrayNotMatch\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Search/Legacy/Content/HandlerLocationTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\HandlerLocationTest\:\:testFindWithNullLimit\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/Search/Legacy/Content/HandlerLocationTest.php
