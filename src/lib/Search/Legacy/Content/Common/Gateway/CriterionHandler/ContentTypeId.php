@@ -34,7 +34,7 @@ class ContentTypeId extends CriterionHandler
         array $languageSettings
     ) {
         return $queryBuilder->expr()->in(
-            'c.contentclass_id',
+            'c.content_type_id',
             $queryBuilder->createNamedParameter($criterion->value, Connection::PARAM_INT_ARRAY)
         );
     }

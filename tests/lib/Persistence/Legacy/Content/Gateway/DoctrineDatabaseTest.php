@@ -49,7 +49,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [
                 [
                     'name' => 'Content name',
-                    'contentclass_id' => '23',
+                    'content_type_id' => '23',
                     'section_id' => '42',
                     'owner_id' => '13',
                     'current_version' => '1',
@@ -65,7 +65,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->createQueryBuilder()
                 ->select(
                     'name',
-                    'contentclass_id',
+                    'content_type_id',
                     'section_id',
                     'owner_id',
                     'current_version',

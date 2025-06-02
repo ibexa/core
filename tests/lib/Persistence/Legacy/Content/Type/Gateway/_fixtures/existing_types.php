@@ -56,7 +56,7 @@ return [
         // loaded
         [
             'id' => 4,
-            'contentclass_id' => 1,
+            'content_type_id' => 1,
             'can_translate' => 1,
             'category' => '',
             'data_float1' => 0,
@@ -86,7 +86,7 @@ return [
         ],
         [
             'id' => 155,
-            'contentclass_id' => 1,
+            'content_type_id' => 1,
             'can_translate' => 1,
             'category' => '',
             'data_float1' => 0,
@@ -116,7 +116,7 @@ return [
         ],
         [
             'id' => 158,
-            'contentclass_id' => 1,
+            'content_type_id' => 1,
             'can_translate' => 0,
             'category' => '',
             'data_float1' => 0,
@@ -147,7 +147,7 @@ return [
         // not loaded, version mismatch
         [
             'id' => 159,
-            'contentclass_id' => 1,
+            'content_type_id' => 1,
             'can_translate' => 0,
             'category' => '',
             'data_float1' => 0,
@@ -175,10 +175,10 @@ return [
             'serialized_name_list' => 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:13:"Show children";}',
             'version' => 1,
         ],
-        // not loaded, contentclass_id mismatch
+        // not loaded, content_type_id mismatch
         [
             'id' => 160,
-            'contentclass_id' => 2,
+            'content_type_id' => 2,
             'can_translate' => 0,
             'category' => '',
             'data_float1' => 0,
@@ -210,21 +210,21 @@ return [
     Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE => [
         // loaded
         [
-            'contentclass_id' => 1,
+            'content_type_id' => 1,
             'contentclass_version' => 0,
             'group_id' => 1,
             'group_name' => 'Content',
         ],
         // not loaded, version mismatch
         [
-            'contentclass_id' => 1,
+            'content_type_id' => 1,
             'contentclass_version' => 1,
             'group_id' => 1,
             'group_name' => 'Content',
         ],
         // not loaded, id mismatch
         [
-            'contentclass_id' => 2,
+            'content_type_id' => 2,
             'contentclass_version' => 0,
             'group_id' => 1,
             'group_name' => 'Content',
@@ -232,7 +232,7 @@ return [
     ],
     Gateway::CONTENT_TYPE_NAME_TABLE => [
         [
-            'contentclass_id' => 1,
+            'content_type_id' => 1,
             'contentclass_version' => 0,
             'language_id' => 3,
             'language_locale' => 'eng-US',

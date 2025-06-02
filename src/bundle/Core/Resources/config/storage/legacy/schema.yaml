@@ -140,7 +140,7 @@ tables:
             url_alias_name: { type: string, nullable: true, length: 255 }
     ibexa_content_type_field_definition:
         indexes:
-            ibexa_content_type_field_definition_ccid: { fields: [contentclass_id] }
+            ibexa_content_type_field_definition_ctid: { fields: [content_type_id] }
             ibexa_content_type_field_definition_dts: { fields: [data_type_string] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
@@ -148,7 +148,7 @@ tables:
         fields:
             can_translate: { type: integer, nullable: true, options: { default: '1' } }
             category: { type: string, nullable: false, length: 25, options: { default: '' } }
-            contentclass_id: { type: integer, nullable: false, options: { default: '0' } }
+            content_type_id: { type: integer, nullable: false, options: { default: '0' } }
             data_float1: { type: float, nullable: true, length: 0 }
             data_float2: { type: float, nullable: true, length: 0 }
             data_float3: { type: float, nullable: true, length: 0 }
@@ -188,14 +188,14 @@ tables:
             ibexa_content_type_field_definition_ml_lang_fk: { fields: [language_id], foreignTable: ibexa_content_language, foreignFields: [id], options: { onDelete: CASCADE, onUpdate: CASCADE } }
     ibexa_content_type_group_assignment:
         id:
-            contentclass_id: { type: integer, nullable: false, options: { default: '0' } }
+            content_type_id: { type: integer, nullable: false, options: { default: '0' } }
             contentclass_version: { type: integer, nullable: false, options: { default: '0' } }
             group_id: { type: integer, nullable: false, options: { default: '0' } }
         fields:
             group_name: { type: string, nullable: true, length: 255 }
     ibexa_content_type_name:
         id:
-            contentclass_id: { type: integer, nullable: false, options: { default: '0' } }
+            content_type_id: { type: integer, nullable: false, options: { default: '0' } }
             contentclass_version: { type: integer, nullable: false, options: { default: '0' } }
             language_id: { type: bigint, nullable: false, options: { default: '0' } }
         fields:
@@ -213,7 +213,7 @@ tables:
             is_system: { type: boolean, nullable: false, options: { default: '0' } }
     ibexa_content:
         indexes:
-            ibexa_content_classid: { fields: [contentclass_id] }
+            ibexa_content_type_id: { fields: [content_type_id] }
             ibexa_content_lmask: { fields: [language_mask] }
             ibexa_content_pub: { fields: [published] }
             ibexa_content_section: { fields: [section_id] }
@@ -225,7 +225,7 @@ tables:
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
-            contentclass_id: { type: integer, nullable: false, options: { default: '0' } }
+            content_type_id: { type: integer, nullable: false, options: { default: '0' } }
             current_version: { type: integer, nullable: true }
             initial_language_id: { type: bigint, nullable: false, options: { default: '0' } }
             language_mask: { type: bigint, nullable: false, options: { default: '0' } }
@@ -499,7 +499,7 @@ tables:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
             contentclass_attribute_id: { type: integer, nullable: false, options: { default: '0' } }
-            contentclass_id: { type: integer, nullable: false, options: { default: '0' } }
+            content_type_id: { type: integer, nullable: false, options: { default: '0' } }
             contentobject_id: { type: integer, nullable: false, options: { default: '0' } }
             frequency: { type: float, nullable: false, length: 0, options: { default: '0' } }
             identifier: { type: string, nullable: false, length: 255, options: { default: '' } }

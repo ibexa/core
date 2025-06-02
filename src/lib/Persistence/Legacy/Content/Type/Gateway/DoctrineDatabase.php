@@ -63,7 +63,7 @@ final class DoctrineDatabase extends Gateway
             'id',
             'can_translate',
             'category',
-            'contentclass_id',
+            'content_type_id',
             'data_float1',
             'data_float2',
             'data_float3',
@@ -198,7 +198,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select($this->dbPlatform->getCountExpression('contentclass_id'))
+            ->select($this->dbPlatform->getCountExpression('content_type_id'))
             ->from(self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE)
             ->where(
                 $query->expr()->eq(
@@ -219,7 +219,7 @@ final class DoctrineDatabase extends Gateway
             ->from(self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE)
             ->where(
                 $expr->eq(
-                    'contentclass_id',
+                    'content_type_id',
                     $query->createPositionalParameter($typeId, ParameterType::INTEGER)
                 )
             )
@@ -264,7 +264,7 @@ final class DoctrineDatabase extends Gateway
                 ->insert(self::CONTENT_TYPE_NAME_TABLE)
                 ->values(
                     [
-                        'contentclass_id' => $query->createPositionalParameter(
+                        'content_type_id' => $query->createPositionalParameter(
                             $typeId,
                             ParameterType::INTEGER
                         ),
@@ -426,7 +426,7 @@ final class DoctrineDatabase extends Gateway
             ->insert(self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE)
             ->values(
                 [
-                    'contentclass_id' => $query->createPositionalParameter(
+                    'content_type_id' => $query->createPositionalParameter(
                         $typeId,
                         ParameterType::INTEGER
                     ),
@@ -456,7 +456,7 @@ final class DoctrineDatabase extends Gateway
             ->delete(self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE)
             ->where(
                 $expr->eq(
-                    'contentclass_id',
+                    'content_type_id',
                     $query->createPositionalParameter($typeId, ParameterType::INTEGER)
                 )
             )
@@ -556,7 +556,7 @@ final class DoctrineDatabase extends Gateway
             ->insert(self::FIELD_DEFINITION_TABLE)
             ->values(
                 [
-                    'contentclass_id' => $query->createNamedParameter(
+                    'content_type_id' => $query->createNamedParameter(
                         $typeId,
                         ParameterType::INTEGER,
                         ':content_type_id'
@@ -700,7 +700,7 @@ final class DoctrineDatabase extends Gateway
                 self::CONTENT_TYPE_TABLE,
                 'ct',
                 $expr->and(
-                    $expr->eq('f_def.contentclass_id', 'ct.id'),
+                    $expr->eq('f_def.content_type_id', 'ct.id'),
                     $expr->eq('f_def.version', 'ct.version')
                 )
             )
@@ -884,7 +884,7 @@ final class DoctrineDatabase extends Gateway
             ->delete(self::CONTENT_TYPE_NAME_TABLE)
             ->where(
                 $expr->eq(
-                    'contentclass_id',
+                    'content_type_id',
                     $query->createPositionalParameter($typeId, ParameterType::INTEGER)
                 )
             )
@@ -1064,7 +1064,7 @@ final class DoctrineDatabase extends Gateway
                 self::FIELD_DEFINITION_TABLE,
                 'a',
                 $expr->and(
-                    $expr->eq('c.id', 'a.contentclass_id'),
+                    $expr->eq('c.id', 'a.content_type_id'),
                     $expr->eq('c.version', 'a.version')
                 )
             )
@@ -1073,7 +1073,7 @@ final class DoctrineDatabase extends Gateway
                 self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE,
                 'g',
                 $expr->and(
-                    $expr->eq('c.id', 'g.contentclass_id'),
+                    $expr->eq('c.id', 'g.content_type_id'),
                     $expr->eq('c.version', 'g.contentclass_version')
                 )
             )
@@ -1099,7 +1099,7 @@ final class DoctrineDatabase extends Gateway
             ->from(ContentGateway::CONTENT_ITEM_TABLE)
             ->where(
                 $query->expr()->eq(
-                    'contentclass_id',
+                    'content_type_id',
                     $query->createPositionalParameter($typeId, ParameterType::INTEGER)
                 )
             );
@@ -1116,7 +1116,7 @@ final class DoctrineDatabase extends Gateway
         $subQuery
             ->select('f_def.id as content_type_field_definition_id')
             ->from(self::FIELD_DEFINITION_TABLE, 'f_def')
-            ->where('f_def.contentclass_id = :content_type_id')
+            ->where('f_def.content_type_id = :content_type_id')
             ->andWhere("f_def.id = $ctMlTable.contentclass_attribute_id");
 
         $deleteQuery = $this->connection->createQueryBuilder();
@@ -1138,7 +1138,7 @@ final class DoctrineDatabase extends Gateway
             ->delete(self::FIELD_DEFINITION_TABLE)
             ->where(
                 $query->expr()->eq(
-                    'contentclass_id',
+                    'content_type_id',
                     $query->createPositionalParameter($typeId, ParameterType::INTEGER)
                 )
             )
@@ -1187,7 +1187,7 @@ final class DoctrineDatabase extends Gateway
             ->delete(self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE)
             ->where(
                 $query->expr()->eq(
-                    'contentclass_id',
+                    'content_type_id',
                     $query->createPositionalParameter($typeId, ParameterType::INTEGER)
                 )
             )->andWhere(
@@ -1278,7 +1278,7 @@ final class DoctrineDatabase extends Gateway
             $sourceStatus,
             $targetStatus,
             self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE,
-            'contentclass_id',
+            'content_type_id',
             'contentclass_version'
         );
 
@@ -1287,7 +1287,7 @@ final class DoctrineDatabase extends Gateway
             $sourceStatus,
             $targetStatus,
             self::FIELD_DEFINITION_TABLE,
-            'contentclass_id',
+            'content_type_id',
             'version'
         );
 
@@ -1296,7 +1296,7 @@ final class DoctrineDatabase extends Gateway
             $sourceStatus,
             $targetStatus,
             self::CONTENT_TYPE_NAME_TABLE,
-            'contentclass_id',
+            'content_type_id',
             'contentclass_version'
         );
         $ctMlTable = Gateway::MULTILINGUAL_FIELD_DEFINITION_TABLE;
@@ -1304,7 +1304,7 @@ final class DoctrineDatabase extends Gateway
         $subQuery
             ->select('f_def.id as content_type_field_definition_id')
             ->from(self::FIELD_DEFINITION_TABLE, 'f_def')
-            ->where('f_def.contentclass_id = :type_id')
+            ->where('f_def.content_type_id = :type_id')
             ->andWhere("f_def.id = $ctMlTable.contentclass_attribute_id");
 
         $mlDataPublishQuery = $this->connection->createQueryBuilder();
@@ -1336,7 +1336,7 @@ final class DoctrineDatabase extends Gateway
                 'f_def.data_type_string AS field_type_identifier'
             )
             ->from(self::FIELD_DEFINITION_TABLE, 'f_def')
-            ->innerJoin('f_def', self::CONTENT_TYPE_TABLE, 'ct', 'f_def.contentclass_id = ct.id')
+            ->innerJoin('f_def', self::CONTENT_TYPE_TABLE, 'ct', 'f_def.content_type_id = ct.id')
             ->where(
                 $query->expr()->eq(
                     'f_def.is_searchable',
@@ -1420,7 +1420,7 @@ final class DoctrineDatabase extends Gateway
           DELETE FROM $contentTypeAttrTable 
             WHERE NOT EXISTS (
               SELECT 1 FROM $contentTypeTable
-                WHERE $contentTypeTable.id = $contentTypeAttrTable.contentclass_id
+                WHERE $contentTypeTable.id = $contentTypeAttrTable.content_type_id
                 AND $contentTypeTable.version = $contentTypeAttrTable.version
             )
 SQL;
@@ -1456,7 +1456,7 @@ SQL;
           DELETE FROM $contentTypeGroupAssignmentTable
             WHERE NOT EXISTS (
               SELECT 1 FROM $contentTypeTable
-                WHERE $contentTypeTable.id = $contentTypeGroupAssignmentTable.contentclass_id
+                WHERE $contentTypeTable.id = $contentTypeGroupAssignmentTable.content_type_id
                 AND $contentTypeTable.version = $contentTypeGroupAssignmentTable.contentclass_version
             )
 SQL;
@@ -1474,7 +1474,7 @@ SQL;
           DELETE FROM $contentTypeNameTable
             WHERE NOT EXISTS (
               SELECT 1 FROM $contentTypeTable
-                WHERE $contentTypeTable.id = $contentTypeNameTable.contentclass_id
+                WHERE $contentTypeTable.id = $contentTypeNameTable.content_type_id
                 AND $contentTypeTable.version = $contentTypeNameTable.contentclass_version
             )
 SQL;

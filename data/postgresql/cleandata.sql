@@ -37,7 +37,7 @@ VALUES (1,'<short_name|name>',1024392098,14,1,'folder',2,1,2,1448831672,14,'a3d4
        (1,'<name>',1031484992,14,5,'image',2,0,3,1048494784,14,'f6df12aa74e36230eb675f364fccd25a',NULL,'a:2:{s:6:"eng-GB";s:5:"Image";s:16:"always-available";s:6:"eng-GB";}',1,1,NULL,0),
        (1,'<name>',1052385472,14,12,'file',2,0,3,1052385669,14,'637d58bfddf164627bdfd265733280a0',NULL,'a:2:{s:6:"eng-GB";s:4:"File";s:16:"always-available";s:6:"eng-GB";}',1,1,NULL,0);
 
-INSERT INTO "ibexa_content_type_field_definition" ("can_translate", "category", "contentclass_id", "data_float1", "data_float2", "data_float3", "data_float4", "data_int1", "data_int2", "data_int3", "data_int4", "data_text1", "data_text2", "data_text3", "data_text4", "data_text5", "data_type_string", "id", "identifier", "is_information_collector", "is_required", "is_searchable", "is_thumbnail", "placement", "serialized_data_text", "serialized_description_list", "serialized_name_list", "version")
+INSERT INTO "ibexa_content_type_field_definition" ("can_translate", "category", "content_type_id", "data_float1", "data_float2", "data_float3", "data_float4", "data_int1", "data_int2", "data_int3", "data_int4", "data_text1", "data_text2", "data_text3", "data_text4", "data_text5", "data_type_string", "id", "identifier", "is_information_collector", "is_required", "is_searchable", "is_thumbnail", "placement", "serialized_data_text", "serialized_description_list", "serialized_name_list", "version")
 VALUES (1,'',2,0,0,0,0,255,0,0,0,'New article','','','','','ezstring',1,'title',0,1,1,FALSE,1,NULL,NULL,'a:2:{s:6:"eng-GB";s:5:"Title";s:16:"always-available";s:6:"eng-GB";}',0),
        (1,'',1,NULL,NULL,NULL,NULL,255,0,NULL,NULL,'Folder',NULL,NULL,NULL,NULL,'ezstring',4,'name',0,1,1,FALSE,1,'N;','a:0:{}','a:1:{s:6:"eng-GB";s:4:"Name";}',0),
        (1,'',3,0,0,0,0,255,0,0,0,'','','','',NULL,'ezstring',6,'name',0,1,1,FALSE,1,NULL,NULL,'a:2:{s:6:"eng-GB";s:4:"Name";s:16:"always-available";s:6:"eng-GB";}',0),
@@ -63,7 +63,7 @@ VALUES (1,'',2,0,0,0,0,255,0,0,0,'New article','','','','','ezstring',1,'title',
        (1,'',4,0,0,0,0,10,0,0,0,'','','','','','eztext',179,'signature',0,0,1,FALSE,4,NULL,NULL,'a:2:{s:6:"eng-GB";s:9:"Signature";s:16:"always-available";s:6:"eng-GB";}',0),
        (1,'',4,10.0,0,0,0,0,0,0,0,'MB','','','','','ezimage',180,'image',0,0,0,TRUE,5,NULL,NULL,'a:2:{s:6:"eng-GB";s:5:"Image";s:16:"always-available";s:6:"eng-GB";}',0);
 
-INSERT INTO "ibexa_content_type_group_assignment" ("contentclass_id", "contentclass_version", "group_id", "group_name")
+INSERT INTO "ibexa_content_type_group_assignment" ("content_type_id", "contentclass_version", "group_id", "group_name")
 VALUES (1,0,1,'Content'),
        (2,0,1,'Content'),
        (3,0,2,'Users'),
@@ -71,7 +71,7 @@ VALUES (1,0,1,'Content'),
        (5,0,3,'Media'),
        (12,0,3,'Media');
 
-INSERT INTO "ibexa_content_type_name" ("contentclass_id", "contentclass_version", "language_id", "language_locale", "name")
+INSERT INTO "ibexa_content_type_name" ("content_type_id", "contentclass_version", "language_id", "language_locale", "name")
 VALUES (1,0,2,'eng-GB','Folder'),
        (2,0,3,'eng-GB','Article'),
        (3,0,3,'eng-GB','User group'),
@@ -84,7 +84,7 @@ VALUES (1031216928, 14, 1, 1033922106, 14, 'Content'),
        (1031216941, 14, 2, 1033922113, 14, 'Users'),
        (1032009743, 14, 3, 1033922120, 14, 'Media');
 
-INSERT INTO "ibexa_content" ("contentclass_id", "current_version", "id", "initial_language_id", "language_mask", "modified", "name", "owner_id", "published", "remote_id", "section_id", "status")
+INSERT INTO "ibexa_content" ("content_type_id", "current_version", "id", "initial_language_id", "language_mask", "modified", "name", "owner_id", "published", "remote_id", "section_id", "status")
 VALUES (1,9,1,2,3,1448889046,'Ibexa Platform',14,1448889046,'9459d3c29e15006e45197295722c7ade',1,1),
        (3,1,4,2,3,1033917596,'Users',14,1033917596,'f5c88a2209584891056f987fd965b0ba',2,1),
        (4,2,10,2,3,1072180405,'Anonymous User',14,1033920665,'faaeb9be3bd98ed09f606fc16d144eca',2,1),

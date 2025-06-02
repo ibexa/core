@@ -7,7 +7,7 @@
 return [
   0 => [
     'content_id' => '11',
-    'content_contentclass_id' => '3',
+    'content_content_type_id' => '3',
     'content_section_id' => '2',
     'content_owner_id' => '14',
     'content_remote_id' => '5f7f0bdb3381d6a461d8c29ff53d908f',
@@ -41,7 +41,7 @@ return [
   ],
   1 => [
     'content_id' => '11',
-    'content_contentclass_id' => '3',
+    'content_content_type_id' => '3',
     'content_section_id' => '2',
     'content_owner_id' => '14',
     'content_remote_id' => '5f7f0bdb3381d6a461d8c29ff53d908f',
@@ -75,7 +75,7 @@ return [
   ],
   2 => [
     'content_id' => '11',
-    'content_contentclass_id' => '3',
+    'content_content_type_id' => '3',
     'content_section_id' => '2',
     'content_owner_id' => '14',
     'content_remote_id' => '5f7f0bdb3381d6a461d8c29ff53d908f',
@@ -109,7 +109,7 @@ return [
   ],
   3 => [
     'content_id' => '11',
-    'content_contentclass_id' => '3',
+    'content_content_type_id' => '3',
     'content_section_id' => '2',
     'content_owner_id' => '14',
     'content_remote_id' => '5f7f0bdb3381d6a461d8c29ff53d908f',

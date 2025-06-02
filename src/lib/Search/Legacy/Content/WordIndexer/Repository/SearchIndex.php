@@ -156,7 +156,7 @@ class SearchIndex
                         $prevWordId,
                         ParameterType::INTEGER
                     ),
-                    'contentclass_id' => $query->createPositionalParameter(
+                    'content_type_id' => $query->createPositionalParameter(
                         $contentTypeId,
                         ParameterType::INTEGER
                     ),

@@ -287,7 +287,7 @@ class RelationListConverter implements Converter
                 'c.id',
                 'c.remote_id',
                 'c.current_version',
-                'c.contentclass_id',
+                'c.content_type_id',
                 't.node_id',
                 't.parent_node_id',
                 'ct.identifier',
@@ -307,7 +307,7 @@ class RelationListConverter implements Converter
                 ContentTypeGateway::CONTENT_TYPE_TABLE,
                 'ct',
                 $query->expr()->and(
-                    'ct.id = c.contentclass_id',
+                    'ct.id = c.content_type_id',
                     // in Legacy Storage ibexa_content_type.version contains status (draft, defined)
                     'ct.version = :content_type_status'
                 )
@@ -339,7 +339,7 @@ class RelationListConverter implements Converter
             'contentobject-version' => 'ibexa_content_current_version',
             'node-id' => 'ibexa_content_tree_node_id',
             'parent-node-id' => 'ibexa_content_tree_parent_node_id',
-            'contentclass-id' => 'ibexa_content_contentclass_id',
+            'contentclass-id' => 'ibexa_content_content_type_id',
             'contentclass-identifier' => 'ibexa_content_type_identifier',
             'contentobject-remote-id' => 'ibexa_content_remote_id',
         ];

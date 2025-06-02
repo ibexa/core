@@ -251,7 +251,7 @@ EOT
                 ->select('c.id')
                 ->from(Gateway::CONTENT_ITEM_TABLE, 'c')
                 ->join('c', Gateway::CONTENT_VERSION_TABLE, 'v', 'v.contentobject_id = c.id')
-                ->join('c', ContentTypeGateway::CONTENT_TYPE_TABLE, 'cl', 'cl.id = c.contentclass_id')
+                ->join('c', ContentTypeGateway::CONTENT_TYPE_TABLE, 'cl', 'cl.id = c.content_type_id')
                 ->groupBy('c.id', 'v.status')
                 ->having('count(c.id) > :keep');
         $query->setParameter('keep', $keep);

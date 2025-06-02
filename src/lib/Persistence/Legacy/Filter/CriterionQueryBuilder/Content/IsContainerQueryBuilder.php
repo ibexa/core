@@ -37,7 +37,7 @@ final class IsContainerQueryBuilder implements CriterionQueryBuilder
                 'content',
                 Gateway::CONTENT_TYPE_TABLE,
                 'content_type',
-                'content.contentclass_id = content_type.id',
+                'content.content_type_id = content_type.id',
             );
 
         /** @var array{bool} $criterionValue */

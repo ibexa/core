@@ -49,12 +49,12 @@ final class ContentTypeName extends SortClauseHandler
             'c',
             ContentTypeGateway::CONTENT_TYPE_TABLE,
             'ct',
-            'c.contentclass_id = ct.id'
+            'c.content_type_id = ct.id'
         )->innerJoin(
             'ct',
             ContentTypeGateway::CONTENT_TYPE_NAME_TABLE,
             'ctn',
-            'ctn.contentclass_id = ct.id'
+            'ctn.content_type_id = ct.id'
         );
     }
 }
