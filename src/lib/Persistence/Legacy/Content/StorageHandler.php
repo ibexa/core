@@ -84,7 +84,6 @@ class StorageHandler
         $fieldType = $field->type;
         $fieldType = $this->fieldTypeAliasResolver->resolveIdentifier($fieldType);
         $storage = $this->storageRegistry->getStorage($fieldType);
-        dump($fieldType);
         if ($field->id !== null && $storage->hasFieldData()) {
             $storage->getFieldData($versionInfo, $field);
         }
