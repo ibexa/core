@@ -15,21 +15,21 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
  */
 abstract class Operator
 {
-    public const EQ = '=';
-    public const GT = '>';
-    public const GTE = '>=';
-    public const LT = '<';
-    public const LTE = '<=';
-    public const IN = 'in';
-    public const BETWEEN = 'between';
+    public const string EQ = '=';
+    public const string GT = '>';
+    public const string GTE = '>=';
+    public const string LT = '<';
+    public const string LTE = '<=';
+    public const string IN = 'in';
+    public const string BETWEEN = 'between';
 
     /**
      * Does a lookup where a the value _can_ contain a "*" (a wildcard) in order to match a pattern.
      *
      * E.g: $criterion->value = "Oper*or";
      */
-    public const LIKE = 'like';
-    public const CONTAINS = 'contains';
+    public const string LIKE = 'like';
+    public const string CONTAINS = 'contains';
 
     public static function isUnary(string $operator): bool
     {

@@ -26,15 +26,15 @@ final class DateMetadataRangeAggregationTest extends AbstractAggregationTestCase
                 'modification_date',
                 DateMetadataRangeAggregation::MODIFIED,
                 [
-                    new Range(
+                    Range::ofDateTime(
                         null,
                         new DateTime('2003-01-01', $timezone)
                     ),
-                    new Range(
+                    Range::ofDateTime(
                         new DateTime('2003-01-01', $timezone),
                         new DateTime('2004-01-01', $timezone)
                     ),
-                    new Range(
+                    Range::ofDateTime(
                         new DateTime('2004-01-01', $timezone),
                         null
                     ),
@@ -44,21 +44,21 @@ final class DateMetadataRangeAggregationTest extends AbstractAggregationTestCase
                 'modification_date',
                 [
                     new RangeAggregationResultEntry(
-                        new Range(
+                        Range::ofDateTime(
                             null,
                             new DateTime('2003-01-01', $timezone)
                         ),
                         3
                     ),
                     new RangeAggregationResultEntry(
-                        new Range(
+                        Range::ofDateTime(
                             new DateTime('2003-01-01', $timezone),
                             new DateTime('2004-01-01', $timezone)
                         ),
                         3
                     ),
                     new RangeAggregationResultEntry(
-                        new Range(
+                        Range::ofDateTime(
                             new DateTime('2004-01-01', $timezone),
                             null
                         ),
@@ -73,15 +73,15 @@ final class DateMetadataRangeAggregationTest extends AbstractAggregationTestCase
                 'publication_date',
                 DateMetadataRangeAggregation::PUBLISHED,
                 [
-                    new Range(
+                    Range::ofDateTime(
                         null,
                         new DateTime('2003-01-01', $timezone)
                     ),
-                    new Range(
+                    Range::ofDateTime(
                         new DateTime('2003-01-01', $timezone),
                         new DateTime('2004-01-01', $timezone)
                     ),
-                    new Range(
+                    Range::ofDateTime(
                         new DateTime('2004-01-01', $timezone),
                         null
                     ),
@@ -91,21 +91,21 @@ final class DateMetadataRangeAggregationTest extends AbstractAggregationTestCase
                 'publication_date',
                 [
                     new RangeAggregationResultEntry(
-                        new Range(
+                        Range::ofDateTime(
                             null,
                             new DateTime('2003-01-01', $timezone)
                         ),
                         6
                     ),
                     new RangeAggregationResultEntry(
-                        new Range(
+                        Range::ofDateTime(
                             new DateTime('2003-01-01', $timezone),
                             new DateTime('2004-01-01', $timezone)
                         ),
                         2
                     ),
                     new RangeAggregationResultEntry(
-                        new Range(
+                        Range::ofDateTime(
                             new DateTime('2004-01-01', $timezone),
                             null
                         ),

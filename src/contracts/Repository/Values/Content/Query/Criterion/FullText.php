@@ -52,11 +52,9 @@ class FullText extends Criterion implements CustomFieldInterface
     /**
      * Fuzziness of the fulltext search.
      *
-     * May be a value between 0. (fuzzy) and 1. (sharp).
-     *
-     * @var float
+     * Value between 0. (fuzzy) and 1. (sharp).
      */
-    public $fuzziness = 1.;
+    public float $fuzziness = 1.;
 
     /**
      * Boost for certain fields.
@@ -71,38 +69,23 @@ class FullText extends Criterion implements CustomFieldInterface
      *  )
      * </code>
      *
-     * @var array
+     * @var array<string, float|int>
      */
-    public $boost = [];
-
-    /**
-     * Analyzer configuration.
-     *
-     * @TODO: Define how this could look like
-     *
-     * @var mixed
-     */
-    public $analyzers;
-
-    /**
-     * Analyzer wildcard handling configuration.
-     *
-     * @TODO: Define how this could look like
-     *
-     * @var mixed
-     */
-    public $wildcards;
+    public array $boost = [];
 
     /**
      * Custom field definitions to query instead of default field.
      *
-     * @var array
+     * @var array<string, array<string, string>>
      */
-    protected $customFields = [];
+    protected array $customFields = [];
 
-    public function __construct($value, array $properties = [])
+    /**
+     * @phpstan-param string|null $value Query string
+     */
+    public function __construct(?string $value, array $properties = [])
     {
-        parent::__construct(null, Operator::LIKE, $value);
+        parent::__construct(null, Operator::LIKE, $value ?? '');
 
         // Assign additional properties, ugly but with the existing constructor
         // API the only sensible way, I guess.
@@ -126,10 +109,6 @@ class FullText extends Criterion implements CustomFieldInterface
      * Set a custom field to query.
      *
      * Set a custom field to query for a defined field in a defined type.
-     *
-     * @param string $type
-     * @param string $field
-     * @param string $customField
      */
     public function setCustomField(string $type, string $field, string $customField): void
     {
@@ -137,22 +116,14 @@ class FullText extends Criterion implements CustomFieldInterface
     }
 
     /**
-     * Retun custom field.
+     * Return custom field.
      *
      * If no custom field is set, return null
      *
-     * @param string $type
-     * @param string $field
-     *
-     * @return mixed
+     * @return string|null
      */
     public function getCustomField(string $type, string $field): ?string
     {
-        if (!isset($this->customFields[$type]) ||
-             !isset($this->customFields[$type][$field])) {
-            return null;
-        }
-
-        return $this->customFields[$type][$field];
+        return $this->customFields[$type][$field] ?? null;
     }
 }

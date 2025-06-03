@@ -147,7 +147,7 @@ final class FilterTest extends TestCase
     {
         // sanity check
         $criterion1 = new Criterion\ContentId(1);
-        $criterion2 = new Criterion\RemoteId(1);
+        $criterion2 = new Criterion\RemoteId('1');
         $criterion3 = new Criterion\Ancestor('/1/2/');
 
         $filter = new Filter();

@@ -17,31 +17,25 @@ abstract class Criterion implements CriterionInterface
 {
     /**
      * The operator used by the Criterion.
-     *
-     * @var string
      */
-    public $operator;
+    public string $operator;
 
     /**
      * The value(s) matched by the criteria.
      *
      * @var scalar[]|scalar
      */
-    public $value;
+    public mixed $value;
 
     /**
      * The target used by the criteria (field, metadata...).
-     *
-     * @var string
      */
-    public $target;
+    public ?string $target;
 
     /**
-     * Additional value data, required by some criterions, MapLocationDistance for instance.
-     *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Value
+     * Additional value data, required by some criteria, MapLocationDistance for instance.
      */
-    public $valueData;
+    public ?Value $valueData;
 
     /**
      * Creates a Criterion.
@@ -55,11 +49,9 @@ abstract class Criterion implements CriterionInterface
      * @param array<int, scalar>|scalar $value
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Value|null $valueData
      *
-     * @todo Add a dedicated exception
-     *
      * @throws \InvalidArgumentException if the provided operator isn't supported
      */
-    public function __construct(?string $target, ?string $operator, $value, ?Value $valueData = null)
+    public function __construct(?string $target, ?string $operator, mixed $value, ?Value $valueData = null)
     {
         if ($operator === null) {
             $operator = is_array($value) ? Operator::IN : Operator::EQ;

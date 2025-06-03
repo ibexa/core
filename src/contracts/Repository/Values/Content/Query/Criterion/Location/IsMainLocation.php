@@ -22,12 +22,12 @@ class IsMainLocation extends Location implements FilteringCriterion
     /**
      * Main constant: is main.
      */
-    public const MAIN = 0;
+    public const int MAIN = 0;
 
     /**
      * Main constant: is not main.
      */
-    public const NOT_MAIN = 1;
+    public const int NOT_MAIN = 1;
 
     /**
      * Creates a new IsMainLocation criterion.
@@ -36,7 +36,7 @@ class IsMainLocation extends Location implements FilteringCriterion
      *
      * @param int $value one of self::MAIN and self::NOT_MAIN
      */
-    public function __construct($value)
+    public function __construct(int $value)
     {
         if ($value !== self::MAIN && $value !== self::NOT_MAIN) {
             throw new InvalidArgumentException("Invalid main status value $value");

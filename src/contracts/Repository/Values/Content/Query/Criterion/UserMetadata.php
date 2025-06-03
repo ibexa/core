@@ -35,17 +35,17 @@ class UserMetadata extends Criterion implements TrashCriterion, FilteringCriteri
     /**
      * UserMetadata target: Owner user.
      */
-    public const OWNER = 'owner';
+    public const string OWNER = 'owner';
 
     /**
      * UserMetadata target: Owner user group.
      */
-    public const GROUP = 'group';
+    public const string GROUP = 'group';
 
     /**
      * UserMetadata target: Modifier.
      */
-    public const MODIFIER = 'modifier';
+    public const string MODIFIER = 'modifier';
 
     /**
      * Creates a new UserMetadata criterion.
@@ -54,9 +54,9 @@ class UserMetadata extends Criterion implements TrashCriterion, FilteringCriteri
      *
      * @param string $target One of {@see UserMetadata::OWNER}, {@see UserMetadata::GROUP}, or {@see UserMetadata::MODIFIER}.
      * @param string|null $operator The operator the Criterion uses. If null is given, will default to {@see Operator::IN} if $value is an array, {@see Operator::EQ} if it isn't.
-     * @param mixed $value The match value, either as an array of as a single value, depending on the operator.
+     * @param int|int[] $value The match value, either as an array of as a single value, depending on the operator.
      */
-    public function __construct(string $target, ?string $operator, $value)
+    public function __construct(string $target, ?string $operator, int|array $value)
     {
         switch ($target) {
             case self::OWNER:
@@ -76,12 +76,12 @@ class UserMetadata extends Criterion implements TrashCriterion, FilteringCriteri
             new Specifications(
                 Operator::EQ,
                 Specifications::FORMAT_SINGLE,
-                Specifications::TYPE_INTEGER | Specifications::TYPE_STRING
+                Specifications::TYPE_INTEGER
             ),
             new Specifications(
                 Operator::IN,
                 Specifications::FORMAT_ARRAY,
-                Specifications::TYPE_INTEGER | Specifications::TYPE_STRING
+                Specifications::TYPE_INTEGER
             ),
         ];
     }

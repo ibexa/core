@@ -16,12 +16,17 @@ final class RangeTest extends TestCase
 {
     /**
      * @dataProvider dataProviderForTestToString
+     *
+     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<mixed> $range
      */
     public function testToString(Range $range, string $expected): void
     {
         self::assertEquals($expected, (string)$range);
     }
 
+    /**
+     * @return iterable<string, array{\Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<mixed>, string}>
+     */
     public function dataProviderForTestToString(): iterable
     {
         yield 'empty' => [
@@ -74,6 +79,9 @@ final class RangeTest extends TestCase
 
     /**
      * @dataProvider dataProviderForEqualsTo
+     *
+     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<mixed> $rangeA
+     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<mixed> $rangeB
      */
     public function testEqualsTo(Range $rangeA, Range $rangeB, bool $expectedResult): void
     {
@@ -82,7 +90,7 @@ final class RangeTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{Range, Range, bool}>
+     * @return iterable<string, array{\Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<mixed>, \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<mixed>, bool}>
      */
     public function dataProviderForEqualsTo(): iterable
     {

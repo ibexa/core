@@ -22,18 +22,18 @@ final class FloatRangeAggregationTest extends AbstractAggregationTestCase
     {
         yield [
             new FloatRangeAggregation('float_range', 'content_type', 'float_field', [
-                new Range(null, 10.0),
-                new Range(10.0, 25.0),
-                new Range(25.0, 50.0),
-                new Range(50.0, null),
+                Range::ofFloat(null, 10.0),
+                Range::ofFloat(10.0, 25.0),
+                Range::ofFloat(25.0, 50.0),
+                Range::ofFloat(50.0, null),
             ]),
             new RangeAggregationResult(
                 'float_range',
                 [
-                    new RangeAggregationResultEntry(new Range(null, 10.0), 4),
-                    new RangeAggregationResultEntry(new Range(10.0, 25.0), 6),
-                    new RangeAggregationResultEntry(new Range(25, 50), 10),
-                    new RangeAggregationResultEntry(new Range(50, null), 20),
+                    new RangeAggregationResultEntry(Range::ofFloat(null, 10.0), 4),
+                    new RangeAggregationResultEntry(Range::ofFloat(10.0, 25.0), 6),
+                    new RangeAggregationResultEntry(Range::ofFloat(25, 50), 10),
+                    new RangeAggregationResultEntry(Range::ofFloat(50, null), 20),
                 ]
             ),
         ];

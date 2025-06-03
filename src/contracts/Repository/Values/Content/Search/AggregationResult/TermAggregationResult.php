@@ -15,11 +15,21 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult;
 use Iterator;
 use IteratorAggregate;
 
+/**
+ * Represents the result of a term aggregation.
+ *
+ * @phpstan-template TKey of object|scalar
+ *
+ * @phpstan-implements \IteratorAggregate<TKey, int>
+ */
 class TermAggregationResult extends AggregationResult implements IteratorAggregate, Countable
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry[] */
-    private $entries;
+    /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry<TKey>[] */
+    private iterable $entries;
 
+    /**
+     * @phpstan-param iterable<\Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry<TKey>> $entries
+     */
     public function __construct(string $name, iterable $entries = [])
     {
         parent::__construct($name);
@@ -33,7 +43,7 @@ class TermAggregationResult extends AggregationResult implements IteratorAggrega
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry[]
+     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry<TKey>[]
      */
     public function getEntries(): iterable
     {
@@ -41,9 +51,11 @@ class TermAggregationResult extends AggregationResult implements IteratorAggrega
     }
 
     /**
-     * @param object|string|int $key
+     * @phpstan-param TKey $key
+     *
+     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry<TKey>|null
      */
-    public function getEntry($key): ?TermAggregationResultEntry
+    public function getEntry(mixed $key): ?TermAggregationResultEntry
     {
         foreach ($this->entries as $entry) {
             if ($entry->getKey() == $key) {
@@ -55,9 +67,9 @@ class TermAggregationResult extends AggregationResult implements IteratorAggrega
     }
 
     /**
-     * @param object|string|int $key
+     * @phpstan-param TKey $key
      */
-    public function hasEntry($key): bool
+    public function hasEntry(mixed $key): bool
     {
         return $this->getEntry($key) !== null;
     }
@@ -65,7 +77,7 @@ class TermAggregationResult extends AggregationResult implements IteratorAggrega
     /**
      * Returns available keys (terms).
      *
-     * @return iterable<object|string|int>
+     * @phpstan-return iterable<TKey>
      */
     public function getKeys(): iterable
     {
@@ -76,7 +88,7 @@ class TermAggregationResult extends AggregationResult implements IteratorAggrega
 
     public function count(): int
     {
-        return count($this->entries);
+        return iterator_count($this->entries);
     }
 
     public function getIterator(): Iterator
@@ -90,6 +102,13 @@ class TermAggregationResult extends AggregationResult implements IteratorAggrega
         }
     }
 
+    /**
+     * Creates a TermAggregationResult from an Aggregation object.
+     *
+     * @phpstan-param iterable<\Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry<TKey>> $entries
+     *
+     * @phpstan-return self<TKey>
+     */
     public static function createForAggregation(Aggregation $aggregation, iterable $entries = []): self
     {
         return new self($aggregation->getName(), $entries);

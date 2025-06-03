@@ -22,18 +22,18 @@ final class IntegerRangeAggregationTest extends AbstractAggregationTestCase
     {
         yield [
             new IntegerRangeAggregation('integer_range', 'content_type', 'integer_field', [
-                new Range(null, 10),
-                new Range(10, 25),
-                new Range(25, 50),
-                new Range(50, null),
+                Range::ofInt(null, 10),
+                Range::ofInt(10, 25),
+                Range::ofInt(25, 50),
+                Range::ofInt(50, null),
             ]),
             new RangeAggregationResult(
                 'integer_range',
                 [
-                    new RangeAggregationResultEntry(new Range(null, 10), 9),
-                    new RangeAggregationResultEntry(new Range(10, 25), 15),
-                    new RangeAggregationResultEntry(new Range(25, 50), 25),
-                    new RangeAggregationResultEntry(new Range(50, null), 51),
+                    new RangeAggregationResultEntry(Range::ofInt(null, 10), 9),
+                    new RangeAggregationResultEntry(Range::ofInt(10, 25), 15),
+                    new RangeAggregationResultEntry(Range::ofInt(25, 50), 25),
+                    new RangeAggregationResultEntry(Range::ofInt(50, null), 51),
                 ]
             ),
         ];

@@ -14,10 +14,8 @@ abstract class AbstractStatsAggregation implements Aggregation
 {
     /**
      * The name of the aggregation.
-     *
-     * @var string
      */
-    protected $name;
+    protected string $name;
 
     public function __construct(string $name)
     {

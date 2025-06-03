@@ -17,22 +17,14 @@ class MapLocationValue extends Value
 {
     /**
      * Latitude of a geographical location.
-     *
-     * @var float
      */
-    public $latitude;
+    public float $latitude;
 
     /**
      * Longitude of a geographical location.
-     *
-     * @var float
      */
-    public $longitude;
+    public float $longitude;
 
-    /**
-     * @param float $latitude
-     * @param float $longitude
-     */
     public function __construct(float $latitude, float $longitude)
     {
         $this->latitude = $latitude;

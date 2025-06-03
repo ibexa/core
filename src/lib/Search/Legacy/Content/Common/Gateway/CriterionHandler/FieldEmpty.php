@@ -68,8 +68,15 @@ class FieldEmpty extends FieldBase
      * @throws \RuntimeException if no converter is found
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    protected function getFieldsInformation(string $fieldIdentifier): array
+    protected function getFieldsInformation(?string $fieldIdentifier): array
     {
+        if ($fieldIdentifier === null) {
+            throw new InvalidArgumentException(
+                '$criterion->target',
+                sprintf('Criterion target must be set for %s criterion.', Criterion\IsFieldEmpty::class)
+            );
+        }
+
         $fieldMapArray = [];
         $fieldMap = $this->contentTypeHandler->getSearchableFieldMap();
 

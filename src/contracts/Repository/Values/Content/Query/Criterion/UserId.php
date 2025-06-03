@@ -17,7 +17,7 @@ class UserId extends Criterion implements FilteringCriterion
     /**
      * @param int|int[] $value
      */
-    public function __construct($value)
+    public function __construct(int|array $value)
     {
         parent::__construct(null, null, $value);
     }
@@ -30,11 +30,13 @@ class UserId extends Criterion implements FilteringCriterion
         return [
             new Specifications(
                 Operator::EQ,
-                Specifications::FORMAT_SINGLE
+                Specifications::FORMAT_SINGLE,
+                Specifications::TYPE_INTEGER
             ),
             new Specifications(
                 Operator::IN,
-                Specifications::FORMAT_ARRAY
+                Specifications::FORMAT_ARRAY,
+                Specifications::TYPE_INTEGER
             ),
         ];
     }

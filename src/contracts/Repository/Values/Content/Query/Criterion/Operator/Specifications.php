@@ -16,21 +16,21 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operato
 class Specifications
 {
     /** Criterion input type description constants: single. */
-    public const FORMAT_SINGLE = 1;
+    public const int FORMAT_SINGLE = 1;
     /** Criterion input type description constants: array. */
-    public const FORMAT_ARRAY = 2;
+    public const int FORMAT_ARRAY = 2;
 
     /** Criterion input value type description constants: integer. */
-    public const TYPE_INTEGER = 1;
+    public const int TYPE_INTEGER = 1;
     /** Criterion input value type description constants: string. */
-    public const TYPE_STRING = 2;
+    public const int TYPE_STRING = 2;
     /** Criterion input value type description constants: boolean. */
-    public const TYPE_BOOLEAN = 4;
+    public const int TYPE_BOOLEAN = 4;
 
     /**
      * Specified operator, as one of the Operator::* constants.
      */
-    public $operator;
+    public string $operator;
 
     /**
      * Format supported for the Criterion value.
@@ -40,10 +40,8 @@ class Specifications
      *
      * @see Specifications::FORMAT_SINGLE
      * @see Specifications::FORMAT_ARRAY
-     *
-     * @var int
      */
-    public $valueFormat;
+    public int $valueFormat;
 
     /**
      * Accepted values types, specifying what type of variables are accepted as a value.
@@ -51,10 +49,8 @@ class Specifications
      * @see Specifications::TYPE_INTEGER
      * @see Specifications::TYPE_STRING
      * @see Specifications::TYPE_BOOLEAN
-     *
-     * @var int
      */
-    public $valueTypes;
+    public ?int $valueTypes;
 
     /**
      * Limitation on the number of items as the value.
@@ -64,18 +60,16 @@ class Specifications
      *
      * @see Specifications::$valueFormat
      * @see Specifications::FORMAT_ARRAY
-     *
-     * @var int
      */
-    public $valueCount;
+    public ?int $valueCount;
 
     /**
      * Creates a new Specifications object.
      *
      * @param string $operator The specified operator, as one of the {@see \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator}::* constants
      * @param int $valueFormat The accepted value format, either {@see Specifications::FORMAT_ARRAY} or {@see Specifications::FORMAT_SINGLE}
-     * @param int $valueTypes The supported value types, as a bit field of the self::TYPE_* constants
-     * @param int $valueCount The required number of values, when the accepted format is {@see Specifications::FORMAT_ARRAY}
+     * @param int|null $valueTypes The supported value types, as a bit field of the self::TYPE_* constants
+     * @param int|null $valueCount The required number of values, when the accepted format is {@see Specifications::FORMAT_ARRAY}
      *
      * @see Specifications::FORMAT_SINGLE
      * @see Specifications::FORMAT_ARRAY

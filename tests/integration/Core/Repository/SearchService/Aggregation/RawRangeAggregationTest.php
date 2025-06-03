@@ -22,17 +22,17 @@ final class RawRangeAggregationTest extends AbstractAggregationTestCase
                 'raw_range',
                 'content_version_no_i',
                 [
-                    new Range(null, 2),
-                    new Range(2, 3),
-                    new Range(3, null),
+                    Range::ofInt(null, 2),
+                    Range::ofInt(2, 3),
+                    Range::ofInt(3, null),
                 ]
             ),
             new RangeAggregationResult(
                 'raw_range',
                 [
-                    new RangeAggregationResultEntry(new Range(null, 2), 14),
-                    new RangeAggregationResultEntry(new Range(2, 3), 3),
-                    new RangeAggregationResultEntry(new Range(3, null), 1),
+                    new RangeAggregationResultEntry(Range::ofInt(null, 2), 14),
+                    new RangeAggregationResultEntry(Range::ofInt(2, 3), 3),
+                    new RangeAggregationResultEntry(Range::ofInt(3, null), 1),
                 ]
             ),
         ];

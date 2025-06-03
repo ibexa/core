@@ -30,15 +30,15 @@ final class DateRangeAggregationTest extends AbstractAggregationTestCase
                 'content_type',
                 'date_field',
                 [
-                    new Range(
+                    Range::ofDateTime(
                         null,
                         new DateTime('2020-07-01T00:00:00', $timezone)
                     ),
-                    new Range(
+                    Range::ofDateTime(
                         new DateTime('2020-07-01T00:00:00', $timezone),
                         new DateTime('2020-08-01T00:00:00', $timezone)
                     ),
-                    new Range(
+                    Range::ofDateTime(
                         new DateTime('2020-08-01T00:00:00', $timezone),
                         null
                     ),
@@ -48,21 +48,21 @@ final class DateRangeAggregationTest extends AbstractAggregationTestCase
                 'date_range',
                 [
                     new RangeAggregationResultEntry(
-                        new Range(
+                        Range::ofDateTime(
                             null,
                             new DateTime('2020-07-01 00:00:00', $timezone)
                         ),
                         3,
                     ),
                     new RangeAggregationResultEntry(
-                        new Range(
+                        Range::ofDateTime(
                             new DateTime('2020-07-01T00:00:00', $timezone),
                             new DateTime('2020-08-01T00:00:00', $timezone)
                         ),
                         3
                     ),
                     new RangeAggregationResultEntry(
-                        new Range(
+                        Range::ofDateTime(
                             new DateTime('2020-08-01T00:00:00', $timezone),
                             null
                         ),

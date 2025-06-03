@@ -17,16 +17,14 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Spec
  */
 class MoreLikeThis extends Criterion
 {
-    public const CONTENT = 1;
-    public const TEXT = 2;
-    public const URL = 3;
+    public const int CONTENT = 1;
+    public const int TEXT = 2;
+    public const int URL = 3;
 
     /**
      * The type of the parameter from which terms are extracted for finding similar objects.
-     *
-     * @var int
      */
-    protected $type;
+    protected int $type;
 
     /**
      * Creates a new more like this criterion.
@@ -36,7 +34,7 @@ class MoreLikeThis extends Criterion
      *
      * @throws \InvalidArgumentException if the value type doesn't match the expected type
      */
-    public function __construct(int $type, $value)
+    public function __construct(int $type, mixed $value)
     {
         $this->type = $type;
 

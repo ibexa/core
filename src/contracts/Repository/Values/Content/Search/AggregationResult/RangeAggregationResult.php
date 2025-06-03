@@ -15,13 +15,16 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult;
 use Iterator;
 use IteratorAggregate;
 
+/**
+ * @phpstan-template TValue
+ */
 final class RangeAggregationResult extends AggregationResult implements IteratorAggregate, Countable
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\RangeAggregationResultEntry[] */
-    private $entries;
+    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\RangeAggregationResultEntry<TValue>[] */
+    private iterable $entries;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\RangeAggregationResultEntry[] $entries
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\RangeAggregationResultEntry<TValue>[] $entries
      */
     public function __construct(string $name, iterable $entries = [])
     {
@@ -36,13 +39,18 @@ final class RangeAggregationResult extends AggregationResult implements Iterator
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\RangeAggregationResultEntry[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\RangeAggregationResultEntry<TValue>[]
      */
     public function getEntries(): iterable
     {
         return $this->entries;
     }
 
+    /**
+     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<TValue> $key
+     *
+     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\RangeAggregationResultEntry<TValue>|null
+     */
     public function getEntry(Range $key): ?RangeAggregationResultEntry
     {
         foreach ($this->entries as $entry) {
@@ -54,6 +62,9 @@ final class RangeAggregationResult extends AggregationResult implements Iterator
         return null;
     }
 
+    /**
+     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<TValue> $key
+     */
     public function hasEntry(Range $key): bool
     {
         return $this->getEntry($key) !== null;
@@ -62,7 +73,7 @@ final class RangeAggregationResult extends AggregationResult implements Iterator
     /**
      * Return available keys (ranges).
      *
-     * @return iterable<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range>
+     * @return iterable<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<TValue>>
      */
     public function getKeys(): iterable
     {
@@ -73,9 +84,12 @@ final class RangeAggregationResult extends AggregationResult implements Iterator
 
     public function count(): int
     {
-        return count($this->entries);
+        return iterator_count($this->entries);
     }
 
+    /**
+     * @return \Iterator<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<TValue>, int>
+     */
     public function getIterator(): Iterator
     {
         if (empty($this->entries)) {

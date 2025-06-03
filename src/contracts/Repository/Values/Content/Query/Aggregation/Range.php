@@ -11,6 +11,9 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 use DateTimeInterface;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
+/**
+ * @phpstan-template TValue
+ */
 final class Range extends ValueObject
 {
     public const INF = null;
@@ -18,20 +21,24 @@ final class Range extends ValueObject
     /**
      * Beginning of the range (included).
      *
-     * @var int|float|\DateTimeInterface|null
+     * @phpstan-var TValue|null
      */
-    private $from;
+    private mixed $from;
 
     /**
      * End of the range (excluded).
      *
-     * @var int|float|\DateTimeInterface|null
+     * @phpstan-var TValue|null
      */
-    private $to;
+    private mixed $to;
 
     private ?string $label;
 
-    public function __construct($from, $to, ?string $label = null)
+    /**
+     * @phpstan-param TValue|null $from beginning of the range (included).
+     * @phpstan-param TValue|null $to end of the range (excluded).
+     */
+    public function __construct(mixed $from, mixed $to, ?string $label = null)
     {
         parent::__construct();
 
@@ -40,12 +47,18 @@ final class Range extends ValueObject
         $this->label = $label;
     }
 
-    public function getFrom()
+    /**
+     * @phpstan-return TValue|null
+     */
+    public function getFrom(): mixed
     {
         return $this->from;
     }
 
-    public function getTo()
+    /**
+     * @phpstan-return TValue|null
+     */
+    public function getTo(): mixed
     {
         return $this->to;
     }
@@ -78,12 +91,26 @@ final class Range extends ValueObject
         );
     }
 
+    /**
+     * Check if the range is equal to another range.
+     *
+     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<TValue> $value
+     */
     public function equalsTo(Range $value): bool
     {
         return $this->from == $value->from && $this->to == $value->to;
     }
 
-    private function getRangeValueAsString($value): string
+    /**
+     * Returns the string representation of the range value.
+     *
+     * If the value is null, it returns '*'.
+     * If the value is a DateTimeInterface, it formats it to ISO8601.
+     * Otherwise, it casts the value to a string.
+     *
+     * @phpstan-param TValue|null $value
+     */
+    private function getRangeValueAsString(mixed $value): string
     {
         if ($value === null) {
             return '*';
@@ -96,16 +123,31 @@ final class Range extends ValueObject
         return (string)$value;
     }
 
+    /**
+     * Creates a range of integers.
+     *
+     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<int>
+     */
     public static function ofInt(?int $from, ?int $to): self
     {
         return new self($from, $to);
     }
 
+    /**
+     * Creates a range of floats.
+     *
+     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<float>
+     */
     public static function ofFloat(?float $from, ?float $to): self
     {
         return new self($from, $to);
     }
 
+    /**
+     * Creates a range of dates.
+     *
+     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<\DateTimeInterface>
+     */
     public static function ofDateTime(?DateTimeInterface $from, ?DateTimeInterface $to): self
     {
         return new self($from, $to);

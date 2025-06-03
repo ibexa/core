@@ -12,29 +12,23 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 
 abstract class AbstractTermAggregation implements Aggregation
 {
-    public const DEFAULT_LIMIT = 10;
-    public const DEFAULT_MIN_COUNT = 1;
+    public const int DEFAULT_LIMIT = 10;
+    public const int DEFAULT_MIN_COUNT = 1;
 
     /**
      * The name of the aggregation.
-     *
-     * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * Number of facets (terms) returned.
-     *
-     * @var int
      */
-    protected $limit = self::DEFAULT_LIMIT;
+    protected int $limit = self::DEFAULT_LIMIT;
 
     /**
      * Specifies the minimum count. Only facet groups with more or equal results are returned.
-     *
-     * @var int
      */
-    protected $minCount = self::DEFAULT_MIN_COUNT;
+    protected int $minCount = self::DEFAULT_MIN_COUNT;
 
     public function __construct(string $name)
     {

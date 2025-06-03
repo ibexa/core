@@ -17,7 +17,7 @@ use IteratorAggregate;
 final class AggregationResultCollection implements Countable, IteratorAggregate
 {
     /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult[] */
-    private $entries;
+    private array $entries;
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult[] $results
