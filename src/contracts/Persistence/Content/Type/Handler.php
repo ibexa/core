@@ -263,9 +263,7 @@ interface Handler
      * referred to by $fieldDefinitionId removed. It does not update existing
      * content objects depending on the field (default) values.
      *
-     * @param mixed $contentTypeId
      * @param int $status One of Type::STATUS_DEFINED|Type::STATUS_DRAFT|Type::STATUS_MODIFIED
-     * @param mixed $fieldDefinitionId
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If field is not found
      */
