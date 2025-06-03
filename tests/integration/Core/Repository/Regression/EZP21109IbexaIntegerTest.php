@@ -7,7 +7,6 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
-use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\FieldType\Integer\Value;
 use Ibexa\Core\Persistence\Legacy\Exception\TypeNotFound as TypeNotFoundException;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
@@ -15,7 +14,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 /**
  * Regression tests for the issue EZP-21109.
  */
-class EZP21109EzIntegerTest extends BaseTestCase
+class EZP21109IbexaIntegerTest extends BaseTestCase
 {
     /**
      * The short name of the current class.
@@ -48,7 +47,7 @@ class EZP21109EzIntegerTest extends BaseTestCase
      *
      * @dataProvider validIntegerValues
      */
-    public function testEzIntegerWithDefaultValues($integerValue)
+    public function testIbexaIntegerWithDefaultValues($integerValue)
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
