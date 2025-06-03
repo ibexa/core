@@ -23,9 +23,9 @@ class Thumbnail extends ValueObject
      */
     protected string $resource;
 
-    protected ?int $width;
+    protected ?int $width = null;
 
-    protected ?int $height;
+    protected ?int $height = null;
 
-    protected ?string $mimeType;
+    protected ?string $mimeType = null;
 }
