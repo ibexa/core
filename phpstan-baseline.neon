@@ -5245,12 +5245,6 @@ parameters:
 			path: src/contracts/Persistence/Content/Type/Handler.php
 
 		-
-			message: '#^PHPDoc tag @param for parameter \$contentTypeId with type mixed is not subtype of native type int\.$#'
-			identifier: parameter.phpDocType
-			count: 1
-			path: src/contracts/Persistence/Content/Type/Handler.php
-
-		-
 			message: '#^Property Ibexa\\Contracts\\Core\\Persistence\\Content\\UrlAlias\:\:\$pathData type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
