@@ -23,18 +23,10 @@ use PDO;
  */
 class DoctrineStorage extends Gateway
 {
-    public const USER_TABLE = UserGateway::USER_TABLE;
-    public const USER_SETTING_TABLE = 'ibexa_user_setting';
+    public const string USER_TABLE = UserGateway::USER_TABLE;
+    public const string USER_SETTING_TABLE = 'ibexa_user_setting';
 
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
-
-    /**
-     * Default values for user fields.
-     *
-     * @var array
-     */
-    protected $defaultValues = [
+    protected array $defaultValues = [
         'hasStoredLogin' => false,
         'contentId' => null,
         'login' => null,
@@ -47,15 +39,11 @@ class DoctrineStorage extends Gateway
     ];
 
     public function __construct(
-        Connection $connection
+        protected Connection $connection
     ) {
-        $this->connection = $connection;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getFieldData($fieldId, $userId = null)
+    public function getFieldData($fieldId, $userId = null): array
     {
         $userId = $userId ?: $this->fetchUserId($fieldId);
         $userData = $this->fetchUserData($userId);
@@ -76,12 +64,7 @@ class DoctrineStorage extends Gateway
         return $result;
     }
 
-    /**
-     * Map legacy database column names to property names.
-     *
-     * @return array
-     */
-    protected function getPropertyMap()
+    protected function getPropertyMap(): array
     {
         return [
             'has_stored_login' => [
@@ -129,14 +112,7 @@ class DoctrineStorage extends Gateway
         ];
     }
 
-    /**
-     * Convert the given database values to properties.
-     *
-     * @param array $databaseValues
-     *
-     * @return array
-     */
-    protected function convertColumnsToProperties(array $databaseValues)
+    protected function convertColumnsToProperties(array $databaseValues): array
     {
         $propertyValues = [];
         $propertyMap = $this->getPropertyMap();
@@ -150,14 +126,7 @@ class DoctrineStorage extends Gateway
         return $propertyValues;
     }
 
-    /**
-     * Fetch user content object id for the given field id.
-     *
-     * @param int $fieldId
-     *
-     * @return int
-     */
-    protected function fetchUserId($fieldId): int
+    protected function fetchUserId(int $fieldId): int
     {
         $query = $this->connection->createQueryBuilder();
         $query
@@ -179,14 +148,7 @@ class DoctrineStorage extends Gateway
         return (int) $statement->fetchOne();
     }
 
-    /**
-     * Fetch user data.
-     *
-     * @param int $userId
-     *
-     * @return array
-     */
-    protected function fetchUserData($userId)
+    protected function fetchUserData(int $userId): array
     {
         $query = $this->connection->createQueryBuilder();
         $query
@@ -215,14 +177,7 @@ class DoctrineStorage extends Gateway
         return isset($rows[0]) ? $this->convertColumnsToProperties($rows[0]) : [];
     }
 
-    /**
-     * Fetch user settings.
-     *
-     * @param int $userId
-     *
-     * @return array
-     */
-    protected function fetchUserSettings($userId)
+    protected function fetchUserSettings(int $userId): array
     {
         $query = $this->connection->createQueryBuilder();
         $query
@@ -397,14 +352,11 @@ class DoctrineStorage extends Gateway
     /**
      * @param int[] $fieldIds
      *
-     * @return bool
-     *
      * @throws \Doctrine\DBAL\Exception
      */
     protected function isLastRelationToFieldType(array $fieldIds): bool
     {
-        $countExpr = $this->connection->getDatabasePlatform()->getCountExpression('id');
-
+        $countExpr = 'COUNT(id)';
         $checkQuery = $this->connection->createQueryBuilder();
         $checkQuery
             ->select($countExpr)
@@ -429,9 +381,7 @@ class DoctrineStorage extends Gateway
         $selectQuery = $this->connection->createQueryBuilder();
 
         $selectQuery
-            ->select(
-                $this->connection->getDatabasePlatform()->getCountExpression('u.login')
-            )
+            ->select('COUNT(u.login)')
             ->from(self::USER_TABLE, 'u')
             ->andWhere(
                 $selectQuery->expr()->notIn('u.password_hash_type', ':supportedPasswordHashes')

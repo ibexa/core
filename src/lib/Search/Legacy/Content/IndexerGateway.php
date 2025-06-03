@@ -22,14 +22,10 @@ use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 /**
  * @internal
  */
-final class IndexerGateway implements SPIIndexerGateway
+final readonly class IndexerGateway implements SPIIndexerGateway
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function getContentSince(DateTimeInterface $since, int $iterationCount): Generator
@@ -112,21 +108,12 @@ final class IndexerGateway implements SPIIndexerGateway
             ->setParameter('status', ContentInfo::STATUS_PUBLISHED, ParameterType::INTEGER);
     }
 
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
     private function buildCountingQuery(QueryBuilder $query): QueryBuilder
     {
-        $databasePlatform = $this->connection->getDatabasePlatform();
+        $countQuery = clone $query;
+        $countQuery->select('COUNT(*)');
 
-        // wrap existing select part in count expression
-        $query->select(
-            $databasePlatform->getCountExpression(
-                $query->getQueryPart('select')[0]
-            )
-        );
-
-        return $query;
+        return $countQuery;
     }
 
     private function fetchIteration(Result $result, int $iterationCount): Generator

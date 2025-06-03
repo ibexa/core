@@ -26,39 +26,23 @@ abstract class Gateway extends StorageGateway
 
     /**
      * Stores a reference to the image in $path for $fieldId.
-     *
-     * @param string $uri File IO uri
-     * @param mixed $fieldId
      */
-    abstract public function storeImageReference($uri, $fieldId);
+    abstract public function storeImageReference(string $uri, mixed $fieldId): void;
 
     /**
      * Returns a the XML content stored for the given $fieldIds.
-     *
-     * @param int $versionNo
-     * @param array $fieldIds
-     *
-     * @return array
      */
-    abstract public function getXmlForImages($versionNo, array $fieldIds);
+    abstract public function getXmlForImages(int $versionNo, array $fieldIds): array;
 
     /**
      * Removes all references from $fieldId to a path that starts with $path.
-     *
-     * @param string $uri File IO uri (not legacy uri)
-     * @param int $versionNo
-     * @param mixed $fieldId
      */
-    abstract public function removeImageReferences($uri, $versionNo, $fieldId);
+    abstract public function removeImageReferences(string $uri, int $versionNo, mixed $fieldId): void;
 
     /**
      * Returns the number of recorded references to the given $path.
-     *
-     * @param string $uri File IO uri (not legacy uri)
-     *
-     * @return int
      */
-    abstract public function countImageReferences($uri);
+    abstract public function countImageReferences(string $uri): int;
 
     /**
      * Returns true if there is reference to the given $uri.
@@ -67,8 +51,10 @@ abstract class Gateway extends StorageGateway
 
     /**
      * Returns the public uris for the images stored in $xml.
+     *
+     * @return array<string, string>|null
      */
-    abstract public function extractFilesFromXml($xml);
+    abstract public function extractFilesFromXml(?string $xml): ?array;
 
     abstract public function getAllVersionsImageXmlForFieldId(int $fieldId): array;
 

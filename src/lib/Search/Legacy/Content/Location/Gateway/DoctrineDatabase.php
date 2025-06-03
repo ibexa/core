@@ -8,9 +8,12 @@
 namespace Ibexa\Core\Search\Legacy\Content\Location\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
@@ -27,43 +30,14 @@ final class DoctrineDatabase extends Gateway
      * 2^30, since PHP_INT_MAX can cause overflows in DB systems, if PHP is run
      * on 64 bit systems.
      */
-    public const MAX_LIMIT = 1073741824;
+    public const int MAX_LIMIT = 1073741824;
 
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
-
-    /** @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter */
-    private $criteriaConverter;
-
-    /** @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter */
-    private $sortClauseConverter;
-
-    /**
-     * Language handler.
-     *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
-     */
-    private $languageHandler;
-
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
-    private $dbPlatform;
-
-    /**
-     * Construct from database handler.
-     *
-     * @throws \Doctrine\DBAL\Exception
-     */
     public function __construct(
-        Connection $connection,
-        CriteriaConverter $criteriaConverter,
-        SortClauseConverter $sortClauseConverter,
-        LanguageHandler $languageHandler
+        private readonly Connection $connection,
+        private readonly CriteriaConverter $criteriaConverter,
+        private readonly SortClauseConverter $sortClauseConverter,
+        private readonly LanguageHandler $languageHandler
     ) {
-        $this->connection = $connection;
-        $this->dbPlatform = $connection->getDatabasePlatform();
-        $this->criteriaConverter = $criteriaConverter;
-        $this->sortClauseConverter = $sortClauseConverter;
-        $this->languageHandler = $languageHandler;
     }
 
     public function find(
@@ -136,7 +110,7 @@ final class DoctrineDatabase extends Gateway
         if (!empty($languageFilter['languages'])) {
             $selectQuery->andWhere(
                 $selectQuery->expr()->gt(
-                    $this->dbPlatform->getBitAndComparisonExpression(
+                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
                         'c.language_mask',
                         $selectQuery->createNamedParameter(
                             $this->getLanguageMask($languageFilter),
@@ -166,8 +140,6 @@ final class DoctrineDatabase extends Gateway
     /**
      * Returns total results count for $criterion and $sortClauses.
      *
-     * @param array $languageFilter
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
@@ -175,7 +147,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select($this->dbPlatform->getCountExpression('*'))
+            ->select('COUNT(t.node_id)')
             ->from(LocationGateway::CONTENT_TREE_TABLE, 't')
             ->innerJoin(
                 't',
@@ -212,7 +184,7 @@ final class DoctrineDatabase extends Gateway
         if (!empty($languageFilter['languages'])) {
             $query->andWhere(
                 $query->expr()->gt(
-                    $this->dbPlatform->getBitAndComparisonExpression(
+                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
                         'c.language_mask',
                         $query->createNamedParameter(
                             $this->getLanguageMask($languageFilter),
@@ -231,8 +203,6 @@ final class DoctrineDatabase extends Gateway
 
     /**
      * Generates a language mask from the given $languageFilter.
-     *
-     * @param array $languageFilter
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
@@ -256,5 +226,14 @@ final class DoctrineDatabase extends Gateway
         }
 
         return $mask;
+    }
+
+    private function getDatabasePlatform(): AbstractPlatform
+    {
+        try {
+            return $this->connection->getDatabasePlatform();
+        } catch (Exception $e) {
+            throw DatabaseException::wrap($e);
+        }
     }
 }

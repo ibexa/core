@@ -8,10 +8,13 @@
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
@@ -21,16 +24,12 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository\SearchIndex;
 
 /**
- * Full text criterion handler.
+ * @phpstan-import-type TSearchLanguageFilter from \Ibexa\Contracts\Core\Repository\SearchService
  */
 class FullText extends CriterionHandler
 {
-    /**
-     * Full text search configuration options.
-     *
-     * @var array
-     */
-    protected $configuration = [
+    /** @var array<string, mixed> */
+    protected array $configuration = [
         // @see getStopWordThresholdValue()
         'stopWordThresholdFactor' => 0.66,
         'enableWildcards' => true,
@@ -71,38 +70,20 @@ class FullText extends CriterionHandler
     ];
 
     /**
-     * @var int|null
-     *
      * @see getStopWordThresholdValue()
      */
-    private $stopWordThresholdValue;
+    private ?int $stopWordThresholdValue = null;
 
-    /**
-     * Transformation processor to normalize search strings.
-     *
-     * @var \Ibexa\Core\Persistence\TransformationProcessor
-     */
-    protected $processor;
-
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
-    private $languageMaskGenerator;
-
-    /**
-     * @param array $configuration
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException On invalid $configuration values
-     * @throws \Doctrine\DBAL\Exception
-     */
+    /** @param array<string, mixed> $configuration */
     public function __construct(
         Connection $connection,
-        TransformationProcessor $processor,
-        MaskGenerator $languageMaskGenerator,
+        protected TransformationProcessor $processor,
+        private readonly MaskGenerator $languageMaskGenerator,
         array $configuration = []
     ) {
         parent::__construct($connection);
 
         $this->configuration = $configuration + $this->configuration;
-        $this->processor = $processor;
 
         if (
             $this->configuration['stopWordThresholdFactor'] < 0 ||
@@ -113,7 +94,6 @@ class FullText extends CriterionHandler
                 'Stop Word Threshold Factor needs to be between 0 and 1, got: ' . $this->configuration['stopWordThresholdFactor']
             );
         }
-        $this->languageMaskGenerator = $languageMaskGenerator;
     }
 
     public function accept(CriterionInterface $criterion): bool
@@ -201,6 +181,8 @@ class FullText extends CriterionHandler
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\FullText $criterion
+     *
+     * @phpstan-param TSearchLanguageFilter $languageSettings
      */
     public function handle(
         CriteriaConverter $converter,
@@ -208,6 +190,14 @@ class FullText extends CriterionHandler
         CriterionInterface $criterion,
         array $languageSettings
     ) {
+        if (!$criterion instanceof Criterion\FullText) {
+            throw new InvalidArgumentException('$criterion', 'Expected Criterion\FullText');
+        }
+
+        if (!is_string($criterion->value)) {
+            throw new InvalidArgumentException('$criterion->value', 'must be a string');
+        }
+
         $subSelect = $this->connection->createQueryBuilder();
         $expr = $queryBuilder->expr();
         $subSelect
@@ -231,7 +221,7 @@ class FullText extends CriterionHandler
 
             $subSelect->andWhere(
                 $expr->gt(
-                    $this->dbPlatform->getBitAndComparisonExpression(
+                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
                         'ibexa_search_object_word_link.language_mask',
                         $queryBuilder->createNamedParameter($languageMask, ParameterType::INTEGER)
                     ),
@@ -269,12 +259,21 @@ class FullText extends CriterionHandler
         // Cached value does not exists, do a simple count query on ibexa_content table
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select($this->dbPlatform->getCountExpression('id'))
+            ->select('COUNT(id)')
             ->from(ContentGateway::CONTENT_ITEM_TABLE);
 
         $count = (int)$query->executeQuery()->fetchOne();
 
         // Calculate the int stopWordThresholdValue based on count (first column) * factor
         return $this->stopWordThresholdValue = (int)($count * $this->configuration['stopWordThresholdFactor']);
+    }
+
+    private function getDatabasePlatform(): AbstractPlatform
+    {
+        try {
+            return $this->connection->getDatabasePlatform();
+        } catch (Exception $e) {
+            throw DatabaseException::wrap($e);
+        }
     }
 }

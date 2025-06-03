@@ -15,24 +15,17 @@ use Ibexa\Core\Persistence\Legacy\UserPreference\Gateway;
 
 class DoctrineDatabase extends Gateway
 {
-    public const TABLE_USER_PREFERENCES = 'ibexa_preferences';
+    public const string TABLE_USER_PREFERENCES = 'ibexa_preferences';
 
-    public const COLUMN_ID = 'id';
-    public const COLUMN_NAME = 'name';
-    public const COLUMN_USER_ID = 'user_id';
-    public const COLUMN_VALUE = 'value';
+    public const string COLUMN_ID = 'id';
+    public const string COLUMN_NAME = 'name';
+    public const string COLUMN_USER_ID = 'user_id';
+    public const string COLUMN_VALUE = 'value';
 
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(protected Connection $connection)
     {
-        $this->connection = $connection;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUserPreference(UserPreferenceSetStruct $userPreference): int
     {
         $query = $this->connection->createQueryBuilder();
@@ -86,9 +79,6 @@ class DoctrineDatabase extends Gateway
         return $query->executeQuery()->fetchAllAssociative();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadUserPreferences(int $userId, int $offset = 0, int $limit = -1): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -108,16 +98,11 @@ class DoctrineDatabase extends Gateway
         return $query->executeQuery()->fetchAllAssociative();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function countUserPreferences(int $userId): int
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select(
-                $this->connection->getDatabasePlatform()->getCountExpression(self::COLUMN_ID)
-            )
+            ->select('COUNT(' . self::COLUMN_ID . ')')
             ->from(self::TABLE_USER_PREFERENCES)
             ->where($query->expr()->eq(self::COLUMN_USER_ID, ':user_id'))
             ->setParameter('user_id', $userId, ParameterType::INTEGER);
