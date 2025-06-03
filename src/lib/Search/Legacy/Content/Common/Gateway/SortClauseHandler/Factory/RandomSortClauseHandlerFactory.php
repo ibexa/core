@@ -40,6 +40,12 @@ class RandomSortClauseHandlerFactory
             }
         }
 
-        throw new InvalidArgumentException('$this->randomSortClauseGateways', 'No RandomSortClauseHandler found for driver ' . get_class($databasePlatform));
+        throw new InvalidArgumentException(
+            '$this->randomSortClauseGateways',
+            sprintf(
+                'No RandomSortClauseHandler found for driver %s',
+                get_class($databasePlatform)
+            )
+        );
     }
 }
