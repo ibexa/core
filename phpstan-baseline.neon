@@ -5035,12 +5035,6 @@ parameters:
 			path: src/contracts/Limitation/Target/Builder/VersionBuilder.php
 
 		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Limitation\\Type\:\:acceptValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/contracts/Limitation/Type.php
-
-		-
 			message: '#^Method Ibexa\\Contracts\\Core\\MVC\\Templating\\BaseRenderStrategy\:\:__construct\(\) has parameter \$fragmentRenderers with no value type specified in iterable type iterable\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -10411,28 +10405,10 @@ parameters:
 			path: src/lib/IO/UrlDecorator/Prefix.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Limitation\\BlockingLimitationType\:\:acceptValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Limitation/BlockingLimitationType.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Limitation\\BlockingLimitationType\:\:evaluate\(\) has Ibexa\\Contracts\\Core\\Repository\\Exceptions\\BadStateException in PHPDoc @throws tag but it''s not thrown\.$#'
 			identifier: throws.unusedType
 			count: 1
 			path: src/lib/Limitation/BlockingLimitationType.php
-
-		-
-			message: '#^Return type \(void\) of method Ibexa\\Core\\Limitation\\ChangeOwnerLimitationType\:\:valueSchema\(\) should be compatible with return type \(array\<mixed\>\|int\) of method Ibexa\\Contracts\\Core\\Limitation\\Type\:\:valueSchema\(\)$#'
-			identifier: method.childReturnType
-			count: 1
-			path: src/lib/Limitation/ChangeOwnerLimitationType.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Limitation\\ContentTypeLimitationType\:\:acceptValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Limitation/ContentTypeLimitationType.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Limitation\\LanguageLimitation\\ContentDeleteEvaluator\:\:evaluate\(\) never returns null so it can be removed from the return type\.$#'
@@ -10471,12 +10447,6 @@ parameters:
 			path: src/lib/Limitation/LanguageLimitationType.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Limitation\\LanguageLimitationType\:\:valueSchema\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Limitation/LanguageLimitationType.php
-
-		-
 			message: '#^Parameter \#1 \$array of function array_keys expects array, iterable\<Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\> given\.$#'
 			identifier: argument.type
 			count: 1
@@ -10487,12 +10457,6 @@ parameters:
 			identifier: assign.propertyType
 			count: 1
 			path: src/lib/Limitation/LanguageLimitationType.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Limitation\\LocationLimitationType\:\:acceptValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Limitation/LocationLimitationType.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Limitation\\LocationLimitationType\:\:evaluateForContentCreateStruct\(\) has parameter \$targets with no value type specified in iterable type array\.$#'
@@ -10519,18 +10483,6 @@ parameters:
 			path: src/lib/Limitation/MemberOfLimitationType.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Limitation\\NewObjectStateLimitationType\:\:acceptValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Limitation/NewObjectStateLimitationType.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Limitation\\NewSectionLimitationType\:\:acceptValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Limitation/NewSectionLimitationType.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Limitation\\NewSectionLimitationType\:\:doEvaluate\(\) has parameter \$targets with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -10555,12 +10507,6 @@ parameters:
 			path: src/lib/Limitation/NewSectionLimitationType.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Limitation\\ObjectStateLimitationType\:\:acceptValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Limitation/ObjectStateLimitationType.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Limitation\\ObjectStateLimitationType\:\:getObjectStateIdsToVerify\(\) has parameter \$limitationValues with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -10579,82 +10525,16 @@ parameters:
 			path: src/lib/Limitation/ObjectStateLimitationType.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Limitation\\OwnerLimitationType\:\:acceptValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Limitation/OwnerLimitationType.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Limitation\\ParentContentTypeLimitationType\:\:acceptValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Limitation/ParentContentTypeLimitationType.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Limitation\\ParentContentTypeLimitationType\:\:evaluateForContentCreateStruct\(\) has parameter \$targets with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Limitation/ParentContentTypeLimitationType.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Limitation\\ParentDepthLimitationType\:\:acceptValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Limitation/ParentDepthLimitationType.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Limitation\\ParentDepthLimitationType\:\:evaluateForContentCreateStruct\(\) has parameter \$targets with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Limitation/ParentDepthLimitationType.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Limitation\\ParentOwnerLimitationType\:\:acceptValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Limitation/ParentOwnerLimitationType.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Limitation\\ParentUserGroupLimitationType\:\:acceptValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Limitation/ParentUserGroupLimitationType.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Limitation\\SectionLimitationType\:\:acceptValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Limitation/SectionLimitationType.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Limitation\\SectionLimitationType\:\:evaluate\(\) should return bool but returns null\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/Limitation/SectionLimitationType.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Limitation\\SiteAccessLimitationType\:\:acceptValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Limitation/SiteAccessLimitationType.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Limitation\\StatusLimitationType\:\:acceptValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Limitation/StatusLimitationType.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Limitation\\SubtreeLimitationType\:\:acceptValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Limitation/SubtreeLimitationType.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Limitation\\SubtreeLimitationType\:\:evaluate\(\) should return bool but returns null\.$#'
-			identifier: return.type
-			count: 2
-			path: src/lib/Limitation/SubtreeLimitationType.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Limitation\\SubtreeLimitationType\:\:evaluateForContentCreateStruct\(\) has parameter \$targets with no value type specified in iterable type array\.$#'
@@ -10673,12 +10553,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Limitation/TargetOnlyLimitationType.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Limitation\\UserGroupLimitationType\:\:acceptValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Limitation/UserGroupLimitationType.php
 
 		-
 			message: '#^PHPDoc tag @var does not specify variable name\.$#'

@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Limitation;
 
+use Ibexa\Contracts\Core\Limitation\Limitation;
 use Ibexa\Contracts\Core\Limitation\Type as SPILimitationTypeInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Section as SPISection;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
@@ -36,11 +37,11 @@ class NewSectionLimitationType extends AbstractPersistenceLimitationType impleme
      *
      * Makes sure LimitationValue object and ->limitationValues is of correct type.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected type/structure
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
+     *
+     *@throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected type/structure
      */
-    public function acceptValue(APILimitationValue $limitationValue)
+    public function acceptValue(APILimitationValue $limitationValue): void
     {
         if (!$limitationValue instanceof APINewSectionLimitation) {
             throw new InvalidArgumentType('$limitationValue', 'APINewSectionLimitation', $limitationValue);
@@ -64,7 +65,7 @@ class NewSectionLimitationType extends AbstractPersistenceLimitationType impleme
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(APILimitationValue $limitationValue)
+    public function validate(APILimitationValue $limitationValue): array
     {
         $validationErrors = [];
         foreach ($limitationValue->limitationValues as $key => $id) {
@@ -92,7 +93,7 @@ class NewSectionLimitationType extends AbstractPersistenceLimitationType impleme
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
      */
-    public function buildValue(array $limitationValues)
+    public function buildValue(array $limitationValues): APILimitationValue
     {
         return new APINewSectionLimitation(['limitationValues' => $limitationValues]);
     }
@@ -100,19 +101,19 @@ class NewSectionLimitationType extends AbstractPersistenceLimitationType impleme
     /**
      * Evaluate permission against content & target(placement/parent/assignment).
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
-     *         Example: If LimitationValue is instance of ContentTypeLimitationValue, and Type is SectionLimitationType.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
-     *         Example if OwnerLimitationValue->limitationValues[0] is not one of: [ 1,  2 ]
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
      * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
      * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object
      * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject[]|null $targets The context of the $object, like Location of Content, if null none where provided by caller
      *
-     * @return bool
+     * @return bool|null
+     *
+     *@throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
+     *         Example if OwnerLimitationValue->limitationValues[0] is not one of: [ 1,  2 ]
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
+     *         Example: If LimitationValue is instance of ContentTypeLimitationValue, and Type is SectionLimitationType.
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null): bool
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null): ?bool
     {
         if (!$value instanceof APINewSectionLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: APINewSectionLimitation');
@@ -139,11 +140,11 @@ class NewSectionLimitationType extends AbstractPersistenceLimitationType impleme
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
      * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException Not applicable, needs context of new section.
-     *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException Not applicable, needs context of new section.
      */
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser)
+    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser): CriterionInterface
     {
         throw new NotImplementedException(__METHOD__);
     }
@@ -151,10 +152,10 @@ class NewSectionLimitationType extends AbstractPersistenceLimitationType impleme
     /**
      * Returns info on valid $limitationValues.
      *
-     * @return mixed[]|int In case of array, a hash with key as valid limitations value and value as human readable name
+     * @return int|mixed[] In case of array, a hash with key as valid limitations value and value as human readable name
      *                     of that option, in case of int on of VALUE_SCHEMA_ constants.
      */
-    public function valueSchema()
+    public function valueSchema(): array|int
     {
         throw new NotImplementedException(__METHOD__);
     }

@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation as APIObjectStateLimitation;
@@ -37,11 +38,11 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
      *
      * Makes sure LimitationValue object and ->limitationValues is of correct type.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected type/structure
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
+     *
+     *@throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected type/structure
      */
-    public function acceptValue(APILimitationValue $limitationValue)
+    public function acceptValue(APILimitationValue $limitationValue): void
     {
         if (!$limitationValue instanceof APIObjectStateLimitation) {
             throw new InvalidArgumentType('$limitationValue', 'APIObjectStateLimitation', $limitationValue);
@@ -67,7 +68,7 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(APILimitationValue $limitationValue)
+    public function validate(APILimitationValue $limitationValue): array
     {
         $validationErrors = [];
         foreach ($limitationValue->limitationValues as $key => $id) {
@@ -95,7 +96,7 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
      */
-    public function buildValue(array $limitationValues)
+    public function buildValue(array $limitationValues): APILimitationValue
     {
         return new APIObjectStateLimitation(['limitationValues' => $limitationValues]);
     }
@@ -103,24 +104,24 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
     /**
      * Evaluate permission against content & target(placement/parent/assignment).
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
-     *         Example: If LimitationValue is instance of ContentTypeLimitationValue, and Type is SectionLimitationType.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
-     *         Example if OwnerLimitationValue->limitationValues[0] is not one of: [ 1,  2 ]
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
      * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
      * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object
      * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject[]|null $targets An array of location, parent or "assignment" value objects
      *
-     * @return bool
+     * @return bool|null
+     *
+     *@throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
+     *         Example if OwnerLimitationValue->limitationValues[0] is not one of: [ 1,  2 ]
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
+     *         Example: If LimitationValue is instance of ContentTypeLimitationValue, and Type is SectionLimitationType.
      */
     public function evaluate(
         APILimitationValue $value,
         APIUserReference $currentUser,
         ValueObject $object,
         array $targets = null
-    ): bool {
+    ): ?bool {
         if (!$value instanceof APIObjectStateLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: APIObjectStateLimitation');
         }
@@ -209,9 +210,9 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
      * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface|\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOperator
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
      */
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser)
+    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser): CriterionInterface
     {
         if (empty($value->limitationValues)) {
             // A Policy should not have empty limitationValues stored
@@ -268,7 +269,7 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
-    public function valueSchema()
+    public function valueSchema(): array|int
     {
         throw new NotImplementedException(__METHOD__);
     }
