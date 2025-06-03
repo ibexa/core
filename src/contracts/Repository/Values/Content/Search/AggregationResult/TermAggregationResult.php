@@ -19,6 +19,8 @@ use IteratorAggregate;
  * Represents the result of a term aggregation.
  *
  * @phpstan-template TKey of object|scalar
+ *
+ * @phpstan-implements \IteratorAggregate<TKey, int>
  */
 class TermAggregationResult extends AggregationResult implements IteratorAggregate, Countable
 {

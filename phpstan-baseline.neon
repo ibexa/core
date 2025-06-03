@@ -6271,12 +6271,6 @@ parameters:
 			path: src/contracts/Repository/Values/Content/Search/AggregationResult/RangeAggregationResult.php
 
 		-
-			message: '#^Class Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\AggregationResult\\TermAggregationResult implements generic interface IteratorAggregate but does not specify its types\: TKey, TValue$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/AggregationResult/TermAggregationResult.php
-
-		-
 			message: '#^Class Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\AggregationResultCollection implements generic interface IteratorAggregate but does not specify its types\: TKey, TValue$#'
 			identifier: missingType.generics
 			count: 1

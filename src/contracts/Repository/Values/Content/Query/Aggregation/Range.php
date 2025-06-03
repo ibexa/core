@@ -35,8 +35,8 @@ final class Range extends ValueObject
     private ?string $label;
 
     /**
-     * @phpstan-param TValue|null $from Beginning of the range (included).
-     * @phpstan-param TValue|null $to End of the range (excluded).
+     * @phpstan-param TValue|null $from beginning of the range (included).
+     * @phpstan-param TValue|null $to end of the range (excluded).
      */
     public function __construct(mixed $from, mixed $to, ?string $label = null)
     {
