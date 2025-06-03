@@ -35,7 +35,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Mime\MimeTypesInterface;
 
 /**
- * This command resizes original images stored in  FieldType in given ContentType using the selected filter.
+ * This command resizes original images stored in ibexa_image FieldType in given ContentType using the selected filter.
  */
 #[AsCommand(name: 'ibexa:images:resize-original')]
 class ResizeOriginalImagesCommand extends Command
@@ -109,12 +109,12 @@ class ResizeOriginalImagesCommand extends Command
             ->addArgument(
                 'imageFieldIdentifier',
                 InputArgument::REQUIRED,
-                'Identifier of a Field of  type.'
+                'Identifier of a Field of ibexa_image type.'
             )
             ->addArgument(
                 'contentTypeIdentifier',
                 InputArgument::REQUIRED,
-                'Identifier of a content type which has an  Field Type.'
+                'Identifier of a content type which has an ibexa_image Field Type.'
             )
             ->addOption(
                 'filter',
@@ -147,10 +147,10 @@ class ResizeOriginalImagesCommand extends Command
 
         $contentType = $this->contentTypeService->loadContentTypeByIdentifier($contentTypeIdentifier);
         $fieldType = $contentType->getFieldDefinition($imageFieldIdentifier);
-        if (!$fieldType || $fieldType->fieldTypeIdentifier !== '') {
+        if (!$fieldType || $fieldType->fieldTypeIdentifier !== 'ibexa_image') {
             $output->writeln(
                 sprintf(
-                    "<error>Field Type with identifier '%s' in content type '%s' must be '', you provided '%s'.</error>",
+                    "<error>Field Type with identifier '%s' in content type '%s' must be 'ibexa_image', you provided '%s'.</error>",
                     $imageFieldIdentifier,
                     $contentType->identifier,
                     $fieldType ? $fieldType->fieldTypeIdentifier : ''
