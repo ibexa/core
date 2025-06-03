@@ -19213,12 +19213,6 @@ parameters:
 			path: src/lib/Repository/ContentService.php
 
 		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\ContentCreateStruct\:\:\$modificationDate \(DateTime\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: src/lib/Repository/ContentService.php
-
-		-
 			message: '#^Property Ibexa\\Core\\Repository\\ContentService\:\:\$repository \(Ibexa\\Core\\Repository\\Repository\) does not accept Ibexa\\Contracts\\Core\\Repository\\Repository\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -26667,12 +26661,6 @@ parameters:
 		-
 			message: '#^Parameter \#2 \$string2 of function strcmp expects string, bool\|float\|int\|string given\.$#'
 			identifier: argument.type
-			count: 1
-			path: tests/integration/Core/Repository/BaseTestCase.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\ContentCreateStruct\:\:\$remoteId \(string\) does not accept string\|null\.$#'
-			identifier: assign.propertyType
 			count: 1
 			path: tests/integration/Core/Repository/BaseTestCase.php
 
