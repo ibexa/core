@@ -20,7 +20,7 @@ class EZP21771IbexaStringTest extends BaseTestCase
      * This is an integration test for issue EZP-21771.
      *
      * It shouldn't throw a fatal error when inserting 11 consecutive digits
-     * into an eZString field
+     * into an IbexaString field
      */
     public function test11NumbersOnIbexaString()
     {
