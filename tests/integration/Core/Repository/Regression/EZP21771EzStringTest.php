@@ -14,7 +14,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
  *
  * Issue EZP-21711
  */
-class EZP21771EzStringTest extends BaseTestCase
+class EZP21771IbexaStringTest extends BaseTestCase
 {
     /**
      * This is an integration test for issue EZP-21771.
@@ -22,7 +22,7 @@ class EZP21771EzStringTest extends BaseTestCase
      * It shouldn't throw a fatal error when inserting 11 consecutive digits
      * into an eZString field
      */
-    public function test11NumbersOnEzString()
+    public function test11NumbersOnIbexaString()
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
