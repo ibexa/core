@@ -227,7 +227,7 @@ final class FieldDefinitionCollectionTest extends TestCase
         );
 
         self::assertTrue($collection->anyOfType('ibexa_string'));
-        self::assertFalse($collection->anyOfType('ezrichtext'));
+        self::assertFalse($collection->anyOfType('ibexa_richtext'));
     }
 
     public function testAnyInGroup(): void
