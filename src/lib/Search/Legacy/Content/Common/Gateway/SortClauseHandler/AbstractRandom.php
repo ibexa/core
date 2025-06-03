@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler;
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler;
@@ -47,5 +48,5 @@ abstract class AbstractRandom extends SortClauseHandler
 
     abstract public function getRandomFunctionName(?int $seed): string;
 
-    abstract public function getDriverName(): string;
+    abstract public function supportsPlatform(AbstractPlatform $platform): bool;
 }

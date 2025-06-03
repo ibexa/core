@@ -18,83 +18,61 @@ use PHPUnit\Framework\TestCase;
 class RandomSortClauseHandlerFactoryTest extends TestCase
 {
     /**
-     * @dataProvider getGateways
-     *
-     * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom[] $gateways
-     *
      * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      */
-    public function testGetGateway(array $gateways)
+    public function testGetGateway(): void
     {
         $platform = $this->createMock(AbstractPlatform::class);
-
-        $platform
-            ->method('getName')
-            ->willReturn('testStorage');
-
         $connection = $this->createMock(Connection::class);
-
         $connection
             ->method('getDatabasePlatform')
             ->willReturn($platform);
 
-        $handlerFactory = new RandomSortClauseHandlerFactory($connection, $gateways);
-        self::assertEquals(
-            'testStorage',
-            $handlerFactory->getGateway()->getDriverName()
-        );
+        $goodGateway = $this->createMock(AbstractRandom::class);
+        $goodGateway
+            ->method('supportsPlatform')
+            ->with($platform)
+            ->willReturn(true);
+
+        $badGateway = $this->createMock(AbstractRandom::class);
+        $badGateway
+            ->method('supportsPlatform')
+            ->with($platform)
+            ->willReturn(false);
+
+        $handlerFactory = new RandomSortClauseHandlerFactory($connection, [$badGateway, $goodGateway]);
+
+        self::assertSame($goodGateway, $handlerFactory->getGateway());
     }
 
     /**
-     * @dataProvider getGateways
-     *
-     * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom[] $gateways
-     *
      * @throws \Doctrine\DBAL\Exception
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      */
-    public function testGetGatewayNotImplemented(array $gateways)
+    public function testGetGatewayNotImplemented(): void
     {
         $platform = $this->createMock(AbstractPlatform::class);
-
-        $platform
-            ->method('getName')
-            ->willReturn('notImplemented');
-
         $connection = $this->createMock(Connection::class);
-
         $connection
             ->method('getDatabasePlatform')
             ->willReturn($platform);
 
-        $handlerFactory = new RandomSortClauseHandlerFactory($connection, $gateways);
+        $badGateway1 = $this->createMock(AbstractRandom::class);
+        $badGateway1
+            ->method('supportsPlatform')
+            ->with($platform)
+            ->willReturn(false);
+
+        $badGateway2 = $this->createMock(AbstractRandom::class);
+        $badGateway2
+            ->method('supportsPlatform')
+            ->with($platform)
+            ->willReturn(false);
+
+        $handlerFactory = new RandomSortClauseHandlerFactory($connection, [$badGateway1, $badGateway2]);
 
         $this->expectException(InvalidArgumentException::class);
         $handlerFactory->getGateway();
-    }
-
-    public function getGateways(): array
-    {
-        $goodGateway = $this
-            ->createMock(AbstractRandom::class);
-        $goodGateway
-            ->method('getDriverName')
-            ->willReturn('testStorage');
-
-        $badGateway = $this
-            ->createMock(AbstractRandom::class);
-        $badGateway
-            ->method('getDriverName')
-            ->willReturn('otherStorage');
-
-        return [
-            [
-                [
-                    $goodGateway,
-                    $badGateway,
-                ],
-            ],
-        ];
     }
 }

@@ -32,14 +32,20 @@ class RandomSortClauseHandlerFactory
      */
     public function getGateway(): AbstractRandom
     {
-        $driverName = $this->connection->getDatabasePlatform()->getName();
+        $databasePlatform = $this->connection->getDatabasePlatform();
 
         foreach ($this->randomSortClauseGateways as $gateway) {
-            if ($gateway->getDriverName() === $driverName) {
+            if ($gateway->supportsPlatform($databasePlatform)) {
                 return $gateway;
             }
         }
 
-        throw new InvalidArgumentException('$this->randomSortClauseGateways', 'No RandomSortClauseHandler found for driver ' . $driverName);
+        throw new InvalidArgumentException(
+            '$this->randomSortClauseGateways',
+            sprintf(
+                'No RandomSortClauseHandler found for driver %s',
+                get_class($databasePlatform)
+            )
+        );
     }
 }
