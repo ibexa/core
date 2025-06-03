@@ -24,6 +24,9 @@ class DoctrineStorage extends Gateway
 {
     public const string IMAGE_FILE_TABLE = 'ibexa_image_file';
 
+    /**
+     * @var array<string, string>
+     */
     protected array $fieldNameMap = [
         'id' => 'fieldId',
         'version' => 'versionNo',

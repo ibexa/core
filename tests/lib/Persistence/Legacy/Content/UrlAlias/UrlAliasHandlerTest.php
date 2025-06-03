@@ -5332,7 +5332,7 @@ class UrlAliasHandlerTest extends TestCase
         $connection = $this->getDatabaseConnection();
         $query = $connection->createQueryBuilder();
         $query
-            ->select('COUNT(*)')
+            ->select('COUNT(1)')
             ->from(UrlAliasGateway::TABLE);
 
         $statement = $query->executeQuery();

@@ -23,6 +23,9 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository\SearchIndex;
 
+/**
+ * @phpstan-import-type TSearchLanguageFilter from \Ibexa\Contracts\Core\Repository\SearchService
+ */
 class FullText extends CriterionHandler
 {
     /** @var array<string, mixed> */
@@ -178,7 +181,8 @@ class FullText extends CriterionHandler
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\FullText $criterion
-     * @param array{languages?: string[], useAlwaysAvailable?: bool} $languageSettings
+     *
+     * @phpstan-param TSearchLanguageFilter $languageSettings
      */
     public function handle(
         CriteriaConverter $converter,

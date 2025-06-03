@@ -8773,12 +8773,6 @@ parameters:
 			path: src/lib/FieldType/Image/ImageStorage/Gateway/DoctrineStorage.php
 
 		-
-			message: '#^Property Ibexa\\Core\\FieldType\\Image\\ImageStorage\\Gateway\\DoctrineStorage\:\:\$fieldNameMap type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/FieldType/Image/ImageStorage/Gateway/DoctrineStorage.php
-
-		-
 			message: '#^Method Ibexa\\Core\\FieldType\\Image\\ImageThumbnailProxyStrategy\:\:getThumbnail\(\) never returns null so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
