@@ -38,7 +38,7 @@ class ContentTypeLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
      *
-     *@throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected type/structure
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected type/structure
      */
     public function acceptValue(APILimitationValue $limitationValue): void
     {

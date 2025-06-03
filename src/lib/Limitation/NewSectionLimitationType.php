@@ -142,7 +142,7 @@ class NewSectionLimitationType extends AbstractPersistenceLimitationType impleme
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
      *
-     *@throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException Not applicable, needs context of new section.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException Not applicable, needs context of new section.
      */
     public function getCriterion(APILimitationValue $value, APIUserReference $currentUser): CriterionInterface
     {
