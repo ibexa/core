@@ -309,7 +309,7 @@ class RelationListConverter implements Converter
                 $query->expr()->and(
                     'ct.id = c.content_type_id',
                     // in Legacy Storage ibexa_content_type.version contains status (draft, defined)
-                    'ct.version = :content_type_status'
+                    'ct.status = :content_type_status'
                 )
             )
             ->where(
