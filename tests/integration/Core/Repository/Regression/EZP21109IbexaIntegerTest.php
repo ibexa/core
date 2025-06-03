@@ -47,7 +47,7 @@ class EZP21109IbexaIntegerTest extends BaseTestCase
      *
      * @dataProvider validIntegerValues
      */
-    public function testIbexaIntegerWithDefaultValues($integerValue)
+    public function testIbexaIntegerWithDefaultValues($integerValue): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -128,7 +128,7 @@ class EZP21109IbexaIntegerTest extends BaseTestCase
     /**
      * Deletes the Test ContentType for this test.
      */
-    protected function deleteTestContentType()
+    protected function deleteTestContentType(): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();

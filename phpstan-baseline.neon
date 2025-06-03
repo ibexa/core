@@ -36748,37 +36748,37 @@ parameters:
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP21109EzIntegerTest\:\:deleteTestContentType\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/integration/Core/Repository/Regression/EZP21109EzIntegerTest.php
+			path: tests/integration/Core/Repository/Regression/EZP21109IbexaIntegerTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP21109EzIntegerTest\:\:testEzIntegerWithDefaultValues\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/integration/Core/Repository/Regression/EZP21109EzIntegerTest.php
+			path: tests/integration/Core/Repository/Regression/EZP21109IbexaIntegerTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP21109EzIntegerTest\:\:testEzIntegerWithDefaultValues\(\) has parameter \$integerValue with no type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP21109IbexaIntegerTest\:\:testEzIntegerWithDefaultValues\(\) has parameter \$integerValue with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: tests/integration/Core/Repository/Regression/EZP21109EzIntegerTest.php
+			path: tests/integration/Core/Repository/Regression/EZP21109IbexaIntegerTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP21109EzIntegerTest\:\:validIntegerValues\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP21109IbexaIntegerTest\:\:validIntegerValues\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/integration/Core/Repository/Regression/EZP21109EzIntegerTest.php
+			path: tests/integration/Core/Repository/Regression/EZP21109IbexaIntegerTest.php
 
 		-
 			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\VersionInfo\:\:\$names\.$#'
 			identifier: property.notFound
 			count: 1
-			path: tests/integration/Core/Repository/Regression/EZP21771EzStringTest.php
+			path: tests/integration/Core/Repository/Regression/EZP21771IbexaStringTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP21771EzStringTest\:\:test11NumbersOnEzString\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP21771IbexaStringTest\:\:test11NumbersOnIbexaString\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/integration/Core/Repository/Regression/EZP21771EzStringTest.php
+			path: tests/integration/Core/Repository/Regression/EZP21771IbexaStringTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP21798Test\:\:testRoleChanges\(\) has no return type specified\.$#'

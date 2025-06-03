@@ -136,8 +136,6 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
      */
     public function load($contentId, $versionNo = null, array $translations = null)
     {
-        return $this->persistenceHandler->contentHandler()->load($contentId, $versionNo, $translations);
-
         $keySuffix = $versionNo ? "-{$versionNo}-" : '-';
         $keySuffix .= empty($translations) ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations);
 
