@@ -265,7 +265,7 @@ interface Handler
      *
      * @param mixed $contentTypeId
      * @param int $status One of Type::STATUS_DEFINED|Type::STATUS_DRAFT|Type::STATUS_MODIFIED
-     * @param mixed $fieldDefinitionId
+     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDefinition
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If field is not found
      */
