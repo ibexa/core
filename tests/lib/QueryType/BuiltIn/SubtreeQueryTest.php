@@ -24,7 +24,7 @@ use Ibexa\Core\QueryType\BuiltIn\SubtreeQueryType;
 use Ibexa\Core\QueryType\QueryType;
 use Ibexa\Core\Repository\Values\Content\Location;
 
-final class SubtreeQueryTest extends AbstractQueryTypeTest
+final class SubtreeQueryTest extends AbstractQueryTypeTestCase
 {
     private const EXAMPLE_LOCATION_ID = 54;
     private const EXAMPLE_LOCATION_PATH_STRING = '/1/2/54/';

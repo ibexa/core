@@ -79,7 +79,7 @@ final readonly class DoctrineGateway implements Gateway
                 'location.sort_order AS location_sort_order',
                 'location.main_node_id AS content_main_location_id',
                 'content.id AS content_id',
-                'content.contentclass_id AS content_type_id',
+                'content.content_type_id AS content_type_id',
                 'content.current_version AS content_current_version',
                 'content.initial_language_id AS content_initial_language_id',
                 'content.language_mask AS content_language_mask',

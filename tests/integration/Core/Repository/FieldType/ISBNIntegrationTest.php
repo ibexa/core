@@ -18,7 +18,7 @@ use Ibexa\Core\FieldType\ISBN\Value as ISBNValue;
  * @group integration
  * @group field-type
  */
-class ISBNIntegrationTest extends SearchBaseIntegrationTest
+class ISBNIntegrationTest extends SearchBaseIntegrationTestCase
 {
     /**
      * Get name of tested field type.

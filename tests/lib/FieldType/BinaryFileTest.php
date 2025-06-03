@@ -20,7 +20,7 @@ use Ibexa\Core\FieldType\ValidationError;
  *
  * @covers \Ibexa\Core\FieldType\BinaryFile\Type
  */
-class BinaryFileTest extends BinaryBaseTest
+class BinaryFileTest extends BinaryBaseTestCase
 {
     /**
      * Returns the field type under test.

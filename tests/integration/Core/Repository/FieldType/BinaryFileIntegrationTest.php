@@ -19,7 +19,7 @@ use Ibexa\Core\FieldType\BinaryFile\Value as BinaryFileValue;
  * @group integration
  * @group field-type
  */
-final class BinaryFileIntegrationTest extends BaseBinaryFileIntegrationTestCase
+final class BinaryFileIntegrationTest extends BaseBinaryFileIntegrationTestCaseCase
 {
     protected function getFixtureData(): array
     {

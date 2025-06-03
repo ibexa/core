@@ -10,9 +10,9 @@ namespace Ibexa\Tests\Integration\Core\FieldType\User\UserStorage\Gateway;
 
 use Ibexa\Core\FieldType\User\UserStorage\Gateway as UserStorageGateway;
 use Ibexa\Core\FieldType\User\UserStorage\Gateway\DoctrineStorage;
-use Ibexa\Tests\Integration\Core\User\UserStorage\UserStorageGatewayTest;
+use Ibexa\Tests\Integration\Core\User\UserStorage\UserStorageGatewayTestCase;
 
-final class UserDoctrineStorageGatewayTest extends UserStorageGatewayTest
+final class UserDoctrineStorageGatewayTest extends UserStorageGatewayTestCase
 {
     protected function getGateway(): UserStorageGateway
     {

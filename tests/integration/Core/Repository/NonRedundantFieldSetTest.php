@@ -20,7 +20,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
  *
  * @group content
  */
-class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
+class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTestCase
 {
     /**
      * Test for the createContent() method.

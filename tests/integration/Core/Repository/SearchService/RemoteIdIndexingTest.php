@@ -11,9 +11,9 @@ namespace Ibexa\Tests\Integration\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
-final class RemoteIdIndexingTest extends BaseTest
+final class RemoteIdIndexingTest extends BaseTestCase
 {
     /** @var int[] */
     private static $contentIdByRemoteIdIndex = [];

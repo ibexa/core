@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  *
  * Note: SiteAccess-aware dynamic settings resolving aspect has been tested via PathPrefixer
  * and Visibility converter test cases:
- * {@see \Ibexa\Tests\Core\IO\Flysystem\VisibilityConverter\BaseVisibilityConverterTest}
+ * {@see \Ibexa\Tests\Core\IO\Flysystem\VisibilityConverter\BaseVisibilityConverterTestCase}
  * {@see \Ibexa\Tests\Core\IO\Flysystem\PathPrefixer\DFSSiteAccessAwarePathPrefixerTest}
  */
 final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase

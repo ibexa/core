@@ -38,7 +38,7 @@ final class GroupIdQueryBuilder extends BaseQueryBuilder
                 'content',
                 ContentTypeGateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE,
                 'content_type_group_assignment',
-                'content.contentclass_id = content_type_group_assignment.contentclass_id'
+                'content.content_type_id = content_type_group_assignment.content_type_id'
             );
 
         $queryBuilder

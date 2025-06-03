@@ -10,7 +10,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory;
 
 /**
@@ -18,7 +18,7 @@ use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory;
  *
  * Issue EZP-20018
  */
-class EZP20018LanguageTest extends BaseTest
+class EZP20018LanguageTest extends BaseTestCase
 {
     protected function setUp(): void
     {

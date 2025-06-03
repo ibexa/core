@@ -19,7 +19,7 @@ use Ibexa\Core\FieldType\Media\Value as MediaValue;
  * @group integration
  * @group field-type
  */
-final class MediaIntegrationTest extends BaseBinaryFileIntegrationTestCase
+final class MediaIntegrationTest extends BaseBinaryFileIntegrationTestCaseCase
 {
     protected function getFixtureData(): array
     {

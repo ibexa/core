@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion\LogicalNot;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\LogicalNot as LogicalNotHandler;
 
-class LogicalNotTest extends CriterionHandlerTest
+class LogicalNotTest extends CriterionHandlerTestCase
 {
     /**
      * {@inheritdoc}

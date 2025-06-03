@@ -14,7 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 /**
  * Test mix of chosen core Content Limitations.
  */
-class ContentLimitationsMixIntegrationTest extends BaseLimitationIntegrationTest
+class ContentLimitationsMixIntegrationTest extends BaseLimitationIntegrationTestCase
 {
     public const LIMITATION_VALUES = 'limitationValues';
 

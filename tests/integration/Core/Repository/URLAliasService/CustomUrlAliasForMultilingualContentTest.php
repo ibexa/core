@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\URLAliasService;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
-final class CustomUrlAliasForMultilingualContentTest extends BaseTest
+final class CustomUrlAliasForMultilingualContentTest extends BaseTestCase
 {
     /**
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::publishVersion

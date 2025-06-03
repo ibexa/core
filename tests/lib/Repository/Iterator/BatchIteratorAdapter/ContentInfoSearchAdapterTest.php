@@ -14,9 +14,9 @@ use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 
 /**
- * @extends \Ibexa\Tests\Core\Repository\Iterator\BatchIteratorAdapter\AbstractSearchAdapterTest<\Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo>
+ * @extends \Ibexa\Tests\Core\Repository\Iterator\BatchIteratorAdapter\AbstractSearchAdapterTestCase<\Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo>
  */
-final class ContentInfoSearchAdapterTest extends AbstractSearchAdapterTest
+final class ContentInfoSearchAdapterTest extends AbstractSearchAdapterTestCase
 {
     protected function createAdapterUnderTest(
         SearchService $searchService,

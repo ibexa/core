@@ -7,7 +7,7 @@
 return [
     0 => [
         'content_id' => 226,
-        'content_contentclass_id' => 16,
+        'content_content_type_id' => 16,
         'content_section_id' => 1,
         'content_owner_id' => 14,
         'content_remote_id' => '95a226fb62c1533f60c16c3769bc7c6c',
@@ -41,7 +41,7 @@ return [
     ],
     1 => [
         'content_id' => 226,
-        'content_contentclass_id' => 16,
+        'content_content_type_id' => 16,
         'content_section_id' => 1,
         'content_owner_id' => 14,
         'content_remote_id' => '95a226fb62c1533f60c16c3769bc7c6c',
@@ -75,7 +75,7 @@ return [
     ],
     2 => [
         'content_id' => 226,
-        'content_contentclass_id' => 16,
+        'content_content_type_id' => 16,
         'content_section_id' => 1,
         'content_owner_id' => 14,
         'content_remote_id' => '95a226fb62c1533f60c16c3769bc7c6c',
@@ -111,7 +111,7 @@ return [
     ],
     3 => [
         'content_id' => 226,
-        'content_contentclass_id' => 16,
+        'content_content_type_id' => 16,
         'content_section_id' => 1,
         'content_owner_id' => 14,
         'content_remote_id' => '95a226fb62c1533f60c16c3769bc7c6c',
@@ -145,7 +145,7 @@ return [
     ],
     4 => [
         'content_id' => 226,
-        'content_contentclass_id' => 16,
+        'content_content_type_id' => 16,
         'content_section_id' => 1,
         'content_owner_id' => 14,
         'content_remote_id' => '95a226fb62c1533f60c16c3769bc7c6c',
@@ -181,7 +181,7 @@ return [
     ],
     5 => [
         'content_id' => 226,
-        'content_contentclass_id' => 16,
+        'content_content_type_id' => 16,
         'content_section_id' => 1,
         'content_owner_id' => 14,
         'content_remote_id' => '95a226fb62c1533f60c16c3769bc7c6c',
@@ -215,7 +215,7 @@ return [
     ],
     6 => [
         'content_id' => 226,
-        'content_contentclass_id' => 16,
+        'content_content_type_id' => 16,
         'content_section_id' => 1,
         'content_owner_id' => 14,
         'content_remote_id' => '95a226fb62c1533f60c16c3769bc7c6c',
@@ -249,7 +249,7 @@ return [
     ],
     7 => [
         'content_id' => 226,
-        'content_contentclass_id' => 16,
+        'content_content_type_id' => 16,
         'content_section_id' => 1,
         'content_owner_id' => 14,
         'content_remote_id' => '95a226fb62c1533f60c16c3769bc7c6c',
@@ -283,7 +283,7 @@ return [
     ],
     8 => [
         'content_id' => 226,
-        'content_contentclass_id' => 16,
+        'content_content_type_id' => 16,
         'content_section_id' => 1,
         'content_owner_id' => 14,
         'content_remote_id' => '95a226fb62c1533f60c16c3769bc7c6c',

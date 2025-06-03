@@ -24,7 +24,7 @@ use Ibexa\Tests\Core\FieldType\DataProvider\UserValidatorConfigurationSchemaProv
  * @group integration
  * @group field-type
  */
-class UserIntegrationTest extends BaseIntegrationTest
+class UserIntegrationTest extends BaseIntegrationTestCase
 {
     private const TEST_LOGIN = 'hans';
 

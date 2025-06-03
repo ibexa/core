@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Test cases for ContentService APIs calls made by user with LanguageLimitation on chosen policies.
@@ -27,7 +27,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
  * @group authorization
  * @group language-limited-content-mgm
  */
-class LanguageLimitationTest extends BaseTest
+class LanguageLimitationTest extends BaseTestCase
 {
     /** @var string */
     private const ENG_US = 'eng-US';

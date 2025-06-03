@@ -9,14 +9,14 @@ namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use DateTime;
 use Ibexa\Core\FieldType\RelationList;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Test case for RelationList using alterate ContentType states issue in EZP-22409.
  *
  * Issue EZP-22409
  */
-class EZP22409RelationListTypeStateTest extends BaseTest
+class EZP22409RelationListTypeStateTest extends BaseTestCase
 {
     protected function setUp(): void
     {

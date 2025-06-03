@@ -24,7 +24,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
  * @group integration
  * @group section
  */
-class SectionServiceTest extends BaseTest
+class SectionServiceTest extends BaseTestCase
 {
     private const SECTION_UNIQUE_KEY = 'uniqueKey';
 

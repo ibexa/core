@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\OwnerLimitation;
  * @group integration
  * @group limitation
  */
-class OwnerLimitationTest extends BaseLimitationTest
+class OwnerLimitationTest extends BaseLimitationTestCase
 {
     public function testOwnerLimitationAllow()
     {

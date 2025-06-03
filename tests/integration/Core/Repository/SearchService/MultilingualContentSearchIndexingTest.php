@@ -12,9 +12,9 @@ use Ibexa\Contracts\Core\Repository\LanguageService;
 use Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
-final class MultilingualContentSearchIndexingTest extends BaseTest
+final class MultilingualContentSearchIndexingTest extends BaseTestCase
 {
     private const MODIFIED_TRANSLATION = 'pol-PL';
 

@@ -20,7 +20,7 @@ use Ibexa\Core\Repository\Values\Content\Relation;
  * @group integration
  * @group field-type
  */
-class RelationIntegrationTest extends SearchBaseIntegrationTest
+class RelationIntegrationTest extends SearchBaseIntegrationTestCase
 {
     use RelationSearchBaseIntegrationTestTrait;
 
@@ -109,7 +109,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
     }
 
     /**
-     * @covers \Ibexa\Tests\Integration\Core\Repository\FieldType\BaseIntegrationTest::getValidatorSchema()
+     * @covers \Ibexa\Tests\Integration\Core\Repository\FieldType\BaseIntegrationTestCase::getValidatorSchema()
      */
     public function getValidatorSchema()
     {

@@ -11,6 +11,7 @@ use Ibexa\Bundle\Core\Imagine\IORepositoryResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Variation\Values\ImageVariation;
+use Ibexa\Contracts\Core\Variation\Values\Variation;
 use Ibexa\Contracts\Core\Variation\VariationHandler;
 use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
 use Ibexa\Core\IO\IOServiceInterface;
@@ -60,9 +61,9 @@ class ImagineAwareAliasGenerator implements VariationHandler
     public function getVariation(
         Field $field,
         VersionInfo $versionInfo,
-        $variationName,
+        string $variationName,
         array $parameters = []
-    ) {
+    ): Variation {
         /** @var \Ibexa\Contracts\Core\Variation\Values\ImageVariation $variation */
         $variation = $this->aliasGenerator->getVariation(
             $field,

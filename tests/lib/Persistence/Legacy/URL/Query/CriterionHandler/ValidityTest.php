@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion\Validity;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\Validity as ValidityHandler;
 
-class ValidityTest extends CriterionHandlerTest
+class ValidityTest extends CriterionHandlerTestCase
 {
     /**
      * {@inheritdoc}

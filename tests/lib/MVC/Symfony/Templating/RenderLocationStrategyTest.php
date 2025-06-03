@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 
-class RenderLocationStrategyTest extends BaseRenderStrategyTest
+class RenderLocationStrategyTest extends BaseRenderStrategyTestCase
 {
     public function testUnsupportedValueObject(): void
     {

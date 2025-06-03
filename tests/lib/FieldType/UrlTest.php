@@ -15,7 +15,7 @@ use Ibexa\Core\FieldType\Url\Value as UrlValue;
  * @group fieldType
  * @group ezurl
  */
-class UrlTest extends FieldTypeTest
+class UrlTest extends FieldTypeTestCase
 {
     /**
      * Returns the field type under test.

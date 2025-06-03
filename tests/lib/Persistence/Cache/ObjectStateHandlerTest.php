@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct as SPIInput
 /**
  * Test case for Persistence\Cache\ObjectStateHandler.
  */
-class ObjectStateHandlerTest extends AbstractCacheHandlerTest
+class ObjectStateHandlerTest extends AbstractCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {

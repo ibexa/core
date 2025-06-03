@@ -18,7 +18,7 @@ use Ibexa\Core\FieldType\EmailAddress\Value as EmailAddressValue;
  * @group integration
  * @group field-type
  */
-class EmailAddressIntegrationTest extends SearchBaseIntegrationTest
+class EmailAddressIntegrationTest extends SearchBaseIntegrationTestCase
 {
     /**
      * Get name of tested field type.

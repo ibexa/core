@@ -15,12 +15,12 @@ use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\Repository\Validator\VersionValidator;
 use Ibexa\Core\Repository\Values\Content\TrashItem;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * @internal
  */
-final class VersionValidatorTest extends BaseTest
+final class VersionValidatorTest extends BaseTestCase
 {
     private const CONTENT_TYPE_IDENTIFIER = 'single-text';
     private const FIELD_IDENTIFIER = 'name';

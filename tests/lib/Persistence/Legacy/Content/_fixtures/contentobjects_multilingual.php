@@ -72,7 +72,7 @@ return [
     Gateway::CONTENT_NAME_TABLE => [],
     Gateway::CONTENT_ITEM_TABLE => [
         0 => [
-            'contentclass_id' => '3',
+            'content_type_id' => '3',
             'current_version' => '2',
             'id' => '4',
             'initial_language_id' => '2',

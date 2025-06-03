@@ -21,7 +21,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct;
  * @group integration
  * @group language
  */
-class LanguageServiceTest extends BaseTest
+class LanguageServiceTest extends BaseTestCase
 {
     /**
      * Test for the newLanguageCreateStruct() method.

@@ -10,7 +10,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
  * Test case for issue EZP-21069.
@@ -26,7 +26,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
  *     3 - Change the name of your article from "foo" to "bar", your article is part of the result again, it should not
  *     4 - In the admin interface, delete the first version of the article, the article is no longer a part of the results
  */
-class EZP21069Test extends BaseTest
+class EZP21069Test extends BaseTestCase
 {
     protected function setUp(): void
     {

@@ -21,7 +21,7 @@ use Ibexa\Core\Repository\TrashService;
  * @group integration
  * @group authorization
  */
-class TrashServiceAuthorizationTest extends BaseTrashServiceTest
+class TrashServiceAuthorizationTest extends BaseTrashServiceTestCase
 {
     /**
      * Test for the loadTrashItem() method.

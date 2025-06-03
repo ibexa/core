@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 /**
  * @group mvc
  */
-final class LoginFormViewTest extends AbstractViewTest
+final class LoginFormViewTest extends AbstractViewTestCase
 {
     public function testSetLastUsername(): void
     {

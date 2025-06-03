@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\RawRangeAgg
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\RangeAggregationResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\RangeAggregationResultEntry;
 
-final class RawRangeAggregationTest extends AbstractAggregationTest
+final class RawRangeAggregationTest extends AbstractAggregationTestCase
 {
     public function dataProviderForTestFindContentWithAggregation(): iterable
     {

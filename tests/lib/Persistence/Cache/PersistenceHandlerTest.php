@@ -15,7 +15,7 @@ use Ibexa\Core\Persistence\Cache;
  *
  * @covers \Ibexa\Core\Persistence\Cache\Handler
  */
-class PersistenceHandlerTest extends AbstractBaseHandlerTest
+class PersistenceHandlerTest extends AbstractBaseHandlerTestCase
 {
     public function testHandler()
     {

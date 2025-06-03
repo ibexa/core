@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Bookmark\BookmarkList;
  *
  * @covers \Ibexa\Contracts\Core\Repository\BookmarkService
  */
-class BookmarkServiceTest extends BaseTest
+class BookmarkServiceTest extends BaseTestCase
 {
     public const LOCATION_ID_BOOKMARKED = 5;
     public const LOCATION_ID_NOT_BOOKMARKED = 44;

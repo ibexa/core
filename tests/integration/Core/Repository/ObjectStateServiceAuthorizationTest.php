@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
  * @group integration
  * @group authorization
  */
-class ObjectStateServiceAuthorizationTest extends BaseTest
+class ObjectStateServiceAuthorizationTest extends BaseTestCase
 {
     /**
      * Test for the createObjectStateGroup() method.

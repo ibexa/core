@@ -16,7 +16,7 @@ use Ibexa\Core\FieldType\TextBlock\Value as TextBlockValue;
  * @group fieldType
  * @group eztext
  */
-final class TextBlockTest extends FieldTypeTest
+final class TextBlockTest extends FieldTypeTestCase
 {
     private const string SAMPLE_TEXT_LINE_VALUE = ' sindelfingen ';
 

@@ -22,7 +22,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResultLi
 use Ibexa\Contracts\Core\Repository\Values\Content\TrashItem;
 use Ibexa\Core\Event\TrashService;
 
-class TrashServiceTest extends AbstractServiceTest
+class TrashServiceTest extends AbstractServiceTestCase
 {
     public function testEmptyTrashEvents()
     {

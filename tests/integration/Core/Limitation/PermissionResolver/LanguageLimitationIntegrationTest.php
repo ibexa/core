@@ -10,12 +10,12 @@ namespace Ibexa\Tests\Integration\Core\Limitation\PermissionResolver;
 
 use Ibexa\Contracts\Core\Limitation\Target;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation;
-use Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver\BaseLimitationIntegrationTest;
+use Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver\BaseLimitationIntegrationTestCase;
 
 /**
  * Integration test for chosen use cases of calls to PermissionResolver::canUser.
  */
-class LanguageLimitationIntegrationTest extends BaseLimitationIntegrationTest
+class LanguageLimitationIntegrationTest extends BaseLimitationIntegrationTestCase
 {
     private const LANG_ENG_GB = 'eng-GB';
     private const LANG_ENG_US = 'eng-US';

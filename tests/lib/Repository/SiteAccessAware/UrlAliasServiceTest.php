@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Core\Repository\SiteAccessAware\URLAliasService;
 use Ibexa\Core\Repository\Values\Content\Location;
 
-class UrlAliasServiceTest extends AbstractServiceTest
+class UrlAliasServiceTest extends AbstractServiceTestCase
 {
     public function getAPIServiceClassName(): string
     {

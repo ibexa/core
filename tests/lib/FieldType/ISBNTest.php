@@ -16,7 +16,7 @@ use Ibexa\Core\FieldType\ValidationError;
  * @group fieldType
  * @group ezisbn
  */
-class ISBNTest extends FieldTypeTest
+class ISBNTest extends FieldTypeTestCase
 {
     /**
      * Returns the field type under test.

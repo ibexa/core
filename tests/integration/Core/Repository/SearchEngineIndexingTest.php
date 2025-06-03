@@ -24,7 +24,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
  * @group search
  * @group indexing
  */
-class SearchEngineIndexingTest extends BaseTest
+class SearchEngineIndexingTest extends BaseTestCase
 {
     /**
      * Test that indexing full text data depends on the isSearchable flag on the field definition.

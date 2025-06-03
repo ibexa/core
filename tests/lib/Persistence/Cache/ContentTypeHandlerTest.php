@@ -19,7 +19,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct as SPITypeUpdateS
 /**
  * Test case for Persistence\Cache\ContentTypeHandler.
  */
-class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
+class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {

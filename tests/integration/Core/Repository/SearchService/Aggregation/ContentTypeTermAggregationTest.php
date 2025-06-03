@@ -11,7 +11,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\ContentTypeTermAggregation;
 use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\DataSetBuilder\TermAggregationDataSetBuilder;
 
-final class ContentTypeTermAggregationTest extends AbstractAggregationTest
+final class ContentTypeTermAggregationTest extends AbstractAggregationTestCase
 {
     public function dataProviderForTestFindContentWithAggregation(): iterable
     {

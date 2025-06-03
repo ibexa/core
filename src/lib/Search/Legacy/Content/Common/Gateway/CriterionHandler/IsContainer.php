@@ -52,7 +52,7 @@ final class IsContainer extends CriterionHandler
             );
 
         return $queryBuilder->expr()->in(
-            'c.contentclass_id',
+            'c.content_type_id',
             $subSelect->getSQL()
         );
     }

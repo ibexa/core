@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\ObjectState
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState;
 use Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\DataSetBuilder\TermAggregationDataSetBuilder;
 
-final class ObjectStateTermAggregationTest extends AbstractAggregationTest
+final class ObjectStateTermAggregationTest extends AbstractAggregationTestCase
 {
     public function dataProviderForTestFindContentWithAggregation(): iterable
     {

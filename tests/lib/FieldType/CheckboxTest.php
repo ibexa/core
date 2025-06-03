@@ -15,7 +15,7 @@ use Ibexa\Core\FieldType\Checkbox\Value as CheckboxValue;
  * @group fieldType
  * @group ezboolean
  */
-class CheckboxTest extends FieldTypeTest
+class CheckboxTest extends FieldTypeTestCase
 {
     /**
      * Returns the field type under test.

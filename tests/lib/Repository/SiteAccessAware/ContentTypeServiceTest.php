@@ -21,7 +21,7 @@ use Ibexa\Core\Repository\Values\ContentType\ContentTypeGroup;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Repository\Values\User\User;
 
-class ContentTypeServiceTest extends AbstractServiceTest
+class ContentTypeServiceTest extends AbstractServiceTestCase
 {
     public function getAPIServiceClassName(): string
     {

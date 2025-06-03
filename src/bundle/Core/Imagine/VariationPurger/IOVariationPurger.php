@@ -55,7 +55,7 @@ class IOVariationPurger implements VariationPurger
         $this->logger = $logger;
     }
 
-    public function purge(array $aliasNames)
+    public function purge(array $aliasNames): void
     {
         $variationNameTag = $this->aliasGeneratorDecorator->getVariationNameTag();
 

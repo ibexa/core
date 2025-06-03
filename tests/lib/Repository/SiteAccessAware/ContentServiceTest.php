@@ -29,7 +29,7 @@ use Ibexa\Core\Repository\Values\User\User;
 /**
  * @property \Ibexa\Contracts\Core\Repository\ContentService $service
  */
-class ContentServiceTest extends AbstractServiceTest
+class ContentServiceTest extends AbstractServiceTestCase
 {
     public function getAPIServiceClassName(): string
     {

@@ -19,7 +19,7 @@ use Ibexa\Core\FieldType\Relation\Value;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\Repository\Validator\TargetContentValidatorInterface;
 
-class RelationTest extends FieldTypeTest
+class RelationTest extends FieldTypeTestCase
 {
     private const DESTINATION_CONTENT_ID = 14;
 

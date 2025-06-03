@@ -39,7 +39,7 @@ use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
  * @group integration
  * @group content-type
  */
-class ContentTypeServiceTest extends BaseContentTypeServiceTest
+class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
 {
     /**
      * Test for the newContentTypeGroupCreateStruct() method.

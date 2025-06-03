@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Section\Handler as SPISectionHandle
 /**
  * Test case for Persistence\Cache\SectionHandler.
  */
-class SectionHandlerTest extends AbstractCacheHandlerTest
+class SectionHandlerTest extends AbstractCacheHandlerTestCase
 {
     public function getHandlerMethodName(): string
     {

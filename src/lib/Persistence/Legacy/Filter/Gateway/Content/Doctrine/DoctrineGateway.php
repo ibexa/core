@@ -31,7 +31,7 @@ final class DoctrineGateway implements Gateway
     public const array COLUMN_MAP = [
         // Content Info
         'content_id' => 'content.id',
-        'content_type_id' => 'content.contentclass_id',
+        'content_type_id' => 'content.content_type_id',
         'content_current_version' => 'content.current_version',
         'content_initial_language_id' => 'content.initial_language_id',
         'content_language_mask' => 'content.language_mask',

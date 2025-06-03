@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\RoleCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 
-class RolePolicyLimitationTest extends BaseLimitationTest
+class RolePolicyLimitationTest extends BaseLimitationTestCase
 {
     /**
      * Data provider for {@see testRolePoliciesWithOverlappingLimitations}.

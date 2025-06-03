@@ -546,7 +546,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $this->assertQueryResult(
             [
                 [
-                    'contentclass_id' => '23',
+                    'content_type_id' => '23',
                     'serialized_name_list' => 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:11:"Description";}',
                     'serialized_description_list' => 'a:2:{s:16:"always-available";s:6:"eng-GB";s:6:"eng-GB";s:16:"Some description";}',
                     'identifier' => 'description',
@@ -576,7 +576,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ],
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select(
-                    'contentclass_id',
+                    'content_type_id',
                     'serialized_name_list',
                     'serialized_description_list',
                     'identifier',
@@ -707,7 +707,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 // "random" sample
                 [
                     'category' => 'meta',
-                    'contentclass_id' => '2',
+                    'content_type_id' => '2',
                     'version' => '0',
                     'data_type_string' => 'ezstring',
                     'identifier' => 'description',
@@ -734,7 +734,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select(
                     'category',
-                    'contentclass_id',
+                    'content_type_id',
                     'version',
                     'data_type_string',
                     'identifier',
@@ -775,7 +775,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $this->assertQueryResult(
             [
                 [
-                    'contentclass_id' => '42',
+                    'content_type_id' => '42',
                     'contentclass_version' => '1',
                     'group_id' => '3',
                     'group_name' => 'Media',
@@ -783,7 +783,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ],
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select(
-                    'contentclass_id',
+                    'content_type_id',
                     'contentclass_version',
                     'group_id',
                     'group_name'
@@ -807,7 +807,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->select(
                     'COUNT(*)'
                 )->from(Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE)
-                ->where('contentclass_id = 1')
+                ->where('content_type_id = 1')
         );
     }
 
@@ -856,14 +856,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $this->assertQueryResult(
             [
                 [
-                    'contentclass_id' => 1,
+                    'content_type_id' => 1,
                     'contentclass_version' => 0,
                     'language_id' => 3,
                     'language_locale' => 'eng-US',
                     'name' => 'New Folder',
                 ],
                 [
-                    'contentclass_id' => 1,
+                    'content_type_id' => 1,
                     'contentclass_version' => 0,
                     'language_id' => 4,
                     'language_locale' => 'eng-GB',
@@ -873,7 +873,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('*')
                 ->from(Gateway::CONTENT_TYPE_NAME_TABLE)
-                ->where('contentclass_id = 1 AND contentclass_version = 0')
+                ->where('content_type_id = 1 AND contentclass_version = 0')
         );
     }
 
@@ -982,7 +982,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ->from(Gateway::FIELD_DEFINITION_TABLE)
             ->where(
                 $countAffectedAttr->expr()->eq(
-                    'contentclass_id',
+                    'content_type_id',
                     1
                 )
             );
@@ -1124,7 +1124,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('COUNT( * )')
                 ->from(Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE)
-                ->where('contentclass_id = 1 AND contentclass_version = 0')
+                ->where('content_type_id = 1 AND contentclass_version = 0')
         );
 
         $this->assertQueryResult(
@@ -1132,7 +1132,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('COUNT( * )')
                 ->from(Gateway::FIELD_DEFINITION_TABLE)
-                ->where('contentclass_id = 1 AND version = 0')
+                ->where('content_type_id = 1 AND version = 0')
         );
 
         $this->assertQueryResult(
@@ -1140,7 +1140,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('COUNT( * )')
                 ->from(Gateway::CONTENT_TYPE_NAME_TABLE)
-                ->where('contentclass_id = 1 AND contentclass_version = 0')
+                ->where('content_type_id = 1 AND contentclass_version = 0')
         );
     }
 

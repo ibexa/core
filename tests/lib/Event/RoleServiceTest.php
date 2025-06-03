@@ -45,7 +45,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 use Ibexa\Core\Event\RoleService;
 
-class RoleServiceTest extends AbstractServiceTest
+class RoleServiceTest extends AbstractServiceTestCase
 {
     public function testPublishRoleDraftEvents()
     {

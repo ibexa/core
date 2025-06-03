@@ -19,13 +19,13 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Tests\Core\Repository\Filtering\TestContentProvider;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 use IteratorAggregate;
 
 /**
  * @internal for internal use by Ibexa Kernel test cases
  */
-abstract class BaseRepositoryFilteringTestCase extends BaseTest
+abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
 {
     private const PAGINATION_EXPECTED_TOTAL_COUNT = 5;
     private const PAGINATION_LIMIT = 3;
