@@ -175,5 +175,4 @@ abstract class Gateway
     abstract public function removeByUserAndVersion(int $userId, int $version): void;
 
     abstract public function removeByUserAndStatus(int $userId, int $status): void;
-
 }
