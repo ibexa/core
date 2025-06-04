@@ -40,9 +40,11 @@ class ContentTypeGroupTest extends BaseTestCase
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
 
+        $result = $this->matcher->matchLocation($this->generateLocationMock());
+
         self::assertSame(
             $expectedResult,
-            $this->matcher->matchLocation($this->generateLocationMock())
+            $result
         );
     }
 
@@ -171,11 +173,8 @@ class ContentTypeGroupTest extends BaseTestCase
                     [
                         // First a group that will never match, then the right group.
                         // This ensures to test even if the content type belongs to several groups at once.
-                        $this->getMockForAbstractClass(ContentTypeGroup::class),
-                        $this
-                            ->getMockBuilder(ContentTypeGroup::class)
-                            ->setConstructorArgs([['id' => $contentTypeGroupId]])
-                            ->getMockForAbstractClass(),
+                        $this->createContentTypeGroupWithId(-1),
+                        $this->createContentTypeGroupWithId($contentTypeGroupId),
                     ]
                 )
             );
@@ -187,5 +186,13 @@ class ContentTypeGroupTest extends BaseTestCase
             ->will(self::returnValue($contentTypeServiceMock));
 
         return $repository;
+    }
+
+    private function createContentTypeGroupWithId(int $id): ContentTypeGroup
+    {
+        return $this
+            ->getMockBuilder(ContentTypeGroup::class)
+            ->setConstructorArgs([['id' => $id]])
+            ->getMockForAbstractClass();
     }
 }
