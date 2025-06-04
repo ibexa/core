@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\ContentType;
 
+use DateTimeInterface;
 use Ibexa\Contracts\Core\Repository\Values\MultiLanguageDescription;
 use Ibexa\Contracts\Core\Repository\Values\MultiLanguageName;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
@@ -26,48 +27,33 @@ abstract class ContentTypeGroup extends ValueObject implements MultiLanguageName
 {
     /**
      * Primary key.
-     *
-     * @var mixed
      */
-    protected $id;
+    protected int $id;
 
     /**
      * Readable string identifier of a group.
-     *
-     * @var string
      */
-    protected $identifier;
+    protected string $identifier;
 
     /**
      * Created date (timestamp).
-     *
-     * @var \DateTime
      */
-    protected $creationDate;
+    protected DateTimeInterface $creationDate;
 
     /**
      * Modified date (timestamp).
-     *
-     * @var \DateTime
      */
-    protected $modificationDate;
+    protected DateTimeInterface $modificationDate;
 
     /**
      * Creator user id.
-     *
-     * @var mixed
      */
-    protected $creatorId;
+    protected int $creatorId;
 
     /**
      * Modifier user id.
-     *
-     * @var mixed
      */
-    protected $modifierId;
+    protected int $modifierId;
 
-    /**
-     * @var bool
-     */
-    public $isSystem = false;
+    public bool $isSystem = false;
 }
