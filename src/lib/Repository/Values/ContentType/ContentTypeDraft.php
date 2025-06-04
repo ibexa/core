@@ -118,7 +118,7 @@ class ContentTypeDraft extends APIContentTypeDraft
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup[]
      */
-    public function getContentTypeGroups()
+    public function getContentTypeGroups(): array
     {
         return $this->innerContentType->contentTypeGroups;
     }
@@ -140,7 +140,7 @@ class ContentTypeDraft extends APIContentTypeDraft
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition
      */
-    public function getFieldDefinition($fieldDefinitionIdentifier): ?FieldDefinition
+    public function getFieldDefinition(string $fieldDefinitionIdentifier): ?FieldDefinition
     {
         return $this->innerContentType->getFieldDefinition($fieldDefinitionIdentifier);
     }

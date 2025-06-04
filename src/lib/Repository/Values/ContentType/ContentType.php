@@ -68,7 +68,7 @@ class ContentType extends APIContentType
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup[]
      */
-    public function getContentTypeGroups()
+    public function getContentTypeGroups(): array
     {
         return $this->contentTypeGroups;
     }
