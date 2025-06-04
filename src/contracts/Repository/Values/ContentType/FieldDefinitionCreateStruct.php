@@ -98,5 +98,5 @@ class FieldDefinitionCreateStruct extends ValueObject
     /**
      * Indicates if th the content is searchable by this attribute.
      */
-    public bool $isSearchable = false;
+    public ?bool $isSearchable = null;
 }

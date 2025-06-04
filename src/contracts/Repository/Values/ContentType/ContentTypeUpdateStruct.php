@@ -74,14 +74,14 @@ class ContentTypeUpdateStruct extends ValueObject
     /**
      * If set this array of names with languageCode keys replace the complete name collection.
      *
-     * @var array<string, string> an array of string
+     * @var array<string, string>|null
      */
-    public array $names = [];
+    public ?array $names = null;
 
     /**
      * If set this array of descriptions with languageCode keys replace the complete description collection.
      *
-     * @var array<string, string> an array of string
+     * @var array<string, string>|null
      */
-    public array $descriptions = [];
+    public ?array $descriptions = null;
 }

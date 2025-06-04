@@ -76,7 +76,7 @@ class FieldDefinitionUpdateStruct extends ValueObject
     /**
      * If set this settings supported by the field type replaces the existing ones.
      *
-     * @vararray<string, mixed>|null
+     * @var array<string, mixed>|null
      */
     public ?array $fieldSettings = null;
 

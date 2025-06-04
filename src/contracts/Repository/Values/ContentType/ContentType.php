@@ -134,6 +134,8 @@ abstract class ContentType extends ValueObject implements MultiLanguageName, Mul
 
     /**
      * List of language codes used by translations.
+     *
+     * @var string[]
      */
     protected array $languageCodes = [];
 
