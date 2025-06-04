@@ -19,10 +19,8 @@ class FieldDefinitionCreateStruct extends ValueObject
      * String identifier of the field type.
      *
      * Required.
-     *
-     * @var string
      */
-    public $fieldTypeIdentifier;
+    public ?string $fieldTypeIdentifier = null;
 
     /**
      * Readable string identifier of a field definition.
@@ -30,93 +28,75 @@ class FieldDefinitionCreateStruct extends ValueObject
      * Needs to be unique within the context of the content type this is added to.
      *
      * Required.
-     *
-     * @var string
      */
-    public $identifier;
+    public ?string $identifier = null;
 
     /**
      * An array of names with languageCode keys.
      *
-     * @var array an array of string
+     * @var array<string, string> an array of string
      */
-    public $names;
+    public array $names = [];
 
     /**
      * An array of descriptions with languageCode keys.
      *
-     * @var array an array of string
+     * @var array<string, string> an array of string
      */
-    public $descriptions;
+    public array $descriptions = [];
 
     /**
      * Field group name.
-     *
-     * @var string
      */
-    public $fieldGroup;
+    public ?string $fieldGroup = null;
 
     /**
      * The position of the field definition in the content type
      * if not set the field is added at the end.
-     *
-     * @var int
      */
-    public $position;
+    public ?int $position = null;
 
     /**
      * Indicates if the field is translatable.
-     *
-     * @var bool
      */
-    public $isTranslatable;
+    public bool $isTranslatable = true;
 
     /**
      * Indicates if the field is required.
-     *
-     * @var bool
      */
-    public $isRequired;
+    public bool $isRequired = false;
 
     /**
      * Indicates if the field can be a thumbnail.
-     *
-     * @var bool
      */
-    public $isThumbnail;
+    public bool $isThumbnail = false;
 
     /**
      * Indicates if this attribute is used for information collection.
-     *
-     * @var bool
      */
-    public $isInfoCollector;
+    public bool $isInfoCollector = false;
 
     /**
      * The validator configuration supported by the field type.
      *
-     * @var mixed
+     * @var array<string, mixed>|null
      */
-    public $validatorConfiguration;
+    public ?array $validatorConfiguration = null;
 
     /**
      * The settings supported by the field type.
      *
-     * @var mixed
+     * @var array<string, mixed>|null
      */
-    public $fieldSettings;
+    public ?array $fieldSettings = null;
 
     /**
      * Default value of the field.
-     *
-     * @var mixed
      */
-    public $defaultValue;
+    public mixed $defaultValue = null;
 
     /**
      * Indicates if th the content is searchable by this attribute.
-     *
-     * @var bool
      */
-    public $isSearchable;
+    public bool $isSearchable = false;
 }
