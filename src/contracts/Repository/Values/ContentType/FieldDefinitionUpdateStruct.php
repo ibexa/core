@@ -19,92 +19,74 @@ class FieldDefinitionUpdateStruct extends ValueObject
      * If set the identifier of a field definition is changed to this value.
      *
      * Needs to be unique within the context of the content type this is added to.
-     *
-     * @var string
      */
-    public $identifier;
+    public ?string $identifier = null;
 
     /**
      * If set this array of names with languageCode keys replace the complete name collection.
      *
-     * @var array an array of string
+     * @var array<string, string>|null
      */
-    public $names;
+    public ?array $names = null;
 
     /**
      * If set this array of descriptions with languageCode keys replace the complete description collection.
      *
-     * @var array an array of string
+     * @var array<string, mixed>|null
      */
-    public $descriptions;
+    public ?array $descriptions = null;
 
     /**
      * If set the field group is changed to this name.
-     *
-     * @var string
      */
-    public $fieldGroup;
+    public ?string $fieldGroup = null;
 
     /**
      * If set the position of the field in the content type.
-     *
-     * @var int
      */
-    public $position;
+    public ?int $position = null;
 
     /**
      * If set translatable flag is set to this value.
-     *
-     * @var bool
      */
-    public $isTranslatable;
+    public ?bool $isTranslatable = null;
 
     /**
      * If set the required flag is set to this value.
-     *
-     * @var bool
      */
-    public $isRequired;
+    public ?bool $isRequired = null;
 
     /**
      * Indicates if the field can be a thumbnail.
-     *
-     * @var bool
      */
-    public $isThumbnail;
+    public ?bool $isThumbnail = null;
 
     /**
      * If set the information collector flag is set to this value.
-     *
-     * @var bool
      */
-    public $isInfoCollector;
+    public ?bool $isInfoCollector = null;
 
     /**
      * If set this validator configuration supported by the field type replaces the existing one.
      *
-     * @var mixed
+     * @var array<string, mixed>|null
      */
-    public $validatorConfiguration;
+    public ?array $validatorConfiguration = null;
 
     /**
      * If set this settings supported by the field type replaces the existing ones.
      *
-     * @var mixed
+     * @vararray<string, mixed>|null
      */
-    public $fieldSettings;
+    public ?array $fieldSettings = null;
 
     /**
      * If set the default value for this field is changed to the given value.
-     *
-     * @var mixed
      */
-    public $defaultValue;
+    public mixed $defaultValue = null;
 
     /**
-     * If set the the searchable flag is set to this value.
-     *
-     * @var bool
+     * If set the searchable flag is set to this value.
      */
-    public $isSearchable;
+    public ?bool $isSearchable = null;
 }
