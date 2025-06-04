@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\ContentType;
 
+use DateTimeInterface;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
@@ -17,92 +18,70 @@ class ContentTypeUpdateStruct extends ValueObject
 {
     /**
      * If set the unique identifier of a type is changed to this value.
-     *
-     * @var string
      */
-    public $identifier;
+    public ?string $identifier = null;
 
     /**
      * If set the remote ID is changed to this value.
-     *
-     * @var string
      */
-    public $remoteId;
+    public ?string $remoteId = null;
 
     /**
      * If set the URL alias schema is changed to this value.
-     *
-     * @var string
      */
-    public $urlAliasSchema;
+    public ?string $urlAliasSchema = null;
 
     /**
      * If set the name schema is changed to this value.
-     *
-     * @var string
      */
-    public $nameSchema;
+    public ?string $nameSchema = null;
 
     /**
-     * If set the container fllag is set to this value.
-     *
-     * @var bool
+     * If set the container flag is set to this value.
      */
-    public $isContainer;
+    public ?bool $isContainer = null;
 
     /**
      * If set the main language is changed to this value.
-     *
-     * @var mixed
      */
-    public $mainLanguageCode;
+    public ?string $mainLanguageCode = null;
 
     /**
      * If set the default sort field is changed to this value.
-     *
-     * @var mixed
      */
-    public $defaultSortField;
+    public ?int $defaultSortField = null;
 
     /**
      * If set the default sort order is set to this value.
-     *
-     * @var mixed
      */
-    public $defaultSortOrder;
+    public ?int $defaultSortOrder = null;
 
     /**
      * If set the default always available flag is set to this value.
-     *
-     * @var bool
      */
-    public $defaultAlwaysAvailable;
+    public ?bool $defaultAlwaysAvailable = null;
 
     /**
      * If set this value overrides the current user as creator.
-     *
-     * @var mixed
      */
-    public $modifierId = null;
+    public ?int $modifierId = null;
 
     /**
      * If set this value overrides the current time for creation.
-     *
-     * @var \DateTime
      */
-    public $modificationDate = null;
+    public ?DateTimeInterface $modificationDate = null;
 
     /**
      * If set this array of names with languageCode keys replace the complete name collection.
      *
-     * @var array an array of string
+     * @var array<string, string> an array of string
      */
-    public $names;
+    public array $names = [];
 
     /**
      * If set this array of descriptions with languageCode keys replace the complete description collection.
      *
-     * @var array an array of string
+     * @var array<string, string> an array of string
      */
-    public $descriptions;
+    public array $descriptions = [];
 }
