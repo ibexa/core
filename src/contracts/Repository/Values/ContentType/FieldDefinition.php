@@ -34,66 +34,48 @@ abstract class FieldDefinition extends ValueObject implements MultiLanguageName,
 {
     /**
      * the unique id of this field definition.
-     *
-     * @var int
      */
-    protected $id;
+    protected int $id;
 
     /**
      * Readable string identifier of a field definition.
-     *
-     * @var string
      */
-    protected $identifier;
+    protected string $identifier;
 
     /**
      * Field group name.
-     *
-     * @var string
      */
-    protected $fieldGroup;
+    protected string $fieldGroup;
 
     /**
      * the position of the field definition in the content type.
-     *
-     * @var int
      */
-    protected $position;
+    protected int $position;
 
     /**
      * String identifier of the field type.
-     *
-     * @var string
      */
-    protected $fieldTypeIdentifier;
+    protected string $fieldTypeIdentifier;
 
     /**
      * If the field is translatable.
-     *
-     * @var bool
      */
-    protected $isTranslatable;
+    protected bool $isTranslatable = true;
 
     /**
      * Indicates if the field can be a thumbnail.
-     *
-     * @var bool
      */
-    protected $isThumbnail;
+    protected bool $isThumbnail = false;
 
     /**
      * Is the field required.
-     *
-     * @var bool
      */
-    protected $isRequired;
+    protected bool $isRequired = false;
 
     /**
      * the flag if this field is used for information collection.
-     *
-     * @var bool
      */
-    protected $isInfoCollector;
+    protected bool $isInfoCollector = false;
 
     /**
      * This method returns the validator configuration of this field definition supported by the field type.
@@ -111,24 +93,18 @@ abstract class FieldDefinition extends ValueObject implements MultiLanguageName,
 
     /**
      * Default value of the field.
-     *
-     * @var mixed
      */
-    protected $defaultValue;
+    protected mixed $defaultValue;
 
     /**
      * Indicates if th the content is searchable by this attribute.
-     *
-     * @var bool
      */
-    protected $isSearchable;
+    protected bool $isSearchable = false;
 
     /**
      * Based on mainLanguageCode of contentType.
-     *
-     * @var string
      */
-    protected $mainLanguageCode;
+    protected string $mainLanguageCode;
 
     public function getId(): int
     {
@@ -160,10 +136,7 @@ abstract class FieldDefinition extends ValueObject implements MultiLanguageName,
         return $this->isInfoCollector;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDefaultValue()
+    public function getDefaultValue(): mixed
     {
         return $this->defaultValue;
     }
