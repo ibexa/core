@@ -239,7 +239,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        if ($sort !== null) {
+        if (!empty($sort)) {
             $this->sortClauseConverter->applyJoin($query, $sort, $languageFilter);
         }
 
@@ -247,7 +247,7 @@ final class DoctrineDatabase extends Gateway
             $this->getQueryCondition($filter, $query, $languageFilter)
         );
 
-        if ($sort !== null) {
+        if (!empty($sort)) {
             $this->sortClauseConverter->applyOrderBy($query);
         }
 
