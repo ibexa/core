@@ -8,8 +8,17 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository;
 
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+
 interface PasswordHashService
 {
+    /**
+     * Sets the ConfigResolver instance.
+     *
+     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
+     */
+    public function setConfigResolver(ConfigResolverInterface $configResolver): void;
+
     /**
      * Returns default password hash type.
      *
@@ -33,6 +42,9 @@ interface PasswordHashService
      * Create hash from given plain password.
      *
      * If non-provided, the default password hash type will be used.
+     *
+     * @throws \Ibexa\Core\Repository\User\Exception\PasswordHashTypeNotCompiled
+     * @throws \Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType
      */
     public function createPasswordHash(string $plainPassword, ?int $hashType = null): string;
 
@@ -42,4 +54,11 @@ interface PasswordHashService
      * If non-provided, the default password hash type will be used.
      */
     public function isValidPassword(string $plainPassword, string $passwordHash, ?int $hashType = null): bool;
+
+    /**
+     * Returns true if password hash type should be updated when the user changes password.
+     *
+     * @return bool
+     */
+    public function updatePasswordHashTypeOnChange(): bool;
 }
