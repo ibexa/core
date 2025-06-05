@@ -7,9 +7,6 @@
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
-use Ibexa\Core\FieldType\FieldTypeAliasRegistry;
-use Ibexa\Core\FieldType\FieldTypeAliasResolver;
-use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use function count;
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
@@ -22,6 +19,9 @@ use Ibexa\Contracts\Core\Persistence\Content\Relation as SPIRelation;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
+use Ibexa\Core\FieldType\FieldTypeAliasRegistry;
+use Ibexa\Core\FieldType\FieldTypeAliasResolver;
+use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
