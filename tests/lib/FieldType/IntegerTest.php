@@ -52,7 +52,7 @@ class IntegerTest extends FieldTypeTestCase
         return new IntegerValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -70,43 +70,44 @@ class IntegerTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
+    {
+        yield 'null input' => [
+            null,
+            new IntegerValue(),
+        ];
+
+        yield 'integer value 42' => [
+            42,
+            new IntegerValue(42),
+        ];
+
+        yield 'integer value 23' => [
+            23,
+            new IntegerValue(23),
+        ];
+
+        yield 'IntegerValue object' => [
+            new IntegerValue(23),
+            new IntegerValue(23),
+        ];
+    }
+
+    public function provideInputForToHash(): iterable
     {
         return [
             [
-                null,
                 new IntegerValue(),
+                null,
             ],
             [
-                42,
                 new IntegerValue(42),
-            ],
-            [
-                23,
-                new IntegerValue(23),
-            ],
-            [
-                new IntegerValue(23),
-                new IntegerValue(23),
+                42,
             ],
         ];
     }
 
-    public function provideInputForToHash(): array
-    {
-        return [
-            [
-                new IntegerValue(),
-                null,
-            ],
-            [
-                new IntegerValue(42),
-                42,
-            ],
-        ];
-    }
-
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -210,96 +211,94 @@ class IntegerTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidDataForValidate(): array
+    public function provideValidDataForValidate(): iterable
     {
-        return [
+        yield 'value within range' => [
             [
-                [
-                    'validatorConfiguration' => [
-                        'IntegerValueValidator' => [
-                            'minIntegerValue' => 5,
-                            'maxIntegerValue' => 10,
-                        ],
+                'validatorConfiguration' => [
+                    'IntegerValueValidator' => [
+                        'minIntegerValue' => 5,
+                        'maxIntegerValue' => 10,
                     ],
                 ],
-                new IntegerValue(7),
             ],
+            new IntegerValue(7),
         ];
     }
 
-    public function provideInvalidDataForValidate(): array
+    public function provideInvalidDataForValidate(): iterable
     {
-        return [
+        yield 'value below minimum' => [
             [
-                [
-                    'validatorConfiguration' => [
-                        'IntegerValueValidator' => [
-                            'minIntegerValue' => 5,
-                            'maxIntegerValue' => 10,
-                        ],
+                'validatorConfiguration' => [
+                    'IntegerValueValidator' => [
+                        'minIntegerValue' => 5,
+                        'maxIntegerValue' => 10,
                     ],
-                ],
-                new IntegerValue(3),
-                [
-                    new ValidationError(
-                        'The value can not be lower than %size%.',
-                        null,
-                        [
-                            '%size%' => 5,
-                        ],
-                        'value'
-                    ),
                 ],
             ],
+            new IntegerValue(3),
             [
-                [
-                    'validatorConfiguration' => [
-                        'IntegerValueValidator' => [
-                            'minIntegerValue' => 5,
-                            'maxIntegerValue' => 10,
-                        ],
+                new ValidationError(
+                    'The value can not be lower than %size%.',
+                    null,
+                    [
+                        '%size%' => 5,
                     ],
-                ],
-                new IntegerValue(13),
-                [
-                    new ValidationError(
-                        'The value can not be higher than %size%.',
-                        null,
-                        [
-                            '%size%' => 10,
-                        ],
-                        'value'
-                    ),
+                    'value'
+                ),
+            ],
+        ];
+
+        yield 'value above maximum' => [
+            [
+                'validatorConfiguration' => [
+                    'IntegerValueValidator' => [
+                        'minIntegerValue' => 5,
+                        'maxIntegerValue' => 10,
+                    ],
                 ],
             ],
+            new IntegerValue(13),
             [
-                [
-                    'validatorConfiguration' => [
-                        'IntegerValueValidator' => [
-                            'minIntegerValue' => 10,
-                            'maxIntegerValue' => 5,
-                        ],
+                new ValidationError(
+                    'The value can not be higher than %size%.',
+                    null,
+                    [
+                        '%size%' => 10,
+                    ],
+                    'value'
+                ),
+            ],
+        ];
+
+        yield 'value outside reversed range' => [
+            [
+                'validatorConfiguration' => [
+                    'IntegerValueValidator' => [
+                        'minIntegerValue' => 10,
+                        'maxIntegerValue' => 5,
                     ],
                 ],
-                new IntegerValue(7),
-                [
-                    new ValidationError(
-                        'The value can not be higher than %size%.',
-                        null,
-                        [
-                            '%size%' => 5,
-                        ],
-                        'value'
-                    ),
-                    new ValidationError(
-                        'The value can not be lower than %size%.',
-                        null,
-                        [
-                            '%size%' => 10,
-                        ],
-                        'value'
-                    ),
-                ],
+            ],
+            new IntegerValue(7),
+            [
+                new ValidationError(
+                    'The value can not be higher than %size%.',
+                    null,
+                    [
+                        '%size%' => 5,
+                    ],
+                    'value'
+                ),
+                new ValidationError(
+                    'The value can not be lower than %size%.',
+                    null,
+                    [
+                        '%size%' => 10,
+                    ],
+                    'value'
+                ),
             ],
         ];
     }

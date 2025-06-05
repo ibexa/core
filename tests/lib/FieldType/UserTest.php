@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\User;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Contracts\Core\Repository\Values\User\User as UserAlias;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\FieldType\User\Type;
@@ -78,32 +79,47 @@ class UserTest extends FieldTypeTestCase
         return new UserValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
-        return [
-            [
-                23,
-                InvalidArgumentException::class,
-            ],
+        yield [
+            23,
+            InvalidArgumentException::class,
         ];
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
     {
-        return [
-            [
-                null,
-                new UserValue(),
+        yield 'null input' => [
+            null,
+            new UserValue(),
+        ];
+
+        yield 'empty array' => [
+            [],
+            new UserValue([]),
+        ];
+
+        yield 'user value with login' => [
+            new UserValue(['login' => 'sindelfingen']),
+            new UserValue(['login' => 'sindelfingen']),
+        ];
+
+        yield 'array with user data' => [
+            $userData = [
+                'hasStoredLogin' => true,
+                'contentId' => 23,
+                'login' => 'sindelfingen',
+                'email' => 'sindelfingen@example.com',
+                'passwordHash' => '1234567890abcdef',
+                'passwordHashType' => 'md5',
+                'enabled' => true,
+                'maxLogin' => 1000,
             ],
-            [
-                [],
-                new UserValue([]),
-            ],
-            [
-                new UserValue(['login' => 'sindelfingen']),
-                new UserValue(['login' => 'sindelfingen']),
-            ],
-            [
+            new UserValue($userData),
+        ];
+
+        yield 'user value with full data' => [
+            new UserValue(
                 $userData = [
                     'hasStoredLogin' => true,
                     'contentId' => 23,
@@ -113,28 +129,13 @@ class UserTest extends FieldTypeTestCase
                     'passwordHashType' => 'md5',
                     'enabled' => true,
                     'maxLogin' => 1000,
-                ],
-                new UserValue($userData),
-            ],
-            [
-                new UserValue(
-                    $userData = [
-                        'hasStoredLogin' => true,
-                        'contentId' => 23,
-                        'login' => 'sindelfingen',
-                        'email' => 'sindelfingen@example.com',
-                        'passwordHash' => '1234567890abcdef',
-                        'passwordHashType' => 'md5',
-                        'enabled' => true,
-                        'maxLogin' => 1000,
-                    ]
-                ),
-                new UserValue($userData),
-            ],
+                ]
+            ),
+            new UserValue($userData),
         ];
     }
 
-    public function provideInputForToHash(): array
+    public function provideInputForToHash(): iterable
     {
         $passwordUpdatedAt = new DateTimeImmutable();
 
@@ -165,40 +166,39 @@ class UserTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
-        return [
-            [
-                null,
-                new UserValue(),
+        yield [
+            null,
+            new UserValue(),
+        ];
+
+        yield [
+            $userData = [
+                'hasStoredLogin' => true,
+                'contentId' => 23,
+                'login' => 'sindelfingen',
+                'email' => 'sindelfingen@example.com',
+                'passwordHash' => '1234567890abcdef',
+                'passwordHashType' => 'md5',
+                'passwordUpdatedAt' => 1567071092,
+                'enabled' => true,
+                'maxLogin' => 1000,
             ],
-            [
-                $userData = [
-                    'hasStoredLogin' => true,
-                    'contentId' => 23,
-                    'login' => 'sindelfingen',
-                    'email' => 'sindelfingen@example.com',
-                    'passwordHash' => '1234567890abcdef',
-                    'passwordHashType' => 'md5',
-                    'passwordUpdatedAt' => 1567071092,
-                    'enabled' => true,
-                    'maxLogin' => 1000,
-                ],
-                new UserValue([
-                    'passwordUpdatedAt' => new DateTimeImmutable('@1567071092'),
-                ] + $userData),
-            ],
+            new UserValue([
+                'passwordUpdatedAt' => new DateTimeImmutable('@1567071092'),
+            ] + $userData),
         ];
     }
 
-    public function provideValidDataForValidate(): array
+    public function provideValidDataForValidate(): iterable
     {
-        return [];
+        yield from [];
     }
 
-    public function provideInvalidDataForValidate(): array
+    public function provideInvalidDataForValidate(): iterable
     {
-        return [];
+        yield from [];
     }
 
     /**
@@ -440,31 +440,31 @@ class UserTest extends FieldTypeTestCase
         ];
 
         yield 'when password hash type is given' => [
-            $userValueData = [
-                'passwordHashType' => RepositoryUser::PASSWORD_HASH_PHP_DEFAULT,
+            [
+                'passwordHashType' => UserAlias::PASSWORD_HASH_PHP_DEFAULT,
             ] + $userData,
-            $expectedFieldValueExternalData = [
-                'passwordHashType' => RepositoryUser::PASSWORD_HASH_PHP_DEFAULT,
+            [
+                'passwordHashType' => UserAlias::PASSWORD_HASH_PHP_DEFAULT,
                 'passwordUpdatedAt' => $passwordUpdatedAt->getTimestamp(),
             ] + $userData,
         ];
         yield 'when password hash type is null' => [
-            $userValueData = [
-                    'passwordHashType' => null,
-                ] + $userData,
-            $expectedFieldValueExternalData = [
-                    'passwordHashType' => RepositoryUser::DEFAULT_PASSWORD_HASH,
-                    'passwordUpdatedAt' => $passwordUpdatedAt->getTimestamp(),
-                ] + $userData,
+            [
+                'passwordHashType' => null,
+            ] + $userData,
+            [
+                'passwordHashType' => UserAlias::DEFAULT_PASSWORD_HASH,
+                'passwordUpdatedAt' => $passwordUpdatedAt->getTimestamp(),
+            ] + $userData,
         ];
         yield 'when password hash type is unsupported' => [
-            $userValueData = [
-                    'passwordHashType' => self::UNSUPPORTED_HASH_TYPE,
-                ] + $userData,
-            $expectedFieldValueExternalData = [
-                    'passwordHashType' => RepositoryUser::DEFAULT_PASSWORD_HASH,
-                    'passwordUpdatedAt' => $passwordUpdatedAt->getTimestamp(),
-                ] + $userData,
+            [
+                'passwordHashType' => self::UNSUPPORTED_HASH_TYPE,
+            ] + $userData,
+            [
+                'passwordHashType' => UserAlias::DEFAULT_PASSWORD_HASH,
+                'passwordUpdatedAt' => $passwordUpdatedAt->getTimestamp(),
+            ] + $userData,
         ];
     }
 
@@ -599,7 +599,7 @@ class UserTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidFieldSettings(): array
+    public function provideValidFieldSettings(): iterable
     {
         return [
             [

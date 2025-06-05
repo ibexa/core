@@ -66,17 +66,16 @@ abstract class BinaryBaseTestCase extends FieldTypeTestCase
         return [];
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
-        return [
-            [
-                $this->getMockForAbstractClass(Value::class),
-                InvalidArgumentException::class,
-            ],
-            [
-                ['id' => '/foo/bar'],
-                InvalidArgumentException::class,
-            ],
+        yield [
+            $this->getMockForAbstractClass(Value::class),
+            InvalidArgumentException::class,
+        ];
+
+        yield [
+            ['id' => '/foo/bar'],
+            InvalidArgumentException::class,
         ];
     }
 

@@ -47,7 +47,7 @@ class ISBNTest extends FieldTypeTestCase
         return new ISBNValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -69,35 +69,35 @@ class ISBNTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
+    {
+        yield 'ISBN-13 standard' => [
+            '9789722514095',
+            new ISBNValue('9789722514095'),
+        ];
+
+        yield 'ISBN-13 with dashes' => [
+            '978-972-25-1409-5',
+            new ISBNValue('978-972-25-1409-5'),
+        ];
+
+        yield 'ISBN-10 with X checksum' => [
+            '0-9752298-0-X',
+            new ISBNValue('0-9752298-0-X'),
+        ];
+    }
+
+    public function provideInputForToHash(): iterable
     {
         return [
             [
-                '9789722514095',
                 new ISBNValue('9789722514095'),
-            ],
-            [
-                '978-972-25-1409-5',
-                new ISBNValue('978-972-25-1409-5'),
-            ],
-            [
-                '0-9752298-0-X',
-                new ISBNValue('0-9752298-0-X'),
+                '9789722514095',
             ],
         ];
     }
 
-    public function provideInputForToHash(): array
-    {
-        return [
-            [
-                new ISBNValue('9789722514095'),
-                '9789722514095',
-            ],
-        ];
-    }
-
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -120,57 +120,56 @@ class ISBNTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidDataForValidate(): array
+    public function provideValidDataForValidate(): iterable
     {
-        return [
+        yield 'empty value with ISBN-13' => [
             [
-                [
-                    'fieldSettings' => [
-                        'isISBN13' => true,
-                    ],
+                'fieldSettings' => [
+                    'isISBN13' => true,
                 ],
-                new ISBNValue(),
             ],
+            new ISBNValue(),
+        ];
+
+        yield 'empty value with ISBN-10' => [
             [
-                [
-                    'fieldSettings' => [
-                        'isISBN13' => false,
-                    ],
+                'fieldSettings' => [
+                    'isISBN13' => false,
                 ],
-                new ISBNValue(),
             ],
+            new ISBNValue(),
+        ];
+
+        yield 'valid ISBN-13' => [
             [
-                [
-                    'fieldSettings' => [
-                        'isISBN13' => true,
-                    ],
+                'fieldSettings' => [
+                    'isISBN13' => true,
                 ],
-                new ISBNValue('9789722514095'),
             ],
+            new ISBNValue('9789722514095'),
+        ];
+
+        yield 'valid ISBN-10' => [
             [
-                [
-                    'fieldSettings' => [
-                        'isISBN13' => false,
-                    ],
+                'fieldSettings' => [
+                    'isISBN13' => false,
                 ],
-                new ISBNValue('0-9752298-0-X'),
             ],
+            new ISBNValue('0-9752298-0-X'),
         ];
     }
 
-    public function provideInvalidDataForValidate(): array
+    public function provideInvalidDataForValidate(): iterable
     {
-        return [
+        yield 'ISBN-13 when ISBN-10 required' => [
             [
-                [
-                    'fieldSettings' => [
-                        'isISBN13' => false,
-                    ],
+                'fieldSettings' => [
+                    'isISBN13' => false,
                 ],
-                new ISBNValue('9789722514095'),
-                [
-                    new ValidationError('ISBN-10 must be 10 character length', null, [], 'isbn'),
-                ],
+            ],
+            new ISBNValue('9789722514095'),
+            [
+                new ValidationError('ISBN-10 must be 10 character length', null, [], 'isbn'),
             ],
         ];
     }

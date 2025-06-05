@@ -48,87 +48,82 @@ final class TextBlockTest extends FieldTypeTestCase
         return new TextBlockValue();
     }
 
-    /**
-     * @return list<array{mixed, class-string}>
-     */
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
-        return [
-            [
-                23,
-                InvalidArgumentException::class,
-            ],
+        yield [
+            23,
+            InvalidArgumentException::class,
         ];
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
     {
-        return [
-            [
-                null,
-                new TextBlockValue(),
-            ],
-            [
-                '',
-                new TextBlockValue(),
-            ],
-            [
-                self::SAMPLE_TEXT_LINE_VALUE,
-                new TextBlockValue(self::SAMPLE_TEXT_LINE_VALUE),
-            ],
-            [
-                new TextBlockValue(self::SAMPLE_TEXT_LINE_VALUE),
-                new TextBlockValue(self::SAMPLE_TEXT_LINE_VALUE),
-            ],
-            [
-                new TextBlockValue(''),
-                new TextBlockValue(),
-            ],
-            [
-                new TextBlockValue(null),
-                new TextBlockValue(),
-            ],
+        yield 'null input' => [
+            null,
+            new TextBlockValue(),
+        ];
+
+        yield 'empty string' => [
+            '',
+            new TextBlockValue(),
+        ];
+
+        yield 'text string' => [
+            self::SAMPLE_TEXT_LINE_VALUE,
+            new TextBlockValue(self::SAMPLE_TEXT_LINE_VALUE),
+        ];
+
+        yield 'TextBlockValue object' => [
+            new TextBlockValue(self::SAMPLE_TEXT_LINE_VALUE),
+            new TextBlockValue(self::SAMPLE_TEXT_LINE_VALUE),
+        ];
+
+        yield 'empty TextBlockValue object' => [
+            new TextBlockValue(''),
+            new TextBlockValue(),
+        ];
+
+        yield 'null TextBlockValue object' => [
+            new TextBlockValue(null),
+            new TextBlockValue(),
         ];
     }
 
-    public function provideInputForToHash(): array
+    public function provideInputForToHash(): iterable
     {
-        return [
-            [
-                new TextBlockValue(),
-                null,
-            ],
-            [
-                new TextBlockValue(self::SAMPLE_TEXT_LINE_VALUE),
-                self::SAMPLE_TEXT_LINE_VALUE,
-            ],
+        yield 'empty value' => [
+            new TextBlockValue(),
+            null,
+        ];
+
+        yield 'sample text value' => [
+            new TextBlockValue(self::SAMPLE_TEXT_LINE_VALUE),
+            self::SAMPLE_TEXT_LINE_VALUE,
         ];
     }
 
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
-        return [
-            [
-                '',
-                new TextBlockValue(),
-            ],
-            [
-                self::SAMPLE_TEXT_LINE_VALUE,
-                new TextBlockValue(self::SAMPLE_TEXT_LINE_VALUE),
-            ],
+        yield 'empty string' => [
+            '',
+            new TextBlockValue(),
+        ];
+
+        yield 'sample text value' => [
+            self::SAMPLE_TEXT_LINE_VALUE,
+            new TextBlockValue(self::SAMPLE_TEXT_LINE_VALUE),
         ];
     }
 
-    public function provideValidFieldSettings(): array
+    public function provideValidFieldSettings(): iterable
     {
-        return [
+        yield 'empty settings' => [
+            [],
+        ];
+
+        yield 'text rows setting' => [
             [
-                [],
-            ],
-            [
-                [
-                    'textRows' => 23,
-                ],
+                'textRows' => 23,
             ],
         ];
     }

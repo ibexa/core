@@ -106,7 +106,7 @@ class GenericTest extends BaseFieldTypeTestCase
         return new GenericFieldValueStub();
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -116,25 +116,23 @@ class GenericTest extends BaseFieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
     {
-        return [
-            [
-                null,
-                new GenericFieldValueStub(),
-            ],
-            [
-                '{"value": "foo"}',
-                new GenericFieldValueStub('foo'),
-            ],
-            [
-                new GenericFieldValueStub('foo'),
-                new GenericFieldValueStub('foo'),
-            ],
+        yield 'null' => [
+            null,
+            new GenericFieldValueStub(),
+        ];
+        yield 'array' => [
+            '{"value": "foo"}',
+            new GenericFieldValueStub('foo'),
+        ];
+        yield 'value' => [
+            new GenericFieldValueStub('foo'),
+            new GenericFieldValueStub('foo'),
         ];
     }
 
-    public function provideInputForToHash(): array
+    public function provideInputForToHash(): iterable
     {
         return [
             [
@@ -148,7 +146,7 @@ class GenericTest extends BaseFieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
         return [
             [

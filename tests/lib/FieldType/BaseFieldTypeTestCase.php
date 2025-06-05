@@ -64,22 +64,22 @@ abstract class BaseFieldTypeTestCase extends TestCase
      * example:
      *
      * ```
-     *  return [
-     *      [
+     *  yield [
      *          new \stdClass(),
      *          InvalidArgumentException::class,
-     *      ],
-     *      [
+     *  ];
+     *  yield [
      *          [],
      *          InvalidArgumentException::class,
-     *      ],
-     *      // ...
      *  ];
      * ```
      *
-     * @phpstan-return list<array{mixed, class-string<\Throwable>}>
+     * @phpstan-return iterable<array{
+     *      mixed,
+     *      class-string<\Throwable>
+     *  }>
      */
-    abstract public function provideInvalidInputForAcceptValue(): array;
+    abstract public function provideInvalidInputForAcceptValue(): iterable;
 
     /**
      * Data provider for valid input to acceptValue().
@@ -89,12 +89,11 @@ abstract class BaseFieldTypeTestCase extends TestCase
      * For example:
      *
      * ```
-     *  return [
-     *      [
+     * yield 'null input and output' => [
      *          null,
      *          null
-     *      ],
-     *      [
+     * ];
+     * yield 'string input and BinaryFileValue output' => [
      *          __FILE__,
      *          new BinaryFileValue([
      *              'path' => __FILE__,
@@ -103,14 +102,12 @@ abstract class BaseFieldTypeTestCase extends TestCase
      *              'downloadCount' => 0,
      *              'mimeType' => 'text/plain',
      *          ])
-     *      ],
-     *      // ...
-     *  ];
+     * ];
      * ```
      *
-     * @phpstan-return array<array{mixed, \Ibexa\Contracts\Core\FieldType\Value}>
+     * @phpstan-return iterable<string, array{mixed, \Ibexa\Contracts\Core\FieldType\Value}>
      */
-    abstract public function provideValidInputForAcceptValue(): array;
+    abstract public function provideValidInputForAcceptValue(): iterable;
 
     /**
      * Provide input for the toHash() method.
@@ -120,34 +117,32 @@ abstract class BaseFieldTypeTestCase extends TestCase
      * For example:
      *
      * ```
-     *  return [
-     *      [
-     *          null,
-     *          null
-     *      ],
-     *      [
-     *          new BinaryFileValue([
-     *              'path' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          ]),
-     *          [
-     *              'path' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          ]
-     *      ],
-     *      // ...
-     *  ];
+     * yield 'null input, null result' => [
+     *     null,
+     *     null
+     * ];
+     *
+     * yield 'binary file value input, hash result' => [
+     *     new BinaryFileValue([
+     *         'path' => 'some/file/here',
+     *         'fileName' => 'sindelfingen.jpg',
+     *         'fileSize' => 2342,
+     *         'downloadCount' => 0,
+     *         'mimeType' => 'image/jpeg',
+     *     ]),
+     *     [
+     *         'path' => 'some/file/here',
+     *         'fileName' => 'sindelfingen.jpg',
+     *         'fileSize' => 2342,
+     *         'downloadCount' => 0,
+     *         'mimeType' => 'image/jpeg',
+     *     ]
+     * ];
      * ```
      *
-     * @phpstan-return array<array{\Ibexa\Contracts\Core\FieldType\Value, mixed}>
+     * @phpstan-return iterable<array{\Ibexa\Contracts\Core\FieldType\Value, mixed}>
      */
-    abstract public function provideInputForToHash(): array;
+    abstract public function provideInputForToHash(): iterable;
 
     /**
      * Provide input to fromHash() method.
@@ -157,12 +152,11 @@ abstract class BaseFieldTypeTestCase extends TestCase
      * For example:
      *
      * ```
-     *  return [
-     *      [
-     *          null,
-     *          null
-     *      ],
-     *      [
+     * yield [
+     *           null,
+     *           null,
+     * ];
+     * yield [
      *          [
      *              'path' => 'some/file/here',
      *              'fileName' => 'sindelfingen.jpg',
@@ -177,55 +171,24 @@ abstract class BaseFieldTypeTestCase extends TestCase
      *              'downloadCount' => 0,
      *              'mimeType' => 'image/jpeg',
      *          ])
-     *      ],
-     *      // ...
-     *  ];
+     * ];
      * ```
      *
-     * @phpstan-return array<array{mixed, mixed}>
+     * @phpstan-return iterable<array{mixed, mixed}>
      */
-    abstract public function provideInputForFromHash(): array;
+    abstract public function provideInputForFromHash(): iterable;
 
     /**
      * Provides data for the getName() test.
      *
-     * @phpstan-return array<array{\Ibexa\Contracts\Core\FieldType\Value, string, array<string, mixed>, string}>
+     * @phpstan-return array<array{
+     *     0: \Ibexa\Contracts\Core\FieldType\Value,
+     *     1: string,
+     *     2?: array<string, mixed>,
+     *     3?: string
+     * }>
      */
     abstract public function provideDataForGetName(): array;
-
-    /**
-     * Provide data sets with field settings which are considered valid by the
-     * {@link validateFieldSettings()} method.
-     *
-     * ATTENTION: This is a default implementation, which must be overwritten
-     * if a FieldType supports field settings!
-     *
-     * Returns an array of data provider sets with a single argument: A valid
-     * set of field settings.
-     * For example:
-     *
-     * ```
-     *  return [
-     *      [
-     *          [],
-     *      ],
-     *      [
-     *          ['rows' => 2]
-     *      ],
-     *      // ...
-     *  ];
-     * ```
-     *
-     * @phpstan-return array<array{mixed}>
-     */
-    public function provideValidFieldSettings(): array
-    {
-        return [
-            [
-                [],
-            ],
-        ];
-    }
 
     /**
      * Provide data sets with field settings which are considered invalid by the
@@ -263,6 +226,36 @@ abstract class BaseFieldTypeTestCase extends TestCase
     }
 
     /**
+     * Provide data sets with field settings which are considered invalid by the
+     * {@link validateFieldSettings()} method.
+     *
+     * ATTENTION: This is a default implementation, which must be overwritten
+     * if a FieldType supports field settings!
+     *
+     * Yields data provider sets with a single argument: A valid set of field settings.
+     * For example:
+     *
+     * ```
+     * yield [
+     *      [],
+     * ],
+     * yield [
+     *      ['rows' => 2]
+     * ];
+     * ```
+     *
+     * @phpstan-return iterable<array{mixed}>
+     */
+    public function provideValidFieldSettings(): iterable
+    {
+        return [
+            [
+                [],
+            ],
+        ];
+    }
+
+    /**
      * Provide data sets with validator configurations which are considered
      * valid by the {@link validateValidatorConfiguration()} method.
      *
@@ -275,7 +268,7 @@ abstract class BaseFieldTypeTestCase extends TestCase
      * For example:
      *
      * ```
-     *  return [
+     * return [
      *      [
      *          [],
      *      ],
@@ -358,8 +351,7 @@ abstract class BaseFieldTypeTestCase extends TestCase
      * For example:
      *
      * ```
-     *  return [
-     *      [
+     * yield 'some text line validation' => [
      *          [
      *              'validatorConfiguration' => [
      *                  'StringLengthValidator' => [
@@ -369,8 +361,8 @@ abstract class BaseFieldTypeTestCase extends TestCase
      *              ],
      *          ],
      *          new TextLineValue('lalalala'),
-     *      ],
-     *      [
+     * ];
+     * yield 'some country value validation' => [
      *          [
      *              'fieldSettings' => [
      *                  'isMultiple' => true
@@ -384,20 +376,16 @@ abstract class BaseFieldTypeTestCase extends TestCase
      *                  'IDC' => 32,
      *              ],
      *          ]),
-     *      ],
-     *      // ...
-     *  ];
+     * ];
      * ```
      *
-     * @phpstan-return array<array{array<string, mixed>, \Ibexa\Contracts\Core\FieldType\Value}>
+     * @phpstan-return iterable<string, array{array<string, mixed>, \Ibexa\Contracts\Core\FieldType\Value}>
      */
-    public function provideValidDataForValidate(): array
+    public function provideValidDataForValidate(): iterable
     {
-        return [
-            [
-                [],
-                $this->createMock(FieldTypeValue::class),
-            ],
+        yield 'empty field definition data' => [
+            [],
+            $this->createMock(FieldTypeValue::class),
         ];
     }
 
@@ -412,68 +400,67 @@ abstract class BaseFieldTypeTestCase extends TestCase
      * For example:
      *
      * ```
-     *  return [
-     *      [
-     *          [
-     *              'validatorConfiguration' => [
-     *                  'IntegerValueValidator' => [
-     *                      'minIntegerValue' => 5,
-     *                      'maxIntegerValue' => 10
-     *                  ],
-     *              ],
-     *          ],
-     *          new IntegerValue(3),
-     *          [
-     *              new ValidationError(
-     *                  'The value can not be lower than %size%.',
-     *                  null,
-     *                  [
-     *                      '%size%' => 5
-     *                  ],
-     *              ),
-     *          ],
-     *      ],
-     *      [
-     *          [
-     *              'fieldSettings' => [
-     *                  'isMultiple' => false
-     *              ],
-     *          ],
-     *          new CountryValue([
-     *              'BE' => [
-     *                  'Name' => 'Belgium',
-     *                  'Alpha2' => 'BE',
-     *                  'Alpha3' => 'BEL',
-     *                  'IDC' => 32,
-     *              ],
-     *              'FR' => [
-     *                  'Name' => 'France',
-     *                  'Alpha2' => 'FR',
-     *                  'Alpha3' => 'FRA',
-     *                  'IDC' => 33,
-     *              ],
-     *          ]),
-     *          [
-     *              new ValidationError(
-     *                  'Field definition does not allow multiple countries to be selected.'
-     *              ),
-     *          ],
-     *      ],
-     *      // ...
-     *  ];
+     * yield 'integer value below minimum' => [
+     *     [
+     *         'validatorConfiguration' => [
+     *             'IntegerValueValidator' => [
+     *                 'minIntegerValue' => 5,
+     *                 'maxIntegerValue' => 10
+     *             ],
+     *         ],
+     *     ],
+     *     new IntegerValue(3),
+     *     [
+     *         new ValidationError(
+     *             'The value can not be lower than %size%.',
+     *             null,
+     *             [
+     *                 '%size%' => 5
+     *             ],
+     *         ),
+     *     ],
+     * ];
+     * yield 'multiple countries not allowed' => [
+     *     [
+     *         'fieldSettings' => [
+     *             'isMultiple' => false
+     *         ],
+     *     ],
+     *     new CountryValue([
+     *         'BE' => [
+     *             'Name' => 'Belgium',
+     *             'Alpha2' => 'BE',
+     *             'Alpha3' => 'BEL',
+     *             'IDC' => 32,
+     *         ],
+     *         'FR' => [
+     *             'Name' => 'France',
+     *             'Alpha2' => 'FR',
+     *             'Alpha3' => 'FRA',
+     *             'IDC' => 33,
+     *         ],
+     *     ]),
+     *     [
+     *         new ValidationError(
+     *             'Field definition does not allow multiple countries to be selected.'
+     *         ),
+     *     ],
+     * ];
      * ```
      *
-     * @phpstan-return array<array{array<string, mixed>, \Ibexa\Contracts\Core\FieldType\Value, array<\Ibexa\Contracts\Core\FieldType\ValidationError>}>
+     * @phpstan-return iterable<string, array{
+     *     array<string, mixed>,
+     *     \Ibexa\Contracts\Core\FieldType\Value,
+     *     array<\Ibexa\Contracts\Core\FieldType\ValidationError>
+     * }>
      */
-    public function provideInvalidDataForValidate(): array
+    public function provideInvalidDataForValidate(): iterable
     {
-        return [
-            [
+        yield 'invalid field definition data with no errors' => [
                 [],
                 $this->createMock(FieldTypeValue::class),
                 [],
-            ],
-        ];
+            ];
     }
 
     /**

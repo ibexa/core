@@ -105,7 +105,7 @@ class RelationTest extends FieldTypeTestCase
         return new Value();
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -115,25 +115,25 @@ class RelationTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
     {
-        return [
-            [
-                new Value(),
-                new Value(),
-            ],
-            [
-                23,
-                new Value(23),
-            ],
-            [
-                new ContentInfo(['id' => 23]),
-                new Value(23),
-            ],
+        yield 'empty Value object' => [
+            new Value(),
+            new Value(),
+        ];
+
+        yield 'content id' => [
+            23,
+            new Value(23),
+        ];
+
+        yield 'ContentInfo object' => [
+            new ContentInfo(['id' => 23]),
+            new Value(23),
         ];
     }
 
-    public function provideInputForToHash(): array
+    public function provideInputForToHash(): iterable
     {
         return [
             [
@@ -147,7 +147,7 @@ class RelationTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -161,20 +161,19 @@ class RelationTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidFieldSettings(): array
+    public function provideValidFieldSettings(): iterable
     {
-        return [
+        yield 'browse selection' => [
             [
-                [
-                    'selectionMethod' => Type::SELECTION_BROWSE,
-                    'selectionRoot' => 42,
-                ],
+                'selectionMethod' => Type::SELECTION_BROWSE,
+                'selectionRoot' => 42,
             ],
+        ];
+
+        yield 'dropdown selection' => [
             [
-                [
-                    'selectionMethod' => Type::SELECTION_DROPDOWN,
-                    'selectionRoot' => 'some-key',
-                ],
+                'selectionMethod' => Type::SELECTION_DROPDOWN,
+                'selectionRoot' => 'some-key',
             ],
         ];
     }
@@ -316,17 +315,20 @@ class RelationTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidDataForValidate(): array
+    public function provideValidDataForValidate(): iterable
     {
-        return [
-            [[], new Value(5)],
+        yield 'valid relation' => [
+            [],
+            new Value(5),
         ];
     }
 
-    public function provideInvalidDataForValidate(): array
+    public function provideInvalidDataForValidate(): iterable
     {
-        return [
-            [[], new Value('invalid'), []],
+        yield 'invalid relation' => [
+            [],
+            new Value('invalid'),
+            [],
         ];
     }
 }

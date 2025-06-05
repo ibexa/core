@@ -62,7 +62,7 @@ class AuthorTest extends FieldTypeTestCase
         return new AuthorValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -80,39 +80,39 @@ class AuthorTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
     {
-        return [
+        yield 'empty array' => [
+            [],
+            new AuthorValue([]),
+        ];
+
+        yield 'single author' => [
             [
-                [],
-                new AuthorValue([]),
+                new Author(['name' => 'Boba Fett', 'email' => 'boba.fett@example.com']),
             ],
-            [
+            new AuthorValue(
                 [
-                    new Author(['name' => 'Boba Fett', 'email' => 'boba.fett@example.com']),
-                ],
-                new AuthorValue(
-                    [
-                        new Author(['id' => 1, 'name' => 'Boba Fett', 'email' => 'boba.fett@example.com']),
-                    ]
-                ),
-            ],
+                    new Author(['id' => 1, 'name' => 'Boba Fett', 'email' => 'boba.fett@example.com']),
+                ]
+            ),
+        ];
+
+        yield 'multiple authors' => [
             [
-                [
-                    new Author(['name' => 'Boba Fett', 'email' => 'boba.fett@example.com']),
-                    new Author(['name' => 'Darth Vader', 'email' => 'darth.vader@example.com']),
-                ],
-                new AuthorValue(
-                    [
-                        new Author(['id' => 1, 'name' => 'Boba Fett', 'email' => 'boba.fett@example.com']),
-                        new Author(['id' => 2, 'name' => 'Darth Vader', 'email' => 'darth.vader@example.com']),
-                    ]
-                ),
+                new Author(['name' => 'Boba Fett', 'email' => 'boba.fett@example.com']),
+                new Author(['name' => 'Darth Vader', 'email' => 'darth.vader@example.com']),
             ],
+            new AuthorValue(
+                [
+                    new Author(['id' => 1, 'name' => 'Boba Fett', 'email' => 'boba.fett@example.com']),
+                    new Author(['id' => 2, 'name' => 'Darth Vader', 'email' => 'darth.vader@example.com']),
+                ]
+            ),
         ];
     }
 
-    public function provideInputForToHash(): array
+    public function provideInputForToHash(): iterable
     {
         return [
             [
@@ -144,7 +144,7 @@ class AuthorTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -176,7 +176,7 @@ class AuthorTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidFieldSettings(): array
+    public function provideValidFieldSettings(): iterable
     {
         return [
             [

@@ -7,7 +7,6 @@
 
 namespace Ibexa\Tests\Core\FieldType;
 
-use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Country\Exception\InvalidValue;
 use Ibexa\Core\FieldType\Country\Type as Country;
@@ -92,165 +91,160 @@ class CountryTest extends FieldTypeTestCase
         return new CountryValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
-        return [
-            [
-                'LegoLand',
-                InvalidArgumentException::class,
-            ],
-            [
-                ['Norway', 'France', 'LegoLand'],
-                InvalidValue::class,
-            ],
-            [
-                ['FR', 'BE', 'LE'],
-                InvalidValue::class,
-            ],
-            [
-                ['FRE', 'BEL', 'LEG'],
-                InvalidValue::class,
-            ],
+        yield [
+            'LegoLand',
+            InvalidArgumentException::class,
+        ];
+        yield [
+            ['Norway', 'France', 'LegoLand'],
+            InvalidValue::class,
+        ];
+        yield [
+            ['FR', 'BE', 'LE'],
+            InvalidValue::class,
+        ];
+        yield [
+            ['FRE', 'BEL', 'LEG'],
+            InvalidValue::class,
         ];
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
     {
-        return [
-            [
-                ['BE', 'FR'],
-                new CountryValue(
-                    [
-                        'BE' => [
-                            'Name' => 'Belgium',
-                            'Alpha2' => 'BE',
-                            'Alpha3' => 'BEL',
-                            'IDC' => 32,
-                        ],
-                        'FR' => [
-                            'Name' => 'France',
-                            'Alpha2' => 'FR',
-                            'Alpha3' => 'FRA',
-                            'IDC' => 33,
-                        ],
-                    ]
-                ),
-            ],
-            [
-                ['Belgium'],
-                new CountryValue(
-                    [
-                        'BE' => [
-                            'Name' => 'Belgium',
-                            'Alpha2' => 'BE',
-                            'Alpha3' => 'BEL',
-                            'IDC' => 32,
-                        ],
-                    ]
-                ),
-            ],
-            [
-                ['BE'],
-                new CountryValue(
-                    [
-                        'BE' => [
-                            'Name' => 'Belgium',
-                            'Alpha2' => 'BE',
-                            'Alpha3' => 'BEL',
-                            'IDC' => 32,
-                        ],
-                    ]
-                ),
-            ],
-            [
-                ['BEL'],
-                new CountryValue(
-                    [
-                        'BE' => [
-                            'Name' => 'Belgium',
-                            'Alpha2' => 'BE',
-                            'Alpha3' => 'BEL',
-                            'IDC' => 32,
-                        ],
-                    ]
-                ),
-            ],
+        yield 'multiple countries by alpha2' => [
+            ['BE', 'FR'],
+            new CountryValue(
+                [
+                    'BE' => [
+                        'Name' => 'Belgium',
+                        'Alpha2' => 'BE',
+                        'Alpha3' => 'BEL',
+                        'IDC' => 32,
+                    ],
+                    'FR' => [
+                        'Name' => 'France',
+                        'Alpha2' => 'FR',
+                        'Alpha3' => 'FRA',
+                        'IDC' => 33,
+                    ],
+                ]
+            ),
+        ];
+
+        yield 'single country by name' => [
+            ['Belgium'],
+            new CountryValue(
+                [
+                    'BE' => [
+                        'Name' => 'Belgium',
+                        'Alpha2' => 'BE',
+                        'Alpha3' => 'BEL',
+                        'IDC' => 32,
+                    ],
+                ]
+            ),
+        ];
+
+        yield 'single country by alpha2' => [
+            ['BE'],
+            new CountryValue(
+                [
+                    'BE' => [
+                        'Name' => 'Belgium',
+                        'Alpha2' => 'BE',
+                        'Alpha3' => 'BEL',
+                        'IDC' => 32,
+                    ],
+                ]
+            ),
+        ];
+
+        yield 'single country by alpha3' => [
+            ['BEL'],
+            new CountryValue(
+                [
+                    'BE' => [
+                        'Name' => 'Belgium',
+                        'Alpha2' => 'BE',
+                        'Alpha3' => 'BEL',
+                        'IDC' => 32,
+                    ],
+                ]
+            ),
         ];
     }
 
-    public function provideInputForToHash(): array
+    public function provideInputForToHash(): iterable
     {
-        return [
-            [
-                new CountryValue(
-                    [
-                        'BE' => [
-                            'Name' => 'Belgium',
-                            'Alpha2' => 'BE',
-                            'Alpha3' => 'BEL',
-                            'IDC' => 32,
-                        ],
-                    ]
-                ),
-                ['BE'],
-            ],
-            [
-                new CountryValue(
-                    [
-                        'BE' => [
-                            'Name' => 'Belgium',
-                            'Alpha2' => 'BE',
-                            'Alpha3' => 'BEL',
-                            'IDC' => 32,
-                        ],
-                        'FR' => [
-                            'Name' => 'France',
-                            'Alpha2' => 'FR',
-                            'Alpha3' => 'FRA',
-                            'IDC' => 33,
-                        ],
-                    ]
-                ),
-                ['BE', 'FR'],
-            ],
+        yield [
+            new CountryValue(
+                [
+                    'BE' => [
+                        'Name' => 'Belgium',
+                        'Alpha2' => 'BE',
+                        'Alpha3' => 'BEL',
+                        'IDC' => 32,
+                    ],
+                ]
+            ),
+            ['BE'],
+        ];
+        yield [
+            new CountryValue(
+                [
+                    'BE' => [
+                        'Name' => 'Belgium',
+                        'Alpha2' => 'BE',
+                        'Alpha3' => 'BEL',
+                        'IDC' => 32,
+                    ],
+                    'FR' => [
+                        'Name' => 'France',
+                        'Alpha2' => 'FR',
+                        'Alpha3' => 'FRA',
+                        'IDC' => 33,
+                    ],
+                ]
+            ),
+            ['BE', 'FR'],
         ];
     }
 
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
-        return [
-            [
-                ['BE'],
-                new CountryValue(
-                    [
-                        'BE' => [
-                            'Name' => 'Belgium',
-                            'Alpha2' => 'BE',
-                            'Alpha3' => 'BEL',
-                            'IDC' => 32,
-                        ],
-                    ]
-                ),
-            ],
-            [
-                ['BE', 'FR'],
-                new CountryValue(
-                    [
-                        'BE' => [
-                            'Name' => 'Belgium',
-                            'Alpha2' => 'BE',
-                            'Alpha3' => 'BEL',
-                            'IDC' => 32,
-                        ],
-                        'FR' => [
-                            'Name' => 'France',
-                            'Alpha2' => 'FR',
-                            'Alpha3' => 'FRA',
-                            'IDC' => 33,
-                        ],
-                    ]
-                ),
-            ],
+        yield [
+            ['BE'],
+            new CountryValue(
+                [
+                    'BE' => [
+                        'Name' => 'Belgium',
+                        'Alpha2' => 'BE',
+                        'Alpha3' => 'BEL',
+                        'IDC' => 32,
+                    ],
+                ]
+            ),
+        ];
+        yield [
+            ['BE', 'FR'],
+            new CountryValue(
+                [
+                    'BE' => [
+                        'Name' => 'Belgium',
+                        'Alpha2' => 'BE',
+                        'Alpha3' => 'BEL',
+                        'IDC' => 32,
+                    ],
+                    'FR' => [
+                        'Name' => 'France',
+                        'Alpha2' => 'FR',
+                        'Alpha3' => 'FRA',
+                        'IDC' => 33,
+                    ],
+                ]
+            ),
         ];
     }
 
@@ -268,120 +262,93 @@ class CountryTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidDataForValidate(): array
+    public function provideValidDataForValidate(): iterable
     {
-        return [
+        yield 'empty value multiple' => [
             [
-                [
-                    'fieldSettings' => [
-                        'isMultiple' => true,
-                    ],
+                'fieldSettings' => [
+                    'isMultiple' => true,
                 ],
-                new CountryValue(),
             ],
+            new CountryValue(),
+        ];
+
+        yield 'single country value' => [
             [
-                [
-                    'fieldSettings' => [
-                        'isMultiple' => false,
-                    ],
+                'fieldSettings' => [
+                    'isMultiple' => false,
                 ],
-                new CountryValue(
-                    [
-                        'BE' => [
-                            'Name' => 'Belgium',
-                            'Alpha2' => 'BE',
-                            'Alpha3' => 'BEL',
-                            'IDC' => 32,
-                        ],
-                    ]
-                ),
             ],
-            [
-                [
-                    'fieldSettings' => [
-                        'isMultiple' => true,
-                    ],
+            new CountryValue([
+                'BE' => [
+                    'Name' => 'Belgium',
+                    'Alpha2' => 'BE',
+                    'Alpha3' => 'BEL',
+                    'IDC' => 32,
                 ],
-                new CountryValue(
-                    [
-                        'BE' => [
-                            'Name' => 'Belgium',
-                            'Alpha2' => 'BE',
-                            'Alpha3' => 'BEL',
-                            'IDC' => 32,
-                        ],
-                        'FR' => [
-                            'Name' => 'France',
-                            'Alpha2' => 'FR',
-                            'Alpha3' => 'FRA',
-                            'IDC' => 33,
-                        ],
-                    ]
-                ),
-            ],
+            ]),
         ];
     }
 
-    public function provideInvalidDataForValidate(): array
+    public function provideInvalidDataForValidate(): iterable
     {
-        return [
+        yield 'multiple countries when multiple not allowed' => [
             [
-                [
-                    'fieldSettings' => [
-                        'isMultiple' => false,
-                    ],
-                ],
-                new CountryValue(
-                    [
-                        'BE' => [
-                            'Name' => 'Belgium',
-                            'Alpha2' => 'BE',
-                            'Alpha3' => 'BEL',
-                            'IDC' => 32,
-                        ],
-                        'FR' => [
-                            'Name' => 'France',
-                            'Alpha2' => 'FR',
-                            'Alpha3' => 'FRA',
-                            'IDC' => 33,
-                        ],
-                    ]
-                ),
-                [
-                    new ValidationError(
-                        'Field definition does not allow multiple countries to be selected.',
-                        null,
-                        [],
-                        'countries'
-                    ),
+                'fieldSettings' => [
+                    'isMultiple' => false,
                 ],
             ],
-            [
+            new CountryValue(
                 [
-                    'fieldSettings' => [
-                        'isMultiple' => true,
+                    'BE' => [
+                        'Name' => 'Belgium',
+                        'Alpha2' => 'BE',
+                        'Alpha3' => 'BEL',
+                        'IDC' => 32,
                     ],
-                ],
-                new CountryValue(
-                    [
-                        'LE' => [
-                            'Name' => 'LegoLand',
-                            'Alpha2' => 'LE',
-                            'Alpha3' => 'LEG',
-                            'IDC' => 888,
-                        ],
-                    ]
+                    'FR' => [
+                        'Name' => 'France',
+                        'Alpha2' => 'FR',
+                        'Alpha3' => 'FRA',
+                        'IDC' => 33,
+                    ],
+                ]
+            ),
+            [
+                new ValidationError(
+                    'Field definition does not allow multiple countries to be selected.',
+                    null,
+                    [],
+                    'countries'
                 ),
-                [
-                    new ValidationError(
-                        "Country with Alpha2 code '%alpha2%' is not defined in FieldType settings.",
-                        null,
-                        [
-                            '%alpha2%' => 'LE',
-                        ],
-                        'countries'
-                    ),
+            ],
+        ];
+
+        yield 'invalid country code' => [
+            [
+                'fieldSettings' => [
+                    'isMultiple' => true,
                 ],
+            ],
+            new CountryValue(
+                [
+                    'LE' => [
+                        'Name' => 'LegoLand',
+                        'Alpha2' => 'LE',
+                        'Alpha3' => 'LEG',
+                        'IDC' => 888,
+                    ],
+                ]
+            ),
+            [
+                new ValidationError(
+                    "Country with Alpha2 code '%alpha2%' is not defined in FieldType settings.",
+                    null,
+                    [
+                        '%alpha2%' => 'LE',
+                    ],
+                    'countries'
+                ),
             ],
         ];
     }

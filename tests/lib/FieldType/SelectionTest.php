@@ -56,7 +56,7 @@ class SelectionTest extends FieldTypeTestCase
         return new SelectionValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -70,7 +70,44 @@ class SelectionTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
+    {
+        yield 'empty array' => [
+            [],
+            new SelectionValue(),
+        ];
+
+        yield 'single selection' => [
+            [23],
+            new SelectionValue([23]),
+        ];
+
+        yield 'multiple selections' => [
+            [23, 42],
+            new SelectionValue([23, 42]),
+        ];
+
+        yield 'SelectionValue object' => [
+            new SelectionValue([23, 42]),
+            new SelectionValue([23, 42]),
+        ];
+    }
+
+    public function provideInputForToHash(): iterable
+    {
+        return [
+            [
+                new SelectionValue(),
+                [],
+            ],
+            [
+                new SelectionValue([23, 42]),
+                [23, 42],
+            ],
+        ];
+    }
+
+    public function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -78,49 +115,13 @@ class SelectionTest extends FieldTypeTestCase
                 new SelectionValue(),
             ],
             [
-                [23],
-                new SelectionValue([23]),
-            ],
-            [
-                [23, 42],
-                new SelectionValue([23, 42]),
-            ],
-            [
-                new SelectionValue([23, 42]),
-                new SelectionValue([23, 42]),
-            ],
-        ];
-    }
-
-    public function provideInputForToHash(): array
-    {
-        return [
-            [
-                new SelectionValue(),
-                [],
-            ],
-            [
-                new SelectionValue([23, 42]),
-                [23, 42],
-            ],
-        ];
-    }
-
-    public function provideInputForFromHash(): array
-    {
-        return [
-            [
-                [],
-                new SelectionValue(),
-            ],
-            [
                 [23, 42],
                 new SelectionValue([23, 42]),
             ],
         ];
     }
 
-    public function provideValidFieldSettings(): array
+    public function provideValidFieldSettings(): iterable
     {
         return [
             [
@@ -218,126 +219,128 @@ class SelectionTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidDataForValidate(): array
+    public function provideValidDataForValidate(): iterable
     {
-        return [
+        yield 'multiple selection allowed' => [
             [
-                [
-                    'fieldSettings' => [
-                        'isMultiple' => true,
-                        'options' => [0 => 1, 1 => 2],
+                'fieldSettings' => [
+                    'isMultiple' => true,
+                    'options' => [0 => 1, 1 => 2],
+                ],
+            ],
+            new SelectionValue([0, 1]),
+        ];
+
+        yield 'single selection' => [
+            [
+                'fieldSettings' => [
+                    'isMultiple' => false,
+                    'options' => [0 => 1, 1 => 2],
+                ],
+            ],
+            new SelectionValue([1]),
+        ];
+
+        yield 'empty selection' => [
+            [
+                'fieldSettings' => [
+                    'isMultiple' => false,
+                    'options' => [0 => 1, 1 => 2],
+                ],
+            ],
+            new SelectionValue(),
+        ];
+
+        yield 'multilingual options' => [
+            [
+                'fieldSettings' => [
+                    'isMultiple' => false,
+                    'options' => [0 => 1, 1 => 2],
+                    'multilingualOptions' => [
+                        'en_GB' => [0 => 1, 1 => 2],
+                        'de_DE' => [0 => 1, 1 => 2],
                     ],
                 ],
-                new SelectionValue([0, 1]),
             ],
+            new SelectionValue([1]),
+        ];
+
+        yield 'partial multilingual options' => [
             [
-                [
-                    'fieldSettings' => [
-                        'isMultiple' => false,
-                        'options' => [0 => 1, 1 => 2],
+                'fieldSettings' => [
+                    'isMultiple' => false,
+                    'options' => [0 => 1, 1 => 2],
+                    'multilingualOptions' => [
+                        'en_GB' => [0 => 1, 1 => 2],
+                        'de_DE' => [0 => 1],
                     ],
                 ],
-                new SelectionValue([1]),
             ],
-            [
-                [
-                    'fieldSettings' => [
-                        'isMultiple' => false,
-                        'options' => [0 => 1, 1 => 2],
-                    ],
-                ],
-                new SelectionValue(),
-            ],
-            [
-                [
-                    'fieldSettings' => [
-                        'isMultiple' => false,
-                        'options' => [0 => 1, 1 => 2],
-                        'multilingualOptions' => [
-                            'en_GB' => [0 => 1, 1 => 2],
-                            'de_DE' => [0 => 1, 1 => 2],
-                        ],
-                    ],
-                ],
-                new SelectionValue([1]),
-            ],
-            [
-                [
-                    'fieldSettings' => [
-                        'isMultiple' => false,
-                        'options' => [0 => 1, 1 => 2],
-                        'multilingualOptions' => [
-                            'en_GB' => [0 => 1, 1 => 2],
-                            'de_DE' => [0 => 1],
-                        ],
-                    ],
-                ],
-                new SelectionValue([1]),
-            ],
+            new SelectionValue([1]),
         ];
     }
 
-    public function provideInvalidDataForValidate(): array
+    public function provideInvalidDataForValidate(): iterable
     {
-        return [
+        yield 'multiple selections when not allowed' => [
             [
-                [
-                    'fieldSettings' => [
-                        'isMultiple' => false,
-                        'options' => [0 => 1, 1 => 2],
-                    ],
-                ],
-                new SelectionValue([0, 1]),
-                [
-                    new ValidationError(
-                        'Field definition does not allow multiple options to be selected.',
-                        null,
-                        [],
-                        'selection'
-                    ),
+                'fieldSettings' => [
+                    'isMultiple' => false,
+                    'options' => [0 => 1, 1 => 2],
                 ],
             ],
+            new SelectionValue([0, 1]),
             [
-                [
-                    'fieldSettings' => [
-                        'isMultiple' => false,
-                        'options' => [0 => 1, 1 => 2],
-                    ],
-                ],
-                new SelectionValue([3]),
-                [
-                    new ValidationError(
-                        'Option with index %index% does not exist in the field definition.',
-                        null,
-                        [
-                            '%index%' => 3,
-                        ],
-                        'selection'
-                    ),
+                new ValidationError(
+                    'Field definition does not allow multiple options to be selected.',
+                    null,
+                    [],
+                    'selection'
+                ),
+            ],
+        ];
+
+        yield 'invalid option index' => [
+            [
+                'fieldSettings' => [
+                    'isMultiple' => false,
+                    'options' => [0 => 1, 1 => 2],
                 ],
             ],
+            new SelectionValue([3]),
             [
-                [
-                    'fieldSettings' => [
-                        'isMultiple' => false,
-                        'options' => [0 => 1, 1 => 2],
-                        'multilingualOptions' => [
-                            'en_GB' => [0 => 1, 1 => 2],
-                            'de_DE' => [0 => 1],
-                        ],
+                new ValidationError(
+                    'Option with index %index% does not exist in the field definition.',
+                    null,
+                    [
+                        '%index%' => 3,
+                    ],
+                    'selection'
+                ),
+            ],
+        ];
+
+        yield 'invalid multilingual option index' => [
+            [
+                'fieldSettings' => [
+                    'isMultiple' => false,
+                    'options' => [0 => 1, 1 => 2],
+                    'multilingualOptions' => [
+                        'en_GB' => [0 => 1, 1 => 2],
+                        'de_DE' => [0 => 1],
                     ],
                 ],
-                new SelectionValue([3]),
-                [
-                    new ValidationError(
-                        'Option with index %index% does not exist in the field definition.',
-                        null,
-                        [
-                            '%index%' => 3,
-                        ],
-                        'selection'
-                    ),
-                ],
+            ],
+            new SelectionValue([3]),
+            [
+                new ValidationError(
+                    'Option with index %index% does not exist in the field definition.',
+                    null,
+                    [
+                        '%index%' => 3,
+                    ],
+                    'selection'
+                ),
             ],
         ];
     }

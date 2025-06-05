@@ -35,7 +35,7 @@ class MapLocationTest extends FieldTypeTestCase
         return new MapLocation\Value();
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -72,69 +72,72 @@ class MapLocationTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
     {
-        return [
+        yield 'null input' => [
+            null,
+            new MapLocation\Value(),
+        ];
+
+        yield 'empty array' => [
+            [],
+            new MapLocation\Value(),
+        ];
+
+        yield 'empty MapLocation object' => [
+            new MapLocation\Value(),
+            new MapLocation\Value(),
+        ];
+
+        yield 'array with float coordinates' => [
             [
-                null,
-                new MapLocation\Value(),
+                'latitude' => 23.42,
+                'longitude' => 42.23,
+                'address' => 'Nowhere',
             ],
-            [
-                [],
-                new MapLocation\Value(),
-            ],
-            [
-                new MapLocation\Value(),
-                new MapLocation\Value(),
-            ],
-            [
+            new MapLocation\Value(
                 [
                     'latitude' => 23.42,
                     'longitude' => 42.23,
                     'address' => 'Nowhere',
-                ],
-                new MapLocation\Value(
-                    [
-                        'latitude' => 23.42,
-                        'longitude' => 42.23,
-                        'address' => 'Nowhere',
-                    ]
-                ),
-            ],
+                ]
+            ),
+        ];
+
+        yield 'array with integer coordinates' => [
             [
+                'latitude' => 23,
+                'longitude' => 42,
+                'address' => 'Somewhere',
+            ],
+            new MapLocation\Value(
                 [
                     'latitude' => 23,
                     'longitude' => 42,
                     'address' => 'Somewhere',
-                ],
-                new MapLocation\Value(
-                    [
-                        'latitude' => 23,
-                        'longitude' => 42,
-                        'address' => 'Somewhere',
-                    ]
-                ),
-            ],
-            [
-                new MapLocation\Value(
-                    [
-                        'latitude' => 23.42,
-                        'longitude' => 42.23,
-                        'address' => 'Nowhere',
-                    ]
-                ),
-                new MapLocation\Value(
-                    [
-                        'latitude' => 23.42,
-                        'longitude' => 42.23,
-                        'address' => 'Nowhere',
-                    ]
-                ),
-            ],
+                ]
+            ),
+        ];
+
+        yield 'MapLocation object with data' => [
+            new MapLocation\Value(
+                [
+                    'latitude' => 23.42,
+                    'longitude' => 42.23,
+                    'address' => 'Nowhere',
+                ]
+            ),
+            new MapLocation\Value(
+                [
+                    'latitude' => 23.42,
+                    'longitude' => 42.23,
+                    'address' => 'Nowhere',
+                ]
+            ),
         ];
     }
 
-    public function provideInputForToHash(): array
+    public function provideInputForToHash(): iterable
     {
         return [
             [
@@ -158,7 +161,7 @@ class MapLocationTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
         return [
             [

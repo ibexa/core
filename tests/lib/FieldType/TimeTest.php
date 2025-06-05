@@ -51,7 +51,7 @@ class TimeTest extends FieldTypeTestCase
         return new TimeValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -61,50 +61,53 @@ class TimeTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
     {
         $dateTime = new DateTime();
         // change timezone to UTC (+00:00) to be able to calculate proper TimeValue
         $timestamp = $dateTime->setTimezone(new \DateTimeZone('UTC'))->getTimestamp();
 
-        return [
-            [
-                null,
-                new TimeValue(),
-            ],
-            [
-                '2012-08-28 12:20',
-                new TimeValue(44400),
-            ],
-            [
-                '2012-08-28 12:20 Europe/Berlin',
-                new TimeValue(44400),
-            ],
-            [
-                '2012-08-28 12:20 Asia/Sakhalin',
-                new TimeValue(44400),
-            ],
-            [
-                // create new DateTime object from timestamp w/o taking into account server timezone
-                (new DateTime('@1372896001'))->getTimestamp(),
-                new TimeValue(1),
-            ],
-            [
-                TimeValue::fromTimestamp($timestamp),
-                new TimeValue(
-                    $timestamp - $dateTime->setTime(0, 0, 0)->getTimestamp()
-                ),
-            ],
-            [
-                clone $dateTime,
-                new TimeValue(
-                    $dateTime->getTimestamp() - $dateTime->setTime(0, 0, 0)->getTimestamp()
-                ),
-            ],
+        yield 'null input' => [
+            null,
+            new TimeValue(),
+        ];
+
+        yield 'date string without timezone' => [
+            '2012-08-28 12:20',
+            new TimeValue(44400),
+        ];
+
+        yield 'date string with Europe timezone' => [
+            '2012-08-28 12:20 Europe/Berlin',
+            new TimeValue(44400),
+        ];
+
+        yield 'date string with Asia timezone' => [
+            '2012-08-28 12:20 Asia/Sakhalin',
+            new TimeValue(44400),
+        ];
+
+        yield 'timestamp from unix epoch' => [
+            (new DateTime('@1372896001'))->getTimestamp(),
+            new TimeValue(1),
+        ];
+
+        yield 'TimeValue from timestamp' => [
+            TimeValue::fromTimestamp($timestamp),
+            new TimeValue(
+                $timestamp - $dateTime->setTime(0, 0, 0)->getTimestamp()
+            ),
+        ];
+
+        yield 'DateTime object' => [
+            clone $dateTime,
+            new TimeValue(
+                $dateTime->getTimestamp() - $dateTime->setTime(0, 0, 0)->getTimestamp()
+            ),
         ];
     }
 
-    public function provideInputForToHash(): array
+    public function provideInputForToHash(): iterable
     {
         return [
             [
@@ -122,7 +125,7 @@ class TimeTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -140,7 +143,7 @@ class TimeTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidFieldSettings(): array
+    public function provideValidFieldSettings(): iterable
     {
         return [
             [

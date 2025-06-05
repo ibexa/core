@@ -37,129 +37,122 @@ class BinaryFileTest extends BinaryBaseTestCase
         return new BinaryFileValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
-        $baseInput = parent::provideInvalidInputForAcceptValue();
-        $binaryFileInput = [
-            [
+        yield from parent::provideInvalidInputForAcceptValue();
+
+        yield [
                 new BinaryFileValue(['id' => '/foo/bar']),
                 InvalidArgumentValue::class,
-            ],
         ];
-
-        return array_merge($baseInput, $binaryFileInput);
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
     {
-        return [
-            [
-                null,
-                new BinaryFileValue(),
-            ],
-            [
-                new BinaryFileValue(),
-                new BinaryFileValue(),
-            ],
-            [
-                [],
-                new BinaryFileValue(),
-            ],
-            [
-                __FILE__,
-                new BinaryFileValue(
-                    [
-                        'inputUri' => __FILE__,
-                        'fileName' => basename(__FILE__),
-                        'fileSize' => filesize(__FILE__),
-                        'downloadCount' => 0,
-                        'mimeType' => null,
-                    ]
-                ),
-                [/* 'getFileSize' => filesize( __FILE__ ) */],
-                [/* 'getMimeType' => 'text/plain' */],
-            ],
-            [
-                ['inputUri' => __FILE__],
-                new BinaryFileValue(
-                    [
-                        'inputUri' => __FILE__,
-                        'fileName' => basename(__FILE__),
-                        'fileSize' => filesize(__FILE__),
-                        'downloadCount' => 0,
-                        'mimeType' => null,
-                    ]
-                ),
-                [/*'getFileSize' => filesize( __FILE__ ) */],
-                [/* 'getMimeType' => 'text/plain' */],
-            ],
-            [
+        yield 'null input' => [
+            null,
+            new BinaryFileValue(),
+        ];
+
+        yield 'empty array' => [
+            [],
+            new BinaryFileValue(),
+        ];
+
+        yield 'empty BinaryFileValue object' => [
+            new BinaryFileValue(),
+            new BinaryFileValue(),
+        ];
+
+        yield 'file path string' => [
+            __FILE__,
+            new BinaryFileValue(
                 [
                     'inputUri' => __FILE__,
+                    'fileName' => basename(__FILE__),
+                    'fileSize' => filesize(__FILE__),
+                    'downloadCount' => 0,
+                    'mimeType' => null,
+                ]
+            ),
+        ];
+
+        yield 'array with inputUri' => [
+            ['inputUri' => __FILE__],
+            new BinaryFileValue(
+                [
+                    'inputUri' => __FILE__,
+                    'fileName' => basename(__FILE__),
+                    'fileSize' => filesize(__FILE__),
+                    'downloadCount' => 0,
+                    'mimeType' => null,
+                ]
+            ),
+        ];
+
+        yield 'array with inputUri and fileSize' => [
+            [
+                'inputUri' => __FILE__,
+                'fileSize' => 23,
+            ],
+            new BinaryFileValue(
+                [
+                    'inputUri' => __FILE__,
+                    'fileName' => basename(__FILE__),
                     'fileSize' => 23,
-                ],
-                new BinaryFileValue(
-                    [
-                        'inputUri' => __FILE__,
-                        'fileName' => basename(__FILE__),
-                        'fileSize' => 23,
-                        'downloadCount' => 0,
-                        'mimeType' => null,
-                    ]
-                ),
-                [],
-                [/* 'getMimeType' => 'text/plain' */],
-            ],
+                    'downloadCount' => 0,
+                    'mimeType' => null,
+                ]
+            ),
+        ];
+
+        yield 'array with inputUri and mimeType' => [
             [
+                'inputUri' => __FILE__,
+                'mimeType' => 'application/text+php',
+            ],
+            new BinaryFileValue(
                 [
                     'inputUri' => __FILE__,
-                    'downloadCount' => 42,
-                ],
-                new BinaryFileValue(
-                    [
-                        'inputUri' => __FILE__,
-                        'fileName' => basename(__FILE__),
-                        'fileSize' => filesize(__FILE__),
-                        'downloadCount' => 42,
-                        'mimeType' => null,
-                    ]
-                ),
-                [/* 'getFileSize' => filesize( __FILE__ ) */],
-                [/* 'getMimeType' => 'text/plain' */],
-            ],
-            [
-                [
-                    'inputUri' => __FILE__,
+                    'fileName' => basename(__FILE__),
+                    'fileSize' => filesize(__FILE__),
+                    'downloadCount' => 0,
                     'mimeType' => 'application/text+php',
-                ],
-                new BinaryFileValue(
-                    [
-                        'inputUri' => __FILE__,
-                        'fileName' => basename(__FILE__),
-                        'fileSize' => filesize(__FILE__),
-                        'downloadCount' => 0,
-                        'mimeType' => 'application/text+php',
-                    ]
-                ),
-                [/* 'getFileSize' => filesize( __FILE__ ) */],
-            ],
-            // BC with 5.2 (EZP-22808). Id can be used as input instead of inputUri.
+                ]
+            ),
+        ];
+
+        yield 'array with inputUri and downloadCount' => [
             [
-                ['id' => __FILE__],
-                new BinaryFileValue(
-                    [
-                        'inputUri' => __FILE__,
-                        'fileName' => basename(__FILE__),
-                        'fileSize' => filesize(__FILE__),
-                        'downloadCount' => 0,
-                        'mimeType' => null,
-                    ]
-                ),
+                'inputUri' => __FILE__,
+                'downloadCount' => 42,
             ],
+            new BinaryFileValue(
+                [
+                    'inputUri' => __FILE__,
+                    'fileName' => basename(__FILE__),
+                    'fileSize' => filesize(__FILE__),
+                    'downloadCount' => 42,
+                    'mimeType' => null,
+                ]
+            ),
+        ];
+
+        yield 'BC with 5.2 - id instead of inputUri' => [
+            ['id' => __FILE__],
+            new BinaryFileValue(
+                [
+                    'inputUri' => __FILE__,
+                    'fileName' => basename(__FILE__),
+                    'fileSize' => filesize(__FILE__),
+                    'downloadCount' => 0,
+                    'mimeType' => null,
+                ]
+            ),
         ];
     }
 
-    public function provideInputForToHash(): array
+    public function provideInputForToHash(): iterable
     {
         return [
             [
@@ -306,7 +299,7 @@ class BinaryFileTest extends BinaryBaseTestCase
         ];
     }
 
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -437,117 +430,110 @@ class BinaryFileTest extends BinaryBaseTestCase
         ];
     }
 
-    public function provideValidDataForValidate(): array
+    public function provideValidDataForValidate(): iterable
     {
-        return [
+        yield 'valid file size' => [
             [
-                [
-                    'validatorConfiguration' => [
-                        'FileSizeValidator' => [
-                            'maxFileSize' => 1,
-                        ],
+                'validatorConfiguration' => [
+                    'FileSizeValidator' => [
+                        'maxFileSize' => 1,
                     ],
                 ],
-                new BinaryFileValue(
-                    [
-                        'id' => 'some/file/here',
-                        'fileName' => 'sindelfingen.jpg',
-                        'fileSize' => 2342,
-                        'downloadCount' => 0,
-                        'mimeType' => 'image/jpeg',
-                    ]
-                ),
             ],
+            new BinaryFileValue(
+                [
+                    'id' => 'some/file/here',
+                    'fileName' => 'sindelfingen.jpg',
+                    'fileSize' => 2342,
+                    'downloadCount' => 0,
+                    'mimeType' => 'image/jpeg',
+                ]
+            ),
         ];
     }
 
-    public function provideInvalidDataForValidate(): array
+    public function provideInvalidDataForValidate(): iterable
     {
-        return [
-            // File is too large
+        yield 'file too large' => [
             [
-                [
-                    'validatorConfiguration' => [
-                        'FileSizeValidator' => [
-                            'maxFileSize' => 0.01,
-                        ],
+                'validatorConfiguration' => [
+                    'FileSizeValidator' => [
+                        'maxFileSize' => 0.01,
                     ],
-                ],
-                new BinaryFileValue(
-                    [
-                        'id' => 'some/file/here',
-                        'fileName' => 'sindelfingen.jpg',
-                        'fileSize' => 150000,
-                        'downloadCount' => 0,
-                        'mimeType' => 'image/jpeg',
-                    ]
-                ),
-                [
-                    new ValidationError(
-                        'The file size cannot exceed %size% megabyte.',
-                        'The file size cannot exceed %size% megabytes.',
-                        [
-                            '%size%' => 0.01,
-                        ],
-                        'fileSize'
-                    ),
                 ],
             ],
-
-            // file extension is in blacklist
+            new BinaryFileValue(
+                [
+                    'id' => 'some/file/here',
+                    'fileName' => 'sindelfingen.jpg',
+                    'fileSize' => 150000,
+                    'downloadCount' => 0,
+                    'mimeType' => 'image/jpeg',
+                ]
+            ),
             [
-                [
-                    'validatorConfiguration' => [
-                        'FileSizeValidator' => [
-                            'maxFileSize' => 1,
-                        ],
-                    ],
-                ],
-                new BinaryFileValue(
+                new ValidationError(
+                    'The file size cannot exceed %size% megabyte.',
+                    'The file size cannot exceed %size% megabytes.',
                     [
-                        'id' => 'phppng.php',
-                        'fileName' => 'phppng.php',
-                        'fileSize' => 0.01,
-                        'downloadCount' => 0,
-                        'mimeType' => 'image/jpeg',
-                    ]
+                        '%size%' => 0.01,
+                    ],
+                    'fileSize'
                 ),
-                [
-                    new ValidationError(
-                        'A valid file is required. The following file extensions are not allowed: %extensionsBlackList%',
-                        null,
-                        ['%extensionsBlackList%' => implode(', ', $this->blackListedExtensions)],
-                        'fileExtensionBlackList'
-                    ),
+            ],
+        ];
+
+        yield 'blacklisted file extension' => [
+            [
+                'validatorConfiguration' => [
+                    'FileSizeValidator' => [
+                        'maxFileSize' => 1,
+                    ],
                 ],
             ],
-
-            // file is an image file but filename ends with .PHP (upper case)
-            [
+            new BinaryFileValue(
                 [
-                    'validatorConfiguration' => [
-                        'FileSizeValidator' => [
-                            'maxFileSize' => 1,
-                        ],
+                    'id' => 'phppng.php',
+                    'fileName' => 'phppng.php',
+                    'fileSize' => 0.01,
+                    'downloadCount' => 0,
+                    'mimeType' => 'image/jpeg',
+                ]
+            ),
+            [
+                new ValidationError(
+                    'A valid file is required. The following file extensions are not allowed: %extensionsBlackList%',
+                    null,
+                    ['%extensionsBlackList%' => implode(', ', $this->blackListedExtensions)],
+                    'fileExtensionBlackList'
+                ),
+            ],
+        ];
+
+        yield 'blacklisted file extension uppercase' => [
+            [
+                'validatorConfiguration' => [
+                    'FileSizeValidator' => [
+                        'maxFileSize' => 1,
                     ],
                 ],
-                new BinaryFileValue(
-                    [
-                        'id' => 'phppng.PHP',
-                        'fileName' => 'phppng.PHP',
-                        'fileSize' => 0.01,
-                        'downloadCount' => 0,
-                        'mimeType' => 'image/jpeg',
-                    ]
-                ),
+            ],
+            new BinaryFileValue(
                 [
-                    new ValidationError(
-                        'A valid file is required. The following file extensions are not allowed: %extensionsBlackList%',
-                        null,
-                        ['%extensionsBlackList%' => implode(', ', $this->blackListedExtensions)],
-                        'fileExtensionBlackList'
-                    ),
-                ],
+                    'id' => 'phppng.PHP',
+                    'fileName' => 'phppng.PHP',
+                    'fileSize' => 0.01,
+                    'downloadCount' => 0,
+                    'mimeType' => 'image/jpeg',
+                ]
+            ),
+            [
+                new ValidationError(
+                    'A valid file is required. The following file extensions are not allowed: %extensionsBlackList%',
+                    null,
+                    ['%extensionsBlackList%' => implode(', ', $this->blackListedExtensions)],
+                    'fileExtensionBlackList'
+                ),
             ],
         ];
     }

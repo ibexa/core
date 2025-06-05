@@ -126,7 +126,7 @@ class ImageTest extends FieldTypeTestCase
         return new ImageValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -174,68 +174,71 @@ class ImageTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
     {
-        return [
+        yield 'null input' => [
+            null,
+            new ImageValue(),
+        ];
+
+        yield 'empty array' => [
+            [],
+            new ImageValue(),
+        ];
+
+        yield 'empty ImageValue object' => [
+            new ImageValue(),
+            new ImageValue(),
+        ];
+
+        yield 'file path string' => [
+            $this->getImageInputPath(),
+            new ImageValue(
+                [
+                    'inputUri' => $this->getImageInputPath(),
+                    'fileName' => basename($this->getImageInputPath()),
+                    'fileSize' => filesize($this->getImageInputPath()),
+                    'alternativeText' => null,
+                ]
+            ),
+        ];
+
+        yield 'array with all fields' => [
             [
-                null,
-                new ImageValue(),
+                'id' => $this->getImageInputPath(),
+                'fileName' => 'Sindelfingen-Squirrels.jpg',
+                'fileSize' => 23,
+                'alternativeText' => 'This is so Sindelfingen!',
+                'uri' => 'http://' . $this->getImageInputPath(),
             ],
-            [
-                [],
-                new ImageValue(),
-            ],
-            [
-                new ImageValue(),
-                new ImageValue(),
-            ],
-            [
-                $this->getImageInputPath(),
-                new ImageValue(
-                    [
-                        'inputUri' => $this->getImageInputPath(),
-                        'fileName' => basename($this->getImageInputPath()),
-                        'fileSize' => filesize($this->getImageInputPath()),
-                        'alternativeText' => null,
-                    ]
-                ),
-            ],
-            [
+            new ImageValue(
                 [
                     'id' => $this->getImageInputPath(),
                     'fileName' => 'Sindelfingen-Squirrels.jpg',
                     'fileSize' => 23,
                     'alternativeText' => 'This is so Sindelfingen!',
                     'uri' => 'http://' . $this->getImageInputPath(),
-                ],
-                new ImageValue(
-                    [
-                        'id' => $this->getImageInputPath(),
-                        'fileName' => 'Sindelfingen-Squirrels.jpg',
-                        'fileSize' => 23,
-                        'alternativeText' => 'This is so Sindelfingen!',
-                        'uri' => 'http://' . $this->getImageInputPath(),
-                    ]
-                ),
-            ],
+                ]
+            ),
+        ];
+
+        yield 'array with inputUri and custom fields' => [
             [
+                'inputUri' => $this->getImageInputPath(),
+                'fileName' => 'My Fancy Filename',
+                'fileSize' => 123,
+            ],
+            new ImageValue(
                 [
                     'inputUri' => $this->getImageInputPath(),
                     'fileName' => 'My Fancy Filename',
-                    'fileSize' => 123,
-                ],
-                new ImageValue(
-                    [
-                        'inputUri' => $this->getImageInputPath(),
-                        'fileName' => 'My Fancy Filename',
-                        'fileSize' => filesize($this->getImageInputPath()),
-                    ]
-                ),
-            ],
+                    'fileSize' => filesize($this->getImageInputPath()),
+                ]
+            ),
         ];
     }
 
-    public function provideInputForToHash(): array
+    public function provideInputForToHash(): iterable
     {
         return [
             [
@@ -299,7 +302,7 @@ class ImageTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -388,273 +391,276 @@ class ImageTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidDataForValidate(): array
+    public function provideValidDataForValidate(): iterable
     {
-        return [
+        yield 'valid image within size limit' => [
             [
-                [
-                    'validatorConfiguration' => [
-                        'FileSizeValidator' => [
-                            'maxFileSize' => 1.0,
-                        ],
+                'validatorConfiguration' => [
+                    'FileSizeValidator' => [
+                        'maxFileSize' => 1.0,
                     ],
                 ],
-                new ImageValue(
-                    [
-                        'id' => $this->getImageInputPath(),
-                        'fileName' => basename($this->getImageInputPath()),
-                        'fileSize' => filesize($this->getImageInputPath()),
-                        'alternativeText' => null,
-                        'uri' => '',
-                    ]
-                ),
             ],
+            new ImageValue(
+                [
+                    'id' => $this->getImageInputPath(),
+                    'fileName' => basename($this->getImageInputPath()),
+                    'fileSize' => filesize($this->getImageInputPath()),
+                    'alternativeText' => null,
+                    'uri' => '',
+                ]
+            ),
         ];
     }
 
-    public function provideInvalidDataForValidate(): array
+    public function provideInvalidDataForValidate(): iterable
     {
-        return [
-            'file is too large' => [
-                [
-                    'validatorConfiguration' => [
-                        'FileSizeValidator' => [
-                            'maxFileSize' => 0.01,
-                        ],
+        yield 'file too large' => [
+            [
+                'validatorConfiguration' => [
+                    'FileSizeValidator' => [
+                        'maxFileSize' => 0.01,
                     ],
-                ],
-                new ImageValue(
-                    [
-                        'id' => $this->getImageInputPath(),
-                        'fileName' => basename($this->getImageInputPath()),
-                        'fileSize' => filesize($this->getImageInputPath()),
-                        'alternativeText' => null,
-                        'uri' => '',
-                    ]
-                ),
-                [
-                    new ValidationError(
-                        'The file size cannot exceed %size% megabyte.',
-                        'The file size cannot exceed %size% megabytes.',
-                        [
-                            '%size%' => 0.01,
-                        ],
-                        'fileSize'
-                    ),
                 ],
             ],
-            'file is not an image file' => [
+            new ImageValue(
                 [
-                    'validatorConfiguration' => [
-                        'FileSizeValidator' => [
-                            'maxFileSize' => 1,
-                        ],
-                    ],
-                ],
-                new ImageValue(
+                    'id' => $this->getImageInputPath(),
+                    'fileName' => basename($this->getImageInputPath()),
+                    'fileSize' => filesize($this->getImageInputPath()),
+                    'alternativeText' => null,
+                    'uri' => '',
+                ]
+            ),
+            [
+                new ValidationError(
+                    'The file size cannot exceed %size% megabyte.',
+                    'The file size cannot exceed %size% megabytes.',
                     [
-                        'id' => __FILE__,
-                        'fileName' => basename(__FILE__),
-                        'fileSize' => filesize(__FILE__),
-                        'alternativeText' => null,
-                        'uri' => '',
-                    ]
+                        '%size%' => 0.01,
+                    ],
+                    'fileSize'
                 ),
-                [
-                    new ValidationError(
-                        'A valid file is required. The following file extensions are not allowed: %extensionsBlackList%',
-                        null,
-                        ['%extensionsBlackList%' => implode(', ', $this->blackListedExtensions)],
-                        'fileExtensionBlackList'
-                    ),
-                    new ValidationError(
-                        'A valid image file is required.',
-                        null,
-                        [],
-                        'id'
-                    ),
+            ],
+        ];
+
+        yield 'not an image file' => [
+            [
+                'validatorConfiguration' => [
+                    'FileSizeValidator' => [
+                        'maxFileSize' => 1,
+                    ],
                 ],
             ],
-            'file is too large and invalid' => [
+            new ImageValue(
                 [
-                    'validatorConfiguration' => [
-                        'FileSizeValidator' => [
-                            'maxFileSize' => 0.01,
-                        ],
-                    ],
-                ],
-                new ImageValue(
-                    [
-                        'id' => __FILE__,
-                        'fileName' => basename(__FILE__),
-                        'fileSize' => filesize(__FILE__),
-                        'alternativeText' => null,
-                        'uri' => '',
-                    ]
+                    'id' => __FILE__,
+                    'fileName' => basename(__FILE__),
+                    'fileSize' => filesize(__FILE__),
+                    'alternativeText' => null,
+                    'uri' => '',
+                ]
+            ),
+            [
+                new ValidationError(
+                    'A valid file is required. The following file extensions are not allowed: %extensionsBlackList%',
+                    null,
+                    ['%extensionsBlackList%' => implode(', ', $this->blackListedExtensions)],
+                    'fileExtensionBlackList'
                 ),
-                [
-                    new ValidationError(
-                        'A valid file is required. The following file extensions are not allowed: %extensionsBlackList%',
-                        null,
-                        ['%extensionsBlackList%' => implode(', ', $this->blackListedExtensions)],
-                        'fileExtensionBlackList'
-                    ),
-                    new ValidationError('A valid image file is required.', null, [], 'id'),
-                    new ValidationError(
-                        'The file size cannot exceed %size% megabyte.',
-                        'The file size cannot exceed %size% megabytes.',
-                        [
-                            '%size%' => 0.01,
-                        ],
-                        'fileSize'
-                    ),
+                new ValidationError(
+                    'A valid image file is required.',
+                    null,
+                    [],
+                    'id'
+                ),
+            ],
+        ];
+
+        yield 'file too large and invalid' => [
+            [
+                'validatorConfiguration' => [
+                    'FileSizeValidator' => [
+                        'maxFileSize' => 0.01,
+                    ],
                 ],
             ],
-            'file is an image file but filename ends with .php' => [
+            new ImageValue(
                 [
-                    'validatorConfiguration' => [
-                        'FileSizeValidator' => [
-                            'maxFileSize' => 1,
-                        ],
-                    ],
-                ],
-                new ImageValue(
-                    [
-                        'id' => __DIR__ . '/../_fixtures/phppng.php',
-                        'fileName' => basename(__DIR__ . '/../_fixtures/phppng.php'),
-                        'fileSize' => filesize(__DIR__ . '/../_fixtures/phppng.php'),
-                        'alternativeText' => null,
-                        'uri' => '',
-                    ]
+                    'id' => __FILE__,
+                    'fileName' => basename(__FILE__),
+                    'fileSize' => filesize(__FILE__),
+                    'alternativeText' => null,
+                    'uri' => '',
+                ]
+            ),
+            [
+                new ValidationError(
+                    'A valid file is required. The following file extensions are not allowed: %extensionsBlackList%',
+                    null,
+                    ['%extensionsBlackList%' => implode(', ', $this->blackListedExtensions)],
+                    'fileExtensionBlackList'
                 ),
-                [
-                    new ValidationError(
-                        'A valid file is required. The following file extensions are not allowed: %extensionsBlackList%',
-                        null,
-                        ['%extensionsBlackList%' => implode(', ', $this->blackListedExtensions)],
-                        'fileExtensionBlackList'
-                    ),
-                    new ValidationError(
-                        'A valid image file is required.',
-                        null,
-                        [],
-                        'id'
-                    ),
+                new ValidationError('A valid image file is required.', null, [], 'id'),
+                new ValidationError(
+                    'The file size cannot exceed %size% megabyte.',
+                    'The file size cannot exceed %size% megabytes.',
+                    [
+                        '%size%' => 0.01,
+                    ],
+                    'fileSize'
+                ),
+            ],
+        ];
+
+        yield 'file is image but has php extension' => [
+            [
+                'validatorConfiguration' => [
+                    'FileSizeValidator' => [
+                        'maxFileSize' => 1,
+                    ],
                 ],
             ],
-            'file is an image file but filename ends with .PHP (upper case)' => [
+            new ImageValue(
                 [
-                    'validatorConfiguration' => [
-                        'FileSizeValidator' => [
-                            'maxFileSize' => 1,
-                        ],
-                    ],
-                ],
-                new ImageValue(
-                    [
-                        'id' => __DIR__ . '/../_fixtures/phppng2.PHP',
-                        'fileName' => basename(__DIR__ . '/../_fixtures/phppng2.PHP'),
-                        'fileSize' => filesize(__DIR__ . '/../_fixtures/phppng2.PHP'),
-                        'alternativeText' => null,
-                        'uri' => '',
-                    ]
+                    'id' => __DIR__ . '/../_fixtures/phppng.php',
+                    'fileName' => basename(__DIR__ . '/../_fixtures/phppng.php'),
+                    'fileSize' => filesize(__DIR__ . '/../_fixtures/phppng.php'),
+                    'alternativeText' => null,
+                    'uri' => '',
+                ]
+            ),
+            [
+                new ValidationError(
+                    'A valid file is required. The following file extensions are not allowed: %extensionsBlackList%',
+                    null,
+                    ['%extensionsBlackList%' => implode(', ', $this->blackListedExtensions)],
+                    'fileExtensionBlackList'
                 ),
-                [
-                    new ValidationError(
-                        'A valid file is required. The following file extensions are not allowed: %extensionsBlackList%',
-                        null,
-                        ['%extensionsBlackList%' => implode(', ', $this->blackListedExtensions)],
-                        'fileExtensionBlackList'
-                    ),
-                    new ValidationError(
-                        'A valid image file is required.',
-                        null,
-                        [],
-                        'id'
-                    ),
+                new ValidationError(
+                    'A valid image file is required.',
+                    null,
+                    [],
+                    'id'
+                ),
+            ],
+        ];
+
+        yield 'file is image but has php extension uppercase' => [
+            [
+                'validatorConfiguration' => [
+                    'FileSizeValidator' => [
+                        'maxFileSize' => 1,
+                    ],
                 ],
             ],
-            'alternative text is null' => [
+            new ImageValue(
                 [
-                    'validatorConfiguration' => [
-                        'AlternativeTextValidator' => [
-                            'required' => true,
-                        ],
-                    ],
-                ],
-                new ImageValue(
-                    [
-                        'id' => $this->getImageInputPath(),
-                        'fileName' => basename($this->getImageInputPath()),
-                        'fileSize' => filesize($this->getImageInputPath()),
-                        'alternativeText' => null,
-                        'uri' => '',
-                    ]
+                    'id' => __DIR__ . '/../_fixtures/phppng2.PHP',
+                    'fileName' => basename(__DIR__ . '/../_fixtures/phppng2.PHP'),
+                    'fileSize' => filesize(__DIR__ . '/../_fixtures/phppng2.PHP'),
+                    'alternativeText' => null,
+                    'uri' => '',
+                ]
+            ),
+            [
+                new ValidationError(
+                    'A valid file is required. The following file extensions are not allowed: %extensionsBlackList%',
+                    null,
+                    ['%extensionsBlackList%' => implode(', ', $this->blackListedExtensions)],
+                    'fileExtensionBlackList'
                 ),
-                [
-                    new ValidationError(
-                        'Alternative text is required.',
-                        null,
-                        [],
-                        'alternativeText'
-                    ),
+                new ValidationError(
+                    'A valid image file is required.',
+                    null,
+                    [],
+                    'id'
+                ),
+            ],
+        ];
+
+        yield 'alternative text missing' => [
+            [
+                'validatorConfiguration' => [
+                    'AlternativeTextValidator' => [
+                        'required' => true,
+                    ],
                 ],
             ],
-            'alternative text is empty string' => [
+            new ImageValue(
                 [
-                    'validatorConfiguration' => [
-                        'AlternativeTextValidator' => [
-                            'required' => true,
-                        ],
-                    ],
-                ],
-                new ImageValue(
-                    [
-                        'id' => $this->getImageInputPath(),
-                        'fileName' => basename($this->getImageInputPath()),
-                        'fileSize' => filesize($this->getImageInputPath()),
-                        'alternativeText' => '',
-                        'uri' => '',
-                    ]
+                    'id' => $this->getImageInputPath(),
+                    'fileName' => basename($this->getImageInputPath()),
+                    'fileSize' => filesize($this->getImageInputPath()),
+                    'alternativeText' => null,
+                    'uri' => '',
+                ]
+            ),
+            [
+                new ValidationError(
+                    'Alternative text is required.',
+                    null,
+                    [],
+                    'alternativeText'
                 ),
-                [
-                    new ValidationError(
-                        'Alternative text is required.',
-                        null,
-                        [],
-                        'alternativeText'
-                    ),
+            ],
+        ];
+
+        yield 'alternative text empty string' => [
+            [
+                'validatorConfiguration' => [
+                    'AlternativeTextValidator' => [
+                        'required' => true,
+                    ],
                 ],
             ],
-            'Image with not allowed mime type' => [
+            new ImageValue(
                 [
-                    'fieldSettings' => [
-                        'mimeTypes' => [
-                            'image/png',
-                            'image/gif',
-                        ],
+                    'id' => $this->getImageInputPath(),
+                    'fileName' => basename($this->getImageInputPath()),
+                    'fileSize' => filesize($this->getImageInputPath()),
+                    'alternativeText' => '',
+                    'uri' => '',
+                ]
+            ),
+            [
+                new ValidationError(
+                    'Alternative text is required.',
+                    null,
+                    [],
+                    'alternativeText'
+                ),
+            ],
+        ];
+
+        yield 'disallowed mime type' => [
+            [
+                'fieldSettings' => [
+                    'mimeTypes' => [
+                        'image/png',
+                        'image/gif',
                     ],
                 ],
-                new ImageValue(
-                    [
-                        'id' => $this->getImageInputPath(),
-                        'fileName' => basename($this->getImageInputPath()),
-                        'fileSize' => filesize($this->getImageInputPath()),
-                        'alternativeText' => '',
-                        'uri' => '',
-                    ]
-                ),
+            ],
+            new ImageValue(
                 [
-                    new ValidationError(
-                        'The mime type of the file is invalid (%mimeType%). Allowed mime types are %mimeTypes%.',
-                        null,
-                        [
-                            '%mimeType%' => 'image/jpeg',
-                            '%mimeTypes%' => 'image/png, image/gif',
-                        ],
-                        'id'
-                    ),
-                ],
+                    'id' => $this->getImageInputPath(),
+                    'fileName' => basename($this->getImageInputPath()),
+                    'fileSize' => filesize($this->getImageInputPath()),
+                    'alternativeText' => '',
+                    'uri' => '',
+                ]
+            ),
+            [
+                new ValidationError(
+                    'The mime type of the file is invalid (%mimeType%). Allowed mime types are %mimeTypes%.',
+                    null,
+                    [
+                        '%mimeType%' => 'image/jpeg',
+                        '%mimeTypes%' => 'image/png, image/gif',
+                    ],
+                    'id'
+                ),
             ],
         ];
     }
@@ -662,34 +668,32 @@ class ImageTest extends FieldTypeTestCase
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function provideInputForValuesEqual(): array
+    public function provideInputForValuesEqual(): iterable
     {
-        return [
+        yield [
             [
+                'id' => $this->getImageInputPath(),
+                'fileName' => 'Sindelfingen-Squirrels.jpg',
+                'fileSize' => 23,
+                'alternativeText' => 'This is so Sindelfingen!',
+                'imageId' => '123-12345',
+                'uri' => 'http://' . $this->getImageInputPath(),
+                'width' => 123,
+                'height' => 456,
+            ],
+            new ImageValue(
                 [
                     'id' => $this->getImageInputPath(),
                     'fileName' => 'Sindelfingen-Squirrels.jpg',
                     'fileSize' => 23,
                     'alternativeText' => 'This is so Sindelfingen!',
-                    'imageId' => '123-12345',
+                    'imageId' => '123-12317',
                     'uri' => 'http://' . $this->getImageInputPath(),
+                    'inputUri' => null,
                     'width' => 123,
                     'height' => 456,
-                ],
-                new ImageValue(
-                    [
-                        'id' => $this->getImageInputPath(),
-                        'fileName' => 'Sindelfingen-Squirrels.jpg',
-                        'fileSize' => 23,
-                        'alternativeText' => 'This is so Sindelfingen!',
-                        'imageId' => '123-12317',
-                        'uri' => 'http://' . $this->getImageInputPath(),
-                        'inputUri' => null,
-                        'width' => 123,
-                        'height' => 456,
-                    ]
-                ),
-            ],
+                ]
+            ),
         ];
     }
 }

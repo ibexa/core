@@ -56,7 +56,7 @@ class DateAndTimeTest extends FieldTypeTestCase
         return new DateAndTimeValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -66,29 +66,30 @@ class DateAndTimeTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
     {
-        return [
-            [
-                null,
-                new DateAndTimeValue(),
-            ],
-            [
-                '2012-08-28 12:20 Europe/Berlin',
-                DateAndTimeValue::fromString('2012-08-28 12:20 Europe/Berlin'),
-            ],
-            [
-                1346149200,
-                DateAndTimeValue::fromTimestamp(1346149200),
-            ],
-            [
-                ($dateTime = new \DateTime()),
-                new DateAndTimeValue($dateTime),
-            ],
+        yield 'null input' => [
+            null,
+            new DateAndTimeValue(),
+        ];
+
+        yield 'date string' => [
+            '2012-08-28 12:20 Europe/Berlin',
+            DateAndTimeValue::fromString('2012-08-28 12:20 Europe/Berlin'),
+        ];
+
+        yield 'timestamp' => [
+            1346149200,
+            DateAndTimeValue::fromTimestamp(1346149200),
+        ];
+
+        yield 'DateTime object' => [
+            ($dateTime = new \DateTime()),
+            new DateAndTimeValue($dateTime),
         ];
     }
 
-    public function provideInputForToHash(): array
+    public function provideInputForToHash(): iterable
     {
         return [
             [
@@ -133,7 +134,7 @@ class DateAndTimeTest extends FieldTypeTestCase
         }
     }
 
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
         $date = new \DateTime('Tue, 28 Aug 2012 12:20:00 +0200');
 
@@ -225,7 +226,7 @@ class DateAndTimeTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidFieldSettings(): array
+    public function provideValidFieldSettings(): iterable
     {
         return [
             [

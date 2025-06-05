@@ -41,7 +41,7 @@ class UrlTest extends FieldTypeTestCase
         return new UrlValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -55,25 +55,25 @@ class UrlTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
     {
-        return [
-            [
-                null,
-                new UrlValue(),
-            ],
-            [
-                'http://example.com/sindelfingen',
-                new UrlValue('http://example.com/sindelfingen'),
-            ],
-            [
-                new UrlValue('http://example.com/sindelfingen', 'Sindelfingen!'),
-                new UrlValue('http://example.com/sindelfingen', 'Sindelfingen!'),
-            ],
+        yield 'null input' => [
+            null,
+            new UrlValue(),
+        ];
+
+        yield 'url string' => [
+            'http://example.com/sindelfingen',
+            new UrlValue('http://example.com/sindelfingen'),
+        ];
+
+        yield 'UrlValue object' => [
+            new UrlValue('http://example.com/sindelfingen', 'Sindelfingen!'),
+            new UrlValue('http://example.com/sindelfingen', 'Sindelfingen!'),
         ];
     }
 
-    public function provideInputForToHash(): array
+    public function provideInputForToHash(): iterable
     {
         return [
             [
@@ -97,7 +97,7 @@ class UrlTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
         return [
             [

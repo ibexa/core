@@ -41,7 +41,7 @@ class KeywordTest extends FieldTypeTestCase
         return new KeywordValue([]);
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -51,33 +51,35 @@ class KeywordTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
     {
-        return [
-            [
-                null,
-                new KeywordValue([]),
-            ],
-            [
-                [],
-                new KeywordValue([]),
-            ],
-            [
-                'foo',
-                new KeywordValue(['foo']),
-            ],
-            [
-                ['foo'],
-                new KeywordValue(['foo']),
-            ],
-            [
-                new KeywordValue(['foo']),
-                new KeywordValue(['foo']),
-            ],
+        yield 'null input' => [
+            null,
+            new KeywordValue([]),
+        ];
+
+        yield 'empty array' => [
+            [],
+            new KeywordValue([]),
+        ];
+
+        yield 'single string keyword' => [
+            'foo',
+            new KeywordValue(['foo']),
+        ];
+
+        yield 'array with single keyword' => [
+            ['foo'],
+            new KeywordValue(['foo']),
+        ];
+
+        yield 'KeywordValue object' => [
+            new KeywordValue(['foo']),
+            new KeywordValue(['foo']),
         ];
     }
 
-    public function provideInputForToHash(): array
+    public function provideInputForToHash(): iterable
     {
         return [
             [
@@ -91,7 +93,7 @@ class KeywordTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
         return [
             [

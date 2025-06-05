@@ -48,7 +48,7 @@ class DateTest extends FieldTypeTestCase
         return new DateValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -58,35 +58,37 @@ class DateTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
     {
-        return [
-            [
-                null,
-                new DateValue(),
-            ],
-            [
-                ($dateString = '2012-08-28 12:20 EST'),
-                new DateValue(new DateTime($dateString)),
-            ],
-            [
-                ($timestamp = 1346149200),
-                new DateValue(
-                    new DateTime("@{$timestamp}")
-                ),
-            ],
-            [
-                DateValue::fromTimestamp($timestamp = 1372895999),
-                new DateValue(new DateTime("@{$timestamp}")),
-            ],
-            [
-                ($dateTime = new DateTime()),
-                new DateValue($dateTime),
-            ],
+        yield 'null input' => [
+            null,
+            new DateValue(),
+        ];
+
+        yield 'date string' => [
+            ($dateString = '2012-08-28 12:20 EST'),
+            new DateValue(new DateTime($dateString)),
+        ];
+
+        yield 'timestamp' => [
+            ($timestamp = 1346149200),
+            new DateValue(
+                new DateTime("@{$timestamp}")
+            ),
+        ];
+
+        yield 'DateValue from timestamp' => [
+            DateValue::fromTimestamp($timestamp = 1372895999),
+            new DateValue(new DateTime("@{$timestamp}")),
+        ];
+
+        yield 'DateTime object' => [
+            ($dateTime = new DateTime()),
+            new DateValue($dateTime),
         ];
     }
 
-    public function provideInputForToHash(): array
+    public function provideInputForToHash(): iterable
     {
         return [
             [
@@ -103,7 +105,7 @@ class DateTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
         $dateTime = new DateTime();
 
@@ -133,7 +135,7 @@ class DateTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidFieldSettings(): array
+    public function provideValidFieldSettings(): iterable
     {
         return [
             [

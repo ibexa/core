@@ -132,7 +132,7 @@ class RelationListTest extends FieldTypeTestCase
         return new Value();
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -142,29 +142,30 @@ class RelationListTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
     {
-        return [
-            [
-                new Value(),
-                new Value(),
-            ],
-            [
-                23,
-                new Value([23]),
-            ],
-            [
-                new ContentInfo(['id' => 23]),
-                new Value([23]),
-            ],
-            [
-                [23, 42],
-                new Value([23, 42]),
-            ],
+        yield 'empty value object' => [
+            new Value(),
+            new Value(),
+        ];
+
+        yield 'single content id' => [
+            23,
+            new Value([23]),
+        ];
+
+        yield 'content info object' => [
+            new ContentInfo(['id' => 23]),
+            new Value([23]),
+        ];
+
+        yield 'array of content ids' => [
+            [23, 42],
+            new Value([23, 42]),
         ];
     }
 
-    public function provideInputForToHash(): array
+    public function provideInputForToHash(): iterable
     {
         return [
             [
@@ -178,7 +179,7 @@ class RelationListTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -192,7 +193,7 @@ class RelationListTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidFieldSettings(): array
+    public function provideValidFieldSettings(): iterable
     {
         return [
             [
@@ -343,74 +344,73 @@ class RelationListTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidDataForValidate(): array
+    public function provideValidDataForValidate(): iterable
     {
-        return [
+        yield 'unlimited selection limit' => [
             [
-                [
-                    'validatorConfiguration' => [
-                        'RelationListValueValidator' => [
-                            'selectionLimit' => 0,
-                        ],
+                'validatorConfiguration' => [
+                    'RelationListValueValidator' => [
+                        'selectionLimit' => 0,
                     ],
                 ],
-                new Value([5, 6, 7]),
             ],
+            new Value([5, 6, 7]),
+        ];
+
+        yield 'single selection limit' => [
             [
-                [
-                    'validatorConfiguration' => [
-                        'RelationListValueValidator' => [
-                            'selectionLimit' => 1,
-                        ],
+                'validatorConfiguration' => [
+                    'RelationListValueValidator' => [
+                        'selectionLimit' => 1,
                     ],
                 ],
-                new Value([5]),
             ],
+            new Value([5]),
+        ];
+
+        yield 'selection within limit' => [
             [
-                [
-                    'validatorConfiguration' => [
-                        'RelationListValueValidator' => [
-                            'selectionLimit' => 3,
-                        ],
+                'validatorConfiguration' => [
+                    'RelationListValueValidator' => [
+                        'selectionLimit' => 3,
                     ],
                 ],
-                new Value([5, 6]),
             ],
+            new Value([5, 6]),
+        ];
+
+        yield 'empty selection' => [
             [
-                [
-                    'validatorConfiguration' => [
-                        'RelationListValueValidator' => [
-                            'selectionLimit' => 3,
-                        ],
+                'validatorConfiguration' => [
+                    'RelationListValueValidator' => [
+                        'selectionLimit' => 3,
                     ],
                 ],
-                new Value([]),
             ],
+            new Value([]),
         ];
     }
 
-    public function provideInvalidDataForValidate(): array
+    public function provideInvalidDataForValidate(): iterable
     {
-        return [
+        yield 'selection exceeds limit' => [
             [
-                [
-                    'validatorConfiguration' => [
-                        'RelationListValueValidator' => [
-                            'selectionLimit' => 3,
-                        ],
+                'validatorConfiguration' => [
+                    'RelationListValueValidator' => [
+                        'selectionLimit' => 3,
                     ],
                 ],
-                new Value([1, 2, 3, 4]),
-                [
-                    new ValidationError(
-                        'The selected content items number cannot be higher than %limit%.',
-                        null,
-                        [
-                            '%limit%' => 3,
-                        ],
-                        'destinationContentIds'
-                    ),
-                ],
+            ],
+            new Value([1, 2, 3, 4]),
+            [
+                new ValidationError(
+                    'The selected content items number cannot be higher than %limit%.',
+                    null,
+                    [
+                        '%limit%' => 3,
+                    ],
+                    'destinationContentIds'
+                ),
             ],
         ];
     }

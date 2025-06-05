@@ -55,7 +55,7 @@ class EmailAddressTest extends FieldTypeTestCase
         return new EmailAddressValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -69,39 +69,39 @@ class EmailAddressTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
+    {
+        yield 'null input' => [
+            null,
+            new EmailAddressValue(),
+        ];
+
+        yield 'string email' => [
+            'spam_mail@ex-something.no',
+            new EmailAddressValue('spam_mail@ex-something.no'),
+        ];
+
+        yield 'EmailAddressValue object' => [
+            new EmailAddressValue('spam_mail@ex-something.no'),
+            new EmailAddressValue('spam_mail@ex-something.no'),
+        ];
+    }
+
+    public function provideInputForToHash(): iterable
     {
         return [
             [
-                null,
                 new EmailAddressValue(),
+                null,
             ],
             [
+                new EmailAddressValue('spam_mail@ex-something.no'),
                 'spam_mail@ex-something.no',
-                new EmailAddressValue('spam_mail@ex-something.no'),
-            ],
-            [
-                new EmailAddressValue('spam_mail@ex-something.no'),
-                new EmailAddressValue('spam_mail@ex-something.no'),
             ],
         ];
     }
 
-    public function provideInputForToHash(): array
-    {
-        return [
-            [
-                new EmailAddressValue(),
-                null,
-            ],
-            [
-                new EmailAddressValue('spam_mail@ex-something.no'),
-                'spam_mail@ex-something.no',
-            ],
-        ];
-    }
-
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -185,29 +185,25 @@ class EmailAddressTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidDataForValidate(): array
+    public function provideValidDataForValidate(): iterable
     {
-        return [
+        yield 'valid email address' => [
             [
-                [
-                    'validatorConfiguration' => [],
-                ],
-                new EmailAddressValue('jane.doe@example.com'),
+                'validatorConfiguration' => [],
             ],
+            new EmailAddressValue('jane.doe@example.com'),
         ];
     }
 
-    public function provideInvalidDataForValidate(): array
+    public function provideInvalidDataForValidate(): iterable
     {
-        return [
+        yield 'invalid email format' => [
             [
-                [
-                    'validatorConfiguration' => [],
-                ],
-                new EmailAddressValue('jane.doe.example.com'),
-                [
-                    new ValidationError('The value must be a valid email address.', null, [], 'email'),
-                ],
+                'validatorConfiguration' => [],
+            ],
+            new EmailAddressValue('jane.doe.example.com'),
+            [
+                new ValidationError('The value must be a valid email address.', null, [], 'email'),
             ],
         ];
     }

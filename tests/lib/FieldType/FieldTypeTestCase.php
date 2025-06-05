@@ -27,11 +27,11 @@ abstract class FieldTypeTestCase extends BaseFieldTypeTestCase
     }
 
     /**
-     * @phpstan-return array<array{mixed, SPIValue}>
+     * @phpstan-return iterable<array{mixed, mixed}>
      */
-    public function provideInputForValuesEqual(): array
+    public function provideInputForValuesEqual(): iterable
     {
-        return $this->provideInputForFromHash();
+        yield from $this->provideInputForFromHash();
     }
 
     /**

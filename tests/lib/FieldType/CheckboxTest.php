@@ -41,7 +41,7 @@ class CheckboxTest extends FieldTypeTestCase
         return new CheckboxValue(false);
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -55,35 +55,34 @@ class CheckboxTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
+    {
+        yield 'false value' => [
+            false,
+            new CheckboxValue(false),
+        ];
+
+        yield 'true value' => [
+            true,
+            new CheckboxValue(true),
+        ];
+    }
+
+    public function provideInputForToHash(): iterable
     {
         return [
             [
-                false,
-                new CheckboxValue(false),
+                new CheckboxValue(true),
+                true,
             ],
             [
-                true,
-                new CheckboxValue(true),
+                new CheckboxValue(false),
+                false,
             ],
         ];
     }
 
-    public function provideInputForToHash(): array
-    {
-        return [
-            [
-                new CheckboxValue(true),
-                true,
-            ],
-            [
-                new CheckboxValue(false),
-                false,
-            ],
-        ];
-    }
-
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
         return [
             [

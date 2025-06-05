@@ -52,7 +52,7 @@ class FloatTest extends FieldTypeTestCase
         return new FloatValue();
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -70,37 +70,40 @@ class FloatTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
     {
-        return [
-            [
-                null,
-                new FloatValue(),
-            ],
-            [
-                42.23,
-                new FloatValue(42.23),
-            ],
-            [
-                23,
-                new FloatValue(23.),
-            ],
-            [
-                new FloatValue(23.42),
-                new FloatValue(23.42),
-            ],
-            [
-                '42.23',
-                new FloatValue(42.23),
-            ],
-            [
-                '23',
-                new FloatValue(23.),
-            ],
+        yield 'null input' => [
+            null,
+            new FloatValue(),
+        ];
+
+        yield 'float value' => [
+            42.23,
+            new FloatValue(42.23),
+        ];
+
+        yield 'integer value' => [
+            23,
+            new FloatValue(23.),
+        ];
+
+        yield 'FloatValue object' => [
+            new FloatValue(23.42),
+            new FloatValue(23.42),
+        ];
+
+        yield 'float string' => [
+            '42.23',
+            new FloatValue(42.23),
+        ];
+
+        yield 'integer string' => [
+            '23',
+            new FloatValue(23.),
         ];
     }
 
-    public function provideInputForToHash(): array
+    public function provideInputForToHash(): iterable
     {
         return [
             [
@@ -114,7 +117,7 @@ class FloatTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -218,96 +221,94 @@ class FloatTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidDataForValidate(): array
+    public function provideValidDataForValidate(): iterable
     {
-        return [
+        yield 'value within range' => [
             [
-                [
-                    'validatorConfiguration' => [
-                        'FloatValueValidator' => [
-                            'minFloatValue' => 5.1,
-                            'maxFloatValue' => 10.5,
-                        ],
+                'validatorConfiguration' => [
+                    'FloatValueValidator' => [
+                        'minFloatValue' => 5.1,
+                        'maxFloatValue' => 10.5,
                     ],
                 ],
-                new FloatValue(7.5),
             ],
+            new FloatValue(7.5),
         ];
     }
 
-    public function provideInvalidDataForValidate(): array
+    public function provideInvalidDataForValidate(): iterable
     {
-        return [
+        yield 'value below minimum' => [
             [
-                [
-                    'validatorConfiguration' => [
-                        'FloatValueValidator' => [
-                            'minFloatValue' => 5.1,
-                            'maxFloatValue' => 10.5,
-                        ],
+                'validatorConfiguration' => [
+                    'FloatValueValidator' => [
+                        'minFloatValue' => 5.1,
+                        'maxFloatValue' => 10.5,
                     ],
-                ],
-                new FloatValue(3.2),
-                [
-                    new ValidationError(
-                        'The value can not be lower than %size%.',
-                        null,
-                        [
-                            '%size%' => 5.1,
-                        ],
-                        'value'
-                    ),
                 ],
             ],
+            new FloatValue(3.2),
             [
-                [
-                    'validatorConfiguration' => [
-                        'FloatValueValidator' => [
-                            'minFloatValue' => 5.1,
-                            'maxFloatValue' => 10.5,
-                        ],
+                new ValidationError(
+                    'The value can not be lower than %size%.',
+                    null,
+                    [
+                        '%size%' => 5.1,
                     ],
-                ],
-                new FloatValue(13.2),
-                [
-                    new ValidationError(
-                        'The value can not be higher than %size%.',
-                        null,
-                        [
-                            '%size%' => 10.5,
-                        ],
-                        'value'
-                    ),
+                    'value'
+                ),
+            ],
+        ];
+
+        yield 'value above maximum' => [
+            [
+                'validatorConfiguration' => [
+                    'FloatValueValidator' => [
+                        'minFloatValue' => 5.1,
+                        'maxFloatValue' => 10.5,
+                    ],
                 ],
             ],
+            new FloatValue(13.2),
             [
-                [
-                    'validatorConfiguration' => [
-                        'FloatValueValidator' => [
-                            'minFloatValue' => 10.5,
-                            'maxFloatValue' => 5.1,
-                        ],
+                new ValidationError(
+                    'The value can not be higher than %size%.',
+                    null,
+                    [
+                        '%size%' => 10.5,
+                    ],
+                    'value'
+                ),
+            ],
+        ];
+
+        yield 'value outside reversed range' => [
+            [
+                'validatorConfiguration' => [
+                    'FloatValueValidator' => [
+                        'minFloatValue' => 10.5,
+                        'maxFloatValue' => 5.1,
                     ],
                 ],
-                new FloatValue(7.5),
-                [
-                    new ValidationError(
-                        'The value can not be higher than %size%.',
-                        null,
-                        [
-                            '%size%' => 5.1,
-                        ],
-                        'value'
-                    ),
-                    new ValidationError(
-                        'The value can not be lower than %size%.',
-                        null,
-                        [
-                            '%size%' => 10.5,
-                        ],
-                        'value'
-                    ),
-                ],
+            ],
+            new FloatValue(7.5),
+            [
+                new ValidationError(
+                    'The value can not be higher than %size%.',
+                    null,
+                    [
+                        '%size%' => 5.1,
+                    ],
+                    'value'
+                ),
+                new ValidationError(
+                    'The value can not be lower than %size%.',
+                    null,
+                    [
+                        '%size%' => 10.5,
+                    ],
+                    'value'
+                ),
             ],
         ];
     }

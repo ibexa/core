@@ -106,7 +106,7 @@ class ImageAssetTest extends FieldTypeTestCase
         return new ImageAsset\Value();
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -116,29 +116,29 @@ class ImageAssetTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
     {
         $destinationContentId = 7;
 
-        return [
-            [
-                null,
-                $this->getEmptyValueExpectation(),
-            ],
-            [
-                $destinationContentId,
-                new ImageAsset\Value($destinationContentId),
-            ],
-            [
-                new ContentInfo([
-                    'id' => $destinationContentId,
-                ]),
-                new ImageAsset\Value($destinationContentId),
-            ],
+        yield 'null input' => [
+            null,
+            $this->getEmptyValueExpectation(),
+        ];
+
+        yield 'content id' => [
+            $destinationContentId,
+            new ImageAsset\Value($destinationContentId),
+        ];
+
+        yield 'content info object' => [
+            new ContentInfo([
+                'id' => $destinationContentId,
+            ]),
+            new ImageAsset\Value($destinationContentId),
         ];
     }
 
-    public function provideInputForToHash(): array
+    public function provideInputForToHash(): iterable
     {
         $destinationContentId = 7;
         $alternativeText = 'The alternative text for image';
@@ -168,7 +168,7 @@ class ImageAssetTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
         $destinationContentId = 7;
         $alternativeText = 'The alternative text for image';
@@ -195,9 +195,9 @@ class ImageAssetTest extends FieldTypeTestCase
         ];
     }
 
-    public function provideInvalidDataForValidate(): array
+    public function provideInvalidDataForValidate(): iterable
     {
-        return [];
+        yield from [];
     }
 
     public function testValidateNonAsset(): void
@@ -243,13 +243,11 @@ class ImageAssetTest extends FieldTypeTestCase
         ], $validationErrors);
     }
 
-    public function provideValidDataForValidate(): array
+    public function provideValidDataForValidate(): iterable
     {
-        return [
-            [
-                [],
-                $this->getEmptyValueExpectation(),
-            ],
+        yield 'empty value' => [
+            [],
+            $this->getEmptyValueExpectation(),
         ];
     }
 
