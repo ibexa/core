@@ -7,7 +7,6 @@
 
 namespace Ibexa\Core\Persistence\Legacy\Content\FieldValue;
 
-use Ibexa\Core\FieldType\FieldTypeAliasRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\Exception\NotFound;
 
 class ConverterRegistry
@@ -33,10 +32,8 @@ class ConverterRegistry
      * @param array $converterMap A map where key is field type name, and value
      *              is a callable factory to get Converter OR Converter object
      */
-    public function __construct(
-        private readonly FieldTypeAliasRegistry $fieldTypeAliasRegistry,
-        array $converterMap = []
-    ) {
+    public function __construct(array $converterMap = [])
+    {
         $this->converterMap = $converterMap;
     }
 
@@ -54,15 +51,15 @@ class ConverterRegistry
     /**
      * Returns converter for $typeName.
      *
+     * @param string $typeName
+     *
      * @throws \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\Exception\NotFound
      * @throws \RuntimeException When type is neither Converter instance or callable factory
+     *
+     * @return \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter
      */
-    public function getConverter(string $typeName): Converter
+    public function getConverter($typeName)
     {
-        if ($this->fieldTypeAliasRegistry->hasAlias($typeName)) {
-            $typeName = $this->fieldTypeAliasRegistry->getNewAlias($typeName);
-        }
-
         if (!isset($this->converterMap[$typeName])) {
             throw new NotFound($typeName);
         } elseif (!$this->converterMap[$typeName] instanceof Converter) {

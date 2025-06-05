@@ -7,6 +7,9 @@
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
+use Ibexa\Core\FieldType\FieldTypeAliasRegistry;
+use Ibexa\Core\FieldType\FieldTypeAliasResolver;
+use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use function count;
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
@@ -151,6 +154,7 @@ class MapperTest extends LanguageAwareTestCase
             $this->getLanguageHandler(),
             $this->getContentTypeHandler(),
             $this->getEventDispatcher(),
+            $this->getFieldTypeAliasResolver(),
         );
         $res = $mapper->convertToStorageValue($field);
 
@@ -183,7 +187,8 @@ class MapperTest extends LanguageAwareTestCase
             $reg,
             $this->getLanguageHandler(),
             $contentTypeHandlerMock,
-            $this->getEventDispatcher()
+            $this->getEventDispatcher(),
+            $this->getFieldTypeAliasResolver(),
         );
         $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
 
@@ -222,7 +227,8 @@ class MapperTest extends LanguageAwareTestCase
             $reg,
             $this->getLanguageHandler(),
             $contentTypeHandlerMock,
-            $this->getEventDispatcher()
+            $this->getEventDispatcher(),
+            $this->getFieldTypeAliasResolver(),
         );
         $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
 
@@ -271,7 +277,8 @@ class MapperTest extends LanguageAwareTestCase
             $reg,
             $this->getLanguageHandler(),
             $contentTypeHandlerMock,
-            $this->getEventDispatcher()
+            $this->getEventDispatcher(),
+            $this->getFieldTypeAliasResolver(),
         );
         $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
 
@@ -316,7 +323,8 @@ class MapperTest extends LanguageAwareTestCase
             $reg,
             $this->getLanguageHandler(),
             $contentTypeHandlerMock,
-            $this->getEventDispatcher()
+            $this->getEventDispatcher(),
+            $this->getFieldTypeAliasResolver(),
         );
         $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
 
@@ -488,7 +496,8 @@ class MapperTest extends LanguageAwareTestCase
             $this->getValueConverterRegistryMock(),
             $this->getLanguageHandler(),
             $this->getContentTypeHandler(),
-            $this->getEventDispatcher()
+            $this->getEventDispatcher(),
+            $this->getFieldTypeAliasResolver(),
         );
         self::assertEquals($contentInfoReference, $mapper->extractContentInfoFromRow($fixtures, $prefix));
     }
@@ -647,7 +656,8 @@ class MapperTest extends LanguageAwareTestCase
             $this->getValueConverterRegistryMock(),
             $this->getLanguageHandler(),
             $this->getContentTypeHandler(),
-            $this->getEventDispatcher()
+            $this->getEventDispatcher(),
+            $this->getFieldTypeAliasResolver(),
         );
     }
 
@@ -699,6 +709,13 @@ class MapperTest extends LanguageAwareTestCase
         );
 
         return $eventDispatcher;
+    }
+
+    protected function getFieldTypeAliasResolver(): FieldTypeAliasResolverInterface
+    {
+        $fieldTypeAliasRegistry = new FieldTypeAliasRegistry();
+
+        return new FieldTypeAliasResolver($fieldTypeAliasRegistry);
     }
 
     /**

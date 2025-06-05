@@ -7,7 +7,6 @@
 
 namespace Ibexa\Core\Base\Container\Compiler\Storage\Legacy;
 
-use Ibexa\Core\FieldType\FieldTypeAliasRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -37,10 +36,6 @@ class FieldValueConverterRegistryPass implements CompilerPassInterface
         }
 
         $registry = $container->getDefinition(self::CONVERTER_REGISTRY_SERVICE_ID);
-        $registry->setArgument(
-            '$fieldTypeAliasRegistry',
-            new Reference(FieldTypeAliasRegistry::class),
-        );
 
         $serviceTags = $container->findTaggedServiceIds(self::CONVERTER_SERVICE_TAG);
 

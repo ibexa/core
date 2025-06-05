@@ -24,12 +24,10 @@ class FieldTypeRegistry
     private $concreteFieldTypesIdentifiers;
 
     /**
-     * @param \Ibexa\Contracts\Core\FieldType\FieldType[] $fieldTypes Hash of SPI FieldTypes where a key is an identifier
+     * @param \Ibexa\Contracts\Core\FieldType\FieldType[] $fieldTypes Hash of SPI FieldTypes where key is identifier
      */
-    public function __construct(
-        private readonly FieldTypeAliasRegistry $fieldTypeAliasRegistry,
-        array $fieldTypes = []
-    ) {
+    public function __construct(array $fieldTypes = [])
+    {
         $this->fieldTypes = $fieldTypes;
     }
 
@@ -44,18 +42,16 @@ class FieldTypeRegistry
     }
 
     /**
-     * Returns an SPI FieldType object.
+     * Return a SPI FieldType object.
      *
      * @throws \Ibexa\Core\Base\Exceptions\NotFound\FieldTypeNotFoundException If $identifier was not found
      *
+     * @param string $identifier
+     *
      * @return \Ibexa\Contracts\Core\FieldType\FieldType
      */
-    public function getFieldType(string $identifier): SPIFieldType
+    public function getFieldType($identifier): SPIFieldType
     {
-        if ($this->fieldTypeAliasRegistry->hasAlias($identifier)) {
-            $identifier = $this->fieldTypeAliasRegistry->getNewAlias($identifier);
-        }
-
         if (!isset($this->fieldTypes[$identifier])) {
             throw new FieldTypeNotFoundException($identifier);
         }

@@ -26,7 +26,6 @@ class FieldTypeRegistryPass extends AbstractFieldTypeBasedPass
         $container->setDefinition(FieldTypeAliasRegistry::class, $aliasRegistryDefinition);
 
         $fieldTypeRegistryDefinition = $container->getDefinition(FieldTypeRegistry::class);
-        $fieldTypeRegistryDefinition->setArgument(0, $aliasRegistryDefinition);
 
         foreach ($this->getFieldTypeServiceIds($container) as $id => $attributes) {
             foreach ($attributes as $attribute) {

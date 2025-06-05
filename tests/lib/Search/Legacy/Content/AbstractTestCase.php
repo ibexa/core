@@ -8,6 +8,9 @@
 namespace Ibexa\Tests\Core\Search\Legacy\Content;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPIContentTypeHandler;
+use Ibexa\Core\FieldType\FieldTypeAliasRegistry;
+use Ibexa\Core\FieldType\FieldTypeAliasResolver;
+use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
@@ -94,7 +97,8 @@ class AbstractTestCase extends LanguageAwareTestCase
                 new ContentTypeMapper(
                     $this->getConverterRegistry(),
                     $this->getLanguageMaskGenerator(),
-                    $this->createMock(StorageDispatcherInterface::class)
+                    $this->createMock(StorageDispatcherInterface::class),
+                    $this->getFieldTypeAliasResolver(),
                 ),
                 $this->createMock(ContentTypeUpdateHandler::class),
                 $this->createMock(StorageDispatcherInterface::class)
@@ -137,5 +141,12 @@ class AbstractTestCase extends LanguageAwareTestCase
         );
 
         return $eventDispatcher;
+    }
+
+    protected function getFieldTypeAliasResolver(): FieldTypeAliasResolverInterface
+    {
+        $fieldTypeAliasRegistry = new FieldTypeAliasRegistry();
+
+        return new FieldTypeAliasResolver($fieldTypeAliasRegistry);
     }
 }
