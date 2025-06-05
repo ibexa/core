@@ -189,7 +189,7 @@ class Mapper
         $type = new Type();
 
         $type->id = (int)$row['content_type_id'];
-        $type->status = (int)$row['content_type_version'];
+        $type->status = (int)$row['content_type_status'];
         $type->name = $this->unserialize($row['content_type_serialized_name_list']);
         $type->description = $this->unserialize($row['content_type_serialized_description_list']);
         // Unset redundant data

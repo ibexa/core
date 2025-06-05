@@ -29,7 +29,7 @@ VALUES (1, 1),
 INSERT INTO `ibexa_content_language` (`disabled`, `id`, `locale`, `name`)
 VALUES (0, 2, 'eng-GB', 'English (United Kingdom)');
 
-INSERT INTO `ibexa_content_type` (`always_available`, `contentobject_name`, `created`, `creator_id`, `id`, `identifier`, `initial_language_id`, `is_container`, `language_mask`, `modified`, `modifier_id`, `remote_id`, `serialized_description_list`, `serialized_name_list`, `sort_field`, `sort_order`, `url_alias_name`, `version`)
+INSERT INTO `ibexa_content_type` (`always_available`, `contentobject_name`, `created`, `creator_id`, `id`, `identifier`, `initial_language_id`, `is_container`, `language_mask`, `modified`, `modifier_id`, `remote_id`, `serialized_description_list`, `serialized_name_list`, `sort_field`, `sort_order`, `url_alias_name`, `status`)
 VALUES (1,'<short_name|name>',1024392098,14,1,'folder',2,1,2,1448831672,14,'a3d405b81be900468eb153d774f4f0d2','a:0:{}','a:1:{s:6:\"eng-GB\";s:6:\"Folder\";}',1,1,NULL,0),
        (0,'<short_title|title>',1024392098,14,2,'article',2,1,3,1082454989,14,'c15b600eb9198b1924063b5a68758232',NULL,'a:2:{s:6:\"eng-GB\";s:7:\"Article\";s:16:\"always-available\";s:6:\"eng-GB\";}',1,1,NULL,0),
        (1,'<name>',1024392098,14,3,'user_group',2,1,3,1048494743,14,'25b4268cdcd01921b808a0d854b877ef',NULL,'a:2:{s:6:\"eng-GB\";s:10:\"User group\";s:16:\"always-available\";s:6:\"eng-GB\";}',1,1,NULL,0),
@@ -37,7 +37,7 @@ VALUES (1,'<short_name|name>',1024392098,14,1,'folder',2,1,2,1448831672,14,'a3d4
        (1,'<name>',1031484992,14,5,'image',2,0,3,1048494784,14,'f6df12aa74e36230eb675f364fccd25a',NULL,'a:2:{s:6:\"eng-GB\";s:5:\"Image\";s:16:\"always-available\";s:6:\"eng-GB\";}',1,1,NULL,0),
        (1,'<name>',1052385472,14,12,'file',2,0,3,1052385669,14,'637d58bfddf164627bdfd265733280a0',NULL,'a:2:{s:6:\"eng-GB\";s:4:\"File\";s:16:\"always-available\";s:6:\"eng-GB\";}',1,1,NULL,0);
 
-INSERT INTO `ibexa_content_type_field_definition` (`can_translate`, `category`, `content_type_id`, `data_float1`, `data_float2`, `data_float3`, `data_float4`, `data_int1`, `data_int2`, `data_int3`, `data_int4`, `data_text1`, `data_text2`, `data_text3`, `data_text4`, `data_text5`, `data_type_string`, `id`, `identifier`, `is_information_collector`, `is_required`, `is_searchable`, `is_thumbnail`, `placement`, `serialized_data_text`, `serialized_description_list`, `serialized_name_list`, `version`)
+INSERT INTO `ibexa_content_type_field_definition` (`can_translate`, `category`, `content_type_id`, `data_float1`, `data_float2`, `data_float3`, `data_float4`, `data_int1`, `data_int2`, `data_int3`, `data_int4`, `data_text1`, `data_text2`, `data_text3`, `data_text4`, `data_text5`, `data_type_string`, `id`, `identifier`, `is_information_collector`, `is_required`, `is_searchable`, `is_thumbnail`, `placement`, `serialized_data_text`, `serialized_description_list`, `serialized_name_list`, `status`)
 VALUES (1,'',2,0,0,0,0,255,0,0,0,'New article','','','','','ezstring',1,'title',0,1,1,1,0,NULL,NULL,'a:2:{s:6:\"eng-GB\";s:5:\"Title\";s:16:\"always-available\";s:6:\"eng-GB\";}',0),
        (1,'',1,NULL,NULL,NULL,NULL,255,0,NULL,NULL,'Folder',NULL,NULL,NULL,NULL,'ezstring',4,'name',0,1,1,0,1,'N;','a:0:{}','a:1:{s:6:\"eng-GB\";s:4:\"Name\";}',0),
        (1,'',3,0,0,0,0,255,0,0,0,'','','','',NULL,'ezstring',6,'name',0,1,1,0,1,NULL,NULL,'a:2:{s:6:\"eng-GB\";s:4:\"Name\";s:16:\"always-available\";s:6:\"eng-GB\";}',0),
@@ -63,7 +63,7 @@ VALUES (1,'',2,0,0,0,0,255,0,0,0,'New article','','','','','ezstring',1,'title',
        (1,'',4,0,0,0,0,10,0,0,0,'','','','','','eztext',179,'signature',0,0,1,0,4,NULL,NULL,'a:2:{s:6:\"eng-GB\";s:9:\"Signature\";s:16:\"always-available\";s:6:\"eng-GB\";}',0),
        (1,'',4,10.0,0,0,0,0,0,0,0,'MB','','','','','ezimage',180,'image',0,0,0,1,5,NULL,NULL,'a:2:{s:6:\"eng-GB\";s:5:\"Image\";s:16:\"always-available\";s:6:\"eng-GB\";}',0);
 
-INSERT INTO `ibexa_content_type_group_assignment` (`content_type_id`, `contentclass_version`, `group_id`, `group_name`)
+INSERT INTO `ibexa_content_type_group_assignment` (`content_type_id`, `content_type_status`, `group_id`, `group_name`)
 VALUES (1, 0, 1, 'Content'),
        (2, 0, 1, 'Content'),
        (3, 0, 2, 'Users'),
@@ -71,7 +71,7 @@ VALUES (1, 0, 1, 'Content'),
        (5, 0, 3, 'Media'),
        (12, 0, 3, 'Media');
 
-INSERT INTO `ibexa_content_type_name` (`content_type_id`, `contentclass_version`, `language_id`, `language_locale`, `name`)
+INSERT INTO `ibexa_content_type_name` (`content_type_id`, `content_type_status`, `language_id`, `language_locale`, `name`)
 VALUES (1, 0, 2, 'eng-GB', 'Folder'),
        (2, 0, 3, 'eng-GB', 'Article'),
        (3, 0, 3, 'eng-GB', 'User group'),

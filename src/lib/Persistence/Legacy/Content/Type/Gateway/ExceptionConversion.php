@@ -335,8 +335,13 @@ final class ExceptionConversion extends Gateway
 
     public function removeByUserAndVersion(int $userId, int $version): void
     {
+        $this->removeByUserAndStatus($userId, $version);
+    }
+
+    public function removeByUserAndStatus(int $userId, int $status): void
+    {
         try {
-            $this->innerGateway->removeByUserAndVersion($userId, $version);
+            $this->innerGateway->removeByUserAndStatus($userId, $status);
         } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }

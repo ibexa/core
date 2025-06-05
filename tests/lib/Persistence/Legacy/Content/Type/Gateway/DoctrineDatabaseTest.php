@@ -433,7 +433,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ['sort_field', 7],
             ['sort_order', 1],
             ['url_alias_name', ''],
-            ['version', '0'],
+            ['status', '0'],
         ];
     }
 
@@ -464,7 +464,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     public static function getTypeCreationContentClassNameExpectations()
     {
         return [
-            ['contentclass_version', [0, 0]],
+            ['content_type_status', [0, 0]],
             ['language_id', [3, 4]],
             ['language_locale', ['eng-US', 'eng-GB']],
             ['name', ['Folder', 'Folder (GB)']],
@@ -556,7 +556,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'can_translate' => '1',
                     'is_required' => '1',
                     'is_information_collector' => '1',
-                    'version' => '1',
+                    'status' => '1',
 
                     'data_float1' => '0.1',
                     'data_float2' => '0.2',
@@ -586,7 +586,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'can_translate',
                     'is_required',
                     'is_information_collector',
-                    'version',
+                    'status',
                     'data_float1',
                     'data_float2',
                     'data_float3',
@@ -708,7 +708,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 [
                     'category' => 'meta',
                     'content_type_id' => '2',
-                    'version' => '0',
+                    'status' => '0',
                     'data_type_string' => 'ezstring',
                     'identifier' => 'description',
                     'is_information_collector' => '1',
@@ -735,7 +735,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->select(
                     'category',
                     'content_type_id',
-                    'version',
+                    'status',
                     'data_type_string',
                     'identifier',
                     'is_information_collector',
@@ -776,7 +776,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [
                 [
                     'content_type_id' => '42',
-                    'contentclass_version' => '1',
+                    'content_type_status' => '1',
                     'group_id' => '3',
                     'group_name' => 'Media',
                 ],
@@ -784,7 +784,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select(
                     'content_type_id',
-                    'contentclass_version',
+                    'content_type_status',
                     'group_id',
                     'group_name'
                 )->from(Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE)
@@ -836,7 +836,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->select(
                     $fieldName
                 )->from(Gateway::CONTENT_TYPE_TABLE)
-                ->where('id = 1 AND version = 0'),
+                ->where('id = 1 AND status = 0'),
             "Incorrect value stored for '{$fieldName}'."
         );
     }
@@ -857,14 +857,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             [
                 [
                     'content_type_id' => 1,
-                    'contentclass_version' => 0,
+                    'content_type_status' => 0,
                     'language_id' => 3,
                     'language_locale' => 'eng-US',
                     'name' => 'New Folder',
                 ],
                 [
                     'content_type_id' => 1,
-                    'contentclass_version' => 0,
+                    'content_type_status' => 0,
                     'language_id' => 4,
                     'language_locale' => 'eng-GB',
                     'name' => 'New Folder for you',
@@ -873,7 +873,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('*')
                 ->from(Gateway::CONTENT_TYPE_NAME_TABLE)
-                ->where('content_type_id = 1 AND contentclass_version = 0')
+                ->where('content_type_id = 1 AND content_type_status = 0')
         );
     }
 
@@ -1116,7 +1116,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('COUNT( * )')
                 ->from(Gateway::CONTENT_TYPE_TABLE)
-                ->where('id = 1 AND version = 0')
+                ->where('id = 1 AND status = 0')
         );
 
         $this->assertQueryResult(
@@ -1124,7 +1124,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('COUNT( * )')
                 ->from(Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE)
-                ->where('content_type_id = 1 AND contentclass_version = 0')
+                ->where('content_type_id = 1 AND content_type_status = 0')
         );
 
         $this->assertQueryResult(
@@ -1132,7 +1132,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('COUNT( * )')
                 ->from(Gateway::FIELD_DEFINITION_TABLE)
-                ->where('content_type_id = 1 AND version = 0')
+                ->where('content_type_id = 1 AND status = 0')
         );
 
         $this->assertQueryResult(
@@ -1140,7 +1140,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('COUNT( * )')
                 ->from(Gateway::CONTENT_TYPE_NAME_TABLE)
-                ->where('content_type_id = 1 AND contentclass_version = 0')
+                ->where('content_type_id = 1 AND content_type_status = 0')
         );
     }
 

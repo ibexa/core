@@ -52,7 +52,7 @@ final class DoctrineDatabase extends Gateway
             'sort_field',
             'sort_order',
             'url_alias_name',
-            'version',
+            'status',
         ],
         Gateway::FIELD_DEFINITION_TABLE => [
             'id',
@@ -191,7 +191,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->andWhere(
                 $expr->eq(
-                    'contentclass_version',
+                    'content_type_status',
                     $query->createPositionalParameter($status, ParameterType::INTEGER)
                 )
             );
@@ -234,7 +234,7 @@ final class DoctrineDatabase extends Gateway
                             $typeId,
                             ParameterType::INTEGER
                         ),
-                        'contentclass_version' => $query->createPositionalParameter(
+                        'content_type_status' => $query->createPositionalParameter(
                             $typeStatus,
                             ParameterType::INTEGER
                         ),
@@ -294,8 +294,7 @@ final class DoctrineDatabase extends Gateway
             ->insert(self::CONTENT_TYPE_TABLE)
             ->values(
                 [
-                    // Legacy Storage: "version" stores CT status (draft, published)
-                    'version' => $query->createNamedParameter(
+                    'status' => $query->createNamedParameter(
                         $type->status,
                         ParameterType::INTEGER,
                         ':status'
@@ -396,7 +395,7 @@ final class DoctrineDatabase extends Gateway
                         $typeId,
                         ParameterType::INTEGER
                     ),
-                    'contentclass_version' => $query->createPositionalParameter(
+                    'content_type_status' => $query->createPositionalParameter(
                         $status,
                         ParameterType::INTEGER
                     ),
@@ -428,7 +427,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->andWhere(
                 $expr->eq(
-                    'contentclass_version',
+                    'content_type_status',
                     $query->createPositionalParameter($status, ParameterType::INTEGER)
                 )
             )
@@ -503,10 +502,10 @@ final class DoctrineDatabase extends Gateway
         $expr = $query->expr();
         $query
             ->where($expr->eq('g.group_id', ':gid'))
-            ->andWhere($expr->eq('c.version', ':version'))
+            ->andWhere($expr->eq('c.status', ':status'))
             ->addOrderBy('c.identifier')
             ->setParameter('gid', $groupId, ParameterType::INTEGER)
-            ->setParameter('version', $status, ParameterType::INTEGER);
+            ->setParameter('status', $status, ParameterType::INTEGER);
 
         return $query->executeQuery()->fetchAllAssociative();
     }
@@ -527,7 +526,7 @@ final class DoctrineDatabase extends Gateway
                         ParameterType::INTEGER,
                         ':content_type_id'
                     ),
-                    'version' => $query->createNamedParameter(
+                    'status' => $query->createNamedParameter(
                         $status,
                         ParameterType::INTEGER,
                         ':status'
@@ -584,7 +583,7 @@ final class DoctrineDatabase extends Gateway
                     'name' => ':name',
                     'description' => ':description',
                     'contentclass_attribute_id' => ':field_definition_id',
-                    'version' => ':status',
+                    'status' => ':status',
                     'language_id' => ':language_id',
                 ]
             )
@@ -667,7 +666,7 @@ final class DoctrineDatabase extends Gateway
                 'ct',
                 $expr->and(
                     $expr->eq('f_def.content_type_id', 'ct.id'),
-                    $expr->eq('f_def.version', 'ct.version')
+                    $expr->eq('f_def.status', 'ct.status')
                 )
             )
             ->leftJoin(
@@ -680,8 +679,8 @@ final class DoctrineDatabase extends Gateway
                         'transl_f_def.contentclass_attribute_id'
                     ),
                     $expr->eq(
-                        'f_def.version',
-                        'transl_f_def.version'
+                        'f_def.status',
+                        'transl_f_def.status'
                     )
                 )
             )
@@ -693,7 +692,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->andWhere(
                 $expr->eq(
-                    'f_def.version',
+                    'f_def.status',
                     $query->createPositionalParameter($status, ParameterType::INTEGER)
                 )
             );
@@ -711,7 +710,7 @@ final class DoctrineDatabase extends Gateway
         $deleteQuery
             ->delete(self::MULTILINGUAL_FIELD_DEFINITION_TABLE)
             ->where('contentclass_attribute_id = :field_definition_id')
-            ->andWhere('version = :status')
+            ->andWhere('status = :status')
             ->setParameter('field_definition_id', $fieldDefinitionId, ParameterType::INTEGER)
             ->setParameter('status', $status, ParameterType::INTEGER);
 
@@ -727,10 +726,9 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter($fieldDefinitionId, ParameterType::INTEGER)
                 )
             )
-            // in Legacy Storage Field Definition table the "version" column stores status (e.g. draft, published, modified)
             ->andWhere(
                 $query->expr()->eq(
-                    'version',
+                    'status',
                     $query->createPositionalParameter($status, ParameterType::INTEGER)
                 )
             )
@@ -749,7 +747,7 @@ final class DoctrineDatabase extends Gateway
         $query
             ->update(self::FIELD_DEFINITION_TABLE)
             ->where('id = :field_definition_id')
-            ->andWhere('version = :status')
+            ->andWhere('status = :status')
             ->setParameter('field_definition_id', $fieldDefinition->id, ParameterType::INTEGER)
             ->setParameter('status', $status, ParameterType::INTEGER);
 
@@ -802,7 +800,7 @@ final class DoctrineDatabase extends Gateway
             ->select('COUNT(1)')
             ->from(self::MULTILINGUAL_FIELD_DEFINITION_TABLE)
             ->where('contentclass_attribute_id = :field_definition_id')
-            ->andWhere('version = :status')
+            ->andWhere('status = :status')
             ->andWhere('language_id = :language_id')
             ->setParameter('field_definition_id', $fieldDefinition->id, ParameterType::INTEGER)
             ->setParameter('status', $status, ParameterType::INTEGER)
@@ -824,7 +822,7 @@ final class DoctrineDatabase extends Gateway
             ->set('name', ':name')
             ->set('description', ':description')
             ->where('contentclass_attribute_id = :field_definition_id')
-            ->andWhere('version = :status')
+            ->andWhere('status = :status')
             ->andWhere('language_id = :languageId')
             ->setParameter('data_text', $multilingualData->dataText)
             ->setParameter('data_json', $multilingualData->dataJson)
@@ -854,7 +852,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->andWhere(
                 $expr->eq(
-                    'contentclass_version',
+                    'content_type_status',
                     $query->createPositionalParameter($typeStatus, ParameterType::INTEGER)
                 )
             );
@@ -887,7 +885,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->andWhere(
                 $expr->eq(
-                    'version',
+                    'status',
                     $query->createNamedParameter($status, ParameterType::INTEGER, ':status')
                 )
             );
@@ -904,7 +902,7 @@ final class DoctrineDatabase extends Gateway
 
         $query
             ->where($query->expr()->in('c.id', ':ids'))
-            ->andWhere($query->expr()->eq('c.version', Type::STATUS_DEFINED))
+            ->andWhere($query->expr()->eq('c.status', Type::STATUS_DEFINED))
             ->setParameter('ids', $typeIds, Connection::PARAM_INT_ARRAY);
 
         return $query->executeQuery()->fetchAllAssociative();
@@ -930,9 +928,9 @@ final class DoctrineDatabase extends Gateway
         $expr = $query->expr();
         $query
             ->where($expr->eq('c.id', ':id'))
-            ->andWhere($expr->eq('c.version', ':version'))
+            ->andWhere($expr->eq('c.status', ':status'))
             ->setParameter('id', $typeId, ParameterType::INTEGER)
-            ->setParameter('version', $status, ParameterType::INTEGER);
+            ->setParameter('status', $status, ParameterType::INTEGER);
 
         return $query->executeQuery()->fetchAllAssociative();
     }
@@ -943,9 +941,9 @@ final class DoctrineDatabase extends Gateway
         $expr = $query->expr();
         $query
             ->where($expr->eq('c.identifier', ':identifier'))
-            ->andWhere($expr->eq('c.version', ':version'))
+            ->andWhere($expr->eq('c.status', ':status'))
             ->setParameter('identifier', $identifier, ParameterType::STRING)
-            ->setParameter('version', $status, ParameterType::INTEGER);
+            ->setParameter('status', $status, ParameterType::INTEGER);
 
         return $query->executeQuery()->fetchAllAssociative();
     }
@@ -955,9 +953,9 @@ final class DoctrineDatabase extends Gateway
         $query = $this->getLoadTypeQueryBuilder();
         $query
             ->where($query->expr()->eq('c.remote_id', ':remote'))
-            ->andWhere($query->expr()->eq('c.version', ':version'))
+            ->andWhere($query->expr()->eq('c.status', ':status'))
             ->setParameter('remote', $remoteId, ParameterType::STRING)
-            ->setParameter('version', $status, ParameterType::INTEGER);
+            ->setParameter('status', $status, ParameterType::INTEGER);
 
         return $query->executeQuery()->fetchAllAssociative();
     }
@@ -972,7 +970,7 @@ final class DoctrineDatabase extends Gateway
         $query
             ->select(
                 'c.id AS content_type_id',
-                'c.version AS content_type_version',
+                'c.status AS content_type_status',
                 'c.serialized_name_list AS content_type_serialized_name_list',
                 'c.serialized_description_list AS content_type_serialized_description_list',
                 'c.identifier AS content_type_identifier',
@@ -1029,7 +1027,7 @@ final class DoctrineDatabase extends Gateway
                 'a',
                 $expr->and(
                     $expr->eq('c.id', 'a.content_type_id'),
-                    $expr->eq('c.version', 'a.version')
+                    $expr->eq('c.status', 'a.status')
                 )
             )
             ->leftJoin(
@@ -1038,7 +1036,7 @@ final class DoctrineDatabase extends Gateway
                 'g',
                 $expr->and(
                     $expr->eq('c.id', 'g.content_type_id'),
-                    $expr->eq('c.version', 'g.contentclass_version')
+                    $expr->eq('c.status', 'g.content_type_status')
                 )
             )
             ->leftJoin(
@@ -1047,7 +1045,7 @@ final class DoctrineDatabase extends Gateway
                 'ml',
                 $expr->and(
                     $expr->eq('a.id', 'ml.contentclass_attribute_id'),
-                    $expr->eq('a.version', 'ml.version')
+                    $expr->eq('a.status', 'ml.status')
                 )
             )
             ->orderBy('a.placement');
@@ -1090,7 +1088,7 @@ final class DoctrineDatabase extends Gateway
                 sprintf('EXISTS (%s)', $subQuery->getSQL())
             )
             // note: not all drivers support aliasing tables in DELETE query, hence the following:
-            ->andWhere(sprintf('%s.version = :status', self::MULTILINGUAL_FIELD_DEFINITION_TABLE))
+            ->andWhere(sprintf('%s.status = :status', self::MULTILINGUAL_FIELD_DEFINITION_TABLE))
             ->setParameter('content_type_id', $typeId, ParameterType::INTEGER)
             ->setParameter('status', $status, ParameterType::INTEGER);
 
@@ -1108,7 +1106,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->andWhere(
                 $expr->eq(
-                    'version',
+                    'status',
                     $query->createPositionalParameter($status, ParameterType::INTEGER)
                 )
             );
@@ -1136,7 +1134,7 @@ final class DoctrineDatabase extends Gateway
                         $query->createPositionalParameter($typeId, ParameterType::INTEGER)
                     ),
                     $query->expr()->eq(
-                        'version',
+                        'status',
                         $query->createPositionalParameter($status, ParameterType::INTEGER)
                     )
                 )
@@ -1156,7 +1154,7 @@ final class DoctrineDatabase extends Gateway
                 )
             )->andWhere(
                 $query->expr()->eq(
-                    'contentclass_version',
+                    'content_type_status',
                     $query->createPositionalParameter($status, ParameterType::INTEGER)
                 )
             );
@@ -1234,7 +1232,7 @@ final class DoctrineDatabase extends Gateway
             $targetStatus,
             self::CONTENT_TYPE_TABLE,
             'id',
-            'version'
+            'status'
         );
 
         $this->internalChangeContentTypeStatus(
@@ -1243,7 +1241,7 @@ final class DoctrineDatabase extends Gateway
             $targetStatus,
             self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE,
             'content_type_id',
-            'contentclass_version'
+            'content_type_status'
         );
 
         $this->internalChangeContentTypeStatus(
@@ -1252,7 +1250,7 @@ final class DoctrineDatabase extends Gateway
             $targetStatus,
             self::FIELD_DEFINITION_TABLE,
             'content_type_id',
-            'version'
+            'status'
         );
 
         $this->internalChangeContentTypeStatus(
@@ -1261,7 +1259,7 @@ final class DoctrineDatabase extends Gateway
             $targetStatus,
             self::CONTENT_TYPE_NAME_TABLE,
             'content_type_id',
-            'contentclass_version'
+            'content_type_status'
         );
         $ctMlTable = Gateway::MULTILINGUAL_FIELD_DEFINITION_TABLE;
         $subQuery = $this->connection->createQueryBuilder();
@@ -1274,13 +1272,13 @@ final class DoctrineDatabase extends Gateway
         $mlDataPublishQuery = $this->connection->createQueryBuilder();
         $mlDataPublishQuery
             ->update(self::MULTILINGUAL_FIELD_DEFINITION_TABLE)
-            ->set('version', ':target_status')
+            ->set('status', ':target_status')
             ->where(
                 sprintf('EXISTS (%s)', $subQuery->getSQL())
             )
             // note: not all drivers support aliasing tables in UPDATE query, hence the following:
             ->andWhere(
-                sprintf('%s.version = :source_status', self::MULTILINGUAL_FIELD_DEFINITION_TABLE)
+                sprintf('%s.status = :source_status', self::MULTILINGUAL_FIELD_DEFINITION_TABLE)
             )
             ->setParameter('type_id', $typeId, ParameterType::INTEGER)
             ->setParameter('target_status', $targetStatus, ParameterType::INTEGER)
@@ -1324,7 +1322,7 @@ final class DoctrineDatabase extends Gateway
         $deleteQuery
             ->delete(self::MULTILINGUAL_FIELD_DEFINITION_TABLE)
             ->where('contentclass_attribute_id = :field_definition_id')
-            ->andWhere('version = :status')
+            ->andWhere('status = :status')
             ->andWhere('language_id = :language_id')
             ->setParameter('field_definition_id', $fieldDefinitionId, ParameterType::INTEGER)
             ->setParameter('status', $status, ParameterType::INTEGER)
@@ -1333,17 +1331,14 @@ final class DoctrineDatabase extends Gateway
         $deleteQuery->executeStatement();
     }
 
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
-    public function removeByUserAndVersion(int $userId, int $version): void
+    public function removeByUserAndStatus(int $userId, int $status): void
     {
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder->delete(self::CONTENT_TYPE_TABLE)
             ->where('creator_id = :user or modifier_id = :user')
-            ->andWhere('version = :version')
+            ->andWhere('status = :status')
             ->setParameter('user', $userId, ParameterType::INTEGER)
-            ->setParameter('version', $version, ParameterType::INTEGER)
+            ->setParameter('status', $status, ParameterType::INTEGER)
         ;
 
         try {
@@ -1358,6 +1353,14 @@ final class DoctrineDatabase extends Gateway
 
             throw $e;
         }
+    }
+
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function removeByUserAndVersion(int $userId, int $version): void
+    {
+        $this->removeByUserAndStatus($userId, $version);
     }
 
     /**
@@ -1383,7 +1386,7 @@ final class DoctrineDatabase extends Gateway
             WHERE NOT EXISTS (
               SELECT 1 FROM $contentTypeTable
                 WHERE $contentTypeTable.id = $contentTypeAttrTable.content_type_id
-                AND $contentTypeTable.version = $contentTypeAttrTable.version
+                AND $contentTypeTable.status = $contentTypeAttrTable.status
             )
 SQL;
         $this->connection->executeStatement($sql);
@@ -1401,7 +1404,7 @@ SQL;
             WHERE NOT EXISTS (
               SELECT 1 FROM $contentTypeAttrTable
                 WHERE $contentTypeAttrTable.id = $contentTypeAttrMlTable.contentclass_attribute_id
-                AND $contentTypeAttrTable.version = $contentTypeAttrMlTable.version
+                AND $contentTypeAttrTable.status = $contentTypeAttrMlTable.status
             )
 SQL;
         $this->connection->executeStatement($sql);
@@ -1419,7 +1422,7 @@ SQL;
             WHERE NOT EXISTS (
               SELECT 1 FROM $contentTypeTable
                 WHERE $contentTypeTable.id = $contentTypeGroupAssignmentTable.content_type_id
-                AND $contentTypeTable.version = $contentTypeGroupAssignmentTable.contentclass_version
+                AND $contentTypeTable.status = $contentTypeGroupAssignmentTable.content_type_status
             )
 SQL;
         $this->connection->executeStatement($sql);
@@ -1437,7 +1440,7 @@ SQL;
             WHERE NOT EXISTS (
               SELECT 1 FROM $contentTypeTable
                 WHERE $contentTypeTable.id = $contentTypeNameTable.content_type_id
-                AND $contentTypeTable.version = $contentTypeNameTable.contentclass_version
+                AND $contentTypeTable.status = $contentTypeNameTable.content_type_status
             )
 SQL;
         $this->connection->executeStatement($sql);

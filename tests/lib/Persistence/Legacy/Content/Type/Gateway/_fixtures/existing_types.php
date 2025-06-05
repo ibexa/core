@@ -28,7 +28,7 @@ return [
             'sort_field' => 1,
             'sort_order' => 1,
             'url_alias_name' => '',
-            'version' => 0,
+            'status' => 0,
         ],
         // not loaded, id mismatch
         [
@@ -49,7 +49,7 @@ return [
             'sort_field' => 1,
             'sort_order' => 1,
             'url_alias_name' => '',
-            'version' => 0,
+            'status' => 0,
         ],
     ],
     Gateway::FIELD_DEFINITION_TABLE => [
@@ -82,7 +82,7 @@ return [
             'serialized_data_text' => 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}',
             'serialized_description_list' => 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}',
             'serialized_name_list' => 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:4:"Name";}',
-            'version' => 0,
+            'status' => 0,
         ],
         [
             'id' => 155,
@@ -112,7 +112,7 @@ return [
             'serialized_data_text' => 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}',
             'serialized_description_list' => 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}',
             'serialized_name_list' => 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:10:"Short name";}',
-            'version' => 0,
+            'status' => 0,
         ],
         [
             'id' => 158,
@@ -142,9 +142,9 @@ return [
             'serialized_data_text' => 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}',
             'serialized_description_list' => 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}',
             'serialized_name_list' => 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:13:"Show children";}',
-            'version' => 0,
+            'status' => 0,
         ],
-        // not loaded, version mismatch
+        // not loaded, status mismatch
         [
             'id' => 159,
             'content_type_id' => 1,
@@ -173,7 +173,7 @@ return [
             'serialized_data_text' => 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}',
             'serialized_description_list' => 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}',
             'serialized_name_list' => 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:13:"Show children";}',
-            'version' => 1,
+            'status' => 1,
         ],
         // not loaded, content_type_id mismatch
         [
@@ -204,28 +204,28 @@ return [
             'serialized_data_text' => 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}',
             'serialized_description_list' => 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}',
             'serialized_name_list' => 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:13:"Show children";}',
-            'version' => 0,
+            'status' => 0,
         ],
     ],
     Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE => [
         // loaded
         [
             'content_type_id' => 1,
-            'contentclass_version' => 0,
+            'content_type_status' => 0,
             'group_id' => 1,
             'group_name' => 'Content',
         ],
-        // not loaded, version mismatch
+        // not loaded, status mismatch
         [
             'content_type_id' => 1,
-            'contentclass_version' => 1,
+            'content_type_status' => 1,
             'group_id' => 1,
             'group_name' => 'Content',
         ],
         // not loaded, id mismatch
         [
             'content_type_id' => 2,
-            'contentclass_version' => 0,
+            'content_type_status' => 0,
             'group_id' => 1,
             'group_name' => 'Content',
         ],
@@ -233,7 +233,7 @@ return [
     Gateway::CONTENT_TYPE_NAME_TABLE => [
         [
             'content_type_id' => 1,
-            'contentclass_version' => 0,
+            'content_type_status' => 0,
             'language_id' => 3,
             'language_locale' => 'eng-US',
             'name' => 'Folder',

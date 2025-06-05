@@ -26,7 +26,7 @@ return [
             'sort_field' => 1,
             'sort_order' => 1,
             'url_alias_name' => '',
-            'version' => 1,
+            'status' => 1,
         ],
         [
             'id' => 2,
@@ -46,7 +46,7 @@ return [
             'sort_field' => 1,
             'sort_order' => 1,
             'url_alias_name' => '',
-            'version' => 0,
+            'status' => 0,
         ],
     ],
     Gateway::FIELD_DEFINITION_TABLE => [
@@ -77,7 +77,7 @@ return [
             'serialized_data_text' => 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}',
             'serialized_description_list' => 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}',
             'serialized_name_list' => 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:4:"Name";}',
-            'version' => 1,
+            'status' => 1,
         ],
         [
             'id' => 155,
@@ -106,7 +106,7 @@ return [
             'serialized_data_text' => 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}',
             'serialized_description_list' => 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}',
             'serialized_name_list' => 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:10:"Short name";}',
-            'version' => 1,
+            'status' => 1,
         ],
         [
             'id' => 158,
@@ -135,7 +135,7 @@ return [
             'serialized_data_text' => 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}',
             'serialized_description_list' => 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}',
             'serialized_name_list' => 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:13:"Show children";}',
-            'version' => 1,
+            'status' => 1,
         ],
         [
             'id' => 160,
@@ -164,13 +164,13 @@ return [
             'serialized_data_text' => 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}',
             'serialized_description_list' => 'a:2:{i:0;s:0:"";s:16:"always-available";b:0;}',
             'serialized_name_list' => 'a:2:{s:16:"always-available";s:6:"eng-US";s:6:"eng-US";s:13:"Show children";}',
-            'version' => 0,
+            'status' => 0,
         ],
     ],
     Gateway::CONTENT_TYPE_NAME_TABLE => [
          [
             'content_type_id' => 1,
-            'contentclass_version' => 1,
+            'content_type_status' => 1,
             'language_id' => 3,
             'language_locale' => 'eng-US',
             'name' => 'Folder',
@@ -179,13 +179,13 @@ return [
     Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE => [
         [
             'content_type_id' => 1,
-            'contentclass_version' => 1,
+            'content_type_status' => 1,
             'group_id' => 1,
             'group_name' => 'Content',
         ],
         [
             'content_type_id' => 1,
-            'contentclass_version' => 1,
+            'content_type_status' => 1,
             'group_id' => 4,
             'group_name' => 'Setup',
         ],
