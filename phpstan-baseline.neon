@@ -66375,7 +66375,7 @@ parameters:
 		-
 			message: '#^Class Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\SortClause\\Field constructor invoked with 4 parameters, 2\-3 required\.$#'
 			identifier: arguments.count
-			count: 2
+			count: 1
 			path: tests/lib/Search/Legacy/Content/HandlerContentSortTest.php
 
 		-
@@ -66441,6 +66441,12 @@ parameters:
 		-
 			message: '#^Property Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\HandlerContentSortTest\:\:\$fieldRegistry \(Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\ConverterRegistry\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
+			count: 1
+			path: tests/lib/Search/Legacy/Content/HandlerContentSortTest.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
 			count: 1
 			path: tests/lib/Search/Legacy/Content/HandlerContentSortTest.php
 
@@ -66855,7 +66861,13 @@ parameters:
 		-
 			message: '#^Class Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\SortClause\\Field constructor invoked with 4 parameters, 2\-3 required\.$#'
 			identifier: arguments.count
-			count: 2
+			count: 1
+			path: tests/lib/Search/Legacy/Content/HandlerLocationSortTest.php
+
+		-
+			message: '#^Method Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\AbstractTestCase\:\:assertSearchResults\(\) invoked with 3 parameters, 2 required\.$#'
+			identifier: arguments.count
+			count: 1
 			path: tests/lib/Search/Legacy/Content/HandlerLocationSortTest.php
 
 		-
@@ -66981,6 +66993,12 @@ parameters:
 		-
 			message: '#^Parameter \#1 \$contentTypeHandler of method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\LanguageAwareTestCase\:\:getFullTextMapper\(\) expects Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Handler, Ibexa\\Contracts\\Core\\Persistence\\Content\\Type\\Handler given\.$#'
 			identifier: argument.type
+			count: 1
+			path: tests/lib/Search/Legacy/Content/HandlerLocationSortTest.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
 			count: 1
 			path: tests/lib/Search/Legacy/Content/HandlerLocationSortTest.php
 

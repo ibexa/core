@@ -442,7 +442,7 @@ class HandlerContentSortTest extends AbstractTestCase
 
     public function testSortFieldNumeric()
     {
-        $this->markTestSkipped();
+        self::markTestSkipped();
         $locator = $this->getContentSearchHandler();
 
         $result = $locator->findContent(
