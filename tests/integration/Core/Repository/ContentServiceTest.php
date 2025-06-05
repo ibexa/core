@@ -3705,7 +3705,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         // Load all items
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface[] $items */
-        $items = iterator_to_array($this->contentService->loadRelationList($draft->getVersionInfo())->getIterator());
+        $items = iterator_to_array(
+            $this->contentService->loadRelationList($draft->getVersionInfo())->getIterator()
+        );
 
         self::assertCount(1, $items);
         $relation = $items[0]->getRelation();
@@ -3759,7 +3761,9 @@ class ContentServiceTest extends BaseContentServiceTestCase
         );
 
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface[] $items */
-        $items = iterator_to_array($this->contentService->loadRelationList($mediaDraft->getVersionInfo())->getIterator());
+        $items = iterator_to_array(
+            $this->contentService->loadRelationList($mediaDraft->getVersionInfo())->getIterator()
+        );
 
         self::assertCount(1, $items);
         $relation = $items[0]->getRelation();

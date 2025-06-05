@@ -26,8 +26,8 @@ abstract class ContentCreateStruct extends ContentStruct
     public ContentType $contentType;
 
     /**
-     * the main language code for the content. This language will also
-     * be used for as initial language for the first created version.
+     * The main language code for the content. This language will also
+     * be used as an initial language for the first created version.
      * It is also used as default language for added fields.
      *
      * Required.
