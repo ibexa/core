@@ -31,6 +31,11 @@
         <target>Username:</target>
         <note>key: Username:</note>
       </trans-unit>
+      <trans-unit id="901dd92dad081c7f72970b873a49663c5d94fa43" resname="asset.unavailable.message">
+        <source>Asset with ID %asset_id% is not available or has been removed.</source>
+        <target state="new">Asset with ID %asset_id% is not available or has been removed.</target>
+        <note>key: asset.unavailable.message</note>
+      </trans-unit>
     </body>
   </file>
 </xliff>

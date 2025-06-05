@@ -100,6 +100,18 @@ services:
         tags:
             - { name: controller.service_arguments }
 
+    Ibexa\Core\MVC\Symfony\Controller\Content\SafeContentController:
+        class: Ibexa\Core\MVC\Symfony\Controller\Content\SafeContentController
+        arguments:
+            $repository: '@Ibexa\Contracts\Core\Repository\Repository'
+            $logger: '@logger'
+        tags:
+            - { name: controller.service_arguments }
+
+    ibexa_safe_content:
+        public: true
+        alias: Ibexa\Core\MVC\Symfony\Controller\Content\SafeContentController
+
     Ibexa\Core\MVC\Symfony\Controller\Content\PreviewController:
         class: Ibexa\Core\MVC\Symfony\Controller\Content\PreviewController
         arguments:
