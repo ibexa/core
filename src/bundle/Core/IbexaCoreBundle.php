@@ -123,6 +123,7 @@ final class IbexaCoreBundle extends Bundle
                     new ConfigParser\UrlChecker(),
                     new ConfigParser\TwigVariablesParser(),
                     new ConfigParser\UserContentTypeIdentifier(),
+                    new ConfigParser\PasswordHash(),
                 ],
                 [
                     new RepositoryConfigParser\Storage(),
