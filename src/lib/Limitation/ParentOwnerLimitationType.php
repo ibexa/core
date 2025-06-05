@@ -18,7 +18,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentOwnerLimitation as APIParentOwnerLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
-use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;

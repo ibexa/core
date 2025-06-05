@@ -10,7 +10,6 @@ namespace Ibexa\Contracts\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Values\User\LookupLimitationResult;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
-use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
  * This service provides methods for resolving permissions.

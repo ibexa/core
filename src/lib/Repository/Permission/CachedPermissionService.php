@@ -63,8 +63,8 @@ class CachedPermissionService implements PermissionService
     /**
      * CachedPermissionService constructor.
      *
-     * @param APIPermissionResolver $innerPermissionResolver
-     * @param APIPermissionCriterionResolver $permissionCriterionResolver
+     * @param \Ibexa\Contracts\Core\Repository\PermissionResolver $innerPermissionResolver
+     * @param \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver $permissionCriterionResolver
      * @param int $cacheTTL By default set to 5 seconds, should be low to avoid to many permission exceptions on long running requests / processes (even if tolerant search service should handle that)
      */
     public function __construct(

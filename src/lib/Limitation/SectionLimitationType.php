@@ -20,7 +20,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation as APISectionLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
-use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\ValidationError;

@@ -21,7 +21,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentDepthLimitation as APIParentDepthLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
-use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 

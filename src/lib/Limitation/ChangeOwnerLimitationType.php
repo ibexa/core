@@ -17,7 +17,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ChangeOwnerLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
-use Ibexa\Contracts\Core\Repository\Values\ValueObject as APIValueObject;
 use Ibexa\Core\FieldType\ValidationError;
 
 final class ChangeOwnerLimitationType extends AbstractPersistenceLimitationType implements SPILimitationTypeInterface
