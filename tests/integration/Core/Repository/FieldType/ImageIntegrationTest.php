@@ -879,7 +879,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
 
         $document = new DOMDocument('1.0', 'utf-8');
         $document->loadXML($row['data_text']);
-        $elements = $document->getElementsByTagName('ibexa_image');
+        $elements = $document->getElementsByTagName('ezimage');
         $element = $elements->item(0);
         self::assertInstanceOf(DOMElement::class, $element);
         $element->setAttribute('filename', $element->getAttribute('filename') . $corruptedChar);

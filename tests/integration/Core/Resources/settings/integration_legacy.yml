@@ -66,4 +66,9 @@ services:
 
     Ibexa\Bundle\Core\Imagine\Cache\AliasGeneratorDecorator: '@Ibexa\Tests\Integration\Core\Persistence\Variation\InMemoryVariationHandler'
 
-    Ibexa\Core\FieldType\FieldTypeAliasResolverInterface: ~
+    Ibexa\Core\FieldType\FieldTypeAliasResolverInterface: '@Ibexa\Core\FieldType\FieldTypeAliasResolver'
+
+    Ibexa\Core\FieldType\FieldTypeAliasResolver:
+        arguments:
+            $fieldTypeAliasRegistry: '@Ibexa\Core\FieldType\FieldTypeAliasRegistry'
+

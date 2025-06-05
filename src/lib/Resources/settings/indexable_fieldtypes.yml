@@ -118,4 +118,19 @@ services:
         tags:
             - {name: ibexa.field_type.indexable, alias: ibexa_user}
             - {name: ibexa.field_type.indexable, alias: ibexa_matrix}
+            - {name: ibexa.field_type.indexable, alias: ezenum}
+            - {name: ibexa.field_type.indexable, alias: ezidentifier}
+            - {name: ibexa.field_type.indexable, alias: ezinisetting}
+            - {name: ibexa.field_type.indexable, alias: ezmultioption}
+            - {name: ibexa.field_type.indexable, alias: ezmultioption2}
+            - {name: ibexa.field_type.indexable, alias: ezmultiprice}
+            - {name: ibexa.field_type.indexable, alias: ezoption}
+            - {name: ibexa.field_type.indexable, alias: ezpackage}
+            - {name: ibexa.field_type.indexable, alias: ezproductcategory}
+            - {name: ibexa.field_type.indexable, alias: ezrangeoption}
+            - {name: ibexa.field_type.indexable, alias: ezsubtreesubscription}
+            - {name: ibexa.field_type.indexable, alias: ezcomcomments}
+            - {name: ibexa.field_type.indexable, alias: ezsurvey}
+            - {name: ibexa.field_type.indexable, alias: eztags}
+            - {name: ibexa.field_type.indexable, alias: ezrecommendation}
 

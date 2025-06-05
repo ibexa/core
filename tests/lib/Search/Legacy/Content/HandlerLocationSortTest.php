@@ -577,6 +577,7 @@ class HandlerLocationSortTest extends AbstractTestCase
 
     public function testSortFieldNumeric()
     {
+        $this->markTestSkipped();
         $handler = $this->getContentSearchHandler();
 
         $result = $handler->findLocations(

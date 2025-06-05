@@ -426,6 +426,119 @@ services:
     # Not implemented fieldtypes
     # Configured to use the Null type to not throw exception
 
+    ibexa.field_type.ezenum:
+        class: Ibexa\Core\FieldType\Null\Type
+        parent: Ibexa\Core\FieldType\FieldType
+        arguments: [ "ezenum" ]
+        tags:
+            - {name: ibexa.field_type, alias: ezenum}
+
+    ibexa.field_type.ezidentifier:
+        class: Ibexa\Core\FieldType\Null\Type
+        parent: Ibexa\Core\FieldType\FieldType
+        arguments: [ "ezidentifier" ]
+        tags:
+            - {name: ibexa.field_type, alias: ezidentifier}
+
+    ibexa.field_type.ezinisetting:
+        class: Ibexa\Core\FieldType\Null\Type
+        parent: Ibexa\Core\FieldType\FieldType
+        arguments: [ "ezinisetting" ]
+        tags:
+            - {name: ibexa.field_type, alias: ezinisetting}
+
+    ibexa.field_type.ezmultioption:
+        class: Ibexa\Core\FieldType\Null\Type
+        parent: Ibexa\Core\FieldType\FieldType
+        arguments: [ "ezmultioption" ]
+        tags:
+            - {name: ibexa.field_type, alias: ezmultioption}
+
+    ibexa.field_type.ezmultioption2:
+        class: Ibexa\Core\FieldType\Null\Type
+        parent: Ibexa\Core\FieldType\FieldType
+        arguments: [ "ezmultioption2" ]
+        tags:
+            - {name: ibexa.field_type, alias: ezmultioption2}
+
+    ibexa.field_type.ezmultiprice:
+        class: Ibexa\Core\FieldType\Null\Type
+        parent: Ibexa\Core\FieldType\FieldType
+        arguments: [ "ezmultiprice" ]
+        tags:
+            - {name: ibexa.field_type, alias: ezmultiprice}
+
+    ibexa.field_type.ezoption:
+        class: Ibexa\Core\FieldType\Null\Type
+        parent: Ibexa\Core\FieldType\FieldType
+        arguments: [ "ezoption" ]
+        tags:
+            - {name: ibexa.field_type, alias: ezoption}
+
+    ibexa.field_type.ezpackage:
+        class: Ibexa\Core\FieldType\Null\Type
+        parent: Ibexa\Core\FieldType\FieldType
+        arguments: [ "ezpackage" ]
+        tags:
+            - {name: ibexa.field_type, alias: ezpackage}
+
+    ibexa.field_type.ezproductcategory:
+        class: Ibexa\Core\FieldType\Null\Type
+        parent: Ibexa\Core\FieldType\FieldType
+        arguments: [ "ezproductcategory" ]
+        tags:
+            - {name: ibexa.field_type, alias: ezproductcategory}
+
+    ibexa.field_type.ezrangeoption:
+        class: Ibexa\Core\FieldType\Null\Type
+        parent: Ibexa\Core\FieldType\FieldType
+        arguments: [ "ezrangeoption" ]
+        tags:
+            - {name: ibexa.field_type, alias: ezrangeoption}
+
+    ibexa.field_type.ezsubtreesubscription:
+        class: Ibexa\Core\FieldType\Null\Type
+        parent: Ibexa\Core\FieldType\FieldType
+        arguments: [ "ezsubtreesubscription" ]
+        tags:
+            - {name: ibexa.field_type, alias: ezsubtreesubscription}
+
+    # not implemented fieldtypes from extensions
+    ibexa.field_type.ezcomcomments:
+        class: Ibexa\Core\FieldType\Null\Type
+        parent: Ibexa\Core\FieldType\FieldType
+        arguments: [ "ezcomcomments" ]
+        tags:
+            - {name: ibexa.field_type, alias: ezcomcomments}
+
+    ibexa.field_type.ezpaex:
+        class: Ibexa\Core\FieldType\Null\Type
+        parent: Ibexa\Core\FieldType\FieldType
+        arguments: [ "ezpaex" ]
+        tags:
+            - {name: ibexa.field_type, alias: ezpaex}
+
+    ibexa.field_type.ezsurvey:
+        class: Ibexa\Core\FieldType\Null\Type
+        parent: Ibexa\Core\FieldType\FieldType
+        arguments: [ "ezsurvey" ]
+        tags:
+            - {name: ibexa.field_type, alias: ezsurvey}
+
+    ibexa.field_type.eztags:
+        class: Ibexa\Core\FieldType\Null\Type
+        parent: Ibexa\Core\FieldType\FieldType
+        arguments: [ "eztags" ]
+        tags:
+            - {name: ibexa.field_type, alias: eztags}
+
+    ibexa.field_type.ezrecommendation:
+        class: Ibexa\Core\FieldType\Null\Type
+        parent: Ibexa\Core\FieldType\FieldType
+        arguments: [ "ezrecommendation" ]
+        tags:
+            - {name: ibexa.field_type, alias: ezrecommendation}
+
     ibexa.field_type.ibexa_matrix:
         class: Ibexa\Core\FieldType\Null\Type
         parent: Ibexa\Core\FieldType\FieldType

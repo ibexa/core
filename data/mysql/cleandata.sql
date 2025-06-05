@@ -57,7 +57,7 @@ VALUES (1,'',2,0,0,0,0,255,0,0,0,'New article','','','','','ibexa_string',1,'tit
        (1,'',12,0,0,0,0,0,0,0,0,'','','','',NULL,'ibexa_binaryfile',148,'file',0,1,0,0,3,NULL,NULL,'a:2:{s:6:\"eng-GB\";s:4:\"File\";s:16:\"always-available\";s:6:\"eng-GB\";}',0),
        (1,'',2,0,0,0,0,255,0,0,0,'','','','','','ibexa_string',152,'short_title',0,0,1,0,2,NULL,NULL,'a:2:{s:6:\"eng-GB\";s:11:\"Short title\";s:16:\"always-available\";s:6:\"eng-GB\";}',0),
        (1,'',2,0,0,0,0,1,0,0,0,'','','','','','ibexa_author',153,'author',0,0,0,0,3,NULL,NULL,'a:2:{s:6:\"eng-GB\";s:6:\"Author\";s:16:\"always-available\";s:6:\"eng-GB\";}',0),
-       (1,'',2,0,0,0,0,0,0,0,0,'','','','','','ibexa_object_relatoin',154,'image',0,0,1,0,7,NULL,NULL,'a:2:{s:6:\"eng-GB\";s:5:\"Image\";s:16:\"always-available\";s:6:\"eng-GB\";}',0),
+       (1,'',2,0,0,0,0,0,0,0,0,'','','','','','ibexa_object_relation',154,'image',0,0,1,0,7,NULL,NULL,'a:2:{s:6:\"eng-GB\";s:5:\"Image\";s:16:\"always-available\";s:6:\"eng-GB\";}',0),
        (1,'',1,NULL,NULL,NULL,NULL,100,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ibexa_string',155,'short_name',0,0,1,0,2,'N;','a:0:{}','a:1:{s:6:\"eng-GB\";s:10:\"Short name\";}',0),
        (1,'',1,NULL,NULL,NULL,NULL,20,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ibexa_richtext',156,'description',0,0,1,0,4,'N;','a:0:{}','a:1:{s:6:\"eng-GB\";s:11:\"Description\";}',0),
        (1,'',4,0,0,0,0,10,0,0,0,'','','','','','ibexa_text',179,'signature',0,0,1,0,4,NULL,NULL,'a:2:{s:6:\"eng-GB\";s:9:\"Signature\";s:16:\"always-available\";s:6:\"eng-GB\";}',0),
