@@ -66865,12 +66865,6 @@ parameters:
 			path: tests/lib/Search/Legacy/Content/HandlerLocationSortTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\AbstractTestCase\:\:assertSearchResults\(\) invoked with 3 parameters, 2 required\.$#'
-			identifier: arguments.count
-			count: 1
-			path: tests/lib/Search/Legacy/Content/HandlerLocationSortTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\HandlerLocationSortTest\:\:getIds\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
