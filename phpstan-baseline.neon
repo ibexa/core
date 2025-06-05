@@ -42235,12 +42235,6 @@ parameters:
 			path: tests/integration/Core/Repository/Values/User/Limitation/LanguageLimitationTest.php
 
 		-
-			message: '#^Parameter \#4 \$targets of method Ibexa\\Contracts\\Core\\Repository\\PermissionResolver\:\:canUser\(\) expects array\<Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject\>, array\<Ibexa\\Contracts\\Core\\Limitation\\Target\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/integration/Core/Repository/Values/User/Limitation/LanguageLimitationTest.php
-
-		-
 			message: '#^Cannot access property \$text on Ibexa\\Contracts\\Core\\FieldType\\Value\|null\.$#'
 			identifier: property.nonObject
 			count: 1

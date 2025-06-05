@@ -101,8 +101,8 @@ class ContentTypeLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
      * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject[]|null $targets The context of the $object, like Location of Content, if null none where provided by caller
+     * @param object $object
+     * @param object[]|null $targets The context of the $object, like Location of Content, if null none where provided by caller
      *
      * @return bool|null
      *

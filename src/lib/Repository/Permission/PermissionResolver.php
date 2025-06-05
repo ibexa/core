@@ -330,12 +330,7 @@ class PermissionResolver implements PermissionResolverInterface
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUserReference
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object
      * @param array|null $targets
-     *
-     * @return bool
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
@@ -343,7 +338,7 @@ class PermissionResolver implements PermissionResolverInterface
     private function isGrantedByLimitation(
         Limitation $limitation,
         APIUserReference $currentUserReference,
-        ValueObject $object,
+        object $object,
         ?array $targets
     ): bool {
         $type = $this->limitationService->getLimitationType($limitation->getIdentifier());
