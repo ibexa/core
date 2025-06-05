@@ -113,7 +113,7 @@ class OwnerLimitationType extends AbstractPersistenceLimitationType implements S
      *
      * @todo Add support for $limitationValues[0] == 2 when session values can be injected somehow, or deprecate
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null): ?bool
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, object $object, array $targets = null): ?bool
     {
         if (!$value instanceof APIOwnerLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: APIOwnerLimitation');

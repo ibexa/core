@@ -72,7 +72,7 @@ final class ChangeOwnerLimitationType extends AbstractPersistenceLimitationType 
     public function evaluate(
         Limitation $value,
         APIUserReference $currentUser,
-        APIValueObject $object,
+        \object $object,
         array $targets = null
     ): ?bool {
         if (!$object instanceof ContentCreateStruct) {

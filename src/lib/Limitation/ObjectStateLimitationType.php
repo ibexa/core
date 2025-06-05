@@ -119,7 +119,7 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
     public function evaluate(
         APILimitationValue $value,
         APIUserReference $currentUser,
-        ValueObject $object,
+        object $object,
         array $targets = null
     ): ?bool {
         if (!$value instanceof APIObjectStateLimitation) {

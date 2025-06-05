@@ -116,7 +116,7 @@ class BlockingLimitationType implements SPILimitationTypeInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
      *         Example: If LimitationValue is instance of ContentTypeLimitationValue, and Type is SectionLimitationType.
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null): ?bool
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, object $object, array $targets = null): ?bool
     {
         if (!$value instanceof APIBlockingLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: BlockingLimitation');

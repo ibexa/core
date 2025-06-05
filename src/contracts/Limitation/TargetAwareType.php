@@ -38,7 +38,7 @@ interface TargetAwareType extends Type
     public function evaluate(
         APILimitationValue $value,
         APIUserReference $currentUser,
-        APIValueObject $object,
+        object $object,
         array $targets = null
     ): ?bool;
 }

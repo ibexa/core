@@ -85,7 +85,7 @@ final class RoleLimitationType extends AbstractPersistenceLimitationType impleme
         return new UserRoleLimitation(['limitationValues' => $limitationValues]);
     }
 
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null): ?bool
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, object $object, array $targets = null): ?bool
     {
         if (!$value instanceof UserRoleLimitation) {
             throw new InvalidArgumentException(

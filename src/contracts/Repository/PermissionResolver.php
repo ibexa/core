@@ -19,15 +19,11 @@ interface PermissionResolver
 {
     /**
      * Get current user reference.
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserReference
      */
     public function getCurrentUserReference(): UserReference;
 
     /**
      * Sets the current user to the given $user.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $userReference
      */
     public function setCurrentUserReference(UserReference $userReference): void;
 
@@ -74,18 +70,16 @@ interface PermissionResolver
      *
      * @param string $module The module, aka controller identifier to check permissions on
      * @param string $function The function, aka the controller action to check permissions on
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object The object to check if the user has access to
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject[] $targets An array of location, parent or "assignment" value objects
-     *
-     * @return bool
+     * @param object $object The object to check if the user has access to
+     * @param object[] $targets An array of location, parent or "assignment" value objects
      */
-    public function canUser(string $module, string $function, ValueObject $object, array $targets = []): bool;
+    public function canUser(string $module, string $function, object $object, array $targets = []): bool;
 
     /**
      * @param string $module The module, aka controller identifier to check permissions on
      * @param string $function The function, aka the controller action to check permissions on
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object The object to check if the user has access to
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject[] $targets An array of location, parent or "assignment" value objects
+     * @param object $object The object to check if the user has access to
+     * @param object[] $targets An array of location, parent or "assignment" value objects
      * @param string[] $limitationsIdentifiers An array of Limitations identifiers to filter from all which will pass
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\LookupLimitationResult
@@ -96,7 +90,7 @@ interface PermissionResolver
     public function lookupLimitations(
         string $module,
         string $function,
-        ValueObject $object,
+        object $object,
         array $targets = [],
         array $limitationsIdentifiers = []
     ): LookupLimitationResult;
