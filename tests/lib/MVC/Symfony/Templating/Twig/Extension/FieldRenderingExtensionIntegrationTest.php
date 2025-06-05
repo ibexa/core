@@ -27,6 +27,9 @@ use Twig\Environment;
 
 class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTestCase
 {
+    private const int EXAMPLE_FIELD_DEFINITION_ID = 2;
+    private const int EXAMPLE_CONTENT_TYPE_ID = 32;
+
     private $fieldDefinitions = [];
 
     public function getExtensions()
@@ -64,7 +67,7 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
     {
         return new FieldDefinition(
             [
-                'id' => $id,
+                'id' => $id ?? self::EXAMPLE_FIELD_DEFINITION_ID,
                 'fieldSettings' => $settings,
                 'fieldTypeIdentifier' => $typeIdentifier,
             ]
@@ -104,7 +107,7 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
             [
                 'internalFields' => $fields,
                 'contentType' => new ContentType([
-                    'id' => $contentTypeIdentifier,
+                    'id' => self::EXAMPLE_CONTENT_TYPE_ID,
                     'identifier' => $contentTypeIdentifier,
                     'mainLanguageCode' => 'fre-FR',
                     'fieldDefinitions' => new FieldDefinitionCollection(
