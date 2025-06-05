@@ -449,7 +449,6 @@ class HandlerLocationSortTest extends AbstractTestCase
 
         $this->assertSearchResults(
             [228, 45],
-            [228, 45],
             $locations
         );
     }
