@@ -49,6 +49,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Base\Exceptions\MissingUserFieldTypeException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Ibexa\Core\FieldType\User\Value as UserValue;
+use Ibexa\Core\Repository\User\Exception\PasswordHashTypeNotCompiled;
 use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
 use Ibexa\Core\Repository\User\PasswordValidatorInterface;
 use Ibexa\Core\Repository\Values\User\User;
@@ -56,6 +57,7 @@ use Ibexa\Core\Repository\Values\User\UserCreateStruct;
 use Ibexa\Core\Repository\Values\User\UserGroup;
 use Ibexa\Core\Repository\Values\User\UserGroupCreateStruct;
 use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
 /**
  * This service provides methods for managing users and user groups.
@@ -778,11 +780,23 @@ class UserService implements UserServiceInterface
             );
         }
 
-        $passwordHashAlgorithm = (int) $loadedUser->hashAlgorithm;
+        $defaultPasswordHashAlgorithm = $this->passwordHashService->getDefaultHashType();
+        if ($this->passwordHashService->updatePasswordHashTypeOnChange()) {
+            $passwordHashAlgorithm = $defaultPasswordHashAlgorithm;
+        } else {
+            $passwordHashAlgorithm = (int) $loadedUser->hashAlgorithm;
+        }
+
         try {
             $passwordHash = $this->passwordHashService->createPasswordHash($newPassword, $passwordHashAlgorithm);
-        } catch (UnsupportedPasswordHashType $e) {
-            $passwordHashAlgorithm = $this->passwordHashService->getDefaultHashType();
+        } catch (UnsupportedPasswordHashType|PasswordHashTypeNotCompiled $e) {
+            if (isset($this->logger)) {
+                $this->logger->log(LogLevel::WARNING, $e->getMessage(), [
+                    'exception' => $e,
+                ]);
+            }
+
+            $passwordHashAlgorithm = $defaultPasswordHashAlgorithm;
             $passwordHash = $this->passwordHashService->createPasswordHash($newPassword, $passwordHashAlgorithm);
         }
 
@@ -1334,7 +1348,13 @@ class UserService implements UserServiceInterface
         #[\SensitiveParameter]
         string $password
     ): bool {
-        return $this->comparePasswordHashes($password, $user->passwordHash, $user->hashAlgorithm);
+        $isValidPassword = $this->comparePasswordHashes($password, $user->passwordHash, $user->hashAlgorithm);
+
+        if ($isValidPassword && $this->passwordHashService->updatePasswordHashTypeOnLogin()) {
+            $this->updatePasswordHashIfNeeded($password, $user->passwordHash, $user->id, $user->login, $user->email);
+        }
+
+        return $isValidPassword;
     }
 
     /**
@@ -1347,7 +1367,69 @@ class UserService implements UserServiceInterface
         #[\SensitiveParameter]
         string $password
     ): bool {
-        return $this->comparePasswordHashes($password, $user->passwordHash, $user->hashAlgorithm);
+        $isValidPassword = $this->comparePasswordHashes($password, $user->passwordHash, $user->hashAlgorithm);
+
+        if ($isValidPassword && $this->passwordHashService->updatePasswordHashTypeOnLogin()) {
+            $this->updatePasswordHashIfNeeded($password, $user->passwordHash, $user->id, $user->login, $user->email);
+        }
+
+        return $isValidPassword;
+    }
+
+    private function updatePasswordHashIfNeeded(
+        #[\SensitiveParameter]
+        string $password,
+        #[\SensitiveParameter]
+        string $passwordHash,
+        int $userId,
+        string $login,
+        string $email
+    ): void {
+        $defaultPasswordHashAlgorithm = $this->passwordHashService->getDefaultHashType();
+        if (!$this->passwordHashService->passwordNeedsRehash($passwordHash, $defaultPasswordHashAlgorithm)) {
+            return;
+        }
+
+        try {
+            $newPasswordHash = $this->passwordHashService->createPasswordHash(
+                $password,
+                $defaultPasswordHashAlgorithm
+            );
+        } catch (Exception $e) {
+            if (isset($this->logger)) {
+                $this->logger->log(LogLevel::ERROR, $e->getMessage(), [
+                    'exception' => $e,
+                ]);
+            }
+
+            return;
+        }
+
+        $this->repository->beginTransaction();
+        try {
+            $this->userHandler->updatePassword(
+                new SPIUser(
+                    [
+                        'id' => $userId,
+                        'login' => $login,
+                        'email' => $email,
+                        'passwordHash' => $newPasswordHash,
+                        'hashAlgorithm' => $defaultPasswordHashAlgorithm,
+                        'passwordUpdatedAt' => time(),
+                    ]
+                )
+            );
+
+            $this->repository->commit();
+        } catch (Exception $e) {
+            $this->repository->rollback();
+
+            if (isset($this->logger)) {
+                $this->logger->log(LogLevel::ERROR, $e->getMessage(), [
+                    'exception' => $e,
+                ]);
+            }
+        }
     }
 
     /**
