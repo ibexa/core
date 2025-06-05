@@ -11,6 +11,10 @@ parameters:
     ibexa.site_access.config.default.io.permissions.files: 0o644
     ibexa.site_access.config.default.io.permissions.directories: 0o755
 
+    # Password hash
+    ibexa.site_access.config.password_hash.default_type: 7               # Password hash type, see the constants in Ibexa\Contracts\Core\Repository\Values\User\User
+    ibexa.site_access.config.password_hash.update_type_on_change: false  # Whether the password hash type should be changed when the password is changed if it differs from the default hash type
+
 services:
     ibexa.api.persistence_handler:
         #To disable cache, switch alias to Ibexa\Contracts\Core\Persistence\Handler
