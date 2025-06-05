@@ -49,6 +49,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Base\Exceptions\MissingUserFieldTypeException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Ibexa\Core\FieldType\User\Value as UserValue;
+use Ibexa\Core\Repository\User\Exception\PasswordHashTypeNotCompiled;
 use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
 use Ibexa\Core\Repository\User\PasswordValidatorInterface;
 use Ibexa\Core\Repository\Values\User\User;
@@ -56,6 +57,7 @@ use Ibexa\Core\Repository\Values\User\UserCreateStruct;
 use Ibexa\Core\Repository\Values\User\UserGroup;
 use Ibexa\Core\Repository\Values\User\UserGroupCreateStruct;
 use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
 /**
  * This service provides methods for managing users and user groups.
@@ -778,13 +780,38 @@ class UserService implements UserServiceInterface
             );
         }
 
-        $passwordHashAlgorithm = (int) $loadedUser->hashAlgorithm;
-        try {
-            $passwordHash = $this->passwordHashService->createPasswordHash($newPassword, $passwordHashAlgorithm);
-        } catch (UnsupportedPasswordHashType $e) {
-            $passwordHashAlgorithm = $this->passwordHashService->getDefaultHashType();
-            $passwordHash = $this->passwordHashService->createPasswordHash($newPassword, $passwordHashAlgorithm);
+        $defaultPasswordHashAlgorithm = $this->passwordHashService->getDefaultHashType();
+        $userCurrentPasswordHashAlgorithm = (int) $loadedUser->hashAlgorithm;
+        if ($this->passwordHashService->updatePasswordHashTypeOnChange()) {
+            $passwordHashAlgorithm = $defaultPasswordHashAlgorithm;
+        } else {
+            $passwordHashAlgorithm = $userCurrentPasswordHashAlgorithm;
         }
+
+        $passwordHash = null;
+        do {
+            try {
+                $passwordHash = $this->passwordHashService->createPasswordHash($newPassword, $passwordHashAlgorithm);
+            } catch (UnsupportedPasswordHashType|PasswordHashTypeNotCompiled $e) {
+                if (isset($this->logger)) {
+                    $this->logger->log(LogLevel::WARNING, $e->getMessage(), [
+                        'exception' => $e,
+                    ]);
+                }
+
+                if ($passwordHashAlgorithm !== $userCurrentPasswordHashAlgorithm) {
+                    // If we're trying to upgrade the password hash algorithm but the upgrade failed,
+                    // we fall back to the user's current password hash algorithm.
+                    $passwordHashAlgorithm = $userCurrentPasswordHashAlgorithm;
+                } else {
+                    // If the user's current password hash algorithm fails, we can't proceed.
+                    throw new InvalidArgumentException(
+                        'passwordHashAlgorithm',
+                        'The password hash algorithm is not supported or not compiled.'
+                    );
+                }
+            }
+        } while ($passwordHash === null);
 
         $this->repository->beginTransaction();
         try {
