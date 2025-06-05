@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group fieldType
- * @group ezimage
+ * @group ibexa_image
  */
 class LegacyPathGeneratorTest extends TestCase
 {

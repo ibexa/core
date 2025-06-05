@@ -30,7 +30,7 @@ class Type extends FieldType implements TranslationContainerInterface
      */
     public function getFieldTypeIdentifier(): string
     {
-        return 'ezurl';
+        return 'ibexa_url';
     }
 
     /**
@@ -186,7 +186,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public static function getTranslationMessages(): array
     {
         return [
-            Message::create('ezurl.name', 'ibexa_fieldtypes')->setDesc('URL'),
+            Message::create('ibexa_url.name', 'ibexa_fieldtypes')->setDesc('URL'),
         ];
     }
 }

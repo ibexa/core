@@ -14,7 +14,7 @@ use Ibexa\Core\FieldType\ValidationError;
 
 /**
  * @group fieldType
- * @group ezinteger
+ * @group ibexa_integer
  */
 class IntegerTest extends FieldTypeTestCase
 {
@@ -392,7 +392,7 @@ class IntegerTest extends FieldTypeTestCase
 
     protected function provideFieldTypeIdentifier(): string
     {
-        return 'ezinteger';
+        return 'ibexa_integer';
     }
 
     public function provideDataForGetName(): array

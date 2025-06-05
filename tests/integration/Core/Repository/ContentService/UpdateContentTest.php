@@ -62,7 +62,7 @@ final class UpdateContentTest extends RepositoryTestCase
 
         $relationsFieldCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct(
             'relations',
-            'ezobjectrelationlist'
+            'ibexa_object_relation_list'
         );
         $relationsFieldCreateStruct->names = ['eng-GB' => 'Relations'];
         $contentTypeService->addFieldDefinition($folderTypeDraft, $relationsFieldCreateStruct);

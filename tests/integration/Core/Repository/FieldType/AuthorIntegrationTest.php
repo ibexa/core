@@ -29,7 +29,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      */
     public function getTypeName(): string
     {
-        return 'ezauthor';
+        return 'ibexa_author';
     }
 
     /**

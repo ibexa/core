@@ -57,7 +57,7 @@ class FieldHelperTest extends TestCase
 
         $contentType = $this->createMock(ContentType::class);
         $fieldDefinition = $this->getMockBuilder(FieldDefinition::class)
-            ->setConstructorArgs([['fieldTypeIdentifier' => 'ezstring']])
+            ->setConstructorArgs([['fieldTypeIdentifier' => 'ibexa_string']])
             ->getMockForAbstractClass();
         $contentType
             ->expects(self::once())
@@ -79,7 +79,7 @@ class FieldHelperTest extends TestCase
         $this->fieldTypeServiceMock
             ->expects(self::any())
             ->method('getFieldType')
-            ->with('ezstring')
+            ->with('ibexa_string')
             ->will(self::returnValue(new FieldType($textLineFT)));
 
         self::assertTrue($this->fieldHelper->isFieldEmpty($content, $fieldDefIdentifier));
@@ -99,11 +99,11 @@ class FieldHelperTest extends TestCase
         $fieldDefIdentifier = 'my_field_definition';
         $textLineFT = new TextLineType();
         $nonEmptyValue = new Value('Vive le sucre !!!');
-        $emptyField = new Field(['fieldDefIdentifier' => 'ezstring', 'value' => $nonEmptyValue]);
+        $emptyField = new Field(['fieldDefIdentifier' => 'ibexa_string', 'value' => $nonEmptyValue]);
 
         $contentType = $this->createMock(ContentType::class);
         $fieldDefinition = $this->getMockBuilder(FieldDefinition::class)
-            ->setConstructorArgs([['fieldTypeIdentifier' => 'ezstring']])
+            ->setConstructorArgs([['fieldTypeIdentifier' => 'ibexa_string']])
             ->getMockForAbstractClass();
         $contentType
             ->expects(self::once())
@@ -125,7 +125,7 @@ class FieldHelperTest extends TestCase
         $this->fieldTypeServiceMock
             ->expects(self::any())
             ->method('getFieldType')
-            ->with('ezstring')
+            ->with('ibexa_string')
             ->will(self::returnValue(new FieldType($textLineFT)));
 
         self::assertFalse($this->fieldHelper->isFieldEmpty($content, $fieldDefIdentifier));

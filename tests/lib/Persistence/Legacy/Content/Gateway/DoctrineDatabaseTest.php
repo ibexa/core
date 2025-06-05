@@ -405,7 +405,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'data_float' => '24.42',
                     'data_int' => '42',
                     'data_text' => 'Test text',
-                    'data_type_string' => 'ezstring',
+                    'data_type_string' => 'ibexa_string',
                     'language_code' => self::ENG_GB,
                     'language_id' => '4',
                     'sort_key_int' => '23',
@@ -452,7 +452,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'data_float' => '24.42',
                     'data_int' => '42',
                     'data_text' => 'Test text',
-                    'data_type_string' => 'ezstring',
+                    'data_type_string' => 'ibexa_string',
                     'language_code' => self::ENG_GB,
                     'language_id' => '5',
                     'sort_key_int' => '23',
@@ -819,9 +819,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         self::assertEquals(
             [
-                'ezstring' => [841],
-                'ezimage' => [843],
-                'ezkeyword' => [844],
+                'ibexa_string' => [841],
+                'ibexa_image' => [843],
+                'ibexa_keyword' => [844],
             ],
             $gateway->getFieldIdsByType(149)
         );
@@ -837,7 +837,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         self::assertEquals(
             [
-                'ezstring' => [4001, 4002],
+                'ibexa_string' => [4001, 4002],
             ],
             $gateway->getFieldIdsByType(225, 2)
         );
@@ -1836,7 +1836,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $field = new Field();
 
         $field->fieldDefinitionId = 231;
-        $field->type = 'ezstring';
+        $field->type = 'ibexa_string';
         $field->languageCode = self::ENG_GB;
         $field->versionNo = 1;
 

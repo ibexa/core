@@ -16,7 +16,7 @@ use Ibexa\Core\FieldType\Value;
 
 /**
  * @group fieldType
- * @group ezauthor
+ * @group ibexa_author
  */
 class AuthorTest extends FieldTypeTestCase
 {
@@ -521,7 +521,7 @@ class AuthorTest extends FieldTypeTestCase
      */
     protected function provideFieldTypeIdentifier(): string
     {
-        return 'ezauthor';
+        return 'ibexa_author';
     }
 
     /**

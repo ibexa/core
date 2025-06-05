@@ -13,7 +13,7 @@ use Ibexa\Core\FieldType\Keyword\Value as KeywordValue;
 
 /**
  * @group fieldType
- * @group ezinteger
+ * @group ibexa_integer
  */
 class KeywordTest extends FieldTypeTestCase
 {
@@ -229,7 +229,7 @@ class KeywordTest extends FieldTypeTestCase
 
     protected function provideFieldTypeIdentifier(): string
     {
-        return 'ezkeyword';
+        return 'ibexa_keyword';
     }
 
     public function provideDataForGetName(): array

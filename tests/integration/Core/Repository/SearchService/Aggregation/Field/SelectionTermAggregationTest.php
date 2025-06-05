@@ -42,7 +42,7 @@ final class SelectionTermAggregationTest extends AbstractAggregationTestCase
         $generator = new FieldAggregationFixtureGenerator($this->getRepository());
         $generator->setContentTypeIdentifier('content_type');
         $generator->setFieldDefinitionIdentifier('selection_field');
-        $generator->setFieldTypeIdentifier('ezselection');
+        $generator->setFieldTypeIdentifier('ibexa_selection');
         $generator->setValues([
             [0],
             [0, 1],

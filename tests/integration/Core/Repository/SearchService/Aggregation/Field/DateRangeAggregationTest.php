@@ -80,7 +80,7 @@ final class DateRangeAggregationTest extends AbstractAggregationTestCase
         $generator = new FieldAggregationFixtureGenerator($this->getRepository());
         $generator->setContentTypeIdentifier('content_type');
         $generator->setFieldDefinitionIdentifier('date_field');
-        $generator->setFieldTypeIdentifier('ezdate');
+        $generator->setFieldTypeIdentifier('ibexa_date');
         $generator->setValues([
             new DateTime('2020-05-01 00:00:00', $timezone),
             new DateTime('2020-06-30 00:00:00', $timezone),

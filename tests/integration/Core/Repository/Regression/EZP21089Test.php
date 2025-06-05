@@ -55,7 +55,7 @@ class EZP21089Test extends BaseTestCase
 
         $titleFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct(
             'title',
-            'ezstring'
+            'ibexa_string'
         );
         $titleFieldCreate->names = [
             'eng-GB' => 'title',
@@ -74,7 +74,7 @@ class EZP21089Test extends BaseTestCase
 
         $objectRelationFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct(
             'body',
-            'ezobjectrelation'
+            'ibexa_object_relation'
         );
         $objectRelationFieldCreate->names = [
             'eng-GB' => 'object relation',

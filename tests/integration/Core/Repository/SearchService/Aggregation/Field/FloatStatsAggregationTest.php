@@ -36,7 +36,7 @@ final class FloatStatsAggregationTest extends AbstractAggregationTestCase
         $generator = new FieldAggregationFixtureGenerator($this->getRepository());
         $generator->setContentTypeIdentifier('content_type');
         $generator->setFieldDefinitionIdentifier('float_field_2');
-        $generator->setFieldTypeIdentifier('ezfloat');
+        $generator->setFieldTypeIdentifier('ibexa_float');
         $generator->setValues([1.0, 2.5, 2.5, 5.25, 7.75]);
 
         $generator->execute();

@@ -26,17 +26,18 @@ use Symfony\Component\Process\Process;
 
 #[AsCommand(
     name: 'ibexa:timestamps:to-utc',
-    description: 'Updates ezdate and ezdatetime timestamps to UTC'
+    description: 'Updates ibexa_date and ibexa_datetime timestamps to UTC'
 )]
 class UpdateTimestampsToUTCCommand extends Command
 {
     public const MAX_TIMESTAMP_VALUE = 2147483647;
 
     public const DEFAULT_ITERATION_COUNT = 100;
+    //TODO what do we do with these?
     public const MODES = [
-        'date' => ['ezdate'],
-        'datetime' => ['ezdatetime'],
-        'all' => ['ezdate', 'ezdatetime'],
+        'date' => ['ibexa_date'],
+        'datetime' => ['ibexa_datetime'],
+        'all' => ['ibexa_date', 'ibexa_datetime'],
     ];
 
     /** @var int */

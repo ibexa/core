@@ -27,7 +27,7 @@ class TimeIntegrationTest extends SearchBaseIntegrationTestCase
      */
     public function getTypeName(): string
     {
-        return 'eztime';
+        return 'ibexa_time';
     }
 
     /**

@@ -13,7 +13,7 @@ use Ibexa\Core\FieldType\Url\Value as UrlValue;
 
 /**
  * @group fieldType
- * @group ezurl
+ * @group ibexa_url
  */
 class UrlTest extends FieldTypeTestCase
 {
@@ -245,7 +245,7 @@ class UrlTest extends FieldTypeTestCase
 
     protected function provideFieldTypeIdentifier(): string
     {
-        return 'ezurl';
+        return 'ibexa_url';
     }
 
     public function provideDataForGetName(): array

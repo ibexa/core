@@ -21,6 +21,7 @@ services:
             - '@Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry'
             - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
             - '@Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface'
+            - '@Ibexa\Core\FieldType\FieldTypeAliasResolverInterface'
 
     Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater:
         class: Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater

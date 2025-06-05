@@ -9,7 +9,7 @@ return array(
     'content' => $this->getContent(
         'article',
         array(
-            'ezstring' => array(
+            'ibexa_string' => array(
                 'id' => 5,
                 'fieldDefIdentifier' => 'testfield',
                 'value' => 'foo2',
@@ -27,7 +27,7 @@ return array(
     'content' => $this->getContent(
         'article',
         array(
-            'ezstring' => array(
+            'ibexa_string' => array(
                 array(
                     'id' => 5,
                     'fieldDefIdentifier' => 'testfield',
@@ -53,7 +53,7 @@ return array(
     'content' => $this->getContentAwareObject(
         'article',
         array(
-            'ezstring' => array(
+            'ibexa_string' => array(
                 'id' => 5,
                 'fieldDefIdentifier' => 'testfield',
                 'value' => 'foo2',

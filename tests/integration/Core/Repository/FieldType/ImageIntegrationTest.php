@@ -75,7 +75,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
      */
     public function getTypeName(): string
     {
-        return 'ezimage';
+        return 'ibexa_image';
     }
 
     /**
@@ -625,7 +625,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
     {
         if ($this->getSetupFactory() instanceof Legacy) {
             self::markTestSkipped(
-                "'ezimage' field type is not searchable with Legacy Search Engine"
+                "'ibexa_image' field type is not searchable with Legacy Search Engine"
             );
         }
     }

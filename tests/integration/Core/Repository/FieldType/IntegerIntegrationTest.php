@@ -27,7 +27,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTestCase
      */
     public function getTypeName(): string
     {
-        return 'ezinteger';
+        return 'ibexa_integer';
     }
 
     /**

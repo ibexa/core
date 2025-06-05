@@ -30,7 +30,7 @@ class CheckboxTest extends TestCase
 
     /**
      * @group fieldType
-     * @group ezboolean
+     * @group ibexa_boolean
      */
     public function testToStorageValue()
     {
@@ -47,7 +47,7 @@ class CheckboxTest extends TestCase
 
     /**
      * @group fieldType
-     * @group ezboolean
+     * @group ibexa_boolean
      */
     public function testToFieldValue()
     {
@@ -64,7 +64,7 @@ class CheckboxTest extends TestCase
 
     /**
      * @group fieldType
-     * @group ezboolean
+     * @group ibexa_boolean
      */
     public function testToStorageFieldDefinition()
     {
@@ -87,7 +87,7 @@ class CheckboxTest extends TestCase
 
     /**
      * @group fieldType
-     * @group ezboolean
+     * @group ibexa_boolean
      */
     public function testToFieldDefinition()
     {

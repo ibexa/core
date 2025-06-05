@@ -309,7 +309,7 @@ class MapLocationTest extends FieldTypeTestCase
 
     protected function provideFieldTypeIdentifier(): string
     {
-        return 'ezgmaplocation';
+        return 'ibexa_gmap_location';
     }
 
     public function provideDataForGetName(): array

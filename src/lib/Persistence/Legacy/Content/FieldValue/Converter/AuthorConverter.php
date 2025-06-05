@@ -101,7 +101,7 @@ class AuthorConverter implements Converter
     {
         $doc = new DOMDocument('1.0', 'utf-8');
 
-        $root = $doc->createElement('ezauthor');
+        $root = $doc->createElement('ibexa_author');
         $doc->appendChild($root);
 
         $authors = $doc->createElement('authors');

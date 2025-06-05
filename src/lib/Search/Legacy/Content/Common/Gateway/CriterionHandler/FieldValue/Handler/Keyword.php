@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Core\FieldType\Keyword\KeywordStorage\Gateway\DoctrineStorage;
 
 /**
- * FieldValue CriterionHandler handling ezkeyword External Storage for Legacy/SQL Search.
+ * FieldValue CriterionHandler handling ibexa_keyword External Storage for Legacy/SQL Search.
  */
 class Keyword extends Collection
 {

@@ -83,7 +83,7 @@ class RemoveFieldTest extends TestCase
         $this->getContentStorageHandlerMock()->expects(self::once())
             ->method('deleteFieldData')
             ->with(
-                self::equalTo('ezstring'),
+                self::equalTo('ibexa_string'),
                 $content->versionInfo,
                 self::equalTo([$fieldId])
             );
@@ -145,7 +145,7 @@ class RemoveFieldTest extends TestCase
             ->expects(self::at(0))
             ->method('deleteFieldData')
             ->with(
-                self::equalTo('ezstring'),
+                self::equalTo('ibexa_string'),
                 $content1->versionInfo,
                 self::equalTo([$fieldId])
             );
@@ -154,7 +154,7 @@ class RemoveFieldTest extends TestCase
             ->expects(self::at(1))
             ->method('deleteFieldData')
             ->with(
-                self::equalTo('ezstring'),
+                self::equalTo('ibexa_string'),
                 $content2->versionInfo,
                 self::equalTo([$fieldId])
             );
@@ -222,7 +222,7 @@ class RemoveFieldTest extends TestCase
             ->expects(self::at(0))
             ->method('deleteFieldData')
             ->with(
-                self::equalTo('ezstring'),
+                self::equalTo('ibexa_string'),
                 $content1->versionInfo,
                 self::equalTo([$fieldId1, $fieldId2])
             );
@@ -231,7 +231,7 @@ class RemoveFieldTest extends TestCase
             ->expects(self::at(1))
             ->method('deleteFieldData')
             ->with(
-                self::equalTo('ezstring'),
+                self::equalTo('ibexa_string'),
                 $content2->versionInfo,
                 self::equalTo([$fieldId1, $fieldId2])
             );
@@ -253,7 +253,7 @@ class RemoveFieldTest extends TestCase
             $fieldNoRemove->id = 2;
             $fieldNoRemove->versionNo = $versionNo;
             $fieldNoRemove->fieldDefinitionId = 23;
-            $fieldNoRemove->type = 'ezstring';
+            $fieldNoRemove->type = 'ibexa_string';
             $fieldNoRemove->languageCode = $languageCode;
 
             $fields[] = $fieldNoRemove;
@@ -262,7 +262,7 @@ class RemoveFieldTest extends TestCase
             $fieldRemove->id = $fieldId;
             $fieldRemove->versionNo = $versionNo;
             $fieldRemove->fieldDefinitionId = 42;
-            $fieldRemove->type = 'ezstring';
+            $fieldRemove->type = 'ibexa_string';
             $fieldRemove->languageCode = $languageCode;
 
             $fields[] = $fieldRemove;
@@ -327,7 +327,7 @@ class RemoveFieldTest extends TestCase
     {
         $fieldDef = new Content\Type\FieldDefinition();
         $fieldDef->id = 42;
-        $fieldDef->fieldType = 'ezstring';
+        $fieldDef->fieldType = 'ibexa_string';
         $fieldDef->defaultValue = new Content\FieldValue();
 
         return $fieldDef;

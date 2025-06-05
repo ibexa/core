@@ -309,5 +309,5 @@ services:
     Ibexa\Contracts\Core\Variation\VariationHandler: '@Ibexa\Bundle\Core\Variation\VariationHandlerResolver'
 
     # Image alias generator
-    ibexa.field_type.ezimage.variation_service:
+    ibexa.field_type.ibexa_image.variation_service:
         alias: Ibexa\Contracts\Core\Variation\VariationHandler

@@ -19,6 +19,9 @@ use Ibexa\Contracts\Core\Persistence\Content\Relation as SPIRelation;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
+use Ibexa\Core\FieldType\FieldTypeAliasRegistry;
+use Ibexa\Core\FieldType\FieldTypeAliasResolver;
+use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
@@ -151,6 +154,7 @@ class MapperTest extends LanguageAwareTestCase
             $this->getLanguageHandler(),
             $this->getContentTypeHandler(),
             $this->getEventDispatcher(),
+            $this->getFieldTypeAliasResolver(),
         );
         $res = $mapper->convertToStorageValue($field);
 
@@ -171,19 +175,20 @@ class MapperTest extends LanguageAwareTestCase
         $contentTypeHandlerMock->method('load')->willReturn($contentType);
 
         $reg = $this->getFieldRegistry([
-            'ezauthor',
-            'ezstring',
-            'ezboolean',
-            'ezimage',
-            'ezdatetime',
-            'ezkeyword',
+            'ibexa_author',
+            'ibexa_string',
+            'ibexa_boolean',
+            'ibexa_image',
+            'ibexa_datetime',
+            'ibexa_keyword',
         ], count($rowsFixture) - 1);
 
         $mapper = new Mapper(
             $reg,
             $this->getLanguageHandler(),
             $contentTypeHandlerMock,
-            $this->getEventDispatcher()
+            $this->getEventDispatcher(),
+            $this->getFieldTypeAliasResolver(),
         );
         $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
 
@@ -209,12 +214,12 @@ class MapperTest extends LanguageAwareTestCase
         $contentTypeHandlerMock->method('load')->willReturn($contentType);
 
         $reg = $this->getFieldRegistry([
-            'ezauthor',
-            'ezstring',
-            'ezboolean',
-            'ezimage',
-            'ezdatetime',
-            'ezkeyword',
+            'ibexa_author',
+            'ibexa_string',
+            'ibexa_boolean',
+            'ibexa_image',
+            'ibexa_datetime',
+            'ibexa_keyword',
             'eznumber',
         ], count($rowsFixture) - 1);
 
@@ -222,7 +227,8 @@ class MapperTest extends LanguageAwareTestCase
             $reg,
             $this->getLanguageHandler(),
             $contentTypeHandlerMock,
-            $this->getEventDispatcher()
+            $this->getEventDispatcher(),
+            $this->getFieldTypeAliasResolver(),
         );
         $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
 
@@ -251,7 +257,7 @@ class MapperTest extends LanguageAwareTestCase
         $contentType->fieldDefinitions = array_filter(
             $contentType->fieldDefinitions,
             static function (Content\Type\FieldDefinition $fieldDefinition): bool {
-                // ref. fixtures, ezauthor
+                // ref. fixtures, ibexa_author
                 return $fieldDefinition->id !== 185;
             }
         );
@@ -260,18 +266,19 @@ class MapperTest extends LanguageAwareTestCase
         $contentTypeHandlerMock->method('load')->willReturn($contentType);
 
         $reg = $this->getFieldRegistry([
-            'ezstring',
-            'ezboolean',
-            'ezimage',
-            'ezdatetime',
-            'ezkeyword',
+            'ibexa_string',
+            'ibexa_boolean',
+            'ibexa_image',
+            'ibexa_datetime',
+            'ibexa_keyword',
         ], count($rowsFixture) - 2);
 
         $mapper = new Mapper(
             $reg,
             $this->getLanguageHandler(),
             $contentTypeHandlerMock,
-            $this->getEventDispatcher()
+            $this->getEventDispatcher(),
+            $this->getFieldTypeAliasResolver(),
         );
         $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
 
@@ -299,8 +306,8 @@ class MapperTest extends LanguageAwareTestCase
 
         $reg = new Registry(
             [
-                'ezstring' => $convMock,
-                'ezdatetime' => $convMock,
+                'ibexa_string' => $convMock,
+                'ibexa_datetime' => $convMock,
             ]
         );
 
@@ -316,7 +323,8 @@ class MapperTest extends LanguageAwareTestCase
             $reg,
             $this->getLanguageHandler(),
             $contentTypeHandlerMock,
-            $this->getEventDispatcher()
+            $this->getEventDispatcher(),
+            $this->getFieldTypeAliasResolver(),
         );
         $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
 
@@ -488,7 +496,8 @@ class MapperTest extends LanguageAwareTestCase
             $this->getValueConverterRegistryMock(),
             $this->getLanguageHandler(),
             $this->getContentTypeHandler(),
-            $this->getEventDispatcher()
+            $this->getEventDispatcher(),
+            $this->getFieldTypeAliasResolver(),
         );
         self::assertEquals($contentInfoReference, $mapper->extractContentInfoFromRow($fixtures, $prefix));
     }
@@ -647,7 +656,8 @@ class MapperTest extends LanguageAwareTestCase
             $this->getValueConverterRegistryMock(),
             $this->getLanguageHandler(),
             $this->getContentTypeHandler(),
-            $this->getEventDispatcher()
+            $this->getEventDispatcher(),
+            $this->getFieldTypeAliasResolver(),
         );
     }
 
@@ -699,6 +709,13 @@ class MapperTest extends LanguageAwareTestCase
         );
 
         return $eventDispatcher;
+    }
+
+    protected function getFieldTypeAliasResolver(): FieldTypeAliasResolverInterface
+    {
+        $fieldTypeAliasRegistry = new FieldTypeAliasRegistry();
+
+        return new FieldTypeAliasResolver($fieldTypeAliasRegistry);
     }
 
     /**

@@ -117,7 +117,7 @@ services:
         class: Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController
         arguments:
             $contentService: '@ibexa.api.service.content'
-            $ioService: '@ibexa.field_type.ezbinaryfile.io_service'
+            $ioService: '@ibexa.field_type.ibexa_binaryfile.io_service'
             $translationHelper: '@Ibexa\Core\Helper\TranslationHelper'
         parent: Ibexa\Core\MVC\Symfony\Controller\Controller
         tags:
@@ -331,7 +331,7 @@ services:
         autowire: true
         autoconfigure: true
         arguments:
-            $ioService: '@ibexa.field_type.ezimage.io_service.published'
+            $ioService: '@ibexa.field_type.ibexa_image.io_service.published'
             $imagine: '@liip_imagine'
             $filterManager: '@liip_imagine.filter.manager'
             $permissionResolver: '@Ibexa\Contracts\Core\Repository\PermissionResolver'

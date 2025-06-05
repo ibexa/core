@@ -77,7 +77,7 @@ class Type extends FieldType implements TranslationContainerInterface
      */
     public function getFieldTypeIdentifier(): string
     {
-        return 'ezimage';
+        return 'ibexa_image';
     }
 
     /**
@@ -465,7 +465,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public static function getTranslationMessages(): array
     {
         return [
-            Message::create('ezimage.name', 'ibexa_fieldtypes')->setDesc('Image'),
+            Message::create('ibexa_image.name', 'ibexa_fieldtypes')->setDesc('Image'),
         ];
     }
 

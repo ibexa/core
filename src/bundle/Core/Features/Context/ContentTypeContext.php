@@ -40,7 +40,7 @@ class ContentTypeContext implements Context
      * @Given (that) a content type exists with identifier :identifier with fields:
      * @Given (that) a content type exists with identifier :identifier in Group with identifier :groupIdentifier with fields:
      *     |   Identifier   |     Type       |     Name      |
-     *     |  title         |  ezstring      |  Title        |
+     *     |  title         |  ibexa_string      |  Title        |
      *     |  body          |  ezxml         |  Body         |
      *
      * Makes sure a content type with $identifier and with the provided $fields definition.

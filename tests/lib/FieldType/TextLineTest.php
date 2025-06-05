@@ -15,7 +15,7 @@ use Ibexa\Core\FieldType\ValidationError;
 
 /**
  * @group fieldType
- * @group ezstring
+ * @group ibexa_string
  */
 final class TextLineTest extends FieldTypeTestCase
 {
@@ -272,7 +272,7 @@ final class TextLineTest extends FieldTypeTestCase
 
     protected function provideFieldTypeIdentifier(): string
     {
-        return 'ezstring';
+        return 'ibexa_string';
     }
 
     /**

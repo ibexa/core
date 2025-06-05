@@ -22,7 +22,7 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
     private const GER_DE = 'ger-DE';
     private const ENG_US = 'eng-US';
     private const CONTENT_TYPE_IDENTIFIER = 'nontranslatable';
-    private const TEXT_LINE_FIELD_TYPE_IDENTIFIER = 'ezstring';
+    private const TEXT_LINE_FIELD_TYPE_IDENTIFIER = 'ibexa_string';
 
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception

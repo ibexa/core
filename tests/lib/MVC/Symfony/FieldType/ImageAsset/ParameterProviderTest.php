@@ -51,7 +51,7 @@ class ParameterProviderTest extends TestCase
 
         $fieldTypeService
             ->method('getFieldType')
-            ->with('ezimageasset')
+            ->with('ibexa_image_asset')
             ->willReturn($this->fieldType);
 
         $this->parameterProvider = new ParameterProvider($this->repository);
@@ -194,7 +194,7 @@ class ParameterProviderTest extends TestCase
     {
         return new Field([
             'value' => new ImageAssetValue($destinationContentId),
-            'fieldTypeIdentifier' => 'ezimageasset',
+            'fieldTypeIdentifier' => 'ibexa_image_asset',
         ]);
     }
 }

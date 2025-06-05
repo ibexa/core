@@ -26,7 +26,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTestCase
      */
     public function getTypeName(): string
     {
-        return 'ezgmaplocation';
+        return 'ibexa_gmap_location';
     }
 
     /**

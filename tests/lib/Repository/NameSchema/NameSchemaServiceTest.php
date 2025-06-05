@@ -286,7 +286,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
                         'languageCode' => $languageCode,
                         'fieldDefIdentifier' => $fieldDefinitionIdentifier,
                         'value' => new TextLineValue($textValue),
-                        'fieldTypeIdentifier' => 'ezstring',
+                        'fieldTypeIdentifier' => 'ibexa_string',
                     ]
                 );
             }
@@ -301,21 +301,21 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
                     [
                         'id' => '1',
                         'identifier' => 'text1',
-                        'fieldTypeIdentifier' => 'ezstring',
+                        'fieldTypeIdentifier' => 'ibexa_string',
                     ]
                 ),
                 new FieldDefinition(
                     [
                         'id' => '2',
                         'identifier' => 'text2',
-                        'fieldTypeIdentifier' => 'ezstring',
+                        'fieldTypeIdentifier' => 'ibexa_string',
                     ]
                 ),
                 new FieldDefinition(
                     [
                         'id' => '3',
                         'identifier' => 'text3',
-                        'fieldTypeIdentifier' => 'ezstring',
+                        'fieldTypeIdentifier' => 'ibexa_string',
                     ]
                 ),
             ]
@@ -374,7 +374,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
         $fieldTypeRegistryMock = $this->getFieldTypeRegistryMock();
         $fieldTypeRegistryMock
             ->method('getFieldType')
-            ->with('ezstring')
+            ->with('ibexa_string')
             ->willReturn(new TextLineFieldType());
 
         return new NameSchemaService(

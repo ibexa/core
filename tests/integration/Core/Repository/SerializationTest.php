@@ -44,7 +44,7 @@ final class SerializationTest extends RepositoryTestCase
                     "plainPassword": null
                 },
                 "languageCode": "eng-US",
-                "fieldTypeIdentifier": "ezuser",
+                "fieldTypeIdentifier": "ibexa_user",
                 "fieldDefinitionIdentifier": "user_account",
                 "virtual": false
             }

@@ -48,7 +48,7 @@ class FieldTypeServiceTest extends BaseTestCase
     /**
      * Test for the getFieldType() method.
      *
-     * Expects FieldType "ezurl" to be available!
+     * Expects FieldType "ibexa_url" to be available!
      *
      * @covers \Ibexa\Contracts\Core\Repository\FieldTypeService::getFieldType()
      */
@@ -59,8 +59,8 @@ class FieldTypeServiceTest extends BaseTestCase
         /* BEGIN: Use Case */
         $fieldTypeService = $repository->getFieldTypeService();
 
-        // Contains the "ezurl" FieldType
-        $fieldType = $fieldTypeService->getFieldType('ezurl');
+        // Contains the "ibexa_url" FieldType
+        $fieldType = $fieldTypeService->getFieldType('ibexa_url');
         /* END: Use Case */
 
         $this->assertInstanceof(
@@ -68,7 +68,7 @@ class FieldTypeServiceTest extends BaseTestCase
             $fieldType
         );
         self::assertEquals(
-            'ezurl',
+            'ibexa_url',
             $fieldType->getFieldTypeIdentifier()
         );
     }
@@ -104,8 +104,8 @@ class FieldTypeServiceTest extends BaseTestCase
         /* BEGIN: Use Case */
         $fieldTypeService = $repository->getFieldTypeService();
 
-        // Returns true, since 'ezurl' type exists
-        $typeExists = $fieldTypeService->hasFieldType('ezurl');
+        // Returns true, since 'ibexa_url' type exists
+        $typeExists = $fieldTypeService->hasFieldType('ibexa_url');
         /* END: Use Case */
 
         self::assertTrue($typeExists);

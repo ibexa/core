@@ -51,7 +51,7 @@ class SearchServiceLocationTest extends BaseTestCase
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new \DateTime();
 
-        $fieldTitle = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ezstring');
+        $fieldTitle = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
         $fieldTitle->names = ['eng-GB' => 'Title'];
         $fieldTitle->fieldGroup = 'main';
         $fieldTitle->position = 1;
@@ -60,7 +60,7 @@ class SearchServiceLocationTest extends BaseTestCase
         $fieldTitle->isRequired = true;
         $createStruct->addFieldDefinition($fieldTitle);
 
-        $fieldSubtitle = $contentTypeService->newFieldDefinitionCreateStruct('subtitle', 'ezstring');
+        $fieldSubtitle = $contentTypeService->newFieldDefinitionCreateStruct('subtitle', 'ibexa_string');
         $fieldSubtitle->names = ['eng-GB' => 'Subtitle'];
         $fieldSubtitle->fieldGroup = 'main';
         $fieldSubtitle->position = 2;
@@ -110,7 +110,7 @@ class SearchServiceLocationTest extends BaseTestCase
     }
 
     /**
-     * Create test Content with ezcountry field having multiple countries selected.
+     * Create test Content with ibexa_country field having multiple countries selected.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
@@ -127,7 +127,7 @@ class SearchServiceLocationTest extends BaseTestCase
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new \DateTime();
 
-        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('countries', 'ezcountry');
+        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('countries', 'ibexa_country');
         $fieldCreate->names = ['eng-GB' => 'Countries'];
         $fieldCreate->fieldGroup = 'main';
         $fieldCreate->position = 1;
@@ -534,7 +534,7 @@ class SearchServiceLocationTest extends BaseTestCase
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new \DateTime();
 
-        $translatableFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('maplocation', 'ezgmaplocation');
+        $translatableFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('maplocation', 'ibexa_gmap_location');
         $translatableFieldCreate->names = ['eng-GB' => 'Map location field'];
         $translatableFieldCreate->fieldGroup = 'main';
         $translatableFieldCreate->position = 1;

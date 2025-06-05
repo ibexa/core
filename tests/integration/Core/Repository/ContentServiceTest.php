@@ -1659,7 +1659,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                     'value' => true,
                     'languageCode' => self::ENG_GB,
                     'fieldDefIdentifier' => 'name',
-                    'fieldTypeIdentifier' => 'ezstring',
+                    'fieldTypeIdentifier' => 'ibexa_string',
                 ]
             ),
             new Field(
@@ -1668,7 +1668,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                     'value' => true,
                     'languageCode' => self::ENG_US,
                     'fieldDefIdentifier' => 'name',
-                    'fieldTypeIdentifier' => 'ezstring',
+                    'fieldTypeIdentifier' => 'ibexa_string',
                 ]
             ),
         ];
@@ -2265,7 +2265,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
             'test_t',
             self::ENG_GB,
             [
-                'name' => 'ezstring',
+                'name' => 'ibexa_string',
             ],
             false
         );
@@ -2853,7 +2853,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                     'value' => true,
                     'languageCode' => self::ENG_US,
                     'fieldDefIdentifier' => 'name',
-                    'fieldTypeIdentifier' => 'ezstring',
+                    'fieldTypeIdentifier' => 'ibexa_string',
                 ]
             ),
         ];
@@ -2879,7 +2879,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                     'value' => true,
                     'languageCode' => self::ENG_GB,
                     'fieldDefIdentifier' => 'name',
-                    'fieldTypeIdentifier' => 'ezstring',
+                    'fieldTypeIdentifier' => 'ibexa_string',
                 ]
             ),
         ];
@@ -2905,7 +2905,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                     'value' => true,
                     'languageCode' => self::ENG_US,
                     'fieldDefIdentifier' => 'name',
-                    'fieldTypeIdentifier' => 'ezstring',
+                    'fieldTypeIdentifier' => 'ibexa_string',
                 ]
             ),
         ];
@@ -6265,7 +6265,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                     'value' => 'An awesome multi-lang forum²',
                     'languageCode' => self::ENG_US,
                     'fieldDefIdentifier' => 'name',
-                    'fieldTypeIdentifier' => 'ezstring',
+                    'fieldTypeIdentifier' => 'ibexa_string',
                 ]
             ),
             new Field(
@@ -6274,7 +6274,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
                     'value' => 'An awesome multi-lang forum²³',
                     'languageCode' => self::ENG_GB,
                     'fieldDefIdentifier' => 'name',
-                    'fieldTypeIdentifier' => 'ezstring',
+                    'fieldTypeIdentifier' => 'ibexa_string',
                 ]
             ),
         ];
@@ -6672,7 +6672,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct('test_copy_translation');
         $contentTypeCreateStruct->mainLanguageCode = 'eng-US';
         $contentTypeCreateStruct->names = ['eng-US' => 'Test content type for Copy Translations'];
-        $fieldDefinition = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ezstring');
+        $fieldDefinition = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ibexa_string');
         $fieldDefinition->position = 1;
         $contentTypeCreateStruct->addFieldDefinition($fieldDefinition);
         $contentTypeService->publishContentTypeDraft(
@@ -6715,7 +6715,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
 
         // Update content type with new required field
         $contentTypeDraft = $contentTypeService->createContentTypeDraft($contentType);
-        $fieldDefinition = $contentTypeService->newFieldDefinitionCreateStruct('req_field', 'ezstring');
+        $fieldDefinition = $contentTypeService->newFieldDefinitionCreateStruct('req_field', 'ibexa_string');
         $fieldDefinition->position = 2;
         $fieldDefinition->isRequired = true;
         $contentTypeService->addFieldDefinition($contentTypeDraft, $fieldDefinition);

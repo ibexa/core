@@ -64,7 +64,7 @@ final class TimeRangeAggregationTest extends AbstractAggregationTestCase
         $generator = new FieldAggregationFixtureGenerator($this->getRepository());
         $generator->setContentTypeIdentifier('content_type');
         $generator->setFieldDefinitionIdentifier('time_field');
-        $generator->setFieldTypeIdentifier('eztime');
+        $generator->setFieldTypeIdentifier('ibexa_time');
         $generator->setValues([
             new TimeValue($this->mktime(6, 45, 0, 0, 0, 0)),
             new TimeValue($this->mktime(7, 0, 0, 0, 0, 0)),

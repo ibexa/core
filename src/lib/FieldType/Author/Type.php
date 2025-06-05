@@ -52,7 +52,7 @@ class Type extends FieldType implements TranslationContainerInterface
      */
     public function getFieldTypeIdentifier(): string
     {
-        return 'ezauthor';
+        return 'ibexa_author';
     }
 
     public function getName(SPIValue $value, FieldDefinition $fieldDefinition, string $languageCode): string
@@ -256,7 +256,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public static function getTranslationMessages(): array
     {
         return [
-            Message::create('ezauthor.name', 'ibexa_fieldtypes')->setDesc('Authors'),
+            Message::create('ibexa_author.name', 'ibexa_fieldtypes')->setDesc('Authors'),
         ];
     }
 }

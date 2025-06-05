@@ -50,7 +50,7 @@ final class BinaryFileIntegrationTest extends BaseBinaryFileIntegrationTestCaseC
      */
     public function getTypeName(): string
     {
-        return 'ezbinaryfile';
+        return 'ibexa_binaryfile';
     }
 
     /**
@@ -159,7 +159,7 @@ final class BinaryFileIntegrationTest extends BaseBinaryFileIntegrationTestCaseC
     {
         if ($this->getSetupFactory() instanceof Legacy) {
             self::markTestSkipped(
-                "'ezbinaryfile' field type is not searchable with Legacy Search Engine"
+                "'ibexa_binaryfile' field type is not searchable with Legacy Search Engine"
             );
         }
     }

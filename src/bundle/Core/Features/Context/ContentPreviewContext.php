@@ -97,7 +97,7 @@ class ContentPreviewContext extends RawMinkContext
     {
         $this->assertSession()->elementContains(
             'xpath',
-            "//span[@class='ezstring-field']",
+            "//span[@class='ibexa_string-field']",
             $this->contentContext->getCurrentDraft()->getFieldValue('name')->text
         );
     }

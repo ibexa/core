@@ -60,7 +60,7 @@ class MapLocationDistance extends FieldBase
             if (
                 !(
                     isset($fieldIdentifierMap[$fieldIdentifier])
-                    && $fieldIdentifierMap[$fieldIdentifier]['field_type_identifier'] === 'ezgmaplocation'
+                    && $fieldIdentifierMap[$fieldIdentifier]['field_type_identifier'] === 'ibexa_gmap_location'
                 )
             ) {
                 continue;

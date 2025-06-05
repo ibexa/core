@@ -1,14 +1,14 @@
 services:
     # Deprecated since eZ Publish 5.4. Use Ibexa\Core\FieldType\Image\IO\Legacy instead.
-    ibexa.field_type.ezimage.io:
+    ibexa.field_type.ibexa_image.io:
         alias: Ibexa\Core\FieldType\Image\IO\Legacy
 
     # Custom IOService with a proxy that handles the legacy prefix (images-versioned)
     Ibexa\Core\FieldType\Image\IO\Legacy:
         class: Ibexa\Core\FieldType\Image\IO\Legacy
         arguments:
-            - '@ibexa.field_type.ezimage.io_service.published'
-            - '@ibexa.field_type.ezimage.io_service.draft'
+            - '@ibexa.field_type.ibexa_image.io_service.published'
+            - '@ibexa.field_type.ibexa_image.io_service.draft'
             - '@Ibexa\Core\FieldType\Image\IO\OptionsProvider'
 
     Ibexa\Core\FieldType\Image\IO\OptionsProvider:
@@ -16,13 +16,13 @@ services:
         arguments:
             $configResolver: '@ibexa.config.resolver'
 
-    ibexa.field_type.ezimage.io_service.published:
+    ibexa.field_type.ibexa_image.io_service.published:
         parent: ibexa.core.io.service
         calls:
             - [ setPrefix, [ '%ibexa.io.images.storage.prefix%' ] ]
 
     # Used to manipulate images with a legacy 'images-versioned' path
-    ibexa.field_type.ezimage.io_service.draft:
+    ibexa.field_type.ibexa_image.io_service.draft:
         parent: ibexa.core.io.service
         calls:
             - [ setPrefix, [ '%ibexa.io.images.storage.prefix.draft%' ] ]
@@ -34,7 +34,7 @@ services:
     Ibexa\Core\FieldType\Image\AliasCleanerInterface: '@Ibexa\Core\FieldType\Image\NullAliasCleaner'
 
     # BinaryFile
-    ibexa.field_type.ezbinaryfile.io_service:
+    ibexa.field_type.ibexa_binaryfile.io_service:
         parent: ibexa.core.io.service
         calls:
             - [ setPrefix, [ '%ibexa.io.binary_file.storage.prefix%' ] ]

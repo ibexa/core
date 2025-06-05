@@ -29,7 +29,7 @@ class MediaTest extends TestCase
 
     /**
      * @group fieldType
-     * @group ezmedia
+     * @group ibexa_media
      */
     public function testToStorageFieldDefinition()
     {
@@ -67,7 +67,7 @@ class MediaTest extends TestCase
 
     /**
      * @group fieldType
-     * @group ezmedia
+     * @group ibexa_media
      */
     public function testToFieldDefinition()
     {

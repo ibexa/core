@@ -299,7 +299,7 @@ class Type extends FieldType implements TranslationContainerInterface
      */
     public function getFieldTypeIdentifier(): string
     {
-        return 'ezobjectrelationlist';
+        return 'ibexa_object_relation_list';
     }
 
     /**
@@ -496,7 +496,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public static function getTranslationMessages(): array
     {
         return [
-            Message::create('ezobjectrelationlist.name', 'ibexa_fieldtypes')
+            Message::create('ibexa_object_relation_list.name', 'ibexa_fieldtypes')
                 ->setDesc('Content relations (multiple)'),
         ];
     }

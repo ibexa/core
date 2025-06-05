@@ -14,7 +14,7 @@ use Ibexa\Core\FieldType\TextBlock\Value as TextBlockValue;
 
 /**
  * @group fieldType
- * @group eztext
+ * @group ibexa_text
  */
 final class TextBlockTest extends FieldTypeTestCase
 {
@@ -173,7 +173,7 @@ final class TextBlockTest extends FieldTypeTestCase
 
     protected function provideFieldTypeIdentifier(): string
     {
-        return 'eztext';
+        return 'ibexa_text';
     }
 
     /**

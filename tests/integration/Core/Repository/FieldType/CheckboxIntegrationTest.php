@@ -34,7 +34,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTestCase
      */
     public function getTypeName(): string
     {
-        return 'ezboolean';
+        return 'ibexa_boolean';
     }
 
     /**
@@ -409,7 +409,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTestCase
 
         $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct(
             self::IS_ACTIVE_FIELD_DEF_IDENTIFIER,
-            'ezboolean'
+            'ibexa_boolean'
         );
         $fieldCreate->names = ['eng-GB' => 'Active'];
         $fieldCreate->position = 1;

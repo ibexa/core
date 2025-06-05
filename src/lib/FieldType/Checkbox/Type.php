@@ -29,7 +29,7 @@ class Type extends FieldType implements TranslationContainerInterface
      */
     public function getFieldTypeIdentifier(): string
     {
-        return 'ezboolean';
+        return 'ibexa_boolean';
     }
 
     /**
@@ -147,7 +147,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public static function getTranslationMessages(): array
     {
         return [
-            Message::create('ezboolean.name', 'ibexa_fieldtypes')->setDesc('Checkbox'),
+            Message::create('ibexa_boolean.name', 'ibexa_fieldtypes')->setDesc('Checkbox'),
         ];
     }
 }

@@ -64,7 +64,7 @@ final class AuthorTermAggregationTest extends AbstractAggregationTestCase
         $generator = new FieldAggregationFixtureGenerator($this->getRepository());
         $generator->setContentTypeIdentifier('content_type');
         $generator->setFieldDefinitionIdentifier('author');
-        $generator->setFieldTypeIdentifier('ezauthor');
+        $generator->setFieldTypeIdentifier('ibexa_author');
         $generator->setValues([
             new AuthorValue([
                 new Author([

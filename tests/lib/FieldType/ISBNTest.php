@@ -14,7 +14,7 @@ use Ibexa\Core\FieldType\ValidationError;
 
 /**
  * @group fieldType
- * @group ezisbn
+ * @group ibexa_isbn
  */
 class ISBNTest extends FieldTypeTestCase
 {
@@ -228,7 +228,7 @@ class ISBNTest extends FieldTypeTestCase
 
     protected function provideFieldTypeIdentifier(): string
     {
-        return 'ezisbn';
+        return 'ibexa_isbn';
     }
 
     public function provideDataForGetName(): array

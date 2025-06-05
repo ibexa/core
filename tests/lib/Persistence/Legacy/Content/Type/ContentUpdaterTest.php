@@ -68,7 +68,7 @@ class ContentUpdaterTest extends TestCase
         $converterRegMock = $this->getConverterRegistryMock();
         $converterRegMock->expects(self::once())
             ->method('getConverter')
-            ->with('ezstring')
+            ->with('ibexa_string')
             ->will(
                 self::returnValue(
                     ($converterMock = $this->createMock(Converter::class))
@@ -152,11 +152,11 @@ class ContentUpdaterTest extends TestCase
 
         $fieldA = new Type\FieldDefinition();
         $fieldA->id = 1;
-        $fieldA->fieldType = 'ezstring';
+        $fieldA->fieldType = 'ibexa_string';
 
         $fieldB = new Type\FieldDefinition();
         $fieldB->id = 2;
-        $fieldB->fieldType = 'ezstring';
+        $fieldB->fieldType = 'ibexa_string';
 
         $type->fieldDefinitions = [
             $fieldA, $fieldB,
@@ -178,7 +178,7 @@ class ContentUpdaterTest extends TestCase
 
         $fieldC = new Type\FieldDefinition();
         $fieldC->id = 3;
-        $fieldC->fieldType = 'ezstring';
+        $fieldC->fieldType = 'ibexa_string';
 
         $type->fieldDefinitions[] = $fieldC;
 

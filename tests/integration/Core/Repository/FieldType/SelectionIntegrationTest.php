@@ -27,7 +27,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      */
     public function getTypeName()
     {
-        return 'ezselection';
+        return 'ibexa_selection';
     }
 
     /**

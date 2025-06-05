@@ -1336,7 +1336,7 @@ class SearchServiceTest extends BaseTestCase
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new \DateTime();
 
-        $fieldTitle = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ezstring');
+        $fieldTitle = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
         $fieldTitle->names = ['eng-GB' => 'Title'];
         $fieldTitle->fieldGroup = 'main';
         $fieldTitle->position = 1;
@@ -1345,7 +1345,7 @@ class SearchServiceTest extends BaseTestCase
         $fieldTitle->isRequired = true;
         $createStruct->addFieldDefinition($fieldTitle);
 
-        $fieldSubtitle = $contentTypeService->newFieldDefinitionCreateStruct('subtitle', 'ezstring');
+        $fieldSubtitle = $contentTypeService->newFieldDefinitionCreateStruct('subtitle', 'ibexa_string');
         $fieldSubtitle->names = ['eng-GB' => 'Subtitle'];
         $fieldSubtitle->fieldGroup = 'main';
         $fieldSubtitle->position = 2;
@@ -1391,7 +1391,7 @@ class SearchServiceTest extends BaseTestCase
     }
 
     /**
-     * Create test Content with ezcountry field having multiple countries selected.
+     * Create test Content with ibexa_country field having multiple countries selected.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
@@ -1408,7 +1408,7 @@ class SearchServiceTest extends BaseTestCase
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new \DateTime();
 
-        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('countries', 'ezcountry');
+        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('countries', 'ibexa_country');
         $fieldCreate->names = ['eng-GB' => 'Countries'];
         $fieldCreate->fieldGroup = 'main';
         $fieldCreate->position = 1;
@@ -1955,7 +1955,7 @@ class SearchServiceTest extends BaseTestCase
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new \DateTime();
 
-        $translatableFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('integer', 'ezinteger');
+        $translatableFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('integer', 'ibexa_integer');
         $translatableFieldCreate->names = ['eng-GB' => 'Simple translatable integer field'];
         $translatableFieldCreate->fieldGroup = 'main';
         $translatableFieldCreate->position = 1;
@@ -1964,7 +1964,7 @@ class SearchServiceTest extends BaseTestCase
 
         $createStruct->addFieldDefinition($translatableFieldCreate);
 
-        $nonTranslatableFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('integer2', 'ezinteger');
+        $nonTranslatableFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('integer2', 'ibexa_integer');
         $nonTranslatableFieldCreate->names = ['eng-GB' => 'Simple non-translatable integer field'];
         $nonTranslatableFieldCreate->fieldGroup = 'main';
         $nonTranslatableFieldCreate->position = 2;
@@ -2945,7 +2945,7 @@ class SearchServiceTest extends BaseTestCase
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new \DateTime();
 
-        $translatableFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('maplocation', 'ezgmaplocation');
+        $translatableFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('maplocation', 'ibexa_gmap_location');
         $translatableFieldCreate->names = ['eng-GB' => 'Map location field'];
         $translatableFieldCreate->fieldGroup = 'main';
         $translatableFieldCreate->position = 1;
@@ -4924,7 +4924,7 @@ class SearchServiceTest extends BaseTestCase
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new \DateTime();
 
-        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct($fieldName, 'ez' . $fieldType);
+        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct($fieldName, 'ibexa_' . $fieldType);
         $fieldCreate->names = ['eng-GB' => $fieldName];
         $fieldCreate->fieldGroup = 'main';
         $fieldCreate->position = 1;

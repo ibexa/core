@@ -15,6 +15,9 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct as GroupCreateStruct;
 // Needed for $sortOrder and $sortField properties
 use Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct;
+use Ibexa\Core\FieldType\FieldTypeAliasRegistry;
+use Ibexa\Core\FieldType\FieldTypeAliasResolver;
+use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
@@ -35,7 +38,8 @@ class MapperTest extends TestCase
         $mapper = new Mapper(
             $this->getConverterRegistryMock(),
             $this->getMaskGeneratorMock(),
-            $this->getStorageDispatcherMock()
+            $this->getStorageDispatcherMock(),
+            $this->getFieldTypeAliasResolver(),
         );
 
         $group = $mapper->createGroupFromCreateStruct($createStruct);
@@ -90,7 +94,8 @@ class MapperTest extends TestCase
         $mapper = new Mapper(
             $this->getConverterRegistryMock(),
             $this->getMaskGeneratorMock(),
-            $this->getStorageDispatcherMock()
+            $this->getStorageDispatcherMock(),
+            $this->getFieldTypeAliasResolver(),
         );
         $type = $mapper->createTypeFromCreateStruct($struct);
 
@@ -110,7 +115,8 @@ class MapperTest extends TestCase
         $mapper = new Mapper(
             $this->getConverterRegistryMock(),
             $this->getMaskGeneratorMock(),
-            $this->getStorageDispatcherMock()
+            $this->getStorageDispatcherMock(),
+            $this->getFieldTypeAliasResolver(),
         );
         $type = $mapper->createTypeFromUpdateStruct($struct);
 
@@ -199,7 +205,8 @@ class MapperTest extends TestCase
         $mapper = new Mapper(
             $this->getConverterRegistryMock(),
             $this->getMaskGeneratorMock(),
-            $this->getStorageDispatcherMock()
+            $this->getStorageDispatcherMock(),
+            $this->getFieldTypeAliasResolver(),
         );
         $struct = $mapper->createCreateStructFromType($type);
 
@@ -266,7 +273,8 @@ class MapperTest extends TestCase
         $mapper = new Mapper(
             $this->getConverterRegistryMock(),
             $this->getMaskGeneratorMock(),
-            $this->getStorageDispatcherMock()
+            $this->getStorageDispatcherMock(),
+            $this->getFieldTypeAliasResolver(),
         );
         $groups = $mapper->extractGroupsFromRows($rows);
 
@@ -347,7 +355,7 @@ class MapperTest extends TestCase
                 'description' => [],
                 'identifier' => 'short_name',
                 'fieldGroup' => '',
-                'fieldType' => 'ezstring',
+                'fieldType' => 'ibexa_string',
                 'isTranslatable' => true,
                 'isRequired' => false,
                 'isInfoCollector' => false,
@@ -364,7 +372,7 @@ class MapperTest extends TestCase
                 'description' => [],
                 'identifier' => 'show_children',
                 'fieldGroup' => '',
-                'fieldType' => 'ezboolean',
+                'fieldType' => 'ibexa_boolean',
                 'isTranslatable' => false,
                 'isRequired' => false,
                 'isInfoCollector' => false,
@@ -394,7 +402,8 @@ class MapperTest extends TestCase
         $mapper = new Mapper(
             $converterRegistry,
             $this->getMaskGeneratorMock(),
-            $this->getStorageDispatcherMock()
+            $this->getStorageDispatcherMock(),
+            $this->getFieldTypeAliasResolver(),
         );
 
         $fieldDef = new FieldDefinition();
@@ -430,7 +439,8 @@ class MapperTest extends TestCase
         $mapper = new Mapper(
             $converterRegistry,
             $this->getMaskGeneratorMock(),
-            $storageDispatcher
+            $storageDispatcher,
+            $this->getFieldTypeAliasResolver(),
         );
 
         $mapper->toFieldDefinition($storageFieldDef, $fieldDef);
@@ -449,6 +459,7 @@ class MapperTest extends TestCase
                 $this->getConverterRegistryMock(),
                 $this->getMaskGeneratorMock(),
                 $this->getStorageDispatcherMock(),
+                $this->getFieldTypeAliasResolver(),
             ])
             ->getMock();
 
@@ -511,5 +522,12 @@ class MapperTest extends TestCase
     private function getStorageDispatcherMock(): StorageDispatcherInterface
     {
         return $this->createMock(StorageDispatcherInterface::class);
+    }
+
+    protected function getFieldTypeAliasResolver(): FieldTypeAliasResolverInterface
+    {
+        $fieldTypeAliasRegistry = new FieldTypeAliasRegistry();
+
+        return new FieldTypeAliasResolver($fieldTypeAliasRegistry);
     }
 }

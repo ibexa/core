@@ -8,6 +8,9 @@
 namespace Ibexa\Tests\Core\Search\Legacy\Content;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPIContentTypeHandler;
+use Ibexa\Core\FieldType\FieldTypeAliasRegistry;
+use Ibexa\Core\FieldType\FieldTypeAliasResolver;
+use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
@@ -94,7 +97,8 @@ class AbstractTestCase extends LanguageAwareTestCase
                 new ContentTypeMapper(
                     $this->getConverterRegistry(),
                     $this->getLanguageMaskGenerator(),
-                    $this->createMock(StorageDispatcherInterface::class)
+                    $this->createMock(StorageDispatcherInterface::class),
+                    $this->getFieldTypeAliasResolver(),
                 ),
                 $this->createMock(ContentTypeUpdateHandler::class),
                 $this->createMock(StorageDispatcherInterface::class)
@@ -109,16 +113,15 @@ class AbstractTestCase extends LanguageAwareTestCase
         if (!isset($this->converterRegistry)) {
             $this->converterRegistry = new ConverterRegistry(
                 [
-                    'ezdatetime' => new Converter\DateAndTimeConverter(),
-                    'ezinteger' => new Converter\IntegerConverter(),
-                    'ezstring' => new Converter\TextLineConverter(),
-                    'ezfloat' => new Converter\FloatConverter(),
-                    'ezurl' => new Converter\UrlConverter(),
-                    'ezboolean' => new Converter\CheckboxConverter(),
-                    'ezkeyword' => new Converter\KeywordConverter(),
-                    'ezauthor' => new Converter\AuthorConverter(),
-                    'ezimage' => new Converter\NullConverter(),
-                    'ezmultioption' => new Converter\NullConverter(),
+                    'ibexa_datetime' => new Converter\DateAndTimeConverter(),
+                    'ibexa_integer' => new Converter\IntegerConverter(),
+                    'ibexa_string' => new Converter\TextLineConverter(),
+                    'ibexa_float' => new Converter\FloatConverter(),
+                    'ibexa_url' => new Converter\UrlConverter(),
+                    'ibexa_boolean' => new Converter\CheckboxConverter(),
+                    'ibexa_keyword' => new Converter\KeywordConverter(),
+                    'ibexa_author' => new Converter\AuthorConverter(),
+                    'ibexa_image' => new Converter\NullConverter(),
                 ]
             );
         }
@@ -138,5 +141,12 @@ class AbstractTestCase extends LanguageAwareTestCase
         );
 
         return $eventDispatcher;
+    }
+
+    protected function getFieldTypeAliasResolver(): FieldTypeAliasResolverInterface
+    {
+        $fieldTypeAliasRegistry = new FieldTypeAliasRegistry();
+
+        return new FieldTypeAliasResolver($fieldTypeAliasRegistry);
     }
 }

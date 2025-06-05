@@ -24,8 +24,8 @@ services:
     Ibexa\Core\Repository\Strategy\ContentThumbnail\Field\ContentFieldStrategy:
         arguments:
             $strategies:
-                ezimage: '@Ibexa\Core\FieldType\Image\ImageThumbnailStrategy'
-                ezimageasset: '@Ibexa\Core\FieldType\ImageAsset\ImageAssetThumbnailStrategy'
+                ibexa_image: '@Ibexa\Core\FieldType\Image\ImageThumbnailStrategy'
+                ibexa_image_asset: '@Ibexa\Core\FieldType\ImageAsset\ImageAssetThumbnailStrategy'
 
     Ibexa\Core\Repository\Strategy\ContentThumbnail\FirstMatchingFieldStrategy:
         arguments:

@@ -18,7 +18,7 @@ use Ibexa\Core\FieldType\Validator\ImageValidator;
 
 /**
  * @group fieldType
- * @group ezfloat
+ * @group ibexa_float
  */
 class ImageTest extends FieldTypeTestCase
 {
@@ -482,7 +482,7 @@ class ImageTest extends FieldTypeTestCase
 
     protected function provideFieldTypeIdentifier(): string
     {
-        return 'ezimage';
+        return 'ibexa_image';
     }
 
     public function provideDataForGetName(): array

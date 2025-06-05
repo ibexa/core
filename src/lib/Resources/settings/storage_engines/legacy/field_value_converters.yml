@@ -12,67 +12,67 @@ services:
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\AuthorConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\AuthorConverter
         tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: ezauthor}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_author}
 
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\BinaryFileConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\BinaryFileConverter
         tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: ezbinaryfile}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_binaryfile}
 
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CheckboxConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CheckboxConverter
         tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: ezboolean}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_boolean}
 
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CountryConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CountryConverter
         tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: ezcountry}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_country}
 
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\DateAndTimeConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\DateAndTimeConverter
         tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: ezdatetime}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_datetime}
 
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\FloatConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\FloatConverter
         tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: ezfloat}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_float}
 
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\IntegerConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\IntegerConverter
         tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: ezinteger}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_integer}
 
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\KeywordConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\KeywordConverter
         tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: ezkeyword}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_keyword}
 
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\MediaConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\MediaConverter
         tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: ezmedia}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_media}
 
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\SelectionConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\SelectionConverter
         tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: ezselection}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_selection}
 
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextLineConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextLineConverter
         tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: ezstring}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_string}
 
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextBlockConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextBlockConverter
         tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: eztext}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_text}
 
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\UrlConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\UrlConverter
         tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: ezurl}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_url}
 
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageConverter
@@ -80,46 +80,56 @@ services:
             - '@Ibexa\Core\FieldType\Image\IO\Legacy'
             - '@Ibexa\Core\IO\UrlRedecorator'
         tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: ezimage}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_image}
 
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ISBNConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ISBNConverter
         tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: ezisbn}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_isbn}
 
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\MapLocationConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\MapLocationConverter
         tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: ezgmaplocation}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_gmap_location}
 
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\EmailAddressConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\EmailAddressConverter
         tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: ezemail}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_email}
 
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationConverter
         tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: ezobjectrelation}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_object_relation}
 
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationListConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationListConverter
         arguments:
             $connection: '@ibexa.persistence.connection'
         tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: ezobjectrelationlist}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_object_relation_list}
 
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\UserConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\UserConverter
         tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: ezuser}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_user}
 
     # Not implemented converters
     # Configured to use the Null converter which does not nothing
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\DateConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\DateConverter
         tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: ezdate}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_date}
+
+    ibexa.field_type.ibexa_matrix.converter:
+        class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter
+        tags:
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_matrix}
+
+    Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TimeConverter:
+        class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TimeConverter
+        tags:
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_time}
 
     ibexa.field_type.ezenum.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter
@@ -181,12 +191,14 @@ services:
         tags:
             - {name: ibexa.field_type.storage.legacy.converter, alias: ezsubtreesubscription}
 
-    Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TimeConverter:
-        class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TimeConverter
-        tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: eztime}
-
     # not implemented converters from extensions
+    Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageAssetConverter:
+        tags:
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ibexa_image_asset}
+
+    ibexa.field_type.ibexa_image_asset.converter:
+        alias: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageAssetConverter
+
     ibexa.field_type.ezcomcomments.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter
         tags:
@@ -211,10 +223,3 @@ services:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter
         tags:
             - {name: ibexa.field_type.storage.legacy.converter, alias: ezrecommendation}
-
-    Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageAssetConverter:
-        tags:
-            - {name: ibexa.field_type.storage.legacy.converter, alias: ezimageasset}
-
-    ibexa.field_type.ezimageasset.converter:
-        alias: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageAssetConverter

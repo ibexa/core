@@ -27,7 +27,7 @@ class TextLineIntegrationTest extends SearchBaseIntegrationTestCase
      */
     public function getTypeName(): string
     {
-        return 'ezstring';
+        return 'ibexa_string';
     }
 
     /**

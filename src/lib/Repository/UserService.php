@@ -62,7 +62,7 @@ use Psr\Log\LoggerInterface;
  */
 class UserService implements UserServiceInterface
 {
-    private const USER_FIELD_TYPE_NAME = 'ezuser';
+    private const USER_FIELD_TYPE_NAME = 'ibexa_user';
 
     /** @var \Ibexa\Contracts\Core\Repository\Repository */
     protected $repository;
@@ -430,7 +430,7 @@ class UserService implements UserServiceInterface
             }
         }
 
-        // Search for the first ezuser field type in content type
+        // Search for the first ibexa_user field type in content type
         $userFieldDefinition = $this->getUserFieldDefinition($userCreateStruct->contentType);
         if ($userFieldDefinition === null) {
             throw new MissingUserFieldTypeException($userCreateStruct->contentType, self::USER_FIELD_TYPE_NAME);
@@ -1104,7 +1104,7 @@ class UserService implements UserServiceInterface
             return true;
         }
 
-        // For users we ultimately need to look for ezuser type as content type id could be several for users.
+        // For users we ultimately need to look for ibexa_user type as content type id could be several for users.
         // And config might be different from one SA to the next, which we don't care about here.
         foreach ($content->getFields() as $field) {
             if ($field->fieldTypeIdentifier === self::USER_FIELD_TYPE_NAME) {
@@ -1244,7 +1244,7 @@ class UserService implements UserServiceInterface
             ]);
         }
 
-        // Search for the first ezuser field type in content type
+        // Search for the first ibexa_user field type in content type
         $userFieldDefinition = $this->getUserFieldDefinition($context->contentType);
         if ($userFieldDefinition === null) {
             throw new MissingUserFieldTypeException($context->contentType, self::USER_FIELD_TYPE_NAME);

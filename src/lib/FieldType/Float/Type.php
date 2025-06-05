@@ -47,7 +47,7 @@ class Type extends BaseNumericType
      */
     public function getFieldTypeIdentifier(): string
     {
-        return 'ezfloat';
+        return 'ibexa_float';
     }
 
     /**
@@ -160,7 +160,7 @@ class Type extends BaseNumericType
     public static function getTranslationMessages(): array
     {
         return [
-            Message::create('ezfloat.name', 'ibexa_fieldtypes')->setDesc('Float'),
+            Message::create('ibexa_float.name', 'ibexa_fieldtypes')->setDesc('Float'),
         ];
     }
 }

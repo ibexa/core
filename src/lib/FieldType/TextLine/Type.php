@@ -86,7 +86,7 @@ class Type extends BaseTextType
 
     public function getFieldTypeIdentifier(): string
     {
-        return 'ezstring';
+        return 'ibexa_string';
     }
 
     /**
@@ -146,7 +146,7 @@ class Type extends BaseTextType
     public static function getTranslationMessages(): array
     {
         return [
-            Message::create('ezstring.name', 'ibexa_fieldtypes')->setDesc('Text line'),
+            Message::create('ibexa_string.name', 'ibexa_fieldtypes')->setDesc('Text line'),
         ];
     }
 }

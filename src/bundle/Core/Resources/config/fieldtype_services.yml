@@ -9,45 +9,45 @@ services:
         calls:
             - [setRequestStack, ["@request_stack"]]
         tags:
-            - {name: ibexa.field_type.view.parameter.provider, alias: ezdatetime}
-            - {name: ibexa.field_type.view.parameter.provider, alias: ezdate}
-            - {name: ibexa.field_type.view.parameter.provider, alias: eztime}
+            - {name: ibexa.field_type.view.parameter.provider, alias: ibexa_datetime}
+            - {name: ibexa.field_type.view.parameter.provider, alias: ibexa_date}
+            - {name: ibexa.field_type.view.parameter.provider, alias: ibexa_time}
 
     Ibexa\Core\MVC\Symfony\FieldType\Relation\ParameterProvider:
         class: Ibexa\Core\MVC\Symfony\FieldType\Relation\ParameterProvider
         arguments:
             - '@ibexa.api.service.content'
         tags:
-            - {name: ibexa.field_type.view.parameter.provider, alias: ezobjectrelation}
+            - {name: ibexa.field_type.view.parameter.provider, alias: ibexa_object_relation}
 
     Ibexa\Core\MVC\Symfony\FieldType\RelationList\ParameterProvider:
         class: Ibexa\Core\MVC\Symfony\FieldType\RelationList\ParameterProvider
         arguments:
             - '@ibexa.api.service.content'
         tags:
-            - {name: ibexa.field_type.view.parameter.provider, alias: ezobjectrelationlist}
+            - {name: ibexa.field_type.view.parameter.provider, alias: ibexa_object_relation_list}
 
-    ibexa.field_type.ezimageasset.parameterProvider:
+    ibexa.field_type.ibexa_image_asset.parameterProvider:
         class: Ibexa\Core\MVC\Symfony\FieldType\ImageAsset\ParameterProvider
         lazy: true
         arguments:
             - '@ibexa.siteaccessaware.repository'
         tags:
-            - {name: ibexa.field_type.view.parameter.provider, alias: ezimageasset}
+            - {name: ibexa.field_type.view.parameter.provider, alias: ibexa_image_asset}
 
     Ibexa\Core\MVC\Symfony\FieldType\User\ParameterProvider:
         lazy: true
         arguments:
             - '@ibexa.api.service.user'
         tags:
-            - {name: ibexa.field_type.view.parameter.provider, alias: ezuser}
+            - {name: ibexa.field_type.view.parameter.provider, alias: ibexa_user}
 
     # Image
     Ibexa\Core\FieldType\Image\IO\Legacy:
         class: Ibexa\Core\FieldType\Image\IO\Legacy
         arguments:
-            - '@ibexa.field_type.ezimage.io_service.published'
-            - '@ibexa.field_type.ezimage.io_service.draft'
+            - '@ibexa.field_type.ibexa_image.io_service.published'
+            - '@ibexa.field_type.ibexa_image.io_service.draft'
             - '@Ibexa\Core\FieldType\Image\IO\OptionsProvider'
         # Required by ezpublish.core.io.stream_file_listener. Request listeners are initialized very early.
         lazy: true
@@ -57,29 +57,29 @@ services:
         arguments:
             $configResolver: '@ibexa.config.resolver'
 
-    ibexa.field_type.ezimage.io_service.published:
+    ibexa.field_type.ibexa_image.io_service.published:
         parent: ibexa.core.io.service
 
-    ibexa.field_type.ezimage.io_service.draft:
+    ibexa.field_type.ibexa_image.io_service.draft:
         parent: ibexa.core.io.service
 
-    ibexa.field_type.ezimage.io_service.published.config_scope_change_aware:
+    ibexa.field_type.ibexa_image.io_service.published.config_scope_change_aware:
         class: Ibexa\Core\IO\ConfigScopeChangeAwareIOService
-        decorates: ibexa.field_type.ezimage.io_service.published
+        decorates: ibexa.field_type.ibexa_image.io_service.published
         autoconfigure: true
         lazy: true
         arguments:
             $configResolver: '@ibexa.config.resolver'
-            $innerIOService: '@ibexa.field_type.ezimage.io_service.published.config_scope_change_aware.inner'
+            $innerIOService: '@ibexa.field_type.ibexa_image.io_service.published.config_scope_change_aware.inner'
             $prefixParameterName: 'image.published_images_dir'
 
-    ibexa.field_type.ezimage.io_service.draft.config_scope_change_aware:
+    ibexa.field_type.ibexa_image.io_service.draft.config_scope_change_aware:
         class: Ibexa\Core\IO\ConfigScopeChangeAwareIOService
-        decorates: ibexa.field_type.ezimage.io_service.draft
+        decorates: ibexa.field_type.ibexa_image.io_service.draft
         lazy: true
         arguments:
             $configResolver: '@ibexa.config.resolver'
-            $innerIOService: '@ibexa.field_type.ezimage.io_service.draft.config_scope_change_aware.inner'
+            $innerIOService: '@ibexa.field_type.ibexa_image.io_service.draft.config_scope_change_aware.inner'
             $prefixParameterName: 'image.versioned_images_dir'
 
     Ibexa\Core\FieldType\Image\PathGenerator\LegacyPathGenerator:
@@ -94,16 +94,16 @@ services:
         class: Ibexa\Core\FieldType\Validator\ImageValidator
 
     # BinaryFile
-    ibexa.field_type.ezbinaryfile.io_service:
+    ibexa.field_type.ibexa_binaryfile.io_service:
         parent: ibexa.core.io.service
 
-    ibexa.field_type.ezbinaryfile.io_service.config_scope_change_aware:
+    ibexa.field_type.ibexa_binaryfile.io_service.config_scope_change_aware:
         class: Ibexa\Core\IO\ConfigScopeChangeAwareIOService
-        decorates: ibexa.field_type.ezbinaryfile.io_service
+        decorates: ibexa.field_type.ibexa_binaryfile.io_service
         lazy: true
         arguments:
             $configResolver: '@ibexa.config.resolver'
-            $innerIOService: '@ibexa.field_type.ezbinaryfile.io_service.config_scope_change_aware.inner'
+            $innerIOService: '@ibexa.field_type.ibexa_binaryfile.io_service.config_scope_change_aware.inner'
             $prefixParameterName: 'binary_dir'
 
     Ibexa\Core\FieldType\BinaryBase\PathGenerator\LegacyPathGenerator:
@@ -123,3 +123,9 @@ services:
             $locationService: '@ibexa.api.service.location'
             $contentTypeService: '@ibexa.api.service.content_type'
             $configResolver: '@ibexa.config.resolver'
+
+    Ibexa\Core\FieldType\FieldTypeAliasResolverInterface: '@Ibexa\Core\FieldType\FieldTypeAliasResolver'
+
+    Ibexa\Core\FieldType\FieldTypeAliasResolver:
+        arguments:
+            $fieldTypeAliasRegistry: '@Ibexa\Core\FieldType\FieldTypeAliasRegistry'

@@ -12,7 +12,7 @@ return [
     'content' => $this->getContent(
          'test_content',
          [
-            'ezimage' => [
+            'ibexa_image' => [
                  'id' => 125,
                  'fieldDefIdentifier' => 'photo',
                  'value' => 'value',
@@ -29,7 +29,7 @@ return [
     'content' => $this->getContent(
          'test_content',
          [
-            'ezstring' => [
+            'ibexa_string' => [
                  'id' => 125,
                  'fieldDefIdentifier' => 'string',
                  'value' => 'value',
@@ -46,7 +46,7 @@ return [
     'content' => $this->getContentAwareObject(
          'test_content',
          [
-            'ezimage' => [
+            'ibexa_image' => [
                  'id' => 125,
                  'fieldDefIdentifier' => 'photo',
                  'value' => 'value',

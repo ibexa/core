@@ -41,7 +41,7 @@ final class KeywordTermAggregationTest extends AbstractAggregationTestCase
         $generator = new FieldAggregationFixtureGenerator($this->getRepository());
         $generator->setContentTypeIdentifier('content_type');
         $generator->setFieldDefinitionIdentifier('keyword_field');
-        $generator->setFieldTypeIdentifier('ezkeyword');
+        $generator->setFieldTypeIdentifier('ibexa_keyword');
         $generator->setValues([
             ['foo'],
             ['foo', 'bar'],

@@ -29,7 +29,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      */
     public function getTypeName(): string
     {
-        return 'ezkeyword';
+        return 'ibexa_keyword';
     }
 
     /**
@@ -295,7 +295,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
     }
 
     /**
-     * Test updating multiple contents with ezkeyword field preserves proper fields values.
+     * Test updating multiple contents with ibexa_keyword field preserves proper fields values.
      */
     public function testUpdateContentKeywords()
     {
@@ -518,7 +518,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
     }
 
     /**
-     * Create test Content with ezkeyword type.
+     * Create test Content with ibexa_keyword type.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content[]
      */
@@ -535,7 +535,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new \DateTime();
 
-        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('tags', 'ezkeyword');
+        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('tags', 'ibexa_keyword');
         $fieldCreate->names = ['eng-GB' => 'Tags'];
         $fieldCreate->fieldGroup = 'main';
         $fieldCreate->position = 1;

@@ -26,7 +26,7 @@ class UrlIntegrationTest extends SearchBaseIntegrationTestCase
      */
     public function getTypeName(): string
     {
-        return 'ezurl';
+        return 'ibexa_url';
     }
 
     /**

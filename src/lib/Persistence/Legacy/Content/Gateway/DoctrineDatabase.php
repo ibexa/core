@@ -1148,15 +1148,15 @@ final class DoctrineDatabase extends Gateway
         $statement = $query->executeQuery();
 
         while ($row = $statement->fetch(FetchMode::ASSOCIATIVE)) {
-            if ($row['data_type_string'] === 'ezobjectrelation') {
+            if ($row['data_type_string'] === 'ibexa_object_relation') {
                 $this->removeRelationFromRelationField($row);
             }
 
-            if ($row['data_type_string'] === 'ezobjectrelationlist') {
+            if ($row['data_type_string'] === 'ibexa_object_relation_list') {
                 $this->removeRelationFromRelationListField($contentId, $row);
             }
 
-            if ($row['data_type_string'] === 'ezimageasset') {
+            if ($row['data_type_string'] === 'ibexa_image_asset') {
                 $this->removeRelationFromAssetField($row);
             }
         }

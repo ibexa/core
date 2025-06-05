@@ -26,7 +26,7 @@ class TextBlockIntegrationTest extends SearchBaseIntegrationTestCase
      */
     public function getTypeName(): string
     {
-        return 'eztext';
+        return 'ibexa_text';
     }
 
     /**

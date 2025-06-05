@@ -27,7 +27,7 @@ class EmailAddressIntegrationTest extends SearchBaseIntegrationTestCase
      */
     public function getTypeName(): string
     {
-        return 'ezemail';
+        return 'ibexa_email';
     }
 
     /**

@@ -133,7 +133,7 @@ abstract class BaseURLServiceTestCase extends BaseTestCase
 
     private function createNameFieldDefinitionCreateStruct(ContentTypeService $contentTypeService): FieldDefinitionCreateStruct
     {
-        $nameFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ezstring');
+        $nameFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ibexa_string');
         $nameFieldCreate->names = [
             'eng-GB' => 'Name',
         ];
@@ -160,7 +160,7 @@ abstract class BaseURLServiceTestCase extends BaseTestCase
 
     private function createUrlFieldDefinitionCreateStruct(ContentTypeService $contentTypeService): FieldDefinitionCreateStruct
     {
-        $urlFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('url', 'ezurl');
+        $urlFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('url', 'ibexa_url');
         $urlFieldCreate->names = [
             'eng-GB' => 'URL',
         ];

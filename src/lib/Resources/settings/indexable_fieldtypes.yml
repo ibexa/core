@@ -4,124 +4,123 @@ services:
     Ibexa\Core\FieldType\Keyword\SearchField:
         class: Ibexa\Core\FieldType\Keyword\SearchField
         tags:
-            - {name: ibexa.field_type.indexable, alias: ezkeyword}
+            - {name: ibexa.field_type.indexable, alias: ibexa_keyword}
 
     Ibexa\Core\FieldType\Author\SearchField:
         class: Ibexa\Core\FieldType\Author\SearchField
         tags:
-            - {name: ibexa.field_type.indexable, alias: ezauthor}
+            - {name: ibexa.field_type.indexable, alias: ibexa_author}
 
     Ibexa\Core\FieldType\TextLine\SearchField:
         class: Ibexa\Core\FieldType\TextLine\SearchField
         tags:
-            - {name: ibexa.field_type.indexable, alias: ezstring}
+            - {name: ibexa.field_type.indexable, alias: ibexa_string}
 
     Ibexa\Core\FieldType\MapLocation\SearchField:
         class: Ibexa\Core\FieldType\MapLocation\SearchField
         tags:
-            - {name: ibexa.field_type.indexable, alias: ezgmaplocation}
+            - {name: ibexa.field_type.indexable, alias: ibexa_gmap_location}
 
     Ibexa\Core\FieldType\Country\SearchField:
         class: Ibexa\Core\FieldType\Country\SearchField
         arguments:
             - '%ibexa.field_type.country.data%'
         tags:
-            - {name: ibexa.field_type.indexable, alias: ezcountry}
+            - {name: ibexa.field_type.indexable, alias: ibexa_country}
 
     Ibexa\Core\FieldType\Date\SearchField:
         class: Ibexa\Core\FieldType\Date\SearchField
         tags:
-            - {name: ibexa.field_type.indexable, alias: ezdate}
+            - {name: ibexa.field_type.indexable, alias: ibexa_date}
 
     Ibexa\Core\FieldType\Integer\SearchField:
         class: Ibexa\Core\FieldType\Integer\SearchField
         tags:
-            - {name: ibexa.field_type.indexable, alias: ezinteger}
+            - {name: ibexa.field_type.indexable, alias: ibexa_integer}
 
     Ibexa\Core\FieldType\Float\SearchField:
         class: Ibexa\Core\FieldType\Float\SearchField
         tags:
-            - {name: ibexa.field_type.indexable, alias: ezfloat}
+            - {name: ibexa.field_type.indexable, alias: ibexa_float}
 
     Ibexa\Core\FieldType\EmailAddress\SearchField:
         class: Ibexa\Core\FieldType\EmailAddress\SearchField
         tags:
-            - {name: ibexa.field_type.indexable, alias: ezemail}
+            - {name: ibexa.field_type.indexable, alias: ibexa_email}
 
     Ibexa\Core\FieldType\Image\SearchField:
         class: Ibexa\Core\FieldType\Image\SearchField
         tags:
-            - {name: ibexa.field_type.indexable, alias: ezimage}
+            - {name: ibexa.field_type.indexable, alias: ibexa_image}
 
     Ibexa\Core\FieldType\Media\SearchField:
         class: Ibexa\Core\FieldType\Media\SearchField
         tags:
-            - {name: ibexa.field_type.indexable, alias: ezmedia}
+            - {name: ibexa.field_type.indexable, alias: ibexa_media}
 
     Ibexa\Core\FieldType\BinaryFile\SearchField:
         class: Ibexa\Core\FieldType\BinaryFile\SearchField
         tags:
-            - {name: ibexa.field_type.indexable, alias: ezbinaryfile}
+            - {name: ibexa.field_type.indexable, alias: ibexa_binaryfile}
 
     Ibexa\Core\FieldType\Time\SearchField:
         class: Ibexa\Core\FieldType\Time\SearchField
         tags:
-            - {name: ibexa.field_type.indexable, alias: eztime}
+            - {name: ibexa.field_type.indexable, alias: ibexa_time}
 
     Ibexa\Core\FieldType\TextBlock\SearchField:
         class: Ibexa\Core\FieldType\TextBlock\SearchField
         tags:
-            - {name: ibexa.field_type.indexable, alias: eztext}
+            - {name: ibexa.field_type.indexable, alias: ibexa_text}
 
     Ibexa\Core\FieldType\Checkbox\SearchField:
         class: Ibexa\Core\FieldType\Checkbox\SearchField
         tags:
-            - {name: ibexa.field_type.indexable, alias: ezboolean}
+            - {name: ibexa.field_type.indexable, alias: ibexa_boolean}
 
     Ibexa\Core\FieldType\DateAndTime\SearchField:
         class: Ibexa\Core\FieldType\DateAndTime\SearchField
         tags:
-            - {name: ibexa.field_type.indexable, alias: ezdatetime}
+            - {name: ibexa.field_type.indexable, alias: ibexa_datetime}
 
     Ibexa\Core\FieldType\ISBN\SearchField:
         class: Ibexa\Core\FieldType\ISBN\SearchField
         tags:
-            - {name: ibexa.field_type.indexable, alias: ezisbn}
+            - {name: ibexa.field_type.indexable, alias: ibexa_isbn}
 
     Ibexa\Core\FieldType\Relation\SearchField:
         class: Ibexa\Core\FieldType\Relation\SearchField
         tags:
-            - {name: ibexa.field_type.indexable, alias: ezobjectrelation}
+            - {name: ibexa.field_type.indexable, alias: ibexa_object_relation}
 
     Ibexa\Core\FieldType\Selection\SearchField:
         class: Ibexa\Core\FieldType\Selection\SearchField
         tags:
-            - {name: ibexa.field_type.indexable, alias: ezselection}
+            - {name: ibexa.field_type.indexable, alias: ibexa_selection}
 
     Ibexa\Core\FieldType\RelationList\SearchField:
         class: Ibexa\Core\FieldType\RelationList\SearchField
         tags:
-            - {name: ibexa.field_type.indexable, alias: ezobjectrelationlist}
+            - {name: ibexa.field_type.indexable, alias: ibexa_object_relation_list}
 
     Ibexa\Core\FieldType\Url\SearchField:
         class: Ibexa\Core\FieldType\Url\SearchField
         tags:
-            - {name: ibexa.field_type.indexable, alias: ezurl}
+            - {name: ibexa.field_type.indexable, alias: ibexa_url}
 
     Ibexa\Core\FieldType\ImageAsset\SearchField:
         class: Ibexa\Core\FieldType\ImageAsset\SearchField
         tags:
-            - {name: ibexa.field_type.indexable, alias: ezimageasset}
-
+            - {name: ibexa.field_type.indexable, alias: ibexa_image_asset}
 
     ibexa.field_type.indexable.unindexed:
         class: Ibexa\Core\FieldType\Unindexed
         tags:
-            - {name: ibexa.field_type.indexable, alias: ezuser}
+            - {name: ibexa.field_type.indexable, alias: ibexa_user}
+            - {name: ibexa.field_type.indexable, alias: ibexa_matrix}
             - {name: ibexa.field_type.indexable, alias: ezenum}
             - {name: ibexa.field_type.indexable, alias: ezidentifier}
             - {name: ibexa.field_type.indexable, alias: ezinisetting}
-            - {name: ibexa.field_type.indexable, alias: ezmatrix}
             - {name: ibexa.field_type.indexable, alias: ezmultioption}
             - {name: ibexa.field_type.indexable, alias: ezmultioption2}
             - {name: ibexa.field_type.indexable, alias: ezmultiprice}
@@ -134,3 +133,4 @@ services:
             - {name: ibexa.field_type.indexable, alias: ezsurvey}
             - {name: ibexa.field_type.indexable, alias: eztags}
             - {name: ibexa.field_type.indexable, alias: ezrecommendation}
+

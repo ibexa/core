@@ -9,7 +9,7 @@ return [
     'content' => $this->getContent(
          'test_content',
          [
-            'ezstring' => [
+            'ibexa_string' => [
                  'id' => 125,
                  'fieldDefIdentifier' => 'existing',
                  'value' => 'value',
@@ -27,7 +27,7 @@ return [
     'content' => $this->getContentAwareObject(
          'test_content',
          [
-            'ezstring' => [
+            'ibexa_string' => [
                  'id' => 125,
                  'fieldDefIdentifier' => 'existing',
                  'value' => 'value',

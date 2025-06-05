@@ -91,7 +91,7 @@ class ContentTypeServiceTest extends AbstractServiceTestCase
 
             ['newContentTypeGroupUpdateStruct', [], $contentTypeGroupUpdateStruct],
 
-            ['newFieldDefinitionCreateStruct', ['body', 'ezstring'], $fieldDefinitionCreateStruct],
+            ['newFieldDefinitionCreateStruct', ['body', 'ibexa_string'], $fieldDefinitionCreateStruct],
 
             ['newFieldDefinitionUpdateStruct', [], $fieldDefinitionUpdateStruct],
 

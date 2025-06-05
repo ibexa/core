@@ -30,7 +30,7 @@ class Type extends FieldType implements TranslationContainerInterface
      */
     public function getFieldTypeIdentifier(): string
     {
-        return 'ezgmaplocation';
+        return 'ibexa_gmap_location';
     }
 
     /**
@@ -207,7 +207,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public static function getTranslationMessages(): array
     {
         return [
-            Message::create('ezgmaplocation.name', 'ibexa_fieldtypes')->setDesc('Map location'),
+            Message::create('ibexa_gmap_location.name', 'ibexa_fieldtypes')->setDesc('Map location'),
         ];
     }
 }

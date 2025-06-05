@@ -46,7 +46,7 @@ class FieldTypeContext implements Context
 
     /** @var array Stores Internal mapping of the fieldType names */
     private $fieldTypeInternalIdentifier = [
-        'integer' => 'ezinteger',
+        'integer' => 'ibexa_integer',
     ];
 
     /** @var array Maps the validator of the fieldtypes */
