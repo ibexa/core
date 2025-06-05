@@ -19,6 +19,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCr
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -66,16 +67,20 @@ class Mapper
 
     private EventDispatcherInterface $eventDispatcher;
 
+    private FieldTypeAliasResolverInterface $fieldTypeAliasResolver;
+
     public function __construct(
         Registry $converterRegistry,
         LanguageHandler $languageHandler,
         ContentTypeHandler $contentTypeHandler,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        FieldTypeAliasResolverInterface $fieldTypeAliasResolver
     ) {
         $this->converterRegistry = $converterRegistry;
         $this->languageHandler = $languageHandler;
         $this->contentTypeHandler = $contentTypeHandler;
         $this->eventDispatcher = $eventDispatcher;
+        $this->fieldTypeAliasResolver = $fieldTypeAliasResolver;
     }
 
     /**
@@ -567,16 +572,18 @@ class Mapper
      * Extracts a Field from $row.
      *
      * @param array $row
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Field
      */
-    protected function extractFieldFromRow(array $row)
+    protected function extractFieldFromRow(array $row): Field
     {
         $field = new Field();
 
         $field->id = (int)$row['content_field_id'];
         $field->fieldDefinitionId = (int)$row['content_field_contentclassattribute_id'];
-        $field->type = $row['content_field_data_type_string'];
+
+        $fieldTypeString = $row['content_field_data_type_string'];
+        $fieldTypeString = $this->fieldTypeAliasResolver->resolveIdentifier($fieldTypeString);
+
+        $field->type = $fieldTypeString;
         $field->value = $this->extractFieldValueFromRow($row, $field->type);
         $field->languageCode = $row['content_field_language_code'];
         $field->versionNo = isset($row['content_version_version']) ?

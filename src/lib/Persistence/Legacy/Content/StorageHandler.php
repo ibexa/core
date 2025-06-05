@@ -9,7 +9,6 @@ namespace Ibexa\Core\Persistence\Legacy\Content;
 
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
-use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 
 /**
  * Handler for external storages.
@@ -36,11 +35,8 @@ class StorageHandler
      * @param StorageRegistry $storageRegistry
      * @param array $context
      */
-    public function __construct(
-        StorageRegistry $storageRegistry,
-        private readonly FieldTypeAliasResolverInterface $fieldTypeAliasResolver,
-        array $context
-    ) {
+    public function __construct(StorageRegistry $storageRegistry, array $context)
+    {
         $this->storageRegistry = $storageRegistry;
         $this->context = $context;
     }
@@ -81,9 +77,7 @@ class StorageHandler
      */
     public function getFieldData(VersionInfo $versionInfo, Field $field)
     {
-        $fieldType = $field->type;
-        $fieldType = $this->fieldTypeAliasResolver->resolveIdentifier($fieldType);
-        $storage = $this->storageRegistry->getStorage($fieldType);
+        $storage = $this->storageRegistry->getStorage($field->type);
         if ($field->id !== null && $storage->hasFieldData()) {
             $storage->getFieldData($versionInfo, $field);
         }

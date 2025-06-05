@@ -62,7 +62,7 @@ use Psr\Log\LoggerInterface;
  */
 class UserService implements UserServiceInterface
 {
-    private const USER_FIELD_TYPE_NAME = 'ibexa_user'; //TODO co z tym? :/
+    private const USER_FIELD_TYPE_NAME = 'ibexa_user';
 
     /** @var \Ibexa\Contracts\Core\Repository\Repository */
     protected $repository;

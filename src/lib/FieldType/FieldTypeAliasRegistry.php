@@ -13,18 +13,18 @@ final class FieldTypeAliasRegistry
     /** @var array<string, string> Map of legacy_alias => alias */
     private array $aliasMap = [];
 
-    public function register(string $oldAlias, string $newAlias): void
+    public function register(string $legacyAlias, string $newAlias): void
     {
-        $this->aliasMap[$oldAlias] = $newAlias;
+        $this->aliasMap[$legacyAlias] = $newAlias;
     }
 
-    public function getNewAlias(string $oldAlias): string
+    public function getNewAlias(string $legacyAlias): string
     {
-        return $this->aliasMap[$oldAlias];
+        return $this->aliasMap[$legacyAlias];
     }
 
-    public function hasAlias(string $oldAlias): bool
+    public function hasAlias(string $legacyAlias): bool
     {
-        return isset($this->aliasMap[$oldAlias]);
+        return isset($this->aliasMap[$legacyAlias]);
     }
 }
