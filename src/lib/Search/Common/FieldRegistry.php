@@ -9,7 +9,6 @@ namespace Ibexa\Core\Search\Common;
 
 use Ibexa\Contracts\Core\FieldType\Indexable;
 use Ibexa\Core\Base\Container\Compiler\Search\FieldRegistryPass;
-use Ibexa\Core\FieldType\FieldTypeAliasRegistry;
 use OutOfBoundsException;
 
 /**
@@ -23,10 +22,8 @@ class FieldRegistry
     /**
      * @param \Ibexa\Contracts\Core\FieldType\Indexable[] $types
      */
-    public function __construct(
-        private readonly FieldTypeAliasRegistry $fieldTypeAliasRegistry,
-        array $types = []
-    ) {
+    public function __construct(array $types = [])
+    {
         foreach ($types as $name => $type) {
             $this->registerType($name, $type);
         }
@@ -39,10 +36,6 @@ class FieldRegistry
 
     public function getType(string $name): Indexable
     {
-        if ($this->fieldTypeAliasRegistry->hasAlias($name)) {
-            $name = $this->fieldTypeAliasRegistry->getNewAlias($name);
-        }
-
         if (!isset($this->types[$name])) {
             throw new OutOfBoundsException(
                 sprintf(
