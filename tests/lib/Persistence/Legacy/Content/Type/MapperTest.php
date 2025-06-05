@@ -459,6 +459,7 @@ class MapperTest extends TestCase
                 $this->getConverterRegistryMock(),
                 $this->getMaskGeneratorMock(),
                 $this->getStorageDispatcherMock(),
+                $this->getFieldTypeAliasResolver(),
             ])
             ->getMock();
 

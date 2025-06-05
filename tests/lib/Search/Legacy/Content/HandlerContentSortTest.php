@@ -104,6 +104,7 @@ class HandlerContentSortTest extends AbstractTestCase
                     $this->getLanguageHandler(),
                     $this->getContentTypeHandler(),
                     $this->getEventDispatcher(),
+                    $this->getFieldTypeAliasResolver(),
                 ]
             )
             ->setMethods(['extractContentInfoFromRows'])

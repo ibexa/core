@@ -65,3 +65,5 @@ services:
         alias: Ibexa\Core\Event\SettingService
 
     Ibexa\Bundle\Core\Imagine\Cache\AliasGeneratorDecorator: '@Ibexa\Tests\Integration\Core\Persistence\Variation\InMemoryVariationHandler'
+
+    Ibexa\Core\FieldType\FieldTypeAliasResolverInterface: ~

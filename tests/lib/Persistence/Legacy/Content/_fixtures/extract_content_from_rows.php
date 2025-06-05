@@ -166,7 +166,7 @@ return [
         'content_version_initial_language_id' => 2,
         'content_field_id' => 1338,
         'content_field_contentclassattribute_id' => 189,
-        'content_field_data_type_string' => 'ezimage',
+        'content_field_data_type_string' => 'ibexa_image',
         'content_field_language_code' => 'eng-US',
         'content_field_language_id' => 2,
         'content_field_data_float' => 0.0,

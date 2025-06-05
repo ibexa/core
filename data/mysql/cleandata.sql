@@ -138,7 +138,7 @@ VALUES (0,4,1,NULL,NULL,'Ibexa Platform','ibexa_string',1,'eng-GB',3,0,'ibexa pl
        (0,179,10,0,0,'','ibexa_text',177,'eng-GB',3,0,'',2),
        (0,179,14,0,0,'','ibexa_text',178,'eng-GB',3,0,'',3),
        (0,180,10,0,0,'','ibexa_image',179,'eng-GB',3,0,'',2),
-       (0,180,14,0,0,'<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<ezimage serial_number=\"1\" is_valid=\"\" filename=\"\" suffix=\"\" basename=\"\" dirpath=\"\" url=\"\" original_filename=\"\" mime_type=\"\" width=\"\" height=\"\" alternative_text=\"\" alias_key=\"1293033771\" timestamp=\"1301057722\"><original attribute_id=\"180\" attribute_version=\"3\" attribute_language=\"eng-GB\"/></ezimage>\n','ezimage',180,'eng-GB',3,0,'',3);
+       (0,180,14,0,0,'<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<ezimage serial_number=\"1\" is_valid=\"\" filename=\"\" suffix=\"\" basename=\"\" dirpath=\"\" url=\"\" original_filename=\"\" mime_type=\"\" width=\"\" height=\"\" alternative_text=\"\" alias_key=\"1293033771\" timestamp=\"1301057722\"><original attribute_id=\"180\" attribute_version=\"3\" attribute_language=\"eng-GB\"/></ezimage>\n','ibexa_image',180,'eng-GB',3,0,'',3);
 
 INSERT INTO `ibexa_content_name` (`content_translation`, `content_version`, `contentobject_id`, `language_id`, `name`, `real_translation`)
 VALUES ('eng-GB',9,1,2,'Ibexa Platform','eng-GB'),
