@@ -400,7 +400,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $this->assertQueryResult(
             [
                 [
-                    'contentclassattribute_id' => '231',
+                    'content_type_field_definition_id' => '231',
                     'contentobject_id' => '2342',
                     'data_float' => '24.42',
                     'data_int' => '42',
@@ -416,7 +416,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()
                 ->createQueryBuilder()
                 ->select(
-                    'contentclassattribute_id',
+                    'content_type_field_definition_id',
                     'contentobject_id',
                     'data_float',
                     'data_int',
@@ -447,7 +447,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $this->assertQueryResult(
             [
                 [
-                    'contentclassattribute_id' => '231',
+                    'content_type_field_definition_id' => '231',
                     'contentobject_id' => '2342',
                     'data_float' => '24.42',
                     'data_int' => '42',
@@ -463,7 +463,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseConnection()
                 ->createQueryBuilder()
                 ->select(
-                    'contentclassattribute_id',
+                    'content_type_field_definition_id',
                     'contentobject_id',
                     'data_float',
                     'data_int',
@@ -1357,7 +1357,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'id' => 1,
                     'from_contentobject_id' => $struct->sourceContentId,
                     'from_contentobject_version' => $struct->sourceContentVersionNo,
-                    'contentclassattribute_id' => $struct->sourceFieldDefinitionId,
+                    'content_type_field_definition_id' => $struct->sourceFieldDefinitionId,
                     'to_contentobject_id' => $struct->destinationContentId,
                     'relation_type' => $struct->type,
                 ],
@@ -1368,7 +1368,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'id',
                     'from_contentobject_id',
                     'from_contentobject_version',
-                    'contentclassattribute_id',
+                    'content_type_field_definition_id',
                     'to_contentobject_id',
                     'relation_type'
                 )

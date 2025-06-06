@@ -254,7 +254,7 @@ class Mapper
             }
 
             $fieldId = (int)$row["{$prefix}field_id"];
-            $fieldDefinitionId = (int)$row["{$prefix}field_contentclassattribute_id"];
+            $fieldDefinitionId = (int)$row["{$prefix}field_content_type_field_definition_id"];
             $languageCode = $row["{$prefix}field_language_code"];
 
             if (!isset($fields[$contentId][$versionId][$fieldId])
@@ -578,7 +578,7 @@ class Mapper
         $field = new Field();
 
         $field->id = (int)$row['content_field_id'];
-        $field->fieldDefinitionId = (int)$row['content_field_contentclassattribute_id'];
+        $field->fieldDefinitionId = (int)$row['content_field_content_type_field_definition_id'];
 
         $fieldTypeString = $row['content_field_data_type_string'];
         $fieldTypeString = $this->fieldTypeAliasResolver->resolveIdentifier($fieldTypeString);
@@ -693,7 +693,7 @@ class Mapper
         $relation->destinationContentId = (int)$row['content_link_to_contentobject_id'];
         $relation->type = (int)$row['content_link_relation_type'];
 
-        $contentClassAttributeId = (int)$row['content_link_contentclassattribute_id'];
+        $contentClassAttributeId = (int)$row['content_link_content_type_field_definition_id'];
         if ($contentClassAttributeId > 0) {
             $relation->sourceFieldDefinitionId = $contentClassAttributeId;
         }

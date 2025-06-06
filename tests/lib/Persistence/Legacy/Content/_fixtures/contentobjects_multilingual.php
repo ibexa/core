@@ -10,7 +10,7 @@ return [
     Gateway::CONTENT_FIELD_TABLE => [
         0 => [
             'attribute_original_id' => '0',
-            'contentclassattribute_id' => '7',
+            'content_type_field_definition_id' => '7',
             'contentobject_id' => '4',
             'data_float' => null,
             'data_int' => null,
@@ -25,7 +25,7 @@ return [
         ],
         1 => [
             'attribute_original_id' => '0',
-            'contentclassattribute_id' => '7',
+            'content_type_field_definition_id' => '7',
             'contentobject_id' => '4',
             'data_float' => null,
             'data_int' => null,
@@ -40,7 +40,7 @@ return [
         ],
         2 => [
             'attribute_original_id' => '0',
-            'contentclassattribute_id' => '7',
+            'content_type_field_definition_id' => '7',
             'contentobject_id' => '4',
             'data_float' => null,
             'data_int' => null,
@@ -55,7 +55,7 @@ return [
         ],
         3 => [
             'attribute_original_id' => '0',
-            'contentclassattribute_id' => '7',
+            'content_type_field_definition_id' => '7',
             'contentobject_id' => '4',
             'data_float' => null,
             'data_int' => null,
