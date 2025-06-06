@@ -109,7 +109,7 @@ class Type extends ValueObject
      * Same as {@see \Ibexa\Contracts\Core\Persistence\Content\Type::$nameSchema}.
      * If nothing is provided, $nameSchema will be used instead.
      *
-     * @var string
+     * @var string|null
      *
      * @see \Ibexa\Contracts\Core\Persistence\Content\Type::$nameSchema
      */

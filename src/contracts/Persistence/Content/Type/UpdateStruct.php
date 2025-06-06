@@ -66,7 +66,7 @@ class UpdateStruct extends ValueObject
     /**
      * URL alias schema.
      *
-     * @var string
+     * @var string|null
      */
     public $urlAliasSchema;
 
