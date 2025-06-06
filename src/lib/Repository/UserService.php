@@ -49,6 +49,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Base\Exceptions\MissingUserFieldTypeException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Ibexa\Core\FieldType\User\Value as UserValue;
+use Ibexa\Core\Repository\User\Exception\PasswordHashTypeNotCompiled;
 use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
 use Ibexa\Core\Repository\User\PasswordValidatorInterface;
 use Ibexa\Core\Repository\Values\User\User;
@@ -788,6 +789,11 @@ class UserService implements UserServiceInterface
         try {
             $passwordHash = $this->passwordHashService->createPasswordHash($newPassword, $passwordHashAlgorithm);
         } catch (UnsupportedPasswordHashType $e) {
+            //@todo: this should be logged
+            $passwordHashAlgorithm = $this->passwordHashService->getDefaultHashType();
+            $passwordHash = $this->passwordHashService->createPasswordHash($newPassword, $passwordHashAlgorithm);
+        } catch (PasswordHashTypeNotCompiled $e) {
+            //@todo: this should be logged
             $passwordHashAlgorithm = $this->passwordHashService->getDefaultHashType();
             $passwordHash = $this->passwordHashService->createPasswordHash($newPassword, $passwordHashAlgorithm);
         }

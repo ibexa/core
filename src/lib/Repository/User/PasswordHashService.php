@@ -10,6 +10,7 @@ namespace Ibexa\Core\Repository\User;
 
 use Ibexa\Contracts\Core\Repository\PasswordHashService as PasswordHashServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
+use Ibexa\Core\Repository\User\Exception\PasswordHashTypeNotCompiled;
 use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
 
 /**
@@ -40,6 +41,7 @@ final class PasswordHashService implements PasswordHashServiceInterface
     }
 
     /**
+     * @throws \Ibexa\Core\Repository\User\Exception\PasswordHashTypeNotCompiled
      * @throws \Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType
      */
     public function createPasswordHash(
@@ -61,16 +63,14 @@ final class PasswordHashService implements PasswordHashServiceInterface
 
             case User::PASSWORD_HASH_ARGON2I:
                 if (!defined('PASSWORD_ARGON2I')) {
-                    // TODO specific exception
-                    throw new InvalidArgumentException('hashType', "Password hash algorithm 'PASSWORD_ARGON2I' is not compiled into PHP");
+                    throw new PasswordHashTypeNotCompiled('PASSWORD_ARGON2I');
                 }
 
                 return password_hash($password, PASSWORD_ARGON2I);
 
             case User::PASSWORD_HASH_ARGON2ID:
                 if (!defined('PASSWORD_ARGON2ID')) {
-                    // TODO specific exception
-                    throw new InvalidArgumentException('hashType', "Password hash algorithm 'PASSWORD_ARGON2ID' is not compiled into PHP");
+                    throw new PasswordHashTypeNotCompiled('PASSWORD_ARGON2ID');
                 }
 
                 return password_hash($password, PASSWORD_ARGON2ID);
