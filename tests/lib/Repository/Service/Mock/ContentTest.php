@@ -67,6 +67,15 @@ class ContentTest extends BaseServiceMockTest
 {
     private const EMPTY_FIELD_VALUE = 'empty';
 
+    private const int EXAMPLE_FIELD_DEFINITION_ID = 1;
+
+    private const int EXAMPLE_FIELD_DEFINITION_ID_A = 1;
+    private const int EXAMPLE_FIELD_DEFINITION_ID_B = 2;
+    private const int EXAMPLE_FIELD_DEFINITION_ID_C = 3;
+    private const int EXAMPLE_FIELD_DEFINITION_ID_D = 4;
+
+    private const string EXAMPLE_FIELD_TYPE_IDENTIFIER = 'string';
+
     /**
      * Test for the __construct() method.
      *
@@ -1481,7 +1490,7 @@ class ContentTest extends BaseServiceMockTest
         $spiFields = [
             new SPIField(
                 [
-                    'fieldDefinitionId' => 'fieldDefinitionId',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue'),
                     'languageCode' => 'eng-US',
@@ -1539,7 +1548,7 @@ class ContentTest extends BaseServiceMockTest
         $fieldDefinitions = [
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => false,
                     'identifier' => 'identifier',
@@ -1562,7 +1571,7 @@ class ContentTest extends BaseServiceMockTest
         $spiFields = [
             new SPIField(
                 [
-                    'fieldDefinitionId' => 'fieldDefinitionId1',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_A,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue1'),
                     'languageCode' => 'eng-US',
@@ -1570,7 +1579,7 @@ class ContentTest extends BaseServiceMockTest
             ),
             new SPIField(
                 [
-                    'fieldDefinitionId' => 'fieldDefinitionId2',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_B,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue2'),
                     'languageCode' => 'ger-DE',
@@ -1642,7 +1651,7 @@ class ContentTest extends BaseServiceMockTest
         $fieldDefinitions = [
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId1',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID_A,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => true,
                     'identifier' => 'identifier1',
@@ -1652,7 +1661,7 @@ class ContentTest extends BaseServiceMockTest
             ),
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId2',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID_B,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => true,
                     'identifier' => 'identifier2',
@@ -1675,7 +1684,7 @@ class ContentTest extends BaseServiceMockTest
         $spiFields0 = [
             new SPIField(
                 [
-                    'fieldDefinitionId' => 'fieldDefinitionId2',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_B,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('defaultValue2'),
                     'languageCode' => 'eng-US',
@@ -1683,7 +1692,7 @@ class ContentTest extends BaseServiceMockTest
             ),
             new SPIField(
                 [
-                    'fieldDefinitionId' => 'fieldDefinitionId4',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_D,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('defaultValue4'),
                     'languageCode' => 'eng-US',
@@ -1693,7 +1702,7 @@ class ContentTest extends BaseServiceMockTest
         $spiFields1 = [
             new SPIField(
                 [
-                    'fieldDefinitionId' => 'fieldDefinitionId1',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_A,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue1'),
                     'languageCode' => 'ger-DE',
@@ -1701,7 +1710,7 @@ class ContentTest extends BaseServiceMockTest
             ),
             new SPIField(
                 [
-                    'fieldDefinitionId' => 'fieldDefinitionId2',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_B,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('defaultValue2'),
                     'languageCode' => 'ger-DE',
@@ -1709,7 +1718,7 @@ class ContentTest extends BaseServiceMockTest
             ),
             new SPIField(
                 [
-                    'fieldDefinitionId' => 'fieldDefinitionId2',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_B,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue2'),
                     'languageCode' => 'eng-US',
@@ -1717,7 +1726,7 @@ class ContentTest extends BaseServiceMockTest
             ),
             new SPIField(
                 [
-                    'fieldDefinitionId' => 'fieldDefinitionId4',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_D,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue4'),
                     'languageCode' => 'eng-US',
@@ -1796,7 +1805,7 @@ class ContentTest extends BaseServiceMockTest
         return [
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId1',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID_A,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => true,
                     'identifier' => 'identifier1',
@@ -1806,7 +1815,7 @@ class ContentTest extends BaseServiceMockTest
             ),
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId2',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID_B,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => true,
                     'identifier' => 'identifier2',
@@ -1816,7 +1825,7 @@ class ContentTest extends BaseServiceMockTest
             ),
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId3',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID_C,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => false,
                     'identifier' => 'identifier3',
@@ -1826,7 +1835,7 @@ class ContentTest extends BaseServiceMockTest
             ),
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId4',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID_D,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => false,
                     'identifier' => 'identifier4',
@@ -1923,7 +1932,7 @@ class ContentTest extends BaseServiceMockTest
                 'id' => 123,
                 'fieldDefinitions' => new FieldDefinitionCollection([
                     new FieldDefinition([
-                        'id' => 'fieldDefinitionId',
+                        'id' => self::EXAMPLE_FIELD_DEFINITION_ID,
                         'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                         'isTranslatable' => false,
                         'identifier' => 'identifier',
@@ -2145,7 +2154,7 @@ class ContentTest extends BaseServiceMockTest
         $fieldDefinitions = [
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId1',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID_A,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => false,
                     'identifier' => 'identifier',
@@ -2329,7 +2338,7 @@ class ContentTest extends BaseServiceMockTest
         $fieldDefinitions = [
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => true,
                     'identifier' => 'identifier',
@@ -2604,7 +2613,7 @@ class ContentTest extends BaseServiceMockTest
         $spiFields = [
             new SPIField(
                 [
-                    'fieldDefinitionId' => 'fieldDefinitionId',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('defaultValue'),
                     'languageCode' => 'eng-US',
@@ -2614,7 +2623,7 @@ class ContentTest extends BaseServiceMockTest
         $fieldDefinitions = [
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => false,
                     'identifier' => 'identifier',
@@ -2746,7 +2755,7 @@ class ContentTest extends BaseServiceMockTest
         $fieldDefinitions = [
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => false,
                     'identifier' => 'identifier',
@@ -2912,7 +2921,7 @@ class ContentTest extends BaseServiceMockTest
         $spiFields = [
             new SPIField(
                 [
-                    'fieldDefinitionId' => 'fieldDefinitionId',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('defaultValue'),
                     'languageCode' => 'eng-US',
@@ -2922,7 +2931,7 @@ class ContentTest extends BaseServiceMockTest
         $fieldDefinitions = [
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => false,
                     'identifier' => 'identifier',
@@ -3023,7 +3032,7 @@ class ContentTest extends BaseServiceMockTest
         $fieldDefinitions = [
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => false,
                     'identifier' => 'identifier',
@@ -3557,7 +3566,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => '100',
-                    'fieldDefinitionId' => 'fieldDefinitionId',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue'),
                     'languageCode' => 'eng-GB',
@@ -3631,7 +3640,7 @@ class ContentTest extends BaseServiceMockTest
         $fieldDefinitions = [
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => false,
                     'identifier' => 'identifier',
@@ -3656,7 +3665,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => '100',
-                    'fieldDefinitionId' => 'fieldDefinitionId',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue'),
                     'languageCode' => 'eng-GB',
@@ -3668,7 +3677,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => null,
-                    'fieldDefinitionId' => 'fieldDefinitionId',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue'),
                     'languageCode' => 'eng-US',
@@ -3680,7 +3689,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => 100,
-                    'fieldDefinitionId' => 'fieldDefinitionId',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue2'),
                     'languageCode' => 'eng-GB',
@@ -3690,7 +3699,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => null,
-                    'fieldDefinitionId' => 'fieldDefinitionId',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue1'),
                     'languageCode' => 'eng-US',
@@ -3806,7 +3815,7 @@ class ContentTest extends BaseServiceMockTest
                     new SPIField(
                         [
                             'id' => null,
-                            'fieldDefinitionId' => 'fieldDefinitionId',
+                            'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID,
                             'type' => 'fieldTypeIdentifier',
                             'value' => new ValueStub('defaultValue'),
                             'languageCode' => 'eng-US',
@@ -3845,7 +3854,7 @@ class ContentTest extends BaseServiceMockTest
         $fieldDefinitions = [
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => true,
                     'identifier' => 'identifier',
@@ -3870,7 +3879,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => null,
-                    'fieldDefinitionId' => 'fieldDefinitionId1',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_A,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue1'),
                     'languageCode' => 'eng-US',
@@ -3882,7 +3891,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => 100,
-                    'fieldDefinitionId' => 'fieldDefinitionId1',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_A,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue2'),
                     'languageCode' => 'eng-GB',
@@ -3892,7 +3901,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => null,
-                    'fieldDefinitionId' => 'fieldDefinitionId1',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_A,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue1'),
                     'languageCode' => 'eng-US',
@@ -3904,7 +3913,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => 100,
-                    'fieldDefinitionId' => 'fieldDefinitionId1',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_A,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue2'),
                     'languageCode' => 'eng-GB',
@@ -3914,7 +3923,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => null,
-                    'fieldDefinitionId' => 'fieldDefinitionId1',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_A,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue1'),
                     'languageCode' => 'eng-US',
@@ -3924,7 +3933,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => 101,
-                    'fieldDefinitionId' => 'fieldDefinitionId2',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_B,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue3'),
                     'languageCode' => 'eng-GB',
@@ -3936,7 +3945,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => null,
-                    'fieldDefinitionId' => 'fieldDefinitionId1',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_A,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('defaultValue1'),
                     'languageCode' => 'eng-US',
@@ -4116,7 +4125,7 @@ class ContentTest extends BaseServiceMockTest
         $fieldDefinitions = [
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId1',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID_A,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => true,
                     'identifier' => 'identifier1',
@@ -4126,7 +4135,7 @@ class ContentTest extends BaseServiceMockTest
             ),
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId2',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID_B,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => false,
                     'identifier' => 'identifier2',
@@ -4151,7 +4160,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => null,
-                    'fieldDefinitionId' => 'fieldDefinitionId1',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_A,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue1'),
                     'languageCode' => 'eng-US',
@@ -4163,7 +4172,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => 100,
-                    'fieldDefinitionId' => 'fieldDefinitionId1',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_A,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub(self::EMPTY_FIELD_VALUE),
                     'languageCode' => 'eng-GB',
@@ -4173,7 +4182,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => null,
-                    'fieldDefinitionId' => 'fieldDefinitionId1',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_A,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue1'),
                     'languageCode' => 'eng-US',
@@ -4185,7 +4194,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => 100,
-                    'fieldDefinitionId' => 'fieldDefinitionId1',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_A,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub(self::EMPTY_FIELD_VALUE),
                     'languageCode' => 'eng-GB',
@@ -4422,7 +4431,7 @@ class ContentTest extends BaseServiceMockTest
         $fieldDefinitions = [
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId1',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID_A,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => true,
                     'identifier' => 'identifier1',
@@ -4432,7 +4441,7 @@ class ContentTest extends BaseServiceMockTest
             ),
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId2',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID_B,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => true,
                     'identifier' => 'identifier2',
@@ -4462,7 +4471,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => 100,
-                    'fieldDefinitionId' => 'fieldDefinitionId1',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_A,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue1-eng-GB'),
                     'languageCode' => 'eng-GB',
@@ -4472,7 +4481,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => null,
-                    'fieldDefinitionId' => 'fieldDefinitionId4',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_D,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue4'),
                     'languageCode' => 'eng-US',
@@ -4484,7 +4493,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => 100,
-                    'fieldDefinitionId' => 'fieldDefinitionId1',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_A,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue1-eng-GB'),
                     'languageCode' => 'eng-GB',
@@ -4494,7 +4503,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => null,
-                    'fieldDefinitionId' => 'fieldDefinitionId2',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_B,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue2'),
                     'languageCode' => 'eng-US',
@@ -4504,7 +4513,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => null,
-                    'fieldDefinitionId' => 'fieldDefinitionId4',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_D,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('defaultValue4'),
                     'languageCode' => 'eng-US',
@@ -4516,7 +4525,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => 100,
-                    'fieldDefinitionId' => 'fieldDefinitionId1',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_A,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue1-eng-GB'),
                     'languageCode' => 'eng-GB',
@@ -4526,7 +4535,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => null,
-                    'fieldDefinitionId' => 'fieldDefinitionId2',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_B,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('newValue2'),
                     'languageCode' => 'eng-US',
@@ -4536,7 +4545,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => null,
-                    'fieldDefinitionId' => 'fieldDefinitionId4',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_D,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('defaultValue4'),
                     'languageCode' => 'ger-DE',
@@ -4546,7 +4555,7 @@ class ContentTest extends BaseServiceMockTest
             new SPIField(
                 [
                     'id' => null,
-                    'fieldDefinitionId' => 'fieldDefinitionId4',
+                    'fieldDefinitionId' => self::EXAMPLE_FIELD_DEFINITION_ID_D,
                     'type' => 'fieldTypeIdentifier',
                     'value' => new ValueStub('defaultValue4'),
                     'languageCode' => 'eng-US',
@@ -4725,7 +4734,7 @@ class ContentTest extends BaseServiceMockTest
         $fieldDefinitions = [
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId1',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID_A,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => false,
                     'identifier' => 'identifier1',
@@ -4735,7 +4744,7 @@ class ContentTest extends BaseServiceMockTest
             ),
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId2',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID_B,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => true,
                     'identifier' => 'identifier2',
@@ -4745,7 +4754,7 @@ class ContentTest extends BaseServiceMockTest
             ),
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId3',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID_C,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => false,
                     'identifier' => 'identifier3',
@@ -4755,7 +4764,7 @@ class ContentTest extends BaseServiceMockTest
             ),
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId4',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID_D,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => true,
                     'identifier' => 'identifier4',
@@ -4871,6 +4880,7 @@ class ContentTest extends BaseServiceMockTest
                     'fieldDefinitions' => new FieldDefinitionCollection([
                         new FieldDefinition([
                             'identifier' => 'identifier',
+                            'fieldTypeIdentifier' => self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
                             'defaultValue' => $fieldValueMock,
                         ]),
                     ]),
@@ -5154,7 +5164,7 @@ class ContentTest extends BaseServiceMockTest
         $fieldDefinitions = [
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId1',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID_A,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => false,
                     'identifier' => 'identifier',
@@ -5297,7 +5307,7 @@ class ContentTest extends BaseServiceMockTest
         $fieldDefinitions = [
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => true,
                     'identifier' => 'identifier',
@@ -5434,50 +5444,50 @@ class ContentTest extends BaseServiceMockTest
 
         $allFieldErrors = [
             [
-                'fieldDefinitionId1' => [
+                self::EXAMPLE_FIELD_DEFINITION_ID_A => [
                     'eng-GB' => $newValue1engGBValidationError,
                     'eng-US' => $newValue1engGBValidationError,
                 ],
-                'fieldDefinitionId4' => [
+                self::EXAMPLE_FIELD_DEFINITION_ID_D => [
                     'eng-GB' => $newValue4ValidationError,
                     'eng-US' => $newValue4ValidationError,
                 ],
             ],
             [
-                'fieldDefinitionId1' => [
+                self::EXAMPLE_FIELD_DEFINITION_ID_A => [
                     'eng-GB' => $newValue1engGBValidationError,
                     'eng-US' => $newValue1engGBValidationError,
                 ],
             ],
             [
-                'fieldDefinitionId1' => [
+                self::EXAMPLE_FIELD_DEFINITION_ID_A => [
                     'eng-GB' => $newValue1engGBValidationError,
                     'eng-US' => $newValue1engGBValidationError,
                 ],
-                'fieldDefinitionId2' => [
+                self::EXAMPLE_FIELD_DEFINITION_ID_B => [
                     'eng-GB' => $newValue2ValidationError,
                     'eng-US' => $newValue2ValidationError,
                 ],
             ],
             [
-                'fieldDefinitionId1' => [
+                self::EXAMPLE_FIELD_DEFINITION_ID_A => [
                     'eng-GB' => $newValue1engGBValidationError,
                     'eng-US' => $newValue1engGBValidationError,
                 ],
             ],
             [
-                'fieldDefinitionId1' => [
+                self::EXAMPLE_FIELD_DEFINITION_ID_A => [
                     'eng-GB' => $newValue1engGBValidationError,
                     'ger-DE' => $newValue1engGBValidationError,
                     'eng-US' => $newValue1engGBValidationError,
                 ],
-                'fieldDefinitionId2' => [
+                self::EXAMPLE_FIELD_DEFINITION_ID_B => [
                     'eng-GB' => $newValue2ValidationError,
                     'eng-US' => $newValue2ValidationError,
                 ],
             ],
             [
-                'fieldDefinitionId2' => [
+                self::EXAMPLE_FIELD_DEFINITION_ID_B => [
                     'eng-US' => $newValue2ValidationError,
                 ],
             ],
@@ -5554,7 +5564,7 @@ class ContentTest extends BaseServiceMockTest
         $fieldDefinitions = [
             new FieldDefinition(
                 [
-                    'id' => 'fieldDefinitionId',
+                    'id' => self::EXAMPLE_FIELD_DEFINITION_ID,
                     'fieldTypeIdentifier' => 'fieldTypeIdentifier',
                     'isTranslatable' => false,
                     'identifier' => 'identifier',

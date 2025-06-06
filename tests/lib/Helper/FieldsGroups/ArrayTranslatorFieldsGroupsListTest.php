@@ -67,7 +67,9 @@ class ArrayTranslatorFieldsGroupsListTest extends TestCase
 
     public function testGetFieldGroupWhenFieldDefinitionMissingGroup(): void
     {
-        $fieldDefinitionMock = $this->getFieldDefinitionMock();
+        $fieldDefinitionMock = $this->getFieldDefinitionMock(
+            [['fieldGroup' => '']],
+        );
 
         $arrayTranslatorFieldsGroupsList = $this->getArrayTranslatorFieldsGroupsList();
 

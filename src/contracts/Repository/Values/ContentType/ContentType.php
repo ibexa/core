@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\ContentType;
 
+use DateTimeInterface;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\MultiLanguageDescription;
 use Ibexa\Contracts\Core\Repository\Values\MultiLanguageName;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
@@ -36,78 +38,62 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 abstract class ContentType extends ValueObject implements MultiLanguageName, MultiLanguageDescription
 {
     /** @var int Status constant for defined (aka "published") Type */
-    public const STATUS_DEFINED = 0;
+    public const int STATUS_DEFINED = 0;
 
     /** @var int Status constant for draft (aka "temporary") Type */
-    public const STATUS_DRAFT = 1;
+    public const int STATUS_DRAFT = 1;
 
     /** @var int Status constant for modified (aka "deferred for publishing") Type */
-    public const STATUS_MODIFIED = 2;
+    public const int STATUS_MODIFIED = 2;
 
     /**
      * Content type ID.
-     *
-     * @var mixed
      */
-    protected $id;
+    protected int $id;
 
     /**
      * The status of the content type.
      *
      * @var int One of Type::STATUS_DEFINED|Type::STATUS_DRAFT|Type::STATUS_MODIFIED
      */
-    protected $status;
+    protected int $status;
 
     /**
      * String identifier of a content type.
-     *
-     * @var string
      */
-    protected $identifier;
+    protected string $identifier;
 
     /**
      * Creation date of the content type.
-     *
-     * @var \DateTime
      */
-    protected $creationDate;
+    protected DateTimeInterface $creationDate;
 
     /**
      * Modification date of the content type.
-     *
-     * @var \DateTime
      */
-    protected $modificationDate;
+    protected DateTimeInterface $modificationDate;
 
     /**
      * Creator user id of the content type.
-     *
-     * @var mixed
      */
-    protected $creatorId;
+    protected int $creatorId;
 
     /**
      * Modifier user id of the content type.
-     *
-     * @var mixed
      */
-    protected $modifierId;
+    protected int $modifierId;
 
     /**
      * Unique remote ID of the content type.
-     *
-     * @var string
      */
-    protected $remoteId;
+    protected string $remoteId;
 
     /**
      * URL alias schema.
      *
      * If nothing is provided, $nameSchema will be used instead.
-     *
-     * @var string
      */
-    protected $urlAliasSchema;
+    protected string $urlAliasSchema;
 
     /**
      * Name schema.
@@ -117,58 +103,48 @@ abstract class ContentType extends ValueObject implements MultiLanguageName, Mul
      * An OR condition can be used :
      * <field_def|other_field_def>
      * In this example, field_def will be used if available. If not, other_field_def will be used for content name generation
-     *
-     * @var string
      */
-    protected $nameSchema;
+    protected string $nameSchema;
 
     /**
      * A flag used to hint if content of this type may have children or not. It is highly recommended to respect this flag and not create/move content below non-containers.
      * But this flag is not considered as part of the content model and the API will not in any way enforce this flag to be respected.
-     *
-     * @var bool
      */
-    protected $isContainer;
+    protected bool $isContainer = false;
 
     /**
      * If an instance of a content type is created the always available flag is set
      * by default to this value.
-     *
-     * @var bool
      */
-    protected $defaultAlwaysAvailable = true;
+    protected bool $defaultAlwaysAvailable = true;
 
     /**
      * Specifies which property the child locations should be sorted on by default when created.
      *
      * Valid values are found at {@link Location::SORT_FIELD_*}
-     *
-     * @var int
      */
-    protected $defaultSortField;
+    protected int $defaultSortField = Location::SORT_FIELD_PUBLISHED;
 
     /**
      * Specifies whether the sort order should be ascending or descending by default when created.
      *
      * Valid values are {@link Location::SORT_ORDER_*}
-     *
-     * @var int
      */
-    protected $defaultSortOrder;
+    protected int $defaultSortOrder = Location::SORT_ORDER_DESC;
 
     /**
      * List of language codes used by translations.
      *
      * @var string[]
      */
-    protected $languageCodes;
+    protected array $languageCodes = [];
 
     /**
      * This method returns the content type groups this content type is assigned to.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup[]
      */
-    abstract public function getContentTypeGroups();
+    abstract public function getContentTypeGroups(): array;
 
     /**
      * This method returns the content type field definitions from this type.
@@ -187,7 +163,7 @@ abstract class ContentType extends ValueObject implements MultiLanguageName, Mul
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition|null
      */
-    public function getFieldDefinition($fieldDefinitionIdentifier): ?FieldDefinition
+    public function getFieldDefinition(string $fieldDefinitionIdentifier): ?FieldDefinition
     {
         if ($this->hasFieldDefinition($fieldDefinitionIdentifier)) {
             return $this->getFieldDefinitions()->get($fieldDefinitionIdentifier);

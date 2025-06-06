@@ -27,7 +27,16 @@ use Twig\Environment;
 
 class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTestCase
 {
+    private const int EXAMPLE_FIELD_DEFINITION_ID = 2;
+
     private $fieldDefinitions = [];
+
+    /**
+     * Content type identifier to id map (in-memory cache).
+     *
+     * @var array<string, int>
+     */
+    private array $contentTypeIdCache = [];
 
     public function getExtensions()
     {
@@ -64,7 +73,7 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
     {
         return new FieldDefinition(
             [
-                'id' => $id,
+                'id' => $id ?? self::EXAMPLE_FIELD_DEFINITION_ID,
                 'fieldSettings' => $settings,
                 'fieldTypeIdentifier' => $typeIdentifier,
             ]
@@ -104,7 +113,7 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
             [
                 'internalFields' => $fields,
                 'contentType' => new ContentType([
-                    'id' => $contentTypeIdentifier,
+                    'id' => $this->getContentTypeId($contentTypeIdentifier),
                     'identifier' => $contentTypeIdentifier,
                     'mainLanguageCode' => 'fre-FR',
                     'fieldDefinitions' => new FieldDefinitionCollection(
@@ -218,5 +227,16 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
         ;
 
         return $mock;
+    }
+
+    private function getContentTypeId(string $contentTypeIdentifier): int
+    {
+        if (!isset($this->contentTypeIdCache[$contentTypeIdentifier])) {
+            $lastId = end($this->contentTypeIdCache);
+            $nextId = $lastId !== false ? $lastId + 1 : 1;
+            $this->contentTypeIdCache[$contentTypeIdentifier] = $nextId;
+        }
+
+        return $this->contentTypeIdCache[$contentTypeIdentifier];
     }
 }

@@ -11,7 +11,6 @@ namespace Ibexa\Core\Repository\Values\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
 use Ibexa\Core\Repository\Values\MultiLanguageDescriptionTrait;
 use Ibexa\Core\Repository\Values\MultiLanguageNameTrait;
-use Ibexa\Core\Repository\Values\MultiLanguageTrait;
 
 /**
  * This class represents a field definition.
@@ -35,9 +34,20 @@ use Ibexa\Core\Repository\Values\MultiLanguageTrait;
  */
 class FieldDefinition extends APIFieldDefinition
 {
-    use MultiLanguageTrait;
     use MultiLanguageNameTrait;
     use MultiLanguageDescriptionTrait;
+
+    /**
+     * Main language.
+     */
+    protected string $mainLanguageCode;
+
+    /**
+     * Prioritized languages provided by user when retrieving object using API.
+     *
+     * @var string[]
+     */
+    protected array $prioritizedLanguages = [];
 
     /**
      * Holds collection of settings for the field definition supported by the field type.

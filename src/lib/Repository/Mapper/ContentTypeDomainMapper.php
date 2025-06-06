@@ -359,31 +359,15 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
                 'id' => null,
                 'identifier' => $fieldDefinitionCreateStruct->identifier,
                 'fieldType' => $fieldDefinitionCreateStruct->fieldTypeIdentifier,
-                'name' => $fieldDefinitionCreateStruct->names === null ?
-                    [] :
-                    $fieldDefinitionCreateStruct->names,
-                'description' => $fieldDefinitionCreateStruct->descriptions === null ?
-                    [] :
-                    $fieldDefinitionCreateStruct->descriptions,
-                'fieldGroup' => $fieldDefinitionCreateStruct->fieldGroup === null ?
-                    '' :
-                    $fieldDefinitionCreateStruct->fieldGroup,
-                'position' => (int)$fieldDefinitionCreateStruct->position,
-                'isTranslatable' => $fieldDefinitionCreateStruct->isTranslatable === null ?
-                    true :
-                    $fieldDefinitionCreateStruct->isTranslatable,
-                'isThumbnail' => $fieldDefinitionCreateStruct->isThumbnail === null ?
-                    false :
-                    $fieldDefinitionCreateStruct->isThumbnail,
-                'isRequired' => $fieldDefinitionCreateStruct->isRequired === null ?
-                    false :
-                    $fieldDefinitionCreateStruct->isRequired,
-                'isInfoCollector' => $fieldDefinitionCreateStruct->isInfoCollector === null ?
-                    false :
-                    $fieldDefinitionCreateStruct->isInfoCollector,
-                'isSearchable' => $fieldDefinitionCreateStruct->isSearchable === null ?
-                    $fieldType->isSearchable() :
-                    $fieldDefinitionCreateStruct->isSearchable,
+                'name' => $fieldDefinitionCreateStruct->names,
+                'description' => $fieldDefinitionCreateStruct->descriptions,
+                'fieldGroup' => $fieldDefinitionCreateStruct->fieldGroup ?? '',
+                'position' => $fieldDefinitionCreateStruct->position ?? 0,
+                'isTranslatable' => $fieldDefinitionCreateStruct->isTranslatable,
+                'isThumbnail' => $fieldDefinitionCreateStruct->isThumbnail,
+                'isRequired' => $fieldDefinitionCreateStruct->isRequired,
+                'isInfoCollector' => $fieldDefinitionCreateStruct->isInfoCollector,
+                'isSearchable' => $fieldDefinitionCreateStruct->isSearchable ?? $fieldType->isSearchable(),
                 'mainLanguageCode' => $mainLanguageCode,
                 // These properties are precreated in constructor
                 //"fieldTypeConstraints"

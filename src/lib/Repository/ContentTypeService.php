@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository;
 
-use DateTime;
 use Exception;
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
 use Ibexa\Contracts\Core\Persistence\Content\Type as SPIContentType;
@@ -123,6 +122,10 @@ class ContentTypeService implements ContentTypeServiceInterface
     {
         if (!$this->permissionResolver->canUser('class', 'create', $contentTypeGroupCreateStruct)) {
             throw new UnauthorizedException('ContentType', 'create');
+        }
+
+        if ($contentTypeGroupCreateStruct->identifier === null || $contentTypeGroupCreateStruct->identifier === '') {
+            throw new InvalidArgumentException('$contentTypeGroupCreateStruct', 'Identifier is required');
         }
 
         try {
@@ -330,20 +333,6 @@ class ContentTypeService implements ContentTypeServiceInterface
      */
     protected function validateInputContentTypeCreateStruct(APIContentTypeCreateStruct $contentTypeCreateStruct): void
     {
-        // Required properties
-
-        if ($contentTypeCreateStruct->identifier === null) {
-            throw new InvalidArgumentException('$contentTypeCreateStruct', "Property 'identifier' is required");
-        }
-
-        if (!is_string($contentTypeCreateStruct->identifier)) {
-            throw new InvalidArgumentType(
-                '$contentTypeCreateStruct->identifier',
-                'string',
-                $contentTypeCreateStruct->identifier
-            );
-        }
-
         if ($contentTypeCreateStruct->identifier === '') {
             throw new InvalidArgumentValue(
                 '$contentTypeCreateStruct->identifier',
@@ -355,14 +344,6 @@ class ContentTypeService implements ContentTypeServiceInterface
             throw new InvalidArgumentException('$contentTypeCreateStruct', "Property 'mainLanguageCode' is required");
         }
 
-        if (!is_string($contentTypeCreateStruct->mainLanguageCode)) {
-            throw new InvalidArgumentType(
-                '$contentTypeCreateStruct->mainLanguageCode',
-                'string',
-                $contentTypeCreateStruct->mainLanguageCode
-            );
-        }
-
         if ($contentTypeCreateStruct->mainLanguageCode === '') {
             throw new InvalidArgumentValue(
                 '$contentTypeCreateStruct->mainLanguageCode',
@@ -370,12 +351,10 @@ class ContentTypeService implements ContentTypeServiceInterface
             );
         }
 
-        if ($contentTypeCreateStruct->names !== null) {
-            $this->contentDomainMapper->validateTranslatedList(
-                $contentTypeCreateStruct->names,
-                '$contentTypeCreateStruct->names'
-            );
-        }
+        $this->contentDomainMapper->validateTranslatedList(
+            $contentTypeCreateStruct->names,
+            '$contentTypeCreateStruct->names'
+        );
 
         if (!isset($contentTypeCreateStruct->names[$contentTypeCreateStruct->mainLanguageCode]) ||
             $contentTypeCreateStruct->names[$contentTypeCreateStruct->mainLanguageCode] === ''
@@ -387,22 +366,19 @@ class ContentTypeService implements ContentTypeServiceInterface
         }
 
         // Optional properties
+        $this->contentDomainMapper->validateTranslatedList(
+            $contentTypeCreateStruct->descriptions,
+            '$contentTypeCreateStruct->descriptions'
+        );
 
-        if ($contentTypeCreateStruct->descriptions !== null) {
-            $this->contentDomainMapper->validateTranslatedList(
-                $contentTypeCreateStruct->descriptions,
-                '$contentTypeCreateStruct->descriptions'
-            );
-        }
-
-        if ($contentTypeCreateStruct->defaultSortField !== null && !$this->contentDomainMapper->isValidLocationSortField($contentTypeCreateStruct->defaultSortField)) {
+        if (!$this->contentDomainMapper->isValidLocationSortField($contentTypeCreateStruct->defaultSortField)) {
             throw new InvalidArgumentValue(
                 '$contentTypeCreateStruct->defaultSortField',
                 $contentTypeCreateStruct->defaultSortField
             );
         }
 
-        if ($contentTypeCreateStruct->defaultSortOrder !== null && !$this->contentDomainMapper->isValidLocationSortOrder($contentTypeCreateStruct->defaultSortOrder)) {
+        if (!$this->contentDomainMapper->isValidLocationSortOrder($contentTypeCreateStruct->defaultSortOrder)) {
             throw new InvalidArgumentValue(
                 '$contentTypeCreateStruct->defaultSortOrder',
                 $contentTypeCreateStruct->defaultSortOrder
@@ -411,54 +387,6 @@ class ContentTypeService implements ContentTypeServiceInterface
 
         if ($contentTypeCreateStruct->creatorId !== null) {
             $this->repository->getUserService()->loadUser($contentTypeCreateStruct->creatorId);
-        }
-
-        if ($contentTypeCreateStruct->creationDate !== null && !$contentTypeCreateStruct->creationDate instanceof DateTime) {
-            throw new InvalidArgumentType(
-                '$contentTypeCreateStruct->creationDate',
-                'DateTime',
-                $contentTypeCreateStruct->creationDate
-            );
-        }
-
-        if ($contentTypeCreateStruct->defaultAlwaysAvailable !== null && !is_bool($contentTypeCreateStruct->defaultAlwaysAvailable)) {
-            throw new InvalidArgumentType(
-                '$contentTypeCreateStruct->defaultAlwaysAvailable',
-                'boolean',
-                $contentTypeCreateStruct->defaultAlwaysAvailable
-            );
-        }
-
-        if ($contentTypeCreateStruct->isContainer !== null && !is_bool($contentTypeCreateStruct->isContainer)) {
-            throw new InvalidArgumentType(
-                '$contentTypeCreateStruct->isContainer',
-                'boolean',
-                $contentTypeCreateStruct->isContainer
-            );
-        }
-
-        if ($contentTypeCreateStruct->remoteId !== null && !is_string($contentTypeCreateStruct->remoteId)) {
-            throw new InvalidArgumentType(
-                '$contentTypeCreateStruct->remoteId',
-                'string',
-                $contentTypeCreateStruct->remoteId
-            );
-        }
-
-        if ($contentTypeCreateStruct->nameSchema !== null && !is_string($contentTypeCreateStruct->nameSchema)) {
-            throw new InvalidArgumentType(
-                '$contentTypeCreateStruct->nameSchema',
-                'string',
-                $contentTypeCreateStruct->nameSchema
-            );
-        }
-
-        if ($contentTypeCreateStruct->urlAliasSchema !== null && !is_string($contentTypeCreateStruct->urlAliasSchema)) {
-            throw new InvalidArgumentType(
-                '$contentTypeCreateStruct->urlAliasSchema',
-                'string',
-                $contentTypeCreateStruct->urlAliasSchema
-            );
         }
 
         foreach ($contentTypeCreateStruct->fieldDefinitions as $key => $fieldDefinitionCreateStruct) {
@@ -560,76 +488,15 @@ class ContentTypeService implements ContentTypeServiceInterface
         }
 
         // Optional properties
+        $this->contentDomainMapper->validateTranslatedList(
+            $fieldDefinitionCreateStruct->names,
+            $argumentName . '->names'
+        );
 
-        if ($fieldDefinitionCreateStruct->names !== null) {
-            $this->contentDomainMapper->validateTranslatedList(
-                $fieldDefinitionCreateStruct->names,
-                $argumentName . '->names'
-            );
-        }
-
-        if ($fieldDefinitionCreateStruct->descriptions !== null) {
-            $this->contentDomainMapper->validateTranslatedList(
-                $fieldDefinitionCreateStruct->descriptions,
-                $argumentName . '->descriptions'
-            );
-        }
-
-        if ($fieldDefinitionCreateStruct->fieldGroup !== null && !is_string($fieldDefinitionCreateStruct->fieldGroup)) {
-            throw new InvalidArgumentType(
-                $argumentName . '->fieldGroup',
-                'string',
-                $fieldDefinitionCreateStruct->fieldGroup
-            );
-        }
-
-        if ($fieldDefinitionCreateStruct->position !== null && !is_int($fieldDefinitionCreateStruct->position)) {
-            throw new InvalidArgumentType(
-                $argumentName . '->position',
-                'integer',
-                $fieldDefinitionCreateStruct->position
-            );
-        }
-
-        if ($fieldDefinitionCreateStruct->isTranslatable !== null && !is_bool($fieldDefinitionCreateStruct->isTranslatable)) {
-            throw new InvalidArgumentType(
-                $argumentName . '->isTranslatable',
-                'boolean',
-                $fieldDefinitionCreateStruct->isTranslatable
-            );
-        }
-
-        if ($fieldDefinitionCreateStruct->isRequired !== null && !is_bool($fieldDefinitionCreateStruct->isRequired)) {
-            throw new InvalidArgumentType(
-                $argumentName . '->isRequired',
-                'boolean',
-                $fieldDefinitionCreateStruct->isRequired
-            );
-        }
-
-        if ($fieldDefinitionCreateStruct->isThumbnail !== null && !is_bool($fieldDefinitionCreateStruct->isThumbnail)) {
-            throw new InvalidArgumentType(
-                $argumentName . '->isThumbnail',
-                'boolean',
-                $fieldDefinitionCreateStruct->isThumbnail
-            );
-        }
-
-        if ($fieldDefinitionCreateStruct->isInfoCollector !== null && !is_bool($fieldDefinitionCreateStruct->isInfoCollector)) {
-            throw new InvalidArgumentType(
-                $argumentName . '->isInfoCollector',
-                'boolean',
-                $fieldDefinitionCreateStruct->isInfoCollector
-            );
-        }
-
-        if ($fieldDefinitionCreateStruct->isSearchable !== null && !is_bool($fieldDefinitionCreateStruct->isSearchable)) {
-            throw new InvalidArgumentType(
-                $argumentName . '->isSearchable',
-                'boolean',
-                $fieldDefinitionCreateStruct->isSearchable
-            );
-        }
+        $this->contentDomainMapper->validateTranslatedList(
+            $fieldDefinitionCreateStruct->descriptions,
+            $argumentName . '->descriptions'
+        );
 
         // These properties are of type 'mixed' and are validated separately by the corresponding field type
         // validatorConfiguration
@@ -1282,15 +1149,12 @@ class ContentTypeService implements ContentTypeServiceInterface
             );
         }
         //Fill default translations with default value for mainLanguageCode with fallback if no exist
-        if (is_array($fieldDefinitionCreateStruct->names)) {
-            foreach ($contentTypeDraft->languageCodes as $languageCode) {
-                if (!array_key_exists($languageCode, $fieldDefinitionCreateStruct->names)) {
-                    $fieldDefinitionCreateStruct->names[$languageCode] = $fieldDefinitionCreateStruct->names[$contentTypeDraft->mainLanguageCode] ?? reset($fieldDefinitionCreateStruct->names);
-                }
+        foreach ($contentTypeDraft->languageCodes as $languageCode) {
+            if (!array_key_exists($languageCode, $fieldDefinitionCreateStruct->names)) {
+                $fieldDefinitionCreateStruct->names[$languageCode] = $fieldDefinitionCreateStruct->names[$contentTypeDraft->mainLanguageCode] ?? reset($fieldDefinitionCreateStruct->names);
             }
         }
 
-        /** @var $fieldType \Ibexa\Contracts\Core\FieldType\FieldType */
         $fieldType = $this->fieldTypeRegistry->getFieldType(
             $fieldDefinitionCreateStruct->fieldTypeIdentifier
         );

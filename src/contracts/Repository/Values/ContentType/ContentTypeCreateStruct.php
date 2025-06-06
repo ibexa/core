@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\ContentType;
 
+use DateTimeInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
@@ -22,108 +23,84 @@ abstract class ContentTypeCreateStruct extends ValueObject
      * String unique identifier of a type.
      *
      * Required.
-     *
-     * @var string
      */
-    public $identifier;
+    public string $identifier;
 
     /**
      * Main language Code.
      *
      * Required.
-     *
-     * @var string
      */
-    public $mainLanguageCode;
+    public ?string $mainLanguageCode = null;
 
     /**
      * The remote id.
-     *
-     * @var string
      */
-    public $remoteId;
+    public ?string $remoteId = null;
 
     /**
      * URL alias schema.
-     *
-     * @var string
      */
-    public $urlAliasSchema;
+    public ?string $urlAliasSchema = null;
 
     /**
      * Name schema.
-     *
-     * @var string
      */
-    public $nameSchema;
+    public ?string $nameSchema = null;
 
     /**
      * Determines if the type is a container.
-     *
-     * @var bool
      */
-    public $isContainer = false;
+    public bool $isContainer = false;
 
     /**
      * Specifies which property the child locations should be sorted on by default when created.
      *
      * Valid values are found at {@link Location::SORT_FIELD_*}
-     *
-     * @var mixed
      */
-    public $defaultSortField = Location::SORT_FIELD_PUBLISHED;
+    public int $defaultSortField = Location::SORT_FIELD_PUBLISHED;
 
     /**
      * Specifies whether the sort order should be ascending or descending by default when created.
      *
      * Valid values are {@link Location::SORT_ORDER_*}
-     *
-     * @var mixed
      */
-    public $defaultSortOrder = Location::SORT_ORDER_DESC;
+    public int $defaultSortOrder = Location::SORT_ORDER_DESC;
 
     /**
      * If an instance of a content type is created the always available flag is set
      * by default this this value.
-     *
-     * @var bool
      */
-    public $defaultAlwaysAvailable = true;
+    public bool $defaultAlwaysAvailable = true;
 
     /**
      * An array of names with languageCode keys.
      *
      * Required. - at least one name in the main language is required
      *
-     * @var array an array of string
+     * @var array<string, string> an array of string
      */
-    public $names;
+    public array $names = [];
 
     /**
      * An array of descriptions with languageCode keys.
      *
-     * @var array an array of string
+     * @var array<string, string> an array of string
      */
-    public $descriptions;
-
-    /**
-     * Adds a new field definition.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct $fieldDef
-     */
-    abstract public function addFieldDefinition(FieldDefinitionCreateStruct $fieldDef): void;
+    public array $descriptions = [];
 
     /**
      * If set this value overrides the current user as creator.
-     *
-     * @var mixed
      */
-    public $creatorId = null;
+    public ?int $creatorId = null;
 
     /**
      * If set this value overrides the current time for creation.
-     *
-     * @var \DateTime
      */
-    public $creationDate = null;
+    public ?DateTimeInterface $creationDate = null;
+
+    /**
+     * Adds a new field definition.
+     */
+    abstract public function addFieldDefinition(FieldDefinitionCreateStruct $fieldDef): void;
 }

@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\ContentType;
 
+use DateTimeInterface;
+
 /**
  * This class is used for updating a content type group.
  */
@@ -15,15 +17,11 @@ class ContentTypeGroupUpdateStruct extends ContentTypeGroupStruct
 {
     /**
      * If set this value overrides the current user as modifier.
-     *
-     * @var mixed
      */
-    public $modifierId = null;
+    public ?int $modifierId = null;
 
     /**
      * If set this value overrides the current time for modified.
-     *
-     * @var \DateTime
      */
-    public $modificationDate = null;
+    public ?DateTimeInterface $modificationDate = null;
 }

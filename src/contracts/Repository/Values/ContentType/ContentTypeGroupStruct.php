@@ -14,13 +14,8 @@ abstract class ContentTypeGroupStruct extends ValueObject
 {
     /**
      * Readable and unique string identifier of a group.
-     *
-     * @var string
      */
-    public $identifier;
+    public ?string $identifier;
 
-    /**
-     * @var bool
-     */
-    public $isSystem = false;
+    public bool $isSystem = false;
 }
