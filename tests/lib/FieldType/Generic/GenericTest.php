@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Tests\Core\FieldType\BaseFieldTypeTestCase;
 use Ibexa\Tests\Core\FieldType\Generic\Stubs\Type as GenericFieldTypeStub;
 use Ibexa\Tests\Core\FieldType\Generic\Stubs\Value as GenericFieldValueStub;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
@@ -23,11 +24,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class GenericTest extends BaseFieldTypeTestCase
 {
-    /** @var \Ibexa\Contracts\Core\FieldType\ValueSerializerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $serializer;
+    private ValueSerializerInterface $serializer;
 
-    /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $validator;
+    private ValidatorInterface & MockObject $validator;
 
     protected function setUp(): void
     {
@@ -174,7 +173,7 @@ class GenericTest extends BaseFieldTypeTestCase
         $serializer
             ->method('decode')
             ->willReturnCallback(static function (string $json) {
-                return json_decode($json, true);
+                return json_decode($json, true, 512, JSON_THROW_ON_ERROR);
             });
 
         $serializer
@@ -187,8 +186,8 @@ class GenericTest extends BaseFieldTypeTestCase
 
         $serializer
             ->method('denormalize')
-            ->willReturnCallback(function (array $data, string $valueClass) {
-                $this->assertEquals($valueClass, GenericFieldValueStub::class);
+            ->willReturnCallback(static function (array $data, string $valueClass) {
+                self::assertEquals(GenericFieldValueStub::class, $valueClass);
 
                 return new GenericFieldValueStub($data['value']);
             });
