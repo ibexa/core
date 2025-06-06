@@ -272,3 +272,6 @@ parameters:
         writeFlags: ~
         linkHandling: ~
         permissions: [ ]
+
+    ibexa.site_access.config.default.embedding_models: []
+    ibexa.site_access.config.default.default_embedding_model: 'text-embedding-ada-002'
