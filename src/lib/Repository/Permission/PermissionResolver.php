@@ -19,7 +19,6 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\LookupLimitationResult;
 use Ibexa\Contracts\Core\Repository\Values\User\LookupPolicyLimitations;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
-use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Repository\Mapper\RoleDomainMapper;
@@ -167,7 +166,7 @@ class PermissionResolver implements PermissionResolverInterface
         return false; // No policies matching $module and $function, or they contained limitations
     }
 
-    public function canUser(string $module, string $function, ValueObject $object, array $targets = []): bool
+    public function canUser(string $module, string $function, object $object, array $targets = []): bool
     {
         $permissionSets = $this->hasAccess($module, $function);
         if ($permissionSets === false || $permissionSets === true) {
@@ -261,7 +260,7 @@ class PermissionResolver implements PermissionResolverInterface
     public function lookupLimitations(
         string $module,
         string $function,
-        ValueObject $object,
+        object $object,
         array $targets = [],
         array $limitationsIdentifiers = []
     ): LookupLimitationResult {
@@ -330,12 +329,7 @@ class PermissionResolver implements PermissionResolverInterface
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUserReference
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object
      * @param array|null $targets
-     *
-     * @return bool
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
@@ -343,7 +337,7 @@ class PermissionResolver implements PermissionResolverInterface
     private function isGrantedByLimitation(
         Limitation $limitation,
         APIUserReference $currentUserReference,
-        ValueObject $object,
+        object $object,
         ?array $targets
     ): bool {
         $type = $this->limitationService->getLimitationType($limitation->getIdentifier());
@@ -358,12 +352,7 @@ class PermissionResolver implements PermissionResolverInterface
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation|null $limitation
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUserReference
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object
      * @param array|null $targets
-     *
-     * @return bool
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
@@ -371,7 +360,7 @@ class PermissionResolver implements PermissionResolverInterface
     private function isDeniedByRoleLimitation(
         ?Limitation $limitation,
         APIUserReference $currentUserReference,
-        ValueObject $object,
+        object $object,
         ?array $targets
     ): bool {
         if (null === $limitation) {

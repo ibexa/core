@@ -16,7 +16,6 @@ use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\LookupLimitationResult;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
-use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
  * Cache implementation of PermissionResolver and PermissionCriterionResolver interface.
@@ -31,11 +30,9 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  */
 class CachedPermissionService implements PermissionService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    private $innerPermissionResolver;
+    private APIPermissionResolver $innerPermissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver */
-    private $permissionCriterionResolver;
+    private APIPermissionCriterionResolver $permissionCriterionResolver;
 
     /** @var int */
     private $cacheTTL;
@@ -96,7 +93,7 @@ class CachedPermissionService implements PermissionService
         return $this->innerPermissionResolver->hasAccess($module, $function, $userReference);
     }
 
-    public function canUser(string $module, string $function, ValueObject $object, array $targets = []): bool
+    public function canUser(string $module, string $function, object $object, array $targets = []): bool
     {
         return $this->innerPermissionResolver->canUser($module, $function, $object, $targets);
     }
@@ -107,11 +104,11 @@ class CachedPermissionService implements PermissionService
     public function lookupLimitations(
         string $module,
         string $function,
-        ValueObject $object,
+        object $object,
         array $targets = [],
-        array $limitations = []
+        array $limitationsIdentifiers = []
     ): LookupLimitationResult {
-        return $this->innerPermissionResolver->lookupLimitations($module, $function, $object, $targets, $limitations);
+        return $this->innerPermissionResolver->lookupLimitations($module, $function, $object, $targets, $limitationsIdentifiers);
     }
 
     public function getPermissionsCriterion(string $module = 'content', string $function = 'read', ?array $targets = null)

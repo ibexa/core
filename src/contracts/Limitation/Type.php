@@ -11,7 +11,6 @@ namespace Ibexa\Contracts\Core\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
-use Ibexa\Contracts\Core\Repository\Values\ValueObject as APIValueObject;
 
 /**
  * This interface represent the Limitation Type.
@@ -108,15 +107,12 @@ interface Type
     /**
      * Evaluate ("Vote") against a main value object and targets for the context.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object
-     * @param array<int, \Ibexa\Contracts\Core\Repository\Values\ValueObject>|null $targets An array of location, parent or "assignment"
+     * @param array<int, object>|null $targets An array of location, parent or "assignment"
      *                                                                 objects, if null: none where provided by caller
      *
      * @return bool|null Returns one of ACCESS_* constants, {@see Type::ACCESS_GRANTED}, {@see Type::ACCESS_ABSTAIN}, or {@see Type::ACCESS_DENIED}.
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, APIValueObject $object, array $targets = null): ?bool;
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, object $object, array $targets = null): ?bool;
 
     /**
      * Returns Criterion for use in find() query.
