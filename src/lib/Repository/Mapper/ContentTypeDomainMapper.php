@@ -99,7 +99,7 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
                 'creatorId' => $spiContentType->creatorId,
                 'modifierId' => $spiContentType->modifierId,
                 'remoteId' => $spiContentType->remoteId,
-                'urlAliasSchema' => $spiContentType->urlAliasSchema,
+                'urlAliasSchema' => $spiContentType->urlAliasSchema ?? '',
                 'nameSchema' => $spiContentType->nameSchema,
                 'isContainer' => $spiContentType->isContainer,
                 'mainLanguageCode' => $mainLanguageCode,
