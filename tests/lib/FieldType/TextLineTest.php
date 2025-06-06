@@ -8,7 +8,6 @@
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\Exception\InvalidArgumentType;
-use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\TextLine\Type as TextLineType;
 use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
 use Ibexa\Core\FieldType\ValidationError;
@@ -24,7 +23,7 @@ final class TextLineTest extends FieldTypeTestCase
     private const string SIZE_PARAM_NAME = '%size%';
     private const string SAMPLE_TEXT_LINE_VALUE = ' sindelfingen ';
 
-    protected function createFieldTypeUnderTest(): FieldType
+    protected function createFieldTypeUnderTest(): TextLineType
     {
         $fieldType = new TextLineType();
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
@@ -32,9 +31,6 @@ final class TextLineTest extends FieldTypeTestCase
         return $fieldType;
     }
 
-    /**
-     * @return array<string, array<string, array{type: string, default: mixed}>>
-     */
     protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [
@@ -51,9 +47,6 @@ final class TextLineTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     protected function getSettingsSchemaExpectation(): array
     {
         return [];
@@ -64,10 +57,7 @@ final class TextLineTest extends FieldTypeTestCase
         return new TextLineValue();
     }
 
-    /**
-     * @return list<array{mixed, class-string}>
-     */
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -77,10 +67,73 @@ final class TextLineTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * @return list<array{mixed, \Ibexa\Core\FieldType\TextLine\Value}>
-     */
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
+    {
+        yield 'null input' => [
+            null,
+            new TextLineValue(),
+        ];
+
+        yield 'empty string' => [
+            '',
+            new TextLineValue(),
+        ];
+
+        yield 'whitespace string' => [
+            ' ',
+            new TextLineValue(),
+        ];
+
+        yield 'text string' => [
+            self::SAMPLE_TEXT_LINE_VALUE,
+            new TextLineValue(self::SAMPLE_TEXT_LINE_VALUE),
+        ];
+
+        yield 'TextLineValue object' => [
+            new TextLineValue(self::SAMPLE_TEXT_LINE_VALUE),
+            new TextLineValue(self::SAMPLE_TEXT_LINE_VALUE),
+        ];
+
+        yield 'large number string' => [
+            '12345678901',
+            new TextLineValue('12345678901'),
+        ];
+
+        yield 'empty TextLineValue object' => [
+            new TextLineValue(''),
+            new TextLineValue(),
+        ];
+
+        yield 'whitespace TextLineValue object' => [
+            new TextLineValue(' '),
+            new TextLineValue(),
+        ];
+
+        yield 'null TextLineValue object' => [
+            new TextLineValue(null),
+            new TextLineValue(),
+        ];
+    }
+
+    public function provideInputForToHash(): iterable
+    {
+        return [
+            [
+                new TextLineValue(),
+                null,
+            ],
+            [
+                new TextLineValue(''),
+                null,
+            ],
+            [
+                new TextLineValue(self::SAMPLE_TEXT_LINE_VALUE),
+                self::SAMPLE_TEXT_LINE_VALUE,
+            ],
+        ];
+    }
+
+    public function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -92,82 +145,12 @@ final class TextLineTest extends FieldTypeTestCase
                 new TextLineValue(),
             ],
             [
-                ' ',
-                new TextLineValue(),
-            ],
-            [
-                self::SAMPLE_TEXT_LINE_VALUE,
-                new TextLineValue(self::SAMPLE_TEXT_LINE_VALUE),
-            ],
-            [
-                new TextLineValue(self::SAMPLE_TEXT_LINE_VALUE),
-                new TextLineValue(self::SAMPLE_TEXT_LINE_VALUE),
-            ],
-            [
-                // 11+ numbers - EZP-21771
-                '12345678901',
-                new TextLineValue('12345678901'),
-            ],
-            [
-                new TextLineValue(''),
-                new TextLineValue(),
-            ],
-            [
-                new TextLineValue(' '),
-                new TextLineValue(),
-            ],
-            [
-                new TextLineValue(null),
-                new TextLineValue(),
-            ],
-        ];
-    }
-
-    /**
-     * @return list<array{\Ibexa\Core\FieldType\TextLine\Value, mixed}>
-     */
-    public function provideInputForToHash(): array
-    {
-        return [
-            [
-                new TextLineValue(),
-                null,
-            ],
-            [
-                new TextLineValue(''),
-                null,
-            ],
-            [
-                new TextLineValue(self::SAMPLE_TEXT_LINE_VALUE),
-                self::SAMPLE_TEXT_LINE_VALUE,
-            ],
-        ];
-    }
-
-    /**
-     * @return list<array{mixed, \Ibexa\Core\FieldType\TextLine\Value}>
-     */
-    public function provideInputForFromHash(): array
-    {
-        return [
-            [
-                null,
-                new TextLineValue(),
-            ],
-            [
-                '',
-                new TextLineValue(),
-            ],
-            [
                 self::SAMPLE_TEXT_LINE_VALUE,
                 new TextLineValue(self::SAMPLE_TEXT_LINE_VALUE),
             ],
         ];
     }
 
-    /**
-     * @return list<array{array<string, mixed>}>
-     */
     public function provideValidValidatorConfiguration(): array
     {
         return [
@@ -213,9 +196,6 @@ final class TextLineTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * @return list<array{array<string, mixed>}>
-     */
     public function provideInvalidValidatorConfiguration(): array
     {
         return [
@@ -275,9 +255,6 @@ final class TextLineTest extends FieldTypeTestCase
         return 'ibexa_string';
     }
 
-    /**
-     * @return list<array{\Ibexa\Core\FieldType\TextLine\Value, string, array<mixed>, string}>
-     */
     public function provideDataForGetName(): array
     {
         return [
@@ -286,143 +263,138 @@ final class TextLineTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * @return list<array{array<string, mixed>, \Ibexa\Core\FieldType\TextLine\Value}>
-     */
-    public function provideValidDataForValidate(): array
+    public function provideValidDataForValidate(): iterable
     {
-        return [
+        yield 'string within length limits' => [
             [
-                [
-                    'validatorConfiguration' => [
-                        'StringLengthValidator' => [
-                            'minStringLength' => 2,
-                            'maxStringLength' => 10,
-                        ],
+                'validatorConfiguration' => [
+                    'StringLengthValidator' => [
+                        'minStringLength' => 2,
+                        'maxStringLength' => 10,
                     ],
                 ],
-                new TextLineValue('lalalala'),
             ],
+            new TextLineValue('lalalala'),
+        ];
+
+        yield 'string within max length only' => [
             [
-                [
-                    'validatorConfiguration' => [
-                        'StringLengthValidator' => [
-                            'maxStringLength' => 10,
-                        ],
+                'validatorConfiguration' => [
+                    'StringLengthValidator' => [
+                        'maxStringLength' => 10,
                     ],
                 ],
-                new TextLineValue('lililili'),
             ],
+            new TextLineValue('lililili'),
+        ];
+
+        yield 'unicode string within limits' => [
             [
-                [
-                    'validatorConfiguration' => [
-                        'StringLengthValidator' => [
-                            'maxStringLength' => 10,
-                        ],
+                'validatorConfiguration' => [
+                    'StringLengthValidator' => [
+                        'maxStringLength' => 10,
                     ],
                 ],
-                new TextLineValue('♔♕♖♗♘♙♚♛♜♝'),
             ],
+            new TextLineValue('♔♕♖♗♘♙♚♛♜♝'),
         ];
     }
 
-    /**
-     * @return list<array{array<string, mixed>, \Ibexa\Core\FieldType\TextLine\Value, list<\Ibexa\Core\FieldType\ValidationError>}>
-     */
-    public function provideInvalidDataForValidate(): array
+    public function provideInvalidDataForValidate(): iterable
     {
-        return [
+        yield 'string too short' => [
             [
-                [
-                    'validatorConfiguration' => [
-                        'StringLengthValidator' => [
-                            'minStringLength' => 5,
-                            'maxStringLength' => 10,
-                        ],
+                'validatorConfiguration' => [
+                    'StringLengthValidator' => [
+                        'minStringLength' => 5,
+                        'maxStringLength' => 10,
                     ],
-                ],
-                new TextLineValue('aaa'),
-                [
-                    new ValidationError(
-                        self::STRING_TOO_SHORT_EXPECTED_SINGULAR_MESSAGE,
-                        self::STRING_TOO_SHORT_EXPECTED_PLURAL_MESSAGE,
-                        [
-                            self::SIZE_PARAM_NAME => 5,
-                        ],
-                        'text'
-                    ),
                 ],
             ],
+            new TextLineValue('aaa'),
             [
-                [
-                    'validatorConfiguration' => [
-                        'StringLengthValidator' => [
-                            'minStringLength' => 5,
-                            'maxStringLength' => 10,
-                        ],
+                new ValidationError(
+                    self::STRING_TOO_SHORT_EXPECTED_SINGULAR_MESSAGE,
+                    self::STRING_TOO_SHORT_EXPECTED_PLURAL_MESSAGE,
+                    [
+                        self::SIZE_PARAM_NAME => 5,
                     ],
-                ],
-                new TextLineValue('0123456789012345'),
-                [
-                    new ValidationError(
-                        'The string can not exceed %size% character.',
-                        'The string can not exceed %size% characters.',
-                        [
-                            self::SIZE_PARAM_NAME => 10,
-                        ],
-                        'text'
-                    ),
+                    'text'
+                ),
+            ],
+        ];
+
+        yield 'string too long' => [
+            [
+                'validatorConfiguration' => [
+                    'StringLengthValidator' => [
+                        'minStringLength' => 5,
+                        'maxStringLength' => 10,
+                    ],
                 ],
             ],
+            new TextLineValue('0123456789012345'),
             [
-                [
-                    'validatorConfiguration' => [
-                        'StringLengthValidator' => [
-                            'minStringLength' => 10,
-                            'maxStringLength' => 5,
-                        ],
+                new ValidationError(
+                    'The string can not exceed %size% character.',
+                    'The string can not exceed %size% characters.',
+                    [
+                        self::SIZE_PARAM_NAME => 10,
                     ],
-                ],
-                new TextLineValue('1234567'),
-                [
-                    new ValidationError(
-                        'The string can not exceed %size% character.',
-                        'The string can not exceed %size% characters.',
-                        [
-                            self::SIZE_PARAM_NAME => 5,
-                        ],
-                        'text'
-                    ),
-                    new ValidationError(
-                        self::STRING_TOO_SHORT_EXPECTED_SINGULAR_MESSAGE,
-                        self::STRING_TOO_SHORT_EXPECTED_PLURAL_MESSAGE,
-                        [
-                            self::SIZE_PARAM_NAME => 10,
-                        ],
-                        'text'
-                    ),
+                    'text'
+                ),
+            ],
+        ];
+
+        yield 'string wrong length with reversed limits' => [
+            [
+                'validatorConfiguration' => [
+                    'StringLengthValidator' => [
+                        'minStringLength' => 10,
+                        'maxStringLength' => 5,
+                    ],
                 ],
             ],
+            new TextLineValue('1234567'),
             [
-                [
-                    'validatorConfiguration' => [
-                        'StringLengthValidator' => [
-                            'minStringLength' => 5,
-                            'maxStringLength' => 10,
-                        ],
+                new ValidationError(
+                    'The string can not exceed %size% character.',
+                    'The string can not exceed %size% characters.',
+                    [
+                        self::SIZE_PARAM_NAME => 5,
+                    ],
+                    'text'
+                ),
+                new ValidationError(
+                    self::STRING_TOO_SHORT_EXPECTED_SINGULAR_MESSAGE,
+                    self::STRING_TOO_SHORT_EXPECTED_PLURAL_MESSAGE,
+                    [
+                        self::SIZE_PARAM_NAME => 10,
+                    ],
+                    'text'
+                ),
+            ],
+        ];
+
+        yield 'unicode string too short' => [
+            [
+                'validatorConfiguration' => [
+                    'StringLengthValidator' => [
+                        'minStringLength' => 5,
+                        'maxStringLength' => 10,
                     ],
                 ],
-                new TextLineValue('ABC♔'),
-                [
-                    new ValidationError(
-                        self::STRING_TOO_SHORT_EXPECTED_SINGULAR_MESSAGE,
-                        self::STRING_TOO_SHORT_EXPECTED_PLURAL_MESSAGE,
-                        [
-                            self::SIZE_PARAM_NAME => 5,
-                        ],
-                        'text'
-                    ),
-                ],
+            ],
+            new TextLineValue('ABC♔'),
+            [
+                new ValidationError(
+                    self::STRING_TOO_SHORT_EXPECTED_SINGULAR_MESSAGE,
+                    self::STRING_TOO_SHORT_EXPECTED_PLURAL_MESSAGE,
+                    [
+                        self::SIZE_PARAM_NAME => 5,
+                    ],
+                    'text'
+                ),
             ],
         ];
     }

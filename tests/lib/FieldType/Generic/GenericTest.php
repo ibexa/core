@@ -9,11 +9,14 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\FieldType\Generic;
 
 use Ibexa\Contracts\Core\FieldType\ValidationError;
+use Ibexa\Contracts\Core\FieldType\Value;
+use Ibexa\Contracts\Core\FieldType\Value as FieldTypeValue;
 use Ibexa\Contracts\Core\FieldType\ValueSerializerInterface;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Tests\Core\FieldType\BaseFieldTypeTestCase;
 use Ibexa\Tests\Core\FieldType\Generic\Stubs\Type as GenericFieldTypeStub;
 use Ibexa\Tests\Core\FieldType\Generic\Stubs\Value as GenericFieldValueStub;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
@@ -21,11 +24,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class GenericTest extends BaseFieldTypeTestCase
 {
-    /** @var \Ibexa\Contracts\Core\FieldType\ValueSerializerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $serializer;
+    private ValueSerializerInterface $serializer;
 
-    /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $validator;
+    private ValidatorInterface & MockObject $validator;
 
     protected function setUp(): void
     {
@@ -37,8 +38,10 @@ class GenericTest extends BaseFieldTypeTestCase
 
     /**
      * @dataProvider provideValidDataForValidate
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function testValidateValid($fieldDefinitionData, $value): void
+    public function testValidateValid(array $fieldDefinitionData, Value $value): void
     {
         $this->validator
             ->method('validate')
@@ -50,12 +53,24 @@ class GenericTest extends BaseFieldTypeTestCase
 
     /**
      * @dataProvider provideInvalidDataForValidate
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function testValidateInvalid($fieldDefinitionData, $value, $errors): void
+    public function testValidateInvalid(array $fieldDefinitionData, FieldTypeValue $value, array $errors): void
     {
-        $constraintViolationList = new ConstraintViolationList(array_map(static function (ValidationError $error) {
-            return new ConstraintViolation((string) $error->getTranslatableMessage());
-        }, $errors));
+        $constraintViolationList = new ConstraintViolationList(
+            array_map(
+                static fn (ValidationError $error) => new ConstraintViolation(
+                    (string)$error->getTranslatableMessage(),
+                    null,
+                    [],
+                    null,
+                    null,
+                    null
+                ),
+                $errors
+            )
+        );
 
         $this->validator
             ->method('validate')
@@ -70,7 +85,7 @@ class GenericTest extends BaseFieldTypeTestCase
         return 'generic';
     }
 
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): GenericFieldTypeStub
     {
         return new GenericFieldTypeStub($this->serializer, $this->validator);
     }
@@ -85,12 +100,12 @@ class GenericTest extends BaseFieldTypeTestCase
         return [];
     }
 
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): GenericFieldValueStub
     {
         return new GenericFieldValueStub();
     }
 
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -100,25 +115,23 @@ class GenericTest extends BaseFieldTypeTestCase
         ];
     }
 
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
     {
-        return [
-            [
-                null,
-                new GenericFieldValueStub(),
-            ],
-            [
-                '{"value": "foo"}',
-                new GenericFieldValueStub('foo'),
-            ],
-            [
-                new GenericFieldValueStub('foo'),
-                new GenericFieldValueStub('foo'),
-            ],
+        yield 'null' => [
+            null,
+            new GenericFieldValueStub(),
+        ];
+        yield 'array' => [
+            '{"value": "foo"}',
+            new GenericFieldValueStub('foo'),
+        ];
+        yield 'value' => [
+            new GenericFieldValueStub('foo'),
+            new GenericFieldValueStub('foo'),
         ];
     }
 
-    public function provideInputForToHash(): array
+    public function provideInputForToHash(): iterable
     {
         return [
             [
@@ -132,7 +145,7 @@ class GenericTest extends BaseFieldTypeTestCase
         ];
     }
 
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -160,7 +173,7 @@ class GenericTest extends BaseFieldTypeTestCase
         $serializer
             ->method('decode')
             ->willReturnCallback(static function (string $json) {
-                return json_decode($json, true);
+                return json_decode($json, true, 512, JSON_THROW_ON_ERROR);
             });
 
         $serializer
@@ -173,8 +186,8 @@ class GenericTest extends BaseFieldTypeTestCase
 
         $serializer
             ->method('denormalize')
-            ->willReturnCallback(function (array $data, string $valueClass) {
-                $this->assertEquals($valueClass, GenericFieldValueStub::class);
+            ->willReturnCallback(static function (array $data, string $valueClass) {
+                self::assertEquals(GenericFieldValueStub::class, $valueClass);
 
                 return new GenericFieldValueStub($data['value']);
             });

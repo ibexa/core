@@ -7,35 +7,26 @@
 
 namespace Ibexa\Tests\Core\FieldType;
 
-use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Translation\Message;
-use Ibexa\Contracts\Core\Repository\Values\Translation\Plural;
-use Ibexa\Core\FieldType\BinaryFile\Value as BinaryFileValue;
 use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Validator\FileSizeValidator;
-use Ibexa\Core\IO\IOServiceInterface;
-use Ibexa\Core\IO\Values\BinaryFile;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @group fieldType
  * @group validator
+ *
+ * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator
  */
 class FileSizeValidatorTest extends TestCase
 {
-    /**
-     * @return int
-     */
     protected function getMaxFileSize(): int
     {
         return 4096;
     }
 
-    /**
-     * This test ensure an FileSizeValidator can be created.
-     */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         self::assertInstanceOf(
             Validator::class,
@@ -44,12 +35,9 @@ class FileSizeValidatorTest extends TestCase
     }
 
     /**
-     * Tests setting and getting constraints.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::initializeWithConstraints
-     * @covers \Ibexa\Core\FieldType\Validator::__get
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
      */
-    public function testConstraintsInitializeGet()
+    public function testConstraintsInitializeGet(): void
     {
         $constraints = [
             'maxFileSize' => 4096,
@@ -61,12 +49,7 @@ class FileSizeValidatorTest extends TestCase
         self::assertSame($constraints['maxFileSize'], $validator->maxFileSize);
     }
 
-    /**
-     * Test getting constraints schema.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::getConstraintsSchema
-     */
-    public function testGetConstraintsSchema()
+    public function testGetConstraintsSchema(): void
     {
         $constraintsSchema = [
             'maxFileSize' => [
@@ -78,13 +61,7 @@ class FileSizeValidatorTest extends TestCase
         self::assertSame($constraintsSchema, $validator->getConstraintsSchema());
     }
 
-    /**
-     * Tests setting and getting constraints.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::__set
-     * @covers \Ibexa\Core\FieldType\Validator::__get
-     */
-    public function testConstraintsSetGet()
+    public function testConstraintsSetGet(): void
     {
         $constraints = [
             'maxFileSize' => 4096,
@@ -94,12 +71,7 @@ class FileSizeValidatorTest extends TestCase
         self::assertSame($constraints['maxFileSize'], $validator->maxFileSize);
     }
 
-    /**
-     * Tests initializing with a wrong constraint.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::initializeWithConstraints
-     */
-    public function testInitializeBadConstraint()
+    public function testInitializeBadConstraint(): void
     {
         $this->expectException(PropertyNotFoundException::class);
 
@@ -112,12 +84,7 @@ class FileSizeValidatorTest extends TestCase
         );
     }
 
-    /**
-     * Tests setting a wrong constraint.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::__set
-     */
-    public function testSetBadConstraint()
+    public function testSetBadConstraint(): void
     {
         $this->expectException(PropertyNotFoundException::class);
 
@@ -125,12 +92,7 @@ class FileSizeValidatorTest extends TestCase
         $validator->unexisting = 0;
     }
 
-    /**
-     * Tests getting a wrong constraint.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::__get
-     */
-    public function testGetBadConstraint()
+    public function testGetBadConstraint(): void
     {
         $this->expectException(PropertyNotFoundException::class);
 
@@ -236,9 +198,9 @@ class FileSizeValidatorTest extends TestCase
      *
      * @dataProvider providerForValidateConstraintsOK
      *
-     * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
+     * @param array<string, mixed> $constraints
      */
-    public function testValidateConstraintsCorrectValues($constraints)
+    public function testValidateConstraintsCorrectValues(array $constraints): void
     {
         $validator = new FileSizeValidator();
 
@@ -247,7 +209,10 @@ class FileSizeValidatorTest extends TestCase
         );
     }
 
-    public function providerForValidateConstraintsOK()
+    /**
+     * @return array<array{array{maxFileSize: int|false}|array{}}>
+     */
+    public function providerForValidateConstraintsOK(): array
     {
         return [
             [
@@ -261,13 +226,13 @@ class FileSizeValidatorTest extends TestCase
     }
 
     /**
-     * Tests validation of constraints.
-     *
      * @dataProvider providerForValidateConstraintsKO
      *
-     * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
+     * @param array<string, mixed> $constraints
+     * @param string[] $expectedMessages
+     * @param array<string, scalar> $values
      */
-    public function testValidateConstraintsWrongValues($constraints, $expectedMessages, $values)
+    public function testValidateConstraintsWrongValues(array $constraints, array $expectedMessages, array $values): void
     {
         $validator = new FileSizeValidator();
         $messages = $validator->validateConstraints($constraints);
@@ -286,7 +251,10 @@ class FileSizeValidatorTest extends TestCase
         );
     }
 
-    public function providerForValidateConstraintsKO()
+    /**
+     * @return array<array{array<string, mixed>, string[], array<string, scalar>}>
+     */
+    public function providerForValidateConstraintsKO(): array
     {
         return [
             [

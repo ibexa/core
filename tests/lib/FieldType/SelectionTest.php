@@ -19,18 +19,7 @@ use Ibexa\Core\FieldType\ValidationError;
  */
 class SelectionTest extends FieldTypeTestCase
 {
-    /**
-     * Returns the field type under test.
-     *
-     * This method is used by all test cases to retrieve the field type under
-     * test. Just create the FieldType instance using mocks from the provided
-     * get*Mock() methods and/or custom get*Mock() implementations. You MUST
-     * NOT take care for test case wide caching of the field type, just return
-     * a new instance from this method!
-     *
-     * @return \Ibexa\Core\FieldType\FieldType
-     */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): Selection
     {
         $fieldType = new Selection();
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
@@ -38,22 +27,12 @@ class SelectionTest extends FieldTypeTestCase
         return $fieldType;
     }
 
-    /**
-     * Returns the validator configuration schema expected from the field type.
-     *
-     * @return array
-     */
-    protected function getValidatorConfigurationSchemaExpectation()
+    protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [];
     }
 
-    /**
-     * Returns the settings schema expected from the field type.
-     *
-     * @return array
-     */
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [
             'isMultiple' => [
@@ -71,17 +50,12 @@ class SelectionTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Returns the empty value expected from the field type.
-     *
-     * @return \Ibexa\Core\FieldType\Selection\Value
-     */
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): SelectionValue
     {
         return new SelectionValue();
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -95,93 +69,30 @@ class SelectionTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Data provider for valid input to acceptValue().
-     *
-     * Returns an array of data provider sets with 2 arguments: 1. The valid
-     * input to acceptValue(), 2. The expected return value from acceptValue().
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          null,
-     *          null
-     *      ),
-     *      array(
-     *          __FILE__,
-     *          new BinaryFileValue( array(
-     *              'path' => __FILE__,
-     *              'fileName' => basename( __FILE__ ),
-     *              'fileSize' => filesize( __FILE__ ),
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'text/plain',
-     *          ) )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): iterable
     {
-        return [
-            [
-                [],
-                new SelectionValue(),
-            ],
-            [
-                [23],
-                new SelectionValue([23]),
-            ],
-            [
-                [23, 42],
-                new SelectionValue([23, 42]),
-            ],
-            [
-                new SelectionValue([23, 42]),
-                new SelectionValue([23, 42]),
-            ],
+        yield 'empty array' => [
+            [],
+            new SelectionValue(),
+        ];
+
+        yield 'single selection' => [
+            [23],
+            new SelectionValue([23]),
+        ];
+
+        yield 'multiple selections' => [
+            [23, 42],
+            new SelectionValue([23, 42]),
+        ];
+
+        yield 'SelectionValue object' => [
+            new SelectionValue([23, 42]),
+            new SelectionValue([23, 42]),
         ];
     }
 
-    /**
-     * Provide input for the toHash() method.
-     *
-     * Returns an array of data provider sets with 2 arguments: 1. The valid
-     * input to toHash(), 2. The expected return value from toHash().
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          null,
-     *          null
-     *      ),
-     *      array(
-     *          new BinaryFileValue( array(
-     *              'path' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          ) ),
-     *          array(
-     *              'path' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): iterable
     {
         return [
             [
@@ -195,42 +106,7 @@ class SelectionTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Provide input to fromHash() method.
-     *
-     * Returns an array of data provider sets with 2 arguments: 1. The valid
-     * input to fromHash(), 2. The expected return value from fromHash().
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          null,
-     *          null
-     *      ),
-     *      array(
-     *          array(
-     *              'path' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          ),
-     *          new BinaryFileValue( array(
-     *              'path' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          ) )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -244,29 +120,7 @@ class SelectionTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Provide data sets with field settings which are considered valid by the
-     * {@link validateFieldSettings()} method.
-     *
-     * Returns an array of data provider sets with a single argument: A valid
-     * set of field settings.
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          array(),
-     *      ),
-     *      array(
-     *          array( 'rows' => 2 )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideValidFieldSettings()
+    public function provideValidFieldSettings(): iterable
     {
         return [
             [
@@ -287,30 +141,7 @@ class SelectionTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Provide data sets with field settings which are considered invalid by the
-     * {@link validateFieldSettings()} method. The method must return a
-     * non-empty array of validation error when receiving such field settings.
-     *
-     * Returns an array of data provider sets with a single argument: A valid
-     * set of field settings.
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          true,
-     *      ),
-     *      array(
-     *          array( 'nonExistentKey' => 2 )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInValidFieldSettings()
+    public function provideInValidFieldSettings(): array
     {
         return [
             [
@@ -387,235 +218,128 @@ class SelectionTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Provides data sets with validator configuration and/or field settings and
-     * field value which are considered valid by the {@link validate()} method.
-     *
-     * ATTENTION: This is a default implementation, which must be overwritten if
-     * a FieldType supports validation!
-     *
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          array(
-     *              "validatorConfiguration" => array(
-     *                  "StringLengthValidator" => array(
-     *                      "minStringLength" => 2,
-     *                      "maxStringLength" => 10,
-     *                  ),
-     *              ),
-     *          ),
-     *          new TextLineValue( "lalalala" ),
-     *      ),
-     *      array(
-     *          array(
-     *              "fieldSettings" => array(
-     *                  'isMultiple' => true
-     *              ),
-     *          ),
-     *          new CountryValue(
-     *              array(
-     *                  "BE" => array(
-     *                      "Name" => "Belgium",
-     *                      "Alpha2" => "BE",
-     *                      "Alpha3" => "BEL",
-     *                      "IDC" => 32,
-     *                  ),
-     *              ),
-     *          ),
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideValidDataForValidate()
+    public function provideValidDataForValidate(): iterable
     {
-        return [
+        yield 'multiple selection allowed' => [
             [
-                [
-                    'fieldSettings' => [
-                        'isMultiple' => true,
-                        'options' => [0 => 1, 1 => 2],
+                'fieldSettings' => [
+                    'isMultiple' => true,
+                    'options' => [0 => 1, 1 => 2],
+                ],
+            ],
+            new SelectionValue([0, 1]),
+        ];
+
+        yield 'single selection' => [
+            [
+                'fieldSettings' => [
+                    'isMultiple' => false,
+                    'options' => [0 => 1, 1 => 2],
+                ],
+            ],
+            new SelectionValue([1]),
+        ];
+
+        yield 'empty selection' => [
+            [
+                'fieldSettings' => [
+                    'isMultiple' => false,
+                    'options' => [0 => 1, 1 => 2],
+                ],
+            ],
+            new SelectionValue(),
+        ];
+
+        yield 'multilingual options' => [
+            [
+                'fieldSettings' => [
+                    'isMultiple' => false,
+                    'options' => [0 => 1, 1 => 2],
+                    'multilingualOptions' => [
+                        'en_GB' => [0 => 1, 1 => 2],
+                        'de_DE' => [0 => 1, 1 => 2],
                     ],
                 ],
-                new SelectionValue([0, 1]),
             ],
+            new SelectionValue([1]),
+        ];
+
+        yield 'partial multilingual options' => [
             [
-                [
-                    'fieldSettings' => [
-                        'isMultiple' => false,
-                        'options' => [0 => 1, 1 => 2],
+                'fieldSettings' => [
+                    'isMultiple' => false,
+                    'options' => [0 => 1, 1 => 2],
+                    'multilingualOptions' => [
+                        'en_GB' => [0 => 1, 1 => 2],
+                        'de_DE' => [0 => 1],
                     ],
                 ],
-                new SelectionValue([1]),
             ],
-            [
-                [
-                    'fieldSettings' => [
-                        'isMultiple' => false,
-                        'options' => [0 => 1, 1 => 2],
-                    ],
-                ],
-                new SelectionValue(),
-            ],
-            [
-                [
-                    'fieldSettings' => [
-                        'isMultiple' => false,
-                        'options' => [0 => 1, 1 => 2],
-                        'multilingualOptions' => [
-                            'en_GB' => [0 => 1, 1 => 2],
-                            'de_DE' => [0 => 1, 1 => 2],
-                        ],
-                    ],
-                ],
-                new SelectionValue([1]),
-            ],
-            [
-                [
-                    'fieldSettings' => [
-                        'isMultiple' => false,
-                        'options' => [0 => 1, 1 => 2],
-                        'multilingualOptions' => [
-                            'en_GB' => [0 => 1, 1 => 2],
-                            'de_DE' => [0 => 1],
-                        ],
-                    ],
-                ],
-                new SelectionValue([1]),
-            ],
+            new SelectionValue([1]),
         ];
     }
 
-    /**
-     * Provides data sets with validator configuration and/or field settings,
-     * field value and corresponding validation errors returned by
-     * the {@link validate()} method.
-     *
-     * ATTENTION: This is a default implementation, which must be overwritten
-     * if a FieldType supports validation!
-     *
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          array(
-     *              "validatorConfiguration" => array(
-     *                  "IntegerValueValidator" => array(
-     *                      "minIntegerValue" => 5,
-     *                      "maxIntegerValue" => 10
-     *                  ),
-     *              ),
-     *          ),
-     *          new IntegerValue( 3 ),
-     *          array(
-     *              new ValidationError(
-     *                  "The value can not be lower than %size%.",
-     *                  null,
-     *                  array(
-     *                      "size" => 5
-     *                  ),
-     *              ),
-     *          ),
-     *      ),
-     *      array(
-     *          array(
-     *              "fieldSettings" => array(
-     *                  "isMultiple" => false
-     *              ),
-     *          ),
-     *          new CountryValue(
-     *              "BE" => array(
-     *                  "Name" => "Belgium",
-     *                  "Alpha2" => "BE",
-     *                  "Alpha3" => "BEL",
-     *                  "IDC" => 32,
-     *              ),
-     *              "FR" => array(
-     *                  "Name" => "France",
-     *                  "Alpha2" => "FR",
-     *                  "Alpha3" => "FRA",
-     *                  "IDC" => 33,
-     *              ),
-     *          )
-     *      ),
-     *      array(
-     *          new ValidationError(
-     *              "Field definition does not allow multiple countries to be selected."
-     *          ),
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInvalidDataForValidate()
+    public function provideInvalidDataForValidate(): iterable
     {
-        return [
+        yield 'multiple selections when not allowed' => [
             [
-                [
-                    'fieldSettings' => [
-                        'isMultiple' => false,
-                        'options' => [0 => 1, 1 => 2],
-                    ],
-                ],
-                new SelectionValue([0, 1]),
-                [
-                    new ValidationError(
-                        'Field definition does not allow multiple options to be selected.',
-                        null,
-                        [],
-                        'selection'
-                    ),
+                'fieldSettings' => [
+                    'isMultiple' => false,
+                    'options' => [0 => 1, 1 => 2],
                 ],
             ],
+            new SelectionValue([0, 1]),
             [
-                [
-                    'fieldSettings' => [
-                        'isMultiple' => false,
-                        'options' => [0 => 1, 1 => 2],
-                    ],
-                ],
-                new SelectionValue([3]),
-                [
-                    new ValidationError(
-                        'Option with index %index% does not exist in the field definition.',
-                        null,
-                        [
-                            '%index%' => 3,
-                        ],
-                        'selection'
-                    ),
+                new ValidationError(
+                    'Field definition does not allow multiple options to be selected.',
+                    null,
+                    [],
+                    'selection'
+                ),
+            ],
+        ];
+
+        yield 'invalid option index' => [
+            [
+                'fieldSettings' => [
+                    'isMultiple' => false,
+                    'options' => [0 => 1, 1 => 2],
                 ],
             ],
+            new SelectionValue([3]),
             [
-                [
-                    'fieldSettings' => [
-                        'isMultiple' => false,
-                        'options' => [0 => 1, 1 => 2],
-                        'multilingualOptions' => [
-                            'en_GB' => [0 => 1, 1 => 2],
-                            'de_DE' => [0 => 1],
-                        ],
+                new ValidationError(
+                    'Option with index %index% does not exist in the field definition.',
+                    null,
+                    [
+                        '%index%' => 3,
+                    ],
+                    'selection'
+                ),
+            ],
+        ];
+
+        yield 'invalid multilingual option index' => [
+            [
+                'fieldSettings' => [
+                    'isMultiple' => false,
+                    'options' => [0 => 1, 1 => 2],
+                    'multilingualOptions' => [
+                        'en_GB' => [0 => 1, 1 => 2],
+                        'de_DE' => [0 => 1],
                     ],
                 ],
-                new SelectionValue([3]),
-                [
-                    new ValidationError(
-                        'Option with index %index% does not exist in the field definition.',
-                        null,
-                        [
-                            '%index%' => 3,
-                        ],
-                        'selection'
-                    ),
-                ],
+            ],
+            new SelectionValue([3]),
+            [
+                new ValidationError(
+                    'Option with index %index% does not exist in the field definition.',
+                    null,
+                    [
+                        '%index%' => 3,
+                    ],
+                    'selection'
+                ),
             ],
         ];
     }

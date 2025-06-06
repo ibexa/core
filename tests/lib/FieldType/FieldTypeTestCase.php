@@ -7,15 +7,17 @@
 
 namespace Ibexa\Tests\Core\FieldType;
 
+use Ibexa\Contracts\Core\FieldType\Comparable;
+use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Core\Persistence\TransformationProcessor;
+use PHPUnit\Framework\MockObject\MockObject;
 
 abstract class FieldTypeTestCase extends BaseFieldTypeTestCase
 {
-    /**
-     * @return \Ibexa\Core\Persistence\TransformationProcessor|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getTransformationProcessorMock()
+    private FieldType & Comparable $fieldTypeUnderTest;
+
+    protected function getTransformationProcessorMock(): TransformationProcessor & MockObject
     {
         return $this->getMockForAbstractClass(
             TransformationProcessor::class,
@@ -28,17 +30,29 @@ abstract class FieldTypeTestCase extends BaseFieldTypeTestCase
         );
     }
 
-    public function provideInputForValuesEqual(): array
+    /**
+     * @phpstan-return iterable<array{mixed, mixed}>
+     */
+    public function provideInputForValuesEqual(): iterable
     {
-        return $this->provideInputForFromHash();
+        yield from $this->provideInputForFromHash();
+    }
+
+    abstract protected function createFieldTypeUnderTest(): FieldType & Comparable;
+
+    protected function getFieldTypeUnderTest(): FieldType & Comparable
+    {
+        if (!isset($this->fieldTypeUnderTest)) {
+            $this->fieldTypeUnderTest = $this->createFieldTypeUnderTest();
+        }
+
+        return $this->fieldTypeUnderTest;
     }
 
     /**
      * @dataProvider provideInputForValuesEqual
-     *
-     * @param mixed $inputValue1Hash
      */
-    public function testValuesEqual($inputValue1Hash, SPIValue $inputValue2): void
+    public function testValuesEqual(mixed $inputValue1Hash, SPIValue $inputValue2): void
     {
         $fieldType = $this->getFieldTypeUnderTest();
 

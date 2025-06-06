@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\User;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Contracts\Core\Repository\Values\User\User as UserAlias;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\FieldType\User\Type;
@@ -31,19 +32,8 @@ use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
  */
 class UserTest extends FieldTypeTestCase
 {
-    private const UNSUPPORTED_HASH_TYPE = 0xDEADBEEF;
+    private const int UNSUPPORTED_HASH_TYPE = 0xDEADBEEF;
 
-    /**
-     * Returns the field type under test.
-     *
-     * This method is used by all test cases to retrieve the field type under
-     * test. Just create the FieldType instance using mocks from the provided
-     * get*Mock() methods and/or custom get*Mock() implementations. You MUST
-     * NOT take care for test case wide caching of the field type, just return
-     * a new instance from this method!
-     *
-     * @return \Ibexa\Core\FieldType\User\Type
-     */
     protected function createFieldTypeUnderTest(): UserType
     {
         $fieldType = new UserType(
@@ -56,23 +46,13 @@ class UserTest extends FieldTypeTestCase
         return $fieldType;
     }
 
-    /**
-     * Returns the validator configuration schema expected from the field type.
-     *
-     * @return array
-     */
-    protected function getValidatorConfigurationSchemaExpectation()
+    protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return (new UserValidatorConfigurationSchemaProvider())
             ->getExpectedValidatorConfigurationSchema();
     }
 
-    /**
-     * Returns the settings schema expected from the field type.
-     *
-     * @return array
-     */
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [
             UserType::PASSWORD_TTL_SETTING => [
@@ -94,69 +74,52 @@ class UserTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Returns the empty value expected from the field type.
-     */
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): UserValue
     {
         return new UserValue();
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): iterable
     {
-        return [
-            [
-                23,
-                InvalidArgumentException::class,
-            ],
+        yield [
+            23,
+            InvalidArgumentException::class,
         ];
     }
 
-    /**
-     * Data provider for valid input to acceptValue().
-     *
-     * Returns an array of data provider sets with 2 arguments: 1. The valid
-     * input to acceptValue(), 2. The expected return value from acceptValue().
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          null,
-     *          null
-     *      ),
-     *      array(
-     *          __FILE__,
-     *          new BinaryFileValue( array(
-     *              'path' => __FILE__,
-     *              'fileName' => basename( __FILE__ ),
-     *              'fileSize' => filesize( __FILE__ ),
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'text/plain',
-     *          ) )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): iterable
     {
-        return [
-            [
-                null,
-                new UserValue(),
+        yield 'null input' => [
+            null,
+            new UserValue(),
+        ];
+
+        yield 'empty array' => [
+            [],
+            new UserValue([]),
+        ];
+
+        yield 'user value with login' => [
+            new UserValue(['login' => 'sindelfingen']),
+            new UserValue(['login' => 'sindelfingen']),
+        ];
+
+        yield 'array with user data' => [
+            $userData = [
+                'hasStoredLogin' => true,
+                'contentId' => 23,
+                'login' => 'sindelfingen',
+                'email' => 'sindelfingen@example.com',
+                'passwordHash' => '1234567890abcdef',
+                'passwordHashType' => 'md5',
+                'enabled' => true,
+                'maxLogin' => 1000,
             ],
-            [
-                [],
-                new UserValue([]),
-            ],
-            [
-                new UserValue(['login' => 'sindelfingen']),
-                new UserValue(['login' => 'sindelfingen']),
-            ],
-            [
+            new UserValue($userData),
+        ];
+
+        yield 'user value with full data' => [
+            new UserValue(
                 $userData = [
                     'hasStoredLogin' => true,
                     'contentId' => 23,
@@ -166,65 +129,13 @@ class UserTest extends FieldTypeTestCase
                     'passwordHashType' => 'md5',
                     'enabled' => true,
                     'maxLogin' => 1000,
-                ],
-                new UserValue($userData),
-            ],
-            [
-                new UserValue(
-                    $userData = [
-                        'hasStoredLogin' => true,
-                        'contentId' => 23,
-                        'login' => 'sindelfingen',
-                        'email' => 'sindelfingen@example.com',
-                        'passwordHash' => '1234567890abcdef',
-                        'passwordHashType' => 'md5',
-                        'enabled' => true,
-                        'maxLogin' => 1000,
-                    ]
-                ),
-                new UserValue($userData),
-            ],
+                ]
+            ),
+            new UserValue($userData),
         ];
     }
 
-    /**
-     * Provide input for the toHash() method.
-     *
-     * Returns an array of data provider sets with 2 arguments: 1. The valid
-     * input to toHash(), 2. The expected return value from toHash().
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          null,
-     *          null
-     *      ),
-     *      array(
-     *          new BinaryFileValue(
-     *              array(
-     *                  'path' => 'some/file/here',
-     *                  'fileName' => 'sindelfingen.jpg',
-     *                  'fileSize' => 2342,
-     *                  'downloadCount' => 0,
-     *                  'mimeType' => 'image/jpeg',
-     *              )
-     *          ),
-     *          array(
-     *              'path' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): iterable
     {
         $passwordUpdatedAt = new DateTimeImmutable();
 
@@ -255,90 +166,39 @@ class UserTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Provide input to fromHash() method.
-     *
-     * Returns an array of data provider sets with 2 arguments: 1. The valid
-     * input to fromHash(), 2. The expected return value from fromHash().
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          null,
-     *          null
-     *      ),
-     *      array(
-     *          array(
-     *              'path' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          ),
-     *          new BinaryFileValue(
-     *              array(
-     *                  'path' => 'some/file/here',
-     *                  'fileName' => 'sindelfingen.jpg',
-     *                  'fileSize' => 2342,
-     *                  'downloadCount' => 0,
-     *                  'mimeType' => 'image/jpeg',
-     *              )
-     *          )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): iterable
     {
-        return [
-            [
-                null,
-                new UserValue(),
+        yield [
+            null,
+            new UserValue(),
+        ];
+
+        yield [
+            $userData = [
+                'hasStoredLogin' => true,
+                'contentId' => 23,
+                'login' => 'sindelfingen',
+                'email' => 'sindelfingen@example.com',
+                'passwordHash' => '1234567890abcdef',
+                'passwordHashType' => 'md5',
+                'passwordUpdatedAt' => 1567071092,
+                'enabled' => true,
+                'maxLogin' => 1000,
             ],
-            [
-                $userData = [
-                    'hasStoredLogin' => true,
-                    'contentId' => 23,
-                    'login' => 'sindelfingen',
-                    'email' => 'sindelfingen@example.com',
-                    'passwordHash' => '1234567890abcdef',
-                    'passwordHashType' => 'md5',
-                    'passwordUpdatedAt' => 1567071092,
-                    'enabled' => true,
-                    'maxLogin' => 1000,
-                ],
-                new UserValue([
-                    'passwordUpdatedAt' => new DateTimeImmutable('@1567071092'),
-                ] + $userData),
-            ],
+            new UserValue([
+                'passwordUpdatedAt' => new DateTimeImmutable('@1567071092'),
+            ] + $userData),
         ];
     }
 
-    /**
-     * Returns empty data set. Validation tests were moved to testValidate method.
-     *
-     * @return array
-     */
-    public function provideValidDataForValidate(): array
+    public function provideValidDataForValidate(): iterable
     {
-        return [];
+        yield from [];
     }
 
-    /**
-     * Returns empty data set. Validation tests were moved to testValidate method.
-     *
-     * @see testValidate
-     * @see providerForTestValidate
-     *
-     * @return array
-     */
-    public function provideInvalidDataForValidate(): array
+    public function provideInvalidDataForValidate(): iterable
     {
-        return [];
+        yield from [];
     }
 
     /**
@@ -402,28 +262,7 @@ class UserTest extends FieldTypeTestCase
             'plainPassword' => 'testPassword',
         ]);
 
-        $userHandlerMock = $this->createMock(UserHandler::class);
-
-        $userHandlerMock
-            ->expects(self::once())
-            ->method('loadByLogin')
-            ->with($validateUserValue->login)
-            ->willThrowException(new NotFoundException('', ''));
-
-        $userType = new UserType(
-            $userHandlerMock,
-            $this->createMock(PasswordHashService::class),
-            $this->createMock(PasswordValidatorInterface::class)
-        );
-
-        $fieldSettings = [
-            UserType::REQUIRE_UNIQUE_EMAIL => false,
-            UserType::USERNAME_PATTERN => '^[^@]+$',
-        ];
-
-        $fieldDefinition = new CoreFieldDefinition(['fieldSettings' => $fieldSettings]);
-
-        $validationErrors = $userType->validate($fieldDefinition, $validateUserValue);
+        $validationErrors = $this->mockValidationErrors($validateUserValue);
 
         self::assertEquals([
             new ValidationError(
@@ -449,28 +288,7 @@ class UserTest extends FieldTypeTestCase
             'plainPassword' => 'testPassword',
         ]);
 
-        $userHandlerMock = $this->createMock(UserHandler::class);
-
-        $userHandlerMock
-            ->expects(self::once())
-            ->method('loadByLogin')
-            ->with($validateUserValue->login)
-            ->willThrowException(new NotFoundException('', ''));
-
-        $userType = new UserType(
-            $userHandlerMock,
-            $this->createMock(PasswordHashService::class),
-            $this->createMock(PasswordValidatorInterface::class)
-        );
-
-        $fieldSettings = [
-            UserType::REQUIRE_UNIQUE_EMAIL => false,
-            UserType::USERNAME_PATTERN => '^[^@]+$',
-        ];
-
-        $fieldDefinition = new CoreFieldDefinition(['fieldSettings' => $fieldSettings]);
-
-        $validationErrors = $userType->validate($fieldDefinition, $validateUserValue);
+        $validationErrors = $this->mockValidationErrors($validateUserValue);
 
         self::assertEquals([], $validationErrors);
     }
@@ -580,31 +398,31 @@ class UserTest extends FieldTypeTestCase
         ];
 
         yield 'when password hash type is given' => [
-            $userValueData = [
-                'passwordHashType' => RepositoryUser::PASSWORD_HASH_PHP_DEFAULT,
+            [
+                'passwordHashType' => UserAlias::PASSWORD_HASH_PHP_DEFAULT,
             ] + $userData,
-            $expectedFieldValueExternalData = [
-                'passwordHashType' => RepositoryUser::PASSWORD_HASH_PHP_DEFAULT,
+            [
+                'passwordHashType' => UserAlias::PASSWORD_HASH_PHP_DEFAULT,
                 'passwordUpdatedAt' => $passwordUpdatedAt->getTimestamp(),
             ] + $userData,
         ];
         yield 'when password hash type is null' => [
-            $userValueData = [
-                    'passwordHashType' => null,
-                ] + $userData,
-            $expectedFieldValueExternalData = [
-                    'passwordHashType' => RepositoryUser::DEFAULT_PASSWORD_HASH,
-                    'passwordUpdatedAt' => $passwordUpdatedAt->getTimestamp(),
-                ] + $userData,
+            [
+                'passwordHashType' => null,
+            ] + $userData,
+            [
+                'passwordHashType' => UserAlias::DEFAULT_PASSWORD_HASH,
+                'passwordUpdatedAt' => $passwordUpdatedAt->getTimestamp(),
+            ] + $userData,
         ];
         yield 'when password hash type is unsupported' => [
-            $userValueData = [
-                    'passwordHashType' => self::UNSUPPORTED_HASH_TYPE,
-                ] + $userData,
-            $expectedFieldValueExternalData = [
-                    'passwordHashType' => RepositoryUser::DEFAULT_PASSWORD_HASH,
-                    'passwordUpdatedAt' => $passwordUpdatedAt->getTimestamp(),
-                ] + $userData,
+            [
+                'passwordHashType' => self::UNSUPPORTED_HASH_TYPE,
+            ] + $userData,
+            [
+                'passwordHashType' => UserAlias::DEFAULT_PASSWORD_HASH,
+                'passwordUpdatedAt' => $passwordUpdatedAt->getTimestamp(),
+            ] + $userData,
         ];
     }
 
@@ -739,29 +557,7 @@ class UserTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Provide data sets with field settings which are considered valid by the
-     * {@link validateFieldSettings()} method.
-     *
-     * Returns an array of data provider sets with a single argument: A valid
-     * set of field settings.
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          array(),
-     *      ),
-     *      array(
-     *          array( 'rows' => 2 )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideValidFieldSettings(): array
+    public function provideValidFieldSettings(): iterable
     {
         return [
             [
@@ -789,29 +585,6 @@ class UserTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Provide data sets with field settings which are considered invalid by the
-     * {@link validateFieldSettings()} method. The method must return a
-     * non-empty array of validation error when receiving such field settings.
-     *
-     * Returns an array of data provider sets with a single argument: A valid
-     * set of field settings.
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          true,
-     *      ),
-     *      array(
-     *          array( 'nonExistentKey' => 2 )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
     public function provideInValidFieldSettings(): array
     {
         return [
@@ -846,5 +619,36 @@ class UserTest extends FieldTypeTestCase
             [$this->getEmptyValueExpectation(), '', [], 'en_GB'],
             [new UserValue(['login' => 'johndoe']), 'johndoe', [], 'en_GB'],
         ];
+    }
+
+    /**
+     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    private function mockValidationErrors(UserValue $validateUserValue): array
+    {
+        $userHandlerMock = $this->createMock(UserHandler::class);
+
+        $userHandlerMock
+            ->expects(self::once())
+            ->method('loadByLogin')
+            ->with($validateUserValue->login)
+            ->willThrowException(new NotFoundException('', ''));
+
+        $userType = new UserType(
+            $userHandlerMock,
+            $this->createMock(PasswordHashService::class),
+            $this->createMock(PasswordValidatorInterface::class)
+        );
+
+        $fieldSettings = [
+            UserType::REQUIRE_UNIQUE_EMAIL => false,
+            UserType::USERNAME_PATTERN => '^[^@]+$',
+        ];
+
+        $fieldDefinition = new CoreFieldDefinition(['fieldSettings' => $fieldSettings]);
+
+        return $userType->validate($fieldDefinition, $validateUserValue);
     }
 }

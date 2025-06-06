@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
-use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Handler as PersistenceContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
@@ -21,6 +21,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Image\Value;
 use Ibexa\Core\FieldType\ImageAsset;
 use Ibexa\Core\FieldType\ValidationError;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @group fieldType
@@ -28,16 +29,13 @@ use Ibexa\Core\FieldType\ValidationError;
  */
 class ImageAssetTest extends FieldTypeTestCase
 {
-    private const DESTINATION_CONTENT_ID = 14;
+    private const int DESTINATION_CONTENT_ID = 14;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService|\PHPUnit\Framework\MockObject\MockObject */
-    private $contentServiceMock;
+    private ContentService & MockObject $contentServiceMock;
 
-    /** @var \Ibexa\Core\FieldType\ImageAsset\AssetMapper|\PHPUnit\Framework\MockObject\MockObject */
-    private $assetMapperMock;
+    private ImageAsset\AssetMapper & MockObject $assetMapperMock;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private $contentHandlerMock;
+    private PersistenceContentHandler & MockObject $contentHandlerMock;
 
     /**
      * {@inheritdoc}
@@ -48,7 +46,7 @@ class ImageAssetTest extends FieldTypeTestCase
 
         $this->contentServiceMock = $this->createMock(ContentService::class);
         $this->assetMapperMock = $this->createMock(ImageAsset\AssetMapper::class);
-        $this->contentHandlerMock = $this->createMock(SPIContentHandler::class);
+        $this->contentHandlerMock = $this->createMock(PersistenceContentHandler::class);
         $versionInfo = new VersionInfo([
             'versionNo' => 24,
             'names' => [
@@ -76,18 +74,12 @@ class ImageAssetTest extends FieldTypeTestCase
             ->willReturn($versionInfo);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function provideFieldTypeIdentifier(): string
     {
         return ImageAsset\Type::FIELD_TYPE_IDENTIFIER;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): ImageAsset\Type
     {
         return new ImageAsset\Type(
             $this->contentServiceMock,
@@ -96,34 +88,22 @@ class ImageAssetTest extends FieldTypeTestCase
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getSettingsSchemaExpectation(): array
     {
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): ImageAsset\Value
     {
         return new ImageAsset\Value();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -133,35 +113,29 @@ class ImageAssetTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function provideValidInputForAcceptValue(): array
+    public function provideValidInputForAcceptValue(): iterable
     {
         $destinationContentId = 7;
 
-        return [
-            [
-                null,
-                $this->getEmptyValueExpectation(),
-            ],
-            [
-                $destinationContentId,
-                new ImageAsset\Value($destinationContentId),
-            ],
-            [
-                new ContentInfo([
-                    'id' => $destinationContentId,
-                ]),
-                new ImageAsset\Value($destinationContentId),
-            ],
+        yield 'null input' => [
+            null,
+            $this->getEmptyValueExpectation(),
+        ];
+
+        yield 'content id' => [
+            $destinationContentId,
+            new ImageAsset\Value($destinationContentId),
+        ];
+
+        yield 'content info object' => [
+            new ContentInfo([
+                'id' => $destinationContentId,
+            ]),
+            new ImageAsset\Value($destinationContentId),
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function provideInputForToHash(): array
+    public function provideInputForToHash(): iterable
     {
         $destinationContentId = 7;
         $alternativeText = 'The alternative text for image';
@@ -191,10 +165,7 @@ class ImageAssetTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function provideInputForFromHash(): array
+    public function provideInputForFromHash(): iterable
     {
         $destinationContentId = 7;
         $alternativeText = 'The alternative text for image';
@@ -221,18 +192,12 @@ class ImageAssetTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function provideInvalidDataForValidate(): array
+    public function provideInvalidDataForValidate(): iterable
     {
-        return [];
+        yield from [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function testValidateNonAsset()
+    public function testValidateNonAsset(): void
     {
         $destinationContentId = 7;
         $destinationContent = $this->createMock(Content::class);
@@ -275,16 +240,11 @@ class ImageAssetTest extends FieldTypeTestCase
         ], $validationErrors);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function provideValidDataForValidate(): array
+    public function provideValidDataForValidate(): iterable
     {
-        return [
-            [
-                [],
-                $this->getEmptyValueExpectation(),
-            ],
+        yield 'empty value' => [
+            [],
+            $this->getEmptyValueExpectation(),
         ];
     }
 
@@ -373,9 +333,6 @@ class ImageAssetTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function provideDataForGetName(): array
     {
         return [
@@ -412,24 +369,28 @@ class ImageAssetTest extends FieldTypeTestCase
         self::assertSame($expected, $name);
     }
 
-    public function testIsSearchable()
+    public function testIsSearchable(): void
     {
         self::assertTrue($this->getFieldTypeUnderTest()->isSearchable());
     }
 
     /**
      * @covers \Ibexa\Core\FieldType\Relation\Type::getRelations
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function testGetRelations()
+    public function testGetRelations(): void
     {
         $destinationContentId = 7;
         $fieldType = $this->createFieldTypeUnderTest();
 
+        $fieldValue = $fieldType->acceptValue($destinationContentId);
+        self::assertInstanceOf(ImageAsset\Value::class, $fieldValue);
         self::assertEquals(
             [
                 RelationType::ASSET->value => [$destinationContentId],
             ],
-            $fieldType->getRelations($fieldType->acceptValue($destinationContentId))
+            $fieldType->getRelations($fieldValue)
         );
     }
 }

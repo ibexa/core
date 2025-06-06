@@ -19,31 +19,20 @@ use Ibexa\Core\FieldType\ValidationError;
  */
 class MediaTest extends BinaryBaseTestCase
 {
-    /**
-     * Returns the field type under test.
-     *
-     * This method is used by all test cases to retrieve the field type under
-     * test. Just create the FieldType instance using mocks from the provided
-     * get*Mock() methods and/or custom get*Mock() implementations. You MUST
-     * NOT take care for test case wide caching of the field type, just return
-     * a new instance from this method!
-     *
-     * @return \Ibexa\Core\FieldType\FieldType
-     */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): MediaType
     {
-        $fieldType = new MediaType([$this->getBlackListValidatorMock()]);
+        $fieldType = new MediaType([$this->getBlackListValidator()]);
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
 
         return $fieldType;
     }
 
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): MediaValue
     {
         return new MediaValue();
     }
 
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [
             'mediaType' => [
@@ -53,274 +42,243 @@ class MediaTest extends BinaryBaseTestCase
         ];
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): iterable
     {
-        $baseInput = parent::provideInvalidInputForAcceptValue();
-        $binaryFileInput = [
-            [
-                new MediaValue(['id' => '/foo/bar']),
-                InvalidArgumentException::class,
-            ],
-            [
-                new MediaValue(['hasController' => 'yes']),
-                InvalidArgumentException::class,
-            ],
-            [
-                new MediaValue(['autoplay' => 'yes']),
-                InvalidArgumentException::class,
-            ],
-            [
-                new MediaValue(['loop' => 'yes']),
-                InvalidArgumentException::class,
-            ],
-            [
-                new MediaValue(['height' => []]),
-                InvalidArgumentException::class,
-            ],
-            [
-                new MediaValue(['width' => []]),
-                InvalidArgumentException::class,
-            ],
-        ];
+        yield from parent::provideInvalidInputForAcceptValue();
 
-        return array_merge($baseInput, $binaryFileInput);
+        yield [
+            new MediaValue(['id' => '/foo/bar']),
+            InvalidArgumentException::class,
+        ];
+        yield [
+            new MediaValue(['hasController' => 'yes']),
+            InvalidArgumentException::class,
+        ];
+        yield [
+            new MediaValue(['autoplay' => 'yes']),
+            InvalidArgumentException::class,
+        ];
+        yield [
+            new MediaValue(['loop' => 'yes']),
+            InvalidArgumentException::class,
+        ];
+        yield [
+            new MediaValue(['height' => []]),
+            InvalidArgumentException::class,
+        ];
+        yield [
+            new MediaValue(['width' => []]),
+            InvalidArgumentException::class,
+        ];
     }
 
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): iterable
     {
-        return [
-            [
-                null,
-                new MediaValue(),
-            ],
-            [
-                new MediaValue(),
-                new MediaValue(),
-            ],
-            [
-                __FILE__,
-                new MediaValue(
-                    [
-                        'inputUri' => __FILE__,
-                        'fileName' => basename(__FILE__),
-                        'fileSize' => filesize(__FILE__),
-                        'hasController' => false,
-                        'autoplay' => false,
-                        'loop' => false,
-                        'width' => 0,
-                        'height' => 0,
-                        'uri' => '',
-                    ]
-                ),
-            ],
-            [
-                ['inputUri' => __FILE__],
-                new MediaValue(
-                    [
-                        'inputUri' => __FILE__,
-                        'fileName' => basename(__FILE__),
-                        'fileSize' => filesize(__FILE__),
-                        'hasController' => false,
-                        'autoplay' => false,
-                        'loop' => false,
-                        'width' => 0,
-                        'height' => 0,
-                        'uri' => '',
-                    ]
-                ),
-            ],
-            [
+        yield 'null input' => [
+            null,
+            new MediaValue(),
+        ];
+
+        yield 'empty MediaValue object' => [
+            new MediaValue(),
+            new MediaValue(),
+        ];
+
+        yield 'file path string' => [
+            __FILE__,
+            new MediaValue(
                 [
                     'inputUri' => __FILE__,
+                    'fileName' => basename(__FILE__),
+                    'fileSize' => filesize(__FILE__),
+                    'hasController' => false,
+                    'autoplay' => false,
+                    'loop' => false,
+                    'width' => 0,
+                    'height' => 0,
+                    'uri' => '',
+                ]
+            ),
+        ];
+
+        yield 'array with inputUri' => [
+            ['inputUri' => __FILE__],
+            new MediaValue(
+                [
+                    'inputUri' => __FILE__,
+                    'fileName' => basename(__FILE__),
+                    'fileSize' => filesize(__FILE__),
+                    'hasController' => false,
+                    'autoplay' => false,
+                    'loop' => false,
+                    'width' => 0,
+                    'height' => 0,
+                    'uri' => '',
+                ]
+            ),
+        ];
+
+        yield 'array with inputUri and fileSize' => [
+            [
+                'inputUri' => __FILE__,
+                'fileSize' => 23,
+            ],
+            new MediaValue(
+                [
+                    'inputUri' => __FILE__,
+                    'fileName' => basename(__FILE__),
                     'fileSize' => 23,
-                ],
-                new MediaValue(
-                    [
-                        'inputUri' => __FILE__,
-                        'fileName' => basename(__FILE__),
-                        'fileSize' => 23,
-                        'hasController' => false,
-                        'autoplay' => false,
-                        'loop' => false,
-                        'width' => 0,
-                        'height' => 0,
-                        'uri' => '',
-                    ]
-                ),
-            ],
+                    'hasController' => false,
+                    'autoplay' => false,
+                    'loop' => false,
+                    'width' => 0,
+                    'height' => 0,
+                    'uri' => '',
+                ]
+            ),
+        ];
+
+        yield 'array with inputUri and mimeType' => [
             [
+                'inputUri' => __FILE__,
+                'mimeType' => 'application/text+php',
+            ],
+            new MediaValue(
                 [
                     'inputUri' => __FILE__,
+                    'fileName' => basename(__FILE__),
+                    'fileSize' => filesize(__FILE__),
                     'mimeType' => 'application/text+php',
-                ],
-                new MediaValue(
-                    [
-                        'inputUri' => __FILE__,
-                        'fileName' => basename(__FILE__),
-                        'fileSize' => filesize(__FILE__),
-                        'mimeType' => 'application/text+php',
-                        'hasController' => false,
-                        'autoplay' => false,
-                        'loop' => false,
-                        'width' => 0,
-                        'height' => 0,
-                        'uri' => '',
-                    ]
-                ),
-            ],
+                    'hasController' => false,
+                    'autoplay' => false,
+                    'loop' => false,
+                    'width' => 0,
+                    'height' => 0,
+                    'uri' => '',
+                ]
+            ),
+        ];
+
+        yield 'array with inputUri and hasController' => [
             [
+                'inputUri' => __FILE__,
+                'hasController' => true,
+            ],
+            new MediaValue(
                 [
                     'inputUri' => __FILE__,
+                    'fileName' => basename(__FILE__),
+                    'fileSize' => filesize(__FILE__),
                     'hasController' => true,
-                ],
-                new MediaValue(
-                    [
-                        'inputUri' => __FILE__,
-                        'fileName' => basename(__FILE__),
-                        'fileSize' => filesize(__FILE__),
-                        'hasController' => true,
-                        'autoplay' => false,
-                        'loop' => false,
-                        'width' => 0,
-                        'height' => 0,
-                        'uri' => '',
-                    ]
-                ),
-            ],
+                    'autoplay' => false,
+                    'loop' => false,
+                    'width' => 0,
+                    'height' => 0,
+                    'uri' => '',
+                ]
+            ),
+        ];
+
+        yield 'array with inputUri and autoplay' => [
             [
+                'inputUri' => __FILE__,
+                'autoplay' => true,
+            ],
+            new MediaValue(
                 [
                     'inputUri' => __FILE__,
+                    'fileName' => basename(__FILE__),
+                    'fileSize' => filesize(__FILE__),
+                    'hasController' => false,
                     'autoplay' => true,
-                ],
-                new MediaValue(
-                    [
-                        'inputUri' => __FILE__,
-                        'fileName' => basename(__FILE__),
-                        'fileSize' => filesize(__FILE__),
-                        'hasController' => false,
-                        'autoplay' => true,
-                        'loop' => false,
-                        'width' => 0,
-                        'height' => 0,
-                        'uri' => '',
-                    ]
-                ),
-            ],
+                    'loop' => false,
+                    'width' => 0,
+                    'height' => 0,
+                    'uri' => '',
+                ]
+            ),
+        ];
+
+        yield 'array with inputUri and loop' => [
             [
+                'inputUri' => __FILE__,
+                'loop' => true,
+            ],
+            new MediaValue(
                 [
                     'inputUri' => __FILE__,
+                    'fileName' => basename(__FILE__),
+                    'fileSize' => filesize(__FILE__),
+                    'hasController' => false,
+                    'autoplay' => false,
                     'loop' => true,
-                ],
-                new MediaValue(
-                    [
-                        'inputUri' => __FILE__,
-                        'fileName' => basename(__FILE__),
-                        'fileSize' => filesize(__FILE__),
-                        'hasController' => false,
-                        'autoplay' => false,
-                        'loop' => true,
-                        'width' => 0,
-                        'height' => 0,
-                        'uri' => '',
-                    ]
-                ),
-            ],
+                    'width' => 0,
+                    'height' => 0,
+                    'uri' => '',
+                ]
+            ),
+        ];
+
+        yield 'array with inputUri and width' => [
             [
+                'inputUri' => __FILE__,
+                'width' => 23,
+            ],
+            new MediaValue(
                 [
                     'inputUri' => __FILE__,
+                    'fileName' => basename(__FILE__),
+                    'fileSize' => filesize(__FILE__),
+                    'hasController' => false,
+                    'autoplay' => false,
+                    'loop' => false,
                     'width' => 23,
-                ],
-                new MediaValue(
-                    [
-                        'inputUri' => __FILE__,
-                        'fileName' => basename(__FILE__),
-                        'fileSize' => filesize(__FILE__),
-                        'hasController' => false,
-                        'autoplay' => false,
-                        'loop' => false,
-                        'width' => 23,
-                        'height' => 0,
-                        'uri' => '',
-                    ]
-                ),
-            ],
+                    'height' => 0,
+                    'uri' => '',
+                ]
+            ),
+        ];
+
+        yield 'array with inputUri and height' => [
             [
+                'inputUri' => __FILE__,
+                'height' => 42,
+            ],
+            new MediaValue(
                 [
                     'inputUri' => __FILE__,
+                    'fileName' => basename(__FILE__),
+                    'fileSize' => filesize(__FILE__),
+                    'hasController' => false,
+                    'autoplay' => false,
+                    'loop' => false,
+                    'width' => 0,
                     'height' => 42,
-                ],
-                new MediaValue(
-                    [
-                        'inputUri' => __FILE__,
-                        'fileName' => basename(__FILE__),
-                        'fileSize' => filesize(__FILE__),
-                        'hasController' => false,
-                        'autoplay' => false,
-                        'loop' => false,
-                        'width' => 0,
-                        'height' => 42,
-                        'uri' => '',
-                    ]
-                ),
-            ],
-            // BC with 5.2 (EZP-22808). Id can be used as input instead of inputUri.
-            [
-                ['id' => __FILE__],
-                new MediaValue(
-                    [
-                        'inputUri' => __FILE__,
-                        'fileName' => basename(__FILE__),
-                        'fileSize' => filesize(__FILE__),
-                        'hasController' => false,
-                        'autoplay' => false,
-                        'loop' => false,
-                        'width' => 0,
-                        'height' => 0,
-                        'uri' => '',
-                    ]
-                ),
-            ],
+                    'uri' => '',
+                ]
+            ),
+        ];
+
+        // BC with 5.2 (EZP-22808). Id can be used as input instead of inputUri.
+        yield 'BC: array with id' => [
+            ['id' => __FILE__],
+            new MediaValue(
+                [
+                    'inputUri' => __FILE__,
+                    'fileName' => basename(__FILE__),
+                    'fileSize' => filesize(__FILE__),
+                    'hasController' => false,
+                    'autoplay' => false,
+                    'loop' => false,
+                    'width' => 0,
+                    'height' => 0,
+                    'uri' => '',
+                ]
+            ),
         ];
     }
 
-    /**
-     * Provide input for the toHash() method.
-     *
-     * Returns an array of data provider sets with 2 arguments: 1. The valid
-     * input to toHash(), 2. The expected return value from toHash().
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          null,
-     *          null
-     *      ),
-     *      array(
-     *          new BinaryFileValue(
-     *                  array(
-     *                  'id' => 'some/file/here',
-     *                  'fileName' => 'sindelfingen.jpg',
-     *                  'fileSize' => 2342,
-     *                  'downloadCount' => 0,
-     *                  'mimeType' => 'image/jpeg',
-     *              )
-     *          ),
-     *          array(
-     *              'id' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): iterable
     {
         return [
             [
@@ -453,44 +411,7 @@ class MediaTest extends BinaryBaseTestCase
         ];
     }
 
-    /**
-     * Provide input to fromHash() method.
-     *
-     * Returns an array of data provider sets with 2 arguments: 1. The valid
-     * input to fromHash(), 2. The expected return value from fromHash().
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          null,
-     *          null
-     *      ),
-     *      array(
-     *          array(
-     *              'id' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          ),
-     *          new BinaryFileValue(
-     *                  array(
-     *                  'id' => 'some/file/here',
-     *                  'fileName' => 'sindelfingen.jpg',
-     *                  'fileSize' => 2342,
-     *                  'downloadCount' => 0,
-     *                  'mimeType' => 'image/jpeg',
-     *              )
-     *          )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -583,29 +504,7 @@ class MediaTest extends BinaryBaseTestCase
         ];
     }
 
-    /**
-     * Provide data sets with field settings which are considered valid by the
-     * {@link validateFieldSettings()} method.
-     *
-     * Returns an array of data provider sets with a single argument: A valid
-     * set of field settings.
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          array(),
-     *      ),
-     *      array(
-     *          array( 'rows' => 2 )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideValidFieldSettings()
+    public function provideValidFieldSettings(): iterable
     {
         return [
             [
@@ -624,30 +523,7 @@ class MediaTest extends BinaryBaseTestCase
         ];
     }
 
-    /**
-     * Provide data sets with field settings which are considered invalid by the
-     * {@link validateFieldSettings()} method. The method must return a
-     * non-empty array of validation error when receiving such field settings.
-     *
-     * Returns an array of data provider sets with a single argument: A valid
-     * set of field settings.
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          true,
-     *      ),
-     *      array(
-     *          array( 'nonExistentKey' => 2 )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInValidFieldSettings()
+    public function provideInValidFieldSettings(): array
     {
         return [
             [
@@ -687,87 +563,81 @@ class MediaTest extends BinaryBaseTestCase
         ];
     }
 
-    public function provideValidDataForValidate()
+    public function provideValidDataForValidate(): iterable
     {
-        return [
+        yield 'valid media file within size limit' => [
             [
-                [
-                    'validatorConfiguration' => [
-                        'FileSizeValidator' => [
-                            'maxFileSize' => 1,
-                        ],
+                'validatorConfiguration' => [
+                    'FileSizeValidator' => [
+                        'maxFileSize' => 1,
                     ],
                 ],
-                new BinaryFileValue(
-                    [
-                        'id' => 'some/file/here',
-                        'fileName' => 'sindelfingen.mp4',
-                        'fileSize' => 15000,
-                        'downloadCount' => 0,
-                        'mimeType' => 'video/mp4',
-                    ]
-                ),
             ],
+            new BinaryFileValue(
+                [
+                    'id' => 'some/file/here',
+                    'fileName' => 'sindelfingen.mp4',
+                    'fileSize' => 15000,
+                    'downloadCount' => 0,
+                    'mimeType' => 'video/mp4',
+                ]
+            ),
         ];
     }
 
-    public function provideInvalidDataForValidate()
+    public function provideInvalidDataForValidate(): iterable
     {
-        return [
-            // File is too large
+        yield 'file too large' => [
             [
-                [
-                    'validatorConfiguration' => [
-                        'FileSizeValidator' => [
-                            'maxFileSize' => 0.01,
-                        ],
+                'validatorConfiguration' => [
+                    'FileSizeValidator' => [
+                        'maxFileSize' => 0.01,
                     ],
-                ],
-                new MediaValue(
-                    [
-                        'id' => 'some/file/here',
-                        'fileName' => 'sindelfingen.mp4',
-                        'fileSize' => 150000,
-                        'mimeType' => 'video/mp4',
-                    ]
-                ),
-                [
-                    new ValidationError(
-                        'The file size cannot exceed %size% megabyte.',
-                        'The file size cannot exceed %size% megabytes.',
-                        [
-                            '%size%' => 0.01,
-                        ],
-                        'fileSize'
-                    ),
                 ],
             ],
-
-            // file extension is in blacklist
-            [
+            new MediaValue(
                 [
-                    'validatorConfiguration' => [
-                        'FileSizeValidator' => [
-                            'maxFileSize' => 1,
-                        ],
+                    'id' => 'some/file/here',
+                    'fileName' => 'sindelfingen.mp4',
+                    'fileSize' => 150000,
+                    'mimeType' => 'video/mp4',
+                ]
+            ),
+            [
+                new ValidationError(
+                    'The file size cannot exceed %size% megabyte.',
+                    'The file size cannot exceed %size% megabytes.',
+                    [
+                        '%size%' => 0.01,
+                    ],
+                    'fileSize'
+                ),
+            ],
+        ];
+
+        yield 'disallowed file extension' => [
+            [
+                'validatorConfiguration' => [
+                    'FileSizeValidator' => [
+                        'maxFileSize' => 1,
                     ],
                 ],
-                new MediaValue(
-                    [
-                        'id' => 'phppng.php',
-                        'fileName' => 'phppng.php',
-                        'fileSize' => 0.01,
-                        'mimeType' => 'video/mp4',
-                    ]
-                ),
+            ],
+            new MediaValue(
                 [
-                    new ValidationError(
-                        'A valid file is required. The following file extensions are not allowed: %extensionsBlackList%',
-                        null,
-                        ['%extensionsBlackList%' => implode(', ', $this->blackListedExtensions)],
-                        'fileExtensionBlackList'
-                    ),
-                ],
+                    'id' => 'phppng.php',
+                    'fileName' => 'phppng.php',
+                    'fileSize' => 0.01,
+                    'mimeType' => 'video/mp4',
+                ]
+            ),
+            [
+                new ValidationError(
+                    'A valid file is required. The following file extensions are not allowed: %extensionsBlackList%',
+                    null,
+                    ['%extensionsBlackList%' => implode(', ', $this->blackListedExtensions)],
+                    'fileExtensionBlackList'
+                ),
             ],
         ];
     }

@@ -8,7 +8,6 @@
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
-use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\TextBlock\Type as TextBlockType;
 use Ibexa\Core\FieldType\TextBlock\Value as TextBlockValue;
 
@@ -20,7 +19,7 @@ final class TextBlockTest extends FieldTypeTestCase
 {
     private const string SAMPLE_TEXT_LINE_VALUE = ' sindelfingen ';
 
-    protected function createFieldTypeUnderTest(): FieldType
+    protected function createFieldTypeUnderTest(): TextBlockType
     {
         $fieldType = new TextBlockType();
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
@@ -28,17 +27,11 @@ final class TextBlockTest extends FieldTypeTestCase
         return $fieldType;
     }
 
-    /**
-     * @return array{}
-     */
     protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [];
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     protected function getSettingsSchemaExpectation(): array
     {
         return [
@@ -54,106 +47,86 @@ final class TextBlockTest extends FieldTypeTestCase
         return new TextBlockValue();
     }
 
-    /**
-     * @return list<array{mixed, class-string}>
-     */
-    public function provideInvalidInputForAcceptValue(): array
+    public function provideInvalidInputForAcceptValue(): iterable
     {
-        return [
+        yield [
+            23,
+            InvalidArgumentException::class,
+        ];
+    }
+
+    public function provideValidInputForAcceptValue(): iterable
+    {
+        yield 'null input' => [
+            null,
+            new TextBlockValue(),
+        ];
+
+        yield 'empty string' => [
+            '',
+            new TextBlockValue(),
+        ];
+
+        yield 'text string' => [
+            self::SAMPLE_TEXT_LINE_VALUE,
+            new TextBlockValue(self::SAMPLE_TEXT_LINE_VALUE),
+        ];
+
+        yield 'TextBlockValue object' => [
+            new TextBlockValue(self::SAMPLE_TEXT_LINE_VALUE),
+            new TextBlockValue(self::SAMPLE_TEXT_LINE_VALUE),
+        ];
+
+        yield 'empty TextBlockValue object' => [
+            new TextBlockValue(''),
+            new TextBlockValue(),
+        ];
+
+        yield 'null TextBlockValue object' => [
+            new TextBlockValue(null),
+            new TextBlockValue(),
+        ];
+    }
+
+    public function provideInputForToHash(): iterable
+    {
+        yield 'empty value' => [
+            new TextBlockValue(),
+            null,
+        ];
+
+        yield 'sample text value' => [
+            new TextBlockValue(self::SAMPLE_TEXT_LINE_VALUE),
+            self::SAMPLE_TEXT_LINE_VALUE,
+        ];
+    }
+
+    public function provideInputForFromHash(): iterable
+    {
+        yield 'empty string' => [
+            '',
+            new TextBlockValue(),
+        ];
+
+        yield 'sample text value' => [
+            self::SAMPLE_TEXT_LINE_VALUE,
+            new TextBlockValue(self::SAMPLE_TEXT_LINE_VALUE),
+        ];
+    }
+
+    public function provideValidFieldSettings(): iterable
+    {
+        yield 'empty settings' => [
+            [],
+        ];
+
+        yield 'text rows setting' => [
             [
-                23,
-                InvalidArgumentException::class,
+                'textRows' => 23,
             ],
         ];
     }
 
-    /**
-     * @return list<array{mixed, \Ibexa\Core\FieldType\TextLine\Value}>
-     */
-    public function provideValidInputForAcceptValue(): array
-    {
-        return [
-            [
-                null,
-                new TextBlockValue(),
-            ],
-            [
-                '',
-                new TextBlockValue(),
-            ],
-            [
-                self::SAMPLE_TEXT_LINE_VALUE,
-                new TextBlockValue(self::SAMPLE_TEXT_LINE_VALUE),
-            ],
-            [
-                new TextBlockValue(self::SAMPLE_TEXT_LINE_VALUE),
-                new TextBlockValue(self::SAMPLE_TEXT_LINE_VALUE),
-            ],
-            [
-                new TextBlockValue(''),
-                new TextBlockValue(),
-            ],
-            [
-                new TextBlockValue(null),
-                new TextBlockValue(),
-            ],
-        ];
-    }
-
-    /**
-     * @return list<array{\Ibexa\Core\FieldType\TextLine\Value, mixed}>
-     */
-    public function provideInputForToHash(): array
-    {
-        return [
-            [
-                new TextBlockValue(),
-                null,
-            ],
-            [
-                new TextBlockValue(self::SAMPLE_TEXT_LINE_VALUE),
-                self::SAMPLE_TEXT_LINE_VALUE,
-            ],
-        ];
-    }
-
-    /**
-     * @return list<array{mixed, \Ibexa\Core\FieldType\TextLine\Value}>
-     */
-    public function provideInputForFromHash(): array
-    {
-        return [
-            [
-                '',
-                new TextBlockValue(),
-            ],
-            [
-                self::SAMPLE_TEXT_LINE_VALUE,
-                new TextBlockValue(self::SAMPLE_TEXT_LINE_VALUE),
-            ],
-        ];
-    }
-
-    /**
-     * @return list<list<array<string, mixed>>>
-     */
-    public function provideValidFieldSettings(): array
-    {
-        return [
-            [
-                [],
-            ],
-            [
-                [
-                    'textRows' => 23,
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * @return list<list<array<string, mixed>>>
-     */
     public function provideInValidFieldSettings(): array
     {
         return [
@@ -176,9 +149,6 @@ final class TextBlockTest extends FieldTypeTestCase
         return 'ibexa_text';
     }
 
-    /**
-     * @return list<array{\Ibexa\Core\FieldType\TextLine\Value, string, array<mixed>, string}>
-     */
     public function provideDataForGetName(): array
     {
         return [

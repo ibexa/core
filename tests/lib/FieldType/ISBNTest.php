@@ -18,41 +18,20 @@ use Ibexa\Core\FieldType\ValidationError;
  */
 class ISBNTest extends FieldTypeTestCase
 {
-    /**
-     * Returns the field type under test.
-     *
-     * This method is used by all test cases to retrieve the field type under
-     * test. Just create the FieldType instance using mocks from the provided
-     * get*Mock() methods and/or custom get*Mock() implementations. You MUST
-     * NOT take care for test case wide caching of the field type, just return
-     * a new instance from this method!
-     *
-     * @return \Ibexa\Core\FieldType\FieldType
-     */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): ISBN
     {
-        $fieldType = new ISBN('9789722514095');
+        $fieldType = new ISBN();
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
 
         return $fieldType;
     }
 
-    /**
-     * Returns the validator configuration schema expected from the field type.
-     *
-     * @return array
-     */
-    protected function getValidatorConfigurationSchemaExpectation()
+    protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [];
     }
 
-    /**
-     * Returns the settings schema expected from the field type.
-     *
-     * @return array
-     */
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [
             'isISBN13' => [
@@ -67,7 +46,7 @@ class ISBNTest extends FieldTypeTestCase
         return new ISBNValue();
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): iterable
     {
         return [
             [
@@ -89,89 +68,25 @@ class ISBNTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Data provider for valid input to acceptValue().
-     *
-     * Returns an array of data provider sets with 2 arguments: 1. The valid
-     * input to acceptValue(), 2. The expected return value from acceptValue().
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          null,
-     *          null
-     *      ),
-     *      array(
-     *          __FILE__,
-     *          new BinaryFileValue( array(
-     *              'path' => __FILE__,
-     *              'fileName' => basename( __FILE__ ),
-     *              'fileSize' => filesize( __FILE__ ),
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'text/plain',
-     *          ) )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): iterable
     {
-        return [
-            [
-                '9789722514095',
-                new ISBNValue('9789722514095'),
-            ],
-            [
-                '978-972-25-1409-5',
-                new ISBNValue('978-972-25-1409-5'),
-            ],
-            [
-                '0-9752298-0-X',
-                new ISBNValue('0-9752298-0-X'),
-            ],
+        yield 'ISBN-13 standard' => [
+            '9789722514095',
+            new ISBNValue('9789722514095'),
+        ];
+
+        yield 'ISBN-13 with dashes' => [
+            '978-972-25-1409-5',
+            new ISBNValue('978-972-25-1409-5'),
+        ];
+
+        yield 'ISBN-10 with X checksum' => [
+            '0-9752298-0-X',
+            new ISBNValue('0-9752298-0-X'),
         ];
     }
 
-    /**
-     * Provide input for the toHash() method.
-     *
-     * Returns an array of data provider sets with 2 arguments: 1. The valid
-     * input to toHash(), 2. The expected return value from toHash().
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          null,
-     *          null
-     *      ),
-     *      array(
-     *          new BinaryFileValue( array(
-     *              'path' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          ) ),
-     *          array(
-     *              'path' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): iterable
     {
         return [
             [
@@ -181,42 +96,7 @@ class ISBNTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Provide input to fromHash() method.
-     *
-     * Returns an array of data provider sets with 2 arguments: 1. The valid
-     * input to fromHash(), 2. The expected return value from fromHash().
-     * For example:
-     *
-     * <code>
-     *  return array(
-     *      array(
-     *          null,
-     *          null
-     *      ),
-     *      array(
-     *          array(
-     *              'path' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          ),
-     *          new BinaryFileValue( array(
-     *              'path' => 'some/file/here',
-     *              'fileName' => 'sindelfingen.jpg',
-     *              'fileSize' => 2342,
-     *              'downloadCount' => 0,
-     *              'mimeType' => 'image/jpeg',
-     *          ) )
-     *      ),
-     *      // ...
-     *  );
-     * </code>
-     *
-     * @return array
-     */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): iterable
     {
         return [
             [
@@ -239,70 +119,56 @@ class ISBNTest extends FieldTypeTestCase
         ];
     }
 
-    /**
-     * Provides data sets with validator configuration and/or field settings and
-     * field value which are considered valid by the {@link validate()} method.
-     *
-     * @return array
-     */
-    public function provideValidDataForValidate()
+    public function provideValidDataForValidate(): iterable
     {
-        return [
+        yield 'empty value with ISBN-13' => [
             [
-                [
-                    'fieldSettings' => [
-                        'isISBN13' => true,
-                    ],
+                'fieldSettings' => [
+                    'isISBN13' => true,
                 ],
-                new ISBNValue(),
             ],
+            new ISBNValue(),
+        ];
+
+        yield 'empty value with ISBN-10' => [
             [
-                [
-                    'fieldSettings' => [
-                        'isISBN13' => false,
-                    ],
+                'fieldSettings' => [
+                    'isISBN13' => false,
                 ],
-                new ISBNValue(),
             ],
+            new ISBNValue(),
+        ];
+
+        yield 'valid ISBN-13' => [
             [
-                [
-                    'fieldSettings' => [
-                        'isISBN13' => true,
-                    ],
+                'fieldSettings' => [
+                    'isISBN13' => true,
                 ],
-                new ISBNValue('9789722514095'),
             ],
+            new ISBNValue('9789722514095'),
+        ];
+
+        yield 'valid ISBN-10' => [
             [
-                [
-                    'fieldSettings' => [
-                        'isISBN13' => false,
-                    ],
+                'fieldSettings' => [
+                    'isISBN13' => false,
                 ],
-                new ISBNValue('0-9752298-0-X'),
             ],
+            new ISBNValue('0-9752298-0-X'),
         ];
     }
 
-    /**
-     * Provides data sets with validator configuration and/or field settings,
-     * field value and corresponding validation errors returned by
-     * the {@link validate()} method.
-     *
-     * @return array
-     */
-    public function provideInvalidDataForValidate()
+    public function provideInvalidDataForValidate(): iterable
     {
-        return [
+        yield 'ISBN-13 when ISBN-10 required' => [
             [
-                [
-                    'fieldSettings' => [
-                        'isISBN13' => false,
-                    ],
+                'fieldSettings' => [
+                    'isISBN13' => false,
                 ],
-                new ISBNValue('9789722514095'),
-                [
-                    new ValidationError('ISBN-10 must be 10 character length', null, [], 'isbn'),
-                ],
+            ],
+            new ISBNValue('9789722514095'),
+            [
+                new ValidationError('ISBN-10 must be 10 character length', null, [], 'isbn'),
             ],
         ];
     }
