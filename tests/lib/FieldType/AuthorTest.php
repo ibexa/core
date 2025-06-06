@@ -7,8 +7,7 @@
 
 namespace Ibexa\Tests\Core\FieldType;
 
-use Ibexa\Contracts\Core\FieldType\FieldType;
-use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Author\Author;
 use Ibexa\Core\FieldType\Author\AuthorCollection;
 use Ibexa\Core\FieldType\Author\Type as AuthorType;
@@ -22,7 +21,7 @@ use Ibexa\Core\FieldType\Value;
 class AuthorTest extends FieldTypeTestCase
 {
     /** @var \Ibexa\Core\FieldType\Author\Author[] */
-    private $authors;
+    private array $authors;
 
     protected function setUp(): void
     {
@@ -230,19 +229,20 @@ class AuthorTest extends FieldTypeTestCase
 
     public function testAcceptValueInvalidType(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-
         $ft = $this->createFieldTypeUnderTest();
+
+        $this->expectException(InvalidArgumentException::class);
         $ft->acceptValue($this->createMock(Value::class));
     }
 
     public function testAcceptValueInvalidFormat(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-
         $ft = $this->createFieldTypeUnderTest();
         $value = new AuthorValue();
+        /** @phpstan-ignore assign.propertyType */
         $value->authors = 'This is not a valid author collection';
+
+        $this->expectException(InvalidArgumentException::class);
         $ft->acceptValue($value);
     }
 
@@ -286,29 +286,31 @@ class AuthorTest extends FieldTypeTestCase
     public function testAddAuthor(): void
     {
         $value = new AuthorValue();
-        $value->authors[] = $this->authors[0];
+        $value->authors->append($this->authors[0]);
         self::assertSame(1, $this->authors[0]->id);
         self::assertCount(1, $value->authors);
 
         $this->authors[1]->id = 10;
-        $value->authors[] = $this->authors[1];
+        $value->authors->append($this->authors[1]);
         self::assertSame(10, $this->authors[1]->id);
 
         $this->authors[2]->id = -1;
-        $value->authors[] = $this->authors[2];
+        $value->authors->append($this->authors[2]);
         self::assertSame($this->authors[1]->id + 1, $this->authors[2]->id);
         self::assertCount(3, $value->authors);
     }
 
     /**
      * @covers \Ibexa\Core\FieldType\Author\AuthorCollection::removeAuthorsById
+     *
+     * @throws \Random\RandomException
      */
     public function testRemoveAuthors(): void
     {
         $existingIds = [];
         foreach ($this->authors as $author) {
             $id = random_int(1, 100);
-            if (in_array($id, $existingIds)) {
+            if (in_array($id, $existingIds, true)) {
                 continue;
             }
             $author->id = $id;
@@ -317,7 +319,7 @@ class AuthorTest extends FieldTypeTestCase
 
         $value = new AuthorValue($this->authors);
         $value->authors->removeAuthorsById([$this->authors[1]->id, $this->authors[2]->id]);
-        self::assertSame(count($this->authors) - 2, count($value->authors));
+        self::assertCount(count($this->authors) - 2, $value->authors);
         self::assertSame([$this->authors[0]], $value->authors->getArrayCopy());
     }
 

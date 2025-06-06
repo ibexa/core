@@ -7,7 +7,6 @@
 
 namespace Ibexa\Tests\Core\FieldType;
 
-use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\ISBN\Type as ISBN;
 use Ibexa\Core\FieldType\ISBN\Value as ISBNValue;

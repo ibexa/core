@@ -17,13 +17,12 @@ use PHPUnit\Framework\TestCase;
  *
  * @group fieldType
  * @group validator
+ *
+ * @covers \Ibexa\Core\FieldType\Validator\EmailAddressValidator
  */
 class EmailAddressValidatorTest extends TestCase
 {
-    /**
-     * This test ensure an EmailAddressValidator can be created.
-     */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         self::assertInstanceOf(
             Validator::class,
@@ -34,10 +33,9 @@ class EmailAddressValidatorTest extends TestCase
     /**
      * Tests setting and getting constraints.
      *
-     * @covers \Ibexa\Core\FieldType\Validator::initializeWithConstraints
-     * @covers \Ibexa\Core\FieldType\Validator::__get
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
      */
-    public function testConstraintsInitializeGet()
+    public function testConstraintsInitializeGet(): void
     {
         $constraints = [
             'Extent' => 'regex',
@@ -49,12 +47,7 @@ class EmailAddressValidatorTest extends TestCase
         self::assertSame($constraints['Extent'], $validator->Extent);
     }
 
-    /**
-     * Test getting constraints schema.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::getConstraintsSchema
-     */
-    public function testGetConstraintsSchema()
+    public function testGetConstraintsSchema(): void
     {
         $constraintsSchema = [
             'Extent' => [
@@ -66,13 +59,7 @@ class EmailAddressValidatorTest extends TestCase
         self::assertSame($constraintsSchema, $validator->getConstraintsSchema());
     }
 
-    /**
-     * Tests setting and getting constraints.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::__set
-     * @covers \Ibexa\Core\FieldType\Validator::__get
-     */
-    public function testConstraintsSetGet()
+    public function testConstraintsSetGet(): void
     {
         $constraints = [
             'Extent' => 'regex',
@@ -82,7 +69,7 @@ class EmailAddressValidatorTest extends TestCase
         self::assertSame($constraints['Extent'], $validator->Extent);
     }
 
-    public function testValidateCorrectEmailAddresses()
+    public function testValidateCorrectEmailAddresses(): void
     {
         $validator = new EmailAddressValidator();
         $validator->Extent = 'regex';
@@ -95,10 +82,8 @@ class EmailAddressValidatorTest extends TestCase
 
     /**
      * Tests validating a wrong value.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator\EmailAddressValidator::validate
      */
-    public function testValidateWrongEmailAddresses()
+    public function testValidateWrongEmailAddresses(): void
     {
         $validator = new EmailAddressValidator();
         $validator->Extent = 'regex';

@@ -8,7 +8,6 @@
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\Exception\InvalidArgumentType;
-use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\TextLine\Type as TextLineType;
 use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
 use Ibexa\Core\FieldType\ValidationError;

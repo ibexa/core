@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 class FieldTypeMockTest extends TestCase
 {
-    public function testApplyDefaultSettingsThrowsInvalidArgumentException()
+    public function testApplyDefaultSettingsThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -35,7 +35,7 @@ class FieldTypeMockTest extends TestCase
      *
      * @covers \Ibexa\Core\FieldType\FieldType::applyDefaultSettings
      */
-    public function testApplyDefaultSettings($initialSettings, $expectedSettings)
+    public function testApplyDefaultSettings(mixed $initialSettings, mixed $expectedSettings): void
     {
         /** @var \Ibexa\Core\FieldType\FieldType|\PHPUnit\Framework\MockObject\MockObject $stub */
         $stub = $this->getMockForAbstractClass(
@@ -49,41 +49,38 @@ class FieldTypeMockTest extends TestCase
         );
 
         $stub
-            ->expects(self::any())
             ->method('getSettingsSchema')
-            ->will(
-                self::returnValue(
-                    [
-                        'true' => [
-                            'default' => true,
-                        ],
-                        'false' => [
-                            'default' => false,
-                        ],
-                        'null' => [
-                            'default' => null,
-                        ],
-                        'zero' => [
-                            'default' => 0,
-                        ],
-                        'int' => [
-                            'default' => 42,
-                        ],
-                        'float' => [
-                            'default' => 42.42,
-                        ],
-                        'string' => [
-                            'default' => 'string',
-                        ],
-                        'emptystring' => [
-                            'default' => '',
-                        ],
-                        'emptyarray' => [
-                            'default' => [],
-                        ],
-                        'nodefault' => [],
-                    ]
-                )
+            ->willReturn(
+                [
+                    'true' => [
+                        'default' => true,
+                    ],
+                    'false' => [
+                        'default' => false,
+                    ],
+                    'null' => [
+                        'default' => null,
+                    ],
+                    'zero' => [
+                        'default' => 0,
+                    ],
+                    'int' => [
+                        'default' => 42,
+                    ],
+                    'float' => [
+                        'default' => 42.42,
+                    ],
+                    'string' => [
+                        'default' => 'string',
+                    ],
+                    'emptystring' => [
+                        'default' => '',
+                    ],
+                    'emptyarray' => [
+                        'default' => [],
+                    ],
+                    'nodefault' => [],
+                ]
             );
 
         $fieldSettings = $initialSettings;
@@ -94,74 +91,78 @@ class FieldTypeMockTest extends TestCase
         );
     }
 
-    public function providerForTestApplyDefaultSettings()
+    /**
+     * @return iterable<array{
+     *     array<string, mixed>,
+     *     array<string, mixed>
+     * }>
+     */
+    public static function providerForTestApplyDefaultSettings(): iterable
     {
-        return [
+        yield [
+            [],
             [
-                [],
-                [
-                    'true' => true,
-                    'false' => false,
-                    'null' => null,
-                    'zero' => 0,
-                    'int' => 42,
-                    'float' => 42.42,
-                    'string' => 'string',
-                    'emptystring' => '',
-                    'emptyarray' => [],
-                ],
+                'true' => true,
+                'false' => false,
+                'null' => null,
+                'zero' => 0,
+                'int' => 42,
+                'float' => 42.42,
+                'string' => 'string',
+                'emptystring' => '',
+                'emptyarray' => [],
+            ],
+        ];
+        yield [
+            [
+                'true' => 'foo',
             ],
             [
-                [
-                    'true' => 'foo',
-                ],
-                [
-                    'true' => 'foo',
-                    'false' => false,
-                    'null' => null,
-                    'zero' => 0,
-                    'int' => 42,
-                    'float' => 42.42,
-                    'string' => 'string',
-                    'emptystring' => '',
-                    'emptyarray' => [],
-                ],
+                'true' => 'foo',
+                'false' => false,
+                'null' => null,
+                'zero' => 0,
+                'int' => 42,
+                'float' => 42.42,
+                'string' => 'string',
+                'emptystring' => '',
+                'emptyarray' => [],
+            ],
+        ];
+        yield [
+            [
+                'null' => 'foo',
             ],
             [
-                [
-                    'null' => 'foo',
-                ],
-                [
-                    'null' => 'foo',
-                    'true' => true,
-                    'false' => false,
-                    'zero' => 0,
-                    'int' => 42,
-                    'float' => 42.42,
-                    'string' => 'string',
-                    'emptystring' => '',
-                    'emptyarray' => [],
-                ],
+                'null' => 'foo',
+                'true' => true,
+                'false' => false,
+                'zero' => 0,
+                'int' => 42,
+                'float' => 42.42,
+                'string' => 'string',
+                'emptystring' => '',
+                'emptyarray' => [],
             ],
-            [
-                $array = [
-                    'false' => true,
-                    'emptystring' => ['foo'],
-                    'null' => 'notNull',
-                    'additionalEntry' => 'baz',
-                    'zero' => 10,
-                    'int' => 'this is not an int',
-                    'string' => null,
-                    'emptyarray' => [[]],
-                    'true' => false,
-                    'float' => true,
-                ],
-                $array,
+        ];
+        yield [
+            $array = [
+                'false' => true,
+                'emptystring' => ['foo'],
+                'null' => 'notNull',
+                'additionalEntry' => 'baz',
+                'zero' => 10,
+                'int' => 'this is not an int',
+                'string' => null,
+                'emptyarray' => [[]],
+                'true' => false,
+                'float' => true,
             ],
+            $array,
         ];
     }
 
-    public function testApplyDefaultValidatorConfigurationEmptyThrowsInvalidArgumentException()
+    public function testApplyDefaultValidatorConfigurationEmptyThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -178,7 +179,10 @@ class FieldTypeMockTest extends TestCase
         $stub->applyDefaultValidatorConfiguration($validatorConfiguration);
     }
 
-    public function testApplyDefaultValidatorConfigurationEmpty()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function testApplyDefaultValidatorConfigurationEmpty(): void
     {
         /** @var \Ibexa\Core\FieldType\FieldType|\PHPUnit\Framework\MockObject\MockObject $stub */
         $stub = $this->getMockForAbstractClass(
@@ -192,10 +196,9 @@ class FieldTypeMockTest extends TestCase
         );
 
         $stub
-            ->expects(self::any())
             ->method('getValidatorConfigurationSchema')
-            ->will(
-                self::returnValue([])
+            ->willReturn(
+                []
             );
 
         $validatorConfiguration = null;
@@ -207,8 +210,10 @@ class FieldTypeMockTest extends TestCase
 
     /**
      * @dataProvider providerForTestApplyDefaultValidatorConfiguration
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function testApplyDefaultValidatorConfiguration($initialConfiguration, $expectedConfiguration)
+    public function testApplyDefaultValidatorConfiguration(mixed $initialConfiguration, mixed $expectedConfiguration): void
     {
         /** @var \Ibexa\Core\FieldType\FieldType|\PHPUnit\Framework\MockObject\MockObject $stub */
         $stub = $this->getMockForAbstractClass(
@@ -222,21 +227,18 @@ class FieldTypeMockTest extends TestCase
         );
 
         $stub
-            ->expects(self::any())
             ->method('getValidatorConfigurationSchema')
-            ->will(
-                self::returnValue(
-                    [
-                        'TestValidator' => [
-                            'valueClick' => [
-                                'default' => 1,
-                            ],
-                            'valueClack' => [
-                                'default' => 0,
-                            ],
+            ->willReturn(
+                [
+                    'TestValidator' => [
+                        'valueClick' => [
+                            'default' => 1,
                         ],
-                    ]
-                )
+                        'valueClack' => [
+                            'default' => 0,
+                        ],
+                    ],
+                ]
             );
 
         $validatorConfiguration = $initialConfiguration;
@@ -247,7 +249,13 @@ class FieldTypeMockTest extends TestCase
         );
     }
 
-    public function providerForTestApplyDefaultValidatorConfiguration()
+    /**
+     * @return iterable<array{
+     *     null|array<string, mixed>,
+     *     array<string, mixed>
+     * }>
+     */
+    public function providerForTestApplyDefaultValidatorConfiguration(): iterable
     {
         $defaultConfiguration = [
             'TestValidator' => [
@@ -256,26 +264,24 @@ class FieldTypeMockTest extends TestCase
             ],
         ];
 
-        return [
+        yield [
+            null,
+            $defaultConfiguration,
+        ];
+        yield [
+            [],
+            $defaultConfiguration,
+        ];
+        yield [
             [
-                null,
-                $defaultConfiguration,
-            ],
-            [
-                [],
-                $defaultConfiguration,
-            ],
-            [
-                [
-                    'TestValidator' => [
-                        'valueClick' => 100,
-                    ],
+                'TestValidator' => [
+                    'valueClick' => 100,
                 ],
-                [
-                    'TestValidator' => [
-                        'valueClick' => 100,
-                        'valueClack' => 0,
-                    ],
+            ],
+            [
+                'TestValidator' => [
+                    'valueClick' => 100,
+                    'valueClack' => 0,
                 ],
             ],
         ];

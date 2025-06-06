@@ -8,7 +8,6 @@
 namespace Ibexa\Tests\Core\FieldType;
 
 use DateTime;
-use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Time\Type as Time;
 use Ibexa\Core\FieldType\Time\Value as TimeValue;

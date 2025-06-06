@@ -7,7 +7,6 @@
 
 namespace Ibexa\Tests\Core\FieldType;
 
-use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Keyword\Type as KeywordType;
 use Ibexa\Core\FieldType\Keyword\Value as KeywordValue;

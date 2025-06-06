@@ -7,7 +7,6 @@
 
 namespace Ibexa\Tests\Core\FieldType;
 
-use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Checkbox\Type as Checkbox;
 use Ibexa\Core\FieldType\Checkbox\Value as CheckboxValue;
@@ -49,6 +48,7 @@ class CheckboxTest extends FieldTypeTestCase
                 InvalidArgumentException::class,
             ],
             [
+                /** @phpstan-ignore argument.type */
                 new CheckboxValue(42),
                 InvalidArgumentException::class,
             ],

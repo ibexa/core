@@ -11,7 +11,6 @@ use DateInterval;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\DateAndTime\Type as DateAndTime;
 use Ibexa\Core\FieldType\DateAndTime\Value as DateAndTimeValue;
-use Ibexa\Core\FieldType\Value;
 use stdClass;
 
 /**
@@ -115,6 +114,7 @@ class DateAndTimeTest extends FieldTypeTestCase
     {
         $this->assertIsValidHashValue($inputHash);
 
+        /** @var \Ibexa\Core\FieldType\DateAndTime\Type $fieldType */
         $fieldType = $this->getFieldTypeUnderTest();
 
         $actualResult = $fieldType->fromHash($inputHash);
@@ -160,18 +160,19 @@ class DateAndTimeTest extends FieldTypeTestCase
     }
 
     /**
-     * @param mixed $inputValue
-     * @param string $intervalSpec
-     *
      * @dataProvider provideInputForTimeStringFromHash
+     *
+     * @throws \DateMalformedIntervalStringException
      */
-    public function testTimeStringFromHash(mixed $inputHash, string $intervalSpec)
+    public function testTimeStringFromHash(mixed $inputHash, string $intervalSpec): void
     {
         $this->assertIsValidHashValue($inputHash);
 
+        /** @var \Ibexa\Core\FieldType\DateAndTime\Type $fieldType */
         $fieldType = $this->getFieldTypeUnderTest();
 
         $expectedResult = new DateAndTimeValue(new \DateTime());
+        self::assertNotNull($expectedResult->value);
         $expectedResult->value->add(new DateInterval($intervalSpec));
 
         $actualResult = $fieldType->fromHash($inputHash);

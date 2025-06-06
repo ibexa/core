@@ -9,7 +9,6 @@ namespace Ibexa\Tests\Core\FieldType;
 
 use DateTime;
 use DateTimeZone;
-use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Date\Type as Date;
 use Ibexa\Core\FieldType\Date\Value as DateValue;

@@ -262,28 +262,7 @@ class UserTest extends FieldTypeTestCase
             'plainPassword' => 'testPassword',
         ]);
 
-        $userHandlerMock = $this->createMock(UserHandler::class);
-
-        $userHandlerMock
-            ->expects(self::once())
-            ->method('loadByLogin')
-            ->with($validateUserValue->login)
-            ->willThrowException(new NotFoundException('', ''));
-
-        $userType = new UserType(
-            $userHandlerMock,
-            $this->createMock(PasswordHashService::class),
-            $this->createMock(PasswordValidatorInterface::class)
-        );
-
-        $fieldSettings = [
-            UserType::REQUIRE_UNIQUE_EMAIL => false,
-            UserType::USERNAME_PATTERN => '^[^@]+$',
-        ];
-
-        $fieldDefinition = new CoreFieldDefinition(['fieldSettings' => $fieldSettings]);
-
-        $validationErrors = $userType->validate($fieldDefinition, $validateUserValue);
+        $validationErrors = $this->mockValidationErrors($validateUserValue);
 
         self::assertEquals([
             new ValidationError(
@@ -309,28 +288,7 @@ class UserTest extends FieldTypeTestCase
             'plainPassword' => 'testPassword',
         ]);
 
-        $userHandlerMock = $this->createMock(UserHandler::class);
-
-        $userHandlerMock
-            ->expects(self::once())
-            ->method('loadByLogin')
-            ->with($validateUserValue->login)
-            ->willThrowException(new NotFoundException('', ''));
-
-        $userType = new UserType(
-            $userHandlerMock,
-            $this->createMock(PasswordHashService::class),
-            $this->createMock(PasswordValidatorInterface::class)
-        );
-
-        $fieldSettings = [
-            UserType::REQUIRE_UNIQUE_EMAIL => false,
-            UserType::USERNAME_PATTERN => '^[^@]+$',
-        ];
-
-        $fieldDefinition = new CoreFieldDefinition(['fieldSettings' => $fieldSettings]);
-
-        $validationErrors = $userType->validate($fieldDefinition, $validateUserValue);
+        $validationErrors = $this->mockValidationErrors($validateUserValue);
 
         self::assertEquals([], $validationErrors);
     }
@@ -661,5 +619,36 @@ class UserTest extends FieldTypeTestCase
             [$this->getEmptyValueExpectation(), '', [], 'en_GB'],
             [new UserValue(['login' => 'johndoe']), 'johndoe', [], 'en_GB'],
         ];
+    }
+
+    /**
+     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    private function mockValidationErrors(UserValue $validateUserValue): array
+    {
+        $userHandlerMock = $this->createMock(UserHandler::class);
+
+        $userHandlerMock
+            ->expects(self::once())
+            ->method('loadByLogin')
+            ->with($validateUserValue->login)
+            ->willThrowException(new NotFoundException('', ''));
+
+        $userType = new UserType(
+            $userHandlerMock,
+            $this->createMock(PasswordHashService::class),
+            $this->createMock(PasswordValidatorInterface::class)
+        );
+
+        $fieldSettings = [
+            UserType::REQUIRE_UNIQUE_EMAIL => false,
+            UserType::USERNAME_PATTERN => '^[^@]+$',
+        ];
+
+        $fieldDefinition = new CoreFieldDefinition(['fieldSettings' => $fieldSettings]);
+
+        return $userType->validate($fieldDefinition, $validateUserValue);
     }
 }

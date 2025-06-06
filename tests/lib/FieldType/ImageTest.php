@@ -7,7 +7,6 @@
 
 namespace Ibexa\Tests\Core\FieldType;
 
-use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\IO\MimeTypeDetector;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -24,13 +23,15 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ImageTest extends FieldTypeTestCase
 {
-    private const MIME_TYPES = [
+    /** @var string[] */
+    private const array MIME_TYPES = [
         'image/png',
         'image/jpeg',
         'image/gif',
     ];
 
-    protected $blackListedExtensions = [
+    /** @var string[] */
+    protected array $blackListedExtensions = [
         'php',
         'php3',
         'phar',

@@ -7,7 +7,6 @@
 
 namespace Ibexa\Tests\Core\FieldType;
 
-use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\EmailAddress\Type as EmailAddressType;
 use Ibexa\Core\FieldType\EmailAddress\Value as EmailAddressValue;
@@ -63,6 +62,7 @@ class EmailAddressTest extends FieldTypeTestCase
                 InvalidArgumentException::class,
             ],
             [
+                /** @phpstan-ignore argument.type  */
                 new EmailAddressValue(23),
                 InvalidArgumentException::class,
             ],
