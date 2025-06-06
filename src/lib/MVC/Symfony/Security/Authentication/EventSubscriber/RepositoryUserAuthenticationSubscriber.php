@@ -78,11 +78,7 @@ final class RepositoryUserAuthenticationSubscriber implements EventSubscriberInt
                 $user->getAPIUser(),
                 $user->getPassword() ?? ''
             );
-        } catch (UnsupportedPasswordHashType $exception) {
-            $this->sleepUsingConstantTimer($startTime);
-
-            throw new PasswordInUnsupportedFormatException($exception);
-        } catch (PasswordHashTypeNotCompiled $exception) {
+        } catch (UnsupportedPasswordHashType|PasswordHashTypeNotCompiled $exception) {
             $this->sleepUsingConstantTimer($startTime);
 
             throw new PasswordInUnsupportedFormatException($exception);
