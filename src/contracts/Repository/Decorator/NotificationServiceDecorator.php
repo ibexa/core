@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\NotificationService;
 use Ibexa\Contracts\Core\Repository\Values\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification;
 use Ibexa\Contracts\Core\Repository\Values\Notification\NotificationList;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
 
 abstract class NotificationServiceDecorator implements NotificationService
 {
@@ -23,11 +24,9 @@ abstract class NotificationServiceDecorator implements NotificationService
         $this->innerService = $innerService;
     }
 
-    public function loadNotifications(
-        int $offset,
-        int $limit
-    ): NotificationList {
-        return $this->innerService->loadNotifications($offset, $limit);
+    public function loadNotifications(?NotificationQuery $query = null): NotificationList
+    {
+        return $this->innerService->loadNotifications($query);
     }
 
     public function getNotification(int $notificationId): Notification
@@ -50,9 +49,9 @@ abstract class NotificationServiceDecorator implements NotificationService
         return $this->innerService->getPendingNotificationCount();
     }
 
-    public function getNotificationCount(): int
+    public function getNotificationCount(?NotificationQuery $query = null): int
     {
-        return $this->innerService->getNotificationCount();
+        return $this->innerService->getNotificationCount($query);
     }
 
     public function createNotification(CreateStruct $createStruct): Notification

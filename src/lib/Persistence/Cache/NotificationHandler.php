@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Notification\Handler;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
 use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification as APINotification;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
 
 class NotificationHandler extends AbstractHandler implements Handler
 {
@@ -98,13 +99,15 @@ class NotificationHandler extends AbstractHandler implements Handler
         return $count;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function countNotifications(int $ownerId): int
+    public function countNotifications(int $ownerId, ?NotificationQuery $query = null): int
     {
+        $cacheKeyParams = [$ownerId];
+        if ($query !== null) {
+            $cacheKeyParams[] = json_encode($query);
+        }
+
         $cacheItem = $this->cache->getItem(
-            $this->cacheIdentifierGenerator->generateKey(self::NOTIFICATION_COUNT_IDENTIFIER, [$ownerId], true)
+            $this->cacheIdentifierGenerator->generateKey(self::NOTIFICATION_COUNT_IDENTIFIER, $cacheKeyParams, true)
         );
 
         $count = $cacheItem->get();
@@ -114,9 +117,10 @@ class NotificationHandler extends AbstractHandler implements Handler
 
         $this->logger->logCall(__METHOD__, [
             'ownerId' => $ownerId,
+            'query' => $query,
         ]);
 
-        $count = $this->persistenceHandler->notificationHandler()->countNotifications($ownerId);
+        $count = $this->persistenceHandler->notificationHandler()->countNotifications($ownerId, $query);
 
         $cacheItem->set($count);
         $this->cache->save($cacheItem);
@@ -150,18 +154,14 @@ class NotificationHandler extends AbstractHandler implements Handler
         return $notification;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function loadUserNotifications(int $userId, int $offset, int $limit): array
+    public function loadUserNotifications(int $userId, ?NotificationQuery $query = null): array
     {
         $this->logger->logCall(__METHOD__, [
             'ownerId' => $userId,
-            'offset' => $offset,
-            'limit' => $limit,
+            'query' => $query,
         ]);
 
-        return $this->persistenceHandler->notificationHandler()->loadUserNotifications($userId, $offset, $limit);
+        return $this->persistenceHandler->notificationHandler()->loadUserNotifications($userId, $query);
     }
 }
 

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Persistence\Notification;
 
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification as APINotification;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
 
 interface Handler
 {
@@ -51,20 +52,11 @@ interface Handler
     public function getNotificationById(int $notificationId): Notification;
 
     /**
-     * @param int $userId
-     * @param int $offset
-     * @param int $limit
-     *
      * @return \Ibexa\Contracts\Core\Persistence\Notification\Notification[]
      */
-    public function loadUserNotifications(int $userId, int $offset, int $limit): array;
+    public function loadUserNotifications(int $userId, ?NotificationQuery $query = null): array;
 
-    /**
-     * @param int $currentUserId
-     *
-     * @return int
-     */
-    public function countNotifications(int $currentUserId): int;
+    public function countNotifications(int $currentUserId, ?NotificationQuery $query = null): int;
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Notification $notification
