@@ -16,8 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItem
  */
 class RelationListItem implements RelationListItemInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Relation */
-    private $relation;
+    private Relation $relation;
 
     public function __construct(Relation $relation)
     {

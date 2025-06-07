@@ -109,6 +109,11 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
                 $fields[] = new Field($fieldInfo);
             }
         }
+
+        if (!isset($this->contentTypeIds[$contentTypeIdentifier])) {
+            $this->contentTypeIds[$contentTypeIdentifier] = count($this->contentTypeIds) + 1;
+        }
+
         $content = new Content(
             [
                 'internalFields' => $fields,
@@ -117,8 +122,7 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
                     'identifier' => $contentTypeIdentifier,
                     'mainLanguageCode' => 'fre-FR',
                     'fieldDefinitions' => new FieldDefinitionCollection(
-                        $this->fieldDefinitions[$contentTypeIdentifier
-                    ]
+                        $this->fieldDefinitions[$contentTypeIdentifier]
                     ),
                 ]),
                 'versionInfo' => new VersionInfo(
@@ -130,8 +134,7 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
                             [
                                 'id' => 42,
                                 'mainLanguageCode' => 'fre-FR',
-                                // Using as id as we don't really care to test the service here
-                                'contentTypeId' => $contentTypeIdentifier,
+                                'contentTypeId' => $this->contentTypeIds[$contentTypeIdentifier],
                             ]
                         ),
                     ]

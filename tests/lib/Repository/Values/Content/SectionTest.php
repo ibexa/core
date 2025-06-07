@@ -18,25 +18,6 @@ class SectionTest extends TestCase
     use ValueObjectTestTrait;
 
     /**
-     * Test a new class and default values on properties.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Section::__construct
-     */
-    public function testNewClass()
-    {
-        $section = new Section();
-
-        $this->assertPropertiesCorrect(
-            [
-                'id' => null,
-                'identifier' => null,
-                'name' => null,
-            ],
-            $section
-        );
-    }
-
-    /**
      * Test retrieving missing property.
      *
      * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Section::__get

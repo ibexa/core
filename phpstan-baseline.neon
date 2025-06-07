@@ -19213,12 +19213,6 @@ parameters:
 			path: src/lib/Repository/ContentService.php
 
 		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\ContentCreateStruct\:\:\$modificationDate \(DateTime\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: src/lib/Repository/ContentService.php
-
-		-
 			message: '#^Property Ibexa\\Core\\Repository\\ContentService\:\:\$repository \(Ibexa\\Core\\Repository\\Repository\) does not accept Ibexa\\Contracts\\Core\\Repository\\Repository\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -19509,6 +19503,12 @@ parameters:
 		-
 			message: '#^Parameter \#1 \$spiLocation of method Ibexa\\Core\\Repository\\Mapper\\ContentDomainMapper\:\:buildLocationWithContent\(\) expects Ibexa\\Contracts\\Core\\Persistence\\Content\\Location, Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject given\.$#'
 			identifier: argument.type
+			count: 1
+			path: src/lib/Repository/Mapper/ContentDomainMapper.php
+
+		-
+			message: '#^Property Ibexa\\Contracts\\Core\\Persistence\\Content\\ContentInfo\:\:\$isHidden \(bool\) on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.property
 			count: 1
 			path: src/lib/Repository/Mapper/ContentDomainMapper.php
 
@@ -22257,12 +22257,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Handler\:\:suggest\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/lib/Search/Legacy/Content/Handler.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\:\:\$sortClauses \(array\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\SortClause\>\) does not accept null\.$#'
-			identifier: assign.propertyType
 			count: 1
 			path: src/lib/Search/Legacy/Content/Handler.php
 
@@ -26667,12 +26661,6 @@ parameters:
 		-
 			message: '#^Parameter \#2 \$string2 of function strcmp expects string, bool\|float\|int\|string given\.$#'
 			identifier: argument.type
-			count: 1
-			path: tests/integration/Core/Repository/BaseTestCase.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\ContentCreateStruct\:\:\$remoteId \(string\) does not accept string\|null\.$#'
-			identifier: assign.propertyType
 			count: 1
 			path: tests/integration/Core/Repository/BaseTestCase.php
 
@@ -60385,19 +60373,7 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:testCreateContentThrowsInvalidArgumentExceptionContentTypeNotSet\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:testCreateContentThrowsInvalidArgumentExceptionDuplicateRemoteId\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:testCreateContentThrowsInvalidArgumentExceptionMainLanguageCodeNotSet\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
@@ -63565,12 +63541,6 @@ parameters:
 			path: tests/lib/Repository/Values/Content/LanguageTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\LanguageTest\:\:testNewClass\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Values/Content/LanguageTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\LanguageTest\:\:testReadOnlyProperty\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -63625,12 +63595,6 @@ parameters:
 			path: tests/lib/Repository/Values/Content/SectionTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\SectionTest\:\:testNewClass\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Values/Content/SectionTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\SectionTest\:\:testReadOnlyProperty\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -63662,12 +63626,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\TrashItemTest\:\:testMissingProperty\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Values/Content/TrashItemTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\TrashItemTest\:\:testNewClass\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/Repository/Values/Content/TrashItemTest.php
@@ -64483,12 +64441,6 @@ parameters:
 			path: tests/lib/Search/Legacy/Content/HandlerContentTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\HandlerContentTest\:\:testFindWithNullLimit\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Search/Legacy/Content/HandlerContentTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\HandlerContentTest\:\:testFindWithOffsetToNonexistent\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -65006,12 +64958,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\HandlerLocationTest\:\:testFieldRelationFilterInArrayNotMatch\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Search/Legacy/Content/HandlerLocationTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\HandlerLocationTest\:\:testFindWithNullLimit\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/Search/Legacy/Content/HandlerLocationTest.php

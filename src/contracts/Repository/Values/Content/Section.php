@@ -21,22 +21,16 @@ class Section extends ValueObject
 {
     /**
      * Id of the section.
-     *
-     * @var mixed
      */
-    protected $id;
+    protected int $id;
 
     /**
      * Unique identifier of the section.
-     *
-     * @var string
      */
-    protected $identifier;
+    protected string $identifier;
 
     /**
      * Name of the section.
-     *
-     * @var string
      */
-    protected $name;
+    protected string $name;
 }

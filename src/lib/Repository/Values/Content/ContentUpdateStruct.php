@@ -37,7 +37,7 @@ class ContentUpdateStruct extends APIContentUpdateStruct
      * @param mixed $value Either a plain value which is understandable by the field type or an instance of a Value class provided by the field type
      * @param string|null $language If not given on a translatable field the initial language is used,
      */
-    public function setField(string $fieldDefIdentifier, $value, ?string $language = null): void
+    public function setField(string $fieldDefIdentifier, mixed $value, ?string $language = null): void
     {
         $this->fields[] = new Field(
             [

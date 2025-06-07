@@ -26,38 +26,28 @@ class Field extends ValueObject
      *
      * Value of `null` indicates the field is virtual
      * and is not persisted (yet).
-     *
-     * @var mixed
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The field definition identifier.
-     *
-     * @var string
      */
-    protected $fieldDefIdentifier;
+    protected string $fieldDefIdentifier = '';
 
     /**
      * A field type value or a value type which can be converted by the corresponding field type.
-     *
-     * @var mixed
      */
-    protected $value;
+    protected mixed $value = null;
 
     /**
-     * the language code.
-     *
-     * @var string|null
+     * The language code.
      */
-    protected $languageCode;
+    protected ?string $languageCode = null;
 
     /**
      * Field type identifier.
-     *
-     * @var string
      */
-    protected $fieldTypeIdentifier;
+    protected string $fieldTypeIdentifier = '';
 
     public function getId(): ?int
     {
@@ -69,10 +59,7 @@ class Field extends ValueObject
         return $this->fieldDefIdentifier;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getValue()
+    public function getValue(): mixed
     {
         return $this->value;
     }

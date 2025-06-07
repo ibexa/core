@@ -51,13 +51,18 @@ class PreviewLocationProviderTest extends TestCase
             ->expects(self::once())
             ->method('loadParentLocationsForDraftContent')
             ->with($contentId)
-            ->will(self::returnValue([new Location(['id' => $parentLocationId])]));
+            ->will(self::returnValue([
+                new Location([
+                    'id' => $parentLocationId,
+                    'pathString' => '/' . $parentLocationId . '/',
+                ]),
+            ]));
 
         $location = $this->provider->loadMainLocationByContent($content);
         self::assertInstanceOf(APILocation::class, $location);
         self::assertSame($content, $location->getContent());
-        self::assertNull($location->id);
         self::assertEquals($parentLocationId, $location->parentLocationId);
+        self::assertTrue($location->isDraft());
     }
 
     public function testGetPreviewLocation()
