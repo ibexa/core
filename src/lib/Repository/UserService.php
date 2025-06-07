@@ -49,6 +49,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Base\Exceptions\MissingUserFieldTypeException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Ibexa\Core\FieldType\User\Value as UserValue;
+use Ibexa\Core\Repository\User\Exception\PasswordHashTypeNotCompiled;
 use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
 use Ibexa\Core\Repository\User\PasswordValidatorInterface;
 use Ibexa\Core\Repository\Values\User\User;
@@ -56,6 +57,7 @@ use Ibexa\Core\Repository\Values\User\UserCreateStruct;
 use Ibexa\Core\Repository\Values\User\UserGroup;
 use Ibexa\Core\Repository\Values\User\UserGroupCreateStruct;
 use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
 /**
  * This service provides methods for managing users and user groups.
@@ -90,7 +92,7 @@ class UserService implements UserServiceInterface
 
     private ConfigResolverInterface $configResolver;
 
-    public function setLogger(LoggerInterface $logger = null)
+    public function setLogger(LoggerInterface $logger = null): void
     {
         $this->logger = $logger;
     }
@@ -787,7 +789,13 @@ class UserService implements UserServiceInterface
         $passwordHashAlgorithm = (int) $loadedUser->hashAlgorithm;
         try {
             $passwordHash = $this->passwordHashService->createPasswordHash($newPassword, $passwordHashAlgorithm);
-        } catch (UnsupportedPasswordHashType $e) {
+        } catch (UnsupportedPasswordHashType|PasswordHashTypeNotCompiled $e) {
+            if (isset($this->logger)) {
+                $this->logger->log(LogLevel::WARNING, $e->getMessage(), [
+                    'exception' => $e,
+                ]);
+            }
+
             $passwordHashAlgorithm = $this->passwordHashService->getDefaultHashType();
             $passwordHash = $this->passwordHashService->createPasswordHash($newPassword, $passwordHashAlgorithm);
         }
