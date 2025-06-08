@@ -4,14 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\MVC\Symfony\Templating\Twig\Extension;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
-use Ibexa\Contracts\Core\Repository\Values\Content\Field;
-use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Helper\TranslationHelper;
 use Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistryInterface;
 use Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\FieldRenderingExtension;
@@ -22,23 +21,18 @@ use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Twig\Environment;
 
+/**
+ * @phpstan-import-type TFieldsData from \Ibexa\Tests\Core\MVC\Symfony\Templating\Twig\Extension\FileSystemTwigIntegrationTestCase
+ */
 class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTestCase
 {
     private const int EXAMPLE_FIELD_DEFINITION_ID = 2;
 
-    private $fieldDefinitions = [];
-
-    /**
-     * Content type identifier to id map (in-memory cache).
-     *
-     * @var array<string, int>
-     */
-    private array $contentTypeIdCache = [];
-
-    public function getExtensions()
+    public function getExtensions(): array
     {
         $configResolver = $this->getConfigResolverMock();
         $twig = $this->createMock(Environment::class);
@@ -69,7 +63,10 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
         return __DIR__ . '/_fixtures/field_rendering_functions/';
     }
 
-    public function getFieldDefinition($typeIdentifier, $id = null, $settings = [])
+    /**
+     * @param array<string, mixed> $settings
+     */
+    public function getFieldDefinition(string $typeIdentifier, ?int $id = null, array $settings = []): FieldDefinition
     {
         return new FieldDefinition(
             [
@@ -83,33 +80,15 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
     /**
      * Creates content with initial/main language being fre-FR.
      *
-     * @param string $contentTypeIdentifier
-     * @param array $fieldsData
-     * @param array $namesData
+     * @phpstan-param TFieldsData $fieldsData
      *
-     * @return \Ibexa\Core\Repository\Values\Content\Content
+     * @param array<string, string> $namesData
      */
-    protected function getContent($contentTypeIdentifier, array $fieldsData, array $namesData = [])
+    protected function getContent(string $contentTypeIdentifier, array $fieldsData, array $namesData = []): Content
     {
-        $fields = [];
-        foreach ($fieldsData as $fieldTypeIdentifier => $fieldsArray) {
-            $fieldsArray = isset($fieldsArray['id']) ? [$fieldsArray] : $fieldsArray;
-            foreach ($fieldsArray as $fieldInfo) {
-                // Save field definitions in property for mocking purposes
-                $this->fieldDefinitions[$contentTypeIdentifier][$fieldInfo['fieldDefIdentifier']] = new FieldDefinition(
-                    [
-                        'identifier' => $fieldInfo['fieldDefIdentifier'],
-                        'id' => $fieldInfo['id'],
-                        'fieldTypeIdentifier' => $fieldTypeIdentifier,
-                        'names' => isset($fieldInfo['fieldDefNames']) ? $fieldInfo['fieldDefNames'] : [],
-                        'descriptions' => isset($fieldInfo['fieldDefDescriptions']) ? $fieldInfo['fieldDefDescriptions'] : [],
-                    ]
-                );
-                unset($fieldInfo['fieldDefNames'], $fieldInfo['fieldDefDescriptions']);
-                $fields[] = new Field($fieldInfo);
-            }
-        }
-        $content = new Content(
+        $fields = $this->buildFieldsFromData($fieldsData, $contentTypeIdentifier);
+
+        return new Content(
             [
                 'internalFields' => $fields,
                 'contentType' => new ContentType([
@@ -138,16 +117,17 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
                 ),
             ]
         );
-
-        return $content;
     }
 
     /**
-     * @param array<mixed>  $fieldsData
-     * @param array<mixed>  $namesData
+     * @param array<mixed> $fieldsData
+     * @param array<mixed> $namesData
      */
-    protected function getContentAwareObject(string $contentTypeIdentifier, array $fieldsData, array $namesData = []): ContentAwareInterface
-    {
+    protected function getContentAwareObject(
+        string $contentTypeIdentifier,
+        array $fieldsData,
+        array $namesData = []
+    ): ContentAwareInterface {
         $content = $this->getContent($contentTypeIdentifier, $fieldsData, $namesData);
 
         $mock = $this->createMock(ContentAwareInterface::class);
@@ -156,37 +136,12 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
         return $mock;
     }
 
-    private function getTemplatePath($tpl): string
+    private function getTemplatePath(string $tpl): string
     {
         return 'templates/' . $tpl;
     }
 
-    private function getConfigResolverMock()
-    {
-        $mock = $this->createMock(ConfigResolverInterface::class);
-        // Signature: ConfigResolverInterface->getParameter( $paramName, $namespace = null, $scope = null )
-        $mock->expects(self::any())
-            ->method('getParameter')
-            ->will(
-                self::returnValueMap(
-                    [
-                        [
-                            'languages',
-                            null,
-                            null,
-                            ['fre-FR', 'eng-US'],
-                        ],
-                    ]
-                )
-            );
-
-        return $mock;
-    }
-
-    /**
-     * @return \Ibexa\Core\MVC\Symfony\Templating\Twig\ResourceProviderInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function getResourceProviderMock(): ResourceProviderInterface
+    private function getResourceProviderMock(): ResourceProviderInterface & MockObject
     {
         $mock = $this->createMock(ResourceProviderInterface::class);
 
@@ -227,16 +182,5 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
         ;
 
         return $mock;
-    }
-
-    private function getContentTypeId(string $contentTypeIdentifier): int
-    {
-        if (!isset($this->contentTypeIdCache[$contentTypeIdentifier])) {
-            $lastId = end($this->contentTypeIdCache);
-            $nextId = $lastId !== false ? $lastId + 1 : 1;
-            $this->contentTypeIdCache[$contentTypeIdentifier] = $nextId;
-        }
-
-        return $this->contentTypeIdCache[$contentTypeIdentifier];
     }
 }
