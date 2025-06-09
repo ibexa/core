@@ -151,7 +151,7 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
         $mock
             ->method('loadContentType')
             ->willReturnCallback(
-                function ($contentTypeId) {
+                function ($contentTypeId): ContentType {
                     $contentTypeIdentifier = $this->getContentTypeIdentifier($contentTypeId);
 
                     return new ContentType(
