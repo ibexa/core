@@ -33,6 +33,7 @@ final class URIElementNormalizer implements NormalizerInterface, DenormalizerInt
         array $context = []
     ): array {
         return [
+            'type' => $data::class,
             'elementNumber' => $data->getElementNumber(),
             'uriElements' => $data->getUriElements(),
         ];

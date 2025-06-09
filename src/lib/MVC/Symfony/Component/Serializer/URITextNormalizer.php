@@ -29,6 +29,7 @@ final class URITextNormalizer implements NormalizerInterface, DenormalizerInterf
         array $context = []
     ): array {
         return [
+            'type' => $data::class,
             'siteAccessesConfiguration' => $data->getSiteAccessesConfiguration(),
         ];
     }

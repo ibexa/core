@@ -29,6 +29,7 @@ final class HostTextNormalizer implements NormalizerInterface, DenormalizerInter
         array $context = []
     ): array {
         return [
+            'type' => $data::class,
             'siteAccessesConfiguration' => $data->getSiteAccessesConfiguration(),
         ];
     }
