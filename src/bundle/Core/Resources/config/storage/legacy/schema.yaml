@@ -581,6 +581,7 @@ tables:
             ibexa_url_alias_ml_par_lnk_txt: { fields: [parent, text, link], options: { lengths: [null, '32', null] } }
             ibexa_url_alias_ml_act_org: { fields: [action, is_original], options: { lengths: ['32', null] } }
             ibexa_url_alias_ml_text: { fields: [text, id, link], options: { lengths: ['32', null, null] } }
+            ibexa_url_alias_ml_link: { fields: [link] }
             ibexa_url_alias_ml_id: { fields: [id] }
         id:
             parent: { type: integer, nullable: false, options: { default: '0' } }
