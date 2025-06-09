@@ -14,13 +14,13 @@ parameters:
     # Using preprocessed files:
 
     ibexa.api.storage_engine.preprocessed_transformation_rules.resources:
-        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/ascii.tr.result'
-        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/basic.tr.result'
-        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/cyrillic.tr.result'
-        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/greek.tr.result'
-        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/hebrew.tr.result'
-        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/latin.tr.result'
-        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/search.tr.result'
+        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/ascii.tr.result.php'
+        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/basic.tr.result.php'
+        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/cyrillic.tr.result.php'
+        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/greek.tr.result.php'
+        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/hebrew.tr.result.php'
+        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/latin.tr.result.php'
+        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/search.tr.result.php'
 
 services:
     Ibexa\Core\Persistence\FieldTypeRegistry:

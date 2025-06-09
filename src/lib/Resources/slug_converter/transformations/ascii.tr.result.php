@@ -1,221 +1,224 @@
 <?php
 
-return array (
-  'ascii_lowercase' => array (
-    0 => array (
+/**
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
+return  [
+  'ascii_lowercase' => [
+    0 => [
       'type' => 13,
-      'data' => array (
+      'data' => [
         'srcStart' => 'U+0041',
         'srcEnd' => 'U+005A',
         'op' => '+',
         'dest' => '20',
-      ),
-    ),
-  ),
-  'ascii_uppercase' => array (
-    0 => array (
+      ],
+    ],
+  ],
+  'ascii_uppercase' => [
+    0 => [
       'type' => 13,
-      'data' => array (
+      'data' => [
         'srcStart' => 'U+0061',
         'srcEnd' => 'U+007A',
         'op' => '-',
         'dest' => '20',
-      ),
-    ),
-  ),
-  'ascii_search_cleanup' => array (
-    0 => array (
+      ],
+    ],
+  ],
+  'ascii_search_cleanup' => [
+    0 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+0023',
         'dest' => 'U+0020',
-      ),
-    ),
-    1 => array (
+      ],
+    ],
+    1 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+0024',
         'dest' => 'U+0020',
-      ),
-    ),
-    2 => array (
+      ],
+    ],
+    2 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+0026',
         'dest' => 'U+0020',
-      ),
-    ),
-    3 => array (
+      ],
+    ],
+    3 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+005E',
         'dest' => 'U+0020',
-      ),
-    ),
-    4 => array (
+      ],
+    ],
+    4 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+007B',
         'dest' => 'U+0020',
-      ),
-    ),
-    5 => array (
+      ],
+    ],
+    5 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+007D',
         'dest' => 'U+0020',
-      ),
-    ),
-    6 => array (
+      ],
+    ],
+    6 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+007C',
         'dest' => 'U+0020',
-      ),
-    ),
-    7 => array (
+      ],
+    ],
+    7 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+0040',
         'dest' => 'U+0020',
-      ),
-    ),
-    8 => array (
+      ],
+    ],
+    8 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+003A',
         'dest' => 'U+0020',
-      ),
-    ),
-    9 => array (
+      ],
+    ],
+    9 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+003B',
         'dest' => 'U+0020',
-      ),
-    ),
-    10 => array (
+      ],
+    ],
+    10 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+002C',
         'dest' => 'U+0020',
-      ),
-    ),
-    11 => array (
+      ],
+    ],
+    11 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+0028',
         'dest' => 'U+0020',
-      ),
-    ),
-    12 => array (
+      ],
+    ],
+    12 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+0029',
         'dest' => 'U+0020',
-      ),
-    ),
-    13 => array (
+      ],
+    ],
+    13 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+002D',
         'dest' => 'U+0020',
-      ),
-    ),
-    14 => array (
+      ],
+    ],
+    14 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+002B',
         'dest' => 'U+0020',
-      ),
-    ),
-    15 => array (
+      ],
+    ],
+    15 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+002F',
         'dest' => 'U+0020',
-      ),
-    ),
-    16 => array (
+      ],
+    ],
+    16 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+005B',
         'dest' => 'U+0020',
-      ),
-    ),
-    17 => array (
+      ],
+    ],
+    17 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+005D',
         'dest' => 'U+0020',
-      ),
-    ),
-    18 => array (
+      ],
+    ],
+    18 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+005C',
         'dest' => 'U+0020',
-      ),
-    ),
-    19 => array (
+      ],
+    ],
+    19 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+003C',
         'dest' => 'U+0020',
-      ),
-    ),
-    20 => array (
+      ],
+    ],
+    20 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+003E',
         'dest' => 'U+0020',
-      ),
-    ),
-    21 => array (
+      ],
+    ],
+    21 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+003D',
         'dest' => 'U+0020',
-      ),
-    ),
-    22 => array (
+      ],
+    ],
+    22 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+0027',
         'dest' => 'U+0020',
-      ),
-    ),
-    23 => array (
+      ],
+    ],
+    23 => [
       'type' => 11,
-      'data' => array (
+      'data' => [
         'src' => 'U+0060',
         'dest' => 'U+0020',
-      ),
-    ),
-    24 => array (
+      ],
+    ],
+    24 => [
       'type' => 12,
-      'data' => array (
+      'data' => [
         'srcStart' => 'U+0000',
         'srcEnd' => 'U+0009',
         'dest' => 'U+0020',
-      ),
-    ),
-    25 => array (
+      ],
+    ],
+    25 => [
       'type' => 12,
-      'data' => array (
+      'data' => [
         'srcStart' => 'U+000B',
         'srcEnd' => 'U+000C',
         'dest' => 'U+0020',
-      ),
-    ),
-    26 => array (
+      ],
+    ],
+    26 => [
       'type' => 12,
-      'data' => array (
+      'data' => [
         'srcStart' => 'U+000E',
         'srcEnd' => 'U+001F',
         'dest' => 'U+0020',
-      ),
-    ),
-  ),
-);
-
+      ],
+    ],
+  ],
+];
