@@ -300,7 +300,7 @@ INSERT INTO "ibexa_user_setting" ("is_enabled", "max_login", "user_id")
 VALUES (1, 1000, 10),
        (1, 10, 14);
 
-INSERT INTO "ibexa_preferences" ("name", "user_id", "value")
+INSERT INTO "ibexa_user_preference" ("name", "user_id", "value")
 SELECT 'focus_mode', u.contentobject_id, '0' FROM "ibexa_user" u WHERE u.login = 'admin';
 
 -- Set proper sequence values after inserting data
@@ -324,7 +324,7 @@ SELECT SETVAL('ibexa_package_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_package;
 SELECT SETVAL('ibexa_policy_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_policy;
 SELECT SETVAL('ibexa_policy_limitation_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_policy_limitation;
 SELECT SETVAL('ibexa_policy_limitation_value_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_policy_limitation_value;
-SELECT SETVAL('ibexa_preferences_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_preferences;
+SELECT SETVAL('ibexa_user_preference_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_user_preference;
 SELECT SETVAL('ibexa_role_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_role;
 SELECT SETVAL('ibexa_search_object_word_link_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_search_object_word_link;
 SELECT SETVAL('ibexa_search_word_id_seq', COALESCE(MAX(id), 1) ) FROM ibexa_search_word;
