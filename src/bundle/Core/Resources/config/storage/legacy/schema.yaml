@@ -470,10 +470,10 @@ tables:
         fields:
             limitation_id: { type: integer, nullable: true }
             value: { type: string, nullable: true, length: 255 }
-    ibexa_preferences:
+    ibexa_user_preference:
         indexes:
-            ibexa_preferences_user_id_idx: { fields: [user_id, name] }
-            ibexa_preferences_name: { fields: [name] }
+            ibexa_user_preference_user_id_idx: { fields: [user_id, name] }
+            ibexa_user_preference_name: { fields: [name] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:

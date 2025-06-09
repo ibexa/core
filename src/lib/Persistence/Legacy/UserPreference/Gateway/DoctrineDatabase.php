@@ -15,7 +15,7 @@ use Ibexa\Core\Persistence\Legacy\UserPreference\Gateway;
 
 class DoctrineDatabase extends Gateway
 {
-    public const string TABLE_USER_PREFERENCES = 'ibexa_preferences';
+    public const string TABLE_USER_PREFERENCES = 'ibexa_user_preference';
 
     public const string COLUMN_ID = 'id';
     public const string COLUMN_NAME = 'name';
