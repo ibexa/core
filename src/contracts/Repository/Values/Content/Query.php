@@ -17,8 +17,8 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  */
 class Query extends ValueObject
 {
-    public const SORT_ASC = 'ascending';
-    public const SORT_DESC = 'descending';
+    public const string SORT_ASC = 'ascending';
+    public const string SORT_DESC = 'descending';
 
     /**
      * The Query filter.
@@ -52,31 +52,27 @@ class Query extends ValueObject
      *
      * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[]
      */
-    public $sortClauses = [];
+    public array $sortClauses = [];
 
     /**
      * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation[]
      */
-    public $aggregations = [];
+    public array $aggregations = [];
 
     /**
      * Query offset.
      *
      * Sets the offset for search hits, used for paging the results.
-     *
-     * @var int
      */
-    public $offset = 0;
+    public int $offset = 0;
 
     /**
      * Query limit.
      *
      * Limit for number of search hits to return.
      * If value is `0`, search query will not return any search hits, useful for doing a count.
-     *
-     * @var int
      */
-    public $limit = 25;
+    public int $limit = 25;
 
     /**
      * Spellcheck suggestions are returned.
@@ -85,8 +81,6 @@ class Query extends ValueObject
 
     /**
      * If true, search engine should perform count even if that means extra lookup.
-     *
-     * @var bool
      */
-    public $performCount = true;
+    public bool $performCount = true;
 }

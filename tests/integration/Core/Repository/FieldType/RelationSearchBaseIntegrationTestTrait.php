@@ -100,7 +100,7 @@ trait RelationSearchBaseIntegrationTestTrait
             static function (RelationContract $relation) {
                 $newRelation = new Relation(
                     [
-                        'id' => null,
+                        'id' => -1,
                         'sourceFieldDefinitionIdentifier' => $relation->sourceFieldDefinitionIdentifier,
                         'type' => $relation->type,
                         'sourceContentInfo' => $relation->sourceContentInfo,

@@ -17,35 +17,27 @@ class LocationUpdateStruct extends ValueObject
 {
     /**
      * If set the location priority is changed to the new value.
-     *
-     * @var int
      */
-    public $priority;
+    public ?int $priority = null;
 
     /**
      * If set the location gets a new remoteId.
      *
      * Needs to be a unique Location->remoteId string value.
-     *
-     * @var mixed
      */
-    public $remoteId;
+    public ?string $remoteId = null;
 
     /**
      * If set the sortField is changed.
      * The sort field specifies which property the child locations should be sorted on.
      * Valid values are found at {@link Location::SORT_FIELD_*}.
-     *
-     * @var mixed
      */
-    public $sortField;
+    public ?int $sortField = null;
 
     /**
      * If set the sortOrder is changed.
      * The sort order specifies whether the sort order should be ascending or descending.
      * Valid values are {@link Location::SORT_ORDER_*}.
-     *
-     * @var mixed
      */
-    public $sortOrder;
+    public ?int $sortOrder = null;
 }
