@@ -210,10 +210,10 @@ final class SlugConverterTest extends TestCase
                 new Utf8Converter()
             ),
             [
-                "$transformationsDirectory/ascii.tr.result",
-                "$transformationsDirectory/basic.tr.result",
-                "$transformationsDirectory/latin.tr.result",
-                "$transformationsDirectory/search.tr.result",
+                "$transformationsDirectory/ascii.tr.result.php",
+                "$transformationsDirectory/basic.tr.result.php",
+                "$transformationsDirectory/latin.tr.result.php",
+                "$transformationsDirectory/search.tr.result.php",
             ]
         );
         $slugConverter = new SlugConverter($transformationProcessor);

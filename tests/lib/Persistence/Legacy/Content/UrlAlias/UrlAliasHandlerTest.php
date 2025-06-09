@@ -5462,10 +5462,13 @@ class UrlAliasHandlerTest extends TestCase
      */
     public function getProcessor()
     {
+        $ruleFiles = glob(dirname(__DIR__, 6) . '/src/lib/Resources/slug_converter/transformations/*.tr');
+        self::assertNotFalse($ruleFiles, 'Failed to find slug converter transformation files');
+
         return new DefinitionBased(
             new Parser(),
             new PcreCompiler(new Utf8Converter()),
-            glob(__DIR__ . '/../../../TransformationProcessor/_fixtures/transformations/*.tr')
+            $ruleFiles
         );
     }
 

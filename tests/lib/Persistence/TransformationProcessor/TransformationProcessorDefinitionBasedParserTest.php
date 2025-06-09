@@ -20,16 +20,13 @@ class TransformationProcessorDefinitionBasedParserTest extends TestCase
      */
     public static function getTestFiles(): array
     {
-        $glob = glob(__DIR__ . '/_fixtures/transformations/*.tr');
+        $ruleFiles = glob(dirname(__DIR__, 4) . '/src/lib/Resources/slug_converter/transformations/*.tr');
+        self::assertNotFalse($ruleFiles, 'Failed to find transformation files');
 
-        return false !== $glob
-            ? array_map(
-                static function (string $file) {
-                    return [realpath($file)];
-                },
-                $glob
-            )
-            : [];
+        return array_map(
+            static fn (string $file) => [realpath($file)],
+            $ruleFiles
+        );
     }
 
     /**
@@ -39,7 +36,7 @@ class TransformationProcessorDefinitionBasedParserTest extends TestCase
     {
         $parser = new Persistence\TransformationProcessor\DefinitionBased\Parser();
 
-        $fixture = include $file . '.result';
+        $fixture = include $file . '.result.php';
         self::assertEquals(
             $fixture,
             $parser->parse($file)
