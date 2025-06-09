@@ -4,11 +4,16 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\MVC\Symfony\Templating\Twig\Extension;
 
 use Exception;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use PHPUnit\Framework\Constraint\Exception as PHPUnitException;
+use PHPUnit\Framework\MockObject\MockObject;
 use Twig\Environment;
 use Twig\Error\Error;
 use Twig\Loader\ArrayLoader;
@@ -21,9 +26,22 @@ use Twig\Test\IntegrationTestCase;
  * Class FileSystemTwigIntegrationTestCase
  * This class adds a custom version of the doIntegrationTest from \Twig\Test\IntegrationTestCase to
  * allow loading (custom) templates located in the FixturesDir.
+ *
+ * @phpstan-type TFieldData array{id: int, fieldDefIdentifier: string, value: mixed, languageCode: string}
+ * @phpstan-type TFieldsData array<string, TFieldData|list<TFieldData>>
  */
 abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
 {
+    /** @var array<string, array<string, \Ibexa\Core\Repository\Values\ContentType\FieldDefinition>> */
+    protected array $fieldDefinitions = [];
+
+    /**
+     * Content type identifier to id map (in-memory cache).
+     *
+     * @var array<string, int>
+     */
+    private array $contentTypeIdCache = [];
+
     /**
      * Overrides the default implementation to use the chain loader so that
      * templates used internally are correctly loaded.
@@ -142,5 +160,77 @@ abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
         $source = new Source($code, basename($file), $file);
 
         return new Error(sprintf('%s: %s', get_class($e), $e->getMessage()), -1, $source, $e);
+    }
+
+    /**
+     * @phpstan-param TFieldsData $fieldsData
+     *
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field[]
+     */
+    protected function buildFieldsFromData(array $fieldsData, string $contentTypeIdentifier): array
+    {
+        $fields = [];
+        foreach ($fieldsData as $fieldTypeIdentifier => $fieldsArray) {
+            $fieldsArray = isset($fieldsArray['id']) ? [$fieldsArray] : $fieldsArray;
+            foreach ($fieldsArray as $fieldInfo) {
+                // Save field definitions in property for mocking purposes
+                $this->fieldDefinitions[$contentTypeIdentifier][$fieldInfo['fieldDefIdentifier']] = new FieldDefinition(
+                    [
+                        'identifier' => $fieldInfo['fieldDefIdentifier'],
+                        'id' => $fieldInfo['id'],
+                        'fieldTypeIdentifier' => $fieldTypeIdentifier,
+                        'names' => $fieldInfo['fieldDefNames'] ?? [],
+                        'descriptions' => $fieldInfo['fieldDefDescriptions'] ?? [],
+                    ]
+                );
+                unset($fieldInfo['fieldDefNames'], $fieldInfo['fieldDefDescriptions']);
+                $fields[] = new Field($fieldInfo);
+            }
+        }
+
+        return $fields;
+    }
+
+    protected function getConfigResolverMock(): ConfigResolverInterface & MockObject
+    {
+        $mock = $this->createMock(ConfigResolverInterface::class);
+        // Signature: ConfigResolverInterface->getParameter( $paramName, $namespace = null, $scope = null )
+        $mock
+            ->method('getParameter')
+            ->willReturnMap(
+                [
+                    [
+                        'languages',
+                        null,
+                        null,
+                        ['fre-FR', 'eng-US'],
+                    ],
+                ]
+            );
+
+        return $mock;
+    }
+
+    protected function getContentTypeId(string $contentTypeIdentifier): int
+    {
+        if (!isset($this->contentTypeIdCache[$contentTypeIdentifier])) {
+            $lastId = end($this->contentTypeIdCache);
+            $nextId = $lastId !== false ? $lastId + 1 : 1;
+            $this->contentTypeIdCache[$contentTypeIdentifier] = $nextId;
+        }
+
+        return $this->contentTypeIdCache[$contentTypeIdentifier];
+    }
+
+    protected function getContentTypeIdentifier(int $contentTypeId): string
+    {
+        $identifier = array_flip($this->contentTypeIdCache)[$contentTypeId] ?? null;
+
+        self::assertNotNull(
+            $identifier,
+            "Content type identifier not found for ID: $contentTypeId"
+        );
+
+        return $identifier;
     }
 }
