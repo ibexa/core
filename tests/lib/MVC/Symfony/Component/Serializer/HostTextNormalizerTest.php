@@ -34,6 +34,7 @@ final class HostTextNormalizerTest extends TestCase
 
         self::assertEquals(
             [
+                'type' => HostText::class,
                 'siteAccessesConfiguration' => [
                     'prefix' => 'foo',
                     'suffix' => 'bar',

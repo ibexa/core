@@ -22,6 +22,7 @@ use Symfony\Component\Serializer\Serializer;
 final class HostElementNormalizerTest extends TestCase
 {
     private const array DATA = [
+        'type' => HostElement::class,
         'elementNumber' => 2,
         'hostElements' => [
             'ibexa',

@@ -77,10 +77,12 @@ class CompoundMatcherNormalizer implements NormalizerInterface, NormalizerAwareI
 
         $compoundMatcher = new $compoundMatcherType($data['config'] ?? []);
         $subMatchers = [];
-        foreach ($data['subMatchers'] ?? [] as $matcherType => $subMatcher) {
-            $subMatchers[$matcherType] = $this->denormalizer->denormalize(
+        foreach ($data['subMatchers'] ?? [] as $matcherKey => $subMatcher) {
+            $subMatcherClass = $subMatcher['type'];
+
+            $subMatchers[$matcherKey] = $this->denormalizer->denormalize(
                 $subMatcher,
-                $matcherType,
+                $subMatcherClass,
                 $format,
                 $context
             );

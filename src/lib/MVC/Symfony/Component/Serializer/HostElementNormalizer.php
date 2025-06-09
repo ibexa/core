@@ -33,6 +33,7 @@ final class HostElementNormalizer implements NormalizerInterface, DenormalizerIn
         array $context = []
     ): array {
         return [
+            'type' => $data::class,
             'elementNumber' => $data->getElementNumber(),
             'hostElements' => $data->getHostElements(),
         ];
