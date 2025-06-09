@@ -41,6 +41,7 @@ final class URIElementNormalizerTest extends TestCase
 
         self::assertEquals(
             [
+                'type' => URIElement::class,
                 'elementNumber' => 2,
                 'uriElements' => ['foo', 'bar'],
             ],

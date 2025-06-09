@@ -40,6 +40,7 @@ final class URITextNormalizerTest extends TestCase
 
         self::assertEquals(
             [
+                'type' => URIText::class,
                 'siteAccessesConfiguration' => [
                     'prefix' => 'foo',
                     'suffix' => 'bar',
