@@ -92,7 +92,7 @@ class UserService implements UserServiceInterface
 
     private ConfigResolverInterface $configResolver;
 
-    public function setLogger(LoggerInterface $logger = null): void
+    public function setLogger(LoggerInterface $logger = null)
     {
         $this->logger = $logger;
     }
