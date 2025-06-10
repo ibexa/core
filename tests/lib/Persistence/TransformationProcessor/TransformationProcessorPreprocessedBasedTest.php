@@ -18,9 +18,14 @@ class TransformationProcessorPreprocessedBasedTest extends TestCase
 {
     public function getProcessor()
     {
+        $preprocessedRuleFiles = glob(
+            dirname(__DIR__, 4) . '/src/lib/Resources/slug_converter/transformations/*.tr.result.php'
+        );
+        self::assertNotFalse($preprocessedRuleFiles, 'Failed to find preprocessed transformation files');
+
         return new PreprocessedBased(
             new Persistence\TransformationProcessor\PcreCompiler(new Persistence\Utf8Converter()),
-            glob(__DIR__ . '/_fixtures/transformations/*.tr.result')
+            $preprocessedRuleFiles
         );
     }
 

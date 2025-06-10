@@ -38,12 +38,15 @@ class HandlerContentTest extends AbstractTestCase
      */
     protected function getContentSearchHandler(array $fullTextSearchConfiguration = [])
     {
+        $ruleFiles = glob(dirname(__DIR__, 5) . '/src/lib/Resources/slug_converter/transformations/*.tr');
+        self::assertNotFalse($ruleFiles, 'Failed to find transformation files');
+
         $transformationProcessor = new Persistence\TransformationProcessor\DefinitionBased(
             new Persistence\TransformationProcessor\DefinitionBased\Parser(),
             new Persistence\TransformationProcessor\PcreCompiler(
                 new Persistence\Utf8Converter()
             ),
-            glob(__DIR__ . '/../../../../Persistence/Tests/TransformationProcessor/_fixtures/transformations/*.tr')
+            $ruleFiles
         );
         $connection = $this->getDatabaseConnection();
         $commaSeparatedCollectionValueHandler = new Content\Common\Gateway\CriterionHandler\FieldValue\Handler\Collection(

@@ -67,17 +67,18 @@ abstract class LanguageAwareTestCase extends TestCase
 
     /**
      * Return definition-based transformation processor instance.
-     *
-     * @return Persistence\TransformationProcessor\DefinitionBased
      */
-    protected function getDefinitionBasedTransformationProcessor()
+    protected function getDefinitionBasedTransformationProcessor(): Persistence\TransformationProcessor\DefinitionBased
     {
+        $ruleFiles = glob(dirname(__DIR__, 5) . '/src/lib/Resources/slug_converter/transformations/*.tr');
+        self::assertNotFalse($ruleFiles, 'Failed to find transformation rules files.');
+
         return new Persistence\TransformationProcessor\DefinitionBased(
             new Persistence\TransformationProcessor\DefinitionBased\Parser(),
             new Persistence\TransformationProcessor\PcreCompiler(
                 new Persistence\Utf8Converter()
             ),
-            glob(__DIR__ . '/../../../../Persistence/Tests/TransformationProcessor/_fixtures/transformations/*.tr')
+            $ruleFiles
         );
     }
 

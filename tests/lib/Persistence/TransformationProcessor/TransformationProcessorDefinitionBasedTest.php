@@ -18,10 +18,13 @@ class TransformationProcessorDefinitionBasedTest extends TestCase
 {
     public function getProcessor()
     {
+        $ruleFiles = glob(dirname(__DIR__, 4) . '/src/lib/Resources/slug_converter/transformations/*.tr');
+        self::assertNotFalse($ruleFiles, 'Failed to find transformation files');
+
         return new DefinitionBased(
             new Persistence\TransformationProcessor\DefinitionBased\Parser(),
             new Persistence\TransformationProcessor\PcreCompiler(new Persistence\Utf8Converter()),
-            glob(__DIR__ . '/_fixtures/transformations/*.tr')
+            $ruleFiles
         );
     }
 
