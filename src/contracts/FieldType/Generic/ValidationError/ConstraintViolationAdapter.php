@@ -21,18 +21,15 @@ use Symfony\Component\Validator\ConstraintViolationInterface;
  */
 final class ConstraintViolationAdapter implements ValidationErrorInterface
 {
-    /** @var \Symfony\Component\Validator\ConstraintViolationInterface */
-    private $violation;
+    private ConstraintViolationInterface $violation;
 
     /**
      * Element on which the error occurred
-     * e.g. property name or property path compatible with a Symfony PropertyAccess component.
+     * e.g. property name or property path compatible with Symfony PropertyAccess component.
      *
      * Example: StringLengthValidator[minStringLength]
-     *
-     * @var string
      */
-    private $target;
+    private string $target;
 
     public function __construct(ConstraintViolationInterface $violation)
     {

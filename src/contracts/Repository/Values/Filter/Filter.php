@@ -47,7 +47,7 @@ final class Filter
                     sprintf(
                         'Expected an instance of "%s", got "%s" at position %d',
                         FilteringSortClause::class,
-                        is_object($sortClause) ? get_class($sortClause) : gettype($sortClause),
+                        get_debug_type($sortClause),
                         $idx
                     )
                 );
