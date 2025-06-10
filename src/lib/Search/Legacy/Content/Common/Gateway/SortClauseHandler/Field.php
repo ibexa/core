@@ -140,7 +140,7 @@ class Field extends SortClauseHandler
                             $fieldDefinitionId,
                             ParameterType::INTEGER
                         ),
-                        $tableAlias . '.contentclassattribute_id'
+                        $tableAlias . '.content_type_field_definition_id'
                     ),
                     $query->expr()->eq(
                         $tableAlias . '.contentobject_id',

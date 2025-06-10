@@ -299,7 +299,7 @@ class Handler implements BaseContentHandler
                     [
                         'sourceContentId' => $contentId,
                         'sourceContentVersionNo' => $content->versionInfo->versionNo,
-                        'sourceFieldDefinitionId' => $relation['content_link_contentclassattribute_id'],
+                        'sourceFieldDefinitionId' => $relation['content_link_content_type_field_definition_id'],
                         'destinationContentId' => $relation['content_link_to_contentobject_id'],
                         'type' => (int)$relation['content_link_relation_type'],
                     ]
