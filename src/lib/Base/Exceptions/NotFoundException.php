@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\Base\Exceptions;
 
@@ -15,8 +16,10 @@ use Ibexa\Core\Base\TranslatableBase;
 /**
  * Not Found Exception implementation.
  *
- * Use:
- *   throw new NotFound( 'Content', 42 );
+ * Usage:
+ * ```
+ * throw new NotFoundException('Content', 42);
+ * ```
  */
 class NotFoundException extends APINotFoundException implements Httpable, Translatable
 {
@@ -24,12 +27,8 @@ class NotFoundException extends APINotFoundException implements Httpable, Transl
 
     /**
      * Generates: Could not find '{$what}' with identifier '{$identifier}'.
-     *
-     * @param string $what
-     * @param mixed $identifier
-     * @param \Exception|null $previous
      */
-    public function __construct($what, $identifier, Exception $previous = null)
+    public function __construct(string $what, mixed $identifier, ?Exception $previous = null)
     {
         $identifierStr = is_string($identifier) ? $identifier : var_export($identifier, true);
         $this->setMessageTemplate("Could not find '%what%' with identifier '%identifier%'");

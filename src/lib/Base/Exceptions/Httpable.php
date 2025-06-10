@@ -14,19 +14,19 @@ namespace Ibexa\Core\Base\Exceptions;
  */
 interface Httpable
 {
-    public const BAD_REQUEST = 400;
-    public const UNAUTHORIZED = 401;
-    public const PAYMENT_REQUIRED = 402;
-    public const FORBIDDEN = 403;
-    public const NOT_FOUND = 404;
-    public const METHOD_NOT_ALLOWED = 405;
-    public const NOT_ACCEPTABLE = 406;
-    public const CONFLICT = 409;
-    public const GONE = 410;
+    public const int BAD_REQUEST = 400;
+    public const int UNAUTHORIZED = 401;
+    public const int PAYMENT_REQUIRED = 402;
+    public const int FORBIDDEN = 403;
+    public const int NOT_FOUND = 404;
+    public const int METHOD_NOT_ALLOWED = 405;
+    public const int NOT_ACCEPTABLE = 406;
+    public const int CONFLICT = 409;
+    public const int GONE = 410;
 
-    public const UNSUPPORTED_MEDIA_TYPE = 415;
+    public const int UNSUPPORTED_MEDIA_TYPE = 415;
 
-    public const INTERNAL_ERROR = 500;
-    public const NOT_IMPLEMENTED = 501;
-    public const SERVICE_UNAVAILABLE = 503;
+    public const int INTERNAL_ERROR = 500;
+    public const int NOT_IMPLEMENTED = 501;
+    public const int SERVICE_UNAVAILABLE = 503;
 }

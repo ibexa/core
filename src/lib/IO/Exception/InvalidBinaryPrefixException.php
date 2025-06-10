@@ -4,19 +4,23 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\IO\Exception;
 
-use Exception;
-
 class InvalidBinaryPrefixException extends InvalidBinaryFileIdException
 {
-    public function __construct($id, $prefix, $code = 0)
+    public function __construct(string $identifier, string $prefix, int $code = 0)
     {
-        $this->setMessageTemplate("Argument 'BinaryFile::id' is invalid: '%id%' is wrong value, it does not contain prefix '%prefix%'. Is 'var_dir' config correct?");
-        $this->setParameters(['%id%' => $id, '%prefix%' => $prefix]);
+        parent::__construct($identifier);
 
-        // Parent does not let us set specifc message, so we jump all the way up to root Exception __construct().
-        Exception::__construct($this->getBaseTranslation(), $code);
+        $this->setMessageTemplate(
+            "Argument 'BinaryFile::id' is invalid: '%id%' is wrong value, it does not contain prefix '%prefix%'. Is 'var_dir' config correct?"
+        );
+        $this->setParameters(['%id%' => $identifier, '%prefix%' => $prefix]);
+
+        // override message set by parent constructor chain
+        $this->message = $this->getBaseTranslation();
+        $this->code = $code;
     }
 }
