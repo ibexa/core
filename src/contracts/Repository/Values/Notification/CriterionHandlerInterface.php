@@ -9,11 +9,11 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Repository\Values\Notification;
 
 use Doctrine\DBAL\Query\QueryBuilder;
-use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface;
 
 interface CriterionHandlerInterface
 {
-    public function supports(Criterion $criterion): bool;
+    public function supports(CriterionInterface $criterion): bool;
 
-    public function apply(QueryBuilder $qb, Criterion $criterion): void;
+    public function apply(QueryBuilder $qb, CriterionInterface $criterion): void;
 }

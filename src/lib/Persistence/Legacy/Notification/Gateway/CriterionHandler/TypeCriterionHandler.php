@@ -10,18 +10,18 @@ namespace Ibexa\Core\Persistence\Legacy\Notification\Gateway\CriterionHandler;
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Notification\CriterionHandlerInterface;
-use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Type;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway\DoctrineDatabase;
 
 final class TypeCriterionHandler implements CriterionHandlerInterface
 {
-    public function supports(Criterion $criterion): bool
+    public function supports(CriterionInterface $criterion): bool
     {
         return $criterion instanceof Type;
     }
 
-    public function apply(QueryBuilder $qb, Criterion $criterion): void
+    public function apply(QueryBuilder $qb, CriterionInterface $criterion): void
     {
         /** @var \Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Type $criterion */
         $qb->andWhere($qb->expr()->eq(DoctrineDatabase::COLUMN_TYPE, ':type'));

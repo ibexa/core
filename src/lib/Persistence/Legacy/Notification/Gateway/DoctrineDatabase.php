@@ -13,8 +13,8 @@ use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
-use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway;
 use PDO;
@@ -180,7 +180,7 @@ class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion[] $criteria
+     * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface[] $criteria
      */
     private function applyFilters(QueryBuilder $qb, array $criteria): void
     {
@@ -189,7 +189,7 @@ class DoctrineDatabase extends Gateway
         }
     }
 
-    private function applyCriterion(QueryBuilder $qb, Criterion $criterion): void
+    private function applyCriterion(QueryBuilder $qb, CriterionInterface $criterion): void
     {
         foreach ($this->criterionHandlers as $handler) {
             if ($handler->supports($criterion)) {

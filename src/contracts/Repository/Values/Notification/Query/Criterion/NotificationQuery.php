@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion;
 
-use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface;
 
 final class NotificationQuery
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion[] */
+    /** @var \Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface[] */
     private array $criteria;
 
     private int $offset;
@@ -20,7 +20,7 @@ final class NotificationQuery
     private int $limit;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion[] $criteria
+     * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface[] $criteria
      */
     public function __construct(array $criteria = [], int $offset = 0, int $limit = 25)
     {
@@ -29,13 +29,13 @@ final class NotificationQuery
         $this->limit = $limit;
     }
 
-    public function addCriterion(Criterion $criterion): void
+    public function addCriterion(CriterionInterface $criterion): void
     {
         $this->criteria[] = $criterion;
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface[]
      */
     public function getCriteria(): array
     {
@@ -47,8 +47,18 @@ final class NotificationQuery
         return $this->offset;
     }
 
+    public function setOffset(int $offset): void
+    {
+        $this->offset = $offset;
+    }
+
     public function getLimit(): int
     {
         return $this->limit;
+    }
+
+    public function setLimit(int $limit): void
+    {
+        $this->limit = $limit;
     }
 }

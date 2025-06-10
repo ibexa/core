@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion;
 
-use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface;
 
-final class Status extends Criterion
+final class Status implements CriterionInterface
 {
     /** @var string[] */
     public array $statuses;

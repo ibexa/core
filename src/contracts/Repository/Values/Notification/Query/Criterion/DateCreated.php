@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion;
 
 use DateTimeInterface;
-use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface;
 
-final class DateCreated extends Criterion
+final class DateCreated implements CriterionInterface
 {
     public ?DateTimeInterface $from;
 
