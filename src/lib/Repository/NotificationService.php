@@ -41,7 +41,23 @@ class NotificationService implements NotificationServiceInterface
         $this->permissionResolver = $permissionResolver;
     }
 
-    public function loadNotifications(?NotificationQuery $query = null): NotificationList
+    public function loadNotifications(int $offset = 0, int $limit = 25): NotificationList
+    {
+        $currentUserId = $this->getCurrentUserId();
+
+        $list = new NotificationList();
+        $list->totalCount = $this->persistenceHandler->countNotifications($currentUserId);
+
+        if ($list->totalCount > 0) {
+            $list->items = array_map(function (Notification $spiNotification) {
+                return $this->buildDomainObject($spiNotification);
+            }, $this->persistenceHandler->loadUserNotifications($currentUserId, $offset, $limit));
+        }
+
+        return $list;
+    }
+
+    public function findNotifications(?NotificationQuery $query = null): NotificationList
     {
         $currentUserId = $this->getCurrentUserId();
 
@@ -51,7 +67,7 @@ class NotificationService implements NotificationServiceInterface
         if ($list->totalCount > 0) {
             $list->items = array_map(function (Notification $spiNotification) {
                 return $this->buildDomainObject($spiNotification);
-            }, $this->persistenceHandler->loadUserNotifications($currentUserId, $query));
+            }, $this->persistenceHandler->findUserNotifications($currentUserId, $query));
         }
 
         return $list;

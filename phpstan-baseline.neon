@@ -22735,18 +22735,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Notification/Gateway.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Notification\\Gateway\:\:loadUserNotifications\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Notification/Gateway.php
-
-		-
-			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: src/lib/Persistence/Legacy/Notification/Gateway/DoctrineDatabase.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Notification\\Gateway\\DoctrineDatabase\:\:getColumns\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -22754,12 +22742,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Notification\\Gateway\\DoctrineDatabase\:\:getNotificationById\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Notification/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Notification\\Gateway\\DoctrineDatabase\:\:loadUserNotifications\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Persistence/Legacy/Notification/Gateway/DoctrineDatabase.php
@@ -22784,12 +22766,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Notification\\Gateway\\ExceptionConversion\:\:getNotificationById\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Notification/Gateway/ExceptionConversion.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Notification\\Gateway\\ExceptionConversion\:\:loadUserNotifications\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Persistence/Legacy/Notification/Gateway/ExceptionConversion.php
@@ -42487,72 +42463,6 @@ parameters:
 			path: tests/integration/Core/Repository/NonRedundantFieldSetTest.php
 
 		-
-			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Notification\\\\Notification'' and Ibexa\\Contracts\\Core\\Repository\\Values\\Notification\\Notification will always evaluate to true\.$#'
-			identifier: method.alreadyNarrowedType
-			count: 2
-			path: tests/integration/Core/Repository/NotificationServiceTest.php
-
-		-
-			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Notification\\\\NotificationList'' and Ibexa\\Contracts\\Core\\Repository\\Values\\Notification\\NotificationList will always evaluate to true\.$#'
-			identifier: method.alreadyNarrowedType
-			count: 1
-			path: tests/integration/Core/Repository/NotificationServiceTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\NotificationServiceTest\:\:testCreateNotification\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/NotificationServiceTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\NotificationServiceTest\:\:testCreateNotificationThrowsInvalidArgumentExceptionOnMissingOwner\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/NotificationServiceTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\NotificationServiceTest\:\:testCreateNotificationThrowsInvalidArgumentExceptionOnMissingType\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/NotificationServiceTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\NotificationServiceTest\:\:testDeleteNotification\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/NotificationServiceTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\NotificationServiceTest\:\:testGetNotification\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/NotificationServiceTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\NotificationServiceTest\:\:testGetNotificationCount\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/NotificationServiceTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\NotificationServiceTest\:\:testGetPendingNotificationCount\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/NotificationServiceTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\NotificationServiceTest\:\:testLoadNotifications\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/NotificationServiceTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\NotificationServiceTest\:\:testMarkNotificationAsRead\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/NotificationServiceTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\ObjectStateServiceAuthorizationTest\:\:testCreateObjectStateGroupThrowsUnauthorizedException\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -50363,48 +50273,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/Event/LocationServiceTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Event\\NotificationServiceTest\:\:testCreateNotificationEvents\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Event/NotificationServiceTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Event\\NotificationServiceTest\:\:testCreateNotificationStopPropagationInBeforeEvents\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Event/NotificationServiceTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Event\\NotificationServiceTest\:\:testDeleteNotificationEvents\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Event/NotificationServiceTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Event\\NotificationServiceTest\:\:testDeleteNotificationStopPropagationInBeforeEvents\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Event/NotificationServiceTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Event\\NotificationServiceTest\:\:testMarkNotificationAsReadEvents\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Event/NotificationServiceTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Event\\NotificationServiceTest\:\:testMarkNotificationAsReadStopPropagationInBeforeEvents\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Event/NotificationServiceTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Event\\NotificationServiceTest\:\:testReturnCreateNotificationResultInBeforeEvents\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Event/NotificationServiceTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Event\\ObjectStateServiceTest\:\:testCreateObjectStateEvents\(\) has no return type specified\.$#'
@@ -67237,12 +67105,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Notification/Gateway/DoctrineDatabaseTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Notification\\Gateway\\DoctrineDatabaseTest\:\:testLoadUserNotifications\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Notification/Gateway/DoctrineDatabaseTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Notification\\Gateway\\DoctrineDatabaseTest\:\:testUpdateNotification\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -67274,12 +67136,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Notification\\HandlerTest\:\:testGetNotificationById\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Notification/HandlerTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Notification\\HandlerTest\:\:testLoadUserNotifications\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/Persistence/Legacy/Notification/HandlerTest.php
@@ -69140,12 +68996,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Decorator\\NotificationServiceDecoratorTest\:\:testGetPendingNotificationCountDecorator\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Decorator/NotificationServiceDecoratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Decorator\\NotificationServiceDecoratorTest\:\:testLoadNotificationsDecorator\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/Repository/Decorator/NotificationServiceDecoratorTest.php

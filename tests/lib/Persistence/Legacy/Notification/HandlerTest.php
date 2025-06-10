@@ -164,7 +164,40 @@ class HandlerTest extends TestCase
         $this->assertEquals($expectedCount, $this->handler->countNotifications($ownerId));
     }
 
-    public function testLoadUserNotifications()
+    public function testLoadUserNotifications(): void
+    {
+        $ownerId = 9;
+        $limit = 5;
+        $offset = 0;
+
+        $rows = [
+            ['id' => 1/* ... */],
+            ['id' => 2/* ... */],
+            ['id' => 3/* ... */],
+        ];
+
+        $objects = [
+            new Notification(['id' => 1/* ... */]),
+            new Notification(['id' => 2/* ... */]),
+            new Notification(['id' => 3/* ... */]),
+        ];
+
+        $this->gateway
+            ->expects($this->once())
+            ->method('loadUserNotifications')
+            ->with($ownerId, $offset, $limit)
+            ->willReturn($rows);
+
+        $this->mapper
+            ->expects($this->once())
+            ->method('extractNotificationsFromRows')
+            ->with($rows)
+            ->willReturn($objects);
+
+        $this->assertEquals($objects, $this->handler->loadUserNotifications($ownerId, $offset, $limit));
+    }
+
+    public function testFindUserNotifications(): void
     {
         $ownerId = 9;
         $limit = 5;
@@ -185,7 +218,7 @@ class HandlerTest extends TestCase
 
         $this->gateway
             ->expects($this->exactly(2))
-            ->method('loadUserNotifications')
+            ->method('findUserNotifications')
             ->with(
                 $this->equalTo($ownerId),
                 $this->logicalOr(
@@ -201,9 +234,9 @@ class HandlerTest extends TestCase
             ->with($rows)
             ->willReturn($objects);
 
-        $this->assertEquals($objects, $this->handler->loadUserNotifications($ownerId, new NotificationQuery([], $offset, $limit)));
+        $this->assertEquals($objects, $this->handler->findUserNotifications($ownerId, new NotificationQuery([], $offset, $limit)));
 
-        $this->assertEquals($objects, $this->handler->loadUserNotifications($ownerId, $query));
+        $this->assertEquals($objects, $this->handler->findUserNotifications($ownerId, $query));
     }
 
     public function testDelete()

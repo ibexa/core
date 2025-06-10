@@ -30,7 +30,21 @@ class NotificationServiceDecoratorTest extends TestCase
         return $this->createMock(NotificationService::class);
     }
 
-    public function testLoadNotificationsDecorator()
+    public function testLoadNotificationsDecorator(): void
+    {
+        $serviceMock = $this->createServiceMock();
+        $decoratedService = $this->createDecorator($serviceMock);
+        $parameters = [
+            264,
+            959,
+        ];
+
+        $serviceMock->expects($this->once())->method('loadNotifications')->with(...$parameters);
+
+        $decoratedService->loadNotifications(...$parameters);
+    }
+
+    public function testFindNotificationsDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -38,10 +52,10 @@ class NotificationServiceDecoratorTest extends TestCase
         $query = new NotificationQuery([$typeCriterion], 264, 959);
 
         $serviceMock->expects($this->once())
-            ->method('loadNotifications')
+            ->method('findNotifications')
             ->with($query);
 
-        $decoratedService->loadNotifications($query);
+        $decoratedService->findNotifications($query);
     }
 
     public function testGetNotificationDecorator()

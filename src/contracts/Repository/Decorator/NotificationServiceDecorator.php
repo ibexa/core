@@ -24,9 +24,16 @@ abstract class NotificationServiceDecorator implements NotificationService
         $this->innerService = $innerService;
     }
 
-    public function loadNotifications(?NotificationQuery $query = null): NotificationList
+    public function loadNotifications(
+        int $offset,
+        int $limit
+    ): NotificationList {
+        return $this->innerService->loadNotifications($offset, $limit);
+    }
+
+    public function findNotifications(?NotificationQuery $query = null): NotificationList
     {
-        return $this->innerService->loadNotifications($query);
+        return $this->innerService->findNotifications($query);
     }
 
     public function getNotification(int $notificationId): Notification

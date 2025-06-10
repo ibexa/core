@@ -19,7 +19,9 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Notifica
  */
 interface NotificationService
 {
-    public function loadNotifications(?NotificationQuery $query = null): NotificationList;
+    public function loadNotifications(int $offset, int $limit): NotificationList;
+
+    public function findNotifications(?NotificationQuery $query = null): NotificationList;
 
     /**
      * Load single notification (by ID).

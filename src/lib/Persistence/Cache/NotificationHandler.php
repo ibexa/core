@@ -154,14 +154,25 @@ class NotificationHandler extends AbstractHandler implements Handler
         return $notification;
     }
 
-    public function loadUserNotifications(int $userId, ?NotificationQuery $query = null): array
+    public function loadUserNotifications(int $userId, int $offset, int $limit): array
+    {
+        $this->logger->logCall(__METHOD__, [
+            'ownerId' => $userId,
+            'offset' => $offset,
+            'limit' => $limit,
+        ]);
+
+        return $this->persistenceHandler->notificationHandler()->loadUserNotifications($userId, $offset, $limit);
+    }
+
+    public function findUserNotifications(int $userId, ?NotificationQuery $query = null): array
     {
         $this->logger->logCall(__METHOD__, [
             'ownerId' => $userId,
             'query' => $query,
         ]);
 
-        return $this->persistenceHandler->notificationHandler()->loadUserNotifications($userId, $query);
+        return $this->persistenceHandler->notificationHandler()->findUserNotifications($userId, $query);
     }
 }
 

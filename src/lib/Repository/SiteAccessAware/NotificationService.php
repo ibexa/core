@@ -30,9 +30,14 @@ class NotificationService implements NotificationServiceInterface
         $this->service = $service;
     }
 
-    public function loadNotifications(?NotificationQuery $query = null): NotificationList
+    public function loadNotifications(int $offset, int $limit): NotificationList
     {
-        return $this->service->loadNotifications($query);
+        return $this->service->loadNotifications($offset, $limit);
+    }
+
+    public function findNotifications(?NotificationQuery $query = null): NotificationList
+    {
+        return $this->service->findNotifications($query);
     }
 
     /**

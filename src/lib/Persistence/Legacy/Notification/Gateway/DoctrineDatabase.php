@@ -72,7 +72,7 @@ class DoctrineDatabase extends Gateway
 
         $query->setParameter(':id', $notificationId, PDO::PARAM_INT);
 
-        return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        return $query->execute()->fetchAllAssociative();
     }
 
     public function updateNotification(Notification $notification): void
@@ -124,7 +124,32 @@ class DoctrineDatabase extends Gateway
         return (int)$query->execute()->fetchColumn();
     }
 
-    public function loadUserNotifications(int $userId, ?NotificationQuery $query = null): array
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    public function loadUserNotifications(int $userId, int $offset = 0, int $limit = -1): array
+    {
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->select(...$this->getColumns())
+            ->from(self::TABLE_NOTIFICATION)
+            ->where($query->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
+            ->setFirstResult($offset);
+
+        if ($limit > 0) {
+            $query->setMaxResults($limit);
+        }
+
+        $query->orderBy(self::COLUMN_ID, 'DESC');
+        $query->setParameter(':user_id', $userId, PDO::PARAM_INT);
+
+        return $query->execute()->fetchAllAssociative();
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    public function findUserNotifications(int $userId, ?NotificationQuery $query = null): array
     {
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder
@@ -148,7 +173,7 @@ class DoctrineDatabase extends Gateway
             }
         }
 
-        return $queryBuilder->execute()->fetchAll(PDO::FETCH_ASSOC);
+        return $queryBuilder->execute()->fetchAllAssociative();
     }
 
     /**

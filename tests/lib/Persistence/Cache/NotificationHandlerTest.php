@@ -20,25 +20,16 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Notifica
  */
 class NotificationHandlerTest extends AbstractCacheHandlerTest
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getHandlerMethodName(): string
     {
         return 'notificationHandler';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getHandlerClassName(): string
     {
         return SPINotificationHandler::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function providerForUnCachedMethods(): array
     {
         $ownerId = 7;
@@ -104,14 +95,14 @@ class NotificationHandlerTest extends AbstractCacheHandlerTest
                 ],
             ],
             [
-                'loadUserNotifications', [$ownerId, new NotificationQuery([], 0, 25)], null, null, null, null, [],
+                'loadUserNotifications', [$ownerId, 0, 25], null, null, null, null, [],
+            ],
+            [
+                'findUserNotifications', [$ownerId, new NotificationQuery([], 0, 25)], null, null, null, null, [],
             ],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function providerForCachedLoadMethodsHit(): array
     {
         $notificationId = 5;

@@ -54,7 +54,12 @@ interface Handler
     /**
      * @return \Ibexa\Contracts\Core\Persistence\Notification\Notification[]
      */
-    public function loadUserNotifications(int $userId, ?NotificationQuery $query = null): array;
+    public function loadUserNotifications(int $userId, int $offset, int $limit): array;
+
+    /**
+     * @return \Ibexa\Contracts\Core\Persistence\Notification\Notification[]
+     */
+    public function findUserNotifications(int $userId, ?NotificationQuery $query = null): array;
 
     public function countNotifications(int $currentUserId, ?NotificationQuery $query = null): int;
 

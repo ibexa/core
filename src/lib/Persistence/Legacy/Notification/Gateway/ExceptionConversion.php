@@ -71,10 +71,25 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function loadUserNotifications(int $userId, ?NotificationQuery $query = null): array
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    public function loadUserNotifications(int $userId, int $offset = 0, int $limit = -1): array
     {
         try {
-            return $this->innerGateway->loadUserNotifications($userId, $query);
+            return $this->innerGateway->loadUserNotifications($userId, $offset, $limit);
+        } catch (DBALException|PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    public function findUserNotifications(int $userId, ?NotificationQuery $query = null): array
+    {
+        try {
+            return $this->innerGateway->findUserNotifications($userId, $query);
         } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }

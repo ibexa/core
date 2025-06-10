@@ -111,14 +111,49 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testLoadUserNotifications()
+    public function testLoadUserNotifications(): void
+    {
+        $userId = 14;
+        $offset = 1;
+        $limit = 3;
+        $results = $this->getGateway()->loadUserNotifications($userId, $offset, $limit);
+
+        $this->assertEquals([
+            [
+                'id' => '4',
+                'owner_id' => '14',
+                'is_pending' => 1,
+                'type' => 'Workflow:Review',
+                'created' => '1530005852',
+                'data' => null,
+            ],
+            [
+                'id' => '3',
+                'owner_id' => '14',
+                'is_pending' => 0,
+                'type' => 'Workflow:Reject',
+                'created' => '1530002252',
+                'data' => null,
+            ],
+            [
+                'id' => '2',
+                'owner_id' => '14',
+                'is_pending' => 0,
+                'type' => 'Workflow:Approve',
+                'created' => '1529998652',
+                'data' => null,
+            ],
+        ], $results);
+    }
+
+    public function testFindUserNotifications(): void
     {
         $userId = 14;
         $offset = 1;
         $limit = 3;
         $queryWithoutFilters = new NotificationQuery([], $offset, $limit);
 
-        $resultsWithoutQuery = $this->getGateway()->loadUserNotifications($userId, $queryWithoutFilters);
+        $resultsWithoutQuery = $this->getGateway()->findUserNotifications($userId, $queryWithoutFilters);
 
         $this->assertEquals([
             [
@@ -149,7 +184,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $typeCriterion = new Type('Workflow:Review');
         $queryWithFilters = new NotificationQuery([$typeCriterion], $offset, $limit);
-        $resultsWithQuery = $this->getGateway()->loadUserNotifications($userId, $queryWithFilters);
+        $resultsWithQuery = $this->getGateway()->findUserNotifications($userId, $queryWithFilters);
 
         $this->assertEquals([
             [
@@ -172,7 +207,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $nonExistingTypeCriterion = new Type('NonExistingType');
         $queryNoResults = new NotificationQuery([$nonExistingTypeCriterion], $offset, $limit);
-        $resultsWithNoResults = $this->getGateway()->loadUserNotifications($userId, $queryNoResults);
+        $resultsWithNoResults = $this->getGateway()->findUserNotifications($userId, $queryNoResults);
 
         $this->assertEquals([], $resultsWithNoResults);
     }
