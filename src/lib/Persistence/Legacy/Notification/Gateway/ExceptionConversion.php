@@ -71,9 +71,6 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    /**
-     * @return array<int, array<string, mixed>>
-     */
     public function loadUserNotifications(int $userId, int $offset = 0, int $limit = -1): array
     {
         try {
@@ -83,9 +80,6 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    /**
-     * @return array<int, array<string, mixed>>
-     */
     public function findUserNotifications(int $userId, ?NotificationQuery $query = null): array
     {
         try {

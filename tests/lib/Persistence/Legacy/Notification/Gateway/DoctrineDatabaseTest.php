@@ -13,6 +13,9 @@ use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Type;
+use Ibexa\Core\Persistence\Legacy\Notification\Gateway\CriterionHandler\DateCreatedCriterionHandler;
+use Ibexa\Core\Persistence\Legacy\Notification\Gateway\CriterionHandler\StatusCriterionHandler;
+use Ibexa\Core\Persistence\Legacy\Notification\Gateway\CriterionHandler\TypeCriterionHandler;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
@@ -52,7 +55,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $data = $this->loadNotification($id);
 
-        $this->assertEquals([
+        self::assertEquals([
             'id' => $id,
             'owner_id' => '14',
             'is_pending' => 1,
@@ -66,7 +69,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $data = $this->getGateway()->getNotificationById(self::EXISTING_NOTIFICATION_ID);
 
-        $this->assertEquals([
+        self::assertEquals([
             self::EXISTING_NOTIFICATION_DATA,
         ], $data);
     }
@@ -84,7 +87,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $this->getGateway()->updateNotification($notification);
 
-        $this->assertEquals([
+        self::assertEquals([
             'id' => (string) self::EXISTING_NOTIFICATION_ID,
             'owner_id' => '14',
             'is_pending' => '0',
@@ -96,14 +99,14 @@ class DoctrineDatabaseTest extends TestCase
 
     public function testCountUserNotifications()
     {
-        $this->assertEquals(5, $this->getGateway()->countUserNotifications(
+        self::assertEquals(5, $this->getGateway()->countUserNotifications(
             self::EXISTING_NOTIFICATION_DATA['owner_id']
         ));
     }
 
     public function testCountUserPendingNotifications()
     {
-        $this->assertEquals(
+        self::assertEquals(
             3,
             $this->getGateway()->countUserPendingNotifications(
                 self::EXISTING_NOTIFICATION_DATA['owner_id']
@@ -118,7 +121,7 @@ class DoctrineDatabaseTest extends TestCase
         $limit = 3;
         $results = $this->getGateway()->loadUserNotifications($userId, $offset, $limit);
 
-        $this->assertEquals([
+        self::assertEquals([
             [
                 'id' => '4',
                 'owner_id' => '14',
@@ -155,7 +158,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $resultsWithoutQuery = $this->getGateway()->findUserNotifications($userId, $queryWithoutFilters);
 
-        $this->assertEquals([
+        self::assertEquals([
             [
                 'id' => '4',
                 'owner_id' => '14',
@@ -186,7 +189,7 @@ class DoctrineDatabaseTest extends TestCase
         $queryWithFilters = new NotificationQuery([$typeCriterion], $offset, $limit);
         $resultsWithQuery = $this->getGateway()->findUserNotifications($userId, $queryWithFilters);
 
-        $this->assertEquals([
+        self::assertEquals([
             [
                 'id' => '4',
                 'owner_id' => '14',
@@ -209,14 +212,14 @@ class DoctrineDatabaseTest extends TestCase
         $queryNoResults = new NotificationQuery([$nonExistingTypeCriterion], $offset, $limit);
         $resultsWithNoResults = $this->getGateway()->findUserNotifications($userId, $queryNoResults);
 
-        $this->assertEquals([], $resultsWithNoResults);
+        self::assertEquals([], $resultsWithNoResults);
     }
 
     public function testDelete()
     {
         $this->getGateway()->delete(self::EXISTING_NOTIFICATION_ID);
 
-        $this->assertEmpty($this->loadNotification(self::EXISTING_NOTIFICATION_ID));
+        self::assertEmpty($this->loadNotification(self::EXISTING_NOTIFICATION_ID));
     }
 
     /**
@@ -226,8 +229,17 @@ class DoctrineDatabaseTest extends TestCase
      */
     protected function getGateway(): DoctrineDatabase
     {
+        $typeHandler = new TypeCriterionHandler();
+        $statusHandler = new StatusCriterionHandler();
+        $dateCreatedHandler = new DateCreatedCriterionHandler();
+
         return new DoctrineDatabase(
-            $this->getDatabaseConnection()
+            $this->getDatabaseConnection(),
+            [
+                $typeHandler,
+                $statusHandler,
+                $dateCreatedHandler,
+            ]
         );
     }
 

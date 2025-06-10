@@ -13,11 +13,11 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion;
 final class NotificationQuery
 {
     /** @var \Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion[] */
-    public array $criteria = [];
+    private array $criteria;
 
-    public int $offset = 0;
+    private int $offset;
 
-    public int $limit = 25;
+    private int $limit;
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion[] $criteria
@@ -32,5 +32,23 @@ final class NotificationQuery
     public function addCriterion(Criterion $criterion): void
     {
         $this->criteria[] = $criterion;
+    }
+
+    /**
+     * @return \Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion[]
+     */
+    public function getCriteria(): array
+    {
+        return $this->criteria;
+    }
+
+    public function getOffset(): int
+    {
+        return $this->offset;
+    }
+
+    public function getLimit(): int
+    {
+        return $this->limit;
     }
 }

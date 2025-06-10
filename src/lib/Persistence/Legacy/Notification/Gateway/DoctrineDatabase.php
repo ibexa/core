@@ -9,18 +9,16 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Notification\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion;
-use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\DateCreated;
-use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\LogicalAnd;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
-use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Status;
-use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Type;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway;
 use PDO;
+use Traversable;
 
 class DoctrineDatabase extends Gateway
 {
@@ -34,9 +32,20 @@ class DoctrineDatabase extends Gateway
 
     private Connection $connection;
 
-    public function __construct(Connection $connection)
+    /**
+     * @var \Ibexa\Contracts\Core\Repository\Values\Notification\CriterionHandlerInterface[]
+     */
+    private array $criterionHandlers;
+
+    /**
+     * @param iterable<\Ibexa\Contracts\Core\Repository\Values\Notification\CriterionHandlerInterface> $criterionHandlers
+     */
+    public function __construct(Connection $connection, iterable $criterionHandlers)
     {
         $this->connection = $connection;
+        $this->criterionHandlers = $criterionHandlers instanceof Traversable
+            ? iterator_to_array($criterionHandlers)
+            : $criterionHandlers;
     }
 
     public function insert(CreateStruct $createStruct): int
@@ -100,10 +109,10 @@ class DoctrineDatabase extends Gateway
             ->select('COUNT(' . self::COLUMN_ID . ')')
             ->from(self::TABLE_NOTIFICATION)
             ->where($queryBuilder->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
-            ->setParameter(':user_id', $userId, PDO::PARAM_INT);
+            ->setParameter('user_id', $userId, ParameterType::INTEGER);
 
-        if (($query !== null) && !empty($query->criteria)) {
-            $this->applyFilters($queryBuilder, $query->criteria);
+        if (($query !== null) && !empty($query->getCriteria())) {
+            $this->applyFilters($queryBuilder, $query->getCriteria());
         }
 
         return (int)$queryBuilder->execute()->fetchColumn();
@@ -124,9 +133,6 @@ class DoctrineDatabase extends Gateway
         return (int)$query->execute()->fetchColumn();
     }
 
-    /**
-     * @return array<int, array<string, mixed>>
-     */
     public function loadUserNotifications(int $userId, int $offset = 0, int $limit = -1): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -146,9 +152,6 @@ class DoctrineDatabase extends Gateway
         return $query->execute()->fetchAllAssociative();
     }
 
-    /**
-     * @return array<int, array<string, mixed>>
-     */
     public function findUserNotifications(int $userId, ?NotificationQuery $query = null): array
     {
         $queryBuilder = $this->connection->createQueryBuilder();
@@ -160,16 +163,16 @@ class DoctrineDatabase extends Gateway
             ->orderBy(self::COLUMN_ID, 'DESC');
 
         if ($query !== null) {
-            if (!empty($query->criteria)) {
-                $this->applyFilters($queryBuilder, $query->criteria);
+            if (!empty($query->getCriteria())) {
+                $this->applyFilters($queryBuilder, $query->getCriteria());
             }
 
-            if ($query->offset > 0) {
-                $queryBuilder->setFirstResult($query->offset);
+            if ($query->getOffset() > 0) {
+                $queryBuilder->setFirstResult($query->getOffset());
             }
 
-            if ($query->limit > 0) {
-                $queryBuilder->setMaxResults($query->limit);
+            if ($query->getLimit() > 0) {
+                $queryBuilder->setMaxResults($query->getLimit());
             }
         }
 
@@ -188,55 +191,15 @@ class DoctrineDatabase extends Gateway
 
     private function applyCriterion(QueryBuilder $qb, Criterion $criterion): void
     {
-        switch (true) {
-            case $criterion instanceof Type:
-                $qb->andWhere($qb->expr()->eq(self::COLUMN_TYPE, ':type'));
-                $qb->setParameter(':type', $criterion->value);
-                break;
+        foreach ($this->criterionHandlers as $handler) {
+            if ($handler->supports($criterion)) {
+                $handler->apply($qb, $criterion);
 
-            case $criterion instanceof Status:
-                $qb->andWhere($qb->expr()->in(self::COLUMN_IS_PENDING, ':status'));
-                $qb->setParameter(':status', $criterion->statuses, Connection::PARAM_STR_ARRAY);
-                break;
-
-            case $criterion instanceof DateCreated:
-                if ($criterion->from !== null) {
-                    $qb->andWhere($qb->expr()->gte(self::COLUMN_CREATED, ':created_from'));
-                    $qb->setParameter(':created_from', $criterion->from->getTimestamp());
-                }
-                if ($criterion->to !== null) {
-                    $qb->andWhere($qb->expr()->lte(self::COLUMN_CREATED, ':created_to'));
-                    $qb->setParameter(':created_to', $criterion->to->getTimestamp());
-                }
-                break;
-
-            case $criterion instanceof LogicalAnd:
-                $this->applyLogicalOperator($qb, $criterion->criteria, 'and');
-                break;
-
-            default:
-                throw new InvalidArgumentException(get_class($criterion), 'Unknown criterion');
-        }
-    }
-
-    /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion[] $criteria
-     */
-    private function applyLogicalOperator(QueryBuilder $qb, array $criteria, string $type): void
-    {
-        $expr = $qb->expr();
-        $parts = [];
-
-        foreach ($criteria as $index => $criterion) {
-            $subQb = $this->connection->createQueryBuilder();
-            $this->applyCriterion($subQb, $criterion);
-            $parts[] = '(' . $subQb->getSQL() . ')';
+                return;
+            }
         }
 
-        if (!empty($parts)) {
-            $logicalExpr = $type === 'and' ? $expr->and(...$parts) : $expr->or(...$parts);
-            $qb->andWhere($logicalExpr);
-        }
+        throw new InvalidArgumentException(get_class($criterion), 'No handler found for criterion of type %s');
     }
 
     public function delete(int $notificationId): void

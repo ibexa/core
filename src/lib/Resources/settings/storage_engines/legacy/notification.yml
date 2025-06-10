@@ -2,6 +2,7 @@ services:
     Ibexa\Core\Persistence\Legacy\Notification\Gateway\DoctrineDatabase:
         arguments:
             $connection: '@ibexa.persistence.connection'
+            $criterionHandlers: !tagged_iterator 'ibexa.notification.criterion_handler'
 
     Ibexa\Core\Persistence\Legacy\Notification\Gateway\ExceptionConversion:
         arguments:
@@ -17,3 +18,7 @@ services:
 
     ibexa.spi.persistence.legacy.notification.handler:
         alias: 'Ibexa\Core\Persistence\Legacy\Notification\Handler'
+
+    Ibexa\Core\Persistence\Legacy\Notification\Gateway\CriterionHandler\:
+        resource: '../../../../../../src/lib/Persistence/Legacy/Notification/Gateway/CriterionHandler/*'
+        tags: [ ibexa.notification.criterion_handler ]

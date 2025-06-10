@@ -67,7 +67,7 @@ class HandlerTest extends TestCase
 
         $notification = $this->handler->createNotification($createStruct);
 
-        $this->assertEquals($notification->id, self::NOTIFICATION_ID);
+        self::assertEquals($notification->id, self::NOTIFICATION_ID);
     }
 
     public function testCountPendingNotifications()
@@ -81,7 +81,7 @@ class HandlerTest extends TestCase
             ->with($ownerId)
             ->willReturn($expectedCount);
 
-        $this->assertEquals($expectedCount, $this->handler->countPendingNotifications($ownerId));
+        self::assertEquals($expectedCount, $this->handler->countPendingNotifications($ownerId));
     }
 
     public function testGetNotificationById()
@@ -108,7 +108,7 @@ class HandlerTest extends TestCase
             ->with($rows)
             ->willReturn([$object]);
 
-        $this->assertEquals($object, $this->handler->getNotificationById(self::NOTIFICATION_ID));
+        self::assertEquals($object, $this->handler->getNotificationById(self::NOTIFICATION_ID));
     }
 
     public function testUpdateNotification()
@@ -161,7 +161,7 @@ class HandlerTest extends TestCase
             ->with($ownerId)
             ->willReturn($expectedCount);
 
-        $this->assertEquals($expectedCount, $this->handler->countNotifications($ownerId));
+        self::assertEquals($expectedCount, $this->handler->countNotifications($ownerId));
     }
 
     public function testLoadUserNotifications(): void
@@ -194,7 +194,7 @@ class HandlerTest extends TestCase
             ->with($rows)
             ->willReturn($objects);
 
-        $this->assertEquals($objects, $this->handler->loadUserNotifications($ownerId, $offset, $limit));
+        self::assertEquals($objects, $this->handler->loadUserNotifications($ownerId, $offset, $limit));
     }
 
     public function testFindUserNotifications(): void
@@ -234,9 +234,9 @@ class HandlerTest extends TestCase
             ->with($rows)
             ->willReturn($objects);
 
-        $this->assertEquals($objects, $this->handler->findUserNotifications($ownerId, new NotificationQuery([], $offset, $limit)));
+        self::assertEquals($objects, $this->handler->findUserNotifications($ownerId, new NotificationQuery([], $offset, $limit)));
 
-        $this->assertEquals($objects, $this->handler->findUserNotifications($ownerId, $query));
+        self::assertEquals($objects, $this->handler->findUserNotifications($ownerId, $query));
     }
 
     public function testDelete()
