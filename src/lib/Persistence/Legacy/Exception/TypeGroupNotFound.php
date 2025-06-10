@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Exception;
 
@@ -15,16 +16,13 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 class TypeGroupNotFound extends NotFoundException
 {
     /**
-     * Creates a new exception for $typeId in $status;.
-     *
-     * @param mixed $typeGroupId
-     * @param mixed $status
+     * @param string $typeGroupIdentifier can be either a string representation of a numeric ID or a string identifier.
      */
-    public function __construct($typeGroupId)
+    public function __construct(string $typeGroupIdentifier)
     {
         parent::__construct(
             'Persistence content type group',
-            sprintf('ID: %s', $typeGroupId)
+            sprintf('ID: %s', $typeGroupIdentifier)
         );
     }
 }

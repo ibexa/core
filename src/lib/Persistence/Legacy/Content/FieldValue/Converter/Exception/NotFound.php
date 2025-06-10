@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\Exception;
 
@@ -16,10 +17,8 @@ class NotFound extends NotFoundException
 {
     /**
      * Creates a new exception for $typeName.
-     *
-     * @param mixed $typeName
      */
-    public function __construct($typeName)
+    public function __construct(mixed $typeName)
     {
         parent::__construct(
             'Persistence Field Value Converter',
