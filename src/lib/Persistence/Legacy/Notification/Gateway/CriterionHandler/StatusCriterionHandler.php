@@ -11,18 +11,18 @@ namespace Ibexa\Core\Persistence\Legacy\Notification\Gateway\CriterionHandler;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Notification\CriterionHandlerInterface;
-use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Status;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway\DoctrineDatabase;
 
 final class StatusCriterionHandler implements CriterionHandlerInterface
 {
-    public function supports(Criterion $criterion): bool
+    public function supports(CriterionInterface $criterion): bool
     {
         return $criterion instanceof Status;
     }
 
-    public function apply(QueryBuilder $qb, Criterion $criterion): void
+    public function apply(QueryBuilder $qb, CriterionInterface $criterion): void
     {
         /** @var \Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Status $criterion */
         $qb->andWhere($qb->expr()->eq(DoctrineDatabase::COLUMN_IS_PENDING, ':status'));
