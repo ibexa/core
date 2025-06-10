@@ -13,12 +13,19 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException as APIIn
 use Ibexa\Core\Base\Translatable;
 use Ibexa\Core\Base\TranslatableBase;
 
+/**
+ * Broken code stub for ExceptionMessageTemplateFileVisitorTest.
+ *
+ * @see \Ibexa\Tests\Core\MVC\Symfony\Translation\ExceptionMessageTemplateFileVisitorTest
+ */
 final class WrongTranslationId extends APIInvalidArgumentException implements Translatable
 {
     use TranslatableBase;
 
     public function __construct(?Exception $previous = null)
     {
+        // purposely broken code
+        /** @phpstan-ignore argument.type */
         $this->setMessageTemplate(['foo']);
 
         parent::__construct($this->getBaseTranslation(), 0, $previous);
