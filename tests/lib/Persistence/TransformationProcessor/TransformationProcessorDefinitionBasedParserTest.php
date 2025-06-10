@@ -24,7 +24,7 @@ class TransformationProcessorDefinitionBasedParserTest extends TestCase
         self::assertNotFalse($ruleFiles, 'Failed to find transformation files');
 
         return array_map(
-            static fn (string $file) => [realpath($file)],
+            static fn (string $file): array => [realpath($file)],
             $ruleFiles
         );
     }
