@@ -77,10 +77,10 @@ class BlockingLimitationType implements SPILimitationTypeInterface
         $validationErrors = [];
         if (empty($limitationValue->limitationValues)) {
             $validationErrors[] = new ValidationError(
-                "\$limitationValue->limitationValues => '%value%' can not be empty",
+                "\$limitationValue->limitationValues for '%identifier%' Limitation can not be empty",
                 null,
                 [
-                    'value' => $limitationValue->limitationValues,
+                    'identifier' => $limitationValue->getIdentifier(),
                 ]
             );
         }
