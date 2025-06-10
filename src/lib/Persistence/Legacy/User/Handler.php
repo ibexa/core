@@ -329,7 +329,7 @@ class Handler implements BaseUserHandler
         $data = $this->roleGateway->loadRole($roleId, $status);
 
         if (empty($data)) {
-            throw new RoleNotFound($roleId, $status);
+            throw new RoleNotFound((string)$roleId, $status);
         }
 
         $role = $this->mapper->mapRole($data);
@@ -380,7 +380,7 @@ class Handler implements BaseUserHandler
         $data = $this->roleGateway->loadRoleDraftByRoleId($roleId);
 
         if (empty($data)) {
-            throw new RoleNotFound($roleId, Role::STATUS_DRAFT);
+            throw new RoleNotFound((string)$roleId, Role::STATUS_DRAFT);
         }
 
         $role = $this->mapper->mapRole($data);
