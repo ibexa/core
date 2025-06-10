@@ -10,33 +10,31 @@ namespace Ibexa\Tests\Core\Persistence\TransformationProcessor;
 use Ibexa\Core\Persistence;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
-/**
- * Test case for LocationHandlerTest.
- */
-class TransformationProcessorDefinitionBasedParserTest extends TestCase
+final class TransformationProcessorDefinitionBasedParserTest extends TestCase
 {
     /**
-     * @phpstan-return array<array{non-empty-string|false}>
+     * @phpstan-return iterable<string, array{non-empty-string}>
      */
-    public static function getTestFiles(): array
+    public static function getTestFiles(): iterable
     {
         $ruleFiles = glob(dirname(__DIR__, 4) . '/src/lib/Resources/slug_converter/transformations/*.tr');
         self::assertNotFalse($ruleFiles, 'Failed to find transformation files');
 
-        return array_map(
-            static fn (string $file): array => [realpath($file)],
-            $ruleFiles
-        );
+        foreach ($ruleFiles as $file) {
+            $filePath = realpath($file);
+            self::assertNotFalse($filePath, "File $file does not exist");
+            yield basename($filePath) => [$filePath];
+        }
     }
 
     /**
      * @dataProvider getTestFiles
      */
-    public function testParse($file)
+    public function testParse(string $file): void
     {
         $parser = new Persistence\TransformationProcessor\DefinitionBased\Parser();
 
-        $fixture = include $file . '.result.php';
+        $fixture = require $file . '.result.php';
         self::assertEquals(
             $fixture,
             $parser->parse($file)
