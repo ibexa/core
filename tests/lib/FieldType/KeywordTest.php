@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\FieldType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Keyword\Type as KeywordType;
 use Ibexa\Core\FieldType\Keyword\Value as KeywordValue;
+use Ibexa\Core\FieldType\ValidationError;
 
 /**
  * @group fieldType
@@ -236,6 +237,76 @@ class KeywordTest extends FieldTypeTest
         return [
             [$this->getEmptyValueExpectation(), '', [], 'en_GB'],
             [new KeywordValue(['foo', 'bar']), 'foo, bar', [], 'en_GB'],
+        ];
+    }
+
+    /**
+     * @return iterable<array{array, \Ibexa\Core\FieldType\Keyword\Value}>
+     */
+    public function provideValidDataForValidate(): iterable
+    {
+        yield 'multiple keywords' => [
+            [],
+            new KeywordValue(['foo', 'bar']),
+        ];
+
+        yield 'empty string keyword' => [
+            [],
+            new KeywordValue(['']),
+        ];
+
+        yield 'empty keyword list' => [
+            [],
+            new KeywordValue([]),
+        ];
+    }
+
+    /**
+     * @return iterable<array{0: array, 1: \Ibexa\Core\FieldType\Keyword\Value, 2: array<\Ibexa\Contracts\Core\FieldType\ValidationError>}>
+     */
+    public function provideInvalidDataForValidate(): iterable
+    {
+        $maxLen = KeywordType::MAX_KEYWORD_LENGTH;
+
+        yield 'non-string keyword (int)' => [
+            [],
+            // @phpstan-ignore-next-line
+            new KeywordValue(['valid', 123]),
+            [
+                new ValidationError(
+                    'Each keyword must be a string.',
+                    null,
+                    [],
+                    'values'
+                ),
+            ],
+        ];
+
+        yield 'non-string keyword (null)' => [
+            [],
+            // @phpstan-ignore-next-line
+            new KeywordValue(['valid', null]),
+            [
+                new ValidationError(
+                    'Each keyword must be a string.',
+                    null,
+                    [],
+                    'values'
+                ),
+            ],
+        ];
+
+        yield 'too long keyword' => [
+            [],
+            new KeywordValue(['valid', str_repeat('a', $maxLen + 1)]),
+            [
+                new ValidationError(
+                    'Each keyword must be at most ' . $maxLen . ' characters long.',
+                    null,
+                    [],
+                    'values'
+                ),
+            ],
         ];
     }
 }
