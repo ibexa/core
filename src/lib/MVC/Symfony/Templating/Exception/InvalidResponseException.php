@@ -10,7 +10,7 @@ namespace Ibexa\Core\MVC\Symfony\Templating\Exception;
 
 use Ibexa\Core\Base\Exceptions\ForbiddenException;
 
-class InvalidResponseException extends ForbiddenException
+final class InvalidResponseException extends ForbiddenException
 {
     public function __construct(string $whatIsWrong)
     {
