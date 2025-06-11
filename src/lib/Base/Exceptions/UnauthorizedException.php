@@ -34,8 +34,12 @@ class UnauthorizedException extends APIUnauthorizedException implements Httpable
      *
      * @phpstan-param array<string, scalar|\Stringable|null>|null $properties Key value pair with non-sensitive data on what kind of data user does not have access to
      */
-    public function __construct(string $module, string $function, ?array $properties = null, ?Exception $previous = null)
-    {
+    public function __construct(
+        string $module,
+        string $function,
+        ?array $properties = null,
+        ?Exception $previous = null
+    ) {
         $this->setMessageTemplate("The User does not have the '%function%' '%module%' permission");
         $this->setParameters(['%module%' => $module, '%function%' => $function]);
 

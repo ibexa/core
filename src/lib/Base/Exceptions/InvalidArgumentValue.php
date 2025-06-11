@@ -23,8 +23,12 @@ class InvalidArgumentValue extends InvalidArgumentException
      *
      * @param string|null $className Optionally to specify class in abstract/parent classes
      */
-    public function __construct(string $argumentName, mixed $value, ?string $className = null, ?Exception $previous = null)
-    {
+    public function __construct(
+        string $argumentName,
+        mixed $value,
+        ?string $className = null,
+        ?Exception $previous = null
+    ) {
         $valueStr = is_string($value) ? $value : var_export($value, true);
         $parameters = ['%actualValue%' => $valueStr];
         if (empty($className)) {
