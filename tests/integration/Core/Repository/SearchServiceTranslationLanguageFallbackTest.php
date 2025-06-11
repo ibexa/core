@@ -1879,6 +1879,11 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
 
     private function assertIndexName(array $indexMap, SearchHit $searchHit): void
     {
+        if (!$this->isSolrInMaxVersion('9.3.0')) {
+            // In Solr 9.3.0 and later, the shard parameter is not used anymore.
+            return;
+        }
+
         $indexName = $this->getIndexName($indexMap);
 
         if ($indexName === null) {
@@ -1911,6 +1916,16 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
         }
 
         return $indexesToMatchData;
+    }
+
+    private function isSolrInMaxVersion(string $maxVersion): bool
+    {
+        $version = getenv('SOLR_VERSION');
+        if (is_string($version) && !empty($version)) {
+            return version_compare($version, $maxVersion, '<');
+        }
+
+        return false;
     }
 }
 
