@@ -36,8 +36,12 @@ class ValidationError implements ValidationErrorInterface
     /**
      * @phpstan-param array<string, scalar> $values
      */
-    public function __construct(string $singular, ?string $plural = null, array $values = [], ?string $target = null)
-    {
+    public function __construct(
+        string $singular,
+        ?string $plural = null,
+        array $values = [],
+        ?string $target = null
+    ) {
         $this->singular = $singular;
         $this->plural = $plural;
         $this->values = $values;
