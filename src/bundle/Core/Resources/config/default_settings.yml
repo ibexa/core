@@ -98,6 +98,7 @@ parameters:
     ibexa.site_access.config.default.binary_dir: "original"
     ibexa.site_access.config.default.anonymous_user_id: 10            # The ID of the user to be used for everyone who is not logged in
     ibexa.site_access.config.default.user_content_type_identifier: ['user']
+    ibexa.site_access.config.default.users_group_root_subtree_path: '/1/5'
     ibexa.site_access.config.default.api_keys: { google_maps: ~ }     # Google Maps APIs v3 key (https://developers.google.com/maps/documentation/javascript/get-api-key)
 
     # IO
