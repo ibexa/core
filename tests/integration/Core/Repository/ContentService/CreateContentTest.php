@@ -42,7 +42,7 @@ final class CreateContentTest extends RepositoryTestCase
         ];
         $contentTypeCreateStruct->isContainer = false;
 
-        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ezstring');
+        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ibexa_string');
         $fieldCreate->names = ['eng-GB' => 'value'];
         $fieldCreate->fieldGroup = 'main';
         $fieldCreate->position = 1;
