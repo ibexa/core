@@ -2655,7 +2655,12 @@ class ContentTest extends BaseServiceMockTest
         $handlerMock = $this->getPersistenceMock()->contentHandler();
         $domainMapperMock = $this->getContentDomainMapperMock();
         $spiLocationCreateStruct = new SPILocation\CreateStruct();
-        $parentLocation = new Location(['contentInfo' => new ContentInfo(['sectionId' => 1])]);
+        $parentLocation = new Location([
+            'contentInfo' => new ContentInfo([
+                'sectionId' => 1,
+                'contentType' => new ContentType(['isContainer' => true]),
+            ])
+        ]);
 
         $locationServiceMock->expects(self::at(0))
             ->method('loadLocation')
@@ -2774,7 +2779,12 @@ class ContentTest extends BaseServiceMockTest
         /** @var \PHPUnit\Framework\MockObject\MockObject $languageHandlerMock */
         $languageHandlerMock = $this->getPersistenceMock()->contentLanguageHandler();
         $spiLocationCreateStruct = new SPILocation\CreateStruct();
-        $parentLocation = new Location(['id' => 321]);
+        $parentLocation = new Location([
+            'id' => 321,
+            'contentInfo' => new ContentInfo([
+                'contentType' => new ContentType(['isContainer' => true]),
+            ]),
+        ]);
         $locationCreateStruct = new LocationCreateStruct(['parentLocationId' => 321]);
         $locationCreateStructs = [$locationCreateStruct, clone $locationCreateStruct];
         $contentType = new ContentType(
