@@ -651,9 +651,18 @@ class ContentService implements ContentServiceInterface
             $contentCreateStruct->alwaysAvailable = $contentCreateStruct->contentType->defaultAlwaysAvailable ?: false;
         }
 
-        $contentCreateStruct->contentType = $this->repository->getContentTypeService()->loadContentType(
+        $contentType = $this->repository->getContentTypeService()->loadContentType(
             $contentCreateStruct->contentType->id
         );
+
+        if ($contentType->isContainer === false) {
+            throw new InvalidArgumentException(
+                '$contentCreateStruct',
+                "the 'contentType' property must be a content type instance that is a container.",
+            );
+        }
+
+        $contentCreateStruct->contentType = $contentType;
 
         $contentCreateStruct->fields = $this->contentMapper->getFieldsForCreate(
             $contentCreateStruct->fields,
