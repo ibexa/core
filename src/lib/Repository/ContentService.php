@@ -655,13 +655,6 @@ class ContentService implements ContentServiceInterface
             $contentCreateStruct->contentType->id
         );
 
-        if ($contentType->isContainer() === false) {
-            throw new InvalidArgumentException(
-                '$contentCreateStruct',
-                "the 'contentType' property must be a content type instance that is a container.",
-            );
-        }
-
         $contentCreateStruct->contentType = $contentType;
 
         $contentCreateStruct->fields = $this->contentMapper->getFieldsForCreate(
@@ -890,6 +883,13 @@ class ContentService implements ContentServiceInterface
             $parentLocation = $this->repository->getLocationService()->loadLocation(
                 $locationCreateStruct->parentLocationId
             );
+
+            if ($parentLocation->getContentInfo()->getContentType()->isContainer() === false) {
+                throw new InvalidArgumentException(
+                    '$contentCreateStruct',
+                    "the 'contentType' property must be a content type instance that is a container.",
+                );
+            }
 
             $spiLocationCreateStructs[] = $this->contentDomainMapper->buildSPILocationCreateStruct(
                 $locationCreateStruct,
