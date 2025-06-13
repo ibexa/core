@@ -651,11 +651,9 @@ class ContentService implements ContentServiceInterface
             $contentCreateStruct->alwaysAvailable = $contentCreateStruct->contentType->defaultAlwaysAvailable ?: false;
         }
 
-        $contentType = $this->repository->getContentTypeService()->loadContentType(
+        $contentCreateStruct->contentType = $this->repository->getContentTypeService()->loadContentType(
             $contentCreateStruct->contentType->id
         );
-
-        $contentCreateStruct->contentType = $contentType;
 
         $contentCreateStruct->fields = $this->contentMapper->getFieldsForCreate(
             $contentCreateStruct->fields,
