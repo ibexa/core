@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\Base\Exceptions;
 
@@ -24,7 +25,7 @@ class LimitationValidationException extends APILimitationValidationException imp
      *
      * @var \Ibexa\Core\FieldType\ValidationError[]
      */
-    protected $errors;
+    protected array $errors;
 
     /**
      * Generates: Limitations did not validate.

@@ -9,13 +9,9 @@ declare(strict_types=1);
 namespace Ibexa\Core\MVC\Symfony\Templating\Exception;
 
 use Ibexa\Core\Base\Exceptions\ForbiddenException;
-use Ibexa\Core\Base\Translatable;
-use Ibexa\Core\Base\TranslatableBase;
 
-class InvalidResponseException extends ForbiddenException implements Translatable
+final class InvalidResponseException extends ForbiddenException
 {
-    use TranslatableBase;
-
     public function __construct(string $whatIsWrong)
     {
         parent::__construct(

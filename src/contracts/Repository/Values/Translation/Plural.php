@@ -20,30 +20,30 @@ use Ibexa\Contracts\Core\Repository\Values\Translation;
  * strings provided should be English and will be translated depending on the
  * environment language.
  *
- * This interface follows the interfaces of XLIFF, gettext, Symfony Translations and Zend_Translate.
- * For singular forms you just provide a plain string (with optional placeholders without effects on the plural forms).
- * For potential plural forms you always provide a singular variant and an English simple plural variant.
- * An instance of this class can be cast to a string. In such case whether to use singular or plural form is determined
- * based on the value of first element of $values array (it needs to be 1 for singular, anything else for plural).
- * If plurality cannot be inferred from $values, a plural form is assumed as default. To force singular form,
+ * This interface follows the interfaces of XLIFF, gettext, Symfony Translations, and Zend_Translate.
+ * For singular forms, you provide a plain string (with optional placeholders without effects on the plural forms).
+ * For potential plural forms, you always provide a singular variant and an English simple plural variant.
+ * An instance of this class can be cast to a string. In such a case, whether to use singular or plural form is determined
+ * based on the value of the first element of $values array (it needs to be 1 for singular, anything else for plural).
+ * If a plurality cannot be inferred from $values, a plural form is assumed as default. To force singular form,
  * use {@see \Ibexa\Contracts\Core\Repository\Values\Translation\Message} instead.
  *
  * No implementation supports multiple different plural forms in one single message.
  *
- * The singular / plural string could, for Symfony, for example be converted
- * to <code>"$singular|$plural"</code>, and you would call gettext like: <code>ngettext($singular, $plural, $count ).</code>
+ * The singular / plural string could, for Symfony, for example, be converted
+ * to ```"$singular|$plural"```, and you would call gettext like: ```ngettext($singular, $plural, $count ).```
  */
 class Plural extends Translation
 {
     /**
      * Singular string. Might use replacements like %foo%, which are replaced by
-     * the values specified in the values array.
+     * the values specified in the `$values` array.
      */
     protected string $singular;
 
     /**
      * Message string. Might use replacements like %foo%, which are replaced by
-     * the values specified in the values array.
+     * the values specified in the `$values` array.
      */
     protected string $plural;
 

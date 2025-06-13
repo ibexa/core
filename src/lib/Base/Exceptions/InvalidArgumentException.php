@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\Base\Exceptions;
 
@@ -15,7 +16,10 @@ use Ibexa\Core\Base\TranslatableBase;
 /**
  * Invalid Argument Type Exception implementation.
  *
- * Usage: throw new InvalidArgumentException( 'nodes', 'array' );
+ * Usage:
+ * ```
+ * throw new InvalidArgumentException('nodes', 'array');
+ * ```
  */
 class InvalidArgumentException extends APIInvalidArgumentException implements Translatable
 {
@@ -23,12 +27,8 @@ class InvalidArgumentException extends APIInvalidArgumentException implements Tr
 
     /**
      * Generates: "Argument '{$argumentName}' is invalid: {$whatIsWrong}".
-     *
-     * @param string $argumentName
-     * @param string $whatIsWrong
-     * @param \Exception|null $previous
      */
-    public function __construct($argumentName, $whatIsWrong, Exception $previous = null)
+    public function __construct(string $argumentName, string $whatIsWrong, ?Exception $previous = null)
     {
         $this->setMessageTemplate("Argument '%argumentName%' is invalid: %whatIsWrong%");
         $this->setParameters(['%argumentName%' => $argumentName, '%whatIsWrong%' => $whatIsWrong]);

@@ -1045,7 +1045,7 @@ class ContentTypeHandlerTest extends TestCase
                 self::equalTo(23),
                 self::equalTo(0)
             )->will(
-                self::throwException(new Exception\TypeNotFound(23, 0))
+                self::throwException(new Exception\TypeNotFound((string)23, 0))
             );
 
         $updateHandlerMock->expects(self::never())

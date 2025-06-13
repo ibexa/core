@@ -66,13 +66,13 @@ class NotificationService implements NotificationServiceInterface
         $spiCreateStruct = new CreateStruct();
 
         if (empty($createStruct->ownerId)) {
-            throw new InvalidArgumentException('ownerId', $createStruct->ownerId);
+            throw new InvalidArgumentException('ownerId', (string)$createStruct->ownerId);
         }
 
         $spiCreateStruct->ownerId = $createStruct->ownerId;
 
         if (empty($createStruct->type)) {
-            throw new InvalidArgumentException('type', $createStruct->type);
+            throw new InvalidArgumentException('type', (string)$createStruct->type);
         }
 
         $spiCreateStruct->type = $createStruct->type;

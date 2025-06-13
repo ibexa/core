@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\Base\Exceptions;
 
@@ -33,6 +34,9 @@ class ContentTypeFieldDefinitionValidationException extends APIContentTypeFieldD
         parent::__construct($this->getBaseTranslation());
     }
 
+    /**
+     * @return array<string, \Ibexa\Contracts\Core\FieldType\ValidationError[]>
+     */
     public function getFieldErrors(): array
     {
         return $this->errors;
