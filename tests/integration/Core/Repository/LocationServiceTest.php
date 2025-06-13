@@ -1328,7 +1328,7 @@ class LocationServiceTest extends BaseTestCase
         $contentTypeService = $repository->getContentTypeService();
 
         // Firstly, create a container folder
-        $rootLocation = $locationService->loadLocation(1);
+        $rootLocation = $locationService->loadLocation(2);
         $createStruct = $contentService->newContentCreateStruct(
             $contentTypeService->loadContentTypeByIdentifier('folder'),
             'eng-GB'
@@ -2923,12 +2923,12 @@ class LocationServiceTest extends BaseTestCase
         $repository = $this->getRepository();
 
         $mediaLocationId = $this->generateId('location', 43);
-        $demoDesignLocationId = $this->generateId('location', 56);
+        $userLocationId = $this->generateId('location', 15);
         /* BEGIN: Use Case */
         // $mediaLocationId is the ID of the "Media" page location in
         // an Ibexa demo installation
 
-        // $demoDesignLocationId is the ID of the "Demo Design" page location in an Ibexa
+        // $userLocationId is the ID of the "Administrator User" page location in an Ibexa
         // Publish demo installation
 
         // Load the location service
@@ -2938,7 +2938,7 @@ class LocationServiceTest extends BaseTestCase
         $locationToMove = $locationService->loadLocation($mediaLocationId);
 
         // Load new parent location
-        $newParentLocation = $locationService->loadLocation($demoDesignLocationId);
+        $newParentLocation = $locationService->loadLocation($userLocationId);
 
         // Move location from "Home" to "Demo Design" (not container)
         $this->expectException(InvalidArgumentException::class);

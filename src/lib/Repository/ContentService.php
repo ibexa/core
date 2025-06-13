@@ -882,6 +882,13 @@ class ContentService implements ContentServiceInterface
                 $locationCreateStruct->parentLocationId
             );
 
+            if ($parentLocation->getContentInfo()->getContentType()->isContainer() === false) {
+                throw new InvalidArgumentException(
+                    '$contentCreateStruct',
+                    "the 'contentType' property must be a content type instance that is a container.",
+                );
+            }
+
             $spiLocationCreateStructs[] = $this->contentDomainMapper->buildSPILocationCreateStruct(
                 $locationCreateStruct,
                 $parentLocation,

@@ -640,6 +640,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
             $contentTypeCreateStruct->names = [
                 'eng-GB' => 'content_type_draft_' . $i,
             ];
+            $contentTypeCreateStruct->isContainer = true;
 
             $contentTypeService->createContentType($contentTypeCreateStruct, [$group]);
         }
