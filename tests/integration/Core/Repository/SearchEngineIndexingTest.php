@@ -583,6 +583,7 @@ class SearchEngineIndexingTest extends BaseTestCase
         $createStruct->names = ['eng-GB' => 'Test type'];
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new DateTime();
+        $createStruct->isContainer = true;
 
         $translatableFieldCreate = $contentTypeService->newFieldDefinitionCreateStruct(
             'integer',
@@ -1195,6 +1196,8 @@ class SearchEngineIndexingTest extends BaseTestCase
         $contentTypeStruct->creatorId = 14;
         $contentTypeStruct->creationDate = new DateTime();
         $contentTypeStruct->names = ['eng-GB' => 'Test content type'];
+        $contentTypeStruct->isContainer = true;
+        $contentTypeStruct->nameSchema = '<name>';
         $contentTypeStruct->addFieldDefinition($nameField);
 
         $contentTypeGroup = $contentTypeService->loadContentTypeGroupByIdentifier('Content');
@@ -1214,6 +1217,7 @@ class SearchEngineIndexingTest extends BaseTestCase
     protected function createContentWithName(string $contentName, array $parentLocationIdList = []): Content
     {
         $testableContentType = $this->createTestContentType();
+        //dd('testablecontenttype', $testableContentType);
 
         return $this->createContent($testableContentType, $contentName, 'name', $parentLocationIdList);
     }
