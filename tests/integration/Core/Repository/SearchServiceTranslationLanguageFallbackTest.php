@@ -1725,6 +1725,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
             'filter' => new Criterion\ContentTypeIdentifier('test-type'),
             'sortClauses' => [
                 new SortClause\Field('test-type', 'sort_field'),
+                new SortClause\Field('test-type', 'search_field'),
             ],
         ];
 
@@ -1779,6 +1780,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
             ),
             'sortClauses' => [
                 new SortClause\Field('test-type', 'sort_field'),
+                new SortClause\Field('test-type', 'search_field'),
             ],
         ];
 
@@ -1829,6 +1831,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
             'sortClauses' => [
                 new SortClause\Location\Depth(Query::SORT_ASC),
                 new SortClause\Field('test-type', 'sort_field'),
+                new SortClause\Field('test-type', 'search_field'),
             ],
         ];
 
