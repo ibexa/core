@@ -2659,7 +2659,7 @@ class ContentTest extends BaseServiceMockTest
             'contentInfo' => new ContentInfo([
                 'sectionId' => 1,
                 'contentType' => new ContentType(['isContainer' => true]),
-            ])
+            ]),
         ]);
 
         $locationServiceMock->expects(self::at(0))
