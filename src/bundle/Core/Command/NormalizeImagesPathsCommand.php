@@ -48,8 +48,7 @@ EOT;
     /** @var \Ibexa\Core\IO\FilePathNormalizerInterface */
     private $filePathNormalizer;
 
-    /** @var \Doctrine\DBAL\Driver\Connection */
-    private $connection;
+    private Connection $connection;
 
     /** @var \Ibexa\Core\IO\IOServiceInterface */
     private $ioService;
