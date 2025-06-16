@@ -1523,11 +1523,11 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
                                 ],
                                 [
                                     self::SETUP_DEDICATED => [
-                                        'searchHitIndex' => 2,
+                                        'searchHitIndex' => 1,
                                         'preparedDataTestIndex' => 2,
                                     ],
                                     self::SETUP_SHARED => [
-                                        'searchHitIndex' => 2,
+                                        'searchHitIndex' => 1,
                                         'preparedDataTestIndex' => 2,
                                     ],
                                     self::SETUP_SINGLE => [
@@ -1551,11 +1551,11 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
                                 ],
                                 [
                                     self::SETUP_DEDICATED => [
-                                        'searchHitIndex' => 1,
+                                        'searchHitIndex' => 2,
                                         'preparedDataTestIndex' => 2,
                                     ],
                                     self::SETUP_SHARED => [
-                                        'searchHitIndex' => 1,
+                                        'searchHitIndex' => 2,
                                         'preparedDataTestIndex' => 2,
                                     ],
                                     self::SETUP_SINGLE => [
@@ -1591,8 +1591,8 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
                                 ],
                                 [
                                     self::SETUP_DEDICATED => [
-                                        'searchHitIndex' => 2,
-                                        'preparedDataTestIndex' => 2,
+                                        'searchHitIndex' => 0,
+                                        'preparedDataTestIndex' => 1,
                                     ],
                                     self::SETUP_SHARED => [
                                         'searchHitIndex' => 0,
@@ -1619,11 +1619,11 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
                                 ],
                                 [
                                     self::SETUP_DEDICATED => [
-                                        'searchHitIndex' => 2,
+                                        'searchHitIndex' => 1,
                                         'preparedDataTestIndex' => 2,
                                     ],
                                     self::SETUP_SHARED => [
-                                        'searchHitIndex' => 2,
+                                        'searchHitIndex' => 1,
                                         'preparedDataTestIndex' => 2,
                                     ],
                                     self::SETUP_SINGLE => [
@@ -1647,11 +1647,11 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
                                 ],
                                 [
                                     self::SETUP_DEDICATED => [
-                                        'searchHitIndex' => 1,
+                                        'searchHitIndex' => 2,
                                         'preparedDataTestIndex' => 2,
                                     ],
                                     self::SETUP_SHARED => [
-                                        'searchHitIndex' => 1,
+                                        'searchHitIndex' => 2,
                                         'preparedDataTestIndex' => 2,
                                     ],
                                     self::SETUP_SINGLE => [
