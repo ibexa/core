@@ -50,14 +50,14 @@ class Plural extends Translation
     /**
      * Translation value objects.
      *
-     * @var array<string, scalar>
+     * @var array<string, scalar|null>
      */
     protected array $values;
 
     /**
      * Construct plural message from singular, plural and value array.
      *
-     * @param array<string, scalar> $values
+     * @param array<string, scalar|null> $values
      */
     public function __construct(string $singular, string $plural, array $values)
     {

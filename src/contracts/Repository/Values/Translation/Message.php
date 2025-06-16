@@ -30,14 +30,14 @@ class Message extends Translation
      *
      * @see \Ibexa\Contracts\Core\Repository\Values\Translation\Plural
      *
-     * @var array<string, scalar>
+     * @var array<string, scalar|null>
      */
     protected array $values;
 
     /**
      * Construct a singular only message from string and optional value array.
      *
-     * @param array<string, scalar> $values
+     * @param array<string, scalar|null> $values
      */
     public function __construct(string $message, array $values = [])
     {

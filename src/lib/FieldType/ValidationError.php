@@ -22,7 +22,7 @@ class ValidationError implements ValidationErrorInterface
 
     protected ?string $plural;
 
-    /** @phpstan-var array<string, scalar> */
+    /** @phpstan-var array<string, scalar|null> */
     protected array $values;
 
     /**
@@ -34,7 +34,7 @@ class ValidationError implements ValidationErrorInterface
     protected ?string $target;
 
     /**
-     * @phpstan-param array<string, scalar> $values
+     * @phpstan-param array<string, scalar|null> $values
      */
     public function __construct(
         string $singular,
