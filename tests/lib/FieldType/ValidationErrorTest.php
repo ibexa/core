@@ -69,5 +69,16 @@ final class ValidationErrorTest extends TestCase
             ),
             "Validator '$validatorIdentifier' is unknown",
         ];
+
+        yield 'validation error with null value' => [
+            new ValidationError(
+                "Foo '%bar%' error",
+                null,
+                [
+                    '%bar%' => null,
+                ],
+            ),
+            "Foo '' error",
+        ];
     }
 }
