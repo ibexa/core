@@ -24,6 +24,7 @@ use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Core\Repository\Values\ContentType\ContentType as ApiContentType;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 use Psr\Log\LoggerInterface;
@@ -79,6 +80,10 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
             'alwaysAvailable' => 1,
             'remoteId' => null,
             'mainLanguageCode' => 'eng-GB',
+            'contentType' => new ApiContentType([
+                'id' => 1,
+                'isContainer' => true,
+            ]),
         ]);
 
         $expectedContent = new Content([
