@@ -29,14 +29,8 @@ interface URLWildcardService
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException if the number of "*" patterns in $sourceUrl and
      *          the number of {\d} placeholders in $destinationUrl doesn't match or
      *          if the placeholders aren't a valid number sequence({1}/{2}/{3}), starting with 1.
-     *
-     * @param string $sourceUrl
-     * @param string $destinationUrl
-     * @param bool $forward
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\UrlWildcard
      */
-    public function create(string $sourceUrl, string $destinationUrl, bool $forward = false): UrlWildcard;
+    public function create(string $sourceUrl, string $destinationUrl, bool $forward = false): URLWildcard;
 
     /**
      * Update an url wildcard.
@@ -61,7 +55,7 @@ interface URLWildcardService
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to remove url wildcards
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\UrlWildcard $urlWildcard the url wildcard to remove
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard $urlWildcard the url wildcard to remove
      */
     public function remove(URLWildcard $urlWildcard): void;
 
@@ -69,12 +63,8 @@ interface URLWildcardService
      * Loads a url wild card.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the url wild card was not found
-     *
-     * @param int $id
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\UrlWildcard
      */
-    public function load(int $id): UrlWildcard;
+    public function load(int $id): URLWildcard;
 
     /**
      * Loads all url wild card (paged).
@@ -82,7 +72,7 @@ interface URLWildcardService
      * @param int $offset
      * @param int $limit
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\UrlWildcard[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard[]
      */
     public function loadAll(int $offset = 0, int $limit = -1): iterable;
 

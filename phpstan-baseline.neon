@@ -5515,12 +5515,6 @@ parameters:
 			path: src/contracts/Repository/Decorator/SettingServiceDecorator.php
 
 		-
-			message: '#^Class Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\URLWildcard referenced with incorrect case\: Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\UrlWildcard\.$#'
-			identifier: class.nameCase
-			count: 4
-			path: src/contracts/Repository/Decorator/URLWildcardServiceDecorator.php
-
-		-
 			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Decorator\\UserServiceDecorator\:\:createUser\(\) has parameter \$parentGroups with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -6089,12 +6083,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/contracts/Repository/Strategy/ContentThumbnail/ThumbnailStrategy.php
-
-		-
-			message: '#^Class Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\URLWildcard referenced with incorrect case\: Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\UrlWildcard\.$#'
-			identifier: class.nameCase
-			count: 4
-			path: src/contracts/Repository/URLWildcardService.php
 
 		-
 			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\UserService\:\:createUser\(\) has parameter \$parentGroups with no value type specified in iterable type array\.$#'
@@ -7553,12 +7541,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: src/lib/Event/TokenService.php
-
-		-
-			message: '#^Class Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\URLWildcard referenced with incorrect case\: Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\UrlWildcard\.$#'
-			identifier: class.nameCase
-			count: 2
-			path: src/lib/Event/URLWildcardService.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Event\\UserService\:\:createUser\(\) has parameter \$parentGroups with no value type specified in iterable type array\.$#'
@@ -20602,12 +20584,6 @@ parameters:
 			message: '#^Call to function is_numeric\(\) with int will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 2
-			path: src/lib/Repository/URLWildcardService.php
-
-		-
-			message: '#^Class Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\URLWildcard referenced with incorrect case\: Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\UrlWildcard\.$#'
-			identifier: class.nameCase
-			count: 4
 			path: src/lib/Repository/URLWildcardService.php
 
 		-

@@ -41,7 +41,7 @@ class URLWildcardService extends URLWildcardServiceDecorator
         string $sourceUrl,
         string $destinationUrl,
         bool $forward = false
-    ): UrlWildcard {
+    ): URLWildcard {
         $eventData = [
             $sourceUrl,
             $destinationUrl,

@@ -70,14 +70,8 @@ class URLWildcardService implements URLWildcardServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to create url wildcards
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException if the number of "*" patterns in $sourceUrl and
      *         the numbers in {\d} placeholders in $destinationUrl does not match.
-     *
-     * @param string $sourceUrl
-     * @param string $destinationUrl
-     * @param bool $forward
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\UrlWildcard
      */
-    public function create(string $sourceUrl, string $destinationUrl, bool $forward = false): UrlWildcard
+    public function create(string $sourceUrl, string $destinationUrl, bool $forward = false): URLWildcard
     {
         if (false === $this->permissionResolver->hasAccess('content', 'urltranslator')) {
             throw new UnauthorizedException('content', 'urltranslator');
@@ -142,7 +136,7 @@ class URLWildcardService implements URLWildcardServiceInterface
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\UrlWildcard $urlWildcard the url wildcard to remove
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard $urlWildcard the url wildcard to remove
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to remove url wildcards
@@ -169,15 +163,11 @@ class URLWildcardService implements URLWildcardServiceInterface
     /**
      * Loads a url wild card.
      *
-     * @param int $id
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\UrlWildcard
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the url wild card was not found
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Core\Base\Exceptions\UnauthorizedException
      */
-    public function load(int $id): UrlWildcard
+    public function load(int $id): URLWildcard
     {
         return $this->buildUrlWildcardDomainObject(
             $this->urlWildcardHandler->load($id)
@@ -190,7 +180,7 @@ class URLWildcardService implements URLWildcardServiceInterface
      * @param int $offset
      * @param int $limit
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\UrlWildcard[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard[]
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Core\Base\Exceptions\UnauthorizedException
