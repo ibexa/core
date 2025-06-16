@@ -53443,18 +53443,6 @@ parameters:
 			path: tests/lib/FieldType/KeywordTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\KeywordTest\:\:provideValidDataForValidate\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/FieldType/KeywordTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\KeywordTest\:\:provideInvalidDataForValidate\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/FieldType/KeywordTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\MapLocationTest\:\:getSettingsSchemaExpectation\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1

@@ -241,7 +241,7 @@ class KeywordTest extends FieldTypeTest
     }
 
     /**
-     * @return iterable<array{array, \Ibexa\Core\FieldType\Keyword\Value}>
+     * @return iterable<string, array{0: array<string, mixed>, 1: \Ibexa\Core\FieldType\Keyword\Value}>
      */
     public function provideValidDataForValidate(): iterable
     {
@@ -262,7 +262,11 @@ class KeywordTest extends FieldTypeTest
     }
 
     /**
-     * @return iterable<array{0: array, 1: \Ibexa\Core\FieldType\Keyword\Value, 2: array<\Ibexa\Contracts\Core\FieldType\ValidationError>}>
+     * @return iterable<string, array{
+     *     0: array<string, mixed>,
+     *     1: \Ibexa\Core\FieldType\Keyword\Value,
+     *     2: array<\Ibexa\Contracts\Core\FieldType\ValidationError>
+     * }>
      */
     public function provideInvalidDataForValidate(): iterable
     {
