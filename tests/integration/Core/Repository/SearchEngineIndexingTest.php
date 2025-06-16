@@ -1217,7 +1217,6 @@ class SearchEngineIndexingTest extends BaseTestCase
     protected function createContentWithName(string $contentName, array $parentLocationIdList = []): Content
     {
         $testableContentType = $this->createTestContentType();
-        //dd('testablecontenttype', $testableContentType);
 
         return $this->createContent($testableContentType, $contentName, 'name', $parentLocationIdList);
     }
