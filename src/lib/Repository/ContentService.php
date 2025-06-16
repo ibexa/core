@@ -884,7 +884,7 @@ class ContentService implements ContentServiceInterface
 
             if ($parentLocation->getContentInfo()->getContentType()->isContainer() === false) {
                 throw new InvalidArgumentException(
-                    '$contentCreateStruct',
+                    '$locationCreateStructs',
                     "the 'contentType' property must be a content type instance that is a container.",
                 );
             }

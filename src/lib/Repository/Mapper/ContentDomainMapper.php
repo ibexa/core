@@ -37,6 +37,7 @@ use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\Relation;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Core\Repository\Values\ContentType\ContentType as ApiContentType;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
@@ -542,6 +543,10 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
             'remoteId' => null,
             'mainLanguageCode' => 'eng-GB',
             'isHidden' => false,
+            'contentType' => new ApiContentType([
+                'id' => 1,
+                'isContainer' => true,
+            ]),
         ]);
 
         $content = new Content([

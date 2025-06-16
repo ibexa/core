@@ -1328,7 +1328,7 @@ class LocationServiceTest extends BaseTestCase
         $contentTypeService = $repository->getContentTypeService();
 
         // Firstly, create a container folder
-        $rootLocation = $locationService->loadLocation(2);
+        $rootLocation = $locationService->loadLocation(1);
         $createStruct = $contentService->newContentCreateStruct(
             $contentTypeService->loadContentTypeByIdentifier('folder'),
             'eng-GB'
