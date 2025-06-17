@@ -13,22 +13,20 @@ namespace Ibexa\Contracts\Core\Repository\Values;
  * Provides a uniform way for API consuming logic to generate translated names / labels
  * for API objects.
  * Language logic is meant to also be used for description, fields, ... lookup as well.
- *
- * @todo Move to API, Repository is not a SPI concept.
  */
 interface MultiLanguageName
 {
     /**
-     * Return the human readable name in all provided languages.
+     * Return the human-readable name in all provided languages.
      *
      * The structure of the return value is:
-     * <code>
-     * array( 'eng' => '<name_eng>', 'de' => '<name_de>' );
-     * </code>
+     * ```
+     * ['eng' => '<name_eng>', 'de' => '<name_de>']
+     * ```
      *
      * @return string[]
      */
-    public function getNames();
+    public function getNames(): array;
 
     /**
      * Return the name of the domain object in a given language.
@@ -40,10 +38,8 @@ interface MultiLanguageName
      *      2. Main language if object is $alwaysAvailable
      *      3. Fallback to return in initial (version objects) or main language
      *
-     * @param string|null $languageCode
-     *
      * @return string|null The name for a given language, or null if $languageCode is not set
      *         or does not exist.
      */
-    public function getName($languageCode = null);
+    public function getName(?string $languageCode = null): ?string;
 }

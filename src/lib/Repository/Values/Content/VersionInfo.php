@@ -93,7 +93,7 @@ class VersionInfo extends APIVersionInfo
     /**
      * {@inheritdoc}
      */
-    public function getNames()
+    public function getNames(): array
     {
         return $this->names;
     }
@@ -101,7 +101,7 @@ class VersionInfo extends APIVersionInfo
     /**
      * {@inheritdoc}
      */
-    public function getName($languageCode = null)
+    public function getName(?string $languageCode = null): ?string
     {
         if ($languageCode) {
             return isset($this->names[$languageCode]) ? $this->names[$languageCode] : null;

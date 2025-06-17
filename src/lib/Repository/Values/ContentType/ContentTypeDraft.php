@@ -84,7 +84,7 @@ class ContentTypeDraft extends APIContentTypeDraft
     /**
      * {@inheritdoc}
      */
-    public function getNames()
+    public function getNames(): array
     {
         return $this->innerContentType->getNames();
     }
@@ -92,7 +92,7 @@ class ContentTypeDraft extends APIContentTypeDraft
     /**
      * {@inheritdoc}
      */
-    public function getName($languageCode = null)
+    public function getName(?string $languageCode = null): ?string
     {
         return $this->innerContentType->getName($languageCode);
     }
