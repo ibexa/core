@@ -50,7 +50,6 @@ class DummyValidator implements ValidatorInterface
         return $this->getContextualValidatorInterfaceStub();
     }
 
-
     public function inContext(ExecutionContextInterface $context): ContextualValidatorInterface
     {
         return $this->getContextualValidatorInterfaceStub();
@@ -59,11 +58,30 @@ class DummyValidator implements ValidatorInterface
     private function getContextualValidatorInterfaceStub(): ContextualValidatorInterface
     {
         return new class() implements ContextualValidatorInterface {
-            public function atPath(string $path): static { return $this; }
-            public function validate(mixed $value, Constraint|array|null $constraints = null, string|GroupSequence|array|null $groups = null): static { return $this; }
-            public function validateProperty(object $object, string $propertyName, string|GroupSequence|array|null $groups = null): static { return $this; }
-            public function validatePropertyValue(object|string $objectOrClass, string $propertyName, mixed $value, $groups = null): static { return $this; }
-            public function getViolations(): ConstraintViolationListInterface { return new ConstraintViolationList(); }
+            public function atPath(string $path): static
+            {
+                return $this;
+            }
+
+            public function validate(mixed $value, Constraint|array|null $constraints = null, string|GroupSequence|array|null $groups = null): static
+            {
+                return $this;
+            }
+
+            public function validateProperty(object $object, string $propertyName, string|GroupSequence|array|null $groups = null): static
+            {
+                return $this;
+            }
+
+            public function validatePropertyValue(object|string $objectOrClass, string $propertyName, mixed $value, $groups = null): static
+            {
+                return $this;
+            }
+
+            public function getViolations(): ConstraintViolationListInterface
+            {
+                return new ConstraintViolationList();
+            }
         };
     }
 }
