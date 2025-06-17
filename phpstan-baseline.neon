@@ -20821,12 +20821,6 @@ parameters:
 			path: src/lib/Repository/Values/ContentType/ContentType.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Repository\\Values\\ContentType\\ContentType\:\:getName\(\) should return string\|null but returns string\|false\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/Repository/Values/ContentType/ContentType.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Repository\\Values\\ContentType\\ContentTypeDraft\:\:getProperties\(\) has parameter \$dynamicProperties with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -20846,12 +20840,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Core\\Repository\\Values\\ContentType\\ContentTypeGroup\:\:getDescription\(\) should return string\|null but returns string\|false\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/Repository/Values/ContentType/ContentTypeGroup.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Repository\\Values\\ContentType\\ContentTypeGroup\:\:getName\(\) should return string\|null but returns string\|false\.$#'
 			identifier: return.type
 			count: 1
 			path: src/lib/Repository/Values/ContentType/ContentTypeGroup.php
@@ -20877,12 +20865,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\Repository\\Values\\ContentType\\FieldDefinition\:\:getFieldSettings\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Repository/Values/ContentType/FieldDefinition.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Repository\\Values\\ContentType\\FieldDefinition\:\:getName\(\) should return string\|null but returns string\|false\.$#'
-			identifier: return.type
 			count: 1
 			path: src/lib/Repository/Values/ContentType/FieldDefinition.php
 
@@ -20965,19 +20947,7 @@ parameters:
 			path: src/lib/Repository/Values/ObjectState/ObjectState.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Repository\\Values\\ObjectState\\ObjectState\:\:getName\(\) should return string\|null but returns string\|false\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/Repository/Values/ObjectState/ObjectState.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Repository\\Values\\ObjectState\\ObjectStateGroup\:\:getDescription\(\) should return string\|null but returns string\|false\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/Repository/Values/ObjectState/ObjectStateGroup.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Repository\\Values\\ObjectState\\ObjectStateGroup\:\:getName\(\) should return string\|null but returns string\|false\.$#'
 			identifier: return.type
 			count: 1
 			path: src/lib/Repository/Values/ObjectState/ObjectStateGroup.php
