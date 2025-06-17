@@ -22,6 +22,7 @@ use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
 use Ibexa\Core\Repository\Mapper\ContentMapper;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @internal
@@ -44,7 +45,8 @@ final class ContentServiceTest extends TestCase
             $this->createMock(ContentMapper::class),
             $this->createMock(ContentValidator::class),
             $this->createMock(ContentFilteringHandler::class),
-            new ContentCollector()
+            new ContentCollector(),
+            $this->createMock(ValidatorInterface::class),
         );
     }
 

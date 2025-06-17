@@ -33,6 +33,7 @@ use Ibexa\Core\Search\Common\BackgroundIndexer;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\NullLogger;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @internal
@@ -93,6 +94,7 @@ final class RepositoryFactory implements LoggerAwareInterface
         NameSchemaServiceInterface $nameSchemaService,
         TransactionHandler $transactionHandler,
         ContentCollector $contentCollector,
+        ValidatorInterface $validator,
     ): Repository {
         $config = $this->repositoryConfigurationProvider->getRepositoryConfig();
 
@@ -119,6 +121,7 @@ final class RepositoryFactory implements LoggerAwareInterface
             $nameSchemaService,
             $transactionHandler,
             $contentCollector,
+            $validator,
             [
                 'role' => [
                     'policyMap' => $this->policyMap,

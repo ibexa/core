@@ -72,3 +72,5 @@ services:
         arguments:
             $fieldTypeAliasRegistry: '@Ibexa\Core\FieldType\FieldTypeAliasRegistry'
 
+    validator:
+        class: Ibexa\Tests\Integration\Stub\DummyValidator

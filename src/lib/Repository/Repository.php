@@ -51,6 +51,7 @@ use Ibexa\Core\Search\Common\BackgroundIndexer;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use RuntimeException;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Repository class.
@@ -263,6 +264,8 @@ class Repository implements RepositoryInterface
 
     private ContentCollector $contentCollector;
 
+    private ValidatorInterface $validator;
+
     public function __construct(
         PersistenceHandler $persistenceHandler,
         SearchHandler $searchHandler,
@@ -286,6 +289,7 @@ class Repository implements RepositoryInterface
         NameSchemaServiceInterface $nameSchemaService,
         TransactionHandler $transactionHandler,
         ContentCollector $contentCollector,
+        ValidatorInterface $validator,
         array $serviceSettings = [],
         ?LoggerInterface $logger = null
     ) {
@@ -338,6 +342,7 @@ class Repository implements RepositoryInterface
         $this->nameSchemaService = $nameSchemaService;
         $this->transactionHandler = $transactionHandler;
         $this->contentCollector = $contentCollector;
+        $this->validator = $validator;
     }
 
     public function sudo(callable $callback, ?RepositoryInterface $outerRepository = null)
@@ -370,6 +375,7 @@ class Repository implements RepositoryInterface
             $this->contentValidator,
             $this->contentFilteringHandler,
             $this->contentCollector,
+            $this->validator,
             $this->serviceSettings['content'],
         );
 
