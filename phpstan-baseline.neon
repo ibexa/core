@@ -52189,12 +52189,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/LanguageAwareTestCase.php
 
 		-
-			message: '#^Parameter \#3 \$ruleFiles of class Ibexa\\Core\\Persistence\\TransformationProcessor\\DefinitionBased constructor expects array, list\<string\>\|false given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/LanguageAwareTestCase.php
-
-		-
 			message: '#^Property Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\LanguageAwareTestCase\:\:\$fieldNameGeneratorMock \(Ibexa\\Core\\Search\\Common\\FieldNameGenerator&PHPUnit\\Framework\\MockObject\\MockObject\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
@@ -54901,162 +54895,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/UrlAlias/Gateway/DoctrineDatabaseTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:cleanupTextData\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:convertData\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:getSlugConverterMock\(\) has parameter \$methods with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:getSlugConverterMock\(\) should return Ibexa\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverter&PHPUnit\\Framework\\MockObject\\MockObject but returns PHPUnit\\Framework\\MockObject\\MockObject\.$#'
-			identifier: return.type
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:providerForTestGetUniqueCounterValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:testCleanupText\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:testCleanupText\(\) has parameter \$expected with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:testCleanupText\(\) has parameter \$method with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:testCleanupText\(\) has parameter \$text with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:testConvert\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:testConvertNoMocking\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:testConvertNoMocking\(\) has parameter \$defaultText with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:testConvertNoMocking\(\) has parameter \$expected with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:testConvertNoMocking\(\) has parameter \$text with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:testConvertNoMocking\(\) has parameter \$transformation with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:testConvertWithDefaultTextFallback\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:testConvertWithGivenTransformation\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:testGetUniqueCounterValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:testGetUniqueCounterValue\(\) has parameter \$isRootLevel with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:testGetUniqueCounterValue\(\) has parameter \$returnValue with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:testGetUniqueCounterValue\(\) has parameter \$text with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Parameter \#1 \$transformationProcessor of class Ibexa\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverter constructor expects Ibexa\\Core\\Persistence\\TransformationProcessor, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Property Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:\$configuration type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Property Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:\$slugConverter \(Ibexa\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverter\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Property Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:\$slugConverterMock \(PHPUnit\\Framework\\MockObject\\MockObject\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
-			message: '#^Property Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\SlugConverterTest\:\:\$transformationProcessorMock \(PHPUnit\\Framework\\MockObject\\MockObject\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/SlugConverterTest.php
-
-		-
 			message: '#^Argument of an invalid type Ibexa\\Contracts\\Core\\Persistence\\Content\\UrlAlias supplied for foreach, only iterables are supported\.$#'
 			identifier: foreach.nonIterable
 			count: 4
@@ -56067,12 +55905,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\UrlAliasHandlerTest\:\:testPublishUrlAliasReuseNopCleanupCustomAliasIsDestroyed\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/UrlAliasHandlerTest.php
-
-		-
-			message: '#^Parameter \#3 \$ruleFiles of class Ibexa\\Core\\Persistence\\TransformationProcessor\\DefinitionBased constructor expects array, list\<string\>\|false given\.$#'
-			identifier: argument.type
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/UrlAlias/UrlAliasHandlerTest.php
 
@@ -57247,18 +57079,6 @@ parameters:
 			path: tests/lib/Persistence/Limitation/Target/Builder/VersionBuilderTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\TransformationProcessor\\TransformationProcessorDefinitionBasedParserTest\:\:testParse\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/TransformationProcessor/TransformationProcessorDefinitionBasedParserTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\TransformationProcessor\\TransformationProcessorDefinitionBasedParserTest\:\:testParse\(\) has parameter \$file with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Persistence/TransformationProcessor/TransformationProcessorDefinitionBasedParserTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\TransformationProcessor\\TransformationProcessorDefinitionBasedTest\:\:getProcessor\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -57285,12 +57105,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\TransformationProcessor\\TransformationProcessorDefinitionBasedTest\:\:testSimpleNormalizationUppercase\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/TransformationProcessor/TransformationProcessorDefinitionBasedTest.php
-
-		-
-			message: '#^Parameter \#3 \$ruleFiles of class Ibexa\\Core\\Persistence\\TransformationProcessor\\DefinitionBased constructor expects array, list\<string\>\|false given\.$#'
-			identifier: argument.type
 			count: 1
 			path: tests/lib/Persistence/TransformationProcessor/TransformationProcessorDefinitionBasedTest.php
 
@@ -57399,12 +57213,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\TransformationProcessor\\TransformationProcessorPreprocessedBasedTest\:\:testSimpleNormalizationUppercase\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/TransformationProcessor/TransformationProcessorPreprocessedBasedTest.php
-
-		-
-			message: '#^Parameter \#2 \$ruleFiles of class Ibexa\\Core\\Persistence\\TransformationProcessor\\PreprocessedBased constructor expects array, list\<string\>\|false given\.$#'
-			identifier: argument.type
 			count: 1
 			path: tests/lib/Persistence/TransformationProcessor/TransformationProcessorPreprocessedBasedTest.php
 
@@ -64561,12 +64369,6 @@ parameters:
 			path: tests/lib/Search/Legacy/Content/HandlerContentTest.php
 
 		-
-			message: '#^Parameter \#3 \$ruleFiles of class Ibexa\\Core\\Persistence\\TransformationProcessor\\DefinitionBased constructor expects array, list\<string\>\|false given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/lib/Search/Legacy/Content/HandlerContentTest.php
-
-		-
 			message: '#^Class Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\SortClause\\Field constructor invoked with 4 parameters, 2\-3 required\.$#'
 			identifier: arguments.count
 			count: 1
@@ -65132,12 +64934,6 @@ parameters:
 
 		-
 			message: '#^Parameter \#1 \$contentTypeHandler of method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\LanguageAwareTestCase\:\:getFullTextMapper\(\) expects Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Handler, Ibexa\\Contracts\\Core\\Persistence\\Content\\Type\\Handler given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/lib/Search/Legacy/Content/HandlerLocationTest.php
-
-		-
-			message: '#^Parameter \#3 \$ruleFiles of class Ibexa\\Core\\Persistence\\TransformationProcessor\\DefinitionBased constructor expects array, list\<string\>\|false given\.$#'
 			identifier: argument.type
 			count: 1
 			path: tests/lib/Search/Legacy/Content/HandlerLocationTest.php

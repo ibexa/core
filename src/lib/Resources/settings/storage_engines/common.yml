@@ -3,24 +3,24 @@ parameters:
 
     # Transformation rules resources
     ibexa.api.storage_engine.transformation_rules.resources:
-        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/ascii.tr"
-        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/basic.tr"
-        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/cyrillic.tr"
-        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/greek.tr"
-        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/hebrew.tr"
-        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/latin.tr"
-        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/search.tr"
+        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/ascii.tr'
+        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/basic.tr'
+        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/cyrillic.tr'
+        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/greek.tr'
+        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/hebrew.tr'
+        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/latin.tr'
+        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/search.tr'
 
     # Using preprocessed files:
 
     ibexa.api.storage_engine.preprocessed_transformation_rules.resources:
-        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/ascii.tr.result"
-        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/basic.tr.result"
-        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/cyrillic.tr.result"
-        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/greek.tr.result"
-        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/hebrew.tr.result"
-        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/latin.tr.result"
-        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/search.tr.result"
+        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/ascii.tr.result.php'
+        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/basic.tr.result.php'
+        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/cyrillic.tr.result.php'
+        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/greek.tr.result.php'
+        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/hebrew.tr.result.php'
+        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/latin.tr.result.php'
+        - '%ibexa.kernel.root_dir%/src/lib/Resources/slug_converter/transformations/search.tr.result.php'
 
 services:
     Ibexa\Core\Persistence\FieldTypeRegistry:
