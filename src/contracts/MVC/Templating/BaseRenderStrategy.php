@@ -27,6 +27,11 @@ abstract class BaseRenderStrategy implements RenderStrategy
     /** @var \Symfony\Component\HttpFoundation\RequestStack */
     protected $requestStack;
 
+    /**
+     * @var array<string, bool>
+     */
+    private $initialized = [];
+
     public function __construct(
         iterable $fragmentRenderers,
         string $defaultRenderer,
@@ -34,7 +39,10 @@ abstract class BaseRenderStrategy implements RenderStrategy
         RequestStack $requestStack
     ) {
         foreach ($fragmentRenderers as $fragmentRenderer) {
-            $this->fragmentRenderers[$fragmentRenderer->getName()] = $fragmentRenderer;
+            if (!isset($this->initialized[$fragmentRenderer->getName()])) {
+                $this->fragmentRenderers[$fragmentRenderer->getName()] = $fragmentRenderer;
+                $this->initialized[$fragmentRenderer->getName()] = true;
+            }
         }
 
         $this->defaultRenderer = $defaultRenderer;
