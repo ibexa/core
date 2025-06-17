@@ -16,16 +16,19 @@ class UserPasswordValidationException extends InvalidArgumentException
     /**
      * Generates: "Argument '{$argumentName}' is invalid: Password doesn't match the following rules: {X}, {Y}, {Z}".
      *
-     * @param string $argumentName
-     * @param array $errors
-     * @param \Exception|null $previous
+     * @param \Ibexa\Core\FieldType\ValidationError[] $errors
      */
-    public function __construct(string $argumentName, array $errors, Exception $previous = null)
+    public function __construct(string $argumentName, array $errors, ?Exception $previous = null)
     {
-        $rules = array_map(static function (ValidationError $error): string {
-            return (string) $error->getTranslatableMessage();
-        }, $errors);
+        $rules = array_map(
+            static fn (ValidationError $error): string => (string)$error->getTranslatableMessage(),
+            $errors
+        );
 
-        parent::__construct($argumentName, 'The password does not match the following rules: ' . implode(', ', $rules), $previous);
+        parent::__construct(
+            $argumentName,
+            'The password does not match the following rules: ' . implode(', ', $rules),
+            $previous
+        );
     }
 }

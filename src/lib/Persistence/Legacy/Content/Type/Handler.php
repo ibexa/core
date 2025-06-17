@@ -122,7 +122,7 @@ class Handler implements BaseContentTypeHandler
         );
 
         if (count($groups) !== 1) {
-            throw new Exception\TypeGroupNotFound($groupId);
+            throw new Exception\TypeGroupNotFound((string)$groupId);
         }
 
         return $groups[0];

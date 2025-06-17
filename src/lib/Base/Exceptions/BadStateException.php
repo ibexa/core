@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\Base\Exceptions;
 
@@ -15,7 +16,10 @@ use Ibexa\Core\Base\TranslatableBase;
 /**
  * BadState Exception implementation.
  *
- * Usage: throw new BadState( 'nodes', 'array' );
+ * Usage:
+ * ```
+ * throw new BadStateException('nodes', 'array');
+ * ```
  */
 class BadStateException extends APIBadStateException implements Translatable
 {
@@ -23,12 +27,8 @@ class BadStateException extends APIBadStateException implements Translatable
 
     /**
      * Generates: "Argument '{$argumentName}' has a bad state: {$whatIsWrong}".
-     *
-     * @param string $argumentName
-     * @param string $whatIsWrong
-     * @param \Exception|null $previous
      */
-    public function __construct($argumentName, $whatIsWrong, Exception $previous = null)
+    public function __construct(string $argumentName, string $whatIsWrong, ?Exception $previous = null)
     {
         $this->setMessageTemplate("Argument '%argumentName%' has a bad state: %whatIsWrong%");
         $this->setParameters(['%argumentName%' => $argumentName, '%whatIsWrong%' => $whatIsWrong]);

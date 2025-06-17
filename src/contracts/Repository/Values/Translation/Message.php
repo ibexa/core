@@ -20,22 +20,24 @@ class Message extends Translation
 {
     /**
      * Message string. Might use replacements like %foo%, which are replaced by
-     * the values specified in the values array.
+     * the values specified in the `$values` array.
      */
     protected string $message;
 
     /**
      * Translation value objects. May not contain any numbers, which might
-     * result in requiring plural forms. Use Plural for that.
+     * result in requiring plural forms. Use `Plural` class for that.
      *
-     * @var array<string, scalar>
+     * @see \Ibexa\Contracts\Core\Repository\Values\Translation\Plural
+     *
+     * @var array<string, scalar|null>
      */
     protected array $values;
 
     /**
-     * Construct singular only message from string and optional value array.
+     * Construct a singular only message from string and optional value array.
      *
-     * @param array<string, scalar> $values
+     * @param array<string, scalar|null> $values
      */
     public function __construct(string $message, array $values = [])
     {

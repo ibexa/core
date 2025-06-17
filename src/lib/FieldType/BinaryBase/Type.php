@@ -339,14 +339,14 @@ abstract class Type extends FieldType
                     }
                     if (!is_int($parameters['maxFileSize']) && $parameters['maxFileSize'] !== null) {
                         $validationErrors[] = new ValidationError(
-                            'Validator %validator% expects parameter %parameter% to be of %type%.',
+                            'Validator %validator% expects parameter %parameter% to be of %type% type.',
                             null,
                             [
                                 '%validator%' => $validatorIdentifier,
                                 '%parameter%' => 'maxFileSize',
                                 '%type%' => 'integer',
-                                "[$validatorIdentifier][maxFileSize]",
-                            ]
+                            ],
+                            "[$validatorIdentifier][maxFileSize]",
                         );
                     }
                     break;

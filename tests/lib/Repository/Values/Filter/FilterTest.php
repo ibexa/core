@@ -65,7 +65,7 @@ final class FilterTest extends TestCase
                 1,
             ],
             'Expected an instance of "Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause", ' .
-            'got "integer" at position 1',
+            'got "int" at position 1',
         ];
 
         yield [

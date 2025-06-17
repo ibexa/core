@@ -4,12 +4,15 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\Base\Exceptions;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException as APIContentFieldValidationException;
+use Ibexa\Contracts\Core\Repository\Values\Translation;
 use Ibexa\Core\Base\Translatable;
 use Ibexa\Core\Base\TranslatableBase;
+use Ibexa\Core\FieldType\ValidationError;
 
 /**
  * This Exception is thrown on create or update content one or more given fields are not valid.
@@ -18,23 +21,22 @@ class ContentFieldValidationException extends APIContentFieldValidationException
 {
     use TranslatableBase;
 
-    private const MAX_MESSAGES_NUMBER = 32;
+    private const int MAX_MESSAGES_NUMBER = 32;
 
     /**
      * Contains an array of field ValidationError objects indexed with FieldDefinition id and language code.
      *
      * Example:
-     * <code>
+     * ```
      *  $fieldErrors = $exception->getFieldErrors();
-     *  $fieldErrors[43]["eng-GB"]->getTranslatableMessage();
-     * </code>
+     *  $fieldErrors[43]["eng-GB"][0]->getTranslatableMessage();
+     * ```
      *
      * @var array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError[]>>
      */
-    protected $errors;
+    protected array $errors;
 
-    /** @var string|null */
-    protected $contentName;
+    protected ?string $contentName;
 
     /**
      * Generates: Content fields did not validate.
@@ -63,7 +65,7 @@ class ContentFieldValidationException extends APIContentFieldValidationException
         $exception->setMessageTemplate('Content "%contentName%" fields did not validate: %errors%');
         $exception->setParameters([
             '%errors%' => $exception->generateValidationErrorsMessages(),
-            '%contentName%' => $exception->contentName !== null ? $exception->contentName : '',
+            '%contentName%' => $exception->contentName ?? '',
         ]);
         $exception->message = $exception->getBaseTranslation();
 
@@ -83,18 +85,20 @@ class ContentFieldValidationException extends APIContentFieldValidationException
     private function generateValidationErrorsMessages(): string
     {
         $validationErrors = $this->collectValidationErrors();
-        $maxMessagesNumber = self::MAX_MESSAGES_NUMBER;
-
-        if (count($validationErrors) > $maxMessagesNumber) {
-            array_splice($validationErrors, $maxMessagesNumber);
-            $validationErrors[] = sprintf('Limit: %d of validation errors has been exceeded.', $maxMessagesNumber);
+        if (count($validationErrors) > self::MAX_MESSAGES_NUMBER) {
+            array_splice($validationErrors, self::MAX_MESSAGES_NUMBER);
+            $validationErrors[] = new Translation\Message(
+                'Limit of %max_message_number% validation errors has been exceeded.',
+                [
+                    '%max_message_number%' => self::MAX_MESSAGES_NUMBER,
+                ]
+            );
         }
 
-        /** @var callable(string|\Ibexa\Contracts\Core\Repository\Values\Translation): string $convertToString */
-        $convertToString = static function ($error): string {
-            return (string)$error;
-        };
-        $validationErrors = array_map($convertToString, $validationErrors);
+        $validationErrors = array_map(
+            static fn (Translation $error): string => (string)$error,
+            $validationErrors
+        );
 
         return "\n- " . implode("\n- ", $validationErrors);
     }
