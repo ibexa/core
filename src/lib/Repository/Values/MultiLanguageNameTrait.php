@@ -40,8 +40,7 @@ trait MultiLanguageNameTrait
         if (isset($this->mainLanguageCode, $this->names[$this->mainLanguageCode])) {
               return $this->names[$this->mainLanguageCode];
         }
-        $defaultName = reset($this->names);
 
-        return $defaultName !== false ? $defaultName : null;
+        return $this->names[array_key_first($this->names)] ?? null;
     }
 }
