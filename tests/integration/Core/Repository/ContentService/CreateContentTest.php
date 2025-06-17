@@ -22,11 +22,6 @@ final class CreateContentTest extends RepositoryTestCase
      */
     public function testContentCreationUnderNonContainerFails(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            "the 'contentType' property must be a content type instance that is a container.",
-        );
-
         $contentTypeService = self::getContentTypeService();
 
         $groupCreate = $contentTypeService->newContentTypeGroupCreateStruct(
@@ -55,6 +50,11 @@ final class CreateContentTest extends RepositoryTestCase
         $container = $this->createAndPublishContent();
         $locationId = $container->getContentInfo()->getMainLocationId();
         assert(is_int($locationId));
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            "the 'contentType' property must be a content type instance that is a container.",
+        );
 
         $this->createFolder(
             ['eng-GB' => 'some_name'],
