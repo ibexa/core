@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\Values;
 
@@ -17,23 +18,17 @@ trait MultiLanguageNameTrait
      *
      * @var string[]
      */
-    protected $names = [];
+    protected array $names = [];
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getNames()
+    public function getNames(): array
     {
         return $this->names;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName($languageCode = null)
+    public function getName(?string $languageCode = null): ?string
     {
         if (!empty($languageCode)) {
-            return isset($this->names[$languageCode]) ? $this->names[$languageCode] : null;
+            return $this->names[$languageCode] ?? null;
         }
 
         foreach ($this->prioritizedLanguages as $prioritizedLanguageCode) {
@@ -42,8 +37,10 @@ trait MultiLanguageNameTrait
             }
         }
 
-        return isset($this->names[$this->mainLanguageCode])
-            ? $this->names[$this->mainLanguageCode]
-            : reset($this->names);
+        if (isset($this->mainLanguageCode, $this->names[$this->mainLanguageCode])) {
+              return $this->names[$this->mainLanguageCode];
+        }
+
+        return $this->names[array_key_first($this->names)] ?? null;
     }
 }
