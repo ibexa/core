@@ -49,8 +49,8 @@ final class CreateContentTest extends RepositoryTestCase
 
         $container = $this->createAndPublishContent();
         $locationId = $container->getContentInfo()->getMainLocationId();
-        assert(is_int($locationId));
 
+        self::assertIsInt($locationId);
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
             "the 'contentType' property must be a content type instance that is a container.",
