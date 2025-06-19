@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Doctrine;
 
+use Ibexa\Core\Persistence\Legacy\Traits\Doctrine\LimitedCountQueryTrait;
 use function array_filter;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
@@ -31,6 +32,8 @@ use Traversable;
  */
 final class DoctrineGateway implements Gateway
 {
+    use LimitedCountQueryTrait;
+
     public const COLUMN_MAP = [
         // Content Info
         'content_id' => 'content.id',
@@ -87,11 +90,17 @@ final class DoctrineGateway implements Gateway
         }
     }
 
-    public function count(FilteringCriterion $criterion): int
+    public function count(FilteringCriterion $criterion, ?int $limit = null): int
     {
         $query = $this->buildQuery(
             [$this->getDatabasePlatform()->getCountExpression('DISTINCT content.id')],
             $criterion
+        );
+
+        $query = $this->wrapCountQuery(
+            $query,
+            'content.id',
+            $limit
         );
 
         return (int)$query->execute()->fetch(FetchMode::COLUMN);

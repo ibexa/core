@@ -22,7 +22,7 @@ interface Handler
      */
     public function find(Filter $filter): iterable;
 
-    public function count(Filter $filter): int;
+    public function count(Filter $filter, ?int $limit = null): int;
 }
 
 class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Filter\Content\Handler');

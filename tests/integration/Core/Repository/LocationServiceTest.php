@@ -1115,6 +1115,26 @@ class LocationServiceTest extends BaseTest
     }
 
     /**
+     * Test for the getLocationChildCount() method with a limitation on the number of children.
+     *
+     * @covers \Ibexa\Contracts\Core\Repository\LocationService::getLocationChildCount()
+     * @depends testLoadLocation
+     */
+    public function testGetLocationChildCountWithLimitation()
+    {
+        // $locationId is the ID of an existing location
+        $locationService = $this->getRepository()->getLocationService();
+
+        $this->assertSame(
+            2,
+            $locationService->getLocationChildCount(
+                $locationService->loadLocation($this->generateId('location', 5)),
+                2
+            )
+        );
+    }
+
+    /**
      * Test for the loadLocationChildren() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocationChildren()
@@ -3552,6 +3572,42 @@ class LocationServiceTest extends BaseTest
         $this->createFolder(['eng-GB' => 'Child 2'], $location->id);
 
         self::assertSame(3, $locationService->getSubtreeSize($location));
+
+        return $location;
+    }
+
+    public function testGetSubtreeSizeWithLimit(): Location
+    {
+        $repository = $this->getRepository();
+        $locationService = $repository->getLocationService();
+
+        $folder = $this->createFolder(['eng-GB' => 'Parent Folder'], 2);
+        $location = $folder->getVersionInfo()->getContentInfo()->getMainLocation();
+        self::assertSame(1, $locationService->getSubtreeSize($location));
+
+        for ($i = 1; $i <= 10; ++$i) {
+            $this->createFolder(['eng-GB' => 'Child ' . $i], $location->id);
+        }
+
+        self::assertSame(3, $locationService->getSubtreeSize($location, 3));
+
+        return $location;
+    }
+
+    public function testGetSubtreeSizeWithInvalidLimitHasNoEffect(): Location
+    {
+        $repository = $this->getRepository();
+        $locationService = $repository->getLocationService();
+
+        $folder = $this->createFolder(['eng-GB' => 'Parent Folder'], 2);
+        $location = $folder->getVersionInfo()->getContentInfo()->getMainLocation();
+        self::assertSame(1, $locationService->getSubtreeSize($location));
+
+        for ($i = 1; $i <= 10; ++$i) {
+            $this->createFolder(['eng-GB' => 'Child ' . $i], $location->id);
+        }
+
+        self::assertSame(11, $locationService->getSubtreeSize($location, -2));
 
         return $location;
     }

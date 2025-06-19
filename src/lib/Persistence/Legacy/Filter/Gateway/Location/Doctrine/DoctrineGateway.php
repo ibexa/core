@@ -20,12 +20,15 @@ use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway;
+use Ibexa\Core\Persistence\Legacy\Traits\Doctrine\LimitedCountQueryTrait;
 
 /**
  * @internal for internal use by Legacy Storage
  */
 final class DoctrineGateway implements Gateway
 {
+    use LimitedCountQueryTrait;
+
     /** @var \Doctrine\DBAL\Connection */
     private $connection;
 
@@ -54,11 +57,17 @@ final class DoctrineGateway implements Gateway
         }
     }
 
-    public function count(FilteringCriterion $criterion): int
+    public function count(FilteringCriterion $criterion, ?int $limit = null): int
     {
         $query = $this->buildQuery($criterion);
 
         $query->select($this->getDatabasePlatform()->getCountExpression('DISTINCT location.node_id'));
+
+        $query = $this->wrapCountQuery(
+            $query,
+            'location.node_id',
+            $limit
+        );
 
         return (int)$query->execute()->fetch(FetchMode::COLUMN);
     }
