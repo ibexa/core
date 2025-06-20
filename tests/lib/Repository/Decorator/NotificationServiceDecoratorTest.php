@@ -12,6 +12,8 @@ use Ibexa\Contracts\Core\Repository\Decorator\NotificationServiceDecorator;
 use Ibexa\Contracts\Core\Repository\NotificationService;
 use Ibexa\Contracts\Core\Repository\Values\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Type;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -28,11 +30,10 @@ class NotificationServiceDecoratorTest extends TestCase
         return $this->createMock(NotificationService::class);
     }
 
-    public function testLoadNotificationsDecorator()
+    public function testLoadNotificationsDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
-
         $parameters = [
             264,
             959,
@@ -43,6 +44,20 @@ class NotificationServiceDecoratorTest extends TestCase
         $decoratedService->loadNotifications(...$parameters);
     }
 
+    public function testFindNotificationsDecorator(): void
+    {
+        $serviceMock = $this->createServiceMock();
+        $decoratedService = $this->createDecorator($serviceMock);
+        $typeCriterion = new Type('Workflow:Review');
+        $query = new NotificationQuery([$typeCriterion], 264, 959);
+
+        $serviceMock->expects(self::once())
+            ->method('findNotifications')
+            ->with($query);
+
+        $decoratedService->findNotifications($query);
+    }
+
     public function testGetNotificationDecorator()
     {
         $serviceMock = $this->createServiceMock();
@@ -50,7 +65,7 @@ class NotificationServiceDecoratorTest extends TestCase
 
         $parameters = [469];
 
-        $serviceMock->expects($this->once())->method('getNotification')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('getNotification')->with(...$parameters);
 
         $decoratedService->getNotification(...$parameters);
     }
@@ -62,7 +77,7 @@ class NotificationServiceDecoratorTest extends TestCase
 
         $parameters = [$this->createMock(Notification::class)];
 
-        $serviceMock->expects($this->once())->method('markNotificationAsRead')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('markNotificationAsRead')->with(...$parameters);
 
         $decoratedService->markNotificationAsRead(...$parameters);
     }
@@ -86,7 +101,7 @@ class NotificationServiceDecoratorTest extends TestCase
 
         $parameters = [];
 
-        $serviceMock->expects($this->once())->method('getPendingNotificationCount')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('getPendingNotificationCount')->with(...$parameters);
 
         $decoratedService->getPendingNotificationCount(...$parameters);
     }
@@ -98,7 +113,7 @@ class NotificationServiceDecoratorTest extends TestCase
 
         $parameters = [];
 
-        $serviceMock->expects($this->once())->method('getNotificationCount')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('getNotificationCount')->with(...$parameters);
 
         $decoratedService->getNotificationCount(...$parameters);
     }
@@ -110,7 +125,7 @@ class NotificationServiceDecoratorTest extends TestCase
 
         $parameters = [$this->createMock(CreateStruct::class)];
 
-        $serviceMock->expects($this->once())->method('createNotification')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('createNotification')->with(...$parameters);
 
         $decoratedService->createNotification(...$parameters);
     }
@@ -122,7 +137,7 @@ class NotificationServiceDecoratorTest extends TestCase
 
         $parameters = [$this->createMock(Notification::class)];
 
-        $serviceMock->expects($this->once())->method('deleteNotification')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('deleteNotification')->with(...$parameters);
 
         $decoratedService->deleteNotification(...$parameters);
     }
