@@ -22,12 +22,6 @@ trait LimitedCountQueryTrait
      * SELECT DISTINCT COUNT(DISTINCT someField) FROM XXX WHERE YYY;
      * To
      * SELECT COUNT(*) FROM (SELECT DISTINCT someField FROM XXX WHERE YYY LIMIT N) AS csub;.
-     *
-     * @param \Doctrine\DBAL\Query\QueryBuilder $queryBuilder
-     * @param string $countableField
-     * @param mixed $limit
-     *
-     * @return \Doctrine\DBAL\Query\QueryBuilder
      */
     protected function wrapCountQuery(
         QueryBuilder $queryBuilder,
