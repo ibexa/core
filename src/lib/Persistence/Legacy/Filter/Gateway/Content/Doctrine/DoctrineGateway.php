@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Doctrine;
 
-use Ibexa\Core\Persistence\Legacy\Traits\Doctrine\LimitedCountQueryTrait;
 use function array_filter;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
@@ -23,6 +22,7 @@ use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway;
+use Ibexa\Core\Persistence\Legacy\Traits\Doctrine\LimitedCountQueryTrait;
 use function iterator_to_array;
 use function sprintf;
 use Traversable;

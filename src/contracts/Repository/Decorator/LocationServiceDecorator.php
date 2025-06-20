@@ -82,7 +82,7 @@ abstract class LocationServiceDecorator implements LocationService
         return $this->innerService->loadParentLocationsForDraftContent($versionInfo, $prioritizedLanguages);
     }
 
-    public function getLocationChildCount(Location $location, ?int $limit = null ): int
+    public function getLocationChildCount(Location $location, ?int $limit = null): int
     {
         return $this->innerService->getLocationChildCount($location, $limit);
     }

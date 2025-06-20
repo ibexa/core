@@ -104,7 +104,7 @@ class LocationService implements LocationServiceInterface
         );
     }
 
-    public function getLocationChildCount(Location $location, ?int $limit = null ): int
+    public function getLocationChildCount(Location $location, ?int $limit = null): int
     {
         return $this->service->getLocationChildCount($location, $limit);
     }
