@@ -101,18 +101,15 @@ class NotificationHandler extends AbstractHandler implements Handler
 
     public function countNotifications(int $ownerId, ?NotificationQuery $query = null): int
     {
-        $cacheKeyParams = [$ownerId];
-        if ($query !== null) {
-            $cacheKeyParams[] = json_encode($query);
-        }
+        if ($query === null) {
+            $cacheKeyParams = [$ownerId];
+            $cacheItem = $this->cache->getItem(
+                $this->cacheIdentifierGenerator->generateKey(self::NOTIFICATION_COUNT_IDENTIFIER, $cacheKeyParams, true)
+            );
 
-        $cacheItem = $this->cache->getItem(
-            $this->cacheIdentifierGenerator->generateKey(self::NOTIFICATION_COUNT_IDENTIFIER, $cacheKeyParams, true)
-        );
-
-        $count = $cacheItem->get();
-        if ($cacheItem->isHit()) {
-            return $count;
+            if ($cacheItem->isHit()) {
+                return $cacheItem->get();
+            }
         }
 
         $this->logger->logCall(__METHOD__, [
@@ -122,8 +119,10 @@ class NotificationHandler extends AbstractHandler implements Handler
 
         $count = $this->persistenceHandler->notificationHandler()->countNotifications($ownerId, $query);
 
-        $cacheItem->set($count);
-        $this->cache->save($cacheItem);
+        if ($query === null) {
+            $cacheItem->set($count);
+            $this->cache->save($cacheItem);
+        }
 
         return $count;
     }
