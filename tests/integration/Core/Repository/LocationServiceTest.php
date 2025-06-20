@@ -1120,7 +1120,7 @@ class LocationServiceTest extends BaseTest
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::getLocationChildCount()
      * @depends testLoadLocation
      */
-    public function testGetLocationChildCountWithLimitation()
+    public function testGetLocationChildCountWithLimitation(): void
     {
         // $locationId is the ID of an existing location
         $locationService = $this->getRepository()->getLocationService();
