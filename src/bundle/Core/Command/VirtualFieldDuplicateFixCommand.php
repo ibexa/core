@@ -162,7 +162,7 @@ final class VirtualFieldDuplicateFixCommand extends Command
         $stopwatch->start('total_count', 'sql');
         $query = $this->connection->createQueryBuilder()
             ->select('COUNT(a.id) as instances')
-            ->groupBy('version', 'contentclassattribute_id', 'contentobject_id', 'language_id')
+            ->groupBy('version', 'content_type_field_definition_id', 'contentobject_id', 'language_id')
             ->from(Gateway::CONTENT_FIELD_TABLE, 'a')
             ->having('instances > 1');
 
@@ -184,7 +184,7 @@ final class VirtualFieldDuplicateFixCommand extends Command
     /**
      * @phpstan-return array<array{
      *     version: int,
-     *     contentclassattribute_id: int,
+     *     content_type_field_definition_id: int,
      *     contentobject_id: int,
      *     language_id: int,
      * }>
@@ -194,8 +194,8 @@ final class VirtualFieldDuplicateFixCommand extends Command
         $query = $this->connection->createQueryBuilder();
 
         $query
-            ->select('version', 'contentclassattribute_id', 'contentobject_id', 'language_id')
-            ->groupBy('version', 'contentclassattribute_id', 'contentobject_id', 'language_id')
+            ->select('version', 'content_type_field_definition_id', 'contentobject_id', 'language_id')
+            ->groupBy('version', 'content_type_field_definition_id', 'contentobject_id', 'language_id')
             ->from(Gateway::CONTENT_FIELD_TABLE)
             ->having('COUNT(id) > 1')
             ->setFirstResult(0)
@@ -207,7 +207,7 @@ final class VirtualFieldDuplicateFixCommand extends Command
     /**
      * @phpstan-param array{
      *     version: int,
-     *     contentclassattribute_id: int,
+     *     content_type_field_definition_id: int,
      *     contentobject_id: int,
      *     language_id: int
      * } $attribute
@@ -222,7 +222,7 @@ final class VirtualFieldDuplicateFixCommand extends Command
             ->select('id')
             ->from(Gateway::CONTENT_FIELD_TABLE)
             ->andWhere('version = :version')
-            ->andWhere('contentclassattribute_id = :contentclassattribute_id')
+            ->andWhere('content_type_field_definition_id = :content_type_field_definition_id')
             ->andWhere('contentobject_id = :contentobject_id')
             ->andWhere('language_id = :language_id')
             ->orderBy('id', 'ASC')

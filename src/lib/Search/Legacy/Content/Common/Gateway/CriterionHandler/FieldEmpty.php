@@ -135,7 +135,7 @@ class FieldEmpty extends FieldBase
 
             $whereExpressions[] = $subSelect->expr()->and(
                 $subSelect->expr()->in(
-                    'contentclassattribute_id',
+                    'content_type_field_definition_id',
                     $queryBuilder->createNamedParameter($fieldsInfo['ids'], Connection::PARAM_INT_ARRAY)
                 ),
                 $filter

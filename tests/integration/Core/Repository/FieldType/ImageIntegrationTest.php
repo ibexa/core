@@ -857,10 +857,10 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
         $query
             ->select('data_text')
             ->from(Gateway::CONTENT_FIELD_TABLE)
-            ->andWhere('contentclassattribute_id = :contentclassattribute_id')
+            ->andWhere('content_type_field_definition_id = :content_type_field_definition_id')
             ->andWhere('version = :version')
             ->andWhere('contentobject_id = :contentobject_id')
-            ->setParameter('contentclassattribute_id', $fieldDefinitionId, ParameterType::INTEGER)
+            ->setParameter('content_type_field_definition_id', $fieldDefinitionId, ParameterType::INTEGER)
             ->setParameter('version', $versionNo, ParameterType::INTEGER)
             ->setParameter('contentobject_id', $contentId, ParameterType::INTEGER);
 
@@ -905,10 +905,10 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
             ->update(Gateway::CONTENT_FIELD_TABLE)
             ->set('data_text', ':data_text')
             ->setParameter('data_text', $document->saveXML(), ParameterType::STRING)
-            ->andWhere('contentclassattribute_id = :contentclassattribute_id')
+            ->andWhere('content_type_field_definition_id = :content_type_field_definition_id')
             ->andWhere('version = :version')
             ->andWhere('contentobject_id = :contentobject_id')
-            ->setParameter('contentclassattribute_id', $fieldDefinitionId, ParameterType::INTEGER)
+            ->setParameter('content_type_field_definition_id', $fieldDefinitionId, ParameterType::INTEGER)
             ->setParameter('version', $versionNo, ParameterType::INTEGER)
             ->setParameter('contentobject_id', $contentId, ParameterType::INTEGER);
 

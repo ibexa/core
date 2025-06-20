@@ -138,7 +138,7 @@ class FieldRelation extends FieldBase
                         'c.current_version'
                     ),
                     $expr->in(
-                        'c_rel.contentclassattribute_id',
+                        'c_rel.content_type_field_definition_id',
                         $queryBuilder->createNamedParameter($fieldDefinitionIds, Connection::PARAM_INT_ARRAY)
                     ),
                     $expr->eq(
@@ -179,7 +179,7 @@ class FieldRelation extends FieldBase
             )
             ->andWhere(
                 $expr->in(
-                    'c_rel.contentclassattribute_id',
+                    'c_rel.content_type_field_definition_id',
                     $queryBuilder->createNamedParameter(
                         $fieldDefinitionIds,
                         Connection::PARAM_INT_ARRAY

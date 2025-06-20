@@ -160,7 +160,7 @@ class SearchIndex
                         $contentTypeId,
                         ParameterType::INTEGER
                     ),
-                    'contentclass_attribute_id' => $query->createPositionalParameter(
+                    'content_type_field_definition_id' => $query->createPositionalParameter(
                         $fieldTypeId,
                         ParameterType::INTEGER
                     ),

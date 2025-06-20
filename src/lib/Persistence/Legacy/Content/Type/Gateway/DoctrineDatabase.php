@@ -582,7 +582,7 @@ final class DoctrineDatabase extends Gateway
                     'data_json' => ':data_json',
                     'name' => ':name',
                     'description' => ':description',
-                    'contentclass_attribute_id' => ':field_definition_id',
+                    'content_type_field_definition_id' => ':field_definition_id',
                     'status' => ':status',
                     'language_id' => ':language_id',
                 ]
@@ -676,7 +676,7 @@ final class DoctrineDatabase extends Gateway
                 $expr->and(
                     $expr->eq(
                         'f_def.id',
-                        'transl_f_def.contentclass_attribute_id'
+                        'transl_f_def.content_type_field_definition_id'
                     ),
                     $expr->eq(
                         'f_def.status',
@@ -709,7 +709,7 @@ final class DoctrineDatabase extends Gateway
         $deleteQuery = $this->connection->createQueryBuilder();
         $deleteQuery
             ->delete(self::MULTILINGUAL_FIELD_DEFINITION_TABLE)
-            ->where('contentclass_attribute_id = :field_definition_id')
+            ->where('content_type_field_definition_id = :field_definition_id')
             ->andWhere('status = :status')
             ->setParameter('field_definition_id', $fieldDefinitionId, ParameterType::INTEGER)
             ->setParameter('status', $status, ParameterType::INTEGER);
@@ -799,7 +799,7 @@ final class DoctrineDatabase extends Gateway
         $existQuery
             ->select('COUNT(1)')
             ->from(self::MULTILINGUAL_FIELD_DEFINITION_TABLE)
-            ->where('contentclass_attribute_id = :field_definition_id')
+            ->where('content_type_field_definition_id = :field_definition_id')
             ->andWhere('status = :status')
             ->andWhere('language_id = :language_id')
             ->setParameter('field_definition_id', $fieldDefinition->id, ParameterType::INTEGER)
@@ -821,7 +821,7 @@ final class DoctrineDatabase extends Gateway
             ->set('data_json', ':data_json')
             ->set('name', ':name')
             ->set('description', ':description')
-            ->where('contentclass_attribute_id = :field_definition_id')
+            ->where('content_type_field_definition_id = :field_definition_id')
             ->andWhere('status = :status')
             ->andWhere('language_id = :languageId')
             ->setParameter('data_text', $multilingualData->dataText)
@@ -1044,7 +1044,7 @@ final class DoctrineDatabase extends Gateway
                 self::MULTILINGUAL_FIELD_DEFINITION_TABLE,
                 'ml',
                 $expr->and(
-                    $expr->eq('a.id', 'ml.contentclass_attribute_id'),
+                    $expr->eq('a.id', 'ml.content_type_field_definition_id'),
                     $expr->eq('a.status', 'ml.status')
                 )
             )
@@ -1079,7 +1079,7 @@ final class DoctrineDatabase extends Gateway
             ->select('f_def.id as content_type_field_definition_id')
             ->from(self::FIELD_DEFINITION_TABLE, 'f_def')
             ->where('f_def.content_type_id = :content_type_id')
-            ->andWhere("f_def.id = $ctMlTable.contentclass_attribute_id");
+            ->andWhere("f_def.id = $ctMlTable.content_type_field_definition_id");
 
         $deleteQuery = $this->connection->createQueryBuilder();
         $deleteQuery
@@ -1267,7 +1267,7 @@ final class DoctrineDatabase extends Gateway
             ->select('f_def.id as content_type_field_definition_id')
             ->from(self::FIELD_DEFINITION_TABLE, 'f_def')
             ->where('f_def.content_type_id = :type_id')
-            ->andWhere("f_def.id = $ctMlTable.contentclass_attribute_id");
+            ->andWhere("f_def.id = $ctMlTable.content_type_field_definition_id");
 
         $mlDataPublishQuery = $this->connection->createQueryBuilder();
         $mlDataPublishQuery
@@ -1321,7 +1321,7 @@ final class DoctrineDatabase extends Gateway
         $deleteQuery = $this->connection->createQueryBuilder();
         $deleteQuery
             ->delete(self::MULTILINGUAL_FIELD_DEFINITION_TABLE)
-            ->where('contentclass_attribute_id = :field_definition_id')
+            ->where('content_type_field_definition_id = :field_definition_id')
             ->andWhere('status = :status')
             ->andWhere('language_id = :language_id')
             ->setParameter('field_definition_id', $fieldDefinitionId, ParameterType::INTEGER)
@@ -1403,7 +1403,7 @@ SQL;
           DELETE FROM $contentTypeAttrMlTable
             WHERE NOT EXISTS (
               SELECT 1 FROM $contentTypeAttrTable
-                WHERE $contentTypeAttrTable.id = $contentTypeAttrMlTable.contentclass_attribute_id
+                WHERE $contentTypeAttrTable.id = $contentTypeAttrMlTable.content_type_field_definition_id
                 AND $contentTypeAttrTable.status = $contentTypeAttrMlTable.status
             )
 SQL;
