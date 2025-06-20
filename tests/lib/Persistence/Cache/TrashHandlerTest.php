@@ -10,6 +10,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler as TrashHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trashed;
 use Ibexa\Contracts\Core\Persistence\Content\Relation;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult;
 use Ibexa\Core\Persistence\Cache\ContentHandler;
 use Ibexa\Core\Persistence\Cache\LocationHandler;
@@ -118,10 +119,13 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
     {
         $locationId = 6;
         $contentId = 42;
+        $versionNo = 1;
 
         $tags = [
+            'c-' . $contentId . '-v-' . $versionNo,
             'c-' . $contentId,
             'lp-' . $locationId,
+            'l-' . $locationId,
         ];
 
         $handlerMethodName = $this->getHandlerMethodName();
@@ -145,27 +149,38 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
             ->willReturn($locationHandlerMock);
 
         $this->persistenceHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method($handlerMethodName)
             ->willReturn($innerHandler);
 
+        $contentHandlerMock
+            ->expects(self::once())
+            ->method('listVersions')
+            ->with($contentId)
+            ->willReturn(
+                [
+                    new VersionInfo(['versionNo' => $versionNo]),
+                ]
+            );
         $innerHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('trashSubtree')
             ->with($locationId)
             ->willReturn(null);
 
         $this->cacheIdentifierGeneratorMock
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(4))
             ->method('generateTag')
             ->withConsecutive(
+                ['content_version', [$contentId, $versionNo], false],
                 ['content', [$contentId], false],
-                ['location_path', [$locationId], false]
+                ['location_path', [$locationId], false],
+                ['location', [$locationId], false],
             )
             ->willReturnOnConsecutiveCalls(...$tags);
 
         $this->cacheMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('invalidateTags')
             ->with($tags);
 
