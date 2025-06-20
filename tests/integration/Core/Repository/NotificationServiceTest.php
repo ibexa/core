@@ -11,9 +11,8 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Notification\CreateStruct;
-use Ibexa\Contracts\Core\Repository\Values\Notification\Notification;
-use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Type;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 
 /**
  * Test case for the NotificationService.

@@ -11,7 +11,7 @@ namespace Ibexa\Contracts\Core\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification;
 use Ibexa\Contracts\Core\Repository\Values\Notification\NotificationList;
-use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 
 /**
  * Service to manager user notifications. It works in the context of a current User (obtained from

@@ -24,14 +24,14 @@ final class DateCreatedCriterionHandler implements CriterionHandlerInterface
     public function apply(QueryBuilder $qb, CriterionInterface $criterion): void
     {
         /** @var \Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\DateCreated $criterion */
-        if ($criterion->from !== null) {
+        if ($criterion->getFrom() !== null) {
             $qb->andWhere($qb->expr()->gte(DoctrineDatabase::COLUMN_CREATED, ':created_from'));
-            $qb->setParameter(':created_from', $criterion->from->getTimestamp());
+            $qb->setParameter(':created_from', $criterion->getFrom()->getTimestamp());
         }
 
-        if ($criterion->to !== null) {
+        if ($criterion->getTo() !== null) {
             $qb->andWhere($qb->expr()->lte(DoctrineDatabase::COLUMN_CREATED, ':created_to'));
-            $qb->setParameter(':created_to', $criterion->to->getTimestamp());
+            $qb->setParameter(':created_to', $criterion->getTo()->getTimestamp());
         }
     }
 }

@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Repository\NotificationService as NotificationServiceIn
 use Ibexa\Contracts\Core\Repository\Values\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification;
 use Ibexa\Contracts\Core\Repository\Values\Notification\NotificationList;
-use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 
 class NotificationService implements NotificationServiceInterface
 {

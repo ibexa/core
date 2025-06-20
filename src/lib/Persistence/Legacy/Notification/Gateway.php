@@ -10,7 +10,7 @@ namespace Ibexa\Core\Persistence\Legacy\Notification;
 
 use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
-use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 
 abstract class Gateway
 {

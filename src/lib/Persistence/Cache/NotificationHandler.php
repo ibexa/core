@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Notification\Handler;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
 use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification as APINotification;
-use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 
 class NotificationHandler extends AbstractHandler implements Handler
 {

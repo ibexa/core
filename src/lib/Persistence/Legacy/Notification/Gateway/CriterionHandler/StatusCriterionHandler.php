@@ -26,6 +26,6 @@ final class StatusCriterionHandler implements CriterionHandlerInterface
     {
         /** @var \Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Status $criterion */
         $qb->andWhere($qb->expr()->eq(DoctrineDatabase::COLUMN_IS_PENDING, ':status'));
-        $qb->setParameter(':status', $criterion->statuses, Connection::PARAM_STR_ARRAY);
+        $qb->setParameter(':status', $criterion->getStatuses(), Connection::PARAM_STR_ARRAY);
     }
 }

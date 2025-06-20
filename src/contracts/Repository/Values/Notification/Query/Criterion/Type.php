@@ -12,9 +12,19 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface
 
 final class Type implements CriterionInterface
 {
-    public string $value;
+    private string $value;
 
     public function __construct(string $value)
+    {
+        $this->value = $value;
+    }
+
+    public function getValue(): string
+    {
+        return $this->value;
+    }
+
+    public function setValue(string $value): void
     {
         $this->value = $value;
     }

@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Persistence\Notification;
 
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification as APINotification;
-use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\NotificationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 
 interface Handler
 {

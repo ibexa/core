@@ -13,13 +13,33 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface
 
 final class DateCreated implements CriterionInterface
 {
-    public ?DateTimeInterface $from;
+    private ?DateTimeInterface $from;
 
-    public ?DateTimeInterface $to;
+    private ?DateTimeInterface $to;
 
     public function __construct(?DateTimeInterface $from = null, ?DateTimeInterface $to = null)
     {
         $this->from = $from;
+        $this->to = $to;
+    }
+
+    public function getFrom(): ?DateTimeInterface
+    {
+        return $this->from;
+    }
+
+    public function setFrom(?DateTimeInterface $from): void
+    {
+        $this->from = $from;
+    }
+
+    public function getTo(): ?DateTimeInterface
+    {
+        return $this->to;
+    }
+
+    public function setTo(?DateTimeInterface $to): void
+    {
         $this->to = $to;
     }
 }

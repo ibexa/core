@@ -25,6 +25,6 @@ final class TypeCriterionHandler implements CriterionHandlerInterface
     {
         /** @var \Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Type $criterion */
         $qb->andWhere($qb->expr()->eq(DoctrineDatabase::COLUMN_TYPE, ':type'));
-        $qb->setParameter(':type', $criterion->value);
+        $qb->setParameter(':type', $criterion->getValue());
     }
 }

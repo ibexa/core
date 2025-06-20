@@ -13,12 +13,28 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface
 final class Status implements CriterionInterface
 {
     /** @var string[] */
-    public array $statuses;
+    private array $statuses;
 
     /**
      * @param string[] $statuses
      */
     public function __construct(array $statuses)
+    {
+        $this->statuses = $statuses;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getStatuses(): array
+    {
+        return $this->statuses;
+    }
+
+    /**
+     * @param string[] $statuses
+     */
+    public function setStatuses(array $statuses): void
     {
         $this->statuses = $statuses;
     }
