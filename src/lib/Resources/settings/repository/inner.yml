@@ -101,7 +101,10 @@ services:
     ibexa.api.service.inner_location:
         class: Ibexa\Core\Repository\LocationService
         factory: ['@Ibexa\Core\Repository\Repository', getLocationService]
-        lazy: true
+        # @todo - Make this lazy in V5
+        # Service cannot be lazy while extra parameters reliant on func_get_args() 
+        # are required by service implementation.
+        #lazy: true
 
     Ibexa\Core\Repository\LanguageService:
         class: Ibexa\Core\Repository\LanguageService
