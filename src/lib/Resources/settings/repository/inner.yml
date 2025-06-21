@@ -1,5 +1,6 @@
 imports:
     - { resource: inner/name_schema.yaml }
+    - { resource: inner/validators.yaml }
 
 parameters:
     ibexa.kernel.proxy_cache_dir: 'var/cache/repository/proxy'
@@ -41,6 +42,7 @@ services:
             $nameSchemaService: '@Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface'
             $contentCollector: '@Ibexa\Core\Repository\Collector\ContentCollector'
             $transactionHandler: '@ibexa.repository.transaction_handler'
+            $validator: '@validator'
 
     Ibexa\Core\Repository\ContentService:
         class: Ibexa\Core\Repository\ContentService

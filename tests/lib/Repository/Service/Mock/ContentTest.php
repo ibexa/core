@@ -59,6 +59,7 @@ use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Mock test case for Content service.
@@ -111,6 +112,7 @@ class ContentTest extends BaseServiceMockTest
             $contentValidatorStrategy,
             $contentFilteringHandlerMock,
             new ContentCollector(),
+            $this->createMock(ValidatorInterface::class),
             $settings
         );
     }
@@ -6317,6 +6319,7 @@ class ContentTest extends BaseServiceMockTest
                         $this->getContentValidatorStrategy(),
                         $this->getContentFilteringHandlerMock(),
                         new ContentCollector(),
+                        $this->createMock(ValidatorInterface::class),
                         [
                             'grace_period_in_seconds' => $gracePeriodInSeconds,
                         ],
