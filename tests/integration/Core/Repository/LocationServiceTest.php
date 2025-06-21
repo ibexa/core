@@ -1124,11 +1124,12 @@ class LocationServiceTest extends BaseTest
     {
         // $locationId is the ID of an existing location
         $locationService = $this->getRepository()->getLocationService();
-
+        $location = $locationService->loadLocation($this->generateId('location', 5));
+        $this->assertNotNull($location);
         $this->assertSame(
             2,
             $locationService->getLocationChildCount(
-                $locationService->loadLocation($this->generateId('location', 5)),
+                $location,
                 2
             )
         );
