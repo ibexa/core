@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Doctrine;
 
+use Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder;
 use function array_filter;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
@@ -22,7 +23,6 @@ use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway;
-use Ibexa\Core\Persistence\Legacy\Traits\Doctrine\LimitedCountQueryTrait;
 use function iterator_to_array;
 use function sprintf;
 use Traversable;
@@ -32,8 +32,6 @@ use Traversable;
  */
 final class DoctrineGateway implements Gateway
 {
-    use LimitedCountQueryTrait;
-
     public const COLUMN_MAP = [
         // Content Info
         'content_id' => 'content.id',
@@ -71,14 +69,19 @@ final class DoctrineGateway implements Gateway
     /** @var \Ibexa\Contracts\Core\Persistence\Filter\SortClauseVisitor */
     private $sortClauseVisitor;
 
+    /** @var Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder */
+    private $limitedCountQueryBuilder;
+
     public function __construct(
         Connection $connection,
         CriterionVisitor $criterionVisitor,
-        SortClauseVisitor $sortClauseVisitor
+        SortClauseVisitor $sortClauseVisitor,
+        LimitedCountQueryBuilder $limitedCountQueryBuilder
     ) {
         $this->connection = $connection;
         $this->criterionVisitor = $criterionVisitor;
         $this->sortClauseVisitor = $sortClauseVisitor;
+        $this->limitedCountQueryBuilder = $limitedCountQueryBuilder;
     }
 
     private function getDatabasePlatform(): AbstractPlatform
@@ -97,7 +100,7 @@ final class DoctrineGateway implements Gateway
             $criterion
         );
 
-        $query = $this->wrapCountQuery(
+        $query = $this->limitedCountQueryBuilder->wrap(
             $query,
             'content.id',
             $limit

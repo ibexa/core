@@ -22,7 +22,11 @@ interface Handler
      */
     public function find(Filter $filter): iterable;
 
-    public function count(Filter $filter, ?int $limit = null): int;
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Filter\Filter $filter
+     * @param int|null $limit
+     */
+    public function count(Filter $filter, /* ?int $limit = null */): int;
 }
 
 class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Filter\Content\Handler');

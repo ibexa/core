@@ -256,10 +256,15 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
         return $this->persistenceHandler->locationHandler()->copySubtree($sourceId, $destinationParentId, $newOwnerId);
     }
 
-    public function getSubtreeSize(string $path, ?int $limit = null): int
-    {
+    /**
+     * {@inheritdoc}
+     */
+    public function getSubtreeSize(string $path, /* ?int $limit = null */): int
+    {   
+        $limit = func_num_args() > 1 ? func_get_arg(1) : null;
         $this->logger->logCall(__METHOD__, [
             'path' => $path,
+            'limit' => $limit,
         ]);
 
         return $this->persistenceHandler->locationHandler()->getSubtreeSize($path, $limit);

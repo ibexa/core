@@ -20,7 +20,7 @@ use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
-use Ibexa\Core\Persistence\Legacy\Traits\Doctrine\LimitedCountQueryTrait;
+use Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
 use PDO;
@@ -36,8 +36,6 @@ use function time;
  */
 final class DoctrineDatabase extends Gateway
 {
-    use LimitedCountQueryTrait;
-
     /** @var \Doctrine\DBAL\Connection */
     private $connection;
 
@@ -53,6 +51,9 @@ final class DoctrineDatabase extends Gateway
     /** @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter */
     private $trashSortClauseConverter;
 
+    /** @var Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder */
+    private $limitedCountQueryBuilder;
+
     /**
      * @throws \Doctrine\DBAL\DBALException
      */
@@ -60,13 +61,15 @@ final class DoctrineDatabase extends Gateway
         Connection $connection,
         MaskGenerator $languageMaskGenerator,
         CriteriaConverter $trashCriteriaConverter,
-        SortClauseConverter $trashSortClauseConverter
+        SortClauseConverter $trashSortClauseConverter,
+        LimitedCountQueryBuilder $limitedCountQueryBuilder,
     ) {
         $this->connection = $connection;
         $this->dbPlatform = $this->connection->getDatabasePlatform();
         $this->languageMaskGenerator = $languageMaskGenerator;
         $this->trashCriteriaConverter = $trashCriteriaConverter;
         $this->trashSortClauseConverter = $trashSortClauseConverter;
+        $this->limitedCountQueryBuilder = $limitedCountQueryBuilder;
     }
 
     public function getBasicNodeData(
@@ -275,7 +278,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $query = $this->wrapCountQuery(
+        $query = $this->limitedCountQueryBuilder->wrap(
             $query,
             't.node_id',
             $limit

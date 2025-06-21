@@ -2712,9 +2712,13 @@ class ContentService implements ContentServiceInterface
 
         return new ContentList($contentItemsIterator->getTotalCount(), $contentItems);
     }
-
-    public function count(Filter $filter, ?array $languages = null, ?int $limit = null): int
+    
+    /**
+     * @param null|int $limit
+     */
+    public function count(Filter $filter, ?array $languages = null /*?int $limit = null */): int
     {
+        $limit = func_num_args() > 2 ? func_get_arg(2) : null;
         $filter = clone $filter;
         if (!empty($languages)) {
             $filter->andWithCriterion(new LanguageCode($languages));
