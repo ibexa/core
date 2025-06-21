@@ -20,6 +20,7 @@ use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
+use Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
 use PDO;
@@ -50,6 +51,9 @@ final class DoctrineDatabase extends Gateway
     /** @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter */
     private $trashSortClauseConverter;
 
+    /** @var \Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder */
+    private $limitedCountQueryBuilder;
+
     /**
      * @throws \Doctrine\DBAL\DBALException
      */
@@ -57,13 +61,15 @@ final class DoctrineDatabase extends Gateway
         Connection $connection,
         MaskGenerator $languageMaskGenerator,
         CriteriaConverter $trashCriteriaConverter,
-        SortClauseConverter $trashSortClauseConverter
+        SortClauseConverter $trashSortClauseConverter,
+        LimitedCountQueryBuilder $limitedCountQueryBuilder,
     ) {
         $this->connection = $connection;
         $this->dbPlatform = $this->connection->getDatabasePlatform();
         $this->languageMaskGenerator = $languageMaskGenerator;
         $this->trashCriteriaConverter = $trashCriteriaConverter;
         $this->trashSortClauseConverter = $trashSortClauseConverter;
+        $this->limitedCountQueryBuilder = $limitedCountQueryBuilder;
     }
 
     public function getBasicNodeData(
@@ -260,7 +266,7 @@ final class DoctrineDatabase extends Gateway
         return $statement->fetchFirstColumn();
     }
 
-    public function getSubtreeSize(string $path): int
+    public function getSubtreeSize(string $path, ?int $limit = null): int
     {
         $query = $this->createNodeQueryBuilder([$this->dbPlatform->getCountExpression('node_id')]);
         $query->andWhere(
@@ -270,6 +276,12 @@ final class DoctrineDatabase extends Gateway
                     $path . '%',
                 )
             )
+        );
+
+        $query = $this->limitedCountQueryBuilder->wrap(
+            $query,
+            't.node_id',
+            $limit
         );
 
         return (int) $query->execute()->fetchOne();

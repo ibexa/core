@@ -22,6 +22,7 @@ use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway;
+use Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder;
 use function iterator_to_array;
 use function sprintf;
 use Traversable;
@@ -68,14 +69,19 @@ final class DoctrineGateway implements Gateway
     /** @var \Ibexa\Contracts\Core\Persistence\Filter\SortClauseVisitor */
     private $sortClauseVisitor;
 
+    /** @var \Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder */
+    private $limitedCountQueryBuilder;
+
     public function __construct(
         Connection $connection,
         CriterionVisitor $criterionVisitor,
-        SortClauseVisitor $sortClauseVisitor
+        SortClauseVisitor $sortClauseVisitor,
+        LimitedCountQueryBuilder $limitedCountQueryBuilder
     ) {
         $this->connection = $connection;
         $this->criterionVisitor = $criterionVisitor;
         $this->sortClauseVisitor = $sortClauseVisitor;
+        $this->limitedCountQueryBuilder = $limitedCountQueryBuilder;
     }
 
     private function getDatabasePlatform(): AbstractPlatform
@@ -87,11 +93,17 @@ final class DoctrineGateway implements Gateway
         }
     }
 
-    public function count(FilteringCriterion $criterion): int
+    public function count(FilteringCriterion $criterion, ?int $limit = null): int
     {
         $query = $this->buildQuery(
             [$this->getDatabasePlatform()->getCountExpression('DISTINCT content.id')],
             $criterion
+        );
+
+        $query = $this->limitedCountQueryBuilder->wrap(
+            $query,
+            'content.id',
+            $limit
         );
 
         return (int)$query->execute()->fetch(FetchMode::COLUMN);
