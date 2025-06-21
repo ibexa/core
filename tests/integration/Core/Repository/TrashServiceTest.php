@@ -1248,13 +1248,7 @@ class TrashServiceTest extends BaseTrashServiceTestCase
         return $remoteIds;
     }
 
-    /**
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
-     * @param int $parentLocationId
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
-     */
-    protected function createNewContentInPlaceTrashedOne(Repository $repository, $parentLocationId)
+    protected function createNewContentInPlaceTrashedOne(Repository $repository, int $parentLocationId): Content
     {
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
