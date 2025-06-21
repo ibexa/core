@@ -8,9 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Filter\Query;
 
-
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 
@@ -23,14 +21,13 @@ final class LimitedCountQueryBuilder
     /**
      * @var \Doctrine\DBAL\Connection
      */
-    private  $connection;
+    private $connection;
 
     public function __construct(
         Connection $connection,
     ) {
         $this->connection = $connection;
     }
-
 
     /**
      * Takes a QueryBuilder and wraps it in a count query with a limit if a limit is provided.
@@ -40,8 +37,9 @@ final class LimitedCountQueryBuilder
      * SELECT COUNT(*) FROM (SELECT DISTINCT someField FROM XXX WHERE YYY LIMIT N) AS csub;.
      *
      * @phpstan-param positive-int $limit
-     * @throws InvalidArgumentException
-     * @throws Exception
+     *
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws \Doctrine\DBAL\Exception
      */
     public function wrap(
         QueryBuilder $queryBuilder,
@@ -52,7 +50,7 @@ final class LimitedCountQueryBuilder
             return $queryBuilder;
         }
 
-        if($limit <= 0) {
+        if ($limit <= 0) {
             throw new InvalidArgumentException('$limit', 'Limit must be greater than 0');
         }
 

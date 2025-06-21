@@ -113,7 +113,7 @@ interface Handler
     /**
      * @param int|null $limit
      */
-    public function getSubtreeSize(string $path, /* ?int $limit = null */): int;
+    public function getSubtreeSize(string $path /* ?int $limit = null */): int;
 
     /**
      * Moves location identified by $sourceId into new parent identified by $destinationParentId.

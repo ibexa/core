@@ -65,7 +65,7 @@ final class DoctrineGateway implements Gateway
         $query = $this->buildQuery($criterion);
 
         $query->select($this->getDatabasePlatform()->getCountExpression('DISTINCT location.node_id'));
-        
+
         $query = $this->limitedCountQueryBuilder->wrap(
             $query,
             'location.node_id',

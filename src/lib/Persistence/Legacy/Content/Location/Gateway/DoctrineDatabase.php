@@ -51,7 +51,7 @@ final class DoctrineDatabase extends Gateway
     /** @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter */
     private $trashSortClauseConverter;
 
-    /** @var Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder */
+    /** @var \Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder */
     private $limitedCountQueryBuilder;
 
     /**

@@ -26,7 +26,7 @@ interface Handler
      * @param \Ibexa\Contracts\Core\Repository\Values\Filter\Filter $filter
      * @param int|null $limit
      */
-    public function count(Filter $filter, /* ?int $limit = null */): int;
+    public function count(Filter $filter /* ?int $limit = null */): int;
 }
 
 class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Filter\Location\Handler');

@@ -10,7 +10,6 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Filter\Query;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Query\QueryBuilder;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
 use Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder;
@@ -18,11 +17,12 @@ use Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder;
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder
  */
-
 class LimitedCountQueryBuilderTest extends TestCase
 {
     private Connection $connectionMock;
+
     private AbstractPlatform $platformMock;
+
     private LimitedCountQueryBuilder $limitedCountQueryBuilder;
 
     protected function setUp(): void
@@ -74,11 +74,5 @@ class LimitedCountQueryBuilderTest extends TestCase
 
         $expectedSql = 'SELECT COUNT(*) FROM (SELECT someField FROM someTable WHERE someCondition = :condition LIMIT 10) csub';
         $this->assertEquals($expectedSql, $wrappedQueryBuilder->getSQL());
-
-        
-
-        
     }
-
-    
 }

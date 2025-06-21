@@ -2712,9 +2712,9 @@ class ContentService implements ContentServiceInterface
 
         return new ContentList($contentItemsIterator->getTotalCount(), $contentItems);
     }
-    
+
     /**
-     * @param null|int $limit
+     * @param int|null $limit
      */
     public function count(Filter $filter, ?array $languages = null /*?int $limit = null */): int
     {
