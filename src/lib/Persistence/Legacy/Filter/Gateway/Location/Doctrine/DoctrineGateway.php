@@ -60,6 +60,9 @@ final class DoctrineGateway implements Gateway
         }
     }
 
+    /**
+     * @phpstan-param positive-int $limit
+     */
     public function count(FilteringCriterion $criterion, ?int $limit = null): int
     {
         $query = $this->buildQuery($criterion);

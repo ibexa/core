@@ -1125,10 +1125,11 @@ class LocationServiceTest extends BaseTest
         // $locationId is the ID of an existing location
         $locationService = $this->getRepository()->getLocationService();
         $location = $locationService->loadLocation($this->generateId('location', 5));
-        $this->assertNotNull($location);
         $this->assertSame(
             2,
+            // @phpstan-ignore arguments.count
             $locationService->getLocationChildCount(
+                
                 $location,
                 2
             )
@@ -3567,6 +3568,9 @@ class LocationServiceTest extends BaseTest
 
         $folder = $this->createFolder(['eng-GB' => 'Parent Folder'], 2);
         $location = $folder->getVersionInfo()->getContentInfo()->getMainLocation();
+        self::assertNotNull($location);
+
+        // phpstan-ignore-next-line
         self::assertSame(1, $locationService->getSubtreeSize($location));
 
         $this->createFolder(['eng-GB' => 'Child 1'], $location->id);
@@ -3584,13 +3588,18 @@ class LocationServiceTest extends BaseTest
 
         $folder = $this->createFolder(['eng-GB' => 'Parent Folder'], 2);
         $location = $folder->getVersionInfo()->getContentInfo()->getMainLocation();
+        self::assertNotNull($location);
+
         self::assertSame(1, $locationService->getSubtreeSize($location));
 
         for ($i = 1; $i <= 10; ++$i) {
             $this->createFolder(['eng-GB' => 'Child ' . $i], $location->id);
         }
 
+        
+        // @phpstan-ignore arguments.count
         self::assertSame(3, $locationService->getSubtreeSize($location, 3));
+        
 
         return $location;
     }
@@ -3602,6 +3611,8 @@ class LocationServiceTest extends BaseTest
 
         $folder = $this->createFolder(['eng-GB' => 'Parent Folder'], 2);
         $location = $folder->getVersionInfo()->getContentInfo()->getMainLocation();
+        self::assertNotNull($location);
+
         self::assertSame(1, $locationService->getSubtreeSize($location));
 
         for ($i = 1; $i <= 10; ++$i) {

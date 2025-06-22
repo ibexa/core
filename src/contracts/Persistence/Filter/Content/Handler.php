@@ -26,6 +26,7 @@ interface Handler
      * @param \Ibexa\Contracts\Core\Repository\Values\Filter\Filter $filter
      * @param int|null $limit
      */
+    // @phpstan-ignore parameter.notFound
     public function count(Filter $filter /* ?int $limit = null */): int;
 }
 

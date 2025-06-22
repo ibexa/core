@@ -266,6 +266,9 @@ final class DoctrineDatabase extends Gateway
         return $statement->fetchFirstColumn();
     }
 
+    /**
+     * @phpstan-param positive-int $limit
+     */
     public function getSubtreeSize(string $path, ?int $limit = null): int
     {
         $query = $this->createNodeQueryBuilder([$this->dbPlatform->getCountExpression('node_id')]);

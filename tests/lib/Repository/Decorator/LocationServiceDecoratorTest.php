@@ -155,6 +155,7 @@ class LocationServiceDecoratorTest extends TestCase
 
         $serviceMock->expects($this->once())->method('getLocationChildCount')->with(...$parameters);
 
+        // @phpstan-ignore arguments.count
         $decoratedService->getLocationChildCount(...$parameters);
     }
 

@@ -383,14 +383,16 @@ class LocationService implements LocationServiceInterface
     /**
      * @param int|null $limit
      */
+    // @phpstan-ignore parameter.notFound
     public function getSubtreeSize(APILocation $location /* ?int $limit = null */): int
     {
         $limit = func_num_args() > 1 ? func_get_arg(1) : null;
-
+        
+        // @phpstan-ignore arguments.count 
         return $this->persistenceHandler->locationHandler()->getSubtreeSize(
             $location->getPathString(),
-            $limit
-        );
+            $limit 
+        ); 
     }
 
     protected function buildLocationChildrenFilter(APILocation $location): Filter
@@ -952,6 +954,7 @@ class LocationService implements LocationServiceInterface
     /**
      * @param int|null $limit
      */
+    // @phpstan-ignore parameter.notFound
     public function count(Filter $filter, ?array $languages = null /* ?int $limit = null */): int
     {
         $limit = func_num_args() > 2 ? func_get_arg(2) : null;
@@ -973,7 +976,7 @@ class LocationService implements LocationServiceInterface
             $filter->andWithCriterion($permissionCriterion);
         }
 
-        return $this->locationFilteringHandler->count($filter, $limit);
+        return $this->locationFilteringHandler->count($filter, $limit); // @phpstan-ignore arguments.count 
     }
 
     /**

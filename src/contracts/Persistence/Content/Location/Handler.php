@@ -110,9 +110,11 @@ interface Handler
      */
     public function copySubtree($sourceId, $destinationParentId);
 
+    
     /**
      * @param int|null $limit
      */
+    // @phpstan-ignore parameter.notFound
     public function getSubtreeSize(string $path /* ?int $limit = null */): int;
 
     /**

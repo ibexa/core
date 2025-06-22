@@ -267,7 +267,8 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
             'limit' => $limit,
         ]);
 
-        return $this->persistenceHandler->locationHandler()->getSubtreeSize($path, $limit);
+        // @phpstan-ignore-next-line
+        return $this->persistenceHandler->locationHandler()->getSubtreeSize($path, $limit); /* @phpstan-ignore arguments.count */ 
     }
 
     /**

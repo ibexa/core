@@ -8,10 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Filter\Query;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
+
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder;
 
 /**
@@ -19,9 +18,6 @@ use Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder;
  */
 class LimitedCountQueryBuilderTest extends TestCase
 {
-    private Connection $connectionMock;
-
-    private AbstractPlatform $platformMock;
 
     private LimitedCountQueryBuilder $limitedCountQueryBuilder;
 
@@ -39,6 +35,8 @@ class LimitedCountQueryBuilderTest extends TestCase
         $this->expectExceptionMessageMatches('/Limit must be greater than 0/');
 
         $qb = $this->getDatabaseConnection()->createQueryBuilder();
+
+        // @phpstan-ignore argument.type
         $this->limitedCountQueryBuilder->wrap($qb, 'someField', 0);
     }
 

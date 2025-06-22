@@ -125,6 +125,7 @@ interface LocationService
      *
      * @return int
      */
+    // @phpstan-ignore parameter.notFound
     public function getLocationChildCount(Location $location /* ?int $limit = null */): int;
 
     /**
@@ -134,6 +135,7 @@ interface LocationService
      *
      * @param int|null $limit
      */
+    // @phpstan-ignore parameter.notFound
     public function getSubtreeSize(Location $location /* ?int $limit = null */): int;
 
     /**
@@ -280,6 +282,7 @@ interface LocationService
      * @param int|null $limit If set, the count will be limited to first $limit items found.
      *        In some cases it can significantly speed up a count operation for more complex filters.
      */
+    // @phpstan-ignore parameter.notFound
     public function count(Filter $filter, ?array $languages = null /* ?int $limit = null */): int;
 }
 
