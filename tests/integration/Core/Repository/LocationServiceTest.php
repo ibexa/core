@@ -3595,7 +3595,7 @@ class LocationServiceTest extends BaseTest
         return $location;
     }
 
-    public function testGetSubtreeSizeWithInvalidLimitHasNoEffect(): Location
+    public function testGetSubtreeSizeWithInvalidLimitThrowsExpectedError(): Location
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -3608,7 +3608,8 @@ class LocationServiceTest extends BaseTest
             $this->createFolder(['eng-GB' => 'Child ' . $i], $location->id);
         }
 
-        self::assertSame(11, $locationService->getSubtreeSize($location, -2));
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageRegExp('/Limit must be greater than 0/');
 
         return $location;
     }

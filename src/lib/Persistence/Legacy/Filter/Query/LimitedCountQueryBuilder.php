@@ -24,7 +24,7 @@ final class LimitedCountQueryBuilder
     private $connection;
 
     public function __construct(
-        Connection $connection,
+        Connection $connection
     ) {
         $this->connection = $connection;
     }
