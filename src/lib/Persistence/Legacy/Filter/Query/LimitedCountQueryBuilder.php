@@ -63,7 +63,7 @@ final class LimitedCountQueryBuilder
 
         return $countQuery
             ->select(
-                $this->connection->getDatabasePlatform()->getCountExpression('*')
+                'COUNT(*)'
             )
             ->from('(' . $querySql . ')', 'csub')
             ->setParameters($queryBuilder->getParameters(), $queryBuilder->getParameterTypes());
