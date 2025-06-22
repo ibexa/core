@@ -62,7 +62,7 @@ final class DoctrineDatabase extends Gateway
         MaskGenerator $languageMaskGenerator,
         CriteriaConverter $trashCriteriaConverter,
         SortClauseConverter $trashSortClauseConverter,
-        LimitedCountQueryBuilder $limitedCountQueryBuilder,
+        LimitedCountQueryBuilder $limitedCountQueryBuilder
     ) {
         $this->connection = $connection;
         $this->dbPlatform = $this->connection->getDatabasePlatform();

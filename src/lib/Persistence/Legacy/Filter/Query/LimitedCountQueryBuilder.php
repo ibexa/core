@@ -44,7 +44,7 @@ final class LimitedCountQueryBuilder
     public function wrap(
         QueryBuilder $queryBuilder,
         string $countableField,
-        ?int $limit = null,
+        ?int $limit = null
     ): QueryBuilder {
         if ($limit === null) {
             return $queryBuilder;
