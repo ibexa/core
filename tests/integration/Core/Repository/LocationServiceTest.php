@@ -8,7 +8,6 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Exception;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
-use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\URLAliasService as URLAliasServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
@@ -24,6 +23,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 
 /**
  * Test case for operations in the LocationService using in memory storage.
