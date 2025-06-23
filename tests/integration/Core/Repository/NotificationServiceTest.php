@@ -21,9 +21,6 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
  */
 class NotificationServiceTest extends BaseTest
 {
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\NotificationService::loadNotifications()
-     */
     public function testLoadNotifications(): void
     {
         $repository = $this->getRepository();
@@ -36,9 +33,6 @@ class NotificationServiceTest extends BaseTest
         $this->assertEquals(5, $notificationList->totalCount);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\NotificationService::findNotifications()
-     */
     public function testFindNotifications(): void
     {
         $repository = $this->getRepository();
@@ -60,9 +54,6 @@ class NotificationServiceTest extends BaseTest
         $this->assertEquals($expectedCount, $notificationList->totalCount);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\NotificationService::getNotification()
-     */
     public function testGetNotification(): void
     {
         $repository = $this->getRepository();
@@ -78,9 +69,6 @@ class NotificationServiceTest extends BaseTest
         $this->assertEquals($notificationId, $notification->id);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\NotificationService::markNotificationAsRead()
-     */
     public function testMarkNotificationAsRead(): void
     {
         $repository = $this->getRepository();
@@ -97,9 +85,6 @@ class NotificationServiceTest extends BaseTest
         $this->assertFalse($notification->isPending);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\NotificationService::markNotificationAsUnread()
-     */
     public function testMarkNotificationAsUnread(): void
     {
         $repository = $this->getRepository();
@@ -119,9 +104,6 @@ class NotificationServiceTest extends BaseTest
         self::assertTrue($notification->isPending);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\NotificationService::getPendingNotificationCount()
-     */
     public function testGetPendingNotificationCount(): void
     {
         $repository = $this->getRepository();
@@ -134,9 +116,6 @@ class NotificationServiceTest extends BaseTest
         $this->assertEquals(3, $notificationPendingCount);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\NotificationService::getNotificationCount()
-     */
     public function testGetNotificationCount(): void
     {
         $repository = $this->getRepository();
@@ -149,9 +128,6 @@ class NotificationServiceTest extends BaseTest
         $this->assertEquals(5, $notificationCount);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\NotificationService::deleteNotification()
-     */
     public function testDeleteNotification(): void
     {
         $repository = $this->getRepository();
@@ -170,9 +146,6 @@ class NotificationServiceTest extends BaseTest
         }
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\NotificationService::createNotification()
-     */
     public function testCreateNotification(): void
     {
         $repository = $this->getRepository();
@@ -198,7 +171,6 @@ class NotificationServiceTest extends BaseTest
     }
 
     /**
-     * @covers \Ibexa\Contracts\Core\Repository\NotificationService::createNotification()
      * @depends testCreateNotification
      */
     public function testCreateNotificationThrowsInvalidArgumentExceptionOnMissingOwner(): void
@@ -220,7 +192,6 @@ class NotificationServiceTest extends BaseTest
     }
 
     /**
-     * @covers \Ibexa\Contracts\Core\Repository\NotificationService::createNotification()
      * @depends testCreateNotification
      */
     public function testCreateNotificationThrowsInvalidArgumentExceptionOnMissingType(): void

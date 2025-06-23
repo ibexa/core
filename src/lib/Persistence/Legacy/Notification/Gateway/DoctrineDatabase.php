@@ -111,7 +111,7 @@ class DoctrineDatabase extends Gateway
             ->where($queryBuilder->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
             ->setParameter('user_id', $userId, ParameterType::INTEGER);
 
-        if (($query !== null) && !empty($query->getCriteria())) {
+        if ($query !== null && !empty($query->getCriteria())) {
             $this->applyFilters($queryBuilder, $query->getCriteria());
         }
 
@@ -158,22 +158,24 @@ class DoctrineDatabase extends Gateway
         $queryBuilder
             ->select(...$this->getColumns())
             ->from(self::TABLE_NOTIFICATION)
-            ->where($queryBuilder->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
+            ->andWhere($queryBuilder->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
             ->setParameter(':user_id', $userId, PDO::PARAM_INT)
             ->orderBy(self::COLUMN_ID, 'DESC');
 
-        if ($query !== null) {
-            if (!empty($query->getCriteria())) {
-                $this->applyFilters($queryBuilder, $query->getCriteria());
-            }
+        if ($query === null) {
+            return $queryBuilder->execute()->fetchAllAssociative();
+        }
 
-            if ($query->getOffset() > 0) {
-                $queryBuilder->setFirstResult($query->getOffset());
-            }
+        if (!empty($query->getCriteria())) {
+            $this->applyFilters($queryBuilder, $query->getCriteria());
+        }
 
-            if ($query->getLimit() > 0) {
-                $queryBuilder->setMaxResults($query->getLimit());
-            }
+        if ($query->getOffset() > 0) {
+            $queryBuilder->setFirstResult($query->getOffset());
+        }
+
+        if ($query->getLimit() > 0) {
+            $queryBuilder->setMaxResults($query->getLimit());
         }
 
         return $queryBuilder->execute()->fetchAllAssociative();
@@ -199,7 +201,10 @@ class DoctrineDatabase extends Gateway
             }
         }
 
-        throw new InvalidArgumentException(get_class($criterion), 'No handler found for criterion of type %s');
+        throw new InvalidArgumentException(
+            get_class($criterion),
+            'No handler found for criterion of type. Make sure the handler service is registered and tagged with "ibexa.notification.criterion_handler".'
+        );
     }
 
     public function delete(int $notificationId): void

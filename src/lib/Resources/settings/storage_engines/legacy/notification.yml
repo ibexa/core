@@ -1,4 +1,8 @@
 services:
+    _instanceof:
+        Ibexa\Contracts\Core\Repository\Values\Notification\CriterionHandlerInterface:
+            tags: [ 'ibexa.notification.criterion_handler' ]
+
     Ibexa\Core\Persistence\Legacy\Notification\Gateway\DoctrineDatabase:
         arguments:
             $connection: '@ibexa.persistence.connection'
@@ -21,4 +25,3 @@ services:
 
     Ibexa\Core\Persistence\Legacy\Notification\Gateway\CriterionHandler\:
         resource: '../../../../../../src/lib/Persistence/Legacy/Notification/Gateway/CriterionHandler/*'
-        tags: [ ibexa.notification.criterion_handler ]

@@ -15,6 +15,9 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Status;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway\DoctrineDatabase;
 
+/**
+ * @implements \Ibexa\Contracts\Core\Repository\Values\Notification\CriterionHandlerInterface<Status>
+ */
 final class StatusCriterionHandler implements CriterionHandlerInterface
 {
     public function supports(CriterionInterface $criterion): bool
@@ -24,7 +27,6 @@ final class StatusCriterionHandler implements CriterionHandlerInterface
 
     public function apply(QueryBuilder $qb, CriterionInterface $criterion): void
     {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Status $criterion */
         $qb->andWhere($qb->expr()->eq(DoctrineDatabase::COLUMN_IS_PENDING, ':status'));
         $qb->setParameter(':status', $criterion->getStatuses(), Connection::PARAM_STR_ARRAY);
     }

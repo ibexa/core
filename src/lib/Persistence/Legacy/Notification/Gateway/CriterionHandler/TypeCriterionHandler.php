@@ -14,6 +14,9 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Type;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway\DoctrineDatabase;
 
+/**
+ * @implements \Ibexa\Contracts\Core\Repository\Values\Notification\CriterionHandlerInterface<Type>
+ */
 final class TypeCriterionHandler implements CriterionHandlerInterface
 {
     public function supports(CriterionInterface $criterion): bool
@@ -23,7 +26,6 @@ final class TypeCriterionHandler implements CriterionHandlerInterface
 
     public function apply(QueryBuilder $qb, CriterionInterface $criterion): void
     {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Type $criterion */
         $qb->andWhere($qb->expr()->eq(DoctrineDatabase::COLUMN_TYPE, ':type'));
         $qb->setParameter(':type', $criterion->getValue());
     }
