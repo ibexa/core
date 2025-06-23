@@ -305,12 +305,12 @@ class ContentService implements ContentServiceInterface
     {
         $limit = func_num_args() > 2 ? func_get_arg(2) : null;
 
-        // @phpstan-ignore arguments.count 
+        // @phpstan-ignore arguments.count
         return $this->service->count(
             $filter,
             $this->languageResolver->getPrioritizedLanguages($languages),
-            $limit 
-        ); 
+            $limit
+        );
     }
 }
 

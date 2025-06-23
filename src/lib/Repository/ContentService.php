@@ -2738,7 +2738,7 @@ class ContentService implements ContentServiceInterface
             $filter->andWithCriterion($permissionCriterion);
         }
 
-        return $this->contentFilteringHandler->count($filter, $limit); // @phpstan-ignore arguments.count 
+        return $this->contentFilteringHandler->count($filter, $limit); // @phpstan-ignore arguments.count
     }
 }
 

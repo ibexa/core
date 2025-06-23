@@ -1129,7 +1129,6 @@ class LocationServiceTest extends BaseTest
             2,
             // @phpstan-ignore arguments.count
             $locationService->getLocationChildCount(
-                
                 $location,
                 2
             )
@@ -3596,10 +3595,8 @@ class LocationServiceTest extends BaseTest
             $this->createFolder(['eng-GB' => 'Child ' . $i], $location->id);
         }
 
-        
         // @phpstan-ignore arguments.count
         self::assertSame(3, $locationService->getSubtreeSize($location, 3));
-        
 
         return $location;
     }

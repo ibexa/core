@@ -8,17 +8,15 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Filter\Query;
 
-
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
-use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder;
+use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder
  */
 class LimitedCountQueryBuilderTest extends TestCase
 {
-
     private LimitedCountQueryBuilder $limitedCountQueryBuilder;
 
     protected function setUp(): void

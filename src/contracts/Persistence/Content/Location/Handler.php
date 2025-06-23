@@ -110,7 +110,6 @@ interface Handler
      */
     public function copySubtree($sourceId, $destinationParentId);
 
-    
     /**
      * @param int|null $limit
      */
