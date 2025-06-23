@@ -18,8 +18,8 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 final class ConfigurationDumperTest extends TestCase
 {
-    private const PROJECT_DIR = '/var/io-tests/';
-    private const FOO_BAR_BUNDLE_DIR = 'foo-bar';
+    private const string PROJECT_DIR = '/var/io-tests/';
+    private const string FOO_BAR_BUNDLE_DIR = 'foo-bar';
 
     private Filesystem $filesystem;
 
@@ -64,11 +64,12 @@ final class ConfigurationDumperTest extends TestCase
         $compiledFilePath = $this->projectDir . '/var/encore/foo-bar.js';
         self::assertFileExists($compiledFilePath);
         $compiledFileContents = file_get_contents($compiledFilePath);
-        self::assertRegExp(
+        self::assertNotFalse($compiledFileContents, "Failed to read compiled file '$compiledFilePath' contents");
+        self::assertMatchesRegularExpression(
             '@^module\.exports = \[.*io-tests\\\/foo-bar\\\/Resources\\\/encore\\\/foo-bar\.js@',
             $compiledFileContents
         );
-        self::assertRegExp(
+        self::assertMatchesRegularExpression(
             '@^module\.exports = \[.*io-tests\\\/encore\\\/foo-bar\.js@',
             $compiledFileContents
         );
