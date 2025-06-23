@@ -4,11 +4,16 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Test\Repository;
 
+use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Core\Base\ServiceContainer;
+use Ibexa\Tests\Integration\Core\Repository\IdManager;
+
 /**
- * A Test Factory is used to setup the infrastructure for a tests, based on a
+ * A Test Factory is used to set up the infrastructure for a tests, based on a
  * specific repository implementation to test.
  */
 abstract class SetupFactory
@@ -18,35 +23,25 @@ abstract class SetupFactory
      *
      * @param bool $initializeFromScratch if the back end should be initialized
      *                                    from scratch or re-used
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Repository
      */
-    abstract public function getRepository($initializeFromScratch = true);
+    abstract public function getRepository(bool $initializeFromScratch = true): Repository;
 
     /**
-     * Returns a repository specific ID manager.
-     *
-     * @return \Ibexa\Tests\Integration\Core\Repository\IdManager
+     * Returns a repository-specific ID manager.
      */
-    abstract public function getIdManager();
+    abstract public function getIdManager(): IdManager;
 
     /**
      * Returns a config value for $configKey.
      *
-     * @param string $configKey
-     *
      * @throws \Exception if $configKey could not be found.
-     *
-     * @return mixed
      */
-    abstract public function getConfigValue($configKey);
+    abstract public function getConfigValue(string $configKey): mixed;
 
     /**
      * Returns the service container used for initialization of the repository.
      *
      * Most tests should not use this at all!!
-     *
-     * @return \Ibexa\Core\Base\ServiceContainer
      */
-    abstract public function getServiceContainer();
+    abstract public function getServiceContainer(): ServiceContainer;
 }
