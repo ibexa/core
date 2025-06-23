@@ -17,8 +17,8 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway;
+use function Ibexa\PolyfillPhp82\iterator_to_array;
 use PDO;
-use Traversable;
 
 class DoctrineDatabase extends Gateway
 {
@@ -43,9 +43,7 @@ class DoctrineDatabase extends Gateway
     public function __construct(Connection $connection, iterable $criterionHandlers)
     {
         $this->connection = $connection;
-        $this->criterionHandlers = $criterionHandlers instanceof Traversable
-            ? iterator_to_array($criterionHandlers)
-            : $criterionHandlers;
+        $this->criterionHandlers = iterator_to_array($criterionHandlers);
     }
 
     public function insert(CreateStruct $createStruct): int
