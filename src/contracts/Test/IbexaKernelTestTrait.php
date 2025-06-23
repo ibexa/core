@@ -60,6 +60,7 @@ trait IbexaKernelTestTrait
 
     protected static function postLoadFixtures(): void
     {
+        // nothing to do by default
     }
 
     /**
@@ -101,9 +102,7 @@ trait IbexaKernelTestTrait
             ));
         }
 
-        $id = $id ?? $className;
-
-        return $kernel->getAliasServiceId($id);
+        return $kernel::getAliasServiceId($id ?? $className);
     }
 
     protected static function getDoctrineConnection(): Connection
