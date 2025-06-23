@@ -9,23 +9,26 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Test\Persistence\Fixture;
 
 use Ibexa\Contracts\Core\Test\Persistence\Fixture;
-use PHPUnit\Runner\Exception;
+use LogicException;
 
 /**
  * Abstract data fixture for file-based fixtures. Handles in-memory caching.
  *
  * @internal for internal use by Repository test setup
+ *
+ * @phpstan-import-type TFixtureData from \Ibexa\Contracts\Core\Test\Persistence\Fixture
  */
 abstract class BaseInMemoryCachedFileFixture implements Fixture
 {
-    /** @var array|null */
-    private static $inMemoryCachedLoadedData = null;
+    /** @var array<string, TFixtureData> */
+    private static array $inMemoryCachedLoadedData = [];
 
-    /** @var string */
-    private $filePath;
+    private string $filePath;
 
     /**
-     * Perform uncached load of data (always done only once).
+     * Perform an uncached load of data (always done only once).
+     *
+     * @phpstan-return TFixtureData
      */
     abstract protected function loadFixture(): array;
 
@@ -36,10 +39,7 @@ abstract class BaseInMemoryCachedFileFixture implements Fixture
 
     final public function __construct(string $filePath)
     {
-        $this->filePath = realpath($filePath);
-        if (false === $this->filePath) {
-            throw new Exception("The fixture file does not exist: {$filePath}");
-        }
+        $this->filePath = $this->getRealPath($filePath);
     }
 
     final public function load(): array
@@ -50,5 +50,15 @@ abstract class BaseInMemoryCachedFileFixture implements Fixture
         }
 
         return self::$inMemoryCachedLoadedData[$this->filePath] ?? [];
+    }
+
+    private function getRealPath(string $filePath): string
+    {
+        $path = realpath($filePath);
+        if (false === $path) {
+            throw new LogicException("The fixture file does not exist: $filePath");
+        }
+
+        return $path;
     }
 }

@@ -12,6 +12,8 @@ namespace Ibexa\Contracts\Core\Test\Persistence;
  * Represents database fixture.
  *
  * @internal for internal use by Repository test setup
+ *
+ * @phpstan-type TFixtureData array<string, list<array<string, scalar>>>
  */
 interface Fixture
 {
@@ -19,6 +21,8 @@ interface Fixture
      * Load database fixture into a map of table names to table rows data.
      *
      * @return array
+     *
+     * @phpstan-return TFixtureData
      */
     public function load(): array;
 }
