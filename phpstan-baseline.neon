@@ -14191,6 +14191,12 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Mapper.php
 
 		-
+			message: '#^Property Ibexa\\Contracts\\Core\\Persistence\\Content\\CreateStruct\:\:\$isHidden \(bool\) on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.property
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/Mapper.php
+
+		-
 			message: '#^Property Ibexa\\Contracts\\Core\\Persistence\\Content\\Field\:\:\$id \(int\) does not accept null\.$#'
 			identifier: assign.propertyType
 			count: 1
