@@ -20,8 +20,8 @@ use Symfony\Component\Finder\Finder;
  */
 final class ConfigurationDumper
 {
-    public const ENCORE_DIR = 'encore';
-    public const ENCORE_TARGET_PATH = 'var/encore';
+    public const string ENCORE_DIR = 'encore';
+    public const string ENCORE_TARGET_PATH = 'var/encore';
 
     private ContainerInterface $containerBuilder;
 
@@ -38,8 +38,9 @@ final class ConfigurationDumper
     public function dumpCustomConfiguration(
         array $webpackConfigNames
     ): void {
+        /** @var array<string, array{path: string, namespace: string}> $bundlesMetadata */
         $bundlesMetadata = $this->containerBuilder->getParameter('kernel.bundles_metadata');
-        $rootPath = $this->containerBuilder->getParameter('kernel.project_dir') . '/';
+        $rootPath = $this->getProjectDirectory() . '/';
         foreach ($webpackConfigNames as $configName => $configFiles) {
             $paths = $this->locateConfigurationFiles($bundlesMetadata, $configFiles, $rootPath);
             $this->dumpConfigurationPaths(
@@ -50,6 +51,12 @@ final class ConfigurationDumper
         }
     }
 
+    /**
+     * @param array<string, array{path: string, namespace: string}> $bundlesMetadata
+     * @param array<string, array{'deprecated'?: bool, 'alternative'?: string}> $configFiles
+     *
+     * @return array<string>
+     */
     private function locateConfigurationFiles(
         array $bundlesMetadata,
         array $configFiles,
@@ -67,12 +74,12 @@ final class ConfigurationDumper
                         '4.0.0',
                         'Support for old configuration files is deprecated, please update name of %s file, to %s',
                         $fileInfo->getPathname(),
-                        $options['alternative']
+                        $options['alternative'] ?? ''
                     );
                 }
 
                 $path = $fileInfo->getRealPath();
-                if (strpos($path, $rootPath) === 0) {
+                if (str_starts_with($path, $rootPath)) {
                     $path = './' . substr($path, strlen($rootPath));
                 }
 
@@ -84,6 +91,8 @@ final class ConfigurationDumper
     }
 
     /**
+     * @param array<string> $paths
+     *
      * @throws \JsonException
      */
     private function dumpConfigurationPaths(
@@ -98,6 +107,9 @@ final class ConfigurationDumper
         );
     }
 
+    /**
+     * @param array<string, array{path: string, namespace: string}> $bundlesMetadata
+     */
     private function createFinder(
         array $bundlesMetadata,
         string $configFile,
@@ -120,5 +132,15 @@ final class ConfigurationDumper
             ->files();
 
         return $finder;
+    }
+
+    private function getProjectDirectory(): string
+    {
+        $projectDirectory = $this->containerBuilder->getParameter('kernel.project_dir');
+        if (!is_string($projectDirectory)) {
+            throw new \LogicException('Kernel project directory parameter is either not set or is not a string.');
+        }
+
+        return $projectDirectory;
     }
 }

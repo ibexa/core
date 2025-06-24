@@ -4777,48 +4777,6 @@ parameters:
 			path: src/contracts/Collection/MutableArrayList.php
 
 		-
-			message: '#^Binary operation "\." between array\|bool\|float\|int\|string\|null and ''/'' results in an error\.$#'
-			identifier: binaryOp.invalid
-			count: 1
-			path: src/contracts/Container/Encore/ConfigurationDumper.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Container\\Encore\\ConfigurationDumper\:\:createFinder\(\) has parameter \$bundlesMetadata with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Container/Encore/ConfigurationDumper.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Container\\Encore\\ConfigurationDumper\:\:dumpConfigurationPaths\(\) has parameter \$paths with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Container/Encore/ConfigurationDumper.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Container\\Encore\\ConfigurationDumper\:\:locateConfigurationFiles\(\) has parameter \$bundlesMetadata with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Container/Encore/ConfigurationDumper.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Container\\Encore\\ConfigurationDumper\:\:locateConfigurationFiles\(\) has parameter \$configFiles with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Container/Encore/ConfigurationDumper.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Container\\Encore\\ConfigurationDumper\:\:locateConfigurationFiles\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Container/Encore/ConfigurationDumper.php
-
-		-
-			message: '#^Parameter \#1 \$bundlesMetadata of method Ibexa\\Contracts\\Core\\Container\\Encore\\ConfigurationDumper\:\:locateConfigurationFiles\(\) expects array, array\|bool\|float\|int\|string\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/contracts/Container/Encore/ConfigurationDumper.php
-
-		-
 			message: '#^Method Ibexa\\Contracts\\Core\\FieldType\\BinaryBase\\PathGeneratorInterface\:\:getStoragePathForField\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -41813,12 +41771,6 @@ parameters:
 			identifier: missingType.generics
 			count: 1
 			path: tests/lib/Collection/MutableArrayMapTest.php
-
-		-
-			message: '#^Parameter \#2 \$string of static method PHPUnit\\Framework\\Assert\:\:assertRegExp\(\) expects string, string\|false given\.$#'
-			identifier: argument.type
-			count: 2
-			path: tests/lib/Container/Encore/ConfigurationDumperTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Event\\BookmarkServiceTest\:\:testCreateBookmarkEvents\(\) has no return type specified\.$#'
