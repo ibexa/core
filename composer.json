@@ -58,7 +58,8 @@
         "symfony/var-dumper": "^7.2",
         "symfony/yaml": "^7.2",
         "twig/extra-bundle": "^3.0",
-        "twig/twig": ">=3.0 <3.16 || ^3.19.0"
+        "twig/twig": ">=3.0 <3.16 || ^3.19.0",
+        "ibexa/polyfill-php82": "^1.0"
     },
     "require-dev": {
         "behat/behat": "^3.6.1",

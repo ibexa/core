@@ -12,6 +12,8 @@ use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
 use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification as APINotification;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Type;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway;
 use Ibexa\Core\Persistence\Legacy\Notification\Handler;
 use Ibexa\Core\Persistence\Legacy\Notification\Mapper;
@@ -162,7 +164,7 @@ class HandlerTest extends TestCase
         self::assertEquals($expectedCount, $this->handler->countNotifications($ownerId));
     }
 
-    public function testLoadUserNotifications()
+    public function testLoadUserNotifications(): void
     {
         $ownerId = 9;
         $limit = 5;
@@ -193,6 +195,48 @@ class HandlerTest extends TestCase
             ->willReturn($objects);
 
         self::assertEquals($objects, $this->handler->loadUserNotifications($ownerId, $offset, $limit));
+    }
+
+    public function testFindUserNotifications(): void
+    {
+        $ownerId = 9;
+        $limit = 5;
+        $offset = 0;
+        $query = new NotificationQuery([new Type('Workflow:Review')], $offset, $limit);
+
+        $rows = [
+            ['id' => 1, 'owner_id' => 9, 'is_pending' => 1, 'type' => 'Workflow:Review', 'created' => '1530005852', 'data' => null],
+            ['id' => 2, 'owner_id' => 9, 'is_pending' => 0, 'type' => 'Workflow:Reject', 'created' => '1530002252', 'data' => null],
+            ['id' => 3, 'owner_id' => 9, 'is_pending' => 0, 'type' => 'Workflow:Approve', 'created' => '1529998652', 'data' => null],
+        ];
+
+        $objects = [
+            new Notification(['id' => 1, 'ownerId' => 9, 'isPending' => 1, 'type' => 'Workflow:Review', 'created' => 1530005852, 'data' => null]),
+            new Notification(['id' => 2, 'ownerId' => 9, 'isPending' => 0, 'type' => 'Workflow:Reject', 'created' => 1530002252, 'data' => null]),
+            new Notification(['id' => 3, 'ownerId' => 9, 'isPending' => 0, 'type' => 'Workflow:Approve', 'created' => 1529998652, 'data' => null]),
+        ];
+
+        $this->gateway
+            ->expects(self::exactly(2))
+            ->method('findUserNotifications')
+            ->with(
+                $this->equalTo($ownerId),
+                $this->logicalOr(
+                    $this->equalTo(new NotificationQuery([], $offset, $limit)),
+                    $this->equalTo($query)
+                )
+            )
+            ->willReturn($rows);
+
+        $this->mapper
+            ->expects(self::exactly(2))
+            ->method('extractNotificationsFromRows')
+            ->with($rows)
+            ->willReturn($objects);
+
+        self::assertEquals($objects, $this->handler->findUserNotifications($ownerId, new NotificationQuery([], $offset, $limit)));
+
+        self::assertEquals($objects, $this->handler->findUserNotifications($ownerId, $query));
     }
 
     public function testDelete()

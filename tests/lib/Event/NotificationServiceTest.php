@@ -22,7 +22,7 @@ use Ibexa\Core\Event\NotificationService;
 
 class NotificationServiceTest extends AbstractServiceTestCase
 {
-    public function testCreateNotificationEvents()
+    public function testCreateNotificationEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateNotificationEvent::class,
@@ -50,7 +50,7 @@ class NotificationServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnCreateNotificationResultInBeforeEvents()
+    public function testReturnCreateNotificationResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateNotificationEvent::class,
@@ -88,7 +88,7 @@ class NotificationServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testCreateNotificationStopPropagationInBeforeEvents()
+    public function testCreateNotificationStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateNotificationEvent::class,
@@ -129,7 +129,7 @@ class NotificationServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testDeleteNotificationEvents()
+    public function testDeleteNotificationEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteNotificationEvent::class,
@@ -154,7 +154,7 @@ class NotificationServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testDeleteNotificationStopPropagationInBeforeEvents()
+    public function testDeleteNotificationStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeDeleteNotificationEvent::class,
@@ -190,7 +190,7 @@ class NotificationServiceTest extends AbstractServiceTestCase
         ]);
     }
 
-    public function testMarkNotificationAsReadEvents()
+    public function testMarkNotificationAsReadEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeMarkNotificationAsReadEvent::class,
@@ -240,7 +240,7 @@ class NotificationServiceTest extends AbstractServiceTestCase
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testMarkNotificationAsReadStopPropagationInBeforeEvents()
+    public function testMarkNotificationAsReadStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeMarkNotificationAsReadEvent::class,

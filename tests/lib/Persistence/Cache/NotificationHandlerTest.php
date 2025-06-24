@@ -13,31 +13,23 @@ use Ibexa\Contracts\Core\Persistence\Notification\Handler as SPINotificationHand
 use Ibexa\Contracts\Core\Persistence\Notification\Notification as SPINotification;
 use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 
 /**
  * Test case for Persistence\Cache\NotificationHandler.
  */
 class NotificationHandlerTest extends AbstractCacheHandlerTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getHandlerMethodName(): string
     {
         return 'notificationHandler';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getHandlerClassName(): string
     {
         return SPINotificationHandler::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function providerForUnCachedMethods(): array
     {
         $ownerId = 7;
@@ -105,12 +97,12 @@ class NotificationHandlerTest extends AbstractCacheHandlerTestCase
             [
                 'loadUserNotifications', [$ownerId, 0, 25], null, null, null, null, [],
             ],
+            [
+                'findUserNotifications', [$ownerId, new NotificationQuery([], 0, 25)], null, null, null, null, [],
+            ],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function providerForCachedLoadMethodsHit(): array
     {
         $notificationId = 5;

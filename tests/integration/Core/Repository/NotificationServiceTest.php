@@ -11,8 +11,8 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Notification\CreateStruct;
-use Ibexa\Contracts\Core\Repository\Values\Notification\Notification;
-use Ibexa\Contracts\Core\Repository\Values\Notification\NotificationList;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Type;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 
 /**
  * Test case for the NotificationService.
@@ -21,28 +21,40 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\NotificationList;
  */
 class NotificationServiceTest extends BaseTestCase
 {
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\NotificationService::loadNotifications()
-     */
-    public function testLoadNotifications()
+    public function testLoadNotifications(): void
     {
         $repository = $this->getRepository();
 
-        /* BEGIN: Use Case */
         $notificationService = $repository->getNotificationService();
         $notificationList = $notificationService->loadNotifications(0, 25);
-        /* END: Use Case */
 
-        self::assertInstanceOf(NotificationList::class, $notificationList);
         self::assertIsArray($notificationList->items);
         self::assertIsInt($notificationList->totalCount);
         self::assertEquals(5, $notificationList->totalCount);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\NotificationService::getNotification()
-     */
-    public function testGetNotification()
+    public function testFindNotifications(): void
+    {
+        $repository = $this->getRepository();
+
+        $notificationService = $repository->getNotificationService();
+        $query = new NotificationQuery(
+            [],
+            0,
+            25
+        );
+        $query->addCriterion(new Type('Workflow:Review'));
+
+        $notificationList = $notificationService->findNotifications($query);
+
+        self::assertIsArray($notificationList->items);
+        self::assertIsInt($notificationList->totalCount);
+
+        $expectedCount = 3;
+        self::assertEquals($expectedCount, $notificationList->totalCount);
+    }
+
+    public function testGetNotification(): void
     {
         $repository = $this->getRepository();
 
@@ -54,14 +66,10 @@ class NotificationServiceTest extends BaseTestCase
         $notification = $notificationService->getNotification($notificationId);
         /* END: Use Case */
 
-        self::assertInstanceOf(Notification::class, $notification);
         self::assertEquals($notificationId, $notification->id);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\NotificationService::markNotificationAsRead()
-     */
-    public function testMarkNotificationAsRead()
+    public function testMarkNotificationAsRead(): void
     {
         $repository = $this->getRepository();
 
@@ -77,9 +85,6 @@ class NotificationServiceTest extends BaseTestCase
         self::assertFalse($notification->isPending);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\NotificationService::markNotificationAsUnread()
-     */
     public function testMarkNotificationAsUnread(): void
     {
         $repository = $this->getRepository();
@@ -99,10 +104,7 @@ class NotificationServiceTest extends BaseTestCase
         self::assertTrue($notification->isPending);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\NotificationService::getPendingNotificationCount()
-     */
-    public function testGetPendingNotificationCount()
+    public function testGetPendingNotificationCount(): void
     {
         $repository = $this->getRepository();
 
@@ -114,10 +116,7 @@ class NotificationServiceTest extends BaseTestCase
         self::assertEquals(3, $notificationPendingCount);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\NotificationService::getNotificationCount()
-     */
-    public function testGetNotificationCount()
+    public function testGetNotificationCount(): void
     {
         $repository = $this->getRepository();
 
@@ -129,10 +128,7 @@ class NotificationServiceTest extends BaseTestCase
         self::assertEquals(5, $notificationCount);
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\NotificationService::deleteNotification()
-     */
-    public function testDeleteNotification()
+    public function testDeleteNotification(): void
     {
         $repository = $this->getRepository();
 
@@ -150,10 +146,7 @@ class NotificationServiceTest extends BaseTestCase
         }
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\NotificationService::createNotification()
-     */
-    public function testCreateNotification()
+    public function testCreateNotification(): void
     {
         $repository = $this->getRepository();
 
@@ -174,16 +167,13 @@ class NotificationServiceTest extends BaseTestCase
         $notification = $notificationService->createNotification($createStruct);
         /* END: Use Case */
 
-        self::assertInstanceOf(Notification::class, $notification);
         self::assertGreaterThan(0, $notification->id);
     }
 
     /**
-     * @covers \Ibexa\Contracts\Core\Repository\NotificationService::createNotification()
-     *
      * @depends testCreateNotification
      */
-    public function testCreateNotificationThrowsInvalidArgumentExceptionOnMissingOwner()
+    public function testCreateNotificationThrowsInvalidArgumentExceptionOnMissingOwner(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -202,11 +192,9 @@ class NotificationServiceTest extends BaseTestCase
     }
 
     /**
-     * @covers \Ibexa\Contracts\Core\Repository\NotificationService::createNotification()
-     *
      * @depends testCreateNotification
      */
-    public function testCreateNotificationThrowsInvalidArgumentExceptionOnMissingType()
+    public function testCreateNotificationThrowsInvalidArgumentExceptionOnMissingType(): void
     {
         $this->expectException(InvalidArgumentException::class);
 

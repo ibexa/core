@@ -10,6 +10,11 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Notification\Gateway;
 
 use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Type;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
+use Ibexa\Core\Persistence\Legacy\Notification\Gateway\CriterionHandler\DateCreatedCriterionHandler;
+use Ibexa\Core\Persistence\Legacy\Notification\Gateway\CriterionHandler\StatusCriterionHandler;
+use Ibexa\Core\Persistence\Legacy\Notification\Gateway\CriterionHandler\TypeCriterionHandler;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
@@ -108,12 +113,11 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testLoadUserNotifications()
+    public function testLoadUserNotifications(): void
     {
         $userId = 14;
         $offset = 1;
         $limit = 3;
-
         $results = $this->getGateway()->loadUserNotifications($userId, $offset, $limit);
 
         self::assertEquals([
@@ -144,6 +148,72 @@ class DoctrineDatabaseTest extends TestCase
         ], $results);
     }
 
+    public function testFindUserNotifications(): void
+    {
+        $userId = 14;
+        $offset = 1;
+        $limit = 3;
+        $queryWithoutFilters = new NotificationQuery([], $offset, $limit);
+
+        $resultsWithoutQuery = $this->getGateway()->findUserNotifications($userId, $queryWithoutFilters);
+
+        self::assertEquals([
+            [
+                'id' => '4',
+                'owner_id' => '14',
+                'is_pending' => 1,
+                'type' => 'Workflow:Review',
+                'created' => '1530005852',
+                'data' => null,
+            ],
+            [
+                'id' => '3',
+                'owner_id' => '14',
+                'is_pending' => 0,
+                'type' => 'Workflow:Reject',
+                'created' => '1530002252',
+                'data' => null,
+            ],
+            [
+                'id' => '2',
+                'owner_id' => '14',
+                'is_pending' => 0,
+                'type' => 'Workflow:Approve',
+                'created' => '1529998652',
+                'data' => null,
+            ],
+        ], $resultsWithoutQuery);
+
+        $typeCriterion = new Type('Workflow:Review');
+        $queryWithFilters = new NotificationQuery([$typeCriterion], $offset, $limit);
+        $resultsWithQuery = $this->getGateway()->findUserNotifications($userId, $queryWithFilters);
+
+        self::assertEquals([
+            [
+                'id' => '4',
+                'owner_id' => '14',
+                'is_pending' => 1,
+                'type' => 'Workflow:Review',
+                'created' => '1530005852',
+                'data' => null,
+            ],
+            [
+                'id' => '1',
+                'owner_id' => '14',
+                'is_pending' => 1,
+                'type' => 'Workflow:Review',
+                'created' => '1529995052',
+                'data' => null,
+            ],
+        ], $resultsWithQuery);
+
+        $nonExistingTypeCriterion = new Type('NonExistingType');
+        $queryNoResults = new NotificationQuery([$nonExistingTypeCriterion], $offset, $limit);
+        $resultsWithNoResults = $this->getGateway()->findUserNotifications($userId, $queryNoResults);
+
+        self::assertEquals([], $resultsWithNoResults);
+    }
+
     public function testDelete()
     {
         $this->getGateway()->delete(self::EXISTING_NOTIFICATION_ID);
@@ -158,8 +228,17 @@ class DoctrineDatabaseTest extends TestCase
      */
     protected function getGateway(): DoctrineDatabase
     {
+        $typeHandler = new TypeCriterionHandler();
+        $statusHandler = new StatusCriterionHandler();
+        $dateCreatedHandler = new DateCreatedCriterionHandler();
+
         return new DoctrineDatabase(
-            $this->getDatabaseConnection()
+            $this->getDatabaseConnection(),
+            [
+                $typeHandler,
+                $statusHandler,
+                $dateCreatedHandler,
+            ]
         );
     }
 

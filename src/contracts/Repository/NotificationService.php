@@ -11,6 +11,7 @@ namespace Ibexa\Contracts\Core\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification;
 use Ibexa\Contracts\Core\Repository\Values\Notification\NotificationList;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 
 /**
  * Service to manager user notifications. It works in the context of a current User (obtained from
@@ -18,15 +19,9 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\NotificationList;
  */
 interface NotificationService
 {
-    /**
-     * Get currently logged user notifications.
-     *
-     * @param int $offset the start offset for paging
-     * @param int $limit  the number of notifications returned
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Notification\NotificationList
-     */
     public function loadNotifications(int $offset, int $limit): NotificationList;
+
+    public function findNotifications(?NotificationQuery $query = null): NotificationList;
 
     /**
      * Load single notification (by ID).
@@ -69,7 +64,7 @@ interface NotificationService
      *
      * @phpstan-return int<0, max>
      */
-    public function getNotificationCount(): int;
+    public function getNotificationCount(?NotificationQuery $query = null): int;
 
     /**
      * Creates a new notification.
