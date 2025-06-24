@@ -9,10 +9,14 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Notification\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway;
+use function Ibexa\PolyfillPhp82\iterator_to_array;
 use PDO;
 
 class DoctrineDatabase extends Gateway
@@ -25,20 +29,22 @@ class DoctrineDatabase extends Gateway
     public const COLUMN_CREATED = 'created';
     public const COLUMN_DATA = 'data';
 
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
     /**
-     * @param \Doctrine\DBAL\Connection $connection
+     * @var \Ibexa\Contracts\Core\Repository\Values\Notification\CriterionHandlerInterface[]
      */
-    public function __construct(Connection $connection)
+    private array $criterionHandlers;
+
+    /**
+     * @param iterable<\Ibexa\Contracts\Core\Repository\Values\Notification\CriterionHandlerInterface> $criterionHandlers
+     */
+    public function __construct(Connection $connection, iterable $criterionHandlers)
     {
         $this->connection = $connection;
+        $this->criterionHandlers = iterator_to_array($criterionHandlers);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function insert(CreateStruct $createStruct): int
     {
         $query = $this->connection->createQueryBuilder();
@@ -62,9 +68,6 @@ class DoctrineDatabase extends Gateway
         return (int) $this->connection->lastInsertId();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNotificationById(int $notificationId): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -78,9 +81,6 @@ class DoctrineDatabase extends Gateway
         return $query->executeQuery()->fetchAllAssociative();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function updateNotification(Notification $notification): void
     {
         if (!isset($notification->id) || !is_numeric($notification->id)) {
@@ -99,22 +99,23 @@ class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
-    public function countUserNotifications(int $userId): int
+    public function countUserNotifications(int $userId, ?NotificationQuery $query = null): int
     {
-        $query = $this->connection->createQueryBuilder();
-        $query
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder
             ->select('COUNT(' . self::COLUMN_ID . ')')
             ->from(self::TABLE_NOTIFICATION)
-            ->where($query->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
+            ->where($queryBuilder->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
             ->setParameter('user_id', $userId, PDO::PARAM_INT);
 
+        if ($query !== null && !empty($query->getCriteria())) {
+            $this->applyFilters($queryBuilder, $query->getCriteria());
+        }
+
         /** @phpstan-var int<0, max> */
-        return (int)$query->executeQuery()->fetchOne();
+        return (int)$queryBuilder->executeQuery()->fetchOne();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function countUserPendingNotifications(int $userId): int
     {
         $query = $this->connection->createQueryBuilder();
@@ -130,9 +131,6 @@ class DoctrineDatabase extends Gateway
         return (int)$query->executeQuery()->fetchOne();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadUserNotifications(int $userId, int $offset = 0, int $limit = -1): array
     {
         $query = $this->connection->createQueryBuilder();
@@ -152,9 +150,61 @@ class DoctrineDatabase extends Gateway
         return $query->executeQuery()->fetchAllAssociative();
     }
 
+    public function findUserNotifications(int $userId, ?NotificationQuery $query = null): array
+    {
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder
+            ->select(...$this->getColumns())
+            ->from(self::TABLE_NOTIFICATION)
+            ->andWhere($queryBuilder->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
+            ->setParameter('user_id', $userId, PDO::PARAM_INT)
+            ->orderBy(self::COLUMN_ID, 'DESC');
+
+        if ($query === null) {
+            return $queryBuilder->executeQuery()->fetchAllAssociative();
+        }
+
+        if (!empty($query->getCriteria())) {
+            $this->applyFilters($queryBuilder, $query->getCriteria());
+        }
+
+        if ($query->getOffset() > 0) {
+            $queryBuilder->setFirstResult($query->getOffset());
+        }
+
+        if ($query->getLimit() > 0) {
+            $queryBuilder->setMaxResults($query->getLimit());
+        }
+
+        return $queryBuilder->executeQuery()->fetchAllAssociative();
+    }
+
     /**
-     * {@inheritdoc}
+     * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface[] $criteria
      */
+    private function applyFilters(QueryBuilder $qb, array $criteria): void
+    {
+        foreach ($criteria as $criterion) {
+            $this->applyCriterion($qb, $criterion);
+        }
+    }
+
+    private function applyCriterion(QueryBuilder $qb, CriterionInterface $criterion): void
+    {
+        foreach ($this->criterionHandlers as $handler) {
+            if ($handler->supports($criterion)) {
+                $handler->apply($qb, $criterion);
+
+                return;
+            }
+        }
+
+        throw new InvalidArgumentException(
+            get_class($criterion),
+            'No handler found for criterion of type. Make sure the handler service is registered and tagged with "ibexa.notification.criterion_handler".'
+        );
+    }
+
     public function delete(int $notificationId): void
     {
         $query = $this->connection->createQueryBuilder();
@@ -166,9 +216,6 @@ class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
-    /**
-     * @return array
-     */
     private function getColumns(): array
     {
         return [
