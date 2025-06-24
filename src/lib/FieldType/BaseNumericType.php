@@ -10,9 +10,8 @@ namespace Ibexa\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
-use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
-abstract class BaseNumericType extends FieldType implements TranslationContainerInterface
+abstract class BaseNumericType extends FieldType
 {
     /**
      * @return array<string, \Ibexa\Core\FieldType\Validator>
