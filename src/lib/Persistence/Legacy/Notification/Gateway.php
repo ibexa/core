@@ -10,6 +10,7 @@ namespace Ibexa\Core\Persistence\Legacy\Notification;
 
 use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 
 abstract class Gateway
 {
@@ -41,12 +42,7 @@ abstract class Gateway
      */
     abstract public function updateNotification(Notification $notification): void;
 
-    /**
-     * @param int $userId
-     *
-     * @return int
-     */
-    abstract public function countUserNotifications(int $userId): int;
+    abstract public function countUserNotifications(int $userId, ?NotificationQuery $query = null): int;
 
     /**
      * Count users unread Notifications.
@@ -58,13 +54,17 @@ abstract class Gateway
     abstract public function countUserPendingNotifications(int $userId): int;
 
     /**
-     * @param int $userId
-     * @param int $offset
-     * @param int $limit
-     *
-     * @return array
+     * @return array<int, array<string, mixed>>
      */
     abstract public function loadUserNotifications(int $userId, int $offset = 0, int $limit = -1): array;
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    abstract public function findUserNotifications(
+        int $userId,
+        ?NotificationQuery $query = null
+    ): array;
 
     /**
      * @param int $notificationId

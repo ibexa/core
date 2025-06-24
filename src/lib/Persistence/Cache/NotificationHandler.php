@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Notification\Handler;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
 use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification as APINotification;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 
 class NotificationHandler extends AbstractHandler implements Handler
 {
@@ -98,28 +99,30 @@ class NotificationHandler extends AbstractHandler implements Handler
         return $count;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function countNotifications(int $ownerId): int
+    public function countNotifications(int $ownerId, ?NotificationQuery $query = null): int
     {
-        $cacheItem = $this->cache->getItem(
-            $this->cacheIdentifierGenerator->generateKey(self::NOTIFICATION_COUNT_IDENTIFIER, [$ownerId], true)
-        );
+        if ($query === null) {
+            $cacheKeyParams = [$ownerId];
+            $cacheItem = $this->cache->getItem(
+                $this->cacheIdentifierGenerator->generateKey(self::NOTIFICATION_COUNT_IDENTIFIER, $cacheKeyParams, true)
+            );
 
-        $count = $cacheItem->get();
-        if ($cacheItem->isHit()) {
-            return $count;
+            if ($cacheItem->isHit()) {
+                return $cacheItem->get();
+            }
         }
 
         $this->logger->logCall(__METHOD__, [
             'ownerId' => $ownerId,
+            'query' => $query,
         ]);
 
-        $count = $this->persistenceHandler->notificationHandler()->countNotifications($ownerId);
+        $count = $this->persistenceHandler->notificationHandler()->countNotifications($ownerId, $query);
 
-        $cacheItem->set($count);
-        $this->cache->save($cacheItem);
+        if ($query === null) {
+            $cacheItem->set($count);
+            $this->cache->save($cacheItem);
+        }
 
         return $count;
     }
@@ -150,9 +153,6 @@ class NotificationHandler extends AbstractHandler implements Handler
         return $notification;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadUserNotifications(int $userId, int $offset, int $limit): array
     {
         $this->logger->logCall(__METHOD__, [
@@ -162,6 +162,16 @@ class NotificationHandler extends AbstractHandler implements Handler
         ]);
 
         return $this->persistenceHandler->notificationHandler()->loadUserNotifications($userId, $offset, $limit);
+    }
+
+    public function findUserNotifications(int $userId, ?NotificationQuery $query = null): array
+    {
+        $this->logger->logCall(__METHOD__, [
+            'ownerId' => $userId,
+            'query' => $query,
+        ]);
+
+        return $this->persistenceHandler->notificationHandler()->findUserNotifications($userId, $query);
     }
 }
 
