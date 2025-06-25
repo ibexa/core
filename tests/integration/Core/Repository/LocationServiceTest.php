@@ -22,8 +22,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
-use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 
 /**
  * Test case for operations in the LocationService using in memory storage.
