@@ -14,17 +14,20 @@ use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Iterator;
 
-final class RelationListIteratorAdapter implements BatchIteratorAdapter
+final readonly class RelationListIteratorAdapter implements BatchIteratorAdapter
 {
     public function __construct(
-        readonly private ContentService $contentService,
-        readonly private VersionInfo $versionInfo,
-        readonly private ?RelationType $relationType = null,
+        private ContentService $contentService,
+        private VersionInfo $versionInfo,
+        private ?RelationType $relationType = null,
     ) {
     }
 
     /**
-     * @phpstan-return Iterator<int, \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface>
+     * @phpstan-return \Iterator<int, \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface>
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function fetch(int $offset, int $limit): Iterator
     {
