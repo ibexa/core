@@ -119,7 +119,7 @@ class Type extends FieldType implements TranslationContainerInterface
                 );
             } elseif (mb_strlen($keyword) > self::MAX_KEYWORD_LENGTH) {
                 $validationErrors[] = new ValidationError(
-                    'Each keyword must be at most ' . self::MAX_KEYWORD_LENGTH . ' characters long.',
+                    'Keyword value must be less than or equal to ' . self::MAX_KEYWORD_LENGTH . ' characters.',
                     null,
                     [],
                     'values'

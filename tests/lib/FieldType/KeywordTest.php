@@ -305,7 +305,7 @@ class KeywordTest extends FieldTypeTest
             new KeywordValue(['valid', str_repeat('a', $maxLen + 1)]),
             [
                 new ValidationError(
-                    'Each keyword must be at most ' . $maxLen . ' characters long.',
+                    'Keyword value must be less than or equal to ' . $maxLen . ' characters.',
                     null,
                     [],
                     'values'
