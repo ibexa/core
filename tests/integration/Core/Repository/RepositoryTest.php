@@ -35,14 +35,6 @@ use Ibexa\Contracts\Core\Repository\UserService;
 class RepositoryTest extends BaseTestCase
 {
     /**
-     * Test for the getRepository() method.
-     */
-    public function testGetRepository()
-    {
-        self::assertInstanceOf(Repository::class, $this->getSetupFactory()->getRepository(true));
-    }
-
-    /**
      * Test for the getContentService() method.
      *
      * @group content

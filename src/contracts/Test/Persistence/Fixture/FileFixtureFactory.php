@@ -24,14 +24,10 @@ final class FileFixtureFactory
         $fileInfo = new SplFileInfo($filePath);
         $extension = $fileInfo->getExtension();
 
-        switch ($extension) {
-            case 'yml':
-            case 'yaml':
-                return new YamlFixture($filePath);
-            case 'php':
-                return new PhpArrayFileFixture($filePath);
-            default:
-                throw new RuntimeException("Unsupported fixture file type: {$extension}");
-        }
+        return match ($extension) {
+            'yml', 'yaml' => new YamlFixture($filePath),
+            'php' => new PhpArrayFileFixture($filePath),
+            default => throw new RuntimeException("Unsupported fixture file type: $extension"),
+        };
     }
 }

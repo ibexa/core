@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Test\Persistence\Fixture;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\PDOException;
 use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\DBAL\Schema\Column;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture;
@@ -21,11 +20,10 @@ use Ibexa\Contracts\Core\Test\Persistence\Fixture;
  */
 final class FixtureImporter
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
     /** @var array<string, string|null> */
-    private static $resetSequenceStatements = [];
+    private static array $resetSequenceStatements = [];
 
     public function __construct(Connection $connection)
     {
@@ -75,7 +73,7 @@ final class FixtureImporter
                 $this->connection->executeStatement(
                     $dbPlatform->getTruncateTableSql($this->connection->quoteIdentifier($table))
                 );
-            } catch (DBALException | PDOException $e) {
+            } catch (DBALException) {
                 // Fallback to DELETE if TRUNCATE failed (because of FKs for instance)
                 $this->connection->createQueryBuilder()->delete($table)->executeStatement();
             }
@@ -105,6 +103,8 @@ final class FixtureImporter
      * @param string[] $affectedTables the list of tables which need their sequences reset
      *
      * @return iterable<string, string> list of SQL statements
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
     private function getSequenceResetStatements(array $affectedTables): iterable
     {
