@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\FieldType;
+use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
 use JMS\TranslationBundle\Model\Message;
 use JMS\TranslationBundle\Translation\TranslationContainerInterface;
@@ -22,6 +23,8 @@ use JMS\TranslationBundle\Translation\TranslationContainerInterface;
  */
 class Type extends FieldType implements TranslationContainerInterface
 {
+    public const MAX_KEYWORD_LENGTH = 255;
+
     /**
      * Returns the field type identifier for this field type.
      *
@@ -87,6 +90,44 @@ class Type extends FieldType implements TranslationContainerInterface
                 $value->values
             );
         }
+
+        foreach ($value->values as $keyword) {
+            if (!is_string($keyword) || mb_strlen($keyword) > self::MAX_KEYWORD_LENGTH) {
+                throw new InvalidArgumentType(
+                    '$value->values[]',
+                    'string up to ' . self::MAX_KEYWORD_LENGTH . ' characters',
+                    $keyword
+                );
+            }
+        }
+    }
+
+    /**
+     * @param \Ibexa\Core\FieldType\Keyword\Value $fieldValue
+     */
+    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue): array
+    {
+        $validationErrors = [];
+
+        foreach ($fieldValue->values as $keyword) {
+            if (!is_string($keyword)) {
+                $validationErrors[] = new ValidationError(
+                    'Each keyword must be a string.',
+                    null,
+                    [],
+                    'values'
+                );
+            } elseif (mb_strlen($keyword) > self::MAX_KEYWORD_LENGTH) {
+                $validationErrors[] = new ValidationError(
+                    'Keyword value must be less than or equal to ' . self::MAX_KEYWORD_LENGTH . ' characters.',
+                    null,
+                    [],
+                    'values'
+                );
+            }
+        }
+
+        return $validationErrors;
     }
 
     /**
