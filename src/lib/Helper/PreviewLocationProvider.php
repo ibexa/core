@@ -18,16 +18,10 @@ use Ibexa\Core\Repository\Values\Content\Location;
  */
 class PreviewLocationProvider
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
-    private $locationService;
+    private LocationService $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler */
-    private $locationHandler;
+    private PersistenceLocationHandler $locationHandler;
 
-    /**
-     * @param \Ibexa\Contracts\Core\Repository\LocationService $locationService
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Location\Handler $locationHandler
-     */
     public function __construct(
         LocationService $locationService,
         PersistenceLocationHandler $locationHandler
@@ -43,10 +37,6 @@ class PreviewLocationProvider
      * Location drafts do not have an id (it is set to null), and can be tested using the isDraft() method.
      *
      * If the content doesn't have a location nor a location draft, null is returned.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location|null
      */
     public function loadMainLocationByContent(APIContent $content): ?APILocation
     {
@@ -72,7 +62,7 @@ class PreviewLocationProvider
                     'id' => 0,
                     'content' => $content,
                     'contentInfo' => $contentInfo,
-                    'status' => Location::STATUS_DRAFT,
+                    'status' => APILocation::STATUS_DRAFT,
                     'parentLocationId' => $parentLocations[0]->id,
                     'depth' => $parentLocations[0]->depth + 1,
                     'pathString' => $parentLocations[0]->pathString . 'x/',
