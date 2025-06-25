@@ -14,13 +14,14 @@ use Ibexa\Core\FieldType\BaseTextType;
 use Ibexa\Core\FieldType\Validator\StringLengthValidator;
 use Ibexa\Core\FieldType\Value as BaseValue;
 use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * The TextLine field type.
  *
  * This field type represents a simple string.
  */
-class Type extends BaseTextType
+class Type extends BaseTextType implements TranslationContainerInterface
 {
     protected $validatorConfigurationSchema = [
         'StringLengthValidator' => [

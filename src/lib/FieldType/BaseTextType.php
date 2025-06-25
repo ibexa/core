@@ -12,14 +12,13 @@ use Ibexa\Contracts\Core\FieldType\Value as FieldTypeValueInterface;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\Value as BaseValue;
-use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * @internal
  *
  * Base implementation for TextLine\Type and TextBlock\Type which extends TextLine\Type.
  */
-abstract class BaseTextType extends FieldType implements TranslationContainerInterface
+abstract class BaseTextType extends FieldType
 {
     public function isSearchable(): bool
     {
