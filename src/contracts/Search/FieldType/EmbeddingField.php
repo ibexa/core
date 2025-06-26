@@ -16,7 +16,7 @@ class EmbeddingField extends FieldType
     }
 
     /**
-     * @param string $type Has to be handled by configured search engine (ez_dense_vector_ada002).
+     * @param string $type Has to be handled by configured search engine (ibexa_dense_vector_ada002).
      */
     public static function create(string $type): self
     {

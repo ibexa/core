@@ -22,9 +22,9 @@ parameters:
         ez_geolocation: 'gl'
         ez_document: 'doc'
         ez_fulltext: 'fulltext'
-        ez_dense_vector_ada002: 'ada002_dv'
-        ez_dense_vector_3small: '3small_dv'
-        ez_dense_vector_3large: '3large_dv'
+        ibexa_dense_vector_ada002: 'ada002_dv'
+        ibexa_dense_vector_3small: '3small_dv'
+        ibexa_dense_vector_3large: '3large_dv'
 
 services:
     # Note: services tagged with 'ibexa.field_type.indexable'
