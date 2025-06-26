@@ -18,18 +18,12 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
  */
 class Location extends APILocation
 {
-    /**
-     * Content info of the content object of this location.
-     *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
-     */
-    protected $contentInfo;
+    protected APIContentInfo $contentInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location|null */
-    protected $parentLocation;
+    protected ?APILocation $parentLocation;
 
     /**
-     * Returns the content info of the content object of this location.
+     * Returns the content info of the location's content item.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
      */
@@ -44,17 +38,15 @@ class Location extends APILocation
     }
 
     /**
-     * Function where list of properties are returned.
-     *
-     * Override to add dynamic properties
+     * Overridden to add dynamic properties.
      *
      * @uses \parent::getProperties()
      *
-     * @param array $dynamicProperties
+     * @param string[] $dynamicProperties
      *
-     * @return array
+     * @return string[]
      */
-    protected function getProperties($dynamicProperties = ['contentId'])
+    protected function getProperties($dynamicProperties = ['contentId']): array
     {
         return parent::getProperties($dynamicProperties);
     }
