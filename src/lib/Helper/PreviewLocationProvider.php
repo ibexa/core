@@ -37,6 +37,10 @@ class PreviewLocationProvider
      * Location drafts do not have an id (it is set to null), and can be tested using the isDraft() method.
      *
      * If the content doesn't have a location nor a location draft, null is returned.
+     *
+     * @throws \Random\RandomException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
     public function loadMainLocationByContent(APIContent $content): ?APILocation
     {
@@ -56,16 +60,20 @@ class PreviewLocationProvider
                 return null;
             }
 
-            // NOTE: Once Repository adds support for draft locations (and draft  location ops), then this can be removed
+            // @todo add support for draft locations
             $location = new Location(
                 [
                     'id' => 0,
                     'content' => $content,
                     'contentInfo' => $contentInfo,
                     'status' => APILocation::STATUS_DRAFT,
+                    'priority' => 0,
+                    'remoteId' => bin2hex(random_bytes(16)), // Unique remoteId for the "draft" location (32 chars)
                     'parentLocationId' => $parentLocations[0]->id,
                     'depth' => $parentLocations[0]->depth + 1,
                     'pathString' => $parentLocations[0]->pathString . 'x/',
+                    'sortField' => APILocation::SORT_FIELD_NAME,
+                    'sortOrder' => APILocation::SORT_ORDER_ASC,
                 ]
             );
         }
