@@ -81,10 +81,6 @@ class LanguageService implements LanguageServiceInterface
             throw new InvalidArgumentValue('languageCode', $languageCreateStruct->languageCode, 'LanguageCreateStruct');
         }
 
-        if (!is_bool($languageCreateStruct->enabled)) {
-            throw new InvalidArgumentValue('enabled', $languageCreateStruct->enabled, 'LanguageCreateStruct');
-        }
-
         if (!$this->permissionResolver->canUser('content', 'translations', $languageCreateStruct)) {
             throw new UnauthorizedException('content', 'translations');
         }

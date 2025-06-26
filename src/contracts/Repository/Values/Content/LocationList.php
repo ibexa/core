@@ -11,8 +11,8 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content;
 use ArrayIterator;
 use Ibexa\Contracts\Core\Repository\Collections\TotalCountAwareInterface;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Iterator;
 use IteratorAggregate;
-use Traversable;
 
 /**
  * This class represents a queried location list holding a totalCount and a partial list of locations
@@ -21,6 +21,8 @@ use Traversable;
  * @property-read int<0, max> $totalCount - the total count of found locations (filtered by permissions)
  * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\Location[] $locations - the partial list of
  *                Locations controlled by offset/limit.
+ *
+ * @implements \IteratorAggregate<int, \Ibexa\Contracts\Core\Repository\Values\Content\Location>
  **/
 class LocationList extends ValueObject implements IteratorAggregate, TotalCountAwareInterface
 {
@@ -31,19 +33,16 @@ class LocationList extends ValueObject implements IteratorAggregate, TotalCountA
      *
      * @phpstan-var int<0, max>
      */
-    protected $totalCount = 0;
+    protected int $totalCount = 0;
 
     /**
      * the partial list of locations controlled by offset/limit.
      *
      * @var \Ibexa\Contracts\Core\Repository\Values\Content\Location[]
      */
-    protected $locations = [];
+    protected array $locations = [];
 
-    /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location[]|\Traversable
-     */
-    public function getIterator(): Traversable
+    public function getIterator(): Iterator
     {
         return new ArrayIterator($this->locations);
     }

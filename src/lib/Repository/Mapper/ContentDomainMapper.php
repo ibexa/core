@@ -539,7 +539,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
             'modificationDate' => $legacyDateTime,
             'publishedDate' => $legacyDateTime,
             'alwaysAvailable' => 1,
-            'remoteId' => null,
+            'remoteId' => 'IBEXA_ROOT_385b2cd4737a459c999ba4b7595a0016',
             'mainLanguageCode' => 'eng-GB',
             'isHidden' => false,
         ]);
@@ -818,18 +818,14 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
 
     /**
      * Checks if given $priority is valid.
-     *
-     * @param int $priority
-     *
-     * @return bool
      */
-    public function isValidLocationPriority($priority): bool
+    public function isValidLocationPriority(?int $priority): bool
     {
         if ($priority === null) {
             return true;
         }
 
-        return is_int($priority) && $priority >= self::MIN_LOCATION_PRIORITY && $priority <= self::MAX_LOCATION_PRIORITY;
+        return $priority >= self::MIN_LOCATION_PRIORITY && $priority <= self::MAX_LOCATION_PRIORITY;
     }
 
     /**

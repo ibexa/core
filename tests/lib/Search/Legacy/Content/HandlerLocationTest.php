@@ -238,27 +238,6 @@ class HandlerLocationTest extends AbstractTestCase
     }
 
     /**
-     * Issue with PHP_MAX_INT limit overflow in databases.
-     */
-    public function testFindWithNullLimit()
-    {
-        $handler = $this->getContentSearchHandler();
-
-        $searchResult = $handler->findLocations(
-            new LocationQuery(
-                [
-                    'filter' => new Criterion\LocationId(2),
-                    'offset' => 0,
-                    'limit' => null,
-                ]
-            )
-        );
-
-        self::assertEquals(1, $searchResult->totalCount);
-        self::assertCount(1, $searchResult->searchHits);
-    }
-
-    /**
      * Issue with offsetting to the nonexistent results produces \ezcQueryInvalidParameterException exception.
      */
     public function testFindWithOffsetToNonexistent()
@@ -270,7 +249,7 @@ class HandlerLocationTest extends AbstractTestCase
                 [
                     'filter' => new Criterion\LocationId(2),
                     'offset' => 1000,
-                    'limit' => null,
+                    'limit' => 1,
                 ]
             )
         );

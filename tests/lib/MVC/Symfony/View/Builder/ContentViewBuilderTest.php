@@ -36,6 +36,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class ContentViewBuilderTest extends TestCase
 {
+    private const int EXAMPLE_LOCATION_ID = 743;
+
     /** @var \Ibexa\Contracts\Core\Repository\Repository|\PHPUnit\Framework\MockObject\MockObject */
     private $repository;
 
@@ -148,6 +150,7 @@ class ContentViewBuilderTest extends TestCase
     {
         $location = new Location(
             [
+                'id' => self::EXAMPLE_LOCATION_ID,
                 'invisible' => false,
                 'content' => new Content([
                     'versionInfo' => new VersionInfo([
@@ -184,6 +187,7 @@ class ContentViewBuilderTest extends TestCase
     {
         $location = new Location(
             [
+                'id' => self::EXAMPLE_LOCATION_ID,
                 'invisible' => false,
                 'contentInfo' => new ContentInfo([
                     'id' => 120,

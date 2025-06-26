@@ -31,6 +31,8 @@ use Ibexa\Core\Repository\Values\Content\Location;
  */
 class ParentContentTypeLimitationTypeTest extends Base
 {
+    public const int EXAMPLE_CONTENT_INFO_ID = 24;
+
     /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler|\PHPUnit\Framework\MockObject\MockObject */
     private $locationHandlerMock;
 
@@ -337,7 +339,10 @@ class ParentContentTypeLimitationTypeTest extends Base
             // ContentInfo, no targets, un-published, with access
             [
                 'limitation' => new ParentContentTypeLimitation(['limitationValues' => [42]]),
-                'object' => new ContentInfo(['published' => false]),
+                'object' => new ContentInfo([
+                    'id' => self::EXAMPLE_CONTENT_INFO_ID,
+                    'published' => false,
+                ]),
                 'targets' => [],
                 'persistence' => [
                     'locations' => [new SPILocation(['contentId' => '24'])],
@@ -348,7 +353,10 @@ class ParentContentTypeLimitationTypeTest extends Base
             // ContentInfo, no targets, un-published, no access
             [
                 'limitation' => new ParentContentTypeLimitation(['limitationValues' => [42]]),
-                'object' => new ContentInfo(['published' => false]),
+                'object' => new ContentInfo([
+                    'id' => self::EXAMPLE_CONTENT_INFO_ID,
+                    'published' => false,
+                ]),
                 'targets' => [],
                 'persistence' => [
                     'locations' => [new SPILocation(['contentId' => '24'])],
