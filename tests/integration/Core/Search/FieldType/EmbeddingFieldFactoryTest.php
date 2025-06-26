@@ -26,9 +26,9 @@ class EmbeddingFieldFactoryTest extends TestCase
         $field = $factory->create();
 
         $this->assertSame(
-            'ez_dense_vector_model_123',
+            'ibexa_dense_vector_model_123',
             $field->getType(),
-            'Factory should prepend "ez_dense_vector_" to the suffix from theconfig'
+            'Factory should prepend "ibexa_dense_vector_" to the suffix from the config'
         );
     }
 
