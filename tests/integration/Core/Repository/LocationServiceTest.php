@@ -8,6 +8,7 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Exception;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\URLAliasService as URLAliasServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
@@ -22,7 +23,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
-use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 
 /**
@@ -3588,8 +3588,6 @@ class LocationServiceTest extends BaseTest
         $location = $folder->getVersionInfo()->getContentInfo()->getMainLocation();
         self::assertNotNull($location);
 
-        self::assertSame(1, $locationService->getSubtreeSize($location));
-
         for ($i = 1; $i <= 10; ++$i) {
             $this->createFolder(['eng-GB' => 'Child ' . $i], $location->id);
         }
@@ -3616,6 +3614,8 @@ class LocationServiceTest extends BaseTest
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessageRegExp('/Limit must be greater than 0/');
+
+        self::assertSame(3, $locationService->getSubtreeSize($location, -42));
 
         return $location;
     }
