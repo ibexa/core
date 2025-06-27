@@ -34,7 +34,6 @@ class LimitedCountQueryBuilderTest extends TestCase
 
         $qb = $this->getDatabaseConnection()->createQueryBuilder();
 
-        // @phpstan-ignore argument.type
         $this->limitedCountQueryBuilder->wrap($qb, 'someField', 0);
     }
 

@@ -108,18 +108,17 @@ class LocationService implements LocationServiceInterface
     {
         $limit = func_num_args() > 1 ? func_get_arg(1) : null;
 
-        return $this->service->getLocationChildCount($location, $limit); // @phpstan-ignore arguments.count
+        return $this->service->getLocationChildCount($location, $limit);
     }
 
     /**
      * @param int|null $limit
      */
-    // @phpstan-ignore parameter.notFound
     public function getSubtreeSize(Location $location /* ?int $limit = null */): int
     {
         $limit = func_num_args() > 1 ? func_get_arg(1) : null;
 
-        return $this->service->getSubtreeSize($location, $limit); // @phpstan-ignore arguments.count
+        return $this->service->getSubtreeSize($location, $limit);
     }
 
     public function createLocation(ContentInfo $contentInfo, LocationCreateStruct $locationCreateStruct): Location
@@ -203,12 +202,10 @@ class LocationService implements LocationServiceInterface
     /**
      * @param int|null $limit
      */
-    // @phpstan-ignore parameter.notFound
     public function count(Filter $filter, ?array $languages = null /* ?int $limit = null */): int
     {
         $limit = func_num_args() > 2 ? func_get_arg(2) : null;
 
-        // @phpstan-ignore arguments.count
         return $this->service->count(
             $filter,
             $this->languageResolver->getPrioritizedLanguages($languages),

@@ -2716,7 +2716,6 @@ class ContentService implements ContentServiceInterface
     /**
      * @param int|null $limit
      */
-    // @phpstan-ignore parameter.notFound
     public function count(Filter $filter, ?array $languages = null /*?int $limit = null */): int
     {
         $limit = func_num_args() > 2 ? func_get_arg(2) : null;
@@ -2738,7 +2737,7 @@ class ContentService implements ContentServiceInterface
             $filter->andWithCriterion($permissionCriterion);
         }
 
-        return $this->contentFilteringHandler->count($filter, $limit); // @phpstan-ignore arguments.count
+        return $this->contentFilteringHandler->count($filter, $limit);
     }
 }
 

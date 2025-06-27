@@ -85,23 +85,21 @@ abstract class LocationServiceDecorator implements LocationService
     /**
      * @param int|null $limit
      */
-    // @phpstan-ignore parameter.notFound
     public function getLocationChildCount(Location $location /* ?int $limit = null */): int
     {
         $limit = func_num_args() > 1 ? func_get_arg(1) : null;
 
-        return $this->innerService->getLocationChildCount($location, $limit); // @phpstan-ignore arguments.count
+        return $this->innerService->getLocationChildCount($location, $limit);
     }
 
     /**
      * @param int|null $limit
      */
-    // @phpstan-ignore parameter.notFound
     public function getSubtreeSize(Location $location /* ?int $limit = null */): int
     {
         $limit = func_num_args() > 1 ? func_get_arg(1) : null;
 
-        return $this->innerService->getSubtreeSize($location, $limit); // @phpstan-ignore arguments.count
+        return $this->innerService->getSubtreeSize($location, $limit);
     }
 
     public function createLocation(
@@ -175,12 +173,11 @@ abstract class LocationServiceDecorator implements LocationService
     /**
      * @param int|null $limit
      */
-    // @phpstan-ignore parameter.notFound
     public function count(Filter $filter, ?array $languages = null /* ?int $limit = null */): int
     {
         $limit = func_num_args() > 2 ? func_get_arg(2) : null;
 
-        return $this->innerService->count($filter, $languages, $limit); // @phpstan-ignore arguments.count
+        return $this->innerService->count($filter, $languages, $limit);
     }
 }
 
