@@ -3613,7 +3613,7 @@ class LocationServiceTest extends BaseTest
         }
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageRegExp('/Limit must be greater than 0/');
+        $this->expectExceptionMessageMatches('/Limit must be greater than 0/');
 
         self::assertSame(3, $locationService->getSubtreeSize($location, -42));
 

@@ -4069,12 +4069,6 @@ parameters:
 			path: src/bundle/Core/Imagine/Cache/AliasGeneratorDecorator.php
 
 		-
-			message: '#^PHPDoc tag @throws with type Psr\\Cache\\InvalidArgumentException is not subtype of Throwable$#'
-			identifier: throws.notThrowable
-			count: 1
-			path: src/bundle/Core/Imagine/Cache/AliasGeneratorDecorator.php
-
-		-
 			message: '#^Property Ibexa\\Bundle\\Core\\Imagine\\Cache\\AliasGeneratorDecorator\:\:\$siteAccess \(Ibexa\\Core\\MVC\\Symfony\\SiteAccess\) does not accept Ibexa\\Core\\MVC\\Symfony\\SiteAccess\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -17455,12 +17449,6 @@ parameters:
 			path: src/lib/Persistence/Cache/ContentTypeHandler.php
 
 		-
-			message: '#^PHPDoc tag @throws with type Psr\\Cache\\InvalidArgumentException is not subtype of Throwable$#'
-			identifier: throws.notThrowable
-			count: 1
-			path: src/lib/Persistence/Cache/ContentTypeHandler.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Cache\\Handler\:\:beginTransaction\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -17803,18 +17791,6 @@ parameters:
 			path: src/lib/Persistence/Cache/SectionHandler.php
 
 		-
-			message: '#^PHPDoc tag @throws with type Psr\\Cache\\CacheException is not subtype of Throwable$#'
-			identifier: throws.notThrowable
-			count: 1
-			path: src/lib/Persistence/Cache/SettingHandler.php
-
-		-
-			message: '#^PHPDoc tag @throws with type Psr\\Cache\\InvalidArgumentException is not subtype of Throwable$#'
-			identifier: throws.notThrowable
-			count: 2
-			path: src/lib/Persistence/Cache/SettingHandler.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Cache\\TransactionHandler\:\:beginTransaction\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -17917,12 +17893,6 @@ parameters:
 			path: src/lib/Persistence/Cache/UrlAliasHandler.php
 
 		-
-			message: '#^PHPDoc tag @throws with type Ibexa\\Core\\Base\\Exceptions\\BadStateException\|Psr\\Cache\\InvalidArgumentException is not subtype of Throwable$#'
-			identifier: throws.notThrowable
-			count: 1
-			path: src/lib/Persistence/Cache/UrlAliasHandler.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Cache\\UrlWildcardHandler\:\:find\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -17931,12 +17901,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Cache\\UrlWildcardHandler\:\:remove\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/lib/Persistence/Cache/UrlWildcardHandler.php
-
-		-
-			message: '#^PHPDoc tag @throws with type Psr\\Cache\\InvalidArgumentException is not subtype of Throwable$#'
-			identifier: throws.notThrowable
 			count: 1
 			path: src/lib/Persistence/Cache/UrlWildcardHandler.php
 
@@ -59602,12 +59566,6 @@ parameters:
 			message: '#^Call to an undefined method Twig\\Error\\SyntaxError\:\:setTemplateFile\(\)\.$#'
 			identifier: method.notFound
 			count: 2
-			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSystemTwigIntegrationTestCase.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Templating\\Twig\\Extension\\FileSystemTwigIntegrationTestCase\:\:doIntegrationTest\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
 			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSystemTwigIntegrationTestCase.php
 
 		-
