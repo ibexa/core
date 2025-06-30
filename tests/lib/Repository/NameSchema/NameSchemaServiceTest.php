@@ -68,7 +68,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
      *  0: array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>>,
      *  1: array<string, array<string, string>>,
      *  2: array<string>,
-     *  3: array<string, string>
+     *  3: array<int, array<string, string>>
      * }>
      */
     public static function getDataForTestResolveNameSchema(): iterable
@@ -76,13 +76,27 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
         yield 'Default: Field Map and Languages taken from Content Version' => [
             [],
             [
-                'eng-GB' => ['text2' => 'two'],
-                'cro-HR' => ['text2' => 'dva'],
+                'eng-GB' => ['text1' => 'one', 'text2' => 'two'],
+                'cro-HR' => ['text1' => 'jedan', 'text2' => 'dva'],
             ],
             [],
             [
-                'eng-GB' => 'two',
-                'cro-HR' => 'dva',
+                [
+                    'eng-GB' => 'one (text)',
+                    'cro-HR' => 'jedan (text)',
+                ],
+                [
+                    'eng-GB' => 'one - two',
+                    'cro-HR' => 'jedan - dva',
+                ],
+                [
+                    'eng-GB' => 'one - two (two) two (text2)',
+                    'cro-HR' => 'jedan - dva (dva) dva (text2)',
+                ],
+                [
+                    'eng-GB' => 'one - two (EZMETAGROUP_0) two',
+                    'cro-HR' => 'jedan - dva (EZMETAGROUP_0) dva',
+                ],
             ],
         ];
 
@@ -98,8 +112,23 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
             ],
             ['eng-GB', 'cro-HR'],
             [
-                'eng-GB' => 'three',
-                'cro-HR' => 'Dva',
+                [
+                    'eng-GB' => ' (text)',
+                    'cro-HR' => ' (text)',
+                ],
+                [
+                    'eng-GB' => 'three',
+                    'cro-HR' => ' - Dva',
+                ],
+                [
+                    'eng-GB' => 'three (two) two (text2)',
+                    'cro-HR' => ' - Dva (Dva) Dva (text2)',
+                ],
+                //known incorrect behavior - using the same group that was in two different statements (<text1> - <text2>)
+                [
+                    'eng-GB' => 'three (EZMETAGROUP_0) two',
+                    'cro-HR' => ' - Dva (EZMETAGROUP_0) Dva',
+                ],
             ],
         ];
     }
@@ -110,7 +139,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
      * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>> $fieldMap
      * @param array<string, array<string, string>> $tokenValues
      * @param array<string> $languageCodes
-     * @param array<string, string> $expectedNames
+     * @param array<int, array<string, string>> $expectedNames
      */
     public function testResolveNameSchema(
         array $fieldMap,
@@ -119,27 +148,38 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
         array $expectedNames
     ): void {
         $content = $this->buildTestContentObject();
-        $nameSchema = '<text3|text2>';
-        $contentType = $this->buildTestContentTypeStub($nameSchema, $nameSchema);
-        $event = new ResolveContentNameSchemaEvent(
-            $content,
-            ['field' => ['text3', 'text2']],
-            $contentType,
-            $fieldMap,
-            $languageCodes
-        );
-        $event->setTokenValues($tokenValues);
+        $schemas = [
+            '<text1> (text)',
+            '<text3|(<text1> - <text2>)>',
+            '<text3|(<text1> - <text2>)> (<text2>) <text2> (text2)',
+            '<text3|(<text1> - <text2>)> (<text1> - <text2>) <text2>',
+        ];
 
-        $nameSchemaService = $this->buildNameSchemaService(
-            $event
-        );
+        foreach ($schemas as $index => $nameSchema) {
+            $contentType = $this->buildTestContentTypeStub($nameSchema, $nameSchema);
+            $event = new ResolveContentNameSchemaEvent(
+                $content,
+                ['field' => ['text3', 'text2', 'text1']],
+                $contentType,
+                $fieldMap,
+                $languageCodes
+            );
+            $event->setTokenValues($tokenValues);
 
-        $result = $nameSchemaService->resolveContentNameSchema($content, $fieldMap, $languageCodes, $contentType);
+            $nameSchemaService = $this->buildNameSchemaService($event);
 
-        self::assertEquals(
-            $expectedNames,
-            $result
-        );
+            $result = $nameSchemaService->resolveContentNameSchema(
+                $content,
+                $fieldMap,
+                $languageCodes,
+                $contentType
+            );
+
+            self::assertEquals(
+                $expectedNames[$index],
+                $result
+            );
+        }
     }
 
     /**
@@ -163,10 +203,10 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
                 ['field' => ['text1']],
                 '<text1>',
                 [
-                'text1' => ['cro-HR' => new TextLineValue('jedan'), 'eng-GB' => new TextLineValue('one')],
-                'text2' => ['cro-HR' => new TextLineValue('Dva'), 'eng-GB' => new TextLineValue('two')],
-                'text3' => ['eng-GB' => new TextLineValue('three')],
-],
+                    'text1' => ['cro-HR' => new TextLineValue('jedan'), 'eng-GB' => new TextLineValue('one')],
+                    'text2' => ['cro-HR' => new TextLineValue('Dva'), 'eng-GB' => new TextLineValue('two')],
+                    'text3' => ['eng-GB' => new TextLineValue('three')],
+                ],
                 [
                     'eng-GB' => 'one',
                     'cro-HR' => 'jedan',
@@ -180,10 +220,10 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
                 ['field' => ['text2']],
                 '<text2>',
                 [
-                'text1' => ['cro-HR' => new TextLineValue('jedan'), 'eng-GB' => new TextLineValue('one')],
-                'text2' => ['cro-HR' => new TextLineValue('Dva'), 'eng-GB' => new TextLineValue('two')],
-                'text3' => ['eng-GB' => new TextLineValue('three')],
-            ],
+                    'text1' => ['cro-HR' => new TextLineValue('jedan'), 'eng-GB' => new TextLineValue('one')],
+                    'text2' => ['cro-HR' => new TextLineValue('Dva'), 'eng-GB' => new TextLineValue('two')],
+                    'text3' => ['eng-GB' => new TextLineValue('three')],
+                ],
                 [
                     'eng-GB' => 'two',
                     'cro-HR' => 'dva',
@@ -197,10 +237,10 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
                 ['field' => ['text2', 'text2']],
                 'Hello, <text1> and <text2> and then goodbye and hello again',
                 [
-                'text1' => ['cro-HR' => new TextLineValue('jedan'), 'eng-GB' => new TextLineValue('one')],
-                'text2' => ['cro-HR' => new TextLineValue('Dva'), 'eng-GB' => new TextLineValue('two')],
-                'text3' => ['eng-GB' => new TextLineValue('three')],
-            ],
+                    'text1' => ['cro-HR' => new TextLineValue('jedan'), 'eng-GB' => new TextLineValue('one')],
+                    'text2' => ['cro-HR' => new TextLineValue('Dva'), 'eng-GB' => new TextLineValue('two')],
+                    'text3' => ['eng-GB' => new TextLineValue('three')],
+                ],
                 [
                     'eng-GB' => 'Hello, one and two and then goodbye...',
                     'cro-HR' => 'Hello, jedan and dva and then goodb...',
