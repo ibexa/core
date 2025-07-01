@@ -18,11 +18,6 @@ services:
         tags:
             - {name: twig.extension }
     
-    
-    Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension:
-        arguments:
-            $logger: '@logger'
-            
     Ibexa\Contracts\Core\MVC\View\ViewMatcherRegistryInterface:
         alias: Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry
     

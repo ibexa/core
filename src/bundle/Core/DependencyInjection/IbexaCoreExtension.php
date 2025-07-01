@@ -80,19 +80,14 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
     /** @var \Ibexa\Bundle\Core\SiteAccess\SiteAccessConfigurationFilter[] */
     private $siteaccessConfigurationFilters = [];
 
-    /** @var \Psr\Log\LoggerInterface */
-    protected $logger;
-
     public function __construct(
         array $siteAccessConfigParsers = [],
         array $repositoryConfigParsers = [],
-        LoggerInterface $logger = null
     )
     {
         $this->siteAccessConfigParsers = $siteAccessConfigParsers;
         $this->repositoryConfigParsers = $repositoryConfigParsers;
         $this->suggestionCollector = new SuggestionCollector();
-        $this->logger = $logger;
     }
 
     public function getAlias(): string
@@ -921,11 +916,11 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
                 $container->setParameter('ibexa.session.save_path', sprintf('%s:%d', $endpoint['host'], $endpoint['port']));
             }
         }
-        $this->logger->alert('weszlo1');
+        var_dump('weszlo1');
         if (isset($relationships['solr'])) {
-            $this->logger->alert('weszlo2');
+        var_dump('weszlo2');
             foreach ($relationships['solr'] as $endpoint) {
-                $this->logger->alert($endpoint);
+        var_dump($endpoint);
                 if ($endpoint['scheme'] !== 'solr') {
                     continue;
                 }
@@ -938,7 +933,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
                 $container->setParameter('solr_core', substr($endpoint['path'], 5));
             }
         }
-        $this->logger->alert('weszlo3');
+        var_dump('weszlo3');
 
         if (isset($relationships['elasticsearch'])) {
             foreach ($relationships['elasticsearch'] as $endpoint) {
