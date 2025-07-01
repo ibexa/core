@@ -12,13 +12,14 @@ use Ibexa\Core\FieldType\BaseTextType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
 use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * The TextBlock field type.
  *
  * Represents a larger body of text, such as text areas.
  */
-class Type extends BaseTextType
+class Type extends BaseTextType implements TranslationContainerInterface
 {
     protected $settingsSchema = [
         'textRows' => [

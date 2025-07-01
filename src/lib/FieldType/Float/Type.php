@@ -14,13 +14,14 @@ use Ibexa\Core\FieldType\BaseNumericType;
 use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Value as BaseValue;
 use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * Float field types.
  *
  * Represents floats.
  */
-class Type extends BaseNumericType
+class Type extends BaseNumericType implements TranslationContainerInterface
 {
     protected $validatorConfigurationSchema = [
         'FloatValueValidator' => [
