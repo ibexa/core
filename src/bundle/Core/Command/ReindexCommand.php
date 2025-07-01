@@ -499,6 +499,6 @@ class ReindexCommand extends Command
             );
         }
 
-        return ucfirst($searchEngineAlias);
+        return $searchEngineAlias;
     }
 }
