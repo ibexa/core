@@ -648,10 +648,10 @@ class ContentService implements ContentServiceInterface
             throw new InvalidArgumentException('$contentCreateStruct', "the 'contentType' property must be set");
         }
 
-        foreach ($locationCreateStructs as $locationCreateStruct) {
+        foreach ($locationCreateStructs as $index => $locationCreateStruct) {
             $locationCreateStructsErrors = $this->validator->validate($locationCreateStruct, new LocationIsContainerContentType());
             if ($locationCreateStructsErrors->count() > 0) {
-                throw new ValidationFailedException('$locationCreateStructs', $locationCreateStructsErrors);
+                throw new ValidationFailedException('$locationCreateStructs' . "[$index]", $locationCreateStructsErrors);
             }
         }
 
