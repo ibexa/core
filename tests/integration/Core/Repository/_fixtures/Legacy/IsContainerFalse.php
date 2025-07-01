@@ -39,20 +39,10 @@ return new SearchResult([
                 'highlight' => null,
                 'matchedTranslation' => 'eng-US',
             ]),
-            new SearchHit([
-                'valueObject' => [
-                        'id' => 54,
-                        'title' => 'Ibexa Demo Design (without demo content)',
-                    ],
-                'score' => null,
-                'index' => null,
-                'highlight' => null,
-                'matchedTranslation' => 'eng-US',
-            ]),
         ],
     'spellcheck' => null,
     'time' => 1,
     'timedOut' => null,
     'maxScore' => null,
-    'totalCount' => 4,
+    'totalCount' => 3,
 ]);
