@@ -43,6 +43,7 @@ services:
             $projectDir: '%kernel.project_dir%'
             $isDebug: '%kernel.debug%'
             $contentIdListGeneratorStrategy: '@Ibexa\Bundle\Core\Command\Indexer\ContentIdList\ContentTypeInputGeneratorStrategy'
+            $repositoryConfigurationProvider: '@Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface'
         tags:
             - { name: console.command }
 

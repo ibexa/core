@@ -11,9 +11,11 @@ use function count;
 use DateTime;
 use const DIRECTORY_SEPARATOR;
 use Ibexa\Bundle\Core\Command\Indexer\ContentIdListGeneratorStrategyInterface;
+use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler;
 use Ibexa\Contracts\Core\Search\Content\IndexerGateway;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Search\Common\IncrementalIndexer;
 use Ibexa\Core\Search\Common\Indexer;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -75,6 +77,7 @@ class ReindexCommand extends Command
         bool $isDebug,
         string $projectDir,
         ContentIdListGeneratorStrategyInterface $contentIdListGeneratorStrategy,
+        private readonly RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
         string $phpPath = null
     ) {
         $this->gateway = $gateway;
@@ -210,12 +213,17 @@ class ReindexCommand extends Command
                 - number of processes for parallel batch operations is high enough (default: 'auto' is a good choice).
             EOT);
 
-            if (!$io->confirm('Continue?', true)) {
+            if (!$io->confirm('Continue?')) {
                 return self::SUCCESS;
             }
         }
 
-        $output->writeln('Re-indexing started for search engine: ' . get_class($this->searchIndexer));
+        $output->writeln(
+            sprintf(
+                'Re-indexing started for search engine: %s',
+                $this->getSearchEngineAlias()
+            )
+        );
         $output->writeln('');
 
         return $this->indexIncrementally($input, $output, $iterationCount, $commit);
@@ -468,5 +476,29 @@ class ReindexCommand extends Command
         }
 
         return $cores;
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    private function getSearchEngineAlias(): string
+    {
+        if ($this->searchIndexer instanceof IncrementalIndexer) {
+            return $this->searchIndexer->getName();
+        }
+
+        $repositoryConfig = $this->repositoryConfigurationProvider->getRepositoryConfig();
+        $searchEngineAlias = $repositoryConfig['search']['engine'] ?? null;
+
+        if (null === $searchEngineAlias) {
+            throw new RuntimeException(
+                sprintf(
+                    '"%s" repository has no search engine configured',
+                    $this->repositoryConfigurationProvider->getCurrentRepositoryAlias()
+                )
+            );
+        }
+
+        return ucfirst($searchEngineAlias);
     }
 }
