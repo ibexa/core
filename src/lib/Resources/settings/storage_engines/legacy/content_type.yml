@@ -51,6 +51,7 @@ services:
             - '@Ibexa\Core\Persistence\Legacy\Content\Type\Mapper'
             - '@ibexa.persistence.legacy.content_type.update_handler'
             - '@Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface'
+            - '@Ibexa\Core\FieldType\FieldTypeAliasResolverInterface'
 
     Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler:
         class: Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler
