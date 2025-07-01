@@ -16,11 +16,16 @@ services:
             - '@Ibexa\Core\Helper\FieldsGroups\FieldsGroupsList'
             - "@?logger"
         tags:
-            - {name: twig.extension}
-
+            - {name: twig.extension }
+    
+    
+    Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension:
+        arguments:
+            $logger: '@logger'
+            
     Ibexa\Contracts\Core\MVC\View\ViewMatcherRegistryInterface:
         alias: Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry
-
+    
     Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry:
         arguments:
             $matchers: !tagged_iterator { tag: 'ibexa.view.matcher', index_by: identifier }
