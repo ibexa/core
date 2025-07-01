@@ -28,6 +28,7 @@ use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\Routing\ChainRouter;
 use Ibexa\Core\QueryType\QueryType;
 use InvalidArgumentException;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
@@ -79,11 +80,19 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
     /** @var \Ibexa\Bundle\Core\SiteAccess\SiteAccessConfigurationFilter[] */
     private $siteaccessConfigurationFilters = [];
 
-    public function __construct(array $siteAccessConfigParsers = [], array $repositoryConfigParsers = [])
+    /** @var \Psr\Log\LoggerInterface */
+    protected $logger;
+
+    public function __construct(
+        array $siteAccessConfigParsers = [],
+        array $repositoryConfigParsers = [],
+        LoggerInterface $logger = null
+    )
     {
         $this->siteAccessConfigParsers = $siteAccessConfigParsers;
         $this->repositoryConfigParsers = $repositoryConfigParsers;
         $this->suggestionCollector = new SuggestionCollector();
+        $this->logger = $logger;
     }
 
     public function getAlias(): string
@@ -912,20 +921,24 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
                 $container->setParameter('ibexa.session.save_path', sprintf('%s:%d', $endpoint['host'], $endpoint['port']));
             }
         }
-
+        $this->logger->alert('weszlo1');
         if (isset($relationships['solr'])) {
+            $this->logger->alert('weszlo2');
             foreach ($relationships['solr'] as $endpoint) {
+                $this->logger->alert($endpoint);
                 if ($endpoint['scheme'] !== 'solr') {
                     continue;
                 }
 
                 $container->setParameter('search_engine', 'solr');
 
-                $container->setParameter('solr_dsn', sprintf('http://%s:%d/%s', $endpoint['host'], $endpoint['port'], 'solr'));
+                $container->setParameter('solr_dsn',
+                    sprintf('http://%s:%d/%s', $endpoint['host'], $endpoint['port'], 'solr'));
                 // To set solr_core parameter we assume path is in form like: "solr/collection1"
                 $container->setParameter('solr_core', substr($endpoint['path'], 5));
             }
         }
+        $this->logger->alert('weszlo3');
 
         if (isset($relationships['elasticsearch'])) {
             foreach ($relationships['elasticsearch'] as $endpoint) {
