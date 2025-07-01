@@ -640,10 +640,10 @@ class ContentService implements ContentServiceInterface
      */
     public function createContent(APIContentCreateStruct $contentCreateStruct, array $locationCreateStructs = [], ?array $fieldIdentifiersToValidate = null): APIContent
     {
-        foreach ($locationCreateStructs as $locationCreateStruct) {
+        foreach ($locationCreateStructs as $index => $locationCreateStruct) {
             $locationCreateStructsErrors = $this->validator->validate($locationCreateStruct, new LocationIsContainerContentType());
             if ($locationCreateStructsErrors->count() > 0) {
-                throw new ValidationFailedException('$locationCreateStructs', $locationCreateStructsErrors);
+                throw new ValidationFailedException('$locationCreateStructs' . "[$index]", $locationCreateStructsErrors);
             }
         }
 

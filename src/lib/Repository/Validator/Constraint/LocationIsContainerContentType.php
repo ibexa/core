@@ -16,7 +16,7 @@ final class LocationIsContainerContentType extends Constraint
         self::LOCATION_IS_NOT_CONTAINER_ERROR => 'LOCATION_IS_NOT_CONTAINER_ERROR',
     ];
 
-    public const LOCATION_IS_NOT_CONTAINER_ERROR = '37dbce94-4365-4746-a9d2-533d54dad1bc';
+    public const string LOCATION_IS_NOT_CONTAINER_ERROR = '37dbce94-4365-4746-a9d2-533d54dad1bc';
 
     public string $message = 'Location with {{ contentTypeName }} is not a container content type.';
 
