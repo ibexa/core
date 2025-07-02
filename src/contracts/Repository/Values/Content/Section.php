@@ -33,4 +33,19 @@ class Section extends ValueObject
      * Name of the section.
      */
     protected string $name;
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getIdentifier(): string
+    {
+        return $this->identifier;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
 }
