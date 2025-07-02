@@ -857,6 +857,7 @@ abstract class BaseTestCase extends TestCase
                 $fieldDefinitionIdentifier,
                 $fieldTypeIdentifier
             );
+            $fieldDefinitionCreateStruct->isTranslatable = true;
             $contentTypeCreateStruct->addFieldDefinition($fieldDefinitionCreateStruct);
         }
         $contentTypeService->publishContentTypeDraft(

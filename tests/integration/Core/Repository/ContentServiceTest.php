@@ -6674,6 +6674,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $contentTypeCreateStruct->names = ['eng-US' => 'Test content type for Copy Translations'];
         $fieldDefinition = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ibexa_string');
         $fieldDefinition->position = 1;
+        $fieldDefinition->isTranslatable = true;
         $contentTypeCreateStruct->addFieldDefinition($fieldDefinition);
         $contentTypeService->publishContentTypeDraft(
             $contentTypeService->createContentType(
@@ -6718,6 +6719,7 @@ class ContentServiceTest extends BaseContentServiceTestCase
         $fieldDefinition = $contentTypeService->newFieldDefinitionCreateStruct('req_field', 'ibexa_string');
         $fieldDefinition->position = 2;
         $fieldDefinition->isRequired = true;
+        $fieldDefinition->isTranslatable = true;
         $contentTypeService->addFieldDefinition($contentTypeDraft, $fieldDefinition);
         $contentTypeService->publishContentTypeDraft($contentTypeDraft);
 
