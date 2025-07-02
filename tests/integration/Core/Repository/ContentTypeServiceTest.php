@@ -752,7 +752,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTestCase
                 'descriptions' => [],
                 'fieldGroup' => null,
                 'position' => null,
-                'isTranslatable' => true,
+                'isTranslatable' => false,
                 'isRequired' => false,
                 'isInfoCollector' => false,
                 'validatorConfiguration' => null,
