@@ -16,6 +16,7 @@ use Symfony\Component\DependencyInjection\Reference;
 class FieldRegistryPass implements CompilerPassInterface
 {
     public const string FIELD_TYPE_INDEXABLE_SERVICE_TAG = 'ibexa.field_type.indexable';
+    public const string FIELD_TYPE_SERVICE_TAG = 'ibexa.field_type';
 
     public function process(ContainerBuilder $container): void
     {
@@ -24,6 +25,16 @@ class FieldRegistryPass implements CompilerPassInterface
         }
 
         $fieldRegistryDefinition = $container->getDefinition(FieldRegistry::class);
+
+        $legacyAliasMap = [];
+        $serviceTags = $container->findTaggedServiceIds(self::FIELD_TYPE_SERVICE_TAG);
+        foreach ($serviceTags as $serviceId => $attributes) {
+            foreach ($attributes as $attribute) {
+                if (isset($attribute['legacy_alias']) && isset($attribute['alias'])) {
+                    $legacyAliasMap[$attribute['alias']] = $attribute['legacy_alias'];
+                }
+            }
+        }
 
         $serviceTags = $container->findTaggedServiceIds(self::FIELD_TYPE_INDEXABLE_SERVICE_TAG);
         foreach ($serviceTags as $serviceId => $attributes) {
@@ -42,9 +53,19 @@ class FieldRegistryPass implements CompilerPassInterface
                     'registerType',
                     [
                         $attribute['alias'],
-                        new Reference($serviceId),
+                        $reference = new Reference($serviceId),
                     ]
                 );
+
+                if (isset($legacyAliasMap[$attribute['alias']])) {
+                    $fieldRegistryDefinition->addMethodCall(
+                        'registerType',
+                        [
+                            $legacyAliasMap[$attribute['alias']],
+                            $reference,
+                        ]
+                    );
+                }
             }
         }
     }
