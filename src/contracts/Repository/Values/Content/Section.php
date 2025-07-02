@@ -13,9 +13,9 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 /**
  * This class represents a section.
  *
- * @property-read mixed $id the id of the section
+ * @property-read int $id the id of the section
  * @property-read string $identifier the identifier of the section
- * @property-read string $name human readable name of the section
+ * @property-read string $name human-readable name of the section
  */
 class Section extends ValueObject
 {
