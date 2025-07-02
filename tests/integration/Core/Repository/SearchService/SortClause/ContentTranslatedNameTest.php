@@ -195,6 +195,7 @@ final class ContentTranslatedNameTest extends AbstractSortClauseTestCase
         $fieldCreate->names = ['eng-GB' => 'value'];
         $fieldCreate->fieldGroup = 'main';
         $fieldCreate->position = 1;
+        $fieldCreate->isTranslatable = true;
 
         $contentTypeCreateStruct->addFieldDefinition($fieldCreate);
 
