@@ -15,6 +15,9 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct as GroupCre
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Core\FieldType\FieldTypeAliasRegistry;
+use Ibexa\Core\FieldType\FieldTypeAliasResolver;
+use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Handler;
@@ -117,6 +120,7 @@ class ContentTypeHandlerTest extends TestCase
                 $mapperMock,
                 $this->getUpdateHandlerMock(),
                 $this->getStorageDispatcherMock(),
+                $this->getFieldTypeAliasResolver(),
             ])
             ->getMock();
 
@@ -554,6 +558,7 @@ class ContentTypeHandlerTest extends TestCase
                 $this->getMapperMock(),
                 $this->getUpdateHandlerMock(),
                 $this->getStorageDispatcherMock(),
+                $this->getFieldTypeAliasResolver(),
             ])
             ->getMock();
 
@@ -653,6 +658,7 @@ class ContentTypeHandlerTest extends TestCase
                 $mapperMock,
                 $this->getUpdateHandlerMock(),
                 $this->getStorageDispatcherMock(),
+                $this->getFieldTypeAliasResolver(),
             ])
             ->getMock();
 
@@ -706,6 +712,7 @@ class ContentTypeHandlerTest extends TestCase
                 $mapperMock,
                 $this->getUpdateHandlerMock(),
                 $this->getStorageDispatcherMock(),
+                $this->getFieldTypeAliasResolver(),
             ])
             ->getMock();
 
@@ -1073,7 +1080,8 @@ class ContentTypeHandlerTest extends TestCase
             $this->getGatewayMock(),
             $this->getMapperMock(),
             $this->getUpdateHandlerMock(),
-            $this->getStorageDispatcherMock()
+            $this->getStorageDispatcherMock(),
+            $this->getFieldTypeAliasResolver(),
         );
     }
 
@@ -1094,6 +1102,7 @@ class ContentTypeHandlerTest extends TestCase
                     $this->getMapperMock(),
                     $this->getUpdateHandlerMock(),
                     $this->getStorageDispatcherMock(),
+                    $this->getFieldTypeAliasResolver(),
                 ]
             )
             ->getMock();
@@ -1163,6 +1172,13 @@ class ContentTypeHandlerTest extends TestCase
         return $this->storageDispatcherMock;
     }
 
+    protected function getFieldTypeAliasResolver(): FieldTypeAliasResolverInterface
+    {
+        $fieldTypeAliasRegistry = new FieldTypeAliasRegistry();
+
+        return new FieldTypeAliasResolver($fieldTypeAliasRegistry);
+    }
+
     /**
      * Returns a CreateStruct fixture.
      *
@@ -1211,6 +1227,7 @@ class ContentTypeHandlerTest extends TestCase
                 $mapperMock,
                 $this->getUpdateHandlerMock(),
                 $this->getStorageDispatcherMock(),
+                $this->getFieldTypeAliasResolver(),
             ])
             ->getMock();
 

@@ -101,7 +101,8 @@ class AbstractTestCase extends LanguageAwareTestCase
                     $this->getFieldTypeAliasResolver(),
                 ),
                 $this->createMock(ContentTypeUpdateHandler::class),
-                $this->createMock(StorageDispatcherInterface::class)
+                $this->createMock(StorageDispatcherInterface::class),
+                $this->getFieldTypeAliasResolver(),
             );
         }
 
