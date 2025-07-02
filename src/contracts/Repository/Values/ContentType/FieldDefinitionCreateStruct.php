@@ -59,7 +59,7 @@ class FieldDefinitionCreateStruct extends ValueObject
     /**
      * Indicates if the field is translatable.
      */
-    public bool $isTranslatable = true;
+    public bool $isTranslatable = false;
 
     /**
      * Indicates if the field is required.
