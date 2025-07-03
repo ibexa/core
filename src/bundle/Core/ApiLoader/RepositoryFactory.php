@@ -31,6 +31,7 @@ use Ibexa\Core\Repository\User\PasswordValidatorInterface;
 use Ibexa\Core\Search\Common\BackgroundIndexer;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @internal
@@ -96,7 +97,8 @@ class RepositoryFactory
         ConfigResolverInterface $configResolver,
         NameSchemaServiceInterface $nameSchemaService,
         TransactionHandler $transactionHandler,
-        ContentCollector $contentCollector
+        ContentCollector $contentCollector,
+        ValidatorInterface $validator
     ): Repository {
         $config = $this->repositoryConfigurationProvider->getRepositoryConfig();
 
@@ -123,6 +125,7 @@ class RepositoryFactory
             $nameSchemaService,
             $transactionHandler,
             $contentCollector,
+            $validator,
             [
                 'role' => [
                     'policyMap' => $this->policyMap,

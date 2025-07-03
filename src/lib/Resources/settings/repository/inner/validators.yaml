@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Ibexa\Core\Repository\Validator\Constraint\LocationIsContainerContentTypeValidator:
+        tags:
+            - { name: validator.constraint_validator }

@@ -42,6 +42,7 @@ use Ibexa\Core\Repository\Values\User\User;
 use Ibexa\Core\Search\Common\BackgroundIndexer\NullIndexer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -135,6 +136,7 @@ abstract class Base extends TestCase
                 $this->createMock(NameSchemaServiceInterface::class),
                 $this->getTransactionHandlerMock(),
                 new ContentCollector(),
+                $this->createMock(ValidatorInterface::class),
                 $serviceSettings,
             );
 
