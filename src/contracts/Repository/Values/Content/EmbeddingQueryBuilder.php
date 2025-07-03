@@ -11,7 +11,7 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Embedding;
 
-class EmbeddingQueryBuilder
+final class EmbeddingQueryBuilder
 {
     private EmbeddingQuery $query;
 

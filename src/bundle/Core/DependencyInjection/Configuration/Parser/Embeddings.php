@@ -4,6 +4,8 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\AbstractParser;
@@ -26,7 +28,7 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
  *          default_embedding_model: text-embedding-ada-002
  * ```
  */
-class Embeddings extends AbstractParser
+final class Embeddings extends AbstractParser
 {
     public function addSemanticConfig(NodeBuilder $nodeBuilder): void
     {
