@@ -48,7 +48,7 @@ final class CreateContentInNonContainerTest extends RepositoryTestCase
         $blogPostLocationCreateStruct = $locationService->newLocationCreateStruct($commentLocation->id);
 
         $this->expectException(ValidationFailedException::class);
-        $this->expectExceptionMessage("Argument '\$locationCreateStructs->' is invalid: Location with Comment is not a container content type.");
+        $this->expectExceptionMessage("Argument '\$locationCreateStructs[0]->' is invalid: Location with Comment is not a container content type.");
 
         $contentService->createContent($blogPostCreateStruct, [$blogPostLocationCreateStruct]);
     }
