@@ -83,6 +83,9 @@ class FileHandlerTest extends RepositoryTestCase
         return $typeCreateStruct;
     }
 
+    /**
+     * @param string[] $languages
+     */
     protected function createNewContent(string $name, array $languages = ['eng-GB'], int $parentLocationId = 2): Content
     {
         $contentTypeService = self::getContentTypeService();
@@ -102,7 +105,10 @@ class FileHandlerTest extends RepositoryTestCase
         return $contentService->publishVersion($draft->versionInfo);
     }
 
-    protected function createUpdateStruct(Content $content, string $translatedName, array $languages)
+    /**
+     * @param string[] $languages
+     */
+    protected function createUpdateStruct(Content $content, string $translatedName, array $languages): ContentUpdateStruct
     {
         $contentService = self::getContentService();
 
