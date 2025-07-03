@@ -19,7 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Spellcheck;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
-class EmbeddingQueryBuilderTest extends TestCase
+final class EmbeddingQueryBuilderTest extends TestCase
 {
     public function testBuilderSetsAllowedProperties(): void
     {

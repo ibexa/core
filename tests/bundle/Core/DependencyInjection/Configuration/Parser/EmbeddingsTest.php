@@ -4,13 +4,15 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\Parser;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Embeddings as EmbeddingsConfigParser;
 use Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension;
 use Symfony\Component\Yaml\Yaml;
 
-class EmbeddingsTest extends AbstractParserTestCase
+final class EmbeddingsTest extends AbstractParserTestCase
 {
     protected function getContainerExtensions(): array
     {
