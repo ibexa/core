@@ -4,13 +4,15 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace Ibexa\Tests\Integration\Core\Search\FieldType;
 
 use Ibexa\Contracts\Core\Search\Embedding\EmbeddingConfigurationInterface;
 use Ibexa\Contracts\Core\Search\FieldType\EmbeddingFieldFactory;
 use PHPUnit\Framework\TestCase;
 
-class EmbeddingFieldFactoryTest extends TestCase
+final class EmbeddingFieldFactoryTest extends TestCase
 {
     public function testCreateUsesConfigSuffix(): void
     {
