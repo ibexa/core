@@ -305,30 +305,16 @@ class TrashService implements TrashServiceInterface
      */
     public function findTrashItems(Query $query): SearchResult
     {
-        if ($query->sortClauses !== null) {
-            if (!is_array($query->sortClauses)) {
-                throw new InvalidArgumentValue('query->sortClauses', $query->sortClauses, 'Query');
+        foreach ($query->sortClauses as $sortClause) {
+            if (!$sortClause instanceof SortClause) {
+                throw new InvalidArgumentValue('query->sortClauses', 'only instances of the SortClause class are allowed');
             }
-
-            foreach ($query->sortClauses as $sortClause) {
-                if (!$sortClause instanceof SortClause) {
-                    throw new InvalidArgumentValue('query->sortClauses', 'only instances of the SortClause class are allowed');
-                }
-            }
-        }
-
-        if ($query->offset !== null && !is_numeric($query->offset)) {
-            throw new InvalidArgumentValue('query->offset', $query->offset, 'Query');
-        }
-
-        if ($query->limit !== null && !is_numeric($query->limit)) {
-            throw new InvalidArgumentValue('query->limit', $query->limit, 'Query');
         }
 
         $spiTrashResult = $this->persistenceHandler->trashHandler()->findTrashItems(
             $query->filter,
-            $query->offset !== null && $query->offset > 0 ? (int)$query->offset : 0,
-            $query->limit !== null && $query->limit >= 0 ? (int)$query->limit : null,
+            $query->offset,
+            $query->limit,
             $query->sortClauses
         );
 

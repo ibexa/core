@@ -23,27 +23,21 @@ class Language extends ValueObject
     /**
      * Constant for use in API's to specify that you want to load all languages.
      */
-    public const ALL = [];
+    public const array ALL = [];
 
     /**
      * The language id (auto generated).
-     *
-     * @var int
      */
-    protected $id;
+    protected int $id;
 
-    /** @var string */
-    protected $languageCode;
+    protected string $languageCode;
 
     /**
      * Human-readable name of the language.
-     *
-     * @var string
      */
-    protected $name;
+    protected string $name;
 
-    /** @var bool */
-    protected $enabled;
+    protected bool $enabled;
 
     public function getId(): int
     {

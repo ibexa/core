@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\MatchNone;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\BlockingLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation;
@@ -179,16 +180,24 @@ class BlockingLimitationTypeTest extends Base
             // ContentCreateStruct, no access
             [
                 'limitation' => new BlockingLimitation('Test', ['limitationValues' => [2]]),
-                'object' => new ContentCreateStruct(['contentType' => ((object)['id' => 22])]),
+                'object' => new ContentCreateStruct(['contentType' => $this->createContentTypeWithId(22)]),
                 'targets' => [],
             ],
             // ContentCreateStruct, with access
             [
                 'limitation' => new BlockingLimitation('Test', ['limitationValues' => [2, 43]]),
-                'object' => new ContentCreateStruct(['contentType' => ((object)['id' => 43])]),
+                'object' => new ContentCreateStruct(['contentType' => $this->createContentTypeWithId(43)]),
                 'targets' => [],
             ],
         ];
+    }
+
+    private function createContentTypeWithId(int $id): ContentType
+    {
+        $contentType = $this->createMock(ContentType::class);
+        $contentType->method('__get')->with('id')->willReturn($id);
+
+        return $contentType;
     }
 
     /**

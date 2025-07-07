@@ -22,32 +22,6 @@ final class LocationTest extends TestCase
 {
     use ValueObjectTestTrait;
 
-    /**
-     * Test a new class and default values on properties.
-     */
-    public function testNewClass(): void
-    {
-        $location = new Location();
-
-        $this->assertPropertiesCorrect(
-            [
-                'id' => null,
-                'contentInfo' => null,
-                'priority' => null,
-                'hidden' => null,
-                'invisible' => null,
-                'remoteId' => null,
-                'parentLocationId' => null,
-                'pathString' => null,
-                'path' => [],
-                'depth' => null,
-                'sortField' => null,
-                'sortOrder' => null,
-            ],
-            $location
-        );
-    }
-
     public function testStrictGetters(): void
     {
         $location = new Location(
@@ -94,11 +68,6 @@ final class LocationTest extends TestCase
 
         yield 'empty path' => [
             new Location(['id' => 1, 'pathString' => '']),
-            [],
-        ];
-
-        yield 'null path' => [
-            new Location(['id' => 1, 'pathString' => null]),
             [],
         ];
     }

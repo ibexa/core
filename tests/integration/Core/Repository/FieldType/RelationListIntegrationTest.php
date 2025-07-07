@@ -85,7 +85,6 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTestCa
         return [
             new Relation(
                 [
-                    'id' => null,
                     'sourceFieldDefinitionIdentifier' => 'data',
                     'type' => Relation::FIELD,
                     'sourceContentInfo' => $content->contentInfo,
@@ -102,7 +101,6 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTestCa
             ),
             new Relation(
                 [
-                    'id' => null,
                     'sourceFieldDefinitionIdentifier' => 'data',
                     'type' => Relation::FIELD,
                     'sourceContentInfo' => $content->contentInfo,

@@ -29,5 +29,5 @@ abstract class ContentStruct extends ValueObject
      *                     field type or an instance of a Value class provided by the field type
      * @param string|null $language If not given on a translatable field the initial language is used
      */
-    abstract public function setField(string $fieldDefIdentifier, $value, ?string $language = null): void;
+    abstract public function setField(string $fieldDefIdentifier, mixed $value, ?string $language = null): void;
 }

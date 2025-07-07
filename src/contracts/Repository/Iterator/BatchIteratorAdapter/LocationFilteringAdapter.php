@@ -22,6 +22,9 @@ final class LocationFilteringAdapter implements BatchIteratorAdapter
     /** @var string[]|null */
     private ?array $languages;
 
+    /**
+     * @param string[]|null $languages
+     */
     public function __construct(LocationService $locationService, Filter $filter, ?array $languages = null)
     {
         $this->locationService = $locationService;
@@ -29,6 +32,10 @@ final class LocationFilteringAdapter implements BatchIteratorAdapter
         $this->languages = $languages;
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Exception
+     */
     public function fetch(int $offset, int $limit): Iterator
     {
         $filter = clone $this->filter;

@@ -139,9 +139,12 @@ class UserGroupLimitationType extends AbstractPersistenceLimitationType implemen
             );
         }
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo|\Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct */
         if ($object->ownerId === $currentUser->getUserId()) {
             return true;
+        }
+
+        if ($object->ownerId === null) {
+            return false;
         }
 
         /*

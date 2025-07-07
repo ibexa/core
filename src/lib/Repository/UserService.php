@@ -146,12 +146,6 @@ class UserService implements UserServiceInterface
     {
         $contentService = $this->repository->getContentService();
         $locationService = $this->repository->getLocationService();
-        $contentTypeService = $this->repository->getContentTypeService();
-
-        if ($userGroupCreateStruct->contentType === null) {
-            $userGroupContentType = $contentTypeService->loadContentType($this->settings['userGroupClassID']);
-            $userGroupCreateStruct->contentType = $userGroupContentType;
-        }
 
         $loadedParentGroup = $this->loadUserGroup($parentGroup->id);
 
