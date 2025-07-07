@@ -31,6 +31,11 @@ final class LocationIsContainerContentTypeValidator extends ConstraintValidator
 
         $parentLocation = $this->locationService->loadLocation($value->parentLocationId);
 
+        if ($parentLocation->getDepth() === 0) {
+            // Parent location is root location, which is always a container.
+            return;
+        }
+
         if (!$parentLocation->getContentInfo()->getContentType()->isContainer()) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ contentTypeName }}', (string) $parentLocation->getContentInfo()->getContentType()->getName())
