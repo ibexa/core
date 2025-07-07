@@ -64,5 +64,5 @@ return new SearchResult([
     'time' => 1,
     'timedOut' => null,
     'maxScore' => null,
-    'totalCount' => 14,
+    'totalCount' => 15,
 ]);

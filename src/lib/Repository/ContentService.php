@@ -54,6 +54,7 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Ibexa\Contracts\Core\Validation\ValidationFailedException;
 use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\ContentFieldValidationException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -63,12 +64,14 @@ use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\Repository\Collector\ContentCollector;
 use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
 use Ibexa\Core\Repository\Mapper\ContentMapper;
+use Ibexa\Core\Repository\Validator\Constraint\LocationIsContainerContentType;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use function sprintf;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * This class provides service methods for managing content.
@@ -109,6 +112,8 @@ class ContentService implements ContentServiceInterface
 
     private ContentCollector $contentCollector;
 
+    private ValidatorInterface $validator;
+
     public function __construct(
         RepositoryInterface $repository,
         Handler $handler,
@@ -121,6 +126,7 @@ class ContentService implements ContentServiceInterface
         ContentValidator $contentValidator,
         ContentFilteringHandler $contentFilteringHandler,
         ContentCollector $contentCollector,
+        ValidatorInterface $validator,
         array $settings = []
     ) {
         $this->repository = $repository;
@@ -141,6 +147,7 @@ class ContentService implements ContentServiceInterface
         $this->contentMapper = $contentMapper;
         $this->contentValidator = $contentValidator;
         $this->contentCollector = $contentCollector;
+        $this->validator = $validator;
     }
 
     /**
@@ -633,6 +640,13 @@ class ContentService implements ContentServiceInterface
      */
     public function createContent(APIContentCreateStruct $contentCreateStruct, array $locationCreateStructs = [], ?array $fieldIdentifiersToValidate = null): APIContent
     {
+        foreach ($locationCreateStructs as $index => $locationCreateStruct) {
+            $locationCreateStructsErrors = $this->validator->validate($locationCreateStruct, new LocationIsContainerContentType());
+            if ($locationCreateStructsErrors->count() > 0) {
+                throw new ValidationFailedException('$locationCreateStructs' . "[$index]", $locationCreateStructsErrors);
+            }
+        }
+
         $contentCreateStruct = clone $contentCreateStruct;
 
         if ($contentCreateStruct->ownerId === null) {
