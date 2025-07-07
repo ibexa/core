@@ -18,6 +18,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct;
 use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler as UpdateHandler;
 use Ibexa\Core\Persistence\Legacy\Exception;
@@ -54,7 +55,8 @@ class Handler implements BaseContentTypeHandler
         Gateway $contentTypeGateway,
         Mapper $mapper,
         UpdateHandler $updateHandler,
-        StorageDispatcherInterface $storageDispatcher
+        StorageDispatcherInterface $storageDispatcher,
+        private readonly FieldTypeAliasResolverInterface $fieldTypeAliasResolver
     ) {
         $this->contentTypeGateway = $contentTypeGateway;
         $this->mapper = $mapper;
@@ -653,8 +655,11 @@ class Handler implements BaseContentTypeHandler
         $rows = $this->contentTypeGateway->getSearchableFieldMapData();
 
         foreach ($rows as $row) {
+            $fieldTypeIdentifier = $row['field_type_identifier'];
+            $fieldTypeIdentifier = $this->fieldTypeAliasResolver->resolveIdentifier($fieldTypeIdentifier);
+
             $fieldMap[$row['content_type_identifier']][$row['field_definition_identifier']] = [
-                'field_type_identifier' => $row['field_type_identifier'],
+                'field_type_identifier' => $fieldTypeIdentifier,
                 'field_definition_id' => $row['field_definition_id'],
             ];
         }
