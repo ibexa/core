@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\IO\Migration\FileLister\FileIterator;
 
@@ -17,25 +18,17 @@ use Ibexa\Bundle\IO\Migration\FileLister\FileRowReaderInterface;
  */
 final class LegacyStorageFileIterator implements FileIteratorInterface
 {
-    /** @var mixed Last fetched item. */
-    private $item;
+    private ?string $item;
 
     /** @var int Iteration cursor on statement. */
-    private $cursor;
+    private int $cursor;
 
-    /** @var \Ibexa\Bundle\IO\Migration\FileLister\FileRowReaderInterface Used to get file rows. */
-    private $rowReader;
-
-    /**
-     * @param \Ibexa\Bundle\IO\Migration\FileLister\FileRowReaderInterface $rowReader
-     */
-    public function __construct(FileRowReaderInterface $rowReader)
+    public function __construct(private readonly FileRowReaderInterface $rowReader)
     {
-        $this->rowReader = $rowReader;
     }
 
     #[\ReturnTypeWillChange]
-    public function current(): mixed
+    public function current(): ?string
     {
         return $this->item;
     }
@@ -46,7 +39,7 @@ final class LegacyStorageFileIterator implements FileIteratorInterface
     }
 
     #[\ReturnTypeWillChange]
-    public function key(): mixed
+    public function key(): int
     {
         return $this->cursor;
     }
@@ -71,7 +64,7 @@ final class LegacyStorageFileIterator implements FileIteratorInterface
     /**
      * Fetches the next item from the resultset and moves the cursor forward.
      */
-    private function fetchRow()
+    private function fetchRow(): void
     {
         ++$this->cursor;
         $fileId = $this->rowReader->getRow();

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\IO\Migration\FileMigrator;
 
@@ -43,6 +44,8 @@ final class FileMigrator extends MigrationHandler implements FileMigratorInterfa
         $binaryFileCreateStruct = new BinaryFileCreateStruct();
         $binaryFileCreateStruct->id = $binaryFile->id;
         $binaryFileCreateStruct->setInputStream($binaryFileResource);
+        // determining a mime type is possible only using the metadata handler
+        $binaryFileCreateStruct->mimeType = $this->fromMetadataHandler->getMimeType($binaryFile->id);
 
         try {
             $this->toBinarydataHandler->create($binaryFileCreateStruct);
@@ -70,7 +73,7 @@ final class FileMigrator extends MigrationHandler implements FileMigratorInterfa
         try {
             $this->toMetadataHandler->create($metadataCreateStruct);
         } catch (\RuntimeException $e) {
-            $this->logError("Cannot migrate metadata for: '{$binaryFile->id}'. Error: " . $e->getMessage() . $e->getPrevious()->getMessage());
+            $this->logError("Cannot migrate metadata for: '{$binaryFile->id}'. Error: " . $e->getMessage() . $e->getPrevious()?->getMessage());
 
             return false;
         }
