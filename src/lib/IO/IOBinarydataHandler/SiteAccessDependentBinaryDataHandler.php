@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\IO\IOBinarydataHandler;
 
@@ -17,12 +18,14 @@ use Ibexa\Core\IO\IOBinarydataHandler;
  */
 final class SiteAccessDependentBinaryDataHandler implements IOBinaryDataHandler
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry */
-    private $dataHandlerRegistry;
+    /** @phpstan-var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOBinarydataHandler> */
+    private HandlerRegistry $dataHandlerRegistry;
 
+    /**
+     * @phpstan-param \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOBinarydataHandler> $dataHandlerRegistry
+     */
     public function __construct(
         ConfigResolverInterface $configResolver,
         HandlerRegistry $dataHandlerRegistry
@@ -38,38 +41,38 @@ final class SiteAccessDependentBinaryDataHandler implements IOBinaryDataHandler
         );
     }
 
-    public function create(BinaryFileCreateStruct $binaryFileCreateStruct)
+    public function create(BinaryFileCreateStruct $binaryFileCreateStruct): void
     {
-        return $this->getHandler()->create($binaryFileCreateStruct);
+        $this->getHandler()->create($binaryFileCreateStruct);
     }
 
-    public function delete($spiBinaryFileId)
+    public function delete(string $binaryFileId): void
     {
-        return $this->getHandler()->delete($spiBinaryFileId);
+        $this->getHandler()->delete($binaryFileId);
     }
 
-    public function getContents($spiBinaryFileId)
+    public function getContents(string $spiBinaryFileId): string
     {
         return $this->getHandler()->getContents($spiBinaryFileId);
     }
 
-    public function getResource($spiBinaryFileId)
+    public function getResource(string $spiBinaryFileId): mixed
     {
         return $this->getHandler()->getResource($spiBinaryFileId);
     }
 
-    public function getUri($spiBinaryFileId)
+    public function getUri(string $spiBinaryFileId): string
     {
         return $this->getHandler()->getUri($spiBinaryFileId);
     }
 
-    public function getIdFromUri($binaryFileUri)
+    public function getIdFromUri(string $binaryFileUri): string
     {
         return $this->getHandler()->getIdFromUri($binaryFileUri);
     }
 
-    public function deleteDirectory($spiPath)
+    public function deleteDirectory(string $path): void
     {
-        return $this->getHandler()->deleteDirectory($spiPath);
+        $this->getHandler()->deleteDirectory($path);
     }
 }

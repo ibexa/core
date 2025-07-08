@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\IO;
 
@@ -19,29 +20,23 @@ interface IOBinarydataHandler
      *
      * @param \Ibexa\Contracts\Core\IO\BinaryFileCreateStruct $binaryFileCreateStruct
      *
-     * @throws \RuntimeException if an error occured creating the file
+     * @throws \RuntimeException if an error occurred creating the file
      */
-    public function create(BinaryFileCreateStruct $binaryFileCreateStruct);
+    public function create(BinaryFileCreateStruct $binaryFileCreateStruct): void;
 
     /**
-     * Deletes the file $path.
-     *
-     * @param string $spiBinaryFileId
+     * Deletes the file by its $binaryFileId.
      *
      * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException If the file is not found
      */
-    public function delete($spiBinaryFileId);
+    public function delete(string $binaryFileId): void;
 
     /**
      * Returns the binary content from $path.
      *
-     * @param $spiBinaryFileId
-     *
      * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException If $path is not found
-     *
-     * @return string
      */
-    public function getContents($spiBinaryFileId);
+    public function getContents(string $spiBinaryFileId): string;
 
     /**
      * Returns a read-only, binary file resource to $path.
@@ -52,30 +47,20 @@ interface IOBinarydataHandler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function getResource($spiBinaryFileId);
+    public function getResource(string $spiBinaryFileId): mixed;
 
     /**
      * Returns the public URI for $path.
-     *
-     * @param string $spiBinaryFileId
-     *
-     * @return string
      */
-    public function getUri($spiBinaryFileId);
+    public function getUri(string $spiBinaryFileId): string;
 
     /**
      * Returns the id in $binaryFileUri.
-     *
-     * @param string $binaryFileUri
-     *
-     * @return string
      */
-    public function getIdFromUri($binaryFileUri);
+    public function getIdFromUri(string $binaryFileUri): string;
 
     /**
      * Deletes the directory $spiPath and all of its contents.
-     *
-     * @param string $spiPath
      */
-    public function deleteDirectory($spiPath);
+    public function deleteDirectory(string $path): void;
 }
