@@ -8,12 +8,12 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\IO\Exception;
 
-use Exception;
 use Ibexa\Core\Base\Exceptions\NotFoundException as BaseNotFoundException;
+use Throwable;
 
 class BinaryFileNotFoundException extends BaseNotFoundException
 {
-    public function __construct(string $path, ?Exception $previous = null)
+    public function __construct(string $path, ?Throwable $previous = null)
     {
         parent::__construct('BinaryFile', $path, $previous);
     }
