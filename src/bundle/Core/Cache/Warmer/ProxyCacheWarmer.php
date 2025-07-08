@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
 final class ProxyCacheWarmer implements CacheWarmerInterface
 {
-    public const PROXY_CLASSES = [
+    public const array PROXY_CLASSES = [
         Content::class,
         ContentInfo::class,
         ContentType::class,
@@ -34,8 +34,7 @@ final class ProxyCacheWarmer implements CacheWarmerInterface
         Thumbnail::class,
     ];
 
-    /** @var \Ibexa\Core\Repository\ProxyFactory\ProxyGeneratorInterface */
-    private $proxyGenerator;
+    private ProxyGeneratorInterface $proxyGenerator;
 
     public function __construct(ProxyGeneratorInterface $proxyGenerator)
     {
@@ -47,7 +46,7 @@ final class ProxyCacheWarmer implements CacheWarmerInterface
         return false;
     }
 
-    public function warmUp($cacheDir, ?string $buildDir = null): array
+    public function warmUp(string $cacheDir, ?string $buildDir = null): array
     {
         $this->proxyGenerator->warmUp(self::PROXY_CLASSES);
 
