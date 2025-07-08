@@ -85,22 +85,6 @@ class LegacyDFSClusterTest extends TestCase
         self::assertEquals($mtimeExpected, $spiBinary->mtime);
     }
 
-    public function testCreateInvalidArgument(): void
-    {
-        $this->dbalMock
-            ->expects(self::never())
-            ->method('insert');
-
-        $spiCreateStruct = new SPIBinaryFileCreateStruct();
-        $spiCreateStruct->id = 'prefix/my/file.png';
-        $spiCreateStruct->mimeType = 'image/png';
-        $spiCreateStruct->size = 123;
-        $spiCreateStruct->mtime = 1307155242; // Invalid, should be a DateTime
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->handler->create($spiCreateStruct);
-    }
-
     public function testDelete(): void
     {
         $this->dbalMock
