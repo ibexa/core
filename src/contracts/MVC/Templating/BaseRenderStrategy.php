@@ -34,7 +34,9 @@ abstract class BaseRenderStrategy implements RenderStrategy
         RequestStack $requestStack
     ) {
         foreach ($fragmentRenderers as $fragmentRenderer) {
-            $this->fragmentRenderers[$fragmentRenderer->getName()] = $fragmentRenderer;
+            if (!isset($this->fragmentRenderers[$fragmentRenderer->getName()])) {
+                $this->fragmentRenderers[$fragmentRenderer->getName()] = $fragmentRenderer;
+            }
         }
 
         $this->defaultRenderer = $defaultRenderer;
