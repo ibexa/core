@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\IO\IOMetadataHandler;
 
@@ -14,25 +15,22 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Result;
 use Ibexa\Contracts\Core\IO\BinaryFile as SPIBinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
-use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster;
 use Ibexa\Core\IO\UrlDecorator;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class LegacyDFSClusterTest extends TestCase
 {
-    /** @var \Ibexa\Core\IO\IOMetadataHandler&\PHPUnit\Framework\MockObject\MockObject */
-    private $handler;
+    private LegacyDFSCluster $handler;
 
-    /** @var \Doctrine\DBAL\Connection&\PHPUnit\Framework\MockObject\MockObject */
-    private $dbalMock;
+    private Connection & MockObject $dbalMock;
 
     /** @var \Doctrine\DBAL\Query\QueryBuilder&\PHPUnit\Framework\MockObject\MockObject */
-    private $qbMock;
+    private QueryBuilder & MockObject $qbMock;
 
-    /** @var \Ibexa\Core\IO\UrlDecorator&\PHPUnit\Framework\MockObject\MockObject */
-    private $urlDecoratorMock;
+    private UrlDecorator&MockObject $urlDecoratorMock;
 
     protected function setUp(): void
     {
@@ -81,7 +79,6 @@ class LegacyDFSClusterTest extends TestCase
 
         $spiBinary = $this->handler->create($spiCreateStruct);
 
-        self::assertInstanceOf(SPIBinaryFile::class, $spiBinary);
         self::assertEquals($mtimeExpected, $spiBinary->mtime);
     }
 
