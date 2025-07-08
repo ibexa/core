@@ -15,15 +15,14 @@ use Ibexa\Core\IO\IOBinarydataHandler\Flysystem;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\UnableToDeleteFile;
 use League\Flysystem\UnableToReadFile;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class FlysystemTest extends TestCase
 {
-    /** @var \Ibexa\Core\IO\IOBinarydataHandler|\PHPUnit\Framework\MockObject\MockObject */
     private IOBinarydataHandler $handler;
 
-    /** @var \League\Flysystem\FilesystemOperator|\PHPUnit\Framework\MockObject\MockObject */
-    private FilesystemOperator $filesystem;
+    private FilesystemOperator & MockObject $filesystem;
 
     protected function setUp(): void
     {
@@ -34,11 +33,12 @@ class FlysystemTest extends TestCase
     public function testCreate(): void
     {
         $stream = fopen('php://memory', 'rb');
+        self::assertNotFalse($stream, 'Failed to create in-memory stream');
         $spiBinaryFileCreateStruct = new SPIBinaryFileCreateStruct();
         $spiBinaryFileCreateStruct->id = 'prefix/my/file.png';
         $spiBinaryFileCreateStruct->mimeType = 'image/png';
         $spiBinaryFileCreateStruct->size = 123;
-        $spiBinaryFileCreateStruct->mtime = 1307155200;
+        $spiBinaryFileCreateStruct->mtime = new \DateTime('@1307155200');
         $spiBinaryFileCreateStruct->setInputStream($stream);
 
         $this->filesystem
