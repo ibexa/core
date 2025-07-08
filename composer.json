@@ -97,7 +97,8 @@
             "Ibexa\\Core\\": "src/lib",
             "Ibexa\\Tests\\Core\\": "tests/lib",
             "Ibexa\\Tests\\Integration\\Core\\": "tests/integration/Core",
-            "Ibexa\\Tests\\Bundle\\Core\\": "tests/bundle/Core"
+            "Ibexa\\Tests\\Bundle\\Core\\": "tests/bundle/Core",
+            "Ibexa\\Tests\\Integration\\Stub\\": "tests/integration/Stub"
         }
     },
     "autoload-dev": {
@@ -112,7 +113,6 @@
             "Ibexa\\Tests\\Integration\\IO\\": "tests/integration/IO",
             "Ibexa\\Tests\\Integration\\RepositoryInstaller\\": "tests/integration/RepositoryInstaller",
             "Ibexa\\Tests\\Integration\\LegacySearchEngine\\": "tests/integration/LegacySearchEngine",
-            "Ibexa\\Tests\\Integration\\Stub\\": "tests/integration/Stub",
             "Ibexa\\Tests\\Core\\": "tests/lib"
         }
     },
