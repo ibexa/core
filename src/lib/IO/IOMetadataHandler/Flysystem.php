@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\IO\IOMetadataHandler;
 
@@ -41,6 +42,7 @@ class Flysystem implements IOMetadataHandler, LoggerAwareInterface
      * Only reads & returns metadata, since the binary data handler took care of creating the file already.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \DateMalformedStringException
      */
     public function create(SPIBinaryFileCreateStruct $spiBinaryFileCreateStruct): IOBinaryFile
     {
@@ -49,23 +51,25 @@ class Flysystem implements IOMetadataHandler, LoggerAwareInterface
 
     /**
      * Does really nothing, the binary data handler takes care of it.
-     *
-     * @param $spiBinaryFileId
      */
-    public function delete($spiBinaryFileId)
+    public function delete(string $binaryFileId): void
     {
     }
 
-    public function load($spiBinaryFileId): IOBinaryFile
+    /**
+     * @throws \DateMalformedStringException
+     * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException
+     */
+    public function load(string $spiBinaryFileId): IOBinaryFile
     {
         try {
             return $this->getIOBinaryFile($spiBinaryFileId);
-        } catch (FilesystemException $e) {
+        } catch (FilesystemException) {
             throw new BinaryFileNotFoundException($spiBinaryFileId);
         }
     }
 
-    public function exists($spiBinaryFileId): bool
+    public function exists(string $spiBinaryFileId): bool
     {
         try {
             return $this->filesystem->fileExists($spiBinaryFileId);
@@ -84,7 +88,7 @@ class Flysystem implements IOMetadataHandler, LoggerAwareInterface
         }
     }
 
-    public function getMimeType($spiBinaryFileId): string
+    public function getMimeType(string $spiBinaryFileId): string
     {
         try {
             return $this->filesystem->mimeType($spiBinaryFileId);
@@ -99,12 +103,13 @@ class Flysystem implements IOMetadataHandler, LoggerAwareInterface
     /**
      * Does nothing, as the binary data handler takes care of it.
      */
-    public function deleteDirectory($spiPath)
+    public function deleteDirectory(string $path): void
     {
     }
 
     /**
      * @throws \League\Flysystem\FilesystemException
+     * @throws \DateMalformedStringException
      */
     private function getIOBinaryFile(string $spiBinaryFileId): IOBinaryFile
     {
