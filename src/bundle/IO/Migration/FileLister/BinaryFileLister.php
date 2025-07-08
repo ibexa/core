@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\IO\Migration\FileLister;
 
@@ -11,31 +12,27 @@ use Ibexa\Bundle\IO\ApiLoader\HandlerRegistry;
 use Ibexa\Bundle\IO\Migration\FileListerInterface;
 use Ibexa\Bundle\IO\Migration\MigrationHandler;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
-use Iterator;
 use LimitIterator;
 use Psr\Log\LoggerInterface;
 
 class BinaryFileLister extends MigrationHandler implements FileListerInterface
 {
-    /** @var \Ibexa\Bundle\IO\Migration\FileLister\FileIteratorInterface */
-    private $fileList;
+    private FileIteratorInterface $fileList;
 
     /** @var string Directory where files are stored, within the storage dir. Example: 'original' */
-    private $filesDir;
+    private string $filesDir;
 
     /**
-     * @param \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry $metadataHandlerRegistry
-     * @param \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry $binarydataHandlerRegistry
-     * @param \Psr\Log\LoggerInterface|null $logger
-     * @param \Iterator $fileList
+     * @param \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOMetadataHandler> $metadataHandlerRegistry
+     * @param \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOBinarydataHandler> $binarydataHandlerRegistry
      * @param string $filesDir Directory where files are stored, within the storage dir. Example: 'original'
      */
     public function __construct(
         HandlerRegistry $metadataHandlerRegistry,
         HandlerRegistry $binarydataHandlerRegistry,
-        LoggerInterface $logger = null,
-        Iterator $fileList,
-        $filesDir
+        FileIteratorInterface $fileList,
+        string $filesDir,
+        ?LoggerInterface $logger = null
     ) {
         $this->fileList = $fileList;
         $this->filesDir = $filesDir;
@@ -50,10 +47,13 @@ class BinaryFileLister extends MigrationHandler implements FileListerInterface
         return count($this->fileList);
     }
 
-    public function loadMetadataList($limit = null, $offset = null)
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function loadMetadataList(?int $limit = null, ?int $offset = null): array
     {
         $metadataList = [];
-        $fileLimitList = new LimitIterator($this->fileList, $offset, $limit);
+        $fileLimitList = new LimitIterator($this->fileList, $offset ?? 0, $limit ?? -1);
 
         foreach ($fileLimitList as $fileId) {
             try {

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\IO\Migration\FileLister;
 
@@ -17,19 +18,19 @@ interface FileRowReaderInterface
      *
      * Can for instance be used to create and execute a database query.
      */
-    public function init();
+    public function init(): void;
 
     /**
      * Returns the next row from the data source.
      *
-     * @return mixed|null The row's value, or null if none.
+     * @return string|null The row's value, or null if none.
      */
-    public function getRow();
+    public function getRow(): ?string;
 
     /**
      * Returns the total row count.
      *
-     * @return int
+     * @phpstan-return int<0, max>
      */
-    public function getCount();
+    public function getCount(): int;
 }

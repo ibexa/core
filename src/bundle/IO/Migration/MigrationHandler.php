@@ -4,54 +4,50 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\IO\Migration;
 
 use Ibexa\Bundle\IO\ApiLoader\HandlerRegistry;
+use Ibexa\Core\IO\IOBinarydataHandler;
+use Ibexa\Core\IO\IOMetadataHandler;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 
 /**
  * The migration handler sets up from/to IO data handlers, and provides logging, for file migrators and listers.
  */
-abstract class MigrationHandler implements MigrationHandlerInterface
+abstract class MigrationHandler implements MigrationHandlerInterface, LoggerAwareInterface
 {
-    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry */
-    private $metadataHandlerRegistry;
+    use LoggerAwareTrait;
 
-    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry */
-    private $binarydataHandlerRegistry;
+    protected IOMetadataHandler $fromMetadataHandler;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    protected IOBinarydataHandler $fromBinarydataHandler;
 
-    /** @var \Ibexa\Core\IO\IOMetadataHandler */
-    protected $fromMetadataHandler;
+    protected IOMetadataHandler $toMetadataHandler;
 
-    /** @var \Ibexa\Core\IO\IOBinarydataHandler */
-    protected $fromBinarydataHandler;
+    protected IOBinarydataHandler $toBinarydataHandler;
 
-    /** @var \Ibexa\Core\IO\IOMetadataHandler */
-    protected $toMetadataHandler;
-
-    /** @var \Ibexa\Core\IO\IOBinarydataHandler */
-    protected $toBinarydataHandler;
-
+    /**
+     * @param \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOMetadataHandler> $metadataHandlerRegistry
+     * @param \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOBinarydataHandler> $binarydataHandlerRegistry
+     */
     public function __construct(
-        HandlerRegistry $metadataHandlerRegistry,
-        HandlerRegistry $binarydataHandlerRegistry,
-        LoggerInterface $logger = null
+        private readonly HandlerRegistry $metadataHandlerRegistry,
+        private readonly HandlerRegistry $binarydataHandlerRegistry,
+        ?LoggerInterface $logger = null
     ) {
-        $this->metadataHandlerRegistry = $metadataHandlerRegistry;
-        $this->binarydataHandlerRegistry = $binarydataHandlerRegistry;
         $this->logger = $logger;
     }
 
     public function setIODataHandlersByIdentifiers(
-        $fromMetadataHandlerIdentifier,
-        $fromBinarydataHandlerIdentifier,
-        $toMetadataHandlerIdentifier,
-        $toBinarydataHandlerIdentifier
-    ) {
+        string $fromMetadataHandlerIdentifier,
+        string $fromBinarydataHandlerIdentifier,
+        string $toMetadataHandlerIdentifier,
+        string $toBinarydataHandlerIdentifier
+    ): MigrationHandler {
         $this->fromMetadataHandler = $this->metadataHandlerRegistry->getConfiguredHandler($fromMetadataHandlerIdentifier);
         $this->fromBinarydataHandler = $this->binarydataHandlerRegistry->getConfiguredHandler($fromBinarydataHandlerIdentifier);
         $this->toMetadataHandler = $this->metadataHandlerRegistry->getConfiguredHandler($toMetadataHandlerIdentifier);
@@ -60,21 +56,21 @@ abstract class MigrationHandler implements MigrationHandlerInterface
         return $this;
     }
 
-    final protected function logError($message)
+    final protected function logError(string $message): void
     {
         if (isset($this->logger)) {
             $this->logger->error($message);
         }
     }
 
-    final protected function logInfo($message)
+    final protected function logInfo(string $message): void
     {
         if (isset($this->logger)) {
             $this->logger->info($message);
         }
     }
 
-    final protected function logMissingFile($id)
+    final protected function logMissingFile(string $id): void
     {
         $this->logInfo("File with id $id not found");
     }

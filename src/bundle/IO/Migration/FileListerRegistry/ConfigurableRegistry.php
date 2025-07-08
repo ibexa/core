@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\IO\Migration\FileListerRegistry;
 
+use Ibexa\Bundle\IO\Migration\FileListerInterface;
 use Ibexa\Bundle\IO\Migration\FileListerRegistry;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 
@@ -15,15 +17,11 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
  */
 final class ConfigurableRegistry implements FileListerRegistry
 {
-    /** @var \Ibexa\Bundle\IO\Migration\FileListerInterface[] */
-    private $registry = [];
-
     /**
-     * @param \Ibexa\Bundle\IO\Migration\FileListerInterface[] $items Hash of FileListerInterfaces, with identifier string as key.
+     * @param \Ibexa\Bundle\IO\Migration\FileListerInterface[] $registry Hash of FileListerInterfaces, with identifier string as key.
      */
-    public function __construct(array $items = [])
+    public function __construct(private readonly array $registry = [])
     {
-        $this->registry = $items;
     }
 
     /**
@@ -31,11 +29,11 @@ final class ConfigurableRegistry implements FileListerRegistry
      *
      * @param string $identifier An identifier string.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException If no FileListerInterface exists with this identifier
-     *
      * @return \Ibexa\Bundle\IO\Migration\FileListerInterface The FileListerInterface given by the identifier.
+     *
+     *@throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If no FileListerInterface exists with this identifier
      */
-    public function getItem($identifier)
+    public function getItem(string $identifier): FileListerInterface
     {
         if (isset($this->registry[$identifier])) {
             return $this->registry[$identifier];
