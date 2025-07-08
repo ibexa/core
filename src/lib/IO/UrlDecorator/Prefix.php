@@ -17,12 +17,8 @@ use Ibexa\Core\IO\UrlDecorator;
  */
 class Prefix implements UrlDecorator
 {
-    /** @var \Ibexa\Core\IO\IOConfigProvider */
-    protected $ioConfigResolver;
-
-    public function __construct(IOConfigProvider $IOConfigResolver)
+    public function __construct(protected readonly IOConfigProvider $ioConfigResolver)
     {
-        $this->ioConfigResolver = $IOConfigResolver;
     }
 
     public function getPrefix(): string
@@ -32,30 +28,30 @@ class Prefix implements UrlDecorator
         return trim($prefix, '/') . '/';
     }
 
-    public function decorate($id)
+    public function decorate(string $uri): string
     {
         $prefix = $this->getPrefix();
         if (empty($prefix)) {
-            return $id;
+            return $uri;
         }
 
-        return $prefix . trim($id, '/');
+        return $prefix . trim($uri, '/');
     }
 
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function undecorate($url)
+    public function undecorate(string $uri): string
     {
         $prefix = $this->getPrefix();
         if (empty($prefix)) {
-            return $url;
+            return $uri;
         }
 
-        if (strpos($url, $prefix) !== 0) {
-            throw new InvalidBinaryPrefixException($url, $prefix);
+        if (!str_starts_with($uri, $prefix)) {
+            throw new InvalidBinaryPrefixException($uri, $prefix);
         }
 
-        return trim(substr($url, strlen($prefix)), '/');
+        return trim(substr($uri, strlen($prefix)), '/');
     }
 }
