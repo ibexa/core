@@ -49,7 +49,7 @@ class Registry
     {
         $labels = [];
         foreach ($this->registry as $type => $renderer) {
-            if ($renderer instanceof TypedNotificationRenderer) {
+            if ($renderer instanceof TypedNotificationRendererInterface) {
                 $labels[$type] = $renderer->getTypeLabel();
             }
         }

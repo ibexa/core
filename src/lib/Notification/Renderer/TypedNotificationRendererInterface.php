@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Notification\Renderer;
 
-interface TypedNotificationRenderer
+interface TypedNotificationRendererInterface
 {
     public function getTypeLabel(): string;
 }
