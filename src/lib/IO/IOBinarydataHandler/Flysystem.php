@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\IO\IOBinarydataHandler;
 
@@ -49,16 +50,16 @@ final class Flysystem implements IOBinaryDataHandler
         }
     }
 
-    public function delete($spiBinaryFileId): void
+    public function delete(string $binaryFileId): void
     {
         try {
-            $this->filesystem->delete($spiBinaryFileId);
+            $this->filesystem->delete($binaryFileId);
         } catch (FilesystemException $e) {
-            throw new BinaryFileNotFoundException($spiBinaryFileId, $e);
+            throw new BinaryFileNotFoundException($binaryFileId, $e);
         }
     }
 
-    public function getContents($spiBinaryFileId): string
+    public function getContents(string $spiBinaryFileId): string
     {
         try {
             return $this->filesystem->read($spiBinaryFileId);
@@ -67,7 +68,7 @@ final class Flysystem implements IOBinaryDataHandler
         }
     }
 
-    public function getResource($spiBinaryFileId)
+    public function getResource(string $spiBinaryFileId): mixed
     {
         try {
             return $this->filesystem->readStream($spiBinaryFileId);
@@ -76,14 +77,14 @@ final class Flysystem implements IOBinaryDataHandler
         }
     }
 
-    public function getUri($spiBinaryFileId): string
+    public function getUri(string $spiBinaryFileId): string
     {
         return null !== $this->urlDecorator
             ? $this->urlDecorator->decorate($spiBinaryFileId)
             : '/' . $spiBinaryFileId;
     }
 
-    public function getIdFromUri($binaryFileUri): string
+    public function getIdFromUri(string $binaryFileUri): string
     {
         if (isset($this->urlDecorator)) {
             return $this->urlDecorator->undecorate($binaryFileUri);
@@ -92,12 +93,12 @@ final class Flysystem implements IOBinaryDataHandler
         return ltrim($binaryFileUri, '/');
     }
 
-    public function deleteDirectory($spiPath): void
+    public function deleteDirectory(string $path): void
     {
         try {
-            $this->filesystem->deleteDirectory($spiPath);
+            $this->filesystem->deleteDirectory($path);
         } catch (FilesystemException $e) {
-            throw new IOException("'Unable to delete directory '$spiPath'", $e);
+            throw new IOException("'Unable to delete directory '$path'", $e);
         }
     }
 }
