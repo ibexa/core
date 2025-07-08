@@ -8,10 +8,10 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Base\Exceptions;
 
-use Exception;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Core\Base\Translatable;
 use Ibexa\Core\Base\TranslatableBase;
+use Throwable;
 
 /**
  * Not Found Exception implementation.
@@ -28,7 +28,7 @@ class NotFoundException extends APINotFoundException implements Httpable, Transl
     /**
      * Generates: Could not find '{$what}' with identifier '{$identifier}'.
      */
-    public function __construct(string $what, mixed $identifier, ?Exception $previous = null)
+    public function __construct(string $what, mixed $identifier, ?Throwable $previous = null)
     {
         $identifierStr = is_string($identifier) ? $identifier : var_export($identifier, true);
         $this->setMessageTemplate("Could not find '%what%' with identifier '%identifier%'");
