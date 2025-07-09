@@ -172,7 +172,7 @@ class BinaryStreamResponse extends Response
             return $this;
         }
 
-        if ($this->maxlen > 0) {
+        if ($this->maxlen !== 0) {
             $out = fopen('php://output', 'wb');
             if ($out === false) {
                 throw new LogicException('Failed to create binary output stream');
