@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine\VariationPurger;
 
@@ -19,43 +20,25 @@ class LegacyStorageImageFileList implements ImageFileList
 {
     /**
      * Last fetched item.
-     *
-     * @var mixed
      */
-    private $item;
+    private ?string $item;
 
     /**
      * Iteration cursor on $statement.
      *
      * @var int
      */
-    private $cursor;
-
-    /**
-     * Used to get ezimagefile rows.
-     *
-     * @var \Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileRowReader
-     */
-    private $rowReader;
-
-    /** @var \Ibexa\Core\IO\IOConfigProvider */
-    private $ioConfigResolver;
-
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private int $cursor;
 
     public function __construct(
-        ImageFileRowReader $rowReader,
-        IOConfigProvider $ioConfigResolver,
-        ConfigResolverInterface $configResolver
+        private readonly ImageFileRowReader $rowReader,
+        private readonly IOConfigProvider $ioConfigResolver,
+        private readonly ConfigResolverInterface $configResolver
     ) {
-        $this->ioConfigResolver = $ioConfigResolver;
-        $this->rowReader = $rowReader;
-        $this->configResolver = $configResolver;
     }
 
     #[\ReturnTypeWillChange]
-    public function current(): mixed
+    public function current(): ?string
     {
         return $this->item;
     }
@@ -96,9 +79,13 @@ class LegacyStorageImageFileList implements ImageFileList
         $storageDir = $this->ioConfigResolver->getLegacyUrlPrefix();
         $prefix = $storageDir . '/' . $this->configResolver->getParameter('image.published_images_dir');
         ++$this->cursor;
-        $imageId = $this->rowReader->getRow();
+        $this->item = $this->rowReader->getRow();
+        if ($this->item === null) {
+            return;
+        }
 
-        if (0 === strncmp((string)$imageId, $prefix, strlen($prefix))) {
+        $imageId = $this->item;
+        if (0 === strncmp($imageId, $prefix, strlen($prefix))) {
             $imageId = ltrim(substr($imageId, strlen($prefix)), '/');
         }
 
