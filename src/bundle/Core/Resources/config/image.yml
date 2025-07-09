@@ -236,24 +236,19 @@ services:
         alias: Ibexa\Bundle\Core\Imagine\VariationPurger\IOVariationPurger
 
     Ibexa\Bundle\Core\Imagine\VariationPurger\IOVariationPurger:
-        class: Ibexa\Bundle\Core\Imagine\VariationPurger\IOVariationPurger
+        autoconfigure: true
         arguments:
-            - '@Ibexa\Core\FieldType\Image\IO\Legacy'
-            - '@ibexa.cache_pool'
-            - '@Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface'
-            - '@Ibexa\Bundle\Core\Imagine\Cache\AliasGeneratorDecorator'
-            - '@Ibexa\Bundle\Core\Imagine\VariationPathGenerator\AliasDirectoryVariationPathGenerator'
-        calls:
-            - [setLogger, ["@?logger"]]
+            $io: '@Ibexa\Core\FieldType\Image\IO\Legacy'
+            $cache: '@ibexa.cache_pool'
+            $cacheIdentifierGenerator: '@Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface'
+            $aliasGeneratorDecorator: '@Ibexa\Bundle\Core\Imagine\Cache\AliasGeneratorDecorator'
 
     Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileVariationPurger:
-        class: Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileVariationPurger
+        autoconfigure: true
         arguments:
-            - '@Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList'
-            - '@Ibexa\Core\FieldType\Image\IO\Legacy'
-            - '@Ibexa\Bundle\Core\Imagine\VariationPathGenerator\OriginalDirectoryVariationPathGenerator'
-        calls:
-            - [setLogger, ["@?logger"]]
+            $imageFileList: '@Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList'
+            $ioService: '@Ibexa\Core\FieldType\Image\IO\Legacy'
+            $variationPathGenerator: '@Ibexa\Bundle\Core\Imagine\VariationPathGenerator\OriginalDirectoryVariationPathGenerator'
 
     Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList:
         class: Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList
