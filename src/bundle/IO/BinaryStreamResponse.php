@@ -87,7 +87,7 @@ class BinaryStreamResponse extends Response
      */
     public function setAutoLastModified(): static
     {
-        $this->setLastModified($this->file->mtime);
+        $this->setLastModified($this->file->getMtime());
 
         return $this;
     }
@@ -105,7 +105,7 @@ class BinaryStreamResponse extends Response
     public function setContentDisposition(string $disposition, string $filename = '', string $filenameFallback = ''): BinaryStreamResponse
     {
         if ($filename === '') {
-            $filename = $this->file->id;
+            $filename = $this->file->getId();
         }
 
         if (empty($filenameFallback)) {
@@ -130,14 +130,14 @@ class BinaryStreamResponse extends Response
      */
     public function prepare(Request $request): static
     {
-        $this->headers->set('Content-Length', (string)$this->file->size);
+        $this->headers->set('Content-Length', (string)$this->file->getSize());
         $this->headers->set('Accept-Ranges', 'bytes');
         $this->headers->set('Content-Transfer-Encoding', 'binary');
 
         if (!$this->headers->has('Content-Type')) {
             $this->headers->set(
                 'Content-Type',
-                $this->ioService->getMimeType($this->file->id) ?: 'application/octet-stream'
+                $this->ioService->getMimeType($this->file->getId()) ?: 'application/octet-stream'
             );
         }
 
@@ -220,7 +220,7 @@ class BinaryStreamResponse extends Response
     private function processRangeRequest(Request $request): void
     {
         $range = $request->headers->get('Range');
-        $fileSize = $this->file->size;
+        $fileSize = $this->file->getSize();
 
         [$start, $end] = explode('-', substr($range, 6), 2) + [0];
 
