@@ -14,30 +14,30 @@ use Ibexa\Bundle\IO\Migration\FileMigrator\FileMigrator;
 use Ibexa\Contracts\Core\IO\BinaryFile;
 use Ibexa\Core\IO\IOBinarydataHandler;
 use Ibexa\Core\IO\IOMetadataHandler;
+use Ibexa\Core\IO\IOMetadataHandler\Flysystem;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \Ibexa\Bundle\IO\Migration\MigrationHandler
+ */
 final class FileMigratorTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $metadataHandlerRegistry;
+    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOMetadataHandler>&\PHPUnit\Framework\MockObject\MockObject */
+    private HandlerRegistry & MockObject $metadataHandlerRegistry;
 
-    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $binaryHandlerRegistry;
+    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOBinarydataHandler>&\PHPUnit\Framework\MockObject\MockObject */
+    private HandlerRegistry & MockObject $binaryHandlerRegistry;
 
-    /** @var \Ibexa\Bundle\IO\Migration\FileMigratorInterface */
-    private $fileMigrator;
+    private FileMigrator $fileMigrator;
 
-    /** @var \Ibexa\Core\IO\IOMetadataHandler\Flysystem */
-    private $metadataFlysystem;
+    private Flysystem & MockObject $metadataFlysystem;
 
-    /** @var \Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster */
-    private $metadataLegacyDFSCluster;
+    private IOMetadataHandler\LegacyDFSCluster&MockObject $metadataLegacyDFSCluster;
 
-    /** @var \Ibexa\Core\IO\IOBinarydataHandler\Flysystem */
-    private $binaryFlysystemFrom;
+    private IOBinarydataHandler & MockObject $binaryFlysystemFrom;
 
-    /** @var \Ibexa\Core\IO\IOBinarydataHandler\Flysystem */
-    private $binaryFlysystemTo;
+    private IOBinarydataHandler & MockObject $binaryFlysystemTo;
 
     protected function setUp(): void
     {
@@ -46,7 +46,7 @@ final class FileMigratorTest extends TestCase
         $this->metadataHandlerRegistry = $this->createMock(HandlerRegistry::class);
         $this->binaryHandlerRegistry = $this->createMock(HandlerRegistry::class);
 
-        $this->metadataFlysystem = $this->createMock(IOMetadataHandler\Flysystem::class);
+        $this->metadataFlysystem = $this->createMock(Flysystem::class);
         $this->metadataLegacyDFSCluster = $this->createMock(IOMetadataHandler\LegacyDFSCluster::class);
 
         $this->binaryFlysystemFrom = $this->createMock(IOBinarydataHandler::class);
@@ -60,25 +60,21 @@ final class FileMigratorTest extends TestCase
         $this->metadataHandlerRegistry
             ->expects(self::exactly(2))
             ->method('getConfiguredHandler')
-            ->withConsecutive(
-                ['default'],
-                ['dfs']
-            )
-            ->willReturnOnConsecutiveCalls(
-                $this->metadataFlysystem,
-                $this->metadataLegacyDFSCluster
+            ->willReturnMap(
+                [
+                    ['default', $this->metadataFlysystem],
+                    ['dfs', $this->metadataLegacyDFSCluster],
+                ]
             );
 
         $this->binaryHandlerRegistry
             ->expects(self::exactly(2))
             ->method('getConfiguredHandler')
-            ->withConsecutive(
-                ['default'],
-                ['nfs']
-            )
-            ->willReturnOnConsecutiveCalls(
-                $this->binaryFlysystemFrom,
-                $this->binaryFlysystemTo
+            ->willReturnMap(
+                [
+                    ['default', $this->binaryFlysystemFrom],
+                    ['nfs', $this->binaryFlysystemTo],
+                ]
             );
 
         $this->fileMigrator->setIODataHandlersByIdentifiers('default', 'default', 'dfs', 'nfs');
@@ -107,30 +103,18 @@ final class FileMigratorTest extends TestCase
         $this->metadataHandlerRegistry
             ->expects(self::exactly(2))
             ->method('getConfiguredHandler')
-            ->withConsecutive(
-                ['default'],
-                ['default']
-            )
-            ->willReturnOnConsecutiveCalls(
-                $this->metadataFlysystem,
-                $this->metadataFlysystem
-            );
+            ->with('default')
+            ->willReturn($this->metadataFlysystem);
 
         $this->binaryHandlerRegistry
             ->expects(self::exactly(2))
             ->method('getConfiguredHandler')
-            ->withConsecutive(
-                ['default'],
-                ['default']
-            )
-            ->willReturnOnConsecutiveCalls(
-                $this->binaryFlysystemFrom,
-                $this->binaryFlysystemFrom
-            );
+            ->with('default')->willReturn($this->binaryFlysystemFrom);
 
         $this->fileMigrator->setIODataHandlersByIdentifiers('default', 'default', 'default', 'default');
 
         $binaryFile = new BinaryFile();
+        $binaryFile->id = 'foo/bar.pdf';
 
         $this->binaryFlysystemFrom
             ->expects(self::never())
