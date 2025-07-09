@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\IO;
 
@@ -67,7 +68,6 @@ class IOServiceTest extends TestCase
             $file
         );
 
-        self::assertInstanceOf(BinaryFileCreateStruct::class, $binaryCreateStruct);
         self::assertNull($binaryCreateStruct->id);
         self::assertIsResource($binaryCreateStruct->inputStream);
         self::assertEquals(filesize(__FILE__), $binaryCreateStruct->size);
@@ -90,6 +90,7 @@ class IOServiceTest extends TestCase
         $filesize = filesize(__FILE__);
         self::assertNotFalse($filesize);
         $spiBinaryFile->size = $filesize;
+        $spiBinaryFile->mtime = new \DateTime('now');
 
         $this->binarydataHandlerMock
             ->expects(self::once())
@@ -113,7 +114,6 @@ class IOServiceTest extends TestCase
             ->willReturn($spiBinaryFile);
 
         $binaryFile = $this->ioService->createBinaryFile($createStruct);
-        self::assertInstanceOf(BinaryFile::class, $binaryFile);
         self::assertEquals($createStruct->id, $binaryFile->id);
         self::assertEquals($createStruct->size, $binaryFile->size);
 
@@ -128,6 +128,7 @@ class IOServiceTest extends TestCase
         $spiBinaryFile->id = $spiId;
         $spiBinaryFile->size = 12345;
         $spiBinaryFile->uri = $spiId;
+        $spiBinaryFile->mtime = new \DateTime('now');
 
         $this->metadataHandlerMock
             ->expects(self::once())
@@ -152,6 +153,7 @@ class IOServiceTest extends TestCase
         $spiBinaryFile = new SPIBinaryFile();
         $spiBinaryFile->id = $spiId;
         $spiBinaryFile->size = 12345;
+        $spiBinaryFile->mtime = new \DateTime('now');
 
         $this->metadataHandlerMock
             ->expects(self::once())
@@ -164,7 +166,9 @@ class IOServiceTest extends TestCase
         $expectedBinaryFile = new BinaryFile(
             [
                 'id' => $id,
-                'size' => 12345, 'uri' => $prefixedId, 'mtime' => null,
+                'size' => 12345,
+                'uri' => $prefixedId,
+                'mtime' => $spiBinaryFile->mtime,
             ]
         );
 
@@ -192,6 +196,7 @@ class IOServiceTest extends TestCase
         $spiBinaryFile->id = $spiId;
         $spiBinaryFile->size = 12345;
         $spiBinaryFile->uri = $spiId;
+        $spiBinaryFile->mtime = new \DateTime('now');
 
         $this->binarydataHandlerMock
             ->expects(self::once())
