@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\IO\Values;
 
@@ -42,4 +43,24 @@ class BinaryFile extends ValueObject
      * URI to the binary file.
      */
     protected string $uri;
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getSize(): ?int
+    {
+        return $this->size;
+    }
+
+    public function getMtime(): ?DateTime
+    {
+        return $this->mtime;
+    }
+
+    public function getUri(): string
+    {
+        return $this->uri;
+    }
 }
