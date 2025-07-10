@@ -47,7 +47,11 @@ final class BinaryStreamResponseTest extends TestCase
         $binaryFile = new BinaryFile(['id' => 'foo.jpg', 'size' => 5321]);
         $binaryStreamResponse = new BinaryStreamResponse($binaryFile, $ioServiceMock);
 
-        $ioServiceMock->expects(self::once())->method('getMimeType')->with('foo.jpg')->willReturn('image/jpeg');
+        $ioServiceMock
+            ->expects(self::once())
+            ->method('getMimeType')
+            ->with('foo.jpg')
+            ->willReturn('image/jpeg');
 
         $binaryStreamResponse->prepare($request);
 
