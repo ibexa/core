@@ -827,7 +827,7 @@ class SearchServiceTest extends BaseTestCase
             ],
             [
                 [
-                    'query' => new Criterion\ObjectStateIdentifier(['not_locked'], 'ez_lock'),
+                    'query' => new Criterion\ObjectStateIdentifier(['not_locked'], 'ibexa_lock'),
                     'sortClauses' => [new SortClause\ContentId()],
                     'limit' => 50,
                 ],

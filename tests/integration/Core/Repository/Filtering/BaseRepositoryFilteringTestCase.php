@@ -255,9 +255,9 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
         yield 'ObjectStateIdentifier=not_locked' => new Criterion\ObjectStateIdentifier(
             'not_locked'
         );
-        yield 'ObjectStateIdentifier=ez_lock(not_locked)' => new Criterion\ObjectStateIdentifier(
+        yield 'ObjectStateIdentifier=ibexa_lock(not_locked)' => new Criterion\ObjectStateIdentifier(
             ['not_locked'],
-            'ez_lock'
+            'ibexa_lock'
         );
         yield 'ParentLocationId=1' => new Criterion\ParentLocationId(1);
         yield 'RemoteId=8a9c9c761004866fb458d89910f52bee' => new Criterion\RemoteId(

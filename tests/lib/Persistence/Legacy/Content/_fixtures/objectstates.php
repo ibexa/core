@@ -11,7 +11,7 @@ return [
         [
             'default_language_id' => 2,
             'id' => 2,
-            'identifier' => 'ez_lock',
+            'identifier' => 'ibexa_lock',
             'language_mask' => 3,
         ],
     ],

@@ -146,7 +146,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 [
                     'ibexa_object_state_group_default_language_id' => 2,
                     'ibexa_object_state_group_id' => 2,
-                    'ibexa_object_state_group_identifier' => 'ez_lock',
+                    'ibexa_object_state_group_identifier' => 'ibexa_lock',
                     'ibexa_object_state_group_language_mask' => 3,
                     'ibexa_object_state_group_language_description' => '',
                     'ibexa_object_state_group_language_language_id' => 3,
@@ -162,14 +162,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     {
         $gateway = $this->getDatabaseGateway();
 
-        $result = $gateway->loadObjectStateGroupDataByIdentifier('ez_lock');
+        $result = $gateway->loadObjectStateGroupDataByIdentifier('ibexa_lock');
 
         self::assertEquals(
             [
                 [
                     'ibexa_object_state_group_default_language_id' => 2,
                     'ibexa_object_state_group_id' => 2,
-                    'ibexa_object_state_group_identifier' => 'ez_lock',
+                    'ibexa_object_state_group_identifier' => 'ibexa_lock',
                     'ibexa_object_state_group_language_mask' => 3,
                     'ibexa_object_state_group_language_description' => '',
                     'ibexa_object_state_group_language_language_id' => 3,
@@ -193,7 +193,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     [
                         'ibexa_object_state_group_default_language_id' => 2,
                         'ibexa_object_state_group_id' => 2,
-                        'ibexa_object_state_group_identifier' => 'ez_lock',
+                        'ibexa_object_state_group_identifier' => 'ibexa_lock',
                         'ibexa_object_state_group_language_mask' => 3,
                         'ibexa_object_state_group_language_description' => '',
                         'ibexa_object_state_group_language_language_id' => 3,

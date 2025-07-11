@@ -3,7 +3,7 @@ ibexa_object_state:
   - { default_language_id: 2, group_id: 2, id: 1, identifier: not_locked, language_mask: 3, priority: 0 }
   - { default_language_id: 2, group_id: 2, id: 2, identifier: locked, language_mask: 3, priority: 1 }
 ibexa_object_state_group:
-  - { default_language_id: 2, id: 2, identifier: ez_lock, language_mask: 3 }
+  - { default_language_id: 2, id: 2, identifier: ibexa_lock, language_mask: 3 }
 ibexa_object_state_group_language:
   - { contentobject_state_group_id: 2, description: '', language_id: 3, name: Lock, real_language_id: 2 }
 ibexa_object_state_language:
