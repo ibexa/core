@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\IO\ApiLoader;
 
@@ -11,29 +12,34 @@ use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 /**
  * Registry of IO handlers, given an alias.
+ *
+ * @template THandlerType of object
+ *
+ * @phpstan-type TIOHandlersMap array<string, THandlerType>
  */
 class HandlerRegistry
 {
     /**
-     * Map of handler id to handler service id.
+     * Map of a handler id to a handler service instance.
      *
-     * @var array
+     * @phpstan-var TIOHandlersMap
      */
-    private $handlersMap = [];
+    private array $handlersMap = [];
 
-    public function setHandlersMap($handlersMap)
+    /**
+     * @phpstan-param TIOHandlersMap $handlersMap
+     */
+    public function setHandlersMap(array $handlersMap): void
     {
         $this->handlersMap = $handlersMap;
     }
 
     /**
-     * @param string $handlerName
-     *
-     * @return object an instance of the requested handler
-     *
      * @throws \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException If the requested handler doesn't exist
+     *
+     * @phpstan-return THandlerType
      */
-    public function getConfiguredHandler($handlerName)
+    public function getConfiguredHandler(string $handlerName): object
     {
         if (!isset($this->handlersMap[$handlerName])) {
             throw new InvalidConfigurationException("Unknown handler $handlerName");
