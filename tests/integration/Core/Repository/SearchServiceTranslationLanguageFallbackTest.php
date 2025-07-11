@@ -1529,11 +1529,11 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                                 ],
                                 [
                                     self::SETUP_DEDICATED => [
-                                        'searchHitIndex' => 2,
+                                        'searchHitIndex' => 1,
                                         'preparedDataTestIndex' => 2,
                                     ],
                                     self::SETUP_SHARED => [
-                                        'searchHitIndex' => 2,
+                                        'searchHitIndex' => 1,
                                         'preparedDataTestIndex' => 2,
                                     ],
                                     self::SETUP_SINGLE => [
@@ -1557,11 +1557,11 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                                 ],
                                 [
                                     self::SETUP_DEDICATED => [
-                                        'searchHitIndex' => 1,
+                                        'searchHitIndex' => 2,
                                         'preparedDataTestIndex' => 2,
                                     ],
                                     self::SETUP_SHARED => [
-                                        'searchHitIndex' => 1,
+                                        'searchHitIndex' => 2,
                                         'preparedDataTestIndex' => 2,
                                     ],
                                     self::SETUP_SINGLE => [
@@ -1597,8 +1597,8 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                                 ],
                                 [
                                     self::SETUP_DEDICATED => [
-                                        'searchHitIndex' => 2,
-                                        'preparedDataTestIndex' => 2,
+                                        'searchHitIndex' => 0,
+                                        'preparedDataTestIndex' => 1,
                                     ],
                                     self::SETUP_SHARED => [
                                         'searchHitIndex' => 0,
@@ -1625,11 +1625,11 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                                 ],
                                 [
                                     self::SETUP_DEDICATED => [
-                                        'searchHitIndex' => 2,
+                                        'searchHitIndex' => 1,
                                         'preparedDataTestIndex' => 2,
                                     ],
                                     self::SETUP_SHARED => [
-                                        'searchHitIndex' => 2,
+                                        'searchHitIndex' => 1,
                                         'preparedDataTestIndex' => 2,
                                     ],
                                     self::SETUP_SINGLE => [
@@ -1653,11 +1653,11 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
                                 ],
                                 [
                                     self::SETUP_DEDICATED => [
-                                        'searchHitIndex' => 1,
+                                        'searchHitIndex' => 2,
                                         'preparedDataTestIndex' => 2,
                                     ],
                                     self::SETUP_SHARED => [
-                                        'searchHitIndex' => 1,
+                                        'searchHitIndex' => 2,
                                         'preparedDataTestIndex' => 2,
                                     ],
                                     self::SETUP_SINGLE => [
@@ -1737,6 +1737,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
             'filter' => new Criterion\ContentTypeIdentifier('test-type'),
             'sortClauses' => [
                 new SortClause\Field('test-type', 'sort_field'),
+                new SortClause\Field('test-type', 'search_field'),
             ],
         ];
 
@@ -1792,6 +1793,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
             ),
             'sortClauses' => [
                 new SortClause\Field('test-type', 'sort_field'),
+                new SortClause\Field('test-type', 'search_field'),
             ],
         ];
 
@@ -1843,6 +1845,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
             'sortClauses' => [
                 new SortClause\Location\Depth(Query::SORT_ASC),
                 new SortClause\Field('test-type', 'sort_field'),
+                new SortClause\Field('test-type', 'search_field'),
             ],
         ];
 
@@ -1897,6 +1900,11 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
      */
     private function assertIndexName(array $indexMap, SearchHit $searchHit): void
     {
+        if (!$this->isSolrInMaxVersion('9.3.0')) {
+            // In Solr 9.3.0 and later, the shard parameter is not used anymore.
+            return;
+        }
+
         $indexName = $this->getIndexName($indexMap);
 
         if ($indexName === null) {
@@ -1929,5 +1937,15 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTestCase
         }
 
         return $indexesToMatchData;
+    }
+
+    private function isSolrInMaxVersion(string $maxVersion): bool
+    {
+        $version = getenv('SOLR_VERSION');
+        if (is_string($version) && !empty($version)) {
+            return version_compare($version, $maxVersion, '<');
+        }
+
+        return false;
     }
 }
