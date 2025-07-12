@@ -3,7 +3,7 @@ VALUES (2, 2, 1, 'not_locked', 3, 0),
        (2, 2, 2, 'locked', 3, 1);
 
 INSERT INTO `ibexa_object_state_group` (`default_language_id`, `id`, `identifier`, `language_mask`)
-VALUES (2,2,'ez_lock',3);
+VALUES (2,2,'ibexa_lock',3);
 
 INSERT INTO `ibexa_object_state_group_language` (`contentobject_state_group_id`, `description`, `language_id`, `name`, `real_language_id`)
 VALUES (2,'',3,'Lock',2);

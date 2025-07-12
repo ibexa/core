@@ -16,7 +16,7 @@ final class ObjectStateTermAggregationTest extends AbstractAggregationTestCase
 {
     public function dataProviderForTestFindContentWithAggregation(): iterable
     {
-        $aggregation = new ObjectStateTermAggregation('object_state', 'ez_lock');
+        $aggregation = new ObjectStateTermAggregation('object_state', 'ibexa_lock');
 
         $builder = new TermAggregationDataSetBuilder($aggregation);
         $builder->setExpectedEntries([
@@ -30,7 +30,7 @@ final class ObjectStateTermAggregationTest extends AbstractAggregationTestCase
 
                 static $objectStateGroup = null;
                 if ($objectStateGroup === null) {
-                    $objectStateGroup = $objectStateService->loadObjectStateGroupByIdentifier('ez_lock');
+                    $objectStateGroup = $objectStateService->loadObjectStateGroupByIdentifier('ibexa_lock');
                 }
 
                 return $objectStateService->loadObjectStateByIdentifier($objectStateGroup, $identifier);

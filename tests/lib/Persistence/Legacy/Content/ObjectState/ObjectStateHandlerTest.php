@@ -114,7 +114,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
 
         $gatewayMock->expects(self::once())
             ->method('loadObjectStateGroupDataByIdentifier')
-            ->with(self::equalTo('ez_lock'))
+            ->with(self::equalTo('ibexa_lock'))
             ->will(self::returnValue([[]]));
 
         $mapperMock->expects(self::once())
@@ -122,7 +122,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
             ->with(self::equalTo([[]]))
             ->will(self::returnValue($this->getObjectStateGroupFixture()));
 
-        $result = $handler->loadGroupByIdentifier('ez_lock');
+        $result = $handler->loadGroupByIdentifier('ibexa_lock');
 
         self::assertInstanceOf(
             Group::class,

@@ -153,7 +153,7 @@ class MapperTest extends LanguageAwareTestCase
             [
                 'ibexa_object_state_group_default_language_id' => 2,
                 'ibexa_object_state_group_id' => 1,
-                'ibexa_object_state_group_identifier' => 'ez_lock',
+                'ibexa_object_state_group_identifier' => 'ibexa_lock',
                 'ibexa_object_state_group_language_mask' => 3,
                 'ibexa_object_state_group_language_description' => '',
                 'ibexa_object_state_group_language_language_id' => 3,
@@ -188,7 +188,7 @@ class MapperTest extends LanguageAwareTestCase
     protected function getObjectStateGroupFixture()
     {
         $group = new Group();
-        $group->identifier = 'ez_lock';
+        $group->identifier = 'ibexa_lock';
         $group->defaultLanguage = 'eng-US';
         $group->languageCodes = ['eng-US'];
         $group->name = ['eng-US' => 'Lock'];
@@ -224,7 +224,7 @@ class MapperTest extends LanguageAwareTestCase
         $inputStruct = new InputStruct();
 
         $inputStruct->defaultLanguage = 'eng-US';
-        $inputStruct->identifier = 'ez_lock';
+        $inputStruct->identifier = 'ibexa_lock';
         $inputStruct->name = ['eng-US' => 'Lock'];
         $inputStruct->description = ['eng-US' => ''];
 

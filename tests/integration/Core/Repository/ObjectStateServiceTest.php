@@ -26,7 +26,7 @@ use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateUpdateStruct;
  */
 class ObjectStateServiceTest extends BaseTestCase
 {
-    private const EXISTING_OBJECT_STATE_GROUP_IDENTIFIER = 'ez_lock';
+    private const EXISTING_OBJECT_STATE_GROUP_IDENTIFIER = 'ibexa_lock';
     private const EXISTING_OBJECT_STATE_IDENTIFIER = 'locked';
 
     private const NON_EXISTING_OBJECT_STATE_GROUP_IDENTIFIER = 'non-existing';
@@ -299,8 +299,8 @@ class ObjectStateServiceTest extends BaseTestCase
         $objectStateService = $repository->getObjectStateService();
 
         $objectStateGroupCreate = $objectStateService->newObjectStateGroupCreateStruct(
-            // 'ez_lock' is already existing identifier
-            'ez_lock'
+            // 'ibexa_lock' is already existing identifier
+            'ibexa_lock'
         );
         $objectStateGroupCreate->defaultLanguageCode = 'eng-US';
         $objectStateGroupCreate->names = [
@@ -312,7 +312,7 @@ class ObjectStateServiceTest extends BaseTestCase
             'eng-GB' => 'Put something ton Sindelfingen.',
         ];
 
-        // This call will fail because group with 'ez_lock' identifier already exists
+        // This call will fail because group with 'ibexa_lock' identifier already exists
         $objectStateService->createObjectStateGroup(
             $objectStateGroupCreate
         );
@@ -330,7 +330,7 @@ class ObjectStateServiceTest extends BaseTestCase
         $objectStateGroupId = $this->generateId('objectstategroup', 2);
         /* BEGIN: Use Case */
         // $objectStateGroupId contains the ID of the standard object state
-        // group ez_lock.
+        // group ibexa_lock.
         $objectStateService = $repository->getObjectStateService();
 
         $loadedObjectStateGroup = $objectStateService->loadObjectStateGroup(
@@ -346,7 +346,7 @@ class ObjectStateServiceTest extends BaseTestCase
         $this->assertPropertiesCorrect(
             [
                 'id' => 2,
-                'identifier' => 'ez_lock',
+                'identifier' => 'ibexa_lock',
                 'mainLanguageCode' => 'eng-US',
                 'languageCodes' => ['eng-US'],
                 'names' => ['eng-US' => 'Lock'],
@@ -404,7 +404,7 @@ class ObjectStateServiceTest extends BaseTestCase
         $this->assertPropertiesCorrect(
             [
                 'id' => 2,
-                'identifier' => 'ez_lock',
+                'identifier' => 'ibexa_lock',
                 'mainLanguageCode' => 'eng-US',
                 'languageCodes' => ['eng-US'],
                 'names' => ['eng-US' => 'Lock'],
@@ -447,7 +447,7 @@ class ObjectStateServiceTest extends BaseTestCase
         $repository = $this->getRepository();
 
         $expectedGroupIdentifiers = $this->getGroupIdentifierMap($this->createObjectStateGroups());
-        $expectedGroupIdentifiers['ez_lock'] = true;
+        $expectedGroupIdentifiers['ibexa_lock'] = true;
 
         /* BEGIN: Use Case */
         $objectStateService = $repository->getObjectStateService();
@@ -636,7 +636,7 @@ class ObjectStateServiceTest extends BaseTestCase
         $objectStateGroupId = $this->generateId('objectstategroup', 2);
         /* BEGIN: Use Case */
         // $objectStateGroupId contains the ID of the standard object state
-        // group ez_lock.
+        // group ibexa_lock.
         $objectStateService = $repository->getObjectStateService();
 
         $objectStateGroup = $objectStateService->loadObjectStateGroup(
@@ -671,7 +671,7 @@ class ObjectStateServiceTest extends BaseTestCase
         $objectStateGroupId = $this->generateId('objectstategroup', 2);
         /* BEGIN: Use Case */
         // $objectStateGroupId contains the ID of the standard object state
-        // group ez_lock.
+        // group ibexa_lock.
         $objectStateService = $repository->getObjectStateService();
 
         $loadedObjectStateGroup = $objectStateService->loadObjectStateGroup(
@@ -742,7 +742,7 @@ class ObjectStateServiceTest extends BaseTestCase
         $this->assertPropertiesCorrect(
             [
                 'id' => 2,
-                'identifier' => 'ez_lock',
+                'identifier' => 'ibexa_lock',
                 'mainLanguageCode' => 'eng-GB',
                 'languageCodes' => ['eng-GB'],
                 'names' => ['eng-GB' => 'Test'],
@@ -790,8 +790,8 @@ class ObjectStateServiceTest extends BaseTestCase
         );
 
         $groupUpdateStruct = $objectStateService->newObjectStateGroupUpdateStruct();
-        // 'ez_lock' is the identifier of already existing group
-        $groupUpdateStruct->identifier = 'ez_lock';
+        // 'ibexa_lock' is the identifier of already existing group
+        $groupUpdateStruct->identifier = 'ibexa_lock';
         $groupUpdateStruct->defaultLanguageCode = 'ger-DE';
         $groupUpdateStruct->names = [
             'ger-DE' => 'Sindelfingen',
@@ -800,7 +800,7 @@ class ObjectStateServiceTest extends BaseTestCase
             'ger-DE' => 'Sindelfingen ist nicht nur eine Stadt',
         ];
 
-        // This call will fail since state group with 'ez_lock' identifier already exists
+        // This call will fail since state group with 'ibexa_lock' identifier already exists
         $objectStateService->updateObjectStateGroup(
             $createdObjectStateGroup,
             $groupUpdateStruct
@@ -848,7 +848,7 @@ class ObjectStateServiceTest extends BaseTestCase
         $objectStateGroupId = $this->generateId('objectstategroup', 2);
         /* BEGIN: Use Case */
         // $objectStateGroupId contains the ID of the standard object state
-        // group ez_lock.
+        // group ibexa_lock.
         $objectStateService = $repository->getObjectStateService();
 
         $loadedObjectStateGroup = $objectStateService->loadObjectStateGroup(
@@ -962,7 +962,7 @@ class ObjectStateServiceTest extends BaseTestCase
 
         $objectStateGroupId = $this->generateId('objectstategroup', 2);
         // $objectStateGroupId contains the ID of the standard object state
-        // group ez_lock.
+        // group ibexa_lock.
         $objectStateService = $repository->getObjectStateService();
 
         $loadedObjectStateGroup = $objectStateService->loadObjectStateGroup(
@@ -1605,7 +1605,7 @@ class ObjectStateServiceTest extends BaseTestCase
             $ezLockObjectStateGroupId
         );
 
-        // Loads the state of $contentInfo in the "ez_lock" object state group
+        // Loads the state of $contentInfo in the "ibexa_lock" object state group
         $ezLockObjectState = $objectStateService->getContentState(
             $contentInfo,
             $ezLockObjectStateGroup
@@ -1703,7 +1703,7 @@ class ObjectStateServiceTest extends BaseTestCase
         $lockedObjectStateId = $this->generateId('objectstate', 2);
         /* BEGIN: Use Case */
         // $anonymousUserId is the content ID of "Anonymous User"
-        // $ezLockObjectStateGroupId contains the ID of the "ez_lock" object
+        // $ezLockObjectStateGroupId contains the ID of the "ibexa_lock" object
         // state group
         // $lockedObjectStateId is the ID of the state "locked"
         $contentService = $repository->getContentService();
@@ -1850,7 +1850,7 @@ class ObjectStateServiceTest extends BaseTestCase
         $objectStateGroupId = $this->generateId('objectstategroup', 2);
         /* BEGIN: Use Case */
         // $objectStateGroupId contains the ID of the standard object state
-        // group ez_lock.
+        // group ibexa_lock.
         $objectStateService = $repository->getObjectStateService();
 
         $loadedObjectStateGroup = $objectStateService->loadObjectStateGroup(

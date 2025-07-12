@@ -45,7 +45,7 @@ class LimitationConverterTest extends TestCase
         $converter->toLegacy($policy);
         self::assertEquals(
             [
-                ObjectStateLimitationHandler::STATE_GROUP . 'ez_lock' => '*',
+                ObjectStateLimitationHandler::STATE_GROUP . 'ibexa_lock' => '*',
             ],
             $policy->limitations,
             'Expected State limitation to be transformed into StateGroup_ limitations'
@@ -58,7 +58,7 @@ class LimitationConverterTest extends TestCase
         $converter->toLegacy($policy);
         self::assertEquals(
             [
-                ObjectStateLimitationHandler::STATE_GROUP . 'ez_lock' => [1, 2],
+                ObjectStateLimitationHandler::STATE_GROUP . 'ibexa_lock' => [1, 2],
             ],
             $policy->limitations,
             'Expected State limitation to be transformed into StateGroup_ limitations'
@@ -71,7 +71,7 @@ class LimitationConverterTest extends TestCase
         $converter->toLegacy($policy);
         self::assertEquals(
             [
-                ObjectStateLimitationHandler::STATE_GROUP . 'ez_lock' => [1, 2],
+                ObjectStateLimitationHandler::STATE_GROUP . 'ibexa_lock' => [1, 2],
             ],
             $policy->limitations,
             'Expected State limitation to be transformed into StateGroup_ limitations'
@@ -93,7 +93,7 @@ class LimitationConverterTest extends TestCase
 
         // #1 Test wildcard
         $policy->limitations = [
-            ObjectStateLimitationHandler::STATE_GROUP . 'ez_lock' => '*',
+            ObjectStateLimitationHandler::STATE_GROUP . 'ibexa_lock' => '*',
         ];
         $converter->toSPI($policy);
         self::assertEquals(
@@ -106,7 +106,7 @@ class LimitationConverterTest extends TestCase
 
         // #2 Test valid state values
         $policy->limitations = [
-            ObjectStateLimitationHandler::STATE_GROUP . 'ez_lock' => [1, 2],
+            ObjectStateLimitationHandler::STATE_GROUP . 'ibexa_lock' => [1, 2],
         ];
         $converter->toSPI($policy);
         self::assertEquals(
@@ -119,7 +119,7 @@ class LimitationConverterTest extends TestCase
 
         // #3 Test invalid state values (as the values supposedly comes from database they are carried over)
         $policy->limitations = [
-            ObjectStateLimitationHandler::STATE_GROUP . 'ez_lock' => [1, 2, 3, 4],
+            ObjectStateLimitationHandler::STATE_GROUP . 'ibexa_lock' => [1, 2, 3, 4],
         ];
         $converter->toSPI($policy);
         self::assertEquals(
@@ -132,7 +132,7 @@ class LimitationConverterTest extends TestCase
 
         // #4 Test invalid state values with mix of wildcard (wildcard values is loaded from db, rest kept as is)
         $policy->limitations = [
-            ObjectStateLimitationHandler::STATE_GROUP . 'ez_lock' => '*',
+            ObjectStateLimitationHandler::STATE_GROUP . 'ibexa_lock' => '*',
             ObjectStateLimitationHandler::STATE_GROUP . 'invalid' => [5],
         ];
         $converter->toSPI($policy);

@@ -67,7 +67,7 @@ class ObjectStateServiceDecoratorTest extends TestCase
         $expectedObjectStateGroup = $this->createMock(ObjectStateGroup::class);
 
         $parameters = [
-            'ez_lock',
+            'ibexa_lock',
             ['eng-GB'],
         ];
 

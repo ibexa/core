@@ -88,7 +88,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTestCase
         $permissionResolver->setCurrentUserReference($userService->loadUser($anonymousUserId));
 
         // $objectStateGroupId contains the ID of the standard object state
-        // group ez_lock.
+        // group ibexa_lock.
         $objectStateService = $repository->getObjectStateService();
 
         $loadedObjectStateGroup = $objectStateService->loadObjectStateGroup(
@@ -138,7 +138,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTestCase
         $permissionResolver->setCurrentUserReference($userService->loadUser($anonymousUserId));
 
         // $objectStateGroupId contains the ID of the standard object state
-        // group ez_lock.
+        // group ibexa_lock.
         $objectStateService = $repository->getObjectStateService();
 
         $loadedObjectStateGroup = $objectStateService->loadObjectStateGroup(
@@ -175,7 +175,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTestCase
         $permissionResolver->setCurrentUserReference($userService->loadUser($anonymousUserId));
 
         // $objectStateGroupId contains the ID of the standard object state
-        // group ez_lock.
+        // group ibexa_lock.
         $objectStateService = $repository->getObjectStateService();
 
         $loadedObjectStateGroup = $objectStateService->loadObjectStateGroup(
@@ -353,7 +353,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTestCase
         $permissionResolver->setCurrentUserReference($userService->loadUser($anonymousUserId));
 
         // $anonymousUserId is the content ID of "Anonymous User"
-        // $ezLockObjectStateGroupId contains the ID of the "ez_lock" object
+        // $ezLockObjectStateGroupId contains the ID of the "ibexa_lock" object
         // state group
         // $lockedObjectStateId is the ID of the state "locked"
         $contentService = $repository->getContentService();
