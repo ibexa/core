@@ -4,12 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\IO;
 
+use DateTime;
 use Exception;
-use Ibexa\Contracts\Core\IO\BinaryFile as SPIBinaryFile;
-use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
+use Ibexa\Contracts\Core\IO\BinaryFile as PersistenceBinaryFile;
+use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as PersistenceBinaryFileCreateStruct;
 use Ibexa\Contracts\Core\IO\MimeTypeDetector;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
@@ -17,44 +19,33 @@ use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\Exception\InvalidBinaryFileIdException;
 use Ibexa\Core\IO\Exception\InvalidBinaryPrefixException;
 use Ibexa\Core\IO\Exception\IOException;
-use Ibexa\Core\IO\Values\BinaryFile;
+use Ibexa\Core\IO\Values\BinaryFile as BinaryFileValue;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 
 /**
  * The io service for managing binary files.
+ *
+ * @internal
  */
 class IOService implements IOServiceInterface
 {
-    /** @var \Ibexa\Core\IO\IOBinarydataHandler */
-    protected $binarydataHandler;
-
-    /** @var \Ibexa\Core\IO\IOMetadataHandler */
-    protected $metadataHandler;
-
-    /** @var \Ibexa\Contracts\Core\IO\MimeTypeDetector */
-    protected $mimeTypeDetector;
-
-    /** @var array */
-    protected $settings;
-
+    /**
+     * @param array<string, mixed> $settings
+     */
     public function __construct(
-        IOMetadataHandler $metadataHandler,
-        IOBinarydataHandler $binarydataHandler,
-        MimeTypeDetector $mimeTypeDetector,
-        array $settings = []
+        protected readonly IOMetadataHandler $metadataHandler,
+        protected readonly IOBinarydataHandler $binarydataHandler,
+        protected readonly MimeTypeDetector $mimeTypeDetector,
+        protected array $settings = []
     ) {
-        $this->metadataHandler = $metadataHandler;
-        $this->binarydataHandler = $binarydataHandler;
-        $this->mimeTypeDetector = $mimeTypeDetector;
-        $this->settings = $settings;
     }
 
-    public function setPrefix($prefix)
+    public function setPrefix(string $prefix): void
     {
         $this->settings['prefix'] = $prefix;
     }
 
-    public function newBinaryCreateStructFromUploadedFile(array $uploadedFile)
+    public function newBinaryCreateStructFromUploadedFile(array $uploadedFile): BinaryFileCreateStruct
     {
         if (!is_string($uploadedFile['tmp_name']) || empty($uploadedFile['tmp_name'])) {
             throw new InvalidArgumentException('uploadedFile', "uploadedFile['tmp_name'] does not exist or has invalid value");
@@ -77,9 +68,9 @@ class IOService implements IOServiceInterface
         return $binaryCreateStruct;
     }
 
-    public function newBinaryCreateStructFromLocalFile($localFile)
+    public function newBinaryCreateStructFromLocalFile(string $localFile): BinaryFileCreateStruct
     {
-        if (empty($localFile) || !is_string($localFile)) {
+        if (empty($localFile)) {
             throw new InvalidArgumentException('localFile', 'localFile has an invalid value');
         }
 
@@ -92,24 +83,23 @@ class IOService implements IOServiceInterface
             throw new InvalidArgumentException('localFile', 'failed to get file resource');
         }
 
-        $binaryCreateStruct = new BinaryFileCreateStruct(
+        return new BinaryFileCreateStruct(
             [
                 'size' => filesize($localFile),
                 'inputStream' => $fileHandle,
                 'mimeType' => $this->mimeTypeDetector->getFromPath($localFile),
             ]
         );
-
-        return $binaryCreateStruct;
     }
 
-    public function createBinaryFile(BinaryFileCreateStruct $binaryFileCreateStruct)
+    public function createBinaryFile(BinaryFileCreateStruct $binaryFileCreateStruct): BinaryFileValue
     {
-        if (empty($binaryFileCreateStruct->id) || !is_string($binaryFileCreateStruct->id)) {
+        if (empty($binaryFileCreateStruct->id)) {
             throw new InvalidArgumentValue('id', $binaryFileCreateStruct->id, 'BinaryFileCreateStruct');
         }
 
-        if (!is_int($binaryFileCreateStruct->size) || $binaryFileCreateStruct->size < 0) {
+        // `fread` expects this to be a positive number
+        if ($binaryFileCreateStruct->size <= 0) {
             throw new InvalidArgumentValue('size', $binaryFileCreateStruct->size, 'BinaryFileCreateStruct');
         }
 
@@ -119,6 +109,12 @@ class IOService implements IOServiceInterface
 
         if (!isset($binaryFileCreateStruct->mimeType)) {
             $buffer = fread($binaryFileCreateStruct->inputStream, $binaryFileCreateStruct->size);
+            if (false === $buffer) {
+                throw new InvalidArgumentException(
+                    '$binaryFileCreateStruct',
+                    "Failed to read the resource of BinaryFile with id = '$binaryFileCreateStruct->id'"
+                );
+            }
             $binaryFileCreateStruct->mimeType = $this->mimeTypeDetector->getFromBuffer($buffer);
             unset($buffer);
         }
@@ -128,7 +124,7 @@ class IOService implements IOServiceInterface
         try {
             $this->binarydataHandler->create($spiBinaryCreateStruct);
         } catch (Exception $e) {
-            throw new IOException('An error occured when creating binary data', $e);
+            throw new IOException('An error occurred when creating binary data', $e);
         }
 
         $spiBinaryFile = $this->metadataHandler->create($spiBinaryCreateStruct);
@@ -139,7 +135,7 @@ class IOService implements IOServiceInterface
         return $this->buildDomainBinaryFileObject($spiBinaryFile);
     }
 
-    public function deleteBinaryFile(BinaryFile $binaryFile)
+    public function deleteBinaryFile(BinaryFileValue $binaryFile): void
     {
         $this->checkBinaryFileId($binaryFile->id);
         $spiUri = $this->getPrefixedUri($binaryFile->id);
@@ -153,7 +149,7 @@ class IOService implements IOServiceInterface
         $this->binarydataHandler->delete($spiUri);
     }
 
-    public function loadBinaryFile($binaryFileId)
+    public function loadBinaryFile(string $binaryFileId): BinaryFileValue
     {
         $this->checkBinaryFileId($binaryFileId);
 
@@ -169,7 +165,7 @@ class IOService implements IOServiceInterface
         return $this->buildDomainBinaryFileObject($spiBinaryFile);
     }
 
-    public function loadBinaryFileByUri($binaryFileUri)
+    public function loadBinaryFileByUri(string $binaryFileUri): BinaryFileValue
     {
         return $this->loadBinaryFile(
             $this->removeUriPrefix(
@@ -178,7 +174,7 @@ class IOService implements IOServiceInterface
         );
     }
 
-    public function getFileInputStream(BinaryFile $binaryFile)
+    public function getFileInputStream(BinaryFileValue $binaryFile): mixed
     {
         $this->checkBinaryFileId($binaryFile->id);
 
@@ -187,7 +183,7 @@ class IOService implements IOServiceInterface
         );
     }
 
-    public function getFileContents(BinaryFile $binaryFile)
+    public function getFileContents(BinaryFileValue $binaryFile): string
     {
         $this->checkBinaryFileId($binaryFile->id);
 
@@ -196,53 +192,47 @@ class IOService implements IOServiceInterface
         );
     }
 
-    public function getUri($binaryFileId)
+    public function getUri(string $binaryFileId): string
     {
         return $this->binarydataHandler->getUri($binaryFileId);
     }
 
-    public function getMimeType($binaryFileId)
+    public function getMimeType(string $binaryFileId): ?string
     {
         return $this->metadataHandler->getMimeType($this->getPrefixedUri($binaryFileId));
     }
 
-    public function exists($binaryFileId)
+    public function exists(string $binaryFileId): bool
     {
         return $this->metadataHandler->exists($this->getPrefixedUri($binaryFileId));
     }
 
     /**
-     * Generates SPI BinaryFileCreateStruct object from provided API BinaryFileCreateStruct object.
-     *
-     * @param \Ibexa\Core\IO\Values\BinaryFileCreateStruct $binaryFileCreateStruct
-     *
-     * @return \Ibexa\Contracts\Core\IO\BinaryFileCreateStruct
+     * Generates BinaryFileCreateStruct object from the provided API BinaryFileCreateStruct object.
      */
-    protected function buildSPIBinaryFileCreateStructObject(BinaryFileCreateStruct $binaryFileCreateStruct)
+    protected function buildSPIBinaryFileCreateStructObject(BinaryFileCreateStruct $binaryFileCreateStruct): PersistenceBinaryFileCreateStruct
     {
-        $spiBinaryCreateStruct = new SPIBinaryFileCreateStruct();
+        $spiBinaryCreateStruct = new PersistenceBinaryFileCreateStruct();
 
-        $spiBinaryCreateStruct->id = $this->getPrefixedUri($binaryFileCreateStruct->id);
+        $spiBinaryCreateStruct->id = $this->getPrefixedUri($binaryFileCreateStruct->id ?? '');
         $spiBinaryCreateStruct->size = $binaryFileCreateStruct->size;
         $spiBinaryCreateStruct->setInputStream($binaryFileCreateStruct->inputStream);
         $spiBinaryCreateStruct->mimeType = $binaryFileCreateStruct->mimeType;
-        $spiBinaryCreateStruct->mtime = new \DateTime();
+        $spiBinaryCreateStruct->mtime = new DateTime();
 
         return $spiBinaryCreateStruct;
     }
 
     /**
-     * Generates API BinaryFile object from provided SPI BinaryFile object.
+     * Generates an API BinaryFile object from the provided persistence layer BinaryFile object.
      *
-     * @param \Ibexa\Contracts\Core\IO\BinaryFile $spiBinaryFile
-     *
-     * @return \Ibexa\Core\IO\Values\BinaryFile
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    protected function buildDomainBinaryFileObject(SPIBinaryFile $spiBinaryFile)
+    protected function buildDomainBinaryFileObject(PersistenceBinaryFile $spiBinaryFile): BinaryFileValue
     {
-        return new BinaryFile(
+        return new BinaryFileValue(
             [
-                'size' => (int)$spiBinaryFile->size,
+                'size' => $spiBinaryFile->size,
                 'mtime' => $spiBinaryFile->mtime,
                 'id' => $this->removeUriPrefix($spiBinaryFile->id),
                 'uri' => $spiBinaryFile->uri,
@@ -252,12 +242,8 @@ class IOService implements IOServiceInterface
 
     /**
      * Returns $uri prefixed with what is configured in the service.
-     *
-     * @param string $binaryFileId
-     *
-     * @return string
      */
-    protected function getPrefixedUri($binaryFileId)
+    protected function getPrefixedUri(string $binaryFileId): string
     {
         $prefix = '';
         if (isset($this->settings['prefix'])) {
@@ -268,43 +254,32 @@ class IOService implements IOServiceInterface
     }
 
     /**
-     * @param mixed $spiBinaryFileId
-     *
-     * @return string
-     *
-     * @throws \Ibexa\Core\IO\Exception\InvalidBinaryPrefixException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    protected function removeUriPrefix($spiBinaryFileId)
+    protected function removeUriPrefix(string $binaryFileId): string
     {
         if (!isset($this->settings['prefix'])) {
-            return $spiBinaryFileId;
+            return $binaryFileId;
         }
 
-        if (strpos($spiBinaryFileId, $this->settings['prefix'] . '/') !== 0) {
-            throw new InvalidBinaryPrefixException($spiBinaryFileId, $this->settings['prefix'] . '/');
+        if (!str_starts_with($binaryFileId, $this->settings['prefix'] . '/')) {
+            throw new InvalidBinaryPrefixException($binaryFileId, $this->settings['prefix'] . '/');
         }
 
-        return substr($spiBinaryFileId, strlen($this->settings['prefix']) + 1);
+        return substr($binaryFileId, strlen($this->settings['prefix']) + 1);
     }
 
     /**
-     * @param string $binaryFileId
-     *
-     * @throws \Ibexa\Core\IO\Exception\InvalidBinaryFileIdException If the id is invalid
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the id is invalid
      */
-    protected function checkBinaryFileId($binaryFileId)
+    protected function checkBinaryFileId(string $binaryFileId): void
     {
-        if (empty($binaryFileId) || !is_string($binaryFileId)) {
+        if (empty($binaryFileId)) {
             throw new InvalidBinaryFileIdException($binaryFileId);
         }
     }
 
-    /**
-     * Deletes a directory.
-     *
-     * @param string $path
-     */
-    public function deleteDirectory($path)
+    public function deleteDirectory(string $path): void
     {
         $prefixedUri = $this->getPrefixedUri($path);
         $this->metadataHandler->deleteDirectory($prefixedUri);
@@ -312,13 +287,9 @@ class IOService implements IOServiceInterface
     }
 
     /**
-     * Check if path is absolute, in terms of http or disk (incl if it contains driver letter on Win).
-     *
-     * @param string $path
-     *
-     * @return bool
+     * Check if a path is absolute, in terms of http or disk (incl if it contains a driver letter on Win).
      */
-    protected function isAbsolutePath($path)
+    protected function isAbsolutePath(string $path): bool
     {
         return $path[0] === '/' || (PHP_OS === 'WINNT' && $path[1] === ':');
     }

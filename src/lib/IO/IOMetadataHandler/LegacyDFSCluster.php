@@ -178,12 +178,7 @@ class LegacyDFSCluster implements IOMetadataHandler
         return $result->rowCount() === 1;
     }
 
-    /**
-     * @param \Ibexa\Contracts\Core\IO\BinaryFileCreateStruct $binaryFileCreateStruct
-     *
-     * @return mixed
-     */
-    protected function getNameTrunk(SPIBinaryFileCreateStruct $binaryFileCreateStruct)
+    protected function getNameTrunk(SPIBinaryFileCreateStruct $binaryFileCreateStruct): string
     {
         return $this->addPrefix($binaryFileCreateStruct->id);
     }
@@ -209,13 +204,6 @@ class LegacyDFSCluster implements IOMetadataHandler
         };
     }
 
-    /**
-     * Adds the internal prefix string to $id.
-     *
-     * @param string $id
-     *
-     * @return string prefixed id
-     */
     protected function addPrefix(string $id): string
     {
         return isset($this->urlDecorator) ? $this->urlDecorator->decorate($id) : $id;
