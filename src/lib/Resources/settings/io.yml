@@ -5,18 +5,18 @@ parameters:
     ibexa.core.io.flysystem.link_handling: !php/const \League\Flysystem\Local\LocalFilesystemAdapter::DISALLOW_LINKS
 
 services:
-    ibexa.core.io.service:
-        class: Ibexa\Core\IO\TolerantIOService
+    Ibexa\Core\IO\TolerantIOService:
+        autoconfigure: true
         lazy: true
         arguments:
-            - '@Ibexa\Core\IO\IOBinarydataHandler\SiteAccessDependentMetadataHandler'
-            - '@Ibexa\Core\IO\IOBinarydataHandler\SiteAccessDependentBinaryDataHandler'
-            - '@ibexa.core.io.mimeTypeDetector'
-        calls:
-            - [ setLogger, ["@?logger" ] ]
+            $metadataHandler: '@Ibexa\Core\IO\IOBinarydataHandler\SiteAccessDependentMetadataHandler'
+            $binarydataHandler: '@Ibexa\Core\IO\IOBinarydataHandler\SiteAccessDependentBinaryDataHandler'
+            $mimeTypeDetector: '@Ibexa\Core\IO\MimeTypeDetector\FileInfo'
 
-    Ibexa\Core\IO\MimeTypeDetector\FileInfo:
-        class: Ibexa\Core\IO\MimeTypeDetector\FileInfo
+    ibexa.core.io.service:
+        alias: Ibexa\Core\IO\TolerantIOService
+
+    Ibexa\Core\IO\MimeTypeDetector\FileInfo: ~
 
     ibexa.core.io.mimeTypeDetector:
         alias: Ibexa\Core\IO\MimeTypeDetector\FileInfo
