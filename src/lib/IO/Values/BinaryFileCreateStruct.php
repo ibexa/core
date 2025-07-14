@@ -16,31 +16,27 @@ class BinaryFileCreateStruct extends ValueObject
 {
     /**
      * URI the binary file should be stored to.
-     *
-     * @var string
      */
-    public $id;
+    public ?string $id = null;
 
     /**
      * The size of the file.
-     *
-     * @var int
      */
-    public $size;
+    public int $size;
 
     /**
      * the input stream.
      *
      * @var resource
      */
-    public $inputStream;
+    public mixed $inputStream;
 
     /**
-     * The file's mime type
-     * If not provided, will be auto-detected by the IOService
-     * Example: text/xml.
+     * The file's mime type.
      *
-     * @var string
+     * If not provided, will be auto-detected by the IOService
+     *
+     * Example: text/xml.
      */
-    public $mimeType;
+    public string $mimeType;
 }
