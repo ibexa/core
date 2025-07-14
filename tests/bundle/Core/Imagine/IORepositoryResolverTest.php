@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\Imagine;
 
@@ -19,32 +20,27 @@ use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 use Ibexa\Core\IO\Values\MissingBinaryFile;
 use Liip\ImagineBundle\Exception\Imagine\Cache\Resolver\NotResolvableException;
 use Liip\ImagineBundle\Model\Binary;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RequestContext;
 
-class IORepositoryResolverTest extends TestCase
+/**
+ * @covers \Ibexa\Bundle\Core\Imagine\IORepositoryResolver
+ */
+final class IORepositoryResolverTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $ioService;
+    private IOServiceInterface & MockObject $ioService;
 
-    /** @var \Symfony\Component\Routing\RequestContext */
-    private $requestContext;
+    private RequestContext $requestContext;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $configResolver;
+    private ConfigResolverInterface & MockObject $configResolver;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\IORepositoryResolver */
-    private $imageResolver;
+    private IORepositoryResolver $imageResolver;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\FilterConfiguration */
-    private $filterConfiguration;
+    protected VariationPurger & MockObject $variationPurger;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationPurger|\PHPUnit\Framework\MockObject\MockObject */
-    protected $variationPurger;
-
-    /** @var \Ibexa\Contracts\Core\Variation\VariationPathGenerator|\PHPUnit\Framework\MockObject\MockObject */
-    protected $variationPathGenerator;
+    protected VariationPathGenerator & MockObject $variationPathGenerator;
 
     protected function setUp(): void
     {
@@ -52,14 +48,14 @@ class IORepositoryResolverTest extends TestCase
         $this->ioService = $this->createMock(IOServiceInterface::class);
         $this->requestContext = new RequestContext();
         $this->configResolver = $this->createMock(ConfigResolverInterface::class);
-        $this->filterConfiguration = new FilterConfiguration();
-        $this->filterConfiguration->setConfigResolver($this->configResolver);
+        $filterConfiguration = new FilterConfiguration();
+        $filterConfiguration->setConfigResolver($this->configResolver);
         $this->variationPurger = $this->createMock(VariationPurger::class);
         $this->variationPathGenerator = $this->createMock(VariationPathGenerator::class);
         $this->imageResolver = new IORepositoryResolver(
             $this->ioService,
             $this->requestContext,
-            $this->filterConfiguration,
+            $filterConfiguration,
             $this->variationPurger,
             $this->variationPathGenerator
         );
@@ -107,7 +103,7 @@ class IORepositoryResolverTest extends TestCase
             ->expects(self::once())
             ->method('exists')
             ->with($aliasPath)
-            ->will(self::returnValue(true));
+            ->willReturn(true);
 
         self::assertTrue($this->imageResolver->isStored($path, $filter));
     }
@@ -128,7 +124,7 @@ class IORepositoryResolverTest extends TestCase
             ->expects(self::once())
             ->method('exists')
             ->with($aliasPath)
-            ->will(self::returnValue(false));
+            ->willReturn(false);
 
         self::assertFalse($this->imageResolver->isStored($path, $filter));
     }
@@ -143,12 +139,12 @@ class IORepositoryResolverTest extends TestCase
         }
 
         $this->ioService
-            ->expects(self::any())
+            ->expects(self::atLeastOnce())
             ->method('loadBinaryFile')
-            ->will(self::returnValue(new BinaryFile(['uri' => $variationPath])));
+            ->willReturn(new BinaryFile(['uri' => $variationPath]));
 
         $this->variationPathGenerator
-            ->expects(self::any())
+            ->expects($filter !== IORepositoryResolver::VARIATION_ORIGINAL ? self::once() : self::never())
             ->method('getVariationPath')
             ->willReturn($variationPath);
 
@@ -165,7 +161,7 @@ class IORepositoryResolverTest extends TestCase
             ->expects(self::once())
             ->method('loadBinaryFile')
             ->with($path)
-            ->will(self::returnValue(new MissingBinaryFile()));
+            ->willReturn(new MissingBinaryFile());
 
         $this->imageResolver->resolve($path, 'some_filter');
     }
@@ -179,7 +175,7 @@ class IORepositoryResolverTest extends TestCase
             ->expects(self::once())
             ->method('loadBinaryFile')
             ->with($path)
-            ->will(self::throwException(new NotFoundException('foo', 'bar')));
+            ->willThrowException(new NotFoundException('foo', 'bar'));
 
         $this->imageResolver->resolve($path, 'some_filter');
     }
@@ -246,14 +242,13 @@ class IORepositoryResolverTest extends TestCase
     {
         $filter = 'thumbnail';
         $path = 'Tardis/bigger/in-the-inside/RiverSong.jpg';
-        $aliasPath = 'Tardis/bigger/in-the-inside/RiverSong_thumbnail.jpg';
         $binary = new Binary('foo content', 'some/mime-type');
 
         $createStruct = new BinaryFileCreateStruct();
         $this->ioService
             ->expects(self::once())
             ->method('newBinaryCreateStructFromLocalFile')
-            ->will(self::returnValue($createStruct));
+            ->willReturn($createStruct);
 
         $this->ioService
             ->expects(self::once())
@@ -262,95 +257,67 @@ class IORepositoryResolverTest extends TestCase
         $this->imageResolver->store($binary, $path, $filter);
     }
 
-    public function testRemoveEmptyFilters(): void
+    /**
+     * @return iterable<string, array{string[], array<string, bool>}>
+     */
+    public function getDataForTestRemove(): iterable
     {
-        $originalPath = 'foo/bar/test.jpg';
-        $filters = ['filter1' => true, 'filter2' => true, 'chaud_cacao' => true];
+        yield 'empty filters' => [
+            [],
+            ['filter1' => true, 'filter2' => true, 'chaud_cacao' => true],
+        ];
 
-        $this->configResolver
-            ->expects(self::once())
-            ->method('getParameter')
-            ->with('image_variations')
-            ->will(self::returnValue($filters));
-
-        $this->variationPathGenerator
-            ->expects(self::exactly(count($filters)))
-            ->method('getVariationPath')
-            ->will(
-                self::returnValueMap(
-                    [
-                        ['foo/bar/test.jpg', 'filter1', 'foo/bar/test_filter1.jpg '],
-                        ['foo/bar/test.jpg', 'filter2', 'foo/bar/test_filter2.jpg '],
-                        ['foo/bar/test.jpg', 'chaud_cacao', 'foo/bar/test_chaud_cacao.jpg'],
-                    ]
-                )
-            );
-
-        $fileToDelete = 'foo/bar/test_chaud_cacao.jpg';
-        $this->ioService
-            ->expects(self::exactly(count($filters)))
-            ->method('exists')
-            ->will(
-                self::returnValueMap(
-                    [
-                        ['foo/bar/test_filter1.jpg', false],
-                        ['foo/bar/test_filter2.jpg', false],
-                        [$fileToDelete, true],
-                    ]
-                )
-            );
-
-        $binaryFile = new BinaryFile(['id' => $fileToDelete]);
-        $this->ioService
-            ->expects(self::once())
-            ->method('loadBinaryFile')
-            ->with($fileToDelete)
-            ->will(self::returnValue($binaryFile));
-
-        $this->ioService
-            ->expects(self::once())
-            ->method('deleteBinaryFile')
-            ->with($binaryFile);
-
-        $this->imageResolver->remove([$originalPath], []);
+        yield 'with filters' => [
+            ['filter1', 'filter2', 'chaud_cacao'],
+            [],
+        ];
     }
 
-    public function testRemoveWithFilters(): void
+    /**
+     * @dataProvider getDataForTestRemove
+     *
+     * @param string[] $filters
+     * @param array<string, bool> $imageVariations
+     */
+    public function testRemove(array $filters, array $imageVariations): void
     {
         $originalPath = 'foo/bar/test.jpg';
-        $filters = ['filter1', 'filter2', 'chaud_cacao'];
 
         $this->configResolver
-            ->expects(self::never())
+            ->expects(!empty($filters) ? self::never() : self::once())
             ->method('getParameter')
             ->with('image_variations')
-            ->will(self::returnValue([]));
+            ->willReturn($imageVariations);
 
+        $pathCount = !empty($filters) ? count($filters) : count($imageVariations);
         $this->variationPathGenerator
-            ->expects(self::exactly(count($filters)))
+            ->expects(self::exactly($pathCount))
             ->method('getVariationPath')
-            ->will(
-                self::returnValueMap(
-                    [
-                        ['foo/bar/test.jpg', 'filter1', 'foo/bar/test_filter1.jpg '],
-                        ['foo/bar/test.jpg', 'filter2', 'foo/bar/test_filter2.jpg '],
-                        ['foo/bar/test.jpg', 'chaud_cacao', 'foo/bar/test_chaud_cacao.jpg'],
-                    ]
-                )
+            ->willReturnMap(
+                [
+                    ['foo/bar/test.jpg', 'filter1', 'foo/bar/test_filter1.jpg'],
+                    ['foo/bar/test.jpg', 'filter2', 'foo/bar/test_filter2.jpg'],
+                    ['foo/bar/test.jpg', 'chaud_cacao', 'foo/bar/test_chaud_cacao.jpg'],
+                ]
             );
 
+        $this->configureIoServiceForDeletingBinaryFile($pathCount);
+
+        $this->imageResolver->remove([$originalPath], $filters);
+    }
+
+    private function configureIoServiceForDeletingBinaryFile(int $pathCount): void
+    {
         $fileToDelete = 'foo/bar/test_chaud_cacao.jpg';
         $this->ioService
-            ->expects(self::exactly(count($filters)))
+            ->expects(self::exactly($pathCount))
             ->method('exists')
-            ->will(
-                self::returnValueMap(
-                    [
-                        ['foo/bar/test_filter1.jpg', false],
-                        ['foo/bar/test_filter2.jpg', false],
-                        [$fileToDelete, true],
-                    ]
-                )
+            ->willReturnMap(
+                [
+                    ['foo/bar/test_filter1.jpg', false],
+                    ['foo/bar/test_filter2.jpg', false],
+                    [$fileToDelete, true],
+                ]
             );
 
         $binaryFile = new BinaryFile(['id' => $fileToDelete]);
@@ -358,13 +325,11 @@ class IORepositoryResolverTest extends TestCase
             ->expects(self::once())
             ->method('loadBinaryFile')
             ->with($fileToDelete)
-            ->will(self::returnValue($binaryFile));
+            ->willReturn($binaryFile);
 
         $this->ioService
             ->expects(self::once())
             ->method('deleteBinaryFile')
             ->with($binaryFile);
-
-        $this->imageResolver->remove([$originalPath], $filters);
     }
 }
