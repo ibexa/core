@@ -15,7 +15,7 @@ abstract class BaseFlysystemTestCase extends ConfigurationFactoryTestCase
 {
     private $flysystemAdapterServiceId = 'oneup_flysystem.test_adapter';
 
-    private $filesystemServiceId = 'ezpublish.core.io.flysystem.my_test_handler_filesystem';
+    private string $filesystemServiceId = 'ibexa.core.io.flysystem.my_test_handler_filesystem';
 
     public function provideHandlerConfiguration()
     {
