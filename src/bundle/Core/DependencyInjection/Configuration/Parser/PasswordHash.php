@@ -35,7 +35,7 @@ final class PasswordHash extends AbstractParser
      *
      * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $nodeBuilder Node just under ibexa.system.<siteaccess>
      */
-    public function addSemanticConfig(NodeBuilder $nodeBuilder)
+    public function addSemanticConfig(NodeBuilder $nodeBuilder): void
     {
         $nodeBuilder
             ->arrayNode('password_hash')
@@ -57,7 +57,10 @@ final class PasswordHash extends AbstractParser
             ->end();
     }
 
-    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer)
+    /**
+     * @param array<string,mixed> $scopeSettings
+     */
+    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer): void
     {
         if (!isset($scopeSettings['password_hash'])) {
             return;
