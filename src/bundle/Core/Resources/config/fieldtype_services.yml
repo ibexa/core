@@ -44,12 +44,11 @@ services:
 
     # Image
     Ibexa\Core\FieldType\Image\IO\Legacy:
-        class: Ibexa\Core\FieldType\Image\IO\Legacy
         arguments:
-            - '@ibexa.field_type.ibexa_image.io_service.published'
-            - '@ibexa.field_type.ibexa_image.io_service.draft'
-            - '@Ibexa\Core\FieldType\Image\IO\OptionsProvider'
-        # Required by ezpublish.core.io.stream_file_listener. Request listeners are initialized very early.
+            $publishedIOService: '@ibexa.field_type.ibexa_image.io_service.published'
+            $draftIOService: '@ibexa.field_type.ibexa_image.io_service.draft'
+            $optionsProvider: '@Ibexa\Core\FieldType\Image\IO\OptionsProvider'
+        # Required by Ibexa\Bundle\IO\EventListener\StreamFileListener. Request listeners are initialized very early.
         lazy: true
 
     Ibexa\Core\FieldType\Image\IO\OptionsProvider:
