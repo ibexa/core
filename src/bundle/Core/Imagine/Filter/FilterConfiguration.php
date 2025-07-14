@@ -12,18 +12,17 @@ use Liip\ImagineBundle\Imagine\Filter\FilterConfiguration as BaseFilterConfigura
 
 class FilterConfiguration extends BaseFilterConfiguration
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /**
-     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
-     */
-    public function setConfigResolver(ConfigResolverInterface $configResolver)
+    public function setConfigResolver(ConfigResolverInterface $configResolver): void
     {
         $this->configResolver = $configResolver;
     }
 
-    public function get($filter)
+    /**
+     * @return array<string, mixed>
+     */
+    public function get($filter): array
     {
         $configuredVariations = $this->configResolver->getParameter('image_variations');
         if (!array_key_exists($filter, $configuredVariations)) {
@@ -35,13 +34,16 @@ class FilterConfiguration extends BaseFilterConfiguration
         return [
             'cache' => 'ibexa',
             'data_loader' => 'ibexa',
-            'reference' => isset($configuredVariations[$filter]['reference']) ? $configuredVariations[$filter]['reference'] : null,
+            'reference' => $configuredVariations[$filter]['reference'] ?? null,
             'filters' => $this->getVariationFilters($filter, $configuredVariations),
             'post_processors' => $this->getVariationPostProcessors($filter, $configuredVariations),
         ] + $filterConfig;
     }
 
-    public function all()
+    /**
+     * @return array<string, mixed>
+     */
+    public function all(): array
     {
         return $this->configResolver->getParameter('image_variations') + parent::all();
     }
@@ -52,26 +54,18 @@ class FilterConfiguration extends BaseFilterConfiguration
      * Both variations configured in Ibexa (SiteAccess context) and LiipImagineBundle are used.
      * Ibexa variations always have precedence.
      *
-     * @param string $variationName
-     * @param array $configuredVariations Variations set in eZ.
+     * @param array<string, array{filters: array<mixed>}> $configuredVariations Variations set in eZ.
      *
-     * @return array
+     * @return array<mixed>
      */
-    private function getVariationFilters($variationName, array $configuredVariations)
+    private function getVariationFilters(string $variationName, array $configuredVariations): array
     {
         if (!isset($configuredVariations[$variationName]['filters']) && !isset($this->filters[$variationName]['filters'])) {
             return [];
         }
 
         // Check variations configured in Ibexa config first.
-        if (isset($configuredVariations[$variationName]['filters'])) {
-            $filters = $configuredVariations[$variationName]['filters'];
-        } else {
-            // Falback to variations configured in LiipImagineBundle.
-            $filters = $this->filters[$variationName]['filters'];
-        }
-
-        return $filters;
+        return $configuredVariations[$variationName]['filters'] ?? $this->filters[$variationName]['filters'];
     }
 
     /**
@@ -80,19 +74,14 @@ class FilterConfiguration extends BaseFilterConfiguration
      * Both variations configured in Ibexa and LiipImagineBundle are used.
      * Ibexa variations always have precedence.
      *
-     * @param string $variationName
-     * @param array $configuredVariations Variations set in eZ.
+     * @param array<string, array{post_processor: array<mixed>}> $configuredVariations Variations set in Ibexa.
      *
-     * @return array
+     * @return array<mixed>
      */
-    private function getVariationPostProcessors($variationName, array $configuredVariations)
+    private function getVariationPostProcessors(string $variationName, array $configuredVariations): array
     {
-        if (isset($configuredVariations[$variationName]['post_processors'])) {
-            return $configuredVariations[$variationName]['post_processors'];
-        } elseif (isset($this->filters[$variationName]['post_processors'])) {
-            return $this->filters[$variationName]['post_processors'];
-        }
-
-        return [];
+        return $configuredVariations[$variationName]['post_processors']
+            ?? $this->filters[$variationName]['post_processors']
+            ?? [];
     }
 }
