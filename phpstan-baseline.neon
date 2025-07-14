@@ -24799,12 +24799,6 @@ parameters:
 			path: tests/bundle/IO/DependencyInjection/ConfigurationFactory/BaseFlysystemTestCase.php
 
 		-
-			message: '#^Property Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactory\\BaseFlysystemTestCase\:\:\$filesystemServiceId has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: tests/bundle/IO/DependencyInjection/ConfigurationFactory/BaseFlysystemTestCase.php
-
-		-
 			message: '#^Property Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactory\\BaseFlysystemTestCase\:\:\$flysystemAdapterServiceId has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
