@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\IO\EventListener;
 
@@ -19,14 +20,14 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * Listens for IO files requests, and streams them.
+ *
+ * @internal
  */
 class StreamFileListener implements EventSubscriberInterface
 {
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
-    private $ioService;
+    private IOServiceInterface $ioService;
 
-    /** @var \Ibexa\Core\IO\IOConfigProvider */
-    private $ioConfigResolver;
+    private IOConfigProvider $ioConfigResolver;
 
     public function __construct(IOServiceInterface $ioService, IOConfigProvider $ioConfigResolver)
     {
@@ -41,7 +42,11 @@ class StreamFileListener implements EventSubscriberInterface
         ];
     }
 
-    public function onKernelRequest(RequestEvent $event)
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function onKernelRequest(RequestEvent $event): void
     {
         if ($event->getRequestType() !== HttpKernelInterface::MAIN_REQUEST) {
             return;
@@ -51,7 +56,7 @@ class StreamFileListener implements EventSubscriberInterface
         $urlPrefix = $this->ioConfigResolver->getUrlPrefix();
         $pathInfo = $request->getPathInfo();
 
-        if (strpos($urlPrefix, '://') !== false) {
+        if (str_contains($urlPrefix, '://')) {
             $uri = $request->getSchemeAndHttpHost() . $pathInfo;
         } else {
             $uri = $pathInfo;
@@ -76,14 +81,9 @@ class StreamFileListener implements EventSubscriberInterface
 
     /**
      * Tests if $uri is an IO file uri root.
-     *
-     * @param string $uri
-     * @param string $urlPrefix
-     *
-     * @return bool
      */
-    private function isIoUri($uri, $urlPrefix): bool
+    private function isIoUri(string $uri, string $urlPrefix): bool
     {
-        return strpos(ltrim($uri, '/'), $urlPrefix) === 0;
+        return str_starts_with(ltrim($uri, '/'), $urlPrefix);
     }
 }
