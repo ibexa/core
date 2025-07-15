@@ -65,7 +65,7 @@ abstract class Flysystem implements ConfigurationFactory
             throw new InvalidConfigurationException("Unknown flysystem adapter $adapter");
         }
 
-        $filesystemId = sprintf('ezpublish.core.io.flysystem.%s_filesystem', $name);
+        $filesystemId = sprintf('ibexa.core.io.flysystem.%s_filesystem', $name);
         $filesystemServiceDefinition = new ChildDefinition('ibexa.core.io.flysystem.base_filesystem');
         $definition = $container->setDefinition(
             $filesystemId,
