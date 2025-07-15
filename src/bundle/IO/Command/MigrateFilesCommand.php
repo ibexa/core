@@ -12,6 +12,7 @@ use Ibexa\Bundle\IO\Migration\FileMigratorInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,38 +24,27 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 )]
 final class MigrateFilesCommand extends Command
 {
-    /** @var mixed Configuration for metadata handlers */
-    private $configuredMetadataHandlers;
-
-    /** @var mixed Configuration for binary data handlers */
-    private $configuredBinarydataHandlers;
-
-    /** @var \Ibexa\Bundle\IO\Migration\FileListerRegistry */
-    private $fileListerRegistry;
-
     /** @var \Ibexa\Bundle\IO\Migration\FileListerInterface[] */
-    private $fileListers;
+    private array $fileListers = [];
 
-    /** @var \Ibexa\Bundle\IO\Migration\FileMigratorInterface */
-    private $fileMigrator;
-
+    /**
+     * @param array<string, array<string, mixed>> $configuredMetadataHandlers
+     * @param array<string, array<string, mixed>> $configuredBinarydataHandlers
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function __construct(
-        array $configuredMetadataHandlers,
-        array $configuredBinarydataHandlers,
-        FileListerRegistry $fileListerRegistry,
-        FileMigratorInterface $fileMigrator
+        private array $configuredMetadataHandlers,
+        private array $configuredBinarydataHandlers,
+        private readonly FileListerRegistry $fileListerRegistry,
+        private readonly FileMigratorInterface $fileMigrator
     ) {
-        $this->configuredMetadataHandlers = $configuredMetadataHandlers;
-        $this->configuredBinarydataHandlers = $configuredBinarydataHandlers;
         if (!array_key_exists('default', $this->configuredMetadataHandlers)) {
             $this->configuredMetadataHandlers['default'] = [];
         }
         if (!array_key_exists('default', $this->configuredBinarydataHandlers)) {
             $this->configuredBinarydataHandlers['default'] = [];
         }
-
-        $this->fileListerRegistry = $fileListerRegistry;
-        $this->fileMigrator = $fileMigrator;
 
         foreach ($this->fileListerRegistry->getIdentifiers() as $fileListerIdentifier) {
             $this->fileListers[] = $this->fileListerRegistry->getItem($fileListerIdentifier);
@@ -152,7 +142,7 @@ EOT
         );
 
         $output->writeln([
-            'Total number of files to migrate: ' . ($totalCount === null ? 'unknown' : $totalCount),
+            'Total number of files to migrate: ' . $totalCount,
             'This number does not include image variations, but they will also be migrated.',
             '',
         ]);
@@ -164,7 +154,7 @@ EOT
         }
 
         if (!$input->getOption('no-interaction')) {
-            $helper = $this->getHelper('question');
+            $helper = new QuestionHelper();
             $question = new ConfirmationQuestion(
                 '<question>Are you sure you want to proceed?</question> ',
                 false
@@ -192,7 +182,7 @@ EOT
      *
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      */
-    protected function outputConfiguredHandlers(OutputInterface $output)
+    protected function outputConfiguredHandlers(OutputInterface $output): void
     {
         $output->writeln(
             'Configured metadata handlers: ' . implode(', ', array_keys($this->configuredMetadataHandlers))
@@ -205,15 +195,12 @@ EOT
     /**
      * Verify that the handler options have been set to meaningful values.
      *
-     * @param mixed $fromHandlers
-     * @param mixed $toHandlers
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return bool
+     * @param string[] $fromHandlers
+     * @param string[] $toHandlers
      */
     protected function validateHandlerOptions(
-        $fromHandlers,
-        $toHandlers,
+        array $fromHandlers,
+        array $toHandlers,
         OutputInterface $output
     ): bool {
         foreach (['From' => $fromHandlers, 'To' => $toHandlers] as $direction => $handlers) {
@@ -228,9 +215,10 @@ EOT
             }
 
             foreach (['meta' => $handlers[0], 'binary' => $handlers[1]] as $fileDataType => $handler) {
-                if (!in_array($handler, array_keys(
+                $handlers = array_keys(
                     $fileDataType === 'meta' ? $this->configuredMetadataHandlers : $this->configuredBinarydataHandlers
-                ))) {
+                );
+                if (!in_array($handler, $handlers, true)) {
                     $output->writeln("$direction $fileDataType data handler '$handler' is not configured.");
                     $this->outputConfiguredHandlers($output);
 
@@ -252,18 +240,16 @@ EOT
      * Migrate files.
      *
      * @param int|null $totalFileCount Total count of files, null if unknown
-     * @param int $bulkCount Number of files to process in each batch
-     * @param bool $dryRun
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param int|null $bulkCount Number of files to process in each batch
      */
     protected function migrateFiles(
-        $totalFileCount,
-        $bulkCount,
-        $dryRun,
+        ?int $totalFileCount,
+        ?int $bulkCount,
+        bool $dryRun,
         OutputInterface $output
-    ) {
-        $progress = new ProgressBar($output, $totalFileCount);
-        if ($totalFileCount) {
+    ): void {
+        $progress = new ProgressBar($output, $totalFileCount ?? 0);
+        if (null !== $totalFileCount) {
             $progress->setFormat("%message%\n %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s%");
         } else {
             $progress->setFormat("%message%\n %current% [%bar%] %elapsed:6s% %memory:6s%");
@@ -298,7 +284,7 @@ EOT
                             $updateFrequency = (int)($updateFrequency / 2);
                             $progress->setRedrawFrequency($updateFrequency);
                         } elseif ($newTimestamp - $timestamp < 0.1 && $updateFrequency < 10000) {
-                            $updateFrequency = $updateFrequency * 2;
+                            $updateFrequency *= 2;
                             $progress->setRedrawFrequency($updateFrequency);
                         }
                         $timestamp = $newTimestamp;
