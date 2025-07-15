@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\IO;
 
@@ -32,7 +33,7 @@ class IbexaIOBundle extends Bundle
 
     public function getContainerExtension(): ?ExtensionInterface
     {
-        if (!isset($this->extension)) {
+        if (!$this->extension instanceof ExtensionInterface) {
             $this->extension = new IbexaIOExtension();
             $this->extension->addMetadataHandlerFactory('flysystem', new ConfigurationFactory\MetadataHandler\Flysystem());
             $this->extension->addMetadataHandlerFactory('legacy_dfs_cluster', new ConfigurationFactory\MetadataHandler\LegacyDFSCluster());
