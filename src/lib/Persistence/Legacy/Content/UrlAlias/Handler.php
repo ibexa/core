@@ -620,6 +620,10 @@ class Handler implements UrlAliasHandlerInterface
      */
     public function loadUrlAlias($id)
     {
+        if (!preg_match('/^\d+-[a-f0-9]{32}$/', $id)) {
+            throw new NotFoundException('URLAlias', $id);
+        }
+
         list($parentId, $textMD5) = explode('-', $id);
         $data = $this->gateway->loadRow((int)$parentId, $textMD5);
 
