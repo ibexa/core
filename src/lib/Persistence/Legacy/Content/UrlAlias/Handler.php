@@ -47,8 +47,9 @@ class Handler implements UrlAliasHandlerInterface
     public const MAX_URL_ALIAS_DEPTH_LEVEL = 60;
 
     /**
-     * @string
      * Match url alias id in form of `<parentId>-<textMD5>`.
+     *
+     * @var string
      */
     public const URL_ALIAS_ID_PATTERN = '/^\d+-[a-f0-9]{32}$/';
 
