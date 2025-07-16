@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine;
 
@@ -12,15 +13,14 @@ use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
 
 class AliasCleaner implements AliasCleanerInterface
 {
-    /** @var \Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
-    private $aliasResolver;
+    private ResolverInterface $aliasResolver;
 
     public function __construct(ResolverInterface $aliasResolver)
     {
         $this->aliasResolver = $aliasResolver;
     }
 
-    public function removeAliases($originalPath)
+    public function removeAliases(string $originalPath): void
     {
         $this->aliasResolver->remove([$originalPath], []);
     }
