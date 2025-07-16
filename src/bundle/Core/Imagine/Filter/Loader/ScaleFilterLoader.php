@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine\Filter\Loader;
 
@@ -16,15 +17,18 @@ use Imagine\Image\ImageInterface;
  */
 class ScaleFilterLoader extends FilterLoaderWrapped
 {
-    public const IDENTIFIER = 'geometry/scale';
+    public const string IDENTIFIER = 'geometry/scale';
 
+    /**
+     * @phpstan-param array{0?: int, 1?: int} $options width, height
+     */
     public function load(ImageInterface $image, array $options = []): ImageInterface
     {
         if (count($options) < 2) {
             throw new InvalidArgumentException('Missing width and/or height options');
         }
 
-        list($width, $height) = $options;
+        [$width, $height] = $options;
         $size = $image->getSize();
         $ratioWidth = $width / $size->getWidth();
         $ratioHeight = $height / $size->getHeight();

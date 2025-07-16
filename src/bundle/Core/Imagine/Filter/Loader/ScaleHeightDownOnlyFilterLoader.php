@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine\Filter\Loader;
 
@@ -16,8 +17,11 @@ use Imagine\Image\ImageInterface;
  */
 class ScaleHeightDownOnlyFilterLoader extends FilterLoaderWrapped
 {
-    public const IDENTIFIER = 'geometry/scaleheightdownonly';
+    public const string IDENTIFIER = 'geometry/scaleheightdownonly';
 
+    /**
+     * @phpstan-param array{0?: int} $options height
+     */
     public function load(ImageInterface $image, array $options = []): ImageInterface
     {
         if (empty($options)) {
