@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\Imagine\PlaceholderProvider;
 
@@ -17,12 +18,17 @@ use Imagine\Image\ImagineInterface;
 use Imagine\Image\Palette\Color\ColorInterface;
 use PHPUnit\Framework\TestCase;
 
-class GenericProviderTest extends TestCase
+/**
+ * @covers \Ibexa\Bundle\Core\Imagine\PlaceholderProvider\GenericProvider
+ */
+final class GenericProviderTest extends TestCase
 {
     /**
      * @dataProvider getPlaceholderDataProvider
+     *
+     * @param array<string, mixed> $options
      */
-    public function testGetPlaceholder(ImageValue $value, $expectedText, array $options = [])
+    public function testGetPlaceholder(ImageValue $value, string $expectedText, array $options = []): void
     {
         $font = $this->createMock(AbstractFont::class);
 
@@ -39,7 +45,7 @@ class GenericProviderTest extends TestCase
             });
 
         $font
-            ->expects(self::any())
+            ->expects(self::atLeastOnce())
             ->method('box')
             ->willReturn($this->createMock(BoxInterface::class));
 
@@ -57,7 +63,7 @@ class GenericProviderTest extends TestCase
 
         $drawer = $this->createMock(DrawerInterface::class);
         $image
-            ->expects(self::any())
+            ->expects(self::atLeastOnce())
             ->method('draw')
             ->willReturn($drawer);
 
@@ -70,7 +76,12 @@ class GenericProviderTest extends TestCase
         $provider->getPlaceholder($value, $options);
     }
 
-    public function getPlaceholderDataProvider()
+    /**
+     * @return array<array{\Ibexa\Core\FieldType\Image\Value, string, array<string, mixed>}>
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public static function getPlaceholderDataProvider(): array
     {
         return [
             [
@@ -91,13 +102,16 @@ class GenericProviderTest extends TestCase
         ];
     }
 
-    private function assertSizeEquals(array $expected, BoxInterface $actual)
+    /**
+     * @param array{int|null, int|null} $expected width, height
+     */
+    private function assertSizeEquals(array $expected, BoxInterface $actual): void
     {
         self::assertEquals($expected[0], $actual->getWidth());
         self::assertEquals($expected[1], $actual->getHeight());
     }
 
-    private function assertColorEquals($expected, ColorInterface $actual)
+    private function assertColorEquals(string $expected, ColorInterface $actual): void
     {
         self::assertEquals(strtolower($expected), strtolower((string)$actual));
     }
