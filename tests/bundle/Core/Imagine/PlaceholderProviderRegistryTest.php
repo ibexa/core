@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\Imagine;
 
@@ -16,13 +17,13 @@ use PHPUnit\Framework\TestCase;
  */
 class PlaceholderProviderRegistryTest extends TestCase
 {
-    private const FOO = 'foo';
-    private const BAR = 'bar';
+    private const string FOO = 'foo';
+    private const string BAR = 'bar';
 
     /**
      * @depends      testGetProviderKnown
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $providers = [
             self::FOO => $this->getPlaceholderProviderMock(),
@@ -48,7 +49,7 @@ class PlaceholderProviderRegistryTest extends TestCase
         self::assertSame($provider, $registry->getProvider(self::FOO));
     }
 
-    public function testSupports()
+    public function testSupports(): void
     {
         $registry = new PlaceholderProviderRegistry([
             'supported' => $this->getPlaceholderProviderMock(),
@@ -58,7 +59,7 @@ class PlaceholderProviderRegistryTest extends TestCase
         self::assertFalse($registry->supports('unsupported'));
     }
 
-    public function testGetProviderKnown()
+    public function testGetProviderKnown(): void
     {
         $provider = $this->getPlaceholderProviderMock();
 
@@ -69,7 +70,7 @@ class PlaceholderProviderRegistryTest extends TestCase
         self::assertEquals($provider, $registry->getProvider(self::FOO));
     }
 
-    public function testGetProviderUnknown()
+    public function testGetProviderUnknown(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
