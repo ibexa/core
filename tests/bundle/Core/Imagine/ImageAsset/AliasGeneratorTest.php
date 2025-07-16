@@ -15,29 +15,30 @@ use Ibexa\Contracts\Core\Variation\Values\Variation;
 use Ibexa\Contracts\Core\Variation\VariationHandler;
 use Ibexa\Core\FieldType\Image;
 use Ibexa\Core\FieldType\ImageAsset;
+use Ibexa\Core\FieldType\ImageAsset\AssetMapper;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class AliasGeneratorTest extends TestCase
+/**
+ * @covers \Ibexa\Bundle\Core\Imagine\ImageAsset\AliasGenerator
+ */
+final class AliasGeneratorTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\Imagine\ImageAsset\AliasGenerator */
-    private $aliasGenerator;
+    private AliasGenerator $aliasGenerator;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationHandler|\PHPUnit\Framework\MockObject\MockObject */
-    private $innerAliasGenerator;
+    private VariationHandler & MockObject $innerAliasGenerator;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService|\PHPUnit\Framework\MockObject\MockObject */
-    private $contentService;
+    private ContentService & MockObject $contentService;
 
-    /** @var \Ibexa\Core\FieldType\ImageAsset\AssetMapper|\PHPUnit\Framework\MockObject\MockObject */
-    private $assetMapper;
+    private AssetMapper & MockObject $assetMapper;
 
     protected function setUp(): void
     {
         $this->innerAliasGenerator = $this->createMock(VariationHandler::class);
         $this->contentService = $this->createMock(ContentService::class);
-        $this->assetMapper = $this->createMock(ImageAsset\AssetMapper::class);
+        $this->assetMapper = $this->createMock(AssetMapper::class);
 
         $this->aliasGenerator = new AliasGenerator(
             $this->innerAliasGenerator,
@@ -46,7 +47,10 @@ class AliasGeneratorTest extends TestCase
         );
     }
 
-    public function testGetVariationOfImageAsset()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     */
+    public function testGetVariationOfImageAsset(): void
     {
         $assetField = new Field([
             'value' => new ImageAsset\Value(486),
@@ -96,7 +100,7 @@ class AliasGeneratorTest extends TestCase
         self::assertEquals($expectedVariation, $actualVariation);
     }
 
-    public function testGetVariationOfNonImageAsset()
+    public function testGetVariationOfNonImageAsset(): void
     {
         $imageField = new Field([
             'value' => new Image\Value([
@@ -134,7 +138,7 @@ class AliasGeneratorTest extends TestCase
         self::assertEquals($expectedVariation, $actualVariation);
     }
 
-    public function testSupport()
+    public function testSupport(): void
     {
         self::assertTrue($this->aliasGenerator->supportsValue(new ImageAsset\Value()));
         self::assertFalse($this->aliasGenerator->supportsValue(new Image\Value()));
