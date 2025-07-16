@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine;
 
@@ -11,6 +12,7 @@ use Exception;
 use Ibexa\Core\IO\Exception\InvalidBinaryFileIdException;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\MissingBinaryFile;
+use Liip\ImagineBundle\Binary\BinaryInterface;
 use Liip\ImagineBundle\Binary\Loader\LoaderInterface;
 use Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException;
 use Liip\ImagineBundle\Model\Binary;
@@ -22,11 +24,9 @@ use Symfony\Component\Mime\MimeTypesInterface;
  */
 class BinaryLoader implements LoaderInterface
 {
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
-    private $ioService;
+    private IOServiceInterface $ioService;
 
-    /** @var \Symfony\Component\Mime\MimeTypesInterface */
-    private $mimeTypes;
+    private MimeTypesInterface $mimeTypes;
 
     public function __construct(IOServiceInterface $ioService, MimeTypesInterface $mimeTypes)
     {
@@ -36,10 +36,8 @@ class BinaryLoader implements LoaderInterface
 
     /**
      * @param string $path
-     *
-     * @return \Liip\ImagineBundle\Binary\BinaryInterface
      */
-    public function find($path)
+    public function find($path): BinaryInterface
     {
         try {
             $binaryFile = $this->ioService->loadBinaryFile($path);
@@ -52,8 +50,8 @@ class BinaryLoader implements LoaderInterface
 
             return new Binary(
                 $this->ioService->getFileContents($binaryFile),
-                $mimeType,
-                $this->mimeTypes->getExtensions($mimeType)[0] ?? null
+                $mimeType ?? '',
+                $this->mimeTypes->getExtensions($mimeType ?? '')[0] ?? null
             );
         } catch (InvalidBinaryFileIdException $e) {
             $message =
