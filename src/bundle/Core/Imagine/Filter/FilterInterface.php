@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine\Filter;
 
@@ -13,43 +14,31 @@ interface FilterInterface extends BaseFilterInterface
 {
     /**
      * Sets $value for $optionName.
-     *
-     * @param string $optionName
-     * @param mixed $value
      */
-    public function setOption($optionName, $value);
+    public function setOption(string $optionName, mixed $value): void;
 
     /**
      * Returns value for $optionName.
      * Defaults to $defaultValue if $optionName doesn't exist.
-     *
-     * @param string $optionName
-     * @param mixed|null $defaultValue
-     *
-     * @return mixed
      */
-    public function getOption($optionName, $defaultValue = null);
+    public function getOption(string $optionName, mixed $defaultValue = null): mixed;
 
     /**
      * Checks if $optionName exists and has a value.
-     *
-     * @param string $optionName
-     *
-     * @return bool
      */
-    public function hasOption($optionName);
+    public function hasOption(string $optionName): bool;
 
     /**
      * Replaces inner options by $options.
      *
-     * @param array $options
+     * @phpstan-param array<string, mixed> $options
      */
-    public function setOptions(array $options);
+    public function setOptions(array $options): void;
 
     /**
      * Returns all options.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function getOptions();
+    public function getOptions(): array;
 }
