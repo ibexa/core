@@ -43,7 +43,7 @@ class RejectExplicitFrontControllerRequestsListener implements EventSubscriberIn
 
         $scriptFileName = preg_quote(basename($request->server->get('SCRIPT_FILENAME')), '\\');
         // This pattern has to match with vhost.template files in meta repository
-        $pattern = sprintf('<^/([^/]+/)?%s([/?#]|$)>', $scriptFileName);
+        $pattern = sprintf('<^/([^/]+/)*?%s([/?#]|$)>', $scriptFileName);
 
         if (1 === preg_match($pattern, $request->getRequestUri())) {
             // Trigger generic 404 error to avoid leaking backend technology details.
