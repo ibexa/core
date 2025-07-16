@@ -10,6 +10,7 @@ namespace Ibexa\Core\Repository\User;
 
 use Ibexa\Contracts\Core\Repository\PasswordHashService as PasswordHashServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Repository\User\Exception\PasswordHashTypeNotCompiled;
 use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
 
@@ -20,9 +21,21 @@ final class PasswordHashService implements PasswordHashServiceInterface
 {
     private int $defaultHashType;
 
-    public function __construct(int $hashType = User::DEFAULT_PASSWORD_HASH)
+    private ConfigResolverInterface $configResolver;
+
+    /**
+     * Constructor.
+     *
+     * @param int $hashType Default password hash type, kept for backward compatibility.
+     * @param ConfigResolverInterface $configResolver Config resolver to get password hash settings from.
+     */
+    public function __construct(
+        int $hashType,
+        ConfigResolverInterface $configResolver
+    )
     {
         $this->defaultHashType = $hashType;
+        $this->configResolver = $configResolver;
     }
 
     public function getSupportedHashTypes(): array
@@ -99,5 +112,15 @@ final class PasswordHashService implements PasswordHashServiceInterface
         }
 
         return $passwordHash === $this->createPasswordHash($plainPassword, $hashType);
+    }
+
+    public function updatePasswordHashTypeOnChange(): bool
+    {
+        return $this->configResolver->getParameter('password_hash.update_type_on_change');
+    }
+
+    public function updatePasswordHashTypeOnLogin(): bool
+    {
+        return $this->configResolver->getParameter('password_hash.update_type_on_login');
     }
 }

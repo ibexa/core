@@ -60,7 +60,10 @@ services:
 
     Ibexa\Core\FieldType\FieldTypeRegistry: ~
 
-    Ibexa\Core\Repository\User\PasswordHashService: ~
+    Ibexa\Core\Repository\User\PasswordHashService:
+        arguments:
+            $hashType: '%ibexa.site_access.config.default.password_hash.default_type%'
+            $configResolver: '@ibexa.config.resolver'
 
     Ibexa\Contracts\Core\Repository\PasswordHashService:
         alias: Ibexa\Core\Repository\User\PasswordHashService

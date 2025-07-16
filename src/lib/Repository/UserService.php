@@ -780,7 +780,13 @@ class UserService implements UserServiceInterface
             );
         }
 
-        $passwordHashAlgorithm = (int) $loadedUser->hashAlgorithm;
+        $defaultPasswordHashAlgorithm = $this->passwordHashService->getDefaultHashType();
+        if ($this->passwordHashService->updatePasswordHashTypeOnChange()) {
+            $passwordHashAlgorithm = $defaultPasswordHashAlgorithm;
+        } else {
+            $passwordHashAlgorithm = (int) $loadedUser->hashAlgorithm;
+        }
+
         try {
             $passwordHash = $this->passwordHashService->createPasswordHash($newPassword, $passwordHashAlgorithm);
         } catch (UnsupportedPasswordHashType|PasswordHashTypeNotCompiled $e) {
@@ -790,7 +796,7 @@ class UserService implements UserServiceInterface
                 ]);
             }
 
-            $passwordHashAlgorithm = $this->passwordHashService->getDefaultHashType();
+            $passwordHashAlgorithm = $defaultPasswordHashAlgorithm;
             $passwordHash = $this->passwordHashService->createPasswordHash($newPassword, $passwordHashAlgorithm);
         }
 
