@@ -47,12 +47,11 @@ services:
             - { name: liip_imagine.cache.resolver, resolver: ibexa }
 
     Ibexa\Bundle\Core\Imagine\Cache\ResolverFactory:
-        class: Ibexa\Bundle\Core\Imagine\Cache\ResolverFactory
         arguments:
-            - '@ibexa.config.resolver'
-            - '@ibexa.image_alias.imagine.cache_resolver_decorator.inner'
-            - 'Ibexa\Bundle\Core\Imagine\Cache\Resolver\ProxyResolver'
-            - 'Ibexa\Bundle\Core\Imagine\Cache\Resolver\RelativeResolver'
+            $configResolver: '@ibexa.config.resolver'
+            $resolver: '@ibexa.image_alias.imagine.cache_resolver_decorator.inner'
+            $proxyResolverClass: 'Ibexa\Bundle\Core\Imagine\Cache\Resolver\ProxyResolver'
+            $relativeResolverClass: 'Ibexa\Bundle\Core\Imagine\Cache\Resolver\RelativeResolver'
         lazy: true
 
     ibexa.image_alias.imagine.cache_resolver_decorator:

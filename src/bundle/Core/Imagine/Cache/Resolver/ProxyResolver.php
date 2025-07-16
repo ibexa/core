@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine\Cache\Resolver;
 
@@ -14,14 +15,14 @@ class ProxyResolver extends ImagineProxyResolver
     /**
      * Replaces host with given proxy host.
      *
-     * The original method from Liip\ImagineBundle\Imagine\Cache\Resolver\ProxyResolver:rewriteUrl()
+     * The original method from `\Liip\ImagineBundle\Imagine\Cache\Resolver\ProxyResolver::rewriteUrl()`
      * doesn't behave correctly when working with domain and port or with host which contains trailing slash.
      *
-     * @param string $url
+     * @see \Liip\ImagineBundle\Imagine\Cache\Resolver\ProxyResolver::rewriteUrl
      *
-     * @return string
+     * @param string $url
      */
-    protected function rewriteUrl($url)
+    protected function rewriteUrl($url): string
     {
         if (empty($this->hosts)) {
             return $url;
