@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine\Cache;
 
@@ -22,35 +23,24 @@ use Symfony\Component\Routing\RequestContext;
  */
 class AliasGeneratorDecorator implements VariationHandler, SiteAccessAware
 {
-    private const IMAGE_VARIATION_IDENTIFIER = 'image_variation';
-    private const IMAGE_VARIATION_SITEACCESS_IDENTIFIER = 'image_variation_siteaccess';
-    private const IMAGE_VARIATION_CONTENT_IDENTIFIER = 'image_variation_content';
-    private const IMAGE_VARIATION_FIELD_IDENTIFIER = 'image_variation_field';
-    private const IMAGE_VARIATION_NAME_IDENTIFIER = 'image_variation_name';
-    private const CONTENT_IDENTIFIER = 'content';
-    private const CONTENT_VERSION_IDENTIFIER = 'content_version';
+    private const string IMAGE_VARIATION_IDENTIFIER = 'image_variation';
+    private const string IMAGE_VARIATION_SITEACCESS_IDENTIFIER = 'image_variation_siteaccess';
+    private const string IMAGE_VARIATION_CONTENT_IDENTIFIER = 'image_variation_content';
+    private const string IMAGE_VARIATION_FIELD_IDENTIFIER = 'image_variation_field';
+    private const string IMAGE_VARIATION_NAME_IDENTIFIER = 'image_variation_name';
+    private const string CONTENT_IDENTIFIER = 'content';
+    private const string CONTENT_VERSION_IDENTIFIER = 'content_version';
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationHandler */
-    private $aliasGenerator;
+    private VariationHandler $aliasGenerator;
 
-    /** @var \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface */
-    private $cache;
+    private TagAwareAdapterInterface $cache;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    private $siteAccess;
+    private ?SiteAccess $siteAccess = null;
 
-    /** @var \Symfony\Component\Routing\RequestContext */
-    private $requestContext;
+    private RequestContext $requestContext;
 
-    /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface */
-    private $cacheIdentifierGenerator;
+    private CacheIdentifierGeneratorInterface $cacheIdentifierGenerator;
 
-    /**
-     * @param \Ibexa\Contracts\Core\Variation\VariationHandler $aliasGenerator
-     * @param \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface $cache
-     * @param \Symfony\Component\Routing\RequestContext $requestContext
-     * @param \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface $cacheIdentifierGenerator
-     */
     public function __construct(
         VariationHandler $aliasGenerator,
         TagAwareAdapterInterface $cache,
@@ -64,17 +54,16 @@ class AliasGeneratorDecorator implements VariationHandler, SiteAccessAware
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo
-     * @param string $variationName
-     * @param array $parameters
-     *
-     * @return \Ibexa\Contracts\Core\Variation\Values\Variation
-     *
+     * @throws \Psr\Cache\CacheException
      * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function getVariation(Field $field, VersionInfo $versionInfo, string $variationName, array $parameters = []): Variation
-    {
+    public function getVariation(
+        Field $field,
+        VersionInfo $versionInfo,
+        string $variationName,
+        array $parameters = []
+    ): Variation {
         $item = $this->cache->getItem($this->getCacheKey($field, $versionInfo, $variationName));
         $image = $item->get();
         if (!$item->isHit()) {
@@ -90,19 +79,15 @@ class AliasGeneratorDecorator implements VariationHandler, SiteAccessAware
     /**
      * @param \Ibexa\Core\MVC\Symfony\SiteAccess|null $siteAccess
      */
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(?SiteAccess $siteAccess = null): void
     {
         $this->siteAccess = $siteAccess;
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo
-     * @param string $variationName
-     *
-     * @return string
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    private function getCacheKey(Field $field, VersionInfo $versionInfo, $variationName): string
+    private function getCacheKey(Field $field, VersionInfo $versionInfo, string $variationName): string
     {
         return sprintf(
             $this->cacheIdentifierGenerator->generateKey(self::IMAGE_VARIATION_IDENTIFIER, [], true) . '-%s-%s-%s-%d-%d-%d-%s-%s',
@@ -117,6 +102,11 @@ class AliasGeneratorDecorator implements VariationHandler, SiteAccessAware
         );
     }
 
+    /**
+     * @return string[]
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
     private function getTagsForVariation(Field $field, VersionInfo $versionInfo, string $variationName): array
     {
         $contentId = $versionInfo->getContentInfo()->id;
