@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine\Filter\Loader;
 
@@ -20,16 +21,18 @@ use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
  */
 class ReduceNoiseFilterLoader implements LoaderInterface
 {
-    public const IDENTIFIER = 'filter/noise';
+    public const string IDENTIFIER = 'filter/noise';
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\FilterInterface */
-    private $filter;
+    private FilterInterface $filter;
 
     public function __construct(FilterInterface $filter)
     {
         $this->filter = $filter;
     }
 
+    /**
+     * @phpstan-param array{0?: int} $options radius
+     */
     public function load(ImageInterface $image, array $options = []): ImageInterface
     {
         if (!$image instanceof ImagickImage && !$image instanceof GmagickImage) {

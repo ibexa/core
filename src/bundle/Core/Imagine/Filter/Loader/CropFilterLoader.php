@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine\Filter\Loader;
 
@@ -16,8 +17,11 @@ use Imagine\Image\ImageInterface;
  */
 class CropFilterLoader extends FilterLoaderWrapped
 {
-    public const IDENTIFIER = 'geometry/crop';
+    public const string IDENTIFIER = 'geometry/crop';
 
+    /**
+     * @phpstan-param array{0?: int, 1?: int, 2?: int, 3?: int} $options
+     */
     public function load(ImageInterface $image, array $options = []): ImageInterface
     {
         if (count($options) < 4) {
