@@ -25,6 +25,10 @@ interface VariationHandler
      * Variations might be applicable for images (aliases), documents...
      *
      * @param array<string, mixed> $parameters Hash of arbitrary parameters useful to generate the variation
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
     public function getVariation(
         Field $field,
