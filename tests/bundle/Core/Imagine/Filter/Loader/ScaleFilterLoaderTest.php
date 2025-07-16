@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\Imagine\Filter\Loader;
 
@@ -12,15 +13,17 @@ use Imagine\Exception\InvalidArgumentException;
 use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
 use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class ScaleFilterLoaderTest extends TestCase
+/**
+ * @covers \Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleFilterLoader
+ */
+final class ScaleFilterLoaderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $innerLoader;
+    private LoaderInterface & MockObject $innerLoader;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleFilterLoader */
-    private $loader;
+    private ScaleFilterLoader $loader;
 
     protected function setUp(): void
     {
@@ -32,15 +35,20 @@ class ScaleFilterLoaderTest extends TestCase
 
     /**
      * @dataProvider loadInvalidProvider
+     *
+     * @param array<mixed> $options
      */
-    public function testLoadInvalidOptions(array $options)
+    public function testLoadInvalidOptions(array $options): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         $this->loader->load($this->createMock(ImageInterface::class), $options);
     }
 
-    public function loadInvalidProvider()
+    /**
+     * @return array<array{array<mixed>}>
+     */
+    public static function loadInvalidProvider(): array
     {
         return [
             [[]],
@@ -49,7 +57,7 @@ class ScaleFilterLoaderTest extends TestCase
         ];
     }
 
-    public function testLoadHeighten()
+    public function testLoadHeighten(): void
     {
         $width = 900;
         $height = 400;
@@ -61,18 +69,18 @@ class ScaleFilterLoaderTest extends TestCase
         $image
             ->expects(self::once())
             ->method('getSize')
-            ->will(self::returnValue($box));
+            ->willReturn($box);
 
         $this->innerLoader
             ->expects(self::once())
             ->method('load')
             ->with($image, self::equalTo(['heighten' => $height]))
-            ->will(self::returnValue($image));
+            ->willReturn($image);
 
         self::assertSame($image, $this->loader->load($image, [$width, $height]));
     }
 
-    public function testLoadWiden()
+    public function testLoadWiden(): void
     {
         $width = 900;
         $height = 600;
@@ -84,13 +92,13 @@ class ScaleFilterLoaderTest extends TestCase
         $image
             ->expects(self::once())
             ->method('getSize')
-            ->will(self::returnValue($box));
+            ->willReturn($box);
 
         $this->innerLoader
             ->expects(self::once())
             ->method('load')
             ->with($image, self::equalTo(['widen' => $width]))
-            ->will(self::returnValue($image));
+            ->willReturn($image);
 
         self::assertSame($image, $this->loader->load($image, [$width, $height]));
     }
