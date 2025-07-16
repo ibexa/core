@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\Imagine\Filter\Loader;
 
@@ -12,15 +13,17 @@ use Imagine\Exception\InvalidArgumentException;
 use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
 use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class ScalePercentFilterLoaderTest extends TestCase
+/**
+ * @covers \Ibexa\Bundle\Core\Imagine\Filter\Loader\ScalePercentFilterLoader
+ */
+final class ScalePercentFilterLoaderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $innerLoader;
+    private LoaderInterface & MockObject $innerLoader;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\ScalePercentFilterLoader */
-    private $loader;
+    private ScalePercentFilterLoader $loader;
 
     protected function setUp(): void
     {
@@ -32,15 +35,20 @@ class ScalePercentFilterLoaderTest extends TestCase
 
     /**
      * @dataProvider loadInvalidProvider
+     *
+     * @param array<mixed> $options
      */
-    public function testLoadInvalidOptions(array $options)
+    public function testLoadInvalidOptions(array $options): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         $this->loader->load($this->createMock(ImageInterface::class), $options);
     }
 
-    public function loadInvalidProvider()
+    /**
+     * @return array<array{array<mixed>}>
+     */
+    public static function loadInvalidProvider(): array
     {
         return [
             [[]],
@@ -49,7 +57,7 @@ class ScalePercentFilterLoaderTest extends TestCase
         ];
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $widthPercent = 40;
         $heightPercent = 125;
@@ -63,13 +71,13 @@ class ScalePercentFilterLoaderTest extends TestCase
         $image
             ->expects(self::once())
             ->method('getSize')
-            ->will(self::returnValue($box));
+            ->willReturn($box);
 
         $this->innerLoader
             ->expects(self::once())
             ->method('load')
             ->with($image, self::equalTo(['size' => [$expectedWidth, $expectedHeight]]))
-            ->will(self::returnValue($image));
+            ->willReturn($image);
 
         self::assertSame($image, $this->loader->load($image, [$widthPercent, $heightPercent]));
     }
