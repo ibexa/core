@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine\Filter\Loader;
 
@@ -16,17 +17,14 @@ use Imagine\Image\ImageInterface;
  */
 class ScaleDownOnlyFilterLoader extends FilterLoaderWrapped
 {
-    public const IDENTIFIER = 'geometry/scaledownonly';
+    public const string IDENTIFIER = 'geometry/scaledownonly';
 
     /**
      * Loads and applies a filter on the given image.
      *
-     * @param \Imagine\Image\ImageInterface $image
-     * @param array $options Numerically indexed array. First entry is width, second is height.
+     * @param array{0?: int, 1?: int} $options Numerically indexed array. The First entry is width, the second is height.
      *
      * @throws \Imagine\Exception\InvalidArgumentException
-     *
-     * @return \Imagine\Image\ImageInterface
      */
     public function load(ImageInterface $image, array $options = []): ImageInterface
     {

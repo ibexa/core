@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\Imagine;
 
@@ -23,28 +24,28 @@ use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use InvalidArgumentException;
 use Liip\ImagineBundle\Exception\Imagine\Cache\Resolver\NotResolvableException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class PlaceholderAliasGeneratorTest extends TestCase
+/**
+ * @covers \Ibexa\Bundle\Core\Imagine\PlaceholderAliasGenerator
+ */
+final class PlaceholderAliasGeneratorTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\Imagine\PlaceholderAliasGenerator */
-    private $aliasGenerator;
+    private PlaceholderAliasGenerator $aliasGenerator;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationHandler|\PHPUnit\Framework\MockObject\MockObject */
-    private $innerAliasGenerator;
+    private VariationHandler & MockObject $innerAliasGenerator;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $ioService;
+    private IOServiceInterface & MockObject $ioService;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\IORepositoryResolver|\PHPUnit\Framework\MockObject\MockObject */
-    private $ioResolver;
+    private IORepositoryResolver & MockObject $ioResolver;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\PlaceholderProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $placeholderProvider;
+    private PlaceholderProvider & MockObject $placeholderProvider;
 
-    /** @var array */
-    private $placeholderOptions;
+    /** @var array<string, mixed> */
+    private array $placeholderOptions;
 
     protected function setUp(): void
     {
@@ -64,14 +65,19 @@ class PlaceholderAliasGeneratorTest extends TestCase
         );
     }
 
-    public function testGetVariationWrongValue()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     */
+    public function testGetVariationWrongValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
-        $field = new Field([
-            'value' => $this->createMock(FieldTypeValue::class),
-            'fieldDefIdentifier' => 'image',
-        ]);
+        $field = new Field(
+            [
+                'value' => $this->createMock(FieldTypeValue::class),
+                'fieldDefIdentifier' => 'image',
+            ]
+        );
 
         $this->aliasGenerator->setPlaceholderProvider(
             $this->placeholderProvider,
@@ -82,9 +88,17 @@ class PlaceholderAliasGeneratorTest extends TestCase
 
     /**
      * @dataProvider getVariationProvider
+     *
+     * @param array<string, mixed> $parameters
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function testGetVariationSkipsPlaceholderGeneration(Field $field, APIVersionInfo $versionInfo, string $variationName, array $parameters)
-    {
+    public function testGetVariationSkipsPlaceholderGeneration(
+        Field $field,
+        APIVersionInfo $versionInfo,
+        string $variationName,
+        array $parameters
+    ): void {
         $expectedVariation = $this->createMock(ImageVariation::class);
 
         $this->ioResolver
@@ -115,9 +129,17 @@ class PlaceholderAliasGeneratorTest extends TestCase
 
     /**
      * @dataProvider getVariationProvider
+     *
+     * @param array<string, mixed> $parameters
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function testGetVariationOriginalFound(Field $field, APIVersionInfo $versionInfo, string $variationName, array $parameters)
-    {
+    public function testGetVariationOriginalFound(
+        Field $field,
+        APIVersionInfo $versionInfo,
+        string $variationName,
+        array $parameters
+    ): void {
         $expectedVariation = $this->createMock(ImageVariation::class);
 
         $this->ioResolver
@@ -148,9 +170,17 @@ class PlaceholderAliasGeneratorTest extends TestCase
 
     /**
      * @dataProvider getVariationProvider
+     *
+     * @param array<string, mixed> $parameters
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function testGetVariationOriginalNotFound(Field $field, APIVersionInfo $versionInfo, string $variationName, array $parameters)
-    {
+    public function testGetVariationOriginalNotFound(
+        Field $field,
+        APIVersionInfo $versionInfo,
+        string $variationName,
+        array $parameters
+    ): void {
         $placeholderPath = '/tmp/placeholder.jpg';
         $binaryCreateStruct = new BinaryFileCreateStruct();
         $expectedVariation = $this->createMock(ImageVariation::class);
@@ -161,33 +191,15 @@ class PlaceholderAliasGeneratorTest extends TestCase
             ->with($field->value->id, IORepositoryResolver::VARIATION_ORIGINAL)
             ->willThrowException($this->createMock(NotResolvableException::class));
 
-        $this->placeholderProvider
-            ->expects(self::once())
-            ->method('getPlaceholder')
-            ->with($field->value, $this->placeholderOptions)
-            ->willReturn($placeholderPath);
-
-        $this->ioService
-            ->expects(self::once())
-            ->method('newBinaryCreateStructFromLocalFile')
-            ->with($placeholderPath)
-            ->willReturn($binaryCreateStruct);
-
-        $this->ioService
-            ->expects(self::once())
-            ->method('createBinaryFile')
-            ->with($binaryCreateStruct);
-
-        $this->aliasGenerator->setPlaceholderProvider(
-            $this->placeholderProvider,
-            $this->placeholderOptions
+        $this->configurePlaceholderProvider(
+            $field,
+            $placeholderPath,
+            $binaryCreateStruct,
+            $versionInfo,
+            $variationName,
+            $parameters,
+            $expectedVariation
         );
-
-        $this->innerAliasGenerator
-            ->expects(self::once())
-            ->method('getVariation')
-            ->with($field, $versionInfo, $variationName, $parameters)
-            ->willReturn($expectedVariation);
 
         $actualVariation = $this->aliasGenerator->getVariation(
             $field,
@@ -202,6 +214,10 @@ class PlaceholderAliasGeneratorTest extends TestCase
 
     /**
      * @dataProvider getVariationProvider
+     *
+     * @param array<string, mixed> $parameters
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
     public function testGetVariationReturnsPlaceholderIfBinaryDataIsNotAvailable(
         Field $field,
@@ -232,6 +248,76 @@ class PlaceholderAliasGeneratorTest extends TestCase
             ->with($binaryFile)
             ->willThrowException($this->createMock(NotFoundException::class));
 
+        $this->configurePlaceholderProvider(
+            $field,
+            $placeholderPath,
+            $binaryCreateStruct,
+            $versionInfo,
+            $variationName,
+            $parameters,
+            $expectedVariation
+        );
+
+        $actualVariation = $this->aliasGenerator->getVariation(
+            $field,
+            $versionInfo,
+            $variationName,
+            $parameters
+        );
+
+        self::assertEquals($field->value->id, $binaryCreateStruct->id);
+        self::assertEquals($expectedVariation, $actualVariation);
+    }
+
+    /**
+     * @dataProvider supportsValueProvider
+     */
+    public function testSupportsValue(Value $value, bool $isSupported): void
+    {
+        self::assertSame($isSupported, $this->aliasGenerator->supportsValue($value));
+    }
+
+    /**
+     * @return array<array{\Ibexa\Core\FieldType\Value, bool}>
+     */
+    public static function supportsValueProvider(): array
+    {
+        return [
+            [new NullValue(), false],
+            [new ImageValue(), true],
+        ];
+    }
+
+    /**
+     * @return array<array{\Ibexa\Contracts\Core\Repository\Values\Content\Field, \Ibexa\Core\Repository\Values\Content\VersionInfo, string, array<string, mixed>}>
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public static function getVariationProvider(): array
+    {
+        $field = new Field([
+                               'value' => new ImageValue([
+                                                             'id' => 'images/6/8/4/0/486-10-eng-GB/photo.jpg',
+                                                         ]),
+                           ]);
+
+        return [
+            [$field, new VersionInfo(), 'thumbnail', []],
+        ];
+    }
+
+    /**
+     * @param array<string, mixed> $parameters
+     */
+    private function configurePlaceholderProvider(
+        Field $field,
+        string $placeholderPath,
+        BinaryFileCreateStruct $binaryCreateStruct,
+        APIVersionInfo $versionInfo,
+        string $variationName,
+        array $parameters,
+        ImageVariation & MockObject $expectedVariation
+    ): void {
         $this->placeholderProvider
             ->expects(self::once())
             ->method('getPlaceholder')
@@ -259,44 +345,5 @@ class PlaceholderAliasGeneratorTest extends TestCase
             ->method('getVariation')
             ->with($field, $versionInfo, $variationName, $parameters)
             ->willReturn($expectedVariation);
-
-        $actualVariation = $this->aliasGenerator->getVariation(
-            $field,
-            $versionInfo,
-            $variationName,
-            $parameters
-        );
-
-        self::assertEquals($field->value->id, $binaryCreateStruct->id);
-        self::assertEquals($expectedVariation, $actualVariation);
-    }
-
-    /**
-     * @dataProvider supportsValueProvider
-     */
-    public function testSupportsValue(Value $value, bool $isSupported)
-    {
-        self::assertSame($isSupported, $this->aliasGenerator->supportsValue($value));
-    }
-
-    public function supportsValueProvider(): array
-    {
-        return [
-            [new NullValue(), false],
-            [new ImageValue(), true],
-        ];
-    }
-
-    public function getVariationProvider(): array
-    {
-        $field = new Field([
-            'value' => new ImageValue([
-                'id' => 'images/6/8/4/0/486-10-eng-GB/photo.jpg',
-            ]),
-        ]);
-
-        return [
-            [$field, new VersionInfo(), 'thumbnail', []],
-        ];
     }
 }

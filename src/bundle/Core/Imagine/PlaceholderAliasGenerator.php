@@ -4,11 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException as APIInvalidArgumentException;
-use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Variation\Values\Variation;
@@ -22,23 +23,18 @@ use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
 
 class PlaceholderAliasGenerator implements VariationHandler
 {
-    /** @var \Ibexa\Contracts\Core\Variation\VariationHandler */
-    private $aliasGenerator;
+    private VariationHandler $aliasGenerator;
 
-    /** @var \Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
-    private $ioResolver;
+    private ResolverInterface $ioResolver;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
-    private $ioService;
+    private IOServiceInterface $ioService;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\PlaceholderProvider|null */
-    private $placeholderProvider;
+    private ?PlaceholderProvider $placeholderProvider = null;
 
-    /** @var array */
-    private $placeholderOptions = [];
+    /** @var array<string, mixed> */
+    private array $placeholderOptions = [];
 
-    /** @var bool */
-    private $verifyBinaryDataAvailability = false;
+    private bool $verifyBinaryDataAvailability = false;
 
     public function __construct(
         VariationHandler $aliasGenerator,
@@ -51,15 +47,23 @@ class PlaceholderAliasGenerator implements VariationHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function getVariation(Field $field, VersionInfo $versionInfo, string $variationName, array $parameters = []): Variation
-    {
+    public function getVariation(
+        Field $field,
+        VersionInfo $versionInfo,
+        string $variationName,
+        array $parameters = []
+    ): Variation {
         if ($this->placeholderProvider !== null) {
             /** @var \Ibexa\Core\FieldType\Image\Value $imageValue */
             $imageValue = $field->value;
             if (!$this->supportsValue($imageValue)) {
-                throw new InvalidArgumentException("Value of Field with ID {$field->id} ($field->fieldDefIdentifier) cannot be used for generating an image placeholder.");
+                throw new InvalidArgumentException(
+                    "Value of Field with ID {$field->id} ($field->fieldDefIdentifier) cannot be used for generating an image placeholder."
+                );
             }
 
             if (!$this->isOriginalImageAvailable($imageValue)) {
@@ -75,7 +79,10 @@ class PlaceholderAliasGenerator implements VariationHandler
         return $this->aliasGenerator->getVariation($field, $versionInfo, $variationName, $parameters);
     }
 
-    public function setPlaceholderProvider(PlaceholderProvider $provider, array $options = [])
+    /**
+     * @param array<string, mixed> $options
+     */
+    public function setPlaceholderProvider(PlaceholderProvider $provider, array $options = []): void
     {
         $this->placeholderProvider = $provider;
         $this->placeholderOptions = $options;
@@ -84,9 +91,7 @@ class PlaceholderAliasGenerator implements VariationHandler
     /**
      * Enable/disable binary data availability verification.
      *
-     * If enabled then binary data storage will be used to check if original file exists. Required for DFS setup.
-     *
-     * @param bool $verifyBinaryDataAvailability
+     * If enabled, then binary data storage will be used to check if original file exists. Required for DFS setup.
      */
     public function setVerifyBinaryDataAvailability(bool $verifyBinaryDataAvailability): void
     {
@@ -102,15 +107,15 @@ class PlaceholderAliasGenerator implements VariationHandler
     {
         try {
             $this->ioResolver->resolve($imageValue->id, IORepositoryResolver::VARIATION_ORIGINAL);
-        } catch (NotResolvableException $e) {
+        } catch (NotResolvableException) {
             return false;
         }
 
         if ($this->verifyBinaryDataAvailability) {
             try {
-                // Try to open input stream to original file
+                // Try to open input stream to an original file
                 $this->ioService->getFileInputStream($this->ioService->loadBinaryFile($imageValue->id));
-            } catch (NotFoundException | APIInvalidArgumentException $e) {
+            } catch (APINotFoundException | APIInvalidArgumentException) {
                 return false;
             }
         }

@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine;
 
+use Ibexa\Contracts\Core\Exception\InvalidArgumentException;
 use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidVariationException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
@@ -17,7 +19,6 @@ use Ibexa\Contracts\Core\Variation\VariationHandler;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
 use Ibexa\Core\MVC\Exception\SourceImageNotFoundException;
 use Imagine\Exception\RuntimeException;
-use InvalidArgumentException;
 use Liip\ImagineBundle\Binary\BinaryInterface;
 use Liip\ImagineBundle\Binary\Loader\LoaderInterface;
 use Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException;
@@ -35,27 +36,21 @@ use SplFileInfo;
  */
 class AliasGenerator implements VariationHandler
 {
-    public const ALIAS_ORIGINAL = 'original';
+    public const string ALIAS_ORIGINAL = 'original';
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * Loader used to retrieve the original image.
      * DataManager is not used to remain independent from ImagineBundle configuration.
-     *
-     * @var \Liip\ImagineBundle\Binary\Loader\LoaderInterface
      */
-    private $dataLoader;
+    private LoaderInterface $dataLoader;
 
-    /** @var \Liip\ImagineBundle\Imagine\Filter\FilterManager */
-    private $filterManager;
+    private FilterManager $filterManager;
 
-    /** @var \Liip\ImagineBundle\Imagine\Filter\FilterConfiguration */
-    private $filterConfiguration;
+    private FilterConfiguration $filterConfiguration;
 
-    /** @var \Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
-    private $ioResolver;
+    private ResolverInterface $ioResolver;
 
     public function __construct(
         LoaderInterface $dataLoader,
@@ -68,16 +63,9 @@ class AliasGenerator implements VariationHandler
         $this->filterManager = $filterManager;
         $this->ioResolver = $ioResolver;
         $this->filterConfiguration = $filterConfiguration;
-        $this->logger = null !== $logger ? $logger : new NullLogger();
+        $this->logger = $logger ?? new NullLogger();
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \InvalidArgumentException If field value is not an instance of {@see \Ibexa\Core\FieldType\Image\Value}.
-     * @throws \Ibexa\Core\MVC\Exception\SourceImageNotFoundException If source image cannot be found.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidVariationException If a problem occurs with generated variation.
-     */
     public function getVariation(Field $field, VersionInfo $versionInfo, string $variationName, array $parameters = []): Variation
     {
         /** @var \Ibexa\Core\FieldType\Image\Value $imageValue */
@@ -85,7 +73,10 @@ class AliasGenerator implements VariationHandler
         $fieldId = $field->id;
         $fieldDefIdentifier = $field->fieldDefIdentifier;
         if (!$this->supportsValue($imageValue)) {
-            throw new InvalidArgumentException("Value of Field with ID $fieldId ($fieldDefIdentifier) cannot be used for generating an image variation.");
+            throw new InvalidArgumentException(
+                '$field',
+                "Value of Field with ID $fieldId ($fieldDefIdentifier) cannot be used for generating an image variation."
+            );
         }
 
         $originalPath = $imageValue->id;
@@ -97,6 +88,17 @@ class AliasGenerator implements VariationHandler
                 $originalBinary = $this->dataLoader->find($originalPath);
             } catch (NotLoadableException $e) {
                 throw new SourceImageNotFoundException((string)$originalPath, 0, $e);
+            }
+            if (!$originalBinary instanceof BinaryInterface) {
+                throw new InvalidArgumentException(
+                    '$field',
+                    sprintf(
+                        'Data loader for \'%s\' path loaded %s instead of %s',
+                        $originalPath,
+                        get_debug_type($originalBinary),
+                        BinaryInterface::class
+                    )
+                );
             }
 
             $this->logger->debug("Generating '$variationName' variation on $originalPath, field #$fieldId ($fieldDefIdentifier)");
@@ -145,13 +147,8 @@ class AliasGenerator implements VariationHandler
      * An Ibexa variation may have a "reference".
      * In that case, reference's filters are applied first, recursively (a reference may also have another reference).
      * Reference must be a valid variation name, configured in Ibexa or in LiipImagineBundle.
-     *
-     * @param \Liip\ImagineBundle\Binary\BinaryInterface $image
-     * @param string $variationName
-     *
-     * @return \Liip\ImagineBundle\Binary\BinaryInterface
      */
-    private function applyFilter(BinaryInterface $image, $variationName)
+    private function applyFilter(BinaryInterface $image, string $variationName): BinaryInterface
     {
         $filterConfig = $this->filterConfiguration->get($variationName);
         // If the variation has a reference, we recursively call this method to apply reference's filters.
