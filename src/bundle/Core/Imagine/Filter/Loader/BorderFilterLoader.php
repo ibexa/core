@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine\Filter\Loader;
 
@@ -20,26 +21,26 @@ use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
  */
 class BorderFilterLoader implements LoaderInterface
 {
-    public const IDENTIFIER = 'border';
+    public const string IDENTIFIER = 'border';
 
-    public const DEFAULT_BORDER_COLOR = '#000';
+    public const string DEFAULT_BORDER_COLOR = '#000';
 
+    /**
+     * @phpstan-param array{0?: int, 1?: int, 2?: string} $options
+     */
     public function load(ImageInterface $image, array $options = []): ImageInterface
     {
-        $optionsCount = count($options);
-        if ($optionsCount < 2) {
+        if (!isset($options[0], $options[1])) {
             throw new InvalidArgumentException('Invalid options for border filter. You must provide array(width, height)');
         }
 
         $color = static::DEFAULT_BORDER_COLOR;
-        if ($optionsCount > 2) {
-            list($width, $height, $color) = $options;
+        if (isset($options[2])) {
+            [$width, $height, $color] = $options;
         } else {
-            list($width, $height) = $options;
+            [$width, $height] = $options;
         }
 
-        $border = new Border($image->palette()->color($color), $width, $height);
-
-        return $border->apply($image);
+        return (new Border($image->palette()->color($color), $width, $height))->apply($image);
     }
 }

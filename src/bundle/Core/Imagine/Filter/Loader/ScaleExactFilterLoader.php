@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine\Filter\Loader;
 
@@ -16,8 +17,11 @@ use Imagine\Image\ImageInterface;
  */
 class ScaleExactFilterLoader extends FilterLoaderWrapped
 {
-    public const IDENTIFIER = 'geometry/scaleexact';
+    public const string IDENTIFIER = 'geometry/scaleexact';
 
+    /**
+     * @phpstan-param array{0?: int, 1?: int} $options width, height
+     */
     public function load(ImageInterface $image, array $options = []): ImageInterface
     {
         if (count($options) < 2) {
