@@ -37,11 +37,11 @@ class RejectExplicitFrontControllerRequestsListener implements EventSubscriberIn
         $request = $event->getRequest();
 
         // Not every symfony runtime provides SCRIPT_FILENAME
-        if (!$request->server->has('SCRIPT_FILENAME')) {
+        if (!$request->server->has('SCRIPT_FILENAME') || empty($scriptFileName = $request->server->get('SCRIPT_FILENAME'))) {
             return;
         }
 
-        $scriptFileName = preg_quote(basename($request->server->get('SCRIPT_FILENAME')), '\\');
+        $scriptFileName = preg_quote(basename($scriptFileName), '\\');
         // This pattern has to match with vhost.template files in meta repository
         $pattern = sprintf('<^/([^/]+/)*?%s([/?#]|$)>', $scriptFileName);
 
