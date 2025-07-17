@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
@@ -41,7 +42,8 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
         LanguageHandler $languageHandler,
         MaskGenerator $languageMaskGenerator,
         ContentTypeHandler $contentTypeHandler,
-        ConverterRegistry $converterRegistry
+        ConverterRegistry $converterRegistry,
+        private readonly FieldTypeAliasResolverInterface $fieldTypeAliasResolver
     ) {
         $this->languageMaskGenerator = $languageMaskGenerator;
         $this->languageHandler = $languageHandler;
@@ -128,7 +130,11 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
                 $field = new Field();
                 $field->id = (int)$row['field_id'];
                 $field->fieldDefinitionId = (int)$row['field_definition_id'];
-                $field->type = $row['field_type'];
+
+                $fieldType = $row['field_type'];
+                $fieldType = $this->fieldTypeAliasResolver->resolveIdentifier($fieldType);
+                $field->type = $fieldType;
+
                 $storageValue = $this->mapFieldValueDataToStorageFieldValue($row);
                 $field->value = $this->buildFieldValue($storageValue, $field->type);
                 $field->languageCode = $row['field_language_code'];
