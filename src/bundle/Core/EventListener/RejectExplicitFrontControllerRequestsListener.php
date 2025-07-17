@@ -28,16 +28,19 @@ class RejectExplicitFrontControllerRequestsListener implements EventSubscriberIn
         ];
     }
 
-    public function onKernelRequest(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
-        if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
+        if ($event->getRequestType() !== HttpKernelInterface::MAIN_REQUEST) {
             return;
         }
 
         $request = $event->getRequest();
 
         // Not every symfony runtime provides SCRIPT_FILENAME
-        if (!$request->server->has('SCRIPT_FILENAME') || empty($scriptFileName = $request->server->get('SCRIPT_FILENAME'))) {
+        if (
+            !$request->server->has('SCRIPT_FILENAME')
+            || empty($scriptFileName = $request->server->get('SCRIPT_FILENAME'))
+        ) {
             return;
         }
 
