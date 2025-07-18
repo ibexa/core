@@ -123,8 +123,7 @@ final class PasswordHashService implements PasswordHashServiceInterface
         #[\SensitiveParameter]
         string $passwordHash,
         int $hashType
-    ): bool
-    {
+    ): bool {
         switch ($hashType) {
             case User::PASSWORD_HASH_BCRYPT:
                 return password_needs_rehash($passwordHash, PASSWORD_BCRYPT);

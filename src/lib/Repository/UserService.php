@@ -1350,7 +1350,7 @@ class UserService implements UserServiceInterface
     ): bool {
         $isValidPassword = $this->comparePasswordHashes($password, $user->passwordHash, $user->hashAlgorithm);
 
-        if ($this->passwordHashService->updatePasswordHashTypeOnLogin()) {
+        if ($isValidPassword && $this->passwordHashService->updatePasswordHashTypeOnLogin()) {
             $this->updatePasswordHashIfNeeded($password, $user->passwordHash, $user->id, $user->login, $user->email);
         }
 
@@ -1369,7 +1369,7 @@ class UserService implements UserServiceInterface
     ): bool {
         $isValidPassword = $this->comparePasswordHashes($password, $user->passwordHash, $user->hashAlgorithm);
 
-        if ($this->passwordHashService->updatePasswordHashTypeOnLogin()) {
+        if ($isValidPassword && $this->passwordHashService->updatePasswordHashTypeOnLogin()) {
             $this->updatePasswordHashIfNeeded($password, $user->passwordHash, $user->id, $user->login, $user->email);
         }
 
@@ -1384,8 +1384,7 @@ class UserService implements UserServiceInterface
         int $userId,
         string $login,
         string $email
-    ): void
-    {
+    ): void {
         $defaultPasswordHashAlgorithm = $this->passwordHashService->getDefaultHashType();
         if (!$this->passwordHashService->passwordNeedsRehash($passwordHash, $defaultPasswordHashAlgorithm)) {
             return;
