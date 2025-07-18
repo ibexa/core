@@ -56,4 +56,18 @@ interface PasswordHashService
      * @return bool
      */
     public function updatePasswordHashTypeOnLogin(): bool;
+
+    /**
+     * Returns true if the password hash needs to be rehashed.
+     *
+     * This is used to determine if the password hash should be updated when the user logs in.
+     * It will return true if the hash type of the existing password hash does not match the provided hash type,
+     * or if the defaults for PHP's password hashing options have changed (e.g., cost factor).
+     *
+     * @param string $passwordHash The existing password hash
+     * @param int $hashType The hash type to check against
+     *
+     * @return bool
+     */
+    public function passwordNeedsRehash(string $passwordHash, int $hashType): bool;
 }
