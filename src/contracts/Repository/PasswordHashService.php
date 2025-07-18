@@ -8,6 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository;
 
+use Ibexa\Core\Repository\User\Exception\PasswordHashTypeNotCompiled;
+use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
+
 interface PasswordHashService
 {
     /**
@@ -33,6 +36,9 @@ interface PasswordHashService
      * Create hash from given plain password.
      *
      * If non-provided, the default password hash type will be used.
+     *
+     * @throws PasswordHashTypeNotCompiled
+     * @throws UnsupportedPasswordHashType
      */
     public function createPasswordHash(string $plainPassword, ?int $hashType = null): string;
 

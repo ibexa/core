@@ -48,23 +48,19 @@ final class PasswordHashService implements PasswordHashServiceInterface
         return $this->defaultHashType;
     }
 
-    /**
-     * @throws \Ibexa\Core\Repository\User\Exception\PasswordHashTypeNotCompiled
-     * @throws \Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType
-     */
     public function createPasswordHash(
         #[\SensitiveParameter]
-        string $password,
-        ?int $hashType = null
+        string $plainPassword,
+        ?int   $hashType = null
     ): string {
         $hashType = $hashType ?? $this->defaultHashType;
 
         switch ($hashType) {
             case User::PASSWORD_HASH_BCRYPT:
-                return password_hash($password, PASSWORD_BCRYPT);
+                return password_hash($plainPassword, PASSWORD_BCRYPT);
 
             case User::PASSWORD_HASH_PHP_DEFAULT:
-                return password_hash($password, PASSWORD_DEFAULT);
+                return password_hash($plainPassword, PASSWORD_DEFAULT);
 
             case User::PASSWORD_HASH_INVALID:
                 return '';
@@ -74,14 +70,14 @@ final class PasswordHashService implements PasswordHashServiceInterface
                     throw new PasswordHashTypeNotCompiled('PASSWORD_ARGON2I');
                 }
 
-                return password_hash($password, PASSWORD_ARGON2I);
+                return password_hash($plainPassword, PASSWORD_ARGON2I);
 
             case User::PASSWORD_HASH_ARGON2ID:
                 if (!defined('PASSWORD_ARGON2ID')) {
                     throw new PasswordHashTypeNotCompiled('PASSWORD_ARGON2ID');
                 }
 
-                return password_hash($password, PASSWORD_ARGON2ID);
+                return password_hash($plainPassword, PASSWORD_ARGON2ID);
 
             default:
                 throw new UnsupportedPasswordHashType($hashType);
@@ -106,7 +102,12 @@ final class PasswordHashService implements PasswordHashServiceInterface
             return password_verify($plainPassword, $passwordHash);
         }
 
-        return $passwordHash === $this->createPasswordHash($plainPassword, $hashType);
+        try {
+            return $passwordHash === $this->createPasswordHash($plainPassword, $hashType);
+        } catch (PasswordHashTypeNotCompiled|UnsupportedPasswordHashType $e) {
+            // If the hash type is not compiled or unsupported we can't verify the password so it's not valid
+            return false;
+        }
     }
 
     public function updatePasswordHashTypeOnChange(): bool
