@@ -23,18 +23,13 @@ final class PasswordHashService implements PasswordHashServiceInterface
 
     private ConfigResolverInterface $configResolver;
 
-    /**
-     * Constructor.
-     *
-     * @param int $hashType Default password hash type, kept for backward compatibility.
-     * @param ConfigResolverInterface $configResolver Config resolver to get password hash settings from.
-     */
-    public function __construct(
-        int $hashType,
-        ConfigResolverInterface $configResolver
-    )
+    public function __construct(int $hashType = User::DEFAULT_PASSWORD_HASH)
     {
         $this->defaultHashType = $hashType;
+    }
+
+    public function setConfigResolver(ConfigResolverInterface $configResolver): void
+    {
         $this->configResolver = $configResolver;
     }
 

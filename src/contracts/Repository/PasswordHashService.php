@@ -42,4 +42,18 @@ interface PasswordHashService
      * If non-provided, the default password hash type will be used.
      */
     public function isValidPassword(string $plainPassword, string $passwordHash, ?int $hashType = null): bool;
+
+    /**
+     * Returns true if password hash type should be updated when the user changes password.
+     *
+     * @return bool
+     */
+    public function updatePasswordHashTypeOnChange(): bool;
+
+    /**
+     * Returns true if password hash type should be updated when the user logs in.
+     *
+     * @return bool
+     */
+    public function updatePasswordHashTypeOnLogin(): bool;
 }

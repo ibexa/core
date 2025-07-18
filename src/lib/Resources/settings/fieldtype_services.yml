@@ -63,7 +63,8 @@ services:
     Ibexa\Core\Repository\User\PasswordHashService:
         arguments:
             $hashType: '%ibexa.site_access.config.default.password_hash.default_type%'
-            $configResolver: '@ibexa.config.resolver'
+        calls:
+            - [ setConfigResolver, [ '@ibexa.config.resolver' ] ]
 
     Ibexa\Contracts\Core\Repository\PasswordHashService:
         alias: Ibexa\Core\Repository\User\PasswordHashService
