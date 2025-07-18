@@ -4,10 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\IO\IOBinarydataHandler;
 
 use Ibexa\Bundle\IO\ApiLoader\HandlerRegistry;
+use Ibexa\Contracts\Core\IO\BinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\IO\IOMetadataHandler;
@@ -18,11 +20,14 @@ use Ibexa\Core\IO\IOMetadataHandler;
 final class SiteAccessDependentMetadataHandler implements IOMetadataHandler
 {
     /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry */
-    private $dataHandlerRegistry;
+    /** @phpstan-var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOMetadataHandler> */
+    private HandlerRegistry $dataHandlerRegistry;
 
+    /**
+     * @phpstan-param \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOMetadataHandler> $dataHandlerRegistry
+     */
     public function __construct(
         ConfigResolverInterface $configResolver,
         HandlerRegistry $dataHandlerRegistry
@@ -38,33 +43,33 @@ final class SiteAccessDependentMetadataHandler implements IOMetadataHandler
         );
     }
 
-    public function create(BinaryFileCreateStruct $spiBinaryFileCreateStruct)
+    public function create(BinaryFileCreateStruct $spiBinaryFileCreateStruct): BinaryFile
     {
         return $this->getHandler()->create($spiBinaryFileCreateStruct);
     }
 
-    public function delete($spiBinaryFileId)
+    public function delete(string $binaryFileId): void
     {
-        return $this->getHandler()->delete($spiBinaryFileId);
+        $this->getHandler()->delete($binaryFileId);
     }
 
-    public function load($spiBinaryFileId)
+    public function load(string $spiBinaryFileId): BinaryFile
     {
         return $this->getHandler()->load($spiBinaryFileId);
     }
 
-    public function exists($spiBinaryFileId)
+    public function exists(string $spiBinaryFileId): bool
     {
         return $this->getHandler()->exists($spiBinaryFileId);
     }
 
-    public function getMimeType($spiBinaryFileId)
+    public function getMimeType(string $spiBinaryFileId): string
     {
         return $this->getHandler()->getMimeType($spiBinaryFileId);
     }
 
-    public function deleteDirectory($spiPath)
+    public function deleteDirectory(string $path): void
     {
-        return $this->getHandler()->deleteDirectory($spiPath);
+        $this->getHandler()->deleteDirectory($path);
     }
 }

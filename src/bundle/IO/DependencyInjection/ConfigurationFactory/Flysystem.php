@@ -19,11 +19,11 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Configuration factory for the flysystem metadata and binarydata handlers.
  *
- * Binarydata & metadata are identical, except for the parent service.
+ * Binary data & metadata are identical, except for the parent service.
  */
 abstract class Flysystem implements ConfigurationFactory
 {
-    public function addConfiguration(ArrayNodeDefinition $node)
+    public function addConfiguration(ArrayNodeDefinition $node): void
     {
         $node
             ->info(
@@ -42,30 +42,21 @@ abstract class Flysystem implements ConfigurationFactory
             ->end();
     }
 
-    public function configureHandler(ContainerBuilder $container, ServiceDefinition $definition, array $config)
+    public function configureHandler(ContainerBuilder $container, ServiceDefinition $definition, array $config): void
     {
         $filesystemId = $this->createFilesystem($container, $config['name'], $config['adapter']);
         $definition->replaceArgument(0, new Reference($filesystemId));
     }
 
-    /**
-     * Creates a flysystem filesystem $name service.
-     *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @param string $name filesystem name (nfs, local...)
-     * @param string $adapter adapter name
-     *
-     * @return string
-     */
-    private function createFilesystem(ContainerBuilder $container, $name, $adapter): string
+    private function createFilesystem(ContainerBuilder $container, string $fileSystemName, string $adapterName): string
     {
-        $adapterId = sprintf('oneup_flysystem.%s_adapter', $adapter);
+        $adapterId = sprintf('oneup_flysystem.%s_adapter', $adapterName);
         // has either definition or alias
         if (!$container->has($adapterId)) {
-            throw new InvalidConfigurationException("Unknown flysystem adapter $adapter");
+            throw new InvalidConfigurationException("Unknown flysystem adapter $adapterName");
         }
 
-        $filesystemId = sprintf('ibexa.core.io.flysystem.%s_filesystem', $name);
+        $filesystemId = sprintf('ibexa.core.io.flysystem.%s_filesystem', $fileSystemName);
         $filesystemServiceDefinition = new ChildDefinition('ibexa.core.io.flysystem.base_filesystem');
         $definition = $container->setDefinition(
             $filesystemId,
