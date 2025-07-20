@@ -2041,12 +2041,6 @@ parameters:
 			path: src/bundle/Core/EventListener/PreviewRequestListener.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\EventListener\\RejectExplicitFrontControllerRequestsListener\:\:onKernelRequest\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/EventListener/RejectExplicitFrontControllerRequestsListener.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\EventListener\\RequestEventListener\:\:__construct\(\) has parameter \$defaultSiteAccess with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1

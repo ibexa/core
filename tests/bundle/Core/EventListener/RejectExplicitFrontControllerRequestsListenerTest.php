@@ -196,6 +196,19 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
                     ]
                 ),
             ],
+            [
+                Request::create(
+                    'https://example.com/app.php/folder/folder/',
+                    Request::METHOD_GET,
+                    [],
+                    [],
+                    [],
+                    [
+                        'REQUEST_URI' => 'https://example.com/app.php/folder/',
+                        'SCRIPT_FILENAME' => '',
+                    ]
+                ),
+            ],
         ];
     }
 
