@@ -157,12 +157,6 @@ parameters:
 			path: src/bundle/Core/Command/ReindexCommand.php
 
 		-
-			message: '#^Parameter \#2 \$subject of function preg_match expects string, string\|false given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/bundle/Core/Command/ReindexCommand.php
-
-		-
 			message: '#^Parameter \#2 \$subject of function preg_match_all expects string, string\|false given\.$#'
 			identifier: argument.type
 			count: 1
@@ -18005,6 +17999,12 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Repository/ContentTypeService.php
+
+		-
+			message: '#^Cannot access offset int\|string on array\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Relation\>\|Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Relation\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/lib/Repository/Helper/RelationProcessor.php
 
 		-
 			message: '#^Cannot call method error\(\) on Psr\\Log\\LoggerInterface\|null\.$#'
@@ -63299,3 +63299,9 @@ parameters:
 			identifier: phpDoc.parseError
 			count: 1
 			path: tests/lib/Validation/StructValidatorTest.php
+
+		-
+			message: '#^Call to Ibexa\\Contracts\\Core\\Validation\\ValidationFailedException\:\:__construct\(\) on a separate line has no effect\.$#'
+			identifier: new.resultUnused
+			count: 1
+			path: tests/lib/Validation/ValidationFailedExceptionTest.php
