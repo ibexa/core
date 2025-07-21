@@ -58,7 +58,7 @@
       </trans-unit>
       <trans-unit id="922fa9ce06fa28b293050aded90773559fa39306" resname="ibexa_image_asset.name">
         <source>Image Asset</source>
-        <target state="new">Image Asset</target>
+        <target>Image Asset</target>
         <note>key: ibexa_image_asset.name</note>
       </trans-unit>
       <trans-unit id="3aeb96f710ddccb1a12809d3bb6f3e604fc14f75" resname="ibexa_integer.name">
