@@ -6,6 +6,11 @@
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
     </header>
     <body>
+      <trans-unit id="bb8de8e210fd9fae30fd529a1128c07ae8512c22" resname="$limitationValue-&gt;limitationValues for '%identifier%' Limitation can not be empty">
+        <source><![CDATA[$limitationValue->limitationValues for '%identifier%' Limitation can not be empty]]></source>
+        <target state="new"><![CDATA[$limitationValue->limitationValues for '%identifier%' Limitation can not be empty]]></target>
+        <note>key: $limitationValue-&gt;limitationValues for '%identifier%' Limitation can not be empty</note>
+      </trans-unit>
       <trans-unit id="bdaae3444afba4eebebe2e0f684a0e56e81afafd" resname="'%actualValue%' is incorrect value">
         <source>'%actualValue%' is incorrect value</source>
         <target>'%actualValue%' is incorrect value</target>
@@ -15,6 +20,21 @@
         <source>'%actualValue%' is incorrect value in class '%className%'</source>
         <target>'%actualValue%' is incorrect value in class '%className%'</target>
         <note>key: '%actualValue%' is incorrect value in class '%className%'</note>
+      </trans-unit>
+      <trans-unit id="4441981a48137dfcbf678e8348db9c71725f25f9" resname="A valid file is required. The following file extensions are not allowed: %extensionsBlackList%">
+        <source>A valid file is required. The following file extensions are not allowed: %extensionsBlackList%</source>
+        <target state="new">A valid file is required. The following file extensions are not allowed: %extensionsBlackList%</target>
+        <note>key: A valid file is required. The following file extensions are not allowed: %extensionsBlackList%</note>
+      </trans-unit>
+      <trans-unit id="0acb3bbe9dfdab72c9b4b5b5360e8cf8eafd055f" resname="A valid image file is required.">
+        <source>A valid image file is required.</source>
+        <target state="new">A valid image file is required.</target>
+        <note>key: A valid image file is required.</note>
+      </trans-unit>
+      <trans-unit id="c007a4a555b90607676d583c8e48b5c7385b3bfd" resname="Alternative text is required.">
+        <source>Alternative text is required.</source>
+        <target state="new">Alternative text is required.</target>
+        <note>key: Alternative text is required.</note>
       </trans-unit>
       <trans-unit id="80e5a0a47ac1df407b0218c2283872a86aba0fc1" resname="Argument '%argumentName%' has a bad state: %whatIsWrong%">
         <source>Argument '%argumentName%' has a bad state: %whatIsWrong%</source>
@@ -51,15 +71,30 @@
         <target>Content "%contentName%" fields did not validate: %errors%</target>
         <note>key: Content "%contentName%" fields did not validate: %errors%</note>
       </trans-unit>
+      <trans-unit id="50d1d8cb3212e4d0e5acc060e738f1826b33dd30" resname="Content %type% is not a valid asset target">
+        <source>Content %type% is not a valid asset target</source>
+        <target state="new">Content %type% is not a valid asset target</target>
+        <note>key: Content %type% is not a valid asset target</note>
+      </trans-unit>
       <trans-unit id="8967aa151e1b84f60c505163d42350eb6a96e948" resname="Content fields did not validate">
         <source>Content fields did not validate</source>
         <target>Content fields did not validate</target>
         <note>key: Content fields did not validate</note>
       </trans-unit>
+      <trans-unit id="67c302ca410832c6ac09962375892b15fbae858e" resname="Content type %contentTypeIdentifier% is not a valid relation target">
+        <source>Content type %contentTypeIdentifier% is not a valid relation target</source>
+        <target state="new">Content type %contentTypeIdentifier% is not a valid relation target</target>
+        <note>key: Content type %contentTypeIdentifier% is not a valid relation target</note>
+      </trans-unit>
       <trans-unit id="8f64e46d8c92143a1a8fde9790a6a2423759a0ce" resname="Content type field definitions did not validate">
         <source>Content type field definitions did not validate</source>
         <target>Content type field definitions did not validate</target>
         <note>key: Content type field definitions did not validate</note>
+      </trans-unit>
+      <trans-unit id="9e1ffd3b1b0cb7ca0472aadaf71c3d5466eaf907" resname="Content with identifier %contentId% is not a valid relation target">
+        <source>Content with identifier %contentId% is not a valid relation target</source>
+        <target state="new">Content with identifier %contentId% is not a valid relation target</target>
+        <note>key: Content with identifier %contentId% is not a valid relation target</note>
       </trans-unit>
       <trans-unit id="dbf0b883e33a6e7c433ffa9a536fd214cda39b5c" resname="Could not find %classType% class '%className%'">
         <source>Could not find %classType% class '%className%'</source>
@@ -76,6 +111,31 @@
         <target>Could not find class '%className%'</target>
         <note>key: Could not find class '%className%'</note>
       </trans-unit>
+      <trans-unit id="bd31261fbee17ca1e69927adfd77e877e2a86002" resname="Country with Alpha2 code '%alpha2%' is not defined in FieldType settings.">
+        <source>Country with Alpha2 code '%alpha2%' is not defined in FieldType settings.</source>
+        <target state="new">Country with Alpha2 code '%alpha2%' is not defined in FieldType settings.</target>
+        <note>key: Country with Alpha2 code '%alpha2%' is not defined in FieldType settings.</note>
+      </trans-unit>
+      <trans-unit id="0916f6f9b4fbf5df579dbdf281c4dd486bb2bd8d" resname="Each keyword must be a string.">
+        <source>Each keyword must be a string.</source>
+        <target state="new">Each keyword must be a string.</target>
+        <note>key: Each keyword must be a string.</note>
+      </trans-unit>
+      <trans-unit id="34a44ca5a04b672701b17d1833449abde0baaca2" resname="Email '%email%' is used by another user. You must enter a unique email.">
+        <source>Email '%email%' is used by another user. You must enter a unique email.</source>
+        <target state="new">Email '%email%' is used by another user. You must enter a unique email.</target>
+        <note>key: Email '%email%' is used by another user. You must enter a unique email.</note>
+      </trans-unit>
+      <trans-unit id="887c8dbb94effba65b41b2328e66467e597cdc5d" resname="Email required">
+        <source>Email required</source>
+        <target state="new">Email required</target>
+        <note>key: Email required</note>
+      </trans-unit>
+      <trans-unit id="0d40734d4581a1c3c3d21e4cea906a2afbe21264" resname="Enabled must be boolean value">
+        <source>Enabled must be boolean value</source>
+        <target state="new">Enabled must be boolean value</target>
+        <note>key: Enabled must be boolean value</note>
+      </trans-unit>
       <trans-unit id="c6136a74d1562ea6d15321ee75b9b307fc787e79" resname="Field Type '%fieldType%' not found. It must be implemented or configured to use %nullType%">
         <source>Field Type '%fieldType%' not found. It must be implemented or configured to use %nullType%</source>
         <target>Field Type '%fieldType%' not found. It must be implemented or configured to use %nullType%</target>
@@ -91,10 +151,40 @@
         <target>Field definition '%identifier%' does not exist in the given content type</target>
         <note>key: Field definition '%identifier%' does not exist in the given content type</note>
       </trans-unit>
-      <trans-unit id="c6f0fd742d6b8ce0686dc4e7a3a070efbf924204" resname="Invalid URL wildcards provided.">
-        <source>Invalid URL wildcards provided.</source>
-        <target>Invalid URL wildcards provided.</target>
-        <note>key: Invalid URL wildcards provided.</note>
+      <trans-unit id="51c68e3006b2889d57967698bf42465ccdc686f6" resname="Field definition does not allow multiple countries to be selected.">
+        <source>Field definition does not allow multiple countries to be selected.</source>
+        <target state="new">Field definition does not allow multiple countries to be selected.</target>
+        <note>key: Field definition does not allow multiple countries to be selected.</note>
+      </trans-unit>
+      <trans-unit id="59fe5c99eeba126598f07f11a900ac1d317ee778" resname="Field definition does not allow multiple options to be selected.">
+        <source>Field definition does not allow multiple options to be selected.</source>
+        <target state="new">Field definition does not allow multiple options to be selected.</target>
+        <note>key: Field definition does not allow multiple options to be selected.</note>
+      </trans-unit>
+      <trans-unit id="0a7a9d488d82cb20f7b0fdfb67cf91f5be027dd1" resname="FieldType '%fieldType%' does not accept settings">
+        <source>FieldType '%fieldType%' does not accept settings</source>
+        <target state="new">FieldType '%fieldType%' does not accept settings</target>
+        <note>key: FieldType '%fieldType%' does not accept settings</note>
+      </trans-unit>
+      <trans-unit id="063039e538d6185d99729be1c3d7500cdb8764d2" resname="FieldType '%fieldType%' expects setting '%setting%' to be of type '%type%'">
+        <source>FieldType '%fieldType%' expects setting '%setting%' to be of type '%type%'</source>
+        <target state="new">FieldType '%fieldType%' expects setting '%setting%' to be of type '%type%'</target>
+        <note>key: FieldType '%fieldType%' expects setting '%setting%' to be of type '%type%'</note>
+      </trans-unit>
+      <trans-unit id="9fd939f460767fe70deca9a2253612faaf21541f" resname="ISBN value must be in a valid ISBN-10 format">
+        <source>ISBN value must be in a valid ISBN-10 format</source>
+        <target state="new">ISBN value must be in a valid ISBN-10 format</target>
+        <note>key: ISBN value must be in a valid ISBN-10 format</note>
+      </trans-unit>
+      <trans-unit id="176a3a93bc13f5306ba1b9facec5b8c178a19584" resname="ISBN-10 must be 10 character length">
+        <source>ISBN-10 must be 10 character length</source>
+        <target state="new">ISBN-10 must be 10 character length</target>
+        <note>key: ISBN-10 must be 10 character length</note>
+      </trans-unit>
+      <trans-unit id="6de49a02bf544fb50e2c6ecfc05848b02631ebf2" resname="Invalid login format">
+        <source>Invalid login format</source>
+        <target state="new">Invalid login format</target>
+        <note>key: Invalid login format</note>
       </trans-unit>
       <trans-unit id="87d1caa3303a7197201d77b1bcb03ae38356097b" resname="Limitation '%limitation%' not found. It must be implemented or configured to use %blockingLimitation%">
         <source>Limitation '%limitation%' not found. It must be implemented or configured to use %blockingLimitation%</source>
@@ -106,6 +196,31 @@
         <target>Limitations did not validate</target>
         <note>key: Limitations did not validate</note>
       </trans-unit>
+      <trans-unit id="e4ff6279bf086f085375b32cb0e2cb0122b01e8f" resname="Login required">
+        <source>Login required</source>
+        <target state="new">Login required</target>
+        <note>key: Login required</note>
+      </trans-unit>
+      <trans-unit id="726e352f30c0a2a13b529ee5419862a5a8bb9653" resname="New password cannot be the same as old password">
+        <source>New password cannot be the same as old password</source>
+        <target state="new">New password cannot be the same as old password</target>
+        <note>key: New password cannot be the same as old password</note>
+      </trans-unit>
+      <trans-unit id="07d09e0efe61a3f503bff8bb248753d3506f97e8" resname="Option with index %index% does not exist in the field definition.">
+        <source>Option with index %index% does not exist in the field definition.</source>
+        <target state="new">Option with index %index% does not exist in the field definition.</target>
+        <note>key: Option with index %index% does not exist in the field definition.</note>
+      </trans-unit>
+      <trans-unit id="f974cd6ec5fdcdad5df910fdf052d94c1c54f335" resname="Password expiration warning value should be lower then password expiration value">
+        <source>Password expiration warning value should be lower then password expiration value</source>
+        <target state="new">Password expiration warning value should be lower then password expiration value</target>
+        <note>key: Password expiration warning value should be lower then password expiration value</note>
+      </trans-unit>
+      <trans-unit id="b9a6ccd9e7097c94755ba57d1450e8ae9cab4b87" resname="Password required">
+        <source>Password required</source>
+        <target state="new">Password required</target>
+        <note>key: Password required</note>
+      </trans-unit>
       <trans-unit id="ef12e750e94380df0d1de86b1cc274b45dc94e94" resname="Path '%path%' already exists for the given context">
         <source>Path '%path%' already exists for the given context</source>
         <target>Path '%path%' already exists for the given context</target>
@@ -115,6 +230,81 @@
         <source>Placeholders do not match the wildcards.</source>
         <target>Placeholders do not match the wildcards.</target>
         <note>key: Placeholders do not match the wildcards.</note>
+      </trans-unit>
+      <trans-unit id="f9f69b1cbde93fbe301240d7b3263d9bd3442edc" resname="Setting '%setting%' contains unsupported mime types">
+        <source>Setting '%setting%' contains unsupported mime types</source>
+        <target state="new">Setting '%setting%' contains unsupported mime types</target>
+        <note>key: Setting '%setting%' contains unsupported mime types</note>
+      </trans-unit>
+      <trans-unit id="b914ca7737f63ae891ab3e637e8e72e74c9d56cf" resname="Setting '%setting%' has unknown default value">
+        <source>Setting '%setting%' has unknown default value</source>
+        <target state="new">Setting '%setting%' has unknown default value</target>
+        <note>key: Setting '%setting%' has unknown default value</note>
+      </trans-unit>
+      <trans-unit id="fce1718779ee47de2e388b5af61ab50a8d5a7f8b" resname="Setting '%setting%' is of unknown type">
+        <source>Setting '%setting%' is of unknown type</source>
+        <target state="new">Setting '%setting%' is of unknown type</target>
+        <note>key: Setting '%setting%' is of unknown type</note>
+      </trans-unit>
+      <trans-unit id="861d7d199b8b7918672a8e35a394fa5e2c42cf94" resname="Setting '%setting%' is unknown">
+        <source>Setting '%setting%' is unknown</source>
+        <target state="new">Setting '%setting%' is unknown</target>
+        <note>key: Setting '%setting%' is unknown</note>
+      </trans-unit>
+      <trans-unit id="097531c663fd009dbd56325b818e16f3531ad068" resname="Setting '%setting%' must be either %selection_browse% or %selection_dropdown%">
+        <source>Setting '%setting%' must be either %selection_browse% or %selection_dropdown%</source>
+        <target state="new">Setting '%setting%' must be either %selection_browse% or %selection_dropdown%</target>
+        <note>key: Setting '%setting%' must be either %selection_browse% or %selection_dropdown%</note>
+      </trans-unit>
+      <trans-unit id="03f216a06c84d4b197c23e20b0f4aa34e01d6d43" resname="Setting '%setting%' value cannot be lower than 0">
+        <source>Setting '%setting%' value cannot be lower than 0</source>
+        <target state="new">Setting '%setting%' value cannot be lower than 0</target>
+        <note>key: Setting '%setting%' value cannot be lower than 0</note>
+      </trans-unit>
+      <trans-unit id="caa9738d2c5a25e32b8cd1cf44b7c1c8148b1b54" resname="Setting '%setting%' value must be of array type">
+        <source>Setting '%setting%' value must be of array type</source>
+        <target state="new">Setting '%setting%' value must be of array type</target>
+        <note>key: Setting '%setting%' value must be of array type</note>
+      </trans-unit>
+      <trans-unit id="bd4ed9b70b5f83107e2b14559fc977dddfca7a70" resname="Setting '%setting%' value must be of boolean type">
+        <source>Setting '%setting%' value must be of boolean type</source>
+        <target state="new">Setting '%setting%' value must be of boolean type</target>
+        <note>key: Setting '%setting%' value must be of boolean type</note>
+      </trans-unit>
+      <trans-unit id="26461bb829eaa12bb6ce07c767561c4b8f33ba12" resname="Setting '%setting%' value must be of either null or bool">
+        <source>Setting '%setting%' value must be of either null or bool</source>
+        <target state="new">Setting '%setting%' value must be of either null or bool</target>
+        <note>key: Setting '%setting%' value must be of either null or bool</note>
+      </trans-unit>
+      <trans-unit id="3562c94e4532fc117ccc2ee24af9c3330eabacee" resname="Setting '%setting%' value must be of either null, string or integer">
+        <source>Setting '%setting%' value must be of either null, string or integer</source>
+        <target state="new">Setting '%setting%' value must be of either null, string or integer</target>
+        <note>key: Setting '%setting%' value must be of either null, string or integer</note>
+      </trans-unit>
+      <trans-unit id="bfebc417a482e6ada4ab78ceb573f6e5afa48822" resname="Setting '%setting%' value must be of integer type">
+        <source>Setting '%setting%' value must be of integer type</source>
+        <target state="new">Setting '%setting%' value must be of integer type</target>
+        <note>key: Setting '%setting%' value must be of integer type</note>
+      </trans-unit>
+      <trans-unit id="277ccdbd7cb7e21d7f7b369d6ffce70fd37a35e3" resname="Setting 'Current date and time adjusted by' can be used only when setting 'Default value' is set to 'Adjusted current datetime'">
+        <source>Setting 'Current date and time adjusted by' can be used only when setting 'Default value' is set to 'Adjusted current datetime'</source>
+        <target state="new">Setting 'Current date and time adjusted by' can be used only when setting 'Default value' is set to 'Adjusted current datetime'</target>
+        <note>key: Setting 'Current date and time adjusted by' can be used only when setting 'Default value' is set to 'Adjusted current datetime'</note>
+      </trans-unit>
+      <trans-unit id="3123ad0ce9fd660a9a47ff624fe86bdf7b92af92" resname="Setting 'Current date and time adjusted by' value must be an instance of 'DateInterval' class">
+        <source>Setting 'Current date and time adjusted by' value must be an instance of 'DateInterval' class</source>
+        <target state="new">Setting 'Current date and time adjusted by' value must be an instance of 'DateInterval' class</target>
+        <note>key: Setting 'Current date and time adjusted by' value must be an instance of 'DateInterval' class</note>
+      </trans-unit>
+      <trans-unit id="c506a8e66a994618ba7bc87400fc2ef2ef01a9b7" resname="Setting 'Default value' is of unknown type">
+        <source>Setting 'Default value' is of unknown type</source>
+        <target state="new">Setting 'Default value' is of unknown type</target>
+        <note>key: Setting 'Default value' is of unknown type</note>
+      </trans-unit>
+      <trans-unit id="cffa2f702aaae8a5b472603a98b5c934c8fd9e19" resname="Setting 'Use seconds' value must be of boolean type">
+        <source>Setting 'Use seconds' value must be of boolean type</source>
+        <target state="new">Setting 'Use seconds' value must be of boolean type</target>
+        <note>key: Setting 'Use seconds' value must be of boolean type</note>
       </trans-unit>
       <trans-unit id="1677f5311a0f3fc35be40d540553e892d187618e" resname="The User does not have the '%function%' '%module%' permission">
         <source>The User does not have the '%function%' '%module%' permission</source>
@@ -126,6 +316,86 @@
         <target>The User does not have the '%function%' '%module%' permission with: %with%</target>
         <note>key: The User does not have the '%function%' '%module%' permission with: %with%</note>
       </trans-unit>
+      <trans-unit id="b43d86934008faa891bafd26e803154c82e1d2d7" resname="The file size cannot exceed %size% byte.">
+        <source>The file size cannot exceed %size% byte.</source>
+        <target state="new">The file size cannot exceed %size% byte.</target>
+        <note>key: The file size cannot exceed %size% byte.</note>
+      </trans-unit>
+      <trans-unit id="cb5f9b0dcc5347641d221acd261381a44b8a2c5e" resname="The file size cannot exceed %size% bytes.">
+        <source>The file size cannot exceed %size% bytes.</source>
+        <target state="new">The file size cannot exceed %size% bytes.</target>
+        <note>key: The file size cannot exceed %size% bytes.</note>
+      </trans-unit>
+      <trans-unit id="e59547cf884453e4f2c54f7ebfc78ceb69c743ca" resname="The file size cannot exceed %size% megabyte.">
+        <source>The file size cannot exceed %size% megabyte.</source>
+        <target state="new">The file size cannot exceed %size% megabyte.</target>
+        <note>key: The file size cannot exceed %size% megabyte.</note>
+      </trans-unit>
+      <trans-unit id="8d20c15b8b0736e4c747437cb4dd1b27001d9ed1" resname="The file size cannot exceed %size% megabytes.">
+        <source>The file size cannot exceed %size% megabytes.</source>
+        <target state="new">The file size cannot exceed %size% megabytes.</target>
+        <note>key: The file size cannot exceed %size% megabytes.</note>
+      </trans-unit>
+      <trans-unit id="8592cd2c2482f1bf9d07227a7ad0c4dd3ec466a7" resname="The following options are available for setting '%setting%': %selection_browse%, %selection_dropdown%, %selection_list_with_radio_buttons%, %selection_list_with_checkboxes%, %selection_multiple_selection_list%, %selection_template_based_multiple%, %selection_template_based_single%">
+        <source>The following options are available for setting '%setting%': %selection_browse%, %selection_dropdown%, %selection_list_with_radio_buttons%, %selection_list_with_checkboxes%, %selection_multiple_selection_list%, %selection_template_based_multiple%, %selection_template_based_single%</source>
+        <target state="new">The following options are available for setting '%setting%': %selection_browse%, %selection_dropdown%, %selection_list_with_radio_buttons%, %selection_list_with_checkboxes%, %selection_multiple_selection_list%, %selection_template_based_multiple%, %selection_template_based_single%</target>
+        <note>key: The following options are available for setting '%setting%': %selection_browse%, %selection_dropdown%, %selection_list_with_radio_buttons%, %selection_list_with_checkboxes%, %selection_multiple_selection_list%, %selection_template_based_multiple%, %selection_template_based_single%</note>
+      </trans-unit>
+      <trans-unit id="ef1bb7a9545247d483f9d73e7eba659bf01c214a" resname="The given e-mail '%email%' is invalid">
+        <source>The given e-mail '%email%' is invalid</source>
+        <target state="new">The given e-mail '%email%' is invalid</target>
+        <note>key: The given e-mail '%email%' is invalid</note>
+      </trans-unit>
+      <trans-unit id="3985ff268119a8583776a5be47a7d2fe786443dd" resname="The mime type of the file is invalid (%mimeType%). Allowed mime types are %mimeTypes%.">
+        <source>The mime type of the file is invalid (%mimeType%). Allowed mime types are %mimeTypes%.</source>
+        <target state="new">The mime type of the file is invalid (%mimeType%). Allowed mime types are %mimeTypes%.</target>
+        <note>key: The mime type of the file is invalid (%mimeType%). Allowed mime types are %mimeTypes%.</note>
+      </trans-unit>
+      <trans-unit id="46a134849e071f19e08a9815ec0384f806615bfc" resname="The selected content items number cannot be higher than %limit%.">
+        <source>The selected content items number cannot be higher than %limit%.</source>
+        <target state="new">The selected content items number cannot be higher than %limit%.</target>
+        <note>key: The selected content items number cannot be higher than %limit%.</note>
+      </trans-unit>
+      <trans-unit id="ba85dfc3ec69f4c49d6db6be38aebbb266752f91" resname="The string can not exceed %size% character.">
+        <source>The string can not exceed %size% character.</source>
+        <target state="new">The string can not exceed %size% character.</target>
+        <note>key: The string can not exceed %size% character.</note>
+      </trans-unit>
+      <trans-unit id="4e5c3e8885e3073cb30ab2e042990054648734e5" resname="The string can not exceed %size% characters.">
+        <source>The string can not exceed %size% characters.</source>
+        <target state="new">The string can not exceed %size% characters.</target>
+        <note>key: The string can not exceed %size% characters.</note>
+      </trans-unit>
+      <trans-unit id="488e4c6db5553d3c87fa27dd43864bd141f1f82b" resname="The string cannot be shorter than %size% character.">
+        <source>The string cannot be shorter than %size% character.</source>
+        <target state="new">The string cannot be shorter than %size% character.</target>
+        <note>key: The string cannot be shorter than %size% character.</note>
+      </trans-unit>
+      <trans-unit id="b736e8be94c612df3c9bbb082fc132fbcafe6ce8" resname="The string cannot be shorter than %size% characters.">
+        <source>The string cannot be shorter than %size% characters.</source>
+        <target state="new">The string cannot be shorter than %size% characters.</target>
+        <note>key: The string cannot be shorter than %size% characters.</note>
+      </trans-unit>
+      <trans-unit id="c10b0c448f6442d0a67d6787f458e09c823d79f7" resname="The user login '%login%' is used by another user. You must enter a unique login.">
+        <source>The user login '%login%' is used by another user. You must enter a unique login.</source>
+        <target state="new">The user login '%login%' is used by another user. You must enter a unique login.</target>
+        <note>key: The user login '%login%' is used by another user. You must enter a unique login.</note>
+      </trans-unit>
+      <trans-unit id="4d599538a5fe5385937cbee8c10499a135233c7a" resname="The value can not be higher than %size%.">
+        <source>The value can not be higher than %size%.</source>
+        <target state="new">The value can not be higher than %size%.</target>
+        <note>key: The value can not be higher than %size%.</note>
+      </trans-unit>
+      <trans-unit id="abef90370bd924c3c08bd2467b305c8f982f8929" resname="The value can not be lower than %size%.">
+        <source>The value can not be lower than %size%.</source>
+        <target state="new">The value can not be lower than %size%.</target>
+        <note>key: The value can not be lower than %size%.</note>
+      </trans-unit>
+      <trans-unit id="26a24798112d7590cdf9933e385524955d6d5042" resname="The value must be a valid email address.">
+        <source>The value must be a valid email address.</source>
+        <target state="new">The value must be a valid email address.</target>
+        <note>key: The value must be a valid email address.</note>
+      </trans-unit>
       <trans-unit id="3b2e044f9c9821aef27834972d90f59f28b1a0b4" resname="Token '%tokenType%:%token%' expired on '%when%'">
         <source>Token '%tokenType%:%token%' expired on '%when%'</source>
         <target>Token '%tokenType%:%token%' expired on '%when%'</target>
@@ -136,10 +406,100 @@
         <target>User "%login%" already exists</target>
         <note>key: User "%login%" already exists</note>
       </trans-unit>
+      <trans-unit id="883293f3c259167489768ede2a51ee202bf6f951" resname="Validator %validator% expects parameter %parameter% to be of %type% type.">
+        <source>Validator %validator% expects parameter %parameter% to be of %type% type.</source>
+        <target state="new">Validator %validator% expects parameter %parameter% to be of %type% type.</target>
+        <note>key: Validator %validator% expects parameter %parameter% to be of %type% type.</note>
+      </trans-unit>
+      <trans-unit id="60b08b7060418c6649003ad172cb464d0f08a5ca" resname="Validator %validator% expects parameter %parameter% to be of %type%.">
+        <source>Validator %validator% expects parameter %parameter% to be of %type%.</source>
+        <target state="new">Validator %validator% expects parameter %parameter% to be of %type%.</target>
+        <note>key: Validator %validator% expects parameter %parameter% to be of %type%.</note>
+      </trans-unit>
+      <trans-unit id="a9f2ff0ce778111aff38235670551cc9c6b30c9c" resname="Validator %validator% expects parameter %parameter% to be set.">
+        <source>Validator %validator% expects parameter %parameter% to be set.</source>
+        <target state="new">Validator %validator% expects parameter %parameter% to be set.</target>
+        <note>key: Validator %validator% expects parameter %parameter% to be set.</note>
+      </trans-unit>
+      <trans-unit id="53769a408989ce357c62f26d2e911672f9b052a6" resname="Validator '%validator%' is unknown">
+        <source>Validator '%validator%' is unknown</source>
+        <target state="new">Validator '%validator%' is unknown</target>
+        <note>key: Validator '%validator%' is unknown</note>
+      </trans-unit>
+      <trans-unit id="4930120b71d17e3e3e44611673bb24b6b27e3843" resname="Validator parameter '%parameter%' is unknown">
+        <source>Validator parameter '%parameter%' is unknown</source>
+        <target state="new">Validator parameter '%parameter%' is unknown</target>
+        <note>key: Validator parameter '%parameter%' is unknown</note>
+      </trans-unit>
+      <trans-unit id="d559b6e08c07df29c0eafa4f3ce26a01f54735d1" resname="Validator parameter '%parameter%' value can't be negative">
+        <source>Validator parameter '%parameter%' value can't be negative</source>
+        <target state="new">Validator parameter '%parameter%' value can't be negative</target>
+        <note>key: Validator parameter '%parameter%' value can't be negative</note>
+      </trans-unit>
+      <trans-unit id="ab05735d99df463618923994a726dfb03ffdfa03" resname="Validator parameter '%parameter%' value must be an integer">
+        <source>Validator parameter '%parameter%' value must be an integer</source>
+        <target state="new">Validator parameter '%parameter%' value must be an integer</target>
+        <note>key: Validator parameter '%parameter%' value must be an integer</note>
+      </trans-unit>
+      <trans-unit id="89b7b652fa6791c8f4eab4b3f1a870add84c0c32" resname="Validator parameter '%parameter%' value must be equal to/greater than 0">
+        <source>Validator parameter '%parameter%' value must be equal to/greater than 0</source>
+        <target state="new">Validator parameter '%parameter%' value must be equal to/greater than 0</target>
+        <note>key: Validator parameter '%parameter%' value must be equal to/greater than 0</note>
+      </trans-unit>
+      <trans-unit id="e6c3b0ade928148395602d05d89b235ae1f88f0d" resname="Validator parameter '%parameter%' value must be of integer type">
+        <source>Validator parameter '%parameter%' value must be of integer type</source>
+        <target state="new">Validator parameter '%parameter%' value must be of integer type</target>
+        <note>key: Validator parameter '%parameter%' value must be of integer type</note>
+      </trans-unit>
+      <trans-unit id="f6c1cab69cb480fed52a2b65b83ffb6963696b36" resname="Validator parameter '%parameter%' value must be regex for now">
+        <source>Validator parameter '%parameter%' value must be regex for now</source>
+        <target state="new">Validator parameter '%parameter%' value must be regex for now</target>
+        <note>key: Validator parameter '%parameter%' value must be regex for now</note>
+      </trans-unit>
+      <trans-unit id="9039ff35728ad4af93dcaba4b21557a727888e30" resname="Validator parameter 'maxStringLength' can't be shorter than validator parameter 'minStringLength' value">
+        <source>Validator parameter 'maxStringLength' can't be shorter than validator parameter 'minStringLength' value</source>
+        <target state="new">Validator parameter 'maxStringLength' can't be shorter than validator parameter 'minStringLength' value</target>
+        <note>key: Validator parameter 'maxStringLength' can't be shorter than validator parameter 'minStringLength' value</note>
+      </trans-unit>
+      <trans-unit id="b6c92ee4799eb55f6bd347344b7ab326f6483e1f" resname="Value for required field definition '%identifier%' with language '%languageCode%' is empty">
+        <source>Value for required field definition '%identifier%' with language '%languageCode%' is empty</source>
+        <target state="new">Value for required field definition '%identifier%' with language '%languageCode%' is empty</target>
+        <note>key: Value for required field definition '%identifier%' with language '%languageCode%' is empty</note>
+      </trans-unit>
       <trans-unit id="e37bafa4a8807f7a425f8d967cadc8e704c629b3" resname="You cannot set a value for the non-translatable Field definition '%identifier%' in language '%languageCode%'">
         <source>You cannot set a value for the non-translatable Field definition '%identifier%' in language '%languageCode%'</source>
         <target>You cannot set a value for the non-translatable Field definition '%identifier%' in language '%languageCode%'</target>
         <note>key: You cannot set a value for the non-translatable Field definition '%identifier%' in language '%languageCode%'</note>
+      </trans-unit>
+      <trans-unit id="9a8096c63a5bb1163bb47cd39ab1721cb10329aa" resname="limitationValues[%key%] =&gt; '%value%' does not equal Location's path string: '%path_string%'">
+        <source><![CDATA[limitationValues[%key%] => '%value%' does not equal Location's path string: '%path_string%']]></source>
+        <target state="new"><![CDATA[limitationValues[%key%] => '%value%' does not equal Location's path string: '%path_string%']]></target>
+        <note>key: limitationValues[%key%] =&gt; '%value%' does not equal Location's path string: '%path_string%'</note>
+      </trans-unit>
+      <trans-unit id="619a3446ec0941d3e7e64a1b63c2938925e9b56a" resname="limitationValues[%key%] =&gt; '%value%' does not exist in the backend">
+        <source><![CDATA[limitationValues[%key%] => '%value%' does not exist in the backend]]></source>
+        <target state="new"><![CDATA[limitationValues[%key%] => '%value%' does not exist in the backend]]></target>
+        <note>key: limitationValues[%key%] =&gt; '%value%' does not exist in the backend</note>
+      </trans-unit>
+      <trans-unit id="1d60b8441327f4f07094c741cea646a38ec94d67" resname="limitationValues[%key%] =&gt; '%value%' must be 1 (owner)">
+        <source><![CDATA[limitationValues[%key%] => '%value%' must be 1 (owner)]]></source>
+        <target state="new"><![CDATA[limitationValues[%key%] => '%value%' must be 1 (owner)]]></target>
+        <note>key: limitationValues[%key%] =&gt; '%value%' must be 1 (owner)</note>
+      </trans-unit>
+      <trans-unit id="6deaad828c2b2506ccef5940fbc0a31ee540ce77" resname="limitationValues[%key%] =&gt; '%value%' must be an integer">
+        <source><![CDATA[limitationValues[%key%] => '%value%' must be an integer]]></source>
+        <target state="new"><![CDATA[limitationValues[%key%] => '%value%' must be an integer]]></target>
+        <note>key: limitationValues[%key%] =&gt; '%value%' must be an integer</note>
+      </trans-unit>
+      <trans-unit id="c0a48e6a6766b8cd35fb48e23879de59d7cca50a" resname="limitationValues[%key%] =&gt; '%value%' must be either 1 (owner) or 2 (session)">
+        <source><![CDATA[limitationValues[%key%] => '%value%' must be either 1 (owner) or 2 (session)]]></source>
+        <target state="new"><![CDATA[limitationValues[%key%] => '%value%' must be either 1 (owner) or 2 (session)]]></target>
+        <note>key: limitationValues[%key%] =&gt; '%value%' must be either 1 (owner) or 2 (session)</note>
+      </trans-unit>
+      <trans-unit id="a41b00a888d13bc3843d9320a061a9b613a17796" resname="limitationValues[] =&gt; '%languageCodes%' translation(s) do not exist">
+        <source><![CDATA[limitationValues[] => '%languageCodes%' translation(s) do not exist]]></source>
+        <target state="new"><![CDATA[limitationValues[] => '%languageCodes%' translation(s) do not exist]]></target>
+        <note>key: limitationValues[] =&gt; '%languageCodes%' translation(s) do not exist</note>
       </trans-unit>
     </body>
   </file>
