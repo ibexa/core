@@ -46,7 +46,7 @@ class LegacyStorageImageFileRowReader implements ImageFileRowReader
 
         $filePath = $this->result->fetchOne();
 
-        return $filePath !== false ? $filePath : null;
+        return $filePath ?: null;
     }
 
     /**
