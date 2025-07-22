@@ -33,6 +33,7 @@ class RouterHostTextTest extends RouterBaseTest
             [SimplifiedRequest::fromUrl('http://example.com/test/foo/bar/'), 'default_sa'],
             [SimplifiedRequest::fromUrl('http://example.com/test/foo/bar/first_sa'), 'default_sa'],
             [SimplifiedRequest::fromUrl('http://example.com/default_sa'), 'default_sa'],
+            [SimplifiedRequest::fromUrl('http://example.com/sa-with-hyphen'), 'sa-with-hyphen'],
 
             [SimplifiedRequest::fromUrl('http://example.com/first_sa'), 'first_sa'],
             [SimplifiedRequest::fromUrl('http://example.com/first_sa/'), 'first_sa'],
@@ -58,6 +59,7 @@ class RouterHostTextTest extends RouterBaseTest
             [SimplifiedRequest::fromUrl('http://www.example.com:82/'), 'example'],
             [SimplifiedRequest::fromUrl('https://www.example.com:83/'), 'example'],
             [SimplifiedRequest::fromUrl('http://www.example.com/foo/'), 'example'],
+            [SimplifiedRequest::fromUrl('http://www.sa-with-hyphen.com'), 'sa-with-hyphen'],
 
             [SimplifiedRequest::fromUrl('http://example.com/second_sa'), 'second_sa'],
             [SimplifiedRequest::fromUrl('http://example.com/second_sa/'), 'second_sa'],
@@ -108,10 +110,12 @@ class RouterHostTextTest extends RouterBaseTest
                 'Map\\URI' => [
                     'first_sa' => 'first_sa',
                     'second_sa' => 'second_sa',
+                    'sa-with-hyphen' => 'sa-with-hyphen',
                 ],
                 'Map\\Host' => [
                     'first_sa' => 'first_sa',
                     'first_siteaccess' => 'first_sa',
+                    'sa-with-hyphen' => 'sa-with-hyphen',
                 ],
             ],
             $this->siteAccessProvider
@@ -131,6 +135,8 @@ class RouterHostTextTest extends RouterBaseTest
             new SiteAccessSetting('fifth_sa', true),
             new SiteAccessSetting('example', true),
             new SiteAccessSetting(self::DEFAULT_SA_NAME, true),
+            new SiteAccessSetting('fifth_sa', true),
+            new SiteAccessSetting('sa-with-hyphen', true),
         ];
     }
 }
