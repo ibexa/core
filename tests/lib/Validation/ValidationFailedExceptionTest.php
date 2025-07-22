@@ -55,6 +55,7 @@ final class ValidationFailedExceptionTest extends TestCase
             'Cannot create %s with empty validation error list.',
             ValidationFailedException::class,
         ));
-        new ValidationFailedException('__argument_name__', $errors);
+        $exception = new ValidationFailedException('__argument_name__', $errors);
+        self::assertSame($errors, $exception->getErrors());
     }
 }
