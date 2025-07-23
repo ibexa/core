@@ -201,27 +201,21 @@ class PermissionTest extends BaseServiceMockTest
 
     /**
      * Test for the sudo() & hasAccess() method.
+     *
+     * @throws \Throwable
      */
-    public function testHasAccessReturnsFalseButSudoSoTrue()
+    public function testHasAccessReturnsFalseButSudoSoTrue(): void
     {
-        /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
+        /** @var \Ibexa\Contracts\Core\Persistence\User\Handler&\PHPUnit\Framework\MockObject\MockObject $userHandlerMock */
         $userHandlerMock = $this->getPersistenceMock()->userHandler();
-        $service = $this->getPermissionResolverMock(null);
-        $repositoryMock = $this->getRepositoryMock();
-        $repositoryMock
-            ->expects(self::any())
-            ->method('getPermissionResolver')
-            ->will(self::returnValue($service));
+        $permissionResolverMock = $this->getPermissionResolverMock(null);
 
         $userHandlerMock
             ->expects(self::never())
             ->method(self::anything());
 
-        $result = $service->sudo(
-            static function (Repository $repo) {
-                return $repo->getPermissionResolver()->hasAccess('dummy-module', 'dummy-function');
-            },
-            $repositoryMock
+        $result = $permissionResolverMock->sudo(
+            static fn (): bool|array => $permissionResolverMock->hasAccess('dummy-module', 'dummy-function')
         );
 
         self::assertTrue($result);
