@@ -14,7 +14,7 @@ use Ibexa\Core\FieldType\FieldType;
 
 final class ExampleFieldType extends FieldType
 {
-    public const FIELD_TYPE_IDENTIFIER = 'example';
+    public const string FIELD_TYPE_IDENTIFIER = 'example';
 
     protected function createValueFromInput($inputValue): ExampleFieldTypeValue
     {
@@ -31,12 +31,12 @@ final class ExampleFieldType extends FieldType
         return '';
     }
 
-    public function getEmptyValue(): ExampleFieldTypeValue
+    public function getEmptyValue(): Value
     {
         return new ExampleFieldTypeValue();
     }
 
-    public function fromHash($hash): ExampleFieldTypeValue
+    public function fromHash(mixed $hash): Value
     {
         return new ExampleFieldTypeValue();
     }
@@ -46,7 +46,7 @@ final class ExampleFieldType extends FieldType
         // Nothing to do here.
     }
 
-    public function toHash(Value $value)
+    public function toHash(Value $value): null
     {
         return null;
     }
@@ -56,12 +56,12 @@ final class ExampleFieldType extends FieldType
         // Nothing to do here.
     }
 
-    public function validateFieldSettings($fieldSettings): array
+    public function validateFieldSettings(array $fieldSettings): array
     {
         return [];
     }
 
-    public function validateValidatorConfiguration($validatorConfiguration): array
+    public function validateValidatorConfiguration(mixed $validatorConfiguration): array
     {
         return [];
     }
