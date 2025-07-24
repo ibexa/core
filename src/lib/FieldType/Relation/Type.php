@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\Relation;
 
@@ -35,7 +36,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public const SELECTION_BROWSE = 0;
     public const SELECTION_DROPDOWN = 1;
 
-    protected $settingsSchema = [
+    protected array $settingsSchema = [
         'selectionMethod' => [
             'type' => 'int',
             'default' => self::SELECTION_BROWSE,
@@ -68,7 +69,7 @@ class Type extends FieldType implements TranslationContainerInterface
         $this->targetContentValidator = $targetContentValidator;
     }
 
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings(array $fieldSettings): array
     {
         $validationErrors = [];
 
@@ -180,41 +181,31 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\ValidationError[]
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue): array
+    public function validate(FieldDefinition $fieldDef, SPIValue $value): array
     {
         $validationErrors = [];
 
-        if ($this->isEmptyValue($fieldValue)) {
+        if ($this->isEmptyValue($value)) {
             return $validationErrors;
         }
 
-        $allowedContentTypes = $fieldDefinition->getFieldSettings()['selectionContentTypes'] ?? [];
+        $allowedContentTypes = $fieldDef->getFieldSettings()['selectionContentTypes'] ?? [];
 
         $validationError = $this->targetContentValidator->validate(
-            (int) $fieldValue->destinationContentId,
+            (int) $value->destinationContentId,
             $allowedContentTypes
         );
 
         return $validationError === null ? $validationErrors : [$validationError];
     }
 
-    /**
-     * Returns the fallback default value of field type when no such default
-     * value is provided in the field definition in content types.
-     *
-     * @return \Ibexa\Core\FieldType\Relation\Value
-     */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
 
     /**
-     * Returns if the given $value is considered empty by the field type.
-     *
-     * @param mixed $value
-     *
-     * @return bool
+     * @param \Ibexa\Core\FieldType\Relation\Value $value
      */
     public function isEmptyValue(SPIValue $value): bool
     {
@@ -259,26 +250,16 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Returns information for FieldValue->$sortKey relevant to the field type.
-     * For this FieldType, the related object's name is returned.
+     * For this FieldType, the related content item ID is returned as a string.
      *
      * @param \Ibexa\Core\FieldType\Relation\Value $value
-     *
-     * @return string
      */
-    protected function getSortInfo(BaseValue $value): string
+    protected function getSortInfo(SPIValue $value): string
     {
         return (string)$value;
     }
 
-    /**
-     * Converts an $hash to the Value defined by the field type.
-     *
-     * @param mixed $hash
-     *
-     * @return \Ibexa\Core\FieldType\Relation\Value $value
-     */
-    public function fromHash($hash)
+    public function fromHash(mixed $hash): Value
     {
         if ($hash !== null) {
             $destinationContentId = $hash['destinationContentId'];
@@ -295,60 +276,28 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @param \Ibexa\Core\FieldType\Relation\Value $value
      *
-     * @return mixed
+     * @return array{destinationContentId: int|null}
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): array
     {
-        $destinationContentId = null;
-        if ($value->destinationContentId !== null) {
-            $destinationContentId = (int)$value->destinationContentId;
-        }
-
         return [
-            'destinationContentId' => $destinationContentId,
+            'destinationContentId' => $value->destinationContentId ?? null,
         ];
     }
 
-    /**
-     * Returns whether the field type is searchable.
-     *
-     * @return bool
-     */
     public function isSearchable(): bool
     {
         return true;
     }
 
     /**
-     * Returns relation data extracted from value.
-     *
-     * Not intended for \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON type relations,
-     * there is an API for handling those.
-     *
-     * @param \Ibexa\Core\FieldType\Relation\Value $fieldValue
-     *
-     * @return array Hash with relation type as key and array of destination content ids as value.
-     *
-     * Example:
-     * <code>
-     *  array(
-     *      \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK => array(
-     *          "contentIds" => array( 12, 13, 14 ),
-     *          "locationIds" => array( 24 )
-     *      ),
-     *      \Ibexa\Contracts\Core\Repository\Values\Content\Relation::EMBED => array(
-     *          "contentIds" => array( 12 ),
-     *          "locationIds" => array( 24, 45 )
-     *      ),
-     *      \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD => array( 12 )
-     *  )
-     * </code>
+     * @param \Ibexa\Core\FieldType\Relation\Value $value
      */
-    public function getRelations(SPIValue $fieldValue)
+    public function getRelations(SPIValue $value): array
     {
         $relations = [];
-        if ($fieldValue->destinationContentId !== null) {
-            $relations[RelationType::FIELD->value] = [$fieldValue->destinationContentId];
+        if ($value->destinationContentId !== null) {
+            $relations[RelationType::FIELD->value] = [$value->destinationContentId];
         }
 
         return $relations;
