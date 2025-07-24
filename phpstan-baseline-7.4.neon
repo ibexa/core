@@ -529,6 +529,18 @@ parameters:
 			path: tests/integration/Core/Repository/RoleServiceTest.php
 
 		-
+			message: '#^Parameter \#1 \$class of class ReflectionProperty constructor expects object\|string, class\-string\|false given\.$#'
+			identifier: argument.type
+			count: 4
+			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
+
+		-
+			message: '#^Parameter \#1 \$class of class ReflectionProperty constructor expects object\|string, class\-string\|false given\.$#'
+			identifier: argument.type
+			count: 4
+			path: tests/integration/Core/Repository/SearchServiceTest.php
+
+		-
 			message: '#^Parameter \#1 \$str of function md5 expects string, int\<1, max\> given\.$#'
 			identifier: argument.type
 			count: 1

@@ -47,6 +47,13 @@ class Handler implements UrlAliasHandlerInterface
     public const MAX_URL_ALIAS_DEPTH_LEVEL = 60;
 
     /**
+     * Match url alias id in form of `<parentId>-<textMD5>`.
+     *
+     * @var string
+     */
+    public const URL_ALIAS_ID_PATTERN = '/^\d+-[a-f0-9]{32}$/';
+
+    /**
      * UrlAlias Gateway.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway
@@ -620,6 +627,10 @@ class Handler implements UrlAliasHandlerInterface
      */
     public function loadUrlAlias($id)
     {
+        if (!preg_match(self::URL_ALIAS_ID_PATTERN, $id)) {
+            throw new NotFoundException('URLAlias', $id);
+        }
+
         list($parentId, $textMD5) = explode('-', $id);
         $data = $this->gateway->loadRow((int)$parentId, $textMD5);
 
