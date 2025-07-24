@@ -4,35 +4,24 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\ISBN;
 
 use Ibexa\Core\FieldType\Value as BaseValue;
 
 /**
- * Value for ISBN field type.
+ * Value for the ISBN field type.
  */
 class Value extends BaseValue
 {
-    /**
-     * ISBN content.
-     *
-     * @var string
-     */
-    public $isbn;
-
-    /**
-     * Construct a new Value object and initialize it with its $isbn.
-     *
-     * @param string $isbn
-     */
-    public function __construct($isbn = '')
+    public function __construct(public readonly string $isbn = '')
     {
-        $this->isbn = $isbn;
+        parent::__construct();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return (string)$this->isbn;
+        return $this->isbn;
     }
 }
