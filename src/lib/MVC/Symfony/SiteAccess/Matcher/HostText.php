@@ -32,7 +32,7 @@ class HostText extends Regex implements VersatileMatcher
         $this->prefix = isset($siteAccessesConfiguration['prefix']) ? $siteAccessesConfiguration['prefix'] : '';
         $this->suffix = isset($siteAccessesConfiguration['suffix']) ? $siteAccessesConfiguration['suffix'] : '';
         parent::__construct(
-            '^' . preg_quote($this->prefix, '@') . "(\w+)" . preg_quote($this->suffix, '@') . '$',
+            '^' . preg_quote($this->prefix, '@') . "([\w-]+)" . preg_quote($this->suffix, '@') . '$',
             1
         );
         $this->siteAccessesConfiguration = $siteAccessesConfiguration;
