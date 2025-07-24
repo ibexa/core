@@ -4,60 +4,52 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\MapLocation;
 
 use Ibexa\Core\FieldType\Value as BaseValue;
 
 /**
- * Value for MapLocation field type.
+ * Value for the MapLocation field type.
  */
 class Value extends BaseValue
 {
     /**
      * Latitude of the location.
-     *
-     * @var float|null
      */
-    public $latitude;
+    public readonly ?float $latitude;
 
     /**
      * Longitude of the location.
-     *
-     * @var float|null
      */
-    public $longitude;
+    public readonly ?float $longitude;
 
     /**
      * Display address for the location.
-     *
-     * @var string|null
      */
-    public $address;
+    public readonly ?string $address;
 
     /**
-     * Construct a new Value object and initialize with $values.
-     *
-     * @param string[]|string $values
+     * @param array{latitude: float|null, longitude: float|null, address: string|string[]|null}|null $values
      */
-    public function __construct(array $values = null)
+    public function __construct(?array $values = null)
     {
-        foreach ((array)$values as $key => $value) {
-            $this->$key = $value;
+        if (null !== $values) {
+            $this->latitude = $values['latitude'] ?? null;
+            $this->longitude = $values['longitude'] ?? null;
+
+            $address = is_array($values['address'] ?? null)
+                ? implode(', ', $values['address'])
+                : ($values['address'] ?? null);
+            $this->address = $address;
         }
+
+        parent::__construct();
     }
 
-    /**
-     * Returns a string representation of the keyword value.
-     *
-     * @return string A comma separated list of tags, eg: "php, Ibexa, html5"
-     */
-    public function __toString()
+    public function __toString(): string
     {
-        if (is_array($this->address)) {
-            return implode(', ', $this->address);
-        }
-
         return (string)$this->address;
     }
 }
