@@ -146,7 +146,11 @@ class RelationProcessor
             if ($relationType === Relation::FIELD || $relationType === Relation::ASSET) {
                 foreach ($relationData as $fieldDefinitionId => $contentIds) {
                     foreach (array_keys($contentIds) as $destinationContentId) {
-                        if (isset($mappedRelations[$relationType][$fieldDefinitionId][$destinationContentId])) {
+                        if (
+                            isset($mappedRelations[$relationType][$fieldDefinitionId]) &&
+                            is_array($mappedRelations[$relationType][$fieldDefinitionId]) &&
+                            isset($mappedRelations[$relationType][$fieldDefinitionId][$destinationContentId])
+                        ) {
                             unset($mappedRelations[$relationType][$fieldDefinitionId][$destinationContentId]);
                         } else {
                             $this->persistenceHandler->contentHandler()->addRelation(
