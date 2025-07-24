@@ -146,7 +146,7 @@ class DoctrineStorage extends Gateway
      * @param int $fieldId
      * @param int $versionNo
      *
-     * @return array|null
+     * @return array|\ArrayAccess<string, float>|null
      */
     protected function loadFieldData($fieldId, $versionNo)
     {
