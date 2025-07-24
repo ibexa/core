@@ -4,34 +4,26 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\Selection;
 
 use Ibexa\Core\FieldType\Value as BaseValue;
 
 /**
- * Value for Selection field type.
+ * Value for a Selection field type.
  */
 class Value extends BaseValue
 {
     /**
-     * Selection content.
-     *
-     * @var int[]
-     */
-    public $selection;
-
-    /**
-     * Construct a new Value object and initialize it $selection.
-     *
      * @param int[] $selection
      */
-    public function __construct(array $selection = [])
+    public function __construct(public readonly array $selection = [])
     {
-        $this->selection = $selection;
+        parent::__construct();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return implode(',', $this->selection);
     }
