@@ -4,10 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\Date;
 
 use DateTime;
+use DateTimeInterface;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
@@ -29,7 +31,7 @@ class Type extends FieldType implements TranslationContainerInterface
      */
     public const DEFAULT_CURRENT_DATE = 1;
 
-    protected $settingsSchema = [
+    protected array $settingsSchema = [
         // One of the DEFAULT_* class constants
         'defaultType' => [
             'type' => 'choice',
@@ -59,13 +61,7 @@ class Type extends FieldType implements TranslationContainerInterface
         return $value->date->format('l d F Y');
     }
 
-    /**
-     * Returns the fallback default value of field type when no such default
-     * value is provided in the field definition in content types.
-     *
-     * @return \Ibexa\Core\FieldType\Date\Value
-     */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
@@ -113,32 +109,22 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Returns information for FieldValue->$sortKey relevant to the field type.
-     *
      * @param \Ibexa\Core\FieldType\Date\Value $value
-     *
-     * @return mixed
      */
-    protected function getSortInfo(BaseValue $value)
+    protected function getSortInfo(SPIValue $value): int|null
     {
-        if ($value->date === null) {
-            return null;
-        }
-
-        return $value->date->getTimestamp();
+        return $value->date?->getTimestamp();
     }
 
     /**
-     * Converts an $hash to the Value defined by the field type.
-     *
      * @param mixed $hash Null or associative array containing one of the following (first value found in the order below is picked):
      *                    'rfc850': Date in RFC 850 format (DateTime::RFC850)
      *                    'timestring': Date in parseable string format supported by DateTime (e.g. 'now', '+3 days')
      *                    'timestamp': Unix timestamp
      *
-     * @return \Ibexa\Core\FieldType\Date\Value $value
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function fromHash($hash)
+    public function fromHash(mixed $hash): Value
     {
         if ($hash === null) {
             return $this->getEmptyValue();
@@ -156,13 +142,11 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Converts a $Value to a hash.
-     *
      * @param \Ibexa\Core\FieldType\Date\Value $value
      *
-     * @return mixed
+     * @return array{timestamp: int, rfc850: string|null}|null
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): ?array
     {
         if ($this->isEmptyValue($value)) {
             return null;
@@ -171,7 +155,7 @@ class Type extends FieldType implements TranslationContainerInterface
         if ($value->date instanceof DateTime) {
             return [
                 'timestamp' => $value->date->getTimestamp(),
-                'rfc850' => $value->date->format(DateTime::RFC850),
+                'rfc850' => $value->date->format(DateTimeInterface::RFC850),
             ];
         }
 
@@ -181,24 +165,12 @@ class Type extends FieldType implements TranslationContainerInterface
         ];
     }
 
-    /**
-     * Returns whether the field type is searchable.
-     *
-     * @return bool
-     */
     public function isSearchable(): bool
     {
         return true;
     }
 
-    /**
-     * Validates the fieldSettings of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
-     *
-     * @param mixed $fieldSettings
-     *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
-     */
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings(array $fieldSettings): array
     {
         $validationErrors = [];
 
