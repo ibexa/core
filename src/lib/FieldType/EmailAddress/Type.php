@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\EmailAddress;
 
@@ -24,7 +25,7 @@ use JMS\TranslationBundle\Translation\TranslationContainerInterface;
  */
 class Type extends FieldType implements TranslationContainerInterface
 {
-    protected $validatorConfigurationSchema = [
+    protected array $validatorConfigurationSchema = [
         'EmailAddressValidator' => [],
     ];
 
@@ -43,7 +44,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateValidatorConfiguration($validatorConfiguration)
+    public function validateValidatorConfiguration(mixed $validatorConfiguration): array
     {
         $validationErrors = [];
         $validator = new EmailAddressValidator();
@@ -69,29 +70,29 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Validates a field based on the validators in the field definition.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
-     * @param \Ibexa\Core\FieldType\EmailAddress\Value $fieldValue The field value for which an action is performed
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDef The field definition of the field
+     * @param \Ibexa\Core\FieldType\EmailAddress\Value $value The field value for which an action is performed
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     *
+     *@throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue)
+    public function validate(FieldDefinition $fieldDef, SPIValue $value): array
     {
         $errors = [];
 
-        if ($this->isEmptyValue($fieldValue)) {
+        if ($this->isEmptyValue($value)) {
             return $errors;
         }
 
-        $validatorConfiguration = $fieldDefinition->getValidatorConfiguration();
+        $validatorConfiguration = $fieldDef->getValidatorConfiguration();
         $constraints = isset($validatorConfiguration['EmailAddressValidator']) ?
             $validatorConfiguration['EmailAddressValidator'] :
             [];
         $validator = new EmailAddressValidator();
         $validator->initializeWithConstraints($constraints);
 
-        if (!$validator->validate($fieldValue)) {
+        if (!$validator->validate($value)) {
             return $validator->getMessage();
         }
 
@@ -108,13 +109,7 @@ class Type extends FieldType implements TranslationContainerInterface
         return 'ibexa_email';
     }
 
-    /**
-     * Returns the fallback default value of field type when no such default
-     * value is provided in the field definition in content types.
-     *
-     * @return \Ibexa\Core\FieldType\EmailAddress\Value
-     */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
@@ -154,27 +149,16 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Returns information for FieldValue->$sortKey relevant to the field type.
-     *
-     * @todo String normalization should occur here.
-     *
      * @param \Ibexa\Core\FieldType\EmailAddress\Value $value
      *
-     * @return string
+     * @todo String normalization should occur here.
      */
-    protected function getSortInfo(BaseValue $value)
+    protected function getSortInfo(SPIValue $value): string
     {
         return $value->email;
     }
 
-    /**
-     * Converts an $hash to the Value defined by the field type.
-     *
-     * @param mixed $hash
-     *
-     * @return \Ibexa\Core\FieldType\EmailAddress\Value $value
-     */
-    public function fromHash($hash)
+    public function fromHash(mixed $hash): Value
     {
         if ($hash === null) {
             return $this->getEmptyValue();
@@ -184,13 +168,9 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Converts a $Value to a hash.
-     *
      * @param \Ibexa\Core\FieldType\EmailAddress\Value $value
-     *
-     * @return mixed
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): ?string
     {
         if ($this->isEmptyValue($value)) {
             return null;
@@ -199,11 +179,6 @@ class Type extends FieldType implements TranslationContainerInterface
         return $value->email;
     }
 
-    /**
-     * Returns whether the field type is searchable.
-     *
-     * @return bool
-     */
     public function isSearchable(): bool
     {
         return true;

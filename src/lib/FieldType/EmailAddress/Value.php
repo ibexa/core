@@ -4,35 +4,27 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\EmailAddress;
 
 use Ibexa\Core\FieldType\Value as BaseValue;
 
 /**
- * Value for EMailAddress field type.
+ * Value for the EmailAddress field type.
  */
 class Value extends BaseValue
 {
     /**
-     * Email address.
-     *
-     * @var string
-     */
-    public $email;
-
-    /**
      * Construct a new Value object and initialize its $email.
-     *
-     * @param string $email
      */
-    public function __construct($email = '')
+    public function __construct(public readonly string $email = '')
     {
-        $this->email = $email;
+        parent::__construct();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return (string)$this->email;
+        return $this->email;
     }
 }
