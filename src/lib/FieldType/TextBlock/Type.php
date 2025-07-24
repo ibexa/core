@@ -4,13 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\TextBlock;
 
+use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\BaseTextType;
 use Ibexa\Core\FieldType\ValidationError;
-use Ibexa\Core\FieldType\Value as BaseValue;
 use JMS\TranslationBundle\Model\Message;
 use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
@@ -21,14 +22,14 @@ use JMS\TranslationBundle\Translation\TranslationContainerInterface;
  */
 class Type extends BaseTextType implements TranslationContainerInterface
 {
-    protected $settingsSchema = [
+    protected array $settingsSchema = [
         'textRows' => [
             'type' => 'int',
             'default' => 10,
         ],
     ];
 
-    protected $validatorConfigurationSchema = [];
+    protected array $validatorConfigurationSchema = [];
 
     public function getFieldTypeIdentifier(): string
     {
@@ -62,13 +63,9 @@ class Type extends BaseTextType implements TranslationContainerInterface
     }
 
     /**
-     * Returns information for FieldValue->$sortKey relevant to the field type.
-     *
      * @param \Ibexa\Core\FieldType\TextBlock\Value $value
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    protected function getSortInfo(BaseValue $value): string
+    protected function getSortInfo(SPIValue $value): string
     {
         $tokens = strtok(trim($value->text), "\r\n");
 
@@ -77,10 +74,7 @@ class Type extends BaseTextType implements TranslationContainerInterface
             : '';
     }
 
-    /**
-     * @param string $hash
-     */
-    public function fromHash($hash): Value
+    public function fromHash(mixed $hash): Value
     {
         if ($hash === null) {
             return $this->getEmptyValue();
@@ -89,14 +83,7 @@ class Type extends BaseTextType implements TranslationContainerInterface
         return new Value($hash);
     }
 
-    /**
-     * Validates the fieldSettings of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
-     *
-     * @param mixed $fieldSettings
-     *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
-     */
-    public function validateFieldSettings($fieldSettings): array
+    public function validateFieldSettings(array $fieldSettings): array
     {
         $validationErrors = [];
 

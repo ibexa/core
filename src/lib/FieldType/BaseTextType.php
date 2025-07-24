@@ -41,7 +41,7 @@ abstract class BaseTextType extends FieldType
      */
     public function isEmptyValue(FieldTypeValueInterface $value): bool
     {
-        return $value->text === null || trim($value->text) === '';
+        return trim($value->text) === '';
     }
 
     /**

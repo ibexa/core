@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\TextLine;
 
@@ -12,7 +13,6 @@ use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\FieldType\BaseTextType;
 use Ibexa\Core\FieldType\Validator\StringLengthValidator;
-use Ibexa\Core\FieldType\Value as BaseValue;
 use JMS\TranslationBundle\Model\Message;
 use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
@@ -23,7 +23,7 @@ use JMS\TranslationBundle\Translation\TranslationContainerInterface;
  */
 class Type extends BaseTextType implements TranslationContainerInterface
 {
-    protected $validatorConfigurationSchema = [
+    protected array $validatorConfigurationSchema = [
         'StringLengthValidator' => [
             'minStringLength' => [
                 'type' => 'int',
@@ -39,11 +39,11 @@ class Type extends BaseTextType implements TranslationContainerInterface
     /**
      * Validates the validatorConfiguration of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
      *
-     * @param array<string, mixed> $validatorConfiguration
+     * @param mixed $validatorConfiguration
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateValidatorConfiguration($validatorConfiguration): array
+    public function validateValidatorConfiguration(mixed $validatorConfiguration): array
     {
         $validationErrors = [];
         $validators = ['StringLengthValidator' => new StringLengthValidator()];
@@ -62,27 +62,27 @@ class Type extends BaseTextType implements TranslationContainerInterface
     /**
      * Validates a field based on the validators in the field definition.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
-     * @param \Ibexa\Core\FieldType\TextLine\Value $fieldValue The field value for which an action is performed
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDef The field definition of the field
+     * @param \Ibexa\Core\FieldType\TextLine\Value $value The field value for which an action is performed
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue): array
+    public function validate(FieldDefinition $fieldDef, SPIValue $value): array
     {
         $validationErrors = [];
 
-        if ($this->isEmptyValue($fieldValue)) {
+        if ($this->isEmptyValue($value)) {
             return $validationErrors;
         }
 
-        $validatorConfiguration = $fieldDefinition->getValidatorConfiguration();
+        $validatorConfiguration = $fieldDef->getValidatorConfiguration();
         $constraints = $validatorConfiguration['StringLengthValidator'] ?? [];
         $validator = new StringLengthValidator();
         $validator->initializeWithConstraints($constraints);
 
-        return false === $validator->validate($fieldValue, $fieldDefinition) ? $validator->getMessage() : [];
+        return false === $validator->validate($value, $fieldDef) ? $validator->getMessage() : [];
     }
 
     public function getFieldTypeIdentifier(): string
@@ -90,9 +90,6 @@ class Type extends BaseTextType implements TranslationContainerInterface
         return 'ibexa_string';
     }
 
-    /**
-     * @return \Ibexa\Core\FieldType\TextLine\Value
-     */
     public function getEmptyValue(): Value
     {
         return new Value();
@@ -124,15 +121,12 @@ class Type extends BaseTextType implements TranslationContainerInterface
      *
      * @param \Ibexa\Core\FieldType\TextLine\Value $value
      */
-    protected function getSortInfo(BaseValue $value): string
+    protected function getSortInfo(SPIValue $value): string
     {
         return $this->transformationProcessor->transformByGroup((string)$value, 'lowercase');
     }
 
-    /**
-     * @param string $hash
-     */
-    public function fromHash($hash): Value
+    public function fromHash(mixed $hash): Value
     {
         if ($hash === null) {
             return $this->getEmptyValue();
