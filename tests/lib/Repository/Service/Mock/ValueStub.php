@@ -4,31 +4,24 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use Ibexa\Core\FieldType\Value as BaseValue;
 
 /**
- * Value for TextLine field type.
+ * Value for the TextLine field type.
  */
 class ValueStub extends BaseValue
 {
-    /** @var string */
-    public $value;
-
-    /**
-     * Construct a new Value object and initialize it $value.
-     *
-     * @param string $value
-     */
-    public function __construct($value)
+    public function __construct(public readonly string $value)
     {
-        $this->value = $value;
+        parent::__construct();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return (string)$this->value;
+        return $this->value;
     }
 }
