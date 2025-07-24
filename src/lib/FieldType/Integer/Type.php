@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\Integer;
 
@@ -23,7 +24,7 @@ use JMS\TranslationBundle\Translation\TranslationContainerInterface;
  */
 class Type extends BaseNumericType implements TranslationContainerInterface
 {
-    protected $validatorConfigurationSchema = [
+    protected array $validatorConfigurationSchema = [
         'IntegerValueValidator' => [
             'minIntegerValue' => [
                 'type' => 'int',
@@ -59,18 +60,12 @@ class Type extends BaseNumericType implements TranslationContainerInterface
         return (string)$value;
     }
 
-    /**
-     * Returns the fallback default value of field type when no such default
-     * value is provided in the field definition in content types.
-     */
     public function getEmptyValue(): Value
     {
         return new Value();
     }
 
     /**
-     * Returns if the given $value is considered empty by the field type.
-     *
      * @param \Ibexa\Core\FieldType\Integer\Value $value
      */
     public function isEmptyValue(SPIValue $value): bool
@@ -115,19 +110,12 @@ class Type extends BaseNumericType implements TranslationContainerInterface
     /**
      * @param \Ibexa\Core\FieldType\Integer\Value $value
      */
-    protected function getSortInfo(BaseValue $value)
+    protected function getSortInfo(SPIValue $value): ?int
     {
         return $value->value;
     }
 
-    /**
-     * Converts a <code>$hash</code> to the Value defined by the field type.
-     *
-     * @param int|string|null $hash
-     *
-     * @return \Ibexa\Core\FieldType\Integer\Value $value
-     */
-    public function fromHash($hash): Value
+    public function fromHash(mixed $hash): Value
     {
         if ($hash === null) {
             return $this->getEmptyValue();
@@ -137,8 +125,6 @@ class Type extends BaseNumericType implements TranslationContainerInterface
     }
 
     /**
-     * Converts a $Value to a hash.
-     *
      * @param \Ibexa\Core\FieldType\Integer\Value $value
      */
     public function toHash(SPIValue $value): ?int
@@ -150,11 +136,6 @@ class Type extends BaseNumericType implements TranslationContainerInterface
         return $value->value;
     }
 
-    /**
-     * Returns whether the field type is searchable.
-     *
-     * @return bool
-     */
     public function isSearchable(): bool
     {
         return true;

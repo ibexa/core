@@ -26,11 +26,11 @@ abstract class BaseNumericType extends FieldType
     /**
      * Validates the validatorConfiguration of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
      *
-     * @param array<string, mixed> $validatorConfiguration
+     * @param mixed $validatorConfiguration
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateValidatorConfiguration($validatorConfiguration): array
+    public function validateValidatorConfiguration(mixed $validatorConfiguration): array
     {
         $validationErrors = [];
         $validatorValidationErrors = [];
