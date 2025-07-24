@@ -77,14 +77,12 @@
     },
     "conflict": {
         "doctrine/dbal": "2.7.0",
+        "ezsystems/ezplatform-kernel": "*",
         "ezsystems/ezpublish-legacy": "*",
         "friendsofphp/php-cs-fixer": "3.5.0",
         "phpunit/phpunit": "8.4.0",
         "symfony/dependency-injection": "5.3.7",
         "symfony/security-core": "5.3.0"
-    },
-    "replace": {
-        "ezsystems/ezplatform-kernel": "*"
     },
     "autoload": {
         "psr-4": {
