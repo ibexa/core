@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\Checkbox;
 
@@ -40,13 +41,7 @@ class Type extends FieldType implements TranslationContainerInterface
         return $value->bool ? '1' : '0';
     }
 
-    /**
-     * Returns the fallback default value of field type when no such default
-     * value is provided in the field definition in content types.
-     *
-     * @return \Ibexa\Core\FieldType\Checkbox\Value
-     */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value(false);
     }
@@ -99,46 +94,26 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Returns information for FieldValue->$sortKey relevant to the field type.
-     *
      * @param \Ibexa\Core\FieldType\Checkbox\Value $value
-     *
-     * @return int
      */
-    protected function getSortInfo(BaseValue $value): int
+    protected function getSortInfo(SPIValue $value): int
     {
         return (int)$value->bool;
     }
 
-    /**
-     * Converts an $hash to the Value defined by the field type.
-     *
-     * @param mixed $hash
-     *
-     * @return \Ibexa\Core\FieldType\Checkbox\Value $value
-     */
-    public function fromHash($hash)
+    public function fromHash(mixed $hash): Value
     {
         return new Value($hash);
     }
 
     /**
-     * Converts a $Value to a hash.
-     *
      * @param \Ibexa\Core\FieldType\Checkbox\Value $value
-     *
-     * @return mixed
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): bool
     {
         return $value->bool;
     }
 
-    /**
-     * Returns whether the field type is searchable.
-     *
-     * @return bool
-     */
     public function isSearchable(): bool
     {
         return true;
