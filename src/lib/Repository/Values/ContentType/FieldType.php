@@ -52,26 +52,7 @@ class FieldType implements FieldTypeInterface
         return $this->internalFieldType->getName($value, $fieldDefinition, $languageCode);
     }
 
-    /**
-     * Returns a schema for the settings expected by the FieldType.
-     *
-     * Returns an arbitrary value, representing a schema for the settings of
-     * the FieldType.
-     *
-     * Explanation: There are no possible generic schemas for defining settings
-     * input, which is why no schema for the return value of this method is
-     * defined. It is up to the implementer to define and document a schema for
-     * the return value and document it. In addition, it is necessary that all
-     * consumers of this interface (e.g. Public API, REST API, GUIs, ...)
-     * provide plugin mechanisms to hook adapters for the specific FieldType
-     * into. These adapters then need to be either shipped with the FieldType
-     * or need to be implemented by a third party. If there is no adapter
-     * available for a specific FieldType, it will not be usable with the
-     * consumer.
-     *
-     * @return mixed
-     */
-    public function getSettingsSchema()
+    public function getSettingsSchema(): array
     {
         return $this->internalFieldType->getSettingsSchema();
     }
