@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\Image;
 
@@ -22,7 +23,7 @@ use JMS\TranslationBundle\Translation\TranslationContainerInterface;
  */
 class Type extends FieldType implements TranslationContainerInterface
 {
-    protected $validatorConfigurationSchema = [
+    protected array $validatorConfigurationSchema = [
         'FileSizeValidator' => [
             'maxFileSize' => [
                 'type' => 'numeric',
@@ -45,7 +46,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *     }
      * }
      */
-    protected $settingsSchema = [
+    protected array $settingsSchema = [
         'mimeTypes' => [
             'type' => 'choice',
             'default' => [],
@@ -53,7 +54,7 @@ class Type extends FieldType implements TranslationContainerInterface
     ];
 
     /** @var \Ibexa\Core\FieldType\Validator[] */
-    private $validators;
+    private array $validators;
 
     /** @var array<string> */
     private array $mimeTypes;
@@ -88,13 +89,7 @@ class Type extends FieldType implements TranslationContainerInterface
         return $value->alternativeText ?? (string)$value->fileName;
     }
 
-    /**
-     * Returns the fallback default value of field type when no such default
-     * value is provided in the field definition in content types.
-     *
-     * @return \Ibexa\Core\FieldType\Image\Value
-     */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
@@ -173,28 +168,28 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Validates a field based on the validators in the field definition.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
-     * @param \Ibexa\Core\FieldType\Image\Value $fieldValue The field value for which an action is performed
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDef The field definition of the field
+     * @param \Ibexa\Core\FieldType\Image\Value $value The field value for which an action is performed
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     *
+     *@throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue)
+    public function validate(FieldDefinition $fieldDef, SPIValue $value): array
     {
         $errors = [];
 
-        if ($this->isEmptyValue($fieldValue)) {
+        if ($this->isEmptyValue($value)) {
             return $errors;
         }
 
         foreach ($this->validators as $externalValidator) {
-            if (!$externalValidator->validate($fieldValue, $fieldDefinition)) {
+            if (!$externalValidator->validate($value, $fieldDef)) {
                 $errors = array_merge($errors, $externalValidator->getMessage());
             }
         }
 
-        foreach ((array)$fieldDefinition->getValidatorConfiguration() as $validatorIdentifier => $parameters) {
+        foreach ((array)$fieldDef->getValidatorConfiguration() as $validatorIdentifier => $parameters) {
             switch ($validatorIdentifier) {
                 case 'FileSizeValidator':
                     if (empty($parameters['maxFileSize'])) {
@@ -203,7 +198,7 @@ class Type extends FieldType implements TranslationContainerInterface
                     }
 
                     // Database stores maxFileSize in MB
-                    if (($parameters['maxFileSize'] * 1024 * 1024) < $fieldValue->fileSize) {
+                    if (($parameters['maxFileSize'] * 1024 * 1024) < $value->fileSize) {
                         $errors[] = new ValidationError(
                             'The file size cannot exceed %size% megabyte.',
                             'The file size cannot exceed %size% megabytes.',
@@ -215,7 +210,7 @@ class Type extends FieldType implements TranslationContainerInterface
                     }
                     break;
                 case 'AlternativeTextValidator':
-                    if ($parameters['required'] && $fieldValue->isAlternativeTextEmpty()) {
+                    if ($parameters['required'] && $value->isAlternativeTextEmpty()) {
                         $errors[] = new ValidationError(
                             'Alternative text is required.',
                             null,
@@ -230,7 +225,7 @@ class Type extends FieldType implements TranslationContainerInterface
         return $errors;
     }
 
-    public function validateFieldSettings($fieldSettings): array
+    public function validateFieldSettings(array $fieldSettings): array
     {
         $validationErrors = [];
 
@@ -272,7 +267,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateValidatorConfiguration($validatorConfiguration)
+    public function validateValidatorConfiguration(mixed $validatorConfiguration): array
     {
         $validationErrors = [];
 
@@ -333,21 +328,17 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param \Ibexa\Core\FieldType\Image\Value $value
      */
-    protected function getSortInfo(BaseValue $value): bool
+    protected function getSortInfo(SPIValue $value): false
     {
         return false;
     }
 
     /**
-     * Converts an $hash to the Value defined by the field type.
-     *
-     * @param mixed $hash
-     *
-     * @return \Ibexa\Core\FieldType\Image\Value $value
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function fromHash($hash)
+    public function fromHash(mixed $hash): Value
     {
         if ($hash === null) {
             return $this->getEmptyValue();
@@ -357,13 +348,11 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Converts a $Value to a hash.
-     *
      * @param \Ibexa\Core\FieldType\Image\Value $value
      *
-     * @return mixed
+     * @return array<string, mixed>|null
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): ?array
     {
         if ($this->isEmptyValue($value)) {
             return null;
@@ -385,13 +374,9 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Converts a $value to a persistence value.
-     *
      * @param \Ibexa\Core\FieldType\Image\Value $value
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\FieldValue
      */
-    public function toPersistenceValue(SPIValue $value)
+    public function toPersistenceValue(SPIValue $value): FieldValue
     {
         // Store original data as external (to indicate they need to be stored)
         return new FieldValue(
@@ -404,13 +389,9 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Converts a persistence $fieldValue to a Value.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
-     *
-     * @return \Ibexa\Core\FieldType\Image\Value
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function fromPersistenceValue(FieldValue $fieldValue)
+    public function fromPersistenceValue(FieldValue $fieldValue): Value
     {
         if ($fieldValue->data === null) {
             return $this->getEmptyValue();
@@ -418,40 +399,26 @@ class Type extends FieldType implements TranslationContainerInterface
 
         // Restored data comes in $data, since it has already been processed
         // there might be more data in the persistence value than needed here
-        $result = $this->fromHash(
+        return $this->fromHash(
             [
-                'id' => (isset($fieldValue->data['id'])
-                    ? $fieldValue->data['id']
-                    : null),
-                'alternativeText' => (isset($fieldValue->data['alternativeText'])
-                    ? $fieldValue->data['alternativeText']
-                    : null),
-                'fileName' => (isset($fieldValue->data['fileName'])
-                    ? $fieldValue->data['fileName']
-                    : null),
-                'fileSize' => (isset($fieldValue->data['fileSize'])
-                    ? $fieldValue->data['fileSize']
-                    : null),
-                'uri' => (isset($fieldValue->data['uri'])
-                    ? $fieldValue->data['uri']
-                    : null),
-                'imageId' => (isset($fieldValue->data['imageId'])
-                    ? $fieldValue->data['imageId']
-                    : null),
-                'width' => (isset($fieldValue->data['width'])
-                    ? $fieldValue->data['width']
-                    : null),
-                'height' => (isset($fieldValue->data['height'])
-                    ? $fieldValue->data['height']
-                    : null),
+                'id' => $fieldValue->data['id'] ?? null,
+                'alternativeText' => $fieldValue->data['alternativeText'] ?? null,
+                'fileName' => $fieldValue->data['fileName'] ?? null,
+                'fileSize' => $fieldValue->data['fileSize'] ?? null,
+                'uri' => $fieldValue->data['uri'] ?? null,
+                'imageId' => $fieldValue->data['imageId'] ?? null,
+                'width' => $fieldValue->data['width'] ?? null,
+                'height' => $fieldValue->data['height'] ?? null,
                 'additionalData' => $fieldValue->data['additionalData'] ?? [],
                 'mime' => $fieldValue->data['mime'] ?? null,
             ]
         );
-
-        return $result;
     }
 
+    /**
+     * @param \Ibexa\Core\FieldType\Image\Value $value1
+     * @param \Ibexa\Core\FieldType\Image\Value $value2
+     */
     public function valuesEqual(SPIValue $value1, SPIValue $value2): bool
     {
         $hashValue1 = $this->toHash($value1);

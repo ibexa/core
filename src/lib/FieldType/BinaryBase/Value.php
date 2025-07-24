@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\BinaryBase;
 
@@ -12,7 +13,7 @@ use Ibexa\Core\FieldType\Value as BaseValue;
 /**
  * Base value for binary field types.
  *
- * @property string $path Used for BC with 5.0 (EZP-20948). Equivalent to $id.
+ * @property string $path Used for BC with legacy 5.0 (EZP-20948). Equivalent to $id.
  * @property-read string $id Unique file ID, set by storage. Read only since 5.3 (EZP-22808).
  */
 abstract class Value extends BaseValue
@@ -20,61 +21,59 @@ abstract class Value extends BaseValue
     /**
      * Unique file ID, set by storage.
      *
-     * Since 5.3 this is not used for input, use self::$inputUri instead
+     * Since legacy 5.3 this is not used for input, use self::$inputUri instead
      *
      * @var string|null
      */
-    protected $id;
+    protected ?string $id = null;
 
     /**
      * Input file URI, as a path to a file on a disk.
      *
      * @var string|null
      */
-    public $inputUri;
+    public ?string $inputUri = null;
 
     /**
      * Display file name.
-     *
-     * @var string|null
      */
-    public $fileName;
+    public ?string $fileName = null;
 
     /**
      * Size of the image file.
-     *
-     * @var int|null
      */
-    public $fileSize;
+    public ?int $fileSize = null;
 
     /**
      * Mime type of the file.
-     *
-     * @var string|null
      */
-    public $mimeType;
+    public ?string $mimeType = null;
 
     /**
      * HTTP URI.
-     *
-     * @var string|null
      */
-    public $uri;
+    public ?string $uri = null;
 
     /**
-     * Construct a new Value object.
-     *
-     * @param array $fileData
+     * @param array{
+     *     inputUri?: string|null,
+     *     fileName?: string|null,
+     *     fileSize?: int|null,
+     *     mimeType?: string|null,
+     *     uri?: string|null,
+     *     id?: string|null,
+     *     path?: string|null
+     * } $fileData
      */
     public function __construct(array $fileData = [])
     {
-        // BC with 5.0 (EZP-20948)
+        // BC with legacy 5.0 (EZP-20948)
         if (isset($fileData['path'])) {
             $fileData['id'] = $fileData['path'];
             unset($fileData['path']);
         }
 
-        // BC with 5.2 (EZP-22808)
+        // BC with legacy 5.2 (EZP-22808)
         if (isset($fileData['id']) && file_exists($fileData['id'])) {
             $fileData['inputUri'] = $fileData['id'];
             unset($fileData['id']);
@@ -85,15 +84,13 @@ abstract class Value extends BaseValue
 
     /**
      * Returns a string representation of the field value.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string)$this->uri;
     }
 
-    public function __get($propertyName)
+    public function __get($propertyName): mixed
     {
         if ($propertyName === 'path') {
             return $this->inputUri;
@@ -102,7 +99,7 @@ abstract class Value extends BaseValue
         return parent::__get($propertyName);
     }
 
-    public function __set($propertyName, $propertyValue)
+    public function __set($propertyName, $propertyValue): void
     {
         // BC with 5.0 (EZP-20948)
         if ($propertyName === 'path') {
@@ -114,7 +111,7 @@ abstract class Value extends BaseValue
         }
     }
 
-    public function __isset($propertyName)
+    public function __isset($propertyName): bool
     {
         if ($propertyName === 'path') {
             return true;

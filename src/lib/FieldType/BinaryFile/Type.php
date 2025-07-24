@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\BinaryFile;
 
@@ -31,13 +32,7 @@ class Type extends BinaryBaseType implements TranslationContainerInterface
         return 'ibexa_binaryfile';
     }
 
-    /**
-     * Returns the fallback default value of field type when no such default
-     * value is provided in the field definition in content types.
-     *
-     * @return \Ibexa\Core\FieldType\BinaryFile\Value
-     */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
@@ -71,13 +66,9 @@ class Type extends BinaryBaseType implements TranslationContainerInterface
     }
 
     /**
-     * Converts a $Value to a hash.
-     *
      * @param \Ibexa\Core\FieldType\BinaryFile\Value $value
-     *
-     * @return mixed
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): ?array
     {
         if ($this->isEmptyValue($value)) {
             return null;
@@ -90,26 +81,16 @@ class Type extends BinaryBaseType implements TranslationContainerInterface
         return $hash;
     }
 
-    /**
-     * Converts a persistence $fieldValue to a Value.
-     *
-     * This method builds a field type value from the $data and $externalData properties.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
-     *
-     * @return \Ibexa\Core\FieldType\BinaryFile\Value
-     */
-    public function fromPersistenceValue(FieldValue $fieldValue)
+    public function fromPersistenceValue(FieldValue $fieldValue): SPIValue
     {
         if ($fieldValue->externalData === null) {
             return $this->getEmptyValue();
         }
 
+        /** @var \Ibexa\Core\FieldType\BinaryFile\Value $result */
         $result = parent::fromPersistenceValue($fieldValue);
 
-        $result->downloadCount = (isset($fieldValue->externalData['downloadCount'])
-            ? $fieldValue->externalData['downloadCount']
-            : 0);
+        $result->downloadCount = (int)($fieldValue->externalData['downloadCount'] ?? 0);
 
         return $result;
     }
