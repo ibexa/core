@@ -13,35 +13,17 @@ use Ibexa\Core\FieldType\Value as BaseValue;
 class Value extends BaseValue
 {
     /**
-     * Related content id's.
-     *
-     * @var mixed|null
+     * @param int|null $destinationContentId Related content's ID.
+     * @param string|null $alternativeText The alternative image text (for example, "Picture of an apple.").
      */
-    public $destinationContentId;
-
-    /**
-     * The alternative image text (for example "Picture of an apple.").
-     *
-     * @var string|null
-     */
-    public $alternativeText;
-
-    /**
-     * @param mixed|null $destinationContentId
-     * @param string|null $alternativeText
-     */
-    public function __construct($destinationContentId = null, ?string $alternativeText = null)
-    {
-        parent::__construct([
-            'destinationContentId' => $destinationContentId,
-            'alternativeText' => $alternativeText,
-        ]);
+    public function __construct(
+        public readonly ?int $destinationContentId = null,
+        public readonly ?string $alternativeText = null
+    ) {
+        parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->destinationContentId;
     }
