@@ -4,67 +4,57 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\Time;
 
 use DateTime;
+use DateTimeInterface;
 use Exception;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\FieldType\Value as BaseValue;
 
 /**
- * Value for Time field type.
+ * Value for the Time field type.
  */
 class Value extends BaseValue
 {
     /**
      * Time of day as number of seconds.
-     *
-     * @var int|null
      */
-    public $time;
+    public readonly ?int $time;
 
     /**
      * Time format to be used by {@link __toString()}.
-     *
-     * @var string
      */
-    public $stringFormat = 'H:i:s';
+    public string $stringFormat = 'H:i:s';
 
     /**
-     * Construct a new Value object and initialize it with $seconds as number of seconds from beginning of day.
-     *
-     * @param mixed $seconds
+     * Construct a new Value object and initialize it with $seconds as number of seconds from the beginning of a day.
      */
-    public function __construct($seconds = null)
+    public function __construct(?int $seconds = null)
     {
         $this->time = $seconds;
+
+        parent::__construct();
     }
 
     /**
      * Creates a Value from the given $dateTime.
-     *
-     * @param \DateTime $dateTime
-     *
-     * @return \Ibexa\Core\FieldType\Time\Value
      */
-    public static function fromDateTime(DateTime $dateTime)
+    public static function fromDateTime(DateTimeInterface $dateTime): Value
     {
         $dateTime = clone $dateTime;
 
-        return new static($dateTime->getTimestamp() - $dateTime->setTime(0, 0, 0)->getTimestamp());
+        return new self($dateTime->getTimestamp() - $dateTime->setTime(0, 0, 0)->getTimestamp());
     }
 
     /**
      * Creates a Value from the given $timeString.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     *
-     * @param string $timeString
-     *
-     * @return \Ibexa\Core\FieldType\Time\Value
      */
-    public static function fromString($timeString)
+    public static function fromString(string $timeString): Value
     {
         try {
             return static::fromDateTime(new DateTime($timeString));
@@ -77,12 +67,8 @@ class Value extends BaseValue
      * Creates a Value from the given $timestamp.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     *
-     * @param int $timestamp
-     *
-     * @return static
      */
-    public static function fromTimestamp($timestamp)
+    public static function fromTimestamp(int $timestamp): Value
     {
         try {
             $dateTime = new DateTime("@{$timestamp}");
@@ -93,14 +79,12 @@ class Value extends BaseValue
         }
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         if ($this->time === null) {
             return '';
         }
 
-        $dateTime = new DateTime("@{$this->time}");
-
-        return $dateTime->format($this->stringFormat);
+        return (new DateTime("@{$this->time}"))->format($this->stringFormat);
     }
 }

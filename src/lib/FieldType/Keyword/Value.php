@@ -4,13 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\Keyword;
 
 use Ibexa\Core\FieldType\Value as BaseValue;
 
 /**
- * Value for Keyword field type.
+ * Value for the Keyword field type.
  */
 class Value extends BaseValue
 {
@@ -19,21 +20,21 @@ class Value extends BaseValue
      *
      * @var string[]
      */
-    public $values = [];
+    public readonly array $values;
 
     /**
      * Construct a new Value object and initialize with $values.
      *
-     * @param string[]|string $values
+     * @param string[]|string $values either an array of keywords or a comma-separated list of keywords
      */
-    public function __construct($values = null)
+    public function __construct(array|string|null $values = null)
     {
         if ($values !== null) {
             if (!is_array($values)) {
                 $tags = [];
                 foreach (explode(',', $values) as $tag) {
                     $tag = trim($tag);
-                    if ($tag) {
+                    if (!empty($tag)) {
                         $tags[] = $tag;
                     }
                 }
@@ -41,7 +42,11 @@ class Value extends BaseValue
             }
 
             $this->values = array_unique($values);
+        } else {
+            $this->values = [];
         }
+
+        parent::__construct();
     }
 
     /**
@@ -49,7 +54,7 @@ class Value extends BaseValue
      *
      * @return string A comma separated list of tags, eg: "php, Ibexa, html5"
      */
-    public function __toString()
+    public function __toString(): string
     {
         return implode(', ', $this->values);
     }

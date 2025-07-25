@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\Media;
 
@@ -26,18 +27,18 @@ class Type extends BaseType implements TranslationContainerInterface
     /**
      * List of possible media type settings.
      */
-    public const TYPE_FLASH = 'flash';
-    public const TYPE_QUICKTIME = 'quick_time';
-    public const TYPE_REALPLAYER = 'real_player';
-    public const TYPE_SILVERLIGHT = 'silverlight';
-    public const TYPE_WINDOWSMEDIA = 'windows_media_player';
-    public const TYPE_HTML5_VIDEO = 'html5_video';
-    public const TYPE_HTML5_AUDIO = 'html5_audio';
+    public const string TYPE_FLASH = 'flash';
+    public const string TYPE_QUICKTIME = 'quick_time';
+    public const string TYPE_REALPLAYER = 'real_player';
+    public const string TYPE_SILVERLIGHT = 'silverlight';
+    public const string TYPE_WINDOWSMEDIA = 'windows_media_player';
+    public const string TYPE_HTML5_VIDEO = 'html5_video';
+    public const string TYPE_HTML5_AUDIO = 'html5_audio';
 
     /**
      * Type constants for validation.
      */
-    private static $availableTypes = [
+    private static array $availableTypes = [
         self::TYPE_FLASH,
         self::TYPE_QUICKTIME,
         self::TYPE_REALPLAYER,
@@ -48,7 +49,7 @@ class Type extends BaseType implements TranslationContainerInterface
     ];
 
     /** @var array */
-    protected $settingsSchema = [
+    protected array $settingsSchema = [
         'mediaType' => [
             'type' => 'choice',
             'default' => self::TYPE_HTML5_VIDEO,
@@ -65,43 +66,26 @@ class Type extends BaseType implements TranslationContainerInterface
         return 'ibexa_media';
     }
 
-    /**
-     * Returns the fallback default value of field type when no such default
-     * value is provided in the field definition in content types.
-     *
-     * @return \Ibexa\Core\FieldType\Media\Value
-     */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
 
-    /**
-     * Validates the fieldSettings of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
-     *
-     * @param mixed $fieldSettings
-     *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
-     */
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings(array $fieldSettings): array
     {
         $validationErrors = [];
 
         foreach ($fieldSettings as $name => $value) {
             if (isset($this->settingsSchema[$name])) {
-                switch ($name) {
-                    case 'mediaType':
-                        if (!in_array($value, self::$availableTypes)) {
-                            $validationErrors[] = new ValidationError(
-                                "Setting '%setting%' is of unknown type",
-                                null,
-                                [
-                                    '%setting%' => $name,
-                                ],
-                                "[$name]"
-                            );
-                        }
-                        break;
+                if ($name === 'mediaType' && !in_array($value, self::$availableTypes, true)) {
+                    $validationErrors[] = new ValidationError(
+                        "Setting '%setting%' is of unknown type",
+                        null,
+                        [
+                            '%setting%' => $name,
+                        ],
+                        "[$name]"
+                    );
                 }
             } else {
                 $validationErrors[] = new ValidationError(
@@ -209,13 +193,11 @@ class Type extends BaseType implements TranslationContainerInterface
     }
 
     /**
-     * Converts a $Value to a hash.
-     *
      * @param \Ibexa\Core\FieldType\Media\Value $value
      *
-     * @return mixed
+     * @return array<string, mixed>|null
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): ?array
     {
         if ($this->isEmptyValue($value)) {
             return null;
@@ -232,21 +214,13 @@ class Type extends BaseType implements TranslationContainerInterface
         return $hash;
     }
 
-    /**
-     * Converts a persistence $fieldValue to a Value.
-     *
-     * This method builds a field type value from the $data and $externalData properties.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
-     *
-     * @return \Ibexa\Core\FieldType\Media\Value
-     */
-    public function fromPersistenceValue(FieldValue $fieldValue)
+    public function fromPersistenceValue(FieldValue $fieldValue): Value
     {
         if ($fieldValue->externalData === null) {
             return $this->getEmptyValue();
         }
 
+        /** @var \Ibexa\Core\FieldType\Media\Value $result */
         $result = parent::fromPersistenceValue($fieldValue);
 
         $result->hasController = $fieldValue->externalData['hasController'] ?? false;
@@ -258,11 +232,6 @@ class Type extends BaseType implements TranslationContainerInterface
         return $result;
     }
 
-    /**
-     * Returns whether the field type is searchable.
-     *
-     * @return bool
-     */
     public function isSearchable(): bool
     {
         return false;

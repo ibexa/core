@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\Keyword;
 
@@ -44,13 +45,7 @@ class Type extends FieldType implements TranslationContainerInterface
         return implode(', ', $value->values);
     }
 
-    /**
-     * Returns the fallback default value of field type when no such default
-     * value is provided in the field definition in content types.
-     *
-     * @return \Ibexa\Core\FieldType\Keyword\Value
-     */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value([]);
     }
@@ -104,13 +99,13 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\Keyword\Value $fieldValue
+     * @param \Ibexa\Core\FieldType\Keyword\Value $value
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue): array
+    public function validate(FieldDefinition $fieldDef, SPIValue $value): array
     {
         $validationErrors = [];
 
-        foreach ($fieldValue->values as $keyword) {
+        foreach ($value->values as $keyword) {
             if (!is_string($keyword)) {
                 $validationErrors[] = new ValidationError(
                     'Each keyword must be a string.',
@@ -132,55 +127,37 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param \Ibexa\Core\FieldType\Keyword\Value $value
      */
-    protected function getSortInfo(BaseValue $value): string
+    protected function getSortInfo(SPIValue $value): string
     {
         return implode(',', $value->values);
     }
 
-    /**
-     * Converts an $hash to the Value defined by the field type.
-     *
-     * @param mixed $hash
-     *
-     * @return \Ibexa\Core\FieldType\Keyword\Value $value
-     */
-    public function fromHash($hash)
+    public function fromHash(mixed $hash): Value
     {
         return new Value($hash);
     }
 
     /**
-     * Converts a $Value to a hash.
-     *
      * @param \Ibexa\Core\FieldType\Keyword\Value $value
      *
-     * @return mixed
+     * @return string[]
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): array
     {
         return $value->values;
     }
 
-    /**
-     * Returns whether the field type is searchable.
-     *
-     * @return bool
-     */
     public function isSearchable(): bool
     {
         return true;
     }
 
     /**
-     * Converts a $value to a persistence value.
-     *
      * @param \Ibexa\Core\FieldType\Keyword\Value $value
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\FieldValue
      */
-    public function toPersistenceValue(SPIValue $value)
+    public function toPersistenceValue(SPIValue $value): FieldValue
     {
         return new FieldValue(
             [
@@ -191,14 +168,7 @@ class Type extends FieldType implements TranslationContainerInterface
         );
     }
 
-    /**
-     * Converts a persistence $fieldValue to a Value.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
-     *
-     * @return \Ibexa\Core\FieldType\Keyword\Value
-     */
-    public function fromPersistenceValue(FieldValue $fieldValue)
+    public function fromPersistenceValue(FieldValue $fieldValue): Value
     {
         return new Value($fieldValue->externalData);
     }

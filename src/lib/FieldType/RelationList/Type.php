@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\RelationList;
 
@@ -44,7 +45,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public const SELECTION_TEMPLATE_BASED_MULTIPLE = 5;
     public const SELECTION_TEMPLATE_BASED_SINGLE = 6;
 
-    protected $settingsSchema = [
+    protected array $settingsSchema = [
         'selectionMethod' => [
             'type' => 'int',
             'default' => self::SELECTION_BROWSE,
@@ -63,7 +64,7 @@ class Type extends FieldType implements TranslationContainerInterface
         ],
     ];
 
-    protected $validatorConfigurationSchema = [
+    protected array $validatorConfigurationSchema = [
         'RelationListValueValidator' => [
             'selectionLimit' => [
                 'type' => 'int',
@@ -86,7 +87,7 @@ class Type extends FieldType implements TranslationContainerInterface
         $this->targetContentValidator = $targetContentValidator;
     }
 
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings(array $fieldSettings): array
     {
         $validationErrors = [];
 
@@ -194,7 +195,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateValidatorConfiguration($validatorConfiguration)
+    public function validateValidatorConfiguration(mixed $validatorConfiguration): array
     {
         $validationErrors = [];
 
@@ -255,21 +256,21 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue): array
+    public function validate(FieldDefinition $fieldDef, SPIValue $value): array
     {
         $validationErrors = [];
 
-        if ($this->isEmptyValue($fieldValue)) {
+        if ($this->isEmptyValue($value)) {
             return $validationErrors;
         }
 
-        $validatorConfiguration = $fieldDefinition->getValidatorConfiguration();
+        $validatorConfiguration = $fieldDef->getValidatorConfiguration();
         $constraints = $validatorConfiguration['RelationListValueValidator'] ?? [];
 
         $validationErrors = [];
 
         if (isset($constraints['selectionLimit']) &&
-            $constraints['selectionLimit'] > 0 && count($fieldValue->destinationContentIds) > $constraints['selectionLimit']) {
+            $constraints['selectionLimit'] > 0 && count($value->destinationContentIds) > $constraints['selectionLimit']) {
             $validationErrors[] = new ValidationError(
                 'The selected content items number cannot be higher than %limit%.',
                 null,
@@ -280,9 +281,9 @@ class Type extends FieldType implements TranslationContainerInterface
             );
         }
 
-        $allowedContentTypes = $fieldDefinition->getFieldSettings()['selectionContentTypes'] ?? [];
+        $allowedContentTypes = $fieldDef->getFieldSettings()['selectionContentTypes'] ?? [];
 
-        foreach ($fieldValue->destinationContentIds as $destinationContentId) {
+        foreach ($value->destinationContentIds as $destinationContentId) {
             $validationError = $this->targetContentValidator->validate((int) $destinationContentId, $allowedContentTypes);
             if ($validationError !== null) {
                 $validationErrors[] = $validationError;
@@ -330,13 +331,7 @@ class Type extends FieldType implements TranslationContainerInterface
         return implode(' ', $names);
     }
 
-    /**
-     * Returns the fallback default value of field type when no such default
-     * value is provided in the field definition in content types.
-     *
-     * @return \Ibexa\Core\FieldType\RelationList\Value
-     */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
@@ -393,81 +388,40 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Returns information for FieldValue->$sortKey relevant to the field type.
-     *
      * For this FieldType, the related objects IDs are returned, separated by ",".
      *
      * @param \Ibexa\Core\FieldType\RelationList\Value $value
-     *
-     * @return string
      */
-    protected function getSortInfo(BaseValue $value): string
+    protected function getSortInfo(SPIValue $value): string
     {
         return implode(',', $value->destinationContentIds);
     }
 
-    /**
-     * Converts an $hash to the Value defined by the field type.
-     *
-     * @param mixed $hash
-     *
-     * @return \Ibexa\Core\FieldType\RelationList\Value $value
-     */
-    public function fromHash($hash)
+    public function fromHash(mixed $hash): Value
     {
         return new Value($hash['destinationContentIds']);
     }
 
     /**
-     * Converts a $Value to a hash.
-     *
      * @param \Ibexa\Core\FieldType\RelationList\Value $value
      *
-     * @return mixed
+     * @return array{destinationContentIds: int[]}
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): array
     {
         return ['destinationContentIds' => $value->destinationContentIds];
     }
 
-    /**
-     * Returns whether the field type is searchable.
-     *
-     * @return bool
-     */
     public function isSearchable(): bool
     {
         return true;
     }
 
     /**
-     * Returns relation data extracted from value.
-     *
-     * Not intended for \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON type relations,
-     * there is an API for handling those.
-     *
      * @param \Ibexa\Core\FieldType\RelationList\Value $value
-     *
-     * @return array Hash with relation type as key and array of destination content ids as value.
-     *
-     * Example:
-     * <code>
-     *  array(
-     *      \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK => array(
-     *          "contentIds" => array( 12, 13, 14 ),
-     *          "locationIds" => array( 24 )
-     *      ),
-     *      \Ibexa\Contracts\Core\Repository\Values\Content\Relation::EMBED => array(
-     *          "contentIds" => array( 12 ),
-     *          "locationIds" => array( 24, 45 )
-     *      ),
-     *      \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD => array( 12 )
-     *  )
-     * </code>
      */
-    public function getRelations(SPIValue $value)
+    public function getRelations(SPIValue $value): array
     {
-        /* @var \Ibexa\Core\FieldType\RelationList\Value $value */
         return [
             RelationType::FIELD->value => $value->destinationContentIds,
         ];

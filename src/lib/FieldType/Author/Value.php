@@ -4,22 +4,21 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\Author;
 
 use Ibexa\Core\FieldType\Value as BaseValue;
 
 /**
- * Value for Author field type.
+ * Value for the Author field type.
  */
 class Value extends BaseValue
 {
     /**
      * List of authors.
-     *
-     * @var \Ibexa\Core\FieldType\Author\AuthorCollection
      */
-    public $authors;
+    public readonly AuthorCollection $authors;
 
     /**
      * Construct a new Value object and initialize with $authors.
@@ -29,20 +28,19 @@ class Value extends BaseValue
     public function __construct(array $authors = [])
     {
         $this->authors = new AuthorCollection($authors);
+
+        parent::__construct();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        if (empty($this->authors)) {
+        if ($this->authors->count() <= 0) {
             return '';
         }
 
         $authorNames = [];
-
-        if ($this->authors instanceof AuthorCollection) {
-            foreach ($this->authors as $author) {
-                $authorNames[] = $author->name;
-            }
+        foreach ($this->authors as $author) {
+            $authorNames[] = $author->name;
         }
 
         return implode(', ', $authorNames);

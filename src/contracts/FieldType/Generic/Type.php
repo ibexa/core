@@ -17,17 +17,17 @@ use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\FieldType\ValueSerializerInterface;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue as PersistenceValue;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Core\FieldType\Value as AbstractFieldTypeValue;
+use LogicException;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 abstract class Type extends FieldType
 {
-    /** @var \Ibexa\Contracts\Core\FieldType\ValueSerializerInterface */
-    protected $serializer;
+    protected ValueSerializerInterface $serializer;
 
-    /** @var \Symfony\Component\Validator\Validator\ValidatorInterface */
-    protected $validator;
+    protected ValidatorInterface $validator;
 
     public function __construct(ValueSerializerInterface $serializer, ValidatorInterface $validator)
     {
@@ -47,7 +47,7 @@ abstract class Type extends FieldType
         return new $class();
     }
 
-    public function fromHash($hash): Value
+    public function fromHash(mixed $hash): Value
     {
         if ($hash) {
             return $this->serializer->denormalize($hash, $this->getValueClass());
@@ -56,6 +56,9 @@ abstract class Type extends FieldType
         return $this->getEmptyValue();
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public function toHash(Value $value): ?array
     {
         if ($this->isEmptyValue($value)) {
@@ -114,7 +117,7 @@ abstract class Type extends FieldType
         );
     }
 
-    public function validateValidatorConfiguration($validatorConfiguration): array
+    public function validateValidatorConfiguration(mixed $validatorConfiguration): array
     {
         $validationErrors = [];
 
@@ -128,7 +131,7 @@ abstract class Type extends FieldType
         return $validationErrors;
     }
 
-    public function applyDefaultValidatorConfiguration(&$validatorConfiguration): void
+    public function applyDefaultValidatorConfiguration(mixed &$validatorConfiguration): void
     {
         if ($validatorConfiguration !== null && !is_array($validatorConfiguration)) {
             throw new InvalidArgumentType('$validatorConfiguration', 'array|null', $validatorConfiguration);
@@ -149,9 +152,9 @@ abstract class Type extends FieldType
         }
     }
 
-    public function validateFieldSettings($fieldSettings): array
+    public function validateFieldSettings(array $fieldSettings): array
     {
-        if (empty($this->getSettingsSchema()) && !empty($fieldSettings)) {
+        if (!empty($fieldSettings) && empty($this->getSettingsSchema())) {
             return [
                 new NonConfigurableValidationError($this->getFieldTypeIdentifier(), 'fieldType'),
             ];
@@ -166,15 +169,11 @@ abstract class Type extends FieldType
         );
     }
 
-    public function applyDefaultSettings(&$fieldSettings): void
+    public function applyDefaultSettings(array &$fieldSettings): void
     {
-        if ($fieldSettings !== null && !is_array($fieldSettings)) {
-            throw new InvalidArgumentType('$fieldSettings', 'array|null', $fieldSettings);
-        }
-
         foreach ($this->getSettingsSchema() as $settingName => $settingConfiguration) {
             // Checking that a default entry exists in the settingsSchema but that no value has been provided
-            if (!array_key_exists($settingName, (array)$fieldSettings) && array_key_exists('default', $settingConfiguration)) {
+            if (!array_key_exists($settingName, $fieldSettings) && array_key_exists('default', $settingConfiguration)) {
                 $fieldSettings[$settingName] = $settingConfiguration['default'];
             }
         }
@@ -212,7 +211,7 @@ abstract class Type extends FieldType
         );
     }
 
-    public function fromPersistenceValue(PersistenceValue $fieldValue)
+    public function fromPersistenceValue(PersistenceValue $fieldValue): Value
     {
         return $this->fromHash($fieldValue->data);
     }
@@ -237,7 +236,7 @@ abstract class Type extends FieldType
         return $value == $this->getEmptyValue();
     }
 
-    final public function acceptValue($inputValue): Value
+    final public function acceptValue(mixed $inputValue): Value
     {
         if ($inputValue === null) {
             return $this->getEmptyValue();
@@ -294,11 +293,23 @@ abstract class Type extends FieldType
     /**
      * Returns FQN of class representing Field Type Value.
      *
-     * @return string
+     * @return class-string<\Ibexa\Contracts\Core\FieldType\Value>
      */
     protected function getValueClass(): string
     {
-        return substr_replace(static::class, 'Value', strrpos(static::class, '\\') + 1);
+        $valueClass = substr_replace(static::class, 'Value', strrpos(static::class, '\\') + 1);
+        if (!is_a($valueClass, Value::class, true)) {
+            throw new LogicException(
+                sprintf(
+                    '%s is not a valid field type value class. Make sure it either implements %s or extends %s',
+                    $valueClass,
+                    Value::class,
+                    AbstractFieldTypeValue::class
+                )
+            );
+        }
+
+        return $valueClass;
     }
 
     /**
@@ -306,7 +317,7 @@ abstract class Type extends FieldType
      *
      * This is an operation method for {@see Type::acceptValue()}.
      *
-     * Default implementation expects the value class to reside in the same namespace as its
+     * The Default implementation expects the value class to reside in the same namespace as its
      * FieldType class and is named "Value".
      *
      * Example implementation:
@@ -324,7 +335,7 @@ abstract class Type extends FieldType
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the parameter is not an instance of the supported value subtype.
      */
-    protected function checkValueType($value): void
+    protected function checkValueType(mixed $value): void
     {
         $valueClass = $this->getValueClass();
         if (!$value instanceof $valueClass) {
@@ -332,22 +343,22 @@ abstract class Type extends FieldType
         }
     }
 
-    public function fieldSettingsToHash($fieldSettings)
+    public function fieldSettingsToHash(mixed $fieldSettings): mixed
     {
         return $fieldSettings;
     }
 
-    public function fieldSettingsFromHash($fieldSettingsHash)
+    public function fieldSettingsFromHash(mixed $fieldSettingsHash): mixed
     {
         return $fieldSettingsHash;
     }
 
-    public function validatorConfigurationToHash($validatorConfiguration)
+    public function validatorConfigurationToHash(mixed $validatorConfiguration): mixed
     {
         return $validatorConfiguration;
     }
 
-    public function validatorConfigurationFromHash($validatorConfiguration)
+    public function validatorConfigurationFromHash(mixed $validatorConfiguration): mixed
     {
         return $validatorConfiguration;
     }

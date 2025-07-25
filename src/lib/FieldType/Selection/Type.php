@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\Selection;
 
@@ -31,7 +32,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @var mixed
      */
-    protected $settingsSchema = [
+    protected array $settingsSchema = [
         'isMultiple' => [
             'type' => 'bool',
             'default' => false,
@@ -46,14 +47,7 @@ class Type extends FieldType implements TranslationContainerInterface
         ],
     ];
 
-    /**
-     * Validates the fieldSettings of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
-     *
-     * @param mixed $fieldSettings
-     *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
-     */
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings(array $fieldSettings): array
     {
         $validationErrors = [];
 
@@ -151,13 +145,7 @@ class Type extends FieldType implements TranslationContainerInterface
         return implode(' ', $names);
     }
 
-    /**
-     * Returns the fallback default value of field type when no such default
-     * value is provided in the field definition in content types.
-     *
-     * @return \Ibexa\Core\FieldType\Selection\Value
-     */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
@@ -201,25 +189,25 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * Does not use validators.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
-     * @param \Ibexa\Core\FieldType\Selection\Value $fieldValue The field value for which an action is performed
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDef The field definition of the field
+     * @param \Ibexa\Core\FieldType\Selection\Value $value The field value for which an action is performed
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     *
+     *@throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue)
+    public function validate(FieldDefinition $fieldDef, SPIValue $value): array
     {
         $validationErrors = [];
 
-        if ($this->isEmptyValue($fieldValue)) {
+        if ($this->isEmptyValue($value)) {
             return $validationErrors;
         }
 
-        $fieldSettings = $fieldDefinition->getFieldSettings();
+        $fieldSettings = $fieldDef->getFieldSettings();
 
         if ((!isset($fieldSettings['isMultiple']) || $fieldSettings['isMultiple'] === false)
-            && count($fieldValue->selection) > 1) {
+            && count($value->selection) > 1) {
             $validationErrors[] = new ValidationError(
                 'Field definition does not allow multiple options to be selected.',
                 null,
@@ -228,7 +216,7 @@ class Type extends FieldType implements TranslationContainerInterface
             );
         }
 
-        foreach ($fieldValue->selection as $optionIndex) {
+        foreach ($value->selection as $optionIndex) {
             if (!isset($fieldSettings['options'][$optionIndex]) && empty($fieldSettings['multilingualOptions'])) {
                 $validationErrors[] = new ValidationError(
                     'Option with index %index% does not exist in the field definition.',
@@ -249,7 +237,7 @@ class Type extends FieldType implements TranslationContainerInterface
 
             $possibleOptionIndexes = array_merge(...array_values($possibleOptionIndexesByLanguage));
 
-            foreach ($fieldValue->selection as $optionIndex) {
+            foreach ($value->selection as $optionIndex) {
                 if (!in_array($optionIndex, $possibleOptionIndexes)) {
                     $validationErrors[] = new ValidationError(
                         'Option with index %index% does not exist in the field definition.',
@@ -267,46 +255,28 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Returns information for FieldValue->$sortKey relevant to the field type.
-     *
      * @param \Ibexa\Core\FieldType\Selection\Value $value
-     *
-     * @return string
      */
-    protected function getSortInfo(BaseValue $value): string
+    protected function getSortInfo(SPIValue $value): string
     {
         return implode('-', $value->selection);
     }
 
-    /**
-     * Converts an $hash to the Value defined by the field type.
-     *
-     * @param mixed $hash
-     *
-     * @return \Ibexa\Core\FieldType\Selection\Value $value
-     */
-    public function fromHash($hash)
+    public function fromHash(mixed $hash): Value
     {
         return new Value($hash);
     }
 
     /**
-     * Converts a $Value to a hash.
-     *
      * @param \Ibexa\Core\FieldType\Selection\Value $value
      *
-     * @return mixed
+     * @return int[]
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): array
     {
         return $value->selection;
     }
 
-    /**
-     * Returns whether the field type is searchable.
-     *
-     * @return bool
-     */
     public function isSearchable(): bool
     {
         return true;

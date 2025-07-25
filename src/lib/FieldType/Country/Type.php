@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\Country;
 
@@ -24,7 +25,7 @@ use JMS\TranslationBundle\Translation\TranslationContainerInterface;
  */
 class Type extends FieldType implements TranslationContainerInterface
 {
-    protected $settingsSchema = [
+    protected array $settingsSchema = [
         'isMultiple' => [
             'type' => 'boolean',
             'default' => false,
@@ -60,13 +61,7 @@ class Type extends FieldType implements TranslationContainerInterface
         return (string)$value;
     }
 
-    /**
-     * Returns the fallback default value of field type when no such default
-     * value is provided in the field definition in content types.
-     *
-     * @return \Ibexa\Core\FieldType\Country\Value
-     */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
@@ -110,25 +105,25 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * Does not use validators.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
-     * @param \Ibexa\Core\FieldType\Country\Value $fieldValue The field value for which an action is performed
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDef The field definition of the field
+     * @param \Ibexa\Core\FieldType\Country\Value $value The field value for which an action is performed
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     *
+     *@throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue)
+    public function validate(FieldDefinition $fieldDef, SPIValue $value): array
     {
         $validationErrors = [];
 
-        if ($this->isEmptyValue($fieldValue)) {
+        if ($this->isEmptyValue($value)) {
             return $validationErrors;
         }
 
-        $fieldSettings = $fieldDefinition->getFieldSettings();
+        $fieldSettings = $fieldDef->getFieldSettings();
 
         if ((!isset($fieldSettings['isMultiple']) || $fieldSettings['isMultiple'] === false)
-            && count($fieldValue->countries) > 1) {
+            && count($value->countries) > 1) {
             $validationErrors[] = new ValidationError(
                 'Field definition does not allow multiple countries to be selected.',
                 null,
@@ -137,7 +132,7 @@ class Type extends FieldType implements TranslationContainerInterface
             );
         }
 
-        foreach ($fieldValue->countries as $alpha2 => $countryInfo) {
+        foreach ($value->countries as $alpha2 => $countryInfo) {
             if (!isset($this->countriesInfo[$alpha2])) {
                 $validationErrors[] = new ValidationError(
                     "Country with Alpha2 code '%alpha2%' is not defined in FieldType settings.",
@@ -154,9 +149,9 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param \Ibexa\Core\FieldType\Country\Value $value
      */
-    protected function getSortInfo(BaseValue $value): string
+    protected function getSortInfo(SPIValue $value): string
     {
         $countries = [];
         foreach ($value->countries as $countryInfo) {
@@ -168,14 +163,7 @@ class Type extends FieldType implements TranslationContainerInterface
         return implode(',', $countries);
     }
 
-    /**
-     * Converts an $hash to the Value defined by the field type.
-     *
-     * @param mixed $hash
-     *
-     * @return \Ibexa\Core\FieldType\Country\Value $value
-     */
-    public function fromHash($hash)
+    public function fromHash(mixed $hash): Value
     {
         if ($hash === null) {
             return $this->getEmptyValue();
@@ -200,13 +188,11 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Converts a $Value to a hash.
-     *
      * @param \Ibexa\Core\FieldType\Country\Value $value
      *
-     * @return mixed
+     * @return string[]|null
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): ?array
     {
         if ($this->isEmptyValue($value)) {
             return null;
@@ -215,24 +201,12 @@ class Type extends FieldType implements TranslationContainerInterface
         return array_keys($value->countries);
     }
 
-    /**
-     * Returns whether the field type is searchable.
-     *
-     * @return bool
-     */
     public function isSearchable(): bool
     {
         return true;
     }
 
-    /**
-     * Validates the fieldSettings of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
-     *
-     * @param mixed $fieldSettings
-     *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
-     */
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings(array $fieldSettings): array
     {
         $validationErrors = [];
 

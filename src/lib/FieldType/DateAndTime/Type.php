@@ -4,11 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\DateAndTime;
 
 use DateInterval;
 use DateTime;
+use DateTimeInterface;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
@@ -27,7 +29,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public const DEFAULT_CURRENT_DATE = 1;
     public const DEFAULT_CURRENT_DATE_ADJUSTED = 2;
 
-    protected $settingsSchema = [
+    protected array $settingsSchema = [
         'useSeconds' => [
             'type' => 'bool',
             'default' => false,
@@ -69,13 +71,7 @@ class Type extends FieldType implements TranslationContainerInterface
         return $value->value->format('D Y-d-m H:i:s');
     }
 
-    /**
-     * Returns the fallback default value of field type when no such default
-     * value is provided in the field definition in content types.
-     *
-     * @return \Ibexa\Core\FieldType\DateAndTime\Value
-     */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
@@ -123,32 +119,20 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Returns information for FieldValue->$sortKey relevant to the field type.
-     *
      * @param \Ibexa\Core\FieldType\DateAndTime\Value $value
-     *
-     * @return int|null
      */
-    protected function getSortInfo(BaseValue $value)
+    protected function getSortInfo(SPIValue $value): int|null
     {
-        if ($value->value === null) {
-            return null;
-        }
-
-        return $value->value->getTimestamp();
+        return $value->value?->getTimestamp();
     }
 
     /**
-     * Converts an $hash to the Value defined by the field type.
-     *
      * @param mixed $hash Null or associative array containing one of the following (first value found in the order below is picked):
      *                    'rfc850': Date in RFC 850 format (DateTime::RFC850)
      *                    'timestring': Date in parseable string format supported by DateTime (e.g. 'now', '+3 days')
      *                    'timestamp': Unix timestamp
-     *
-     * @return \Ibexa\Core\FieldType\DateAndTime\Value $value
      */
-    public function fromHash($hash)
+    public function fromHash(mixed $hash): Value
     {
         if ($hash === null) {
             return $this->getEmptyValue();
@@ -166,13 +150,11 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Converts a $Value to a hash.
-     *
      * @param \Ibexa\Core\FieldType\DateAndTime\Value $value
      *
-     * @return mixed
+     * @return array{timestamp: int, rfc850: string|null}|null
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): ?array
     {
         if ($this->isEmptyValue($value)) {
             return null;
@@ -181,7 +163,7 @@ class Type extends FieldType implements TranslationContainerInterface
         if ($value->value instanceof DateTime) {
             return [
                 'timestamp' => $value->value->getTimestamp(),
-                'rfc850' => $value->value->format(DateTime::RFC850),
+                'rfc850' => $value->value->format(DateTimeInterface::RFC850),
             ];
         }
 
@@ -191,24 +173,12 @@ class Type extends FieldType implements TranslationContainerInterface
         ];
     }
 
-    /**
-     * Returns whether the field type is searchable.
-     *
-     * @return bool
-     */
     public function isSearchable(): bool
     {
         return true;
     }
 
-    /**
-     * Validates the fieldSettings of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
-     *
-     * @param mixed $fieldSettings
-     *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
-     */
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings(array $fieldSettings): array
     {
         $validationErrors = [];
 
@@ -289,9 +259,9 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @param mixed $fieldSettings
      *
-     * @return array|scalar|null
+     * @return mixed
      */
-    public function fieldSettingsToHash($fieldSettings)
+    public function fieldSettingsToHash(mixed $fieldSettings): mixed
     {
         $fieldSettingsHash = parent::fieldSettingsToHash($fieldSettings);
 
@@ -314,11 +284,11 @@ class Type extends FieldType implements TranslationContainerInterface
      * a hash format. Overwrite this in your specific implementation, if
      * necessary.
      *
-     * @param array|scalar|null $fieldSettingsHash
+     * @param mixed $fieldSettingsHash
      *
      * @return mixed
      */
-    public function fieldSettingsFromHash($fieldSettingsHash)
+    public function fieldSettingsFromHash(mixed $fieldSettingsHash): mixed
     {
         $fieldSettings = parent::fieldSettingsFromHash($fieldSettingsHash);
 

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\Url;
 
@@ -41,13 +42,7 @@ class Type extends FieldType implements TranslationContainerInterface
         return (string)$value->text;
     }
 
-    /**
-     * Returns the fallback default value of field type when no such default
-     * value is provided in the field definition in content types.
-     *
-     * @return \Ibexa\Core\FieldType\Url\Value
-     */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
@@ -94,22 +89,12 @@ class Type extends FieldType implements TranslationContainerInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getSortInfo(BaseValue $value): bool
+    protected function getSortInfo(SPIValue $value): false
     {
         return false;
     }
 
-    /**
-     * Converts an $hash to the Value defined by the field type.
-     *
-     * @param mixed $hash
-     *
-     * @return \Ibexa\Core\FieldType\Url\Value $value
-     */
-    public function fromHash($hash)
+    public function fromHash(mixed $hash): Value
     {
         if ($hash === null) {
             return $this->getEmptyValue();
@@ -123,13 +108,11 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Converts a $Value to a hash.
-     *
      * @param \Ibexa\Core\FieldType\Url\Value $value
      *
-     * @return mixed
+     * @return array{link: string|null, text: string|null}|null
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): ?array
     {
         if ($this->isEmptyValue($value)) {
             return null;
@@ -138,18 +121,11 @@ class Type extends FieldType implements TranslationContainerInterface
         return ['link' => $value->link, 'text' => $value->text];
     }
 
-    public function toPersistenceValue(SPIValue $value)
+    /**
+     * @param \Ibexa\Core\FieldType\Url\Value $value
+     */
+    public function toPersistenceValue(SPIValue $value): FieldValue
     {
-        if ($value === null) {
-            return new FieldValue(
-                [
-                    'data' => [],
-                    'externalData' => null,
-                    'sortKey' => null,
-                ]
-            );
-        }
-
         return new FieldValue(
             [
                 'data' => [
@@ -162,16 +138,7 @@ class Type extends FieldType implements TranslationContainerInterface
         );
     }
 
-    /**
-     * Converts a persistence $fieldValue to a Value.
-     *
-     * This method builds a field type value from the $data and $externalData properties.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
-     *
-     * @return \Ibexa\Core\FieldType\Url\Value
-     */
-    public function fromPersistenceValue(FieldValue $fieldValue)
+    public function fromPersistenceValue(FieldValue $fieldValue): Value
     {
         if ($fieldValue->externalData === null) {
             return $this->getEmptyValue();
@@ -179,7 +146,7 @@ class Type extends FieldType implements TranslationContainerInterface
 
         return new Value(
             $fieldValue->externalData,
-            $fieldValue->data['text']
+            $fieldValue->data['text'] ?? null
         );
     }
 

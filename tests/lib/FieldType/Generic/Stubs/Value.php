@@ -12,19 +12,19 @@ use Ibexa\Contracts\Core\FieldType\Value as ValueInterface;
 
 final class Value implements ValueInterface
 {
-    private $value;
+    private mixed $value;
 
-    public function __construct($value = null)
+    public function __construct(mixed $value = null)
     {
         $this->value = $value;
     }
 
-    public function getValue()
+    public function getValue(): mixed
     {
         return $this->value;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return (string)$this->value;
     }

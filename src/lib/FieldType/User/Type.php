@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\User;
 
@@ -15,6 +16,7 @@ use Ibexa\Contracts\Core\Persistence\User\Handler as SPIUserHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
@@ -38,7 +40,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public const USERNAME_PATTERN = 'UsernamePattern';
 
     /** @var array */
-    protected $settingsSchema = [
+    protected array $settingsSchema = [
         self::PASSWORD_TTL_SETTING => [
             'type' => 'int',
             'default' => null,
@@ -58,7 +60,7 @@ class Type extends FieldType implements TranslationContainerInterface
     ];
 
     /** @var array */
-    protected $validatorConfigurationSchema = [
+    protected array $validatorConfigurationSchema = [
         'PasswordValueValidator' => [
             'requireAtLeastOneUpperCaseCharacter' => [
                 'type' => 'int',
@@ -128,33 +130,17 @@ class Type extends FieldType implements TranslationContainerInterface
         return (string)$value->login;
     }
 
-    /**
-     * Indicates if the field definition of this type can appear only once in the same ContentType.
-     *
-     * @return bool
-     */
     public function isSingular(): bool
     {
         return true;
     }
 
-    /**
-     * Indicates if the field definition of this type can be added to a ContentType with Content instances.
-     *
-     * @return bool
-     */
     public function onlyEmptyInstance(): bool
     {
         return true;
     }
 
-    /**
-     * Returns the fallback default value of field type when no such default
-     * value is provided in the field definition in content types.
-     *
-     * @return \Ibexa\Core\FieldType\User\Value
-     */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
@@ -187,22 +173,12 @@ class Type extends FieldType implements TranslationContainerInterface
         // Does nothing
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getSortInfo(BaseValue $value): bool
+    protected function getSortInfo(SPIValue $value): false
     {
         return false;
     }
 
-    /**
-     * Converts an $hash to the Value defined by the field type.
-     *
-     * @param mixed $hash
-     *
-     * @return \Ibexa\Core\FieldType\User\Value $value
-     */
-    public function fromHash($hash)
+    public function fromHash(mixed $hash): Value
     {
         if ($hash === null) {
             return $this->getEmptyValue();
@@ -216,13 +192,11 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Converts a $Value to a hash.
-     *
      * @param \Ibexa\Core\FieldType\User\Value $value
      *
-     * @return mixed
+     * @return array<string, mixed>|null
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): ?array
     {
         if ($this->isEmptyValue($value)) {
             return null;
@@ -236,10 +210,13 @@ class Type extends FieldType implements TranslationContainerInterface
         return $hash;
     }
 
-    public function toPersistenceValue(SPIValue $value)
+    /**
+     * @param \Ibexa\Core\FieldType\User\Value $value
+     */
+    public function toPersistenceValue(SPIValue $value): FieldValue
     {
         $value->passwordHashType = $this->getPasswordHashTypeForPersistenceValue($value);
-        if ($value->plainPassword) {
+        if (!empty($value->plainPassword)) {
             $value->passwordHash = $this->passwordHashService->createPasswordHash(
                 $value->plainPassword,
                 $value->passwordHashType
@@ -258,7 +235,7 @@ class Type extends FieldType implements TranslationContainerInterface
 
     private function getPasswordHashTypeForPersistenceValue(SPIValue $value): int
     {
-        if (null === $value->passwordHashType) {
+        if (!isset($value->passwordHashType)) {
             return $this->passwordHashService->getDefaultHashType();
         }
 
@@ -270,38 +247,40 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Converts a persistence $fieldValue to a Value.
-     *
-     * This method builds a field type value from the $data and $externalData properties.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
-     *
-     * @return \Ibexa\Core\FieldType\User\Value
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function fromPersistenceValue(FieldValue $fieldValue)
+    public function fromPersistenceValue(FieldValue $fieldValue): Value
     {
-        return $this->acceptValue($fieldValue->externalData);
+        $value = $this->acceptValue($fieldValue->externalData);
+        if (!$value instanceof Value) {
+            throw new InvalidArgumentException(
+                '$fieldValue',
+                'The given FieldValue does not contain proper User field type external data'
+            );
+        }
+
+        return $value;
     }
 
     /**
      * Validates a field based on the validators in the field definition.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
-     * @param \Ibexa\Core\FieldType\User\Value $fieldValue The field value for which an action is performed
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDef The field definition of the field
+     * @param \Ibexa\Core\FieldType\User\Value $value The field value for which an action is performed
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     *
+     *@throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue)
+    public function validate(FieldDefinition $fieldDef, SPIValue $value): array
     {
         $errors = [];
 
-        if ($this->isEmptyValue($fieldValue)) {
+        if ($this->isEmptyValue($value)) {
             return $errors;
         }
 
-        if (!is_string($fieldValue->login) || empty($fieldValue->login)) {
+        if (!is_string($value->login) || empty($value->login)) {
             $errors[] = new ValidationError(
                 'Login required',
                 null,
@@ -310,9 +289,9 @@ class Type extends FieldType implements TranslationContainerInterface
             );
         }
 
-        $pattern = sprintf('/%s/', $fieldDefinition->fieldSettings[self::USERNAME_PATTERN]);
-        $loginFormatValid = preg_match($pattern, $fieldValue->login);
-        if (!$fieldValue->hasStoredLogin && !$loginFormatValid) {
+        $pattern = sprintf('/%s/', $fieldDef->fieldSettings[self::USERNAME_PATTERN]);
+        $loginFormatValid = preg_match($pattern, $value->login);
+        if (!$value->hasStoredLogin && !$loginFormatValid) {
             $errors[] = new ValidationError(
                 'Invalid login format',
                 null,
@@ -321,23 +300,23 @@ class Type extends FieldType implements TranslationContainerInterface
             );
         }
 
-        if (!is_string($fieldValue->email) || empty($fieldValue->email)) {
+        if (!is_string($value->email) || empty($value->email)) {
             $errors[] = new ValidationError(
                 'Email required',
                 null,
                 [],
                 'email'
             );
-        } elseif (false === filter_var($fieldValue->email, FILTER_VALIDATE_EMAIL)) {
+        } elseif (false === filter_var($value->email, FILTER_VALIDATE_EMAIL)) {
             $errors[] = new ValidationError(
                 "The given e-mail '%email%' is invalid",
                 null,
-                ['%email%' => $fieldValue->email],
+                ['%email%' => $value->email],
                 'email'
             );
         }
 
-        if (!$fieldValue->hasStoredLogin && (!is_string($fieldValue->plainPassword) || empty($fieldValue->plainPassword))) {
+        if (!$value->hasStoredLogin && (!is_string($value->plainPassword) || empty($value->plainPassword))) {
             $errors[] = new ValidationError(
                 'Password required',
                 null,
@@ -346,7 +325,7 @@ class Type extends FieldType implements TranslationContainerInterface
             );
         }
 
-        if (!is_bool($fieldValue->enabled)) {
+        if (!is_bool($value->enabled)) {
             $errors[] = new ValidationError(
                 'Enabled must be boolean value',
                 null,
@@ -355,9 +334,9 @@ class Type extends FieldType implements TranslationContainerInterface
             );
         }
 
-        if (!$fieldValue->hasStoredLogin && isset($fieldValue->login)) {
+        if (!$value->hasStoredLogin && isset($value->login)) {
             try {
-                $login = $fieldValue->login;
+                $login = $value->login;
                 $this->userHandler->loadByLogin($login);
 
                 // If you want to change this ValidationError message, please remember to change it also in Content Forms in lib/Validator/Constraints/FieldValueValidatorMessages class
@@ -374,9 +353,9 @@ class Type extends FieldType implements TranslationContainerInterface
             }
         }
 
-        if ($fieldDefinition->fieldSettings[self::REQUIRE_UNIQUE_EMAIL]) {
+        if ($fieldDef->fieldSettings[self::REQUIRE_UNIQUE_EMAIL]) {
             try {
-                $email = $fieldValue->email;
+                $email = $value->email;
                 try {
                     $user = $this->userHandler->loadByEmail($email);
                 } catch (LogicException $exception) {
@@ -384,7 +363,7 @@ class Type extends FieldType implements TranslationContainerInterface
                 }
 
                 // Don't prevent email update
-                if (empty($user) || $user->id != $fieldValue->contentId) {
+                if (empty($user) || $user->id != $value->contentId) {
                     // If you want to change this ValidationError message, please remember to change it also in Content Forms in lib/Validator/Constraints/FieldValueValidatorMessages class
                     $errors[] = new ValidationError(
                         "Email '%email%' is used by another user. You must enter a unique email.",
@@ -400,19 +379,19 @@ class Type extends FieldType implements TranslationContainerInterface
             }
         }
 
-        if (!empty($fieldValue->plainPassword)) {
+        if (!empty($value->plainPassword)) {
             $passwordValidationErrors = $this->passwordValidator->validatePassword(
-                $fieldValue->plainPassword,
-                $fieldDefinition
+                $value->plainPassword,
+                $fieldDef
             );
 
             $errors = array_merge($errors, $passwordValidationErrors);
 
-            if (!empty($fieldValue->passwordHash) && $this->isNewPasswordRequired($fieldDefinition)) {
+            if (!empty($value->passwordHash) && $this->isNewPasswordRequired($fieldDef)) {
                 $isPasswordReused = $this->passwordHashService->isValidPassword(
-                    $fieldValue->plainPassword,
-                    $fieldValue->passwordHash,
-                    $fieldValue->passwordHashType
+                    $value->plainPassword,
+                    $value->passwordHash,
+                    $value->passwordHashType
                 );
 
                 if ($isPasswordReused) {
@@ -427,7 +406,7 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * {@inheritdoc}
      */
-    public function validateValidatorConfiguration($validatorConfiguration)
+    public function validateValidatorConfiguration(mixed $validatorConfiguration): array
     {
         $validationErrors = [];
 
@@ -447,10 +426,7 @@ class Type extends FieldType implements TranslationContainerInterface
         return $validationErrors;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings(array $fieldSettings): array
     {
         $validationErrors = [];
 

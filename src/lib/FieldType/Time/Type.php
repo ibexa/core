@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\Time;
 
@@ -29,7 +30,7 @@ class Type extends FieldType implements TranslationContainerInterface
      */
     public const DEFAULT_CURRENT_TIME = 1;
 
-    protected $settingsSchema = [
+    protected array $settingsSchema = [
         'useSeconds' => [
             'type' => 'bool',
             'default' => false,
@@ -67,13 +68,7 @@ class Type extends FieldType implements TranslationContainerInterface
         return $dateTime->format('g:i:s a');
     }
 
-    /**
-     * Returns the fallback default value of field type when no such default
-     * value is provided in the field definition in content types.
-     *
-     * @return \Ibexa\Core\FieldType\Time\Value
-     */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
@@ -124,22 +119,13 @@ class Type extends FieldType implements TranslationContainerInterface
      * Returns information for FieldValue->$sortKey relevant to the field type.
      *
      * @param \Ibexa\Core\FieldType\Time\Value $value
-     *
-     * @return int
      */
-    protected function getSortInfo(BaseValue $value)
+    protected function getSortInfo(SPIValue $value): ?int
     {
         return $value->time;
     }
 
-    /**
-     * Converts an $hash to the Value defined by the field type.
-     *
-     * @param int $hash Number of seconds since Unix Epoch
-     *
-     * @return \Ibexa\Core\FieldType\Time\Value $value
-     */
-    public function fromHash($hash)
+    public function fromHash(mixed $hash): Value
     {
         if ($hash === null) {
             return $this->getEmptyValue();
@@ -149,30 +135,17 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Returns if the given $value is considered empty by the field type.
-     *
-     *
-     * @param \Ibexa\Core\FieldType\Value $value
-     *
-     * @return bool
+     * @param \Ibexa\Core\FieldType\Time\Value $value
      */
     public function isEmptyValue(SPIValue $value): bool
     {
-        if ($value->time === null) {
-            return true;
-        }
-
-        return false;
+        return $value->time === null;
     }
 
     /**
-     * Converts a $Value to a hash.
-     *
      * @param \Ibexa\Core\FieldType\Time\Value $value
-     *
-     * @return mixed
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): ?int
     {
         if ($this->isEmptyValue($value)) {
             return null;
@@ -181,24 +154,12 @@ class Type extends FieldType implements TranslationContainerInterface
         return $value->time;
     }
 
-    /**
-     * Returns whether the field type is searchable.
-     *
-     * @return bool
-     */
     public function isSearchable(): bool
     {
         return true;
     }
 
-    /**
-     * Validates the fieldSettings of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
-     *
-     * @param mixed $fieldSettings
-     *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
-     */
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings(array $fieldSettings): array
     {
         $validationErrors = [];
 

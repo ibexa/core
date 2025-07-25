@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Persistence\Content;
 
@@ -16,12 +17,14 @@ class FieldValue extends ValueObject
      *
      * Either a scalar (primitive), null or an array (map) of scalar values.
      *
-     * Note: For the legacy storage engine we will need adaptors to map them to
+     * Note: For the legacy storage engine, we will need adaptors to map them to
      * the existing database fields, like data_int, data_float, data_text.
      *
-     * @var int|float|bool|string|array|null
+     * @var int|float|bool|string|array<mixed>|null
+     *
+     * @phpstan-var scalar|array<mixed>|null
      */
-    public $data;
+    public mixed $data;
 
     /**
      * Mixed external field data.
@@ -35,15 +38,17 @@ class FieldValue extends ValueObject
      *
      * @var mixed
      */
-    public $externalData;
+    public mixed $externalData;
 
     /**
      * A value which can be used for sorting.
      *
-     * Note: For the "old" storage engine we will need adaptors to map them to
+     * Note: For the "old" storage engine, we will need adaptors to map them to
      * the existing database fields, like sort_key_int, sort_key_string
      *
      * @var int|float|bool|string|null
+     *
+     * @phpstan-var scalar|null
      */
-    public $sortKey;
+    public mixed $sortKey;
 }

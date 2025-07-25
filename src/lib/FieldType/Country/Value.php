@@ -4,46 +4,40 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\Country;
 
 use Ibexa\Core\FieldType\Value as BaseValue;
 
 /**
- * Value for Country field type.
+ * Value for a Country field type.
+ *
+ * @phpstan-type TCountriesHash array<string, array{Name: string, Alpha2: string, Alpha3: string, IDC: int}>
  */
 class Value extends BaseValue
 {
     /**
-     * Associative array with Alpha2 codes as keys and countries data as values.
+     * @phpstan-param TCountriesHash $countries
      *
-     * Example:
-     * <code>
-     *  array(
-     *      "JP" => array(
-     *          "Name" => "Japan",
-     *          "Alpha2" => "JP",
-     *          "Alpha3" => "JPN",
-     *          "IDC" => 81
-     *      )
-     *  )
-     * </code>
-     *
-     * @var array[]
+     * Example Country hash entry:
+     * ```
+     *    [
+     *        "JP" => [
+     *            "Name" => "Japan",
+     *            "Alpha2" => "JP",
+     *            "Alpha3" => "JPN",
+     *            "IDC" => 81
+     *        ]
+     *    ]
+     * ```
      */
-    public $countries = [];
-
-    /**
-     * Construct a new Value object and initialize it with given $data.
-     *
-     * @param array[] $countries
-     */
-    public function __construct(array $countries = [])
+    public function __construct(public readonly array $countries = [])
     {
-        $this->countries = $countries;
+        parent::__construct();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return implode(', ', array_column($this->countries, 'Name'));
     }

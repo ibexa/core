@@ -4,34 +4,23 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\Float;
 
 use Ibexa\Core\FieldType\Value as BaseValue;
 
 /**
- * Value for Float field type.
+ * Value for the Float field type.
  */
 class Value extends BaseValue
 {
-    /**
-     * Float content.
-     *
-     * @var float|null
-     */
-    public $value;
-
-    /**
-     * Construct a new Value object and initialize with $value.
-     *
-     * @param float|null $value
-     */
-    public function __construct($value = null)
+    public function __construct(public readonly ?float $value = null)
     {
-        $this->value = $value;
+        parent::__construct();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return (string)$this->value;
     }

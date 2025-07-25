@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\MapLocation;
 
@@ -41,23 +42,13 @@ class Type extends FieldType implements TranslationContainerInterface
         return (string)$value->address;
     }
 
-    /**
-     * Returns the fallback default value of field type when no such default
-     * value is provided in the field definition in content types.
-     *
-     * @return \Ibexa\Core\FieldType\MapLocation\Value
-     */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
 
     /**
-     * Returns if the given $value is considered empty by the field type.
-     *
-     * @param mixed $value
-     *
-     * @return bool
+     * @param \Ibexa\Core\FieldType\MapLocation\Value $value
      */
     public function isEmptyValue(SPIValue $value): bool
     {
@@ -116,22 +107,13 @@ class Type extends FieldType implements TranslationContainerInterface
      * Returns information for FieldValue->$sortKey relevant to the field type.
      *
      * @param \Ibexa\Core\FieldType\MapLocation\Value $value
-     *
-     * @return string
      */
-    protected function getSortInfo(BaseValue $value)
+    protected function getSortInfo(SPIValue $value): string
     {
         return $this->transformationProcessor->transformByGroup((string)$value, 'lowercase');
     }
 
-    /**
-     * Converts an $hash to the Value defined by the field type.
-     *
-     * @param mixed $hash
-     *
-     * @return \Ibexa\Core\FieldType\MapLocation\Value $value
-     */
-    public function fromHash($hash)
+    public function fromHash(mixed $hash): Value
     {
         if ($hash === null) {
             return $this->getEmptyValue();
@@ -141,13 +123,11 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Converts a $Value to a hash.
-     *
      * @param \Ibexa\Core\FieldType\MapLocation\Value $value
      *
-     * @return mixed
+     * @return array{latitude: float|null, longitude: float|null, address: string|null}|null
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): ?array
     {
         if ($this->isEmptyValue($value)) {
             return null;
@@ -160,24 +140,15 @@ class Type extends FieldType implements TranslationContainerInterface
         ];
     }
 
-    /**
-     * Returns whether the field type is searchable.
-     *
-     * @return bool
-     */
     public function isSearchable(): bool
     {
         return true;
     }
 
     /**
-     * Converts a $value to a persistence value.
-     *
      * @param \Ibexa\Core\FieldType\MapLocation\Value $value
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\FieldValue
      */
-    public function toPersistenceValue(SPIValue $value)
+    public function toPersistenceValue(SPIValue $value): FieldValue
     {
         return new FieldValue(
             [
@@ -188,14 +159,7 @@ class Type extends FieldType implements TranslationContainerInterface
         );
     }
 
-    /**
-     * Converts a persistence $fieldValue to a Value.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
-     *
-     * @return \Ibexa\Core\FieldType\MapLocation\Value
-     */
-    public function fromPersistenceValue(FieldValue $fieldValue)
+    public function fromPersistenceValue(FieldValue $fieldValue): Value
     {
         if ($fieldValue->externalData === null) {
             return $this->getEmptyValue();

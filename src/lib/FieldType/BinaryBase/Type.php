@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\BinaryBase;
 
@@ -22,7 +23,7 @@ use Ibexa\Core\FieldType\Value as BaseValue;
  */
 abstract class Type extends FieldType
 {
-    protected $validatorConfigurationSchema = [
+    protected array $validatorConfigurationSchema = [
         'FileSizeValidator' => [
             'maxFileSize' => [
                 'type' => 'int',
@@ -169,24 +170,13 @@ abstract class Type extends FieldType
 
     /**
      * BinaryBase does not support sorting, yet.
-     *
-     * @param \Ibexa\Core\FieldType\BinaryBase\Value $value
-     *
-     * @return mixed
      */
-    protected function getSortInfo(BaseValue $value)
+    protected function getSortInfo(SPIValue $value): false
     {
         return false;
     }
 
-    /**
-     * Converts an $hash to the Value defined by the field type.
-     *
-     * @param mixed $hash
-     *
-     * @return \Ibexa\Core\FieldType\BinaryBase\Value $value
-     */
-    public function fromHash($hash)
+    public function fromHash(mixed $hash): Value
     {
         if ($hash === null) {
             return $this->getEmptyValue();
@@ -196,13 +186,11 @@ abstract class Type extends FieldType
     }
 
     /**
-     * Converts a $Value to a hash.
-     *
      * @param \Ibexa\Core\FieldType\BinaryBase\Value $value
      *
-     * @return mixed
+     * @return array<string, mixed>|null
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): ?array
     {
         return [
             'id' => $value->id,
@@ -216,7 +204,7 @@ abstract class Type extends FieldType
         ];
     }
 
-    public function toPersistenceValue(SPIValue $value)
+    public function toPersistenceValue(SPIValue $value): PersistenceValue
     {
         // Store original data as external (to indicate they need to be stored)
         return new PersistenceValue(
@@ -228,16 +216,7 @@ abstract class Type extends FieldType
         );
     }
 
-    /**
-     * Converts a persistence $fieldValue to a Value.
-     *
-     * This method builds a field type value from the $data and $externalData properties.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
-     *
-     * @return \Ibexa\Core\FieldType\BinaryBase\Value
-     */
-    public function fromPersistenceValue(PersistenceValue $fieldValue)
+    public function fromPersistenceValue(PersistenceValue $fieldValue): SPIValue
     {
         // Restored data comes in $data, since it has already been processed
         // there might be more data in the persistence value than needed here
@@ -263,14 +242,14 @@ abstract class Type extends FieldType
     /**
      * Validates a field based on the validators in the field definition.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
      * @param \Ibexa\Core\FieldType\BinaryBase\Value $fieldValue The field value for which an action is performed
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     *
+     *@throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue)
+    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue): array
     {
         $errors = [];
 
@@ -318,7 +297,7 @@ abstract class Type extends FieldType
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateValidatorConfiguration($validatorConfiguration)
+    public function validateValidatorConfiguration(mixed $validatorConfiguration): array
     {
         $validationErrors = [];
 
@@ -365,12 +344,7 @@ abstract class Type extends FieldType
         return $validationErrors;
     }
 
-    /**
-     * Returns whether the field type is searchable.
-     *
-     * @return bool
-     */
-    public function isSearchable()
+    public function isSearchable(): bool
     {
         return true;
     }

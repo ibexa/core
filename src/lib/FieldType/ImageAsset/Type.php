@@ -49,8 +49,8 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Validates a field based on the validators in the field definition.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
-     * @param \Ibexa\Core\FieldType\ImageAsset\Value $fieldValue The field value for which an action is performed
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDef The field definition of the field
+     * @param \Ibexa\Core\FieldType\ImageAsset\Value $value The field value for which an action is performed
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      *
@@ -58,16 +58,16 @@ class Type extends FieldType implements TranslationContainerInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue): array
+    public function validate(FieldDefinition $fieldDef, SPIValue $value): array
     {
         $errors = [];
 
-        if ($this->isEmptyValue($fieldValue)) {
+        if ($this->isEmptyValue($value)) {
             return $errors;
         }
 
         $content = $this->contentService->loadContent(
-            (int)$fieldValue->destinationContentId
+            (int)$value->destinationContentId
         );
 
         if (!$this->assetMapper->isAsset($content)) {
@@ -120,24 +120,11 @@ class Type extends FieldType implements TranslationContainerInterface
         return $versionInfo->names[$languageCode] ?? $versionInfo->names[$contentInfo->mainLanguageCode];
     }
 
-    /**
-     * Returns the fallback default value of field type when no such default
-     * value is provided in the field definition in content types.
-     *
-     * @return \Ibexa\Core\FieldType\ImageAsset\Value
-     */
     public function getEmptyValue(): Value
     {
         return new Value();
     }
 
-    /**
-     * Returns if the given $value is considered empty by the field type.
-     *
-     * @param mixed $value
-     *
-     * @return bool
-     */
     public function isEmptyValue(SPIValue $value): bool
     {
         return null === $value->destinationContentId;
@@ -188,26 +175,14 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Returns information for FieldValue->$sortKey relevant to the field type.
-     * For this FieldType, the related object's name is returned.
-     *
-     * @param \Ibexa\Core\FieldType\Relation\Value $value
-     *
-     * @return bool
+     * @param \Ibexa\Core\FieldType\ImageAsset\Value $value
      */
-    protected function getSortInfo(BaseValue $value): bool
+    protected function getSortInfo(SPIValue $value): false
     {
         return false;
     }
 
-    /**
-     * Converts an $hash to the Value defined by the field type.
-     *
-     * @param mixed $hash
-     *
-     * @return \Ibexa\Core\FieldType\ImageAsset\Value $value
-     */
-    public function fromHash($hash): Value
+    public function fromHash(mixed $hash): Value
     {
         if (!$hash) {
             return new Value();
@@ -222,11 +197,9 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Converts a $Value to a hash.
-     *
      * @param \Ibexa\Core\FieldType\ImageAsset\Value $value
      *
-     * @return array
+     * @return array{destinationContentId: int|null, alternativeText: string|null}
      */
     public function toHash(SPIValue $value): array
     {
@@ -242,45 +215,18 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Returns relation data extracted from value.
-     *
-     * Not intended for \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON type relations,
-     * there is an API for handling those.
-     *
-     * @param \Ibexa\Core\FieldType\ImageAsset\Value $fieldValue
-     *
-     * @return array Hash with relation type as key and array of destination content ids as value.
-     *
-     * Example:
-     * <code>
-     *  array(
-     *      \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK => array(
-     *          "contentIds" => array( 12, 13, 14 ),
-     *          "locationIds" => array( 24 )
-     *      ),
-     *      \Ibexa\Contracts\Core\Repository\Values\Content\Relation::EMBED => array(
-     *          "contentIds" => array( 12 ),
-     *          "locationIds" => array( 24, 45 )
-     *      ),
-     *      \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD => array( 12 )
-     *  )
-     * </code>
+     * @param \Ibexa\Core\FieldType\ImageAsset\Value $value
      */
-    public function getRelations(SPIValue $fieldValue): array
+    public function getRelations(SPIValue $value): array
     {
         $relations = [];
-        if ($fieldValue->destinationContentId !== null) {
-            $relations[RelationType::ASSET->value] = [$fieldValue->destinationContentId];
+        if ($value->destinationContentId !== null) {
+            $relations[RelationType::ASSET->value] = [$value->destinationContentId];
         }
 
         return $relations;
     }
 
-    /**
-     * Returns whether the field type is searchable.
-     *
-     * @return bool
-     */
     public function isSearchable(): bool
     {
         return true;

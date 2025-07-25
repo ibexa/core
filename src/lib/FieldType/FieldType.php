@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType;
 
@@ -40,9 +41,9 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * The key is the setting name, and the value is the default value for given
      * setting, set to null if no particular default should be set.
      *
-     * @var mixed
+     * @var array<string, mixed>
      */
-    protected $settingsSchema = [];
+    protected array $settingsSchema = [];
 
     /**
      * The validator configuration schema.
@@ -53,9 +54,9 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * @see getValidatorConfigurationSchema()
      *
-     * @var mixed
+     * @var array<string, mixed>
      */
-    protected $validatorConfigurationSchema = [];
+    protected array $validatorConfigurationSchema = [];
 
     /**
      * String transformation processor, used to normalize sort string as needed.
@@ -78,10 +79,8 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * This implementation returns an array.
      * where the key is the setting name, and the value is the default value for given
      * setting and set to null if no particular default should be set.
-     *
-     * @return mixed
      */
-    public function getSettingsSchema()
+    public function getSettingsSchema(): array
     {
         return $this->settingsSchema;
     }
@@ -89,30 +88,28 @@ abstract class FieldType extends SPIFieldType implements Comparable
     /**
      * Returns a schema for the validator configuration expected by the FieldType.
      *
-     * @see FieldTypeInterface::getValidatorConfigurationSchema()
+     * @see \Ibexa\Contracts\Core\FieldType\FieldType::getValidatorConfigurationSchema()
      *
-     * This implementation returns a three dimensional map containing for each validator configuration
+     * This implementation returns a three-dimensional map containing for each validator configuration
      * referenced by identifier a map of supported parameters which are defined by a type and a default value
      * (see example).
      *
-     * <code>
-     *  array(
-     *      'stringLength' => array(
-     *          'minStringLength' => array(
+     * ```
+     *  [
+     *      'stringLength' => [
+     *          'minStringLength' => [
      *              'type'    => 'int',
      *              'default' => 0,
-     *          ),
-     *          'maxStringLength' => array(
+     *          ],
+     *          'maxStringLength' => [
      *              'type'    => 'int'
      *              'default' => null,
-     *          )
-     *      ),
-     *  );
-     * </code>
-     *
-     * @return mixed
+     *          ]
+     *      ],
+     *  ];
+     * ```
      */
-    public function getValidatorConfigurationSchema()
+    public function getValidatorConfigurationSchema(): array
     {
         return $this->validatorConfigurationSchema;
     }
@@ -124,14 +121,14 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * that no validation errors occurred. Overwrite in derived types, if
      * validation is supported.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
      * @param \Ibexa\Core\FieldType\Value $value The field value for which an action is performed
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     *
+     *@throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $value)
+    public function validate(FieldDefinition $fieldDefinition, SPIValue $value): array
     {
         return [];
     }
@@ -150,7 +147,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateValidatorConfiguration($validatorConfiguration)
+    public function validateValidatorConfiguration(mixed $validatorConfiguration): array
     {
         $validationErrors = [];
 
@@ -178,7 +175,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * @param mixed $validatorConfiguration
      */
-    public function applyDefaultValidatorConfiguration(&$validatorConfiguration)
+    public function applyDefaultValidatorConfiguration(mixed &$validatorConfiguration): void
     {
         if ($validatorConfiguration !== null && !is_array($validatorConfiguration)) {
             throw new InvalidArgumentType('$validatorConfiguration', 'array|null', $validatorConfiguration);
@@ -204,12 +201,8 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * This method expects that given $fieldSettings are complete, for this purpose method
      * {@link self::applyDefaultSettings()} is provided.
-     *
-     * @param mixed $fieldSettings
-     *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings(array $fieldSettings): array
     {
         if (!empty($fieldSettings)) {
             return [
@@ -228,24 +221,16 @@ abstract class FieldType extends SPIFieldType implements Comparable
     }
 
     /**
-     * Applies the default values to the fieldSettings of a FieldDefinitionCreateStruct.
+     * {@inheritDoc}
      *
      * This is a base implementation, expecting best practice field settings format used by
      * field types in standard Ibexa installation. Overwrite in derived types if needed.
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     *
-     * @param mixed $fieldSettings
      */
-    public function applyDefaultSettings(&$fieldSettings)
+    public function applyDefaultSettings(array &$fieldSettings): void
     {
-        if ($fieldSettings !== null && !is_array($fieldSettings)) {
-            throw new InvalidArgumentType('$fieldSettings', 'array|null', $fieldSettings);
-        }
-
         foreach ($this->getSettingsSchema() as $settingName => $settingConfiguration) {
             // Checking that a default entry exists in the settingsSchema but that no value has been provided
-            if (!array_key_exists($settingName, (array)$fieldSettings) && array_key_exists('default', $settingConfiguration)) {
+            if (!array_key_exists($settingName, $fieldSettings) && array_key_exists('default', $settingConfiguration)) {
                 $fieldSettings[$settingName] = $settingConfiguration['default'];
             }
         }
@@ -254,34 +239,22 @@ abstract class FieldType extends SPIFieldType implements Comparable
     /**
      * Returns information for FieldValue->$sortKey relevant to the field type.
      *
-     * Return value is mixed. It should be something which is sensible for
-     * sorting.
+     * The return value is mixed. It should be a scalar that is sensible for sorting.
      *
      * It is up to the persistence implementation to handle those values.
      * Common string and integer values are safe.
      *
-     * For the legacy storage it is up to the field converters to set this
+     * For the legacy storage, it is up to the field converters to set this
      * value in either sort_key_string or sort_key_int.
      *
-     * In case of multi value, values should be string and separated by "-" or ",".
-     *
-     * @param \Ibexa\Core\FieldType\Value $value
-     *
-     * @return mixed
+     * In the case of multi-value, values should be string and separated by "-" or ",".
      */
-    protected function getSortInfo(Value $value)
+    protected function getSortInfo(SPIValue $value): mixed
     {
         return null;
     }
 
-    /**
-     * Converts a $value to a persistence value.
-     *
-     * @param \Ibexa\Core\FieldType\Value $value
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\FieldValue
-     */
-    public function toPersistenceValue(SPIValue $value)
+    public function toPersistenceValue(SPIValue $value): PersistenceValue
     {
         // @todo Evaluate if creating the sortKey in every case is really needed
         //       Couldn't this be retrieved with a method, which would initialize
@@ -295,86 +268,32 @@ abstract class FieldType extends SPIFieldType implements Comparable
         );
     }
 
-    /**
-     * Converts a persistence $fieldValue to a Value.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
-     *
-     * @return \Ibexa\Core\FieldType\Value
-     */
-    public function fromPersistenceValue(PersistenceValue $fieldValue)
+    public function fromPersistenceValue(PersistenceValue $fieldValue): SPIValue
     {
         return $this->fromHash($fieldValue->data);
     }
 
-    /**
-     * Returns whether the field type is searchable.
-     *
-     * @return bool
-     */
-    public function isSearchable()
+    public function isSearchable(): bool
     {
         return false;
     }
 
-    /**
-     * Indicates if the field definition of this type can appear only once in the same ContentType.
-     *
-     * @return bool
-     */
-    public function isSingular()
+    public function isSingular(): bool
     {
         return false;
     }
 
-    /**
-     * Indicates if the field definition of this type can be added to a ContentType with Content instances.
-     *
-     * @return bool
-     */
-    public function onlyEmptyInstance()
+    public function onlyEmptyInstance(): bool
     {
         return false;
     }
 
-    /**
-     * Returns if the given $value is considered empty by the field type.
-     *
-     * Default implementation, which performs a "==" check with the value
-     * returned by {@link getEmptyValue()}. Overwrite in the specific field
-     * type, if necessary.
-     *
-     * @param \Ibexa\Core\FieldType\Value $value
-     *
-     * @return bool
-     */
-    public function isEmptyValue(SPIValue $value)
+    public function isEmptyValue(SPIValue $value): bool
     {
         return $value == $this->getEmptyValue();
     }
 
-    /**
-     * Potentially builds and checks the type and structure of the $inputValue.
-     *
-     * This method first inspects $inputValue and convert it into a dedicated
-     * value object.
-     *
-     * After that, the value is checked for structural validity.
-     * Note that this does not include validation after the rules
-     * from validators, but only plausibility checks for the general data
-     * format.
-     *
-     * Note that this method must also cope with the empty value for the field
-     * type as e.g. returned by {@link getEmptyValue()}.
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the parameter is not of the supported value sub type
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the value does not match the expected structure
-     *
-     * @param mixed $inputValue
-     *
-     * @return \Ibexa\Core\FieldType\Value The potentially converted and structurally plausible value.
-     */
-    final public function acceptValue($inputValue)
+    final public function acceptValue(mixed $inputValue): SPIValue
     {
         if ($inputValue === null) {
             return $this->getEmptyValue();
@@ -488,9 +407,9 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * @param mixed $fieldSettings
      *
-     * @return array|scalar|null
+     * @return mixed
      */
-    public function fieldSettingsToHash($fieldSettings)
+    public function fieldSettingsToHash(mixed $fieldSettings): mixed
     {
         return $fieldSettings;
     }
@@ -505,11 +424,11 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * a hash format. Overwrite this in your specific implementation, if
      * necessary.
      *
-     * @param array|scalar|null $fieldSettingsHash
+     * @param mixed $fieldSettingsHash
      *
      * @return mixed
      */
-    public function fieldSettingsFromHash($fieldSettingsHash)
+    public function fieldSettingsFromHash(mixed $fieldSettingsHash): mixed
     {
         return $fieldSettingsHash;
     }
@@ -523,9 +442,9 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * @param mixed $validatorConfiguration
      *
-     * @return array|scalar|null
+     * @return mixed
      */
-    public function validatorConfigurationToHash($validatorConfiguration)
+    public function validatorConfigurationToHash(mixed $validatorConfiguration): mixed
     {
         return $validatorConfiguration;
     }
@@ -539,41 +458,16 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * convention an array for all internal field types. Overwrite this method,
      * if necessary.
      *
-     * @param array|scalar|null $validatorConfigurationHash
+     * @param mixed $validatorConfigurationHash
      *
      * @return mixed
      */
-    public function validatorConfigurationFromHash($validatorConfigurationHash)
+    public function validatorConfigurationFromHash(mixed $validatorConfigurationHash): mixed
     {
         return $validatorConfigurationHash;
     }
 
-    /**
-     * Returns relation data extracted from value.
-     *
-     * Not intended for \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON type relations,
-     * there is an API for handling those.
-     *
-     * @param \Ibexa\Core\FieldType\Value $fieldValue
-     *
-     * @return array Hash with relation type as key and array of destination content ids as value.
-     *
-     * Example:
-     * <code>
-     *  array(
-     *      \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK => array(
-     *          "contentIds" => array( 12, 13, 14 ),
-     *          "locationIds" => array( 24 )
-     *      ),
-     *      \Ibexa\Contracts\Core\Repository\Values\Content\Relation::EMBED => array(
-     *          "contentIds" => array( 12 ),
-     *          "locationIds" => array( 24, 45 )
-     *      ),
-     *      \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD => array( 12 )
-     *  )
-     * </code>
-     */
-    public function getRelations(SPIValue $fieldValue)
+    public function getRelations(SPIValue $fieldValue): array
     {
         return [];
     }

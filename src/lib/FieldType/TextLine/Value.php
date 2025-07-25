@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\TextLine;
 
@@ -14,19 +15,12 @@ use Ibexa\Core\FieldType\Value as BaseValue;
  */
 class Value extends BaseValue
 {
-    /**
-     * Text content.
-     */
-    public string $text;
-
-    public function __construct(?string $text = '')
+    public function __construct(public readonly string $text = '')
     {
         parent::__construct();
-
-        $this->text = (string)$text;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->text;
     }

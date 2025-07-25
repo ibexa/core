@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\Author;
 
@@ -38,7 +39,7 @@ class Type extends FieldType implements TranslationContainerInterface
      */
     public const DEFAULT_CURRENT_USER = 1;
 
-    protected $settingsSchema = [
+    protected array $settingsSchema = [
         'defaultAuthor' => [
             'type' => 'choice',
             'default' => self::DEFAULT_VALUE_EMPTY,
@@ -60,13 +61,7 @@ class Type extends FieldType implements TranslationContainerInterface
         return $value->authors[0]->name ?? '';
     }
 
-    /**
-     * Returns the fallback default value of field type when no such default
-     * value is provided in the field definition in content types.
-     *
-     * @return \Ibexa\Core\FieldType\Author\Value
-     */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
@@ -105,10 +100,7 @@ class Type extends FieldType implements TranslationContainerInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getSortInfo(BaseValue $value)
+    protected function getSortInfo(SPIValue $value): string|false
     {
         if (empty($value->authors)) {
             return false;
@@ -125,13 +117,9 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Converts a $hash to the Value defined by the field type.
-     *
      * @phpstan-param TAuthorHash $hash
-     *
-     * @return \Ibexa\Core\FieldType\Author\Value $value
      */
-    public function fromHash($hash)
+    public function fromHash(mixed $hash): Value
     {
         return new Value(
             array_map(
@@ -144,8 +132,6 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Converts a $Value to a hash.
-     *
      * @param \Ibexa\Core\FieldType\Author\Value $value
      *
      * @phpstan-return TAuthorHash
@@ -160,24 +146,12 @@ class Type extends FieldType implements TranslationContainerInterface
         );
     }
 
-    /**
-     * Returns whether the field type is searchable.
-     *
-     * @return bool
-     */
     public function isSearchable(): bool
     {
         return true;
     }
 
-    /**
-     * Validates the fieldSettings of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
-     *
-     * @param array $fieldSettings
-     *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
-     */
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings(array $fieldSettings): array
     {
         $validationErrors = [];
 
@@ -188,13 +162,11 @@ class Type extends FieldType implements TranslationContainerInterface
                 $validationErrors[] = $settingNameError;
             }
 
-            switch ($name) {
-                case 'defaultAuthor':
-                    $settingValueError = $this->validateDefaultAuthorSetting($name, $value);
-                    if ($settingValueError instanceof ValidationError) {
-                        $validationErrors[] = $settingValueError;
-                    }
-                    break;
+            if ($name === 'defaultAuthor') {
+                $settingValueError = $this->validateDefaultAuthorSetting($name, $value);
+                if ($settingValueError instanceof ValidationError) {
+                    $validationErrors[] = $settingValueError;
+                }
             }
         }
 
