@@ -14,7 +14,6 @@ parameters:
     # Password hash
     ibexa.site_access.config.password_hash.default_type: 7               # Password hash type, see the constants in Ibexa\Contracts\Core\Repository\Values\User\User
     ibexa.site_access.config.password_hash.update_type_on_change: false  # Whether the password hash type should be changed when the password is changed if it differs from the default hash type
-    ibexa.site_access.config.password_hash.update_type_on_login: false   # Whether the password hash type should be changed during login if it differs from the default hash type
 
 services:
     ibexa.api.persistence_handler:

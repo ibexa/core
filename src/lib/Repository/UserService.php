@@ -1348,13 +1348,7 @@ class UserService implements UserServiceInterface
         #[\SensitiveParameter]
         string $password
     ): bool {
-        $isValidPassword = $this->comparePasswordHashes($password, $user->passwordHash, $user->hashAlgorithm);
-
-        if ($isValidPassword && $this->passwordHashService->updatePasswordHashTypeOnLogin()) {
-            $this->updatePasswordHashIfNeeded($password, $user->passwordHash, $user->id, $user->login, $user->email);
-        }
-
-        return $isValidPassword;
+        return $this->comparePasswordHashes($password, $user->passwordHash, $user->hashAlgorithm);
     }
 
     /**
@@ -1367,69 +1361,7 @@ class UserService implements UserServiceInterface
         #[\SensitiveParameter]
         string $password
     ): bool {
-        $isValidPassword = $this->comparePasswordHashes($password, $user->passwordHash, $user->hashAlgorithm);
-
-        if ($isValidPassword && $this->passwordHashService->updatePasswordHashTypeOnLogin()) {
-            $this->updatePasswordHashIfNeeded($password, $user->passwordHash, $user->id, $user->login, $user->email);
-        }
-
-        return $isValidPassword;
-    }
-
-    private function updatePasswordHashIfNeeded(
-        #[\SensitiveParameter]
-        string $password,
-        #[\SensitiveParameter]
-        string $passwordHash,
-        int $userId,
-        string $login,
-        string $email
-    ): void {
-        $defaultPasswordHashAlgorithm = $this->passwordHashService->getDefaultHashType();
-        if (!$this->passwordHashService->passwordNeedsRehash($passwordHash, $defaultPasswordHashAlgorithm)) {
-            return;
-        }
-
-        try {
-            $newPasswordHash = $this->passwordHashService->createPasswordHash(
-                $password,
-                $defaultPasswordHashAlgorithm
-            );
-        } catch (Exception $e) {
-            if (isset($this->logger)) {
-                $this->logger->log(LogLevel::ERROR, $e->getMessage(), [
-                    'exception' => $e,
-                ]);
-            }
-
-            return;
-        }
-
-        $this->repository->beginTransaction();
-        try {
-            $this->userHandler->updatePassword(
-                new SPIUser(
-                    [
-                        'id' => $userId,
-                        'login' => $login,
-                        'email' => $email,
-                        'passwordHash' => $newPasswordHash,
-                        'hashAlgorithm' => $defaultPasswordHashAlgorithm,
-                        'passwordUpdatedAt' => time(),
-                    ]
-                )
-            );
-
-            $this->repository->commit();
-        } catch (Exception $e) {
-            $this->repository->rollback();
-
-            if (isset($this->logger)) {
-                $this->logger->log(LogLevel::ERROR, $e->getMessage(), [
-                    'exception' => $e,
-                ]);
-            }
-        }
+        return $this->comparePasswordHashes($password, $user->passwordHash, $user->hashAlgorithm);
     }
 
     /**

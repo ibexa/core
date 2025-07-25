@@ -25,7 +25,6 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
  *          password_hash:
  *              default_type: 7
  *              update_type_on_change: false
- *              update_type_on_login: false
  * ```
  */
 final class PasswordHash extends AbstractParser
@@ -49,10 +48,6 @@ final class PasswordHash extends AbstractParser
                         ->info('Whether the password hash type should be changed when the password is changed if it differs from the default type.')
                         ->example('false')
                     ->end()
-                    ->booleanNode('update_type_on_login')
-                        ->info('Whether the password hash type should be changed during login if it differs from the default type.')
-                        ->example('false')
-                    ->end()
                 ->end()
             ->end();
     }
@@ -72,9 +67,6 @@ final class PasswordHash extends AbstractParser
         }
         if (isset($settings['update_type_on_change'])) {
             $contextualizer->setContextualParameter('password_hash.update_type_on_change', $currentScope, $settings['update_type_on_change']);
-        }
-        if (isset($settings['update_type_on_login'])) {
-            $contextualizer->setContextualParameter('password_hash.update_type_on_login', $currentScope, $settings['update_type_on_login']);
         }
     }
 }

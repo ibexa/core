@@ -21,7 +21,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
-use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\Event\CheckPassportEvent;
 
@@ -45,7 +44,7 @@ final class RepositoryUserAuthenticationSubscriber implements EventSubscriberInt
     public static function getSubscribedEvents(): array
     {
         return [
-            CheckPassportEvent::class => ['validateRepositoryUser', 10],
+            CheckPassportEvent::class => ['validateRepositoryUser'],
         ];
     }
 
@@ -73,17 +72,11 @@ final class RepositoryUserAuthenticationSubscriber implements EventSubscriberInt
             return;
         }
 
-        $credentialsBadge = $passport->getBadge(PasswordCredentials::class);
-        if (!$credentialsBadge instanceof PasswordCredentials) {
-            return;
-        }
-        $plainPassword = $credentialsBadge->getPassword();
-
         $startTime = $this->startConstantTimer();
         try {
             $this->userService->checkUserCredentials(
                 $user->getAPIUser(),
-                $plainPassword
+                $user->getPassword() ?? ''
             );
         } catch (UnsupportedPasswordHashType|PasswordHashTypeNotCompiled $exception) {
             $this->sleepUsingConstantTimer($startTime);

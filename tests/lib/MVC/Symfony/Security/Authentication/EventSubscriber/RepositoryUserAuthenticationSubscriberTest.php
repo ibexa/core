@@ -37,7 +37,7 @@ final class RepositoryUserAuthenticationSubscriberTest extends TestCase
     {
         self::assertEquals(
             [
-                CheckPassportEvent::class => ['validateRepositoryUser', 10],
+                CheckPassportEvent::class => ['validateRepositoryUser'],
             ],
             $this->getSubscriber()->getSubscribedEvents()
         );

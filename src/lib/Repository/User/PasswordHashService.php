@@ -116,43 +116,4 @@ final class PasswordHashService implements PasswordHashServiceInterface
     {
         return $this->configResolver->getParameter('password_hash.update_type_on_change');
     }
-
-    public function updatePasswordHashTypeOnLogin(): bool
-    {
-        return $this->configResolver->getParameter('password_hash.update_type_on_login');
-    }
-
-    public function passwordNeedsRehash(
-        #[\SensitiveParameter]
-        string $passwordHash,
-        int $hashType
-    ): bool {
-        switch ($hashType) {
-            case User::PASSWORD_HASH_BCRYPT:
-                return password_needs_rehash($passwordHash, PASSWORD_BCRYPT);
-
-            case User::PASSWORD_HASH_PHP_DEFAULT:
-                return password_needs_rehash($passwordHash, PASSWORD_DEFAULT);
-
-            case User::PASSWORD_HASH_INVALID:
-                return false;
-
-            case User::PASSWORD_HASH_ARGON2I:
-                if (!defined('PASSWORD_ARGON2I')) {
-                    throw new PasswordHashTypeNotCompiled('PASSWORD_ARGON2I');
-                }
-
-                return password_needs_rehash($passwordHash, PASSWORD_ARGON2I);
-
-            case User::PASSWORD_HASH_ARGON2ID:
-                if (!defined('PASSWORD_ARGON2ID')) {
-                    throw new PasswordHashTypeNotCompiled('PASSWORD_ARGON2ID');
-                }
-
-                return password_needs_rehash($passwordHash, PASSWORD_ARGON2ID);
-
-            default:
-                throw new UnsupportedPasswordHashType($hashType);
-        }
-    }
 }
