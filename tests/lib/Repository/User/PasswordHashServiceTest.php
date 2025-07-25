@@ -30,6 +30,8 @@ final class PasswordHashServiceTest extends TestCase
             [
                 User::PASSWORD_HASH_BCRYPT,
                 User::PASSWORD_HASH_PHP_DEFAULT,
+                User::PASSWORD_HASH_ARGON2I,
+                User::PASSWORD_HASH_ARGON2ID,
                 User::PASSWORD_HASH_INVALID,
             ],
             $this->passwordHashService->getSupportedHashTypes()
