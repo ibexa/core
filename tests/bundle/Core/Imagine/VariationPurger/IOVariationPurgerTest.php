@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\Imagine\VariationPurger;
 
@@ -14,7 +15,10 @@ use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 
-class IOVariationPurgerTest extends TestCase
+/**
+ * @covers \Ibexa\Bundle\Core\Imagine\VariationPurger\IOVariationPurger
+ */
+final class IOVariationPurgerTest extends TestCase
 {
     public function testPurgesAliasList(): void
     {

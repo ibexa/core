@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\IO\MimeTypeDetector;
 
@@ -12,8 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 class FileInfoTest extends TestCase
 {
-    /** @var \Ibexa\Core\IO\MimeTypeDetector\FileInfo */
-    protected $mimeTypeDetector;
+    protected MimeTypeDetector $mimeTypeDetector;
 
     protected function setUp(): void
     {
@@ -25,23 +25,31 @@ class FileInfoTest extends TestCase
         return __DIR__ . '/../../_fixtures/squirrel-developers.jpg';
     }
 
-    public function testGetFromPath()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function testGetFromPath(): void
     {
         self::assertEquals(
+            'image/jpeg',
             $this->mimeTypeDetector->getFromPath(
                 $this->getFixture()
-            ),
-            'image/jpeg'
+            )
         );
     }
 
-    public function testGetFromBuffer()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function testGetFromBuffer(): void
     {
+        $buffer = file_get_contents($this->getFixture());
+        self::assertNotFalse($buffer, 'Failed to read fixture');
         self::assertEquals(
+            'image/jpeg',
             $this->mimeTypeDetector->getFromBuffer(
-                file_get_contents($this->getFixture())
-            ),
-            'image/jpeg'
+                $buffer
+            )
         );
     }
 }

@@ -14,16 +14,16 @@ use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
 
+/**
+ * @internal
+ */
 class ConfigScopeChangeAwareIOService implements IOServiceInterface, ConfigScopeChangeSubscriber
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
-    private $innerIOService;
+    private IOServiceInterface $innerIOService;
 
-    /** @var string */
-    private $prefixParameterName;
+    private string $prefixParameterName;
 
     public function __construct(
         ConfigResolverInterface $configResolver,
@@ -38,27 +38,27 @@ class ConfigScopeChangeAwareIOService implements IOServiceInterface, ConfigScope
         $this->setPrefix($this->configResolver->getParameter($this->prefixParameterName));
     }
 
-    public function setPrefix($prefix): void
+    public function setPrefix(string $prefix): void
     {
         $this->innerIOService->setPrefix($prefix);
     }
 
-    public function newBinaryCreateStructFromLocalFile($localFile): BinaryFileCreateStruct
+    public function newBinaryCreateStructFromLocalFile(string $localFile): BinaryFileCreateStruct
     {
         return $this->innerIOService->newBinaryCreateStructFromLocalFile($localFile);
     }
 
-    public function exists($binaryFileId): bool
+    public function exists(string $binaryFileId): bool
     {
         return $this->innerIOService->exists($binaryFileId);
     }
 
-    public function loadBinaryFile($binaryFileId): BinaryFile
+    public function loadBinaryFile(string $binaryFileId): BinaryFile
     {
         return $this->innerIOService->loadBinaryFile($binaryFileId);
     }
 
-    public function loadBinaryFileByUri($binaryFileUri): BinaryFile
+    public function loadBinaryFileByUri(string $binaryFileUri): BinaryFile
     {
         return $this->innerIOService->loadBinaryFileByUri($binaryFileUri);
     }
@@ -73,17 +73,17 @@ class ConfigScopeChangeAwareIOService implements IOServiceInterface, ConfigScope
         return $this->innerIOService->createBinaryFile($binaryFileCreateStruct);
     }
 
-    public function getUri($binaryFileId): string
+    public function getUri(string $binaryFileId): string
     {
         return $this->innerIOService->getUri($binaryFileId);
     }
 
-    public function getMimeType($binaryFileId): ?string
+    public function getMimeType(string $binaryFileId): ?string
     {
         return $this->innerIOService->getMimeType($binaryFileId);
     }
 
-    public function getFileInputStream(BinaryFile $binaryFile)
+    public function getFileInputStream(BinaryFile $binaryFile): mixed
     {
         return $this->innerIOService->getFileInputStream($binaryFile);
     }
@@ -98,7 +98,7 @@ class ConfigScopeChangeAwareIOService implements IOServiceInterface, ConfigScope
         return $this->innerIOService->newBinaryCreateStructFromUploadedFile($uploadedFile);
     }
 
-    public function deleteDirectory($path): void
+    public function deleteDirectory(string $path): void
     {
         $this->innerIOService->deleteDirectory($path);
     }

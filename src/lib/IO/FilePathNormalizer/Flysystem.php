@@ -14,7 +14,7 @@ use League\Flysystem\PathNormalizer;
 
 final class Flysystem implements FilePathNormalizerInterface
 {
-    private const HASH_PATTERN = '/^[0-9a-f]{12}-/';
+    private const string HASH_PATTERN = '/^[0-9a-f]{12}-/';
 
     private SlugConverter $slugConverter;
 

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\IO\EventListener;
 
@@ -19,7 +20,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class StreamFileListenerTest extends TestCase
+/**
+ * @covers \Ibexa\Bundle\IO\EventListener\StreamFileListener
+ */
+final class StreamFileListenerTest extends TestCase
 {
     private StreamFileListener $eventListener;
 
@@ -36,6 +40,9 @@ class StreamFileListenerTest extends TestCase
         $this->eventListener = new StreamFileListener($this->ioServiceMock, $this->ioConfigResolverMock);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     */
     public function testDoesNotRespondToNonIoUri(): void
     {
         $request = $this->createRequest('/Not-an-image');
@@ -51,6 +58,9 @@ class StreamFileListenerTest extends TestCase
         self::assertNull($event->getResponse());
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     */
     public function testDoesNotRespondToNoIoRequest(): void
     {
         $request = $this->createRequest('/Not-an-image', 'bar.fr');
@@ -66,6 +76,9 @@ class StreamFileListenerTest extends TestCase
         self::assertNull($event->getResponse());
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     */
     public function testRespondsToIoUri(): void
     {
         $uri = $binaryFileUri = '/var/test/storage/images/image.png';
@@ -75,6 +88,9 @@ class StreamFileListenerTest extends TestCase
         $this->assertOnKernelRequestResponse($request, $urlPrefix, $binaryFileUri);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     */
     public function testRespondsToIoRequest(): void
     {
         $uri = '/var/test/storage/images/image.png';
@@ -109,6 +125,9 @@ class StreamFileListenerTest extends TestCase
         );
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     */
     private function assertOnKernelRequestResponse(Request $request, string $urlPrefix, string $binaryFileUri): void
     {
         $this->configureIoUrlPrefix($urlPrefix);

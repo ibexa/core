@@ -4,13 +4,15 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\IO;
 
+use Ibexa\Contracts\Core\IO\BinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct;
 
 /**
- * Provides reading & writing of files meta data (size, modification time...).
+ * Provides reading & writing of files meta-data (size, modification time...).
  */
 interface IOMetadataHandler
 {
@@ -19,49 +21,35 @@ interface IOMetadataHandler
      *
      * @param \Ibexa\Contracts\Core\IO\BinaryFileCreateStruct $spiBinaryFileCreateStruct
      *
-     * @return \Ibexa\Contracts\Core\IO\BinaryFile
-     *
-     * @throws \RuntimeException if an error occured creating the file
+     * @throws \RuntimeException if an error occurred creating the file
      */
-    public function create(BinaryFileCreateStruct $spiBinaryFileCreateStruct);
+    public function create(BinaryFileCreateStruct $spiBinaryFileCreateStruct): BinaryFile;
 
     /**
-     * Deletes file $spiBinaryFileId.
+     * Deletes file by its $binaryFileId.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If $spiBinaryFileId is not found
-     *
-     * @param string $spiBinaryFileId
      */
-    public function delete($spiBinaryFileId);
+    public function delete(string $binaryFileId): void;
 
     /**
      * Loads and returns metadata for $spiBinaryFileId.
      *
-     * @param string $spiBinaryFileId
-     *
-     * @return \Ibexa\Contracts\Core\IO\BinaryFile
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function load($spiBinaryFileId);
+    public function load(string $spiBinaryFileId): BinaryFile;
 
     /**
      * Checks if a file $spiBinaryFileId exists.
-     *
-     * @param string $spiBinaryFileId
-     *
-     * @return bool
      */
-    public function exists($spiBinaryFileId);
+    public function exists(string $spiBinaryFileId): bool;
 
     /**
      * Returns the file's mimetype. Example: text/plain.
      *
-     * @param $spiBinaryFileId
-     *
-     * @return string
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function getMimeType($spiBinaryFileId);
+    public function getMimeType(string $spiBinaryFileId): string;
 
-    public function deleteDirectory($spiPath);
+    public function deleteDirectory(string $path): void;
 }
