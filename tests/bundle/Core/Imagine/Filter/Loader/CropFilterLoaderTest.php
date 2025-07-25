@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\Imagine\Filter\Loader;
 
@@ -11,15 +12,17 @@ use Ibexa\Bundle\Core\Imagine\Filter\Loader\CropFilterLoader;
 use Imagine\Exception\InvalidArgumentException;
 use Imagine\Image\ImageInterface;
 use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class CropFilterLoaderTest extends TestCase
+/**
+ * @covers \Ibexa\Bundle\Core\Imagine\Filter\Loader\CropFilterLoader
+ */
+final class CropFilterLoaderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $innerLoader;
+    private LoaderInterface & MockObject $innerLoader;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\CropFilterLoader */
-    private $loader;
+    private CropFilterLoader $loader;
 
     protected function setUp(): void
     {
@@ -31,15 +34,20 @@ class CropFilterLoaderTest extends TestCase
 
     /**
      * @dataProvider loadInvalidProvider
+     *
+     * @param array<mixed> $options
      */
-    public function testLoadInvalidOptions(array $options)
+    public function testLoadInvalidOptions(array $options): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         $this->loader->load($this->createMock(ImageInterface::class), $options);
     }
 
-    public function loadInvalidProvider()
+    /**
+     * @return array<array{array<mixed>}>
+     */
+    public static function loadInvalidProvider(): array
     {
         return [
             [[]],
@@ -50,7 +58,7 @@ class CropFilterLoaderTest extends TestCase
         ];
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $width = 123;
         $height = 789;
@@ -62,7 +70,7 @@ class CropFilterLoaderTest extends TestCase
             ->expects(self::once())
             ->method('load')
             ->with($image, ['size' => [$width, $height], 'start' => [$offsetX, $offsetY]])
-            ->will(self::returnValue($image));
+            ->willReturn($image);
 
         self::assertSame($image, $this->loader->load($image, [$width, $height, $offsetX, $offsetY]));
     }

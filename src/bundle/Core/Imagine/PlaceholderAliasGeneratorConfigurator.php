@@ -4,33 +4,29 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 
-class PlaceholderAliasGeneratorConfigurator
+final readonly class PlaceholderAliasGeneratorConfigurator
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
-
-    /** @var \Ibexa\Bundle\Core\Imagine\PlaceholderProviderRegistry */
-    private $providerRegistry;
-
-    /** @var array */
-    private $providersConfig;
-
+    /**
+     * @phpstan-param array<string, array{
+     *     provider: string,
+     *     options: array<string, mixed>,
+     *     verify_binary_data_availability?: bool
+     * }> $providersConfig
+     */
     public function __construct(
-        ConfigResolverInterface $configResolver,
-        PlaceholderProviderRegistry $providerRegistry,
-        array $providersConfig
+        private ConfigResolverInterface $configResolver,
+        private PlaceholderProviderRegistry $providerRegistry,
+        private array $providersConfig
     ) {
-        $this->configResolver = $configResolver;
-        $this->providerRegistry = $providerRegistry;
-        $this->providersConfig = $providersConfig;
     }
 
-    public function configure(PlaceholderAliasGenerator $generator)
+    public function configure(PlaceholderAliasGenerator $generator): void
     {
         $binaryHandlerName = $this->configResolver->getParameter('io.binarydata_handler');
 

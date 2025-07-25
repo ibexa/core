@@ -18,24 +18,16 @@ use Ibexa\Core\FieldType\ImageAsset\AssetMapper;
 use Ibexa\Core\FieldType\ImageAsset\Value as ImageAssetValue;
 
 /**
- * Alias Generator Decorator allowing generate variations based on passed ImageAsset\Value.
+ * Alias Generator Decorator allowing to generate variations based on passed ImageAsset\Value.
  */
 class AliasGenerator implements VariationHandler
 {
-    /** @var \Ibexa\Contracts\Core\Variation\VariationHandler */
-    private $innerAliasGenerator;
+    private VariationHandler $innerAliasGenerator;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    private $contentService;
+    private ContentService $contentService;
 
-    /** @var \Ibexa\Core\FieldType\ImageAsset\AssetMapper */
-    private $assetMapper;
+    private AssetMapper $assetMapper;
 
-    /**
-     * @param \Ibexa\Contracts\Core\Variation\VariationHandler $innerAliasGenerator
-     * @param \Ibexa\Contracts\Core\Repository\ContentService $contentService
-     * @param \Ibexa\Core\FieldType\ImageAsset\AssetMapper $assetMapper
-     */
     public function __construct(
         VariationHandler $innerAliasGenerator,
         ContentService $contentService,
@@ -46,9 +38,6 @@ class AliasGenerator implements VariationHandler
         $this->assetMapper = $assetMapper;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getVariation(Field $field, VersionInfo $versionInfo, string $variationName, array $parameters = []): Variation
     {
         if ($this->supportsValue($field->value)) {

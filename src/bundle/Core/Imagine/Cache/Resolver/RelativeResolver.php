@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine\Cache\Resolver;
 
@@ -15,9 +16,6 @@ use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
  */
 class RelativeResolver extends ImagineProxyResolver
 {
-    /**
-     * @param \Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface $resolver
-     */
     public function __construct(ResolverInterface $resolver)
     {
         parent::__construct($resolver, []);
@@ -27,10 +25,8 @@ class RelativeResolver extends ImagineProxyResolver
      * Returns relative image path.
      *
      * @param $url string
-     *
-     * @return string
      */
-    protected function rewriteUrl($url)
+    protected function rewriteUrl($url): string
     {
         return parse_url($url, PHP_URL_PATH);
     }

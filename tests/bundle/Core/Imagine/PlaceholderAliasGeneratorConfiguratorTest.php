@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\Imagine;
 
@@ -14,17 +15,20 @@ use Ibexa\Bundle\Core\Imagine\PlaceholderProviderRegistry;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use PHPUnit\Framework\TestCase;
 
-class PlaceholderAliasGeneratorConfiguratorTest extends TestCase
+/**
+ * @covers \Ibexa\Bundle\Core\Imagine\PlaceholderAliasGeneratorConfigurator
+ */
+final class PlaceholderAliasGeneratorConfiguratorTest extends TestCase
 {
-    public const BINARY_HANDLER_NAME = 'default';
-    public const PROVIDER_TYPE = 'generic';
-    public const PROVIDER_OPTIONS = [
+    public const string BINARY_HANDLER_NAME = 'default';
+    public const string PROVIDER_TYPE = 'generic';
+    public const array PROVIDER_OPTIONS = [
         'a' => 'A',
         'b' => 'B',
         'c' => 'C',
     ];
 
-    public function testConfigure()
+    public function testConfigure(): void
     {
         $configResolver = $this->createMock(ConfigResolverInterface::class);
         $configResolver

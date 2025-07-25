@@ -4,24 +4,25 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine\Filter\Gmagick;
 
 use Ibexa\Bundle\Core\Imagine\Filter\AbstractFilter;
+use Imagine\Gmagick\Image;
 use Imagine\Image\ImageInterface;
 
 class SwirlFilter extends AbstractFilter
 {
     /**
-     * @param \Imagine\Image\ImageInterface|\Imagine\Gmagick\Image $image
-     *
-     * @return \Imagine\Image\ImageInterface
+     * @throws \GmagickException
      */
-    public function apply(ImageInterface $image)
+    public function apply(ImageInterface $image): ImageInterface
     {
-        /** @var \Gmagick $gmagick */
-        $gmagick = $image->getGmagick();
-        $gmagick->swirlimage((float)$this->getOption('degrees', 60));
+        if ($image instanceof Image) {
+            $gmagick = $image->getGmagick();
+            $gmagick->swirlimage((float)$this->getOption('degrees', 60));
+        }
 
         return $image;
     }

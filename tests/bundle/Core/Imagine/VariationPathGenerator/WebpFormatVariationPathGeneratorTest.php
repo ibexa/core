@@ -18,8 +18,7 @@ final class WebpFormatVariationPathGeneratorTest extends TestCase
 {
     private VariationPathGenerator&MockObject $innerVariationPathGenerator;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\FilterConfiguration|\PHPUnit\Framework\MockObject\MockObject */
-    private FilterConfiguration $filterConfiguration;
+    private FilterConfiguration & MockObject $filterConfiguration;
 
     protected function setUp(): void
     {

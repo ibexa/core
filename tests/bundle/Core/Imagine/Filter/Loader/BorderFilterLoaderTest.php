@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\Imagine\Filter\Loader;
 
@@ -16,20 +17,28 @@ use Imagine\Image\Palette\Color\ColorInterface;
 use Imagine\Image\Palette\PaletteInterface;
 use PHPUnit\Framework\TestCase;
 
-class BorderFilterLoaderTest extends TestCase
+/**
+ * @covers \Ibexa\Bundle\Core\Imagine\Filter\Loader\BorderFilterLoader
+ */
+final class BorderFilterLoaderTest extends TestCase
 {
     /**
      * @dataProvider loadInvalidProvider
+     *
+     * @param array<mixed> $options
      */
-    public function testLoadInvalidOptions(array $options)
+    public function testLoadInvalidOptions(array $options): void
     {
-        $this->expectException(InvalidArgumentException::class);
-
         $loader = new BorderFilterLoader();
+
+        $this->expectException(InvalidArgumentException::class);
         $loader->load($this->createMock(ImageInterface::class), $options);
     }
 
-    public function loadInvalidProvider()
+    /**
+     * @return array<array{array<mixed>}>
+     */
+    public static function loadInvalidProvider(): array
     {
         return [
             [[]],
@@ -38,7 +47,7 @@ class BorderFilterLoaderTest extends TestCase
         ];
     }
 
-    public function testLoadDefaultColor()
+    public function testLoadDefaultColor(): void
     {
         $image = $this->createMock(ImageInterface::class);
         $options = [10, 10];
@@ -47,36 +56,36 @@ class BorderFilterLoaderTest extends TestCase
         $image
             ->expects(self::once())
             ->method('palette')
-            ->will(self::returnValue($palette));
+            ->willReturn($palette);
         $palette
             ->expects(self::once())
             ->method('color')
             ->with(BorderFilterLoader::DEFAULT_BORDER_COLOR)
-            ->will(self::returnValue($this->createMock(ColorInterface::class)));
+            ->willReturn($this->createMock(ColorInterface::class));
 
         $box = $this->createMock(BoxInterface::class);
         $image
             ->expects(self::once())
             ->method('getSize')
-            ->will(self::returnValue($box));
+            ->willReturn($box);
         $box
-            ->expects(self::any())
+            ->expects(self::atLeastOnce())
             ->method('getWidth')
-            ->will(self::returnValue(100));
+            ->willReturn(100);
         $box
             ->expects(self::any())
             ->method('getHeight')
-            ->will(self::returnValue(100));
+            ->willReturn(100);
 
         $drawer = $this->createMock(DrawerInterface::class);
         $image
             ->expects(self::once())
             ->method('draw')
-            ->will(self::returnValue($drawer));
+            ->willReturn($drawer);
         $drawer
-            ->expects(self::any())
+            ->expects(self::atLeastOnce())
             ->method('line')
-            ->will(self::returnValue($drawer));
+            ->willReturn($drawer);
 
         $loader = new BorderFilterLoader();
         self::assertSame($image, $loader->load($image, $options));
@@ -85,7 +94,7 @@ class BorderFilterLoaderTest extends TestCase
     /**
      * @dataProvider loadProvider
      */
-    public function testLoad($thickX, $thickY, $color)
+    public function testLoad(int $thickX, int $thickY, string $color): void
     {
         $image = $this->createMock(ImageInterface::class);
         $options = [$thickX, $thickY, $color];
@@ -94,42 +103,45 @@ class BorderFilterLoaderTest extends TestCase
         $image
             ->expects(self::once())
             ->method('palette')
-            ->will(self::returnValue($palette));
+            ->willReturn($palette);
         $palette
             ->expects(self::once())
             ->method('color')
             ->with($color)
-            ->will(self::returnValue($this->createMock(ColorInterface::class)));
+            ->willReturn($this->createMock(ColorInterface::class));
 
         $box = $this->createMock(BoxInterface::class);
         $image
             ->expects(self::once())
             ->method('getSize')
-            ->will(self::returnValue($box));
+            ->willReturn($box);
         $box
-            ->expects(self::any())
+            ->expects(self::atLeastOnce())
             ->method('getWidth')
-            ->will(self::returnValue(1000));
+            ->willReturn(1000);
         $box
-            ->expects(self::any())
+            ->expects(self::atLeastOnce())
             ->method('getHeight')
-            ->will(self::returnValue(1000));
+            ->willReturn(1000);
 
         $drawer = $this->createMock(DrawerInterface::class);
         $image
             ->expects(self::once())
             ->method('draw')
-            ->will(self::returnValue($drawer));
+            ->willReturn($drawer);
         $drawer
-            ->expects(self::any())
+            ->expects(self::atLeastOnce())
             ->method('line')
-            ->will(self::returnValue($drawer));
+            ->willReturn($drawer);
 
         $loader = new BorderFilterLoader();
         self::assertSame($image, $loader->load($image, $options));
     }
 
-    public function loadProvider()
+    /**
+     * @return array<array{int, int, string}>
+     */
+    public static function loadProvider(): array
     {
         return [
             [10, 10, '#fff'],
