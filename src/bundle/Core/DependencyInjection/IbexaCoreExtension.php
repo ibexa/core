@@ -841,12 +841,12 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
                     $container->setParameter(
                         'dfs_database_url',
                         sprintf(
-                            '%s://%s:%s:%d@%s/%s',
+                            '%s://%s:%s@%s:%d/%s',
                             $endpoint['scheme'],
                             $endpoint['username'],
                             $endpoint['password'],
-                            $endpoint['port'],
                             $endpoint['host'],
+                            $endpoint['port'],
                             $endpoint['path']
                         )
                     );
