@@ -41,6 +41,22 @@ class Registry
     {
         return isset($this->registry[$alias]);
     }
+
+    /**
+     * @return array<string, string>
+     */
+    public function getTypeLabels(): array
+    {
+        $labels = [];
+        foreach ($this->registry as $type => $renderer) {
+            if ($renderer instanceof TypedNotificationRendererInterface) {
+                $labels[$type] = $renderer->getTypeLabel();
+            }
+        }
+        ksort($labels);
+
+        return $labels;
+    }
 }
 
 class_alias(Registry::class, 'eZ\Publish\Core\Notification\Renderer\Registry');
