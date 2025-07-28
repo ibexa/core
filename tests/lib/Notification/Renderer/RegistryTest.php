@@ -64,6 +64,6 @@ final class RegistryTest extends TestCase
             'z_type' => 'Label B',
         ];
 
-        $this->assertSame($expected, $registry->getTypeLabels());
+        self::assertSame($expected, $registry->getTypeLabels());
     }
 }
