@@ -36,7 +36,7 @@ class URIText extends Regex implements VersatileMatcher, URILexer
         $this->suffix = isset($siteAccessesConfiguration['suffix']) ? $siteAccessesConfiguration['suffix'] : '';
 
         parent::__construct(
-            '^(/' . preg_quote($this->prefix, '@') . '(\w+)' . preg_quote($this->suffix, '@') . ')',
+            '^(/' . preg_quote($this->prefix, '@') . '([\w-]+)' . preg_quote($this->suffix, '@') . ')',
             2
         );
         $this->siteAccessesConfiguration = $siteAccessesConfiguration;
