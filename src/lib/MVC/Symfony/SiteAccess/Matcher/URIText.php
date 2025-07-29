@@ -15,7 +15,7 @@ class URIText extends AffixBasedTextMatcher implements URILexer
 {
     protected function buildRegex(): string
     {
-        return '^(/' . preg_quote($this->prefix, '@') . '(\w+)' . preg_quote($this->suffix, '@') . ')';
+        return '^(/' . preg_quote($this->prefix, '@') . '([\w-]+)' . preg_quote($this->suffix, '@') . ')';
     }
 
     protected function getMatchedItemNumber(): int

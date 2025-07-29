@@ -93,6 +93,27 @@ class RenderContentStrategyTest extends BaseRenderStrategyTestCase
         );
     }
 
+    public function testDuplicatedFragmentRenderers(): void
+    {
+        $renderContentStrategy = $this->createRenderStrategy(
+            RenderContentStrategy::class,
+            [
+                $this->createFragmentRenderer('method_a', 'decorator service used'),
+                $this->createFragmentRenderer('method_a', 'original service used'),
+            ],
+        );
+
+        $contentMock = $this->createMock(Content::class);
+        self::assertTrue($renderContentStrategy->supports($contentMock));
+
+        self::assertSame(
+            'decorator service used',
+            $renderContentStrategy->render($contentMock, new RenderOptions([
+                'method' => 'method_a',
+            ]))
+        );
+    }
+
     public function testExpectedMethodRenderArgumentsFormat(): void
     {
         $request = new Request();
