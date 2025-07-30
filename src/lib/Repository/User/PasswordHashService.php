@@ -23,14 +23,15 @@ final class PasswordHashService implements PasswordHashServiceInterface
 
     private ConfigResolverInterface $configResolver;
 
-    public function __construct(int $hashType = User::DEFAULT_PASSWORD_HASH)
+    public function __construct(int $hashType = User::DEFAULT_PASSWORD_HASH, ConfigResolverInterface $configResolver = null)
     {
-        // Kept for BC, but overwritten by @see setConfigResolver()
-        $this->defaultHashType = $hashType;
-    }
+        if ($configResolver === null) {
+            // Kept for BC, but overwritten by @see setConfigResolver() if set
+            $this->defaultHashType = $hashType;
 
-    public function setConfigResolver(ConfigResolverInterface $configResolver): void
-    {
+            return;
+        }
+
         $this->configResolver = $configResolver;
         $this->defaultHashType = $this->configResolver->getParameter('password_hash.default_type');
     }
@@ -114,6 +115,11 @@ final class PasswordHashService implements PasswordHashServiceInterface
 
     public function updatePasswordHashTypeOnChange(): bool
     {
+        if (!isset($this->configResolver)) {
+            // If the ConfigResolver is not set, default to false
+            return false;
+        }
+
         return $this->configResolver->getParameter('password_hash.update_type_on_change');
     }
 }
