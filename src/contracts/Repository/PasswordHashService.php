@@ -8,17 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository;
 
-use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
-
 interface PasswordHashService
 {
-    /**
-     * Sets the ConfigResolver instance.
-     *
-     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
-     */
-    public function setConfigResolver(ConfigResolverInterface $configResolver): void;
-
     /**
      * Returns default password hash type.
      *
