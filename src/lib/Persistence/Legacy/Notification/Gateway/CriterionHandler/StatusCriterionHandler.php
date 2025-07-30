@@ -27,7 +27,7 @@ final class StatusCriterionHandler implements CriterionHandlerInterface
 
     public function apply(QueryBuilder $qb, CriterionInterface $criterion): void
     {
-        $qb->andWhere($qb->expr()->eq(DoctrineDatabase::COLUMN_IS_PENDING, ':status'));
-        $qb->setParameter(':status', $criterion->getStatuses(), Connection::PARAM_STR_ARRAY);
+        $qb->andWhere($qb->expr()->in(DoctrineDatabase::COLUMN_IS_PENDING, ':status'));
+        $qb->setParameter(':status', $criterion->getStatuses(), Connection::PARAM_INT_ARRAY);
     }
 }
