@@ -799,12 +799,21 @@ class UserService implements UserServiceInterface
                     ]);
                 }
 
-                if ($passwordHashAlgorithm !== $userCurrentPasswordHashAlgorithm) {
-                    // If we're trying to upgrade the password hash algorithm but the upgrade failed,
+                if (
+                    $this->passwordHashService->updatePasswordHashTypeOnChange() &&
+                    $passwordHashAlgorithm !== $userCurrentPasswordHashAlgorithm
+                ) {
+                    // If we're trying to upgrade the password hash algorithm but the upgrade fails,
                     // we fall back to the user's current password hash algorithm.
                     $passwordHashAlgorithm = $userCurrentPasswordHashAlgorithm;
+                } elseif (
+                    !$this->passwordHashService->updatePasswordHashTypeOnChange() &&
+                    $passwordHashAlgorithm !== $defaultPasswordHashAlgorithm
+                ) {
+                    // If we're not trying to upgrade the password hash algorithm and the user's current
+                    // password hash algorithm fails, we fall back to the default one.
+                    $passwordHashAlgorithm = $defaultPasswordHashAlgorithm;
                 } else {
-                    // If the user's current password hash algorithm fails, we can't proceed.
                     throw new InvalidArgumentException(
                         'passwordHashAlgorithm',
                         'The password hash algorithm is not supported or not compiled.'
