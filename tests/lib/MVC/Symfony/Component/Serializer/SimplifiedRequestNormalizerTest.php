@@ -66,7 +66,7 @@ final class SimplifiedRequestNormalizerTest extends TestCase
                 'Accept-Encoding' => 'gzip, deflate, br',
                 'Accept-Language' => 'pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7',
                 'User-Agent' => 'Mozilla/5.0',
-                'Cookie' => 'eZSESSID21232f297a57a5a743894a0e4a801fc3=mgbs2p6lv936hb5hmdd2cvq6bq',
+                'Cookie' => 'IBX_SESSION_ID21232f297a57a5a743894a0e4a801fc3=mgbs2p6lv936hb5hmdd2cvq6bq',
                 'Connection' => 'keep-alive',
             ],
         );
