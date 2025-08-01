@@ -48,7 +48,7 @@ final class PasswordHash extends AbstractParser
     }
 
     /**
-     * @param array<string,mixed> $scopeSettings
+     * @param array<string, mixed> $scopeSettings
      */
     public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer): void
     {
