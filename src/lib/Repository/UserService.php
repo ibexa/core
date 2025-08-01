@@ -56,7 +56,7 @@ use Ibexa\Core\Repository\Values\User\User;
 use Ibexa\Core\Repository\Values\User\UserCreateStruct;
 use Ibexa\Core\Repository\Values\User\UserGroup;
 use Ibexa\Core\Repository\Values\User\UserGroupCreateStruct;
-use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LogLevel;
 use Psr\Log\NullLogger;
 
@@ -65,6 +65,8 @@ use Psr\Log\NullLogger;
  */
 class UserService implements UserServiceInterface
 {
+    use LoggerAwareTrait;
+
     private const USER_FIELD_TYPE_NAME = 'ibexa_user';
 
     /** @var \Ibexa\Contracts\Core\Repository\Repository */
@@ -79,9 +81,6 @@ class UserService implements UserServiceInterface
     /** @var array */
     protected $settings;
 
-    /** @var \Psr\Log\LoggerInterface|null */
-    protected $logger;
-
     /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
     private $permissionResolver;
 
@@ -92,11 +91,6 @@ class UserService implements UserServiceInterface
     private $passwordValidator;
 
     private ConfigResolverInterface $configResolver;
-
-    public function setLogger(?LoggerInterface $logger = null)
-    {
-        $this->logger = $logger;
-    }
 
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
@@ -126,7 +120,7 @@ class UserService implements UserServiceInterface
         $this->passwordHashService = $passwordHashGenerator;
         $this->passwordValidator = $passwordValidator;
         $this->configResolver = $configResolver;
-        $this->logger = new NullLogger();
+        $this->logger = $logger ?? new NullLogger();
     }
 
     /**
