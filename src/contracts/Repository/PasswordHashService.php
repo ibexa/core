@@ -46,8 +46,5 @@ interface PasswordHashService
      */
     public function isValidPassword(string $plainPassword, string $passwordHash, ?int $hashType = null): bool;
 
-    /**
-     * Returns true if password hash type should be updated when the user changes password.
-     */
     public function updatePasswordHashTypeOnChange(): bool;
 }
