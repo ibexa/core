@@ -58,6 +58,7 @@ use Ibexa\Core\Repository\Values\User\UserGroup;
 use Ibexa\Core\Repository\Values\User\UserGroupCreateStruct;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
+use Psr\Log\NullLogger;
 
 /**
  * This service provides methods for managing users and user groups.
@@ -125,6 +126,7 @@ class UserService implements UserServiceInterface
         $this->passwordHashService = $passwordHashGenerator;
         $this->passwordValidator = $passwordValidator;
         $this->configResolver = $configResolver;
+        $this->logger = new NullLogger();
     }
 
     /**
@@ -793,11 +795,9 @@ class UserService implements UserServiceInterface
             try {
                 $passwordHash = $this->passwordHashService->createPasswordHash($newPassword, $passwordHashAlgorithm);
             } catch (UnsupportedPasswordHashType|PasswordHashTypeNotCompiled $e) {
-                if (isset($this->logger)) {
-                    $this->logger->log(LogLevel::WARNING, $e->getMessage(), [
-                        'exception' => $e,
-                    ]);
-                }
+                $this->logger->log(LogLevel::WARNING, $e->getMessage(), [
+                    'exception' => $e,
+                ]);
 
                 if (
                     $updatePasswordHashTypeOnChange &&
