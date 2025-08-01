@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\IO;
 
@@ -16,137 +17,93 @@ use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 interface IOServiceInterface
 {
     /**
-     * The the internal prefix added by the IO Service.
-     *
-     * @param string $prefix
+     * The internal prefix added by the IO Service.
      */
-    public function setPrefix($prefix);
+    public function setPrefix(string $prefix): void;
 
     /**
      * Creates a BinaryFileCreateStruct object from $localFile.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException When given a non existing / unreadable file
-     *
-     * @param string $localFile Path to local file
-     *
-     * @return \Ibexa\Core\IO\Values\BinaryFileCreateStruct
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException When given a non-existing / unreadable file
      */
-    public function newBinaryCreateStructFromLocalFile($localFile);
+    public function newBinaryCreateStructFromLocalFile(string $localFile): BinaryFileCreateStruct;
 
     /**
      * Checks if a Binary File with $binaryFileId exists.
-     *
-     * @param string $binaryFileId
-     *
-     * @return bool
      */
-    public function exists($binaryFileId);
+    public function exists(string $binaryFileId): bool;
 
     /**
      * Loads the binary file with $id.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue If the id is invalid
-     *
-     * @param string $binaryFileId
-     *
-     * @return \Ibexa\Core\IO\Values\BinaryFile the file, or false if it doesn't exist
-     *
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException If no file identified by $binaryFileId exists
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue If $binaryFileId is invalid
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the id is invalid
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If no file identified by $binaryFileId exists
      */
-    public function loadBinaryFile($binaryFileId);
+    public function loadBinaryFile(string $binaryFileId): BinaryFile;
 
     /**
      * Loads the binary file with uri $uri.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue If the id is invalid
-     *
-     * @param string $binaryFileUri
-     *
-     * @return \Ibexa\Core\IO\Values\BinaryFile the file, or false if it doesn't exist
-     *
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException If no file identified by $binaryFileId exists
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the id is invalid
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If no file identified by $binaryFileId exists
      */
-    public function loadBinaryFileByUri($binaryFileUri);
+    public function loadBinaryFileByUri(string $binaryFileUri): BinaryFile;
 
     /**
      * Returns the content of the binary file.
      *
-     * @param \Ibexa\Core\IO\Values\BinaryFile $binaryFile
-     *
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException If $binaryFile isn't found
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue
-     *
-     * @return string
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If $binaryFile isn't found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function getFileContents(BinaryFile $binaryFile);
+    public function getFileContents(BinaryFile $binaryFile): string;
 
     /**
      * Creates a binary file in the repository.
      *
-     * @param \Ibexa\Core\IO\Values\BinaryFileCreateStruct $binaryFileCreateStruct
-     *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue
-     *
-     * @return \Ibexa\Core\IO\Values\BinaryFile The created BinaryFile object
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function createBinaryFile(BinaryFileCreateStruct $binaryFileCreateStruct);
+    public function createBinaryFile(BinaryFileCreateStruct $binaryFileCreateStruct): BinaryFile;
 
     /**
      * Returns the public HTTP uri for $binaryFileId.
-     *
-     * @param string $binaryFileId
-     *
-     * @return string
      */
-    public function getUri($binaryFileId);
+    public function getUri(string $binaryFileId): string;
 
     /**
      * Gets the mime-type of the BinaryFile.
      *
      * Example: text/xml
      *
-     * @param string $binaryFileId
-     *
-     * @return string|null
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function getMimeType($binaryFileId);
+    public function getMimeType(string $binaryFileId): ?string;
 
     /**
      * Returns a read (mode: rb) file resource to the binary file identified by $path.
      *
-     * @param \Ibexa\Core\IO\Values\BinaryFile $binaryFile
-     *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue
-     *
      * @return resource
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function getFileInputStream(BinaryFile $binaryFile);
+    public function getFileInputStream(BinaryFile $binaryFile): mixed;
 
     /**
      * Deletes the BinaryFile with $id.
      *
-     * @param \Ibexa\Core\IO\Values\BinaryFile $binaryFile
-     *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function deleteBinaryFile(BinaryFile $binaryFile);
+    public function deleteBinaryFile(BinaryFile $binaryFile): void;
 
     /**
      * Creates a BinaryFileCreateStruct object from the uploaded file $uploadedFile.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException When given an invalid uploaded file
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException When given an invalid uploaded file
      *
-     * @param array $uploadedFile The $_POST hash of an uploaded file
-     *
-     * @return \Ibexa\Core\IO\Values\BinaryFileCreateStruct
+     * @param array<string, mixed> $uploadedFile The $_POST hash of an uploaded file
      */
-    public function newBinaryCreateStructFromUploadedFile(array $uploadedFile);
+    public function newBinaryCreateStructFromUploadedFile(array $uploadedFile): BinaryFileCreateStruct;
 
-    /**
-     * Deletes a directory.
-     *
-     * @param string $path
-     */
-    public function deleteDirectory($path);
+    public function deleteDirectory(string $path): void;
 }
