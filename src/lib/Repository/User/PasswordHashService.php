@@ -103,7 +103,7 @@ final class PasswordHashService implements PasswordHashServiceInterface
         }
     }
 
-    public function updatePasswordHashTypeOnChange(): bool
+    public function shouldPasswordHashTypeBeUpdatedOnChange(): bool
     {
         return $this->configResolver->getParameter('password_hash.update_type_on_change');
     }
