@@ -120,7 +120,10 @@ class UserService implements UserServiceInterface
         $this->passwordHashService = $passwordHashGenerator;
         $this->passwordValidator = $passwordValidator;
         $this->configResolver = $configResolver;
-        $this->logger = $logger ?? new NullLogger();
+
+        if (!isset($this->logger)) {
+            $this->logger = new NullLogger();
+        }
     }
 
     /**
