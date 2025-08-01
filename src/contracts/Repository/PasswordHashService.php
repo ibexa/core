@@ -48,8 +48,6 @@ interface PasswordHashService
 
     /**
      * Returns true if password hash type should be updated when the user changes password.
-     *
-     * @return bool
      */
     public function updatePasswordHashTypeOnChange(): bool;
 }
