@@ -9,7 +9,7 @@ parameters:
     treatPhpDocTypesAsCertain: false
     ignoreErrors:
         -
-            message: "#^Cannot call method warning\\(\\) on Psr\\\\Log\\\\LoggerInterface\\|null\\.$#"
+            message: "#^Cannot call method (log|debug|info|notice|warning|error|critical|alert|emergency)\\(\\) on Psr\\\\Log\\\\LoggerInterface\\|null\\.$#"
     paths:
         - src
         - tests
