@@ -73,9 +73,9 @@ final class ContentFilteringHandler implements Handler
         return $list;
     }
 
-    public function count(Filter $filter): int
+    public function count(Filter $filter, ?int $limit = null): int
     {
-        return $this->gateway->count($filter->getCriterion());
+        return $this->gateway->count($filter->getCriterion(), $limit);
     }
 }
 
