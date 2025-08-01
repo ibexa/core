@@ -57,6 +57,7 @@ use Ibexa\Core\Repository\Values\User\UserCreateStruct;
 use Ibexa\Core\Repository\Values\User\UserGroup;
 use Ibexa\Core\Repository\Values\User\UserGroupCreateStruct;
 use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Psr\Log\NullLogger;
 
@@ -103,7 +104,8 @@ class UserService implements UserServiceInterface
         PasswordHashService $passwordHashGenerator,
         PasswordValidatorInterface $passwordValidator,
         ConfigResolverInterface $configResolver,
-        array $settings = []
+        array $settings = [],
+        ?LoggerInterface $logger = null
     ) {
         $this->repository = $repository;
         $this->permissionResolver = $permissionResolver;
@@ -120,10 +122,7 @@ class UserService implements UserServiceInterface
         $this->passwordHashService = $passwordHashGenerator;
         $this->passwordValidator = $passwordValidator;
         $this->configResolver = $configResolver;
-
-        if (!isset($this->logger)) {
-            $this->logger = new NullLogger();
-        }
+        $this->logger = $logger ?? new NullLogger();
     }
 
     /**
