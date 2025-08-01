@@ -10,6 +10,7 @@ namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\AbstractParser;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 
 /**
@@ -39,16 +40,16 @@ final class PasswordHash extends AbstractParser
                         ->info('Default password hash type, see the constants in Ibexa\Contracts\Core\Repository\Values\User\User.')
                         ->example('!php/const:Ibexa\Contracts\Core\Repository\Values\User\User::PASSWORD_HASH_PHP_DEFAULT')
                         ->validate()
-                            ->ifTrue(static function ($value) {
+                            ->ifTrue(static function ($value): bool {
                                 $hashType = (int) $value;
 
-                                if ($hashType === \Ibexa\Contracts\Core\Repository\Values\User\User::PASSWORD_HASH_ARGON2I) {
+                                if ($hashType === User::PASSWORD_HASH_ARGON2I) {
                                     return !defined('PASSWORD_ARGON2I');
-                                } elseif ($hashType === \Ibexa\Contracts\Core\Repository\Values\User\User::PASSWORD_HASH_ARGON2ID) {
+                                } elseif ($hashType === User::PASSWORD_HASH_ARGON2ID) {
                                     return !defined('PASSWORD_ARGON2ID');
                                 }
 
-                                return !in_array($hashType, \Ibexa\Contracts\Core\Repository\Values\User\User::SUPPORTED_PASSWORD_HASHES, true);
+                                return !in_array($hashType, User::SUPPORTED_PASSWORD_HASHES, true);
                             })
                             ->thenInvalid('Invalid password hash type "%s".')
                         ->end()
