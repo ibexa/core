@@ -38,6 +38,20 @@ final class PasswordHash extends AbstractParser
                     ->integerNode('default_type')
                         ->info('Default password hash type, see the constants in Ibexa\Contracts\Core\Repository\Values\User\User.')
                         ->example('!php/const:Ibexa\Contracts\Core\Repository\Values\User\User::PASSWORD_HASH_PHP_DEFAULT')
+                        ->validate()
+                            ->ifTrue(static function ($value) {
+                                $hashType = (int) $value;
+
+                                if ($hashType === \Ibexa\Contracts\Core\Repository\Values\User\User::PASSWORD_HASH_ARGON2I) {
+                                    return !defined('PASSWORD_ARGON2I');
+                                } elseif ($hashType === \Ibexa\Contracts\Core\Repository\Values\User\User::PASSWORD_HASH_ARGON2ID) {
+                                    return !defined('PASSWORD_ARGON2ID');
+                                }
+
+                                return !in_array($hashType, \Ibexa\Contracts\Core\Repository\Values\User\User::SUPPORTED_PASSWORD_HASHES, true);
+                            })
+                            ->thenInvalid('Invalid password hash type "%s".')
+                        ->end()
                     ->end()
                     ->booleanNode('update_type_on_change')
                         ->info('Whether the password hash type should be changed when the password is changed if it differs from the default type.')
