@@ -62,7 +62,6 @@ services:
 
     Ibexa\Core\Repository\User\PasswordHashService:
         arguments:
-            $hashType: 7
             $configResolver: '@ibexa.config.resolver'
 
     Ibexa\Contracts\Core\Repository\PasswordHashService:
