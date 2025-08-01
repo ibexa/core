@@ -37,7 +37,7 @@ final class PasswordHash extends AbstractParser
                 ->children()
                     ->integerNode('default_type')
                         ->info('Default password hash type, see the constants in Ibexa\Contracts\Core\Repository\Values\User\User.')
-                        ->example('User::PASSWORD_HASH_PHP_DEFAULT')
+                        ->example('!php/const:Ibexa\Contracts\Core\Repository\Values\User\User::PASSWORD_HASH_PHP_DEFAULT')
                     ->end()
                     ->booleanNode('update_type_on_change')
                         ->info('Whether the password hash type should be changed when the password is changed if it differs from the default type.')
