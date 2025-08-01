@@ -782,7 +782,8 @@ class UserService implements UserServiceInterface
 
         $defaultPasswordHashAlgorithm = $this->passwordHashService->getDefaultHashType();
         $userCurrentPasswordHashAlgorithm = (int) $loadedUser->hashAlgorithm;
-        if ($this->passwordHashService->updatePasswordHashTypeOnChange()) {
+        $updatePasswordHashTypeOnChange = $this->passwordHashService->updatePasswordHashTypeOnChange();
+        if ($updatePasswordHashTypeOnChange) {
             $passwordHashAlgorithm = $defaultPasswordHashAlgorithm;
         } else {
             $passwordHashAlgorithm = $userCurrentPasswordHashAlgorithm;
@@ -800,14 +801,14 @@ class UserService implements UserServiceInterface
                 }
 
                 if (
-                    $this->passwordHashService->updatePasswordHashTypeOnChange() &&
+                    $updatePasswordHashTypeOnChange &&
                     $passwordHashAlgorithm !== $userCurrentPasswordHashAlgorithm
                 ) {
                     // If we're trying to upgrade the password hash algorithm but the upgrade fails,
                     // we fall back to the user's current password hash algorithm.
                     $passwordHashAlgorithm = $userCurrentPasswordHashAlgorithm;
                 } elseif (
-                    !$this->passwordHashService->updatePasswordHashTypeOnChange() &&
+                    !$updatePasswordHashTypeOnChange &&
                     $passwordHashAlgorithm !== $defaultPasswordHashAlgorithm
                 ) {
                     // If we're not trying to upgrade the password hash algorithm and the user's current
