@@ -10,6 +10,8 @@ namespace Ibexa\Core\Repository\User;
 
 use Ibexa\Contracts\Core\Repository\PasswordHashService as PasswordHashServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\Repository\User\Exception\PasswordHashTypeNotCompiled;
 use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
 
 /**
@@ -17,11 +19,11 @@ use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
  */
 final class PasswordHashService implements PasswordHashServiceInterface
 {
-    private int $defaultHashType;
+    private ConfigResolverInterface $configResolver;
 
-    public function __construct(int $hashType = User::DEFAULT_PASSWORD_HASH)
+    public function __construct(ConfigResolverInterface $configResolver)
     {
-        $this->defaultHashType = $hashType;
+        $this->configResolver = $configResolver;
     }
 
     public function getSupportedHashTypes(): array
@@ -36,28 +38,39 @@ final class PasswordHashService implements PasswordHashServiceInterface
 
     public function getDefaultHashType(): int
     {
-        return $this->defaultHashType;
+        return $this->configResolver->getParameter('password_hash.default_type');
     }
 
-    /**
-     * @throws \Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType
-     */
     public function createPasswordHash(
         #[\SensitiveParameter]
-        string $password,
+        string $plainPassword,
         ?int $hashType = null
     ): string {
-        $hashType = $hashType ?? $this->defaultHashType;
+        $hashType = $hashType ?? $this->getDefaultHashType();
 
         switch ($hashType) {
             case User::PASSWORD_HASH_BCRYPT:
-                return password_hash($password, PASSWORD_BCRYPT);
+                return password_hash($plainPassword, PASSWORD_BCRYPT);
 
             case User::PASSWORD_HASH_PHP_DEFAULT:
-                return password_hash($password, PASSWORD_DEFAULT);
+                return password_hash($plainPassword, PASSWORD_DEFAULT);
 
             case User::PASSWORD_HASH_INVALID:
                 return '';
+
+            case User::PASSWORD_HASH_ARGON2I:
+                if (!defined('PASSWORD_ARGON2I')) {
+                    throw new PasswordHashTypeNotCompiled('PASSWORD_ARGON2I');
+                }
+
+                return password_hash($plainPassword, PASSWORD_ARGON2I);
+
+            case User::PASSWORD_HASH_ARGON2ID:
+                if (!defined('PASSWORD_ARGON2ID')) {
+                    throw new PasswordHashTypeNotCompiled('PASSWORD_ARGON2ID');
+                }
+
+                return password_hash($plainPassword, PASSWORD_ARGON2ID);
 
             default:
                 throw new UnsupportedPasswordHashType($hashType);
@@ -74,12 +87,24 @@ final class PasswordHashService implements PasswordHashServiceInterface
         if (
             $hashType === User::PASSWORD_HASH_BCRYPT
             || $hashType === User::PASSWORD_HASH_PHP_DEFAULT
+            || $hashType === User::PASSWORD_HASH_ARGON2I
+            || $hashType === User::PASSWORD_HASH_ARGON2ID
             || $hashType === User::PASSWORD_HASH_INVALID
         ) {
-            // In case of bcrypt let PHP's password functionality do its magic
+            // Let PHP's password functionality do its magic
             return password_verify($plainPassword, $passwordHash);
         }
 
-        return $passwordHash === $this->createPasswordHash($plainPassword, $hashType);
+        try {
+            return $passwordHash === $this->createPasswordHash($plainPassword, $hashType);
+        } catch (PasswordHashTypeNotCompiled|UnsupportedPasswordHashType $e) {
+            // If the hash type is not compiled or unsupported we can't verify the password so it's not valid
+            return false;
+        }
+    }
+
+    public function shouldPasswordHashTypeBeUpdatedOnChange(): bool
+    {
+        return $this->configResolver->getParameter('password_hash.update_type_on_change');
     }
 }
