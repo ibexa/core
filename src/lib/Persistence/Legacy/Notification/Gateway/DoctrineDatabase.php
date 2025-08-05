@@ -82,6 +82,62 @@ class DoctrineDatabase extends Gateway
         return $query->execute()->fetchAllAssociative();
     }
 
+    /**
+     * @param int[] $notificationIds
+     *
+     * @return int[]
+     */
+    public function bulkUpdateUserNotifications(
+        Notification $notification,
+        bool $pendingOnly = false,
+        array $notificationIds = []
+    ): array {
+        if (!is_int($notification->ownerId) || $notification->ownerId <= 0) {
+            throw new InvalidArgumentException('ownerId', 'Cannot bulk update notifications without valid ownerId');
+        }
+
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder
+            ->select(self::COLUMN_ID)
+            ->from(self::TABLE_NOTIFICATION)
+            ->andWhere($queryBuilder->expr()->eq(self::COLUMN_OWNER_ID, ':ownerId'))
+            ->setParameter(':ownerId', $notification->ownerId, PDO::PARAM_INT);
+
+        if ($pendingOnly) {
+            $queryBuilder->andWhere($queryBuilder->expr()->eq(self::COLUMN_IS_PENDING, ':isPendingFlag'))
+                ->setParameter(':isPendingFlag', true, PDO::PARAM_BOOL);
+        }
+
+        if (!empty($notificationIds)) {
+            $queryBuilder->andWhere(
+                $queryBuilder->expr()->in(
+                    self::COLUMN_ID,
+                    array_map('strval', $notificationIds)
+                )
+            );
+        }
+
+        $rows = $queryBuilder->execute()->fetchAllAssociative();
+        if (empty($rows)) {
+            return [];
+        }
+
+        $idsToUpdate = array_map('intval', array_column($rows, self::COLUMN_ID));
+
+        $updateQuery = $this->connection->createQueryBuilder();
+        $updateQuery
+            ->update(self::TABLE_NOTIFICATION)
+            ->set(self::COLUMN_IS_PENDING, ':is_pending')
+            ->andWhere(
+                $updateQuery->expr()->in(self::COLUMN_ID, array_map('strval', $idsToUpdate))
+            )
+            ->setParameter(':is_pending', $notification->isPending, PDO::PARAM_BOOL);
+
+        $updateQuery->execute();
+
+        return $idsToUpdate;
+    }
+
     public function updateNotification(Notification $notification): void
     {
         if (!isset($notification->id) || !is_numeric($notification->id)) {
@@ -113,7 +169,7 @@ class DoctrineDatabase extends Gateway
             $this->applyFilters($queryBuilder, $query->getCriteria());
         }
 
-        return (int)$queryBuilder->execute()->fetchColumn();
+        return (int)$queryBuilder->execute()->fetchOne();
     }
 
     public function countUserPendingNotifications(int $userId): int

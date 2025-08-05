@@ -44,6 +44,15 @@ class ExceptionConversion extends Gateway
         }
     }
 
+    public function bulkUpdateUserNotifications(Notification $notification, bool $pendingOnly = false, array $notificationIds = []): array
+    {
+        try {
+            return $this->innerGateway->bulkUpdateUserNotifications($notification, $pendingOnly, $notificationIds);
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
     public function updateNotification(Notification $notification): void
     {
         try {

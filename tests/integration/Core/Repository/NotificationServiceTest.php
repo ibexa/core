@@ -69,6 +69,20 @@ class NotificationServiceTest extends BaseTest
         $this->assertEquals($notificationId, $notification->id);
     }
 
+    public function testMarkUserNotificationsAsRead(): void
+    {
+        $repository = $this->getRepository();
+        $notificationService = $repository->getNotificationService();
+
+        $pendingCountBefore = $notificationService->getPendingNotificationCount();
+        $this->assertGreaterThan(0, $pendingCountBefore);
+
+        $notificationService->markUserNotificationsAsRead();
+
+        $pendingCountAfter = $notificationService->getPendingNotificationCount();
+        $this->assertEquals(0, $pendingCountAfter);
+    }
+
     public function testMarkNotificationAsRead(): void
     {
         $repository = $this->getRepository();

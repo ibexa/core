@@ -42,6 +42,17 @@ abstract class Gateway
      */
     abstract public function updateNotification(Notification $notification): void;
 
+    /**
+     * @param int[] $notificationIds
+     *
+     * @return int[]
+     */
+    abstract public function bulkUpdateUserNotifications(
+        Notification $notification,
+        bool $pendingOnly = false,
+        array $notificationIds = []
+    ): array;
+
     abstract public function countUserNotifications(int $userId, ?NotificationQuery $query = null): int;
 
     /**

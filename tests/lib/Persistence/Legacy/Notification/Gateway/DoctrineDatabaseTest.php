@@ -251,6 +251,28 @@ class DoctrineDatabaseTest extends TestCase
 
         return is_array($data) ? $data : [];
     }
+
+    public function testBulkUpdateUserNotifications(): void
+    {
+        $notification = new Notification([
+            'ownerId' => self::EXISTING_NOTIFICATION_DATA['owner_id'],
+            'isPending' => false,
+        ]);
+
+        $updatedIds = $this->getGateway()->bulkUpdateUserNotifications($notification);
+
+        self::assertIsArray($updatedIds);
+        self::assertNotEmpty($updatedIds);
+
+        foreach ($updatedIds as $id) {
+            self::assertIsInt($id);
+        }
+
+        foreach ($updatedIds as $id) {
+            $data = $this->loadNotification($id);
+            self::assertEquals('0', (string) $data['is_pending']);
+        }
+    }
 }
 
 class_alias(DoctrineDatabaseTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Notification\Gateway\DoctrineDatabaseTest');
