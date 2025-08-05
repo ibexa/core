@@ -24,7 +24,7 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
  *   system:
  *      default: # configuration per siteaccess or siteaccess group
  *          password_hash:
- *              default_type: 7
+ *              default_type: !php/const \Ibexa\Contracts\Core\Repository\Values\User\User::PASSWORD_HASH_ARGON2I
  *              update_type_on_change: false
  * ```
  */
