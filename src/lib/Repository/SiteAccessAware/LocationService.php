@@ -104,14 +104,21 @@ class LocationService implements LocationServiceInterface
         );
     }
 
-    public function getLocationChildCount(Location $location): int
+    public function getLocationChildCount(Location $location /* ?int $limit = null */): int
     {
-        return $this->service->getLocationChildCount($location);
+        $limit = func_num_args() > 1 ? func_get_arg(1) : null;
+
+        return $this->service->getLocationChildCount($location, $limit);
     }
 
-    public function getSubtreeSize(Location $location): int
+    /**
+     * @param int|null $limit
+     */
+    public function getSubtreeSize(Location $location /* ?int $limit = null */): int
     {
-        return $this->service->getSubtreeSize($location);
+        $limit = func_num_args() > 1 ? func_get_arg(1) : null;
+
+        return $this->service->getSubtreeSize($location, $limit);
     }
 
     public function createLocation(ContentInfo $contentInfo, LocationCreateStruct $locationCreateStruct): Location
@@ -192,11 +199,17 @@ class LocationService implements LocationServiceInterface
         );
     }
 
-    public function count(Filter $filter, ?array $languages = null): int
+    /**
+     * @param int|null $limit
+     */
+    public function count(Filter $filter, ?array $languages = null /* ?int $limit = null */): int
     {
+        $limit = func_num_args() > 2 ? func_get_arg(2) : null;
+
         return $this->service->count(
             $filter,
-            $this->languageResolver->getPrioritizedLanguages($languages)
+            $this->languageResolver->getPrioritizedLanguages($languages),
+            $limit
         );
     }
 }
