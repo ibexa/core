@@ -92,7 +92,7 @@ class DoctrineDatabase extends Gateway
         bool $pendingOnly = false,
         array $notificationIds = []
     ): array {
-        if (!is_int($notification->ownerId) || $notification->ownerId <= 0) {
+        if (!is_int($notification->ownerId)) {
             throw new InvalidArgumentException('ownerId', 'Cannot bulk update notifications without valid ownerId');
         }
 
@@ -101,7 +101,7 @@ class DoctrineDatabase extends Gateway
             ->select(self::COLUMN_ID)
             ->from(self::TABLE_NOTIFICATION)
             ->andWhere($queryBuilder->expr()->eq(self::COLUMN_OWNER_ID, ':ownerId'))
-            ->setParameter(':ownerId', $notification->ownerId, PDO::PARAM_INT);
+            ->setParameter(':ownerId', $notification->ownerId, ParameterType::INTEGER);
 
         if ($pendingOnly) {
             $queryBuilder->andWhere($queryBuilder->expr()->eq(self::COLUMN_IS_PENDING, ':isPendingFlag'))

@@ -54,7 +54,7 @@ class NotificationHandler extends AbstractHandler implements Handler
             ->bulkUpdateUserNotifications($ownerId, $updateStruct, $pendingOnly, $notificationIds);
 
         $cacheKeys = array_map(
-            fn (int $id) => $this->cacheIdentifierGenerator->generateKey(self::NOTIFICATION_IDENTIFIER, [$id], true),
+            fn (int $id): string => $this->cacheIdentifierGenerator->generateKey(self::NOTIFICATION_IDENTIFIER, [$id], true),
             $updatedNotificationIds
         );
 
