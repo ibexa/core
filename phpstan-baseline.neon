@@ -41395,7 +41395,7 @@ parameters:
 			path: tests/integration/Core/Repository/LanguageServiceAuthorizationTest.php
 
 		-
-			message: '#^Comparison operation "\<" between int\<70400, 80499\> and 50400 is always false\.$#'
+			message: '#^Comparison operation "\<" between int\<70400, 80599\> and 50400 is always false\.$#'
 			identifier: smaller.alwaysFalse
 			count: 1
 			path: tests/integration/Core/Repository/LanguageServiceMaximumSupportedLanguagesTest.php
