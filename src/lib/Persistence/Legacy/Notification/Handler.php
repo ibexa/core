@@ -78,10 +78,7 @@ class Handler implements HandlerInterface
         bool $pendingOnly = false,
         array $notificationIds = []
     ): array {
-        $notification = $this->mapper->createNotificationFromUpdateStruct($updateStruct);
-        $notification->ownerId = $ownerId;
-
-        return $this->gateway->bulkUpdateUserNotifications($notification, $pendingOnly, $notificationIds);
+        return $this->gateway->bulkUpdateUserNotifications($ownerId, $updateStruct, $pendingOnly, $notificationIds);
     }
 
     /**

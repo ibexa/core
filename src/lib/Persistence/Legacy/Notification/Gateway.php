@@ -10,6 +10,7 @@ namespace Ibexa\Core\Persistence\Legacy\Notification;
 
 use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
+use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 
 abstract class Gateway
@@ -48,7 +49,8 @@ abstract class Gateway
      * @return int[]
      */
     abstract public function bulkUpdateUserNotifications(
-        Notification $notification,
+        int $ownerId,
+        UpdateStruct $updateStruct,
         bool $pendingOnly = false,
         array $notificationIds = []
     ): array;

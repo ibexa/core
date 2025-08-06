@@ -13,6 +13,7 @@ use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
+use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -88,20 +89,17 @@ class DoctrineDatabase extends Gateway
      * @return int[]
      */
     public function bulkUpdateUserNotifications(
-        Notification $notification,
+        int $ownerId,
+        UpdateStruct $updateStruct,
         bool $pendingOnly = false,
         array $notificationIds = []
     ): array {
-        if (!is_int($notification->ownerId)) {
-            throw new InvalidArgumentException('ownerId', 'Cannot bulk update notifications without valid ownerId');
-        }
-
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder
             ->select(self::COLUMN_ID)
             ->from(self::TABLE_NOTIFICATION)
             ->andWhere($queryBuilder->expr()->eq(self::COLUMN_OWNER_ID, ':ownerId'))
-            ->setParameter(':ownerId', $notification->ownerId, ParameterType::INTEGER);
+            ->setParameter(':ownerId', $ownerId, ParameterType::INTEGER);
 
         if ($pendingOnly) {
             $queryBuilder->andWhere($queryBuilder->expr()->eq(self::COLUMN_IS_PENDING, ':isPendingFlag'))
@@ -124,16 +122,18 @@ class DoctrineDatabase extends Gateway
 
         $idsToUpdate = array_map('intval', array_column($rows, self::COLUMN_ID));
 
-        $updateQuery = $this->connection->createQueryBuilder();
-        $updateQuery
-            ->update(self::TABLE_NOTIFICATION)
-            ->set(self::COLUMN_IS_PENDING, ':is_pending')
-            ->andWhere(
-                $updateQuery->expr()->in(self::COLUMN_ID, array_map('strval', $idsToUpdate))
-            )
-            ->setParameter(':is_pending', $notification->isPending, PDO::PARAM_BOOL);
+        if ($updateStruct->isPending !== null) {
+            $updateQuery = $this->connection->createQueryBuilder();
+            $updateQuery
+                ->update(self::TABLE_NOTIFICATION)
+                ->set(self::COLUMN_IS_PENDING, ':is_pending')
+                ->andWhere(
+                    $updateQuery->expr()->in(self::COLUMN_ID, array_map('strval', $idsToUpdate))
+                )
+                ->setParameter(':is_pending', $updateStruct->isPending, PDO::PARAM_BOOL);
 
-        $updateQuery->execute();
+            $updateQuery->execute();
+        }
 
         return $idsToUpdate;
     }

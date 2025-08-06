@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Notification\Gateway;
 use Doctrine\DBAL\FetchMode;
 use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
+use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Type;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway\CriterionHandler\DateCreatedCriterionHandler;
@@ -254,23 +255,24 @@ class DoctrineDatabaseTest extends TestCase
 
     public function testBulkUpdateUserNotifications(): void
     {
-        $notification = new Notification([
-            'ownerId' => self::EXISTING_NOTIFICATION_DATA['owner_id'],
-            'isPending' => false,
-        ]);
+        $ownerId = self::EXISTING_NOTIFICATION_DATA['owner_id'];
 
-        $updatedIds = $this->getGateway()->bulkUpdateUserNotifications($notification);
+        $updateStruct = new UpdateStruct();
+        $updateStruct->isPending = false;
+
+        $updatedIds = $this->getGateway()->bulkUpdateUserNotifications(
+            $ownerId,
+            $updateStruct
+        );
 
         self::assertIsArray($updatedIds);
         self::assertNotEmpty($updatedIds);
 
         foreach ($updatedIds as $id) {
             self::assertIsInt($id);
-        }
 
-        foreach ($updatedIds as $id) {
             $data = $this->loadNotification($id);
-            self::assertEquals('0', (string) $data['is_pending']);
+            self::assertEquals('0', (string) $data['is_pending'], "Notification ID $id should have is_pending = 0");
         }
     }
 }

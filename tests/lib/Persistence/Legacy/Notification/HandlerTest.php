@@ -118,25 +118,15 @@ class HandlerTest extends TestCase
         $updateStruct = new UpdateStruct();
         $updateStruct->isPending = false;
 
-        $notificationFromUpdateStruct = new Notification([
-            'ownerId' => $ownerId,
-            'isPending' => false,
-            'type' => 'TEST',
-            'data' => [],
-        ]);
-
-        $this->mapper
-            ->expects($this->once())
-            ->method('createNotificationFromUpdateStruct')
-            ->with($updateStruct)
-            ->willReturn($notificationFromUpdateStruct);
-
         $this->gateway
             ->expects($this->once())
             ->method('bulkUpdateUserNotifications')
-            ->with($this->callback(static function (Notification $notification) use ($ownerId): bool {
-                return $notification->ownerId === $ownerId;
-            }), false)
+            ->with(
+                $ownerId,
+                $updateStruct,
+                false,
+                []
+            )
             ->willReturn([1, 2, 3]);
 
         $result = $this->handler->bulkUpdateUserNotifications($ownerId, $updateStruct, false);
