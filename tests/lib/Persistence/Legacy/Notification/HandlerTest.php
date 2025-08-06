@@ -134,7 +134,7 @@ class HandlerTest extends TestCase
         $this->gateway
             ->expects($this->once())
             ->method('bulkUpdateUserNotifications')
-            ->with($this->callback(static function (Notification $notification) use ($ownerId) {
+            ->with($this->callback(static function (Notification $notification) use ($ownerId): bool {
                 return $notification->ownerId === $ownerId;
             }), false)
             ->willReturn([1, 2, 3]);
