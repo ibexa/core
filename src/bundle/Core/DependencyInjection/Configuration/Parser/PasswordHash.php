@@ -51,7 +51,7 @@ final class PasswordHash extends AbstractParser
 
                                 return !in_array($hashType, User::SUPPORTED_PASSWORD_HASHES, true);
                             })
-                            ->thenInvalid('Invalid password hash type "%s".')
+                            ->thenInvalid('Invalid password hash type "%s". If you tried to use Argon2, make sure it\'s compiled in PHP.')
                         ->end()
                     ->end()
                     ->booleanNode('update_type_on_change')
