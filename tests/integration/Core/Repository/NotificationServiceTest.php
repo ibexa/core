@@ -28,9 +28,9 @@ class NotificationServiceTest extends BaseTest
         $notificationService = $repository->getNotificationService();
         $notificationList = $notificationService->loadNotifications(0, 25);
 
-        $this->assertIsArray($notificationList->items);
-        $this->assertIsInt($notificationList->totalCount);
-        $this->assertEquals(5, $notificationList->totalCount);
+        self::assertIsArray($notificationList->items);
+        self::assertIsInt($notificationList->totalCount);
+        self::assertEquals(5, $notificationList->totalCount);
     }
 
     public function testFindNotifications(): void
@@ -47,11 +47,11 @@ class NotificationServiceTest extends BaseTest
 
         $notificationList = $notificationService->findNotifications($query);
 
-        $this->assertIsArray($notificationList->items);
-        $this->assertIsInt($notificationList->totalCount);
+        self::assertIsArray($notificationList->items);
+        self::assertIsInt($notificationList->totalCount);
 
         $expectedCount = 3;
-        $this->assertEquals($expectedCount, $notificationList->totalCount);
+        self::assertEquals($expectedCount, $notificationList->totalCount);
     }
 
     public function testGetNotification(): void
@@ -66,7 +66,7 @@ class NotificationServiceTest extends BaseTest
         $notification = $notificationService->getNotification($notificationId);
         /* END: Use Case */
 
-        $this->assertEquals($notificationId, $notification->id);
+        self::assertEquals($notificationId, $notification->id);
     }
 
     public function testMarkUserNotificationsAsRead(): void
@@ -75,12 +75,12 @@ class NotificationServiceTest extends BaseTest
         $notificationService = $repository->getNotificationService();
 
         $pendingCountBefore = $notificationService->getPendingNotificationCount();
-        $this->assertGreaterThan(0, $pendingCountBefore);
+        self::assertGreaterThan(0, $pendingCountBefore);
 
         $notificationService->markUserNotificationsAsRead();
 
         $pendingCountAfter = $notificationService->getPendingNotificationCount();
-        $this->assertEquals(0, $pendingCountAfter);
+        self::assertEquals(0, $pendingCountAfter);
     }
 
     public function testMarkNotificationAsRead(): void
@@ -96,7 +96,7 @@ class NotificationServiceTest extends BaseTest
         $notification = $notificationService->getNotification($notificationId);
         /* END: Use Case */
 
-        $this->assertFalse($notification->isPending);
+        self::assertFalse($notification->isPending);
     }
 
     public function testMarkNotificationAsUnread(): void
@@ -127,7 +127,7 @@ class NotificationServiceTest extends BaseTest
         $notificationPendingCount = $notificationService->getPendingNotificationCount();
         /* END: Use Case */
 
-        $this->assertEquals(3, $notificationPendingCount);
+        self::assertEquals(3, $notificationPendingCount);
     }
 
     public function testGetNotificationCount(): void
@@ -139,7 +139,7 @@ class NotificationServiceTest extends BaseTest
         $notificationCount = $notificationService->getNotificationCount();
         /* END: Use Case */
 
-        $this->assertEquals(5, $notificationCount);
+        self::assertEquals(5, $notificationCount);
     }
 
     public function testDeleteNotification(): void
@@ -181,7 +181,7 @@ class NotificationServiceTest extends BaseTest
         $notification = $notificationService->createNotification($createStruct);
         /* END: Use Case */
 
-        $this->assertGreaterThan(0, $notification->id);
+        self::assertGreaterThan(0, $notification->id);
     }
 
     /**

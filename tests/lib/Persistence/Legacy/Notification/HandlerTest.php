@@ -141,7 +141,7 @@ class HandlerTest extends TestCase
 
         $result = $this->handler->bulkUpdateUserNotifications($ownerId, $updateStruct, false);
 
-        $this->assertEquals([1, 2, 3], $result);
+        self::assertEquals([1, 2, 3], $result);
     }
 
     public function testUpdateNotification()
