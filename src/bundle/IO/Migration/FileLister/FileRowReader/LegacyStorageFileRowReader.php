@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\IO\Migration\FileLister\FileRowReader;
 
@@ -24,7 +25,7 @@ abstract class LegacyStorageFileRowReader implements FileRowReaderInterface
         $this->result = null;
     }
 
-    final public function init()
+    final public function init(): void
     {
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
@@ -35,12 +36,13 @@ abstract class LegacyStorageFileRowReader implements FileRowReaderInterface
 
     /**
      * Returns the table name to store data in.
-     *
-     * @return string
      */
-    abstract protected function getStorageTable();
+    abstract protected function getStorageTable(): string;
 
-    final public function getRow()
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
+    final public function getRow(): ?string
     {
         if (null === $this->result) {
             throw new LogicException('Uninitialized reader. You must call init() before getRow()');
@@ -51,24 +53,20 @@ abstract class LegacyStorageFileRowReader implements FileRowReaderInterface
         return false !== $row ? $this->prependMimeToPath($row['filename'], $row['mime_type']) : null;
     }
 
-    final public function getCount()
+    final public function getCount(): int
     {
         if (null === $this->result) {
             throw new LogicException('Uninitialized reader. You must call init() before getCount()');
         }
 
+        /** @var int<0, max> */
         return $this->result->rowCount();
     }
 
     /**
      * Prepends $path with the first part of the given $mimeType.
-     *
-     * @param string $path
-     * @param string $mimeType
-     *
-     * @return string
      */
-    private function prependMimeToPath($path, $mimeType): string
+    private function prependMimeToPath(string $path, string $mimeType): string
     {
         return substr($mimeType, 0, strpos($mimeType, '/')) . '/' . $path;
     }

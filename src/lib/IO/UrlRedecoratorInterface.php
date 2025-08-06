@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\IO;
 
@@ -12,38 +13,26 @@ namespace Ibexa\Core\IO;
  *
  * ```php
  * $redecorator = new UrlRedecorator(
- *   new Prefix( 'a' ),
- *   new Prefix( 'b' )
+ *   new Prefix('a'),
+ *   new Prefix('b')
  * );
  *
- * $redecorator->redecorateFromSource( 'a/url' );
+ * $redecorator->redecorateFromSource('a/url');
  * // 'b/url'
  *
- * $redecorator->redecorateFromTarget( 'b/url' );
+ * $redecorator->redecorateFromTarget('b/url');
  * // 'a/url'
  * ```
  */
 interface UrlRedecoratorInterface
 {
     /**
-     * Redecorates $uri from source to target.
-     *
-     * @param string $uri
-     *
-     * @return string
-     *
-     * @throws \Ibexa\Core\IO\Exception\InvalidBinaryFileIdException If $uri couldn't be interpreted b y the target decorator
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If $uri couldn't be interpreted by the target decorator
      */
-    public function redecorateFromSource($uri);
+    public function redecorateFromSource(string $uri): string;
 
     /**
-     * Redecorates $uri from source to target.
-     *
-     * @param string $uri
-     *
-     * @return string
-     *
-     * @throws \Ibexa\Core\IO\Exception\InvalidBinaryFileIdException If $uri couldn't be interpreted b y the target decorator
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If $uri couldn't be interpreted by the target decorator
      */
-    public function redecorateFromTarget($uri);
+    public function redecorateFromTarget(string $uri): string;
 }

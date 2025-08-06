@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactory;
 
@@ -13,11 +14,11 @@ use Symfony\Component\DependencyInjection\Reference;
 
 abstract class BaseFlysystemTestCase extends ConfigurationFactoryTestCase
 {
-    private $flysystemAdapterServiceId = 'oneup_flysystem.test_adapter';
+    private string $flysystemAdapterServiceId = 'oneup_flysystem.test_adapter';
 
     private string $filesystemServiceId = 'ibexa.core.io.flysystem.my_test_handler_filesystem';
 
-    public function provideHandlerConfiguration()
+    public function provideHandlerConfiguration(): array
     {
         $this->setDefinition($this->flysystemAdapterServiceId, new Definition());
 
@@ -26,15 +27,15 @@ abstract class BaseFlysystemTestCase extends ConfigurationFactoryTestCase
         ];
     }
 
-    public function provideParentServiceDefinition()
+    public function provideParentServiceDefinition(): Definition
     {
         return new Definition(null, [null]);
     }
 
-    public function validateConfiguredHandler($handlerDefinitionId)
+    public function validateConfiguredHandler(string $handlerServiceId): void
     {
-        self::assertContainerBuilderHasServiceDefinitionWithArgument(
-            $handlerDefinitionId,
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
+            $handlerServiceId,
             0,
             new Reference($this->filesystemServiceId)
         );

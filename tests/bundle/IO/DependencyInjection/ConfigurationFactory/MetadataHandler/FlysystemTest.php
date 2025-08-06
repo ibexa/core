@@ -4,26 +4,21 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactory\MetadataHandler;
 
+use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
 use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory\MetadataHandler\Flysystem;
+use Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactory\BaseFlysystemTestCase;
 
-class FlysystemTest
+final class FlysystemTest extends BaseFlysystemTestCase
 {
-    /**
-     * Returns an instance of the tested factory.
-     *
-     * @return \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory\MetadataHandler\Flysystem
-     */
-    public function provideTestedFactory()
+    public function provideTestedFactory(): ConfigurationFactory
     {
         return new Flysystem();
     }
 
-    /**
-     * Returns the expected parent service id.
-     */
     public function provideExpectedParentServiceId(): string
     {
         return 'ibexa.core.io.metadata_handler.flysystem';

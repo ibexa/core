@@ -12,43 +12,39 @@ use Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileRowReader;
 use Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\IO\IOConfigProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class LegacyStorageImageFileListTest extends TestCase
+/**
+ * @covers \Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList
+ */
+final class LegacyStorageImageFileListTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileRowReader|\PHPUnit\Framework\MockObject\MockObject */
-    protected $rowReaderMock;
+    protected ImageFileRowReader&MockObject $rowReaderMock;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList */
-    protected $fileList;
-
-    /** @var \Ibexa\Core\IO\IOConfigProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $ioConfigResolverMock;
-
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $configResolverMock;
+    protected LegacyStorageImageFileList $fileList;
 
     protected function setUp(): void
     {
         $this->rowReaderMock = $this->createMock(ImageFileRowReader::class);
-        $this->ioConfigResolverMock = $this->createMock(IOConfigProvider::class);
-        $this->ioConfigResolverMock
+        $ioConfigResolverMock = $this->createMock(IOConfigProvider::class);
+        $ioConfigResolverMock
             ->method('getLegacyUrlPrefix')
             ->willReturn('var/ibexa_demo_site/storage');
-        $this->configResolverMock = $this->createMock(ConfigResolverInterface::class);
-        $this->configResolverMock
+        $configResolverMock = $this->createMock(ConfigResolverInterface::class);
+        $configResolverMock
             ->method('getParameter')
             ->with('image.published_images_dir')
             ->willReturn('images');
 
         $this->fileList = new LegacyStorageImageFileList(
             $this->rowReaderMock,
-            $this->ioConfigResolverMock,
-            $this->configResolverMock
+            $ioConfigResolverMock,
+            $configResolverMock
         );
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $expected = [
             'path/to/1st/image.jpg',
@@ -62,9 +58,9 @@ class LegacyStorageImageFileListTest extends TestCase
     }
 
     /**
-     * Tests that the iterator transforms the ezimagefile value into a binaryfile id.
+     * Tests that the iterator transforms the ibexa_image_file value into a binary file id.
      */
-    public function testImageIdTransformation()
+    public function testImageIdTransformation(): void
     {
         $this->configureRowReaderMock(['var/ibexa_demo_site/storage/images/path/to/1st/image.jpg']);
         foreach ($this->fileList as $file) {
@@ -72,11 +68,26 @@ class LegacyStorageImageFileListTest extends TestCase
         }
     }
 
-    private function configureRowReaderMock(array $fileList)
+    /**
+     * @param string[] $fileList
+     */
+    private function configureRowReaderMock(array $fileList): void
     {
-        $mockInvocator = $this->rowReaderMock->expects(self::any())->method('getRow');
-        call_user_func_array([$mockInvocator, 'willReturnOnConsecutiveCalls'], $fileList);
+        $fileListCount = count($fileList);
+        // iterator will try to invoke methods one more time to establish its end
+        $expectedIteratorInvocationsCount = $fileListCount + 1;
 
-        $this->rowReaderMock->expects(self::any())->method('getCount')->willReturn(count($fileList));
+        $index = 0;
+        $this->rowReaderMock
+            ->expects(self::exactly($expectedIteratorInvocationsCount))
+            ->method('getRow')
+            ->willReturnCallback(static function () use (&$index, $fileList): ?string {
+                return $fileList[$index++] ?? null;
+            });
+
+        $this->rowReaderMock
+            ->expects(self::exactly($expectedIteratorInvocationsCount))
+            ->method('getCount')
+            ->willReturn($fileListCount);
     }
 }

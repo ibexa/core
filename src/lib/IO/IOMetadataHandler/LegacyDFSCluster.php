@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\IO\IOMetadataHandler;
 
@@ -12,7 +13,6 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Ibexa\Contracts\Core\IO\BinaryFile as SPIBinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
-use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\IOMetadataHandler;
 use Ibexa\Core\IO\UrlDecorator;
@@ -21,20 +21,20 @@ use Ibexa\Core\IO\UrlDecorator;
  * Manages IO metadata in a mysql table, ibexa_dfs_file.
  *
  * It will prevent simultaneous writes to the same file.
+ *
+ * @phpstan-type TLegacyDFSBinaryFileData array{id: string, name_hash: string, name: string, name_trunk: string, datatype: string, scope: string, size: int, mtime: int, expired: bool, status: bool}
  */
 class LegacyDFSCluster implements IOMetadataHandler
 {
     public const string DFS_FILE_TABLE = 'ibexa_dfs_file';
 
-    /** @var \Doctrine\DBAL\Connection */
-    private $db;
+    private Connection $db;
 
-    /** @var \Ibexa\Core\IO\UrlDecorator */
-    private $urlDecorator;
+    private ?UrlDecorator $urlDecorator;
 
     /**
      * @param \Doctrine\DBAL\Connection $connection Doctrine DBAL connection
-     * @param \Ibexa\Core\IO\UrlDecorator $urlDecorator The URL decorator used to add a prefix to files path
+     * @param \Ibexa\Core\IO\UrlDecorator|null $urlDecorator The URL decorator used to add a prefix to files path
      */
     public function __construct(Connection $connection, UrlDecorator $urlDecorator = null)
     {
@@ -49,18 +49,11 @@ class LegacyDFSCluster implements IOMetadataHandler
      *
      * @return \Ibexa\Contracts\Core\IO\BinaryFile
      *
-     *@throws \RuntimeException if a DBAL error occurs
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException if the $binaryFileCreateStruct is invalid
-     *
-     * @since 6.10 The mtime of the $binaryFileCreateStruct must be a DateTime, as specified in the struct doc.
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function create(SPIBinaryFileCreateStruct $spiBinaryFileCreateStruct)
+    public function create(SPIBinaryFileCreateStruct $spiBinaryFileCreateStruct): SPIBinaryFile
     {
-        if (!($spiBinaryFileCreateStruct->mtime instanceof DateTime)) {
-            throw new InvalidArgumentException('$binaryFileCreateStruct', 'Property \'mtime\' must be a DateTime');
-        }
-
-        $path = (string)$this->addPrefix($spiBinaryFileCreateStruct->id);
+        $path = $this->addPrefix($spiBinaryFileCreateStruct->id);
         $params = [
             'name' => $path,
             'name_hash' => md5($path),
@@ -90,13 +83,14 @@ class LegacyDFSCluster implements IOMetadataHandler
     /**
      * Deletes file $spiBinaryFileId.
      *
-     * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException If $spiBinaryFileId is not found
+     * @param string $binaryFileId
      *
-     * @param string $spiBinaryFileId
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException If $spiBinaryFileId is not found
      */
-    public function delete($spiBinaryFileId)
+    public function delete(string $binaryFileId): void
     {
-        $path = (string)$this->addPrefix($spiBinaryFileId);
+        $path = (string)$this->addPrefix($binaryFileId);
 
         // Unlike the legacy cluster, the file is directly deleted. It was inherited from the DB cluster anyway
         $affectedRows = (int)$this->db->delete(self::DFS_FILE_TABLE, [
@@ -112,16 +106,13 @@ class LegacyDFSCluster implements IOMetadataHandler
     /**
      * Loads and returns metadata for $spiBinaryFileId.
      *
-     * @param string $spiBinaryFileId
-     *
-     * @return \Ibexa\Contracts\Core\IO\BinaryFile
-     *
+     * @throws \DateMalformedStringException
      * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException if no row is found for $spiBinaryFileId
      * @throws \Doctrine\DBAL\Exception Any unhandled DBAL exception
      */
-    public function load($spiBinaryFileId)
+    public function load(string $spiBinaryFileId): SPIBinaryFile
     {
-        $path = (string)$this->addPrefix($spiBinaryFileId);
+        $path = $this->addPrefix($spiBinaryFileId);
 
         $queryBuilder = $this->db->createQueryBuilder();
         $result = $queryBuilder
@@ -148,6 +139,7 @@ class LegacyDFSCluster implements IOMetadataHandler
             throw new BinaryFileNotFoundException($path);
         }
 
+        /** @phpstan-var TLegacyDFSBinaryFileData $row */
         $row = $result->fetchAssociative() + ['id' => $spiBinaryFileId];
 
         return $this->mapArrayToSPIBinaryFile($row);
@@ -156,16 +148,11 @@ class LegacyDFSCluster implements IOMetadataHandler
     /**
      * Checks if a file $spiBinaryFileId exists.
      *
-     * @param string $spiBinaryFileId
-     *
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
      * @throws \Doctrine\DBAL\Exception Any unhandled DBAL exception
-     *
-     * @return bool
      */
-    public function exists($spiBinaryFileId): bool
+    public function exists(string $spiBinaryFileId): bool
     {
-        $path = (string)$this->addPrefix($spiBinaryFileId);
+        $path = $this->addPrefix($spiBinaryFileId);
 
         $queryBuilder = $this->db->createQueryBuilder();
         $result = $queryBuilder
@@ -191,12 +178,7 @@ class LegacyDFSCluster implements IOMetadataHandler
         return $result->rowCount() === 1;
     }
 
-    /**
-     * @param \Ibexa\Contracts\Core\IO\BinaryFileCreateStruct $binaryFileCreateStruct
-     *
-     * @return mixed
-     */
-    protected function getNameTrunk(SPIBinaryFileCreateStruct $binaryFileCreateStruct)
+    protected function getNameTrunk(SPIBinaryFileCreateStruct $binaryFileCreateStruct): string
     {
         return $this->addPrefix($binaryFileCreateStruct->id);
     }
@@ -215,25 +197,14 @@ class LegacyDFSCluster implements IOMetadataHandler
     {
         [$filePrefix] = explode('/', $binaryFileCreateStruct->id);
 
-        switch ($filePrefix) {
-            case 'images':
-                return 'image';
-
-            case 'original':
-                return 'binaryfile';
-        }
-
-        return 'UNKNOWN_SCOPE';
+        return match ($filePrefix) {
+            'images' => 'image',
+            'original' => 'binaryfile',
+            default => 'UNKNOWN_SCOPE',
+        };
     }
 
-    /**
-     * Adds the internal prefix string to $id.
-     *
-     * @param string $id
-     *
-     * @return string prefixed id
-     */
-    protected function addPrefix($id)
+    protected function addPrefix(string $id): string
     {
         return isset($this->urlDecorator) ? $this->urlDecorator->decorate($id) : $id;
     }
@@ -241,18 +212,18 @@ class LegacyDFSCluster implements IOMetadataHandler
     /**
      * Removes the internal prefix string from $prefixedId.
      *
-     * @param string $prefixedId
-     *
      * @return string the id without the prefix
-     *
-     * @throws \Ibexa\Core\IO\Exception\InvalidBinaryFileIdException if the prefix isn't found in $prefixedId
      */
-    protected function removePrefix($prefixedId)
+    protected function removePrefix(string $prefixedId): string
     {
         return isset($this->urlDecorator) ? $this->urlDecorator->undecorate($prefixedId) : $prefixedId;
     }
 
-    public function getMimeType($spiBinaryFileId)
+    /**
+     * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function getMimeType(string $spiBinaryFileId): string
     {
         $queryBuilder = $this->db->createQueryBuilder();
         $result = $queryBuilder
@@ -265,10 +236,11 @@ class LegacyDFSCluster implements IOMetadataHandler
             ->executeQuery()
         ;
 
-        if ($result->rowCount() == 0) {
+        if ($result->rowCount() === 0) {
             throw new BinaryFileNotFoundException($spiBinaryFileId);
         }
 
+        /** @var array{datatype: string} $row */
         $row = $result->fetchAssociative();
 
         return $row['datatype'];
@@ -277,9 +249,11 @@ class LegacyDFSCluster implements IOMetadataHandler
     /**
      * Delete directory and all the content under specified directory.
      *
-     * @param string $spiPath SPI Path, not prefixed by URL decoration
+     * @param string $path persistence path, not prefixed by URL decoration
+     *
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function deleteDirectory($spiPath)
+    public function deleteDirectory(string $path): void
     {
         $query = $this->db->createQueryBuilder();
         $query
@@ -288,19 +262,19 @@ class LegacyDFSCluster implements IOMetadataHandler
             ->setParameter('esc', '\\')
             ->setParameter(
                 'spiPath',
-                addcslashes($this->addPrefix(rtrim($spiPath, '/')), '%_') . '/%'
+                addcslashes($this->addPrefix(rtrim($path, '/')), '%_') . '/%'
             );
         $query->executeStatement();
     }
 
     /**
-     * Maps an array of data base properties (id, size, mtime, datatype, md5_path, path...) to an SPIBinaryFile object.
+     * Maps an array of database properties (id, size, mtime, datatype, md5_path, path...) to an SPIBinaryFile object.
      *
-     * @param array $properties database properties array
+     * @param array{id: string, size: int, mtime: int} $properties database properties array
      *
-     * @return \Ibexa\Contracts\Core\IO\BinaryFile
+     * @throws \DateMalformedStringException
      */
-    protected function mapArrayToSPIBinaryFile(array $properties)
+    protected function mapArrayToSPIBinaryFile(array $properties): SPIBinaryFile
     {
         $spiBinaryFile = new SPIBinaryFile();
         $spiBinaryFile->id = $properties['id'];
@@ -310,12 +284,7 @@ class LegacyDFSCluster implements IOMetadataHandler
         return $spiBinaryFile;
     }
 
-    /**
-     * @param \Ibexa\Contracts\Core\IO\BinaryFileCreateStruct $binaryFileCreateStruct
-     *
-     * @return \Ibexa\Contracts\Core\IO\BinaryFile
-     */
-    protected function mapSPIBinaryFileCreateStructToSPIBinaryFile(SPIBinaryFileCreateStruct $binaryFileCreateStruct)
+    protected function mapSPIBinaryFileCreateStructToSPIBinaryFile(SPIBinaryFileCreateStruct $binaryFileCreateStruct): SPIBinaryFile
     {
         $spiBinaryFile = new SPIBinaryFile();
         $spiBinaryFile->id = $binaryFileCreateStruct->id;

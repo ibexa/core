@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\Image\IO;
 
@@ -25,42 +26,35 @@ use Ibexa\Core\IO\Values\MissingBinaryFile;
  * and on exception, will fall back to the draft IOService.
  *
  * In addition, loadBinaryFile() will also hide the need to explicitly call getExternalPath()
- * on  the internal path stored in legacy.
+ * on the internal path stored in legacy.
+ *
+ * @internal
  */
 class Legacy implements IOServiceInterface
 {
     /**
      * Published images IO Service.
-     *
-     * @var \Ibexa\Core\IO\IOServiceInterface
      */
-    private $publishedIOService;
+    private IOServiceInterface $publishedIOService;
 
     /**
      * Draft images IO Service.
-     *
-     * @var \Ibexa\Core\IO\IOServiceInterface
      */
-    private $draftIOService;
+    private IOServiceInterface $draftIOService;
 
     /**
      * Prefix for published images.
      * Example: var/ibexa_demo_site/storage/images.
-     *
-     * @var string
      */
-    private $publishedPrefix;
+    private string $publishedPrefix;
 
     /**
      * Prefix for draft images.
      * Example: var/ibexa_demo_site/storage/images-versioned.
-     *
-     * @var string
      */
-    private $draftPrefix;
+    private string $draftPrefix;
 
-    /** @var \Ibexa\Core\FieldType\Image\IO\OptionsProvider */
-    private $optionsProvider;
+    private OptionsProvider $optionsProvider;
 
     /**
      * @param \Ibexa\Core\FieldType\Image\IO\OptionsProvider $optionsProvider Path options. Known keys: var_dir, storage_dir, draft_images_dir, published_images_dir.
@@ -70,8 +64,11 @@ class Legacy implements IOServiceInterface
      * @throws \Symfony\Component\OptionsResolver\Exception\MissingOptionsException
      *         If a required option is missing.
      */
-    public function __construct(IOServiceInterface $publishedIOService, IOServiceInterface $draftIOService, OptionsProvider $optionsProvider)
-    {
+    public function __construct(
+        IOServiceInterface $publishedIOService,
+        IOServiceInterface $draftIOService,
+        OptionsProvider $optionsProvider
+    ) {
         $this->publishedIOService = $publishedIOService;
         $this->draftIOService = $draftIOService;
         $this->optionsProvider = $optionsProvider;
@@ -81,7 +78,7 @@ class Legacy implements IOServiceInterface
     /**
      * Sets the IOService prefix.
      */
-    public function setPrefix($prefix)
+    public function setPrefix(string $prefix): void
     {
         $this->publishedIOService->setPrefix($prefix);
         $this->draftIOService->setPrefix($prefix);
@@ -90,7 +87,7 @@ class Legacy implements IOServiceInterface
     /**
      * Computes the paths to published & draft images path using the options from the provider.
      */
-    private function setPrefixes()
+    private function setPrefixes(): void
     {
         $pathArray = [$this->optionsProvider->getVarDir()];
 
@@ -103,17 +100,17 @@ class Legacy implements IOServiceInterface
         $this->publishedPrefix = implode('/', array_merge($pathArray, [$this->optionsProvider->getPublishedImagesDir()]));
     }
 
-    public function newBinaryCreateStructFromLocalFile($localFile)
+    public function newBinaryCreateStructFromLocalFile(string $localFile): BinaryFileCreateStruct
     {
         return $this->publishedIOService->newBinaryCreateStructFromLocalFile($localFile);
     }
 
-    public function exists($binaryFileId)
+    public function exists(string $binaryFileId): bool
     {
         return $this->publishedIOService->exists($binaryFileId);
     }
 
-    public function loadBinaryFile($binaryFileId)
+    public function loadBinaryFile(string $binaryFileId): BinaryFile
     {
         // If the id is an internal (absolute) path to a draft image, use the draft service to get external path & load
         if ($this->isDraftImagePath($binaryFileId)) {
@@ -145,8 +142,10 @@ class Legacy implements IOServiceInterface
 
     /**
      * Since both services should use the same uri, we can use any of them to *GET* the URI.
+     *
+     * {@inheritDoc}
      */
-    public function loadBinaryFileByUri($binaryFileUri)
+    public function loadBinaryFileByUri(string $binaryFileUri): BinaryFile
     {
         try {
             $image = $this->publishedIOService->loadBinaryFileByUri($binaryFileUri);
@@ -166,7 +165,7 @@ class Legacy implements IOServiceInterface
         }
     }
 
-    public function getFileContents(BinaryFile $binaryFile)
+    public function getFileContents(BinaryFile $binaryFile): string
     {
         if ($this->draftIOService->exists($binaryFile->id)) {
             return $this->draftIOService->getFileContents($binaryFile);
@@ -175,17 +174,17 @@ class Legacy implements IOServiceInterface
         return $this->publishedIOService->getFileContents($binaryFile);
     }
 
-    public function createBinaryFile(BinaryFileCreateStruct $binaryFileCreateStruct)
+    public function createBinaryFile(BinaryFileCreateStruct $binaryFileCreateStruct): BinaryFile
     {
         return $this->publishedIOService->createBinaryFile($binaryFileCreateStruct);
     }
 
-    public function getUri($binaryFileId)
+    public function getUri(string $binaryFileId): string
     {
         return $this->publishedIOService->getUri($binaryFileId);
     }
 
-    public function getMimeType($binaryFileId)
+    public function getMimeType(string $binaryFileId): ?string
     {
         // If the id is an internal (absolute) path to a draft image, use the draft service to get external path & load
         if ($this->isDraftImagePath($binaryFileId)) {
@@ -206,12 +205,12 @@ class Legacy implements IOServiceInterface
         return $this->publishedIOService->getMimeType($binaryFileId);
     }
 
-    public function getFileInputStream(BinaryFile $binaryFile)
+    public function getFileInputStream(BinaryFile $binaryFile): mixed
     {
         return $this->publishedIOService->getFileInputStream($binaryFile);
     }
 
-    public function deleteBinaryFile(BinaryFile $binaryFile)
+    public function deleteBinaryFile(BinaryFile $binaryFile): void
     {
         $this->publishedIOService->deleteBinaryFile($binaryFile);
     }
@@ -221,12 +220,12 @@ class Legacy implements IOServiceInterface
      *
      * @param string $path
      */
-    public function deleteDirectory($path)
+    public function deleteDirectory(string $path): void
     {
         $this->publishedIOService->deleteDirectory($path);
     }
 
-    public function newBinaryCreateStructFromUploadedFile(array $uploadedFile)
+    public function newBinaryCreateStructFromUploadedFile(array $uploadedFile): BinaryFileCreateStruct
     {
         return $this->publishedIOService->newBinaryCreateStructFromUploadedFile($uploadedFile);
     }
@@ -234,24 +233,20 @@ class Legacy implements IOServiceInterface
     /**
      * Checks if $internalPath is a published image path.
      *
-     * @param string $internalPath
-     *
      * @return bool true if $internalPath is the path to a published image
      */
-    protected function isPublishedImagePath($internalPath): bool
+    protected function isPublishedImagePath(string $internalPath): bool
     {
-        return strpos($internalPath, $this->publishedPrefix) === 0;
+        return str_starts_with($internalPath, $this->publishedPrefix);
     }
 
     /**
-     * Checks if $internalPath is a published image path.
+     * Checks if $internalPath is a draft image path.
      *
-     * @param string $internalPath
-     *
-     * @return bool true if $internalPath is the path to a published image
+     * @return bool true if $internalPath is the path to a draft image
      */
-    protected function isDraftImagePath($internalPath): bool
+    protected function isDraftImagePath(string $internalPath): bool
     {
-        return strpos($internalPath, $this->draftPrefix) === 0;
+        return str_starts_with($internalPath, $this->draftPrefix);
     }
 }

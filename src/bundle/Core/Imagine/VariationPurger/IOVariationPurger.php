@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine\VariationPurger;
 
@@ -11,6 +12,8 @@ use Ibexa\Bundle\Core\Imagine\Cache\AliasGeneratorDecorator;
 use Ibexa\Contracts\Core\Variation\VariationPurger;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 
 /**
@@ -18,22 +21,17 @@ use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
  *
  * Depends on aliases being stored in their own folder, with each alias folder mirroring the original files structure.
  */
-class IOVariationPurger implements VariationPurger
+class IOVariationPurger implements VariationPurger, LoggerAwareInterface
 {
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
-    private $io;
+    use LoggerAwareTrait;
 
-    /** @var \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface */
-    private $cache;
+    private IOServiceInterface $io;
 
-    /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface */
-    private $cacheIdentifierGenerator;
+    private TagAwareAdapterInterface $cache;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Cache\AliasGeneratorDecorator */
-    private $aliasGeneratorDecorator;
+    private CacheIdentifierGeneratorInterface $cacheIdentifierGenerator;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private AliasGeneratorDecorator $aliasGeneratorDecorator;
 
     public function __construct(
         IOServiceInterface $io,
@@ -45,14 +43,6 @@ class IOVariationPurger implements VariationPurger
         $this->cache = $cache;
         $this->cacheIdentifierGenerator = $cacheIdentifierGenerator;
         $this->aliasGeneratorDecorator = $aliasGeneratorDecorator;
-    }
-
-    /**
-     * @param \Psr\Log\LoggerInterface $logger
-     */
-    public function setLogger($logger)
-    {
-        $this->logger = $logger;
     }
 
     public function purge(array $aliasNames): void

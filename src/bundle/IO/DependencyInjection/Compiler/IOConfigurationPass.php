@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\IO\DependencyInjection\Compiler;
 
@@ -14,62 +15,53 @@ use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * @todo Refactor into two passes, since they're very very close.
+ * @internal
+ *
+ * @phpstan-import-type THandlerConfigurationFactoryList from \Ibexa\Bundle\IO\DependencyInjection\Configuration
  */
-class IOConfigurationPass implements CompilerPassInterface
+final readonly class IOConfigurationPass implements CompilerPassInterface
 {
-    /** @var \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory[]|\ArrayObject */
-    private $metadataHandlerFactories;
-
-    /** @var \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory[]|\ArrayObject */
-    private $binarydataHandlerFactories;
-
+    /**
+     * @phpstan-param THandlerConfigurationFactoryList $metadataHandlerFactories
+     * @phpstan-param THandlerConfigurationFactoryList $binarydataHandlerFactories
+     */
     public function __construct(
-        ArrayObject $metadataHandlerFactories = null,
-        ArrayObject $binarydataHandlerFactories = null
+        private ArrayObject $metadataHandlerFactories,
+        private ArrayObject $binarydataHandlerFactories
     ) {
-        $this->metadataHandlerFactories = $metadataHandlerFactories;
-        $this->binarydataHandlerFactories = $binarydataHandlerFactories;
     }
 
     public function process(ContainerBuilder $container): void
     {
-        $ioMetadataHandlers = $container->hasParameter('ibexa.io.metadata_handlers') ?
-            $container->getParameter('ibexa.io.metadata_handlers') :
-            [];
-        $this->processHandlers(
+        $this->processHandlerFactories(
             $container,
-            $container->getDefinition('ibexa.core.io.metadata_handler.registry'),
-            $ioMetadataHandlers,
             $this->metadataHandlerFactories,
+            'ibexa.io.metadata_handlers',
+            'ibexa.core.io.metadata_handler.registry',
             'ibexa.core.io.metadata_handler.flysystem.default'
         );
 
-        $ioBinarydataHandlers = $container->hasParameter('ibexa.io.binarydata_handlers') ?
-            $container->getParameter('ibexa.io.binarydata_handlers') :
-            [];
-        $this->processHandlers(
+        $this->processHandlerFactories(
             $container,
-            $container->getDefinition('ibexa.core.io.binarydata_handler.registry'),
-            $ioBinarydataHandlers,
             $this->binarydataHandlerFactories,
+            'ibexa.io.binarydata_handlers',
+            'ibexa.core.io.binarydata_handler.registry',
             'ibexa.core.io.binarydata_handler.flysystem.default'
         );
-
-        // Unset parameters that are no longer required ?
     }
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      * @param \Symfony\Component\DependencyInjection\Definition $factory The factory service that should receive the list of handlers
-     * @param array $configuredHandlers Handlers configuration declared via semantic config
-     * @param \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory[]|\ArrayObject $factories Map of alias => handler service id
+     * @param array<string, mixed> $configuredHandlers Handlers configuration declared via semantic config
      * @param string $defaultHandler default handler id
+     *
+     * @phpstan-param THandlerConfigurationFactoryList $factories Map of alias => handler service id
      */
-    protected function processHandlers(
+    private function processHandlers(
         ContainerBuilder $container,
         Definition $factory,
         array $configuredHandlers,
@@ -97,15 +89,47 @@ class IOConfigurationPass implements CompilerPassInterface
     /**
      * Returns from $factories the factory for handler $type.
      *
-     * @param \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory[]|\ArrayObject $factories
-     * @param string $type
+     * @phpstan-param THandlerConfigurationFactoryList $factories
      */
-    protected function getFactory(ArrayObject $factories, string $type): ConfigurationFactory
+    private function getFactory(ArrayObject $factories, string $type): ConfigurationFactory
     {
         if (!isset($factories[$type])) {
             throw new InvalidConfigurationException("Unknown handler type $type");
         }
 
         return $factories[$type];
+    }
+
+    /**
+     * @phpstan-param THandlerConfigurationFactoryList $ioHandlerConfigurationFactories
+     */
+    private function processHandlerFactories(
+        ContainerBuilder $container,
+        ArrayObject $ioHandlerConfigurationFactories,
+        string $handlerListParameterName,
+        string $registryServiceID,
+        string $defaultFlysystemServiceID
+    ): void {
+        $ioHandlerList = [];
+        if ($container->hasParameter($handlerListParameterName)) {
+            $ioHandlerList = $container->getParameter($handlerListParameterName);
+        }
+        if (!is_array($ioHandlerList)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Parameter \'%s\' must be an array, %s given',
+                    $handlerListParameterName,
+                    get_debug_type($ioHandlerList)
+                )
+            );
+        }
+
+        $this->processHandlers(
+            $container,
+            $container->getDefinition($registryServiceID),
+            $ioHandlerList,
+            $ioHandlerConfigurationFactories,
+            $defaultFlysystemServiceID
+        );
     }
 }

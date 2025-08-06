@@ -14,8 +14,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
  */
 class OptionsProvider
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    protected $configResolver;
+    protected ConfigResolverInterface $configResolver;
 
     public function __construct(ConfigResolverInterface $configResolver)
     {
@@ -29,22 +28,22 @@ class OptionsProvider
             : null;
     }
 
-    public function getVarDir()
+    public function getVarDir(): ?string
     {
         return $this->getSetting('var_dir');
     }
 
-    public function getStorageDir()
+    public function getStorageDir(): ?string
     {
         return $this->getSetting('storage_dir');
     }
 
-    public function getDraftImagesDir()
+    public function getDraftImagesDir(): ?string
     {
         return $this->getSetting('image.versioned_images_dir');
     }
 
-    public function getPublishedImagesDir()
+    public function getPublishedImagesDir(): ?string
     {
         return $this->getSetting('image.published_images_dir');
     }

@@ -4,13 +4,15 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine\VariationPurger;
 
 use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
 use Ibexa\Contracts\Core\Variation\VariationPurger;
 use Ibexa\Core\IO\IOServiceInterface;
-use Iterator;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 
 /**
  * Purges image aliases based on image files referenced by the Image FieldType.
@@ -18,25 +20,15 @@ use Iterator;
  * It uses an ImageFileList iterator that lists original images, and the variationPathGenerator + IOService to remove
  * aliases if they exist.
  */
-class ImageFileVariationPurger implements VariationPurger
+class ImageFileVariationPurger implements VariationPurger, LoggerAwareInterface
 {
-    /** @var ImageFileList */
-    private $imageFileList;
+    use LoggerAwareTrait;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
-    private $ioService;
-
-    /** @var \Ibexa\Contracts\Core\Variation\VariationPathGenerator */
-    private $variationPathGenerator;
-
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
-
-    public function __construct(Iterator $imageFileList, IOServiceInterface $ioService, VariationPathGenerator $variationPathGenerator)
-    {
-        $this->imageFileList = $imageFileList;
-        $this->ioService = $ioService;
-        $this->variationPathGenerator = $variationPathGenerator;
+    public function __construct(
+        private readonly ImageFileList $imageFileList,
+        private readonly IOServiceInterface $ioService,
+        private readonly VariationPathGenerator $variationPathGenerator
+    ) {
     }
 
     public function purge(array $aliasNames): void
@@ -55,13 +47,5 @@ class ImageFileVariationPurger implements VariationPurger
                 }
             }
         }
-    }
-
-    /**
-     * @param \Psr\Log\LoggerInterface $logger
-     */
-    public function setLogger($logger)
-    {
-        $this->logger = $logger;
     }
 }

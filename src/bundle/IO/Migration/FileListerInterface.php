@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\IO\Migration;
 
@@ -14,7 +15,7 @@ interface FileListerInterface extends MigrationHandlerInterface
      *
      * @return int|null Number of files, or null if they cannot be counted
      */
-    public function countFiles();
+    public function countFiles(): ?int;
 
     /**
      * Loads and returns metadata for files, optionally limited by $limit and $offset.
@@ -24,5 +25,5 @@ interface FileListerInterface extends MigrationHandlerInterface
      *
      * @return \Ibexa\Contracts\Core\IO\BinaryFile[]
      */
-    public function loadMetadataList($limit = null, $offset = null);
+    public function loadMetadataList(?int $limit = null, ?int $offset = null): array;
 }

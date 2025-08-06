@@ -4,8 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\IO;
+
+use DateTimeInterface;
 
 /**
  * Create struct for BinaryFile objects.
@@ -14,45 +17,39 @@ class BinaryFileCreateStruct
 {
     /**
      * File size, in bytes.
-     *
-     * @var int
      */
-    public $size;
+    public int $size;
 
     /**
      * File modification time.
-     *
-     * @var \DateTime
      */
-    public $mtime;
+    public DateTimeInterface $mtime;
 
     /**
-     * The file's mime type
+     * The file's mime type.
+     *
      * If not provided, will be auto-detected by the IOService
      * Example: text/xml.
-     *
-     * @var string
      */
-    public $mimeType;
+    public string $mimeType;
 
     /**
-     * Unique identifier for this file
+     * Unique identifier for this file.
+     *
      * Ex: images/media/images/ibexa-logo/209-1-eng-GB/Ibexa-Logo.gif,
      *     or original/application/2b042138835bb5f48beb9c9df6e86de4.pdf.
-     *
-     * @var mixed
      */
-    public $id;
+    public string $id;
 
     /** @var resource */
-    private $inputStream;
+    private mixed $inputStream;
 
     /**
      * Returns the file's input resource.
      *
      * @return resource
      */
-    public function getInputStream()
+    public function getInputStream(): mixed
     {
         return $this->inputStream;
     }
@@ -62,7 +59,7 @@ class BinaryFileCreateStruct
      *
      * @param resource $inputStream
      */
-    public function setInputStream($inputStream)
+    public function setInputStream(mixed $inputStream): void
     {
         $this->inputStream = $inputStream;
     }

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\IO;
 
@@ -12,7 +13,8 @@ use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\Exception\InvalidBinaryAbsolutePathException;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\MissingBinaryFile;
-use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 
 /**
  * An extended IOService that tolerates physically missing files.
@@ -20,56 +22,35 @@ use Psr\Log\LoggerInterface;
  * Meant to be used on a "broken" instance where the storage directory isn't in sync with the database.
  *
  * Note that it will still return false when exists() is used.
+ *
+ * @internal
  */
-class TolerantIOService extends IOService
+class TolerantIOService extends IOService implements LoggerAwareInterface
 {
-    /** @var \Psr\Log\LoggerInterface */
-    protected $logger;
+    use LoggerAwareTrait;
 
-    public function setLogger(LoggerInterface $logger = null)
-    {
-        $this->logger = $logger;
-    }
-
-    /**
-     * Deletes $binaryFile.
-     *
-     * @param \Ibexa\Core\IO\Values\BinaryFile $binaryFile
-     *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue If the binary file is invalid
-     * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException If the binary file isn't found
-     */
-    public function deleteBinaryFile(BinaryFile $binaryFile)
+    public function deleteBinaryFile(BinaryFile $binaryFile): void
     {
         $this->checkBinaryFileId($binaryFile->id);
         $spiUri = $this->getPrefixedUri($binaryFile->id);
 
         try {
             $this->metadataHandler->delete($spiUri);
-        } catch (BinaryFileNotFoundException $e) {
+        } catch (BinaryFileNotFoundException) {
             $this->logMissingFile($binaryFile->uri);
             $logged = true;
         }
 
         try {
             $this->binarydataHandler->delete($spiUri);
-        } catch (BinaryFileNotFoundException $e) {
+        } catch (BinaryFileNotFoundException) {
             if (!isset($logged)) {
                 $this->logMissingFile($binaryFile->uri);
             }
         }
     }
 
-    /**
-     * Loads the binary file with $binaryFileId.
-     *
-     * @param string $binaryFileId
-     *
-     * @return \Ibexa\Core\IO\Values\BinaryFile|\Ibexa\Core\IO\Values\MissingBinaryFile
-     *
-     * @throws \Ibexa\Core\IO\Exception\InvalidBinaryAbsolutePathException
-     */
-    public function loadBinaryFile($binaryFileId)
+    public function loadBinaryFile(string $binaryFileId): BinaryFile
     {
         $this->checkBinaryFileId($binaryFileId);
 
@@ -79,7 +60,7 @@ class TolerantIOService extends IOService
 
         try {
             $spiBinaryFile = $this->metadataHandler->load($this->getPrefixedUri($binaryFileId));
-        } catch (BinaryFileNotFoundException $e) {
+        } catch (BinaryFileNotFoundException) {
             $this->logMissingFile($binaryFileId);
 
             return new MissingBinaryFile([
@@ -95,7 +76,7 @@ class TolerantIOService extends IOService
         return $this->buildDomainBinaryFileObject($spiBinaryFile);
     }
 
-    public function loadBinaryFileByUri($binaryFileUri)
+    public function loadBinaryFileByUri(string $binaryFileUri): BinaryFile
     {
         $binaryFileId = $this->binarydataHandler->getIdFromUri($binaryFileUri);
         try {
@@ -111,7 +92,7 @@ class TolerantIOService extends IOService
 
         try {
             return $this->loadBinaryFile($binaryFileId);
-        } catch (BinaryFileNotFoundException $e) {
+        } catch (BinaryFileNotFoundException) {
             $this->logMissingFile($binaryFileUri);
 
             return new MissingBinaryFile([
@@ -121,11 +102,8 @@ class TolerantIOService extends IOService
         }
     }
 
-    private function logMissingFile($id)
+    private function logMissingFile(string $id): void
     {
-        if (!isset($this->logger)) {
-            return;
-        }
-        $this->logger->info("BinaryFile with id $id not found");
+        $this->logger?->info("BinaryFile with id $id not found");
     }
 }
