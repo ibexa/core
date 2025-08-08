@@ -9,11 +9,13 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Repository\User;
 
 use Ibexa\Contracts\Core\Repository\Values\User\User;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider;
 use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
 use Ibexa\Core\Repository\User\PasswordHashService;
-use PHPUnit\Framework\TestCase;
+use Ibexa\Tests\Bundle\Core\ApiLoader\BaseRepositoryConfigurationProviderTestCase;
 
-final class PasswordHashServiceTest extends TestCase
+final class PasswordHashServiceTest extends BaseRepositoryConfigurationProviderTestCase
 {
     private const int NON_EXISTING_PASSWORD_HASH = PHP_INT_MAX;
 
@@ -21,7 +23,13 @@ final class PasswordHashServiceTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->passwordHashService = new PasswordHashService();
+        $repositories = [
+            'legacy' => $this->buildNormalizedSingleRepositoryConfig('legacy'),
+        ];
+
+        $configResolver = $this->createMock(ConfigResolverInterface::class);
+        $repositoryConfigurationProvider = new RepositoryConfigurationProvider($configResolver, $repositories);
+        $this->passwordHashService = new PasswordHashService($repositoryConfigurationProvider);
     }
 
     public function testGetSupportedHashTypes(): void
@@ -30,6 +38,8 @@ final class PasswordHashServiceTest extends TestCase
             [
                 User::PASSWORD_HASH_BCRYPT,
                 User::PASSWORD_HASH_PHP_DEFAULT,
+                User::PASSWORD_HASH_ARGON2I,
+                User::PASSWORD_HASH_ARGON2ID,
                 User::PASSWORD_HASH_INVALID,
             ],
             $this->passwordHashService->getSupportedHashTypes()
