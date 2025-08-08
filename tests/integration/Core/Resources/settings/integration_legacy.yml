@@ -14,9 +14,6 @@ parameters:
 
     ibexa.site_access.config.default.user_content_type_identifier: ['user']
 
-    ibexa.site_access.config.default.password_hash.default_type: 7
-    ibexa.site_access.config.default.password_hash.update_type_on_change: false
-
     ibexa.repositories:
         default:
             storage: ~
@@ -29,6 +26,9 @@ parameters:
             options:
                 default_version_archive_limit: 5
                 remove_archived_versions_on_publish: true
+            password_hash:
+                default_type: 7
+                update_type_on_change: false
 
     ibexa.site_access.config.default.repository: default
     ibexa.site_access.config.default.languages: '%languages%'

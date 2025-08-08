@@ -10,12 +10,12 @@ namespace Ibexa\Tests\Core\Repository\User;
 
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider;
 use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
 use Ibexa\Core\Repository\User\PasswordHashService;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
+use Ibexa\Tests\Bundle\Core\ApiLoader\BaseRepositoryConfigurationProviderTestCase;
 
-final class PasswordHashServiceTest extends TestCase
+final class PasswordHashServiceTest extends BaseRepositoryConfigurationProviderTestCase
 {
     private const int NON_EXISTING_PASSWORD_HASH = PHP_INT_MAX;
 
@@ -23,25 +23,13 @@ final class PasswordHashServiceTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->passwordHashService = new PasswordHashService($this->getConfigResolverMock());
-    }
+        $repositories = [
+            'legacy' => $this->buildNormalizedSingleRepositoryConfig('legacy'),
+        ];
 
-    private function getConfigResolverMock(): ConfigResolverInterface & MockObject
-    {
-        $configResolver = $this
-            ->createMock(ConfigResolverInterface::class);
-
-        $configResolver
-            ->method('getParameter')
-            ->with('password_hash.default_type')
-            ->willReturn(User::PASSWORD_HASH_PHP_DEFAULT);
-
-        $configResolver
-            ->method('getParameter')
-            ->with('password_hash.update_type_on_change')
-            ->willReturn(false);
-
-        return $configResolver;
+        $configResolver = $this->createMock(ConfigResolverInterface::class);
+        $repositoryConfigurationProvider = new RepositoryConfigurationProvider($configResolver, $repositories);
+        $this->passwordHashService = new PasswordHashService($repositoryConfigurationProvider);
     }
 
     public function testGetSupportedHashTypes(): void

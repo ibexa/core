@@ -62,7 +62,7 @@ services:
 
     Ibexa\Core\Repository\User\PasswordHashService:
         arguments:
-            $configResolver: '@ibexa.config.resolver'
+            $repositoryConfigurationProvider: '@Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider'
 
     Ibexa\Contracts\Core\Repository\PasswordHashService:
         alias: Ibexa\Core\Repository\User\PasswordHashService
