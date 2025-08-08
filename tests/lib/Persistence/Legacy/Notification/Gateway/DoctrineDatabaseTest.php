@@ -89,7 +89,7 @@ class DoctrineDatabaseTest extends TestCase
         $this->getGateway()->updateNotification($notification);
 
         self::assertEquals([
-            'id' => (string) self::EXISTING_NOTIFICATION_ID,
+            'id' => (string)self::EXISTING_NOTIFICATION_ID,
             'owner_id' => '14',
             'is_pending' => '0',
             'type' => 'Workflow:Review',
@@ -100,9 +100,12 @@ class DoctrineDatabaseTest extends TestCase
 
     public function testCountUserNotifications()
     {
-        self::assertEquals(5, $this->getGateway()->countUserNotifications(
-            self::EXISTING_NOTIFICATION_DATA['owner_id']
-        ));
+        self::assertEquals(
+            5,
+            $this->getGateway()->countUserNotifications(
+                self::EXISTING_NOTIFICATION_DATA['owner_id']
+            )
+        );
     }
 
     public function testCountUserPendingNotifications()
@@ -260,9 +263,15 @@ class DoctrineDatabaseTest extends TestCase
         $updateStruct = new UpdateStruct();
         $updateStruct->isPending = false;
 
+        $notificationIds = [
+            self::EXISTING_NOTIFICATION_DATA['id'],
+        ];
+
         $updatedIds = $this->getGateway()->bulkUpdateUserNotifications(
             $ownerId,
-            $updateStruct
+            $updateStruct,
+            false,
+            $notificationIds
         );
 
         self::assertIsArray($updatedIds);
@@ -270,11 +279,15 @@ class DoctrineDatabaseTest extends TestCase
 
         foreach ($updatedIds as $id) {
             self::assertIsInt($id);
+            self::assertContains($id, $notificationIds, "Returned ID $id should be in provided notificationIds list");
 
             $data = $this->loadNotification($id);
-            self::assertEquals('0', (string) $data['is_pending'], "Notification ID $id should have is_pending = 0");
+            self::assertEquals('0', (string)$data['is_pending'], "Notification ID $id should have is_pending = 0");
         }
     }
 }
 
-class_alias(DoctrineDatabaseTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Notification\Gateway\DoctrineDatabaseTest');
+class_alias(
+    DoctrineDatabaseTest::class,
+    'eZ\Publish\Core\Persistence\Legacy\Tests\Notification\Gateway\DoctrineDatabaseTest'
+);

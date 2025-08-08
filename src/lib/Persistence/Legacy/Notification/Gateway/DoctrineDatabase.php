@@ -95,6 +95,29 @@ class DoctrineDatabase extends Gateway
         array $notificationIds = []
     ): array {
         $queryBuilder = $this->connection->createQueryBuilder();
+        $this->applyNotificationFilters($queryBuilder, $ownerId, $pendingOnly, $notificationIds);
+
+        $idsToUpdate = $queryBuilder->execute()->fetchFirstColumn();
+        if (empty($idsToUpdate)) {
+            return [];
+        }
+
+        if ($updateStruct->isPending !== null) {
+            $this->updateNotificationsPendingStatus($idsToUpdate, $updateStruct->isPending);
+        }
+
+        return array_map('intval', $idsToUpdate);
+    }
+
+    /**
+     * @param int[] $notificationIds
+     */
+    private function applyNotificationFilters(
+        QueryBuilder $queryBuilder,
+        int $ownerId,
+        bool $pendingOnly,
+        array $notificationIds
+    ): void {
         $queryBuilder
             ->select(self::COLUMN_ID)
             ->from(self::TABLE_NOTIFICATION)
@@ -108,34 +131,27 @@ class DoctrineDatabase extends Gateway
 
         if (!empty($notificationIds)) {
             $queryBuilder->andWhere(
-                $queryBuilder->expr()->in(
-                    self::COLUMN_ID,
-                    array_map('strval', $notificationIds)
-                )
+                $queryBuilder->expr()->in(self::COLUMN_ID, ':notificationIds')
             );
+            $queryBuilder->setParameter(':notificationIds', $notificationIds, Connection::PARAM_INT_ARRAY);
         }
+    }
 
-        $rows = $queryBuilder->execute()->fetchAllAssociative();
-        if (empty($rows)) {
-            return [];
-        }
+    /**
+     * @param int[] $idsToUpdate
+     */
+    private function updateNotificationsPendingStatus(array $idsToUpdate, bool $isPending): void
+    {
+        $updateQuery = $this->connection->createQueryBuilder();
+        $updateQuery
+            ->update(self::TABLE_NOTIFICATION)
+            ->set(self::COLUMN_IS_PENDING, ':is_pending')
+            ->andWhere(
+                $updateQuery->expr()->in(self::COLUMN_ID, array_map('strval', $idsToUpdate))
+            )
+            ->setParameter(':is_pending', $isPending, ParameterType::BOOLEAN);
 
-        $idsToUpdate = array_map('intval', array_column($rows, self::COLUMN_ID));
-
-        if ($updateStruct->isPending !== null) {
-            $updateQuery = $this->connection->createQueryBuilder();
-            $updateQuery
-                ->update(self::TABLE_NOTIFICATION)
-                ->set(self::COLUMN_IS_PENDING, ':is_pending')
-                ->andWhere(
-                    $updateQuery->expr()->in(self::COLUMN_ID, array_map('strval', $idsToUpdate))
-                )
-                ->setParameter(':is_pending', $updateStruct->isPending, PDO::PARAM_BOOL);
-
-            $updateQuery->execute();
-        }
-
-        return $idsToUpdate;
+        $updateQuery->execute();
     }
 
     public function updateNotification(Notification $notification): void
