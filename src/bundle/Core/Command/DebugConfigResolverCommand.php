@@ -69,6 +69,18 @@ class DebugConfigResolverCommand extends Command
             InputOption::VALUE_REQUIRED,
             'Set a different namespace than the default "ibexa.site_access.config" used by SiteAccess settings.'
         );
+        $this->addOption(
+            'sort',
+            null,
+            InputOption::VALUE_REQUIRED,
+            'Sort list of hashes by this key, ascending. For example: --sort template'
+        );
+        $this->addOption(
+            'reverse-sort',
+            null,
+            InputOption::VALUE_NONE,
+            'Reverse the sorting to descending. For example: --sort priority --reverse-sort'
+        );
         $this->setHelp(
             <<<EOM
 Outputs a given config resolver parameter, more commonly known as a SiteAccess setting.
@@ -94,6 +106,18 @@ EOM
         $namespace = $input->getOption('namespace');
         $scope = $input->getOption('scope');
         $parameterData = $this->configResolver->getParameter($parameter, $namespace, $scope);
+
+        if (null !== ($sort = $input->getOption('sort')) && is_array($parameterData) && is_array($parameterData[0])) {
+            if ($input->getOption('reverse-sort')) {
+                usort($parameterData, function ($a, $b) use ($sort) {
+                    return $b[$sort] <=> $a[$sort];
+                });
+            } else {
+                usort($parameterData, function ($a, $b) use ($sort) {
+                    return $a[$sort] <=> $b[$sort];
+                });
+            }
+        }
 
         // In case of json output return early with no newlines and only the parameter data
         if ($input->getOption('json')) {
