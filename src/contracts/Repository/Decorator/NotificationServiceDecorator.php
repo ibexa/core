@@ -41,6 +41,14 @@ abstract class NotificationServiceDecorator implements NotificationService
         return $this->innerService->getNotification($notificationId);
     }
 
+    /**
+     * @param int[] $notificationIds
+     */
+    public function markUserNotificationsAsRead(array $notificationIds = []): void
+    {
+        $this->innerService->markUserNotificationsAsRead($notificationIds);
+    }
+
     public function markNotificationAsRead(Notification $notification): void
     {
         $this->innerService->markNotificationAsRead($notification);

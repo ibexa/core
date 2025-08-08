@@ -72,6 +72,15 @@ class Handler implements HandlerInterface
         return reset($notification);
     }
 
+    public function bulkUpdateUserNotifications(
+        int $ownerId,
+        UpdateStruct $updateStruct,
+        bool $pendingOnly = false,
+        array $notificationIds = []
+    ): array {
+        return $this->gateway->bulkUpdateUserNotifications($ownerId, $updateStruct, $pendingOnly, $notificationIds);
+    }
+
     /**
      * {@inheritdoc}
      *

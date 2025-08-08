@@ -38,6 +38,37 @@ class NotificationHandler extends AbstractHandler implements Handler
         return $this->persistenceHandler->notificationHandler()->createNotification($createStruct);
     }
 
+    public function bulkUpdateUserNotifications(
+        int $ownerId,
+        UpdateStruct $updateStruct,
+        bool $pendingOnly = false,
+        array $notificationIds = []
+    ): array {
+        $this->logger->logCall(__METHOD__, [
+            'userId' => $ownerId,
+            'notificationIds' => $notificationIds,
+        ]);
+
+        $updatedNotificationIds = $this->persistenceHandler
+            ->notificationHandler()
+            ->bulkUpdateUserNotifications($ownerId, $updateStruct, $pendingOnly, $notificationIds);
+
+        $cacheKeys = array_map(
+            fn (int $id): string => $this->cacheIdentifierGenerator->generateKey(self::NOTIFICATION_IDENTIFIER, [$id], true),
+            $updatedNotificationIds
+        );
+
+        $cacheKeys[] = $this->cacheIdentifierGenerator->generateKey(
+            self::NOTIFICATION_PENDING_COUNT_IDENTIFIER,
+            [$ownerId],
+            true
+        );
+
+        $this->cache->deleteItems($cacheKeys);
+
+        return $updatedNotificationIds;
+    }
+
     /**
      * {@inheritdoc}
      */

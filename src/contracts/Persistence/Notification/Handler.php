@@ -34,6 +34,18 @@ interface Handler
     public function updateNotification(APINotification $notification, UpdateStruct $updateStruct): Notification;
 
     /**
+     * @param int[] $notificationIds
+     *
+     * @return int[]
+     */
+    public function bulkUpdateUserNotifications(
+        int $ownerId,
+        UpdateStruct $updateStruct,
+        bool $pendingOnly = false,
+        array $notificationIds = []
+    ): array;
+
+    /**
      * Count users unread Notifications.
      *
      * @param int $ownerId

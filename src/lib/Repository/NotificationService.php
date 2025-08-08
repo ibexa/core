@@ -109,6 +109,18 @@ class NotificationService implements NotificationServiceInterface
         return $this->buildDomainObject($notification);
     }
 
+    /**
+     * @param int[] $notificationIds
+     */
+    public function markUserNotificationsAsRead(array $notificationIds = []): void
+    {
+        $currentUserId = $this->getCurrentUserId();
+        $updateStruct = new UpdateStruct();
+        $updateStruct->isPending = false;
+
+        $this->persistenceHandler->bulkUpdateUserNotifications($currentUserId, $updateStruct, true, $notificationIds);
+    }
+
     public function markNotificationAsRead(APINotification $notification): void
     {
         $currentUserId = $this->getCurrentUserId();
