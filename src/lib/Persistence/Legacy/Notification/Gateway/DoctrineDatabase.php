@@ -147,9 +147,10 @@ class DoctrineDatabase extends Gateway
             ->update(self::TABLE_NOTIFICATION)
             ->set(self::COLUMN_IS_PENDING, ':is_pending')
             ->andWhere(
-                $updateQuery->expr()->in(self::COLUMN_ID, array_map('strval', $idsToUpdate))
+                $updateQuery->expr()->in(self::COLUMN_ID, ':ids')
             )
-            ->setParameter(':is_pending', $isPending, ParameterType::BOOLEAN);
+            ->setParameter(':is_pending', $isPending, ParameterType::BOOLEAN)
+            ->setParameter(':ids', $idsToUpdate, Connection::PARAM_INT_ARRAY);
 
         $updateQuery->execute();
     }
