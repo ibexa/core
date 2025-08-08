@@ -6,9 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser;
+namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Repository;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\AbstractParser;
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\RepositoryConfigParserInterface;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
@@ -28,7 +29,7 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
  *              update_type_on_change: false
  * ```
  */
-final class PasswordHash extends AbstractParser
+final class PasswordHash extends AbstractParser implements RepositoryConfigParserInterface
 {
     public function addSemanticConfig(NodeBuilder $nodeBuilder): void
     {

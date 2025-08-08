@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\User;
 
+use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Ibexa\Contracts\Core\Repository\PasswordHashService as PasswordHashServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
-use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Repository\User\Exception\PasswordHashTypeNotCompiled;
 use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
 
@@ -19,11 +19,11 @@ use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
  */
 final class PasswordHashService implements PasswordHashServiceInterface
 {
-    private ConfigResolverInterface $configResolver;
+    private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
 
-    public function __construct(ConfigResolverInterface $configResolver)
+    public function __construct(RepositoryConfigurationProviderInterface $repositoryConfigurationProvider)
     {
-        $this->configResolver = $configResolver;
+        $this->repositoryConfigurationProvider = $repositoryConfigurationProvider;
     }
 
     public function getSupportedHashTypes(): array
@@ -38,7 +38,9 @@ final class PasswordHashService implements PasswordHashServiceInterface
 
     public function getDefaultHashType(): int
     {
-        return $this->configResolver->getParameter('password_hash.default_type');
+        $config = $this->repositoryConfigurationProvider->getRepositoryConfig();
+
+        return $config['password_hash']['default_type'];
     }
 
     public function createPasswordHash(
@@ -105,6 +107,8 @@ final class PasswordHashService implements PasswordHashServiceInterface
 
     public function shouldPasswordHashTypeBeUpdatedOnChange(): bool
     {
-        return $this->configResolver->getParameter('password_hash.update_type_on_change');
+        $config = $this->repositoryConfigurationProvider->getRepositoryConfig();
+
+        return $config['password_hash']['update_type_on_change'];
     }
 }
