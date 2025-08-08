@@ -126,7 +126,7 @@ class DoctrineDatabase extends Gateway
 
         if ($pendingOnly) {
             $queryBuilder->andWhere($queryBuilder->expr()->eq(self::COLUMN_IS_PENDING, ':isPendingFlag'))
-                ->setParameter(':isPendingFlag', true, PDO::PARAM_BOOL);
+                ->setParameter(':isPendingFlag', true, ParameterType::BOOLEAN);
         }
 
         if (!empty($notificationIds)) {

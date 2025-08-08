@@ -287,7 +287,4 @@ class DoctrineDatabaseTest extends TestCase
     }
 }
 
-class_alias(
-    DoctrineDatabaseTest::class,
-    'eZ\Publish\Core\Persistence\Legacy\Tests\Notification\Gateway\DoctrineDatabaseTest'
-);
+class_alias(DoctrineDatabaseTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Notification\Gateway\DoctrineDatabaseTest');
