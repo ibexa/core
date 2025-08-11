@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Notification\Gateway;
 
 use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
+use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\Criterion\Type;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway\CriterionHandler\DateCreatedCriterionHandler;
@@ -87,7 +88,7 @@ class DoctrineDatabaseTest extends TestCase
         $this->getGateway()->updateNotification($notification);
 
         self::assertEquals([
-            'id' => (string) self::EXISTING_NOTIFICATION_ID,
+            'id' => (string)self::EXISTING_NOTIFICATION_ID,
             'owner_id' => '14',
             'is_pending' => '0',
             'type' => 'Workflow:Review',
@@ -98,9 +99,12 @@ class DoctrineDatabaseTest extends TestCase
 
     public function testCountUserNotifications()
     {
-        self::assertEquals(5, $this->getGateway()->countUserNotifications(
-            self::EXISTING_NOTIFICATION_DATA['owner_id']
-        ));
+        self::assertEquals(
+            5,
+            $this->getGateway()->countUserNotifications(
+                self::EXISTING_NOTIFICATION_DATA['owner_id']
+            )
+        );
     }
 
     public function testCountUserPendingNotifications()
@@ -258,5 +262,35 @@ class DoctrineDatabaseTest extends TestCase
             ->fetchAssociative();
 
         return is_array($data) ? $data : [];
+    }
+
+    public function testBulkUpdateUserNotifications(): void
+    {
+        $ownerId = self::EXISTING_NOTIFICATION_DATA['owner_id'];
+
+        $updateStruct = new UpdateStruct();
+        $updateStruct->isPending = false;
+
+        $notificationIds = [
+            self::EXISTING_NOTIFICATION_DATA['id'],
+        ];
+
+        $updatedIds = $this->getGateway()->bulkUpdateUserNotifications(
+            $ownerId,
+            $updateStruct,
+            false,
+            $notificationIds
+        );
+
+        self::assertIsArray($updatedIds);
+        self::assertNotEmpty($updatedIds);
+
+        foreach ($updatedIds as $id) {
+            self::assertIsInt($id);
+            self::assertContains($id, $notificationIds, "Returned ID $id should be in provided notificationIds list");
+
+            $data = $this->loadNotification($id);
+            self::assertEquals('0', (string)$data['is_pending'], "Notification ID $id should have is_pending = 0");
+        }
     }
 }

@@ -35,6 +35,11 @@ interface NotificationService
     public function getNotification(int $notificationId): Notification;
 
     /**
+     * @param int[] $notificationIds
+     */
+    public function markUserNotificationsAsRead(array $notificationIds = []): void;
+
+    /**
      * Mark notification as read so it no longer bother the user.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Notification $notification

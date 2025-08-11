@@ -69,6 +69,43 @@ class NotificationServiceTest extends BaseTestCase
         self::assertEquals($notificationId, $notification->id);
     }
 
+    public function testMarkUserNotificationsAsRead(): void
+    {
+        $repository = $this->getRepository();
+        $notificationService = $repository->getNotificationService();
+
+        $pendingCountBefore = $notificationService->getPendingNotificationCount();
+        self::assertGreaterThan(0, $pendingCountBefore);
+
+        $notificationService->markUserNotificationsAsRead();
+
+        $pendingCountAfter = $notificationService->getPendingNotificationCount();
+        self::assertEquals(0, $pendingCountAfter);
+    }
+
+    public function testMarkUserNotificationsAsReadWithIds(): void
+    {
+        $repository = $this->getRepository();
+        $notificationService = $repository->getNotificationService();
+
+        $notifications = $notificationService->loadNotifications(0, 2)->items;
+        self::assertCount(2, $notifications, 'This test requires exactly 2 notifications.');
+
+        $idsToMarkAsRead = array_column($notifications, 'id');
+
+        foreach ($notifications as $notification) {
+            self::assertTrue($notification->isPending, "Notification ID {$notification->id} should initially be pending.");
+        }
+
+        $notificationService->markUserNotificationsAsRead($idsToMarkAsRead);
+
+        $updatedNotifications = $notificationService->loadNotifications(0, 2)->items;
+
+        foreach ($updatedNotifications as $notification) {
+            self::assertFalse($notification->isPending, "Notification ID {$notification->id} should be marked as read.");
+        }
+    }
+
     public function testMarkNotificationAsRead(): void
     {
         $repository = $this->getRepository();

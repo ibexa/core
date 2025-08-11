@@ -11,6 +11,7 @@ namespace Ibexa\Core\Persistence\Legacy\Notification\Gateway;
 use Doctrine\DBAL\Exception as DBALException;
 use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
+use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway;
@@ -43,6 +44,19 @@ class ExceptionConversion extends Gateway
         try {
             return $this->innerGateway->getNotificationById($notificationId);
         } catch (DBALException|PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
+    public function bulkUpdateUserNotifications(
+        int $ownerId,
+        UpdateStruct $updateStruct,
+        bool $pendingOnly = false,
+        array $notificationIds = []
+    ): array {
+        try {
+            return $this->innerGateway->bulkUpdateUserNotifications($ownerId, $updateStruct, $pendingOnly, $notificationIds);
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }

@@ -10,6 +10,7 @@ namespace Ibexa\Core\Persistence\Legacy\Notification;
 
 use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
+use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 
 abstract class Gateway
@@ -45,6 +46,18 @@ abstract class Gateway
     /**
      * @phpstan-return int<0, max>
      */
+    /**
+     * @param int[] $notificationIds
+     *
+     * @return int[]
+     */
+    abstract public function bulkUpdateUserNotifications(
+        int $ownerId,
+        UpdateStruct $updateStruct,
+        bool $pendingOnly = false,
+        array $notificationIds = []
+    ): array;
+
     abstract public function countUserNotifications(int $userId, ?NotificationQuery $query = null): int;
 
     /**
