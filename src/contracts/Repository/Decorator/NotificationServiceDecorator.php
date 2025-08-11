@@ -16,8 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 
 abstract class NotificationServiceDecorator implements NotificationService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\NotificationService */
-    protected $innerService;
+    protected NotificationService $innerService;
 
     public function __construct(NotificationService $innerService)
     {
@@ -41,9 +40,6 @@ abstract class NotificationServiceDecorator implements NotificationService
         return $this->innerService->getNotification($notificationId);
     }
 
-    /**
-     * @param int[] $notificationIds
-     */
     public function markUserNotificationsAsRead(array $notificationIds = []): void
     {
         $this->innerService->markUserNotificationsAsRead($notificationIds);
