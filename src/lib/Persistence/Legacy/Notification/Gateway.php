@@ -58,6 +58,7 @@ abstract class Gateway
         array $notificationIds = []
     ): array;
 
+    /** @phpstan-return int<0, max> */
     abstract public function countUserNotifications(int $userId, ?NotificationQuery $query = null): int;
 
     /**

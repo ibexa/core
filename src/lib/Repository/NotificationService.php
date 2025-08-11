@@ -25,20 +25,10 @@ use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 
 class NotificationService implements NotificationServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Notification\Handler */
-    protected $persistenceHandler;
-
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    protected $permissionResolver;
-
-    /**
-     * @param \Ibexa\Contracts\Core\Persistence\Notification\Handler $persistenceHandler
-     * @param \Ibexa\Contracts\Core\Repository\PermissionResolver $permissionResolver
-     */
-    public function __construct(Handler $persistenceHandler, PermissionResolver $permissionResolver)
-    {
-        $this->persistenceHandler = $persistenceHandler;
-        $this->permissionResolver = $permissionResolver;
+    public function __construct(
+        protected Handler $persistenceHandler,
+        protected PermissionResolver $permissionResolver
+    ) {
     }
 
     public function loadNotifications(int $offset = 0, int $limit = 25): NotificationList

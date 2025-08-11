@@ -8,7 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Notification\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
@@ -17,20 +19,17 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway;
-use function Ibexa\PolyfillPhp82\iterator_to_array;
 use PDO;
 
 class DoctrineDatabase extends Gateway
 {
-    public const TABLE_NOTIFICATION = 'ibexa_notification';
-    public const COLUMN_ID = 'id';
-    public const COLUMN_OWNER_ID = 'owner_id';
-    public const COLUMN_IS_PENDING = 'is_pending';
-    public const COLUMN_TYPE = 'type';
-    public const COLUMN_CREATED = 'created';
-    public const COLUMN_DATA = 'data';
-
-    private Connection $connection;
+    public const string TABLE_NOTIFICATION = 'ibexa_notification';
+    public const string COLUMN_ID = 'id';
+    public const string COLUMN_OWNER_ID = 'owner_id';
+    public const string COLUMN_IS_PENDING = 'is_pending';
+    public const string COLUMN_TYPE = 'type';
+    public const string COLUMN_CREATED = 'created';
+    public const string COLUMN_DATA = 'data';
 
     /**
      * @var \Ibexa\Contracts\Core\Repository\Values\Notification\CriterionHandlerInterface[]
@@ -40,9 +39,10 @@ class DoctrineDatabase extends Gateway
     /**
      * @param iterable<\Ibexa\Contracts\Core\Repository\Values\Notification\CriterionHandlerInterface> $criterionHandlers
      */
-    public function __construct(Connection $connection, iterable $criterionHandlers)
-    {
-        $this->connection = $connection;
+    public function __construct(
+        private Connection $connection,
+        iterable $criterionHandlers
+    ) {
         $this->criterionHandlers = iterator_to_array($criterionHandlers);
     }
 
@@ -121,7 +121,7 @@ class DoctrineDatabase extends Gateway
             ->select(self::COLUMN_ID)
             ->from(self::TABLE_NOTIFICATION)
             ->andWhere($queryBuilder->expr()->eq(self::COLUMN_OWNER_ID, ':ownerId'))
-            ->setParameter(':ownerId', $ownerId, ParameterType::INTEGER);
+            ->setParameter('ownerId', $ownerId, ParameterType::INTEGER);
 
         if ($pendingOnly) {
             $queryBuilder->andWhere($queryBuilder->expr()->eq(self::COLUMN_IS_PENDING, ':isPendingFlag'))
@@ -132,7 +132,7 @@ class DoctrineDatabase extends Gateway
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->in(self::COLUMN_ID, ':notificationIds')
             );
-            $queryBuilder->setParameter('notificationIds', $notificationIds, Connection::PARAM_INT_ARRAY);
+            $queryBuilder->setParameter('notificationIds', $notificationIds, ArrayParameterType::INTEGER);
         }
     }
 
@@ -149,7 +149,7 @@ class DoctrineDatabase extends Gateway
                 $updateQuery->expr()->in(self::COLUMN_ID, ':ids')
             )
             ->setParameter('is_pending', $isPending, ParameterType::BOOLEAN)
-            ->setParameter('ids', $idsToUpdate, Connection::PARAM_INT_ARRAY);
+            ->setParameter('ids', $idsToUpdate, ArrayParameterType::INTEGER);
 
         $updateQuery->executeStatement();
     }
