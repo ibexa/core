@@ -119,7 +119,7 @@ class HandlerTest extends TestCase
         $updateStruct->isPending = false;
 
         $this->gateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('bulkUpdateUserNotifications')
             ->with(
                 $ownerId,
