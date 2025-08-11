@@ -107,13 +107,13 @@ EOM
         $scope = $input->getOption('scope');
         $parameterData = $this->configResolver->getParameter($parameter, $namespace, $scope);
 
-        if (null !== ($sort = $input->getOption('sort')) && is_array($parameterData) && is_array($parameterData[0]) && key_exists($sort, $parameterData[0]) && is_scalar($parameterData[0][$sort])) {
+        if (null !== ($sort = $input->getOption('sort')) && is_array($parameterData) && is_array($parameterData[0]) && array_key_exists($sort, $parameterData[0]) && is_scalar($parameterData[0][$sort])) {
             if ($input->getOption('reverse-sort')) {
-                usort($parameterData, function ($a, $b) use ($sort) {
+                usort($parameterData, static function ($a, $b) use ($sort) {
                     return $b[$sort] <=> $a[$sort];
                 });
             } else {
-                usort($parameterData, function ($a, $b) use ($sort) {
+                usort($parameterData, static function ($a, $b) use ($sort) {
                     return $a[$sort] <=> $b[$sort];
                 });
             }
