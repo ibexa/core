@@ -51,6 +51,14 @@ class NotificationService implements NotificationServiceInterface
     }
 
     /**
+     * @param int[] $notificationIds
+     */
+    public function markUserNotificationsAsRead(array $notificationIds = []): void
+    {
+        $this->service->markUserNotificationsAsRead($notificationIds);
+    }
+
+    /**
      * Mark notification as read so it no longer bother the user.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Notification $notification

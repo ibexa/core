@@ -111,6 +111,29 @@ class HandlerTest extends TestCase
         self::assertEquals($object, $this->handler->getNotificationById(self::NOTIFICATION_ID));
     }
 
+    public function testBulkUpdateUserNotifications(): void
+    {
+        $ownerId = 42;
+
+        $updateStruct = new UpdateStruct();
+        $updateStruct->isPending = false;
+
+        $this->gateway
+            ->expects($this->once())
+            ->method('bulkUpdateUserNotifications')
+            ->with(
+                $ownerId,
+                $updateStruct,
+                false,
+                []
+            )
+            ->willReturn([1, 2, 3]);
+
+        $result = $this->handler->bulkUpdateUserNotifications($ownerId, $updateStruct, false);
+
+        self::assertEquals([1, 2, 3], $result);
+    }
+
     public function testUpdateNotification()
     {
         $updateStruct = new UpdateStruct([

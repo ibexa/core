@@ -100,6 +100,29 @@ class NotificationHandlerTest extends AbstractCacheHandlerTest
             [
                 'findUserNotifications', [$ownerId, new NotificationQuery([], 0, 25)], null, null, null, null, [],
             ],
+            [
+                'bulkUpdateUserNotifications',
+                [
+                    $ownerId,
+                    new UpdateStruct(['isPending' => false]),
+                    true,
+                ],
+                null,
+                [
+                    ['notification', [1], true],
+                    ['notification', [2], true],
+                    ['notification', [3], true],
+                    ['notification_pending_count', [$ownerId], true],
+                ],
+                null,
+                [
+                    'ibx-n-1',
+                    'ibx-n-2',
+                    'ibx-n-3',
+                    'ibx-npc-' . $ownerId,
+                ],
+                [1, 2, 3],
+            ],
         ];
     }
 
