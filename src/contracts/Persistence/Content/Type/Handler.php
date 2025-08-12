@@ -9,6 +9,7 @@ namespace Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct as GroupCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
 
 interface Handler
 {
@@ -90,6 +91,13 @@ interface Handler
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type[]
      */
     public function loadContentTypeList(array $contentTypeIds): array;
+
+    public function countContentTypes(?ContentTypeQuery $query = null): int;
+
+    /**
+     * @return \Ibexa\Contracts\Core\Persistence\Content\Type[]
+     */
+    public function findContentTypes(?ContentTypeQuery $query = null): array;
 
     /**
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type[]

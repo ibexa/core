@@ -89,6 +89,7 @@ class AbstractTestCase extends LanguageAwareTestCase
                     $this->getDatabaseConnection(),
                     $this->getSharedGateway(),
                     $this->getLanguageMaskGenerator(),
+                    []
                 ),
                 new ContentTypeMapper(
                     $this->getConverterRegistry(),
