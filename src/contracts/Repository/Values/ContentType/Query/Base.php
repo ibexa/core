@@ -11,6 +11,9 @@ namespace Ibexa\Contracts\Core\Repository\Values\ContentType\Query;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 
+/**
+ * @implements \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>
+ */
 abstract class Base implements CriterionHandlerInterface
 {
     /**

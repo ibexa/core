@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
 /**
- * @implements \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\Identifiers>
+ * @implements \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionQueryBuilder\CriterionQueryBuilderInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\Identifiers>
  */
 final class Identifiers implements CriterionQueryBuilderInterface
 {
@@ -24,11 +24,14 @@ final class Identifiers implements CriterionQueryBuilderInterface
         return $criterion instanceof IdentifiersCriterion;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\Identifiers $criterion
+     */
     public function buildQueryConstraint(
         CriterionVisitor $criterionVisitor,
         QueryBuilder $qb,
         CriterionInterface $criterion
-    ) {
+    ): string {
         return $qb->expr()->in(
             'c.identifier',
             $qb->createNamedParameter($criterion->getValue(), Connection::PARAM_STR_ARRAY)

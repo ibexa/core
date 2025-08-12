@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
 /**
- * @implements \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\IsSystem>
+ * @implements \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionQueryBuilder\CriterionQueryBuilderInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\IsSystem>
  */
 final class IsSystem implements CriterionQueryBuilderInterface
 {
@@ -24,11 +24,14 @@ final class IsSystem implements CriterionQueryBuilderInterface
         return $criterion instanceof IsSystemCriterion;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\IsSystem $criterion
+     */
     public function buildQueryConstraint(
         CriterionVisitor $criterionVisitor,
         QueryBuilder $qb,
         CriterionInterface $criterion
-    ) {
+    ): string {
         return $qb->expr()->eq(
             'ezcontentclass_classgroup_is_system',
             $qb->createNamedParameter($criterion->getValue(), ParameterType::BOOLEAN)

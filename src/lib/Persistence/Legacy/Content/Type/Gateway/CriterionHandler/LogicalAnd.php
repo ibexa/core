@@ -14,9 +14,6 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalAn
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
-/**
- * @implements \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalAnd>
- */
 final class LogicalAnd extends Base
 {
     private CriterionVisitor $criterionVisitor;
@@ -33,6 +30,8 @@ final class LogicalAnd extends Base
     }
 
     /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalAnd $criterion
+     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
     public function apply(QueryBuilder $qb, CriterionInterface $criterion): void

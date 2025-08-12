@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
 /**
- * @implements \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeGroupIds>
+ * @implements \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionQueryBuilder\CriterionQueryBuilderInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeGroupIds>
  */
 final class ContentTypeGroupIds implements CriterionQueryBuilderInterface
 {
@@ -24,11 +24,14 @@ final class ContentTypeGroupIds implements CriterionQueryBuilderInterface
         return $criterion instanceof ContentTypeGroupIdsCriterion;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeGroupIds $criterion
+     */
     public function buildQueryConstraint(
         CriterionVisitor $criterionVisitor,
         QueryBuilder $qb,
         CriterionInterface $criterion
-    ) {
+    ): string {
         return $qb->expr()->in(
             'ezcontentclass_classgroup_group_id',
             $qb->createNamedParameter($criterion->getValue(), Connection::PARAM_INT_ARRAY)

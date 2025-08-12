@@ -16,17 +16,20 @@ use function Ibexa\PolyfillPhp82\iterator_to_array;
 final class CriterionVisitor
 {
     /**
-     * @var array<\Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionQueryBuilder\CriterionQueryBuilderInterface>
+     * @var array<\Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionQueryBuilder\CriterionQueryBuilderInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>>
      */
     private array $criterionQueryBuilders;
 
+    /**
+     * @param iterable<\Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionQueryBuilder\CriterionQueryBuilderInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>> $criterionQueryBuilders
+     */
     public function __construct(iterable $criterionQueryBuilders)
     {
         $this->criterionQueryBuilders = iterator_to_array($criterionQueryBuilders);
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Expr\CompositeExpression|string
+     * @return \Doctrine\DBAL\Query\Expression\CompositeExpression|string
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException if there's no builder for a criterion
      */
