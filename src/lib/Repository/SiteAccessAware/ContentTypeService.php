@@ -125,6 +125,11 @@ class ContentTypeService implements ContentTypeServiceInterface
         return $this->service->findContentTypes($query, $prioritizedLanguages);
     }
 
+    public function countContentTypes(?ContentTypeQuery $query = null): int
+    {
+        return $this->service->countContentTypes($query);
+    }
+
     public function loadContentTypes(ContentTypeGroup $contentTypeGroup, ?array $prioritizedLanguages = null): iterable
     {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);

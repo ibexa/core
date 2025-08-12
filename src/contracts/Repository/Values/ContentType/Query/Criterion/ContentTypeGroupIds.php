@@ -12,11 +12,11 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 
 final class ContentTypeGroupIds implements CriterionInterface
 {
-    /** @var list<string> */
+    /** @var list<int> */
     private array $value;
 
     /**
-     * @param list<string> $value
+     * @param list<int> $value
      */
     public function __construct(array $value)
     {
@@ -24,7 +24,7 @@ final class ContentTypeGroupIds implements CriterionInterface
     }
 
     /**
-     * @return list<string>
+     * @return list<int>
      */
     public function getValue(): array
     {
@@ -32,7 +32,7 @@ final class ContentTypeGroupIds implements CriterionInterface
     }
 
     /**
-     * @param list<string> $value
+     * @param list<int> $value
      */
     public function setValue(array $value): void
     {
