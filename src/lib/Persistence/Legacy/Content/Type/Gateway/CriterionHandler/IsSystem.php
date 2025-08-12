@@ -31,7 +31,7 @@ final class IsSystem extends Base
         $qb->andWhere(
             $qb->expr()->eq(
                 'ctg.is_system',
-                $qb->createNamedParameter(1, ParameterType::INTEGER)
+                $qb->createNamedParameter($criterion->getValue(), ParameterType::BOOLEAN)
             )
         );
     }
