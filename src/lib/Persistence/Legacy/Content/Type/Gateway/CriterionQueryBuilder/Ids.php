@@ -34,7 +34,7 @@ final class Ids implements CriterionQueryBuilderInterface
     ): string {
         return $qb->expr()->in(
             'c.id',
-            $qb->createNamedParameter($criterion->getValue(), Connection::PARAM_STR_ARRAY)
+            $qb->createNamedParameter($criterion->getValue(), Connection::PARAM_INT_ARRAY)
         );
     }
 }

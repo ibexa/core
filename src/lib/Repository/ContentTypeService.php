@@ -936,16 +936,21 @@ class ContentTypeService implements ContentTypeServiceInterface
     public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): array
     {
         $contentTypes = [];
-        $spiContentTypes = $this->contentTypeHandler->findContentTypes($query);
+        $persistenceContentTypes = $this->contentTypeHandler->findContentTypes($query);
 
-        foreach ($spiContentTypes as $spiContentType) {
+        foreach ($persistenceContentTypes as $persistenceContentType) {
             $contentTypes[] = $this->contentTypeDomainMapper->buildContentTypeDomainObject(
-                $spiContentType,
+                $persistenceContentType,
                 $prioritizedLanguages
             );
         }
 
         return $contentTypes;
+    }
+
+    public function countContentTypes(?ContentTypeQuery $query = null): int
+    {
+        return $this->contentTypeHandler->countContentTypes($query);
     }
 
     /**

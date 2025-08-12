@@ -8,33 +8,36 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionQueryBuilder;
 
-use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\IsSystem as IsSystemCriterion;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalNot as LogicalNotCriterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
 /**
- * @implements \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionQueryBuilder\CriterionQueryBuilderInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\IsSystem>
+ * @implements \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionQueryBuilder\CriterionQueryBuilderInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalNot>
  */
-final class IsSystem implements CriterionQueryBuilderInterface
+final class LogicalNot implements CriterionQueryBuilderInterface
 {
     public function supports(CriterionInterface $criterion): bool
     {
-        return $criterion instanceof IsSystemCriterion;
+        return $criterion instanceof LogicalNotCriterion;
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\IsSystem $criterion
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalNot $criterion
      */
     public function buildQueryConstraint(
         CriterionVisitor $criterionVisitor,
         QueryBuilder $qb,
         CriterionInterface $criterion
     ): string {
-        return $qb->expr()->eq(
-            'ctg.is_system',
-            $qb->createNamedParameter($criterion->getValue(), ParameterType::BOOLEAN)
+        if (empty($criterion->getCriteria())) {
+            return '';
+        }
+
+        return sprintf(
+            'NOT (%s)',
+            $criterionVisitor->visitCriteria($qb, $criterion->getCriteria()[0]),
         );
     }
 }

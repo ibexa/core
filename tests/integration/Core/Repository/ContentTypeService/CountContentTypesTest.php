@@ -8,9 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\ContentTypeService;
 
-use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
-use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContainsFieldDefinitionIds;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeGroupIds;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\Identifiers;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\Ids;
@@ -23,109 +21,62 @@ use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 /**
  * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService
  */
-final class FindContentTypesTest extends RepositoryTestCase
+final class CountContentTypesTest extends RepositoryTestCase
 {
-    public function testFindContentTypesWithNullQueryFinds25Results(): void
+    public function testCountContentTypesWithNullQuery(): void
     {
         $contentTypeService = self::getContentTypeService();
 
-        $contentTypes = $contentTypeService->findContentTypes();
+        $contentTypesCount = $contentTypeService->countContentTypes();
 
-        self::assertCount(25, $contentTypes);
+        $contentTypesObjects = $contentTypeService->findContentTypes(new ContentTypeQuery([], [], 0, 999));
+
+        self::assertSame(count($contentTypesObjects), $contentTypesCount);
     }
 
     /**
-     * @param list<string> $expectedIdentifiers
-     *
-     * @dataProvider dataProviderForTestFindContentTypes
+     * @dataProvider dataProviderForTestCount
      */
-    public function testFindContentTypes(ContentTypeQuery $query, array $expectedIdentifiers): void
+    public function testCountContentTypes(ContentTypeQuery $query, int $expectedCount): void
     {
         $contentTypeService = self::getContentTypeService();
 
-        $contentTypes = $contentTypeService->findContentTypes($query);
-        $identifiers = array_map(
-            static fn (ContentType $contentType): string => $contentType->getIdentifier(),
-            $contentTypes
-        );
+        $count = $contentTypeService->countContentTypes($query);
 
-        self::assertCount(count($expectedIdentifiers), $identifiers);
-        self::assertEqualsCanonicalizing($expectedIdentifiers, $identifiers);
-    }
-
-    public function testFindContentTypesAscSortedByIdentifier(): void
-    {
-        $contentTypeService = self::getContentTypeService();
-
-        $contentTypes = $contentTypeService->findContentTypes(
-            new ContentTypeQuery([
-                new Identifiers(['folder', 'article', 'user', 'file']),
-            ])
-        );
-        $identifiers = array_map(
-            static fn (ContentType $contentType): string => $contentType->getIdentifier(),
-            $contentTypes
-        );
-
-        self::assertCount(4, $identifiers);
-        self::assertSame(['article', 'file', 'folder', 'user'], $identifiers);
-    }
-
-    public function testFindContentTypesContainingFieldDefinitions(): void
-    {
-        $contentTypeService = self::getContentTypeService();
-        $folderContentType = $contentTypeService->loadContentTypeByIdentifier('folder');
-
-        $fieldDefinitionToInclude = null;
-        foreach ($folderContentType->getFieldDefinitions() as $fieldDefinition) {
-            if ($fieldDefinition->getIdentifier() === 'short_name') {
-                $fieldDefinitionToInclude = $fieldDefinition;
-            }
-        }
-
-        assert($fieldDefinitionToInclude !== null);
-
-        $contentTypes = $contentTypeService->findContentTypes(
-            new ContentTypeQuery([
-                new ContainsFieldDefinitionIds([$fieldDefinitionToInclude->getId()]),
-            ])
-        );
-
-        self::assertCount(1, $contentTypes);
-        self::assertSame('folder', $contentTypes[0]->getIdentifier());
+        self::assertSame($expectedCount, $count);
     }
 
     /**
-     * @return iterable<array{\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery, list<string>}>
+     * @return iterable<array{\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery, int}>
      */
-    public function dataProviderForTestFindContentTypes(): iterable
+    public function dataProviderForTestCount(): iterable
     {
         yield 'identifiers' => [
             new ContentTypeQuery([
                 new Identifiers(['folder', 'article']),
             ]),
-            ['article', 'folder'],
+            2,
         ];
 
         yield 'user group content type' => [
             new ContentTypeQuery([
                 new ContentTypeGroupIds([2]),
             ]),
-            ['user', 'user_group'],
+            2,
         ];
 
         yield 'ids' => [
             new ContentTypeQuery([
                 new Ids([1]),
             ]),
-            ['folder'],
+            1,
         ];
 
         yield 'system group' => [
             new ContentTypeQuery([
                 new IsSystem(false),
             ]),
-            ['folder', 'user', 'user_group'],
+            3,
         ];
 
         yield 'logical and' => [
@@ -135,7 +86,7 @@ final class FindContentTypesTest extends RepositoryTestCase
                     new ContentTypeGroupIds([1]),
                 ]),
             ]),
-            ['folder', 'article'],
+            2,
         ];
 
         yield 'logical or' => [
@@ -145,7 +96,7 @@ final class FindContentTypesTest extends RepositoryTestCase
                     new ContentTypeGroupIds([2]),
                 ]),
             ]),
-            ['folder', 'article', 'user', 'user_group'],
+            4,
         ];
 
         yield 'logical not resulting in empty set' => [
@@ -157,7 +108,7 @@ final class FindContentTypesTest extends RepositoryTestCase
                     new ContentTypeGroupIds([2]),
                 ]),
             ]),
-            [],
+            0,
         ];
 
         yield 'logical not' => [
@@ -169,7 +120,7 @@ final class FindContentTypesTest extends RepositoryTestCase
                     new ContentTypeGroupIds([2]),
                 ]),
             ]),
-            ['user_group'],
+            1,
         ];
 
         yield 'logical or outside with logical and inside' => [
@@ -182,7 +133,7 @@ final class FindContentTypesTest extends RepositoryTestCase
                     new Identifiers(['user']),
                 ]),
             ]),
-            ['folder', 'article', 'user'],
+            3,
         ];
     }
 }

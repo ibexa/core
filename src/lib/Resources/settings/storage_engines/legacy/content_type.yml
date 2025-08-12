@@ -21,6 +21,12 @@ services:
     Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionQueryBuilder\LogicalAnd:
         tags: [ 'ibexa.content_type.criterion_query_builder' ]
 
+    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionQueryBuilder\LogicalOr:
+        tags: [ 'ibexa.content_type.criterion_query_builder' ]
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionQueryBuilder\LogicalNot:
+        tags: [ 'ibexa.content_type.criterion_query_builder' ]
+
     Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor:
         arguments:
             $criterionQueryBuilders: !tagged_iterator 'ibexa.content_type.criterion_query_builder'
