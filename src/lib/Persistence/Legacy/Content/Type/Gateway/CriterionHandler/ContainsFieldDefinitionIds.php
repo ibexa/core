@@ -14,9 +14,6 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Base;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContainsFieldDefinitionIds as ContainsFieldDefinitionIdsCriterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 
-/**
- * @implements \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContainsFieldDefinitionIds>
- */
 final class ContainsFieldDefinitionIds extends Base
 {
     public function supports(CriterionInterface $criterion): bool
@@ -24,6 +21,9 @@ final class ContainsFieldDefinitionIds extends Base
         return $criterion instanceof ContainsFieldDefinitionIdsCriterion;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContainsFieldDefinitionIds $criterion
+     */
     public function apply(QueryBuilder $qb, CriterionInterface $criterion): void
     {
         $qb->andWhere(

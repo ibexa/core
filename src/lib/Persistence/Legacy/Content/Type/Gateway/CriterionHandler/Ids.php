@@ -14,9 +14,6 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Base;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\Ids as IdsCriterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 
-/**
- * @implements \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\Ids>
- */
 final class Ids extends Base
 {
     public function supports(CriterionInterface $criterion): bool
@@ -24,6 +21,9 @@ final class Ids extends Base
         return $criterion instanceof IdsCriterion;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\Ids $criterion
+     */
     public function apply(QueryBuilder $qb, CriterionInterface $criterion): void
     {
         $qb->andWhere(

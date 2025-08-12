@@ -124,12 +124,12 @@ final class DoctrineDatabase extends Gateway
     private $languageMaskGenerator;
 
     /**
-     * @var array<int, \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface>
+     * @var array<int, \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>>
      */
     private array $criterionHandlers;
 
     /**
-     * @param iterable<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface> $criterionHandlers
+     * @param iterable<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>> $criterionHandlers
      *
      * @throws \Doctrine\DBAL\DBALException
      */
