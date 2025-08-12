@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
@@ -337,6 +338,24 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->removeByUserAndVersion($userId, $version);
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
+    public function countContentTypes(?ContentTypeQuery $query = null): int
+    {
+        try {
+            return $this->innerGateway->countContentTypes($query);
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
+    public function findContentTypes(?ContentTypeQuery $query = null): array
+    {
+        try {
+            return $this->innerGateway->findContentTypes($query);
         } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }

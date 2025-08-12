@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct as GroupCre
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandlerInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
 
 class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements ContentTypeHandlerInterface
 {
@@ -230,6 +231,16 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
             },
             [$groupId]
         );
+    }
+
+    public function countContentTypes(?ContentTypeQuery $query = null): int
+    {
+        return $this->persistenceHandler->contentTypeHandler()->countContentTypes($query);
+    }
+
+    public function findContentTypes(?ContentTypeQuery $query = null): array
+    {
+        return $this->persistenceHandler->contentTypeHandler()->findContentTypes($query);
     }
 
     public function loadContentTypeList(array $contentTypeIds): array

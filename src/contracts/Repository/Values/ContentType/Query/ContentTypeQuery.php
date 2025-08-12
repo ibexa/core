@@ -1,0 +1,84 @@
+<?php
+
+/**
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
+declare(strict_types=1);
+
+namespace Ibexa\Contracts\Core\Repository\Values\ContentType\Query;
+
+final class ContentTypeQuery
+{
+    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface[] */
+    private array $criteria;
+
+    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause[] */
+    private array $sortClauses;
+
+    private int $offset;
+
+    private int $limit;
+
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface[] $criteria
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause[] $sortClauses
+     */
+    public function __construct(
+        array $criteria = [],
+        array $sortClauses = [],
+        int $offset = 0,
+        int $limit = 25
+    ) {
+        $this->criteria = $criteria;
+        $this->sortClauses = $sortClauses;
+        $this->offset = $offset;
+        $this->limit = $limit;
+    }
+
+    public function addCriterion(CriterionInterface $criterion): void
+    {
+        $this->criteria[] = $criterion;
+    }
+
+    /**
+     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface[]
+     */
+    public function getCriteria(): array
+    {
+        return $this->criteria;
+    }
+
+    public function addSortClause(SortClause $sortClause): void
+    {
+        $this->sortClauses[] = $sortClause;
+    }
+
+    /**
+     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause[]
+     */
+    public function getSortClauses(): array
+    {
+        return $this->sortClauses;
+    }
+
+    public function getOffset(): int
+    {
+        return $this->offset;
+    }
+
+    public function setOffset(int $offset): void
+    {
+        $this->offset = $offset;
+    }
+
+    public function getLimit(): int
+    {
+        return $this->limit;
+    }
+
+    public function setLimit(int $limit): void
+    {
+        $this->limit = $limit;
+    }
+}

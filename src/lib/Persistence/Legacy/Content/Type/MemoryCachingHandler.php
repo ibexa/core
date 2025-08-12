@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct as GroupCre
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as BaseContentTypeHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
 use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface;
 use Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache;
 
@@ -169,6 +170,16 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         }
 
         return $types;
+    }
+
+    public function countContentTypes(?ContentTypeQuery $query = null): int
+    {
+        return $this->innerHandler->countContentTypes($query);
+    }
+
+    public function findContentTypes(?ContentTypeQuery $query = null): array
+    {
+        return $this->innerHandler->findContentTypes($query);
     }
 
     /**

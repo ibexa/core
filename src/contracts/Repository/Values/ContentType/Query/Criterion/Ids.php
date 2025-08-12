@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
+declare(strict_types=1);
+
+namespace Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion;
+
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
+
+final class Ids implements CriterionInterface
+{
+    /** @var list<int> */
+    private array $value;
+
+    /**
+     * @param list<int> $value
+     */
+    public function __construct(array $value)
+    {
+        $this->value = $value;
+    }
+
+    /**
+     * @return list<int>
+     */
+    public function getValue(): array
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param list<int> $value
+     */
+    public function setValue(array $value): void
+    {
+        $this->value = $value;
+    }
+}

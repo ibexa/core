@@ -1,10 +1,52 @@
 services:
+    _instanceof:
+        Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface:
+            tags: [ 'ibexa.content_type.criterion_handler' ]
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionQueryBuilder\ContainsFieldDefinitionIds:
+        tags: [ 'ibexa.content_type.criterion_query_builder' ]
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionQueryBuilder\ContentTypeGroupIds:
+        tags: [ 'ibexa.content_type.criterion_query_builder' ]
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionQueryBuilder\Identifiers:
+        tags: [ 'ibexa.content_type.criterion_query_builder' ]
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionQueryBuilder\Ids:
+        tags: [ 'ibexa.content_type.criterion_query_builder' ]
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionQueryBuilder\IsSystem:
+        tags: [ 'ibexa.content_type.criterion_query_builder' ]
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionQueryBuilder\LogicalAnd:
+        tags: [ 'ibexa.content_type.criterion_query_builder' ]
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor:
+        arguments:
+            $criterionQueryBuilders: !tagged_iterator 'ibexa.content_type.criterion_query_builder'
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler\:
+        resource: '../../../../Persistence/Legacy/Content/Type/Gateway/CriterionHandler/*'
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler\LogicalAnd:
+        arguments:
+            $criterionVisitor: '@Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor'
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler\LogicalOr:
+        arguments:
+            $criterionVisitor: '@Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor'
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler\LogicalNot:
+        arguments:
+            $criterionVisitor: '@Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor'
+
     Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase.inner:
         class: Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase
         arguments:
-            - '@ibexa.api.storage_engine.legacy.connection'
-            - '@Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway'
-            - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            $connection: '@ibexa.api.storage_engine.legacy.connection'
+            $sharedGateway: '@Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway'
+            $languageMaskGenerator: '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            $criterionHandlers: !tagged_iterator 'ibexa.content_type.criterion_handler'
 
     Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\ExceptionConversion:
         class: Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\ExceptionConversion

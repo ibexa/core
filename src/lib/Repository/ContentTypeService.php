@@ -34,6 +34,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\ContentTypeFieldDefinitionValidationException;
@@ -917,17 +918,28 @@ class ContentTypeService implements ContentTypeServiceInterface
         return $this->contentTypeDomainMapper->buildContentTypeDraftDomainObject($spiContentType);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadContentTypeList(array $contentTypeIds, array $prioritizedLanguages = []): iterable
     {
         $spiContentTypes = $this->contentTypeHandler->loadContentTypeList($contentTypeIds);
         $contentTypes = [];
-
         // @todo We could bulk load content type group proxies involved in the future & pass those relevant per type to mapper
         foreach ($spiContentTypes as $spiContentType) {
             $contentTypes[$spiContentType->id] = $this->contentTypeDomainMapper->buildContentTypeDomainObject(
+                $spiContentType,
+                $prioritizedLanguages
+            );
+        }
+
+        return $contentTypes;
+    }
+
+    public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): array
+    {
+        $contentTypes = [];
+        $spiContentTypes = $this->contentTypeHandler->findContentTypes($query);
+
+        foreach ($spiContentTypes as $spiContentType) {
+            $contentTypes[] = $this->contentTypeDomainMapper->buildContentTypeDomainObject(
                 $spiContentType,
                 $prioritizedLanguages
             );

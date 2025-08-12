@@ -17,12 +17,17 @@ use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
+use Ibexa\Contracts\Core\Repository\Values\URL\Query\SortClause;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\MultilingualStorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 use Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway as SharedGateway;
+use function Ibexa\PolyfillPhp82\iterator_to_array;
 use function sprintf;
 
 /**
@@ -34,6 +39,11 @@ use function sprintf;
  */
 final class DoctrineDatabase extends Gateway
 {
+    private const SORT_DIRECTION_MAP = [
+        SortClause::SORT_ASC => 'ASC',
+        SortClause::SORT_DESC => 'DESC',
+    ];
+
     /**
      * Columns of database tables.
      *
@@ -114,17 +124,26 @@ final class DoctrineDatabase extends Gateway
     private $languageMaskGenerator;
 
     /**
+     * @var array<int, \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface>
+     */
+    private array $criterionHandlers;
+
+    /**
+     * @param iterable<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface> $criterionHandlers
+     *
      * @throws \Doctrine\DBAL\DBALException
      */
     public function __construct(
         Connection $connection,
         SharedGateway $sharedGateway,
-        MaskGenerator $languageMaskGenerator
+        MaskGenerator $languageMaskGenerator,
+        iterable $criterionHandlers
     ) {
         $this->connection = $connection;
         $this->dbPlatform = $connection->getDatabasePlatform();
         $this->sharedGateway = $sharedGateway;
         $this->languageMaskGenerator = $languageMaskGenerator;
+        $this->criterionHandlers = iterator_to_array($criterionHandlers);
     }
 
     public function insertGroup(Group $group): int
@@ -1403,6 +1422,93 @@ final class DoctrineDatabase extends Gateway
 
             throw $e;
         }
+    }
+
+    public function countContentTypes(?ContentTypeQuery $query = null): int
+    {
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder
+            ->select('COUNT(ct.id)')
+            ->from(self::CONTENT_TYPE_TABLE, 'ct');
+
+        if ($query !== null && !empty($query->getCriteria())) {
+            $this->applyFilters($queryBuilder, $query->getCriteria());
+        }
+
+        return (int)$queryBuilder->execute()->fetchOne();
+    }
+
+    public function findContentTypes(?ContentTypeQuery $query = null): array
+    {
+        $queryBuilder = $this->getLoadTypeQueryBuilder();
+        $queryBuilder->setMaxResults(25);
+
+        if ($query === null) {
+            return $queryBuilder->execute()->fetchAllAssociative();
+        }
+
+        if (!empty($query->getCriteria())) {
+            $this->applyFilters($queryBuilder, $query->getCriteria());
+        }
+
+        if ($query->getOffset() > 0) {
+            $queryBuilder->setFirstResult($query->getOffset());
+        }
+
+        if ($query->getLimit() > 0) {
+            $queryBuilder->setMaxResults($query->getLimit());
+        }
+
+        foreach ($query->getSortClauses() as $sortClause) {
+            $column = sprintf('c.%s', $sortClause->target);
+            $queryBuilder->addOrderBy($column, $this->getQuerySortingDirection($sortClause->direction));
+        }
+
+        return $queryBuilder->execute()->fetchAllAssociative();
+    }
+
+    /**
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     */
+    private function getQuerySortingDirection(string $direction): string
+    {
+        if (!isset(self::SORT_DIRECTION_MAP[$direction])) {
+            throw new InvalidArgumentException(
+                '$sortClause->direction',
+                sprintf(
+                    'Unsupported "%s" sorting directions, use one of the SortClause::SORT_* constants instead',
+                    $direction
+                )
+            );
+        }
+
+        return self::SORT_DIRECTION_MAP[$direction];
+    }
+
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface[] $criteria
+     */
+    private function applyFilters(QueryBuilder $qb, array $criteria): void
+    {
+        foreach ($criteria as $criterion) {
+            $this->applyCriterion($qb, $criterion);
+        }
+    }
+
+    private function applyCriterion(QueryBuilder $qb, CriterionInterface $criterion): void
+    {
+        foreach ($this->criterionHandlers as $handler) {
+            if ($handler->supports($criterion)) {
+                $handler->apply($qb, $criterion);
+
+                return;
+            }
+        }
+
+        throw new InvalidArgumentException(
+            get_class($criterion),
+            'No handler found for criterion of type. Make sure the handler service is registered and tagged with "ibexa.content_type.criterion_handler".'
+        );
     }
 
     /**
