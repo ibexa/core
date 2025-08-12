@@ -14,9 +14,6 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Base;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\IsSystem as IsSystemCriterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 
-/**
- * @implements \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\IsSystem>
- */
 final class IsSystem extends Base
 {
     public function supports(CriterionInterface $criterion): bool
@@ -24,6 +21,9 @@ final class IsSystem extends Base
         return $criterion instanceof IsSystemCriterion;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\IsSystem $criterion
+     */
     public function apply(QueryBuilder $qb, CriterionInterface $criterion): void
     {
         $this->joinContentTypeGroup($qb);

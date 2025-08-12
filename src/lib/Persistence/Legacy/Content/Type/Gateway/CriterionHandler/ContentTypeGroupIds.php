@@ -14,9 +14,6 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Base;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeGroupIds as ContentTypeGroupIdsCriterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 
-/**
- * @implements \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeGroupIds>
- */
 final class ContentTypeGroupIds  extends Base
 {
     public function supports(CriterionInterface $criterion): bool
@@ -24,6 +21,9 @@ final class ContentTypeGroupIds  extends Base
         return $criterion instanceof ContentTypeGroupIdsCriterion;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeGroupIds $criterion
+     */
     public function apply(QueryBuilder $qb, CriterionInterface $criterion): void
     {
         $qb->andWhere(

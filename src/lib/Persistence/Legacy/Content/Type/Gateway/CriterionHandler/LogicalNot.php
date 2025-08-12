@@ -14,9 +14,6 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalNo
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
-/**
- * @implements \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalNot>
- */
 final class LogicalNot extends Base
 {
     private CriterionVisitor $criterionVisitor;
@@ -33,6 +30,8 @@ final class LogicalNot extends Base
     }
 
     /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalNot $criterion
+     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
     public function apply(QueryBuilder $qb, CriterionInterface $criterion): void
