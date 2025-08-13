@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\ConsoleCommandPass;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -23,7 +24,7 @@ final class ConsoleCommandPassTest extends AbstractCompilerPassTestCase
 
     public function testAddSiteaccessOption(): void
     {
-        $commandDefinition = new Definition();
+        $commandDefinition = new Definition(Command::class);
         $serviceId = 'some_service_id';
         $commandDefinition->addTag('console.command');
 
@@ -40,5 +41,17 @@ final class ConsoleCommandPassTest extends AbstractCompilerPassTestCase
                 'SiteAccess to use for operations. If not provided, default siteaccess will be used',
             ]
         );
+    }
+
+    public function testSkipsSiteaccessOptionOnInvokables(): void
+    {
+        $commandDefinition = new Definition();
+        $serviceId = 'some_service_id';
+        $commandDefinition->addTag('console.command');
+
+        $this->setDefinition($serviceId, $commandDefinition);
+        $this->compile();
+
+        $this->assertContainerBuilderHasService($serviceId);
     }
 }
