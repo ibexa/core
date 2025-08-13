@@ -37,6 +37,6 @@ final class LogicalOr extends Base
             $subexpressions[] = $criterionVisitor->visitCriteria($qb, $subCriterion);
         }
 
-        return $qb->expr()->orX(...$subexpressions);
+        return $qb->expr()->or(...$subexpressions);
     }
 }
