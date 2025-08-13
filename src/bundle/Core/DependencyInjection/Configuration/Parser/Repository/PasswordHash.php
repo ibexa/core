@@ -8,9 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Repository;
 
-use Ibexa\Bundle\Core\DependencyInjection\Configuration\AbstractParser;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\RepositoryConfigParserInterface;
-use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 
@@ -29,7 +27,7 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
  *              update_type_on_change: false
  * ```
  */
-final class PasswordHash extends AbstractParser implements RepositoryConfigParserInterface
+final class PasswordHash implements RepositoryConfigParserInterface
 {
     public function addSemanticConfig(NodeBuilder $nodeBuilder): void
     {
@@ -40,6 +38,7 @@ final class PasswordHash extends AbstractParser implements RepositoryConfigParse
                     ->integerNode('default_type')
                         ->info('Default password hash type, see the constants in Ibexa\Contracts\Core\Repository\Values\User\User.')
                         ->example('!php/const:Ibexa\Contracts\Core\Repository\Values\User\User::PASSWORD_HASH_PHP_DEFAULT')
+                        ->defaultValue(User::PASSWORD_HASH_PHP_DEFAULT)
                         ->validate()
                             ->ifTrue(static function ($value): bool {
                                 $hashType = (int) $value;
@@ -58,26 +57,9 @@ final class PasswordHash extends AbstractParser implements RepositoryConfigParse
                     ->booleanNode('update_type_on_change')
                         ->info('Whether the password hash type should be changed when the password is changed if it differs from the default type.')
                         ->example('false')
+                        ->defaultFalse()
                     ->end()
                 ->end()
             ->end();
-    }
-
-    /**
-     * @param array<string, mixed> $scopeSettings
-     */
-    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer): void
-    {
-        if (!isset($scopeSettings['password_hash'])) {
-            return;
-        }
-
-        $settings = $scopeSettings['password_hash'];
-        if (isset($settings['default_type'])) {
-            $contextualizer->setContextualParameter('password_hash.default_type', $currentScope, $settings['default_type']);
-        }
-        if (isset($settings['update_type_on_change'])) {
-            $contextualizer->setContextualParameter('password_hash.update_type_on_change', $currentScope, $settings['update_type_on_change']);
-        }
     }
 }

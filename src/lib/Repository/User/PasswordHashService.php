@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\User;
 
-use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Ibexa\Contracts\Core\Repository\PasswordHashService as PasswordHashServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Core\Repository\User\Exception\PasswordHashTypeNotCompiled;
@@ -19,11 +18,26 @@ use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
  */
 final class PasswordHashService implements PasswordHashServiceInterface
 {
-    private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
+    private int $defaultHashType;
 
-    public function __construct(RepositoryConfigurationProviderInterface $repositoryConfigurationProvider)
+    private bool $updateTypeOnChange;
+
+    public function __construct(
+        int $defaultHashType = User::PASSWORD_HASH_PHP_DEFAULT,
+        bool $updateTypeOnChange = false
+    ) {
+        $this->defaultHashType = $defaultHashType;
+        $this->updateTypeOnChange = $updateTypeOnChange;
+    }
+
+    public function setDefaultHashType(int $defaultHashType): void
     {
-        $this->repositoryConfigurationProvider = $repositoryConfigurationProvider;
+        $this->defaultHashType = $defaultHashType;
+    }
+
+    public function setUpdateTypeOnChange(bool $updateTypeOnChange): void
+    {
+        $this->updateTypeOnChange = $updateTypeOnChange;
     }
 
     public function getSupportedHashTypes(): array
@@ -38,9 +52,7 @@ final class PasswordHashService implements PasswordHashServiceInterface
 
     public function getDefaultHashType(): int
     {
-        $config = $this->repositoryConfigurationProvider->getRepositoryConfig();
-
-        return $config['password_hash']['default_type'];
+        return $this->defaultHashType;
     }
 
     public function createPasswordHash(
@@ -107,8 +119,6 @@ final class PasswordHashService implements PasswordHashServiceInterface
 
     public function shouldPasswordHashTypeBeUpdatedOnChange(): bool
     {
-        $config = $this->repositoryConfigurationProvider->getRepositoryConfig();
-
-        return $config['password_hash']['update_type_on_change'];
+        return $this->updateTypeOnChange;
     }
 }

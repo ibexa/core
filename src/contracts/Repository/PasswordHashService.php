@@ -11,6 +11,20 @@ namespace Ibexa\Contracts\Core\Repository;
 interface PasswordHashService
 {
     /**
+     * Sets the default password hash type.
+     *
+     * @param int $defaultHashType The default password hash type, one of Ibexa\Contracts\Core\Repository\Values\User\User::SUPPORTED_PASSWORD_HASHES.
+     */
+    public function setDefaultHashType(int $defaultHashType): void;
+
+    /**
+     * Sets whether the password hash type should be updated when the password is changed.
+     *
+     * @param bool $updateTypeOnChange Whether to update the password hash type on change.
+     */
+    public function setUpdateTypeOnChange(bool $updateTypeOnChange): void;
+
+    /**
      * Returns default password hash type.
      *
      * @return int
