@@ -28,7 +28,6 @@ abstract class Base implements CriterionHandlerInterface
                 'ctg',
                 'g.contentclass_id = ctg.id'
             );
-            $query->addSelect('ctg.id');
         }
     }
 
@@ -49,7 +48,6 @@ abstract class Base implements CriterionHandlerInterface
                     'c.version = a.version'
                 )
             );
-            $query->addSelect('a.id');
         }
     }
 
@@ -70,7 +68,6 @@ abstract class Base implements CriterionHandlerInterface
                     'c.version = g.contentclass_version',
                 )
             );
-            $query->addSelect('g.group_id');
         }
     }
 
