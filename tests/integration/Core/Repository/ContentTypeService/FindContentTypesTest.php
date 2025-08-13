@@ -18,6 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\IsSystem;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalAnd;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalNot;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalOr;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause\Identifier;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 
 /**
@@ -60,7 +61,8 @@ final class FindContentTypesTest extends RepositoryTestCase
         $contentTypes = $contentTypeService->findContentTypes(
             new ContentTypeQuery(
                 new Identifiers(['folder', 'article', 'user', 'file']),
-            )
+                [new Identifier()]
+            ),
         );
         $identifiers = array_map(
             static fn (ContentType $contentType): string => $contentType->getIdentifier(),
