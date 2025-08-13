@@ -46,7 +46,7 @@ final class FindContentTypesTest extends RepositoryTestCase
         $contentTypes = $contentTypeService->findContentTypes($query);
         $identifiers = array_map(
             static fn (ContentType $contentType): string => $contentType->getIdentifier(),
-            $contentTypes
+            $contentTypes->items
         );
 
         self::assertCount(count($expectedIdentifiers), $identifiers);
@@ -64,7 +64,7 @@ final class FindContentTypesTest extends RepositoryTestCase
         );
         $identifiers = array_map(
             static fn (ContentType $contentType): string => $contentType->getIdentifier(),
-            $contentTypes
+            $contentTypes->items
         );
 
         self::assertCount(4, $identifiers);
@@ -92,7 +92,7 @@ final class FindContentTypesTest extends RepositoryTestCase
         );
 
         self::assertCount(1, $contentTypes);
-        self::assertSame('folder', $contentTypes[0]->getIdentifier());
+        self::assertSame('folder', $contentTypes->items[0]->getIdentifier());
     }
 
     /**

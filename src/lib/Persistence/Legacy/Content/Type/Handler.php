@@ -201,15 +201,18 @@ class Handler implements BaseContentTypeHandler
         return $this->contentTypeGateway->countContentTypes($query);
     }
 
-    /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type[]
-     */
     public function findContentTypes(?ContentTypeQuery $query = null): array
     {
-        return $this->mapper->extractTypesFromRows(
-            $this->contentTypeGateway->findContentTypes($query),
+        $rows = $this->contentTypeGateway->findContentTypes($query);
+        $items = $this->mapper->extractTypesFromRows(
+            $rows,
             true
         );
+
+        return [
+            'count' => count($items),
+            'items' => $items,
+        ];
     }
 
     /**
