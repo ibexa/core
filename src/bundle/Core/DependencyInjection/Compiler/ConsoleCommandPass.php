@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -18,6 +19,11 @@ final class ConsoleCommandPass implements CompilerPassInterface
     {
         foreach ($container->findTaggedServiceIds('console.command') as $id => $attributes) {
             $definition = $container->getDefinition($id);
+
+            $class = $definition->getClass();
+            if (!is_a($class, Command::class, true)) {
+                continue;
+            }
 
             $definition->addMethodCall('addOption', [
                 'siteaccess',
