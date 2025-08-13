@@ -37,6 +37,6 @@ final class LogicalAnd extends Base
             $subexpressions[] = $criterionVisitor->visitCriteria($qb, $subCriterion);
         }
 
-        return $qb->expr()->andX(...$subexpressions);
+        return $qb->expr()->and(...$subexpressions);
     }
 }
