@@ -13,6 +13,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Base;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeGroupIds as ContentTypeGroupIdsCriterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
+use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
 final class ContentTypeGroupIds  extends Base
 {
@@ -24,13 +25,16 @@ final class ContentTypeGroupIds  extends Base
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeGroupIds $criterion
      */
-    public function apply(QueryBuilder $qb, CriterionInterface $criterion): void
-    {
-        $qb->andWhere(
-            $qb->expr()->in(
-                'ezcontentclass_classgroup_group_id',
-                $qb->createNamedParameter($criterion->getValue(), Connection::PARAM_INT_ARRAY)
-            ),
+    public function apply(
+        CriterionVisitor $criterionVisitor,
+        QueryBuilder $qb,
+        CriterionInterface $criterion
+    ): string {
+        $this->joinContentTypeGroupAssignmentTable($qb);
+
+        return $qb->expr()->in(
+            'g.group_id',
+            $qb->createNamedParameter($criterion->getValue(), Connection::PARAM_INT_ARRAY)
         );
     }
 }

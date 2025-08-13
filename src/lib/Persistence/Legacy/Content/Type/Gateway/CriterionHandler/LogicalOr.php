@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler;
 
+use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Base;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalOr as LogicalOrCriterion;
@@ -16,14 +17,6 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\Criterio
 
 final class LogicalOr extends Base
 {
-    private CriterionVisitor $criterionVisitor;
-
-    public function __construct(
-        CriterionVisitor $criterionVisitor
-    ) {
-        $this->criterionVisitor = $criterionVisitor;
-    }
-
     public function supports(CriterionInterface $criterion): bool
     {
         return $criterion instanceof LogicalOrCriterion;
@@ -34,21 +27,16 @@ final class LogicalOr extends Base
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
-    public function apply(QueryBuilder $qb, CriterionInterface $criterion): void
-    {
-        $constraints = [];
-        /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalOr $criterion */
-        foreach ($criterion->getCriteria() as $criterion) {
-            $constraint = $this->criterionVisitor->visitCriteria($qb, $criterion);
-            if (null !== $constraint) {
-                $constraints[] = $constraint;
-            }
+    public function apply(
+        CriterionVisitor $criterionVisitor,
+        QueryBuilder $qb,
+        CriterionInterface $criterion
+    ): CompositeExpression {
+        $subexpressions = [];
+        foreach ($criterion->getCriteria() as $subCriterion) {
+            $subexpressions[] = $criterionVisitor->visitCriteria($qb, $subCriterion);
         }
 
-        if (empty($constraints)) {
-            return;
-        }
-
-        $qb->andWhere($qb->expr()->or(...$constraints));
+        return $qb->expr()->orX(...$subexpressions);
     }
 }

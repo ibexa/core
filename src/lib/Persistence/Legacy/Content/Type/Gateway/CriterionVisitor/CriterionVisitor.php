@@ -16,16 +16,16 @@ use function Ibexa\PolyfillPhp82\iterator_to_array;
 final class CriterionVisitor
 {
     /**
-     * @var array<\Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionQueryBuilder\CriterionQueryBuilderInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>>
+     * @var array<int, \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>>
      */
-    private array $criterionQueryBuilders;
+    private array $criterionHandlers;
 
     /**
-     * @param iterable<\Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionQueryBuilder\CriterionQueryBuilderInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>> $criterionQueryBuilders
+     * @param iterable<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>> $criterionHandlers
      */
-    public function __construct(iterable $criterionQueryBuilders)
+    public function __construct(iterable $criterionHandlers)
     {
-        $this->criterionQueryBuilders = iterator_to_array($criterionQueryBuilders);
+        $this->criterionHandlers = iterator_to_array($criterionHandlers);
     }
 
     /**
@@ -37,9 +37,9 @@ final class CriterionVisitor
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion
     ) {
-        foreach ($this->criterionQueryBuilders as $criterionQueryBuilder) {
-            if ($criterionQueryBuilder->supports($criterion)) {
-                return $criterionQueryBuilder->buildQueryConstraint(
+        foreach ($this->criterionHandlers as $criterionHandler) {
+            if ($criterionHandler->supports($criterion)) {
+                return $criterionHandler->apply(
                     $this,
                     $queryBuilder,
                     $criterion
@@ -49,7 +49,7 @@ final class CriterionVisitor
 
         throw new NotImplementedException(
             sprintf(
-                'There is no Criterion Query Builder for %s Criterion',
+                'There is no Criterion Handler for %s Criterion',
                 get_class($criterion)
             )
         );
