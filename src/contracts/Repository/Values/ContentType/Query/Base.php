@@ -28,6 +28,49 @@ abstract class Base implements CriterionHandlerInterface
                 'ctg',
                 'g.contentclass_id = ctg.id'
             );
+            $query->addSelect('ctg.id');
+        }
+    }
+
+    /**
+     * Inner join the `ezcontentclass_attribute` table if not joined yet.
+     */
+    protected function joinFieldDefinitions(QueryBuilder $query): void
+    {
+        if (!$this->hasJoinedTable($query, Gateway::FIELD_DEFINITION_TABLE)) {
+            $expr = $query->expr();
+
+            $query->leftJoin(
+                'c',
+                Gateway::FIELD_DEFINITION_TABLE,
+                'a',
+                (string)$expr->and(
+                    'c.id = a.contentclass_id',
+                    'c.version = a.version'
+                )
+            );
+            $query->addSelect('a.id');
+        }
+    }
+
+    /**
+     * Inner join the `ezcontentclass_classgroup` table if not joined yet.
+     */
+    protected function joinContentTypeGroupAssignmentTable(QueryBuilder $query): void
+    {
+        if (!$this->hasJoinedTable($query, Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE)) {
+            $expr = $query->expr();
+
+            $query->leftJoin(
+                'c',
+                Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE,
+                'g',
+                (string)$expr->and(
+                    'c.id = g.contentclass_id',
+                    'c.version = g.contentclass_version',
+                )
+            );
+            $query->addSelect('g.group_id');
         }
     }
 
