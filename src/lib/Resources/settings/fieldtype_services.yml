@@ -60,9 +60,7 @@ services:
 
     Ibexa\Core\FieldType\FieldTypeRegistry: ~
 
-    Ibexa\Core\Repository\User\PasswordHashService:
-        arguments:
-            $repositoryConfigurationProvider: '@Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider'
+    Ibexa\Core\Repository\User\PasswordHashService: ~
 
     Ibexa\Contracts\Core\Repository\PasswordHashService:
         alias: Ibexa\Core\Repository\User\PasswordHashService

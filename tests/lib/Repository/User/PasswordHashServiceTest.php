@@ -9,8 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Repository\User;
 
 use Ibexa\Contracts\Core\Repository\Values\User\User;
-use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
-use Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider;
 use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
 use Ibexa\Core\Repository\User\PasswordHashService;
 use Ibexa\Tests\Bundle\Core\ApiLoader\BaseRepositoryConfigurationProviderTestCase;
@@ -23,13 +21,7 @@ final class PasswordHashServiceTest extends BaseRepositoryConfigurationProviderT
 
     protected function setUp(): void
     {
-        $repositories = [
-            'legacy' => $this->buildNormalizedSingleRepositoryConfig('legacy'),
-        ];
-
-        $configResolver = $this->createMock(ConfigResolverInterface::class);
-        $repositoryConfigurationProvider = new RepositoryConfigurationProvider($configResolver, $repositories);
-        $this->passwordHashService = new PasswordHashService($repositoryConfigurationProvider);
+        $this->passwordHashService = new PasswordHashService();
     }
 
     public function testGetSupportedHashTypes(): void
