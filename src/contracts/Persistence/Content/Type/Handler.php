@@ -95,7 +95,7 @@ interface Handler
     public function countContentTypes(?ContentTypeQuery $query = null): int;
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type[]
+     * @return array{count: int, items: array<string, mixed>}
      */
     public function findContentTypes(?ContentTypeQuery $query = null): array;
 

@@ -31,7 +31,7 @@ final class CountContentTypesTest extends RepositoryTestCase
 
         $contentTypesObjects = $contentTypeService->findContentTypes(new ContentTypeQuery(null, [], 0, 999));
 
-        self::assertSame(count($contentTypesObjects), $contentTypesCount);
+        self::assertSame($contentTypesObjects->totalCount, $contentTypesCount);
     }
 
     /**
