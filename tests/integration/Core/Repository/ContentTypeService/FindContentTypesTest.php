@@ -58,9 +58,9 @@ final class FindContentTypesTest extends RepositoryTestCase
         $contentTypeService = self::getContentTypeService();
 
         $contentTypes = $contentTypeService->findContentTypes(
-            new ContentTypeQuery([
+            new ContentTypeQuery(
                 new Identifiers(['folder', 'article', 'user', 'file']),
-            ])
+            )
         );
         $identifiers = array_map(
             static fn (ContentType $contentType): string => $contentType->getIdentifier(),
@@ -86,9 +86,9 @@ final class FindContentTypesTest extends RepositoryTestCase
         assert($fieldDefinitionToInclude !== null);
 
         $contentTypes = $contentTypeService->findContentTypes(
-            new ContentTypeQuery([
+            new ContentTypeQuery(
                 new ContainsFieldDefinitionIds([$fieldDefinitionToInclude->getId()]),
-            ])
+            )
         );
 
         self::assertCount(1, $contentTypes);
@@ -101,79 +101,79 @@ final class FindContentTypesTest extends RepositoryTestCase
     public function dataProviderForTestFindContentTypes(): iterable
     {
         yield 'identifiers' => [
-            new ContentTypeQuery([
+            new ContentTypeQuery(
                 new Identifiers(['folder', 'article']),
-            ]),
+            ),
             ['article', 'folder'],
         ];
 
         yield 'user group content type' => [
-            new ContentTypeQuery([
+            new ContentTypeQuery(
                 new ContentTypeGroupIds([2]),
-            ]),
+            ),
             ['user', 'user_group'],
         ];
 
         yield 'ids' => [
-            new ContentTypeQuery([
+            new ContentTypeQuery(
                 new Ids([1]),
-            ]),
+            ),
             ['folder'],
         ];
 
         yield 'system group' => [
-            new ContentTypeQuery([
+            new ContentTypeQuery(
                 new IsSystem(false),
-            ]),
+            ),
             ['folder', 'user', 'user_group'],
         ];
 
         yield 'logical and' => [
-            new ContentTypeQuery([
+            new ContentTypeQuery(
                 new LogicalAnd([
                     new Identifiers(['folder', 'article']),
                     new ContentTypeGroupIds([1]),
                 ]),
-            ]),
+            ),
             ['folder', 'article'],
         ];
 
         yield 'logical or' => [
-            new ContentTypeQuery([
+            new ContentTypeQuery(
                 new LogicalOr([
                     new Identifiers(['folder', 'article']),
                     new ContentTypeGroupIds([2]),
                 ]),
-            ]),
+            ),
             ['folder', 'article', 'user', 'user_group'],
         ];
 
         yield 'logical not resulting in empty set' => [
-            new ContentTypeQuery([
+            new ContentTypeQuery(
                 new LogicalAnd([
                     new LogicalNot([
                         new Identifiers(['user', 'user_group']),
                     ]),
                     new ContentTypeGroupIds([2]),
                 ]),
-            ]),
+            ),
             [],
         ];
 
         yield 'logical not' => [
-            new ContentTypeQuery([
+            new ContentTypeQuery(
                 new LogicalAnd([
                     new LogicalNot([
                         new Identifiers(['user']),
                     ]),
                     new ContentTypeGroupIds([2]),
                 ]),
-            ]),
+            ),
             ['user_group'],
         ];
 
         yield 'logical or outside with logical and inside' => [
-            new ContentTypeQuery([
+            new ContentTypeQuery(
                 new LogicalOr([
                     new LogicalAnd([
                         new Identifiers(['folder', 'article']),
@@ -181,7 +181,7 @@ final class FindContentTypesTest extends RepositoryTestCase
                     ]),
                     new Identifiers(['user']),
                 ]),
-            ]),
+            ),
             ['folder', 'article', 'user'],
         ];
     }

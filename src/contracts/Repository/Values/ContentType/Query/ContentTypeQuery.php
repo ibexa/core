@@ -10,8 +10,7 @@ namespace Ibexa\Contracts\Core\Repository\Values\ContentType\Query;
 
 final class ContentTypeQuery
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface[] */
-    private array $criteria;
+    private ?CriterionInterface $criterion;
 
     /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause[] */
     private array $sortClauses;
@@ -21,32 +20,28 @@ final class ContentTypeQuery
     private int $limit;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface[] $criteria
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause[] $sortClauses
      */
     public function __construct(
-        array $criteria = [],
+        ?CriterionInterface $criterion = null,
         array $sortClauses = [],
         int $offset = 0,
         int $limit = 25
     ) {
-        $this->criteria = $criteria;
+        $this->criterion = $criterion;
         $this->sortClauses = $sortClauses;
         $this->offset = $offset;
         $this->limit = $limit;
     }
 
-    public function addCriterion(CriterionInterface $criterion): void
+    public function getCriterion(): ?CriterionInterface
     {
-        $this->criteria[] = $criterion;
+        return $this->criterion;
     }
 
-    /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface[]
-     */
-    public function getCriteria(): array
+    public function setCriterion(?CriterionInterface $criterion): void
     {
-        return $this->criteria;
+        $this->criterion = $criterion;
     }
 
     public function addSortClause(SortClause $sortClause): void

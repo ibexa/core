@@ -13,6 +13,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Base;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\IsSystem as IsSystemCriterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
+use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
 final class IsSystem extends Base
 {
@@ -24,15 +25,17 @@ final class IsSystem extends Base
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\IsSystem $criterion
      */
-    public function apply(QueryBuilder $qb, CriterionInterface $criterion): void
-    {
+    public function apply(
+        CriterionVisitor $criterionVisitor,
+        QueryBuilder $qb,
+        CriterionInterface $criterion
+    ): string {
+        $this->joinContentTypeGroupAssignmentTable($qb);
         $this->joinContentTypeGroup($qb);
 
-        $qb->andWhere(
-            $qb->expr()->eq(
-                'ctg.is_system',
-                $qb->createNamedParameter($criterion->getValue(), ParameterType::BOOLEAN)
-            )
+        return $qb->expr()->eq(
+            'ctg.is_system',
+            $qb->createNamedParameter($criterion->getValue(), ParameterType::BOOLEAN)
         );
     }
 }

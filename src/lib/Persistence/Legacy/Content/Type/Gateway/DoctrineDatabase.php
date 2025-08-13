@@ -18,7 +18,6 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
-use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\SortClause;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
@@ -27,7 +26,6 @@ use Ibexa\Core\Persistence\Legacy\Content\MultilingualStorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 use Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway as SharedGateway;
-use function Ibexa\PolyfillPhp82\iterator_to_array;
 use function sprintf;
 
 /**
@@ -123,27 +121,22 @@ final class DoctrineDatabase extends Gateway
      */
     private $languageMaskGenerator;
 
-    /**
-     * @var array<int, \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>>
-     */
-    private array $criterionHandlers;
+    private Gateway\CriterionVisitor\CriterionVisitor $criterionVisitor;
 
     /**
-     * @param iterable<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>> $criterionHandlers
-     *
      * @throws \Doctrine\DBAL\DBALException
      */
     public function __construct(
         Connection $connection,
         SharedGateway $sharedGateway,
         MaskGenerator $languageMaskGenerator,
-        iterable $criterionHandlers
+        Gateway\CriterionVisitor\CriterionVisitor $criterionVisitor
     ) {
         $this->connection = $connection;
         $this->dbPlatform = $connection->getDatabasePlatform();
         $this->sharedGateway = $sharedGateway;
         $this->languageMaskGenerator = $languageMaskGenerator;
-        $this->criterionHandlers = iterator_to_array($criterionHandlers);
+        $this->criterionVisitor = $criterionVisitor;
     }
 
     public function insertGroup(Group $group): int
@@ -1428,11 +1421,11 @@ final class DoctrineDatabase extends Gateway
     {
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder
-            ->select('COUNT(ct.id)')
-            ->from(self::CONTENT_TYPE_TABLE, 'ct');
+            ->select('COUNT(c.id)')
+            ->from(self::CONTENT_TYPE_TABLE, 'c');
 
-        if ($query !== null && !empty($query->getCriteria())) {
-            $this->applyFilters($queryBuilder, $query->getCriteria());
+        if ($query !== null && !empty($query->getCriterion())) {
+            $queryBuilder->andWhere($this->criterionVisitor->visitCriteria($queryBuilder, $query->getCriterion()));
         }
 
         return (int)$queryBuilder->execute()->fetchOne();
@@ -1447,8 +1440,8 @@ final class DoctrineDatabase extends Gateway
             return $queryBuilder->execute()->fetchAllAssociative();
         }
 
-        if (!empty($query->getCriteria())) {
-            $this->applyFilters($queryBuilder, $query->getCriteria());
+        if (!empty($query->getCriterion())) {
+            $queryBuilder->andWhere($this->criterionVisitor->visitCriteria($queryBuilder, $query->getCriterion()));
         }
 
         if ($query->getOffset() > 0) {
@@ -1483,32 +1476,6 @@ final class DoctrineDatabase extends Gateway
         }
 
         return self::SORT_DIRECTION_MAP[$direction];
-    }
-
-    /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface[] $criteria
-     */
-    private function applyFilters(QueryBuilder $qb, array $criteria): void
-    {
-        foreach ($criteria as $criterion) {
-            $this->applyCriterion($qb, $criterion);
-        }
-    }
-
-    private function applyCriterion(QueryBuilder $qb, CriterionInterface $criterion): void
-    {
-        foreach ($this->criterionHandlers as $handler) {
-            if ($handler->supports($criterion)) {
-                $handler->apply($qb, $criterion);
-
-                return;
-            }
-        }
-
-        throw new InvalidArgumentException(
-            get_class($criterion),
-            'No handler found for criterion of type. Make sure the handler service is registered and tagged with "ibexa.content_type.criterion_handler".'
-        );
     }
 
     /**

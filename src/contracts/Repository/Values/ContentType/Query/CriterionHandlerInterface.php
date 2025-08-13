@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Repository\Values\ContentType\Query;
 
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
 /**
  * @template T of \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface
@@ -22,6 +23,12 @@ interface CriterionHandlerInterface
 
     /**
      * @param T $criterion
+     *
+     * @return string|\Doctrine\DBAL\Query\Expression\CompositeExpression
      */
-    public function apply(QueryBuilder $qb, CriterionInterface $criterion): void;
+    public function apply(
+        CriterionVisitor $criterionVisitor,
+        QueryBuilder $qb,
+        CriterionInterface $criterion
+    );
 }

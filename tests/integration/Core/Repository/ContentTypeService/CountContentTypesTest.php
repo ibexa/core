@@ -29,7 +29,7 @@ final class CountContentTypesTest extends RepositoryTestCase
 
         $contentTypesCount = $contentTypeService->countContentTypes();
 
-        $contentTypesObjects = $contentTypeService->findContentTypes(new ContentTypeQuery([], [], 0, 999));
+        $contentTypesObjects = $contentTypeService->findContentTypes(new ContentTypeQuery(null, [], 0, 999));
 
         self::assertSame(count($contentTypesObjects), $contentTypesCount);
     }
@@ -52,79 +52,79 @@ final class CountContentTypesTest extends RepositoryTestCase
     public function dataProviderForTestCount(): iterable
     {
         yield 'identifiers' => [
-            new ContentTypeQuery([
+            new ContentTypeQuery(
                 new Identifiers(['folder', 'article']),
-            ]),
+            ),
             2,
         ];
 
         yield 'user group content type' => [
-            new ContentTypeQuery([
+            new ContentTypeQuery(
                 new ContentTypeGroupIds([2]),
-            ]),
+            ),
             2,
         ];
 
         yield 'ids' => [
-            new ContentTypeQuery([
+            new ContentTypeQuery(
                 new Ids([1]),
-            ]),
+            ),
             1,
         ];
 
         yield 'system group' => [
-            new ContentTypeQuery([
+            new ContentTypeQuery(
                 new IsSystem(false),
-            ]),
+            ),
             3,
         ];
 
         yield 'logical and' => [
-            new ContentTypeQuery([
+            new ContentTypeQuery(
                 new LogicalAnd([
                     new Identifiers(['folder', 'article']),
                     new ContentTypeGroupIds([1]),
                 ]),
-            ]),
+            ),
             2,
         ];
 
         yield 'logical or' => [
-            new ContentTypeQuery([
+            new ContentTypeQuery(
                 new LogicalOr([
                     new Identifiers(['folder', 'article']),
                     new ContentTypeGroupIds([2]),
                 ]),
-            ]),
+            ),
             4,
         ];
 
         yield 'logical not resulting in empty set' => [
-            new ContentTypeQuery([
+            new ContentTypeQuery(
                 new LogicalAnd([
                     new LogicalNot([
                         new Identifiers(['user', 'user_group']),
                     ]),
                     new ContentTypeGroupIds([2]),
                 ]),
-            ]),
+            ),
             0,
         ];
 
         yield 'logical not' => [
-            new ContentTypeQuery([
+            new ContentTypeQuery(
                 new LogicalAnd([
                     new LogicalNot([
                         new Identifiers(['user']),
                     ]),
                     new ContentTypeGroupIds([2]),
                 ]),
-            ]),
+            ),
             1,
         ];
 
         yield 'logical or outside with logical and inside' => [
-            new ContentTypeQuery([
+            new ContentTypeQuery(
                 new LogicalOr([
                     new LogicalAnd([
                         new Identifiers(['folder', 'article']),
@@ -132,7 +132,7 @@ final class CountContentTypesTest extends RepositoryTestCase
                     ]),
                     new Identifiers(['user']),
                 ]),
-            ]),
+            ),
             3,
         ];
     }

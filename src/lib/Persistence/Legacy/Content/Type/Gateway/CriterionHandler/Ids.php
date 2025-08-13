@@ -13,6 +13,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Base;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\Ids as IdsCriterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
+use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
 final class Ids extends Base
 {
@@ -24,13 +25,14 @@ final class Ids extends Base
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\Ids $criterion
      */
-    public function apply(QueryBuilder $qb, CriterionInterface $criterion): void
-    {
-        $qb->andWhere(
-            $qb->expr()->in(
-                'c.id',
-                $qb->createNamedParameter($criterion->getValue(), Connection::PARAM_INT_ARRAY)
-            ),
+    public function apply(
+        CriterionVisitor $criterionVisitor,
+        QueryBuilder $qb,
+        CriterionInterface $criterion
+    ): string {
+        return $qb->expr()->in(
+            'c.id',
+            $qb->createNamedParameter($criterion->getValue(), Connection::PARAM_INT_ARRAY)
         );
     }
 }

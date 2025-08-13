@@ -16,14 +16,6 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\Criterio
 
 final class LogicalNot extends Base
 {
-    private CriterionVisitor $criterionVisitor;
-
-    public function __construct(
-        CriterionVisitor $criterionVisitor
-    ) {
-        $this->criterionVisitor = $criterionVisitor;
-    }
-
     public function supports(CriterionInterface $criterion): bool
     {
         return $criterion instanceof LogicalNotCriterion;
@@ -34,21 +26,18 @@ final class LogicalNot extends Base
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
-    public function apply(QueryBuilder $qb, CriterionInterface $criterion): void
-    {
-        $constraints = [];
-        /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalNot $criterion */
-        foreach ($criterion->getCriteria() as $criterion) {
-            $constraint = $this->criterionVisitor->visitCriteria($qb, $criterion);
-            if (null !== $constraint) {
-                $constraints[] = $constraint;
-            }
+    public function apply(
+        CriterionVisitor $criterionVisitor,
+        QueryBuilder $qb,
+        CriterionInterface $criterion
+    ): string {
+        if (empty($criterion->getCriteria())) {
+            return '';
         }
 
-        if (empty($constraints)) {
-            return;
-        }
-
-        $qb->andWhere($qb->expr()->orX(...$constraints));
+        return sprintf(
+            'NOT (%s)',
+            $criterionVisitor->visitCriteria($qb, $criterion->getCriteria()[0]),
+        );
     }
 }

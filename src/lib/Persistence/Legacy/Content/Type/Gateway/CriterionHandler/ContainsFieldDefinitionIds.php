@@ -13,6 +13,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Base;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContainsFieldDefinitionIds as ContainsFieldDefinitionIdsCriterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
+use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
 final class ContainsFieldDefinitionIds extends Base
 {
@@ -24,13 +25,16 @@ final class ContainsFieldDefinitionIds extends Base
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContainsFieldDefinitionIds $criterion
      */
-    public function apply(QueryBuilder $qb, CriterionInterface $criterion): void
-    {
-        $qb->andWhere(
-            $qb->expr()->in(
-                'a.id',
-                $qb->createNamedParameter($criterion->getValue(), Connection::PARAM_INT_ARRAY)
-            ),
+    public function apply(
+        CriterionVisitor $criterionVisitor,
+        QueryBuilder $qb,
+        CriterionInterface $criterion
+    ): string {
+        $this->joinFieldDefinitions($qb);
+
+        return $qb->expr()->in(
+            'a.id',
+            $qb->createNamedParameter($criterion->getValue(), Connection::PARAM_INT_ARRAY)
         );
     }
 }
