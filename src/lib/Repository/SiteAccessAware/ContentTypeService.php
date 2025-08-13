@@ -19,6 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 
 /**
@@ -120,7 +121,7 @@ class ContentTypeService implements ContentTypeServiceInterface
         return $this->service->loadContentTypeList($contentTypeIds, $prioritizedLanguages);
     }
 
-    public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): array
+    public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): SearchResult
     {
         return $this->service->findContentTypes($query, $prioritizedLanguages);
     }

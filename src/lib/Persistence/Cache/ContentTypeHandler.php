@@ -235,11 +235,19 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
 
     public function countContentTypes(?ContentTypeQuery $query = null): int
     {
+        $this->logger->logCall(__METHOD__, [
+            'query' => $query,
+        ]);
+
         return $this->persistenceHandler->contentTypeHandler()->countContentTypes($query);
     }
 
     public function findContentTypes(?ContentTypeQuery $query = null): array
     {
+        $this->logger->logCall(__METHOD__, [
+            'query' => $query,
+        ]);
+
         return $this->persistenceHandler->contentTypeHandler()->findContentTypes($query);
     }
 

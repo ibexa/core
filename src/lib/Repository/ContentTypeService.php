@@ -35,6 +35,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFie
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\ContentTypeFieldDefinitionValidationException;
@@ -933,19 +934,22 @@ class ContentTypeService implements ContentTypeServiceInterface
         return $contentTypes;
     }
 
-    public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): array
+    public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): SearchResult
     {
-        $contentTypes = [];
-        $persistenceContentTypes = $this->contentTypeHandler->findContentTypes($query);
+        $results = $this->contentTypeHandler->findContentTypes($query);
 
-        foreach ($persistenceContentTypes as $persistenceContentType) {
-            $contentTypes[] = $this->contentTypeDomainMapper->buildContentTypeDomainObject(
+        $items = [];
+        foreach ($results['items'] as $persistenceContentType) {
+            $items[] = $this->contentTypeDomainMapper->buildContentTypeDomainObject(
                 $persistenceContentType,
                 $prioritizedLanguages
             );
         }
 
-        return $contentTypes;
+        return new SearchResult([
+            'totalCount' => $results['count'],
+            'items' => $items,
+        ]);
     }
 
     public function countContentTypes(?ContentTypeQuery $query = null): int
