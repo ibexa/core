@@ -21,7 +21,7 @@ final class ConsoleCommandPass implements CompilerPassInterface
             $definition = $container->getDefinition($id);
 
             $class = $definition->getClass();
-            if (!is_a($class, Command::class, true)) {
+            if ($class === null || !is_a($class, Command::class, true)) {
                 continue;
             }
 
