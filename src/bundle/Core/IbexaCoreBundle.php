@@ -12,7 +12,6 @@ use Ibexa\Bundle\Core\DependencyInjection\Compiler\BinaryContentDownloadPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\ChainConfigResolverPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\ChainRoutingPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\ConsoleCacheWarmupPass;
-use Ibexa\Bundle\Core\DependencyInjection\Compiler\ConsoleCommandPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\EntityManagerFactoryServiceLocatorPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\FieldTypeParameterProviderRegistryPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\FragmentPass;
@@ -81,7 +80,6 @@ final class IbexaCoreBundle extends Bundle
         $container->addCompilerPass(new NotificationRendererPass());
         $container->addCompilerPass(new ConsoleCacheWarmupPass());
         $container->addCompilerPass(new SiteAccessMatcherRegistryPass());
-        $container->addCompilerPass(new ConsoleCommandPass());
         $container->addCompilerPass(new LazyDoctrineRepositoriesPass(), PassConfig::TYPE_BEFORE_REMOVING);
         $container->addCompilerPass(new EntityManagerFactoryServiceLocatorPass());
         $container->addCompilerPass(new InjectEntityManagerMappingsPass());
