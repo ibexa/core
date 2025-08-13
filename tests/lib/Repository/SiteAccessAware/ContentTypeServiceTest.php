@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\SearchResult;
 use Ibexa\Core\Repository\SiteAccessAware\ContentTypeService;
 use Ibexa\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Repository\Values\ContentType\ContentTypeCreateStruct;
@@ -101,7 +102,7 @@ class ContentTypeServiceTest extends AbstractServiceTest
 
             ['deleteUserDrafts', [14], null],
 
-            ['findContentTypes', [new ContentTypeQuery()], [$contentType]],
+            ['findContentTypes', [new ContentTypeQuery()], new SearchResult()],
 
             ['countContentTypes', [new ContentTypeQuery()], 1],
         ];
