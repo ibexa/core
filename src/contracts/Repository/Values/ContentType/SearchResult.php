@@ -18,12 +18,23 @@ use Traversable;
  */
 final class SearchResult extends ValueObject implements IteratorAggregate
 {
-    public int $totalCount = 0;
+    protected int $totalCount = 0;
+
+    /** @var array<int, \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType> */
+    protected array $items = [];
+
+    public function getTotalCount(): int
+    {
+        return $this->totalCount;
+    }
 
     /**
-     * @var array<int, \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType>
+     * @return array<int, \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType>
      */
-    public array $items = [];
+    public function getContentTypes(): array
+    {
+        return $this->items;
+    }
 
     /**
      * @return \Traversable<int, \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType>

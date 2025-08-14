@@ -10,6 +10,8 @@ namespace Ibexa\Contracts\Core\Repository\Values\ContentType\Query;
 
 final class ContentTypeQuery
 {
+    public const DEFAULT_LIMIT = 25;
+
     private ?CriterionInterface $criterion;
 
     /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause[] */
@@ -26,7 +28,7 @@ final class ContentTypeQuery
         ?CriterionInterface $criterion = null,
         array $sortClauses = [],
         int $offset = 0,
-        int $limit = 25
+        int $limit = self::DEFAULT_LIMIT
     ) {
         $this->criterion = $criterion;
         $this->sortClauses = $sortClauses;

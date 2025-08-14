@@ -14,7 +14,7 @@ final class IsSystem implements CriterionInterface
 {
     private bool $value;
 
-    public function __construct(bool $value)
+    public function __construct(bool $value = true)
     {
         $this->value = $value;
     }

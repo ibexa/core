@@ -10,31 +10,31 @@ namespace Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 
-final class Identifiers implements CriterionInterface
+final class ContainsFieldDefinitionId implements CriterionInterface
 {
-    /** @var list<string> */
-    private array $value;
+    /** @var list<int>|int */
+    private $value;
 
     /**
-     * @param list<string> $value
+     * @param list<int>|int $value
      */
-    public function __construct(array $value)
+    public function __construct($value)
     {
         $this->value = $value;
     }
 
     /**
-     * @return list<string>
+     * @return list<int>|int
      */
-    public function getValue(): array
+    public function getValue()
     {
         return $this->value;
     }
 
     /**
-     * @param list<string> $value
+     * @param list<int>|int $value
      */
-    public function setValue(array $value): void
+    public function setValue($value): void
     {
         $this->value = $value;
     }

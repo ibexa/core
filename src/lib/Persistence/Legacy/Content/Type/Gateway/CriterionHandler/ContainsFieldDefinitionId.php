@@ -9,21 +9,22 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Base;
-use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContainsFieldDefinitionIds as ContainsFieldDefinitionIdsCriterion;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContainsFieldDefinitionId as ContainsFieldDefinitionIdCriterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
+use Ibexa\Core\Repository\Values\ContentType\Query\Base;
 
-final class ContainsFieldDefinitionIds extends Base
+final class ContainsFieldDefinitionId extends Base
 {
     public function supports(CriterionInterface $criterion): bool
     {
-        return $criterion instanceof ContainsFieldDefinitionIdsCriterion;
+        return $criterion instanceof ContainsFieldDefinitionIdCriterion;
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContainsFieldDefinitionIds $criterion
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContainsFieldDefinitionId $criterion
      */
     public function apply(
         CriterionVisitor $criterionVisitor,
@@ -32,9 +33,17 @@ final class ContainsFieldDefinitionIds extends Base
     ): string {
         $this->joinFieldDefinitions($qb);
 
-        return $qb->expr()->in(
+        $value = $criterion->getValue();
+        if (is_array($value)) {
+            return $qb->expr()->in(
+                'a.id',
+                $qb->createNamedParameter($criterion->getValue(), Connection::PARAM_INT_ARRAY)
+            );
+        }
+
+        return $qb->expr()->eq(
             'a.id',
-            $qb->createNamedParameter($criterion->getValue(), Connection::PARAM_INT_ARRAY)
+            $qb->createNamedParameter($criterion->getValue(), ParameterType::INTEGER)
         );
     }
 }

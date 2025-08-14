@@ -6,9 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Contracts\Core\Repository\Values\ContentType\Query;
+namespace Ibexa\Contracts\Core\Persistence\Content\Type;
 
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
 /**
@@ -17,12 +18,12 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\Criterio
 interface CriterionHandlerInterface
 {
     /**
-     * @param T $criterion
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface $criterion
      */
     public function supports(CriterionInterface $criterion): bool;
 
     /**
-     * @param T $criterion
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface $criterion
      *
      * @return string|\Doctrine\DBAL\Query\Expression\CompositeExpression
      */

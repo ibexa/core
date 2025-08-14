@@ -10,10 +10,10 @@ namespace Ibexa\Tests\Integration\Core\Repository\ContentTypeService;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
-use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContainsFieldDefinitionIds;
-use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeGroupIds;
-use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\Identifiers;
-use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\Ids;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContainsFieldDefinitionId;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeGroupId;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeId;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeIdentifier;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\IsSystem;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalAnd;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalNot;
@@ -47,7 +47,7 @@ final class FindContentTypesTest extends RepositoryTestCase
         $contentTypes = $contentTypeService->findContentTypes($query);
         $identifiers = array_map(
             static fn (ContentType $contentType): string => $contentType->getIdentifier(),
-            $contentTypes->items
+            $contentTypes->getContentTypes(),
         );
 
         self::assertCount(count($expectedIdentifiers), $identifiers);
@@ -60,13 +60,13 @@ final class FindContentTypesTest extends RepositoryTestCase
 
         $contentTypes = $contentTypeService->findContentTypes(
             new ContentTypeQuery(
-                new Identifiers(['folder', 'article', 'user', 'file']),
+                new ContentTypeIdentifier(['folder', 'article', 'user', 'file']),
                 [new Identifier()]
             ),
         );
         $identifiers = array_map(
             static fn (ContentType $contentType): string => $contentType->getIdentifier(),
-            $contentTypes->items
+            $contentTypes->getContentTypes()
         );
 
         self::assertCount(4, $identifiers);
@@ -89,12 +89,12 @@ final class FindContentTypesTest extends RepositoryTestCase
 
         $contentTypes = $contentTypeService->findContentTypes(
             new ContentTypeQuery(
-                new ContainsFieldDefinitionIds([$fieldDefinitionToInclude->getId()]),
+                new ContainsFieldDefinitionId([$fieldDefinitionToInclude->getId()]),
             )
         );
 
         self::assertCount(1, $contentTypes);
-        self::assertSame('folder', $contentTypes->items[0]->getIdentifier());
+        self::assertSame('folder', $contentTypes->getContentTypes()[0]->getIdentifier());
     }
 
     /**
@@ -104,21 +104,42 @@ final class FindContentTypesTest extends RepositoryTestCase
     {
         yield 'identifiers' => [
             new ContentTypeQuery(
-                new Identifiers(['folder', 'article']),
+                new ContentTypeIdentifier(['folder', 'article']),
             ),
             ['article', 'folder'],
         ];
 
-        yield 'user group content type' => [
+        yield 'single identifier' => [
             new ContentTypeQuery(
-                new ContentTypeGroupIds([2]),
+                new ContentTypeIdentifier('folder'),
+            ),
+            ['folder'],
+        ];
+
+        yield 'user group' => [
+            new ContentTypeQuery(
+                new ContentTypeGroupId([2]),
+            ),
+            ['user', 'user_group'],
+        ];
+
+        yield 'single user group' => [
+            new ContentTypeQuery(
+                new ContentTypeGroupId(2),
             ),
             ['user', 'user_group'],
         ];
 
         yield 'ids' => [
             new ContentTypeQuery(
-                new Ids([1]),
+                new ContentTypeId([1]),
+            ),
+            ['folder'],
+        ];
+
+        yield 'single id' => [
+            new ContentTypeQuery(
+                new ContentTypeId(1),
             ),
             ['folder'],
         ];
@@ -133,8 +154,8 @@ final class FindContentTypesTest extends RepositoryTestCase
         yield 'logical and' => [
             new ContentTypeQuery(
                 new LogicalAnd([
-                    new Identifiers(['folder', 'article']),
-                    new ContentTypeGroupIds([1]),
+                    new ContentTypeIdentifier(['folder', 'article']),
+                    new ContentTypeGroupId([1]),
                 ]),
             ),
             ['folder', 'article'],
@@ -143,8 +164,8 @@ final class FindContentTypesTest extends RepositoryTestCase
         yield 'logical or' => [
             new ContentTypeQuery(
                 new LogicalOr([
-                    new Identifiers(['folder', 'article']),
-                    new ContentTypeGroupIds([2]),
+                    new ContentTypeIdentifier(['folder', 'article']),
+                    new ContentTypeGroupId([2]),
                 ]),
             ),
             ['folder', 'article', 'user', 'user_group'],
@@ -154,9 +175,9 @@ final class FindContentTypesTest extends RepositoryTestCase
             new ContentTypeQuery(
                 new LogicalAnd([
                     new LogicalNot([
-                        new Identifiers(['user', 'user_group']),
+                        new ContentTypeIdentifier(['user', 'user_group']),
                     ]),
-                    new ContentTypeGroupIds([2]),
+                    new ContentTypeGroupId([2]),
                 ]),
             ),
             [],
@@ -166,9 +187,9 @@ final class FindContentTypesTest extends RepositoryTestCase
             new ContentTypeQuery(
                 new LogicalAnd([
                     new LogicalNot([
-                        new Identifiers(['user']),
+                        new ContentTypeIdentifier(['user']),
                     ]),
-                    new ContentTypeGroupIds([2]),
+                    new ContentTypeGroupId([2]),
                 ]),
             ),
             ['user_group'],
@@ -178,10 +199,10 @@ final class FindContentTypesTest extends RepositoryTestCase
             new ContentTypeQuery(
                 new LogicalOr([
                     new LogicalAnd([
-                        new Identifiers(['folder', 'article']),
-                        new ContentTypeGroupIds([1]),
+                        new ContentTypeIdentifier(['folder', 'article']),
+                        new ContentTypeGroupId([1]),
                     ]),
-                    new Identifiers(['user']),
+                    new ContentTypeIdentifier(['user']),
                 ]),
             ),
             ['folder', 'article', 'user'],
