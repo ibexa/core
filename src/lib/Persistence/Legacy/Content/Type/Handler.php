@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct as GroupCre
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as BaseContentTypeHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
 use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
@@ -193,6 +194,25 @@ class Handler implements BaseContentTypeHandler
             $this->contentTypeGateway->loadTypesListData($contentTypeIds),
             true
         );
+    }
+
+    public function countContentTypes(?ContentTypeQuery $query = null): int
+    {
+        return $this->contentTypeGateway->countContentTypes($query);
+    }
+
+    public function findContentTypes(?ContentTypeQuery $query = null): array
+    {
+        $rows = $this->contentTypeGateway->findContentTypes($query);
+        $items = $this->mapper->extractTypesFromRows(
+            $rows,
+            true
+        );
+
+        return [
+            'count' => count($items),
+            'items' => $items,
+        ];
     }
 
     /**

@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 
 /**
@@ -171,6 +172,13 @@ abstract class Gateway
      * Remove items created or modified by User.
      */
     abstract public function removeByUserAndVersion(int $userId, int $version): void;
+
+    abstract public function countContentTypes(?ContentTypeQuery $query = null): int;
+
+    /**
+     * @return array<int,array<string,mixed>>
+     */
+    abstract public function findContentTypes(?ContentTypeQuery $query = null): array;
 }
 
 class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Type\Gateway');
