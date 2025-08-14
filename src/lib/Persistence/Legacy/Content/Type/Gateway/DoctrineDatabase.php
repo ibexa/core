@@ -1434,9 +1434,10 @@ final class DoctrineDatabase extends Gateway
     public function findContentTypes(?ContentTypeQuery $query = null): array
     {
         $queryBuilder = $this->getLoadTypeQueryBuilder();
-        $queryBuilder->setMaxResults(25);
 
         if ($query === null) {
+            $queryBuilder->setMaxResults(ContentTypeQuery::DEFAULT_LIMIT);
+
             return $queryBuilder->execute()->fetchAllAssociative();
         }
 
@@ -1448,9 +1449,7 @@ final class DoctrineDatabase extends Gateway
             $queryBuilder->setFirstResult($query->getOffset());
         }
 
-        if ($query->getLimit() > 0) {
-            $queryBuilder->setMaxResults($query->getLimit());
-        }
+        $queryBuilder->setMaxResults($query->getLimit() > 0 ? $query->getLimit() : null);
 
         foreach ($query->getSortClauses() as $sortClause) {
             $column = sprintf('c.%s', $sortClause->target);

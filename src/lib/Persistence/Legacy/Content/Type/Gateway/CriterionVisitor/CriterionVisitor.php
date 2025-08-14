@@ -16,12 +16,12 @@ use function Ibexa\PolyfillPhp82\iterator_to_array;
 final class CriterionVisitor
 {
     /**
-     * @var array<int, \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>>
+     * @var array<int, \Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>>
      */
     private array $criterionHandlers;
 
     /**
-     * @param iterable<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>> $criterionHandlers
+     * @param iterable<\Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>> $criterionHandlers
      */
     public function __construct(iterable $criterionHandlers)
     {

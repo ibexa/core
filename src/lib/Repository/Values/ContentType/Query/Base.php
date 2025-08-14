@@ -6,13 +6,14 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Contracts\Core\Repository\Values\ContentType\Query;
+namespace Ibexa\Core\Repository\Values\ContentType\Query;
 
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 
 /**
- * @implements \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>
+ * @implements \Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>
  */
 abstract class Base implements CriterionHandlerInterface
 {
