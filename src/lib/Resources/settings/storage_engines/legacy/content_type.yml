@@ -1,6 +1,6 @@
 services:
     _instanceof:
-        Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionHandlerInterface:
+        Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface:
             tags: [ 'ibexa.content_type.criterion_handler' ]
 
     Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor:

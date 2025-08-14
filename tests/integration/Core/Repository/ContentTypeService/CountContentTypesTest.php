@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\ContentTypeService;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
-use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeGroupIds;
-use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\Identifiers;
-use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\Ids;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeGroupId;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeId;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeIdentifier;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\IsSystem;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalAnd;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalNot;
@@ -31,7 +31,7 @@ final class CountContentTypesTest extends RepositoryTestCase
 
         $contentTypesObjects = $contentTypeService->findContentTypes(new ContentTypeQuery(null, [], 0, 999));
 
-        self::assertSame($contentTypesObjects->totalCount, $contentTypesCount);
+        self::assertSame($contentTypesObjects->getTotalCount(), $contentTypesCount);
     }
 
     /**
@@ -53,21 +53,21 @@ final class CountContentTypesTest extends RepositoryTestCase
     {
         yield 'identifiers' => [
             new ContentTypeQuery(
-                new Identifiers(['folder', 'article']),
+                new ContentTypeIdentifier(['folder', 'article']),
             ),
             2,
         ];
 
         yield 'user group content type' => [
             new ContentTypeQuery(
-                new ContentTypeGroupIds([2]),
+                new ContentTypeGroupId([2]),
             ),
             2,
         ];
 
         yield 'ids' => [
             new ContentTypeQuery(
-                new Ids([1]),
+                new ContentTypeId([1]),
             ),
             1,
         ];
@@ -82,8 +82,8 @@ final class CountContentTypesTest extends RepositoryTestCase
         yield 'logical and' => [
             new ContentTypeQuery(
                 new LogicalAnd([
-                    new Identifiers(['folder', 'article']),
-                    new ContentTypeGroupIds([1]),
+                    new ContentTypeIdentifier(['folder', 'article']),
+                    new ContentTypeGroupId([1]),
                 ]),
             ),
             2,
@@ -92,8 +92,8 @@ final class CountContentTypesTest extends RepositoryTestCase
         yield 'logical or' => [
             new ContentTypeQuery(
                 new LogicalOr([
-                    new Identifiers(['folder', 'article']),
-                    new ContentTypeGroupIds([2]),
+                    new ContentTypeIdentifier(['folder', 'article']),
+                    new ContentTypeGroupId([2]),
                 ]),
             ),
             4,
@@ -103,9 +103,9 @@ final class CountContentTypesTest extends RepositoryTestCase
             new ContentTypeQuery(
                 new LogicalAnd([
                     new LogicalNot([
-                        new Identifiers(['user', 'user_group']),
+                        new ContentTypeIdentifier(['user', 'user_group']),
                     ]),
-                    new ContentTypeGroupIds([2]),
+                    new ContentTypeGroupId([2]),
                 ]),
             ),
             0,
@@ -115,9 +115,9 @@ final class CountContentTypesTest extends RepositoryTestCase
             new ContentTypeQuery(
                 new LogicalAnd([
                     new LogicalNot([
-                        new Identifiers(['user']),
+                        new ContentTypeIdentifier(['user']),
                     ]),
-                    new ContentTypeGroupIds([2]),
+                    new ContentTypeGroupId([2]),
                 ]),
             ),
             1,
@@ -127,10 +127,10 @@ final class CountContentTypesTest extends RepositoryTestCase
             new ContentTypeQuery(
                 new LogicalOr([
                     new LogicalAnd([
-                        new Identifiers(['folder', 'article']),
-                        new ContentTypeGroupIds([1]),
+                        new ContentTypeIdentifier(['folder', 'article']),
+                        new ContentTypeGroupId([1]),
                     ]),
-                    new Identifiers(['user']),
+                    new ContentTypeIdentifier(['user']),
                 ]),
             ),
             3,
