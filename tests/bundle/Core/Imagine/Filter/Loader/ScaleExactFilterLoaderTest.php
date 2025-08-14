@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\Imagine\Filter\Loader;
 
@@ -11,15 +12,17 @@ use Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleExactFilterLoader;
 use Imagine\Exception\InvalidArgumentException;
 use Imagine\Image\ImageInterface;
 use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class ScaleExactFilterLoaderTest extends TestCase
+/**
+ * @covers \Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleExactFilterLoader
+ */
+final class ScaleExactFilterLoaderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $innerLoader;
+    private LoaderInterface & MockObject $innerLoader;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleExactFilterLoader */
-    private $loader;
+    private ScaleExactFilterLoader $loader;
 
     protected function setUp(): void
     {
@@ -31,15 +34,20 @@ class ScaleExactFilterLoaderTest extends TestCase
 
     /**
      * @dataProvider loadInvalidProvider
+     *
+     * @param array<mixed> $options
      */
-    public function testLoadInvalidOptions(array $options)
+    public function testLoadInvalidOptions(array $options): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         $this->loader->load($this->createMock(ImageInterface::class), $options);
     }
 
-    public function loadInvalidProvider()
+    /**
+     * @return array<array{array<mixed>}>
+     */
+    public static function loadInvalidProvider(): array
     {
         return [
             [[]],
@@ -48,7 +56,7 @@ class ScaleExactFilterLoaderTest extends TestCase
         ];
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $options = [123, 456];
         $image = $this->createMock(ImageInterface::class);
@@ -56,7 +64,7 @@ class ScaleExactFilterLoaderTest extends TestCase
             ->expects(self::once())
             ->method('load')
             ->with($image, ['size' => $options])
-            ->will(self::returnValue($image));
+            ->willReturn($image);
 
         self::assertSame($image, $this->loader->load($image, $options));
     }

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\Imagine;
 
@@ -15,16 +16,18 @@ use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\MissingBinaryFile;
 use Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException;
 use Liip\ImagineBundle\Model\Binary;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Mime\MimeTypes;
 
-class BinaryLoaderTest extends TestCase
+/**
+ * @covers \Ibexa\Bundle\Core\Imagine\BinaryLoader
+ */
+final class BinaryLoaderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $ioService;
+    private IOServiceInterface & MockObject $ioService;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\BinaryLoader */
-    private $binaryLoader;
+    private BinaryLoader $binaryLoader;
 
     protected function setUp(): void
     {
@@ -33,10 +36,8 @@ class BinaryLoaderTest extends TestCase
         $this->binaryLoader = new BinaryLoader($this->ioService, new MimeTypes());
     }
 
-    public function testFindNotFound()
+    public function testFindNotFound(): void
     {
-        $this->expectException(\Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException::class);
-
         $path = 'something.jpg';
         $this->ioService
             ->expects(self::once())
@@ -44,24 +45,25 @@ class BinaryLoaderTest extends TestCase
             ->with($path)
             ->will(self::throwException(new NotFoundException('foo', 'bar')));
 
+        $this->expectException(NotLoadableException::class);
         $this->binaryLoader->find($path);
     }
 
-    public function testFindMissing()
+    public function testFindMissing(): void
     {
-        $this->expectException(\Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException::class);
+        $this->expectException(NotLoadableException::class);
 
         $path = 'something.jpg';
         $this->ioService
             ->expects(self::once())
             ->method('loadBinaryFile')
             ->with($path)
-            ->will(self::returnValue(new MissingBinaryFile()));
+            ->willReturn(new MissingBinaryFile());
 
         $this->binaryLoader->find($path);
     }
 
-    public function testFindBadPathRoot()
+    public function testFindBadPathRoot(): void
     {
         $path = 'var/site/storage/images/1/2/3/123-name/name.png';
         $this->ioService

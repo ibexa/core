@@ -18,7 +18,7 @@ namespace Ibexa\Core\FieldType\Image;
  */
 final class NullAliasCleaner implements AliasCleanerInterface
 {
-    public function removeAliases($originalPath): void
+    public function removeAliases(string $originalPath): void
     {
         // Nothing to do
     }
