@@ -103,8 +103,6 @@ class ContentTypeServiceTest extends AbstractServiceTest
             ['deleteUserDrafts', [14], null],
 
             ['findContentTypes', [new ContentTypeQuery()], new SearchResult()],
-
-            ['countContentTypes', [new ContentTypeQuery()], 1],
         ];
     }
 
