@@ -173,8 +173,6 @@ abstract class Gateway
      */
     abstract public function removeByUserAndVersion(int $userId, int $version): void;
 
-    abstract public function countContentTypes(?ContentTypeQuery $query = null): int;
-
     /**
      * @return array<int,array<string,mixed>>
      */

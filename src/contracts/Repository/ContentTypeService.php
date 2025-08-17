@@ -180,8 +180,6 @@ interface ContentTypeService
      */
     public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): SearchResult;
 
-    public function countContentTypes(?ContentTypeQuery $query = null): int;
-
     /**
      * Get content type objects which belong to the given content type group.
      *

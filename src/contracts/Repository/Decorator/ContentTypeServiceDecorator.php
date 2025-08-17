@@ -114,11 +114,6 @@ abstract class ContentTypeServiceDecorator implements ContentTypeService
         return $this->innerService->findContentTypes($query, $prioritizedLanguages);
     }
 
-    public function countContentTypes(?ContentTypeQuery $query = null): int
-    {
-        return $this->innerService->countContentTypes($query);
-    }
-
     public function loadContentTypes(
         ContentTypeGroup $contentTypeGroup,
         array $prioritizedLanguages = []
