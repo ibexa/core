@@ -92,8 +92,6 @@ interface Handler
      */
     public function loadContentTypeList(array $contentTypeIds): array;
 
-    public function countContentTypes(?ContentTypeQuery $query = null): int;
-
     /**
      * @return array{count: int, items: array<string, mixed>}
      */

@@ -196,11 +196,6 @@ class Handler implements BaseContentTypeHandler
         );
     }
 
-    public function countContentTypes(?ContentTypeQuery $query = null): int
-    {
-        return $this->contentTypeGateway->countContentTypes($query);
-    }
-
     public function findContentTypes(?ContentTypeQuery $query = null): array
     {
         $rows = $this->contentTypeGateway->findContentTypes($query);

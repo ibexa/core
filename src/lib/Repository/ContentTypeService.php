@@ -952,11 +952,6 @@ class ContentTypeService implements ContentTypeServiceInterface
         ]);
     }
 
-    public function countContentTypes(?ContentTypeQuery $query = null): int
-    {
-        return $this->contentTypeHandler->countContentTypes($query);
-    }
-
     /**
      * {@inheritdoc}
      */

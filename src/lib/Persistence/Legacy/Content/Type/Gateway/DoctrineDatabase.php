@@ -1417,20 +1417,6 @@ final class DoctrineDatabase extends Gateway
         }
     }
 
-    public function countContentTypes(?ContentTypeQuery $query = null): int
-    {
-        $queryBuilder = $this->connection->createQueryBuilder();
-        $queryBuilder
-            ->select('COUNT(c.id)')
-            ->from(self::CONTENT_TYPE_TABLE, 'c');
-
-        if ($query !== null && !empty($query->getCriterion())) {
-            $queryBuilder->andWhere($this->criterionVisitor->visitCriteria($queryBuilder, $query->getCriterion()));
-        }
-
-        return (int)$queryBuilder->execute()->fetchOne();
-    }
-
     public function findContentTypes(?ContentTypeQuery $query = null): array
     {
         $queryBuilder = $this->getLoadTypeQueryBuilder();

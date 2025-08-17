@@ -172,11 +172,6 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         return $types;
     }
 
-    public function countContentTypes(?ContentTypeQuery $query = null): int
-    {
-        return $this->innerHandler->countContentTypes($query);
-    }
-
     public function findContentTypes(?ContentTypeQuery $query = null): array
     {
         return $this->innerHandler->findContentTypes($query);
