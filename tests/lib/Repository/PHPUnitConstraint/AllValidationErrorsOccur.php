@@ -68,6 +68,7 @@ class AllValidationErrorsOccur extends AbstractPHPUnitConstraint
 
     /**
      * @param array<int, array<string, array<\Ibexa\Contracts\Core\FieldType\ValidationError>>> $fieldErrors
+     *
      * @return \Traversable<string> translated message string
      */
     private function extractTranslatable(array $fieldErrors): Traversable
