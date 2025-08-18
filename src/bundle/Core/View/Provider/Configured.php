@@ -17,7 +17,7 @@ class Configured extends BaseConfigured implements SiteAccessAware
      *
      * @param \Ibexa\Core\MVC\Symfony\SiteAccess $siteAccess
      */
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(?SiteAccess $siteAccess = null)
     {
         if ($this->matcherFactory instanceof SiteAccessAware) {
             $this->matcherFactory->setSiteAccess($siteAccess);

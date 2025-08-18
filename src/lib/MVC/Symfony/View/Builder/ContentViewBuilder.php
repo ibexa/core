@@ -57,7 +57,7 @@ class ContentViewBuilder implements ViewBuilder
         Configurator $viewConfigurator,
         ParametersInjector $viewParametersInjector,
         RequestStack $requestStack,
-        ContentInfoLocationLoader $locationLoader = null
+        ?ContentInfoLocationLoader $locationLoader = null
     ) {
         $this->repository = $repository;
         $this->viewConfigurator = $viewConfigurator;
@@ -204,7 +204,7 @@ class ContentViewBuilder implements ViewBuilder
      *
      * @throws \Ibexa\Core\Base\Exceptions\UnauthorizedException
      */
-    private function loadEmbeddedContent($contentId, Location $location = null, ?string $languageCode = null)
+    private function loadEmbeddedContent($contentId, ?Location $location = null, ?string $languageCode = null)
     {
         $content = $this->repository->sudo(
             static function (Repository $repository) use ($contentId, $languageCode) {
@@ -265,7 +265,7 @@ class ContentViewBuilder implements ViewBuilder
      *
      * @return bool
      */
-    private function canRead(Content $content, Location $location = null, bool $isEmbed = true): bool
+    private function canRead(Content $content, ?Location $location = null, bool $isEmbed = true): bool
     {
         $targets = isset($location) ? [$location] : [];
 

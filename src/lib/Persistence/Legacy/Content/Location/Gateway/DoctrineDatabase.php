@@ -68,7 +68,7 @@ final class DoctrineDatabase extends Gateway
 
     public function getBasicNodeData(
         int $nodeId,
-        array $translations = null,
+        ?array $translations = null,
         bool $useAlwaysAvailable = true
     ): array {
         $query = $this->createNodeQueryBuilder(['t.*'], $translations, $useAlwaysAvailable);
@@ -83,7 +83,7 @@ final class DoctrineDatabase extends Gateway
         throw new NotFound('location', $nodeId);
     }
 
-    public function getNodeDataList(array $locationIds, array $translations = null, bool $useAlwaysAvailable = true): iterable
+    public function getNodeDataList(array $locationIds, ?array $translations = null, bool $useAlwaysAvailable = true): iterable
     {
         $query = $this->createNodeQueryBuilder(['t.*'], $translations, $useAlwaysAvailable);
         $query->andWhere(
@@ -98,7 +98,7 @@ final class DoctrineDatabase extends Gateway
 
     public function getBasicNodeDataByRemoteId(
         string $remoteId,
-        array $translations = null,
+        ?array $translations = null,
         bool $useAlwaysAvailable = true
     ): array {
         $query = $this->createNodeQueryBuilder(['t.*'], $translations, $useAlwaysAvailable);
@@ -1257,7 +1257,7 @@ final class DoctrineDatabase extends Gateway
     public function listTrashed(
         int $offset,
         ?int $limit,
-        array $sort = null,
+        ?array $sort = null,
         ?Criterion $criterion = null
     ): array {
         $query = $this->connection->createQueryBuilder();
@@ -1463,7 +1463,7 @@ final class DoctrineDatabase extends Gateway
      */
     private function createNodeQueryBuilder(
         array $columns,
-        array $translations = null,
+        ?array $translations = null,
         bool $useAlwaysAvailable = true
     ): QueryBuilder {
         $queryBuilder = $this->connection->createQueryBuilder();

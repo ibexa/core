@@ -700,7 +700,7 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
     /**
      * {@inheritdoc}
      */
-    public function assignRole($contentId, $roleId, array $limitation = null)
+    public function assignRole($contentId, $roleId, ?array $limitation = null)
     {
         $this->logger->logCall(__METHOD__, ['group' => $contentId, 'role' => $roleId, 'limitation' => $limitation]);
         $return = $this->persistenceHandler->userHandler()->assignRole($contentId, $roleId, $limitation);

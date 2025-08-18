@@ -65,7 +65,7 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
         ContentService $contentService,
         UrlAliasGenerator $generator,
         RequestContext $requestContext,
-        LoggerInterface $logger = null
+        ?LoggerInterface $logger = null
     ) {
         $this->locationService = $locationService;
         $this->urlAliasService = $urlAliasService;

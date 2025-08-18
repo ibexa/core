@@ -38,7 +38,7 @@ abstract class MigrationHandler implements MigrationHandlerInterface
     public function __construct(
         HandlerRegistry $metadataHandlerRegistry,
         HandlerRegistry $binarydataHandlerRegistry,
-        LoggerInterface $logger = null
+        ?LoggerInterface $logger = null
     ) {
         $this->metadataHandlerRegistry = $metadataHandlerRegistry;
         $this->binarydataHandlerRegistry = $binarydataHandlerRegistry;

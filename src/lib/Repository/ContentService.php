@@ -348,7 +348,7 @@ class ContentService implements ContentServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function loadContentByContentInfo(ContentInfo $contentInfo, array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): APIContent
+    public function loadContentByContentInfo(ContentInfo $contentInfo, ?array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): APIContent
     {
         // Change $useAlwaysAvailable to false to avoid contentInfo lookup if we know alwaysAvailable is disabled
         if ($useAlwaysAvailable && !$contentInfo->alwaysAvailable) {
@@ -366,7 +366,7 @@ class ContentService implements ContentServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function loadContentByVersionInfo(APIVersionInfo $versionInfo, array $languages = null, bool $useAlwaysAvailable = true): APIContent
+    public function loadContentByVersionInfo(APIVersionInfo $versionInfo, ?array $languages = null, bool $useAlwaysAvailable = true): APIContent
     {
         // Change $useAlwaysAvailable to false to avoid contentInfo lookup if we know alwaysAvailable is disabled
         if ($useAlwaysAvailable && !$versionInfo->getContentInfo()->alwaysAvailable) {
@@ -384,7 +384,7 @@ class ContentService implements ContentServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function loadContent(int $contentId, array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): APIContent
+    public function loadContent(int $contentId, ?array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): APIContent
     {
         $content = $this->internalLoadContentById($contentId, $languages, $versionNo, $useAlwaysAvailable);
         if (!$this->permissionResolver->canUser('content', 'read', $content)) {
@@ -424,7 +424,7 @@ class ContentService implements ContentServiceInterface
     public function internalLoadContentById(
         int $id,
         ?array $languages = null,
-        int $versionNo = null,
+        ?int $versionNo = null,
         bool $useAlwaysAvailable = true
     ): APIContent {
         try {
@@ -451,8 +451,8 @@ class ContentService implements ContentServiceInterface
 
     public function internalLoadContentByRemoteId(
         string $remoteId,
-        array $languages = null,
-        int $versionNo = null,
+        ?array $languages = null,
+        ?int $versionNo = null,
         bool $useAlwaysAvailable = true
     ): APIContent {
         try {
@@ -477,7 +477,7 @@ class ContentService implements ContentServiceInterface
         }
     }
 
-    private function internalLoadContentBySPIContentInfo(SPIContentInfo $spiContentInfo, array $languages = null, int $versionNo = null, bool $useAlwaysAvailable = true): APIContent
+    private function internalLoadContentBySPIContentInfo(SPIContentInfo $spiContentInfo, ?array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): APIContent
     {
         $loadLanguages = $languages;
         $alwaysAvailableLanguageCode = null;
@@ -524,7 +524,7 @@ class ContentService implements ContentServiceInterface
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
-    public function loadContentByRemoteId(string $remoteId, array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): APIContent
+    public function loadContentByRemoteId(string $remoteId, ?array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): APIContent
     {
         $content = $this->internalLoadContentByRemoteId($remoteId, $languages, $versionNo, $useAlwaysAvailable);
 
@@ -1078,7 +1078,7 @@ class ContentService implements ContentServiceInterface
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo|null $versionInfo
      * @param \Ibexa\Contracts\Core\Repository\Values\User\User|null $creator if set given user is used to create the draft - otherwise the current-user is used
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language|null if not set the draft is created with the initialLanguage code of the source version or if not present with the main language.
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language|null $language if not set the draft is created with the initialLanguage code of the source version or if not present with the main language.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content - the newly created content draft
      *

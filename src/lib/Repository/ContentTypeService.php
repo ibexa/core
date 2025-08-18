@@ -1133,7 +1133,7 @@ class ContentTypeService implements ContentTypeServiceInterface
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
      */
-    public function copyContentType(APIContentType $contentType, User $creator = null): ContentType
+    public function copyContentType(APIContentType $contentType, ?User $creator = null): ContentType
     {
         if (!$this->permissionResolver->canUser('class', 'create', $contentType)) {
             throw new UnauthorizedException('ContentType', 'create');

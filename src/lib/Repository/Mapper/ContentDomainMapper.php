@@ -110,7 +110,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
         SPIContent $spiContent,
         ContentType $contentType,
         array $prioritizedLanguages = [],
-        string $fieldAlwaysAvailableLanguage = null
+        ?string $fieldAlwaysAvailableLanguage = null
     ) {
         $prioritizedFieldLanguageCode = null;
         if (!empty($prioritizedLanguages)) {
@@ -230,7 +230,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
         array $spiFields,
         $contentType,
         array $prioritizedLanguages = [],
-        string $alwaysAvailableLanguage = null
+        ?string $alwaysAvailableLanguage = null
     ): array {
         if ($contentType instanceof SPIContentType) {
             $contentType = $this->mapPersistenceContentTypeToApi($contentType, $prioritizedLanguages, __METHOD__);
@@ -447,7 +447,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      */
     public function buildLocationDomainObject(
         SPILocation $spiLocation,
-        SPIContentInfo $contentInfo = null
+        ?SPIContentInfo $contentInfo = null
     ) {
         if ($contentInfo === null) {
             return $this->buildLocation($spiLocation);

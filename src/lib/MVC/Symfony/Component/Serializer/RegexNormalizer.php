@@ -12,7 +12,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Regex;
 
 final class RegexNormalizer extends AbstractPropertyWhitelistNormalizer
 {
-    public function supportsNormalization($data, string $format = null)
+    public function supportsNormalization($data, ?string $format = null)
     {
         return $data instanceof Regex;
     }

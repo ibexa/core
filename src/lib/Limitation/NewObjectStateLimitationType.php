@@ -109,7 +109,7 @@ class NewObjectStateLimitationType extends AbstractPersistenceLimitationType imp
      *
      * @return bool
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null)
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, ?array $targets = null)
     {
         if (!$value instanceof APINewObjectStateLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: NewObjectStateLimitation');

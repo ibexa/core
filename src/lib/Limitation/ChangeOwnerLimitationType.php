@@ -72,7 +72,7 @@ final class ChangeOwnerLimitationType extends AbstractPersistenceLimitationType 
         Limitation $value,
         APIUserReference $currentUser,
         APIValueObject $object,
-        array $targets = null
+        ?array $targets = null
     ): ?bool {
         if (!$object instanceof ContentCreateStruct) {
             return self::ACCESS_ABSTAIN;

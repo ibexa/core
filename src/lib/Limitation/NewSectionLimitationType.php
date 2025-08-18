@@ -111,7 +111,7 @@ class NewSectionLimitationType extends AbstractPersistenceLimitationType impleme
      *
      * @return bool
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null)
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, ?array $targets = null)
     {
         if (!$value instanceof APINewSectionLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: APINewSectionLimitation');

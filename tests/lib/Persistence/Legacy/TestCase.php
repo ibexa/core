@@ -270,7 +270,7 @@ abstract class TestCase extends BaseTestCase
     protected function assertStructsEqual(
         $expStruct,
         $actStruct,
-        array $propertyNames = null
+        ?array $propertyNames = null
     ) {
         if ($propertyNames === null) {
             $propertyNames = $this->getPublicPropertyNames($expStruct);

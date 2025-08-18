@@ -64,7 +64,7 @@ interface Handler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content Content value object
      */
-    public function load($id, $version = null, array $translations = null);
+    public function load($id, $version = null, ?array $translations = null);
 
     /**
      * Return list of unique Content, with content id as key.
@@ -87,7 +87,7 @@ interface Handler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content[]
      */
-    public function loadContentList(array $contentIds, array $translations = null): iterable;
+    public function loadContentList(array $contentIds, ?array $translations = null): iterable;
 
     /**
      * Returns the metadata object for a content identified by $contentId.

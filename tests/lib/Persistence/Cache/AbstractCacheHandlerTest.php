@@ -33,9 +33,9 @@ abstract class AbstractCacheHandlerTest extends AbstractBaseHandlerTest
     final public function testUnCachedMethods(
         string $method,
         array $arguments,
-        array $tagGeneratingArguments = null,
-        array $keyGeneratingArguments = null,
-        array $tags = null,
+        ?array $tagGeneratingArguments = null,
+        ?array $keyGeneratingArguments = null,
+        ?array $tags = null,
         $key = null,
         $returnValue = null
     ) {
@@ -129,10 +129,10 @@ abstract class AbstractCacheHandlerTest extends AbstractBaseHandlerTest
         string $method,
         array $arguments,
         string $key,
-        array $tagGeneratingArguments = null,
-        array $tagGeneratingResults = null,
-        array $keyGeneratingArguments = null,
-        array $keyGeneratingResults = null,
+        ?array $tagGeneratingArguments = null,
+        ?array $tagGeneratingResults = null,
+        ?array $keyGeneratingArguments = null,
+        ?array $keyGeneratingResults = null,
         $data = null,
         bool $multi = false,
         array $additionalCalls = []
@@ -208,10 +208,10 @@ abstract class AbstractCacheHandlerTest extends AbstractBaseHandlerTest
         string $method,
         array $arguments,
         string $key,
-        array $tagGeneratingArguments = null,
-        array $tagGeneratingResults = null,
-        array $keyGeneratingArguments = null,
-        array $keyGeneratingResults = null,
+        ?array $tagGeneratingArguments = null,
+        ?array $tagGeneratingResults = null,
+        ?array $keyGeneratingArguments = null,
+        ?array $keyGeneratingResults = null,
         $data = null,
         bool $multi = false,
         array $additionalCalls = []

@@ -3284,7 +3284,7 @@ class UrlAliasTest extends BaseServiceMockTest
      * @return \Ibexa\Core\Repository\URLAliasService|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function getPartlyMockedURLAliasServiceService(
-        array $methods = null,
+        ?array $methods = null,
         array $prioritizedLanguages = ['eng-GB'],
         bool $showAllTranslations = false
     ) {

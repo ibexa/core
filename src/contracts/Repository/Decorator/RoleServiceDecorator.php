@@ -126,7 +126,7 @@ abstract class RoleServiceDecorator implements RoleService
     public function assignRoleToUserGroup(
         Role $role,
         UserGroup $userGroup,
-        RoleLimitation $roleLimitation = null
+        ?RoleLimitation $roleLimitation = null
     ): void {
         $this->innerService->assignRoleToUserGroup($role, $userGroup, $roleLimitation);
     }
@@ -134,7 +134,7 @@ abstract class RoleServiceDecorator implements RoleService
     public function assignRoleToUser(
         Role $role,
         User $user,
-        RoleLimitation $roleLimitation = null
+        ?RoleLimitation $roleLimitation = null
     ): void {
         $this->innerService->assignRoleToUser($role, $user, $roleLimitation);
     }

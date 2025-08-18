@@ -29,11 +29,11 @@ class IOConfigurationPass implements CompilerPassInterface
     private $binarydataHandlerFactories;
 
     public function __construct(
-        ArrayObject $metadataHandlerFactories = null,
-        ArrayObject $binarydataHandlerFactories = null
+        ?ArrayObject $metadataHandlerFactories = null,
+        ?ArrayObject $binarydataHandlerFactories = null
     ) {
-        $this->metadataHandlerFactories = $metadataHandlerFactories;
-        $this->binarydataHandlerFactories = $binarydataHandlerFactories;
+        $this->metadataHandlerFactories = $metadataHandlerFactories ?? new ArrayObject();
+        $this->binarydataHandlerFactories = $binarydataHandlerFactories ?? new ArrayObject();
     }
 
     /**

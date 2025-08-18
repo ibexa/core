@@ -49,7 +49,7 @@ class NameSchemaService extends NativeNameSchemaService
         $this->contentTypeDomainMapper = $contentTypeDomainMapper;
     }
 
-    public function resolveUrlAliasSchema(Content $content, ContentType $contentType = null): array
+    public function resolveUrlAliasSchema(Content $content, ?ContentType $contentType = null): array
     {
         $contentType = $contentType ?? $content->getContentType();
 
@@ -63,7 +63,7 @@ class NameSchemaService extends NativeNameSchemaService
         Content $content,
         array $fieldMap = [],
         array $languageCodes = [],
-        ContentType $contentType = null
+        ?ContentType $contentType = null
     ): array {
         $contentType ??= $content->getContentType();
 

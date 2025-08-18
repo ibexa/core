@@ -13,7 +13,7 @@ use Throwable;
 
 class PasswordInUnsupportedFormatException extends AuthenticationException
 {
-    public function __construct(Throwable $previous = null)
+    public function __construct(?Throwable $previous = null)
     {
         parent::__construct("User's password is in a format which is not supported any more.", 0, $previous);
     }

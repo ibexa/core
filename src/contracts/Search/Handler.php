@@ -71,7 +71,7 @@ interface Handler
      * @param int $limit
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion|null $filter
      */
-    public function suggest($prefix, $fieldPaths = [], $limit = 10, Criterion $filter = null);
+    public function suggest($prefix, $fieldPaths = [], $limit = 10, ?Criterion $filter = null);
 
     /**
      * Indexes a content object.

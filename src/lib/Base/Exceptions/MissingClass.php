@@ -30,7 +30,7 @@ class MissingClass extends LogicException implements Translatable
      * @param string|null $classType Optional string to specify what kind of class this is
      * @param \Exception|null $previous
      */
-    public function __construct($className, $classType = null, Exception $previous = null)
+    public function __construct($className, $classType = null, ?Exception $previous = null)
     {
         $this->setParameters(['%className%' => $className]);
         if ($classType === null) {

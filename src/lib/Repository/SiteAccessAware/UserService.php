@@ -54,7 +54,7 @@ class UserService implements UserServiceInterface
         return $this->service->createUserGroup($userGroupCreateStruct, $parentGroup);
     }
 
-    public function loadUserGroup(int $id, array $prioritizedLanguages = null): UserGroup
+    public function loadUserGroup(int $id, ?array $prioritizedLanguages = null): UserGroup
     {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
@@ -68,7 +68,7 @@ class UserService implements UserServiceInterface
         return $this->service->loadUserGroupByRemoteId($remoteId, $prioritizedLanguages);
     }
 
-    public function loadSubUserGroups(UserGroup $userGroup, int $offset = 0, int $limit = 25, array $prioritizedLanguages = null): iterable
+    public function loadSubUserGroups(UserGroup $userGroup, int $offset = 0, int $limit = 25, ?array $prioritizedLanguages = null): iterable
     {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
@@ -95,7 +95,7 @@ class UserService implements UserServiceInterface
         return $this->service->createUser($userCreateStruct, $parentGroups);
     }
 
-    public function loadUser(int $userId, array $prioritizedLanguages = null): User
+    public function loadUser(int $userId, ?array $prioritizedLanguages = null): User
     {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
@@ -110,21 +110,21 @@ class UserService implements UserServiceInterface
         return $this->service->checkUserCredentials($user, $credentials);
     }
 
-    public function loadUserByLogin(string $login, array $prioritizedLanguages = null): User
+    public function loadUserByLogin(string $login, ?array $prioritizedLanguages = null): User
     {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
         return $this->service->loadUserByLogin($login, $prioritizedLanguages);
     }
 
-    public function loadUserByEmail(string $email, array $prioritizedLanguages = null): User
+    public function loadUserByEmail(string $email, ?array $prioritizedLanguages = null): User
     {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
         return $this->service->loadUserByEmail($email, $prioritizedLanguages);
     }
 
-    public function loadUsersByEmail(string $email, array $prioritizedLanguages = null): array
+    public function loadUsersByEmail(string $email, ?array $prioritizedLanguages = null): array
     {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
@@ -156,21 +156,21 @@ class UserService implements UserServiceInterface
         $this->service->unAssignUserFromUserGroup($user, $userGroup);
     }
 
-    public function loadUserGroupsOfUser(User $user, int $offset = 0, int $limit = 25, array $prioritizedLanguages = null): iterable
+    public function loadUserGroupsOfUser(User $user, int $offset = 0, int $limit = 25, ?array $prioritizedLanguages = null): iterable
     {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
         return $this->service->loadUserGroupsOfUser($user, $offset, $limit, $prioritizedLanguages);
     }
 
-    public function loadUsersOfUserGroup(UserGroup $userGroup, int $offset = 0, int $limit = 25, array $prioritizedLanguages = null): iterable
+    public function loadUsersOfUserGroup(UserGroup $userGroup, int $offset = 0, int $limit = 25, ?array $prioritizedLanguages = null): iterable
     {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
         return $this->service->loadUsersOfUserGroup($userGroup, $offset, $limit, $prioritizedLanguages);
     }
 
-    public function loadUserByToken(string $hash, array $prioritizedLanguages = null): User
+    public function loadUserByToken(string $hash, ?array $prioritizedLanguages = null): User
     {
         return $this->service->loadUserByToken(
             $hash,
@@ -218,7 +218,7 @@ class UserService implements UserServiceInterface
         return $this->service->newUserGroupUpdateStruct();
     }
 
-    public function validatePassword(string $password, PasswordValidationContext $context = null): array
+    public function validatePassword(string $password, ?PasswordValidationContext $context = null): array
     {
         return $this->service->validatePassword($password, $context);
     }

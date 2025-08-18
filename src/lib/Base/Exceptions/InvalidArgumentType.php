@@ -23,7 +23,7 @@ class InvalidArgumentType extends InvalidArgumentException
      * @param mixed|null $value Optionally to output the type that was received
      * @param \Exception|null $previous
      */
-    public function __construct($argumentName, $expectedType, $value = null, Exception $previous = null)
+    public function __construct($argumentName, $expectedType, $value = null, ?Exception $previous = null)
     {
         $parameters = ['%argumentName%' => $argumentName, '%expectedType%' => $expectedType];
         $this->setMessageTemplate("Argument '%argumentName%' is invalid: value must be of type '%expectedType%'");

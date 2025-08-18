@@ -19,18 +19,22 @@ class HttpUtils extends BaseHttpUtils implements SiteAccessAware
     /**
      * @param \Ibexa\Core\MVC\Symfony\SiteAccess|null $siteAccess
      */
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(?SiteAccess $siteAccess = null)
     {
         $this->siteAccess = $siteAccess;
     }
 
     private function analyzeLink($path)
     {
-        if ($path[0] === '/' && $this->siteAccess->matcher instanceof SiteAccess\URILexer) {
-            $path = $this->siteAccess->matcher->analyseLink($path);
+        if (
+            $this->siteAccess === null
+            || $path[0] !== '/'
+            || !($this->siteAccess->matcher instanceof SiteAccess\URILexer)
+        ) {
+            return $path;
         }
 
-        return $path;
+        return $this->siteAccess->matcher->analyseLink($path);
     }
 
     public function generateUri($request, $path)

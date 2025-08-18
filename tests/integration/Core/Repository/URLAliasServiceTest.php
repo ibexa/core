@@ -339,7 +339,7 @@ class URLAliasServiceTest extends BaseTest
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias $createdUrlAlias
      *
      * @depends testCreateGlobalUrlAlias
      */
@@ -391,7 +391,7 @@ class URLAliasServiceTest extends BaseTest
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias $createdUrlAlias
      *
      * @depends testCreateGlobalUrlAliasWithForward
      */
@@ -444,7 +444,7 @@ class URLAliasServiceTest extends BaseTest
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias $createdUrlAlias
      *
      * @depends testCreateGlobalUrlAliasWithAlwaysAvailable
      */
@@ -538,7 +538,7 @@ class URLAliasServiceTest extends BaseTest
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias
+     * @param array<mixed> $testData
      *
      * @depends testCreateGlobalUrlAliasForLocation
      */
@@ -564,7 +564,7 @@ class URLAliasServiceTest extends BaseTest
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias
+     * @param array<mixed> $testData
      *
      * @depends testCreateGlobalUrlAliasForLocationVariation
      */

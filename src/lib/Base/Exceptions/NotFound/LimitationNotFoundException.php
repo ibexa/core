@@ -26,7 +26,7 @@ class LimitationNotFoundException extends RuntimeException implements Httpable, 
      * @param string $limitation
      * @param \Exception|null $previous
      */
-    public function __construct($limitation, Exception $previous = null)
+    public function __construct($limitation, ?Exception $previous = null)
     {
         $this->setMessageTemplate(
             "Limitation '%limitation%' not found. It must be implemented or configured to use %blockingLimitation%"

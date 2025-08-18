@@ -204,8 +204,8 @@ class FieldTypeContext implements Context
      * Creates and publishes the content with a given field and
      * based on the internal ContentType.
      *
-     * @param string The field name
-     * @param mixed The field value
+     * @param string|null $field
+     * @param mixed $value
      */
     private function createAndPublishContent($field, $value)
     {

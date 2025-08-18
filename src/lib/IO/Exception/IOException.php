@@ -14,7 +14,7 @@ use RuntimeException;
  */
 class IOException extends RuntimeException
 {
-    public function __construct($message, Exception $e = null)
+    public function __construct($message, ?Exception $e = null)
     {
         parent::__construct($message, 0, $e);
     }

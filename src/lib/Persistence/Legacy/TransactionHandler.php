@@ -31,8 +31,8 @@ class TransactionHandler implements TransactionHandlerInterface
 
     public function __construct(
         Connection $connection,
-        CachingContentTypeHandler $contentTypeHandler = null,
-        CachingLanguageHandler $languageHandler = null
+        ?CachingContentTypeHandler $contentTypeHandler = null,
+        ?CachingLanguageHandler $languageHandler = null
     ) {
         $this->connection = $connection;
         $this->contentTypeHandler = $contentTypeHandler;

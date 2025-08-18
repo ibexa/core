@@ -470,7 +470,7 @@ class UrlTest extends BaseServiceMockTest
     /**
      * @return \Ibexa\Contracts\Core\Repository\URLService|\PHPUnit\Framework\MockObject\MockObject
      */
-    private function createUrlService(array $methods = null)
+    private function createUrlService(?array $methods = null)
     {
         return $this
             ->getMockBuilder(URLService::class)

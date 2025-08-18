@@ -18,11 +18,11 @@ interface UserLanguagePreferenceProviderInterface
     /**
      * Return a list of user's browser preferred locales directly from Accept-Language header.
      *
-     * @param \Symfony\Component\HttpFoundation\Request request to retrieve information from, use current if null
+     * @param \Symfony\Component\HttpFoundation\Request $request
      *
      * @return string[]
      */
-    public function getPreferredLocales(Request $request = null): array;
+    public function getPreferredLocales(?Request $request = null): array;
 
     /**
      * List of Ibexa Language codes.
