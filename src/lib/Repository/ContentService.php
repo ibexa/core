@@ -1070,22 +1070,6 @@ class ContentService implements ContentServiceInterface
         return $affectedLocations;
     }
 
-    /**
-     * Creates a draft from a published or archived version.
-     *
-     * If no version is given, the current published version is used.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo|null $versionInfo
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User|null $creator if set given user is used to create the draft - otherwise the current-user is used
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language|null $language if not set the draft is created with the initialLanguage code of the source version or if not present with the main language.
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content - the newly created content draft
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the current-user is not allowed to create the draft
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the current-user is not allowed to create the draft
-     */
     public function createContentDraft(
         ContentInfo $contentInfo,
         ?APIVersionInfo $versionInfo = null,

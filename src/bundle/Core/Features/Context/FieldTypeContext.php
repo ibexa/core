@@ -200,14 +200,11 @@ class FieldTypeContext implements Context
         return $this->fieldConstructionObject['objectState'];
     }
 
-    /**
-     * Creates and publishes the content with a given field and
-     * based on the internal ContentType.
-     *
-     * @param string|null $field
-     * @param mixed $value
-     */
-    private function createAndPublishContent($field, $value)
+/**
+ * Creates and publishes the content with a given field and
+ * based on the internal ContentType.
+ */
+private function createAndPublishContent(?string $field, mixed $value): void
     {
         $languageCode = self::DEFAULT_LANGUAGE;
 

@@ -13,12 +13,8 @@ use Symfony\Component\Security\Http\HttpUtils as BaseHttpUtils;
 
 class HttpUtils extends BaseHttpUtils implements SiteAccessAware
 {
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    private $siteAccess;
+    private ?SiteAccess $siteAccess;
 
-    /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess|null $siteAccess
-     */
     public function setSiteAccess(?SiteAccess $siteAccess = null)
     {
         $this->siteAccess = $siteAccess;
@@ -27,7 +23,7 @@ class HttpUtils extends BaseHttpUtils implements SiteAccessAware
     private function analyzeLink($path)
     {
         if (
-            $this->siteAccess === null
+            !isset($this->siteAccess)
             || $path[0] !== '/'
             || !($this->siteAccess->matcher instanceof SiteAccess\URILexer)
         ) {
