@@ -3217,12 +3217,6 @@ parameters:
 			path: src/bundle/Core/Features/Context/FieldTypeContext.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\FieldTypeContext\:\:createAndPublishContent\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/FieldTypeContext.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\FieldTypeContext\:\:createContent\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -14889,12 +14883,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Security\\HttpUtils\:\:setSiteAccess\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/lib/MVC/Symfony/Security/HttpUtils.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\Security\\HttpUtils\:\:\$siteAccess \(Ibexa\\Core\\MVC\\Symfony\\SiteAccess\) does not accept Ibexa\\Core\\MVC\\Symfony\\SiteAccess\|null\.$#'
-			identifier: assign.propertyType
 			count: 1
 			path: src/lib/MVC/Symfony/Security/HttpUtils.php
 
