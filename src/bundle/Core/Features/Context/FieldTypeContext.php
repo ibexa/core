@@ -201,10 +201,9 @@ class FieldTypeContext implements Context
     }
 
     /**
-     * Creates and publishes the content with a given field and
-     * based on the internal ContentType.
+     * @param mixed $value
      */
-    private function createAndPublishContent(?string $field, mixed $value): void
+    private function createAndPublishContent(?string $field, $value): void
     {
         $languageCode = self::DEFAULT_LANGUAGE;
 
