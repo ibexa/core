@@ -8,6 +8,7 @@
 namespace Ibexa\Bundle\Core\Command;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -73,7 +74,7 @@ class DebugConfigResolverCommand extends Command
             'sort',
             null,
             InputOption::VALUE_REQUIRED,
-            'Sort list of hashes by this key, ascending. For example: --sort template'
+            'Sort list of hashes by this key, ascending. For example: --sort position'
         );
         $this->addOption(
             'reverse-sort',
@@ -105,17 +106,26 @@ EOM
         $parameter = $input->getArgument('parameter');
         $namespace = $input->getOption('namespace');
         $scope = $input->getOption('scope');
+        $sort = $input->getOption('sort');
         $parameterData = $this->configResolver->getParameter($parameter, $namespace, $scope);
 
-        if (null !== ($sort = $input->getOption('sort')) && is_array($parameterData) && is_array($parameterData[0]) && array_key_exists($sort, $parameterData[0]) && is_scalar($parameterData[0][$sort])) {
+        if (null !== $sort && !empty($parameterData)) {
+            if (!is_array($parameterData)) {
+                throw new InvalidArgumentException('--sort', "'$parameter' isn't a list. Sort can be used only on list.");
+            }
+            if (!array_is_list($parameterData)) {
+                throw new InvalidArgumentException('--sort', "'$parameter' is a hash or an object. Sort can be used only on list.");
+            }
+            if (!array_key_exists($sort, $parameterData[0])) {
+                throw new InvalidArgumentException('--sort', "'$sort' property doesn't exist on '$parameter' list items.");
+            }
+            if (!is_scalar($parameterData[0][$sort])) {
+                throw new InvalidArgumentException('--sort', "'{$parameter}[n][{$sort}]' properties aren't scalar and can't be sorted.");
+            }
             if ($input->getOption('reverse-sort')) {
-                usort($parameterData, static function ($a, $b) use ($sort) {
-                    return $b[$sort] <=> $a[$sort];
-                });
+                usort($parameterData, static fn (array $a, array $b): int => $b[$sort] <=> $a[$sort]);
             } else {
-                usort($parameterData, static function ($a, $b) use ($sort) {
-                    return $a[$sort] <=> $b[$sort];
-                });
+                usort($parameterData, static fn (array $a, array $b): int => $a[$sort] <=> $b[$sort]);
             }
         }
 
