@@ -140,7 +140,7 @@ abstract class ContentTypeServiceDecorator implements ContentTypeService
 
     public function copyContentType(
         ContentType $contentType,
-        User $creator = null
+        ?User $creator = null
     ): ContentType {
         return $this->innerService->copyContentType($contentType, $creator);
     }

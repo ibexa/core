@@ -35,7 +35,7 @@ class TranslationHelper
     /** @var \Psr\Log\LoggerInterface */
     private $logger;
 
-    public function __construct(ConfigResolverInterface $configResolver, ContentService $contentService, array $siteAccessesByLanguage, LoggerInterface $logger = null)
+    public function __construct(ConfigResolverInterface $configResolver, ContentService $contentService, array $siteAccessesByLanguage, ?LoggerInterface $logger = null)
     {
         $this->configResolver = $configResolver;
         $this->contentService = $contentService;

@@ -315,7 +315,7 @@ abstract class BaseTest extends TestCase
     protected function createUserVersion1(
         string $login = 'user',
         ?string $email = null,
-        ContentType $contentType = null,
+        ?ContentType $contentType = null,
         int $userGroupId = 13
     ): User {
         $repository = $this->getRepository();
@@ -376,7 +376,7 @@ abstract class BaseTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\User
      */
-    protected function createCustomUserVersion1($userGroupName, $roleIdentifier, RoleLimitation $roleLimitation = null)
+    protected function createCustomUserVersion1($userGroupName, $roleIdentifier, ?RoleLimitation $roleLimitation = null)
     {
         return $this->createCustomUserWithLogin(
             'user',
@@ -403,7 +403,7 @@ abstract class BaseTest extends TestCase
         $email,
         $userGroupName,
         $roleIdentifier,
-        RoleLimitation $roleLimitation = null
+        ?RoleLimitation $roleLimitation = null
     ) {
         $repository = $this->getRepository();
 
@@ -459,7 +459,7 @@ abstract class BaseTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\User
      */
-    protected function createUser($login, $firstName, $lastName, UserGroup $userGroup = null)
+    protected function createUser($login, $firstName, $lastName, ?UserGroup $userGroup = null)
     {
         $repository = $this->getRepository();
 
@@ -597,7 +597,7 @@ abstract class BaseTest extends TestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function createUserWithPolicies($login, array $policiesData, RoleLimitation $roleLimitation = null)
+    public function createUserWithPolicies($login, array $policiesData, ?RoleLimitation $roleLimitation = null)
     {
         $repository = $this->getRepository(false);
         $roleService = $repository->getRoleService();

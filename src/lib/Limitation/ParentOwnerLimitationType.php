@@ -110,7 +110,7 @@ class ParentOwnerLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @todo Add support for $limitationValues[0] == 2 when session values can be injected somehow
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null)
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, ?array $targets = null)
     {
         if (!$value instanceof APIParentOwnerLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: APIParentOwnerLimitation');

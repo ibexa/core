@@ -25,7 +25,7 @@ class TolerantIOService extends IOService
     /** @var \Psr\Log\LoggerInterface */
     protected $logger;
 
-    public function setLogger(LoggerInterface $logger = null)
+    public function setLogger(?LoggerInterface $logger = null)
     {
         $this->logger = $logger;
     }

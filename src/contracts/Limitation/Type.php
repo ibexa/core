@@ -119,7 +119,7 @@ interface Type
      *
      * @return bool|null Returns one of ACCESS_* constants, {@see Type::ACCESS_GRANTED}, {@see Type::ACCESS_ABSTAIN}, or {@see Type::ACCESS_DENIED}.
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, APIValueObject $object, array $targets = null);
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, APIValueObject $object, ?array $targets = null);
 
     /**
      * Returns Criterion for use in find() query.

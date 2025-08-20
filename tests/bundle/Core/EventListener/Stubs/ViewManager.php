@@ -18,7 +18,7 @@ use Ibexa\Core\MVC\Symfony\View\ViewManagerInterface;
  */
 class ViewManager implements ViewManagerInterface, SiteAccessAware
 {
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(?SiteAccess $siteAccess = null)
     {
     }
 

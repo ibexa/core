@@ -106,7 +106,7 @@ class LocationService implements LocationServiceInterface
         LocationFilteringHandler $locationFilteringHandler,
         ContentTypeService $contentTypeService,
         array $settings = [],
-        LoggerInterface $logger = null
+        ?LoggerInterface $logger = null
     ) {
         $this->repository = $repository;
         $this->persistenceHandler = $handler;
@@ -802,7 +802,7 @@ class LocationService implements LocationServiceInterface
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct
      */
-    public function newLocationCreateStruct($parentLocationId, ContentType $contentType = null): LocationCreateStruct
+    public function newLocationCreateStruct($parentLocationId, ?ContentType $contentType = null): LocationCreateStruct
     {
         $properties = [
             'parentLocationId' => $parentLocationId,

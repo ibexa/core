@@ -437,7 +437,7 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         }
     }
 
-    protected function storeTypeCache(array $types, string $listIndex = null): void
+    protected function storeTypeCache(array $types, ?string $listIndex = null): void
     {
         $this->cache->setMulti(
             $types,
@@ -466,7 +466,7 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         ]);
     }
 
-    protected function storeGroupCache(array $groups, string $listIndex = null): void
+    protected function storeGroupCache(array $groups, ?string $listIndex = null): void
     {
         $this->cache->setMulti(
             $groups,

@@ -12,7 +12,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIElement;
 
 final class URIElementNormalizer extends AbstractPropertyWhitelistNormalizer
 {
-    public function supportsNormalization($data, string $format = null)
+    public function supportsNormalization($data, ?string $format = null)
     {
         return $data instanceof URIElement;
     }

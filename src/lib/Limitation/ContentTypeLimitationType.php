@@ -109,7 +109,7 @@ class ContentTypeLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @return bool|null
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null): ?bool
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, ?array $targets = null): ?bool
     {
         $targets = $targets ?? [];
         foreach ($targets as $target) {

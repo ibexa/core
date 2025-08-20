@@ -47,7 +47,7 @@ class TrashService implements TrashServiceInterface
         return $this->service->trash($location);
     }
 
-    public function recover(TrashItem $trashItem, Location $newParentLocation = null): Location
+    public function recover(TrashItem $trashItem, ?Location $newParentLocation = null): Location
     {
         return $this->service->recover($trashItem, $newParentLocation);
     }

@@ -32,9 +32,9 @@ class BinaryFileLister extends MigrationHandler implements FileListerInterface
     public function __construct(
         HandlerRegistry $metadataHandlerRegistry,
         HandlerRegistry $binarydataHandlerRegistry,
-        LoggerInterface $logger = null,
         Iterator $fileList,
-        $filesDir
+        $filesDir,
+        ?LoggerInterface $logger = null,
     ) {
         $this->fileList = $fileList;
         $this->filesDir = $filesDir;

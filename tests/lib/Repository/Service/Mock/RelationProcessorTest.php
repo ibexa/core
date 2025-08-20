@@ -667,7 +667,7 @@ class RelationProcessorTest extends BaseServiceMockTest
      *
      * @return \Ibexa\Core\Repository\Helper\RelationProcessor|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getPartlyMockedRelationProcessor(array $methods = null)
+    protected function getPartlyMockedRelationProcessor(?array $methods = null)
     {
         return $this->getMockBuilder(RelationProcessor::class)
             ->setMethods($methods)

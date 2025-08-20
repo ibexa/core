@@ -587,7 +587,7 @@ class ObjectStateService implements ObjectStateServiceInterface
      */
     protected function buildDomainObjectStateObject(
         SPIObjectState $spiObjectState,
-        APIObjectStateGroup $objectStateGroup = null,
+        ?APIObjectStateGroup $objectStateGroup = null,
         array $prioritizedLanguages = []
     ): APIObjectState {
         $objectStateGroup = $objectStateGroup ?: $this->loadObjectStateGroup($spiObjectState->groupId, $prioritizedLanguages);

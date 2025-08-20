@@ -38,7 +38,7 @@ class DefaultRouter extends Router implements RequestMatcherInterface, SiteAcces
         $this->configResolver = $configResolver;
     }
 
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(?SiteAccess $siteAccess = null)
     {
         $this->siteAccess = $siteAccess;
     }

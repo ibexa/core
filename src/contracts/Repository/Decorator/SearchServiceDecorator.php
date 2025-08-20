@@ -53,7 +53,7 @@ abstract class SearchServiceDecorator implements SearchService
         string $prefix,
         array $fieldPaths = [],
         int $limit = 10,
-        Criterion $filter = null
+        ?Criterion $filter = null
     ) {
         return $this->innerService->suggest($prefix, $fieldPaths, $limit, $filter);
     }

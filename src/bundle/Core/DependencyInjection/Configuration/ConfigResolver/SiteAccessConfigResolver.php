@@ -86,7 +86,7 @@ abstract class SiteAccessConfigResolver implements VersatileScopeInterface, Site
         $this->defaultScope = $scope;
     }
 
-    public function setSiteAccess(SiteAccess $siteAccess = null): void
+    public function setSiteAccess(?SiteAccess $siteAccess = null): void
     {
         $this->currentSiteAccess = $siteAccess;
     }

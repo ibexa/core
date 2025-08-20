@@ -35,7 +35,7 @@ class Converter
      * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\HandlerRegistry $registry
      * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler|null $defaultHandler
      */
-    public function __construct(HandlerRegistry $registry, Handler $defaultHandler = null)
+    public function __construct(HandlerRegistry $registry, ?Handler $defaultHandler = null)
     {
         $this->registry = $registry;
         $this->defaultHandler = $defaultHandler;

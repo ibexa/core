@@ -113,7 +113,7 @@ interface ContentService
      * @param int|null $versionNo The version number. If not given the current version is returned from $contentInfo.
      * @param bool $useAlwaysAvailable Add Main language to $languages if true (default) and if {@see ContentInfo::$alwaysAvailable} is true.
      */
-    public function loadContentByContentInfo(ContentInfo $contentInfo, array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): Content;
+    public function loadContentByContentInfo(ContentInfo $contentInfo, ?array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): Content;
 
     /**
      * Loads content in the version given by version info.
@@ -124,7 +124,7 @@ interface ContentService
      *                         returned value object. If not given all languages are returned.
      * @param bool $useAlwaysAvailable Add Main language to $languages if true (default) and if {@see ContentInfo::$alwaysAvailable} is true.
      */
-    public function loadContentByVersionInfo(VersionInfo $versionInfo, array $languages = null, bool $useAlwaysAvailable = true): Content;
+    public function loadContentByVersionInfo(VersionInfo $versionInfo, ?array $languages = null, bool $useAlwaysAvailable = true): Content;
 
     /**
      * Loads content in a version of the given content object.
@@ -141,7 +141,7 @@ interface ContentService
      * @param int|null $versionNo The version number. If not given the current version is returned.
      * @param bool $useAlwaysAvailable Add Main language to $languages if true (default) and if {@see ContentInfo::$alwaysAvailable} is true.
      */
-    public function loadContent(int $contentId, array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): Content;
+    public function loadContent(int $contentId, ?array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): Content;
 
     /**
      * Loads content in a version for the content object reference by the given remote id.
@@ -158,7 +158,7 @@ interface ContentService
      * @param int|null $versionNo the version number. If not given the current version is returned
      * @param bool $useAlwaysAvailable Add Main language to \$languages if true (default) and if {@see ContentInfo::$alwaysAvailable} is true.
      */
-    public function loadContentByRemoteId(string $remoteId, array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): Content;
+    public function loadContentByRemoteId(string $remoteId, ?array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): Content;
 
     /**
      * Bulk-load Content items by the list of ContentInfo Value Objects.

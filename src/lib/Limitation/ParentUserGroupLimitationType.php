@@ -111,7 +111,7 @@ class ParentUserGroupLimitationType extends AbstractPersistenceLimitationType im
      *
      * @return bool
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null)
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, ?array $targets = null)
     {
         if (!$value instanceof APIParentUserGroupLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: APIParentUserGroupLimitation');

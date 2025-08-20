@@ -396,7 +396,7 @@ interface UserService
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validatePassword(string $password, PasswordValidationContext $context = null): array;
+    public function validatePassword(string $password, ?PasswordValidationContext $context = null): array;
 
     /**
      * Returns information about password for a given user.

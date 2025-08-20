@@ -49,7 +49,7 @@ abstract class Generator implements SiteAccessAware
     /**
      * @param \Ibexa\Core\MVC\Symfony\SiteAccess|null $siteAccess
      */
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(?SiteAccess $siteAccess = null)
     {
         $this->siteAccess = $siteAccess;
     }
@@ -57,7 +57,7 @@ abstract class Generator implements SiteAccessAware
     /**
      * @param \Psr\Log\LoggerInterface $logger
      */
-    public function setLogger(LoggerInterface $logger = null)
+    public function setLogger(?LoggerInterface $logger = null)
     {
         $this->logger = $logger;
     }

@@ -22,7 +22,7 @@ final class SerializerStub implements SerializerInterface, NormalizerInterface
         throw new NotImplementedException(__METHOD__);
     }
 
-    public function normalize($object, string $format = null, array $context = [])
+    public function normalize($object, ?string $format = null, array $context = [])
     {
         if (is_array($object)) {
             $result = [];
@@ -42,7 +42,7 @@ final class SerializerStub implements SerializerInterface, NormalizerInterface
         return $object;
     }
 
-    public function supportsNormalization($data, string $format = null)
+    public function supportsNormalization($data, ?string $format = null)
     {
         return true;
     }

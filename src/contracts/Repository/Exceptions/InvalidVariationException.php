@@ -12,7 +12,7 @@ use Exception;
 
 class InvalidVariationException extends InvalidArgumentException
 {
-    public function __construct($variationName, $variationType, $code = 0, Exception $previous = null)
+    public function __construct($variationName, $variationType, $code = 0, ?Exception $previous = null)
     {
         parent::__construct("Invalid variation '$variationName' for $variationType", $code, $previous);
     }

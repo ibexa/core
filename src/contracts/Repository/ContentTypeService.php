@@ -245,7 +245,7 @@ interface ContentTypeService
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
      */
-    public function copyContentType(ContentType $contentType, User $creator = null): ContentType;
+    public function copyContentType(ContentType $contentType, ?User $creator = null): ContentType;
 
     /**
      * Assigns a content type to a content type group.

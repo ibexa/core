@@ -162,7 +162,7 @@ class TreeHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Location
      */
-    public function loadLocation($locationId, array $translations = null, bool $useAlwaysAvailable = true)
+    public function loadLocation($locationId, ?array $translations = null, bool $useAlwaysAvailable = true)
     {
         $data = $this->locationGateway->getBasicNodeData($locationId, $translations, $useAlwaysAvailable);
 

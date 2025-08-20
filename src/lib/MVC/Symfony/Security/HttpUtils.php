@@ -13,24 +13,24 @@ use Symfony\Component\Security\Http\HttpUtils as BaseHttpUtils;
 
 class HttpUtils extends BaseHttpUtils implements SiteAccessAware
 {
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    private $siteAccess;
+    private ?SiteAccess $siteAccess;
 
-    /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess|null $siteAccess
-     */
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(?SiteAccess $siteAccess = null)
     {
         $this->siteAccess = $siteAccess;
     }
 
     private function analyzeLink($path)
     {
-        if ($path[0] === '/' && $this->siteAccess->matcher instanceof SiteAccess\URILexer) {
-            $path = $this->siteAccess->matcher->analyseLink($path);
+        if (
+            !isset($this->siteAccess)
+            || $path[0] !== '/'
+            || !($this->siteAccess->matcher instanceof SiteAccess\URILexer)
+        ) {
+            return $path;
         }
 
-        return $path;
+        return $this->siteAccess->matcher->analyseLink($path);
     }
 
     public function generateUri($request, $path)

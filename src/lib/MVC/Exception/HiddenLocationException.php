@@ -14,7 +14,7 @@ class HiddenLocationException extends NotFoundHttpException
     /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
     private $location;
 
-    public function __construct(Location $location, $message = null, \Exception $previous = null, $code = 0)
+    public function __construct(Location $location, $message = null, ?\Exception $previous = null, $code = 0)
     {
         $this->location = $location;
         parent::__construct($message, $previous, $code);

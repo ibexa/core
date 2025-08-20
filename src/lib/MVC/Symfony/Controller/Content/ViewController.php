@@ -81,7 +81,7 @@ class ViewController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    protected function buildResponse($etag = null, DateTime $lastModified = null)
+    protected function buildResponse($etag = null, ?DateTime $lastModified = null)
     {
         $request = $this->getRequest();
         $response = new Response();

@@ -71,7 +71,7 @@ abstract class BaseContentServiceTest extends BaseTest
         $locationId = 56,
         $contentTypeIdentifier = 'forum',
         $contentFieldNameIdentifier = 'name',
-        User $contentOwner = null
+        ?User $contentOwner = null
     ) {
         $repository = $this->getRepository();
 

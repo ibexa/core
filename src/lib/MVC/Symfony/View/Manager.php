@@ -72,7 +72,7 @@ class Manager implements ViewManagerInterface
         ConfigResolverInterface $configResolver,
         $viewBaseLayout,
         $viewConfigurator,
-        LoggerInterface $logger = null
+        ?LoggerInterface $logger = null
     ) {
         $this->templateEngine = $templateEngine;
         $this->eventDispatcher = $eventDispatcher;

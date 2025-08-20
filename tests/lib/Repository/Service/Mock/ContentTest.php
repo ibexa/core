@@ -5970,7 +5970,7 @@ class ContentTest extends BaseServiceMockTest
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
-    private function mockBuildContentDomainObject(SPIContent $spiContent, array $translations = null, bool $useAlwaysAvailable = null)
+    private function mockBuildContentDomainObject(SPIContent $spiContent, ?array $translations = null, ?bool $useAlwaysAvailable = null)
     {
         $contentTypeId = $spiContent->versionInfo->contentInfo->contentTypeId;
         $contentTypeServiceMock = $this->getContentTypeServiceMock();
@@ -6271,7 +6271,7 @@ class ContentTest extends BaseServiceMockTest
      *
      * @return \Ibexa\Core\Repository\ContentService|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getPartlyMockedContentService(array $methods = null, int $gracePeriodInSeconds = 0)
+    protected function getPartlyMockedContentService(?array $methods = null, int $gracePeriodInSeconds = 0)
     {
         if (!isset($this->partlyMockedContentService)) {
             $this->partlyMockedContentService = $this->getMockBuilder(ContentService::class)
