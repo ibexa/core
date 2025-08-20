@@ -93,9 +93,10 @@ final class FindContentTypesTest extends RepositoryTestCase
         $pageSize = 10;
         $noOfPages = 3;
 
-        for ($offset = 0; $offset < $noOfPages; $offset += $pageSize) {
+        for ($page = 1; $page <= $noOfPages; ++$page) {
+            $offset = ($page - 1) * $pageSize;
             $searchResult = $contentTypeService->findContentTypes(
-                new ContentTypeQuery(null, [], $offset, $pageSize),
+                new ContentTypeQuery(null, [new Identifier()], $offset, $pageSize),
             );
 
             // an actual number of items on a current page
