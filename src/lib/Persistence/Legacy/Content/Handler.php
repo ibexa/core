@@ -113,7 +113,7 @@ class Handler implements BaseContentHandler
         ContentTypeHandler $contentTypeHandler,
         TreeHandler $treeHandler,
         LanguageHandler $languageHandler,
-        LoggerInterface $logger = null
+        ?LoggerInterface $logger = null
     ) {
         $this->contentGateway = $contentGateway;
         $this->locationGateway = $locationGateway;
@@ -322,7 +322,7 @@ class Handler implements BaseContentHandler
     /**
      * {@inheritdoc}
      */
-    public function load($id, $version = null, array $translations = null)
+    public function load($id, $version = null, ?array $translations = null)
     {
         $rows = $this->contentGateway->load($id, $version, $translations);
 
@@ -350,7 +350,7 @@ class Handler implements BaseContentHandler
     /**
      * {@inheritdoc}
      */
-    public function loadContentList(array $contentIds, array $translations = null): array
+    public function loadContentList(array $contentIds, ?array $translations = null): array
     {
         $rawList = $this->contentGateway->loadContentList($contentIds, $translations);
         if (empty($rawList)) {

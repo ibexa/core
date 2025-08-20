@@ -80,7 +80,7 @@ class SearchService implements SearchServiceInterface
         return $this->service->findSingle($filter, $languageFilter, $filterOnUserPermissions);
     }
 
-    public function suggest(string $prefix, array $fieldPaths = [], int $limit = 10, Criterion $filter = null)
+    public function suggest(string $prefix, array $fieldPaths = [], int $limit = 10, ?Criterion $filter = null)
     {
         return $this->service->suggest($prefix, $fieldPaths, $limit, $filter);
     }

@@ -62,7 +62,7 @@ abstract class Controller implements ContainerAwareInterface
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function render($view, array $parameters = [], Response $response = null)
+    public function render($view, array $parameters = [], ?Response $response = null)
     {
         if (!isset($response)) {
             $response = new Response();

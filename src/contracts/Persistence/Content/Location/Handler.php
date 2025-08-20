@@ -24,7 +24,7 @@ interface Handler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Location
      */
-    public function load($locationId, array $translations = null, bool $useAlwaysAvailable = true);
+    public function load($locationId, ?array $translations = null, bool $useAlwaysAvailable = true);
 
     /**
      * Return list of unique Locations, with location id as key.
@@ -38,7 +38,7 @@ interface Handler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Location[]|iterable
      */
-    public function loadList(array $locationIds, array $translations = null, bool $useAlwaysAvailable = true): iterable;
+    public function loadList(array $locationIds, ?array $translations = null, bool $useAlwaysAvailable = true): iterable;
 
     /**
      * Loads the subtree ids of the location identified by $locationId.
@@ -62,7 +62,7 @@ interface Handler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Location
      */
-    public function loadByRemoteId($remoteId, array $translations = null, bool $useAlwaysAvailable = true);
+    public function loadByRemoteId($remoteId, ?array $translations = null, bool $useAlwaysAvailable = true);
 
     /**
      * Loads all locations for $contentId, optionally limited to a sub tree

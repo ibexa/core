@@ -42,11 +42,11 @@ class ImageFileLister extends MigrationHandler implements FileListerInterface
     public function __construct(
         HandlerRegistry $metadataHandlerRegistry,
         HandlerRegistry $binarydataHandlerRegistry,
-        LoggerInterface $logger = null,
         Iterator $imageFileList,
         VariationPathGenerator $variationPathGenerator,
         FilterConfiguration $filterConfiguration,
-        $imagesDir
+        $imagesDir,
+        ?LoggerInterface $logger = null
     ) {
         $this->imageFileList = $imageFileList;
         $this->variationPathGenerator = $variationPathGenerator;

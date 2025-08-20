@@ -25,7 +25,7 @@ final class Flysystem implements IOBinaryDataHandler
 
     private ?UrlDecorator $urlDecorator;
 
-    public function __construct(FilesystemOperator $filesystem, UrlDecorator $urlDecorator = null)
+    public function __construct(FilesystemOperator $filesystem, ?UrlDecorator $urlDecorator = null)
     {
         $this->filesystem = $filesystem;
         $this->urlDecorator = $urlDecorator;

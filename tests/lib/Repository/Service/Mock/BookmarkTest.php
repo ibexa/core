@@ -361,7 +361,7 @@ class BookmarkTest extends BaseServiceMockTest
     /**
      * @return \Ibexa\Contracts\Core\Repository\BookmarkService|\PHPUnit\Framework\MockObject\MockObject
      */
-    private function createBookmarkService(array $methods = null)
+    private function createBookmarkService(?array $methods = null)
     {
         return $this
             ->getMockBuilder(BookmarkService::class)

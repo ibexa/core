@@ -32,7 +32,7 @@ class RequestEventListener implements EventSubscriberInterface
     /** @var \Symfony\Component\Routing\RouterInterface */
     private $router;
 
-    public function __construct(ConfigResolverInterface $configResolver, RouterInterface $router, $defaultSiteAccess, LoggerInterface $logger = null)
+    public function __construct(ConfigResolverInterface $configResolver, RouterInterface $router, $defaultSiteAccess, ?LoggerInterface $logger = null)
     {
         $this->configResolver = $configResolver;
         $this->defaultSiteAccess = $defaultSiteAccess;

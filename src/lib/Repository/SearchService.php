@@ -259,7 +259,7 @@ class SearchService implements SearchServiceInterface
      * @param int $limit
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion|null $filter
      */
-    public function suggest(string $prefix, array $fieldPaths = [], int $limit = 10, Criterion $filter = null)
+    public function suggest(string $prefix, array $fieldPaths = [], int $limit = 10, ?Criterion $filter = null)
     {
     }
 

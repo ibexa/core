@@ -36,7 +36,7 @@ class ContentTypeIdentifier extends CriterionHandler
     public function __construct(
         Connection $connection,
         ContentTypeHandler $contentTypeHandler,
-        LoggerInterface $logger = null
+        ?LoggerInterface $logger = null
     ) {
         parent::__construct($connection);
 

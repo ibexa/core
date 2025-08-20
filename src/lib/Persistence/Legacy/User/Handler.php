@@ -583,7 +583,7 @@ class Handler implements BaseUserHandler
      * @param mixed $roleId
      * @param array $limitation
      */
-    public function assignRole($contentId, $roleId, array $limitation = null)
+    public function assignRole($contentId, $roleId, ?array $limitation = null)
     {
         $limitation = $limitation ?: ['' => ['']];
         $this->userGateway->assignRole($contentId, $roleId, $limitation);

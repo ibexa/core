@@ -88,7 +88,7 @@ final class MemberOfLimitationType extends AbstractPersistenceLimitationType imp
         return new MemberOfLimitation(['limitationValues' => $limitationValues]);
     }
 
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null)
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, ?array $targets = null)
     {
         if (!$value instanceof MemberOfLimitation) {
             throw new InvalidArgumentException(

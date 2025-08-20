@@ -23,7 +23,7 @@ class PropertyNotFoundException extends Exception implements RepositoryException
      * @param string|null $className Optionally to specify class in abstract/parent classes
      * @param \Exception|null $previous
      */
-    public function __construct($propertyName, $className = null, Exception $previous = null)
+    public function __construct($propertyName, $className = null, ?Exception $previous = null)
     {
         if ($className === null) {
             parent::__construct("Property '{$propertyName}' not found", 0, $previous);

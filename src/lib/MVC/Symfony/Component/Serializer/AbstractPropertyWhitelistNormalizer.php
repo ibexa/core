@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 
 abstract class AbstractPropertyWhitelistNormalizer extends PropertyNormalizer
 {
-    public function normalize($object, string $format = null, array $context = [])
+    public function normalize($object, ?string $format = null, array $context = [])
     {
         $data = parent::normalize($object, $format, $context);
         foreach (array_keys($data) as $property) {

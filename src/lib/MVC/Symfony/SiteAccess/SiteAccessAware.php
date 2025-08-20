@@ -13,7 +13,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
  */
 interface SiteAccessAware
 {
-    public function setSiteAccess(SiteAccess $siteAccess = null);
+    public function setSiteAccess(?SiteAccess $siteAccess = null);
 }
 
 class_alias(SiteAccessAware::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\SiteAccessAware');

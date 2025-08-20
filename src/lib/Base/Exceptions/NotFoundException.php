@@ -28,7 +28,7 @@ class NotFoundException extends APINotFoundException implements Httpable, Transl
      * @param mixed $identifier
      * @param \Exception|null $previous
      */
-    public function __construct($what, $identifier, Exception $previous = null)
+    public function __construct($what, $identifier, ?Exception $previous = null)
     {
         $identifierStr = is_string($identifier) ? $identifier : var_export($identifier, true);
         $this->setMessageTemplate("Could not find '%what%' with identifier '%identifier%'");

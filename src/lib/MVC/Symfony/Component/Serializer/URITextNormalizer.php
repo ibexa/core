@@ -17,7 +17,7 @@ final class URITextNormalizer extends AbstractPropertyWhitelistNormalizer
         return ['siteAccessesConfiguration'];
     }
 
-    public function supportsNormalization($data, string $format = null)
+    public function supportsNormalization($data, ?string $format = null)
     {
         return $data instanceof URIText;
     }

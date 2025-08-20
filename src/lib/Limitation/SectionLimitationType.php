@@ -109,7 +109,7 @@ class SectionLimitationType extends AbstractPersistenceLimitationType implements
      *
      * @return bool
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null)
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, ?array $targets = null)
     {
         if (!$value instanceof APISectionLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: APISectionLimitation');

@@ -34,7 +34,7 @@ class DecoratedFragmentRenderer implements FragmentRendererInterface, SiteAccess
     /**
      * @param \Ibexa\Core\MVC\Symfony\SiteAccess|null $siteAccess
      */
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(?SiteAccess $siteAccess = null)
     {
         $this->siteAccess = $siteAccess;
     }

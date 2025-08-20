@@ -55,12 +55,12 @@ abstract class ContainerConfigResolver implements ConfigResolverInterface, Conta
         $this->defaultNamespace = $defaultNamespace;
     }
 
-    private function resolveScopeRelativeParamName(string $paramName, string $namespace = null, string $scope = null): string
+    private function resolveScopeRelativeParamName(string $paramName, ?string $namespace = null, ?string $scope = null): string
     {
         return $this->getScopeRelativeParamName($paramName, ...$this->resolveNamespaceAndScope($namespace, $scope));
     }
 
-    private function resolveNamespaceAndScope(string $namespace = null, string $scope = null): array
+    private function resolveNamespaceAndScope(?string $namespace = null, ?string $scope = null): array
     {
         return [$namespace ?: $this->getDefaultNamespace(), $scope ?? $this->scope];
     }

@@ -133,7 +133,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     /**
      * {@inheritdoc}
      */
-    public function load($contentId, $versionNo = null, array $translations = null)
+    public function load($contentId, $versionNo = null, ?array $translations = null)
     {
         $keySuffix = $versionNo ? "-{$versionNo}-" : '-';
         $keySuffix .= empty($translations) ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations);
@@ -160,7 +160,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         );
     }
 
-    public function loadContentList(array $contentIds, array $translations = null): array
+    public function loadContentList(array $contentIds, ?array $translations = null): array
     {
         $keySuffix = '-' . (empty($translations) ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations));
 

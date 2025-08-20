@@ -19,7 +19,7 @@ final class ValidationFailedException extends InvalidArgumentException
     public function __construct(
         string $argumentName,
         ConstraintViolationListInterface $errors,
-        Exception $previous = null
+        ?Exception $previous = null
     ) {
         parent::__construct($this->createMessage($argumentName, $errors), 0, $previous);
 

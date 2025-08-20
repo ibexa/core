@@ -127,7 +127,7 @@ class SubtreeLimitationType extends AbstractPersistenceLimitationType implements
      *
      * @return bool
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null)
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, ?array $targets = null)
     {
         $targets = $targets ?? [];
 

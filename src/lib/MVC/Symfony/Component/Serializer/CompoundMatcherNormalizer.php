@@ -21,7 +21,7 @@ class CompoundMatcherNormalizer extends AbstractPropertyWhitelistNormalizer impl
      *
      * @see \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound::__sleep.
      */
-    public function normalize($object, string $format = null, array $context = [])
+    public function normalize($object, ?string $format = null, array $context = [])
     {
         $data = parent::normalize($object, $format, $context);
 
@@ -37,12 +37,12 @@ class CompoundMatcherNormalizer extends AbstractPropertyWhitelistNormalizer impl
         return ['subMatchers'];
     }
 
-    public function supportsNormalization($data, string $format = null): bool
+    public function supportsNormalization($data, ?string $format = null): bool
     {
         return $data instanceof Matcher\Compound;
     }
 
-    public function supportsDenormalization($data, string $type, string $format = null): bool
+    public function supportsDenormalization($data, string $type, ?string $format = null): bool
     {
         return is_a($type, Matcher\Compound::class, true);
     }

@@ -132,7 +132,7 @@ abstract class AbstractInMemoryHandler
         callable $backendLoader,
         callable $cacheTagger,
         callable $cacheIndexes,
-        callable $listTags = null,
+        ?callable $listTags = null,
         array $arguments = []
     ) {
         // In-memory

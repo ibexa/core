@@ -29,7 +29,7 @@ abstract class BaseRenderStrategyTest extends TestCase
         array $fragmentRenderers,
         string $defaultMethod = 'inline',
         string $siteAccessName = 'default',
-        Request $request = null
+        ?Request $request = null
     ): RenderStrategy {
         $siteAccess = new SiteAccess($siteAccessName);
 
@@ -46,7 +46,7 @@ abstract class BaseRenderStrategyTest extends TestCase
 
     public function createFragmentRenderer(
         string $name = 'inline',
-        string $rendered = null
+        ?string $rendered = null
     ): FragmentRendererInterface {
         return new class($name, $rendered) implements FragmentRendererInterface {
             /** @var string */

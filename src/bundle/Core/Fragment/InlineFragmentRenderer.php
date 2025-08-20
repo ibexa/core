@@ -39,7 +39,7 @@ class InlineFragmentRenderer extends BaseRenderer implements SiteAccessAware
         }
     }
 
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(?SiteAccess $siteAccess = null)
     {
         $this->siteAccess = $siteAccess;
     }

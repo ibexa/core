@@ -60,7 +60,7 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
     /**
      * {@inheritdoc}
      */
-    public function load($locationId, array $translations = null, bool $useAlwaysAvailable = true)
+    public function load($locationId, ?array $translations = null, bool $useAlwaysAvailable = true)
     {
         $keySuffix = '-' . $this->getCacheTranslationKey($translations, $useAlwaysAvailable);
         $getLocationKeysFn = $this->getLocationKeys;
@@ -80,7 +80,7 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
         );
     }
 
-    public function loadList(array $locationIds, array $translations = null, bool $useAlwaysAvailable = true): iterable
+    public function loadList(array $locationIds, ?array $translations = null, bool $useAlwaysAvailable = true): iterable
     {
         $keySuffix = '-' . $this->getCacheTranslationKey($translations, $useAlwaysAvailable);
         $getLocationKeysFn = $this->getLocationKeys;
@@ -222,7 +222,7 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
     /**
      * {@inheritdoc}
      */
-    public function loadByRemoteId($remoteId, array $translations = null, bool $useAlwaysAvailable = true)
+    public function loadByRemoteId($remoteId, ?array $translations = null, bool $useAlwaysAvailable = true)
     {
         $keySuffix = '-' . $this->getCacheTranslationKey($translations, $useAlwaysAvailable);
         $getLocationKeysFn = $this->getLocationKeys;
@@ -502,7 +502,7 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
         return $tags;
     }
 
-    private function getCacheTranslationKey(array $translations = null, bool $useAlwaysAvailable = true): string
+    private function getCacheTranslationKey(?array $translations = null, bool $useAlwaysAvailable = true): string
     {
         if (empty($translations)) {
             return (int)$useAlwaysAvailable;

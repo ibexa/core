@@ -59,7 +59,7 @@ class RepositoryFactory implements ContainerAwareInterface
         $repositoryClass,
         array $policyMap,
         LanguageResolver $languageResolver,
-        LoggerInterface $logger = null
+        ?LoggerInterface $logger = null
     ) {
         $this->configResolver = $configResolver;
         $this->repositoryClass = $repositoryClass;

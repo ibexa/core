@@ -97,7 +97,7 @@ class ParentDepthLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @return bool
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null)
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, ?array $targets = null)
     {
         if (!$value instanceof APIParentDepthLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: APIParentDepthLimitation');
@@ -162,7 +162,7 @@ class ParentDepthLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @return bool
      */
-    protected function evaluateForContentCreateStruct(APILimitationValue $value, array $targets = null)
+    protected function evaluateForContentCreateStruct(APILimitationValue $value, ?array $targets = null)
     {
         // If targets is empty/null return false as user does not have access
         // to content w/o location with this limitation

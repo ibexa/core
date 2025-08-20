@@ -4049,7 +4049,7 @@ class SearchServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testUserMetadataGroupHorizontalFilterContent(string $queryType = null)
+    public function testUserMetadataGroupHorizontalFilterContent(?string $queryType = null)
     {
         if ($queryType === null) {
             $queryType = 'filter';

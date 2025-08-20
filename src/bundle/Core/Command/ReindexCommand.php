@@ -70,7 +70,7 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
         bool $isDebug,
         string $projectDir,
         ContentIdListGeneratorStrategyInterface $contentIdListGeneratorStrategy,
-        string $phpPath = null
+        ?string $phpPath = null
     ) {
         $this->gateway = $gateway;
         $this->searchIndexer = $searchIndexer;

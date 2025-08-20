@@ -123,7 +123,7 @@ class SiteAccessLimitationType implements SPILimitationTypeInterface
      *
      * @return bool
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null)
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, ?array $targets = null)
     {
         if (!$value instanceof APISiteAccessLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: APISiteAccessLimitation');

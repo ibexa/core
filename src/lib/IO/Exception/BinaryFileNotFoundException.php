@@ -11,7 +11,7 @@ use Ibexa\Core\Base\Exceptions\NotFoundException as BaseNotFoundException;
 
 class BinaryFileNotFoundException extends BaseNotFoundException
 {
-    public function __construct($path, Exception $previous = null)
+    public function __construct($path, ?Exception $previous = null)
     {
         parent::__construct('BinaryFile', $path, $previous);
     }

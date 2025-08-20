@@ -19,7 +19,7 @@ class Manager extends BaseManager implements SiteAccessAware
      *
      * @param \Ibexa\Core\MVC\Symfony\SiteAccess $siteAccess
      */
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(?SiteAccess $siteAccess = null)
     {
         if ($this->logger) {
             $this->logger->debug('Changing SiteAccess in view providers');
