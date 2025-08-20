@@ -207,6 +207,16 @@ final class DoctrineDatabase extends Gateway
         $query->execute();
     }
 
+    public function countTypes(): int
+    {
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->select($this->dbPlatform->getCountExpression('id'))
+            ->from(self::CONTENT_TYPE_TABLE);
+
+        return (int)$query->execute()->fetchOne();
+    }
+
     public function countTypesInGroup(int $groupId): int
     {
         $query = $this->connection->createQueryBuilder();
@@ -1419,12 +1429,23 @@ final class DoctrineDatabase extends Gateway
 
     public function findContentTypes(?ContentTypeQuery $query = null): array
     {
+        $totalCount = $this->countTypes();
+        if ($totalCount === 0) {
+            return [
+                'count' => $totalCount,
+                'items' => [],
+            ];
+        }
+
         $queryBuilder = $this->getLoadTypeQueryBuilder();
 
         if ($query === null) {
             $queryBuilder->setMaxResults(ContentTypeQuery::DEFAULT_LIMIT);
 
-            return $queryBuilder->execute()->fetchAllAssociative();
+            return [
+                'count' => $totalCount,
+                'items' => $queryBuilder->execute()->fetchAllAssociative(),
+            ];
         }
 
         if (!empty($query->getCriterion())) {
@@ -1442,7 +1463,10 @@ final class DoctrineDatabase extends Gateway
             $queryBuilder->addOrderBy($column, $this->getQuerySortingDirection($sortClause->direction));
         }
 
-        return $queryBuilder->execute()->fetchAllAssociative();
+        return [
+            'count' => $totalCount,
+            'items' => $queryBuilder->execute()->fetchAllAssociative(),
+        ];
     }
 
     /**

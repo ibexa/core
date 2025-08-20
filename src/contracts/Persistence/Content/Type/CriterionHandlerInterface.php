@@ -13,17 +13,17 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
 /**
- * @template T of \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface
+ * @template TCriterion of \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface
  */
 interface CriterionHandlerInterface
 {
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface $criterion
+     * @param TCriterion $criterion
      */
     public function supports(CriterionInterface $criterion): bool;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface $criterion
+     * @param TCriterion $criterion
      *
      * @return string|\Doctrine\DBAL\Query\Expression\CompositeExpression
      */
