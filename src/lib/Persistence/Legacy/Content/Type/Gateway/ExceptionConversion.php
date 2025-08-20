@@ -59,6 +59,15 @@ final class ExceptionConversion extends Gateway
         }
     }
 
+    public function countTypes(): int
+    {
+        try {
+            return $this->innerGateway->countTypes();
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
     public function countTypesInGroup(int $groupId): int
     {
         try {

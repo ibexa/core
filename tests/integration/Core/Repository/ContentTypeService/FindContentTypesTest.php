@@ -44,7 +44,18 @@ final class FindContentTypesTest extends RepositoryTestCase
     {
         $contentTypeService = self::getContentTypeService();
 
+        $expectedCount = $contentTypeService->findContentTypes(
+            new ContentTypeQuery(
+                null,
+                [],
+                0,
+                0,
+            )
+        );
+        $expectedCount = count($expectedCount->getContentTypes());
+
         $contentTypes = $contentTypeService->findContentTypes($query);
+
         $identifiers = array_map(
             static fn (ContentType $contentType): string => $contentType->getIdentifier(),
             $contentTypes->getContentTypes(),
@@ -52,6 +63,7 @@ final class FindContentTypesTest extends RepositoryTestCase
 
         self::assertCount(count($expectedIdentifiers), $identifiers);
         self::assertEqualsCanonicalizing($expectedIdentifiers, $identifiers);
+        self::assertSame($expectedCount, $contentTypes->getTotalCount());
     }
 
     public function testFindContentTypesAscSortedByIdentifier(): void
@@ -71,6 +83,34 @@ final class FindContentTypesTest extends RepositoryTestCase
 
         self::assertCount(4, $identifiers);
         self::assertSame(['article', 'file', 'folder', 'user'], $identifiers);
+    }
+
+    public function testPagination(): void
+    {
+        $contentTypeService = self::getContentTypeService();
+
+        $collectedContentTypeIDs = [];
+        $pageSize = 10;
+        $noOfPages = 3;
+
+        for ($offset = 0; $offset < $noOfPages; $offset += $pageSize) {
+            $searchResult = $contentTypeService->findContentTypes(
+                new ContentTypeQuery(null, [], $offset, $pageSize),
+            );
+
+            // an actual number of items on a current page
+            self::assertCount($pageSize, $searchResult);
+
+            // check if results are not duplicated across multiple pages
+            foreach ($searchResult->getContentTypes() as $contentType) {
+                self::assertNotContains(
+                    $contentType->getIdentifier(),
+                    $collectedContentTypeIDs,
+                    "Content type '{$contentType->getIdentifier()}' exists on multiple pages"
+                );
+                $collectedContentTypeIDs[] = $contentType->getIdentifier();
+            }
+        }
     }
 
     public function testFindContentTypesContainingFieldDefinitions(): void

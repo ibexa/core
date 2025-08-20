@@ -37,6 +37,8 @@ abstract class Gateway
 
     abstract public function updateGroup(GroupUpdateStruct $group): void;
 
+    abstract public function countTypes(): int;
+
     abstract public function countTypesInGroup(int $groupId): int;
 
     abstract public function countGroupsForType(int $typeId, int $status): int;
@@ -174,7 +176,7 @@ abstract class Gateway
     abstract public function removeByUserAndVersion(int $userId, int $version): void;
 
     /**
-     * @return array<int,array<string,mixed>>
+     * @return array{items: array<int,array<string,mixed>>, count: int}
      */
     abstract public function findContentTypes(?ContentTypeQuery $query = null): array;
 }

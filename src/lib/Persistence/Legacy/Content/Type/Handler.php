@@ -200,12 +200,12 @@ class Handler implements BaseContentTypeHandler
     {
         $rows = $this->contentTypeGateway->findContentTypes($query);
         $items = $this->mapper->extractTypesFromRows(
-            $rows,
+            $rows['items'],
             true
         );
 
         return [
-            'count' => count($items),
+            'count' => $rows['count'],
             'items' => $items,
         ];
     }
