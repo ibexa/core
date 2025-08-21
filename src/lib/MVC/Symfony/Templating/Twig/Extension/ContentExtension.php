@@ -46,7 +46,7 @@ class ContentExtension extends AbstractExtension
         TranslationHelper $translationHelper,
         FieldHelper $fieldHelper,
         FieldsGroupsList $fieldsGroupsList,
-        LoggerInterface $logger = null
+        ?LoggerInterface $logger = null
     ) {
         $this->repository = $repository;
         $this->translationHelper = $translationHelper;

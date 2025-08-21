@@ -51,21 +51,21 @@ class ContentTypeService implements ContentTypeServiceInterface
         return $this->service->createContentTypeGroup($contentTypeGroupCreateStruct);
     }
 
-    public function loadContentTypeGroup(int $contentTypeGroupId, array $prioritizedLanguages = null): ContentTypeGroup
+    public function loadContentTypeGroup(int $contentTypeGroupId, ?array $prioritizedLanguages = null): ContentTypeGroup
     {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
         return $this->service->loadContentTypeGroup($contentTypeGroupId, $prioritizedLanguages);
     }
 
-    public function loadContentTypeGroupByIdentifier(string $contentTypeGroupIdentifier, array $prioritizedLanguages = null): ContentTypeGroup
+    public function loadContentTypeGroupByIdentifier(string $contentTypeGroupIdentifier, ?array $prioritizedLanguages = null): ContentTypeGroup
     {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
         return $this->service->loadContentTypeGroupByIdentifier($contentTypeGroupIdentifier, $prioritizedLanguages);
     }
 
-    public function loadContentTypeGroups(array $prioritizedLanguages = null): iterable
+    public function loadContentTypeGroups(?array $prioritizedLanguages = null): iterable
     {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
@@ -87,21 +87,21 @@ class ContentTypeService implements ContentTypeServiceInterface
         return $this->service->createContentType($contentTypeCreateStruct, $contentTypeGroups);
     }
 
-    public function loadContentType(int $contentTypeId, array $prioritizedLanguages = null): ContentType
+    public function loadContentType(int $contentTypeId, ?array $prioritizedLanguages = null): ContentType
     {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
         return $this->service->loadContentType($contentTypeId, $prioritizedLanguages);
     }
 
-    public function loadContentTypeByIdentifier(string $identifier, array $prioritizedLanguages = null): ContentType
+    public function loadContentTypeByIdentifier(string $identifier, ?array $prioritizedLanguages = null): ContentType
     {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
         return $this->service->loadContentTypeByIdentifier($identifier, $prioritizedLanguages);
     }
 
-    public function loadContentTypeByRemoteId(string $remoteId, array $prioritizedLanguages = null): ContentType
+    public function loadContentTypeByRemoteId(string $remoteId, ?array $prioritizedLanguages = null): ContentType
     {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
@@ -113,14 +113,14 @@ class ContentTypeService implements ContentTypeServiceInterface
         return $this->service->loadContentTypeDraft($contentTypeId, $ignoreOwnership);
     }
 
-    public function loadContentTypeList(array $contentTypeIds, array $prioritizedLanguages = null): iterable
+    public function loadContentTypeList(array $contentTypeIds, ?array $prioritizedLanguages = null): iterable
     {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
         return $this->service->loadContentTypeList($contentTypeIds, $prioritizedLanguages);
     }
 
-    public function loadContentTypes(ContentTypeGroup $contentTypeGroup, array $prioritizedLanguages = null): iterable
+    public function loadContentTypes(ContentTypeGroup $contentTypeGroup, ?array $prioritizedLanguages = null): iterable
     {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
@@ -142,7 +142,7 @@ class ContentTypeService implements ContentTypeServiceInterface
         $this->service->deleteContentType($contentType);
     }
 
-    public function copyContentType(ContentType $contentType, User $creator = null): ContentType
+    public function copyContentType(ContentType $contentType, ?User $creator = null): ContentType
     {
         return $this->service->copyContentType($contentType, $creator);
     }

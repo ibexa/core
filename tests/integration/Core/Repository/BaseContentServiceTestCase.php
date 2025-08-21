@@ -72,7 +72,7 @@ abstract class BaseContentServiceTestCase extends BaseTestCase
         $locationId = 56,
         $contentTypeIdentifier = 'forum',
         $contentFieldNameIdentifier = 'name',
-        User $contentOwner = null
+        ?User $contentOwner = null
     ) {
         $repository = $this->getRepository();
 

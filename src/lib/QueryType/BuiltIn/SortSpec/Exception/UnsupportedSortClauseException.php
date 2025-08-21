@@ -14,7 +14,7 @@ use Throwable;
 
 final class UnsupportedSortClauseException extends RuntimeException
 {
-    public function __construct(string $name, $code = 0, Throwable $previous = null)
+    public function __construct(string $name, $code = 0, ?Throwable $previous = null)
     {
         $message = sprintf(
             'Could not find %s for %s sort clause',

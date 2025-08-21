@@ -231,7 +231,7 @@ abstract class UserServiceDecorator implements UserService
 
     public function validatePassword(
         string $password,
-        PasswordValidationContext $context = null
+        ?PasswordValidationContext $context = null
     ): array {
         return $this->innerService->validatePassword($password, $context);
     }

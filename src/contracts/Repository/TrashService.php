@@ -60,7 +60,7 @@ interface TrashService
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location the newly created or recovered location
      */
-    public function recover(TrashItem $trashItem, Location $newParentLocation = null): Location;
+    public function recover(TrashItem $trashItem, ?Location $newParentLocation = null): Location;
 
     /**
      * Empties trash.

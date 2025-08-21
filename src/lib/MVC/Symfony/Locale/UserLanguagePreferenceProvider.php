@@ -45,7 +45,7 @@ class UserLanguagePreferenceProvider implements UserLanguagePreferenceProviderIn
         $this->localeFallback = $localeFallback;
     }
 
-    public function getPreferredLocales(Request $request = null): array
+    public function getPreferredLocales(?Request $request = null): array
     {
         $languages = [$this->localeFallback];
 

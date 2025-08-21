@@ -62,7 +62,7 @@ class RepositoryFactory
         array $policyMap,
         LanguageResolver $languageResolver,
         private readonly RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
-        LoggerInterface $logger = null
+        ?LoggerInterface $logger = null
     ) {
         $this->configResolver = $configResolver;
         $this->policyMap = $policyMap;

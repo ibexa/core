@@ -257,7 +257,7 @@ class Handler implements SearchHandlerInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
-    public function suggest($prefix, $fieldPaths = [], $limit = 10, Criterion $filter = null)
+    public function suggest($prefix, $fieldPaths = [], $limit = 10, ?Criterion $filter = null)
     {
         throw new NotImplementedException('Suggestions are not supported by Legacy search engine.');
     }

@@ -98,7 +98,7 @@ class ObjectStateHandler extends LimitationHandler
     /**
      * Query for groups identifiers and id's.
      */
-    protected function getGroupMap(array $limitIds = null): array
+    protected function getGroupMap(?array $limitIds = null): array
     {
         $query = $this->connection->createQueryBuilder();
         $query

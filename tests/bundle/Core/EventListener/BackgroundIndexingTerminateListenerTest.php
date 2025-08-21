@@ -82,7 +82,7 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
      * @param array|null $value
      * @param \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject|null $logger
      */
-    public function testIndexing(array $values = null, $logger = null)
+    public function testIndexing(?array $values = null, $logger = null)
     {
         $contentHandlerMock = $this->createMock(Content\Handler::class);
         $this->persistenceMock

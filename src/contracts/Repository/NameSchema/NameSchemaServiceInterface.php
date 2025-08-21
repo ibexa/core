@@ -23,7 +23,7 @@ interface NameSchemaServiceInterface
      */
     public function resolveUrlAliasSchema(
         Content $content,
-        ContentType $contentType = null
+        ?ContentType $contentType = null
     ): array;
 
     /**
@@ -36,7 +36,7 @@ interface NameSchemaServiceInterface
         Content $content,
         array $fieldMap = [],
         array $languageCodes = [],
-        ContentType $contentType = null
+        ?ContentType $contentType = null
     ): array;
 
     /**

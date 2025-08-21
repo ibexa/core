@@ -699,7 +699,7 @@ class RoleService implements RoleServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to assign a role
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\LimitationValidationException if $roleLimitation is not valid
      */
-    public function assignRoleToUserGroup(APIRole $role, UserGroup $userGroup, RoleLimitation $roleLimitation = null): void
+    public function assignRoleToUserGroup(APIRole $role, UserGroup $userGroup, ?RoleLimitation $roleLimitation = null): void
     {
         if ($this->permissionResolver->canUser('role', 'assign', $userGroup, [$role]) !== true) {
             throw new UnauthorizedException('role', 'assign');
@@ -749,7 +749,7 @@ class RoleService implements RoleServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\LimitationValidationException if $roleLimitation is not valid
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to assign a role
      */
-    public function assignRoleToUser(APIRole $role, User $user, RoleLimitation $roleLimitation = null): void
+    public function assignRoleToUser(APIRole $role, User $user, ?RoleLimitation $roleLimitation = null): void
     {
         if ($this->permissionResolver->canUser('role', 'assign', $user, [$role]) !== true) {
             throw new UnauthorizedException('role', 'assign');

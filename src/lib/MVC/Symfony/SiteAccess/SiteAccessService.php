@@ -32,7 +32,7 @@ class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware
         $this->configResolver = $configResolver;
     }
 
-    public function setSiteAccess(SiteAccess $siteAccess = null): void
+    public function setSiteAccess(?SiteAccess $siteAccess = null): void
     {
         $this->siteAccess = $siteAccess;
     }
