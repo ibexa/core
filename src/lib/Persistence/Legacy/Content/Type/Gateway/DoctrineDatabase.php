@@ -17,6 +17,9 @@ use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
+use Ibexa\Contracts\Core\Repository\Values\URL\Query\SortClause;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\MultilingualStorageFieldDefinition;
@@ -34,6 +37,11 @@ use function sprintf;
  */
 final class DoctrineDatabase extends Gateway
 {
+    private const SORT_DIRECTION_MAP = [
+        SortClause::SORT_ASC => 'ASC',
+        SortClause::SORT_DESC => 'DESC',
+    ];
+
     /**
      * Columns of database tables.
      *
@@ -113,18 +121,22 @@ final class DoctrineDatabase extends Gateway
      */
     private $languageMaskGenerator;
 
+    private Gateway\CriterionVisitor\CriterionVisitor $criterionVisitor;
+
     /**
      * @throws \Doctrine\DBAL\DBALException
      */
     public function __construct(
         Connection $connection,
         SharedGateway $sharedGateway,
-        MaskGenerator $languageMaskGenerator
+        MaskGenerator $languageMaskGenerator,
+        Gateway\CriterionVisitor\CriterionVisitor $criterionVisitor
     ) {
         $this->connection = $connection;
         $this->dbPlatform = $connection->getDatabasePlatform();
         $this->sharedGateway = $sharedGateway;
         $this->languageMaskGenerator = $languageMaskGenerator;
+        $this->criterionVisitor = $criterionVisitor;
     }
 
     public function insertGroup(Group $group): int
@@ -193,6 +205,16 @@ final class DoctrineDatabase extends Gateway
             );
 
         $query->execute();
+    }
+
+    public function countTypes(): int
+    {
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->select($this->dbPlatform->getCountExpression('id'))
+            ->from(self::CONTENT_TYPE_TABLE);
+
+        return (int)$query->execute()->fetchOne();
     }
 
     public function countTypesInGroup(int $groupId): int
@@ -1403,6 +1425,66 @@ final class DoctrineDatabase extends Gateway
 
             throw $e;
         }
+    }
+
+    public function findContentTypes(?ContentTypeQuery $query = null): array
+    {
+        $totalCount = $this->countTypes();
+        if ($totalCount === 0) {
+            return [
+                'count' => $totalCount,
+                'items' => [],
+            ];
+        }
+
+        $queryBuilder = $this->getLoadTypeQueryBuilder();
+
+        if ($query === null) {
+            $queryBuilder->setMaxResults(ContentTypeQuery::DEFAULT_LIMIT);
+
+            return [
+                'count' => $totalCount,
+                'items' => $queryBuilder->execute()->fetchAllAssociative(),
+            ];
+        }
+
+        if (!empty($query->getCriterion())) {
+            $queryBuilder->andWhere($this->criterionVisitor->visitCriteria($queryBuilder, $query->getCriterion()));
+        }
+
+        if ($query->getOffset() > 0) {
+            $queryBuilder->setFirstResult($query->getOffset());
+        }
+
+        $queryBuilder->setMaxResults($query->getLimit() > 0 ? $query->getLimit() : null);
+
+        foreach ($query->getSortClauses() as $sortClause) {
+            $column = sprintf('c.%s', $sortClause->target);
+            $queryBuilder->addOrderBy($column, $this->getQuerySortingDirection($sortClause->direction));
+        }
+
+        return [
+            'count' => $totalCount,
+            'items' => $queryBuilder->execute()->fetchAllAssociative(),
+        ];
+    }
+
+    /**
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     */
+    private function getQuerySortingDirection(string $direction): string
+    {
+        if (!isset(self::SORT_DIRECTION_MAP[$direction])) {
+            throw new InvalidArgumentException(
+                '$sortClause->direction',
+                sprintf(
+                    'Unsupported "%s" sorting directions, use one of the SortClause::SORT_* constants instead',
+                    $direction
+                )
+            );
+        }
+
+        return self::SORT_DIRECTION_MAP[$direction];
     }
 
     /**
