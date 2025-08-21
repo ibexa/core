@@ -16,25 +16,16 @@ use Psr\Log\LoggerInterface;
 
 class BinaryFileLister extends MigrationHandler implements FileListerInterface
 {
-    /** @var \Ibexa\Bundle\IO\Migration\FileLister\FileIteratorInterface */
-    private $fileList;
+    private FileIteratorInterface $fileList;
 
-    /** @var string Directory where files are stored, within the storage dir. Example: 'original' */
-    private $filesDir;
+    private string $filesDir;
 
-    /**
-     * @param \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry $metadataHandlerRegistry
-     * @param \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry $binarydataHandlerRegistry
-     * @param \Psr\Log\LoggerInterface|null $logger
-     * @param \Iterator $fileList
-     * @param string $filesDir Directory where files are stored, within the storage dir. Example: 'original'
-     */
     public function __construct(
         HandlerRegistry $metadataHandlerRegistry,
         HandlerRegistry $binarydataHandlerRegistry,
         Iterator $fileList,
-        $filesDir,
-        ?LoggerInterface $logger = null,
+        string $filesDir,
+        ?LoggerInterface $logger = null
     ) {
         $this->fileList = $fileList;
         $this->filesDir = $filesDir;
@@ -44,12 +35,12 @@ class BinaryFileLister extends MigrationHandler implements FileListerInterface
         parent::__construct($metadataHandlerRegistry, $binarydataHandlerRegistry, $logger);
     }
 
-    public function countFiles()
+    public function countFiles(): int
     {
         return count($this->fileList);
     }
 
-    public function loadMetadataList($limit = null, $offset = null)
+    public function loadMetadataList($limit = null, $offset = null): array
     {
         $metadataList = [];
         $fileLimitList = new LimitIterator($this->fileList, $offset, $limit);
