@@ -50,9 +50,10 @@ abstract class Map implements VersatileMatcher
      */
     public function __sleep()
     {
-        unset($this->map, $this->reverseMap);
+        $this->map = [];
+        $this->reverseMap = [];
 
-        return ['map', 'reverseMap', 'key'];
+        return ['key'];
     }
 
     public function setRequest(SimplifiedRequest $request): void
