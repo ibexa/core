@@ -82,8 +82,6 @@ class DoctrineDatabaseTest extends TestCase
 
     /**
      * Returns a ready to test DoctrineDatabase gateway.
-     *
-     * @throws \Doctrine\DBAL\Exception
      */
     protected function getDatabaseGateway(): DoctrineDatabase
     {

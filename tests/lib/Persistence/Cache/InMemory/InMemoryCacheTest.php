@@ -39,6 +39,7 @@ class InMemoryCacheTest extends TestCase
     {
         $this->cache->clear();
 
+        unset($this->cache);
         unset($GLOBALS['override_time']);
         parent::tearDown();
     }

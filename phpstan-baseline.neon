@@ -2527,6 +2527,12 @@ parameters:
 			path: src/bundle/Core/Features/Context/ContentTypeContext.php
 
 		-
+			message: '#^Dead catch \- Ibexa\\Contracts\\Core\\Repository\\Exceptions\\NotFoundException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/bundle/Core/Features/Context/ContentTypeContext.php
+
+		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:assertContentTypeDoesntExistsByIdentifier\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -2975,6 +2981,12 @@ parameters:
 			identifier: missingType.parameter
 			count: 1
 			path: src/bundle/Core/Features/Context/RoleContext.php
+
+		-
+			message: '#^Dead catch \- Ibexa\\Contracts\\Core\\Repository\\Exceptions\\NotFoundException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/bundle/Core/Features/Context/UserContext.php
 
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:assertUserWithNameDoesntExist\(\) has no return type specified\.$#'
@@ -15385,6 +15397,18 @@ parameters:
 			path: src/lib/Persistence/Legacy/Notification/Gateway/DoctrineDatabase.php
 
 		-
+			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/lib/Persistence/Legacy/Notification/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/lib/Persistence/Legacy/Notification/Gateway/ExceptionConversion.php
+
+		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Notification\\Mapper\:\:extractNotificationFromRow\(\) has parameter \$row with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -15635,6 +15659,18 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: src/lib/Persistence/Legacy/URL/Gateway/DoctrineDatabase.php
+
+		-
+			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/lib/Persistence/Legacy/URL/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/lib/Persistence/Legacy/URL/Gateway/ExceptionConversion.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\URL\\Gateway\\ExceptionConversion\:\:findUsages\(\) return type has no value type specified in iterable type array\.$#'
@@ -18301,6 +18337,12 @@ parameters:
 			path: src/lib/Repository/User/PasswordValidator.php
 
 		-
+			message: '#^Dead catch \- Exception is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/lib/Repository/UserPreferenceService.php
+
+		-
 			message: '#^Call to an undefined method Ibexa\\Contracts\\Core\\Repository\\ContentService\:\:internalLoadContentById\(\)\.$#'
 			identifier: method.notFound
 			count: 5
@@ -19783,6 +19825,18 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Gateway/DoctrineDatabase.php
 
 		-
+			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/lib/Search/Legacy/Content/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/lib/Search/Legacy/Content/Gateway/ExceptionConversion.php
+
+		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Gateway\\ExceptionConversion\:\:find\(\) has parameter \$languageFilter with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -20057,6 +20111,18 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/DoctrineDatabase.php
+
+		-
+			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/lib/Search/Legacy/Content/Location/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/lib/Search/Legacy/Content/Location/Gateway/ExceptionConversion.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Location\\Gateway\\ExceptionConversion\:\:find\(\) has parameter \$languageFilter with no value type specified in iterable type array\.$#'
@@ -53209,12 +53275,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/SharedGateway/GatewayFactoryTest.php
 
 		-
-			message: '#^Cannot unset property Ibexa\\Tests\\Core\\Persistence\\Legacy\\TestCase\:\:\$connection because it might have hooks in a subclass\.$#'
-			identifier: unset.possiblyHookedProperty
-			count: 1
-			path: tests/lib/Persistence/Legacy/TestCase.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\TestCase\:\:assertPropertiesCorrect\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -59674,24 +59734,6 @@ parameters:
 			message: '#^Call to method expects\(\) on an unknown class object\.$#'
 			identifier: class.notFound
 			count: 4
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
-
-		-
-			message: '#^Cannot unset property Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:\$innerApiServiceMock because it might have hooks in a subclass\.$#'
-			identifier: unset.possiblyHookedProperty
-			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
-
-		-
-			message: '#^Cannot unset property Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:\$languageResolverMock because it might have hooks in a subclass\.$#'
-			identifier: unset.possiblyHookedProperty
-			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
-
-		-
-			message: '#^Cannot unset property Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:\$service because it might have hooks in a subclass\.$#'
-			identifier: unset.possiblyHookedProperty
-			count: 1
 			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-

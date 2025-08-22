@@ -27,6 +27,15 @@ class PersistenceLoggerTest extends TestCase
         $this->logger = new PersistenceLogger();
     }
 
+    /**
+     * Tear down test (properties).
+     */
+    protected function tearDown(): void
+    {
+        unset($this->logger);
+        parent::tearDown();
+    }
+
     public function testGetName()
     {
         self::assertEquals(PersistenceLogger::NAME, $this->logger->getName());

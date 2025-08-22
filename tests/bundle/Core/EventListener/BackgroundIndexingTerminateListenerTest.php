@@ -41,6 +41,12 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
         );
     }
 
+    protected function tearDown(): void
+    {
+        unset($this->persistenceMock, $this->searchMock, $this->listener);
+        parent::tearDown();
+    }
+
     public function testGetSubscribedEvents()
     {
         self::assertSame(
