@@ -159,6 +159,11 @@ abstract class ContentTypeServiceDecorator implements ContentTypeService
         $this->innerService->unassignContentTypeGroup($contentType, $contentTypeGroup);
     }
 
+    public function loadFieldDefinition(int $fieldDefinitionId, array $prioritizedLanguages): FieldDefinition
+    {
+        return $this->innerService->loadFieldDefinition($fieldDefinitionId, $prioritizedLanguages);
+    }
+
     public function addFieldDefinition(
         ContentTypeDraft $contentTypeDraft,
         FieldDefinitionCreateStruct $fieldDefinitionCreateStruct

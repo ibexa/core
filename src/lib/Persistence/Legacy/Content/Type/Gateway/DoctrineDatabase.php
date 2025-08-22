@@ -1437,7 +1437,72 @@ final class DoctrineDatabase extends Gateway
             ];
         }
 
-        $queryBuilder = $this->getLoadTypeQueryBuilder();
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $expr = $queryBuilder->expr();
+        $queryBuilder
+            ->select(
+                [
+                    'c.id AS ezcontentclass_id',
+                    'c.version AS ezcontentclass_version',
+                    'c.serialized_name_list AS ezcontentclass_serialized_name_list',
+                    'c.serialized_description_list AS ezcontentclass_serialized_description_list',
+                    'c.identifier AS ezcontentclass_identifier',
+                    'c.created AS ezcontentclass_created',
+                    'c.modified AS ezcontentclass_modified',
+                    'c.modifier_id AS ezcontentclass_modifier_id',
+                    'c.creator_id AS ezcontentclass_creator_id',
+                    'c.remote_id AS ezcontentclass_remote_id',
+                    'c.url_alias_name AS ezcontentclass_url_alias_name',
+                    'c.contentobject_name AS ezcontentclass_contentobject_name',
+                    'c.is_container AS ezcontentclass_is_container',
+                    'c.initial_language_id AS ezcontentclass_initial_language_id',
+                    'c.always_available AS ezcontentclass_always_available',
+                    'c.sort_field AS ezcontentclass_sort_field',
+                    'c.sort_order AS ezcontentclass_sort_order',
+                    'c.language_mask AS ezcontentclass_language_mask',
+                ],
+            )
+            ->addSelect('GROUP_CONCAT(a.id) AS a_ids')
+            ->addSelect('GROUP_CONCAT(g.group_id) AS g_ids')
+            ->from(self::CONTENT_TYPE_TABLE, 'c')
+            ->leftJoin(
+                'c',
+                self::FIELD_DEFINITION_TABLE,
+                'a',
+                $expr->and(
+                    $expr->eq('c.id', 'a.contentclass_id'),
+                    $expr->eq('c.version', 'a.version')
+                )
+            )
+            ->leftJoin(
+                'c',
+                self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE,
+                'g',
+                $expr->and(
+                    $expr->eq('c.id', 'g.contentclass_id'),
+                    $expr->eq('c.version', 'g.contentclass_version')
+                )
+            )
+            ->groupBy([
+                'ezcontentclass_id',
+                'ezcontentclass_version',
+                'ezcontentclass_serialized_name_list',
+                'ezcontentclass_serialized_description_list',
+                'ezcontentclass_identifier',
+                'ezcontentclass_created',
+                'ezcontentclass_modified',
+                'ezcontentclass_modifier_id',
+                'ezcontentclass_creator_id',
+                'ezcontentclass_remote_id',
+                'ezcontentclass_url_alias_name',
+                'ezcontentclass_contentobject_name',
+                'ezcontentclass_is_container',
+                'ezcontentclass_initial_language_id',
+                'ezcontentclass_always_available',
+                'ezcontentclass_sort_field',
+                'ezcontentclass_sort_order',
+                'ezcontentclass_language_mask',
+            ]);
 
         if ($query === null) {
             $queryBuilder->setMaxResults(ContentTypeQuery::DEFAULT_LIMIT);

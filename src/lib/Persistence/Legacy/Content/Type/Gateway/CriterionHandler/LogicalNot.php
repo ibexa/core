@@ -9,12 +9,12 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler;
 
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalNot as LogicalNotCriterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
-use Ibexa\Core\Repository\Values\ContentType\Query\Base;
 
-final class LogicalNot extends Base
+final class LogicalNot implements CriterionHandlerInterface
 {
     public function supports(CriterionInterface $criterion): bool
     {

@@ -11,6 +11,7 @@ namespace Ibexa\Core\Repository;
 use DateTime;
 use Exception;
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
+use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type as SPIContentType;
 use Ibexa\Contracts\Core\Persistence\Content\Type\CreateStruct as SPIContentTypeCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct as SPIContentTypeGroupCreateStruct;
@@ -31,6 +32,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup as APICo
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct;
@@ -1263,6 +1265,24 @@ class ContentTypeService implements ContentTypeServiceInterface
             $this->repository->rollback();
             throw $e;
         }
+    }
+
+    public function loadFieldDefinition(int $fieldDefinitionId, array $prioritizedLanguages): FieldDefinition
+    {
+        try {
+            $persistenceFieldDefinition = $this->contentTypeHandler->getFieldDefinition(
+                $fieldDefinitionId,
+                Type::STATUS_DEFINED,
+            );
+        } catch (APINotFoundException $e) {
+            throw new NotFoundException('FieldDefinition', $fieldDefinitionId);
+        }
+
+        return $this->contentTypeDomainMapper->buildFieldDefinitionDomainObject(
+            $persistenceFieldDefinition,
+            'eng-GB', //TODO where to get it from?
+            $prioritizedLanguages
+        );
     }
 
     /**

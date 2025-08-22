@@ -10,12 +10,12 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler;
 
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\IsSystem as IsSystemCriterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
-use Ibexa\Core\Repository\Values\ContentType\Query\Base;
 
-final class IsSystem extends Base
+final class IsSystem implements CriterionHandlerInterface
 {
     public function supports(CriterionInterface $criterion): bool
     {
@@ -30,12 +30,17 @@ final class IsSystem extends Base
         QueryBuilder $qb,
         CriterionInterface $criterion
     ): string {
-        $this->joinContentTypeGroupAssignmentTable($qb);
-        $this->joinContentTypeGroup($qb);
+        $subQuery = $qb->getConnection()->createQueryBuilder();
+        $subQuery
+            ->select('g.contentclass_id')
+            ->from('ezcontentclassgroup', 'ctg')
+            ->leftJoin('ctg', 'ezcontentclass_classgroup', 'c_group', 'ctg.id = c_group.group_id')
+            ->andWhere($subQuery->expr()->eq(
+                'ctg.is_system',
+                $qb->createNamedParameter($criterion->getValue(), ParameterType::BOOLEAN)
+            ))
+            ->andWhere('c_group.contentclass_id = c.id');
 
-        return $qb->expr()->eq(
-            'ctg.is_system',
-            $qb->createNamedParameter($criterion->getValue(), ParameterType::BOOLEAN)
-        );
+        return sprintf('EXISTS (%s)', $subQuery->getSQL());
     }
 }

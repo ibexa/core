@@ -75,11 +75,15 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
 
         $fieldDefinitions = [];
         foreach ($spiContentType->fieldDefinitions as $spiFieldDefinition) {
-            $fieldDefinitions[] = $this->buildFieldDefinitionDomainObject(
-                $spiFieldDefinition,
-                $mainLanguageCode,
-                $prioritizedLanguages
-            );
+            if ($spiFieldDefinition instanceof ApiFieldDefinition) {
+                $fieldDefinitions[] = $spiFieldDefinition;
+            } else {
+                $fieldDefinitions[] = $this->buildFieldDefinitionDomainObject(
+                    $spiFieldDefinition,
+                    $mainLanguageCode,
+                    $prioritizedLanguages
+                );
+            }
         }
 
         return new ContentType(

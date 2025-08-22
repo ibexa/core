@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 
 /**
@@ -34,6 +35,8 @@ interface ProxyDomainMapperInterface
     public function createContentTypeProxy(int $contentTypeId, array $prioritizedLanguages = Language::ALL): ContentType;
 
     public function createContentTypeGroupProxy(int $contentTypeGroupId, array $prioritizedLanguages = Language::ALL): ContentTypeGroup;
+
+    public function createFieldDefinitionProxy(int $fieldDefinitionId, array $prioritizedLanguages = Language::ALL): FieldDefinition;
 
     public function createContentTypeGroupProxyList(array $contentTypeGroupIds, array $prioritizedLanguages = Language::ALL): array;
 

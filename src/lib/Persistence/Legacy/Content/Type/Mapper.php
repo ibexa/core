@@ -16,6 +16,7 @@ use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\MultilingualStorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
+use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface;
 
 /**
  * Mapper for content type Handler.
@@ -36,6 +37,8 @@ class Mapper
 
     private StorageDispatcherInterface $storageDispatcher;
 
+    private ProxyDomainMapperInterface $proxyDomainMapper;
+
     /**
      * Creates a new content type mapper.
      *
@@ -45,11 +48,13 @@ class Mapper
     public function __construct(
         ConverterRegistry $converterRegistry,
         MaskGenerator $maskGenerator,
-        StorageDispatcherInterface $storageDispatcher
+        StorageDispatcherInterface $storageDispatcher,
+        ProxyDomainMapperInterface $proxyDomainMapper
     ) {
         $this->converterRegistry = $converterRegistry;
         $this->maskGenerator = $maskGenerator;
         $this->storageDispatcher = $storageDispatcher;
+        $this->proxyDomainMapper = $proxyDomainMapper;
     }
 
     /**
@@ -161,6 +166,35 @@ class Mapper
 
         // Re-index $types to avoid people relying on ID keys
         return array_values($types);
+    }
+
+    /**
+     * Extracts types and related data from the given $rows with proxy relations.
+     *
+     * @param array{items: array<int,array<string,mixed>>, count: int} $rows
+     */
+    public function extractTypesFromRowsWithRelationProxies(array $rows): array
+    {
+        $types = [];
+        foreach ($rows as $row) {
+            $contentType = $this->extractTypeFromRow($row);
+            $fieldIds = $row['a_ids'] ?? '';
+            $fieldIds = array_map('intval', explode(',', $fieldIds));
+            $groupIds = $row['g_ids'] ?? '';
+            $groupIds = array_map('intval', explode(',', $groupIds));
+
+            foreach ($fieldIds as $fieldId) {
+                $contentType->fieldDefinitions[] = $this->proxyDomainMapper->createFieldDefinitionProxy($fieldId);
+            }
+
+            foreach ($groupIds as $groupId) {
+                $contentType->groupIds[] = $groupId;
+            }
+
+            $types[$contentType->id] = $contentType;
+        }
+
+        return $types;
     }
 
     public function extractMultilingualData(array $fieldDefinitionRows): array

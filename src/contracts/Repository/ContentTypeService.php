@@ -271,6 +271,13 @@ interface ContentTypeService
     public function unassignContentTypeGroup(ContentType $contentType, ContentTypeGroup $contentTypeGroup): void;
 
     /**
+     * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If field definition with the given id and status DEFINED cannot be found
+     */
+    public function loadFieldDefinition(int $fieldDefinitionId, array $prioritizedLanguages): FieldDefinition;
+
+    /**
      * Adds a new field definition to an existing content type.
      *
      * The content type must be in state DRAFT.

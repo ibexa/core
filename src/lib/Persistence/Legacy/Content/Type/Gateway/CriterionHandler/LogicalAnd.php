@@ -10,12 +10,12 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler;
 
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalAnd as LogicalAndCriterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
-use Ibexa\Core\Repository\Values\ContentType\Query\Base;
 
-final class LogicalAnd extends Base
+final class LogicalAnd implements CriterionHandlerInterface
 {
     public function supports(CriterionInterface $criterion): bool
     {

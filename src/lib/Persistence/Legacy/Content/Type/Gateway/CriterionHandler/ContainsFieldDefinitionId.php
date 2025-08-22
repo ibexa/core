@@ -11,12 +11,12 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContainsFieldDefinitionId as ContainsFieldDefinitionIdCriterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
-use Ibexa\Core\Repository\Values\ContentType\Query\Base;
 
-final class ContainsFieldDefinitionId extends Base
+final class ContainsFieldDefinitionId implements CriterionHandlerInterface
 {
     public function supports(CriterionInterface $criterion): bool
     {
@@ -31,19 +31,23 @@ final class ContainsFieldDefinitionId extends Base
         QueryBuilder $qb,
         CriterionInterface $criterion
     ): string {
-        $this->joinFieldDefinitions($qb);
+        $subQuery = $qb->getConnection()->createQueryBuilder();
 
-        $value = $criterion->getValue();
-        if (is_array($value)) {
-            return $qb->expr()->in(
-                'a.id',
+        $whereClause = is_array($criterion->getValue())
+            ? $subQuery->expr()->in(
+                'f_def.id',
                 $qb->createNamedParameter($criterion->getValue(), Connection::PARAM_INT_ARRAY)
+            ) : $subQuery->expr()->eq(
+                'f_def.id',
+                $qb->createNamedParameter($criterion->getValue(), ParameterType::INTEGER)
             );
-        }
 
-        return $qb->expr()->eq(
-            'a.id',
-            $qb->createNamedParameter($criterion->getValue(), ParameterType::INTEGER)
-        );
+        $subQuery
+            ->select('f_def.contentclass_id')
+            ->from('ezcontentclass_attribute', 'f_def')
+            ->where($whereClause)
+            ->andWhere('f_def.contentclass_id = c.id');
+
+        return sprintf('EXISTS (%s)', $subQuery->getSQL());
     }
 }
