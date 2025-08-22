@@ -163,6 +163,11 @@ class ContentTypeService implements ContentTypeServiceInterface
         $this->service->unassignContentTypeGroup($contentType, $contentTypeGroup);
     }
 
+    public function loadFieldDefinition(int $fieldDefinitionId, array $prioritizedLanguages): FieldDefinition
+    {
+        return $this->service->loadFieldDefinition($fieldDefinitionId, $prioritizedLanguages);
+    }
+
     public function addFieldDefinition(ContentTypeDraft $contentTypeDraft, FieldDefinitionCreateStruct $fieldDefinitionCreateStruct): void
     {
         $this->service->addFieldDefinition($contentTypeDraft, $fieldDefinitionCreateStruct);

@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use ProxyManager\Proxy\LazyLoadingInterface;
 
@@ -127,6 +128,29 @@ final class ProxyDomainMapper implements ProxyDomainMapperInterface
         };
 
         return $this->proxyGenerator->createProxy(ContentTypeGroup::class, $initializer);
+    }
+
+    public function createFieldDefinitionProxy(
+        int $fieldDefinitionId,
+        array $prioritizedLanguages = Language::ALL
+    ): FieldDefinition {
+        $initializer = function (
+            &$wrappedObject,
+            LazyLoadingInterface $proxy,
+            $method,
+            array $parameters,
+            &$initializer
+        ) use ($fieldDefinitionId, $prioritizedLanguages): bool {
+            $initializer = null;
+            $wrappedObject = $this->repository->getContentTypeService()->loadFieldDefinition(
+                $fieldDefinitionId,
+                $prioritizedLanguages,
+            );
+
+            return true;
+        };
+
+        return $this->proxyGenerator->createProxy(FieldDefinition::class, $initializer);
     }
 
     public function createContentTypeGroupProxyList(

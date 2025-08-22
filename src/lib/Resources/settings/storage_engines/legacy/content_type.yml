@@ -30,9 +30,10 @@ services:
     Ibexa\Core\Persistence\Legacy\Content\Type\Mapper:
         class: Ibexa\Core\Persistence\Legacy\Content\Type\Mapper
         arguments:
-            - '@Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry'
-            - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
-            - '@Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface'
+            $converterRegistry: '@Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry'
+            $maskGenerator: '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            $storageDispatcher: '@Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface'
+            $proxyDomainMapper: '@Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface'
 
     Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater:
         class: Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater

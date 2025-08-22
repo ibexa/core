@@ -199,10 +199,7 @@ class Handler implements BaseContentTypeHandler
     public function findContentTypes(?ContentTypeQuery $query = null): array
     {
         $rows = $this->contentTypeGateway->findContentTypes($query);
-        $items = $this->mapper->extractTypesFromRows(
-            $rows['items'],
-            true
-        );
+        $items = $this->mapper->extractTypesFromRowsWithRelationProxies($rows['items']);
 
         return [
             'count' => $rows['count'],
