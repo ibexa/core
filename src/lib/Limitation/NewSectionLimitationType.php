@@ -107,8 +107,6 @@ class NewSectionLimitationType extends AbstractPersistenceLimitationType impleme
      *
      * @return bool|null
      *
-     *@throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
-     *         Example if OwnerLimitationValue->limitationValues[0] is not one of: [ 1,  2 ]
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
      *         Example: If LimitationValue is instance of ContentTypeLimitationValue, and Type is SectionLimitationType.
      */
