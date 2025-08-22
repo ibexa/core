@@ -7,17 +7,17 @@
 
 namespace Ibexa\Bundle\Debug\Collector;
 
-use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
+use Throwable;
 
 /**
  * Data collector showing siteaccess.
  */
 class SiteAccessCollector extends DataCollector
 {
-    public function collect(Request $request, Response $response, ?\Throwable $exception = null)
+    public function collect(Request $request, Response $response, ?Throwable $exception = null)
     {
         $this->data = [
             'siteAccess' => $request->attributes->get('siteaccess'),

@@ -357,7 +357,7 @@ final class ExceptionConversion extends Gateway
     public function listTrashed(
         int $offset,
         ?int $limit,
-        array $sort = null,
+        ?array $sort = null,
         ?CriterionInterface $criterion = null
     ): array {
         try {

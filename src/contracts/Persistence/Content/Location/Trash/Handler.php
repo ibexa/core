@@ -71,7 +71,7 @@ interface Handler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Location\Trashed[]|\Ibexa\Contracts\Core\Persistence\Content\Location\Trash\TrashResult
      */
-    public function findTrashItems(CriterionInterface $criterion = null, $offset = 0, $limit = null, ?array $sort = null);
+    public function findTrashItems(?CriterionInterface $criterion = null, $offset = 0, $limit = null, ?array $sort = null);
 
     /**
      * Empties the trash
