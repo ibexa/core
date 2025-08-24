@@ -4,17 +4,20 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine\Variation;
 
 use Ibexa\Bundle\Core\Imagine\IORepositoryResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Contracts\Core\Variation\Values\ImageVariation;
 use Ibexa\Contracts\Core\Variation\Values\Variation;
 use Ibexa\Contracts\Core\Variation\VariationHandler;
 use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
 use Ibexa\Core\IO\IOServiceInterface;
+use Ibexa\Core\IO\Values\BinaryFile;
 use Imagine\Image\ImagineInterface;
 
 /**
@@ -23,20 +26,15 @@ use Imagine\Image\ImagineInterface;
  */
 class ImagineAwareAliasGenerator implements VariationHandler
 {
-    /** @var \Ibexa\Contracts\Core\Variation\VariationHandler */
-    private $aliasGenerator;
+    private VariationHandler $aliasGenerator;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationPathGenerator */
-    private $variationPathGenerator;
+    private VariationPathGenerator $variationPathGenerator;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
-    private $ioService;
+    private IOServiceInterface $ioService;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /** @var \Imagine\Image\ImagineInterface */
-    private $imagine;
+    private ImagineInterface $imagine;
 
     public function __construct(
         VariationHandler $aliasGenerator,
@@ -50,14 +48,6 @@ class ImagineAwareAliasGenerator implements VariationHandler
         $this->imagine = $imagine;
     }
 
-    /**
-     * Returns a Variation object, ensuring proper image dimensions.
-     *
-     * {@inheritdoc}
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     */
     public function getVariation(
         Field $field,
         VersionInfo $versionInfo,
@@ -97,17 +87,12 @@ class ImagineAwareAliasGenerator implements VariationHandler
     }
 
     /**
-     * Get image variation filesystem path.
-     *
-     * @param string $originalPath
-     * @param string $variationName
-     *
-     * @return \Ibexa\Core\IO\Values\BinaryFile
+     * Get an image variation filesystem path.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    private function getVariationBinaryFile($originalPath, $variationName)
+    private function getVariationBinaryFile(string $originalPath, string $variationName): BinaryFile
     {
         if ($variationName !== IORepositoryResolver::VARIATION_ORIGINAL) {
             $variationPath = $this->variationPathGenerator->getVariationPath(

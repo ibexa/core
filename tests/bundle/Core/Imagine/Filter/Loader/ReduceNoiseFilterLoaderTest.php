@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\Imagine\Filter\Loader;
 
@@ -13,22 +14,20 @@ use Imagine\Exception\NotSupportedException;
 use Imagine\Image\ImageInterface;
 use PHPUnit\Framework\TestCase;
 
-class ReduceNoiseFilterLoaderTest extends TestCase
+/**
+ * @covers \Ibexa\Bundle\Core\Imagine\Filter\Loader\ReduceNoiseFilterLoader
+ */
+final class ReduceNoiseFilterLoaderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $filter;
-
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\ReduceNoiseFilterLoader */
-    private $loader;
+    private ReduceNoiseFilterLoader $loader;
 
     protected function setUp(): void
     {
-        parent::setUp();
-        $this->filter = $this->createMock(FilterInterface::class);
-        $this->loader = new ReduceNoiseFilterLoader($this->filter);
+        $filter = $this->createMock(FilterInterface::class);
+        $this->loader = new ReduceNoiseFilterLoader($filter);
     }
 
-    public function testLoadInvalidDriver()
+    public function testLoadInvalidDriver(): void
     {
         $this->expectException(NotSupportedException::class);
 

@@ -4,33 +4,26 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine\PlaceholderProvider;
 
 use Ibexa\Bundle\Core\Imagine\PlaceholderProvider;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
-use Imagine\Image as Image;
+use Imagine\Image;
+use Imagine\Image\AbstractFont;
 use Imagine\Image\ImagineInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GenericProvider implements PlaceholderProvider
 {
-    /** @var \Imagine\Image\ImagineInterface */
-    private $imagine;
+    private ImagineInterface $imagine;
 
-    /**
-     * GenericProvider constructor.
-     *
-     * @param \Imagine\Image\ImagineInterface $imagine
-     */
     public function __construct(ImagineInterface $imagine)
     {
         $this->imagine = $imagine;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPlaceholder(ImageValue $value, array $options = []): string
     {
         $options = $this->resolveOptions($options);
@@ -40,8 +33,12 @@ class GenericProvider implements PlaceholderProvider
         $foreground = $palette->color($options['foreground']);
         $secondary = $palette->color($options['secondary']);
 
-        $size = new Image\Box($value->width, $value->height);
+        $size = new Image\Box($value->width ?? 0, $value->height ?? 0);
         $font = $this->imagine->font($options['fontpath'], $options['fontsize'], $foreground);
+        if (!$font instanceof AbstractFont) {
+            throw new \LogicException("Font {$options['fontpath']} is not an instance of AbstractFont");
+        }
+
         $text = $this->getPlaceholderText($options['text'], $value);
 
         $center = new Image\Point\Center($size);
@@ -54,13 +51,13 @@ class GenericProvider implements PlaceholderProvider
         $image = $this->imagine->create($size, $background);
         $image->draw()->line(
             new Image\Point(0, 0),
-            new Image\Point($value->width, $value->height),
+            new Image\Point($value->width ?? 0, $value->height ?? 0),
             $secondary
         );
 
         $image->draw()->line(
-            new Image\Point($value->width, 0),
-            new Image\Point(0, $value->height),
+            new Image\Point($value->width ?? 0, 0),
+            new Image\Point(0, $value->height ?? 0),
             $secondary
         );
 

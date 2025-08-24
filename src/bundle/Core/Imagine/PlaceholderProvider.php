@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine;
 
@@ -14,8 +15,7 @@ interface PlaceholderProvider
     /**
      * Provides a placeholder image path for a given Image FieldType value.
      *
-     * @param \Ibexa\Core\FieldType\Image\Value $value
-     * @param array $options
+     * @param array<string, mixed> $options
      *
      * @return string Path to placeholder
      */

@@ -16,6 +16,9 @@ interface AliasCleanerInterface
      * Removes all aliases corresponding to original image.
      *
      * @param string $originalPath Path to original image which aliases have been created from.
-     */
-    public function removeAliases($originalPath);
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * */
+    public function removeAliases(string $originalPath): void;
 }
