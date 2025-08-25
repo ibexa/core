@@ -64,6 +64,10 @@ services:
     Ibexa\Bundle\Core\DependencyInjection\Configuration\ComplexSettings\ComplexSettingValueResolver:
         class: Ibexa\Bundle\Core\DependencyInjection\Configuration\ComplexSettings\ComplexSettingValueResolver
 
+    Ibexa\Bundle\Core\EventListener\ApplicationCommandListener:
+        tags:
+            - { name: kernel.event_subscriber }
+
     Ibexa\Bundle\Core\EventListener\ConsoleCommandListener:
         class: Ibexa\Bundle\Core\EventListener\ConsoleCommandListener
         arguments:

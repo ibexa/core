@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core;
 
-use Ibexa\Bundle\Core\DependencyInjection\Compiler\ConsoleCommandPass;
 use Ibexa\Bundle\Core\SiteAccess\Config\ComplexConfigProcessor;
 use Ibexa\Contracts\Core\SiteAccess\ConfigProcessor;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -127,8 +126,6 @@ final class LegacyTestContainerBuilder extends ContainerBuilder
         $this->addCompilerPass(new Compiler\Search\Legacy\CriteriaConverterPass());
         $this->addCompilerPass(new Compiler\Search\Legacy\CriterionFieldValueHandlerRegistryPass());
         $this->addCompilerPass(new Compiler\Search\Legacy\SortClauseConverterPass());
-
-        $this->addCompilerPass(new ConsoleCommandPass());
 
         // Symfony 4 makes services private by default. Test cases are not prepared for this.
         // This is a simple workaround to override services as public.
