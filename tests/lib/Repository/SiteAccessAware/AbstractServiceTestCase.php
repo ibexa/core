@@ -143,17 +143,16 @@ abstract class AbstractServiceTestCase extends TestCase
     }
 
     /**
-     * Test that language aware methods does a language lookup when language is not set.
-     *
-     * @dataProvider providerForLanguagesLookupMethods
-     *
-     * @param string $method
-     * @param array $arguments
-     * @param mixed|null $return
-     * @param int $languageArgumentIndex From 0 and up, so the array index on $arguments.
+     * @param array<mixed> $arguments
      */
-    final public function testForLanguagesLookup($method, array $arguments, $return, $languageArgumentIndex, callable $callback = null, int $alwaysAvailableArgumentIndex = null)
-    {
+    final public function testForLanguagesLookup(
+        string $method,
+        array $arguments,
+        mixed $return,
+        int $languageArgumentIndex,
+        ?callable $callback = null,
+        ?int $alwaysAvailableArgumentIndex = null
+    ) {
         $languages = ['eng-GB', 'eng-US'];
 
         $arguments = $this->setLanguagesLookupArguments($arguments, $languageArgumentIndex);
@@ -210,17 +209,16 @@ abstract class AbstractServiceTestCase extends TestCase
     }
 
     /**
-     * Make sure these methods does nothing more then passing the arguments to inner service.
-     *
-     * @dataProvider providerForLanguagesLookupMethods
-     *
-     * @param string $method
-     * @param array $arguments
-     * @param mixed|null $return
-     * @param int $languageArgumentIndex From 0 and up, so the array index on $arguments.
+     * @param array<mixed> $arguments
      */
-    final public function testForLanguagesPassTrough($method, array $arguments, $return, $languageArgumentIndex, callable $callback = null, int $alwaysAvailableArgumentIndex = null)
-    {
+    final public function testForLanguagesPassTrough(
+        string $method,
+        array $arguments,
+        mixed $return,
+        int $languageArgumentIndex,
+        ?callable $callback = null,
+        ?int $alwaysAvailableArgumentIndex = null
+    ) {
         $languages = ['eng-GB', 'eng-US'];
         $arguments = $this->setLanguagesPassTroughArguments($arguments, $languageArgumentIndex, $languages);
 

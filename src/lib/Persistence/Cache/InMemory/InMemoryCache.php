@@ -114,7 +114,7 @@ class InMemoryCache
      * @param callable $objectIndexes Return array of indexes per object (first argument), must return at least 1 primary index
      * @param string|null $listIndex Optional index for list of items
      */
-    public function setMulti(array $objects, callable $objectIndexes, string $listIndex = null): void
+    public function setMulti(array $objects, callable $objectIndexes, ?string $listIndex = null): void
     {
         // If objects accounts for more than 20% of our limit, assume it's bulk load and skip saving in-memory
         if ($this->enabled === false || \count($objects) >= $this->limit / 5) {

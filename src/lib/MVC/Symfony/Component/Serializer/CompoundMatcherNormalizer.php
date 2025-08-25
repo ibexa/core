@@ -36,7 +36,7 @@ class CompoundMatcherNormalizer implements NormalizerInterface, NormalizerAwareI
      *
      * @see \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound::__sleep
      */
-    public function normalize(mixed $data, string $format = null, array $context = []): array
+    public function normalize(mixed $data, ?string $format = null, array $context = []): array
     {
         /** @var array<string, array<mixed>> $subMatchers */
         $subMatchers = $this->normalizer->normalize($data->getSubMatchers(), $format, $context);

@@ -87,7 +87,7 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware
         $this->undefinedStrategy = $undefinedStrategy;
     }
 
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(?SiteAccess $siteAccess = null)
     {
         $this->siteAccess = $siteAccess;
     }

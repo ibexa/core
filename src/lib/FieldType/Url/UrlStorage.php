@@ -30,7 +30,7 @@ class UrlStorage extends GatewayBasedStorage
      * @param \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface $gateway
      * @param \Psr\Log\LoggerInterface $logger
      */
-    public function __construct(StorageGatewayInterface $gateway, LoggerInterface $logger = null)
+    public function __construct(StorageGatewayInterface $gateway, ?LoggerInterface $logger = null)
     {
         parent::__construct($gateway);
         $this->logger = $logger;

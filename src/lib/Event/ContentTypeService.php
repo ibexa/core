@@ -222,7 +222,7 @@ class ContentTypeService extends ContentTypeServiceDecorator
 
     public function copyContentType(
         ContentType $contentType,
-        User $creator = null
+        ?User $creator = null
     ): ContentType {
         $eventData = [
             $contentType,

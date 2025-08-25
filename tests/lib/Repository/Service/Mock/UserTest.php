@@ -88,7 +88,7 @@ class UserTest extends BaseServiceMockTest
      *
      * @return \Ibexa\Contracts\Core\Repository\UserService&\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getPartlyMockedUserService(array $methods = null): APIUserService
+    protected function getPartlyMockedUserService(?array $methods = null): APIUserService
     {
         return $this->getMockBuilder(UserService::class)
             ->onlyMethods($methods)

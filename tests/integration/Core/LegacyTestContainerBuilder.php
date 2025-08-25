@@ -29,7 +29,7 @@ final class LegacyTestContainerBuilder extends ContainerBuilder
 {
     private ?LoaderInterface $coreLoader = null;
 
-    public function __construct(ParameterBagInterface $parameterBag = null)
+    public function __construct(?ParameterBagInterface $parameterBag = null)
     {
         parent::__construct($parameterBag);
 

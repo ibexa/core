@@ -38,6 +38,6 @@ interface TargetAwareType extends Type
         APILimitationValue $value,
         APIUserReference $currentUser,
         object $object,
-        array $targets = null
+        ?array $targets = null
     ): ?bool;
 }

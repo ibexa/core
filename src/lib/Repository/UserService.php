@@ -90,7 +90,7 @@ class UserService implements UserServiceInterface
 
     private ConfigResolverInterface $configResolver;
 
-    public function setLogger(LoggerInterface $logger = null)
+    public function setLogger(?LoggerInterface $logger = null)
     {
         $this->logger = $logger;
     }
@@ -1227,7 +1227,7 @@ class UserService implements UserServiceInterface
     public function validatePassword(
         #[\SensitiveParameter]
         string $password,
-        PasswordValidationContext $context = null
+        ?PasswordValidationContext $context = null
     ): array {
         if ($context === null) {
             $userContentTypeIdentifiers = $this->getUserContentTypeIdentifiers();
@@ -1288,7 +1288,7 @@ class UserService implements UserServiceInterface
      */
     protected function buildDomainUserObject(
         SPIUser $spiUser,
-        APIContent $content = null,
+        ?APIContent $content = null,
         array $prioritizedLanguages = []
     ): APIUser {
         if ($content === null) {

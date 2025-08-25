@@ -197,8 +197,6 @@ class DoctrineDatabaseTest extends TestCase
      * Returns a ready to test DoctrineDatabase gateway.
      *
      * @return \Ibexa\Core\Persistence\Legacy\User\Role\Gateway\DoctrineDatabase
-     *
-     * @throws \Doctrine\DBAL\Exception
      */
     protected function getDatabaseGateway(): DoctrineDatabase
     {

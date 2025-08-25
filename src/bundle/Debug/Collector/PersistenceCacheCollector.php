@@ -11,6 +11,7 @@ use Ibexa\Core\Persistence\Cache\PersistenceLogger;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
+use Throwable;
 
 /**
  * Data collector listing SPI cache calls.
@@ -25,7 +26,7 @@ class PersistenceCacheCollector extends DataCollector
         $this->logger = $logger;
     }
 
-    public function collect(Request $request, Response $response, \Throwable $exception = null)
+    public function collect(Request $request, Response $response, ?Throwable $exception = null)
     {
         $this->data = [
             'stats' => $this->logger->getStats(),

@@ -146,7 +146,7 @@ final class QueryRenderControllerTest extends TestCase
     private function assertRenderQueryResult(
         QueryView $expectedView,
         array $options,
-        Request $request = null
+        ?Request $request = null
     ): void {
         self::assertEquals(
             $expectedView,

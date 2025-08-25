@@ -42,7 +42,7 @@ services:
         arguments:
             $imageFileList: '@Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList'
             $variationPathGenerator: '@ibexa.image_alias.variation_path_generator'
-            $filterConfiguration: "@liip_imagine.filter.configuration"
+            $filterConfiguration: '@liip_imagine.filter.configuration'
             $imagesDir: '%ibexa.site_access.config.default.image.published_images_dir%'
         tags:
             - { name: "ibexa.io.migration.file_lister", identifier: "image_file" }

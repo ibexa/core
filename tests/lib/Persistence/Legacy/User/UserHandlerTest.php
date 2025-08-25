@@ -32,7 +32,7 @@ class UserHandlerTest extends TestCase
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    protected function getUserHandler(User\Gateway $userGateway = null): Handler
+    protected function getUserHandler(?User\Gateway $userGateway = null): Handler
     {
         $connection = $this->getDatabaseConnection();
 

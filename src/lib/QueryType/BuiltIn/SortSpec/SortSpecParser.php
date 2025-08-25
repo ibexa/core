@@ -38,7 +38,7 @@ final class SortSpecParser implements SortSpecParserInterface
     /** @var \Ibexa\Core\QueryType\BuiltIn\SortSpec\SortClauseParserInterface */
     private $sortClauseParser;
 
-    public function __construct(SortClauseParserInterface $sortClauseParser, SortSpecLexerInterface $lexer = null)
+    public function __construct(SortClauseParserInterface $sortClauseParser, ?SortSpecLexerInterface $lexer = null)
     {
         if ($lexer === null) {
             $lexer = new SortSpecLexer();

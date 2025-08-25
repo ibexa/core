@@ -50,7 +50,7 @@ abstract class Gateway
      */
     abstract public function getBasicNodeData(
         int $nodeId,
-        array $translations = null,
+        ?array $translations = null,
         bool $useAlwaysAvailable = true
     ): array;
 
@@ -67,7 +67,7 @@ abstract class Gateway
      */
     abstract public function getNodeDataList(
         array $locationIds,
-        array $translations = null,
+        ?array $translations = null,
         bool $useAlwaysAvailable = true
     ): iterable;
 
@@ -81,7 +81,7 @@ abstract class Gateway
      */
     abstract public function getBasicNodeDataByRemoteId(
         string $remoteId,
-        array $translations = null,
+        ?array $translations = null,
         bool $useAlwaysAvailable = true
     ): array;
 
@@ -312,7 +312,7 @@ abstract class Gateway
     abstract public function listTrashed(
         int $offset,
         ?int $limit,
-        array $sort = null,
+        ?array $sort = null,
         ?CriterionInterface $criterion = null
     ): array;
 

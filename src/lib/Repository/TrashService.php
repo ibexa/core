@@ -178,7 +178,7 @@ class TrashService implements TrashServiceInterface
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location the newly created or recovered location
      */
-    public function recover(APITrashItem $trashItem, Location $newParentLocation = null): Location
+    public function recover(APITrashItem $trashItem, ?Location $newParentLocation = null): Location
     {
         if (!is_numeric($trashItem->id)) {
             throw new InvalidArgumentValue('id', $trashItem->id, 'TrashItem');

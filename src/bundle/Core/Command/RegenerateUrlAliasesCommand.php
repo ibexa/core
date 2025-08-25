@@ -51,7 +51,7 @@ EOT;
      * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      * @param \Psr\Log\LoggerInterface $logger
      */
-    public function __construct(Repository $repository, LoggerInterface $logger = null)
+    public function __construct(Repository $repository, ?LoggerInterface $logger = null)
     {
         parent::__construct();
 

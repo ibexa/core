@@ -20,7 +20,7 @@ class MatcherSerializationTest extends TestCase
     /**
      * @dataProvider matcherProvider
      */
-    public function testDeserialize(Matcher $matcher, Matcher $expected = null): void
+    public function testDeserialize(Matcher $matcher, ?Matcher $expected = null): void
     {
         $serializedMatcher = $this->serializeMatcher($matcher);
 

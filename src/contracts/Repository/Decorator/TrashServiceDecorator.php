@@ -37,7 +37,7 @@ abstract class TrashServiceDecorator implements TrashService
 
     public function recover(
         TrashItem $trashItem,
-        Location $newParentLocation = null
+        ?Location $newParentLocation = null
     ): Location {
         return $this->innerService->recover($trashItem, $newParentLocation);
     }

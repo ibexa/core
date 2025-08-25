@@ -161,7 +161,7 @@ class Handler implements BaseTrashHandler
     /**
      * {@inheritdoc}.
      */
-    public function findTrashItems(CriterionInterface $criterion = null, $offset = 0, $limit = null, array $sort = null)
+    public function findTrashItems(?CriterionInterface $criterion = null, $offset = 0, $limit = null, ?array $sort = null)
     {
         $totalCount = $this->locationGateway->countTrashed($criterion);
         if ($totalCount === 0) {

@@ -1051,7 +1051,7 @@ class RoleTest extends BaseServiceMockTest
      * @return \Ibexa\Core\Repository\RoleService|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function getPartlyMockedRoleService(
-        array $methods = null,
+        ?array $methods = null,
         array $settings = [],
         ?RoleDomainMapper $roleDomainMapper = null
     ) {

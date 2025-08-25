@@ -242,7 +242,7 @@ interface RoleService
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\LimitationValidationException if $roleLimitation is not valid
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If assignment already exists
      */
-    public function assignRoleToUserGroup(Role $role, UserGroup $userGroup, RoleLimitation $roleLimitation = null): void;
+    public function assignRoleToUserGroup(Role $role, UserGroup $userGroup, ?RoleLimitation $roleLimitation = null): void;
 
     /**
      * Assigns a role to the given user.
@@ -255,7 +255,7 @@ interface RoleService
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\LimitationValidationException if $roleLimitation is not valid
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If assignment already exists
      */
-    public function assignRoleToUser(Role $role, User $user, RoleLimitation $roleLimitation = null): void;
+    public function assignRoleToUser(Role $role, User $user, ?RoleLimitation $roleLimitation = null): void;
 
     /**
      * Loads a role assignment for the given id.

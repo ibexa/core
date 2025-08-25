@@ -33,7 +33,7 @@ class ExceptionConversion extends Gateway
         CriterionInterface $criterion,
         $offset = 0,
         $limit = null,
-        array $sort = null,
+        ?array $sort = null,
         array $languageFilter = [],
         $doCount = true
     ): array {

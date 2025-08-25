@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface;
+use Throwable;
 
 class IbexaCoreCollector extends DataCollector
 {
@@ -20,7 +21,7 @@ class IbexaCoreCollector extends DataCollector
         $this->reset();
     }
 
-    public function collect(Request $request, Response $response, \Throwable $exception = null)
+    public function collect(Request $request, Response $response, ?Throwable $exception = null)
     {
         /** @var \Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface $innerCollector */
         foreach ($this->data['collectors'] as $innerCollector) {

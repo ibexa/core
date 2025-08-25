@@ -42,7 +42,7 @@ class ContentPreviewHelper implements SiteAccessAware
         $this->siteAccessRouter = $siteAccessRouter;
     }
 
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(?SiteAccess $siteAccess = null)
     {
         $this->originalSiteAccess = $siteAccess;
     }

@@ -72,7 +72,7 @@ abstract class ContentServiceDecorator implements ContentService
 
     public function loadContentByContentInfo(
         ContentInfo $contentInfo,
-        array $languages = null,
+        ?array $languages = null,
         ?int $versionNo = null,
         bool $useAlwaysAvailable = true
     ): Content {
@@ -81,7 +81,7 @@ abstract class ContentServiceDecorator implements ContentService
 
     public function loadContentByVersionInfo(
         VersionInfo $versionInfo,
-        array $languages = null,
+        ?array $languages = null,
         bool $useAlwaysAvailable = true
     ): Content {
         return $this->innerService->loadContentByVersionInfo($versionInfo, $languages, $useAlwaysAvailable);
@@ -89,7 +89,7 @@ abstract class ContentServiceDecorator implements ContentService
 
     public function loadContent(
         int $contentId,
-        array $languages = null,
+        ?array $languages = null,
         ?int $versionNo = null,
         bool $useAlwaysAvailable = true
     ): Content {
@@ -98,7 +98,7 @@ abstract class ContentServiceDecorator implements ContentService
 
     public function loadContentByRemoteId(
         string $remoteId,
-        array $languages = null,
+        ?array $languages = null,
         ?int $versionNo = null,
         bool $useAlwaysAvailable = true
     ): Content {
@@ -142,7 +142,7 @@ abstract class ContentServiceDecorator implements ContentService
         return $this->innerService->createContentDraft($contentInfo, $versionInfo, $creator, $language);
     }
 
-    public function countContentDrafts(User $user = null): int
+    public function countContentDrafts(?User $user = null): int
     {
         return $this->innerService->countContentDrafts($user);
     }

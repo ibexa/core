@@ -227,7 +227,7 @@ class SearchService implements SearchServiceInterface
      *
      * @param string[] $fieldPaths
      */
-    public function suggest(string $prefix, array $fieldPaths = [], int $limit = 10, CriterionInterface $filter = null)
+    public function suggest(string $prefix, array $fieldPaths = [], int $limit = 10, ?CriterionInterface $filter = null)
     {
     }
 

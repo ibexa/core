@@ -147,7 +147,7 @@ class LanguageLimitationType implements SPITargetAwareLimitationType
         APILimitationValue $value,
         APIUserReference $currentUser,
         object $object,
-        array $targets = null
+        ?array $targets = null
     ): ?bool {
         if (null === $targets) {
             $targets = [];

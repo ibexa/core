@@ -47,7 +47,7 @@ class ObjectStateService implements ObjectStateServiceInterface
         return $this->service->createObjectStateGroup($objectStateGroupCreateStruct);
     }
 
-    public function loadObjectStateGroup(int $objectStateGroupId, array $prioritizedLanguages = null): ObjectStateGroup
+    public function loadObjectStateGroup(int $objectStateGroupId, ?array $prioritizedLanguages = null): ObjectStateGroup
     {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
@@ -56,21 +56,21 @@ class ObjectStateService implements ObjectStateServiceInterface
 
     public function loadObjectStateGroupByIdentifier(
         string $objectStateGroupIdentifier,
-        array $prioritizedLanguages = null
+        ?array $prioritizedLanguages = null
     ): ObjectStateGroup {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
         return $this->service->loadObjectStateGroupByIdentifier($objectStateGroupIdentifier, $prioritizedLanguages);
     }
 
-    public function loadObjectStateGroups(int $offset = 0, int $limit = -1, array $prioritizedLanguages = null): iterable
+    public function loadObjectStateGroups(int $offset = 0, int $limit = -1, ?array $prioritizedLanguages = null): iterable
     {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
         return $this->service->loadObjectStateGroups($offset, $limit, $prioritizedLanguages);
     }
 
-    public function loadObjectStates(ObjectStateGroup $objectStateGroup, array $prioritizedLanguages = null): iterable
+    public function loadObjectStates(ObjectStateGroup $objectStateGroup, ?array $prioritizedLanguages = null): iterable
     {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
@@ -92,7 +92,7 @@ class ObjectStateService implements ObjectStateServiceInterface
         return $this->service->createObjectState($objectStateGroup, $objectStateCreateStruct);
     }
 
-    public function loadObjectState(int $stateId, array $prioritizedLanguages = null): ObjectState
+    public function loadObjectState(int $stateId, ?array $prioritizedLanguages = null): ObjectState
     {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
@@ -102,7 +102,7 @@ class ObjectStateService implements ObjectStateServiceInterface
     public function loadObjectStateByIdentifier(
         ObjectStateGroup $objectStateGroup,
         string $objectStateIdentifier,
-        array $prioritizedLanguages = null
+        ?array $prioritizedLanguages = null
     ): ObjectState {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 

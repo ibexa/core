@@ -90,7 +90,7 @@ class Handler implements BaseLocationHandler
     /**
      * {@inheritdoc}
      */
-    public function load($locationId, array $translations = null, bool $useAlwaysAvailable = true)
+    public function load($locationId, ?array $translations = null, bool $useAlwaysAvailable = true)
     {
         return $this->treeHandler->loadLocation($locationId, $translations, $useAlwaysAvailable);
     }
@@ -98,7 +98,7 @@ class Handler implements BaseLocationHandler
     /**
      * {@inheritdoc}
      */
-    public function loadList(array $locationIds, array $translations = null, bool $useAlwaysAvailable = true): iterable
+    public function loadList(array $locationIds, ?array $translations = null, bool $useAlwaysAvailable = true): iterable
     {
         $list = $this->locationGateway->getNodeDataList($locationIds, $translations, $useAlwaysAvailable);
 
@@ -128,7 +128,7 @@ class Handler implements BaseLocationHandler
     /**
      * {@inheritdoc}
      */
-    public function loadByRemoteId($remoteId, array $translations = null, bool $useAlwaysAvailable = true)
+    public function loadByRemoteId($remoteId, ?array $translations = null, bool $useAlwaysAvailable = true)
     {
         $data = $this->locationGateway->getBasicNodeDataByRemoteId($remoteId, $translations, $useAlwaysAvailable);
 

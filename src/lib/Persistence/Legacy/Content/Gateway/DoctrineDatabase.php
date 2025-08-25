@@ -1300,7 +1300,7 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
-    public function deleteNames(int $contentId, int $versionNo = null): void
+    public function deleteNames(int $contentId, ?int $versionNo = null): void
     {
         $query = $this->connection->createQueryBuilder();
         $query

@@ -32,7 +32,7 @@ abstract class Gateway
         CriterionInterface $criterion,
         $offset,
         $limit,
-        array $sortClauses = null,
+        ?array $sortClauses = null,
         array $languageFilter = [],
         $doCount = true
     ): array;

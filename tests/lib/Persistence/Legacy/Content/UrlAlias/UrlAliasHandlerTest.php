@@ -5409,9 +5409,6 @@ class UrlAliasHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
     protected function getLanguageHandler(): LanguageHandler
     {
         if (!isset($this->languageHandler)) {
