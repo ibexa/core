@@ -86,7 +86,7 @@ class ContentService implements ContentServiceInterface
         return $this->service->loadVersionInfoListByContentInfo($contentInfoList);
     }
 
-    public function loadContentByContentInfo(ContentInfo $contentInfo, array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): Content
+    public function loadContentByContentInfo(ContentInfo $contentInfo, ?array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): Content
     {
         return $this->service->loadContentByContentInfo(
             $contentInfo,
@@ -96,7 +96,7 @@ class ContentService implements ContentServiceInterface
         );
     }
 
-    public function loadContentByVersionInfo(VersionInfo $versionInfo, array $languages = null, bool $useAlwaysAvailable = true): Content
+    public function loadContentByVersionInfo(VersionInfo $versionInfo, ?array $languages = null, bool $useAlwaysAvailable = true): Content
     {
         return $this->service->loadContentByVersionInfo(
             $versionInfo,
@@ -105,7 +105,7 @@ class ContentService implements ContentServiceInterface
         );
     }
 
-    public function loadContent(int $contentId, array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): Content
+    public function loadContent(int $contentId, ?array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): Content
     {
         return $this->service->loadContent(
             $contentId,
@@ -115,7 +115,7 @@ class ContentService implements ContentServiceInterface
         );
     }
 
-    public function loadContentByRemoteId(string $remoteId, array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): Content
+    public function loadContentByRemoteId(string $remoteId, ?array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): Content
     {
         return $this->service->loadContentByRemoteId(
             $remoteId,
@@ -243,7 +243,7 @@ class ContentService implements ContentServiceInterface
         return $this->service->deleteTranslationFromDraft($versionInfo, $languageCode);
     }
 
-    public function loadContentListByContentInfo(array $contentInfoList, array $languages = null, bool $useAlwaysAvailable = true): iterable
+    public function loadContentListByContentInfo(array $contentInfoList, ?array $languages = null, bool $useAlwaysAvailable = true): iterable
     {
         return $this->service->loadContentListByContentInfo(
             $contentInfoList,

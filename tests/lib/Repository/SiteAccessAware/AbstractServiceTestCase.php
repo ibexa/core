@@ -152,8 +152,14 @@ abstract class AbstractServiceTestCase extends TestCase
      * @param mixed|null $return
      * @param int $languageArgumentIndex From 0 and up, so the array index on $arguments.
      */
-    final public function testForLanguagesLookup($method, array $arguments, $return, $languageArgumentIndex, callable $callback = null, int $alwaysAvailableArgumentIndex = null)
-    {
+    final public function testForLanguagesLookup(
+        $method,
+        array $arguments,
+        $return,
+        $languageArgumentIndex,
+        ?callable $callback = null,
+        ?int $alwaysAvailableArgumentIndex = null
+    ) {
         $languages = ['eng-GB', 'eng-US'];
 
         $arguments = $this->setLanguagesLookupArguments($arguments, $languageArgumentIndex);
@@ -219,8 +225,14 @@ abstract class AbstractServiceTestCase extends TestCase
      * @param mixed|null $return
      * @param int $languageArgumentIndex From 0 and up, so the array index on $arguments.
      */
-    final public function testForLanguagesPassTrough($method, array $arguments, $return, $languageArgumentIndex, callable $callback = null, int $alwaysAvailableArgumentIndex = null)
-    {
+    final public function testForLanguagesPassTrough(
+        $method,
+        array $arguments,
+        $return,
+        $languageArgumentIndex,
+        ?callable $callback = null,
+        ?int $alwaysAvailableArgumentIndex = null
+    ) {
         $languages = ['eng-GB', 'eng-US'];
         $arguments = $this->setLanguagesPassTroughArguments($arguments, $languageArgumentIndex, $languages);
 

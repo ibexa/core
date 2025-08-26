@@ -78,7 +78,7 @@ class ReindexCommand extends Command
         string $projectDir,
         ContentIdListGeneratorStrategyInterface $contentIdListGeneratorStrategy,
         private readonly RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
-        string $phpPath = null
+        ?string $phpPath = null
     ) {
         $this->gateway = $gateway;
         $this->searchIndexer = $searchIndexer;

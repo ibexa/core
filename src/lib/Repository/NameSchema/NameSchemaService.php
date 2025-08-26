@@ -81,7 +81,7 @@ class NameSchemaService implements NameSchemaServiceInterface
         $this->schemaIdentifierExtractor = $schemaIdentifierExtractor;
     }
 
-    public function resolveUrlAliasSchema(Content $content, ContentType $contentType = null): array
+    public function resolveUrlAliasSchema(Content $content, ?ContentType $contentType = null): array
     {
         $contentType ??= $content->getContentType();
         $schemaName = $contentType->urlAliasSchema ?: $contentType->nameSchema;
@@ -101,7 +101,7 @@ class NameSchemaService implements NameSchemaServiceInterface
         Content $content,
         array $fieldMap = [],
         array $languageCodes = [],
-        ContentType $contentType = null
+        ?ContentType $contentType = null
     ): array {
         $contentType ??= $content->getContentType();
         $schemaName = $contentType->nameSchema;

@@ -36,7 +36,7 @@ class Value extends BaseValue
      *
      * @param \DateTime|null $dateTime Date/Time as a DateTime object
      */
-    public function __construct(DateTime $dateTime = null)
+    public function __construct(?DateTime $dateTime = null)
     {
         $this->value = $dateTime;
     }

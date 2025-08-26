@@ -40,7 +40,7 @@ class Value extends BaseValue
      *
      * @param string[]|string $values
      */
-    public function __construct(array $values = null)
+    public function __construct(?array $values = null)
     {
         foreach ((array)$values as $key => $value) {
             $this->$key = $value;

@@ -36,7 +36,7 @@ class LegacyDFSCluster implements IOMetadataHandler
      * @param \Doctrine\DBAL\Connection $connection Doctrine DBAL connection
      * @param \Ibexa\Core\IO\UrlDecorator|null $urlDecorator The URL decorator used to add a prefix to files path
      */
-    public function __construct(Connection $connection, UrlDecorator $urlDecorator = null)
+    public function __construct(Connection $connection, ?UrlDecorator $urlDecorator = null)
     {
         $this->db = $connection;
         $this->urlDecorator = $urlDecorator;

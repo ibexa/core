@@ -120,7 +120,7 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
         APILimitationValue $value,
         APIUserReference $currentUser,
         object $object,
-        array $targets = null
+        ?array $targets = null
     ): ?bool {
         if (!$value instanceof APIObjectStateLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: APIObjectStateLimitation');

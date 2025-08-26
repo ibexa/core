@@ -227,9 +227,6 @@ class UrlWildcardHandlerTest extends TestCase
     /** @var \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler */
     protected $urlWildcardHandler;
 
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
     protected function getHandler(): UrlWildcard\Handler
     {
         if (!isset($this->urlWildcardHandler)) {

@@ -492,7 +492,6 @@ class Handler implements BaseContentTypeHandler
      * @param mixed $contentTypeId
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If group or type with provided status is not found
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If type is already part of group
      *
      * @todo Above throws are not implemented
      */

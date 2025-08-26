@@ -118,8 +118,6 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
      *
      * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
      *
-     * @throws \Ibexa\Core\MVC\Exception\InvalidSiteAccessException
-     *
      * @return \Ibexa\Core\MVC\Symfony\SiteAccess
      */
     public function match(SimplifiedRequest $request)
@@ -266,7 +264,7 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
     /**
      * @param \Ibexa\Core\MVC\Symfony\SiteAccess|null $siteAccess
      */
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(?SiteAccess $siteAccess = null)
     {
         $this->siteAccess = $siteAccess;
     }

@@ -302,7 +302,7 @@ class RoleService extends RoleServiceDecorator
     public function assignRoleToUserGroup(
         Role $role,
         UserGroup $userGroup,
-        RoleLimitation $roleLimitation = null
+        ?RoleLimitation $roleLimitation = null
     ): void {
         $eventData = [
             $role,
@@ -327,7 +327,7 @@ class RoleService extends RoleServiceDecorator
     public function assignRoleToUser(
         Role $role,
         User $user,
-        RoleLimitation $roleLimitation = null
+        ?RoleLimitation $roleLimitation = null
     ): void {
         $eventData = [
             $role,

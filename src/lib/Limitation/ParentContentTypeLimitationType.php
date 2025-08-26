@@ -112,7 +112,7 @@ class ParentContentTypeLimitationType extends AbstractPersistenceLimitationType 
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
      *         Example: If LimitationValue is instance of ContentTypeLimitationValue, and Type is SectionLimitationType.
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, object $object, array $targets = null): ?bool
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, object $object, ?array $targets = null): ?bool
     {
         if (!$value instanceof APIParentContentTypeLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: APIParentContentTypeLimitation');
@@ -184,7 +184,7 @@ class ParentContentTypeLimitationType extends AbstractPersistenceLimitationType 
      *
      * @return bool
      */
-    protected function evaluateForContentCreateStruct(APILimitationValue $value, array $targets = null): bool
+    protected function evaluateForContentCreateStruct(APILimitationValue $value, ?array $targets = null): bool
     {
         // If targets is empty/null return false as user does not have access
         // to content w/o location with this limitation

@@ -327,7 +327,7 @@ interface Handler
      * @param mixed $roleId
      * @param array $limitation
      */
-    public function assignRole($contentId, $roleId, array $limitation = null);
+    public function assignRole($contentId, $roleId, ?array $limitation = null);
 
     /**
      * Un-assign a role.

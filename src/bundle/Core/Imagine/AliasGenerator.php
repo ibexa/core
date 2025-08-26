@@ -62,7 +62,7 @@ class AliasGenerator implements VariationHandler
         FilterManager $filterManager,
         ResolverInterface $ioResolver,
         FilterConfiguration $filterConfiguration,
-        LoggerInterface $logger = null
+        ?LoggerInterface $logger = null
     ) {
         $this->dataLoader = $dataLoader;
         $this->filterManager = $filterManager;

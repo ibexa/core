@@ -19,14 +19,8 @@ class BinaryFileLister extends MigrationHandler implements FileListerInterface
 {
     private FileIteratorInterface $fileList;
 
-    /** @var string Directory where files are stored, within the storage dir. Example: 'original' */
     private string $filesDir;
 
-    /**
-     * @param \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOMetadataHandler> $metadataHandlerRegistry
-     * @param \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOBinarydataHandler> $binarydataHandlerRegistry
-     * @param string $filesDir Directory where files are stored, within the storage dir. Example: 'original'
-     */
     public function __construct(
         HandlerRegistry $metadataHandlerRegistry,
         HandlerRegistry $binarydataHandlerRegistry,
@@ -47,9 +41,6 @@ class BinaryFileLister extends MigrationHandler implements FileListerInterface
         return count($this->fileList);
     }
 
-    /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     */
     public function loadMetadataList(?int $limit = null, ?int $offset = null): array
     {
         $metadataList = [];

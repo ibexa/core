@@ -40,7 +40,7 @@ final class ExceptionConversion extends Gateway
 
     public function getBasicNodeData(
         int $nodeId,
-        array $translations = null,
+        ?array $translations = null,
         bool $useAlwaysAvailable = true
     ): array {
         try {
@@ -50,7 +50,7 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function getNodeDataList(array $locationIds, array $translations = null, bool $useAlwaysAvailable = true): iterable
+    public function getNodeDataList(array $locationIds, ?array $translations = null, bool $useAlwaysAvailable = true): iterable
     {
         try {
             return $this->innerGateway->getNodeDataList($locationIds, $translations, $useAlwaysAvailable);
@@ -61,7 +61,7 @@ final class ExceptionConversion extends Gateway
 
     public function getBasicNodeDataByRemoteId(
         string $remoteId,
-        array $translations = null,
+        ?array $translations = null,
         bool $useAlwaysAvailable = true
     ): array {
         try {
@@ -357,7 +357,7 @@ final class ExceptionConversion extends Gateway
     public function listTrashed(
         int $offset,
         ?int $limit,
-        array $sort = null,
+        ?array $sort = null,
         ?CriterionInterface $criterion = null
     ): array {
         try {

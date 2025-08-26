@@ -73,7 +73,7 @@ final class DoctrineDatabase extends Gateway
         CriterionInterface $criterion,
         $offset,
         $limit,
-        array $sort = null,
+        ?array $sort = null,
         array $languageFilter = [],
         $doCount = true
     ): array {

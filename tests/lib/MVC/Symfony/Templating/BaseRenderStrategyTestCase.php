@@ -35,7 +35,7 @@ abstract class BaseRenderStrategyTestCase extends TestCase
         array $fragmentRenderers,
         string $defaultMethod = 'inline',
         string $siteAccessName = 'default',
-        Request $request = null
+        ?Request $request = null
     ): RenderStrategy {
         $siteAccess = new SiteAccess($siteAccessName);
 
@@ -51,7 +51,7 @@ abstract class BaseRenderStrategyTestCase extends TestCase
 
     public function createFragmentRenderer(
         string $name = 'inline',
-        string $rendered = null
+        ?string $rendered = null
     ): FragmentRendererInterface {
         return new readonly class($name, $rendered) implements FragmentRendererInterface {
             public function __construct(

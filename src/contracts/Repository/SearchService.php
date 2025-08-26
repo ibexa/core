@@ -170,7 +170,7 @@ interface SearchService
      *
      * @param string[] $fieldPaths
      */
-    public function suggest(string $prefix, array $fieldPaths = [], int $limit = 10, CriterionInterface $filter = null);
+    public function suggest(string $prefix, array $fieldPaths = [], int $limit = 10, ?CriterionInterface $filter = null);
 
     /**
      * Finds Locations for the given query.

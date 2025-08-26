@@ -237,7 +237,7 @@ class CachingHandler implements BaseLanguageHandler
      * @param array $languages
      * @param string|null $listIndex
      */
-    protected function storeCache(array $languages, string $listIndex = null): void
+    protected function storeCache(array $languages, ?string $listIndex = null): void
     {
         $generator = $this->cacheIdentifierGenerator;
 

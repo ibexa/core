@@ -764,7 +764,7 @@ class UrlWildcardTest extends BaseServiceMockTest
      *
      * @return \Ibexa\Core\Repository\URLWildcardService|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getPartlyMockedURLWildcardService(array $methods = null)
+    protected function getPartlyMockedURLWildcardService(?array $methods = null)
     {
         return $this->getMockBuilder(URLWildcardService::class)
             ->setMethods($methods)

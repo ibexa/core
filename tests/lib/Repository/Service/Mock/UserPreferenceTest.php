@@ -191,7 +191,7 @@ class UserPreferenceTest extends BaseServiceMockTest
     /**
      * @return \Ibexa\Contracts\Core\Repository\UserPreferenceService|\PHPUnit\Framework\MockObject\MockObject
      */
-    private function createAPIUserPreferenceService(array $methods = null)
+    private function createAPIUserPreferenceService(?array $methods = null)
     {
         return $this
             ->getMockBuilder(UserPreferenceService::class)
