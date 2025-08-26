@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\Imagine\Cache;
 
@@ -12,18 +13,19 @@ use Ibexa\Bundle\Core\Imagine\Cache\ResolverFactory;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Liip\ImagineBundle\Imagine\Cache\Resolver\ProxyResolver;
 use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class ResolverFactoryTest extends TestCase
+/**
+ * @covers \Ibexa\Bundle\Core\Imagine\Cache\ResolverFactory
+ */
+final class ResolverFactoryTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface&MockObject $configResolver;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
-    private $resolver;
+    private ResolverInterface & MockObject $resolver;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Cache\ResolverFactory */
-    private $factory;
+    private ResolverFactory $factory;
 
     protected function setUp(): void
     {
@@ -38,18 +40,18 @@ class ResolverFactoryTest extends TestCase
         );
     }
 
-    public function testCreateProxyCacheResolver()
+    public function testCreateProxyCacheResolver(): void
     {
         $this->configResolver
-            ->expects(self::at(0))
+            ->expects(self::once())
             ->method('hasParameter')
             ->with('image_host')
             ->willReturn(true);
 
-        $host = 'http://ibexa.co';
+        $host = 'https://ibexa.co';
 
         $this->configResolver
-            ->expects(self::at(1))
+            ->expects(self::once())
             ->method('getParameter')
             ->with('image_host')
             ->willReturn($host);
@@ -59,10 +61,10 @@ class ResolverFactoryTest extends TestCase
         self::assertEquals($expected, $this->factory->createCacheResolver());
     }
 
-    public function testCreateRelativeCacheResolver()
+    public function testCreateRelativeCacheResolver(): void
     {
         $this->configResolver
-            ->expects(self::at(0))
+            ->expects(self::once())
             ->method('hasParameter')
             ->with('image_host')
             ->willReturn(true);
@@ -70,7 +72,7 @@ class ResolverFactoryTest extends TestCase
         $host = '/';
 
         $this->configResolver
-            ->expects(self::at(1))
+            ->expects(self::once())
             ->method('getParameter')
             ->with('image_host')
             ->willReturn($host);

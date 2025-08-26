@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine\Cache;
 
@@ -12,32 +13,25 @@ use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
 
 class ResolverFactory
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /** @var \Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
-    private $resolver;
+    private ResolverInterface $resolver;
 
-    /** @var string|null */
-    private $resolverDecoratorClass;
+    /** @phpstan-var class-string<\Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface> */
+    private string $proxyResolverClass;
 
-    /** @var string */
-    private $proxyResolverClass;
-
-    /** @var string */
-    private $relativeResolverClass;
+    /** @phpstan-var class-string<\Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface> */
+    private string $relativeResolverClass;
 
     /**
-     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
-     * @param \Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface $resolver
-     * @param string $proxyResolverClass
-     * @param string $relativeResolverClass
+     * @phpstan-param class-string<\Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface> $proxyResolverClass
+     * @phpstan-param class-string<\Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface> $relativeResolverClass
      */
     public function __construct(
         ConfigResolverInterface $configResolver,
         ResolverInterface $resolver,
-        $proxyResolverClass,
-        $relativeResolverClass
+        string $proxyResolverClass,
+        string $relativeResolverClass
     ) {
         $this->configResolver = $configResolver;
         $this->resolver = $resolver;
@@ -48,7 +42,7 @@ class ResolverFactory
     /**
      * @return \Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface
      */
-    public function createCacheResolver()
+    public function createCacheResolver(): ResolverInterface
     {
         $imageHost = $this->configResolver->hasParameter('image_host') ?
             $this->configResolver->getParameter('image_host') :
@@ -59,11 +53,11 @@ class ResolverFactory
         }
 
         if ($imageHost === '/') {
-            $this->resolverDecoratorClass = $this->relativeResolverClass;
+            $resolverDecoratorClass = $this->relativeResolverClass;
         } else {
-            $this->resolverDecoratorClass = $this->proxyResolverClass;
+            $resolverDecoratorClass = $this->proxyResolverClass;
         }
 
-        return new $this->resolverDecoratorClass($this->resolver, [$imageHost]);
+        return new $resolverDecoratorClass($this->resolver, [$imageHost]);
     }
 }

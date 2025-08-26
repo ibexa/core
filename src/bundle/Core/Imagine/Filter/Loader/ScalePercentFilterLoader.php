@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine\Filter\Loader;
 
@@ -16,8 +17,11 @@ use Imagine\Image\ImageInterface;
  */
 class ScalePercentFilterLoader extends FilterLoaderWrapped
 {
-    public const IDENTIFIER = 'geometry/scalepercent';
+    public const string IDENTIFIER = 'geometry/scalepercent';
 
+    /**
+     * @phpstan-param array{0?: int, 1?: int} $options width, height
+     */
     public function load(ImageInterface $image, array $options = []): ImageInterface
     {
         if (count($options) < 2) {
@@ -27,7 +31,7 @@ class ScalePercentFilterLoader extends FilterLoaderWrapped
         $size = $image->getSize();
         $origWidth = $size->getWidth();
         $origHeight = $size->getHeight();
-        list($widthPercent, $heightPercent) = $options;
+        [$widthPercent, $heightPercent] = $options;
 
         $targetWidth = ($origWidth * $widthPercent) / 100;
         $targetHeight = ($origHeight * $heightPercent) / 100;

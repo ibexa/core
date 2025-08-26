@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine\PlaceholderProvider;
 
@@ -17,9 +18,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class RemoteProvider implements PlaceholderProvider
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getPlaceholder(ImageValue $value, array $options = []): string
     {
         $options = $this->resolveOptions($options);
@@ -61,6 +59,9 @@ class RemoteProvider implements PlaceholderProvider
         return stream_get_meta_data(tmpfile())['uri'];
     }
 
+    /**
+     * @param array<string, mixed> $options
+     */
     private function resolveOptions(array $options): array
     {
         $resolver = new OptionsResolver();

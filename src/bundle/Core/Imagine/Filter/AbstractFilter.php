@@ -12,35 +12,34 @@ namespace Ibexa\Bundle\Core\Imagine\Filter;
  */
 abstract class AbstractFilter implements FilterInterface
 {
-    /** @var array */
-    private $options;
-
-    public function __construct(array $options = [])
+    /**
+     * @phpstan-param array<string, mixed> $options
+     */
+    public function __construct(private array $options = [])
     {
-        $this->options = $options;
     }
 
-    public function setOption($optionName, $value)
+    public function setOption(string $optionName, mixed $value): void
     {
         $this->options[$optionName] = $value;
     }
 
-    public function getOption($optionName, $defaultValue = null)
+    public function getOption(string $optionName, mixed $defaultValue = null): mixed
     {
-        return isset($this->options[$optionName]) ? $this->options[$optionName] : $defaultValue;
+        return $this->options[$optionName] ?? $defaultValue;
     }
 
-    public function hasOption($optionName)
+    public function hasOption(string $optionName): bool
     {
         return isset($this->options[$optionName]);
     }
 
-    public function setOptions(array $options)
+    public function setOptions(array $options): void
     {
         $this->options = $options;
     }
 
-    public function getOptions()
+    public function getOptions(): array
     {
         return $this->options;
     }

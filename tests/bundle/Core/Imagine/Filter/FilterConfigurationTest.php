@@ -4,20 +4,24 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\Imagine\Filter;
 
 use Ibexa\Bundle\Core\Imagine\Filter\FilterConfiguration;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
-class FilterConfigurationTest extends TestCase
+/**
+ * @covers \Ibexa\Bundle\Core\Imagine\Filter\FilterConfiguration
+ */
+final class FilterConfigurationTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $configResolver;
+    private ConfigResolverInterface & MockObject $configResolver;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\FilterConfiguration */
-    private $filterConfiguration;
+    private FilterConfiguration $filterConfiguration;
 
     protected function setUp(): void
     {
@@ -27,7 +31,7 @@ class FilterConfigurationTest extends TestCase
         $this->filterConfiguration->setConfigResolver($this->configResolver);
     }
 
-    public function testGetOnlyImagineFilters()
+    public function testGetOnlyImagineFilters(): void
     {
         $fooConfig = ['fooconfig'];
         $barConfig = ['barconfig'];
@@ -38,16 +42,14 @@ class FilterConfigurationTest extends TestCase
             ->expects(self::exactly(2))
             ->method('getParameter')
             ->with('image_variations')
-            ->will(self::returnValue([]));
+            ->willReturn([]);
 
         self::assertSame($fooConfig, $this->filterConfiguration->get('foo'));
         self::assertSame($barConfig, $this->filterConfiguration->get('bar'));
     }
 
-    public function testGetNoEzVariationInvalidImagineFilter()
+    public function testGetNoVariationInvalidImagineFilter(): void
     {
-        $this->expectException(\RuntimeException::class);
-
         $fooConfig = ['fooconfig'];
         $barConfig = ['barconfig'];
         $this->filterConfiguration->set('foo', $fooConfig);
@@ -57,12 +59,14 @@ class FilterConfigurationTest extends TestCase
             ->expects(self::once())
             ->method('getParameter')
             ->with('image_variations')
-            ->will(self::returnValue([]));
+            ->willReturn([]);
+
+        $this->expectException(RuntimeException::class);
 
         $this->filterConfiguration->get('foobar');
     }
 
-    public function testGetWithEzVariationNullConfiguration(): void
+    public function testGetWithVariationNullConfiguration(): void
     {
         $fooConfig = ['fooconfig'];
         $barConfig = ['barconfig'];
@@ -76,7 +80,7 @@ class FilterConfigurationTest extends TestCase
             ->expects(self::once())
             ->method('getParameter')
             ->with('image_variations')
-            ->will(self::returnValue($variations));
+            ->willReturn($variations);
 
         self::assertSame(
             [
@@ -90,7 +94,7 @@ class FilterConfigurationTest extends TestCase
         );
     }
 
-    public function testGetEzVariationNoReference()
+    public function testGetVariationNoReference(): void
     {
         $fooConfig = ['fooconfig'];
         $barConfig = ['barconfig'];
@@ -105,7 +109,7 @@ class FilterConfigurationTest extends TestCase
             ->expects(self::once())
             ->method('getParameter')
             ->with('image_variations')
-            ->will(self::returnValue($variations));
+            ->willReturn($variations);
 
         self::assertSame(
             [
@@ -119,7 +123,7 @@ class FilterConfigurationTest extends TestCase
         );
     }
 
-    public function testGetEzVariationWithReference()
+    public function testGetVariationWithReference(): void
     {
         $fooConfig = ['fooconfig'];
         $barConfig = ['barconfig'];
@@ -135,7 +139,7 @@ class FilterConfigurationTest extends TestCase
             ->expects(self::once())
             ->method('getParameter')
             ->with('image_variations')
-            ->will(self::returnValue($variations));
+            ->willReturn($variations);
 
         self::assertSame(
             [
@@ -149,7 +153,7 @@ class FilterConfigurationTest extends TestCase
         );
     }
 
-    public function testGetEzVariationImagineFilters()
+    public function testGetVariationImagineFilters(): void
     {
         $filters = ['some_filter' => []];
         $imagineConfig = ['filters' => $filters];
@@ -163,7 +167,7 @@ class FilterConfigurationTest extends TestCase
             ->expects(self::once())
             ->method('getParameter')
             ->with('image_variations')
-            ->will(self::returnValue($variations));
+            ->willReturn($variations);
 
         self::assertSame(
             [
@@ -177,7 +181,7 @@ class FilterConfigurationTest extends TestCase
         );
     }
 
-    public function testGetEzVariationImagineOptions()
+    public function testGetVariationImagineOptions(): void
     {
         $imagineConfig = [
             'foo_option' => 'foo',
@@ -194,7 +198,7 @@ class FilterConfigurationTest extends TestCase
             ->expects(self::once())
             ->method('getParameter')
             ->with('image_variations')
-            ->will(self::returnValue($variations));
+            ->willReturn($variations);
 
         self::assertSame(
             [
@@ -210,7 +214,7 @@ class FilterConfigurationTest extends TestCase
         );
     }
 
-    public function testAll()
+    public function testAll(): void
     {
         $fooConfig = ['fooconfig'];
         $barConfig = ['barconfig'];
@@ -226,7 +230,7 @@ class FilterConfigurationTest extends TestCase
             ->expects(self::once())
             ->method('getParameter')
             ->with('image_variations')
-            ->will(self::returnValue($variations));
+            ->willReturn($variations);
 
         self::assertEquals(
             [
