@@ -143,20 +143,15 @@ abstract class AbstractServiceTestCase extends TestCase
     }
 
     /**
-     * Test that language aware methods does a language lookup when language is not set.
-     *
      * @dataProvider providerForLanguagesLookupMethods
      *
-     * @param string $method
-     * @param array $arguments
-     * @param mixed|null $return
-     * @param int $languageArgumentIndex From 0 and up, so the array index on $arguments.
+     * @param array<mixed> $arguments
      */
     final public function testForLanguagesLookup(
-        $method,
+        string $method,
         array $arguments,
-        $return,
-        $languageArgumentIndex,
+        mixed $return,
+        int $languageArgumentIndex,
         ?callable $callback = null,
         ?int $alwaysAvailableArgumentIndex = null
     ) {
@@ -216,20 +211,15 @@ abstract class AbstractServiceTestCase extends TestCase
     }
 
     /**
-     * Make sure these methods does nothing more then passing the arguments to inner service.
-     *
      * @dataProvider providerForLanguagesLookupMethods
      *
-     * @param string $method
-     * @param array $arguments
-     * @param mixed|null $return
-     * @param int $languageArgumentIndex From 0 and up, so the array index on $arguments.
+     * @param array<mixed> $arguments
      */
     final public function testForLanguagesPassTrough(
-        $method,
+        string $method,
         array $arguments,
-        $return,
-        $languageArgumentIndex,
+        mixed $return,
+        int $languageArgumentIndex,
         ?callable $callback = null,
         ?int $alwaysAvailableArgumentIndex = null
     ) {
