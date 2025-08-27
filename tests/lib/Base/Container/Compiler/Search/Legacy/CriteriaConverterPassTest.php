@@ -39,9 +39,9 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
 
         $this->compile();
 
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
             'ibexa.search.legacy.gateway.criteria_converter.content',
-            'addHandler',
+            '$handlers',
             [new Reference($serviceId)]
         );
     }
@@ -60,9 +60,9 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
 
         $this->compile();
 
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
             'ibexa.search.legacy.gateway.criteria_converter.location',
-            'addHandler',
+            '$handlers',
             [new Reference($serviceId)]
         );
     }
@@ -81,9 +81,9 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
 
         $this->compile();
 
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
             'ibexa.core.trash.search.legacy.gateway.criteria_converter',
-            'addHandler',
+            '$handlers',
             [new Reference($serviceId)]
         );
     }
@@ -112,21 +112,21 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
 
         $this->compile();
 
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
             'ibexa.search.legacy.gateway.criteria_converter.content',
-            'addHandler',
+            '$handlers',
             [new Reference($commonServiceId)]
         );
 
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
             'ibexa.search.legacy.gateway.criteria_converter.location',
-            'addHandler',
+            '$handlers',
             [new Reference($commonServiceId)]
         );
 
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
             'ibexa.core.trash.search.legacy.gateway.criteria_converter',
-            'addHandler',
+            '$handlers',
             [new Reference($commonServiceId)]
         );
     }
