@@ -26,5 +26,8 @@ services:
 
     Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter:
         class: Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter
-
-
+        lazy: true
+        arguments:
+            $handlers: !abstract 'Should be defined by 
+                Ibexa\Core\Base\Container\Compiler\Search\Legacy\CriteriaConverterPass with 
+                tag: "ibexa.storage.legacy.url.criterion.handler"'
