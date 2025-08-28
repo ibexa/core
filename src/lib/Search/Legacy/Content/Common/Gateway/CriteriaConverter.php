@@ -16,6 +16,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 class CriteriaConverter
 {
     /**
+     * Criterion handlers.
+     *
      * @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler[]
      */
     protected $handlers;
@@ -31,27 +33,12 @@ class CriteriaConverter
     }
 
     /**
-     * @deprecated The "%s" method is deprecated. Use a service definition tag instead (one of
-     *     "ibexa.search.legacy.gateway.criterion_handler.content",
-     *     "ibexa.search.legacy.gateway.criterion_handler.location",
-     *     "ibexa.storage.legacy.url.criterion.handler",
-     *     "ibexa.search.legacy.trash.gateway.criterion.handler").
+     * Adds handler.
+     *
+     * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler $handler
      */
     public function addHandler(CriterionHandler $handler)
     {
-        trigger_deprecation(
-            'ibexa/core',
-            '4.6.24',
-            'The "%s" method is deprecated. Use a service definition tag instead (one of "%s").',
-            __METHOD__,
-            implode('", "', [
-                'ibexa.search.legacy.gateway.criterion_handler.content',
-                'ibexa.search.legacy.gateway.criterion_handler.location',
-                'ibexa.storage.legacy.url.criterion.handler',
-                'ibexa.search.legacy.trash.gateway.criterion.handler',
-            ]),
-        );
-
         $this->handlers[] = $handler;
     }
 
