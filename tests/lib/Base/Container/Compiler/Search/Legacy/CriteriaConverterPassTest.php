@@ -84,29 +84,17 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
     }
 
     /**
-     * @return iterable<array{string, string}>
+     * @return iterable<string, string>
      */
     public static function provideServiceToTagName(): iterable
     {
-        yield [
-            'ibexa.search.legacy.gateway.criteria_converter.content',
-            'ibexa.search.legacy.gateway.criterion_handler.content',
-        ];
+        yield 'ibexa.search.legacy.gateway.criteria_converter.content' => 'ibexa.search.legacy.gateway.criterion_handler.content';
 
-        yield [
-            'ibexa.search.legacy.gateway.criteria_converter.location',
-            'ibexa.search.legacy.gateway.criterion_handler.location',
-        ];
+        yield 'ibexa.search.legacy.gateway.criteria_converter.location' => 'ibexa.search.legacy.gateway.criterion_handler.location';
 
-        yield [
-            'ibexa.core.trash.search.legacy.gateway.criteria_converter',
-            'ibexa.search.legacy.trash.gateway.criterion.handler',
-        ];
+        yield 'ibexa.core.trash.search.legacy.gateway.criteria_converter' => 'ibexa.search.legacy.trash.gateway.criterion.handler';
 
-        yield [
-            CriteriaConverter::class,
-            'ibexa.storage.legacy.url.criterion.handler',
-        ];
+        yield CriteriaConverter::class => 'ibexa.storage.legacy.url.criterion.handler';
     }
 
     /**
@@ -114,8 +102,8 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
      */
     public static function provideDescribedServiceToTagName(): iterable
     {
-        foreach (self::provideServiceToTagName() as $serviceToTagName) {
-            yield sprintf('Service "%s" with tag "%s"', $serviceToTagName[0], $serviceToTagName[1]) => $serviceToTagName;
+        foreach (self::provideServiceToTagName() as $serviceId => $tag) {
+            yield sprintf('Service "%s" with tag "%s"', $serviceId, $tag) => [$serviceId, $tag];
         }
     }
 
