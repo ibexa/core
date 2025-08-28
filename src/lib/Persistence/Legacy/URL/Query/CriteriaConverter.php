@@ -9,33 +9,46 @@ namespace Ibexa\Core\Persistence\Legacy\URL\Query;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
+use Traversable;
 
 class CriteriaConverter
 {
     /**
      * Criterion handlers.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler[]
+     * @var iterable<\Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler>
      */
-    protected $handlers;
+    protected iterable $handlers;
 
     /**
      * Construct from an optional array of Criterion handlers.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler[] $handlers
+     * @param iterable<\Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler> $handlers
      */
-    public function __construct(array $handlers = [])
+    public function __construct(iterable $handlers = [])
     {
         $this->handlers = $handlers;
     }
 
     /**
-     * Adds handler.
-     *
-     * @param \Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler $handler
+     * @deprecated The "%s" method is deprecated. Use a service definition tag "ibexa.storage.legacy.url.criterion.handler" instead.
      */
     public function addHandler(CriterionHandler $handler)
     {
+        trigger_deprecation(
+            'ibexa/core',
+            '4.6.24',
+            'The "%s" method is deprecated. Use a service definition tag ("%s") instead.',
+            __METHOD__,
+            implode('", "', [
+                'ibexa.storage.legacy.url.criterion.handler',
+            ]),
+        );
+
+        if ($this->handlers instanceof Traversable) {
+            $this->handlers = iterator_to_array($this->handlers);
+        }
+
         $this->handlers[] = $handler;
     }
 
