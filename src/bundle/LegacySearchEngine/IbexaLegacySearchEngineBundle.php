@@ -19,7 +19,6 @@ class IbexaLegacySearchEngineBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new CriteriaConverterPass());
         $container->addCompilerPass(new CriterionFieldValueHandlerRegistryPass());
         $container->addCompilerPass(new SortClauseConverterPass());
         $container->addCompilerPass(new FieldRegistryPass());
