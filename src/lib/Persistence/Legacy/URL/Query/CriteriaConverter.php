@@ -40,9 +40,7 @@ class CriteriaConverter
             '4.6.24',
             'The "%s" method is deprecated. Use a service definition tag ("%s") instead.',
             __METHOD__,
-            implode('", "', [
-                'ibexa.storage.legacy.url.criterion.handler',
-            ]),
+            'ibexa.storage.legacy.url.criterion.handler',
         );
 
         if ($this->handlers instanceof Traversable) {
