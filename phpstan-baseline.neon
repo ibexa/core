@@ -9283,12 +9283,6 @@ parameters:
 			path: src/lib/Base/Container/Compiler/Search/FieldRegistryPass.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Base\\Container\\Compiler\\Search\\Legacy\\CriteriaConverterPass\:\:process\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Base/Container/Compiler/Search/Legacy/CriteriaConverterPass.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Base\\Container\\Compiler\\Search\\Legacy\\CriterionFieldValueHandlerRegistryPass\:\:process\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
