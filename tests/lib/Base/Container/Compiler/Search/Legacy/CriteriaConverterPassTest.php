@@ -7,6 +7,7 @@
 namespace Ibexa\Tests\Core\Base\Container\Compiler\Search\Legacy;
 
 use Ibexa\Core\Base\Container\Compiler\Search\Legacy\CriteriaConverterPass;
+use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -25,67 +26,85 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new CriteriaConverterPass());
     }
 
-    public function testAddContentHandlers()
+    /**
+     * @dataProvider provideDescribedServiceToTagName
+     */
+    public function testAddHandlers(string $serviceId, string $tag): void
     {
         $this->setDefinition(
-            'ibexa.search.legacy.gateway.criteria_converter.content',
+            $serviceId,
             new Definition()
         );
 
-        $serviceId = 'service_id';
         $def = new Definition();
-        $def->addTag('ibexa.search.legacy.gateway.criterion_handler.content');
-        $this->setDefinition($serviceId, $def);
+        $def->addTag($tag);
+        $this->setDefinition('service_id', $def);
 
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ibexa.search.legacy.gateway.criteria_converter.content',
+            $serviceId,
             'addHandler',
-            [new Reference($serviceId)]
+            [new Reference('service_id')]
         );
     }
 
-    public function testAddLocationHandlers()
+    /**
+     * @dataProvider provideDescribedServiceToTagName
+     */
+    public function testAddContentHandlersWithPriority(string $serviceId, string $tag): void
     {
         $this->setDefinition(
-            'ibexa.search.legacy.gateway.criteria_converter.location',
+            $serviceId,
             new Definition()
         );
 
-        $serviceId = 'service_id';
         $def = new Definition();
-        $def->addTag('ibexa.search.legacy.gateway.criterion_handler.location');
-        $this->setDefinition($serviceId, $def);
+        $def->addTag($tag, ['priority' => 0]);
+        $this->setDefinition('service_1_id', $def);
+
+        $def = new Definition();
+        $def->addTag($tag, ['priority' => 100]);
+        $this->setDefinition('service_with_priority', $def);
 
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ibexa.search.legacy.gateway.criteria_converter.location',
+            $serviceId,
             'addHandler',
-            [new Reference($serviceId)]
+            [new Reference('service_with_priority')],
+            0,
+        );
+        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+            $serviceId,
+            'addHandler',
+            [new Reference('service_1_id')],
+            1,
         );
     }
 
-    public function testAddTrashHandlers(): void
+    /**
+     * @return iterable<string, string>
+     */
+    public static function provideServiceToTagName(): iterable
     {
-        $this->setDefinition(
-            'ibexa.core.trash.search.legacy.gateway.criteria_converter',
-            new Definition()
-        );
+        yield 'ibexa.search.legacy.gateway.criteria_converter.content' => 'ibexa.search.legacy.gateway.criterion_handler.content';
 
-        $serviceId = 'service_id';
-        $def = new Definition();
-        $def->addTag('ibexa.search.legacy.trash.gateway.criterion.handler');
-        $this->setDefinition($serviceId, $def);
+        yield 'ibexa.search.legacy.gateway.criteria_converter.location' => 'ibexa.search.legacy.gateway.criterion_handler.location';
 
-        $this->compile();
+        yield 'ibexa.core.trash.search.legacy.gateway.criteria_converter' => 'ibexa.search.legacy.trash.gateway.criterion.handler';
 
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ibexa.core.trash.search.legacy.gateway.criteria_converter',
-            'addHandler',
-            [new Reference($serviceId)]
-        );
+        yield CriteriaConverter::class => 'ibexa.storage.legacy.url.criterion.handler';
+    }
+
+    /**
+     * @return iterable<string, array{string, string}>
+     */
+    public static function provideDescribedServiceToTagName(): iterable
+    {
+        foreach (self::provideServiceToTagName() as $serviceId => $tag) {
+            yield sprintf('Service "%s" with tag "%s"', $serviceId, $tag) => [$serviceId, $tag];
+        }
     }
 
     public function testAddMultipleHandlers(): void
