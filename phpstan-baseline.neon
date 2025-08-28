@@ -39901,18 +39901,6 @@ parameters:
 			path: tests/lib/Base/Container/Compiler/Search/FieldTypeRegistryPassTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Base\\Container\\Compiler\\Search\\Legacy\\CriteriaConverterPassTest\:\:testAddContentHandlers\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Base/Container/Compiler/Search/Legacy/CriteriaConverterPassTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Base\\Container\\Compiler\\Search\\Legacy\\CriteriaConverterPassTest\:\:testAddLocationHandlers\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Base/Container/Compiler/Search/Legacy/CriteriaConverterPassTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Base\\Container\\Compiler\\Search\\Legacy\\CriterionFieldValueHandlerRegistryPassTest\:\:testRegisterValueHandler\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
