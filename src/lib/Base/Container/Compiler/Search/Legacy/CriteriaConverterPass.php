@@ -8,6 +8,7 @@ namespace Ibexa\Core\Base\Container\Compiler\Search\Legacy;
 
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\Compiler\PriorityTaggedServiceTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
@@ -15,6 +16,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class CriteriaConverterPass implements CompilerPassInterface
 {
+    use PriorityTaggedServiceTrait;
+
     public function process(ContainerBuilder $container)
     {
         $this->setHandlersForConverter(
@@ -51,10 +54,14 @@ class CriteriaConverterPass implements CompilerPassInterface
             return;
         }
 
-        $handlers = $container->findTaggedServiceIds($handlersTag);
-        $container
-            ->getDefinition($serviceId)
-            ->setArgument('$handlers', $handlers);
+        $service = $container->getDefinition($serviceId);
+        $handlers = $this->findAndSortTaggedServices($handlersTag, $container);
+        foreach ($handlers as $handler) {
+            $service->addMethodCall(
+                'addHandler',
+                [$handler],
+            );
+        }
     }
 }
 
