@@ -54,10 +54,11 @@ class CriteriaConverterPass implements CompilerPassInterface
             return;
         }
 
+        $service = $container->getDefinition($serviceId);
         $handlers = $this->findAndSortTaggedServices($handlersTag, $container);
-        $container
-            ->getDefinition($serviceId)
-            ->setArgument('$handlers', $handlers);
+        foreach ($handlers as $handler) {
+            $service->addMethodCall('addHandler', [$handler]);
+        }
     }
 }
 
