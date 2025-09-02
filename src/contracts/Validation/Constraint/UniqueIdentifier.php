@@ -10,10 +10,6 @@ use JMS\TranslationBundle\Model\Message;
 use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @Annotation
- */
-#[\Attribute(\Attribute::TARGET_CLASS)]
 abstract class UniqueIdentifier extends Constraint implements TranslationContainerInterface
 {
     protected const MESSAGE = 'ibexa.identifier_already_exists';
