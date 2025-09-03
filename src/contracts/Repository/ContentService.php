@@ -122,6 +122,7 @@ interface ContentService
      * Loads content in the version given by version info.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to load this version.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      *
      * @param string[] $languages A language priority, filters returned fields and is used as prioritized language code on
      *                         returned value object. If not given all languages are returned.
