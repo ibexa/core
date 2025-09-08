@@ -78,7 +78,7 @@ jobs:
         needs: tests
         services:
             postgres:
-                image: postgres:14
+                image: postgres:18rc1
                 ports:
                     - 5432
                 env:
