@@ -17,6 +17,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Mapper as ContentTypeMapper;
 use Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler as ContentTypeUpdateHandler;
+use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -94,7 +95,8 @@ class AbstractTestCase extends LanguageAwareTestCase
                 new ContentTypeMapper(
                     $this->getConverterRegistry(),
                     $this->getLanguageMaskGenerator(),
-                    $this->createMock(StorageDispatcherInterface::class)
+                    $this->createMock(StorageDispatcherInterface::class),
+                    $this->createMock(ProxyDomainMapperInterface::class)
                 ),
                 $this->createMock(ContentTypeUpdateHandler::class),
                 $this->createMock(StorageDispatcherInterface::class)

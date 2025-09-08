@@ -3217,6 +3217,24 @@ parameters:
 			path: src/bundle/Core/Features/Context/FieldTypeContext.php
 
 		-
+			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\FieldTypeContext\:\:createAndPublishContent\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/bundle/Core/Features/Context/FieldTypeContext.php
+
+		-
+			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\FieldTypeContext\:\:createAndPublishContent\(\) has parameter \$field with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/bundle/Core/Features/Context/FieldTypeContext.php
+
+		-
+			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\FieldTypeContext\:\:createAndPublishContent\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/bundle/Core/Features/Context/FieldTypeContext.php
+
+		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\FieldTypeContext\:\:createContent\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -3327,6 +3345,18 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\FieldTypeContext\:\:setFieldContentState\(\) has no return type specified\.$#'
 			identifier: missingType.return
+			count: 1
+			path: src/bundle/Core/Features/Context/FieldTypeContext.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(mixed The field value\)\: Unexpected token "The", expected variable at offset 173 on line 6$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/bundle/Core/Features/Context/FieldTypeContext.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(string The field name\)\: Unexpected token "The", expected variable at offset 138 on line 5$#'
+			identifier: phpDoc.parseError
 			count: 1
 			path: src/bundle/Core/Features/Context/FieldTypeContext.php
 
@@ -5191,8 +5221,20 @@ parameters:
 			path: src/bundle/IO/DependencyInjection/Compiler/IOConfigurationPass.php
 
 		-
+			message: '#^Property Ibexa\\Bundle\\IO\\DependencyInjection\\Compiler\\IOConfigurationPass\:\:\$binarydataHandlerFactories \(ArrayObject&iterable\<Ibexa\\Bundle\\IO\\DependencyInjection\\ConfigurationFactory\>\) does not accept ArrayObject\|null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/bundle/IO/DependencyInjection/Compiler/IOConfigurationPass.php
+
+		-
 			message: '#^Property Ibexa\\Bundle\\IO\\DependencyInjection\\Compiler\\IOConfigurationPass\:\:\$binarydataHandlerFactories with generic class ArrayObject does not specify its types\: TKey, TValue$#'
 			identifier: missingType.generics
+			count: 1
+			path: src/bundle/IO/DependencyInjection/Compiler/IOConfigurationPass.php
+
+		-
+			message: '#^Property Ibexa\\Bundle\\IO\\DependencyInjection\\Compiler\\IOConfigurationPass\:\:\$metadataHandlerFactories \(ArrayObject&iterable\<Ibexa\\Bundle\\IO\\DependencyInjection\\ConfigurationFactory\>\) does not accept ArrayObject\|null\.$#'
+			identifier: assign.propertyType
 			count: 1
 			path: src/bundle/IO/DependencyInjection/Compiler/IOConfigurationPass.php
 
@@ -14125,6 +14167,12 @@ parameters:
 			path: src/lib/MVC/Symfony/Locale/UserLanguagePreferenceProvider.php
 
 		-
+			message: '#^PHPDoc tag @param has invalid value \(\\Symfony\\Component\\HttpFoundation\\Request request to retrieve information from, use current if null\)\: Unexpected token "request", expected variable at offset 162 on line 4$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/lib/MVC/Symfony/Locale/UserLanguagePreferenceProviderInterface.php
+
+		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Matcher\\ClassNameMatcherFactory\:\:__construct\(\) has parameter \$matchConfig with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -14883,6 +14931,12 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Security\\HttpUtils\:\:setSiteAccess\(\) has no return type specified\.$#'
 			identifier: missingType.return
+			count: 1
+			path: src/lib/MVC/Symfony/Security/HttpUtils.php
+
+		-
+			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\Security\\HttpUtils\:\:\$siteAccess \(Ibexa\\Core\\MVC\\Symfony\\SiteAccess\) does not accept Ibexa\\Core\\MVC\\Symfony\\SiteAccess\|null\.$#'
+			identifier: assign.propertyType
 			count: 1
 			path: src/lib/MVC/Symfony/Security/HttpUtils.php
 
@@ -20779,54 +20833,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Type/Gateway.php
 
 		-
-			message: '#^Class Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Gateway\\CriterionHandler\\ContainsFieldDefinitionId implements generic interface Ibexa\\Contracts\\Core\\Persistence\\Content\\Type\\CriterionHandlerInterface but does not specify its types\: TCriterion$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Gateway/CriterionHandler/ContainsFieldDefinitionId.php
-
-		-
-			message: '#^Class Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Gateway\\CriterionHandler\\ContentTypeGroupId implements generic interface Ibexa\\Contracts\\Core\\Persistence\\Content\\Type\\CriterionHandlerInterface but does not specify its types\: TCriterion$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Gateway/CriterionHandler/ContentTypeGroupId.php
-
-		-
-			message: '#^Class Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Gateway\\CriterionHandler\\ContentTypeId implements generic interface Ibexa\\Contracts\\Core\\Persistence\\Content\\Type\\CriterionHandlerInterface but does not specify its types\: TCriterion$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Gateway/CriterionHandler/ContentTypeId.php
-
-		-
-			message: '#^Class Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Gateway\\CriterionHandler\\ContentTypeIdentifier implements generic interface Ibexa\\Contracts\\Core\\Persistence\\Content\\Type\\CriterionHandlerInterface but does not specify its types\: TCriterion$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Gateway/CriterionHandler/ContentTypeIdentifier.php
-
-		-
-			message: '#^Class Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Gateway\\CriterionHandler\\IsSystem implements generic interface Ibexa\\Contracts\\Core\\Persistence\\Content\\Type\\CriterionHandlerInterface but does not specify its types\: TCriterion$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Gateway/CriterionHandler/IsSystem.php
-
-		-
-			message: '#^Class Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Gateway\\CriterionHandler\\LogicalAnd implements generic interface Ibexa\\Contracts\\Core\\Persistence\\Content\\Type\\CriterionHandlerInterface but does not specify its types\: TCriterion$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Gateway/CriterionHandler/LogicalAnd.php
-
-		-
-			message: '#^Class Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Gateway\\CriterionHandler\\LogicalNot implements generic interface Ibexa\\Contracts\\Core\\Persistence\\Content\\Type\\CriterionHandlerInterface but does not specify its types\: TCriterion$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Gateway/CriterionHandler/LogicalNot.php
-
-		-
-			message: '#^Class Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Gateway\\CriterionHandler\\LogicalOr implements generic interface Ibexa\\Contracts\\Core\\Persistence\\Content\\Type\\CriterionHandlerInterface but does not specify its types\: TCriterion$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Gateway/CriterionHandler/LogicalOr.php
-
-		-
 			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
 			identifier: method.nonObject
 			count: 10
@@ -20913,7 +20919,7 @@ parameters:
 		-
 			message: '#^Parameter \#4 \$condition of method Doctrine\\DBAL\\Query\\QueryBuilder\:\:leftJoin\(\) expects string\|null, Doctrine\\DBAL\\Query\\Expression\\CompositeExpression given\.$#'
 			identifier: argument.type
-			count: 7
+			count: 5
 			path: src/lib/Persistence/Legacy/Content/Type/Gateway/DoctrineDatabase.php
 
 		-
@@ -21085,12 +21091,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Type/Handler.php
 
 		-
-			message: '#^Parameter \#1 \$rows of method Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Mapper\:\:extractTypesFromRowsWithRelationProxies\(\) expects array\{items\: array\<int, array\<string, mixed\>\>, count\: int\}, array\<int, array\<string, mixed\>\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Handler.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Mapper\:\:extractFieldFromRow\(\) has parameter \$multilingualData with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -21163,12 +21163,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Type/Mapper.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Mapper\:\:extractTypesFromRowsWithRelationProxies\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Mapper.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Mapper\:\:toFieldDefinition\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -21177,18 +21171,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Mapper\:\:toStorageFieldDefinition\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Mapper.php
-
-		-
-			message: '#^Parameter \#1 \$row of method Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Mapper\:\:extractTypeFromRow\(\) expects array, array\<int, array\<string, mixed\>\>\|int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Mapper.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Persistence\\Content\\Type\:\:\$fieldDefinitions \(array\<Ibexa\\Contracts\\Core\\Persistence\\Content\\Type\\FieldDefinition\>\) does not accept array\<Ibexa\\Contracts\\Core\\Persistence\\Content\\Type\\FieldDefinition\|Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\FieldDefinition\>\.$#'
-			identifier: assign.propertyType
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Type/Mapper.php
 
@@ -24283,6 +24265,12 @@ parameters:
 			path: src/lib/Repository/ContentService.php
 
 		-
+			message: '#^PHPDoc tag @param has invalid value \(\\Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Language\|null if not set the draft is created with the initialLanguage code of the source version or if not present with the main language\.\)\: Unexpected token "if", expected variable at offset 565 on line 9$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/lib/Repository/ContentService.php
+
+		-
 			message: '#^PHPDoc tag @var has invalid value \(\$content \\Ibexa\\Core\\Repository\\Values\\Content\\Content\)\: Unexpected token "\$content", expected type at offset 9 on line 1$#'
 			identifier: phpDoc.parseError
 			count: 2
@@ -25069,12 +25057,6 @@ parameters:
 			path: src/lib/Repository/ProxyFactory/ProxyDomainMapper.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Repository\\ProxyFactory\\ProxyDomainMapper\:\:createFieldDefinitionProxy\(\) has parameter \$prioritizedLanguages with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Repository/ProxyFactory/ProxyDomainMapper.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Repository\\ProxyFactory\\ProxyDomainMapper\:\:createLanguageProxyList\(\) has parameter \$languageCodes with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -25106,12 +25088,6 @@ parameters:
 
 		-
 			message: '#^Parameter \#2 \$initializer of method ProxyManager\\Factory\\LazyLoadingValueHolderFactory\:\:createProxy\(\) expects Closure\(Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentType\|null\=, Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentType&ProxyManager\\Proxy\\ValueHolderInterface\<Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentType\>&ProxyManager\\Proxy\\VirtualProxyInterface\=, string\=, array\<string, mixed\>\=, Closure\|null\=\)\: bool, Closure\(mixed, ProxyManager\\Proxy\\LazyLoadingInterface, mixed, array, mixed\)\: true given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/Repository/ProxyFactory/ProxyDomainMapper.php
-
-		-
-			message: '#^Parameter \#2 \$initializer of method ProxyManager\\Factory\\LazyLoadingValueHolderFactory\:\:createProxy\(\) expects Closure\(Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\FieldDefinition\|null\=, Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\FieldDefinition&ProxyManager\\Proxy\\ValueHolderInterface\<Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\FieldDefinition\>&ProxyManager\\Proxy\\VirtualProxyInterface\=, string\=, array\<string, mixed\>\=, Closure\|null\=\)\: bool, Closure\(mixed, ProxyManager\\Proxy\\LazyLoadingInterface, mixed, array, mixed\)\: true given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/lib/Repository/ProxyFactory/ProxyDomainMapper.php
@@ -25190,12 +25166,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Core\\Repository\\ProxyFactory\\ProxyDomainMapperInterface\:\:createContentTypeProxy\(\) has parameter \$prioritizedLanguages with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Repository/ProxyFactory/ProxyDomainMapperInterface.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Repository\\ProxyFactory\\ProxyDomainMapperInterface\:\:createFieldDefinitionProxy\(\) has parameter \$prioritizedLanguages with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Repository/ProxyFactory/ProxyDomainMapperInterface.php
@@ -41425,6 +41395,12 @@ parameters:
 			path: tests/integration/Core/Repository/LanguageServiceAuthorizationTest.php
 
 		-
+			message: '#^Comparison operation "\<" between int\<70400, 80499\> and 50400 is always false\.$#'
+			identifier: smaller.alwaysFalse
+			count: 1
+			path: tests/integration/Core/Repository/LanguageServiceMaximumSupportedLanguagesTest.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\LanguageServiceMaximumSupportedLanguagesTest\:\:testCreateMaximumLanguageLimit\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -47353,6 +47329,12 @@ parameters:
 			path: tests/integration/Core/Repository/URLAliasServiceTest.php
 
 		-
+			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\URLAliasServiceTest\:\:testCreateGlobalUrlAliasForLocationPropertyValues\(\) has parameter \$testData with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/integration/Core/Repository/URLAliasServiceTest.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\URLAliasServiceTest\:\:testCreateGlobalUrlAliasForLocationVariation\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -47361,6 +47343,12 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\URLAliasServiceTest\:\:testCreateGlobalUrlAliasForLocationVariationPropertyValues\(\) has no return type specified\.$#'
 			identifier: missingType.return
+			count: 1
+			path: tests/integration/Core/Repository/URLAliasServiceTest.php
+
+		-
+			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\URLAliasServiceTest\:\:testCreateGlobalUrlAliasForLocationVariationPropertyValues\(\) has parameter \$testData with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: tests/integration/Core/Repository/URLAliasServiceTest.php
 
@@ -47620,6 +47608,12 @@ parameters:
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\URLAliasServiceTest\:\:updateContentField\(\) has parameter \$fieldValues with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
+			path: tests/integration/Core/Repository/URLAliasServiceTest.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(\\Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\URLAlias\)\: Unexpected token "\\n     \*", expected variable at offset 74 on line 2$#'
+			identifier: phpDoc.parseError
+			count: 5
 			path: tests/integration/Core/Repository/URLAliasServiceTest.php
 
 		-
@@ -65287,12 +65281,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/Type/MapperTest.php
 
 		-
-			message: '#^Class Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Mapper constructor invoked with 3 parameters, 4 required\.$#'
-			identifier: arguments.count
-			count: 7
-			path: tests/lib/Persistence/Legacy/Content/Type/MapperTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Type\\MapperTest\:\:getLoadGroupFixture\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -70001,6 +69989,18 @@ parameters:
 			identifier: property.nonObject
 			count: 2
 			path: tests/lib/Repository/Mapper/ContentLocationMapper/DecoratedLocationServiceTest.php
+
+		-
+			message: '#^Method Ibexa\\Tests\\Core\\Repository\\PHPUnitConstraint\\AllValidationErrorsOccur\:\:extractTranslatable\(\) has parameter \$fieldErrors with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/lib/Repository/PHPUnitConstraint/AllValidationErrorsOccur.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(array\<int, \<string, array\<\\Ibexa\\Contracts\\Core\\FieldType\\ValidationError\>\>\> \$fieldErrors\)\: Unexpected token "\<", expected type at offset 29 on line 2$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: tests/lib/Repository/PHPUnitConstraint/AllValidationErrorsOccur.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\PHPUnitConstraint\\ContentItemEquals\:\:compareArrays\(\) has parameter \$actual with no value type specified in iterable type array\.$#'
@@ -75113,12 +75113,6 @@ parameters:
 			identifier: isset.property
 			count: 1
 			path: tests/lib/Search/FieldNameResolverTest.php
-
-		-
-			message: '#^Class Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Mapper constructor invoked with 3 parameters, 4 required\.$#'
-			identifier: arguments.count
-			count: 1
-			path: tests/lib/Search/Legacy/Content/AbstractTestCase.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\AbstractTestCase\:\:assertSearchResults\(\) has no return type specified\.$#'

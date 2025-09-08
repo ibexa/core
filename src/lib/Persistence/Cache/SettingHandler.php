@@ -34,9 +34,6 @@ final class SettingHandler extends AbstractInMemoryPersistenceHandler implements
         return $setting;
     }
 
-    /**
-     * @throws \Psr\Cache\CacheException
-     */
     public function load(string $group, string $identifier): Setting
     {
         $cacheItem = $this->cache->getItem($this->getSettingTag($group, $identifier));
@@ -56,9 +53,6 @@ final class SettingHandler extends AbstractInMemoryPersistenceHandler implements
         return $setting;
     }
 
-    /**
-     * @throws \Psr\Cache\InvalidArgumentException
-     */
     public function delete(string $group, string $identifier): void
     {
         $this->logger->logCall(__METHOD__, ['group' => $group, 'identifier' => $identifier]);

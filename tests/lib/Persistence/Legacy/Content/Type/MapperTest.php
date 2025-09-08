@@ -20,6 +20,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface;
+use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
 /**
@@ -34,7 +35,8 @@ class MapperTest extends TestCase
         $mapper = new Mapper(
             $this->getConverterRegistryMock(),
             $this->getMaskGeneratorMock(),
-            $this->getStorageDispatcherMock()
+            $this->getStorageDispatcherMock(),
+            $this->createMock(ProxyDomainMapperInterface::class)
         );
 
         $group = $mapper->createGroupFromCreateStruct($createStruct);
@@ -89,7 +91,8 @@ class MapperTest extends TestCase
         $mapper = new Mapper(
             $this->getConverterRegistryMock(),
             $this->getMaskGeneratorMock(),
-            $this->getStorageDispatcherMock()
+            $this->getStorageDispatcherMock(),
+            $this->createMock(ProxyDomainMapperInterface::class)
         );
         $type = $mapper->createTypeFromCreateStruct($struct);
 
@@ -109,7 +112,8 @@ class MapperTest extends TestCase
         $mapper = new Mapper(
             $this->getConverterRegistryMock(),
             $this->getMaskGeneratorMock(),
-            $this->getStorageDispatcherMock()
+            $this->getStorageDispatcherMock(),
+            $this->createMock(ProxyDomainMapperInterface::class)
         );
         $type = $mapper->createTypeFromUpdateStruct($struct);
 
@@ -198,7 +202,8 @@ class MapperTest extends TestCase
         $mapper = new Mapper(
             $this->getConverterRegistryMock(),
             $this->getMaskGeneratorMock(),
-            $this->getStorageDispatcherMock()
+            $this->getStorageDispatcherMock(),
+            $this->createMock(ProxyDomainMapperInterface::class)
         );
         $struct = $mapper->createCreateStructFromType($type);
 
@@ -265,7 +270,8 @@ class MapperTest extends TestCase
         $mapper = new Mapper(
             $this->getConverterRegistryMock(),
             $this->getMaskGeneratorMock(),
-            $this->getStorageDispatcherMock()
+            $this->getStorageDispatcherMock(),
+            $this->createMock(ProxyDomainMapperInterface::class)
         );
         $groups = $mapper->extractGroupsFromRows($rows);
 
@@ -393,7 +399,8 @@ class MapperTest extends TestCase
         $mapper = new Mapper(
             $converterRegistry,
             $this->getMaskGeneratorMock(),
-            $this->getStorageDispatcherMock()
+            $this->getStorageDispatcherMock(),
+            $this->createMock(ProxyDomainMapperInterface::class)
         );
 
         $fieldDef = new FieldDefinition();
@@ -429,7 +436,8 @@ class MapperTest extends TestCase
         $mapper = new Mapper(
             $converterRegistry,
             $this->getMaskGeneratorMock(),
-            $storageDispatcher
+            $storageDispatcher,
+            $this->createMock(ProxyDomainMapperInterface::class)
         );
 
         $mapper->toFieldDefinition($storageFieldDef, $fieldDef);
@@ -448,6 +456,7 @@ class MapperTest extends TestCase
                 $this->getConverterRegistryMock(),
                 $this->getMaskGeneratorMock(),
                 $this->getStorageDispatcherMock(),
+                $this->createMock(ProxyDomainMapperInterface::class),
             ])
             ->getMock();
 
