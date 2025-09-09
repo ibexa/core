@@ -1496,7 +1496,7 @@ final class DoctrineDatabase extends Gateway
 
         $joinedQueryBuilder = $this->getLoadTypeQueryBuilder();
         $joinedQueryBuilder
-            ->andWhere($joinedQueryBuilder->expr()->in('ezcontentclass_id', ':contentTypeIds'))
+            ->andWhere($joinedQueryBuilder->expr()->in('c.id', ':contentTypeIds'))
             ->setParameter('contentTypeIds', $contentTypeIds, Connection::PARAM_INT_ARRAY);
 
         foreach ($query->getSortClauses() as $sortClause) {
