@@ -32,7 +32,10 @@ final class FindContentTypesTest extends RepositoryTestCase
 
         $contentTypes = $contentTypeService->findContentTypes();
 
+        $allContentTypes = $contentTypeService->findContentTypes(new ContentTypeQuery(null, [], 0, null));
+
         self::assertCount(25, $contentTypes);
+        self::assertSame(count($allContentTypes->getContentTypes()), $contentTypes->getTotalCount());
     }
 
     /**
@@ -44,18 +47,7 @@ final class FindContentTypesTest extends RepositoryTestCase
     {
         $contentTypeService = self::getContentTypeService();
 
-        $expectedCount = $contentTypeService->findContentTypes(
-            new ContentTypeQuery(
-                null,
-                [],
-                0,
-                null,
-            )
-        );
-        $expectedCount = count($expectedCount->getContentTypes());
-
         $contentTypes = $contentTypeService->findContentTypes($query);
-
         $identifiers = array_map(
             static fn (ContentType $contentType): string => $contentType->getIdentifier(),
             $contentTypes->getContentTypes(),
@@ -63,7 +55,6 @@ final class FindContentTypesTest extends RepositoryTestCase
 
         self::assertCount(count($expectedIdentifiers), $identifiers);
         self::assertEqualsCanonicalizing($expectedIdentifiers, $identifiers);
-        self::assertSame($expectedCount, $contentTypes->getTotalCount());
     }
 
     public function testFindContentTypesAscSortedByIdentifier(): void
@@ -81,7 +72,7 @@ final class FindContentTypesTest extends RepositoryTestCase
             $contentTypes->getContentTypes()
         );
 
-        self::assertCount(4, $identifiers);
+        self::assertSame(4, $contentTypes->getTotalCount());
         self::assertSame(['article', 'file', 'folder', 'user'], $identifiers);
     }
 
@@ -131,7 +122,7 @@ final class FindContentTypesTest extends RepositoryTestCase
             )
         );
 
-        self::assertCount(1, $contentTypes);
+        self::assertSame(1, $contentTypes->getTotalCount());
         self::assertSame('folder', $contentTypes->getContentTypes()[0]->getIdentifier());
     }
 

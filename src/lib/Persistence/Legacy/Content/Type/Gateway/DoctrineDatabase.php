@@ -207,14 +207,38 @@ final class DoctrineDatabase extends Gateway
         $query->execute();
     }
 
-    public function countTypes(): int
+    public function countTypes(?ContentTypeQuery $query = null): int
     {
-        $query = $this->connection->createQueryBuilder();
-        $query
-            ->select($this->dbPlatform->getCountExpression('id'))
-            ->from(self::CONTENT_TYPE_TABLE);
+        $query = $query ?: new ContentTypeQuery();
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $expr = $queryBuilder->expr();
+        $queryBuilder
+            ->select('COUNT(DISTINCT c.id)')
+            ->from(self::CONTENT_TYPE_TABLE, 'c')
+            ->leftJoin(
+                'c',
+                self::FIELD_DEFINITION_TABLE,
+                'a',
+                (string)$expr->and(
+                    $expr->eq('c.id', 'a.contentclass_id'),
+                    $expr->eq('c.version', 'a.version')
+                )
+            )
+            ->leftJoin(
+                'c',
+                self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE,
+                'g',
+                (string)$expr->and(
+                    $expr->eq('c.id', 'g.contentclass_id'),
+                    $expr->eq('c.version', 'g.contentclass_version')
+                )
+            );
 
-        return (int)$query->execute()->fetchOne();
+        if ($query->getCriterion() !== null) {
+            $queryBuilder->andWhere($this->criterionVisitor->visitCriteria($queryBuilder, $query->getCriterion()));
+        }
+
+        return (int)$queryBuilder->execute()->fetchOne();
     }
 
     public function countTypesInGroup(int $groupId): int
@@ -1429,7 +1453,7 @@ final class DoctrineDatabase extends Gateway
 
     public function findContentTypes(?ContentTypeQuery $query = null): array
     {
-        $totalCount = $this->countTypes();
+        $totalCount = $this->countTypes($query);
         if ($totalCount === 0) {
             return [
                 'count' => $totalCount,

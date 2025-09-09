@@ -37,7 +37,7 @@ abstract class Gateway
 
     abstract public function updateGroup(GroupUpdateStruct $group): void;
 
-    abstract public function countTypes(): int;
+    abstract public function countTypes(?ContentTypeQuery $query = null): int;
 
     abstract public function countTypesInGroup(int $groupId): int;
 

@@ -59,10 +59,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function countTypes(): int
+    public function countTypes(?ContentTypeQuery $query = null): int
     {
         try {
-            return $this->innerGateway->countTypes();
+            return $this->innerGateway->countTypes($query);
         } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
