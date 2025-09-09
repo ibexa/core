@@ -1437,35 +1437,78 @@ final class DoctrineDatabase extends Gateway
             ];
         }
 
-        $queryBuilder = $this->getLoadTypeQueryBuilder();
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $expr = $queryBuilder->expr();
+        $queryBuilder
+            ->select(
+                [
+                    'c.id AS ezcontentclass_id',
+                    'c.version AS ezcontentclass_version',
+                    'c.serialized_name_list AS ezcontentclass_serialized_name_list',
+                    'c.serialized_description_list AS ezcontentclass_serialized_description_list',
+                    'c.identifier AS ezcontentclass_identifier',
+                    'c.created AS ezcontentclass_created',
+                    'c.modified AS ezcontentclass_modified',
+                    'c.modifier_id AS ezcontentclass_modifier_id',
+                    'c.creator_id AS ezcontentclass_creator_id',
+                    'c.remote_id AS ezcontentclass_remote_id',
+                    'c.url_alias_name AS ezcontentclass_url_alias_name',
+                    'c.contentobject_name AS ezcontentclass_contentobject_name',
+                    'c.is_container AS ezcontentclass_is_container',
+                    'c.initial_language_id AS ezcontentclass_initial_language_id',
+                    'c.always_available AS ezcontentclass_always_available',
+                    'c.sort_field AS ezcontentclass_sort_field',
+                    'c.sort_order AS ezcontentclass_sort_order',
+                    'c.language_mask AS ezcontentclass_language_mask',
+                ],
+            )
+            ->distinct()
+            ->from(self::CONTENT_TYPE_TABLE, 'c')
+            ->leftJoin(
+                'c',
+                self::FIELD_DEFINITION_TABLE,
+                'a',
+                (string)$expr->and(
+                    $expr->eq('c.id', 'a.contentclass_id'),
+                    $expr->eq('c.version', 'a.version')
+                )
+            )
+            ->leftJoin(
+                'c',
+                self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE,
+                'g',
+                (string)$expr->and(
+                    $expr->eq('c.id', 'g.contentclass_id'),
+                    $expr->eq('c.version', 'g.contentclass_version')
+                )
+            );
 
-        if ($query === null) {
-            $queryBuilder->setMaxResults(ContentTypeQuery::DEFAULT_LIMIT);
-
-            return [
-                'count' => $totalCount,
-                'items' => $queryBuilder->execute()->fetchAllAssociative(),
-            ];
-        }
-
-        if (!empty($query->getCriterion())) {
+        $query = $query ?: new ContentTypeQuery();
+        if ($query->getCriterion() !== null) {
             $queryBuilder->andWhere($this->criterionVisitor->visitCriteria($queryBuilder, $query->getCriterion()));
         }
 
-        if ($query->getOffset() > 0) {
-            $queryBuilder->setFirstResult($query->getOffset());
-        }
+        $queryBuilder->setFirstResult($query->getOffset());
+        $queryBuilder->setMaxResults($query->getLimit());
 
-        $queryBuilder->setMaxResults($query->getLimit() > 0 ? $query->getLimit() : null);
+        $distinctContentTypeRows = $queryBuilder->execute()->fetchAllAssociative();
+        $contentTypeIds = array_column($distinctContentTypeRows, 'ezcontentclass_id');
+
+        $joinedQueryBuilder = $this->getLoadTypeQueryBuilder();
+        $joinedQueryBuilder
+            ->andWhere($joinedQueryBuilder->expr()->in('ezcontentclass_id', ':contentTypeIds'))
+            ->setParameter('contentTypeIds', $contentTypeIds, Connection::PARAM_INT_ARRAY);
 
         foreach ($query->getSortClauses() as $sortClause) {
             $column = sprintf('c.%s', $sortClause->target);
-            $queryBuilder->addOrderBy($column, $this->getQuerySortingDirection($sortClause->direction));
+            $joinedQueryBuilder->addOrderBy($column, $this->getQuerySortingDirection($sortClause->direction));
         }
+
+        $results = $joinedQueryBuilder->execute()->fetchAllAssociative();
 
         return [
             'count' => $totalCount,
-            'items' => $queryBuilder->execute()->fetchAllAssociative(),
+            'items' => $results,
         ];
     }
 

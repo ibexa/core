@@ -11,12 +11,12 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeGroupId as ContentTypeGroupIdCriterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
-use Ibexa\Core\Repository\Values\ContentType\Query\Base;
 
-final class ContentTypeGroupId extends Base
+final class ContentTypeGroupId implements CriterionHandlerInterface
 {
     public function supports(CriterionInterface $criterion): bool
     {
@@ -31,19 +31,22 @@ final class ContentTypeGroupId extends Base
         QueryBuilder $qb,
         CriterionInterface $criterion
     ): string {
-        $this->joinContentTypeGroupAssignmentTable($qb);
-
-        $value = $criterion->getValue();
-        if (is_array($value)) {
-            return $qb->expr()->in(
-                'g.group_id',
+        $subQuery = $qb->getConnection()->createQueryBuilder();
+        $whereClause = is_array($criterion->getValue())
+            ? $subQuery->expr()->in(
+                'c_group.group_id',
                 $qb->createNamedParameter($criterion->getValue(), Connection::PARAM_INT_ARRAY)
+            ) : $subQuery->expr()->eq(
+                'c_group.group_id',
+                $qb->createNamedParameter($criterion->getValue(), ParameterType::INTEGER)
             );
-        }
 
-        return $qb->expr()->eq(
-            'g.group_id',
-            $qb->createNamedParameter($criterion->getValue(), ParameterType::INTEGER)
-        );
+        $subQuery
+            ->select('c_group.contentclass_id')
+            ->from('ezcontentclass_classgroup', 'c_group')
+            ->andWhere($whereClause)
+            ->andWhere('c_group.contentclass_id = c.id');
+
+        return sprintf('EXISTS (%s)', $subQuery->getSQL());
     }
 }

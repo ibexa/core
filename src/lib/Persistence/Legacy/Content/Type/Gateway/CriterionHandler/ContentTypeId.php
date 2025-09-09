@@ -11,12 +11,12 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeId as ContentTypeIdCriterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
-use Ibexa\Core\Repository\Values\ContentType\Query\Base;
 
-final class ContentTypeId extends Base
+final class ContentTypeId implements CriterionHandlerInterface
 {
     public function supports(CriterionInterface $criterion): bool
     {

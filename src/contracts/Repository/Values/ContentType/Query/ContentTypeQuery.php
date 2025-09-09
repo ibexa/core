@@ -19,7 +19,7 @@ final class ContentTypeQuery
 
     private int $offset;
 
-    private int $limit;
+    private ?int $limit;
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause[] $sortClauses
@@ -28,7 +28,7 @@ final class ContentTypeQuery
         ?CriterionInterface $criterion = null,
         array $sortClauses = [],
         int $offset = 0,
-        int $limit = self::DEFAULT_LIMIT
+        ?int $limit = self::DEFAULT_LIMIT
     ) {
         $this->criterion = $criterion;
         $this->sortClauses = $sortClauses;
@@ -69,12 +69,12 @@ final class ContentTypeQuery
         $this->offset = $offset;
     }
 
-    public function getLimit(): int
+    public function getLimit(): ?int
     {
         return $this->limit;
     }
 
-    public function setLimit(int $limit): void
+    public function setLimit(?int $limit): void
     {
         $this->limit = $limit;
     }
