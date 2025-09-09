@@ -76,20 +76,6 @@ jobs:
     integration-tests-postgres:
         name: PostgreSQL integration tests
         needs: tests
-        services:
-            postgres:
-                image: postgres:18rc1
-                ports:
-                    - 5432
-                env:
-                    POSTGRES_PASSWORD: postgres
-                    POSTGRES_DB: testdb
-                options: >-
-                    --health-cmd pg_isready
-                    --health-interval 10s
-                    --health-timeout 5s
-                    --health-retries 5
-                    --tmpfs /var/lib/postgres
         runs-on: "ubuntu-24.04"
         timeout-minutes: 60
 
@@ -102,7 +88,25 @@ jobs:
                     - '8.1'
 
         steps:
-            -   uses: actions/checkout@v2
+            -   uses: actions/checkout@v4
+
+            -   name: Set up Docker Buildx
+                uses: docker/setup-buildx-action@v3
+
+            -   name: Build and start Postgres (io_method=sync) with Docker Compose
+                run: |
+                  docker compose -f docker-compose.yml up -d --build postgres
+
+            -   name: Wait for Postgres to be healthy
+                run: |
+                  for i in {1..10}; do
+                    if docker exec postgres18rc1-sync pg_isready -U postgres; then
+                      exit 0
+                    fi
+                    echo "Waiting for Postgres..."
+                    sleep 5
+                  done
+                  exit 1
 
             -   name: Setup PHP Action
                 uses: shivammathur/setup-php@v2
