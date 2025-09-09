@@ -16,6 +16,9 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTy
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
+/**
+ * @implements \Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeIdentifier>
+ */
 final class ContentTypeIdentifier implements CriterionHandlerInterface
 {
     public function supports(CriterionInterface $criterion): bool

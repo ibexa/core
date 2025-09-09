@@ -15,6 +15,9 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\IsSystem 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
+/**
+ * @implements \Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\IsSystem>
+ */
 final class IsSystem implements CriterionHandlerInterface
 {
     public function supports(CriterionInterface $criterion): bool
