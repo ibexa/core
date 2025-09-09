@@ -18,12 +18,12 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\Criterio
 interface CriterionHandlerInterface
 {
     /**
-     * @param TCriterion $criterion
+     * @phpstan-param TCriterion $criterion
      */
     public function supports(CriterionInterface $criterion): bool;
 
     /**
-     * @param TCriterion $criterion
+     * @phpstan-param TCriterion $criterion
      *
      * @return string|\Doctrine\DBAL\Query\Expression\CompositeExpression
      */

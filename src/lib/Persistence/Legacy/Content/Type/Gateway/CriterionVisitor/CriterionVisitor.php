@@ -11,21 +11,20 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
-use function Ibexa\PolyfillPhp82\iterator_to_array;
 
 final class CriterionVisitor
 {
     /**
-     * @var array<int, \Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>>
+     * @var iterable<\Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>>
      */
-    private array $criterionHandlers;
+    private iterable $criterionHandlers;
 
     /**
      * @param iterable<\Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>> $criterionHandlers
      */
     public function __construct(iterable $criterionHandlers)
     {
-        $this->criterionHandlers = iterator_to_array($criterionHandlers);
+        $this->criterionHandlers = $criterionHandlers;
     }
 
     /**
