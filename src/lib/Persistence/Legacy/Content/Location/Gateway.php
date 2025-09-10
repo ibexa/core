@@ -209,9 +209,9 @@ abstract class Gateway
     abstract public function swap(int $locationId1, int $locationId2): bool;
 
     /**
-     * Creates a new location in given $parentNode.
+     * Creates a new location in the given `$parentNode`.
      *
-     * @param array $parentNode parent node raw data
+     * @param array<string, mixed> $parentNode parent node raw data
      */
     abstract public function create(CreateStruct $createStruct, array $parentNode): Location;
 
