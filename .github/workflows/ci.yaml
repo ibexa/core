@@ -108,6 +108,12 @@ jobs:
                   done
                   exit 1
 
+            - name: Force disable skip scan in Postgres
+              run: docker exec postgres18rc1-sync psql -U postgres -d testdb -c "ALTER SYSTEM SET enable_skipscan = off;"
+
+            - name: Restart Postgres
+              run: docker restart postgres18rc1-sync
+
             -   name: Setup PHP Action
                 uses: shivammathur/setup-php@v2
                 with:
