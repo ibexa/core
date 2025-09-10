@@ -14,20 +14,18 @@ use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
  * Registry of IO handlers, given an alias.
  *
  * @template THandlerType of object
- *
- * @phpstan-type TIOHandlersMap array<string, THandlerType>
  */
 class HandlerRegistry
 {
     /**
      * Map of a handler id to a handler service instance.
      *
-     * @phpstan-var TIOHandlersMap
+     * @phpstan-var array<string, THandlerType>
      */
     private array $handlersMap = [];
 
     /**
-     * @phpstan-param TIOHandlersMap $handlersMap
+     * @phpstan-param array<string, THandlerType> $handlersMap
      */
     public function setHandlersMap(array $handlersMap): void
     {
