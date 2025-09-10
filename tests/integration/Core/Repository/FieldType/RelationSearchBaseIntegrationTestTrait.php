@@ -8,6 +8,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\Content\Relation as APIRelation;
 use Ibexa\Core\Repository\Values\Content\Relation;
 
 /**
@@ -72,25 +73,26 @@ trait RelationSearchBaseIntegrationTestTrait
     /**
      * Normalizes given $relations for easier comparison.
      *
-     * @param \Ibexa\Core\Repository\Values\Content\Relation[] $relations
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Relation[] $relations
      *
-     * @return \Ibexa\Core\Repository\Values\Content\Relation[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
      */
-    protected function normalizeRelations(array $relations)
+    protected function normalizeRelations(array $relations): array
     {
         usort(
             $relations,
-            static function (Relation $a, Relation $b) {
-                if ($a->type == $b->type) {
+            static function (APIRelation $a, APIRelation $b): int {
+                if ($a->type === $b->type) {
                     return $a->destinationContentInfo->id < $b->destinationContentInfo->id ? 1 : -1;
                 }
 
                 return $a->type < $b->type ? 1 : -1;
             }
         );
-        $normalized = array_map(
-            static function (Relation $relation) {
-                $newRelation = new Relation(
+
+        return array_map(
+            static function (APIRelation $relation): APIRelation {
+                return new Relation(
                     [
                         'id' => null,
                         'sourceFieldDefinitionIdentifier' => $relation->sourceFieldDefinitionIdentifier,
@@ -99,13 +101,9 @@ trait RelationSearchBaseIntegrationTestTrait
                         'destinationContentInfo' => $relation->destinationContentInfo,
                     ]
                 );
-
-                return $newRelation;
             },
             $relations
         );
-
-        return $normalized;
     }
 
     public function testCopyContentCopiesFieldRelations()
