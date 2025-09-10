@@ -778,7 +778,7 @@ final class DoctrineDatabase extends Gateway
     {
         $location = $this->insertLocationIntoContentTree($createStruct, $parentNode);
 
-        $mainLocationId = $createStruct->mainLocationId === true ? $location->id : $createStruct->mainLocationId;
+        $mainLocationId = $createStruct->mainLocationId === true ? $location->id : (int)$createStruct->mainLocationId;
         $location->pathString = $parentNode['path_string'] . $location->id . '/';
         $query = $this->connection->createQueryBuilder();
         $query
