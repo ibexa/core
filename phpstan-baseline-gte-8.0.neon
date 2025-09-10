@@ -1,431 +1,451 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Parameter \\#1 \\$array of function array_keys expects array, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
+			message: '#^Parameter \#1 \$array of function array_keys expects array, array\|bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/bundle/Core/ApiLoader/StorageConnectionFactory.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_filter expects array, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
-			count: 1
-			path: src/bundle/Core/Command/CleanupVersionsCommand.php
-
-		-
-			message: "#^Parameter \\#1 \\$array of function array_slice expects array, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
-			count: 1
-			path: src/bundle/Core/Command/CleanupVersionsCommand.php
-
-		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
-			count: 1
-			path: src/bundle/Core/Command/CleanupVersionsCommand.php
-
-		-
-			message: "#^Parameter \\#2 \\$data of function fwrite expects string, string\\|false given\\.$#"
+			message: '#^Parameter \#2 \$data of function fwrite expects string, string\|false given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/bundle/Core/Command/ResizeOriginalImagesCommand.php
 
 		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$arrays of function array_merge expects array, Ibexa\\\\Contracts\\\\Core\\\\SiteAccess\\\\ConfigResolverInterface given\\.$#"
+			message: '#^Parameter \#2 \.\.\.\$arrays of function array_merge expects array, Ibexa\\Contracts\\Core\\SiteAccess\\ConfigResolverInterface given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/ChainConfigResolver.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of function strtolower expects string, string\\|null given\\.$#"
+			message: '#^Parameter \#1 \$string of function strtolower expects string, string\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/ConfigResolver.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_shift expects array, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
+			message: '#^Parameter \#1 \$array of function array_shift expects array, array\|bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Languages.php
 
 		-
-			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
+			message: '#^Parameter \#1 \.\.\.\$arrays of function array_merge expects array, array\|bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/SiteAccessAware/Contextualizer.php
 
 		-
-			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
+			message: '#^Parameter \#1 \.\.\.\$arrays of function array_merge expects array, array\|bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/bundle/Core/DependencyInjection/IbexaCoreExtension.php
 
 		-
-			message: "#^Parameter \\#3 \\$length of function substr expects int\\|null, int\\<0, max\\>\\|false given\\.$#"
+			message: '#^Parameter \#3 \$length of function substr expects int\|null, int\<0, max\>\|false given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/bundle/Core/Features/Context/ContentPreviewContext.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\User\\> given\\.$#"
+			message: '#^Parameter \#1 \$value of function count expects array\|Countable, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\User\\User\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/bundle/Core/Features/Context/UserContext.php
 
 		-
-			message: "#^Parameter \\#2 \\$data of function fwrite expects string, string\\|false given\\.$#"
+			message: '#^Parameter \#2 \$data of function fwrite expects string, string\|false given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/bundle/Core/Imagine/IORepositoryResolver.php
 
 		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\URLChecker\\\\Handler\\\\HTTPHandler\\:\\:createCurlHandlerForUrl\\(\\) should return resource but returns \\(CurlHandle\\|false\\)\\.$#"
+			message: '#^Method Ibexa\\Bundle\\Core\\URLChecker\\Handler\\HTTPHandler\:\:createCurlHandlerForUrl\(\) should return resource but returns \(CurlHandle\|false\)\.$#'
+			identifier: return.type
 			count: 1
 			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
 
 		-
-			message: "#^Parameter \\#1 \\$handle of function curl_getinfo expects CurlHandle, resource given\\.$#"
+			message: '#^Parameter \#1 \$handle of function curl_getinfo expects CurlHandle, resource given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
 
 		-
-			message: "#^Parameter \\#2 \\$handle of function curl_multi_add_handle expects CurlHandle, resource given\\.$#"
+			message: '#^Parameter \#2 \$handle of function curl_multi_add_handle expects CurlHandle, resource given\.$#'
+			identifier: argument.type
 			count: 2
 			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
 
 		-
-			message: "#^Parameter \\#1 \\$stream of function fclose expects resource, resource\\|false given\\.$#"
+			message: '#^Parameter \#1 \$stream of function fclose expects resource, resource\|false given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/bundle/IO/BinaryStreamResponse.php
 
 		-
-			message: "#^Parameter \\#2 \\$to of function stream_copy_to_stream expects resource, resource\\|false given\\.$#"
+			message: '#^Parameter \#2 \$to of function stream_copy_to_stream expects resource, resource\|false given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/bundle/IO/BinaryStreamResponse.php
 
 		-
-			message: "#^Parameter \\#3 \\$limit of class LimitIterator constructor expects int, int\\|null given\\.$#"
+			message: '#^Parameter \#3 \$limit of class LimitIterator constructor expects int, int\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/bundle/IO/Migration/FileLister/BinaryFileLister.php
 
 		-
-			message: "#^Parameter \\#3 \\$length of function substr expects int\\|null, int\\<0, max\\>\\|false given\\.$#"
+			message: '#^Parameter \#3 \$length of function substr expects int\|null, int\<0, max\>\|false given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/bundle/IO/Migration/FileLister/FileRowReader/LegacyStorageFileRowReader.php
 
 		-
-			message: "#^Parameter \\#3 \\$limit of class LimitIterator constructor expects int, int\\|null given\\.$#"
+			message: '#^Parameter \#3 \$limit of class LimitIterator constructor expects int, int\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/bundle/IO/Migration/FileLister/ImageFileLister.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_keys expects array, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
+			message: '#^Parameter \#1 \$array of function array_keys expects array, array\|bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/bundle/LegacySearchEngine/ApiLoader/ConnectionFactory.php
 
 		-
-			message: "#^Parameter \\#1 \\$object_or_class of function is_a expects object\\|string, string\\|null given\\.$#"
+			message: '#^Parameter \#1 \$object_or_class of function is_a expects object\|string, string\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/lib/Base/Container/Compiler/FieldTypeRegistryPass.php
 
 		-
-			message: "#^Parameter \\#1 \\$object_or_class of function is_subclass_of expects object\\|string, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
+			message: '#^Parameter \#1 \$object_or_class of function is_subclass_of expects object\|string, array\|bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/lib/Base/Container/Compiler/Storage/ExternalStorageRegistryPass.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
+			message: '#^Parameter \#1 \$value of function count expects array\|Countable, array\|bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/lib/FieldType/Author/SearchField.php
 
 		-
-			message: "#^Parameter \\#3 \\$length of function substr expects int\\|null, int\\<0, max\\>\\|false given\\.$#"
+			message: '#^Parameter \#3 \$length of function substr expects int\|null, int\<0, max\>\|false given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/lib/FieldType/BinaryBase/BinaryBaseStorage/Gateway/DoctrineStorage.php
 
 		-
-			message: "#^Parameter \\#3 \\$length of function substr expects int\\|null, int\\<0, max\\>\\|false given\\.$#"
+			message: '#^Parameter \#3 \$length of function substr expects int\|null, int\<0, max\>\|false given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/lib/FieldType/BinaryBase/PathGenerator/LegacyPathGenerator.php
 
 		-
-			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, array\\|bool\\|float\\|int\\|string given\\.$#"
+			message: '#^Parameter \#1 \.\.\.\$arrays of function array_merge expects array, array\|bool\|float\|int\|string given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/lib/FieldType/Image/ImageStorage.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_flip expects array\\<int\\|string\\>, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
+			message: '#^Parameter \#1 \$array of function array_flip expects array\<int\|string\>, array\|bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/lib/FieldType/Selection/SearchField.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of function mb_substr expects string, string\\|false given\\.$#"
+			message: '#^Parameter \#1 \$string of function mb_substr expects string, string\|false given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/lib/FieldType/TextBlock/SearchField.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of function mb_substr expects string, string\\|false given\\.$#"
+			message: '#^Parameter \#1 \$string of function mb_substr expects string, string\|false given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/lib/FieldType/TextBlock/Type.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_keys expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Language\\> given\\.$#"
+			message: '#^Parameter \#1 \$array of function array_keys expects array, iterable\<Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/lib/Limitation/LanguageLimitationType.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_keys expects array, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentInfo\\> given\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/FieldType/RelationList/ParameterProvider.php
-
-		-
-			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLAlias\\> given\\.$#"
+			message: '#^Parameter \#1 \.\.\.\$arrays of function array_merge expects array, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\URLAlias\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/lib/MVC/Symfony/Matcher/ContentBased/UrlAlias.php
 
 		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$arrays of function array_merge expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLAlias\\> given\\.$#"
+			message: '#^Parameter \#2 \.\.\.\$arrays of function array_merge expects array, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\URLAlias\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/lib/MVC/Symfony/Matcher/ContentBased/UrlAlias.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function implode expects array\\|null, array\\|bool\\|float\\|int\\|string given\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/CountryConverter.php
-
-		-
-			message: "#^Parameter \\#2 \\$array of function implode expects array\\|null, array\\|float\\|int\\<min, \\-1\\>\\|int\\<1, max\\>\\|string\\|true given\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/CountryConverter.php
-
-		-
-			message: "#^Parameter \\#1 \\$array of function array_keys expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Language\\> given\\.$#"
+			message: '#^Parameter \#1 \$array of function array_keys expects array, iterable\<Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\> given\.$#'
+			identifier: argument.type
 			count: 2
 			path: src/lib/Persistence/Legacy/Content/Language/MaskGenerator.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of function strlen expects string, string\\|null given\\.$#"
+			message: '#^Parameter \#1 \$string of function strlen expects string, string\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/lib/Persistence/TransformationProcessor/DefinitionBased/Parser.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of function substr expects string, string\\|null given\\.$#"
+			message: '#^Parameter \#1 \$string of function substr expects string, string\|null given\.$#'
+			identifier: argument.type
 			count: 2
 			path: src/lib/Persistence/TransformationProcessor/DefinitionBased/Parser.php
 
 		-
-			message: "#^Parameter \\#2 \\$subject of function preg_match expects string, string\\|null given\\.$#"
+			message: '#^Parameter \#2 \$subject of function preg_match expects string, string\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/lib/Persistence/TransformationProcessor/DefinitionBased/Parser.php
 
 		-
-			message: "#^Parameter \\#1 \\$codepoint of function chr expects int, float\\|int given\\.$#"
+			message: '#^Parameter \#1 \$codepoint of function chr expects int, float\|int given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/lib/Persistence/TransformationProcessor/PcreCompiler.php
 
 		-
-			message: "#^Parameter \\#1 \\$hex_string of function hexdec expects string, string\\|null given\\.$#"
+			message: '#^Parameter \#1 \$hex_string of function hexdec expects string, string\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/lib/Persistence/TransformationProcessor/PcreCompiler.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of function md5 expects string, string\\|false given\\.$#"
+			message: '#^Parameter \#1 \$string of function md5 expects string, string\|false given\.$#'
+			identifier: argument.type
 			count: 4
 			path: src/lib/Repository/Mapper/ContentMapper.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function spl_autoload_register expects \\(callable\\(string\\)\\: void\\)\\|null, ProxyManager\\\\Autoloader\\\\AutoloaderInterface given\\.$#"
+			message: '#^Parameter \#1 \$callback of function spl_autoload_register expects \(callable\(string\)\: void\)\|null, ProxyManager\\Autoloader\\AutoloaderInterface given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/lib/Repository/ProxyFactory/ProxyGenerator.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> given\\.$#"
+			message: '#^Parameter \#1 \$value of function count expects array\|Countable, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/lib/Repository/UserService.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_keys expects array, string given\\.$#"
+			message: '#^Parameter \#1 \$array of function array_keys expects array, string given\.$#'
+			identifier: argument.type
 			count: 3
 			path: src/lib/Search/Common/FieldNameResolver.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of function trim expects string, bool\\|float\\|int\\|string given\\.$#"
+			message: '#^Parameter \#1 \$string of function trim expects string, bool\|float\|int\|string given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/lib/Search/Legacy/Content/Gateway/CriterionHandler/Ancestor.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of function trim expects string, bool\\|float\\|int\\|string given\\.$#"
+			message: '#^Parameter \#1 \$string of function trim expects string, bool\|float\|int\|string given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Ancestor.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
+			message: '#^Parameter \#1 \$value of function count expects array\|Countable, array\|bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/bundle/Core/DependencyInjection/IbexaCoreExtensionTest.php
 
 		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$arrays of function array_merge_recursive expects array, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
+			message: '#^Parameter \#2 \.\.\.\$arrays of function array_merge_recursive expects array, array\|bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/bundle/Core/DependencyInjection/IbexaCoreExtensionTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of function trim expects string, string\\|null given\\.$#"
+			message: '#^Parameter \#1 \$string of function trim expects string, string\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/bundle/Core/EventListener/BackwardCompatibleCommandListenerTest.php
 
 		-
-			message: "#^Parameter \\#2 \\$offset of function substr expects int, int\\<1, max\\>\\|false given\\.$#"
+			message: '#^Parameter \#2 \$offset of function substr expects int, int\<1, max\>\|false given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/bundle/Core/EventListener/SiteAccessListenerTest.php
 
 		-
-			message: "#^Parameter \\#3 \\$length of function substr expects int\\|null, int\\<0, max\\>\\|false given\\.$#"
+			message: '#^Parameter \#3 \$length of function substr expects int\|null, int\<0, max\>\|false given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/bundle/Core/Routing/DefaultRouterTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$stream of function fclose expects resource, resource\\|false given\\.$#"
+			message: '#^Parameter \#1 \$stream of function fclose expects resource, resource\|false given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/integration/Core/IO/BinarydataHandler/FlysystemTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$string1 of function strcmp expects string, bool\\|float\\|int\\|string given\\.$#"
+			message: '#^Parameter \#1 \$string1 of function strcmp expects string, bool\|float\|int\|string given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/integration/Core/Repository/BaseTest.php
 
 		-
-			message: "#^Parameter \\#2 \\$string2 of function strcmp expects string, bool\\|float\\|int\\|string given\\.$#"
+			message: '#^Parameter \#2 \$string2 of function strcmp expects string, bool\|float\|int\|string given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/integration/Core/Repository/BaseTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\> given\\.$#"
-			count: 4
-			path: tests/integration/Core/Repository/ContentServiceAuthorizationTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$array of function array_keys expects array, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentInfo\\> given\\.$#"
+			message: '#^Parameter \#1 \$array of function array_values expects array\<T\>, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_values expects array\\<T\\>, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> given\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$array of function usort expects TArray of array, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\> given\\.$#"
-			count: 2
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$string of function md5 expects string, float given\\.$#"
+			message: '#^Parameter \#1 \$string of function md5 expects string, float given\.$#'
+			identifier: argument.type
 			count: 3
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Field\\> given\\.$#"
+			message: '#^Parameter \#1 \$value of function count expects array\|Countable, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Field\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\> given\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
-			count: 2
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\ContentType\\> given\\.$#"
+			message: '#^Parameter \#1 \$value of function count expects array\|Countable, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentType\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/integration/Core/Repository/ContentTypeServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Language\\> given\\.$#"
+			message: '#^Parameter \#1 \$value of function count expects array\|Countable, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Language\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/integration/Core/Repository/LanguageServiceMaximumSupportedLanguagesTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Language\\> given\\.$#"
+			message: '#^Parameter \#1 \$value of function count expects array\|Countable, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Language\> given\.$#'
+			identifier: argument.type
 			count: 2
 			path: tests/integration/Core/Repository/LanguageServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_filter expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLAlias\\> given\\.$#"
+			message: '#^Parameter \#1 \$array of function array_filter expects array, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\URLAlias\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_keys expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> given\\.$#"
+			message: '#^Parameter \#1 \$array of function array_keys expects array, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\> given\.$#'
+			identifier: argument.type
 			count: 3
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_filter expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\Policy\\> given\\.$#"
+			message: '#^Parameter \#1 \$array of function array_filter expects array, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\User\\Policy\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/integration/Core/Repository/PermissionResolverTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\Policy\\> given\\.$#"
+			message: '#^Parameter \#1 \$value of function count expects array\|Countable, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\User\\Policy\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/integration/Core/Repository/Regression/EZP21798Test.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\RoleAssignment\\> given\\.$#"
+			message: '#^Parameter \#1 \$value of function count expects array\|Countable, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\User\\RoleAssignment\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/integration/Core/Repository/RoleServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\UserGroupRoleAssignment\\|Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\UserRoleAssignment\\> given\\.$#"
+			message: '#^Parameter \#1 \$value of function count expects array\|Countable, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\User\\UserGroupRoleAssignment\|Ibexa\\Contracts\\Core\\Repository\\Values\\User\\UserRoleAssignment\> given\.$#'
+			identifier: argument.type
 			count: 3
 			path: tests/integration/Core/Repository/RoleServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\Policy\\> given\\.$#"
+			message: '#^Parameter \#1 \.\.\.\$arrays of function array_merge expects array, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\User\\Policy\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/integration/Core/Repository/RoleServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$class of class ReflectionProperty constructor expects object\\|string, class\\-string\\|false given\\.$#"
+			message: '#^Parameter \#1 \$class of class ReflectionProperty constructor expects object\|string, class\-string\|false given\.$#'
+			identifier: argument.type
 			count: 4
 			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$class of class ReflectionProperty constructor expects object\\|string, class\\-string\\|false given\\.$#"
+			message: '#^Parameter \#1 \$class of class ReflectionProperty constructor expects object\|string, class\-string\|false given\.$#'
+			identifier: argument.type
 			count: 4
 			path: tests/integration/Core/Repository/SearchServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of function md5 expects string, int\\<1, max\\> given\\.$#"
+			message: '#^Parameter \#1 \$string of function md5 expects string, int\<1, max\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/integration/Core/Repository/Values/User/Limitation/BaseLimitationTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of function md5 expects string, float given\\.$#"
+			message: '#^Parameter \#1 \$string of function md5 expects string, float given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/lib/MVC/Symfony/Security/UserWrappedTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{mixed, string\\} given\\.$#"
+			message: '#^Parameter \#1 \$callback of function call_user_func_array expects callable\(\)\: mixed, array\{mixed, string\} given\.$#'
+			identifier: argument.type
 			count: 3
 			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{mixed, string\\} given\\.$#"
+			message: '#^Parameter \#1 \$callback of function call_user_func_array expects callable\(\)\: mixed, array\{mixed, string\} given\.$#'
+			identifier: argument.type
 			count: 3
 			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{mixed, 'publish'\\} given\\.$#"
+			message: '#^Parameter \#1 \$callback of function call_user_func_array expects callable\(\)\: mixed, array\{mixed, ''publish''\} given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/lib/Persistence/Cache/ContentTypeHandlerTest.php
 
 		-
-			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, iterable given\\.$#"
+			message: '#^Parameter \#1 \.\.\.\$arrays of function array_merge expects array, iterable given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/lib/Persistence/Legacy/Filter/BaseCriterionVisitorQueryBuilderTestCase.php
 
 		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$arrays of function array_merge expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Filter\\\\CriterionQueryBuilder\\> given\\.$#"
+			message: '#^Parameter \#2 \.\.\.\$arrays of function array_merge expects array, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Filter\\CriterionQueryBuilder\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: tests/lib/Persistence/Legacy/Filter/BaseCriterionVisitorQueryBuilderTestCase.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLAlias\\> given\\.$#"
+			message: '#^Parameter \#1 \$value of function count expects array\|Countable, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\URLAlias\> given\.$#'
+			identifier: argument.type
 			count: 12
 			path: tests/lib/Repository/Service/Mock/UrlAliasTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function key expects array\\|object, string given\\.$#"
+			message: '#^Parameter \#1 \$array of function key expects array\|object, string given\.$#'
+			identifier: argument.type
 			count: 4
 			path: tests/lib/Search/FieldNameResolverTest.php
