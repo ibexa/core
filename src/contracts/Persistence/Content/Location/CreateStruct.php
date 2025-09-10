@@ -83,7 +83,7 @@ class CreateStruct extends ValueObject
      * This is allowed to be set to true, this will mean this should become main location
      * (@todo Find a better way to deal with being able to create the main location)
      *
-     * @var mixed|true
+     * @var int|true
      */
     public $mainLocationId = true;
 
