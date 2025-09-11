@@ -7,24 +7,6 @@ parameters:
 			path: src/bundle/Core/ApiLoader/StorageConnectionFactory.php
 
 		-
-			message: '#^Parameter \#1 \$input of function array_filter expects array, iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\VersionInfo\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/bundle/Core/Command/CleanupVersionsCommand.php
-
-		-
-			message: '#^Parameter \#1 \$input of function array_slice expects array, iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\VersionInfo\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/bundle/Core/Command/CleanupVersionsCommand.php
-
-		-
-			message: '#^Parameter \#1 \$var of function count expects array\|Countable, iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\VersionInfo\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/bundle/Core/Command/CleanupVersionsCommand.php
-
-		-
 			message: '#^Parameter \#2 \$str of function fwrite expects string, string\|false given\.$#'
 			identifier: argument.type
 			count: 1
@@ -199,12 +181,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Component/Serializer/AbstractPropertyWhitelistNormalizer.php
 
 		-
-			message: '#^Parameter \#1 \$input of function array_keys expects array, iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\ContentInfo\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/MVC/Symfony/FieldType/RelationList/ParameterProvider.php
-
-		-
 			message: '#^Parameter \#1 \$arr1 of function array_merge expects array, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\URLAlias\> given\.$#'
 			identifier: argument.type
 			count: 1
@@ -245,18 +221,6 @@ parameters:
 			identifier: throws.notThrowable
 			count: 1
 			path: src/lib/Persistence/Cache/UrlWildcardHandler.php
-
-		-
-			message: '#^Parameter \#2 \$pieces of function implode expects array, array\|bool\|float\|int\|string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/CountryConverter.php
-
-		-
-			message: '#^Parameter \#2 \$pieces of function implode expects array, array\|float\|int\<min, \-1\>\|int\<1, max\>\|string\|true given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/CountryConverter.php
 
 		-
 			message: '#^Cannot access property \$ownerDocument on DOMElement\|false\.$#'
@@ -361,12 +325,6 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Ancestor.php
 
 		-
-			message: '#^Parameter \#1 \$object of method ReflectionProperty\:\:getValue\(\) expects object, object\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/bundle/Core/DependencyInjection/Compiler/SlugConverterConfigurationPassTest.php
-
-		-
 			message: '#^Parameter \#1 \$var of function count expects array\|Countable, array\|bool\|float\|int\|string\|null given\.$#'
 			identifier: argument.type
 			count: 1
@@ -415,24 +373,6 @@ parameters:
 			path: tests/integration/Core/Repository/BaseTest.php
 
 		-
-			message: '#^Parameter \#1 \$var of function count expects array\|Countable, iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Relation\> given\.$#'
-			identifier: argument.type
-			count: 4
-			path: tests/integration/Core/Repository/ContentServiceAuthorizationTest.php
-
-		-
-			message: '#^Parameter \#1 \$array_arg of function usort expects TArray of array, iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Relation\> given\.$#'
-			identifier: argument.type
-			count: 2
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
-			message: '#^Parameter \#1 \$input of function array_keys expects array, iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\ContentInfo\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
 			message: '#^Parameter \#1 \$input of function array_values expects array\<T\>, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\> given\.$#'
 			identifier: argument.type
 			count: 1
@@ -448,18 +388,6 @@ parameters:
 			message: '#^Parameter \#1 \$var of function count expects array\|Countable, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Field\> given\.$#'
 			identifier: argument.type
 			count: 1
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
-			message: '#^Parameter \#1 \$var of function count expects array\|Countable, iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Relation\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
-			message: '#^Parameter \#1 \$var of function count expects array\|Countable, iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\VersionInfo\> given\.$#'
-			identifier: argument.type
-			count: 2
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
