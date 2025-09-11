@@ -108,8 +108,8 @@ jobs:
                   done
                   exit 1
 
-            - name: Force disable skip scan in Postgres
-              run: docker exec postgres18rc1-sync psql -U postgres -d testdb -c "ALTER SYSTEM SET enable_skipscan = off;"
+            - name: Force disable bitmap scan in Postgres
+              run: docker exec postgres18rc1-sync psql -U postgres -d testdb -c "ALTER SYSTEM SET enable_bitmapscan = off;"
 
             - name: Restart Postgres
               run: docker restart postgres18rc1-sync
