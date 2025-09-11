@@ -279,7 +279,7 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware, Contai
         // Lookup trace to find last service being loaded as possible blame for eager loading
         // Abort if one of the earlier services is detected to be "safe", aka updatable
         foreach (debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 35) as $t) {
-            if (!isset($t['function']) || $t['function'] === 'getParameter' || $t['function'] === __FUNCTION__) {
+            if ($t['function'] === 'getParameter' || $t['function'] === __FUNCTION__) {
                 continue;
             }
 

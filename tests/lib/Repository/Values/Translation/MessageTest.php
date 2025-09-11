@@ -25,7 +25,7 @@ final class MessageTest extends TestCase
     }
 
     /**
-     * @return array<string, array{\Ibexa\Contracts\Core\Repository\Values\Translation\Message, string}>
+     * @return iterable<string, array{\Ibexa\Contracts\Core\Repository\Values\Translation\Message, string}>
      */
     public static function getDataForTestStringable(): iterable
     {

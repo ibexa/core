@@ -14,7 +14,7 @@ class Registry
     /**
      * Array of ViewProvider, indexed by handled type.
      *
-     * @var \Ibexa\Core\MVC\Symfony\View\ViewProvider[][]
+     * @phpstan-var array<string, list<\Ibexa\Core\MVC\Symfony\View\ViewProvider>>
      */
     private $viewProviders;
 

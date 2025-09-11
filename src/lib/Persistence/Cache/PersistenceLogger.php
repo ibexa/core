@@ -85,7 +85,7 @@ class PersistenceLogger
 
         $trace = \debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 8 + $traceOffset);
         $this->collectCacheCallData(
-            $trace[$traceOffset - 1]['class'] . '::' . $trace[$traceOffset - 1]['function'],
+            $this->resolveTraceFrameName($trace[$traceOffset - 1]),
             $arguments,
             \array_slice($trace, $traceOffset),
             'miss'
@@ -116,7 +116,7 @@ class PersistenceLogger
 
         $trace = \debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 8 + $traceOffset);
         $this->collectCacheCallData(
-            $trace[$traceOffset - 1]['class'] . '::' . $trace[$traceOffset - 1]['function'],
+            $this->resolveTraceFrameName($trace[$traceOffset - 1]),
             $arguments,
             \array_slice($trace, $traceOffset),
             $inMemory ? 'memory' : 'hit'
@@ -248,6 +248,18 @@ class PersistenceLogger
     public function getLoadedUnCachedHandlers(): array
     {
         return $this->unCachedHandlers;
+    }
+
+    /**
+     * @param array{class?: string, function: string} $traceFrame
+     */
+    private function resolveTraceFrameName(array $traceFrame): string
+    {
+        $classNameWithScopeResolution = isset($traceFrame['class'])
+            ? $traceFrame['class'] . '::'
+            : '';
+
+        return $classNameWithScopeResolution . $traceFrame['function'];
     }
 }
 

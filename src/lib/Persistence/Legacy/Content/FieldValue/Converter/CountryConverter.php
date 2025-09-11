@@ -37,7 +37,9 @@ class CountryConverter implements Converter
      */
     public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
     {
-        $storageFieldValue->dataText = empty($value->data) ? '' : implode(',', $value->data);
+        $storageFieldValue->dataText = empty($value->data) || !is_array($value->data)
+            ? ''
+            : implode(',', $value->data);
         $storageFieldValue->sortKeyString = $value->sortKey;
     }
 
@@ -65,7 +67,7 @@ class CountryConverter implements Converter
             $storageDef->dataInt1 = (int)$fieldDef->fieldTypeConstraints->fieldSettings['isMultiple'];
         }
 
-        $storageDef->dataText5 = $fieldDef->defaultValue->data === null
+        $storageDef->dataText5 = $fieldDef->defaultValue->data === null || !is_array($fieldDef->defaultValue->data)
             ? ''
             : implode(',', $fieldDef->defaultValue->data);
     }

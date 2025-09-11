@@ -4,55 +4,50 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace Ibexa\Tests\Core\Persistence\Cache;
 
 use Ibexa\Core\Persistence\Cache\PersistenceLogger;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Ibexa\Core\Persistence\Cache\PersistenceLogger::getName
+ * @covers \Ibexa\Core\Persistence\Cache\PersistenceLogger
  */
 class PersistenceLoggerTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Cache\PersistenceLogger */
-    protected $logger;
+    protected PersistenceLogger $logger;
 
-    /**
-     * Setup the HandlerTest.
-     */
     protected function setUp(): void
     {
         parent::setUp();
         $this->logger = new PersistenceLogger();
     }
 
-    /**
-     * Tear down test (properties).
-     */
     protected function tearDown(): void
     {
         unset($this->logger);
         parent::tearDown();
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $this->assertEquals(PersistenceLogger::NAME, $this->logger->getName());
     }
 
-    public function testGetCount()
+    public function testGetCount(): void
     {
         $this->assertEquals(0, $this->logger->getCount());
     }
 
-    public function testGetCalls()
+    public function testGetCalls(): void
     {
         $this->assertEquals([], $this->logger->getCalls());
     }
 
-    public function testLogCall()
+    public function testLogCall(): PersistenceLogger
     {
-        $this->assertNull($this->logger->logCall(__METHOD__));
+        $this->logger->logCall(__METHOD__);
         $this->logger->logCall(__METHOD__);
         $this->logger->logCall(__METHOD__);
         $this->logger->logCall(__METHOD__, [33]);
@@ -94,6 +89,54 @@ class PersistenceLoggerTest extends TestCase
         $this->assertEquals([33], $calls[1]['arguments']);
         $this->assertCount(1, $calls[1]['traces']);
         $this->assertEquals(['uncached' => 1, 'miss' => 0, 'hit' => 0, 'memory' => 0], $calls[1]['stats']);
+    }
+
+    public function testLogCacheHit(): void
+    {
+        self::assertSame([], $this->logger->getCalls());
+        $this->logger->logCacheHit();
+        self::assertSame(
+            $this->buildExpectedCallTrace('d4371e7c', __METHOD__, 0, 1),
+            $this->logger->getCalls()
+        );
+    }
+
+    public function testLogCacheMiss(): void
+    {
+        self::assertSame([], $this->logger->getCalls());
+        $this->logger->logCacheMiss();
+        self::assertSame(
+            $this->buildExpectedCallTrace('f4051ef3', __METHOD__, 1, 0),
+            $this->logger->getCalls()
+        );
+    }
+
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    private function buildExpectedCallTrace(string $callHash, string $method, int $miss, int $hit): array
+    {
+        return [
+            $callHash => [
+                'method' => $method,
+                'arguments' => [],
+                'stats' => [
+                    'uncached' => 0,
+                    'miss' => $miss,
+                    'hit' => $hit,
+                    'memory' => 0,
+                ],
+                'traces' => [
+                    '0e1c1b51' => [
+                        'trace' => [
+                            0 => 'PHPUnit\\Framework\\TestCase->runTest()',
+                            1 => 'PHPUnit\\Framework\\TestCase->runBare()',
+                        ],
+                        'count' => 1,
+                    ],
+                ],
+            ],
+        ];
     }
 }
 

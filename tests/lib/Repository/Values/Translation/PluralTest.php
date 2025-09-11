@@ -25,7 +25,7 @@ final class PluralTest extends TestCase
     }
 
     /**
-     * @return array<string, array{\Ibexa\Contracts\Core\Repository\Values\Translation\Plural, string}>
+     * @return iterable<string, array{\Ibexa\Contracts\Core\Repository\Values\Translation\Plural, string}>
      */
     public static function getDataForTestStringable(): iterable
     {

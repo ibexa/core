@@ -277,12 +277,6 @@ parameters:
 			path: src/bundle/Core/Command/RegenerateUrlAliasesCommand.php
 
 		-
-			message: '#^Cannot access offset int on iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Content\>\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: src/bundle/Core/Command/RegenerateUrlAliasesCommand.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Command\\RegenerateUrlAliasesCommand\:\:configure\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -1077,12 +1071,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigResolver\:\:warnAboutTooEarlyLoadedParams\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/ConfigResolver.php
-
-		-
-			message: '#^Offset ''function'' on array\{function\: string, line\?\: int, file\?\: string, class\?\: class\-string, type\?\: ''\-\>''\|''\:\:'', args\?\: array\<mixed\>, object\?\: object\} in isset\(\) always exists and is not nullable\.$#'
-			identifier: isset.offset
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/ConfigResolver.php
 
@@ -10291,12 +10279,6 @@ parameters:
 			path: src/lib/Base/Utils/DeprecationWarnerInterface.php
 
 		-
-			message: '#^Parameter \#1 \$locations of class Ibexa\\Contracts\\Core\\Repository\\Events\\Content\\DeleteContentEvent constructor expects array, array\|iterable\<int, int\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/Event/ContentService.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Event\\TokenService\:\:getToken\(\) should return Ibexa\\Contracts\\Core\\Repository\\Values\\Token\\Token but returns Ibexa\\Contracts\\Core\\Repository\\Values\\Token\\Token\|string\.$#'
 			identifier: return.type
 			count: 1
@@ -10731,12 +10713,6 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Core\\FieldType\\BinaryBase\\Value\:\:\$downloadCount\.$#'
 			identifier: property.notFound
-			count: 1
-			path: src/lib/FieldType/BinaryFile/Type.php
-
-		-
-			message: '#^Method Ibexa\\Core\\FieldType\\BinaryFile\\Type\:\:completeValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: src/lib/FieldType/BinaryFile/Type.php
 
@@ -11894,12 +11870,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Core\\FieldType\\Media\\Type\:\:checkValueStructure\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/FieldType/Media/Type.php
-
-		-
-			message: '#^Method Ibexa\\Core\\FieldType\\Media\\Type\:\:completeValue\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: src/lib/FieldType/Media/Type.php
@@ -17617,12 +17587,6 @@ parameters:
 			path: src/lib/Persistence/Cache/PersistenceLogger.php
 
 		-
-			message: '#^Offset ''class'' might not exist on array\{function\: string, line\?\: int, file\?\: string, class\?\: class\-string, type\?\: ''\-\>''\|''\:\:'', args\?\: array\<mixed\>, object\?\: object\}\.$#'
-			identifier: offsetAccess.notFound
-			count: 2
-			path: src/lib/Persistence/Cache/PersistenceLogger.php
-
-		-
 			message: '#^Property Ibexa\\Core\\Persistence\\Cache\\PersistenceLogger\:\:\$calls type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -18494,12 +18458,6 @@ parameters:
 
 		-
 			message: '#^Cannot access property \$documentElement on DOMDocument\|null\.$#'
-			identifier: property.nonObject
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/ImageConverter.php
-
-		-
-			message: '#^Cannot access property \$nodeValue on \(TNode of DOMNode\)\|null\.$#'
 			identifier: property.nonObject
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/ImageConverter.php
@@ -33085,69 +33043,9 @@ parameters:
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
-			message: '#^Cannot access offset 0 on iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Relation\>\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 12
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
-			message: '#^Cannot access offset 0 on iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\VersionInfo\>\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 4
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
 			message: '#^Cannot access offset 1 on iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\VersionInfo\>\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 2
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
-			message: '#^Cannot access offset 1 on iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Relation\>\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 4
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
-			message: '#^Cannot access offset 1 on iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\VersionInfo\>\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
-			message: '#^Cannot access offset 2 on iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\VersionInfo\>\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
-			message: '#^Cannot access offset 3 on iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\VersionInfo\>\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
-			message: '#^Cannot access offset 4 on iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\VersionInfo\>\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
-			message: '#^Cannot access offset 5 on iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\VersionInfo\>\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 2
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
-			message: '#^Cannot access offset int on iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\VersionInfo\>\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
-			message: '#^Cannot access offset mixed on iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\ContentInfo\>\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
@@ -33249,12 +33147,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\ContentServiceTest\:\:providerForDeleteTranslationFromDraftRemovesUrlAliasOnPublishing\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\ContentServiceTest\:\:testAddRelation\(\) should return array\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Relation\> but returns iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Relation\>\.$#'
-			identifier: return.type
 			count: 1
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
@@ -33387,12 +33279,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\ContentServiceTest\:\:testCreateContentDraftSetsVersionInfo\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\ContentServiceTest\:\:testCreateContentDraftWithRelations\(\) should return array\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Relation\> but returns iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Relation\>\.$#'
-			identifier: return.type
 			count: 1
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
@@ -33987,12 +33873,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\ContentServiceTest\:\:testLoadVersionInfoWithSecondParameter\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\ContentServiceTest\:\:testLoadVersions\(\) should return array\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\VersionInfo\> but returns iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\VersionInfo\>\.$#'
-			identifier: return.type
 			count: 1
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
@@ -37483,18 +37363,6 @@ parameters:
 			path: tests/integration/Core/Repository/FieldType/RelationIntegrationTest.php
 
 		-
-			message: '#^Parameter \#1 \$relations of method Ibexa\\Tests\\Integration\\Core\\Repository\\FieldType\\RelationIntegrationTest\:\:normalizeRelations\(\) expects array\<Ibexa\\Core\\Repository\\Values\\Content\\Relation\>, array\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Relation\> given\.$#'
-			identifier: argument.type
-			count: 5
-			path: tests/integration/Core/Repository/FieldType/RelationIntegrationTest.php
-
-		-
-			message: '#^Parameter \#1 \$relations of method Ibexa\\Tests\\Integration\\Core\\Repository\\FieldType\\RelationIntegrationTest\:\:normalizeRelations\(\) expects array\<Ibexa\\Core\\Repository\\Values\\Content\\Relation\>, iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Relation\> given\.$#'
-			identifier: argument.type
-			count: 5
-			path: tests/integration/Core/Repository/FieldType/RelationIntegrationTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\FieldType\\RelationListIntegrationTest\:\:assertCopiedFieldDataLoadedCorrectly\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -37600,18 +37468,6 @@ parameters:
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\FieldType\\RelationListIntegrationTest\:\:testUpdateContentRelationsProcessedCorrect\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/integration/Core/Repository/FieldType/RelationListIntegrationTest.php
-
-		-
-			message: '#^Parameter \#1 \$relations of method Ibexa\\Tests\\Integration\\Core\\Repository\\FieldType\\RelationListIntegrationTest\:\:normalizeRelations\(\) expects array\<Ibexa\\Core\\Repository\\Values\\Content\\Relation\>, array\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Relation\> given\.$#'
-			identifier: argument.type
-			count: 5
-			path: tests/integration/Core/Repository/FieldType/RelationListIntegrationTest.php
-
-		-
-			message: '#^Parameter \#1 \$relations of method Ibexa\\Tests\\Integration\\Core\\Repository\\FieldType\\RelationListIntegrationTest\:\:normalizeRelations\(\) expects array\<Ibexa\\Core\\Repository\\Values\\Content\\Relation\>, iterable\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Relation\> given\.$#'
-			identifier: argument.type
-			count: 5
 			path: tests/integration/Core/Repository/FieldType/RelationListIntegrationTest.php
 
 		-
@@ -60535,38 +60391,8 @@ parameters:
 			path: tests/lib/Persistence/Cache/PersistenceLoggerTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\PersistenceLoggerTest\:\:testGetCalls\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Cache/PersistenceLoggerTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\PersistenceLoggerTest\:\:testGetCount\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Cache/PersistenceLoggerTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\PersistenceLoggerTest\:\:testGetCountValues\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Cache/PersistenceLoggerTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\PersistenceLoggerTest\:\:testGetName\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Cache/PersistenceLoggerTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\PersistenceLoggerTest\:\:testLogCall\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Cache/PersistenceLoggerTest.php
-
-		-
-			message: '#^Result of method Ibexa\\Core\\Persistence\\Cache\\PersistenceLogger\:\:logCall\(\) \(void\) is used\.$#'
-			identifier: method.void
 			count: 1
 			path: tests/lib/Persistence/Cache/PersistenceLoggerTest.php
 
@@ -63796,12 +63622,6 @@ parameters:
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\MapperTest\:\:testExtractRelationsFromRows\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/Persistence/Legacy/Content/MapperTest.php
-
-		-
-			message: '#^Possibly invalid array key type \(list\<string\>\|string\)\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 2
 			path: tests/lib/Persistence/Legacy/Content/MapperTest.php
 
 		-
