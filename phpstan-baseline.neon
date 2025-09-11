@@ -19675,12 +19675,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Language/MaskGenerator.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\:\:create\(\) has parameter \$parentNode with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Location/Gateway.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\:\:getBasicNodeData\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -19784,12 +19778,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\\DoctrineDatabase\:\:appendContentItemTranslationsConstraint\(\) has parameter \$translations with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\\DoctrineDatabase\:\:create\(\) has parameter \$parentNode with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabase.php
@@ -19954,12 +19942,6 @@ parameters:
 			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 8
-			path: src/lib/Persistence/Legacy/Content/Location/Gateway/ExceptionConversion.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\\ExceptionConversion\:\:create\(\) has parameter \$parentNode with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
 			path: src/lib/Persistence/Legacy/Content/Location/Gateway/ExceptionConversion.php
 
 		-
