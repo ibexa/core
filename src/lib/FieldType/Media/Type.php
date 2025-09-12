@@ -182,33 +182,6 @@ class Type extends BaseType implements TranslationContainerInterface
     }
 
     /**
-     * Attempts to complete the data in $value.
-     *
-     * @param \Ibexa\Core\FieldType\Media\Value|\Ibexa\Core\FieldType\Value $value
-     */
-    protected function completeValue(BaseValue $value)
-    {
-        parent::completeValue($value);
-
-        if (isset($value->hasController) && $value->hasController === null) {
-            $value->hasController = false;
-        }
-        if (isset($value->autoplay) && $value->autoplay === null) {
-            $value->autoplay = false;
-        }
-        if (isset($value->loop) && $value->loop === null) {
-            $value->loop = false;
-        }
-
-        if (isset($value->height) && $value->height === null) {
-            $value->height = 0;
-        }
-        if (isset($value->width) && $value->width === null) {
-            $value->width = 0;
-        }
-    }
-
-    /**
      * Converts a $Value to a hash.
      *
      * @param \Ibexa\Core\FieldType\Media\Value $value

@@ -9,7 +9,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
-use Ibexa\Contracts\Core\Repository\Values\Content\Relation as RelationContract;
+use Ibexa\Contracts\Core\Repository\Values\Content\Relation as APIRelation;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationList;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface;
 use Ibexa\Core\Repository\Values\Content\Relation;
@@ -26,23 +26,21 @@ use Ibexa\Core\Repository\Values\Content\Relation;
 trait RelationSearchBaseIntegrationTestTrait
 {
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
      */
-    abstract public function getCreateExpectedRelations(Content $content);
+    abstract public function getCreateExpectedRelations(Content $content): array;
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
      */
-    abstract public function getUpdateExpectedRelations(Content $content);
+    abstract public function getUpdateExpectedRelations(Content $content): array;
 
     /**
      * Tests relation processing on field create.
      */
-    public function testCreateContentRelationsProcessedCorrect()
+    public function testCreateContentRelationsProcessedCorrect(): void
     {
         $content = $this->createContent($this->getValidCreationFieldData());
 
@@ -61,7 +59,7 @@ trait RelationSearchBaseIntegrationTestTrait
     /**
      * Tests relation processing on field update.
      */
-    public function testUpdateContentRelationsProcessedCorrect()
+    public function testUpdateContentRelationsProcessedCorrect(): void
     {
         $content = $this->updateContent($this->getValidUpdateFieldData());
 
@@ -82,23 +80,24 @@ trait RelationSearchBaseIntegrationTestTrait
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Relation[] $relations
      *
-     * @return \Ibexa\Core\Repository\Values\Content\Relation[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
      */
-    protected function normalizeRelations(array $relations)
+    protected function normalizeRelations(array $relations): array
     {
         usort(
             $relations,
-            static function (RelationContract $a, RelationContract $b): int {
-                if ($a->type == $b->type) {
+            static function (APIRelation $a, APIRelation $b): int {
+                if ($a->type === $b->type) {
                     return $a->destinationContentInfo->id < $b->destinationContentInfo->id ? 1 : -1;
                 }
 
                 return $a->type < $b->type ? 1 : -1;
             }
         );
-        $normalized = array_map(
-            static function (RelationContract $relation) {
-                $newRelation = new Relation(
+
+        return array_map(
+            static function (APIRelation $relation): APIRelation {
+                return new Relation(
                     [
                         'id' => -1,
                         'sourceFieldDefinitionIdentifier' => $relation->sourceFieldDefinitionIdentifier,
@@ -107,16 +106,12 @@ trait RelationSearchBaseIntegrationTestTrait
                         'destinationContentInfo' => $relation->destinationContentInfo,
                     ]
                 );
-
-                return $newRelation;
             },
             $relations
         );
-
-        return $normalized;
     }
 
-    public function testCopyContentCopiesFieldRelations()
+    public function testCopyContentCopiesFieldRelations(): void
     {
         $content = $this->updateContent($this->getValidUpdateFieldData());
         $contentService = $this->getRepository()->getContentService();
@@ -151,7 +146,7 @@ trait RelationSearchBaseIntegrationTestTrait
         );
     }
 
-    public function testSubtreeCopyContentCopiesFieldRelations()
+    public function testSubtreeCopyContentCopiesFieldRelations(): void
     {
         $contentService = $this->getRepository()->getContentService();
         $locationService = $this->getRepository()->getLocationService();
@@ -187,7 +182,7 @@ trait RelationSearchBaseIntegrationTestTrait
     private function getRelations(RelationList $relationList): array
     {
         return array_filter(array_map(
-            static fn (RelationListItemInterface $relationListItem): ?RelationContract => $relationListItem->getRelation(),
+            static fn (RelationListItemInterface $relationListItem): ?APIRelation => $relationListItem->getRelation(),
             $relationList->items
         ));
     }

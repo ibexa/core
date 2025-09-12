@@ -11,22 +11,17 @@ namespace Ibexa\Core\Persistence\Legacy\SharedGateway;
 use Doctrine\DBAL\Connection;
 
 /**
- * Builds Shared Gateway object based on the database connection.
+ * Builds a Shared Gateway object based on the database connection.
  *
  * @internal For internal use by Legacy Storage Gateways.
  */
-final class GatewayFactory
+final readonly class GatewayFactory
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway */
-    private $fallbackGateway;
-
-    /** @var \iterable|\Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway[] */
-    private $gateways;
-
-    public function __construct(Gateway $fallbackGateway, iterable $gateways)
+    /**
+     * @param iterable<string, \Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway> $gateways
+     */
+    public function __construct(private Gateway $fallbackGateway, private iterable $gateways)
     {
-        $this->fallbackGateway = $fallbackGateway;
-        $this->gateways = $gateways;
     }
 
     /**

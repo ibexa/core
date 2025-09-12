@@ -89,7 +89,7 @@ class Mapper
         $struct->contentVersion = $data['contentobject_version'];
         $struct->hidden = $data['is_hidden'];
         $struct->invisible = $data['is_invisible'];
-        $struct->mainLocationId = $data['main_node_id'];
+        $struct->mainLocationId = (int)$data['main_node_id'];
         $struct->parentId = $data['parent_node_id'];
         $struct->priority = $data['priority'];
         $struct->remoteId = md5(uniqid(static::class, true));

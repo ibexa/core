@@ -14,6 +14,7 @@ use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\UrlRedecoratorInterface;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use LogicException;
 use SimpleXMLElement;
 
 class ImageConverter extends BinaryFileConverter
@@ -278,7 +279,13 @@ EOT;
             foreach ($additionalDataElement->getElementsByTagName('attribute') as $datum) {
                 /** @var \DOMNamedNodeMap $option */
                 $option = $datum->attributes;
-                $extractedData['additionalData'][$option->getNamedItem('key')->nodeValue] = $datum->nodeValue;
+                $domNode = $option->getNamedItem('key');
+                if (null === $domNode) {
+                    throw new LogicException(
+                        sprintf('ImageConverter: Failed to get "%s" key from "%s" node', 'key', $datum->getNodePath())
+                    );
+                }
+                $extractedData['additionalData'][$domNode->nodeValue] = $datum->nodeValue;
             }
         }
 

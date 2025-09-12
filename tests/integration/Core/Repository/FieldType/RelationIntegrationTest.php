@@ -4,11 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\Relation\Value as RelationValue;
@@ -44,12 +46,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTestCase
         return false;
     }
 
-    /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     *
-     * @return array|\Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
-     */
-    public function getCreateExpectedRelations(Content $content)
+    public function getCreateExpectedRelations(Content $content): array
     {
         $contentService = $this->getRepository()->getContentService();
 
@@ -57,7 +54,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTestCase
             new Relation(
                 [
                     'sourceFieldDefinitionIdentifier' => 'data',
-                    'type' => Relation::FIELD,
+                    'type' => RelationType::FIELD->value,
                     'sourceContentInfo' => $content->contentInfo,
                     'destinationContentInfo' => $contentService->loadContentInfo(4),
                 ]
@@ -65,12 +62,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTestCase
         ];
     }
 
-    /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     *
-     * @return array|\Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
-     */
-    public function getUpdateExpectedRelations(Content $content)
+    public function getUpdateExpectedRelations(Content $content): array
     {
         $contentService = $this->getRepository()->getContentService();
 
@@ -78,7 +70,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTestCase
             new Relation(
                 [
                     'sourceFieldDefinitionIdentifier' => 'data',
-                    'type' => Relation::FIELD,
+                    'type' => RelationType::FIELD->value,
                     'sourceContentInfo' => $content->contentInfo,
                     'destinationContentInfo' => $contentService->loadContentInfo(49),
                 ]

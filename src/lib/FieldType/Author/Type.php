@@ -30,13 +30,13 @@ class Type extends FieldType implements TranslationContainerInterface
      * Flag which stands for setting Author FieldType empty by default.
      * It is used in a content type edit view.
      */
-    public const DEFAULT_VALUE_EMPTY = 0;
+    public const int DEFAULT_VALUE_EMPTY = 0;
 
     /**
      * Flag which stands for prefilling Author FieldType with current user by default.
      * It is used in a content type edit view.
      */
-    public const DEFAULT_CURRENT_USER = 1;
+    public const int DEFAULT_CURRENT_USER = 1;
 
     protected $settingsSchema = [
         'defaultAuthor' => [

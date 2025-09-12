@@ -631,12 +631,6 @@ parameters:
 			path: src/bundle/Core/DependencyInjection/Configuration/ConfigResolver.php
 
 		-
-			message: '#^Offset ''function'' on array\{function\: string, line\?\: int, file\?\: string, class\?\: class\-string, type\?\: ''\-\>''\|''\:\:'', args\?\: array\<mixed\>, object\?\: object\} in isset\(\) always exists and is not nullable\.$#'
-			identifier: isset.offset
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/ConfigResolver.php
-
-		-
 			message: '#^Parameter \#1 \$string of function strtolower expects string, string\|null given\.$#'
 			identifier: argument.type
 			count: 1
@@ -5929,7 +5923,7 @@ parameters:
 			path: src/lib/FieldType/Author/Type.php
 
 		-
-			message: '#^Method Ibexa\\Core\\FieldType\\Author\\Type\:\:toHash\(\) should return list\<array\{id\: int, name\: string, email\: string\}\> but returns array\<int, array\{id\: int, name\: string, email\: string\}\>\.$#'
+			message: '#^Method Ibexa\\Core\\FieldType\\Author\\Type\:\:toHash\(\) should return list\<array\{id\: int, name\: string, email\: string\}\> but returns array\<int, non\-empty\-array\>\.$#'
 			identifier: return.type
 			count: 1
 			path: src/lib/FieldType/Author/Type.php
@@ -6255,12 +6249,6 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Core\\FieldType\\BinaryBase\\Value\:\:\$downloadCount\.$#'
 			identifier: property.notFound
-			count: 1
-			path: src/lib/FieldType/BinaryFile/Type.php
-
-		-
-			message: '#^Method Ibexa\\Core\\FieldType\\BinaryFile\\Type\:\:completeValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: src/lib/FieldType/BinaryFile/Type.php
 
@@ -7160,12 +7148,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Core\\FieldType\\Media\\Type\:\:checkValueStructure\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/FieldType/Media/Type.php
-
-		-
-			message: '#^Method Ibexa\\Core\\FieldType\\Media\\Type\:\:completeValue\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: src/lib/FieldType/Media/Type.php
@@ -10627,12 +10609,6 @@ parameters:
 			path: src/lib/Persistence/Cache/PersistenceLogger.php
 
 		-
-			message: '#^Offset ''class'' might not exist on array\{function\: string, line\?\: int, file\?\: string, class\?\: class\-string, type\?\: ''\-\>''\|''\:\:'', args\?\: array\<mixed\>, object\?\: object\}\.$#'
-			identifier: offsetAccess.notFound
-			count: 2
-			path: src/lib/Persistence/Cache/PersistenceLogger.php
-
-		-
 			message: '#^Property Ibexa\\Core\\Persistence\\Cache\\PersistenceLogger\:\:\$calls type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -11233,18 +11209,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/CountryConverter.php
 
 		-
-			message: '#^Parameter \#2 \$array of function implode expects array\|null, array\|bool\|float\|int\|string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/CountryConverter.php
-
-		-
-			message: '#^Parameter \#2 \$array of function implode expects array\|null, array\|float\|int\<min, \-1\>\|int\<1, max\>\|string\|true given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/CountryConverter.php
-
-		-
 			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldValue\:\:\$sortKeyString \(string\) does not accept bool\|float\|int\|string\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -11492,12 +11456,6 @@ parameters:
 
 		-
 			message: '#^Cannot access property \$documentElement on DOMDocument\|null\.$#'
-			identifier: property.nonObject
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/ImageConverter.php
-
-		-
-			message: '#^Cannot access property \$nodeValue on \(TNode of DOMNode\)\|null\.$#'
 			identifier: property.nonObject
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/ImageConverter.php
@@ -12661,12 +12619,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Language/MaskGenerator.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\:\:create\(\) has parameter \$parentNode with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Location/Gateway.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\:\:getBasicNodeData\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -12752,12 +12704,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\\DoctrineDatabase\:\:appendContentItemTranslationsConstraint\(\) has parameter \$translations with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\\DoctrineDatabase\:\:create\(\) has parameter \$parentNode with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabase.php
@@ -12904,12 +12850,6 @@ parameters:
 			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 8
-			path: src/lib/Persistence/Legacy/Content/Location/Gateway/ExceptionConversion.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\\ExceptionConversion\:\:create\(\) has parameter \$parentNode with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
 			path: src/lib/Persistence/Legacy/Content/Location/Gateway/ExceptionConversion.php
 
 		-
@@ -15467,30 +15407,6 @@ parameters:
 			identifier: return.unusedType
 			count: 1
 			path: src/lib/Persistence/Legacy/SharedGateway/DatabasePlatform/SqliteGateway.php
-
-		-
-			message: '#^Argument of an invalid type array\<Ibexa\\Core\\Persistence\\Legacy\\SharedGateway\\Gateway\>\|iterable supplied for foreach, only iterables are supported\.$#'
-			identifier: foreach.nonIterable
-			count: 1
-			path: src/lib/Persistence/Legacy/SharedGateway/GatewayFactory.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\SharedGateway\\GatewayFactory\:\:__construct\(\) has parameter \$gateways with no value type specified in iterable type iterable\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/SharedGateway/GatewayFactory.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\SharedGateway\\GatewayFactory\:\:\$gateways \(array\<Ibexa\\Core\\Persistence\\Legacy\\SharedGateway\\Gateway\>\|iterable\) does not accept iterable\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/Persistence/Legacy/SharedGateway/GatewayFactory.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\SharedGateway\\GatewayFactory\:\:\$gateways has unknown class iterable as its type\.$#'
-			identifier: class.notFound
-			count: 1
-			path: src/lib/Persistence/Legacy/SharedGateway/GatewayFactory.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Token\\AbstractGateway\:\:getAliasedColumns\(\) has parameter \$columns with no value type specified in iterable type array\.$#'
@@ -28609,30 +28525,6 @@ parameters:
 			path: tests/integration/Core/Repository/FieldType/RelationIntegrationTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\FieldType\\RelationIntegrationTest\:\:testCopyContentCopiesFieldRelations\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/RelationIntegrationTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\FieldType\\RelationIntegrationTest\:\:testCreateContentRelationsProcessedCorrect\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/RelationIntegrationTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\FieldType\\RelationIntegrationTest\:\:testSubtreeCopyContentCopiesFieldRelations\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/RelationIntegrationTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\FieldType\\RelationIntegrationTest\:\:testUpdateContentRelationsProcessedCorrect\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/RelationIntegrationTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\FieldType\\RelationListIntegrationTest\:\:assertFieldDataLoadedCorrect\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -28682,30 +28574,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\FieldType\\RelationListIntegrationTest\:\:providerForTestIsNotEmptyValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/RelationListIntegrationTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\FieldType\\RelationListIntegrationTest\:\:testCopyContentCopiesFieldRelations\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/RelationListIntegrationTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\FieldType\\RelationListIntegrationTest\:\:testCreateContentRelationsProcessedCorrect\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/RelationListIntegrationTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\FieldType\\RelationListIntegrationTest\:\:testSubtreeCopyContentCopiesFieldRelations\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/RelationListIntegrationTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\FieldType\\RelationListIntegrationTest\:\:testUpdateContentRelationsProcessedCorrect\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: tests/integration/Core/Repository/FieldType/RelationListIntegrationTest.php
@@ -47029,36 +46897,6 @@ parameters:
 			path: tests/lib/Persistence/Cache/PersistenceHandlerTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\PersistenceLoggerTest\:\:testGetCallValues\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Cache/PersistenceLoggerTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\PersistenceLoggerTest\:\:testGetCalls\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Cache/PersistenceLoggerTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\PersistenceLoggerTest\:\:testGetName\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Cache/PersistenceLoggerTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\PersistenceLoggerTest\:\:testLogCall\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Cache/PersistenceLoggerTest.php
-
-		-
-			message: '#^Result of method Ibexa\\Core\\Persistence\\Cache\\PersistenceLogger\:\:logCall\(\) \(void\) is used\.$#'
-			identifier: method.void
-			count: 1
-			path: tests/lib/Persistence/Cache/PersistenceLoggerTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Cache\\SectionHandlerTest\:\:providerForCachedLoadMethodsHit\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -60105,7 +59943,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Language\:\:\$notDefined\.$#'
 			identifier: property.notFound
-			count: 2
+			count: 1
 			path: tests/lib/Repository/Values/Content/LanguageTest.php
 
 		-
@@ -60141,7 +59979,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\Content\\Location\:\:\$notDefined\.$#'
 			identifier: property.notFound
-			count: 2
+			count: 1
 			path: tests/lib/Repository/Values/Content/LocationTest.php
 
 		-
@@ -60159,7 +59997,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Section\:\:\$notDefined\.$#'
 			identifier: property.notFound
-			count: 2
+			count: 1
 			path: tests/lib/Repository/Values/Content/SectionTest.php
 
 		-
@@ -60195,7 +60033,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\Content\\TrashItem\:\:\$notDefined\.$#'
 			identifier: property.notFound
-			count: 2
+			count: 1
 			path: tests/lib/Repository/Values/Content/TrashItemTest.php
 
 		-
@@ -60279,7 +60117,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\ObjectState\\ObjectStateGroup\:\:\$notDefined\.$#'
 			identifier: property.notFound
-			count: 2
+			count: 1
 			path: tests/lib/Repository/Values/ObjectState/ObjectStateGroupTest.php
 
 		-
@@ -60345,7 +60183,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\ObjectState\\ObjectState\:\:\$notDefined\.$#'
 			identifier: property.notFound
-			count: 2
+			count: 1
 			path: tests/lib/Repository/Values/ObjectState/ObjectStateTest.php
 
 		-
@@ -60411,7 +60249,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\User\\Policy\:\:\$notDefined\.$#'
 			identifier: property.notFound
-			count: 2
+			count: 1
 			path: tests/lib/Repository/Values/User/PolicyTest.php
 
 		-
@@ -60453,7 +60291,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\User\\Role\:\:\$notDefined\.$#'
 			identifier: property.notFound
-			count: 2
+			count: 1
 			path: tests/lib/Repository/Values/User/RoleTest.php
 
 		-
@@ -60495,7 +60333,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\User\\UserGroup\:\:\$notDefined\.$#'
 			identifier: property.notFound
-			count: 2
+			count: 1
 			path: tests/lib/Repository/Values/User/UserGroupTest.php
 
 		-
@@ -60549,7 +60387,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\User\\User\:\:\$notDefined\.$#'
 			identifier: property.notFound
-			count: 2
+			count: 1
 			path: tests/lib/Repository/Values/User/UserTest.php
 
 		-

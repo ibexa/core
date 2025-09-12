@@ -281,7 +281,7 @@ class Handler implements BaseLocationHandler
 
             // Use content main location if already set, otherwise create location as main
             if (isset($mainLocations[$child['contentobject_id']])) {
-                $createStruct->mainLocationId = $locationMap[$mainLocations[$child['contentobject_id']]]['id'];
+                $createStruct->mainLocationId = (int)$locationMap[$mainLocations[$child['contentobject_id']]]['id'];
             } else {
                 $createStruct->mainLocationId = true;
                 $mainLocations[$child['contentobject_id']] = $child['node_id'];

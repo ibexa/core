@@ -10,7 +10,6 @@ namespace Ibexa\Core\FieldType\BinaryFile;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Core\FieldType\BinaryBase\Type as BinaryBaseType;
-use Ibexa\Core\FieldType\Value as BaseValue;
 use JMS\TranslationBundle\Model\Message;
 use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
@@ -54,20 +53,6 @@ class Type extends BinaryBaseType implements TranslationContainerInterface
         $inputValue = $this->regenerateUri($inputValue);
 
         return new Value($inputValue);
-    }
-
-    /**
-     * Attempts to complete the data in $value.
-     *
-     * @param \Ibexa\Core\FieldType\BinaryFile\Value|\Ibexa\Core\FieldType\Value $value
-     */
-    protected function completeValue(Basevalue $value)
-    {
-        parent::completeValue($value);
-
-        if (isset($value->downloadCount) && $value->downloadCount === null) {
-            $value->downloadCount = 0;
-        }
     }
 
     /**
