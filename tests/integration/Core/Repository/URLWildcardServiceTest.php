@@ -58,20 +58,6 @@ class URLWildcardServiceTest extends BaseTestCase
      *
      * @depends testCreate
      */
-    public function testCreateSetsIdPropertyOnURLWildcard(URLWildcard $urlWildcard)
-    {
-        self::assertNotNull($urlWildcard->id);
-    }
-
-    /**
-     * Test for the create() method.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard $urlWildcard
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create()
-     *
-     * @depends testCreate
-     */
     public function testCreateSetsPropertiesOnURLWildcard(URLWildcard $urlWildcard)
     {
         $this->assertPropertiesCorrect(

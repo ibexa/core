@@ -23,7 +23,7 @@ class EZP21798Test extends BaseTestCase
      * This test will verify that anonymous users can access to a new section
      * that it's allowed to
      */
-    public function testRoleChanges()
+    public function testRoleChanges(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();
