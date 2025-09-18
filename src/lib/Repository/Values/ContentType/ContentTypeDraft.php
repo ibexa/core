@@ -149,4 +149,9 @@ class ContentTypeDraft extends APIContentTypeDraft
     {
         return $this->innerContentType->hasFieldDefinition($fieldDefinitionIdentifier);
     }
+
+    public function isContainer(): bool
+    {
+        return $this->innerContentType->isContainer();
+    }
 }
