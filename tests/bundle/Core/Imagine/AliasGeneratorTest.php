@@ -40,29 +40,29 @@ use Psr\Log\LoggerInterface;
 
 final class AliasGeneratorTest extends TestCase
 {
-    private MockObject|LoaderInterface $dataLoader;
+    private MockObject&LoaderInterface $dataLoader;
 
-    private MockObject|FilterManager $filterManager;
+    private MockObject&FilterManager $filterManager;
 
-    private MockObject|ResolverInterface $ioResolver;
+    private MockObject&ResolverInterface $ioResolver;
 
-    private MockObject|FilterConfiguration $filterConfiguration;
+    private FilterConfiguration $filterConfiguration;
 
-    private MockObject|LoggerInterface $logger;
+    private MockObject&LoggerInterface $logger;
 
-    private MockObject|ImagineInterface $imagine;
+    private MockObject&ImagineInterface $imagine;
 
-    private MockObject|AliasGenerator $aliasGenerator;
+    private AliasGenerator $aliasGenerator;
 
-    private MockObject|VariationHandler $decoratedAliasGenerator;
+    private VariationHandler $decoratedAliasGenerator;
 
-    private MockObject|BoxInterface $box;
+    private MockObject&BoxInterface $box;
 
-    private MockObject|ImageInterface $image;
+    private MockObject&ImageInterface $image;
 
-    private MockObject|IOServiceInterface $ioService;
+    private MockObject&IOServiceInterface $ioService;
 
-    private MockObject|VariationPathGenerator $variationPathGenerator;
+    private MockObject&VariationPathGenerator $variationPathGenerator;
 
     protected function setUp(): void
     {
