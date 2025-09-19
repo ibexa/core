@@ -165,7 +165,7 @@ final class ContentTypeTest extends TestCase
      */
     public function getIsContainerDataProvider(): iterable
     {
-        yield 'content type is a container' => [true];
-        yield 'content type is not a container' => [false];
+        yield 'content type draft is a container' => [true];
+        yield 'content type draft is not a container' => [false];
     }
 }
