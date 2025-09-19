@@ -1,30 +1,26 @@
 services:
     Ibexa\Bundle\IO\Command\MigrateFilesCommand:
-        class: Ibexa\Bundle\IO\Command\MigrateFilesCommand
+        autoconfigure: true
         arguments:
-            - '%ibexa.io.metadata_handlers%'
-            - '%ibexa.io.binarydata_handlers%'
-            - '@Ibexa\Bundle\IO\Migration\FileListerRegistry\ConfigurableRegistry'
-            - '@Ibexa\Bundle\IO\Migration\FileMigrator\FileMigrator'
-        tags:
-            - { name: console.command }
+            $configuredMetadataHandlers: '%ibexa.io.metadata_handlers%'
+            $configuredBinarydataHandlers: '%ibexa.io.binarydata_handlers%'
+            $fileListerRegistry: '@Ibexa\Bundle\IO\Migration\FileListerRegistry\ConfigurableRegistry'
+            $fileMigrator: '@Ibexa\Bundle\IO\Migration\FileMigrator\FileMigrator'
 
-    Ibexa\Bundle\IO\Migration\FileListerRegistry\ConfigurableRegistry:
-        class: Ibexa\Bundle\IO\Migration\FileListerRegistry\ConfigurableRegistry
+    Ibexa\Bundle\IO\Migration\FileListerRegistry\ConfigurableRegistry: ~
 
     Ibexa\Bundle\IO\Migration\MigrationHandler:
-        class: Ibexa\Bundle\IO\Migration\MigrationHandler
         arguments:
-            - '@ibexa.core.io.metadata_handler.registry'
-            - '@ibexa.core.io.binarydata_handler.registry'
-            - "@logger"
+            $metadataHandlerRegistry: '@ibexa.core.io.metadata_handler.registry'
+            $binarydataHandlerRegistry: '@ibexa.core.io.binarydata_handler.registry'
+            $logger: '@?logger'
 
     ibexa.core.io.migration.file_lister.binary_file_lister:
         class: Ibexa\Bundle\IO\Migration\FileLister\BinaryFileLister
         parent: Ibexa\Bundle\IO\Migration\MigrationHandler
         arguments:
-            - '@ibexa.core.io.migration.file_lister.file_iterator.binary_file_iterator'
-            - "%ibexa.site_access.config.default.binary_dir%"
+            $fileList: '@ibexa.core.io.migration.file_lister.file_iterator.binary_file_iterator'
+            $filesDir: '%ibexa.site_access.config.default.binary_dir%'
         tags:
             - { name: "ibexa.io.migration.file_lister", identifier: "binary_file" }
         lazy: true
@@ -33,8 +29,8 @@ services:
         class: Ibexa\Bundle\IO\Migration\FileLister\BinaryFileLister
         parent: Ibexa\Bundle\IO\Migration\MigrationHandler
         arguments:
-            - '@ibexa.core.io.migration.file_lister.file_iterator.media_file_iterator'
-            - "%ibexa.site_access.config.default.binary_dir%"
+            $fileList: '@ibexa.core.io.migration.file_lister.file_iterator.media_file_iterator'
+            $filesDir: '%ibexa.site_access.config.default.binary_dir%'
         tags:
             - { name: "ibexa.io.migration.file_lister", identifier: "media_file" }
         lazy: true
