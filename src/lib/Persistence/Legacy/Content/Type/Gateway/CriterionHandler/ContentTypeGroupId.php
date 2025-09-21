@@ -14,6 +14,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeGroupId as ContentTypeGroupIdCriterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
+use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
 /**
@@ -46,7 +47,7 @@ final class ContentTypeGroupId implements CriterionHandlerInterface
 
         $subQuery
             ->select('c_group.contentclass_id')
-            ->from('ezcontentclass_classgroup', 'c_group')
+            ->from(Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE, 'c_group')
             ->andWhere($whereClause)
             ->andWhere('c_group.contentclass_id = c.id');
 

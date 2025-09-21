@@ -14,6 +14,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContainsFieldDefinitionId as ContainsFieldDefinitionIdCriterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
+use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
 /**
@@ -47,7 +48,7 @@ final class ContainsFieldDefinitionId implements CriterionHandlerInterface
 
         $subQuery
             ->select('f_def.contentclass_id')
-            ->from('ezcontentclass_attribute', 'f_def')
+            ->from(Gateway::FIELD_DEFINITION_TABLE, 'f_def')
             ->where($whereClause)
             ->andWhere('f_def.contentclass_id = c.id');
 

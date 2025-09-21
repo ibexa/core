@@ -13,6 +13,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\IsSystem as IsSystemCriterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
+use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
 /**
@@ -36,8 +37,8 @@ final class IsSystem implements CriterionHandlerInterface
         $subQuery = $qb->getConnection()->createQueryBuilder();
         $subQuery
             ->select('g.contentclass_id')
-            ->from('ezcontentclassgroup', 'ctg')
-            ->leftJoin('ctg', 'ezcontentclass_classgroup', 'c_group', 'ctg.id = c_group.group_id')
+            ->from(Gateway::CONTENT_TYPE_GROUP_TABLE, 'ctg')
+            ->leftJoin('ctg', Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE, 'c_group', 'ctg.id = c_group.group_id')
             ->andWhere($subQuery->expr()->eq(
                 'ctg.is_system',
                 $qb->createNamedParameter($criterion->getValue(), ParameterType::BOOLEAN)
