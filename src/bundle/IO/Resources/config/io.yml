@@ -7,11 +7,9 @@ services:
             $fileListerRegistry: '@Ibexa\Bundle\IO\Migration\FileListerRegistry\ConfigurableRegistry'
             $fileMigrator: '@Ibexa\Bundle\IO\Migration\FileMigrator\FileMigrator'
 
-    Ibexa\Bundle\IO\Migration\FileListerRegistry\ConfigurableRegistry:
-        class: Ibexa\Bundle\IO\Migration\FileListerRegistry\ConfigurableRegistry
+    Ibexa\Bundle\IO\Migration\FileListerRegistry\ConfigurableRegistry: ~
 
     Ibexa\Bundle\IO\Migration\MigrationHandler:
-        class: Ibexa\Bundle\IO\Migration\MigrationHandler
         arguments:
             $metadataHandlerRegistry: '@ibexa.core.io.metadata_handler.registry'
             $binarydataHandlerRegistry: '@ibexa.core.io.binarydata_handler.registry'
