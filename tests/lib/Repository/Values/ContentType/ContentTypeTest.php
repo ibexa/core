@@ -142,9 +142,9 @@ final class ContentTypeTest extends TestCase
     }
 
     /**
-     * @dataProvider getIsContainerDataProvider
+     * @dataProvider provideForDeprecatedPropertyAccessMatchesMethodCallResult
      */
-    public function testIsContentTypeDraftAContainer(bool $isContainer): void
+    public function testDeprecatedPropertyAccessMatchesMethodCallResult(bool $isContainer): void
     {
         $contentTypeDraft = new ContentTypeDraft([
             'innerContentType' => new ContentType([
@@ -152,9 +152,8 @@ final class ContentTypeTest extends TestCase
             ]),
         ]);
 
-        /** @phpstan-ignore-next-line
-         * it is here on purpose - this is a violation since we directly access a protected property.
-         * The aim however, is to show that both methods return the same value (even though the former is deprecated)
+        /** @phpstan-ignore-next-line property.protected
+         * intentionally violating deprecated property access.
          */
         self::assertSame($isContainer, $contentTypeDraft->isContainer);
         self::assertSame($isContainer, $contentTypeDraft->isContainer());
@@ -163,7 +162,7 @@ final class ContentTypeTest extends TestCase
     /**
      * @return iterable<string, array{0: bool}>
      */
-    public function getIsContainerDataProvider(): iterable
+    public function provideForDeprecatedPropertyAccessMatchesMethodCallResult(): iterable
     {
         yield 'content type draft is a container' => [true];
         yield 'content type draft is not a container' => [false];
