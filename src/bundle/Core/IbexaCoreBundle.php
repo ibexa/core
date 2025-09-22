@@ -96,6 +96,10 @@ final class IbexaCoreBundle extends Bundle
         $container->addCompilerPass(new TranslationCollectorPass());
         $container->addCompilerPass(new SlugConverterConfigurationPass());
 
+        /** @var \Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension $kernel */
+        $kernel = $container->getExtension('ibexa');
+        $kernel->addRepositoryConfigParser(new RepositoryConfigParser\PasswordHash());
+
         $container->registerForAutoconfiguration(VariableProvider::class)->addTag('ezplatform.view.variable_provider');
     }
 
@@ -129,6 +133,7 @@ final class IbexaCoreBundle extends Bundle
                     new RepositoryConfigParser\Search(),
                     new RepositoryConfigParser\FieldGroups(),
                     new RepositoryConfigParser\Options(),
+                    new RepositoryConfigParser\PasswordHash(),
                 ]
             );
         }
