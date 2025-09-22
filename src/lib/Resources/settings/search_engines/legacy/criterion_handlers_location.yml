@@ -1,10 +1,9 @@
 services:
-    # Note: services tagged with:
-    #  - ibexa.search.legacy.gateway.criterion_handler.location
-    # are registered to this one using compilation pass
     ibexa.search.legacy.gateway.criteria_converter.location:
         class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter
         lazy: true
+        arguments:
+            $handlers: !tagged_iterator ibexa.search.legacy.gateway.criterion_handler.location
 
     Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Ancestor:
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
