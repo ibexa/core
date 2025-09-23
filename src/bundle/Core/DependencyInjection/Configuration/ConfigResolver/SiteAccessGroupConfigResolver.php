@@ -76,7 +76,7 @@ class SiteAccessGroupConfigResolver extends SiteAccessConfigResolver
     protected function resolverHasParameterForGroup(SiteAccessGroup $siteAccessGroup, string $paramName, string $namespace): bool
     {
         if ($this->container === null) {
-            return false;
+            throw new LogicException('Container is not set.');
         }
 
         $groupScopeParamName = $this->resolveScopeRelativeParamName($paramName, $namespace, $siteAccessGroup->getName());
@@ -107,7 +107,7 @@ class SiteAccessGroupConfigResolver extends SiteAccessConfigResolver
     protected function getParameterFromResolverForGroup(SiteAccessGroup $siteAccessGroup, string $paramName, string $namespace)
     {
         if ($this->container === null) {
-            throw new ParameterNotFoundException($paramName, $namespace, [$siteAccessGroup]);
+            throw new LogicException('Container is not set.');
         }
 
         $groupScopeParamName = $this->resolveScopeRelativeParamName($paramName, $namespace, $siteAccessGroup->getName());
