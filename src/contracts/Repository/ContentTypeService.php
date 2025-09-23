@@ -18,6 +18,8 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 
 interface ContentTypeService
@@ -172,6 +174,11 @@ interface ContentTypeService
      * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType[]|iterable
      */
     public function loadContentTypeList(array $contentTypeIds, array $prioritizedLanguages = []): iterable;
+
+    /**
+     * @param list<string> $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
+     */
+    public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): SearchResult;
 
     /**
      * Get content type objects which belong to the given content type group.

@@ -1153,7 +1153,8 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->gateway = new DoctrineDatabase(
                 $this->getDatabaseConnection(),
                 $this->getSharedGateway(),
-                $this->getLanguageMaskGenerator()
+                $this->getLanguageMaskGenerator(),
+                $this->getCriterionVisitor()
             );
         }
 

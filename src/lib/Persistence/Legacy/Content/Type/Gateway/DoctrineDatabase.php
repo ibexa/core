@@ -17,6 +17,9 @@ use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
+use Ibexa\Contracts\Core\Repository\Values\URL\Query\SortClause;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\MultilingualStorageFieldDefinition;
@@ -34,6 +37,11 @@ use function sprintf;
  */
 final class DoctrineDatabase extends Gateway
 {
+    private const SORT_DIRECTION_MAP = [
+        SortClause::SORT_ASC => 'ASC',
+        SortClause::SORT_DESC => 'DESC',
+    ];
+
     /**
      * Columns of database tables.
      *
@@ -113,18 +121,22 @@ final class DoctrineDatabase extends Gateway
      */
     private $languageMaskGenerator;
 
+    private Gateway\CriterionVisitor\CriterionVisitor $criterionVisitor;
+
     /**
      * @throws \Doctrine\DBAL\DBALException
      */
     public function __construct(
         Connection $connection,
         SharedGateway $sharedGateway,
-        MaskGenerator $languageMaskGenerator
+        MaskGenerator $languageMaskGenerator,
+        Gateway\CriterionVisitor\CriterionVisitor $criterionVisitor
     ) {
         $this->connection = $connection;
         $this->dbPlatform = $connection->getDatabasePlatform();
         $this->sharedGateway = $sharedGateway;
         $this->languageMaskGenerator = $languageMaskGenerator;
+        $this->criterionVisitor = $criterionVisitor;
     }
 
     public function insertGroup(Group $group): int
@@ -193,6 +205,40 @@ final class DoctrineDatabase extends Gateway
             );
 
         $query->execute();
+    }
+
+    public function countTypes(?ContentTypeQuery $query = null): int
+    {
+        $query = $query ?: new ContentTypeQuery();
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $expr = $queryBuilder->expr();
+        $queryBuilder
+            ->select('COUNT(DISTINCT c.id)')
+            ->from(self::CONTENT_TYPE_TABLE, 'c')
+            ->leftJoin(
+                'c',
+                self::FIELD_DEFINITION_TABLE,
+                'a',
+                (string)$expr->and(
+                    $expr->eq('c.id', 'a.contentclass_id'),
+                    $expr->eq('c.version', 'a.version')
+                )
+            )
+            ->leftJoin(
+                'c',
+                self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE,
+                'g',
+                (string)$expr->and(
+                    $expr->eq('c.id', 'g.contentclass_id'),
+                    $expr->eq('c.version', 'g.contentclass_version')
+                )
+            );
+
+        if ($query->getCriterion() !== null) {
+            $queryBuilder->andWhere($this->criterionVisitor->visitCriteria($queryBuilder, $query->getCriterion()));
+        }
+
+        return (int)$queryBuilder->execute()->fetchOne();
     }
 
     public function countTypesInGroup(int $groupId): int
@@ -1403,6 +1449,109 @@ final class DoctrineDatabase extends Gateway
 
             throw $e;
         }
+    }
+
+    public function findContentTypes(?ContentTypeQuery $query = null): array
+    {
+        $totalCount = $this->countTypes($query);
+        if ($totalCount === 0) {
+            return [
+                'count' => $totalCount,
+                'items' => [],
+            ];
+        }
+
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $expr = $queryBuilder->expr();
+        $queryBuilder
+            ->select(
+                [
+                    'c.id AS ezcontentclass_id',
+                    'c.version AS ezcontentclass_version',
+                    'c.serialized_name_list AS ezcontentclass_serialized_name_list',
+                    'c.serialized_description_list AS ezcontentclass_serialized_description_list',
+                    'c.identifier AS ezcontentclass_identifier',
+                    'c.created AS ezcontentclass_created',
+                    'c.modified AS ezcontentclass_modified',
+                    'c.modifier_id AS ezcontentclass_modifier_id',
+                    'c.creator_id AS ezcontentclass_creator_id',
+                    'c.remote_id AS ezcontentclass_remote_id',
+                    'c.url_alias_name AS ezcontentclass_url_alias_name',
+                    'c.contentobject_name AS ezcontentclass_contentobject_name',
+                    'c.is_container AS ezcontentclass_is_container',
+                    'c.initial_language_id AS ezcontentclass_initial_language_id',
+                    'c.always_available AS ezcontentclass_always_available',
+                    'c.sort_field AS ezcontentclass_sort_field',
+                    'c.sort_order AS ezcontentclass_sort_order',
+                    'c.language_mask AS ezcontentclass_language_mask',
+                ],
+            )
+            ->distinct()
+            ->from(self::CONTENT_TYPE_TABLE, 'c')
+            ->leftJoin(
+                'c',
+                self::FIELD_DEFINITION_TABLE,
+                'a',
+                (string)$expr->and(
+                    $expr->eq('c.id', 'a.contentclass_id'),
+                    $expr->eq('c.version', 'a.version')
+                )
+            )
+            ->leftJoin(
+                'c',
+                self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE,
+                'g',
+                (string)$expr->and(
+                    $expr->eq('c.id', 'g.contentclass_id'),
+                    $expr->eq('c.version', 'g.contentclass_version')
+                )
+            );
+
+        $query = $query ?: new ContentTypeQuery();
+        if ($query->getCriterion() !== null) {
+            $queryBuilder->andWhere($this->criterionVisitor->visitCriteria($queryBuilder, $query->getCriterion()));
+        }
+
+        $queryBuilder->setFirstResult($query->getOffset());
+        $queryBuilder->setMaxResults($query->getLimit());
+
+        $distinctContentTypeRows = $queryBuilder->execute()->fetchAllAssociative();
+        $contentTypeIds = array_column($distinctContentTypeRows, 'ezcontentclass_id');
+
+        $joinedQueryBuilder = $this->getLoadTypeQueryBuilder();
+        $joinedQueryBuilder
+            ->andWhere($joinedQueryBuilder->expr()->in('c.id', ':contentTypeIds'))
+            ->setParameter('contentTypeIds', $contentTypeIds, Connection::PARAM_INT_ARRAY);
+
+        foreach ($query->getSortClauses() as $sortClause) {
+            $column = sprintf('c.%s', $sortClause->target);
+            $joinedQueryBuilder->addOrderBy($column, $this->getQuerySortingDirection($sortClause->direction));
+        }
+
+        $results = $joinedQueryBuilder->execute()->fetchAllAssociative();
+
+        return [
+            'count' => $totalCount,
+            'items' => $results,
+        ];
+    }
+
+    /**
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     */
+    private function getQuerySortingDirection(string $direction): string
+    {
+        if (!isset(self::SORT_DIRECTION_MAP[$direction])) {
+            throw new InvalidArgumentException(
+                '$sortClause->direction',
+                sprintf(
+                    'Unsupported "%s" sorting directions, use one of the SortClause::SORT_* constants instead',
+                    $direction
+                )
+            );
+        }
+
+        return self::SORT_DIRECTION_MAP[$direction];
     }
 
     /**
