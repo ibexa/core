@@ -62,7 +62,7 @@ class EZP21798Test extends BaseTestCase
         $contentCreateStructArticle->setField('title', 'Article 1');
 
         $newsLocation = $urlAliasService->lookup('/News');
-        $locationNews = $locationService->loadLocation($newsLocation->destination);
+        $locationNews = $locationService->loadLocation((int)$newsLocation->destination);
 
         $locationCreateStructArticle = $locationService->newLocationCreateStruct($locationNews->id);
         $draftArticle = $contentService->createContent($contentCreateStructArticle, [$locationCreateStructArticle]);

@@ -254,6 +254,6 @@ abstract class BaseBinaryFileIntegrationTestCaseCase extends FileSearchBaseInteg
             "File {$field->value->uri} doesn't exist."
         );
 
-        self::$loadedFilePath = $field->value->id;
+        self::$loadedFilePath = (string)$field->value->id;
     }
 }

@@ -70,7 +70,7 @@ class BasicContentContext implements Context
      */
     public function publishDraft(Content $content)
     {
-        $this->contentService->publishVersion($content->versionInfo->id);
+        $this->contentService->publishVersion($content->getVersionInfo());
     }
 
     /**

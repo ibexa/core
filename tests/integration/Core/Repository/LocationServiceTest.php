@@ -2345,7 +2345,7 @@ class LocationServiceTest extends BaseTestCase
         // delete location
         $locationService->deleteLocation(
             $locationService->loadLocation(
-                $urlAliasService->lookup('/Test-folder')->destination
+                (int)$urlAliasService->lookup('/Test-folder')->destination
             )
         );
 

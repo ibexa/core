@@ -13,7 +13,7 @@ use Ibexa\Core\FieldType\Value as BaseValue;
  * Base value for binary field types.
  *
  * @property string $path Used for BC with 5.0 (EZP-20948). Equivalent to $id.
- * @property-read string $id Unique file ID, set by storage. Read only since 5.3 (EZP-22808).
+ * @property-read string|null $id Unique file ID, set by storage. Read only since 5.3 (EZP-22808).
  */
 abstract class Value extends BaseValue
 {

@@ -61,7 +61,7 @@ class EZP21069Test extends BaseTestCase
             $contentService->updateContent(
                 $contentService->createContentDraft(
                     $locationService->loadLocation(
-                        $urlAliasService->lookup('/TheOriginalNews', 'eng-GB')->destination
+                        (int)$urlAliasService->lookup('/TheOriginalNews', 'eng-GB')->destination
                     )->getContentInfo()
                 )->versionInfo,
                 $contentUpdateStruct
@@ -75,7 +75,7 @@ class EZP21069Test extends BaseTestCase
         $contentService->updateContent(
             $contentService->createContentDraft(
                 $locationService->loadLocation(
-                    $urlAliasService->lookup('/TheUpdatedNews', 'eng-GB')->destination
+                    (int)$urlAliasService->lookup('/TheUpdatedNews', 'eng-GB')->destination
                 )->getContentInfo()
             )->versionInfo,
             $contentDraftStruct

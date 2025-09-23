@@ -316,11 +316,11 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
         string $requestedPath,
         string $pathPrefix
     ): array {
-        $location = $this->generator->loadLocation($urlAlias->destination);
+        $location = $this->generator->loadLocation((int)$urlAlias->destination);
         $params += [
             '_controller' => static::VIEW_ACTION,
             'contentId' => $location->contentId,
-            'locationId' => $urlAlias->destination,
+            'locationId' => (int)$urlAlias->destination,
             'viewType' => ViewManagerInterface::VIEW_TYPE_FULL,
             'layout' => true,
         ];
@@ -341,10 +341,6 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
                 'semanticPathinfo' => $this->removePathPrefix($urlAlias->path, $pathPrefix),
                 'needsRedirect' => true,
             ];
-
-            if ($urlAlias->destination instanceof Location) {
-                $params += ['locationId' => $urlAlias->destination->id];
-            }
         }
 
         $this->logger->info(
@@ -368,7 +364,7 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
         // In URLAlias terms, "forward" means "redirect".
         if ($urlAlias->forward) {
             $params += [
-                'semanticPathinfo' => '/' . trim($urlAlias->destination, '/'),
+                'semanticPathinfo' => '/' . trim((string)$urlAlias->destination, '/'),
                 'needsRedirect' => true,
             ];
         } elseif ($this->needsCaseRedirect($urlAlias, $requestedPath, $pathPrefix)) {
@@ -379,7 +375,7 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
             ];
         } else {
             $params += [
-                'semanticPathinfo' => '/' . trim($urlAlias->destination, '/'),
+                'semanticPathinfo' => '/' . trim((string)$urlAlias->destination, '/'),
                 'needsForward' => true,
             ];
         }
