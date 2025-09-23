@@ -11,6 +11,7 @@ namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Provider\StaticSiteAccessProvider;
+use LogicException;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
@@ -24,6 +25,10 @@ class StaticSiteAccessConfigResolver extends SiteAccessConfigResolver
 
     protected function resolverHasParameter(SiteAccess $siteAccess, string $paramName, string $namespace): bool
     {
+        if ($this->container === null) {
+            throw new LogicException('Container is not set.');
+        }
+
         return $this->container->hasParameter(
             $this->resolveScopeRelativeParamName($paramName, $namespace, $siteAccess->name)
         );
@@ -31,6 +36,10 @@ class StaticSiteAccessConfigResolver extends SiteAccessConfigResolver
 
     protected function getParameterFromResolver(SiteAccess $siteAccess, string $paramName, string $namespace)
     {
+        if ($this->container === null) {
+            throw new LogicException('Container is not set.');
+        }
+
         $scopeRelativeParamName = $this->getScopeRelativeParamName($paramName, $namespace, $siteAccess->name);
         if ($this->container->hasParameter($scopeRelativeParamName)) {
             return $this->container->getParameter($scopeRelativeParamName);

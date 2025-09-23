@@ -11,6 +11,7 @@ namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccessGroup;
+use LogicException;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
@@ -58,6 +59,10 @@ class SiteAccessGroupConfigResolver extends SiteAccessConfigResolver
 
     protected function resolverHasParameter(SiteAccess $siteAccess, string $paramName, string $namespace): bool
     {
+        if ($this->container === null) {
+            throw new LogicException('Container is not set.');
+        }
+
         foreach ($siteAccess->groups as $group) {
             $groupScopeParamName = $this->resolveScopeRelativeParamName($paramName, $namespace, $group->getName());
             if ($this->container->hasParameter($groupScopeParamName)) {
@@ -70,6 +75,10 @@ class SiteAccessGroupConfigResolver extends SiteAccessConfigResolver
 
     protected function resolverHasParameterForGroup(SiteAccessGroup $siteAccessGroup, string $paramName, string $namespace): bool
     {
+        if ($this->container === null) {
+            throw new LogicException('Container is not set.');
+        }
+
         $groupScopeParamName = $this->resolveScopeRelativeParamName($paramName, $namespace, $siteAccessGroup->getName());
 
         return $this->container->hasParameter($groupScopeParamName);
@@ -77,6 +86,10 @@ class SiteAccessGroupConfigResolver extends SiteAccessConfigResolver
 
     protected function getParameterFromResolver(SiteAccess $siteAccess, string $paramName, string $namespace)
     {
+        if ($this->container === null) {
+            throw new LogicException('Container is not set.');
+        }
+
         $triedScopes = [];
 
         foreach ($siteAccess->groups as $group) {
@@ -93,6 +106,10 @@ class SiteAccessGroupConfigResolver extends SiteAccessConfigResolver
 
     protected function getParameterFromResolverForGroup(SiteAccessGroup $siteAccessGroup, string $paramName, string $namespace)
     {
+        if ($this->container === null) {
+            throw new LogicException('Container is not set.');
+        }
+
         $groupScopeParamName = $this->resolveScopeRelativeParamName($paramName, $namespace, $siteAccessGroup->getName());
 
         if (!$this->container->hasParameter($groupScopeParamName)) {
