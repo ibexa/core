@@ -2257,12 +2257,6 @@ parameters:
 			path: src/bundle/Core/Features/Context/BasicContentContext.php
 
 		-
-			message: '#^Parameter \#1 \$versionInfo of method Ibexa\\Contracts\\Core\\Repository\\ContentService\:\:publishVersion\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\VersionInfo, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/bundle/Core/Features/Context/BasicContentContext.php
-
-		-
 			message: '#^Property Ibexa\\Bundle\\Core\\Features\\Context\\BasicContentContext\:\:\$contentPaths has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
@@ -6229,12 +6223,6 @@ parameters:
 			path: src/lib/FieldType/BinaryBase/Type.php
 
 		-
-			message: '#^Property Ibexa\\Core\\FieldType\\BinaryBase\\Value\:\:\$id \(string\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: src/lib/FieldType/BinaryBase/Type.php
-
-		-
 			message: '#^Method Ibexa\\Core\\FieldType\\BinaryBase\\Value\:\:__construct\(\) has parameter \$fileData with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -8765,24 +8753,6 @@ parameters:
 			identifier: new.static
 			count: 1
 			path: src/lib/MVC/Symfony/Routing/SimplifiedRequest.php
-
-		-
-			message: '#^Instanceof between int\|string and Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location will always evaluate to false\.$#'
-			identifier: instanceof.alwaysFalse
-			count: 1
-			path: src/lib/MVC/Symfony/Routing/UrlAliasRouter.php
-
-		-
-			message: '#^Parameter \#1 \$locationId of method Ibexa\\Core\\MVC\\Symfony\\Routing\\Generator\\UrlAliasGenerator\:\:loadLocation\(\) expects int, int\|string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/MVC/Symfony/Routing/UrlAliasRouter.php
-
-		-
-			message: '#^Parameter \#1 \$string of function trim expects string, int\|string given\.$#'
-			identifier: argument.type
-			count: 2
-			path: src/lib/MVC/Symfony/Routing/UrlAliasRouter.php
 
 		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Security\\Authorization\\Attribute\:\:__construct\(\) has parameter \$function with no type specified\.$#'
@@ -33151,12 +33121,6 @@ parameters:
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
 		-
-			message: '#^Parameter \#1 \$locationId of method Ibexa\\Contracts\\Core\\Repository\\LocationService\:\:loadLocation\(\) expects int, int\|string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/integration/Core/Repository/LocationServiceTest.php
-
-		-
 			message: '#^Parameter \#1 \$parentLocationId of method Ibexa\\Contracts\\Core\\Repository\\LocationService\:\:newLocationCreateStruct\(\) expects int, int\|null given\.$#'
 			identifier: argument.type
 			count: 2
@@ -33997,12 +33961,6 @@ parameters:
 			path: tests/integration/Core/Repository/Regression/EZP21069Test.php
 
 		-
-			message: '#^Parameter \#1 \$locationId of method Ibexa\\Contracts\\Core\\Repository\\LocationService\:\:loadLocation\(\) expects int, int\|string given\.$#'
-			identifier: argument.type
-			count: 2
-			path: tests/integration/Core/Repository/Regression/EZP21069Test.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP21089Test\:\:testCreateContent\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -34035,12 +33993,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP21798Test\:\:testRoleChanges\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/Regression/EZP21798Test.php
-
-		-
-			message: '#^Parameter \#1 \$locationId of method Ibexa\\Contracts\\Core\\Repository\\LocationService\:\:loadLocation\(\) expects int, int\|string given\.$#'
-			identifier: argument.type
 			count: 1
 			path: tests/integration/Core/Repository/Regression/EZP21798Test.php
 
