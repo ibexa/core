@@ -41,7 +41,6 @@ class StaticSiteAccessConfigResolver extends SiteAccessConfigResolver
         }
 
         $scopeRelativeParamName = $this->getScopeRelativeParamName($paramName, $namespace, $siteAccess->name);
-
         if ($this->container->hasParameter($scopeRelativeParamName)) {
             return $this->container->getParameter($scopeRelativeParamName);
         }
