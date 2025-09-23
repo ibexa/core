@@ -24,6 +24,10 @@ class StaticSiteAccessConfigResolver extends SiteAccessConfigResolver
 
     protected function resolverHasParameter(SiteAccess $siteAccess, string $paramName, string $namespace): bool
     {
+        if ($this->container === null) {
+            return false;
+        }
+
         return $this->container->hasParameter(
             $this->resolveScopeRelativeParamName($paramName, $namespace, $siteAccess->name)
         );
@@ -32,6 +36,11 @@ class StaticSiteAccessConfigResolver extends SiteAccessConfigResolver
     protected function getParameterFromResolver(SiteAccess $siteAccess, string $paramName, string $namespace)
     {
         $scopeRelativeParamName = $this->getScopeRelativeParamName($paramName, $namespace, $siteAccess->name);
+
+        if ($this->container === null) {
+            throw new ParameterNotFoundException($scopeRelativeParamName, $namespace, []);
+        }
+
         if ($this->container->hasParameter($scopeRelativeParamName)) {
             return $this->container->getParameter($scopeRelativeParamName);
         }

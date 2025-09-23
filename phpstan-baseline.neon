@@ -8317,6 +8317,12 @@ parameters:
 			path: src/contracts/Repository/Values/Content/Location.php
 
 		-
+			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\:\:\$pathString \(string\) on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.property
+			count: 1
+			path: src/contracts/Repository/Values/Content/Location.php
+
+		-
 			message: '#^Class Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\LocationList implements generic interface IteratorAggregate but does not specify its types\: TKey, TValue$#'
 			identifier: missingType.generics
 			count: 1
@@ -24415,6 +24421,18 @@ parameters:
 			path: src/lib/Repository/LocationService.php
 
 		-
+			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentType\:\:\$defaultSortField \(int\) on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.property
+			count: 1
+			path: src/lib/Repository/LocationService.php
+
+		-
+			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentType\:\:\$defaultSortOrder \(int\) on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.property
+			count: 1
+			path: src/lib/Repository/LocationService.php
+
+		-
 			message: '#^Property Ibexa\\Core\\Repository\\LocationService\:\:\$repository \(Ibexa\\Core\\Repository\\Repository\) does not accept Ibexa\\Contracts\\Core\\Repository\\Repository\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -25881,12 +25899,6 @@ parameters:
 		-
 			message: '#^Call to method getValue\(\) on an unknown class eZ\\Publish\\API\\Repository\\Values\\Content\\Field\.$#'
 			identifier: class.notFound
-			count: 1
-			path: src/lib/Repository/Values/Content/Content.php
-
-		-
-			message: '#^Cannot access offset mixed on Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Field\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/lib/Repository/Values/Content/Content.php
 
@@ -74179,8 +74191,20 @@ parameters:
 			path: tests/lib/Repository/Values/Content/LocationTest.php
 
 		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: tests/lib/Repository/Values/Content/LocationTest.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\LocationTest\:\:assertPropertiesCorrect\(\) has no return type specified\.$#'
 			identifier: missingType.return
+			count: 1
+			path: tests/lib/Repository/Values/Content/LocationTest.php
+
+		-
+			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\:\:\$id \(int\) in isset\(\) is not nullable\.$#'
+			identifier: isset.property
 			count: 1
 			path: tests/lib/Repository/Values/Content/LocationTest.php
 
@@ -74245,6 +74269,12 @@ parameters:
 			path: tests/lib/Repository/Values/Content/TrashItemTest.php
 
 		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: tests/lib/Repository/Values/Content/TrashItemTest.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\TrashItemTest\:\:assertPropertiesCorrect\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -74277,6 +74307,12 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\TrashItemTest\:\:testUnsetProperty\(\) has no return type specified\.$#'
 			identifier: missingType.return
+			count: 1
+			path: tests/lib/Repository/Values/Content/TrashItemTest.php
+
+		-
+			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\:\:\$id \(int\) in isset\(\) is not nullable\.$#'
+			identifier: isset.property
 			count: 1
 			path: tests/lib/Repository/Values/Content/TrashItemTest.php
 
@@ -74359,6 +74395,12 @@ parameters:
 			path: tests/lib/Repository/Values/ObjectState/ObjectStateGroupTest.php
 
 		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: tests/lib/Repository/Values/ObjectState/ObjectStateGroupTest.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\ObjectState\\ObjectStateGroupTest\:\:assertPropertiesCorrect\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -74415,6 +74457,12 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\ObjectState\\ObjectStateGroupTest\:\:testUnsetProperty\(\) has no return type specified\.$#'
 			identifier: missingType.return
+			count: 1
+			path: tests/lib/Repository/Values/ObjectState/ObjectStateGroupTest.php
+
+		-
+			message: '#^Property Ibexa\\Core\\Repository\\Values\\ObjectState\\ObjectStateGroup\:\:\$defaultLanguageCode \(string\) in isset\(\) is not nullable\.$#'
+			identifier: isset.property
 			count: 1
 			path: tests/lib/Repository/Values/ObjectState/ObjectStateGroupTest.php
 
@@ -74533,6 +74581,12 @@ parameters:
 			path: tests/lib/Repository/Values/User/RoleTest.php
 
 		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: tests/lib/Repository/Values/User/RoleTest.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\User\\RoleTest\:\:assertPropertiesCorrect\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -74565,6 +74619,12 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\User\\RoleTest\:\:testUnsetProperty\(\) has no return type specified\.$#'
 			identifier: missingType.return
+			count: 1
+			path: tests/lib/Repository/Values/User/RoleTest.php
+
+		-
+			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\User\\Role\:\:\$id \(int\) in isset\(\) is not nullable\.$#'
+			identifier: isset.property
 			count: 1
 			path: tests/lib/Repository/Values/User/RoleTest.php
 
@@ -74629,6 +74689,12 @@ parameters:
 			path: tests/lib/Repository/Values/User/UserTest.php
 
 		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: tests/lib/Repository/Values/User/UserTest.php
+
+		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\User\\UserTest\:\:assertPropertiesCorrect\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -74673,6 +74739,12 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\User\\UserTest\:\:testUnsetProperty\(\) has no return type specified\.$#'
 			identifier: missingType.return
+			count: 1
+			path: tests/lib/Repository/Values/User/UserTest.php
+
+		-
+			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\User\\User\:\:\$login \(string\) in isset\(\) is not nullable\.$#'
+			identifier: isset.property
 			count: 1
 			path: tests/lib/Repository/Values/User/UserTest.php
 
