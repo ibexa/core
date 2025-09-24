@@ -17029,18 +17029,6 @@ parameters:
 			path: src/lib/Repository/LocationService.php
 
 		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentType\:\:\$defaultSortField \(int\) on left side of \?\? is not nullable\.$#'
-			identifier: nullCoalesce.property
-			count: 1
-			path: src/lib/Repository/LocationService.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentType\:\:\$defaultSortOrder \(int\) on left side of \?\? is not nullable\.$#'
-			identifier: nullCoalesce.property
-			count: 1
-			path: src/lib/Repository/LocationService.php
-
-		-
 			message: '#^Property Ibexa\\Core\\Repository\\LocationService\:\:\$repository \(Ibexa\\Core\\Repository\\Repository\) does not accept Ibexa\\Contracts\\Core\\Repository\\Repository\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -22647,54 +22635,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Imagine\\AliasGeneratorTest\:\:supportsValueProvider\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: tests/bundle/Core/Imagine/AliasGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Imagine\\AliasGeneratorTest\:\:testGetVariationAlreadyStored\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/Imagine/AliasGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Imagine\\AliasGeneratorTest\:\:testGetVariationInvalidVariation\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/Imagine/AliasGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Imagine\\AliasGeneratorTest\:\:testGetVariationNotStored\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/Imagine/AliasGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Imagine\\AliasGeneratorTest\:\:testGetVariationNotStoredHavingReferences\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/Imagine/AliasGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Imagine\\AliasGeneratorTest\:\:testGetVariationOriginal\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/Imagine/AliasGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Imagine\\AliasGeneratorTest\:\:testGetVariationOriginalNotFound\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/Imagine/AliasGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Imagine\\AliasGeneratorTest\:\:testGetVariationWrongValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/Imagine/AliasGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Imagine\\AliasGeneratorTest\:\:testSupportsValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: tests/bundle/Core/Imagine/AliasGeneratorTest.php
 
@@ -33991,12 +33931,6 @@ parameters:
 			path: tests/integration/Core/Repository/Regression/EZP21771IbexaStringTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP21798Test\:\:testRoleChanges\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/Regression/EZP21798Test.php
-
-		-
 			message: '#^Parameter \#1 \$value of function count expects array\|Countable, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\User\\Policy\> given\.$#'
 			identifier: argument.type
 			count: 1
@@ -38493,18 +38427,6 @@ parameters:
 		-
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLWildcardTranslationResult'' and Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\URLWildcardTranslationResult will always evaluate to true\.$#'
 			identifier: staticMethod.alreadyNarrowedType
-			count: 1
-			path: tests/integration/Core/Repository/URLWildcardServiceTest.php
-
-		-
-			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertNotNull\(\) with int will always evaluate to true\.$#'
-			identifier: staticMethod.alreadyNarrowedType
-			count: 1
-			path: tests/integration/Core/Repository/URLWildcardServiceTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\URLWildcardServiceTest\:\:testCreateSetsIdPropertyOnURLWildcard\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: tests/integration/Core/Repository/URLWildcardServiceTest.php
 
@@ -60373,50 +60295,8 @@ parameters:
 			path: tests/lib/Repository/Values/User/RoleTest.php
 
 		-
-			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
-			identifier: staticMethod.alreadyNarrowedType
-			count: 1
-			path: tests/lib/Repository/Values/User/RoleTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\User\\RoleTest\:\:assertPropertiesCorrect\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Values/User/RoleTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\User\\RoleTest\:\:testIsPropertySet\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Values/User/RoleTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\User\\RoleTest\:\:testMissingProperty\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Values/User/RoleTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\User\\RoleTest\:\:testNewClass\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Values/User/RoleTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\User\\RoleTest\:\:testReadOnlyProperty\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Values/User/RoleTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\User\\RoleTest\:\:testUnsetProperty\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Values/User/RoleTest.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\User\\Role\:\:\$id \(int\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
 			count: 1
 			path: tests/lib/Repository/Values/User/RoleTest.php
 
@@ -60481,20 +60361,8 @@ parameters:
 			path: tests/lib/Repository/Values/User/UserTest.php
 
 		-
-			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
-			identifier: staticMethod.alreadyNarrowedType
-			count: 1
-			path: tests/lib/Repository/Values/User/UserTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\User\\UserTest\:\:assertPropertiesCorrect\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Values/User/UserTest.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\User\\User\:\:\$login \(string\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
 			count: 1
 			path: tests/lib/Repository/Values/User/UserTest.php
 

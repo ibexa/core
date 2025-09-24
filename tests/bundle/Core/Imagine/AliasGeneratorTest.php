@@ -4,16 +4,19 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\Imagine;
 
 use DateTime;
 use Ibexa\Bundle\Core\Imagine\AliasGenerator;
 use Ibexa\Bundle\Core\Imagine\Variation\ImagineAwareAliasGenerator;
+use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\FieldType\Value as FieldTypeValue;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidVariationException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Variation\Values\ImageVariation;
+use Ibexa\Contracts\Core\Variation\VariationHandler;
 use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
 use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
@@ -31,46 +34,35 @@ use Liip\ImagineBundle\Exception\Imagine\Cache\Resolver\NotResolvableException;
 use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
 use Liip\ImagineBundle\Imagine\Filter\FilterConfiguration;
 use Liip\ImagineBundle\Imagine\Filter\FilterManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
-class AliasGeneratorTest extends TestCase
+final class AliasGeneratorTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Liip\ImagineBundle\Binary\Loader\LoaderInterface */
-    private $dataLoader;
+    private MockObject&LoaderInterface $dataLoader;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Liip\ImagineBundle\Imagine\Filter\FilterManager */
-    private $filterManager;
+    private MockObject&FilterManager $filterManager;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
-    private $ioResolver;
+    private MockObject&ResolverInterface $ioResolver;
 
-    /** @var \Liip\ImagineBundle\Imagine\Filter\FilterConfiguration */
-    private $filterConfiguration;
+    private FilterConfiguration $filterConfiguration;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Psr\Log\LoggerInterface */
-    private $logger;
+    private MockObject&LoggerInterface $logger;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Imagine\Image\ImagineInterface */
-    private $imagine;
+    private MockObject&ImagineInterface $imagine;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\AliasGenerator */
-    private $aliasGenerator;
+    private AliasGenerator $aliasGenerator;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationHandler */
-    private $decoratedAliasGenerator;
+    private VariationHandler $decoratedAliasGenerator;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Imagine\Image\BoxInterface */
-    private $box;
+    private MockObject&BoxInterface $box;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Imagine\Image\ImageInterface */
-    private $image;
+    private MockObject&ImageInterface $image;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\IO\IOServiceInterface */
-    private $ioService;
+    private MockObject&IOServiceInterface $ioService;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Variation\VariationPathGenerator */
-    private $variationPathGenerator;
+    private MockObject&VariationPathGenerator $variationPathGenerator;
 
     protected function setUp(): void
     {
@@ -105,11 +97,8 @@ class AliasGeneratorTest extends TestCase
 
     /**
      * @dataProvider supportsValueProvider
-     *
-     * @param \Ibexa\Contracts\Core\FieldType\Value $value
-     * @param bool $isSupported
      */
-    public function testSupportsValue($value, $isSupported)
+    public function testSupportsValue(Value $value, bool $isSupported): void
     {
         self::assertSame($isSupported, $this->aliasGenerator->supportsValue($value));
     }
@@ -123,7 +112,7 @@ class AliasGeneratorTest extends TestCase
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function supportsValueProvider()
+    public function supportsValueProvider(): array
     {
         return [
             [$this->createMock(FieldTypeValue::class), false],
@@ -133,7 +122,7 @@ class AliasGeneratorTest extends TestCase
         ];
     }
 
-    public function testGetVariationWrongValue()
+    public function testGetVariationWrongValue(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -149,7 +138,7 @@ class AliasGeneratorTest extends TestCase
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
      */
-    public function testGetVariationNotStored()
+    public function testGetVariationNotStored(): void
     {
         $originalPath = 'foo/bar/image.jpg';
         $variationName = 'my_variation';
@@ -195,7 +184,7 @@ class AliasGeneratorTest extends TestCase
         );
     }
 
-    public function testGetVariationOriginal()
+    public function testGetVariationOriginal(): void
     {
         $originalPath = 'foo/bar/image.jpg';
         $variationName = 'original';
@@ -209,6 +198,8 @@ class AliasGeneratorTest extends TestCase
                 'imageId' => $imageId,
                 'width' => $imageWidth,
                 'height' => $imageHeight,
+                'fileSize' => 1024,
+                'mime' => 'image/jpeg',
             ]
         );
         $field = new Field([
@@ -242,9 +233,18 @@ class AliasGeneratorTest extends TestCase
                 'imageId' => $imageId,
                 'height' => $imageHeight,
                 'width' => $imageWidth,
+                'fileSize' => 1024,
+                'mimeType' => 'image/jpeg',
             ]
         );
-        self::assertEquals($expected, $this->decoratedAliasGenerator->getVariation($field, new VersionInfo(), $variationName));
+        self::assertEquals(
+            $expected,
+            $this->decoratedAliasGenerator->getVariation(
+                $field,
+                new VersionInfo(),
+                $variationName
+            )
+        );
     }
 
     /**
@@ -252,7 +252,7 @@ class AliasGeneratorTest extends TestCase
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
      */
-    public function testGetVariationNotStoredHavingReferences()
+    public function testGetVariationNotStoredHavingReferences(): void
     {
         $originalPath = 'foo/bar/image.jpg';
         $variationName = 'my_variation';
@@ -323,7 +323,7 @@ class AliasGeneratorTest extends TestCase
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
      */
-    public function testGetVariationAlreadyStored()
+    public function testGetVariationAlreadyStored(): void
     {
         $originalPath = 'foo/bar/image.jpg';
         $variationName = 'my_variation';
@@ -362,7 +362,7 @@ class AliasGeneratorTest extends TestCase
         );
     }
 
-    public function testGetVariationOriginalNotFound()
+    public function testGetVariationOriginalNotFound(): void
     {
         $this->expectException(SourceImageNotFoundException::class);
 
@@ -378,7 +378,7 @@ class AliasGeneratorTest extends TestCase
         $this->aliasGenerator->getVariation($field, new VersionInfo(), 'foo');
     }
 
-    public function testGetVariationInvalidVariation()
+    public function testGetVariationInvalidVariation(): void
     {
         $this->expectException(InvalidVariationException::class);
 
