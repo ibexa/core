@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Core\Repository\Values\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCollection as APIFieldDefinitionCollection;
 use Ibexa\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Core\Repository\Values\ContentType\ContentTypeDraft;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,8 +19,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class ContentTypeTest extends TestCase
 {
-    private const EXAMPLE_FIELD_DEFINITION_IDENTIFIER = 'example';
-    private const EXAMPLE_FIELD_TYPE_IDENTIFIER = 'ezcustom';
+    private const string EXAMPLE_FIELD_DEFINITION_IDENTIFIER = 'example';
+    private const string EXAMPLE_FIELD_TYPE_IDENTIFIER = 'ezcustom';
 
     public function testStrictGetters(): void
     {
@@ -138,5 +139,32 @@ final class ContentTypeTest extends TestCase
             $expectedFieldDefinition,
             $contentType->getFirstFieldDefinitionOfType(self::EXAMPLE_FIELD_TYPE_IDENTIFIER)
         );
+    }
+
+    /**
+     * @dataProvider provideForDeprecatedPropertyAccessMatchesMethodCallResult
+     */
+    public function testDeprecatedPropertyAccessMatchesMethodCallResult(bool $isContainer): void
+    {
+        $contentTypeDraft = new ContentTypeDraft([
+            'innerContentType' => new ContentType([
+                'isContainer' => $isContainer,
+            ]),
+        ]);
+
+        /** @phpstan-ignore-next-line property.protected
+         * intentionally violating deprecated property access.
+         */
+        self::assertSame($isContainer, $contentTypeDraft->isContainer);
+        self::assertSame($isContainer, $contentTypeDraft->isContainer());
+    }
+
+    /**
+     * @return iterable<string, array{0: bool}>
+     */
+    public function provideForDeprecatedPropertyAccessMatchesMethodCallResult(): iterable
+    {
+        yield 'content type draft is a container' => [true];
+        yield 'content type draft is not a container' => [false];
     }
 }

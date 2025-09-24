@@ -7,6 +7,7 @@
 declare(strict_types=1);
 
 use Ibexa\Contracts\Rector\Sets\IbexaSetList;
+use Ibexa\Rector\Rule\PropertyToGetterRector;
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Symfony\Set\SymfonySetList;
@@ -33,4 +34,7 @@ return RectorConfig::configure()
         CommandConfigureToAttributeRector::class => [
             __DIR__ . '/tests/bundle/Core/EventListener/BackwardCompatibleCommandListenerTest.php',
         ],
+        PropertyToGetterRector::class => [
+            __DIR__ . '/tests/lib/Repository/Values/ContentType/ContentTypeTest.php',
+        ]
     ]);
