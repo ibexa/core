@@ -1473,6 +1473,7 @@ final class DoctrineDatabase extends Gateway
             ->select(
                 [
                     'c.id AS ezcontentclass_id',
+                    'c.identifier AS ezcontentclass_identifier',
                     'n.name AS ezcontentclass_name',
                 ],
             )
