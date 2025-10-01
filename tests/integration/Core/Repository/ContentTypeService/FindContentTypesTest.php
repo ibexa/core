@@ -19,6 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalAn
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalNot;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\LogicalOr;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause\Identifier;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause\Name;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 
 /**
@@ -74,6 +75,26 @@ final class FindContentTypesTest extends RepositoryTestCase
 
         self::assertSame(4, $contentTypes->getTotalCount());
         self::assertSame(['article', 'file', 'folder', 'user'], $identifiers);
+    }
+
+    public function testFindContentTypesAscSortedByName(): void
+    {
+        $contentTypeService = self::getContentTypeService();
+
+        $contentTypes = $contentTypeService->findContentTypes(
+            new ContentTypeQuery(
+                new ContentTypeIdentifier(['folder', 'article', 'user', 'file']),
+                [new Name()]
+            ),
+        );
+
+        $names = array_map(
+            static fn (ContentType $contentType): ?string => $contentType->getName(),
+            $contentTypes->getContentTypes()
+        );
+
+        self::assertSame(4, $contentTypes->getTotalCount());
+        self::assertSame(['Article', 'File', 'Folder', 'User'], $names);
     }
 
     public function testPagination(): void
