@@ -1473,23 +1473,7 @@ final class DoctrineDatabase extends Gateway
             ->select(
                 [
                     'c.id AS ezcontentclass_id',
-                    'c.version AS ezcontentclass_version',
-                    'c.serialized_name_list AS ezcontentclass_serialized_name_list',
-                    'c.serialized_description_list AS ezcontentclass_serialized_description_list',
-                    'c.identifier AS ezcontentclass_identifier',
-                    'c.created AS ezcontentclass_created',
-                    'c.modified AS ezcontentclass_modified',
-                    'c.modifier_id AS ezcontentclass_modifier_id',
-                    'c.creator_id AS ezcontentclass_creator_id',
-                    'c.remote_id AS ezcontentclass_remote_id',
-                    'c.url_alias_name AS ezcontentclass_url_alias_name',
-                    'c.contentobject_name AS ezcontentclass_contentobject_name',
-                    'c.is_container AS ezcontentclass_is_container',
-                    'c.initial_language_id AS ezcontentclass_initial_language_id',
-                    'c.always_available AS ezcontentclass_always_available',
-                    'c.sort_field AS ezcontentclass_sort_field',
-                    'c.sort_order AS ezcontentclass_sort_order',
-                    'c.language_mask AS ezcontentclass_language_mask',
+                    'n.name AS ezcontentclass_name',
                 ],
             )
             ->distinct()
