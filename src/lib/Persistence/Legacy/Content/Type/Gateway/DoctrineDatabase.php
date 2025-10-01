@@ -1451,7 +1451,13 @@ final class DoctrineDatabase extends Gateway
         }
     }
 
-    public function findContentTypes(?ContentTypeQuery $query = null): array
+    /**
+     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): array
     {
         $totalCount = $this->countTypes($query);
         if ($totalCount === 0) {
@@ -1505,7 +1511,22 @@ final class DoctrineDatabase extends Gateway
                     $expr->eq('c.id', 'g.contentclass_id'),
                     $expr->eq('c.version', 'g.contentclass_version')
                 )
+            )
+            ->leftJoin(
+                'c',
+                self::CONTENT_TYPE_NAME_TABLE,
+                'n',
+                (string)$expr->and(
+                    $expr->eq('c.id', 'n.contentclass_id'),
+                    $expr->eq('c.version', 'n.contentclass_version'),
+                    count($prioritizedLanguages) > 0 ? 'n.language_locale = :languageCode' : '',
+                )
             );
+
+        if (count($prioritizedLanguages) > 0) {
+            $firstLanguageCode = $prioritizedLanguages[array_key_first($prioritizedLanguages)];
+            $queryBuilder->setParameter('languageCode', $firstLanguageCode, ParameterType::STRING);
+        }
 
         $query = $query ?: new ContentTypeQuery();
         if ($query->getCriterion() !== null) {
@@ -1514,18 +1535,29 @@ final class DoctrineDatabase extends Gateway
 
         $queryBuilder->setFirstResult($query->getOffset());
         $queryBuilder->setMaxResults($query->getLimit());
+        foreach ($query->getSortClauses() as $sortClause) {
+            $queryBuilder->addOrderBy($sortClause->target, $this->getQuerySortingDirection($sortClause->direction));
+        }
 
         $distinctContentTypeRows = $queryBuilder->execute()->fetchAllAssociative();
         $contentTypeIds = array_column($distinctContentTypeRows, 'ezcontentclass_id');
 
-        $joinedQueryBuilder = $this->getLoadTypeQueryBuilder();
+        $joinedQueryBuilder = $this->getLoadTypeQueryBuilder()->resetQueryPart('orderBy');
         $joinedQueryBuilder
             ->andWhere($joinedQueryBuilder->expr()->in('c.id', ':contentTypeIds'))
-            ->setParameter('contentTypeIds', $contentTypeIds, Connection::PARAM_INT_ARRAY);
+            ->setParameter('contentTypeIds', $contentTypeIds, Connection::PARAM_INT_ARRAY)
+            ->leftJoin(
+                'c',
+                self::CONTENT_TYPE_NAME_TABLE,
+                'n',
+                (string)$expr->and(
+                    $expr->eq('c.id', 'n.contentclass_id'),
+                    $expr->eq('c.version', 'n.contentclass_version')
+                )
+            );
 
         foreach ($query->getSortClauses() as $sortClause) {
-            $column = sprintf('c.%s', $sortClause->target);
-            $joinedQueryBuilder->addOrderBy($column, $this->getQuerySortingDirection($sortClause->direction));
+            $joinedQueryBuilder->addOrderBy($sortClause->target, $this->getQuerySortingDirection($sortClause->direction));
         }
 
         $results = $joinedQueryBuilder->execute()->fetchAllAssociative();

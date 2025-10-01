@@ -10,10 +10,10 @@ namespace Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\SortClause;
 
-final class Identifier extends SortClause
+final class Name extends SortClause
 {
     public function __construct(string $sortDirection = self::SORT_ASC)
     {
-        parent::__construct('c.identifier', $sortDirection);
+        parent::__construct('n.name', $sortDirection);
     }
 }

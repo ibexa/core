@@ -196,9 +196,9 @@ class Handler implements BaseContentTypeHandler
         );
     }
 
-    public function findContentTypes(?ContentTypeQuery $query = null): array
+    public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): array
     {
-        $rows = $this->contentTypeGateway->findContentTypes($query);
+        $rows = $this->contentTypeGateway->findContentTypes($query, $prioritizedLanguages);
         $items = $this->mapper->extractTypesFromRows(
             $rows['items'],
             true

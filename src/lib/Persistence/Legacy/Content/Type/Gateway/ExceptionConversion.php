@@ -352,10 +352,10 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function findContentTypes(?ContentTypeQuery $query = null): array
+    public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): array
     {
         try {
-            return $this->innerGateway->findContentTypes($query);
+            return $this->innerGateway->findContentTypes($query, $prioritizedLanguages);
         } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }

@@ -93,9 +93,11 @@ interface Handler
     public function loadContentTypeList(array $contentTypeIds): array;
 
     /**
+     * @param list<string> $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
+     *
      * @return array{count: int, items: array<string, mixed>}
      */
-    public function findContentTypes(?ContentTypeQuery $query = null): array;
+    public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): array;
 
     /**
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type[]

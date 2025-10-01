@@ -172,9 +172,9 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         return $types;
     }
 
-    public function findContentTypes(?ContentTypeQuery $query = null): array
+    public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): array
     {
-        return $this->innerHandler->findContentTypes($query);
+        return $this->innerHandler->findContentTypes($query, $prioritizedLanguages);
     }
 
     /**

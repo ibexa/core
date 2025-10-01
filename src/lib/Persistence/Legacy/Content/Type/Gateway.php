@@ -176,9 +176,11 @@ abstract class Gateway
     abstract public function removeByUserAndVersion(int $userId, int $version): void;
 
     /**
+     * @param list<string> $prioritizedLanguages
+     *
      * @return array{items: array<int,array<string,mixed>>, count: int}
      */
-    abstract public function findContentTypes(?ContentTypeQuery $query = null): array;
+    abstract public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): array;
 }
 
 class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Type\Gateway');

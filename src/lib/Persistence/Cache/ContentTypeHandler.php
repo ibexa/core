@@ -233,13 +233,13 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
         );
     }
 
-    public function findContentTypes(?ContentTypeQuery $query = null): array
+    public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): array
     {
         $this->logger->logCall(__METHOD__, [
             'query' => $query,
         ]);
 
-        return $this->persistenceHandler->contentTypeHandler()->findContentTypes($query);
+        return $this->persistenceHandler->contentTypeHandler()->findContentTypes($query, $prioritizedLanguages);
     }
 
     public function loadContentTypeList(array $contentTypeIds): array

@@ -936,7 +936,7 @@ class ContentTypeService implements ContentTypeServiceInterface
 
     public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): SearchResult
     {
-        $results = $this->contentTypeHandler->findContentTypes($query);
+        $results = $this->contentTypeHandler->findContentTypes($query, $prioritizedLanguages);
 
         $items = [];
         foreach ($results['items'] as $persistenceContentType) {

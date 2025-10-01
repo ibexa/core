@@ -14,6 +14,6 @@ final class Id extends SortClause
 {
     public function __construct(string $sortDirection = self::SORT_ASC)
     {
-        parent::__construct('id', $sortDirection);
+        parent::__construct('c.id', $sortDirection);
     }
 }
