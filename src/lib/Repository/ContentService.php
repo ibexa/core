@@ -2719,6 +2719,11 @@ class ContentService implements ContentServiceInterface
 
         return $this->contentFilteringHandler->count($filter);
     }
+
+    public function loadContentNamesForCurrentVersions(array $contentIds, string $languageCode): array
+    {
+        return [];
+    }
 }
 
 class_alias(ContentService::class, 'eZ\Publish\Core\Repository\ContentService');

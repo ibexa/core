@@ -304,6 +304,14 @@ class ContentService implements ContentServiceInterface
             $this->languageResolver->getPrioritizedLanguages($languages)
         );
     }
+
+    public function loadContentNamesForCurrentVersions(array $contentIds, string $languageCode): array
+    {
+        return $this->service->loadContentNamesForCurrentVersions(
+            $contentIds,
+            $languageCode,
+        );
+    }
 }
 
 class_alias(ContentService::class, 'eZ\Publish\Core\Repository\SiteAccessAware\ContentService');

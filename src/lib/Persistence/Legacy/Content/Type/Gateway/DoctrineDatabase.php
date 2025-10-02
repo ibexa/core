@@ -235,7 +235,9 @@ final class DoctrineDatabase extends Gateway
             );
 
         if ($query->getCriterion() !== null) {
-            $queryBuilder->andWhere($this->criterionVisitor->visitCriteria($queryBuilder, $query->getCriterion()));
+            $queryBuilder->andWhere(
+                $this->criterionVisitor->visitCriteria($queryBuilder, $query->getCriterion())
+            );
         }
 
         return (int)$queryBuilder->execute()->fetchOne();
@@ -1515,13 +1517,18 @@ final class DoctrineDatabase extends Gateway
 
         $query = $query ?: new ContentTypeQuery();
         if ($query->getCriterion() !== null) {
-            $queryBuilder->andWhere($this->criterionVisitor->visitCriteria($queryBuilder, $query->getCriterion()));
+            $queryBuilder->andWhere(
+                $this->criterionVisitor->visitCriteria($queryBuilder, $query->getCriterion())
+            );
         }
 
         $queryBuilder->setFirstResult($query->getOffset());
         $queryBuilder->setMaxResults($query->getLimit());
         foreach ($query->getSortClauses() as $sortClause) {
-            $queryBuilder->addOrderBy($sortClause->target, $this->getQuerySortingDirection($sortClause->direction));
+            $queryBuilder->addOrderBy(
+                $sortClause->target,
+                $this->getQuerySortingDirection($sortClause->direction)
+            );
         }
 
         $distinctContentTypeRows = $queryBuilder->execute()->fetchAllAssociative();
@@ -1542,7 +1549,10 @@ final class DoctrineDatabase extends Gateway
             );
 
         foreach ($query->getSortClauses() as $sortClause) {
-            $joinedQueryBuilder->addOrderBy($sortClause->target, $this->getQuerySortingDirection($sortClause->direction));
+            $joinedQueryBuilder->addOrderBy(
+                $sortClause->target,
+                $this->getQuerySortingDirection($sortClause->direction)
+            );
         }
 
         $results = $joinedQueryBuilder->execute()->fetchAllAssociative();

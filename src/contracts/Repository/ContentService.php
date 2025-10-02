@@ -547,6 +547,13 @@ interface ContentService
      *        for a SiteAccess in a current context will be used.
      */
     public function count(Filter $filter, ?array $languages = null): int;
+
+    /**
+     * @param int[] $contentIds
+     *
+     * @return list<string>
+     */
+    public function loadContentNamesForCurrentVersions(array $contentIds, string $languageCode): array;
 }
 
 class_alias(ContentService::class, 'eZ\Publish\API\Repository\ContentService');

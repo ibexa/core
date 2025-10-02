@@ -14,9 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 
 final class CriterionVisitor
 {
-    /**
-     * @var iterable<\Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>>
-     */
+    /** @var iterable<\Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>> */
     private iterable $criterionHandlers;
 
     /**

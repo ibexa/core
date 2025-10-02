@@ -13,9 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 
 abstract class LogicalOperator implements CriterionInterface
 {
-    /**
-     * @var list<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>
-     */
+    /** @var list<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface> */
     private array $criteria = [];
 
     /**

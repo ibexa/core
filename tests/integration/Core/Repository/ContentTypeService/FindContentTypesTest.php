@@ -135,7 +135,7 @@ final class FindContentTypesTest extends RepositoryTestCase
             }
         }
 
-        assert($fieldDefinitionToInclude !== null);
+        self::assertNotNull($fieldDefinitionToInclude);
 
         $contentTypes = $contentTypeService->findContentTypes(
             new ContentTypeQuery(

@@ -290,6 +290,11 @@ abstract class ContentServiceDecorator implements ContentService
     {
         return $this->innerService->count($filter, $languages);
     }
+
+    public function loadContentNamesForCurrentVersions(array $contentIds, string $languageCode): array
+    {
+        return $this->innerService->loadContentNamesForCurrentVersions($contentIds, $languageCode);
+    }
 }
 
 class_alias(ContentServiceDecorator::class, 'eZ\Publish\SPI\Repository\Decorator\ContentServiceDecorator');

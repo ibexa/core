@@ -67,9 +67,6 @@ abstract class LanguageAwareTestCase extends TestCase
         return $this->languageMaskGenerator;
     }
 
-    /**
-     * Returns the criterion visitor.
-     */
     protected function getCriterionVisitor(): CriterionVisitor
     {
         if (!isset($this->criterionVisitor)) {
