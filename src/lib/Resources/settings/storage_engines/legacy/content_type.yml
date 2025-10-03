@@ -1,10 +1,22 @@
 services:
+    _instanceof:
+        Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface:
+            tags: [ 'ibexa.content_type.criterion_handler' ]
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor:
+        arguments:
+            $criterionHandlers: !tagged_iterator 'ibexa.content_type.criterion_handler'
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler\:
+        resource: '../../../../Persistence/Legacy/Content/Type/Gateway/CriterionHandler/*'
+
     Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase.inner:
         class: Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase
         arguments:
-            - '@ibexa.api.storage_engine.legacy.connection'
-            - '@Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway'
-            - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            $connection: '@ibexa.api.storage_engine.legacy.connection'
+            $sharedGateway: '@Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway'
+            $languageMaskGenerator: '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            $criterionVisitor: '@Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor'
 
     Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\ExceptionConversion:
         class: Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\ExceptionConversion

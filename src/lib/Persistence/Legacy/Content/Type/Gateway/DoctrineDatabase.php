@@ -17,6 +17,9 @@ use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
+use Ibexa\Contracts\Core\Repository\Values\URL\Query\SortClause;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\MultilingualStorageFieldDefinition;
@@ -34,6 +37,11 @@ use function sprintf;
  */
 final class DoctrineDatabase extends Gateway
 {
+    private const SORT_DIRECTION_MAP = [
+        SortClause::SORT_ASC => 'ASC',
+        SortClause::SORT_DESC => 'DESC',
+    ];
+
     /**
      * Columns of database tables.
      *
@@ -113,18 +121,22 @@ final class DoctrineDatabase extends Gateway
      */
     private $languageMaskGenerator;
 
+    private Gateway\CriterionVisitor\CriterionVisitor $criterionVisitor;
+
     /**
      * @throws \Doctrine\DBAL\DBALException
      */
     public function __construct(
         Connection $connection,
         SharedGateway $sharedGateway,
-        MaskGenerator $languageMaskGenerator
+        MaskGenerator $languageMaskGenerator,
+        Gateway\CriterionVisitor\CriterionVisitor $criterionVisitor
     ) {
         $this->connection = $connection;
         $this->dbPlatform = $connection->getDatabasePlatform();
         $this->sharedGateway = $sharedGateway;
         $this->languageMaskGenerator = $languageMaskGenerator;
+        $this->criterionVisitor = $criterionVisitor;
     }
 
     public function insertGroup(Group $group): int
@@ -193,6 +205,42 @@ final class DoctrineDatabase extends Gateway
             );
 
         $query->execute();
+    }
+
+    public function countTypes(?ContentTypeQuery $query = null): int
+    {
+        $query = $query ?: new ContentTypeQuery();
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $expr = $queryBuilder->expr();
+        $queryBuilder
+            ->select('COUNT(DISTINCT c.id)')
+            ->from(self::CONTENT_TYPE_TABLE, 'c')
+            ->leftJoin(
+                'c',
+                self::FIELD_DEFINITION_TABLE,
+                'a',
+                (string)$expr->and(
+                    $expr->eq('c.id', 'a.contentclass_id'),
+                    $expr->eq('c.version', 'a.version')
+                )
+            )
+            ->leftJoin(
+                'c',
+                self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE,
+                'g',
+                (string)$expr->and(
+                    $expr->eq('c.id', 'g.contentclass_id'),
+                    $expr->eq('c.version', 'g.contentclass_version')
+                )
+            );
+
+        if ($query->getCriterion() !== null) {
+            $queryBuilder->andWhere(
+                $this->criterionVisitor->visitCriteria($queryBuilder, $query->getCriterion())
+            );
+        }
+
+        return (int)$queryBuilder->execute()->fetchOne();
     }
 
     public function countTypesInGroup(int $groupId): int
@@ -1403,6 +1451,134 @@ final class DoctrineDatabase extends Gateway
 
             throw $e;
         }
+    }
+
+    /**
+     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): array
+    {
+        $totalCount = $this->countTypes($query);
+        if ($totalCount === 0) {
+            return [
+                'count' => $totalCount,
+                'items' => [],
+            ];
+        }
+
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $expr = $queryBuilder->expr();
+        $queryBuilder
+            ->select(
+                [
+                    'c.id AS ezcontentclass_id',
+                    'c.identifier AS ezcontentclass_identifier',
+                    'n.name AS ezcontentclass_name',
+                ],
+            )
+            ->distinct()
+            ->from(self::CONTENT_TYPE_TABLE, 'c')
+            ->leftJoin(
+                'c',
+                self::FIELD_DEFINITION_TABLE,
+                'a',
+                (string)$expr->and(
+                    $expr->eq('c.id', 'a.contentclass_id'),
+                    $expr->eq('c.version', 'a.version')
+                )
+            )
+            ->leftJoin(
+                'c',
+                self::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE,
+                'g',
+                (string)$expr->and(
+                    $expr->eq('c.id', 'g.contentclass_id'),
+                    $expr->eq('c.version', 'g.contentclass_version')
+                )
+            )
+            ->leftJoin(
+                'c',
+                self::CONTENT_TYPE_NAME_TABLE,
+                'n',
+                (string)$expr->and(
+                    $expr->eq('c.id', 'n.contentclass_id'),
+                    $expr->eq('c.version', 'n.contentclass_version'),
+                    count($prioritizedLanguages) > 0 ? 'n.language_locale = :languageCode' : '',
+                )
+            );
+
+        if (count($prioritizedLanguages) > 0) {
+            $firstLanguageCode = $prioritizedLanguages[array_key_first($prioritizedLanguages)];
+            $queryBuilder->setParameter('languageCode', $firstLanguageCode, ParameterType::STRING);
+        }
+
+        $query = $query ?: new ContentTypeQuery();
+        if ($query->getCriterion() !== null) {
+            $queryBuilder->andWhere(
+                $this->criterionVisitor->visitCriteria($queryBuilder, $query->getCriterion())
+            );
+        }
+
+        $queryBuilder->setFirstResult($query->getOffset());
+        $queryBuilder->setMaxResults($query->getLimit());
+        foreach ($query->getSortClauses() as $sortClause) {
+            $queryBuilder->addOrderBy(
+                $sortClause->target,
+                $this->getQuerySortingDirection($sortClause->direction)
+            );
+        }
+
+        $distinctContentTypeRows = $queryBuilder->execute()->fetchAllAssociative();
+        $contentTypeIds = array_column($distinctContentTypeRows, 'ezcontentclass_id');
+
+        $joinedQueryBuilder = $this->getLoadTypeQueryBuilder()->resetQueryPart('orderBy');
+        $joinedQueryBuilder
+            ->andWhere($joinedQueryBuilder->expr()->in('c.id', ':contentTypeIds'))
+            ->setParameter('contentTypeIds', $contentTypeIds, Connection::PARAM_INT_ARRAY)
+            ->leftJoin(
+                'c',
+                self::CONTENT_TYPE_NAME_TABLE,
+                'n',
+                (string)$expr->and(
+                    $expr->eq('c.id', 'n.contentclass_id'),
+                    $expr->eq('c.version', 'n.contentclass_version')
+                )
+            );
+
+        foreach ($query->getSortClauses() as $sortClause) {
+            $joinedQueryBuilder->addOrderBy(
+                $sortClause->target,
+                $this->getQuerySortingDirection($sortClause->direction)
+            );
+        }
+
+        $results = $joinedQueryBuilder->execute()->fetchAllAssociative();
+
+        return [
+            'count' => $totalCount,
+            'items' => $results,
+        ];
+    }
+
+    /**
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     */
+    private function getQuerySortingDirection(string $direction): string
+    {
+        if (!isset(self::SORT_DIRECTION_MAP[$direction])) {
+            throw new InvalidArgumentException(
+                '$sortClause->direction',
+                sprintf(
+                    'Unsupported "%s" sorting directions, use one of the SortClause::SORT_* constants instead',
+                    $direction
+                )
+            );
+        }
+
+        return self::SORT_DIRECTION_MAP[$direction];
     }
 
     /**

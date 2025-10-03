@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
@@ -53,6 +54,15 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->updateGroup($group);
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
+    public function countTypes(?ContentTypeQuery $query = null): int
+    {
+        try {
+            return $this->innerGateway->countTypes($query);
         } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
@@ -337,6 +347,15 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->removeByUserAndVersion($userId, $version);
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
+    public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): array
+    {
+        try {
+            return $this->innerGateway->findContentTypes($query, $prioritizedLanguages);
         } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
