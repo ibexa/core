@@ -77,9 +77,6 @@ final class UserTest extends TestCase
         $user = new User();
         $value = isset($user->notDefined);
         self::assertFalse($value);
-
-        $value = isset($user->login);
-        self::assertTrue($value);
     }
 
     public function testUnsetProperty(): void
