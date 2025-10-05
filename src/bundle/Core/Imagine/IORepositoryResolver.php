@@ -10,6 +10,7 @@ namespace Ibexa\Bundle\Core\Imagine;
 use Ibexa\Bundle\Core\Variation\PathResolver;
 use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
 use Ibexa\Contracts\Core\Variation\VariationPurger;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\MissingBinaryFile;
@@ -72,6 +73,8 @@ class IORepositoryResolver extends PathResolver implements ResolverInterface
     /**
      * Stores image alias in the IO Repository.
      * A temporary file is created to dump the filtered image and is used as basis for creation in the IO Repository.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function store(BinaryInterface $binary, $path, $filter): void
     {
@@ -79,7 +82,12 @@ class IORepositoryResolver extends PathResolver implements ResolverInterface
         fwrite($tmpFile, $binary->getContent());
         $tmpMetadata = stream_get_meta_data($tmpFile);
 
+        if (!isset($tmpMetadata['uri'])) {
+            throw new InvalidArgumentValue('uri', '', BinaryInterface::class);
+        }
+
         $binaryCreateStruct = $this->ioService->newBinaryCreateStructFromLocalFile($tmpMetadata['uri']);
+
         $binaryCreateStruct->id = $this->getFilePath($path, $filter);
         $this->ioService->createBinaryFile($binaryCreateStruct);
 

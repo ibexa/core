@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\FieldType\Image\Value;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
@@ -290,7 +291,7 @@ class ResizeOriginalImagesCommand extends Command
      * @param \Ibexa\Core\FieldType\Image\Value $image
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
      * @return \Ibexa\Core\IO\Values\BinaryFile
      */
@@ -299,6 +300,10 @@ class ResizeOriginalImagesCommand extends Command
         $tmpFile = tmpfile();
         fwrite($tmpFile, $binary->getContent());
         $tmpMetadata = stream_get_meta_data($tmpFile);
+        if (!isset($tmpMetadata['uri'])) {
+            throw new InvalidArgumentValue('uri', '', BinaryInterface::class);
+        }
+
         $binaryCreateStruct = $this->ioService->newBinaryCreateStructFromLocalFile($tmpMetadata['uri']);
         $binaryCreateStruct->id = $image->id;
         $newBinaryFile = $this->ioService->createBinaryFile($binaryCreateStruct);

@@ -8,6 +8,7 @@
 namespace Ibexa\Bundle\Core\Imagine\PlaceholderProvider;
 
 use Ibexa\Bundle\Core\Imagine\PlaceholderProvider;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
 use RuntimeException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -58,7 +59,12 @@ class RemoteProvider implements PlaceholderProvider
 
     private function getTemporaryPath(): string
     {
-        return stream_get_meta_data(tmpfile())['uri'];
+        $path = stream_get_meta_data(tmpfile())['uri'] ?? null;
+        if ($path === null) {
+            throw new InvalidArgumentValue('uri', '');
+        }
+
+        return $path;
     }
 
     private function resolveOptions(array $options): array
