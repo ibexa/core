@@ -8,6 +8,7 @@
 namespace Ibexa\Bundle\Core\Imagine\PlaceholderProvider;
 
 use Ibexa\Bundle\Core\Imagine\PlaceholderProvider;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
 use Imagine\Image as Image;
 use Imagine\Image\ImagineInterface;
@@ -83,9 +84,17 @@ class GenericProvider implements PlaceholderProvider
         ]);
     }
 
+    /**
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue
+     */
     private function getTemporaryPath(): string
     {
-        return stream_get_meta_data(tmpfile())['uri'];
+        $path = stream_get_meta_data(tmpfile())['uri'] ?? null;
+        if ($path === null) {
+            throw new InvalidArgumentValue('uri', '');
+        }
+
+        return $path;
     }
 
     private function resolveOptions(array $options): array
