@@ -13351,12 +13351,6 @@ parameters:
 			path: src/lib/Limitation/LanguageLimitationType.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Limitation\\LanguageLimitationType\:\:valueSchema\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Limitation/LanguageLimitationType.php
-
-		-
 			message: '#^Property Ibexa\\Core\\Limitation\\LanguageLimitationType\:\:\$versionTargetEvaluators \(array\<Ibexa\\Core\\Limitation\\LanguageLimitation\\VersionTargetEvaluator\>\) does not accept iterable\<Ibexa\\Core\\Limitation\\LanguageLimitation\\VersionTargetEvaluator\>\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -26591,6 +26585,12 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/DateMetadata.php
+
+		-
+			message: '#^Cannot access an offset on list\|string\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/Field.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Common\\Gateway\\CriterionHandler\\Field\:\:getFieldsInformation\(\) return type has no value type specified in iterable type array\.$#'
