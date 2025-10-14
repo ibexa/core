@@ -116,7 +116,7 @@ EOM
             if (!array_is_list($parameterData)) {
                 throw new InvalidArgumentException('--sort', "'$parameter' is a hash but sort can be used only on a list (an array with numeral keys incremented from zero).");
             }
-            for ($i=0, $count = count($parameterData); $i < $count; $i++) {
+            for ($i = 0, $count = count($parameterData); $i < $count; ++$i) {
                 if (!array_key_exists($sort, $parameterData[$i])) {
                     throw new InvalidArgumentException('--sort', "'$sort' property doesn't exist on each '$parameter' list item.");
                 }
