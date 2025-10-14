@@ -18,17 +18,12 @@ jobs:
         steps:
             - uses: actions/checkout@v5
 
-            - name: Setup PHP Action
-              uses: shivammathur/setup-php@v2
+            - uses: ibexa/gh-workflows/actions/composer-install@main
               with:
-                  php-version: ${{ matrix.php }}
-                  coverage: none
-                  extensions: 'pdo_sqlite, gd'
-                  tools: cs2pr
-
-            - uses: ramsey/composer-install@v3
-              with:
-                  dependency-versions: "highest"
+                  gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
+                  gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
+                  satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
+                  satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
 
             - name: Run code style check
               run: composer run-script check-cs -- --format=checkstyle | cs2pr
@@ -49,17 +44,12 @@ jobs:
         steps:
             - uses: actions/checkout@v5
 
-            - name: Setup PHP Action
-              uses: shivammathur/setup-php@v2
+            - uses: ibexa/gh-workflows/actions/composer-install@main
               with:
-                  php-version: ${{ matrix.php }}
-                  coverage: none
-                  extensions: pdo_sqlite, gd
-                  tools: cs2pr
-
-            - uses: ramsey/composer-install@v3
-              with:
-                  dependency-versions: "highest"
+                  gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
+                  gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
+                  satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
+                  satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
 
             - name: Setup problem matchers for PHPUnit
               run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
@@ -105,29 +95,24 @@ jobs:
                     - 'postgres:18'
 
         steps:
-            -   uses: actions/checkout@v2
+            - uses: actions/checkout@v5
 
-            -   name: Setup PHP Action
-                uses: shivammathur/setup-php@v2
-                with:
-                    php-version: ${{ matrix.php }}
-                    coverage: none
-                    extensions: pdo_pgsql, gd
-                    tools: cs2pr
+            - uses: ibexa/gh-workflows/actions/composer-install@main
+              with:
+                  gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
+                  gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
+                  satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
+                  satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
 
-            -   uses: "ramsey/composer-install@v1"
-                with:
-                    dependency-versions: "highest"
+            - name: Setup problem matchers for PHPUnit
+              run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-            -   name: Setup problem matchers for PHPUnit
-                run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
-
-            -   name: Run integration test suite vs Postgresql
-                run: composer run-script integration
-                env:
-                    DATABASE_URL: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb?server_version=10"
-                    # Required by old repository tests
-                    DATABASE: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb"
+            - name: Run integration test suite vs Postgresql
+              run: composer run-script integration
+              env:
+                  DATABASE_URL: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb?server_version=10"
+                  # Required by old repository tests
+                  DATABASE: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb"
 
     integration-tests-mysql:
         name: MySQL integration tests
@@ -163,28 +148,23 @@ jobs:
                     - 'mysql:8.4'
 
         steps:
-            -   uses: actions/checkout@v5
+            - uses: actions/checkout@v5
 
-            -   name: Setup PHP Action
-                uses: shivammathur/setup-php@v2
-                with:
-                    php-version: ${{ matrix.php }}
-                    coverage: none
-                    extensions: pdo_mysql, gd, redis
-                    tools: cs2pr
+            - uses: ibexa/gh-workflows/actions/composer-install@main
+              with:
+                  gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
+                  gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
+                  satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
+                  satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
 
-            -   uses: ramsey/composer-install@v3
-                with:
-                    dependency-versions: "highest"
+            - name: Setup problem matchers for PHPUnit
+              run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-            -   name: Setup problem matchers for PHPUnit
-                run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
-
-            -   name: Run integration test suite vs MySQL
-                run: composer run-script integration
-                env:
-                    DATABASE_URL: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
-                    DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
+            - name: Run integration test suite vs MySQL
+              run: composer run-script integration
+              env:
+                  DATABASE_URL: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
+                  DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
 
     solr-integration:
         name: "Solr integration tests"
