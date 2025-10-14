@@ -15,8 +15,4 @@ jobs:
             project-edition: 'oss'
             test-setup-phase-1: '--mode=standard --profile=core --suite=setup'
             test-suite: "--mode=standard --profile=core --tags='~@broken&&~@setup'"
-        secrets:
-            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-            AUTOMATION_CLIENT_ID: ${{ secrets.AUTOMATION_CLIENT_ID }}
-            AUTOMATION_CLIENT_INSTALLATION: ${{ secrets.AUTOMATION_CLIENT_INSTALLATION }}
-            AUTOMATION_CLIENT_SECRET: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
+        secrets: inherit
