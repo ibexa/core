@@ -129,12 +129,12 @@ jobs:
                     # Required by old repository tests
                     DATABASE: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb"
 
-    integration-tests-mysql-80:
-        name: MySQL integration tests (8.0)
+    integration-tests-mysql:
+        name: MySQL integration tests
         needs: tests
         services:
             mysql:
-                image: mysql:8.0
+                image: ${{ matrix.image }}
                 ports:
                     - 3306/tcp
                 env:
@@ -158,60 +158,9 @@ jobs:
                     - '7.4'
                     - '8.0'
                     - '8.1'
-
-        steps:
-            -   uses: actions/checkout@v5
-
-            -   name: Setup PHP Action
-                uses: shivammathur/setup-php@v2
-                with:
-                    php-version: ${{ matrix.php }}
-                    coverage: none
-                    extensions: pdo_mysql, gd, redis
-                    tools: cs2pr
-
-            -   uses: ramsey/composer-install@v3
-                with:
-                    dependency-versions: "highest"
-
-            -   name: Setup problem matchers for PHPUnit
-                run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
-
-            -   name: Run integration test suite vs MySQL
-                run: composer run-script integration
-                env:
-                    DATABASE_URL: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
-                    DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
-
-    integration-tests-mysql-84:
-        name: MySQL integration tests (8.4)
-        needs: tests
-        services:
-            mysql:
-                image: mysql:8.4
-                ports:
-                    - 3306/tcp
-                env:
-                    MYSQL_RANDOM_ROOT_PASSWORD: true
-                    MYSQL_USER: mysql
-                    MYSQL_PASSWORD: mysql
-                    MYSQL_DATABASE: testdb
-                options: >-
-                    --health-cmd="mysqladmin ping"
-                    --health-interval=10s
-                    --health-timeout=5s
-                    --health-retries=5
-                    --tmpfs=/var/lib/mysql
-        runs-on: "ubuntu-24.04"
-        timeout-minutes: 60
-
-        strategy:
-            fail-fast: false
-            matrix:
-                php:
-                    - '7.4'
-                    - '8.0'
-                    - '8.1'
+                image:
+                    - 'mysql:8.0'
+                    - 'mysql:8.4'
 
         steps:
             -   uses: actions/checkout@v5
