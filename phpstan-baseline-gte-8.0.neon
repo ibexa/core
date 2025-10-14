@@ -61,7 +61,7 @@ parameters:
 			path: src/bundle/Core/Imagine/IORepositoryResolver.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\URLChecker\\Handler\\HTTPHandler\:\:createCurlHandlerForUrl\(\) should return resource but returns \(CurlHandle\|false\)\.$#'
+			message: '#^Method Ibexa\\Bundle\\Core\\URLChecker\\Handler\\HTTPHandler\:\:createCurlHandlerForUrl\(\) should return resource but returns CurlHandle\.$#'
 			identifier: return.type
 			count: 1
 			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
