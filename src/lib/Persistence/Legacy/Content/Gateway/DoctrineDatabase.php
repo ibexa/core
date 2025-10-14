@@ -12,6 +12,7 @@ use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder as DoctrineQueryBuilder;
 use DOMDocument;
+use DOMElement;
 use DOMXPath;
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
@@ -33,6 +34,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMask
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway as SharedGateway;
 use LogicException;
+use RuntimeException;
 
 /**
  * Doctrine database based content gateway.
@@ -1230,8 +1232,14 @@ final class DoctrineDatabase extends Gateway
         $xpathExpression = "//related-objects/relation-list/relation-item[@contentobject-id='{$contentId}']";
 
         $relationItems = $xpath->query($xpathExpression);
+        if ($relationItems === false) {
+            throw new RuntimeException('Invalid XPath: ' . $xpathExpression);
+        }
+
         foreach ($relationItems as $relationItem) {
-            $relationItem->parentNode->removeChild($relationItem);
+            if ($relationItem instanceof DOMElement && $relationItem->parentNode !== null) {
+                $relationItem->parentNode->removeChild($relationItem);
+            }
         }
 
         $query = $this->connection->createQueryBuilder();

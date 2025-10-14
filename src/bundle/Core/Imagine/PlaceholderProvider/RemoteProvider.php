@@ -24,23 +24,43 @@ class RemoteProvider implements PlaceholderProvider
         $options = $this->resolveOptions($options);
 
         $path = $this->getTemporaryPath();
+        if ($path === '') {
+            throw new RuntimeException('Temporary file path is empty.');
+        }
+
         $placeholderUrl = $this->getPlaceholderUrl($options['url_pattern'], $value);
+        if ($placeholderUrl === '') {
+            throw new RuntimeException('Placeholder URL must be a non-empty string.');
+        }
+
+        $fp = fopen($path, 'wb');
+        if ($fp === false) {
+            throw new RuntimeException("Unable to open temp file for writing: {$path}");
+        }
+
+        $handler = \curl_init();
+        if ($handler === false) {
+            throw new RuntimeException('Unable to initialize cURL.');
+        }
+
+        $timeout = $options['timeout'];
+
+        curl_setopt_array($handler, [
+            CURLOPT_URL         => $placeholderUrl, // non-empty-string
+            CURLOPT_FILE        => $fp,             // resource
+            CURLOPT_TIMEOUT     => $timeout,        // int
+            CURLOPT_FAILONERROR => true,            // bool
+        ]);
 
         try {
-            $handler = curl_init();
-
-            curl_setopt_array($handler, [
-                CURLOPT_URL => $placeholderUrl,
-                CURLOPT_FILE => fopen($path, 'wb'),
-                CURLOPT_TIMEOUT => $options['timeout'],
-                CURLOPT_FAILONERROR => true,
-            ]);
-
             if (curl_exec($handler) === false) {
-                throw new RuntimeException("Unable to download placeholder for {$value->id} ($placeholderUrl): " . curl_error($handler));
+                throw new RuntimeException(
+                    "Unable to download placeholder for {$value->id} ({$placeholderUrl}): " . curl_error($handler)
+                );
             }
         } finally {
             curl_close($handler);
+            fclose($fp);
         }
 
         return $path;

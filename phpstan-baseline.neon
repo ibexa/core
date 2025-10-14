@@ -8437,12 +8437,6 @@ parameters:
 			path: src/contracts/Repository/Values/Content/Query/Criterion/FullText.php
 
 		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\\IsFieldEmpty\:\:__construct\(\) has Ibexa\\Contracts\\Core\\Repository\\Exceptions\\InvalidArgumentException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/IsFieldEmpty.php
-
-		-
 			message: '#^Call to function is_bool\(\) with bool will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
@@ -8495,12 +8489,6 @@ parameters:
 			identifier: missingType.parameter
 			count: 1
 			path: src/contracts/Repository/Values/Content/Query/Criterion/Location/Priority.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\\LogicalNot\:\:__construct\(\) has InvalidArgumentException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/LogicalNot.php
 
 		-
 			message: '#^PHPDoc tag @param references unknown parameter\: \$criteria$#'
@@ -8873,12 +8861,6 @@ parameters:
 			identifier: property.defaultValue
 			count: 1
 			path: src/contracts/Repository/Values/ObjectState/ObjectStateCreateStruct.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\URL\\Query\\Criterion\\LogicalNot\:\:__construct\(\) has InvalidArgumentException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: src/contracts/Repository/Values/URL/Query/Criterion/LogicalNot.php
 
 		-
 			message: '#^Class Ibexa\\Contracts\\Core\\Repository\\Values\\URL\\SearchResult implements generic interface IteratorAggregate but does not specify its types\: TKey, TValue$#'
@@ -10957,12 +10939,6 @@ parameters:
 			path: src/lib/FieldType/FieldType.php
 
 		-
-			message: '#^Method Ibexa\\Core\\FieldType\\FieldType\:\:validate\(\) has Ibexa\\Contracts\\Core\\Repository\\Exceptions\\InvalidArgumentException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: src/lib/FieldType/FieldType.php
-
-		-
 			message: '#^Method Ibexa\\Core\\FieldType\\FieldType\:\:validatorConfigurationFromHash\(\) has parameter \$validatorConfigurationHash with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -11911,12 +11887,6 @@ parameters:
 			path: src/lib/FieldType/Null/Type.php
 
 		-
-			message: '#^Method Ibexa\\Core\\FieldType\\Null\\Type\:\:checkValueStructure\(\) has Ibexa\\Contracts\\Core\\Repository\\Exceptions\\InvalidArgumentException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: src/lib/FieldType/Null/Type.php
-
-		-
 			message: '#^Method Ibexa\\Core\\FieldType\\Null\\Type\:\:checkValueStructure\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -12345,12 +12315,6 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Core\\FieldType\\Value\:\:\$plainPassword\.$#'
 			identifier: property.notFound
-			count: 1
-			path: src/lib/FieldType/User/Type.php
-
-		-
-			message: '#^Method Ibexa\\Core\\FieldType\\User\\Type\:\:checkValueStructure\(\) has Ibexa\\Contracts\\Core\\Repository\\Exceptions\\InvalidArgumentException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
 			count: 1
 			path: src/lib/FieldType/User/Type.php
 
@@ -13297,12 +13261,6 @@ parameters:
 			path: src/lib/Limitation/BlockingLimitationType.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Limitation\\BlockingLimitationType\:\:evaluate\(\) has Ibexa\\Contracts\\Core\\Repository\\Exceptions\\BadStateException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: src/lib/Limitation/BlockingLimitationType.php
-
-		-
 			message: '#^Return type \(void\) of method Ibexa\\Core\\Limitation\\ChangeOwnerLimitationType\:\:valueSchema\(\) should be compatible with return type \(array\<mixed\>\|int\) of method Ibexa\\Contracts\\Core\\Limitation\\Type\:\:valueSchema\(\)$#'
 			identifier: method.childReturnType
 			count: 1
@@ -13401,12 +13359,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\Limitation\\NewSectionLimitationType\:\:doEvaluate\(\) has parameter \$targets with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Limitation/NewSectionLimitationType.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Limitation\\NewSectionLimitationType\:\:evaluate\(\) has Ibexa\\Contracts\\Core\\Repository\\Exceptions\\BadStateException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
 			count: 1
 			path: src/lib/Limitation/NewSectionLimitationType.php
 
@@ -15253,12 +15205,6 @@ parameters:
 			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIElement.php
 
 		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\URIElement\:\:getURIElements\(\) has LogicException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIElement.php
-
-		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Matcher\\URIElement\:\:getURIElements\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -15381,12 +15327,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Router\:\:doMatch\(\) is unused\.$#'
 			identifier: method.unused
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Router.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Router\:\:match\(\) has Ibexa\\Core\\MVC\\Exception\\InvalidSiteAccessException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
 			count: 1
 			path: src/lib/MVC/Symfony/SiteAccess/Router.php
 
@@ -19171,12 +19111,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Gateway.php
 
 		-
-			message: '#^Argument of an invalid type DOMNodeList\<DOMNode\>\|false supplied for foreach, only iterables are supported\.$#'
-			identifier: foreach.nonIterable
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabase.php
-
-		-
 			message: '#^Cannot call method fetch\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
 			identifier: method.nonObject
 			count: 2
@@ -19186,12 +19120,6 @@ parameters:
 			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
 			identifier: method.nonObject
 			count: 16
-			path: src/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Cannot call method removeChild\(\) on DOMNode\|null\.$#'
-			identifier: method.nonObject
-			count: 1
 			path: src/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabase.php
 
 		-
@@ -20895,12 +20823,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Handler\:\:getSearchableFieldMap\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Handler.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Handler\:\:link\(\) has Ibexa\\Contracts\\Core\\Repository\\Exceptions\\BadStateException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Type/Handler.php
 
@@ -61909,12 +61831,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabaseTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Gateway\\DoctrineDatabaseTest\:\:getDatabaseGateway\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabaseTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Gateway\\DoctrineDatabaseTest\:\:insertRelationFixture\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -62297,12 +62213,6 @@ parameters:
 			identifier: isset.property
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/Language/CachingLanguageHandlerTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\Gateway\\DoctrineDatabaseTest\:\:getDatabaseGateway\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/Gateway/DoctrineDatabaseTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\Gateway\\DoctrineDatabaseTest\:\:testDeleteLanguage\(\) has no return type specified\.$#'
@@ -63637,12 +63547,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/MapperTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\ObjectState\\Gateway\\DoctrineDatabaseTest\:\:getDatabaseGateway\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/ObjectState/Gateway/DoctrineDatabaseTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\ObjectState\\Gateway\\DoctrineDatabaseTest\:\:testDeleteObjectState\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -63977,12 +63881,6 @@ parameters:
 			identifier: isset.property
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/ObjectState/ObjectStateHandlerTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Section\\Gateway\\DoctrineDatabaseTest\:\:getDatabaseGateway\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Section/Gateway/DoctrineDatabaseTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Section\\Gateway\\DoctrineDatabaseTest\:\:testAssignSectionToContent\(\) has no return type specified\.$#'
@@ -64729,12 +64627,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/Type/Gateway/DoctrineDatabaseTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Type\\Gateway\\DoctrineDatabaseTest\:\:getGateway\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Type/Gateway/DoctrineDatabaseTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Type\\Gateway\\DoctrineDatabaseTest\:\:getTypeCreationContentClassNameExpectations\(\) should return array\<array\<string\>\> but returns array\<int, list\<list\<int\|string\>\|string\>\>\.$#'
 			identifier: return.type
 			count: 1
@@ -65105,12 +64997,6 @@ parameters:
 			identifier: isset.property
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/Type/Update/Handler/DoctrineDatabaseTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\Gateway\\DoctrineDatabaseTest\:\:getGateway\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/Gateway/DoctrineDatabaseTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\Gateway\\DoctrineDatabaseTest\:\:getGateway\(\) should return Ibexa\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\Gateway\\DoctrineDatabase but returns Ibexa\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\Gateway\.$#'
@@ -65493,12 +65379,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\UrlAliasHandlerTest\:\:getHistoryAlias\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/UrlAliasHandlerTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\UrlAliasHandlerTest\:\:getLanguageHandler\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/UrlAlias/UrlAliasHandlerTest.php
 
@@ -66547,12 +66427,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/UrlAlias/UrlAliasMapperTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlWildcard\\Gateway\\DoctrineDatabaseTest\:\:getGateway\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlWildcard/Gateway/DoctrineDatabaseTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlWildcard\\Gateway\\DoctrineDatabaseTest\:\:testDeleteUrlWildcard\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -66599,12 +66473,6 @@ parameters:
 			identifier: isset.property
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/UrlWildcard/Gateway/DoctrineDatabaseTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlWildcard\\UrlWildcardHandlerTest\:\:getHandler\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlWildcard/UrlWildcardHandlerTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\UrlWildcard\\UrlWildcardHandlerTest\:\:testCreate\(\) has no return type specified\.$#'
@@ -67219,22 +67087,10 @@ parameters:
 			path: tests/lib/Persistence/Legacy/URL/Query/CriterionHandler/ValidityTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\User\\Gateway\\DoctrineDatabaseTest\:\:getDatabaseGateway\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: tests/lib/Persistence/Legacy/User/Gateway/DoctrineDatabaseTest.php
-
-		-
 			message: '#^Property Ibexa\\Tests\\Core\\Persistence\\Legacy\\User\\Gateway\\DoctrineDatabaseTest\:\:\$databaseGateway \(Ibexa\\Core\\Persistence\\Legacy\\User\\Gateway\\DoctrineDatabase\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
 			path: tests/lib/Persistence/Legacy/User/Gateway/DoctrineDatabaseTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\User\\Role\\Gateway\\DoctrineDatabaseTest\:\:getDatabaseGateway\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: tests/lib/Persistence/Legacy/User/Role/Gateway/DoctrineDatabaseTest.php
 
 		-
 			message: '#^Property Ibexa\\Tests\\Core\\Persistence\\Legacy\\User\\Role\\Gateway\\DoctrineDatabaseTest\:\:\$databaseGateway \(Ibexa\\Core\\Persistence\\Legacy\\User\\Role\\Gateway\\DoctrineDatabase\) in isset\(\) is not nullable\.$#'
@@ -74889,12 +74745,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\AbstractTestCase\:\:assertSearchResults\(\) has parameter \$searchResult with no type specified\.$#'
 			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Search/Legacy/Content/AbstractTestCase.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\AbstractTestCase\:\:getContentTypeHandler\(\) has Doctrine\\DBAL\\DBALException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
 			count: 1
 			path: tests/lib/Search/Legacy/Content/AbstractTestCase.php
 
