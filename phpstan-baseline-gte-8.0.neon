@@ -61,7 +61,7 @@ parameters:
 			path: src/bundle/Core/Imagine/IORepositoryResolver.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\URLChecker\\Handler\\HTTPHandler\:\:createCurlHandlerForUrl\(\) should return resource but returns \(CurlHandle\|false\)\.$#'
+			message: '#^Method Ibexa\\Bundle\\Core\\URLChecker\\Handler\\HTTPHandler\:\:createCurlHandlerForUrl\(\) should return resource but returns CurlHandle\.$#'
 			identifier: return.type
 			count: 1
 			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
@@ -113,6 +113,12 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: src/bundle/LegacySearchEngine/ApiLoader/ConnectionFactory.php
+
+		-
+			message: '#^Parameter \#1 \$array of function array_filter expects array, list\<string\>\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/bundle/RepositoryInstaller/Installer/DbBasedInstaller.php
 
 		-
 			message: '#^Parameter \#1 \$object_or_class of function is_a expects object\|string, string\|null given\.$#'
@@ -175,6 +181,12 @@ parameters:
 			path: src/lib/Limitation/LanguageLimitationType.php
 
 		-
+			message: '#^Parameter \#1 \$array of function array_keys expects array, array\<mixed\>\|ArrayObject\<\(int\|string\), mixed\>\|bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/lib/MVC/Symfony/Component/Serializer/AbstractPropertyWhitelistNormalizer.php
+
+		-
 			message: '#^Parameter \#1 \.\.\.\$arrays of function array_merge expects array, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\URLAlias\> given\.$#'
 			identifier: argument.type
 			count: 1
@@ -185,6 +197,12 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: src/lib/MVC/Symfony/Matcher/ContentBased/UrlAlias.php
+
+		-
+			message: '#^Parameter \#1 \$array of class Ibexa\\Core\\FieldType\\FieldSettings constructor expects array\<mixed\>\|object, array\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/SerializableConverter.php
 
 		-
 			message: '#^Parameter \#1 \$array of function array_keys expects array, iterable\<Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\> given\.$#'
@@ -233,6 +251,12 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: src/lib/Repository/ProxyFactory/ProxyGenerator.php
+
+		-
+			message: '#^Parameter \#2 \.\.\.\$arrays of function array_diff expects array, array\<mixed\>\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/lib/Repository/RoleService.php
 
 		-
 			message: '#^Parameter \#1 \$value of function count expects array\|Countable, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\> given\.$#'
@@ -352,6 +376,12 @@ parameters:
 			message: '#^Parameter \#1 \$array of function array_keys expects array, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\> given\.$#'
 			identifier: argument.type
 			count: 3
+			path: tests/integration/Core/Repository/LocationServiceTest.php
+
+		-
+			message: '#^Parameter \#1 \$array of function sort contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
 		-
