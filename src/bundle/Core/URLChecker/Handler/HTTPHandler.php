@@ -10,7 +10,6 @@ namespace Ibexa\Bundle\Core\URLChecker\Handler;
 use CurlHandle;
 use Ibexa\Contracts\Core\Repository\Values\URL\URL;
 use InvalidArgumentException;
-use LogicException;
 use RuntimeException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
