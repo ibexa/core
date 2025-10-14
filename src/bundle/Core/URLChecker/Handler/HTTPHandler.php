@@ -9,7 +9,9 @@ namespace Ibexa\Bundle\Core\URLChecker\Handler;
 
 use CurlHandle;
 use Ibexa\Contracts\Core\Repository\Values\URL\URL;
+use InvalidArgumentException;
 use LogicException;
+use RuntimeException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HTTPHandler extends AbstractConfigResolverBasedURLHandler
@@ -116,9 +118,18 @@ class HTTPHandler extends AbstractConfigResolverBasedURLHandler
     {
         $options = $this->getOptions();
         $handler = curl_init();
+        if ($handler === false) {
+            throw new RuntimeException('Unable to initialize cURL handler.');
+        }
 
+        $urlString = $url->getUrl();
+        if ($urlString === '') {
+            throw new InvalidArgumentException('URL must be a non-empty string.');
+        }
+
+        /** @var non-empty-string $urlString */
         curl_setopt_array($handler, [
-            CURLOPT_URL => $url->getUrl(),
+            CURLOPT_URL => $urlString,
             CURLOPT_RETURNTRANSFER => false,
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_CONNECTTIMEOUT => $connectionTimeout,
@@ -127,18 +138,14 @@ class HTTPHandler extends AbstractConfigResolverBasedURLHandler
             CURLOPT_NOBODY => true,
         ]);
 
-        if ($options['ignore_certificate']) {
+        if (!empty($options['ignore_certificate'])) {
             curl_setopt_array($handler, [
                 CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_SSL_VERIFYHOST => false,
+                CURLOPT_SSL_VERIFYHOST => 0,
             ]);
         }
 
-        $handlers[(int)$handler] = $url;
-
-        if (false === $handler) {
-            throw new LogicException("Failed to create Curl handler for '{$url->getUrl()}' URL", 1);
-        }
+        $handlers[(int) $handler] = $url;
 
         return $handler;
     }

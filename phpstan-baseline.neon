@@ -5491,18 +5491,6 @@ parameters:
 			path: src/contracts/Repository/Values/Content/Query/Criterion/FullText.php
 
 		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\\IsFieldEmpty\:\:__construct\(\) has Ibexa\\Contracts\\Core\\Repository\\Exceptions\\InvalidArgumentException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/IsFieldEmpty.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\\LogicalNot\:\:__construct\(\) has InvalidArgumentException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/LogicalNot.php
-
-		-
 			message: '#^Class Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\RelationList implements generic interface IteratorAggregate but does not specify its types\: TKey, TValue$#'
 			identifier: missingType.generics
 			count: 1
@@ -5621,12 +5609,6 @@ parameters:
 			identifier: property.defaultValue
 			count: 1
 			path: src/contracts/Repository/Values/ObjectState/ObjectStateCreateStruct.php
-
-		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\URL\\Query\\Criterion\\LogicalNot\:\:__construct\(\) has InvalidArgumentException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: src/contracts/Repository/Values/URL/Query/Criterion/LogicalNot.php
 
 		-
 			message: '#^Class Ibexa\\Contracts\\Core\\Repository\\Values\\URL\\SearchResult implements generic interface IteratorAggregate but does not specify its types\: TKey, TValue$#'
@@ -6487,12 +6469,6 @@ parameters:
 			path: src/lib/FieldType/FieldType.php
 
 		-
-			message: '#^Method Ibexa\\Core\\FieldType\\FieldType\:\:validate\(\) has Ibexa\\Contracts\\Core\\Repository\\Exceptions\\InvalidArgumentException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: src/lib/FieldType/FieldType.php
-
-		-
 			message: '#^Method Ibexa\\Core\\FieldType\\FieldType\:\:validatorConfigurationFromHash\(\) has parameter \$validatorConfigurationHash with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -7183,12 +7159,6 @@ parameters:
 			path: src/lib/FieldType/Null/Type.php
 
 		-
-			message: '#^Method Ibexa\\Core\\FieldType\\Null\\Type\:\:checkValueStructure\(\) has Ibexa\\Contracts\\Core\\Repository\\Exceptions\\InvalidArgumentException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: src/lib/FieldType/Null/Type.php
-
-		-
 			message: '#^Method Ibexa\\Core\\FieldType\\Null\\Type\:\:checkValueStructure\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -7509,12 +7479,6 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Core\\FieldType\\Value\:\:\$plainPassword\.$#'
 			identifier: property.notFound
-			count: 1
-			path: src/lib/FieldType/User/Type.php
-
-		-
-			message: '#^Method Ibexa\\Core\\FieldType\\User\\Type\:\:checkValueStructure\(\) has Ibexa\\Contracts\\Core\\Repository\\Exceptions\\InvalidArgumentException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
 			count: 1
 			path: src/lib/FieldType/User/Type.php
 
@@ -7913,12 +7877,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Helper/TranslationHelper.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Limitation\\BlockingLimitationType\:\:evaluate\(\) has Ibexa\\Contracts\\Core\\Repository\\Exceptions\\BadStateException in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
-			count: 1
-			path: src/lib/Limitation/BlockingLimitationType.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Limitation\\LanguageLimitation\\ContentDeleteEvaluator\:\:evaluate\(\) never returns null so it can be removed from the return type\.$#'
@@ -12151,18 +12109,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Gateway.php
 
 		-
-			message: '#^Argument of an invalid type DOMNodeList\<DOMNode\>\|false supplied for foreach, only iterables are supported\.$#'
-			identifier: foreach.nonIterable
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Cannot call method removeChild\(\) on DOMNode\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabase.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Gateway\\DoctrineDatabase\:\:deleteTranslationFromContentNames\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -13084,6 +13030,12 @@ parameters:
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Mapper\:\:extractVersionInfoFromRow\(\) has parameter \$row with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
+			path: src/lib/Persistence/Legacy/Content/Mapper.php
+
+		-
+			message: '#^Possibly invalid array key type bool\|float\|int\|string\.$#'
+			identifier: offsetAccess.invalidOffset
+			count: 3
 			path: src/lib/Persistence/Legacy/Content/Mapper.php
 
 		-
@@ -18247,6 +18199,12 @@ parameters:
 			path: src/lib/Repository/URLWildcardService.php
 
 		-
+			message: '#^Parameter \#3 \$hashType of method Ibexa\\Contracts\\Core\\Repository\\PasswordHashService\:\:isValidPassword\(\) expects int\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/lib/Repository/User/PasswordValidator.php
+
+		-
 			message: '#^Dead catch \- Exception is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 1
@@ -18302,6 +18260,12 @@ parameters:
 
 		-
 			message: '#^Parameter \#2 \$fieldDefinition of method Ibexa\\Core\\Repository\\User\\PasswordValidatorInterface\:\:getPasswordInfo\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\FieldDefinition, Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\FieldDefinition\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/lib/Repository/UserService.php
+
+		-
+			message: '#^Parameter \#3 \$hashAlgorithm of method Ibexa\\Core\\Repository\\UserService\:\:comparePasswordHashes\(\) expects int, string given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/lib/Repository/UserService.php
@@ -35632,6 +35596,12 @@ parameters:
 			message: '#^Part \$criterion\-\>value \(array\<bool\|float\|int\|string\>\|bool\|float\|int\|string\) of encapsed string cannot be cast to string\.$#'
 			identifier: encapsedStringPart.nonString
 			count: 1
+			path: tests/integration/Core/Repository/SearchService/RemoteIdIndexingTest.php
+
+		-
+			message: '#^Possibly invalid array key type bool\|float\|int\|string\.$#'
+			identifier: offsetAccess.invalidOffset
+			count: 2
 			path: tests/integration/Core/Repository/SearchService/RemoteIdIndexingTest.php
 
 		-
@@ -60519,12 +60489,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\AbstractTestCase\:\:assertSearchResults\(\) has parameter \$searchResult with no type specified\.$#'
 			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Search/Legacy/Content/AbstractTestCase.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Search\\Legacy\\Content\\AbstractTestCase\:\:getContentTypeHandler\(\) has Doctrine\\DBAL\\Exception in PHPDoc @throws tag but it''s not thrown\.$#'
-			identifier: throws.unusedType
 			count: 1
 			path: tests/lib/Search/Legacy/Content/AbstractTestCase.php
 
