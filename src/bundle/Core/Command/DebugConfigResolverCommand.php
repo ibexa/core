@@ -111,16 +111,18 @@ EOM
 
         if (null !== $sort && !empty($parameterData)) {
             if (!is_array($parameterData)) {
-                throw new InvalidArgumentException('--sort', "'$parameter' isn't a list. Sort can be used only on list.");
+                throw new InvalidArgumentException('--sort', "'$parameter' isn't a list. Sort can be used only on a list.");
             }
             if (!array_is_list($parameterData)) {
-                throw new InvalidArgumentException('--sort', "'$parameter' is a hash or an object. Sort can be used only on list.");
+                throw new InvalidArgumentException('--sort', "'$parameter' is a hash but sort can be used only on a list (an array with numeral keys incremented from zero).");
             }
-            if (!array_key_exists($sort, $parameterData[0])) {
-                throw new InvalidArgumentException('--sort', "'$sort' property doesn't exist on '$parameter' list items.");
-            }
-            if (!is_scalar($parameterData[0][$sort])) {
-                throw new InvalidArgumentException('--sort', "'{$parameter}[n][{$sort}]' properties aren't scalar and can't be sorted.");
+            for ($i=0, $count = count($parameterData); $i < $count; $i++) {
+                if (!array_key_exists($sort, $parameterData[$i])) {
+                    throw new InvalidArgumentException('--sort', "'$sort' property doesn't exist on each '$parameter' list item.");
+                }
+                if (!is_scalar($parameterData[$i][$sort])) {
+                    throw new InvalidArgumentException('--sort', "'$sort' properties aren't always scalar and can't be sorted.");
+                }
             }
             if ($input->getOption('reverse-sort')) {
                 usort($parameterData, static fn (array $a, array $b): int => $b[$sort] <=> $a[$sort]);
