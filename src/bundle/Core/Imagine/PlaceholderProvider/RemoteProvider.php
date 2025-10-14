@@ -46,9 +46,9 @@ class RemoteProvider implements PlaceholderProvider
         $timeout = $options['timeout'];
 
         curl_setopt_array($handler, [
-            CURLOPT_URL         => $placeholderUrl, // non-empty-string
-            CURLOPT_FILE        => $fp,             // resource
-            CURLOPT_TIMEOUT     => $timeout,        // int
+            CURLOPT_URL => $placeholderUrl, // non-empty-string
+            CURLOPT_FILE => $fp,             // resource
+            CURLOPT_TIMEOUT => $timeout,        // int
             CURLOPT_FAILONERROR => true,            // bool
         ]);
 

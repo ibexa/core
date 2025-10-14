@@ -6,10 +6,8 @@
  */
 namespace Ibexa\Bundle\Core\URLChecker\Handler;
 
-use CurlHandle;
 use Ibexa\Contracts\Core\Repository\Values\URL\URL;
 use InvalidArgumentException;
-use LogicException;
 use RuntimeException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -126,7 +124,7 @@ class HTTPHandler extends AbstractConfigResolverBasedURLHandler
             throw new RuntimeException('Unable to initialize cURL handler.');
         }
 
-        $urlString =  $url->url;
+        $urlString = $url->url;
         if ($urlString === '') {
             throw new InvalidArgumentException('URL must be a non-empty string.');
         }
