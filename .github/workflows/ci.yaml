@@ -1,224 +1,224 @@
 name: CI
 
 on:
-    push:
-        branches:
-            - main
-            - '[0-9]+.[0-9]+'
-    pull_request: ~
+  push:
+    branches:
+      - main
+      - '[0-9]+.[0-9]+'
+  pull_request: ~
 
 jobs:
-    cs-fix:
-        name: Run code style check
-        runs-on: "ubuntu-24.04"
-        strategy:
-            matrix:
-                php:
-                    - '8.1'
-        steps:
-            - uses: actions/checkout@v5
+  cs-fix:
+    name: Run code style check
+    runs-on: "ubuntu-24.04"
+    strategy:
+      matrix:
+        php:
+          - '8.1'
+    steps:
+      - uses: actions/checkout@v5
 
-            - uses: ibexa/gh-workflows/actions/composer-install@main
-              with:
-                  gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
-                  gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
-                  satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
-                  satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
+      - uses: ibexa/gh-workflows/actions/composer-install@main
+        with:
+          gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
+          gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
+          satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
+          satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
 
-            - name: Run code style check
-              run: composer run-script check-cs -- --format=checkstyle | cs2pr
+      - name: Run code style check
+        run: composer run-script check-cs -- --format=checkstyle | cs2pr
 
-    tests:
-        name: Unit tests & SQLite integration tests
-        runs-on: "ubuntu-24.04"
-        timeout-minutes: 15
+  tests:
+    name: Unit tests & SQLite integration tests
+    runs-on: "ubuntu-24.04"
+    timeout-minutes: 15
 
-        strategy:
-            fail-fast: false
-            matrix:
-                php:
-                    - '7.4'
-                    - '8.0'
-                    - '8.1'
+    strategy:
+      fail-fast: false
+      matrix:
+        php:
+          - '7.4'
+          - '8.0'
+          - '8.1'
 
-        steps:
-            - uses: actions/checkout@v5
+    steps:
+      - uses: actions/checkout@v5
 
-            - uses: ibexa/gh-workflows/actions/composer-install@main
-              with:
-                  gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
-                  gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
-                  satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
-                  satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
+      - uses: ibexa/gh-workflows/actions/composer-install@main
+        with:
+          gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
+          gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
+          satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
+          satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
 
-            - name: Setup problem matchers for PHPUnit
-              run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+      - name: Setup problem matchers for PHPUnit
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-            - name: Run PHPStan analysis
-              run: composer run-script phpstan
+      - name: Run PHPStan analysis
+        run: composer run-script phpstan
 
-            - name: Run unit test suite
-              run: composer run-script unit
+      - name: Run unit test suite
+        run: composer run-script unit
 
-            - name: Run integration test suite
-              run: composer run-script integration
+      - name: Run integration test suite
+        run: composer run-script integration
 
-    integration-tests-postgres:
-        name: PostgreSQL integration tests
-        needs: tests
-        services:
-            postgres:
-                image: ${{ matrix.image }}
-                ports:
-                    - 5432
-                env:
-                    POSTGRES_PASSWORD: postgres
-                    POSTGRES_DB: testdb
-                options: >-
-                    --health-cmd pg_isready
-                    --health-interval 10s
-                    --health-timeout 5s
-                    --health-retries 5
-                    --tmpfs /var/lib/postgres
-        runs-on: "ubuntu-24.04"
-        timeout-minutes: 60
+  integration-tests-postgres:
+    name: PostgreSQL integration tests
+    needs: tests
+    services:
+      postgres:
+        image: ${{ matrix.image }}
+        ports:
+          - 5432
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: testdb
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          --tmpfs /var/lib/postgres
+    runs-on: "ubuntu-24.04"
+    timeout-minutes: 60
 
-        strategy:
-            fail-fast: false
-            matrix:
-                php:
-                    - '7.4'
-                    - '8.0'
-                    - '8.1'
-                image:
-                    - 'postgres:14'
-                    - 'postgres:18'
+    strategy:
+      fail-fast: false
+      matrix:
+        php:
+          - '7.4'
+          - '8.0'
+          - '8.1'
+        image:
+          - 'postgres:14'
+          - 'postgres:18'
 
-        steps:
-            - uses: actions/checkout@v5
+    steps:
+      - uses: actions/checkout@v5
 
-            - uses: ibexa/gh-workflows/actions/composer-install@main
-              with:
-                  gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
-                  gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
-                  satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
-                  satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
+      - uses: ibexa/gh-workflows/actions/composer-install@main
+        with:
+          gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
+          gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
+          satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
+          satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
 
-            - name: Setup problem matchers for PHPUnit
-              run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+      - name: Setup problem matchers for PHPUnit
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-            - name: Run integration test suite vs Postgresql
-              run: composer run-script integration
-              env:
-                  DATABASE_URL: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb?server_version=10"
-                  # Required by old repository tests
-                  DATABASE: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb"
+      - name: Run integration test suite vs Postgresql
+        run: composer run-script integration
+        env:
+          DATABASE_URL: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb?server_version=10"
+          # Required by old repository tests
+          DATABASE: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb"
 
-    integration-tests-mysql:
-        name: MySQL integration tests
-        needs: tests
-        services:
-            mysql:
-                image: ${{ matrix.image }}
-                ports:
-                    - 3306/tcp
-                env:
-                    MYSQL_RANDOM_ROOT_PASSWORD: true
-                    MYSQL_USER: mysql
-                    MYSQL_PASSWORD: mysql
-                    MYSQL_DATABASE: testdb
-                options: >-
-                    --health-cmd="mysqladmin ping"
-                    --health-interval=10s
-                    --health-timeout=5s
-                    --health-retries=5
-                    --tmpfs=/var/lib/mysql
-        runs-on: "ubuntu-24.04"
-        timeout-minutes: 60
+  integration-tests-mysql:
+    name: MySQL integration tests
+    needs: tests
+    services:
+      mysql:
+        image: ${{ matrix.image }}
+        ports:
+          - 3306/tcp
+        env:
+          MYSQL_RANDOM_ROOT_PASSWORD: true
+          MYSQL_USER: mysql
+          MYSQL_PASSWORD: mysql
+          MYSQL_DATABASE: testdb
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+          --tmpfs=/var/lib/mysql
+    runs-on: "ubuntu-24.04"
+    timeout-minutes: 60
 
-        strategy:
-            fail-fast: false
-            matrix:
-                php:
-                    - '7.4'
-                    - '8.0'
-                    - '8.1'
-                image:
-                    - 'mysql:8.0'
-                    - 'mysql:8.4'
+    strategy:
+      fail-fast: false
+      matrix:
+        php:
+          - '7.4'
+          - '8.0'
+          - '8.1'
+        image:
+          - 'mysql:8.0'
+          - 'mysql:8.4'
 
-        steps:
-            - uses: actions/checkout@v5
+    steps:
+      - uses: actions/checkout@v5
 
-            - uses: ibexa/gh-workflows/actions/composer-install@main
-              with:
-                  gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
-                  gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
-                  satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
-                  satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
+      - uses: ibexa/gh-workflows/actions/composer-install@main
+        with:
+          gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
+          gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
+          satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
+          satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
 
-            - name: Setup problem matchers for PHPUnit
-              run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+      - name: Setup problem matchers for PHPUnit
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-            - name: Run integration test suite vs MySQL
-              run: composer run-script integration
-              env:
-                  DATABASE_URL: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
-                  DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
+      - name: Run integration test suite vs MySQL
+        run: composer run-script integration
+        env:
+          DATABASE_URL: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
+          DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
 
-    solr-integration:
-        name: "Solr integration tests"
-        runs-on: "ubuntu-24.04"
-        timeout-minutes: 30
-        permissions:
-            packages: read
-            contents: read
-        services:
-            redis:
-                image: redis
-                ports:
-                    - 6379:6379
-                options:
-                    --memory=60m
-            solr:
-                image: ghcr.io/ibexa/core/solr
-                ports:
-                    - 8983:8983
-                options: >-
-                    --health-cmd "solr status"
-                    --health-interval 10s
-                    --health-timeout 5s
-                    --health-retries 10
-        strategy:
-            fail-fast: false
-            matrix:
-                php:
-                    - '7.4'
-                    - '8.0'
-                    - '8.1'
-        steps:
-            - uses: actions/checkout@v5
-              with:
-                  fetch-depth: 0
+  solr-integration:
+    name: "Solr integration tests"
+    runs-on: "ubuntu-24.04"
+    timeout-minutes: 30
+    permissions:
+      packages: read
+      contents: read
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options:
+          --memory=60m
+      solr:
+        image: ghcr.io/ibexa/core/solr
+        ports:
+          - 8983:8983
+        options: >-
+          --health-cmd "solr status"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    strategy:
+      fail-fast: false
+      matrix:
+        php:
+          - '7.4'
+          - '8.0'
+          - '8.1'
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
-            - name: Setup PHP Action
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: ${{ matrix.php }}
-                  coverage: none
+      - name: Setup PHP Action
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
 
-            - name: Add solr dependency
-              run: |
-                VERSION=$(jq -r '.extra | ."branch-alias" | ."dev-main"' < composer.json)
-                composer require --no-update "ibexa/solr:$VERSION"
+      - name: Add solr dependency
+        run: |
+          VERSION=$(jq -r '.extra | ."branch-alias" | ."dev-main"' < composer.json)
+          composer require --no-update "ibexa/solr:$VERSION"
 
-            - uses: ramsey/composer-install@v3
-              with:
-                  dependency-versions: "highest"
+      - uses: ramsey/composer-install@v3
+        with:
+          dependency-versions: "highest"
 
-            - name: Run integration test suite
-              run: composer test-integration-solr
-              env:
-                    CUSTOM_CACHE_POOL: singleredis
-                    CACHE_HOST: 127.0.0.1
-                    CORES_SETUP: single
+      - name: Run integration test suite
+        run: composer test-integration-solr
+        env:
+          CUSTOM_CACHE_POOL: singleredis
+          CACHE_HOST: 127.0.0.1
+          CORES_SETUP: single
