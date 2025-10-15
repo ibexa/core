@@ -12,10 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Embedding;
 use InvalidArgumentException;
 
-/**
- * This class is used to perform an embedding query.
- */
-class EmbeddingQuery extends Query
+final class EmbeddingQuery extends Query
 {
     private ?Embedding $embedding = null;
 
@@ -29,7 +26,7 @@ class EmbeddingQuery extends Query
         $this->embedding = $embedding;
     }
 
-    public function getFilter(): ?Criterion
+    public function getFilter(): Criterion
     {
         return $this->filter;
     }
@@ -105,7 +102,7 @@ class EmbeddingQuery extends Query
         if (count($invalid) > 0) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'EmbeddingQuery may not set [%s].',
+                    'EmbeddingQuery did not set [%s].',
                     implode(', ', $invalid)
                 )
             );

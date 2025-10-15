@@ -23,7 +23,9 @@ abstract class Embedding extends ValueObject
         $this->value = $value;
     }
 
-    /** @return float[] */
+    /**
+     * @return float[]
+     */
     public function getValue(): array
     {
         return $this->value;

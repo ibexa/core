@@ -1,6 +1,6 @@
 imports:
     - { resource: commands.yml }
-    - { resource: embeddings.yml }
+    - { resource: embeddings.yaml }
 
 parameters:
     ibexa.site_access.default.name: default

@@ -56,7 +56,7 @@ final class EmbeddingProviderResolverTest extends TestCase
 
         $resolved = $this->resolver->resolve();
 
-        $this->assertSame($mockProvider, $resolved);
+        self::assertSame($mockProvider, $resolved);
     }
 
     public function testResolveThrowsWhenProviderMissing(): void

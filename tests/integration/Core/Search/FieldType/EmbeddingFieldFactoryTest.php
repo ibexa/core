@@ -19,7 +19,7 @@ final class EmbeddingFieldFactoryTest extends TestCase
         $suffix = 'model_123';
         $config = $this->createMock(EmbeddingConfigurationInterface::class);
         $config
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getDefaultEmbeddingModelFieldSuffix')
             ->willReturn($suffix);
 
@@ -27,7 +27,7 @@ final class EmbeddingFieldFactoryTest extends TestCase
 
         $field = $factory->create();
 
-        $this->assertSame(
+        self::assertSame(
             'ibexa_dense_vector_model_123',
             $field->getType(),
             'Factory should prepend "ibexa_dense_vector_" to the suffix from the config'
@@ -46,7 +46,7 @@ final class EmbeddingFieldFactoryTest extends TestCase
 
         $field = $factory->create($customType);
 
-        $this->assertSame(
+        self::assertSame(
             $customType,
             $field->getType(),
             'Factory should use the explicit type when provided'
