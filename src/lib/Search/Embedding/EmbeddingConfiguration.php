@@ -60,7 +60,7 @@ final class EmbeddingConfiguration implements EmbeddingConfigurationInterface
     }
 
     /**
-     * @return array{name: string, dimensions: int, field_suffix: string, 'embedding_provider': string}
+     * @return array{name: string, dimensions: int, field_suffix: string, embedding_provider: string}
      */
     public function getDefaultEmbeddingModel(): array
     {

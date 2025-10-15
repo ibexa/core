@@ -13,11 +13,21 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Embedding;
 
 final class EmbeddingQueryBuilder
 {
-    private EmbeddingQuery $query;
+    private ?Embedding $embedding = null;
+
+    private ?int $limit = null;
+
+    private ?int $offset = null;
+
+    private ?Criterion $filter = null;
+
+    /** @var array<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation> */
+    private array $aggregations = [];
+
+    private bool $performCount = false;
 
     private function __construct()
     {
-        $this->query = new EmbeddingQuery();
     }
 
     public static function create(): self
@@ -27,28 +37,28 @@ final class EmbeddingQueryBuilder
 
     public function withEmbedding(Embedding $embed): self
     {
-        $this->query->setEmbedding($embed);
+        $this->embedding = $embed;
 
         return $this;
     }
 
     public function setLimit(int $limit): self
     {
-        $this->query->setLimit($limit);
+        $this->limit = $limit;
 
         return $this;
     }
 
     public function setOffset(int $offset): self
     {
-        $this->query->setOffset($offset);
+        $this->offset = $offset;
 
         return $this;
     }
 
     public function setFilter(Criterion $filter): self
     {
-        $this->query->setFilter($filter);
+        $this->filter = $filter;
 
         return $this;
     }
@@ -58,20 +68,44 @@ final class EmbeddingQueryBuilder
      */
     public function setAggregations(array $aggregations): self
     {
-        $this->query->setAggregations($aggregations);
+        $this->aggregations = $aggregations;
 
         return $this;
     }
 
     public function setPerformCount(bool $performCount): self
     {
-        $this->query->setPerformCount($performCount);
+        $this->performCount = $performCount;
 
         return $this;
     }
 
     public function build(): EmbeddingQuery
     {
-        return $this->query;
+        $query = new EmbeddingQuery();
+
+        if ($this->embedding !== null) {
+            $query->setEmbedding($this->embedding);
+        }
+
+        if ($this->limit !== null) {
+            $query->setLimit($this->limit);
+        }
+
+        if ($this->offset !== null) {
+            $query->setOffset($this->offset);
+        }
+
+        if ($this->filter !== null) {
+            $query->setFilter($this->filter);
+        }
+
+        if (!empty($this->aggregations)) {
+            $query->setAggregations($this->aggregations);
+        }
+
+        $query->setPerformCount($this->performCount);
+
+        return $query;
     }
 }

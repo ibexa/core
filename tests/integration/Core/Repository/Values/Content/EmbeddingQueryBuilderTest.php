@@ -35,19 +35,19 @@ final class EmbeddingQueryBuilderTest extends TestCase
 
         $query = $builder->build();
 
-        $this->assertSame(
+        self::assertSame(
             $embedding,
             $query->getEmbedding(),
             'Embedding should be set by builder'
         );
 
-        $this->assertEquals(10, $query->getLimit(), 'Limit should be set by builder');
-        $this->assertEquals(5, $query->getOffset(), 'Offset should be set by builder');
-        $this->assertTrue($query->getPerformCount(), 'PerformCount flag should be true');
+        self::assertEquals(10, $query->getLimit(), 'Limit should be set by builder');
+        self::assertEquals(5, $query->getOffset(), 'Offset should be set by builder');
+        self::assertTrue($query->getPerformCount(), 'PerformCount flag should be true');
 
         $aggregations = $query->getAggregations();
-        $this->assertIsArray($aggregations, 'Aggregations must be array');
-        $this->assertCount(2, $aggregations, 'Two aggregations added');
+        self::assertIsArray($aggregations, 'Aggregations must be array');
+        self::assertCount(2, $aggregations, 'Two aggregations added');
     }
 
     public function testIsValidReturnsTrueForCleanQuery(): void
@@ -56,7 +56,7 @@ final class EmbeddingQueryBuilderTest extends TestCase
             ->withEmbedding($this->createMock(Embedding::class))
             ->build();
 
-        $this->assertTrue($query->isValid());
+        self::assertTrue($query->isValid());
     }
 
     public function testSettingSortClausesThenIsValidThrows(): void
@@ -65,15 +65,26 @@ final class EmbeddingQueryBuilderTest extends TestCase
             ->withEmbedding($this->createMock(Embedding::class))
             ->build();
 
-        // bypass setter via array-append magic
         $query->sortClauses[] = new ContentName(BaseQuery::SORT_ASC);
         $query->query = $this->createMock(Criterion::class);
         $query->facetBuilders = [$this->createMock(FacetBuilder::class)];
         $query->spellcheck = new Spellcheck('foo');
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('EmbeddingQuery may not set [query, sortClauses, facetBuilders, spellcheck].');
+        $this->expectExceptionMessage('EmbeddingQuery did not set [query, sortClauses, facetBuilders, spellcheck].');
 
         $query->isValid();
+    }
+
+    public function testBuildReturnsNewInstance(): void
+    {
+        $builder = EmbeddingQueryBuilder::create();
+
+        $originalQuery = $builder->build();
+        $builder->setPerformCount(true);
+        $secondQuery = $builder->build();
+
+        self::assertNotSame($originalQuery, $secondQuery);
+        self::assertNotEquals($originalQuery->getPerformCount(), $secondQuery->getPerformCount());
     }
 }

@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Search\FieldType\EmbeddingField;
 use Ibexa\Core\Search\Common\FieldValueMapper;
 
 /**
- * @internal for internal use by Search engine field value mapper
+ * @internal for internal use by search engine field value mapper
  */
 final class EmbeddingMapper extends FieldValueMapper
 {

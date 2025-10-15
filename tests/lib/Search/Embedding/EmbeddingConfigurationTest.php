@@ -43,7 +43,7 @@ final class EmbeddingConfigurationTest extends TestCase
                 ['embedding_models', null, null, self::MODELS],
             ]);
 
-        $this->assertSame(
+        self::assertSame(
             ['name' => 'text-embedding-ada-002', 'dimensions' => 1536, 'field_suffix' => 'ada002', 'embedding_provider' => 'ibexa_openai'],
             $this->config->getDefaultEmbeddingModel()
         );
@@ -58,7 +58,7 @@ final class EmbeddingConfigurationTest extends TestCase
                 ['embedding_models', null, null, self::MODELS],
             ]);
 
-        $this->assertSame(
+        self::assertSame(
             ['text-embedding-3-small', 'text-embedding-3-large', 'text-embedding-ada-002'],
             $this->config->getEmbeddingModelIdentifiers()
         );
@@ -71,8 +71,8 @@ final class EmbeddingConfigurationTest extends TestCase
             ->with('embedding_models')
             ->willReturn(self::MODELS);
 
-        $this->assertSame(self::MODELS, $this->config->getEmbeddingModels());
-        $this->assertSame(
+        self::assertSame(self::MODELS, $this->config->getEmbeddingModels());
+        self::assertSame(
             ['text-embedding-3-small', 'text-embedding-3-large', 'text-embedding-ada-002'],
             $this->config->getEmbeddingModelIdentifiers()
         );
@@ -85,7 +85,7 @@ final class EmbeddingConfigurationTest extends TestCase
             ->with('embedding_models')
             ->willReturn(self::MODELS);
 
-        $this->assertSame(
+        self::assertSame(
             ['name' => 'text-embedding-ada-002', 'dimensions' => 1536, 'field_suffix' => 'ada002', 'embedding_provider' => 'ibexa_openai'],
             $this->config->getEmbeddingModel('text-embedding-ada-002')
         );
@@ -98,8 +98,8 @@ final class EmbeddingConfigurationTest extends TestCase
             ->with('embedding_models')
             ->willReturn(self::MODELS);
 
-        self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('Embedding model "non-existing-model" is not configured.');
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Embedding model "non-existing-model" is not configured.');
 
         $this->config->getEmbeddingModel('non-existing-model');
     }
@@ -111,7 +111,7 @@ final class EmbeddingConfigurationTest extends TestCase
             ->with('default_embedding_model')
             ->willReturn('text-embedding-ada-002');
 
-        $this->assertSame('text-embedding-ada-002', $this->config->getDefaultEmbeddingModelIdentifier());
+        self::assertSame('text-embedding-ada-002', $this->config->getDefaultEmbeddingModelIdentifier());
     }
 
     public function testGetDefaultEmbeddingProvider(): void
@@ -123,7 +123,7 @@ final class EmbeddingConfigurationTest extends TestCase
                 ['embedding_models', null, null, self::MODELS],
             ]);
 
-        $this->assertSame('ibexa_openai', $this->config->getDefaultEmbeddingProvider());
+        self::assertSame('ibexa_openai', $this->config->getDefaultEmbeddingProvider());
     }
 
     public function getDefaultEmbeddingModelFieldSuffix(): void
@@ -135,6 +135,6 @@ final class EmbeddingConfigurationTest extends TestCase
                 ['embedding_models', null, null, self::MODELS],
             ]);
 
-        $this->assertSame('ada002', $this->config->getDefaultEmbeddingModelFieldSuffix());
+        self::assertSame('ada002', $this->config->getDefaultEmbeddingModelFieldSuffix());
     }
 }
