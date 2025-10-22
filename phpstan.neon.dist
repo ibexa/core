@@ -7,6 +7,8 @@ includes:
 parameters:
     level: 8
     treatPhpDocTypesAsCertain: false
+    checkDynamicProperties: true
+
     ignoreErrors:
         -
             message: "#^Cannot call method (fetchOne|fetchColumn|fetchAllAssociative|fetchAssociative|fetchAllKeyValue|fetchFirstColumn|rowCount)\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"

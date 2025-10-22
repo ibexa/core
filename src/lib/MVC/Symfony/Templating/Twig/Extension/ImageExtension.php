@@ -13,11 +13,15 @@ use Ibexa\Contracts\Core\Variation\VariationHandler;
 use Ibexa\Core\FieldType\ImageAsset\AssetMapper;
 use Ibexa\Core\MVC\Exception\SourceImageNotFoundException;
 use InvalidArgumentException;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class ImageExtension extends AbstractExtension
+class ImageExtension extends AbstractExtension implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     use DeprecationOptionsTrait;
 
     /** @var \Ibexa\Contracts\Core\Variation\VariationHandler */

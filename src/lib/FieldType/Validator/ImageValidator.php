@@ -22,7 +22,7 @@ class ImageValidator extends Validator
     }
 
     /**
-     * {@inheritdoc}
+     * @param \Ibexa\Core\FieldType\Image\Value $value
      */
     public function validate(Value $value, ?FieldDefinition $fieldDefinition = null)
     {
