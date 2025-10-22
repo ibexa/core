@@ -110,7 +110,7 @@ class Type extends FieldType implements TranslationContainerInterface
      */
     protected function getSortInfo(BaseValue $value)
     {
-        if (empty($value->authors)) {
+        if (count($value->authors) === 0) {
             return false;
         }
 

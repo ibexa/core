@@ -10342,12 +10342,6 @@ parameters:
 			message: '#^Property Ibexa\\Core\\FieldType\\Author\\Value\:\:\$authors \(Ibexa\\Core\\FieldType\\Author\\AuthorCollection\) in empty\(\) is not falsy\.$#'
 			identifier: empty.property
 			count: 1
-			path: src/lib/FieldType/Author/Type.php
-
-		-
-			message: '#^Property Ibexa\\Core\\FieldType\\Author\\Value\:\:\$authors \(Ibexa\\Core\\FieldType\\Author\\AuthorCollection\) in empty\(\) is not falsy\.$#'
-			identifier: empty.property
-			count: 1
 			path: src/lib/FieldType/Author/Value.php
 
 		-
