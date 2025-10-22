@@ -201,7 +201,7 @@ services:
             - { name: ibexa.view.render.strategy }
 
     Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\ImageExtension:
-        class: Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\ImageExtension
+        autoconfigure: true
         arguments:
             - '@ibexa.field_type.ezimage.variation_service'
             - '@Ibexa\Core\FieldType\ImageAsset\AssetMapper'
