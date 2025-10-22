@@ -52,6 +52,9 @@ class Type extends FieldType implements TranslationContainerInterface
         return 'ezauthor';
     }
 
+    /**
+     * @param \Ibexa\Core\FieldType\Author\Value $value
+     */
     public function getName(SPIValue $value, FieldDefinition $fieldDefinition, string $languageCode): string
     {
         return $value->authors[0]->name ?? '';
@@ -103,7 +106,7 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param \Ibexa\Core\FieldType\Author\Value $value
      */
     protected function getSortInfo(BaseValue $value)
     {

@@ -46,6 +46,7 @@ class LanguageTest extends TestCase
         $this->expectExceptionMessage('Property \'notDefined\' not found on class');
 
         $language = new Language();
+        /** @phpstan-ignore-next-line property.notFound */
         $value = $language->notDefined;
         self::fail('Succeeded getting non existing property');
     }

@@ -10342,6 +10342,12 @@ parameters:
 			message: '#^Property Ibexa\\Core\\FieldType\\Author\\Value\:\:\$authors \(Ibexa\\Core\\FieldType\\Author\\AuthorCollection\) in empty\(\) is not falsy\.$#'
 			identifier: empty.property
 			count: 1
+			path: src/lib/FieldType/Author/Type.php
+
+		-
+			message: '#^Property Ibexa\\Core\\FieldType\\Author\\Value\:\:\$authors \(Ibexa\\Core\\FieldType\\Author\\AuthorCollection\) in empty\(\) is not falsy\.$#'
+			identifier: empty.property
+			count: 1
 			path: src/lib/FieldType/Author/Value.php
 
 		-
@@ -10609,18 +10615,6 @@ parameters:
 			path: src/lib/FieldType/BinaryBase/Type.php
 
 		-
-			message: '#^Access to an undefined property Ibexa\\Core\\FieldType\\Value\:\:\$fileName\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/lib/FieldType/BinaryBase/Type.php
-
-		-
-			message: '#^Access to an undefined property Ibexa\\Core\\FieldType\\Value\:\:\$fileSize\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/lib/FieldType/BinaryBase/Type.php
-
-		-
 			message: '#^Method Ibexa\\Core\\FieldType\\BinaryBase\\Type\:\:checkValueStructure\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -10671,6 +10665,12 @@ parameters:
 		-
 			message: '#^Parameter \#1 \$value of method Ibexa\\Core\\FieldType\\BinaryBase\\Type\:\:toHash\(\) expects Ibexa\\Core\\FieldType\\BinaryBase\\Value, Ibexa\\Core\\FieldType\\Value given\.$#'
 			identifier: argument.type
+			count: 1
+			path: src/lib/FieldType/BinaryBase/Type.php
+
+		-
+			message: '#^Property Ibexa\\Core\\FieldType\\BinaryBase\\Value\:\:\$fileSize \(int\|null\) does not accept int\<0, max\>\|false\.$#'
+			identifier: assign.propertyType
 			count: 1
 			path: src/lib/FieldType/BinaryBase/Type.php
 
@@ -12749,6 +12749,18 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: src/lib/Helper/FieldsGroups/RepositoryConfigFieldsGroupsListFactory.php
+
+		-
+			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject\:\:\$alwaysAvailable\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/lib/Helper/TranslationHelper.php
+
+		-
+			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject\:\:\$mainLanguageCode\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/lib/Helper/TranslationHelper.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Helper\\TranslationHelper\:\:__construct\(\) has parameter \$siteAccessesByLanguage with no value type specified in iterable type array\.$#'
@@ -52585,12 +52597,6 @@ parameters:
 			path: tests/lib/FieldType/ImageAssetTest.php
 
 		-
-			message: '#^Access to an undefined property Ibexa\\Tests\\Core\\FieldType\\ImageTest\:\:\$mimeTypeDetectorMock\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/lib/FieldType/ImageTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\ImageTest\:\:getBlackListValidatorMock\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -53699,12 +53705,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/lib/FieldType/TimeTest.php
-
-		-
-			message: '#^Access to an undefined property Ibexa\\Tests\\Core\\FieldType\\Url\\Gateway\\DoctrineStorageTest\:\:\$storageGateway\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/lib/FieldType/Url/Gateway/DoctrineStorageTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\FieldType\\Url\\Gateway\\DoctrineStorageTest\:\:testGetIdUrlMap\(\) has no return type specified\.$#'

@@ -64,6 +64,7 @@ class UserGroupTest extends TestCase
         $this->expectException(PropertyNotFoundException::class);
 
         $userGroup = new UserGroup();
+        /** @phpstan-ignore-next-line property.notFound */
         $value = $userGroup->notDefined;
         self::fail('Succeeded getting non existing property');
     }

@@ -54,6 +54,7 @@ class TrashItemTest extends TestCase
         $this->expectException(PropertyNotFoundException::class);
 
         $trashItem = new TrashItem();
+        /** @phpstan-ignore-next-line property.notFound */
         $value = $trashItem->notDefined;
         self::fail('Succeeded getting non existing property');
     }

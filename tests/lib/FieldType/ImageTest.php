@@ -37,21 +37,17 @@ class ImageTest extends FieldTypeTest
         'pgif',
     ];
 
+    /** @var \Ibexa\Contracts\Core\IO\MimeTypeDetector&\PHPUnit\Framework\MockObject\MockObject */
+    private MimeTypeDetector $mimeTypeDetectorMock;
+
     public function getImageInputPath()
     {
         return __DIR__ . '/../_fixtures/squirrel-developers.jpg';
     }
 
-    /**
-     * @return \Ibexa\Contracts\Core\IO\MimeTypeDetector
-     */
-    protected function getMimeTypeDetectorMock()
+    protected function getMimeTypeDetectorMock(): MimeTypeDetector
     {
-        if (!isset($this->mimeTypeDetectorMock)) {
-            $this->mimeTypeDetectorMock = $this->createMock(MimeTypeDetector::class);
-        }
-
-        return $this->mimeTypeDetectorMock;
+        return $this->mimeTypeDetectorMock ??= $this->createMock(MimeTypeDetector::class);
     }
 
     /**
