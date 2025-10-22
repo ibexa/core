@@ -121,6 +121,7 @@ final class LocationTest extends TestCase
         $this->expectException(PropertyNotFoundException::class);
 
         $location = new Location();
+        /** @phpstan-ignore-next-line property.notFound */
         $value = $location->notDefined;
         self::fail('Succeeded getting non existing property');
     }

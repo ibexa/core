@@ -15,6 +15,8 @@ use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
  */
 class DoctrineStorageTest extends TestCase
 {
+    private DoctrineStorage $storageGateway;
+
     /**
      * @covers \Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage::getIdUrlMap
      */
@@ -196,11 +198,7 @@ class DoctrineStorageTest extends TestCase
 
     protected function getStorageGateway(): Gateway
     {
-        if (!isset($this->storageGateway)) {
-            $this->storageGateway = new DoctrineStorage($this->getDatabaseConnection());
-        }
-
-        return $this->storageGateway;
+        return $this->storageGateway ??= new DoctrineStorage($this->getDatabaseConnection());
     }
 }
 

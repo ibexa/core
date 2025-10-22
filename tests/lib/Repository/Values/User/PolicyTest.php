@@ -45,6 +45,7 @@ class PolicyTest extends TestCase
         $this->expectException(PropertyNotFoundException::class);
 
         $policy = new Policy();
+        /** @phpstan-ignore-next-line property.notFound */
         $value = $policy->notDefined;
         self::fail('Succeeded getting non existing property');
     }

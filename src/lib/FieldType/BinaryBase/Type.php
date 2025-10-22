@@ -148,7 +148,7 @@ abstract class Type extends FieldType
     /**
      * Attempts to complete the data in $value.
      *
-     * @param \Ibexa\Core\FieldType\BinaryBase\Value|\Ibexa\Core\FieldType\Value $value
+     * @param \Ibexa\Core\FieldType\BinaryBase\Value $value
      */
     protected function completeValue(BaseValue $value)
     {

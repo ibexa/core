@@ -301,7 +301,7 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\RelationList\Value|\Ibexa\Contracts\Core\FieldType\Value $value
+     * @param \Ibexa\Core\FieldType\RelationList\Value $value
      */
     public function getName(SPIValue $value, FieldDefinition $fieldDefinition, string $languageCode): string
     {

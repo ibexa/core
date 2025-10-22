@@ -83,6 +83,7 @@ class ObjectStateTest extends TestCase
         $this->expectException(PropertyNotFoundException::class);
 
         $objectState = new ObjectState();
+        /** @phpstan-ignore-next-line property.notFound */
         $value = $objectState->notDefined;
         $this->fail('Succeeded getting non existing property');
     }

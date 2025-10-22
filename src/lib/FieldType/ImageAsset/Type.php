@@ -102,7 +102,7 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\ImageAsset\Value|\Ibexa\Contracts\Core\FieldType\Value $value
+     * @param \Ibexa\Core\FieldType\ImageAsset\Value $value
      */
     public function getName(SPIValue $value, FieldDefinition $fieldDefinition, string $languageCode): string
     {

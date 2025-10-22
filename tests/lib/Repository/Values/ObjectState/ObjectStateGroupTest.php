@@ -81,6 +81,7 @@ class ObjectStateGroupTest extends TestCase
         $this->expectException(PropertyNotFoundException::class);
 
         $objectStateGroup = new ObjectStateGroup();
+        /** @phpstan-ignore-next-line property.notFound */
         $value = $objectStateGroup->notDefined;
         $this->fail('Succeeded getting non existing property');
     }
