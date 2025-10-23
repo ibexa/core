@@ -8,8 +8,10 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException;
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardUpdateStruct;
@@ -26,7 +28,7 @@ class URLWildcardServiceTest extends BaseTestCase
     /**
      * Test for the create() method.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard
+     * @return URLWildcard
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create()
      */
@@ -52,7 +54,7 @@ class URLWildcardServiceTest extends BaseTestCase
     /**
      * Test for the create() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard $urlWildcard
+     * @param URLWildcard $urlWildcard
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create()
      *
@@ -170,7 +172,7 @@ class URLWildcardServiceTest extends BaseTestCase
     /**
      * Test for the load() method.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard
+     * @return URLWildcard
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::load()
      *
@@ -201,7 +203,7 @@ class URLWildcardServiceTest extends BaseTestCase
     /**
      * Test for the load() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard $urlWildcard
+     * @param URLWildcard $urlWildcard
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::load()
      *
@@ -222,7 +224,7 @@ class URLWildcardServiceTest extends BaseTestCase
     /**
      * Test for the load() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard $urlWildcard
+     * @param URLWildcard $urlWildcard
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::load()
      *
@@ -245,9 +247,9 @@ class URLWildcardServiceTest extends BaseTestCase
     /**
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::update
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testUpdate(): void
     {
@@ -421,7 +423,7 @@ class URLWildcardServiceTest extends BaseTestCase
     /**
      * Test for the translate() method.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult
+     * @return URLWildcardTranslationResult
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::translate()
      *
@@ -452,7 +454,7 @@ class URLWildcardServiceTest extends BaseTestCase
     /**
      * Test for the translate() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult $result
+     * @param URLWildcardTranslationResult $result
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::translate()
      *

@@ -15,6 +15,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Provider\StaticSiteAccessProvider;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class SiteAccessServiceTest extends TestCase
@@ -23,16 +24,16 @@ class SiteAccessServiceTest extends TestCase
     private const UNDEFINED_SA_NAME = 'undefined_sa';
     private const SA_GROUP = 'group';
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SiteAccessProviderInterface|MockObject */
     private $provider;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ConfigResolverInterface|MockObject */
     private $configResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    /** @var SiteAccess */
     private $siteAccess;
 
-    /** @var \ArrayIterator */
+    /** @var ArrayIterator */
     private $availableSiteAccesses;
 
     /** @var array */

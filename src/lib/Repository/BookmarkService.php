@@ -11,8 +11,10 @@ namespace Ibexa\Core\Repository;
 use Exception;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
+use Ibexa\Contracts\Core\Persistence\Bookmark\Handler;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Handler as BookmarkHandler;
 use Ibexa\Contracts\Core\Repository\BookmarkService as BookmarkServiceInterface;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\Values\Bookmark\BookmarkList;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
@@ -20,20 +22,22 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 
 class BookmarkService implements BookmarkServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var Repository */
     protected $repository;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Bookmark\Handler */
+    /** @var Handler */
     protected $bookmarkHandler;
 
     /**
      * BookmarkService constructor.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
-     * @param \Ibexa\Contracts\Core\Persistence\Bookmark\Handler $bookmarkHandler
+     * @param Repository $repository
+     * @param Handler $bookmarkHandler
      */
-    public function __construct(RepositoryInterface $repository, BookmarkHandler $bookmarkHandler)
-    {
+    public function __construct(
+        RepositoryInterface $repository,
+        BookmarkHandler $bookmarkHandler
+    ) {
         $this->repository = $repository;
         $this->bookmarkHandler = $bookmarkHandler;
     }
@@ -92,8 +96,10 @@ class BookmarkService implements BookmarkServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function loadBookmarks(int $offset = 0, int $limit = 25): BookmarkList
-    {
+    public function loadBookmarks(
+        int $offset = 0,
+        int $limit = 25
+    ): BookmarkList {
         $currentUserId = $this->getCurrentUserId();
 
         $list = new BookmarkList();

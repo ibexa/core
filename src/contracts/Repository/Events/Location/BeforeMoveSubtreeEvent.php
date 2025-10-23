@@ -17,8 +17,10 @@ final class BeforeMoveSubtreeEvent extends BeforeEvent
 
     private Location $newParentLocation;
 
-    public function __construct(Location $location, Location $newParentLocation)
-    {
+    public function __construct(
+        Location $location,
+        Location $newParentLocation
+    ) {
         $this->location = $location;
         $this->newParentLocation = $newParentLocation;
     }

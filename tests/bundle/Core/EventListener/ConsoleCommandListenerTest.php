@@ -11,6 +11,7 @@ use Ibexa\Bundle\Core\EventListener\ConsoleCommandListener;
 use Ibexa\Core\MVC\Exception\InvalidSiteAccessException;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Tests\Bundle\Core\EventListener\Stubs\TestOutput;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\ConsoleEvents;
@@ -25,22 +26,22 @@ class ConsoleCommandListenerTest extends TestCase
 {
     private const INVALID_SA_NAME = 'foo';
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    /** @var SiteAccess */
     private $siteAccess;
 
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var EventDispatcherInterface|MockObject */
     private $dispatcher;
 
-    /** @var \Ibexa\Bundle\Core\EventListener\ConsoleCommandListener */
+    /** @var ConsoleCommandListener */
     private $listener;
 
-    /** @var \Symfony\Component\Console\Input\InputDefinition */
+    /** @var InputDefinition */
     private $inputDefinition;
 
-    /** @var \Symfony\Component\Console\Output\Output */
+    /** @var Output */
     private $testOutput;
 
-    /** @var \Symfony\Component\Console\Command\Command|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Command|MockObject */
     private $command;
 
     protected function setUp(): void

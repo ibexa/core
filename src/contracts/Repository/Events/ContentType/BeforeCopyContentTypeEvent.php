@@ -21,8 +21,10 @@ final class BeforeCopyContentTypeEvent extends BeforeEvent
 
     private ?ContentType $contentTypeCopy = null;
 
-    public function __construct(ContentType $contentType, ?User $creator = null)
-    {
+    public function __construct(
+        ContentType $contentType,
+        ?User $creator = null
+    ) {
         $this->contentType = $contentType;
         $this->creator = $creator;
     }

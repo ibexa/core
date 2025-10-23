@@ -7,6 +7,9 @@
 
 namespace Ibexa\Contracts\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct;
 
@@ -18,46 +21,49 @@ interface LanguageService
     /**
      * Creates the a new Language in the content repository.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct $languageCreateStruct
+     * @param LanguageCreateStruct $languageCreateStruct
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Language
+     * @return Language
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If user does not have access to content translations
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the languageCode already exists
+     * @throws UnauthorizedException If user does not have access to content translations
+     * @throws InvalidArgumentException if the languageCode already exists
      */
     public function createLanguage(LanguageCreateStruct $languageCreateStruct): Language;
 
     /**
      * Changes the name of the language in the content repository.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language $language
+     * @param Language $language
      * @param string $newName
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Language
+     * @return Language
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If user does not have access to content translations
+     * @throws UnauthorizedException If user does not have access to content translations
      */
-    public function updateLanguageName(Language $language, string $newName): Language;
+    public function updateLanguageName(
+        Language $language,
+        string $newName
+    ): Language;
 
     /**
      * Enables a language.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language $language
+     * @param Language $language
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Language
+     * @return Language
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If user does not have access to content translations
+     * @throws UnauthorizedException If user does not have access to content translations
      */
     public function enableLanguage(Language $language): Language;
 
     /**
      * Disables a language.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language $language
+     * @param Language $language
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Language
+     * @return Language
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If user does not have access to content translations
+     * @throws UnauthorizedException If user does not have access to content translations
      */
     public function disableLanguage(Language $language): Language;
 
@@ -66,16 +72,16 @@ interface LanguageService
      *
      * @param string $languageCode
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Language
+     * @return Language
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if language could not be found
+     * @throws NotFoundException if language could not be found
      */
     public function loadLanguage(string $languageCode): Language;
 
     /**
      * Loads all Languages.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Language[]
+     * @return Language[]
      */
     public function loadLanguages(): iterable;
 
@@ -84,9 +90,9 @@ interface LanguageService
      *
      * @param int $languageId
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Language
+     * @return Language
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if language could not be found
+     * @throws NotFoundException if language could not be found
      */
     public function loadLanguageById(int $languageId): Language;
 
@@ -97,7 +103,7 @@ interface LanguageService
      *
      * @param string[] $languageCodes
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Language[] list of Languages with language-code as keys
+     * @return Language[] list of Languages with language-code as keys
      */
     public function loadLanguageListByCode(array $languageCodes): iterable;
 
@@ -108,18 +114,18 @@ interface LanguageService
      *
      * @param int[] $languageIds
      *
-     * @return iterable<int, \Ibexa\Contracts\Core\Repository\Values\Content\Language> list of Languages with id as keys
+     * @return iterable<int, Language> list of Languages with id as keys
      */
     public function loadLanguageListById(array $languageIds): iterable;
 
     /**
      * Deletes  a language from content repository.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language $language
+     * @param Language $language
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if language can not be deleted
+     * @throws InvalidArgumentException if language can not be deleted
      *         because it is still assigned to some content / type / (...).
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If user is not allowed to delete a language
+     * @throws UnauthorizedException If user is not allowed to delete a language
      */
     public function deleteLanguage(Language $language): void;
 
@@ -133,7 +139,7 @@ interface LanguageService
     /**
      * Instantiates an object to be used for creating languages.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct
+     * @return LanguageCreateStruct
      */
     public function newLanguageCreateStruct(): LanguageCreateStruct;
 }

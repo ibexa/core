@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
@@ -30,6 +31,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserGroupUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserTokenUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserUpdateStruct;
 use Ibexa\Core\FieldType\User\Type;
+use Ibexa\Core\FieldType\User\Value;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\Persistence\Legacy\User\Gateway;
 use Ibexa\Core\Repository\Values\Content\Content;
@@ -234,7 +236,7 @@ class UserServiceTest extends BaseTestCase
     /**
      * Test for the newUserGroupCreateStruct() method.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct
+     * @return UserGroupCreateStruct
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::newUserGroupCreateStruct()
      */
@@ -259,7 +261,7 @@ class UserServiceTest extends BaseTestCase
     /**
      * Test for the newUserGroupCreateStruct() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct $groupCreate
+     * @param UserGroupCreateStruct $groupCreate
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::newUserGroupCreateStruct()
      *
@@ -273,7 +275,7 @@ class UserServiceTest extends BaseTestCase
     /**
      * Test for the newUserGroupCreateStruct() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct $groupCreate
+     * @param UserGroupCreateStruct $groupCreate
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::newUserGroupCreateStruct()
      *
@@ -888,7 +890,7 @@ class UserServiceTest extends BaseTestCase
     /**
      * Test for the newUserCreateStruct() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct $userCreate
+     * @param UserCreateStruct $userCreate
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::newUserCreateStruct()
      *
@@ -957,7 +959,7 @@ class UserServiceTest extends BaseTestCase
     /**
      * Test for the createUser() method.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @return User
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::createUser()
      *
@@ -981,7 +983,7 @@ class UserServiceTest extends BaseTestCase
     /**
      * Test for the createUser() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user
+     * @param User $user
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::createUser()
      *
@@ -1366,7 +1368,7 @@ class UserServiceTest extends BaseTestCase
      *
      * @depends testCreateUser
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function testLoadUser(): void
     {
@@ -1721,7 +1723,7 @@ class UserServiceTest extends BaseTestCase
     /**
      * Test for the updateUser() method.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @return User
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUser()
      *
@@ -1835,7 +1837,7 @@ class UserServiceTest extends BaseTestCase
     /**
      * Test for the updateUser() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user
+     * @param User $user
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUser()
      *
@@ -1870,7 +1872,7 @@ class UserServiceTest extends BaseTestCase
     /**
      * Test for the updateUser() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user
+     * @param User $user
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUser()
      *
@@ -2163,8 +2165,8 @@ class UserServiceTest extends BaseTestCase
     /**
      * @throws \Doctrine\DBAL\Exception
      * @throws \ErrorException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ContentFieldValidationException
+     * @throws UnauthorizedException
      */
     public function testUpdateUserPasswordWithUnsupportedHashType(): void
     {
@@ -2928,7 +2930,7 @@ class UserServiceTest extends BaseTestCase
      *
      * @param int $userGroupId User group ID (default 13 - Editors)
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @return User
      */
     private function createMultiLanguageUser($userGroupId = 13)
     {
@@ -2995,7 +2997,7 @@ class UserServiceTest extends BaseTestCase
             self::fail('User FieldType not found in userCreateStruct!');
         }
 
-        /** @var \Ibexa\Core\FieldType\User\Value $userValue */
+        /** @var Value $userValue */
         $userValue = $userFieldDef->value;
 
         // Set not supported hash type.
@@ -3114,8 +3116,10 @@ class UserServiceTest extends BaseTestCase
      *
      * @dataProvider dataProviderForValidatePassword
      */
-    public function testValidatePassword(string $password, array $expectedErrors)
-    {
+    public function testValidatePassword(
+        string $password,
+        array $expectedErrors
+    ) {
         $userService = $this->getRepository()->getUserService();
         $contentType = $this->createUserContentTypeWithStrongPassword();
 
@@ -3198,7 +3202,7 @@ class UserServiceTest extends BaseTestCase
      * @dataProvider getDataForTestPasswordUpdateRespectsAllValidationSettings
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
-     * @throws \Exception
+     * @throws Exception
      */
     public function testUpdateUserPasswordPerformsValidation(
         string $oldPassword,
@@ -3329,12 +3333,14 @@ class UserServiceTest extends BaseTestCase
      * Creates a user with given password.
      *
      * @param string $password
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param ContentType $contentType
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @return User
      */
-    private function createTestUserWithPassword(string $password, ContentType $contentType): User
-    {
+    private function createTestUserWithPassword(
+        string $password,
+        ContentType $contentType
+    ): User {
         $userService = $this->getRepository()->getUserService();
         // ID of the "Editors" user group in an Ibexa demo installation
         $editorsGroupId = 13;
@@ -3359,7 +3365,7 @@ class UserServiceTest extends BaseTestCase
     /**
      * Creates the User content type with password constraints.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
+     * @return ContentType
      */
     private function createUserContentTypeWithStrongPassword(): ContentType
     {
@@ -3487,8 +3493,10 @@ class UserServiceTest extends BaseTestCase
      * @throws \Doctrine\DBAL\Exception
      * @throws \ErrorException
      */
-    protected function updateRawPasswordHash(int $userId, int $newHashType): void
-    {
+    protected function updateRawPasswordHash(
+        int $userId,
+        int $newHashType
+    ): void {
         $connection = $this->getRawDatabaseConnection();
         $queryBuilder = $connection->createQueryBuilder();
         $queryBuilder
@@ -3501,8 +3509,10 @@ class UserServiceTest extends BaseTestCase
         $queryBuilder->executeStatement();
     }
 
-    private function assertIsSameUser(User $expectedUser, User $actualUser): void
-    {
+    private function assertIsSameUser(
+        User $expectedUser,
+        User $actualUser
+    ): void {
         self::assertSame($expectedUser->getUserId(), $actualUser->getUserId());
         self::assertSame($expectedUser->getName(), $actualUser->getName());
         self::assertSame($expectedUser->login, $actualUser->login);

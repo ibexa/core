@@ -21,8 +21,11 @@ final class BeforeAssignRoleToUserGroupEvent extends BeforeEvent
 
     private ?RoleLimitation $roleLimitation;
 
-    public function __construct(Role $role, UserGroup $userGroup, ?RoleLimitation $roleLimitation = null)
-    {
+    public function __construct(
+        Role $role,
+        UserGroup $userGroup,
+        ?RoleLimitation $roleLimitation = null
+    ) {
         $this->role = $role;
         $this->userGroup = $userGroup;
         $this->roleLimitation = $roleLimitation;

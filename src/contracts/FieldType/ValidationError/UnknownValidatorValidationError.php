@@ -10,8 +10,10 @@ namespace Ibexa\Contracts\Core\FieldType\ValidationError;
 
 final class UnknownValidatorValidationError extends AbstractValidationError
 {
-    public function __construct(string $validatorIdentifier, string $target)
-    {
+    public function __construct(
+        string $validatorIdentifier,
+        string $target
+    ) {
         parent::__construct(
             "Validator '%validator%' is unknown",
             [

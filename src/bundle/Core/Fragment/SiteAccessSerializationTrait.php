@@ -14,15 +14,17 @@ use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 /**
- * @deprecated Deprecated since 4.6. Inject an instance of {@see \Ibexa\Bundle\Core\Fragment\SiteAccessSerializerInterface}
+ * @deprecated Deprecated since 4.6. Inject an instance of {@see SiteAccessSerializerInterface}
  *  instead.
  */
 trait SiteAccessSerializationTrait
 {
     use SerializerTrait;
 
-    public function serializeSiteAccess(SiteAccess $siteAccess, ControllerReference $uri): void
-    {
+    public function serializeSiteAccess(
+        SiteAccess $siteAccess,
+        ControllerReference $uri
+    ): void {
         // Serialize the siteaccess to get it back after. @see \Ibexa\Core\MVC\Symfony\EventListener\SiteAccessMatchListener
         $uri->attributes['serialized_siteaccess'] = json_encode($siteAccess);
         $uri->attributes['serialized_siteaccess_matcher'] = $this->getSerializer()->serialize(

@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Limitation\Type as LimitationType;
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as SPILocationHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
@@ -26,6 +27,7 @@ use Ibexa\Core\Limitation\SubtreeLimitationType;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\Query\Criterion\PermissionSubtree;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test Case for LimitationType.
@@ -34,7 +36,7 @@ class SubtreeLimitationTypeTest extends Base
 {
     public const int EXAMPLE_CONTENT_INFO_ID = 12312;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Handler|MockObject */
     private $locationHandlerMock;
 
     /**
@@ -56,7 +58,7 @@ class SubtreeLimitationTypeTest extends Base
     }
 
     /**
-     * @return \Ibexa\Core\Limitation\SubtreeLimitationType
+     * @return SubtreeLimitationType
      */
     public function testConstruct()
     {
@@ -80,11 +82,13 @@ class SubtreeLimitationTypeTest extends Base
      *
      * @depends testConstruct
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation $limitation
-     * @param \Ibexa\Core\Limitation\SubtreeLimitationType $limitationType
+     * @param SubtreeLimitation $limitation
+     * @param SubtreeLimitationType $limitationType
      */
-    public function testAcceptValue(SubtreeLimitation $limitation, SubtreeLimitationType $limitationType)
-    {
+    public function testAcceptValue(
+        SubtreeLimitation $limitation,
+        SubtreeLimitationType $limitationType
+    ) {
         $limitationType->acceptValue($limitation);
     }
 
@@ -107,11 +111,13 @@ class SubtreeLimitationTypeTest extends Base
      *
      * @depends testConstruct
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
-     * @param \Ibexa\Core\Limitation\SubtreeLimitationType $limitationType
+     * @param Limitation $limitation
+     * @param SubtreeLimitationType $limitationType
      */
-    public function testAcceptValueException(Limitation $limitation, SubtreeLimitationType $limitationType)
-    {
+    public function testAcceptValueException(
+        Limitation $limitation,
+        SubtreeLimitationType $limitationType
+    ) {
         $this->expectException(InvalidArgumentException::class);
 
         $limitationType->acceptValue($limitation);
@@ -132,7 +138,7 @@ class SubtreeLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestValidatePass
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation $limitation
+     * @param SubtreeLimitation $limitation
      */
     public function testValidatePass(SubtreeLimitation $limitation)
     {
@@ -178,11 +184,13 @@ class SubtreeLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestValidateError
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation $limitation
+     * @param SubtreeLimitation $limitation
      * @param int $errorCount
      */
-    public function testValidateError(SubtreeLimitation $limitation, $errorCount)
-    {
+    public function testValidateError(
+        SubtreeLimitation $limitation,
+        $errorCount
+    ) {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
                 ->expects(self::any())
@@ -242,7 +250,7 @@ class SubtreeLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\SubtreeLimitationType $limitationType
+     * @param SubtreeLimitationType $limitationType
      */
     public function testBuildValue(SubtreeLimitationType $limitationType)
     {
@@ -530,7 +538,7 @@ class SubtreeLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\SubtreeLimitationType $limitationType
+     * @param SubtreeLimitationType $limitationType
      */
     public function testGetCriterionInvalidValue(SubtreeLimitationType $limitationType)
     {
@@ -545,7 +553,7 @@ class SubtreeLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\SubtreeLimitationType $limitationType
+     * @param SubtreeLimitationType $limitationType
      */
     public function testGetCriterionSingleValue(SubtreeLimitationType $limitationType)
     {
@@ -566,7 +574,7 @@ class SubtreeLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\SubtreeLimitationType $limitationType
+     * @param SubtreeLimitationType $limitationType
      */
     public function testGetCriterionMultipleValues(SubtreeLimitationType $limitationType)
     {
@@ -587,7 +595,7 @@ class SubtreeLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\SubtreeLimitationType $limitationType
+     * @param SubtreeLimitationType $limitationType
      */
     public function testValueSchema(SubtreeLimitationType $limitationType)
     {

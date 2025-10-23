@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 
@@ -42,7 +43,10 @@ abstract class Gateway
 
     abstract public function countTypesInGroup(int $groupId): int;
 
-    abstract public function countGroupsForType(int $typeId, int $status): int;
+    abstract public function countGroupsForType(
+        int $typeId,
+        int $status
+    ): int;
 
     abstract public function deleteGroup(int $groupId): void;
 
@@ -58,30 +62,47 @@ abstract class Gateway
     /**
      * Load data for all content types of the given status, belonging to the given Group.
      */
-    abstract public function loadTypesDataForGroup(int $groupId, int $status): array;
+    abstract public function loadTypesDataForGroup(
+        int $groupId,
+        int $status
+    ): array;
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the given language does not exist
+     * @throws NotFoundException if the given language does not exist
      */
-    abstract public function insertType(Type $type, ?int $typeId = null): int;
+    abstract public function insertType(
+        Type $type,
+        ?int $typeId = null
+    ): int;
 
     /**
      * Assign a content type of the given status (published, draft) to content type group.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the given Group does not exist
+     * @throws NotFoundException if the given Group does not exist
      */
-    abstract public function insertGroupAssignment(int $groupId, int $typeId, int $status): void;
+    abstract public function insertGroupAssignment(
+        int $groupId,
+        int $typeId,
+        int $status
+    ): void;
 
     /**
      * Delete a Group assignments for content type of the given status (published, draft).
      */
-    abstract public function deleteGroupAssignment(int $groupId, int $typeId, int $status): void;
+    abstract public function deleteGroupAssignment(
+        int $groupId,
+        int $typeId,
+        int $status
+    ): void;
 
     /**
      * @param int $id Field Definition ID
      * @param int $status One of Type::STATUS_DEFINED|Type::STATUS_DRAFT|Type::STATUS_MODIFIED
      */
-    abstract public function loadFieldDefinition(int $id, int $status): array;
+    abstract public function loadFieldDefinition(
+        int $id,
+        int $status
+    ): array;
 
     /**
      * Insert a Field Definition into content type.
@@ -109,9 +130,13 @@ abstract class Gateway
     /**
      * Update a content type based on the given SPI Persistence Type Value Object.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if at least one of the used languages does not exist
+     * @throws NotFoundException if at least one of the used languages does not exist
      */
-    abstract public function updateType(int $typeId, int $status, Type $type): void;
+    abstract public function updateType(
+        int $typeId,
+        int $status,
+        Type $type
+    ): void;
 
     /**
      * Bulk-load an array with data about the given content types.
@@ -125,29 +150,50 @@ abstract class Gateway
      */
     abstract public function loadTypesDataByFieldDefinitionIdentifier(string $identifier): array;
 
-    abstract public function loadTypeData(int $typeId, int $status): array;
+    abstract public function loadTypeData(
+        int $typeId,
+        int $status
+    ): array;
 
-    abstract public function loadTypeDataByIdentifier(string $identifier, int $status): array;
+    abstract public function loadTypeDataByIdentifier(
+        string $identifier,
+        int $status
+    ): array;
 
-    abstract public function loadTypeDataByRemoteId(string $remoteId, int $status): array;
+    abstract public function loadTypeDataByRemoteId(
+        string $remoteId,
+        int $status
+    ): array;
 
     abstract public function countInstancesOfType(int $typeId): int;
 
     /**
      * Permanently delete a content type of the given status.
      */
-    abstract public function delete(int $typeId, int $status): void;
+    abstract public function delete(
+        int $typeId,
+        int $status
+    ): void;
 
-    abstract public function deleteFieldDefinitionsForType(int $typeId, int $status): void;
+    abstract public function deleteFieldDefinitionsForType(
+        int $typeId,
+        int $status
+    ): void;
 
     /**
      * Delete a content type.
      *
      * Does not delete Field Definitions!
      */
-    abstract public function deleteType(int $typeId, int $status): void;
+    abstract public function deleteType(
+        int $typeId,
+        int $status
+    ): void;
 
-    abstract public function deleteGroupAssignmentsForType(int $typeId, int $status): void;
+    abstract public function deleteGroupAssignmentsForType(
+        int $typeId,
+        int $status
+    ): void;
 
     /**
      * Publish a content type including its Field Definitions.
@@ -163,7 +209,7 @@ abstract class Gateway
     /**
      * Remove Field Definition data from multilingual table.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the given language does not exist
+     * @throws NotFoundException if the given language does not exist
      */
     abstract public function removeFieldDefinitionTranslation(
         int $fieldDefinitionId,
@@ -175,14 +221,23 @@ abstract class Gateway
      * @deprecated 5.0.0. Use removeByUserAndStatus() instead.
      * Remove items created or modified by User.
      */
-    abstract public function removeByUserAndVersion(int $userId, int $version): void;
+    abstract public function removeByUserAndVersion(
+        int $userId,
+        int $version
+    ): void;
 
-    abstract public function removeByUserAndStatus(int $userId, int $status): void;
+    abstract public function removeByUserAndStatus(
+        int $userId,
+        int $status
+    ): void;
 
     /**
      * @param list<string> $prioritizedLanguages
      *
      * @return array{items: array<int,array<string,mixed>>, count: int}
      */
-    abstract public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): array;
+    abstract public function findContentTypes(
+        ?ContentTypeQuery $query = null,
+        array $prioritizedLanguages = []
+    ): array;
 }

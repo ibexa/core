@@ -18,8 +18,10 @@ class ScaleFilterLoader extends FilterLoaderWrapped
 {
     public const IDENTIFIER = 'geometry/scale';
 
-    public function load(ImageInterface $image, array $options = []): ImageInterface
-    {
+    public function load(
+        ImageInterface $image,
+        array $options = []
+    ): ImageInterface {
         if (count($options) < 2) {
             throw new InvalidArgumentException('Missing width and/or height options');
         }

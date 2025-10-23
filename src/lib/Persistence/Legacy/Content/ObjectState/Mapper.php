@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Handler;
 
 /**
  * Mapper for ObjectState and object state Group objects.
@@ -20,14 +21,14 @@ class Mapper
     /**
      * Language handler.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\Handler
+     * @var Handler
      */
     protected $languageHandler;
 
     /**
      * Creates a new mapper.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Language\Handler $languageHandler
+     * @param LanguageHandler $languageHandler
      */
     public function __construct(LanguageHandler $languageHandler)
     {
@@ -39,7 +40,7 @@ class Mapper
      *
      * @param array $data
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState
+     * @return ObjectState
      */
     public function createObjectStateFromData(array $data)
     {
@@ -76,7 +77,7 @@ class Mapper
      *
      * @param array $data
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState[]
+     * @return ObjectState[]
      */
     public function createObjectStateListFromData(array $data)
     {
@@ -94,7 +95,7 @@ class Mapper
      *
      * @param array $data
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group
+     * @return Group
      */
     public function createObjectStateGroupFromData(array $data)
     {
@@ -131,7 +132,7 @@ class Mapper
      *
      * @param array $data
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group[]
+     * @return Group[]
      */
     public function createObjectStateGroupListFromData(array $data)
     {
@@ -147,9 +148,9 @@ class Mapper
     /**
      * Creates an instance of ObjectStateGroup object from provided $input struct.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct $input
+     * @param InputStruct $input
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group
+     * @return Group
      */
     public function createObjectStateGroupFromInputStruct(InputStruct $input)
     {
@@ -171,9 +172,9 @@ class Mapper
     /**
      * Creates an instance of ObjectState object from provided $input struct.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct $input
+     * @param InputStruct $input
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState
+     * @return ObjectState
      */
     public function createObjectStateFromInputStruct(InputStruct $input)
     {

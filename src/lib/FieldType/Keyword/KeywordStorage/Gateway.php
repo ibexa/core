@@ -18,19 +18,22 @@ abstract class Gateway extends StorageGateway
     /**
      * @see \Ibexa\Contracts\Core\FieldType\FieldStorage::storeFieldData()
      */
-    abstract public function storeFieldData(Field $field, $contentTypeId);
+    abstract public function storeFieldData(
+        Field $field,
+        $contentTypeId
+    );
 
     /**
      * Sets the list of assigned keywords into $field->value->externalData.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param Field $field
      */
     abstract public function getFieldData(Field $field);
 
     /**
      * Retrieve the ContentType ID for the given $field.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param Field $field
      *
      * @return mixed
      */
@@ -39,5 +42,8 @@ abstract class Gateway extends StorageGateway
     /**
      * @see \Ibexa\Contracts\Core\FieldType\FieldStorage::deleteFieldData()
      */
-    abstract public function deleteFieldData($fieldId, $versionNo);
+    abstract public function deleteFieldData(
+        $fieldId,
+        $versionNo
+    );
 }

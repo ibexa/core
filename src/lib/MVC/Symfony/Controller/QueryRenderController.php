@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\MVC\Symfony\Controller;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\MVC\Symfony\View\QueryView;
 use Ibexa\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactoryInterface;
 use Ibexa\Core\Pagination\Pagerfanta\Pagerfanta;
@@ -40,10 +41,12 @@ final class QueryRenderController
     /**
      * @phpstan-param TOptionsArray $options
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function renderQuery(Request $request, array $options): QueryView
-    {
+    public function renderQuery(
+        Request $request,
+        array $options
+    ): QueryView {
         $options = $this->resolveOptions($options);
 
         $results = new Pagerfanta($this->getAdapter($options));
@@ -105,7 +108,7 @@ final class QueryRenderController
     /**
      * @phpstan-param TOptionsArray $options
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function getAdapter(array $options): SearchResultAdapter
     {
@@ -121,8 +124,11 @@ final class QueryRenderController
         return $this->searchHitAdapterFactory->createFixedAdapter($query);
     }
 
-    private function createQueryView(string $template, string $assignResultsTo, iterable $results): QueryView
-    {
+    private function createQueryView(
+        string $template,
+        string $assignResultsTo,
+        iterable $results
+    ): QueryView {
         $view = new QueryView();
         $view->setTemplateIdentifier($template);
         $view->addParameters([

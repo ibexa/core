@@ -12,6 +12,4 @@ use Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage;
 /**
  * Description of MediaStorage.
  */
-class MediaStorage extends BinaryBaseStorage
-{
-}
+class MediaStorage extends BinaryBaseStorage {}

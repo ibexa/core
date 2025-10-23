@@ -28,16 +28,21 @@ class ContentSearchAdapter implements AdapterInterface, SearchResultAdapter
     /**
      * @phpstan-param TSearchLanguageFilter $languageFilter
      */
-    public function __construct(Query $query, SearchService $searchService, array $languageFilter = [])
-    {
+    public function __construct(
+        Query $query,
+        SearchService $searchService,
+        array $languageFilter = []
+    ) {
         $this->contentSearchHitAdapter = new ContentSearchHitAdapter($query, $searchService, $languageFilter);
     }
 
     /**
      * Returns a slice of the results as Content objects.
      */
-    public function getSlice(int $offset, int $length): iterable
-    {
+    public function getSlice(
+        int $offset,
+        int $length
+    ): iterable {
         $list = [];
         foreach ($this->contentSearchHitAdapter->getSlice($offset, $length) as $hit) {
             $list[] = $hit->valueObject;

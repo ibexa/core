@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
  */
 class CountryTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CountryConverter */
+    /** @var CountryConverter */
     protected $converter;
 
     protected function setUp(): void
@@ -44,8 +44,12 @@ class CountryTest extends TestCase
      *
      * @dataProvider providerForTestToStorageValue
      */
-    public function testToStorageValue($data, $sortKey, $dataText, $sortKeyString)
-    {
+    public function testToStorageValue(
+        $data,
+        $sortKey,
+        $dataText,
+        $sortKeyString
+    ) {
         $value = new FieldValue();
         $value->data = $data;
         $value->sortKey = $sortKey;
@@ -70,8 +74,11 @@ class CountryTest extends TestCase
      *
      * @dataProvider providerForTestToFieldValue
      */
-    public function testToFieldValue($dataText, $sortKeyString, $data)
-    {
+    public function testToFieldValue(
+        $dataText,
+        $sortKeyString,
+        $data
+    ) {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->dataText = $dataText;
         $storageFieldValue->sortKeyString = $sortKeyString;

@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\IO\EventListener;
 
 use Ibexa\Bundle\IO\BinaryStreamResponse;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\IO\IOConfigProvider;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\MissingBinaryFile;
@@ -29,8 +31,10 @@ class StreamFileListener implements EventSubscriberInterface
 
     private IOConfigProvider $ioConfigResolver;
 
-    public function __construct(IOServiceInterface $ioService, IOConfigProvider $ioConfigResolver)
-    {
+    public function __construct(
+        IOServiceInterface $ioService,
+        IOConfigProvider $ioConfigResolver
+    ) {
         $this->ioService = $ioService;
         $this->ioConfigResolver = $ioConfigResolver;
     }
@@ -43,8 +47,8 @@ class StreamFileListener implements EventSubscriberInterface
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws NotFoundException
+     * @throws InvalidArgumentException
      */
     public function onKernelRequest(RequestEvent $event): void
     {
@@ -82,8 +86,10 @@ class StreamFileListener implements EventSubscriberInterface
     /**
      * Tests if $uri is an IO file uri root.
      */
-    private function isIoUri(string $uri, string $urlPrefix): bool
-    {
+    private function isIoUri(
+        string $uri,
+        string $urlPrefix
+    ): bool {
         return str_starts_with(ltrim($uri, '/'), $urlPrefix);
     }
 }

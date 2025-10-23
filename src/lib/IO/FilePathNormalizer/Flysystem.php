@@ -20,14 +20,18 @@ final class Flysystem implements FilePathNormalizerInterface
 
     private PathNormalizer $pathNormalizer;
 
-    public function __construct(SlugConverter $slugConverter, PathNormalizer $pathNormalizer)
-    {
+    public function __construct(
+        SlugConverter $slugConverter,
+        PathNormalizer $pathNormalizer
+    ) {
         $this->slugConverter = $slugConverter;
         $this->pathNormalizer = $pathNormalizer;
     }
 
-    public function normalizePath(string $filePath, bool $doHash = true): string
-    {
+    public function normalizePath(
+        string $filePath,
+        bool $doHash = true
+    ): string {
         $fileName = pathinfo($filePath, PATHINFO_BASENAME);
         $directory = pathinfo($filePath, PATHINFO_DIRNAME);
 

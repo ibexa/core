@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Validator;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 interface ContentValidator
@@ -32,7 +33,7 @@ interface ContentValidator
      * @return array Grouped validation errors by field definition ID and language code, in format:
      *           $returnValue[int $fieldDefinitionId][string $languageCode] = $fieldErrors;
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function validate(
         ValueObject $object,

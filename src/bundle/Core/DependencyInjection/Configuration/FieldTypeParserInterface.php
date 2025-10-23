@@ -22,7 +22,7 @@ interface FieldTypeParserInterface extends ParserInterface
     /**
      * Adds fieldType semantic configuration definition.
      *
-     * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $nodeBuilder Node just under ezpublish.system.<siteaccess>.fieldtypes.<identifier>
+     * @param NodeBuilder $nodeBuilder Node just under ezpublish.system.<siteaccess>.fieldtypes.<identifier>
      */
     public function addFieldTypeSemanticConfig(NodeBuilder $nodeBuilder);
 }

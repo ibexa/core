@@ -74,8 +74,12 @@ class Configuration implements ConfigurationInterface
     /**
      * @phpstan-param THandlerConfigurationFactoryList $factories
      */
-    private function addHandlersSection(NodeDefinition $node, string $name, string $info, ArrayObject $factories): void
-    {
+    private function addHandlersSection(
+        NodeDefinition $node,
+        string $name,
+        string $info,
+        ArrayObject $factories
+    ): void {
         $handlersNodeBuilder = $node
             ->children()
                 ->arrayNode($name)

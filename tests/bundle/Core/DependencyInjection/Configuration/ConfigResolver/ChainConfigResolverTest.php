@@ -17,8 +17,11 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Provider\StaticSiteAccessProvider;
 use Ibexa\Core\MVC\Symfony\SiteAccessGroup;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+
 use function sprintf;
+
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ChainConfigResolverTest extends TestCase
@@ -32,10 +35,10 @@ class ChainConfigResolverTest extends TestCase
     private const SCOPE_DEFAULT = 'default';
     private const SCOPE_GLOBAL = 'global';
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SiteAccess|MockObject */
     private $siteAccess;
 
-    /** @var \Symfony\Component\DependencyInjection\ContainerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ContainerInterface|MockObject */
     private $containerMock;
 
     protected function setUp(): void
@@ -49,8 +52,10 @@ class ChainConfigResolverTest extends TestCase
     /**
      * @dataProvider parameterProvider
      */
-    public function testGetParameterDefaultScope(string $paramName, $expectedValue): void
-    {
+    public function testGetParameterDefaultScope(
+        string $paramName,
+        $expectedValue
+    ): void {
         $globalScopeParameter = $this->getParameter($paramName, self::SCOPE_GLOBAL);
         $relativeScopeParameter = $this->getParameter($paramName, $this->siteAccess->name);
         $saGroupScopeParameter = $this->getParameter($paramName, self::SA_GROUP);
@@ -80,8 +85,10 @@ class ChainConfigResolverTest extends TestCase
     /**
      * @dataProvider parameterProvider
      */
-    public function testGetParameterRelativeScope(string $paramName, $expectedValue): void
-    {
+    public function testGetParameterRelativeScope(
+        string $paramName,
+        $expectedValue
+    ): void {
         $globalScopeParameter = $this->getParameter($paramName, self::SCOPE_GLOBAL);
         $relativeScopeParameter = $this->getParameter($paramName, $this->siteAccess->name);
         $this->containerMock
@@ -107,8 +114,10 @@ class ChainConfigResolverTest extends TestCase
     /**
      * @dataProvider parameterProvider
      */
-    public function testGetParameterSpecificScope(string $paramName, $expectedValue): void
-    {
+    public function testGetParameterSpecificScope(
+        string $paramName,
+        $expectedValue
+    ): void {
         $specificScopeParameter = $this->getParameter($paramName, self::FIRST_SA_NAME);
         $this->containerMock
              ->expects(self::exactly(2))
@@ -136,8 +145,10 @@ class ChainConfigResolverTest extends TestCase
     /**
      * @dataProvider parameterProvider
      */
-    public function testGetParameterGlobalScope(string $paramName, $expectedValue): void
-    {
+    public function testGetParameterGlobalScope(
+        string $paramName,
+        $expectedValue
+    ): void {
         $globalScopeParameter = $this->getParameter($paramName, self::SCOPE_GLOBAL);
         $this->containerMock
              ->expects(self::once())
@@ -264,55 +275,55 @@ class ChainConfigResolverTest extends TestCase
     {
         return new StaticSiteAccessProvider(
             [
-                 self::FIRST_SA_NAME,
-                 self::SECOND_SA_NAME,
-             ],
+                self::FIRST_SA_NAME,
+                self::SECOND_SA_NAME,
+            ],
             [
-                 self::FIRST_SA_NAME => [self::SA_GROUP],
-                 self::SECOND_SA_NAME => [self::SA_GROUP],
-             ],
+                self::FIRST_SA_NAME => [self::SA_GROUP],
+                self::SECOND_SA_NAME => [self::SA_GROUP],
+            ],
         );
     }
 
     public function parameterProvider(): array
     {
         return [
-             ['foo', 'bar'],
-             ['some.parameter', true],
-             ['some.other.parameter', ['foo', 'bar', 'baz']],
-             ['a.hash.parameter', ['foo' => 'bar', 'tata' => 'toto']],
-             [
-                 'a.deep.hash', [
-                 'foo' => 'bar',
-                 'tata' => 'toto',
-                 'deeper_hash' => [
-                     'likeStarWars' => true,
-                     'jedi' => ['Obi-Wan Kenobi', 'Mace Windu', 'Luke Skywalker', 'Leïa Skywalker (yes! Read episodes 7-8-9!)'],
-                     'sith' => ['Darth Vader', 'Darth Maul', 'Palpatine'],
-                     'roles' => [
-                         'Amidala' => ['Queen'],
-                         'Palpatine' => ['Senator', 'Emperor', 'Villain'],
-                         'C3PO' => ['Droid', 'Annoying guy'],
-                         'Jar-Jar' => ['Still wondering his role', 'Annoying guy'],
-                     ],
-                 ],
-             ],
-             ],
-         ];
+            ['foo', 'bar'],
+            ['some.parameter', true],
+            ['some.other.parameter', ['foo', 'bar', 'baz']],
+            ['a.hash.parameter', ['foo' => 'bar', 'tata' => 'toto']],
+            [
+                'a.deep.hash', [
+                    'foo' => 'bar',
+                    'tata' => 'toto',
+                    'deeper_hash' => [
+                        'likeStarWars' => true,
+                        'jedi' => ['Obi-Wan Kenobi', 'Mace Windu', 'Luke Skywalker', 'Leïa Skywalker (yes! Read episodes 7-8-9!)'],
+                        'sith' => ['Darth Vader', 'Darth Maul', 'Palpatine'],
+                        'roles' => [
+                            'Amidala' => ['Queen'],
+                            'Palpatine' => ['Senator', 'Emperor', 'Villain'],
+                            'C3PO' => ['Droid', 'Annoying guy'],
+                            'Jar-Jar' => ['Still wondering his role', 'Annoying guy'],
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 
     public function hasParameterProvider(): array
     {
         return [
-             [true, true, true, true, true],
-             [true, true, true, false, true],
-             [true, true, false, false, true],
-             [false, false, false, false, false],
-             [false, false, true, false, true],
-             [false, false, false, true, true],
-             [false, false, true, true, true],
-             [false, true, false, false, true],
-         ];
+            [true, true, true, true, true],
+            [true, true, true, false, true],
+            [true, true, false, false, true],
+            [false, false, false, false, false],
+            [false, false, true, false, true],
+            [false, false, false, true, true],
+            [false, false, true, true, true],
+            [false, true, false, false, true],
+        ];
     }
 
     private function getChainConfigResolver(): ChainConfigResolver

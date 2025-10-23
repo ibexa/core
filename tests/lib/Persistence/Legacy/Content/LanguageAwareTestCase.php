@@ -7,13 +7,16 @@
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 use Ibexa\Core\Persistence;
+use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 use Ibexa\Core\Search\Common\FieldNameGenerator;
 use Ibexa\Core\Search\Common\FieldRegistry;
 use Ibexa\Core\Search\Legacy\Content\Mapper\FullTextMapper;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test case for Language aware classes.
@@ -25,14 +28,14 @@ abstract class LanguageAwareTestCase extends TestCase
     /**
      * Language handler.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
+     * @var Handler
      */
     protected $languageHandler;
 
     /**
      * Language mask generator.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
+     * @var MaskGenerator
      */
     protected $languageMaskGenerator;
 
@@ -41,7 +44,7 @@ abstract class LanguageAwareTestCase extends TestCase
     /**
      * Returns a language handler mock.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
+     * @return Handler
      */
     protected function getLanguageHandler()
     {
@@ -55,7 +58,7 @@ abstract class LanguageAwareTestCase extends TestCase
     /**
      * Returns a language mask generator.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
+     * @return MaskGenerator
      */
     protected function getLanguageMaskGenerator()
     {
@@ -94,11 +97,11 @@ abstract class LanguageAwareTestCase extends TestCase
         );
     }
 
-    /** @var \Ibexa\Core\Search\Common\FieldNameGenerator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FieldNameGenerator|MockObject */
     protected $fieldNameGeneratorMock;
 
     /**
-     * @return \Ibexa\Core\Search\Common\FieldNameGenerator|\PHPUnit\Framework\MockObject\MockObject
+     * @return FieldNameGenerator|MockObject
      */
     protected function getFieldNameGeneratorMock()
     {
@@ -110,9 +113,9 @@ abstract class LanguageAwareTestCase extends TestCase
     }
 
     /**
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Type\Handler $contentTypeHandler
+     * @param Persistence\Legacy\Content\Type\Handler $contentTypeHandler
      *
-     * @return \Ibexa\Core\Search\Legacy\Content\Mapper\FullTextMapper
+     * @return FullTextMapper
      */
     protected function getFullTextMapper(Persistence\Legacy\Content\Type\Handler $contentTypeHandler)
     {

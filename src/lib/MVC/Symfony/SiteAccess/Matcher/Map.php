@@ -79,7 +79,7 @@ abstract class Map implements VersatileMatcher
         return $this->key;
     }
 
-    public function match(): string|bool
+    public function match(): string | bool
     {
         return $this->map[$this->key] ?? false;
     }

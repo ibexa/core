@@ -34,7 +34,7 @@ class Controller extends AbstractController
     /**
      * Returns the root location object for current siteaccess configuration.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location
+     * @return Location
      */
     public function getRootLocation(): Location
     {

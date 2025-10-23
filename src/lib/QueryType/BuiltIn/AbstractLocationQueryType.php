@@ -30,7 +30,10 @@ abstract class AbstractLocationQueryType extends AbstractQueryType
         $resolver->setAllowedTypes('location', ['null', 'int', Location::class]);
         $resolver->setNormalizer(
             'location',
-            function (Options $options, $value): ?Location {
+            function (
+                Options $options,
+                $value
+            ): ?Location {
                 if (is_int($value)) {
                     return $this->repository->getLocationService()->loadLocation($value);
                 }
@@ -42,7 +45,10 @@ abstract class AbstractLocationQueryType extends AbstractQueryType
         $resolver->setAllowedTypes('content', ['null', 'int', Content::class, ContentInfo::class]);
         $resolver->setNormalizer(
             'content',
-            function (Options $options, $value): ?ContentInfo {
+            function (
+                Options $options,
+                $value
+            ): ?ContentInfo {
                 if (is_int($value)) {
                     return $this->repository->getContentService()->loadContentInfo($value);
                 }

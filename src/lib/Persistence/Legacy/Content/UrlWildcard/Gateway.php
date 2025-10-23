@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\UrlWildcard;
 
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion;
 
 /**
@@ -49,7 +51,10 @@ abstract class Gateway
     /**
      * Load an array with data about UrlWildcards (paged).
      */
-    abstract public function loadUrlWildcardsData(int $offset = 0, int $limit = -1): array;
+    abstract public function loadUrlWildcardsData(
+        int $offset = 0,
+        int $limit = -1
+    ): array;
 
     /**
      * Selects URLWildcards matching specified criteria.
@@ -59,8 +64,8 @@ abstract class Gateway
      *     "count": int|null,
      * }
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException if Criterion is not applicable to its target
+     * @throws InvalidArgumentException
+     * @throws NotImplementedException if Criterion is not applicable to its target
      */
     abstract public function find(
         Criterion $criterion,

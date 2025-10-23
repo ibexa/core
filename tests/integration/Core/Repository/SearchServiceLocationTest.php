@@ -7,14 +7,18 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
@@ -34,7 +38,7 @@ class SearchServiceLocationTest extends BaseTestCase
     /**
      * Create movie Content with subtitle field set to null.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content[]
+     * @return Content[]
      */
     protected function createMovieContent(): array
     {
@@ -112,7 +116,7 @@ class SearchServiceLocationTest extends BaseTestCase
     /**
      * Create test Content with ibexa_country field having multiple countries selected.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      */
     protected function createMultipleCountriesContent()
     {
@@ -160,9 +164,9 @@ class SearchServiceLocationTest extends BaseTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     protected function createFolderWithNonPrintableUtf8Characters(): Content
     {
@@ -311,9 +315,9 @@ class SearchServiceLocationTest extends BaseTestCase
     /**
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testNonPrintableUtf8Characters(): void
     {
@@ -343,9 +347,9 @@ class SearchServiceLocationTest extends BaseTestCase
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations
      *
      * @throws \ErrorException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testEscapedNonPrintableUtf8Characters(): void
     {
@@ -521,7 +525,7 @@ class SearchServiceLocationTest extends BaseTestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
+     * @return ContentType
      */
     protected function createTestPlaceContentType()
     {
@@ -1360,8 +1364,12 @@ class SearchServiceLocationTest extends BaseTestCase
      * @param string $fixture
      * @param callable|null $closure
      */
-    protected function assertQueryFixture(LocationQuery $query, $fixture, $closure = null, $ignoreScore = true)
-    {
+    protected function assertQueryFixture(
+        LocationQuery $query,
+        $fixture,
+        $closure = null,
+        $ignoreScore = true
+    ) {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
 

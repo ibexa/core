@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Repository\Repository;
  */
 final class ProxyDomainMapperFactory implements ProxyDomainMapperFactoryInterface
 {
-    /** @var \Ibexa\Core\Repository\ProxyFactory\ProxyGeneratorInterface */
+    /** @var ProxyGeneratorInterface */
     private $proxyGenerator;
 
     public function __construct(ProxyGeneratorInterface $proxyGenerator)

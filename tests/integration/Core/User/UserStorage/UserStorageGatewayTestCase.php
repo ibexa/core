@@ -58,8 +58,11 @@ abstract class UserStorageGatewayTestCase extends BaseCoreFieldTypeIntegrationTe
     /**
      * @dataProvider providerForGetFieldData
      */
-    public function testGetFieldData(?int $fieldId, ?int $userId, array $expectedUserData): void
-    {
+    public function testGetFieldData(
+        ?int $fieldId,
+        ?int $userId,
+        array $expectedUserData
+    ): void {
         $data = $this->getGateway()->getFieldData($fieldId, $userId);
         self::assertEquals($expectedUserData, $data);
     }

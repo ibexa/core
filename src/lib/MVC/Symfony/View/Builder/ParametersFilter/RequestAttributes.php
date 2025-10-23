@@ -24,7 +24,7 @@ class RequestAttributes implements EventSubscriberInterface
     /**
      * Adds all the request attributes to the parameters.
      *
-     * @param \Ibexa\Core\MVC\Symfony\View\Event\FilterViewBuilderParametersEvent $e
+     * @param FilterViewBuilderParametersEvent $e
      */
     public function addRequestAttributes(FilterViewBuilderParametersEvent $e)
     {

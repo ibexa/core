@@ -18,8 +18,10 @@ final class BeforeAssignSectionToSubtreeEvent extends BeforeEvent
 
     private Section $section;
 
-    public function __construct(Location $location, Section $section)
-    {
+    public function __construct(
+        Location $location,
+        Section $section
+    ) {
         $this->location = $location;
         $this->section = $section;
     }

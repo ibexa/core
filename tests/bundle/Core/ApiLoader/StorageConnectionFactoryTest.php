@@ -15,6 +15,8 @@ use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInte
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 
@@ -23,8 +25,10 @@ final class StorageConnectionFactoryTest extends BaseRepositoryConfigurationProv
     /**
      * @dataProvider getConnectionProvider
      */
-    public function testGetConnection(string $repositoryAlias, string $doctrineConnection): void
-    {
+    public function testGetConnection(
+        string $repositoryAlias,
+        string $doctrineConnection
+    ): void {
         $repositories = [
             $repositoryAlias => $this->buildNormalizedSingleRepositoryConfig('legacy', $doctrineConnection),
         ];
@@ -60,9 +64,9 @@ final class StorageConnectionFactoryTest extends BaseRepositoryConfigurationProv
     }
 
     /**
-     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws ContainerExceptionInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function testGetConnectionInvalidRepository(): void
     {

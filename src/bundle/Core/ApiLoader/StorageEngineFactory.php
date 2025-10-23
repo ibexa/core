@@ -9,7 +9,9 @@ namespace Ibexa\Bundle\Core\ApiLoader;
 
 use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidStorageEngine;
 use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
+use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 
 /**
  * The storage engine factory.
@@ -20,27 +22,28 @@ class StorageEngineFactory
      * Hash of registered storage engines.
      * Key is the storage engine identifier, value persistence handler itself.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Handler[]
+     * @var Handler[]
      */
     protected array $storageEngines = [];
 
     public function __construct(
         private readonly RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
-    ) {
-    }
+    ) {}
 
     /**
      * Registers $persistenceHandler as a valid storage engine, with identifier $storageEngineIdentifier.
      *
      * Note: It is strongly recommenced to register a lazy persistent handler.
      */
-    public function registerStorageEngine(PersistenceHandler $persistenceHandler, string $storageEngineIdentifier): void
-    {
+    public function registerStorageEngine(
+        PersistenceHandler $persistenceHandler,
+        string $storageEngineIdentifier
+    ): void {
         $this->storageEngines[$storageEngineIdentifier] = $persistenceHandler;
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Handler[]
+     * @return Handler[]
      */
     public function getStorageEngines(): array
     {
@@ -50,7 +53,7 @@ class StorageEngineFactory
     /**
      * Builds storage engine identified by $storageEngineIdentifier (the "alias" attribute in the service tag).
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function buildStorageEngine(): PersistenceHandler
     {

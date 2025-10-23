@@ -11,11 +11,11 @@ use Ibexa\Contracts\Core\Repository\Repository;
 
 abstract class RepositoryAware implements RepositoryAwareInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var Repository */
     protected $repository;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
+     * @param Repository $repository
      */
     public function setRepository(Repository $repository)
     {

@@ -22,14 +22,14 @@ class ExceptionConversion extends Gateway
     /**
      * The wrapped gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Notification\Gateway
+     * @var Gateway
      */
     protected $innerGateway;
 
     /**
      * ExceptionConversion constructor.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Notification\Gateway $innerGateway
+     * @param Gateway $innerGateway
      */
     public function __construct(Gateway $innerGateway)
     {
@@ -43,7 +43,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->getNotificationById($notificationId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -65,16 +65,18 @@ class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->updateNotification($notification);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function countUserNotifications(int $userId, ?NotificationQuery $query = null): int
-    {
+    public function countUserNotifications(
+        int $userId,
+        ?NotificationQuery $query = null
+    ): int {
         try {
             return $this->innerGateway->countUserNotifications($userId, $query);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -83,25 +85,30 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countUserPendingNotifications($userId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function loadUserNotifications(int $userId, int $offset = 0, int $limit = -1): array
-    {
+    public function loadUserNotifications(
+        int $userId,
+        int $offset = 0,
+        int $limit = -1
+    ): array {
         try {
             return $this->innerGateway->loadUserNotifications($userId, $offset, $limit);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function findUserNotifications(int $userId, ?NotificationQuery $query = null): array
-    {
+    public function findUserNotifications(
+        int $userId,
+        ?NotificationQuery $query = null
+    ): array {
         try {
             return $this->innerGateway->findUserNotifications($userId, $query);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -110,7 +117,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->insert($notification);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -119,7 +126,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->delete($notificationId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }

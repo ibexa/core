@@ -25,7 +25,7 @@ abstract class GatewayBasedStorage implements FieldStorage
     protected StorageGatewayInterface $gateway;
 
     /**
-     * @param \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface $gateway
+     * @param StorageGatewayInterface $gateway
      *
      * @phpstan-param T $gateway
      */
@@ -41,14 +41,17 @@ abstract class GatewayBasedStorage implements FieldStorage
      * By default the method falls back to the {@see \Ibexa\Contracts\Core\FieldType\FieldStorage::storeFieldData()}.
      * External storages implement this method as needed.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $originalField
+     * @param VersionInfo $versionInfo
+     * @param Field $field
+     * @param Field $originalField
      *
      * @return bool|null Same as {@see \Ibexa\Contracts\Core\FieldType\FieldStorage::storeFieldData()}.
      */
-    public function copyLegacyField(VersionInfo $versionInfo, Field $field, Field $originalField)
-    {
+    public function copyLegacyField(
+        VersionInfo $versionInfo,
+        Field $field,
+        Field $originalField
+    ) {
         return $this->storeFieldData($versionInfo, $field);
     }
 }

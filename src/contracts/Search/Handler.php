@@ -8,7 +8,11 @@
 namespace Ibexa\Contracts\Core\Search;
 
 use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -26,33 +30,42 @@ interface Handler
     /**
      * Finds content objects for the given query.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if Query criterion is not applicable to its target
+     * @throws InvalidArgumentException if Query criterion is not applicable to its target
      *
-     * @phpstan-param TSearchLanguageFilter $languageFilter {@see \Ibexa\Contracts\Core\Repository\SearchService::findContent}
+     * @phpstan-param TSearchLanguageFilter $languageFilter {@see SearchService::findContent}
      *
-     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<\Ibexa\Contracts\Core\Persistence\Content\ContentInfo>
+     * @phpstan-return SearchResult<ContentInfo>
      */
-    public function findContent(Query $query, array $languageFilter = []): SearchResult;
+    public function findContent(
+        Query $query,
+        array $languageFilter = []
+    ): SearchResult;
 
     /**
      * Performs a query for a single content object.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the object was not found by the query or due to permissions
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if Criterion is not applicable to its target
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if there is more than one result matching the criteria
+     * @throws NotFoundException if the object was not found by the query or due to permissions
+     * @throws InvalidArgumentException if Criterion is not applicable to its target
+     * @throws InvalidArgumentException if there is more than one result matching the criteria
      *
      * @phpstan-param TSearchLanguageFilter $languageFilter {@see \Ibexa\Contracts\Core\Repository\SearchService::findSingle()}
      */
-    public function findSingle(CriterionInterface $filter, array $languageFilter = []): Content\ContentInfo;
+    public function findSingle(
+        CriterionInterface $filter,
+        array $languageFilter = []
+    ): ContentInfo;
 
     /**
      * Finds locations for the given $query.
      *
      * @phpstan-param TSearchLanguageFilter $languageFilter {@see \Ibexa\Contracts\Core\Repository\SearchService::findSingle()}
      *
-     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<\Ibexa\Contracts\Core\Persistence\Content\Location>
+     * @phpstan-return SearchResult<Location>
      */
-    public function findLocations(LocationQuery $query, array $languageFilter = []): SearchResult;
+    public function findLocations(
+        LocationQuery $query,
+        array $languageFilter = []
+    ): SearchResult;
 
     /**
      * Suggests a list of values for the given prefix.
@@ -60,14 +73,19 @@ interface Handler
      * @param string $prefix
      * @param string[] $fieldPaths
      * @param int $limit
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion|null $filter
+     * @param Criterion|null $filter
      */
-    public function suggest($prefix, $fieldPaths = [], $limit = 10, ?Criterion $filter = null);
+    public function suggest(
+        $prefix,
+        $fieldPaths = [],
+        $limit = 10,
+        ?Criterion $filter = null
+    );
 
     /**
      * Indexes a content object.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content $content
+     * @param Content $content
      */
     public function indexContent(Content $content);
 
@@ -77,12 +95,15 @@ interface Handler
      * @param int $contentId
      * @param int|null $versionId
      */
-    public function deleteContent($contentId, $versionId = null);
+    public function deleteContent(
+        $contentId,
+        $versionId = null
+    );
 
     /**
      * Indexes a Location in the index storage.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Location $location
+     * @param Location $location
      */
     public function indexLocation(Location $location);
 
@@ -92,7 +113,10 @@ interface Handler
      * @param mixed $locationId
      * @param mixed $contentId
      */
-    public function deleteLocation($locationId, $contentId);
+    public function deleteLocation(
+        $locationId,
+        $contentId
+    );
 
     /**
      * Purges all contents from the index.

@@ -66,7 +66,11 @@ interface ContextualizerInterface
      * @param string $scope
      * @param mixed $value
      */
-    public function setContextualParameter($parameterName, $scope, $value);
+    public function setContextualParameter(
+        $parameterName,
+        $scope,
+        $value
+    );
 
     /**
      * Maps a semantic setting to internal format for all declared scopes.
@@ -79,7 +83,10 @@ interface ContextualizerInterface
      *
      * @return mixed
      */
-    public function mapSetting($id, array $config);
+    public function mapSetting(
+        $id,
+        array $config
+    );
 
     /**
      * Maps semantic array settings to internal format, and merges them between scopes.
@@ -172,15 +179,19 @@ interface ContextualizerInterface
      * @param array $config Full semantic configuration array for current bundle.
      * @param int $options Bit mask of options (see constants of the interface)
      */
-    public function mapConfigArray($id, array $config, $options = 0);
+    public function mapConfigArray(
+        $id,
+        array $config,
+        $options = 0
+    );
 
     /**
-     * @return \Symfony\Component\DependencyInjection\ContainerInterface
+     * @return ContainerInterface
      */
     public function getContainer();
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param ContainerInterface $container
      */
     public function setContainer(ContainerInterface $container);
 

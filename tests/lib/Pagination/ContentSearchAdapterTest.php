@@ -24,8 +24,11 @@ final class ContentSearchAdapterTest extends BaseContentSearchResultAdapterTestC
     /**
      * @phpstan-param TSearchLanguageFilter $languageFilter
      */
-    protected function getAdapter(Query $query, SearchService $searchService, array $languageFilter = []): ContentSearchAdapter
-    {
+    protected function getAdapter(
+        Query $query,
+        SearchService $searchService,
+        array $languageFilter = []
+    ): ContentSearchAdapter {
         return new ContentSearchAdapter($query, $searchService, $languageFilter);
     }
 

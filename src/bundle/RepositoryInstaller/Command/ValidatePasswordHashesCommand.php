@@ -17,10 +17,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'ibexa:user:validate-password-hashes')]
 final class ValidatePasswordHashesCommand extends Command
 {
-    /** @var \Ibexa\Core\FieldType\User\UserStorage */
+    /** @var UserStorage */
     private $userStorage;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PasswordHashService */
+    /** @var PasswordHashService */
     private $passwordHashService;
 
     public function __construct(
@@ -33,8 +33,10 @@ final class ValidatePasswordHashesCommand extends Command
         parent::__construct();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $unsupportedHashesCounter = $this->userStorage->countUsersWithUnsupportedHashType(
             $this->passwordHashService->getSupportedHashTypes()
         );

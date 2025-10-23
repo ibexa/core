@@ -10,6 +10,9 @@ namespace Ibexa\Tests\Core\Repository\Decorator;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Decorator\ContentServiceDecorator;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentDraftList;
@@ -32,13 +35,12 @@ class ContentServiceDecoratorTest extends TestCase
     private const EXAMPLE_CONTENT_REMOTE_ID = 'example';
     private const EXAMPLE_VERSION_NO = 1;
 
-    protected function createDecorator(ContentService&MockObject $service): ContentService
+    protected function createDecorator(ContentService & MockObject $service): ContentService
     {
-        return new class($service) extends ContentServiceDecorator {
-        };
+        return new class($service) extends ContentServiceDecorator {};
     }
 
-    protected function createServiceMock(): ContentService&MockObject
+    protected function createServiceMock(): ContentService & MockObject
     {
         return $this->createMock(ContentService::class);
     }
@@ -477,9 +479,9 @@ class ContentServiceDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws BadStateException
+     * @throws NotFoundException
+     * @throws InvalidArgumentException
      */
     public function testLoadVersionInfoListByContentInfoDecorator(): void
     {

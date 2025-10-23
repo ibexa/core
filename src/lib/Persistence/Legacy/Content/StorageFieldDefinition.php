@@ -112,7 +112,7 @@ class StorageFieldDefinition extends ValueObject
     /**
      * Associative array with language codes keys.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\MultilingualStorageFieldDefinition[]
+     * @var MultilingualStorageFieldDefinition[]
      */
     public $multilingualData = [];
 }

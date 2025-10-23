@@ -20,13 +20,15 @@ final class UnauthorizedExceptionTest extends TestCase
     /**
      * @dataProvider getDataForTestConstructor
      */
-    public function testConstructor(UnauthorizedException $exception, string $expectedMessage): void
-    {
+    public function testConstructor(
+        UnauthorizedException $exception,
+        string $expectedMessage
+    ): void {
         self::assertSame($expectedMessage, $exception->getMessage());
     }
 
     /**
-     * @phpstan-return iterable<string, array{0: \Ibexa\Core\Base\Exceptions\UnauthorizedException, 1: string}>
+     * @phpstan-return iterable<string, array{0: UnauthorizedException, 1: string}>
      */
     public static function getDataForTestConstructor(): iterable
     {

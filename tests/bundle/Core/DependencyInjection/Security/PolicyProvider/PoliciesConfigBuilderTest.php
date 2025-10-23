@@ -18,8 +18,11 @@ class PoliciesConfigBuilderTest extends TestCase
     /**
      * @dataProvider policiesConfigProvider
      */
-    public function testAddConfig(array $configOne, array $configTwo, array $expectedConfig): void
-    {
+    public function testAddConfig(
+        array $configOne,
+        array $configTwo,
+        array $expectedConfig
+    ): void {
         $containerBuilder = new ContainerBuilder();
         $configBuilder = new PoliciesConfigBuilder($containerBuilder);
 

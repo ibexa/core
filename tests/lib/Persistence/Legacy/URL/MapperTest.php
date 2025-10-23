@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 class MapperTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\URL\Mapper */
+    /** @var Mapper */
     private $mapper;
 
     protected function setUp(): void

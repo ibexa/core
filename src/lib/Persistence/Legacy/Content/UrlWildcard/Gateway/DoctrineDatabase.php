@@ -9,10 +9,13 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
+use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\SortClause;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -25,7 +28,7 @@ use RuntimeException;
  *
  * @internal Gateway implementation is considered internal. Use Persistence UrlWildcard Handler instead.
  *
- * @see \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler
+ * @see Handler
  */
 final class DoctrineDatabase extends Gateway
 {
@@ -43,8 +46,7 @@ final class DoctrineDatabase extends Gateway
     public function __construct(
         private readonly Connection $connection,
         protected CriteriaConverter $criteriaConverter
-    ) {
-    }
+    ) {}
 
     public function insertUrlWildcard(UrlWildcard $urlWildcard): int
     {
@@ -155,8 +157,10 @@ final class DoctrineDatabase extends Gateway
         return false !== $result ? $result : [];
     }
 
-    public function loadUrlWildcardsData(int $offset = 0, int $limit = -1): array
-    {
+    public function loadUrlWildcardsData(
+        int $offset = 0,
+        int $limit = -1
+    ): array {
         $query = $this->buildLoadUrlWildcardDataQuery();
         $query
             ->setMaxResults($limit > 0 ? $limit : self::MAX_LIMIT)
@@ -235,8 +239,8 @@ final class DoctrineDatabase extends Gateway
 
     /**
      * @throws \Doctrine\DBAL\Driver\Exception
-     * @throws \Doctrine\DBAL\Exception
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws Exception
+     * @throws NotImplementedException
      */
     protected function doCount(Criterion $criterion): int
     {

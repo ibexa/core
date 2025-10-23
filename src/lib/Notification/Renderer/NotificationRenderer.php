@@ -13,14 +13,14 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Notification;
 interface NotificationRenderer
 {
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Notification $notification
+     * @param Notification $notification
      *
      * @return string
      */
     public function render(Notification $notification): string;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Notification $notification
+     * @param Notification $notification
      *
      * @return string|null
      */

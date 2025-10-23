@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  */
 class InMemoryCacheTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache */
+    /** @var InMemoryCache */
     protected $cache;
 
     /**

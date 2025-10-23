@@ -22,7 +22,7 @@ class CompositeCriterion extends CriterionHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\CompositeCriterion $criterion
+     * @param Criterion\CompositeCriterion $criterion
      */
     public function handle(
         CriteriaConverter $converter,

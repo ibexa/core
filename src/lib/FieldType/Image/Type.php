@@ -9,10 +9,12 @@ namespace Ibexa\Core\FieldType\Image;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\ValidationError;
+use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Value as BaseValue;
 use JMS\TranslationBundle\Model\Message;
 use JMS\TranslationBundle\Translation\TranslationContainerInterface;
@@ -52,14 +54,14 @@ class Type extends FieldType implements TranslationContainerInterface
         ],
     ];
 
-    /** @var \Ibexa\Core\FieldType\Validator[] */
+    /** @var Validator[] */
     private $validators;
 
     /** @var array<string> */
     private array $mimeTypes;
 
     /**
-     * @param array<\Ibexa\Core\FieldType\Validator> $validators
+     * @param array<Validator> $validators
      * @param array<string> $mimeTypes
      */
     public function __construct(
@@ -81,10 +83,13 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\Image\Value $value
+     * @param Value $value
      */
-    public function getName(SPIValue $value, FieldDefinition $fieldDefinition, string $languageCode): string
-    {
+    public function getName(
+        SPIValue $value,
+        FieldDefinition $fieldDefinition,
+        string $languageCode
+    ): string {
         return $value->alternativeText ?? (string)$value->fileName;
     }
 
@@ -92,7 +97,7 @@ class Type extends FieldType implements TranslationContainerInterface
      * Returns the fallback default value of field type when no such default
      * value is provided in the field definition in content types.
      *
-     * @return \Ibexa\Core\FieldType\Image\Value
+     * @return Value
      */
     public function getEmptyValue()
     {
@@ -102,9 +107,9 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Inspects given $inputValue and potentially converts it into a dedicated value object.
      *
-     * @param string|array|\Ibexa\Core\FieldType\Image\Value $inputValue
+     * @param string|array|Value $inputValue
      *
-     * @return \Ibexa\Core\FieldType\Image\Value The potentially converted and structurally plausible value.
+     * @return Value The potentially converted and structurally plausible value.
      */
     protected function createValueFromInput($inputValue)
     {
@@ -129,9 +134,9 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Throws an exception if value structure is not of expected format.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
+     * @throws InvalidArgumentException If the value does not match the expected structure.
      *
-     * @param \Ibexa\Core\FieldType\Image\Value $value
+     * @param Value $value
      */
     protected function checkValueStructure(BaseValue $value)
     {
@@ -173,15 +178,17 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Validates a field based on the validators in the field definition.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
-     * @param \Ibexa\Core\FieldType\Image\Value $fieldValue The field value for which an action is performed
+     * @param FieldDefinition $fieldDefinition The field definition of the field
+     * @param Value $fieldValue The field value for which an action is performed
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue)
-    {
+    public function validate(
+        FieldDefinition $fieldDefinition,
+        SPIValue $fieldValue
+    ) {
         $errors = [];
 
         if ($this->isEmptyValue($fieldValue)) {
@@ -345,7 +352,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @param mixed $hash
      *
-     * @return \Ibexa\Core\FieldType\Image\Value $value
+     * @return Value $value
      */
     public function fromHash($hash)
     {
@@ -359,7 +366,7 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Converts a $Value to a hash.
      *
-     * @param \Ibexa\Core\FieldType\Image\Value $value
+     * @param Value $value
      *
      * @return mixed
      */
@@ -387,9 +394,9 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Converts a $value to a persistence value.
      *
-     * @param \Ibexa\Core\FieldType\Image\Value $value
+     * @param Value $value
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\FieldValue
+     * @return FieldValue
      */
     public function toPersistenceValue(SPIValue $value)
     {
@@ -406,9 +413,9 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Converts a persistence $fieldValue to a Value.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
+     * @param FieldValue $fieldValue
      *
-     * @return \Ibexa\Core\FieldType\Image\Value
+     * @return Value
      */
     public function fromPersistenceValue(FieldValue $fieldValue)
     {
@@ -452,8 +459,10 @@ class Type extends FieldType implements TranslationContainerInterface
         return $result;
     }
 
-    public function valuesEqual(SPIValue $value1, SPIValue $value2): bool
-    {
+    public function valuesEqual(
+        SPIValue $value1,
+        SPIValue $value2
+    ): bool {
         $hashValue1 = $this->toHash($value1);
         $hashValue2 = $this->toHash($value2);
 

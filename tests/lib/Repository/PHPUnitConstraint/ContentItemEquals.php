@@ -14,12 +14,13 @@ use PHPUnit\Framework\Constraint\Constraint as AbstractPHPUnitConstraint;
 use PHPUnit\Framework\ExpectationFailedException;
 use SebastianBergmann\Comparator\ComparisonFailure;
 use SebastianBergmann\Comparator\Factory as ComparatorFactory;
+
 use function sprintf;
 use function trim;
 
 class ContentItemEquals extends AbstractPHPUnitConstraint
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+    /** @var Content */
     private $expectedContent;
 
     public function __construct(Content $expectedContent)
@@ -27,8 +28,11 @@ class ContentItemEquals extends AbstractPHPUnitConstraint
         $this->expectedContent = $expectedContent;
     }
 
-    public function evaluate($content, string $description = '', bool $returnResult = false): bool
-    {
+    public function evaluate(
+        $content,
+        string $description = '',
+        bool $returnResult = false
+    ): bool {
         if (!$content instanceof Content) {
             return false;
         }

@@ -11,14 +11,14 @@ namespace Ibexa\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Iterator\BatchIterator;
 use Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter\RelationListIteratorAdapter;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 
 final class RelationListFacade implements ContentService\RelationListFacadeInterface
 {
     public function __construct(
         private readonly ContentService $contentService
-    ) {
-    }
+    ) {}
 
     public function getRelations(VersionInfo $versionInfo): iterable
     {
@@ -29,7 +29,7 @@ final class RelationListFacade implements ContentService\RelationListFacadeInter
             )
         );
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface $relationListItem */
+        /** @var RelationListItemInterface $relationListItem */
         foreach ($relationListIterator as $relationListItem) {
             if ($relationListItem->hasRelation()) {
                 yield $relationListItem->getRelation();

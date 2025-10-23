@@ -10,6 +10,4 @@ namespace Ibexa\Contracts\Core\Exception;
 
 use OutOfBoundsException as BaseOutOfBoundsException;
 
-final class OutOfBoundsException extends BaseOutOfBoundsException
-{
-}
+final class OutOfBoundsException extends BaseOutOfBoundsException {}

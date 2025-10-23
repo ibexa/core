@@ -15,19 +15,22 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 
 final class ThumbnailChainStrategy implements ThumbnailStrategy
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy[] */
+    /** @var ThumbnailStrategy[] */
     private $strategies;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy[] $strategies
+     * @param ThumbnailStrategy[] $strategies
      */
     public function __construct(iterable $strategies)
     {
         $this->strategies = $strategies;
     }
 
-    public function getThumbnail(ContentType $contentType, array $fields, ?VersionInfo $versionInfo = null): ?Thumbnail
-    {
+    public function getThumbnail(
+        ContentType $contentType,
+        array $fields,
+        ?VersionInfo $versionInfo = null
+    ): ?Thumbnail {
         foreach ($this->strategies as $strategy) {
             $thumbnail = $strategy->getThumbnail($contentType, $fields, $versionInfo);
 

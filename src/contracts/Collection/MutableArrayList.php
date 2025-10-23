@@ -45,7 +45,7 @@ class MutableArrayList extends ArrayList implements MutableListInterface
      *
      * @phpstan-param TValueFrom[] $items
      *
-     * @phpstan-return \Ibexa\Contracts\Core\Collection\MutableArrayList<TValueFrom>
+     * @phpstan-return MutableArrayList<TValueFrom>
      */
     protected function createFrom(array $items): MutableArrayList
     {

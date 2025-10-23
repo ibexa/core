@@ -19,7 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  * @property-read string $fileName The name of the file (for example "my_image.png")
  * @property-read string $dirPath The path to the file (for example "var/storage/images/test/199-2-eng-GB")
  * @property-read string $uri Complete path + name of image file (for example "var/storage/images/test/199-2-eng-GB/apple.png")
- * @property-read \DateTimeInterface $lastModified When the variation was last modified
+ * @property-read DateTimeInterface $lastModified When the variation was last modified
  */
 class Variation extends ValueObject
 {

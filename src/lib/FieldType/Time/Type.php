@@ -9,6 +9,7 @@ namespace Ibexa\Core\FieldType\Time;
 
 use DateTime;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\FieldType;
@@ -52,12 +53,15 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\Time\Value|\Ibexa\Contracts\Core\FieldType\Value $value
+     * @param Value|SPIValue $value
      *
      * @throws \Exception
      */
-    public function getName(SPIValue $value, FieldDefinition $fieldDefinition, string $languageCode): string
-    {
+    public function getName(
+        SPIValue $value,
+        FieldDefinition $fieldDefinition,
+        string $languageCode
+    ): string {
         if ($this->isEmptyValue($value)) {
             return '';
         }
@@ -71,7 +75,7 @@ class Type extends FieldType implements TranslationContainerInterface
      * Returns the fallback default value of field type when no such default
      * value is provided in the field definition in content types.
      *
-     * @return \Ibexa\Core\FieldType\Time\Value
+     * @return Value
      */
     public function getEmptyValue()
     {
@@ -81,9 +85,9 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Inspects given $inputValue and potentially converts it into a dedicated value object.
      *
-     * @param string|int|\DateTime|\Ibexa\Core\FieldType\Time\Value $inputValue
+     * @param string|int|DateTime|Value $inputValue
      *
-     * @return \Ibexa\Core\FieldType\Time\Value The potentially converted and structurally plausible value.
+     * @return Value The potentially converted and structurally plausible value.
      */
     protected function createValueFromInput($inputValue)
     {
@@ -105,9 +109,9 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Throws an exception if value structure is not of expected format.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
+     * @throws InvalidArgumentException If the value does not match the expected structure.
      *
-     * @param \Ibexa\Core\FieldType\Time\Value $value
+     * @param Value $value
      */
     protected function checkValueStructure(BaseValue $value)
     {
@@ -123,7 +127,7 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Returns information for FieldValue->$sortKey relevant to the field type.
      *
-     * @param \Ibexa\Core\FieldType\Time\Value $value
+     * @param Value $value
      *
      * @return int
      */
@@ -137,7 +141,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @param int $hash Number of seconds since Unix Epoch
      *
-     * @return \Ibexa\Core\FieldType\Time\Value $value
+     * @return Value $value
      */
     public function fromHash($hash)
     {
@@ -152,7 +156,7 @@ class Type extends FieldType implements TranslationContainerInterface
      * Returns if the given $value is considered empty by the field type.
      *
      *
-     * @param \Ibexa\Core\FieldType\Value $value
+     * @param BaseValue $value
      *
      * @return bool
      */
@@ -168,7 +172,7 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Converts a $Value to a hash.
      *
-     * @param \Ibexa\Core\FieldType\Time\Value $value
+     * @param Value $value
      *
      * @return mixed
      */

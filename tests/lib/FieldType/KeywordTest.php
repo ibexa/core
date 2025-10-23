@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Keyword\Type as KeywordType;
+use Ibexa\Core\FieldType\Keyword\Value;
 use Ibexa\Core\FieldType\Keyword\Value as KeywordValue;
 use Ibexa\Core\FieldType\ValidationError;
 
@@ -121,7 +122,7 @@ class KeywordTest extends FieldTypeTestCase
     }
 
     /**
-     * @return iterable<string, array{0: array<string, mixed>, 1: \Ibexa\Core\FieldType\Keyword\Value}>
+     * @return iterable<string, array{0: array<string, mixed>, 1: Value}>
      */
     public function provideValidDataForValidate(): iterable
     {

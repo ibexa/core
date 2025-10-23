@@ -19,7 +19,9 @@ use JMS\TranslationBundle\Translation\Extractor\FileVisitorInterface;
 use JMS\TranslationBundle\Translation\FileSourceFactory;
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
+use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Scalar\String_;
+use PhpParser\Node\Stmt;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor;
 use Psr\Log\LoggerInterface;
@@ -49,11 +51,13 @@ class ValidationErrorFileVisitor implements LoggerAwareInterface, FileVisitorInt
     /**
      * DefaultPhpFileExtractor constructor.
      *
-     * @param \Doctrine\Common\Annotations\DocParser $docParser
-     * @param \JMS\TranslationBundle\Translation\FileSourceFactory $fileSourceFactory
+     * @param DocParser $docParser
+     * @param FileSourceFactory $fileSourceFactory
      */
-    public function __construct(DocParser $docParser, FileSourceFactory $fileSourceFactory)
-    {
+    public function __construct(
+        DocParser $docParser,
+        FileSourceFactory $fileSourceFactory
+    ) {
         $this->docParser = $docParser;
         $this->fileSourceFactory = $fileSourceFactory;
         $this->traverser = new NodeTraverser();
@@ -61,7 +65,7 @@ class ValidationErrorFileVisitor implements LoggerAwareInterface, FileVisitorInt
     }
 
     /**
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param LoggerInterface $logger
      */
     public function setLogger(LoggerInterface $logger)
     {
@@ -70,7 +74,7 @@ class ValidationErrorFileVisitor implements LoggerAwareInterface, FileVisitorInt
 
     public function enterNode(Node $node): null
     {
-        if (!$node instanceof Node\Expr\New_
+        if (!$node instanceof New_
             || !$node->class instanceof Node\Name
             || strtolower((string)$node->class) !== 'validationerror'
         ) {
@@ -129,11 +133,14 @@ class ValidationErrorFileVisitor implements LoggerAwareInterface, FileVisitorInt
 
     /**
      * @param \SplFileInfo $file
-     * @param \JMS\TranslationBundle\Model\MessageCatalogue $catalogue
-     * @param \PhpParser\Node\Stmt[] $ast
+     * @param MessageCatalogue $catalogue
+     * @param Stmt[] $ast
      */
-    public function visitPhpFile(\SplFileInfo $file, MessageCatalogue $catalogue, array $ast): void
-    {
+    public function visitPhpFile(
+        \SplFileInfo $file,
+        MessageCatalogue $catalogue,
+        array $ast
+    ): void {
         $this->file = $file;
         $this->catalogue = $catalogue;
         $this->traverser->traverse($ast);
@@ -156,23 +163,26 @@ class ValidationErrorFileVisitor implements LoggerAwareInterface, FileVisitorInt
 
     /**
      * @param \SplFileInfo $file
-     * @param \JMS\TranslationBundle\Model\MessageCatalogue $catalogue
+     * @param MessageCatalogue $catalogue
      */
-    public function visitFile(\SplFileInfo $file, MessageCatalogue $catalogue): void
-    {
-    }
+    public function visitFile(
+        \SplFileInfo $file,
+        MessageCatalogue $catalogue
+    ): void {}
 
     /**
      * @param \SplFileInfo $file
-     * @param \JMS\TranslationBundle\Model\MessageCatalogue $catalogue
-     * @param \Twig\Node\Node $ast
+     * @param MessageCatalogue $catalogue
+     * @param TwigNode $ast
      */
-    public function visitTwigFile(\SplFileInfo $file, MessageCatalogue $catalogue, TwigNode $ast): void
-    {
-    }
+    public function visitTwigFile(
+        \SplFileInfo $file,
+        MessageCatalogue $catalogue,
+        TwigNode $ast
+    ): void {}
 
     /**
-     * @param \PhpParser\Node\Expr\New_ $node
+     * @param New_ $node
      *
      * @return string|null
      */

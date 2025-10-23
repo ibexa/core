@@ -20,16 +20,16 @@ abstract class LogicalOperator implements CriterionInterface
     /**
      * The set of criteria combined by the logical operator.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface[]
+     * @var CriterionInterface[]
      */
     public array $criteria = [];
 
     /**
      * Creates a Logic operation with the given criteria.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface[] $criteria
+     * @param CriterionInterface[] $criteria
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
+     * @throws InvalidCriterionArgumentException
      */
     public function __construct(array $criteria)
     {

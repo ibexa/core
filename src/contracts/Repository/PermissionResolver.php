@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\User\LookupLimitationResult;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 
@@ -35,11 +37,11 @@ interface PermissionResolver
      *          This includes Role Assignment limitations, but also future policy limitations added in kernel,
      *          or as plain user configuration and/or extending the system.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If module or function is invalid.
+     * @throws InvalidArgumentException If module or function is invalid.
      *
      * @param string $module The module, aka controller identifier to check permissions on
      * @param string $function The function, aka the controller action to check permissions on
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference|null $userReference User for
+     * @param UserReference|null $userReference User for
      *        which the information is returned, current user will be used if null
      *
      * @return bool|array if limitations are on this function an array of limitations is returned
@@ -51,7 +53,11 @@ interface PermissionResolver
      *     },
      * >
      */
-    public function hasAccess(string $module, string $function, ?UserReference $userReference = null);
+    public function hasAccess(
+        string $module,
+        string $function,
+        ?UserReference $userReference = null
+    );
 
     /**
      * Indicates if the current user is allowed to perform an action given by the function on the given
@@ -64,15 +70,20 @@ interface PermissionResolver
      * Example2: canUser( 'section', 'assign', $content, [$section] );
      *           Check if user has access to assign $content to $section.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
+     * @throws InvalidArgumentException If any of the arguments are invalid
+     * @throws BadStateException If value of the LimitationValue is unsupported
      *
      * @param string $module The module, aka controller identifier to check permissions on
      * @param string $function The function, aka the controller action to check permissions on
      * @param object $object The object to check if the user has access to
      * @param object[] $targets An array of location, parent or "assignment" value objects
      */
-    public function canUser(string $module, string $function, object $object, array $targets = []): bool;
+    public function canUser(
+        string $module,
+        string $function,
+        object $object,
+        array $targets = []
+    ): bool;
 
     /**
      * @param string $module The module, aka controller identifier to check permissions on
@@ -81,10 +92,10 @@ interface PermissionResolver
      * @param object[] $targets An array of location, parent or "assignment" value objects
      * @param string[] $limitationsIdentifiers An array of Limitations identifiers to filter from all which will pass
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\LookupLimitationResult
+     * @return LookupLimitationResult
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws InvalidArgumentException
+     * @throws BadStateException
      */
     public function lookupLimitations(
         string $module,

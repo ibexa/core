@@ -11,16 +11,17 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Search;
 use ArrayIterator;
 use Countable;
 use Ibexa\Contracts\Core\Repository\Exceptions\OutOfBoundsException;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Iterator;
 use IteratorAggregate;
 
 final class AggregationResultCollection implements Countable, IteratorAggregate
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult[] */
+    /** @var AggregationResult[] */
     private array $entries;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult[] $results
+     * @param AggregationResult[] $results
      */
     public function __construct(iterable $results = [])
     {
@@ -33,7 +34,7 @@ final class AggregationResultCollection implements Countable, IteratorAggregate
     /**
      * This method returns the aggregation result for the given aggregation name.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\OutOfBoundsException
+     * @throws OutOfBoundsException
      */
     public function get(string $name): AggregationResult
     {
@@ -57,7 +58,7 @@ final class AggregationResultCollection implements Countable, IteratorAggregate
     /**
      * Return first element of collection.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\OutOfBoundsException
+     * @throws OutOfBoundsException
      */
     public function first(): AggregationResult
     {
@@ -71,7 +72,7 @@ final class AggregationResultCollection implements Countable, IteratorAggregate
     /**
      * Return last element of collection.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\OutOfBoundsException
+     * @throws OutOfBoundsException
      */
     public function last(): AggregationResult
     {
@@ -95,7 +96,7 @@ final class AggregationResultCollection implements Countable, IteratorAggregate
     /**
      * Gets a native PHP array representation of the collection.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition[]
+     * @return FieldDefinition[]
      */
     public function toArray(): array
     {

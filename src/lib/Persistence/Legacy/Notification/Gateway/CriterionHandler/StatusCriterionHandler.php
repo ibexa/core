@@ -25,8 +25,10 @@ final class StatusCriterionHandler implements CriterionHandlerInterface
         return $criterion instanceof Status;
     }
 
-    public function apply(QueryBuilder $qb, CriterionInterface $criterion): void
-    {
+    public function apply(
+        QueryBuilder $qb,
+        CriterionInterface $criterion
+    ): void {
         $qb->andWhere($qb->expr()->in(DoctrineDatabase::COLUMN_IS_PENDING, ':status'));
         $qb->setParameter('status', $criterion->getStatuses(), ArrayParameterType::INTEGER);
     }

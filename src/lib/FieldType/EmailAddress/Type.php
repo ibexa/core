@@ -8,6 +8,7 @@
 namespace Ibexa\Core\FieldType\EmailAddress;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\FieldType;
@@ -29,10 +30,13 @@ class Type extends FieldType implements TranslationContainerInterface
     ];
 
     /**
-     * @param \Ibexa\Core\FieldType\EmailAddress\Value|\Ibexa\Contracts\Core\FieldType\Value $value
+     * @param Value|SPIValue $value
      */
-    public function getName(SPIValue $value, FieldDefinition $fieldDefinition, string $languageCode): string
-    {
+    public function getName(
+        SPIValue $value,
+        FieldDefinition $fieldDefinition,
+        string $languageCode
+    ): string {
         return $this->transformationProcessor->transformByGroup((string)$value, 'lowercase');
     }
 
@@ -69,15 +73,17 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Validates a field based on the validators in the field definition.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
-     * @param \Ibexa\Core\FieldType\EmailAddress\Value $fieldValue The field value for which an action is performed
+     * @param FieldDefinition $fieldDefinition The field definition of the field
+     * @param Value $fieldValue The field value for which an action is performed
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue)
-    {
+    public function validate(
+        FieldDefinition $fieldDefinition,
+        SPIValue $fieldValue
+    ) {
         $errors = [];
 
         if ($this->isEmptyValue($fieldValue)) {
@@ -112,7 +118,7 @@ class Type extends FieldType implements TranslationContainerInterface
      * Returns the fallback default value of field type when no such default
      * value is provided in the field definition in content types.
      *
-     * @return \Ibexa\Core\FieldType\EmailAddress\Value
+     * @return Value
      */
     public function getEmptyValue()
     {
@@ -122,9 +128,9 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Inspects given $inputValue and potentially converts it into a dedicated value object.
      *
-     * @param string|\Ibexa\Core\FieldType\EmailAddress\Value $inputValue
+     * @param string|Value $inputValue
      *
-     * @return \Ibexa\Core\FieldType\EmailAddress\Value The potentially converted and structurally plausible value.
+     * @return Value The potentially converted and structurally plausible value.
      */
     protected function createValueFromInput($inputValue)
     {
@@ -138,9 +144,9 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Throws an exception if value structure is not of expected format.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
+     * @throws InvalidArgumentException If the value does not match the expected structure.
      *
-     * @param \Ibexa\Core\FieldType\EmailAddress\Value $value
+     * @param Value $value
      */
     protected function checkValueStructure(BaseValue $value)
     {
@@ -158,7 +164,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @todo String normalization should occur here.
      *
-     * @param \Ibexa\Core\FieldType\EmailAddress\Value $value
+     * @param Value $value
      *
      * @return string
      */
@@ -172,7 +178,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @param mixed $hash
      *
-     * @return \Ibexa\Core\FieldType\EmailAddress\Value $value
+     * @return Value $value
      */
     public function fromHash($hash)
     {
@@ -186,7 +192,7 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Converts a $Value to a hash.
      *
-     * @param \Ibexa\Core\FieldType\EmailAddress\Value $value
+     * @param Value $value
      *
      * @return mixed
      */

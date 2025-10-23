@@ -58,8 +58,11 @@ class MapLocationDistance extends SortClause implements CustomFieldInterface
      *
      * Set a custom field to sort by for a defined field in a defined type.
      */
-    public function setCustomField(string $type, string $field, string $customField): void
-    {
+    public function setCustomField(
+        string $type,
+        string $field,
+        string $customField
+    ): void {
         $this->customFields[$type][$field] = $customField;
     }
 
@@ -68,8 +71,10 @@ class MapLocationDistance extends SortClause implements CustomFieldInterface
      *
      * If no custom field is set, return null
      */
-    public function getCustomField(string $type, string $field): ?string
-    {
+    public function getCustomField(
+        string $type,
+        string $field
+    ): ?string {
         return $this->customFields[$type][$field] ?? null;
     }
 }

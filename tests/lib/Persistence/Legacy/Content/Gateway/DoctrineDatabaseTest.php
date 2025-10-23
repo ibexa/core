@@ -31,7 +31,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Database gateway to test.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase
+     * @var DoctrineDatabase
      */
     protected $databaseGateway;
 
@@ -82,7 +82,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns a Content fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\CreateStruct
+     * @return CreateStruct
      */
     protected function getCreateStructFixture()
     {
@@ -109,7 +109,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns a Content fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
     protected function getContentFixture()
     {
@@ -139,7 +139,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns a Version fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\VersionInfo
+     * @return VersionInfo
      */
     protected function getVersionFixture()
     {
@@ -319,7 +319,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns an UpdateStruct fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UpdateStruct
+     * @return UpdateStruct
      */
     protected function getUpdateStructFixture()
     {
@@ -335,7 +335,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns a MetadataUpdateStruct fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct
+     * @return MetadataUpdateStruct
      */
     protected function getMetadataUpdateStructFixture()
     {
@@ -536,7 +536,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $fieldGb->id = $gateway->insertNewField($content, $fieldGb, $value);
         $fieldUs->id = $gateway->insertNewField($content, $fieldUs, $value);
 
-        $updateStruct = new Content\UpdateStruct();
+        $updateStruct = new UpdateStruct();
 
         $newValue = new StorageFieldValue(
             [
@@ -774,8 +774,11 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      * @param string[] $expectedValues
      * @param string[][] $actualRows
      */
-    protected function assertValuesInRows($columnKey, array $expectedValues, array $actualRows)
-    {
+    protected function assertValuesInRows(
+        $columnKey,
+        array $expectedValues,
+        array $actualRows
+    ) {
         $expectedValues = array_fill_keys(
             array_values($expectedValues),
             true
@@ -1551,7 +1554,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     /**
      * @throws \Doctrine\DBAL\Exception
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function testUpdateContentAddAlwaysAvailableFlagMultilingual(): void
     {
@@ -1600,7 +1603,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     /**
      * @throws \Doctrine\DBAL\Exception
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function testUpdateContentRemoveAlwaysAvailableFlagMultilingual(): void
     {
@@ -1673,8 +1676,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      *
      * @throws \Doctrine\DBAL\Exception
      */
-    protected function countContentRelations(?int $fromId = null, ?int $toId = null): int
-    {
+    protected function countContentRelations(
+        ?int $fromId = null,
+        ?int $toId = null
+    ): int {
         $connection = $this->getDatabaseConnection();
         $query = $connection->createQueryBuilder();
         $query
@@ -1818,8 +1823,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      * @param string $file
      * @param mixed $fixture
      */
-    protected function storeFixture($file, $fixture)
-    {
+    protected function storeFixture(
+        $file,
+        $fixture
+    ) {
         file_put_contents(
             $file,
             "<?php\n\nreturn " . str_replace(" \n", "\n", var_export($fixture, true)) . ";\n"
@@ -1829,7 +1836,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns a Field fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Field
+     * @return Field
      */
     protected function getFieldFixture()
     {
@@ -1846,7 +1853,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns a Field fixture in a different language.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Field
+     * @return Field
      */
     protected function getOtherLanguageFieldFixture()
     {
@@ -1859,7 +1866,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns a StorageFieldValue fixture.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue
+     * @return StorageFieldValue
      */
     protected function getStorageValueFixture()
     {
@@ -1896,7 +1903,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * DoctrineDatabaseTest::getRelationCreateStructFixture().
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct
+     * @return RelationCreateStruct
      */
     protected function getRelationCreateStructFixture()
     {

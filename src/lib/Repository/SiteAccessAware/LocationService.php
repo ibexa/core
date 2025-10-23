@@ -25,17 +25,17 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
  */
 class LocationService implements LocationServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
+    /** @var LocationServiceInterface */
     protected $service;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
+    /** @var LanguageResolver */
     protected $languageResolver;
 
     /**
      * Construct service object from aggregated service and LanguageResolver.
      *
-     * @param \Ibexa\Contracts\Core\Repository\LocationService $service
-     * @param \Ibexa\Contracts\Core\Repository\LanguageResolver $languageResolver
+     * @param LocationServiceInterface $service
+     * @param LanguageResolver $languageResolver
      */
     public function __construct(
         LocationServiceInterface $service,
@@ -45,13 +45,18 @@ class LocationService implements LocationServiceInterface
         $this->languageResolver = $languageResolver;
     }
 
-    public function copySubtree(Location $subtree, Location $targetParentLocation): Location
-    {
+    public function copySubtree(
+        Location $subtree,
+        Location $targetParentLocation
+    ): Location {
         return $this->service->copySubtree($subtree, $targetParentLocation);
     }
 
-    public function loadLocation(int $locationId, ?array $prioritizedLanguages = null, ?bool $useAlwaysAvailable = null): Location
-    {
+    public function loadLocation(
+        int $locationId,
+        ?array $prioritizedLanguages = null,
+        ?bool $useAlwaysAvailable = null
+    ): Location {
         return $this->service->loadLocation(
             $locationId,
             $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages),
@@ -59,8 +64,11 @@ class LocationService implements LocationServiceInterface
         );
     }
 
-    public function loadLocationList(array $locationIds, ?array $prioritizedLanguages = null, ?bool $useAlwaysAvailable = null): iterable
-    {
+    public function loadLocationList(
+        array $locationIds,
+        ?array $prioritizedLanguages = null,
+        ?bool $useAlwaysAvailable = null
+    ): iterable {
         return $this->service->loadLocationList(
             $locationIds,
             $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages),
@@ -68,8 +76,11 @@ class LocationService implements LocationServiceInterface
         );
     }
 
-    public function loadLocationByRemoteId(string $remoteId, ?array $prioritizedLanguages = null, ?bool $useAlwaysAvailable = null): Location
-    {
+    public function loadLocationByRemoteId(
+        string $remoteId,
+        ?array $prioritizedLanguages = null,
+        ?bool $useAlwaysAvailable = null
+    ): Location {
         return $this->service->loadLocationByRemoteId(
             $remoteId,
             $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages),
@@ -77,8 +88,11 @@ class LocationService implements LocationServiceInterface
         );
     }
 
-    public function loadLocations(ContentInfo $contentInfo, ?Location $rootLocation = null, ?array $prioritizedLanguages = null): iterable
-    {
+    public function loadLocations(
+        ContentInfo $contentInfo,
+        ?Location $rootLocation = null,
+        ?array $prioritizedLanguages = null
+    ): iterable {
         return $this->service->loadLocations(
             $contentInfo,
             $rootLocation,
@@ -86,8 +100,12 @@ class LocationService implements LocationServiceInterface
         );
     }
 
-    public function loadLocationChildren(Location $location, int $offset = 0, int $limit = 25, ?array $prioritizedLanguages = null): LocationList
-    {
+    public function loadLocationChildren(
+        Location $location,
+        int $offset = 0,
+        int $limit = 25,
+        ?array $prioritizedLanguages = null
+    ): LocationList {
         return $this->service->loadLocationChildren(
             $location,
             $offset,
@@ -96,8 +114,10 @@ class LocationService implements LocationServiceInterface
         );
     }
 
-    public function loadParentLocationsForDraftContent(VersionInfo $versionInfo, ?array $prioritizedLanguages = null): iterable
-    {
+    public function loadParentLocationsForDraftContent(
+        VersionInfo $versionInfo,
+        ?array $prioritizedLanguages = null
+    ): iterable {
         return $this->service->loadParentLocationsForDraftContent(
             $versionInfo,
             $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages)
@@ -114,18 +134,24 @@ class LocationService implements LocationServiceInterface
         return $this->service->getSubtreeSize($location);
     }
 
-    public function createLocation(ContentInfo $contentInfo, LocationCreateStruct $locationCreateStruct): Location
-    {
+    public function createLocation(
+        ContentInfo $contentInfo,
+        LocationCreateStruct $locationCreateStruct
+    ): Location {
         return $this->service->createLocation($contentInfo, $locationCreateStruct);
     }
 
-    public function updateLocation(Location $location, LocationUpdateStruct $locationUpdateStruct): Location
-    {
+    public function updateLocation(
+        Location $location,
+        LocationUpdateStruct $locationUpdateStruct
+    ): Location {
         return $this->service->updateLocation($location, $locationUpdateStruct);
     }
 
-    public function swapLocation(Location $location1, Location $location2): void
-    {
+    public function swapLocation(
+        Location $location1,
+        Location $location2
+    ): void {
         $this->service->swapLocation($location1, $location2);
     }
 
@@ -139,8 +165,10 @@ class LocationService implements LocationServiceInterface
         return $this->service->unhideLocation($location);
     }
 
-    public function moveSubtree(Location $location, Location $newParentLocation): void
-    {
+    public function moveSubtree(
+        Location $location,
+        Location $newParentLocation
+    ): void {
         $this->service->moveSubtree($location, $newParentLocation);
     }
 
@@ -177,23 +205,29 @@ class LocationService implements LocationServiceInterface
      * @param int $limit
      * @param int $offset
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location[]
+     * @return Location[]
      */
-    public function loadAllLocations(int $offset = 0, int $limit = 25): array
-    {
+    public function loadAllLocations(
+        int $offset = 0,
+        int $limit = 25
+    ): array {
         return $this->service->loadAllLocations($offset, $limit);
     }
 
-    public function find(Filter $filter, ?array $languages = null): LocationList
-    {
+    public function find(
+        Filter $filter,
+        ?array $languages = null
+    ): LocationList {
         return $this->service->find(
             $filter,
             $this->languageResolver->getPrioritizedLanguages($languages)
         );
     }
 
-    public function count(Filter $filter, ?array $languages = null): int
-    {
+    public function count(
+        Filter $filter,
+        ?array $languages = null
+    ): int {
         return $this->service->count(
             $filter,
             $this->languageResolver->getPrioritizedLanguages($languages)

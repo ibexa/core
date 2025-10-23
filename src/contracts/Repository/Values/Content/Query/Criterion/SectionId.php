@@ -30,7 +30,7 @@ class SectionId extends Criterion implements TrashCriterion, FilteringCriterion
      * @throws \InvalidArgumentException if a non-numeric id is given
      * @throws \InvalidArgumentException if the value type doesn't match the operator
      */
-    public function __construct(int|array $value)
+    public function __construct(int | array $value)
     {
         parent::__construct(null, null, $value);
     }

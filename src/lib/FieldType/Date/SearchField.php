@@ -18,8 +18,10 @@ use Ibexa\Contracts\Core\Search;
  */
 class SearchField implements Indexable
 {
-    public function getIndexData(Field $field, FieldDefinition $fieldDefinition)
-    {
+    public function getIndexData(
+        Field $field,
+        FieldDefinition $fieldDefinition
+    ) {
         if ($field->value->data !== null) {
             $dateTime = new DateTime("@{$field->value->data['timestamp']}");
 

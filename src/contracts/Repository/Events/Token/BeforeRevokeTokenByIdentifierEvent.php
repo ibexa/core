@@ -16,8 +16,10 @@ final class BeforeRevokeTokenByIdentifierEvent extends AfterEvent
 
     private ?string $identifier;
 
-    public function __construct(string $tokenType, ?string $identifier)
-    {
+    public function __construct(
+        string $tokenType,
+        ?string $identifier
+    ) {
         $this->tokenType = $tokenType;
         $this->identifier = $identifier;
     }

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Repository\Events\Role;
 
 use Ibexa\Contracts\Core\Repository\Event\BeforeEvent;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Values\User\Role;
 use Ibexa\Contracts\Core\Repository\Values\User\RoleCopyStruct;
 use UnexpectedValueException;
@@ -21,8 +22,10 @@ final class BeforeCopyRoleEvent extends BeforeEvent
 
     private ?Role $copiedRole = null;
 
-    public function __construct(Role $role, RoleCopyStruct $roleCopyStruct)
-    {
+    public function __construct(
+        Role $role,
+        RoleCopyStruct $roleCopyStruct
+    ) {
         $this->role = $role;
         $this->roleCopyStruct = $roleCopyStruct;
     }
@@ -38,7 +41,7 @@ final class BeforeCopyRoleEvent extends BeforeEvent
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws BadStateException
      */
     public function getCopiedRole(): Role
     {

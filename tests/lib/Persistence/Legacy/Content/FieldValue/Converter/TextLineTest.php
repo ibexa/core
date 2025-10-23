@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
  */
 class TextLineTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextLineConverter */
+    /** @var TextLineConverter */
     protected $converter;
 
     protected function setUp(): void

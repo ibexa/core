@@ -16,17 +16,18 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Ibexa\Core\Repository\Values\Content\TrashItem;
 use Ibexa\Core\Search\Common\EventSubscriber\TrashEventSubscriber;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class TrashEventSubscriberTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Search\Handler&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SearchHandler&MockObject */
     private $searchHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PersistenceHandler&MockObject */
     private $persistenceHandler;
 
-    /** @var \Ibexa\Core\Search\Common\EventSubscriber\TrashEventSubscriber */
+    /** @var TrashEventSubscriber */
     private $subscriber;
 
     protected function setUp(): void

@@ -16,8 +16,10 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
  */
 class Sibling extends CompositeCriterion implements FilteringCriterion
 {
-    public function __construct(int $locationId, int $parentLocationId)
-    {
+    public function __construct(
+        int $locationId,
+        int $parentLocationId
+    ) {
         $criteria = new LogicalAnd([
             new ParentLocationId($parentLocationId),
             new LogicalNot(

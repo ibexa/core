@@ -18,9 +18,9 @@ class Mapper
     /**
      * Creates a Language from $struct.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct $struct
+     * @param CreateStruct $struct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language
+     * @return Language
      */
     public function createLanguageFromCreateStruct(CreateStruct $struct): Language
     {
@@ -39,10 +39,12 @@ class Mapper
      * @param array $rows
      * @param string $key Column name for use as key in returned array.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language[]
+     * @return Language[]
      */
-    public function extractLanguagesFromRows(array $rows, string $key = 'locale'): array
-    {
+    public function extractLanguagesFromRows(
+        array $rows,
+        string $key = 'locale'
+    ): array {
         $languages = [];
 
         foreach ($rows as $row) {
