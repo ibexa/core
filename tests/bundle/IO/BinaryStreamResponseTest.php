@@ -26,7 +26,8 @@ final class BinaryStreamResponseTest extends TestCase
     public function testSendContent(): void
     {
         $ioServiceMock = $this->createMock(IOServiceInterface::class);
-        $binaryStreamResponse = $this->prepareBinaryStreamResponse($ioServiceMock);
+        $request = $this->prepareRequest();
+        $binaryStreamResponse = $this->prepareBinaryStreamResponse($ioServiceMock, $request);
 
         file_put_contents('php://input', 'test data');
         $in = fopen('php://input', 'rb');
@@ -40,10 +41,42 @@ final class BinaryStreamResponseTest extends TestCase
         $binaryStreamResponse->sendContent();
     }
 
-    private function prepareBinaryStreamResponse(IOServiceInterface & MockObject $ioServiceMock): BinaryStreamResponse
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function testSendRangeContent(): void
+    {
+        $ioServiceMock = $this->createMock(IOServiceInterface::class);
+        $request = $this->prepareRequest(['Range' => 'bytes=0-499']);
+        $binaryStreamResponse = $this->prepareBinaryStreamResponse($ioServiceMock, $request);
+
+        file_put_contents('php://input', 'test data');
+        $in = fopen('php://input', 'rb');
+
+        $ioServiceMock
+            ->expects(self::once())
+            ->method('getFileInputStream')
+            ->with($binaryStreamResponse->getFile())
+            ->willReturn($in);
+
+        $binaryStreamResponse->sendContent();
+    }
+
+    /**
+     * @param array<string,string> $headers
+     */
+    private function prepareRequest(array $headers = []): Request
     {
         $request = new Request();
+        foreach ($headers as $name => $value) {
+            $request->headers->set($name, $value);
+        }
 
+        return $request;
+    }
+
+    private function prepareBinaryStreamResponse(IOServiceInterface & MockObject $ioServiceMock, Request $request): BinaryStreamResponse
+    {
         $binaryFile = new BinaryFile(['id' => 'foo.jpg', 'size' => 5321]);
         $binaryStreamResponse = new BinaryStreamResponse($binaryFile, $ioServiceMock);
 
