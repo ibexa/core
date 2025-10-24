@@ -14,127 +14,83 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Test\IntegrationTestCase;
 
-/**
- * Class FileSizeExtensionTest.
- */
-class FileSizeExtensionTest extends IntegrationTestCase
+final class FileSizeExtensionTest extends IntegrationTestCase
 {
-    /**
-     * @param string $locale
-     */
-    protected $locale;
+    protected string $locale = '';
 
-    /**
-     * @param array $suffixes
-     */
-    protected $suffixes = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB'];
+    /** @var string[] */
+    protected array $suffixes = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB'];
 
-    /**
-     * @param TranslatorInterface|MockObject
-     */
-    protected $translatorMock;
+    protected TranslatorInterface & MockObject $translatorMock;
 
-    /**
-     * @param ConfigResolverInterface|MockObject
-     */
-    protected $configResolverInterfaceMock;
+    protected ConfigResolverInterface & MockObject $configResolverInterfaceMock;
 
-    /**
-     * @param LocaleConverterInterface|MockObject
-     */
-    protected $localeConverterInterfaceMock;
+    protected LocaleConverterInterface & MockObject $localeConverterInterfaceMock;
 
-    /**
-     * @param string $locale
-     * @param string $defaultLocale
-     */
     protected function setConfigurationLocale(
-        $locale,
-        $defaultLocale
-    ) {
+        string $locale,
+        string $defaultLocale
+    ): void {
         locale_set_default($defaultLocale);
         $this->locale = $locale;
     }
 
-    /**
-     * @return string $locale
-     */
-    public function getLocale()
+    public function getLocale(): string
     {
-        return [$this->locale];
+        return $this->locale;
     }
 
-    /**
-     * @return array
-     */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         return [
             new FileSizeExtension($this->getTranslatorInterfaceMock(), $this->suffixes, $this->getConfigResolverInterfaceMock(), $this->getLocaleConverterInterfaceMock()),
         ];
     }
 
-    protected function getFixturesDir(): string
+    protected static function getFixturesDirectory(): string
     {
         return __DIR__ . '/_fixtures/functions/ibexa_file_size';
     }
 
-    /**
-     * @return ConfigResolverInterface|MockObject
-     */
-    protected function getConfigResolverInterfaceMock()
+    protected function getConfigResolverInterfaceMock(): ConfigResolverInterface & MockObject
     {
         $configResolverInterfaceMock = $this->createMock(ConfigResolverInterface::class);
-        $configResolverInterfaceMock->expects(self::any())
+        $configResolverInterfaceMock->expects(self::atLeastOnce())
             ->method('getParameter')
             ->with('languages')
-            ->will(self::returnValue($this->getLocale()));
+            ->willReturn([$this->getLocale()]);
 
         return $configResolverInterfaceMock;
     }
 
-    /**
-     * @return LocaleConverterInterface|MockObject
-     */
-    protected function getLocaleConverterInterfaceMock()
+    protected function getLocaleConverterInterfaceMock(): LocaleConverterInterface & MockObject
     {
         $this->localeConverterInterfaceMock = $this->createMock(LocaleConverterInterface::class);
-        $this->localeConverterInterfaceMock->expects(self::any())
+        $this->localeConverterInterfaceMock->expects(self::atLeastOnce())
         ->method('convertToPOSIX')
-        ->will(
-            self::returnValueMap(
-                [
-                    ['fre-FR', 'fr-FR'],
-                    ['eng-GB', 'en-GB'],
-                ]
-            )
+        ->willReturnMap(
+            [
+                ['fre-FR', 'fr-FR'],
+                ['eng-GB', 'en-GB'],
+            ]
         );
 
         return $this->localeConverterInterfaceMock;
     }
 
-    /**
-     * @return TranslatorInterface|MockObject
-     */
-    protected function getTranslatorInterfaceMock()
+    protected function getTranslatorInterfaceMock(): TranslatorInterface & MockObject
     {
-        $that = $this;
         $this->translatorMock = $this->createMock(TranslatorInterface::class);
         $this->translatorMock
-            ->expects(self::any())->method('trans')->will(
-                self::returnCallback(
-                    static function ($suffixes) use ($that) {
-                        foreach ($that->getLocale() as $value) {
-                            if ($value === 'fre-FR') {
-                                return $suffixes . ' French version';
-                            } elseif ($value === 'eng-GB') {
-                                return $suffixes . ' English version';
-                            } else {
-                                return $suffixes . ' wrong local so we take the default one which is en-GB here';
-                            }
-                        }
-                    }
-                )
+            ->expects(self::atLeastOnce())
+            ->method('trans')->willReturnCallback(
+                function ($suffixes): string {
+                    return match ($this->getLocale()) {
+                        'fre-FR' => $suffixes . ' French version',
+                        'eng-GB' => $suffixes . ' English version',
+                        default => $suffixes . ' wrong locale so we take the default one which is en-GB here',
+                    };
+                }
             );
 
         return $this->translatorMock;
