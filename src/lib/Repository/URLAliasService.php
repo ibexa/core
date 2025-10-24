@@ -9,10 +9,12 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository;
 
 use Exception;
-use Ibexa\Contracts\Core\Persistence\Content\URLAlias as SPIURLAlias;
+use Ibexa\Contracts\Core\Persistence\Content\UrlAlias as PersistenceURLAlias;
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias\Handler;
-use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException as APIBadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException as APIInvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException as APIUnauthorizedException;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
@@ -65,17 +67,12 @@ class URLAliasService implements URLAliasServiceInterface
      * Hence the path returned in the URLAlias Value may differ from the given.
      * $alwaysAvailable makes the alias available in all languages.
      *
-     * @param Location $location
-     * @param string $path
      * @param string $languageCode the languageCode for which this alias is valid
      * @param bool $forwarding if true a redirect is performed
-     * @param bool $alwaysAvailable
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to create url alias
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the path already exists for the given context
-     * @throws BadStateException
-     *
-     * @return URLAlias
+     * @throws APIUnauthorizedException if the user is not allowed to create url alias
+     * @throws APIInvalidArgumentException if the path already exists for the given context
+     * @throws APIBadStateException
      */
     public function createUrlAlias(
         Location $location,
@@ -125,9 +122,9 @@ class URLAliasService implements URLAliasServiceInterface
      *
      * $alwaysAvailable makes the alias available in all languages.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to create global
+     * @throws APIUnauthorizedException if the user is not allowed to create global
      *          url alias
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the path already exists for the given
+     * @throws APIInvalidArgumentException if the path already exists for the given
      *         language or if resource is not valid
      *
      * @param string $resource
@@ -276,7 +273,7 @@ class URLAliasService implements URLAliasServiceInterface
      *
      * Method will return false if language code can't be matched against alias language codes or language settings.
      *
-     * @param SPIURLAlias $spiUrlAlias
+     * @param PersistenceURLAlias $spiUrlAlias
      * @param string|null $languageCode
      * @param bool $showAllTranslations
      * @param string[] $prioritizedLanguageList
@@ -284,7 +281,7 @@ class URLAliasService implements URLAliasServiceInterface
      * @return string|bool
      */
     protected function selectAliasLanguageCode(
-        SPIURLAlias $spiUrlAlias,
+        PersistenceURLAlias $spiUrlAlias,
         ?string $languageCode,
         bool $showAllTranslations,
         array $prioritizedLanguageList
@@ -314,7 +311,7 @@ class URLAliasService implements URLAliasServiceInterface
      *
      * Will return false if path could not be determined.
      *
-     * @param SPIURLAlias $spiUrlAlias
+     * @param PersistenceURLAlias $spiUrlAlias
      * @param string $languageCode
      * @param bool $showAllTranslations
      * @param string[] $prioritizedLanguageList
@@ -322,7 +319,7 @@ class URLAliasService implements URLAliasServiceInterface
      * @return string|bool
      */
     protected function extractPath(
-        SPIURLAlias $spiUrlAlias,
+        PersistenceURLAlias $spiUrlAlias,
         $languageCode,
         $showAllTranslations,
         array $prioritizedLanguageList
@@ -393,14 +390,14 @@ class URLAliasService implements URLAliasServiceInterface
      * Returns matched path string (possibly case corrected) and array of corresponding language codes or false
      * if path could not be matched.
      *
-     * @param SPIURLAlias $spiUrlAlias
+     * @param PersistenceURLAlias $spiUrlAlias
      * @param string $path
      * @param string $languageCode
      *
      * @return array
      */
     protected function matchPath(
-        SPIURLAlias $spiUrlAlias,
+        PersistenceURLAlias $spiUrlAlias,
         $path,
         $languageCode
     ) {
@@ -485,7 +482,7 @@ class URLAliasService implements URLAliasServiceInterface
     /**
      * Returns true or false depending if URL alias is loadable or not for language settings in place.
      *
-     * @param SPIURLAlias $spiUrlAlias
+     * @param PersistenceURLAlias $spiUrlAlias
      * @param string|null $languageCode
      * @param bool $showAllTranslations
      * @param string[] $prioritizedLanguageList
@@ -493,7 +490,7 @@ class URLAliasService implements URLAliasServiceInterface
      * @return bool
      */
     protected function isUrlAliasLoadable(
-        SPIURLAlias $spiUrlAlias,
+        PersistenceURLAlias $spiUrlAlias,
         ?string $languageCode,
         bool $showAllTranslations,
         array $prioritizedLanguageList
@@ -598,8 +595,8 @@ class URLAliasService implements URLAliasServiceInterface
      *
      * This method does not remove autogenerated aliases for locations.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to remove url alias
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if alias list contains
+     * @throws APIUnauthorizedException if the user is not allowed to remove url alias
+     * @throws APIInvalidArgumentException if alias list contains
      *         autogenerated alias
      *
      * @param URLAlias[] $aliasList
@@ -636,11 +633,11 @@ class URLAliasService implements URLAliasServiceInterface
      *
      * @param URLAlias $urlAlias
      *
-     * @return SPIURLAlias
+     * @return PersistenceURLAlias
      */
     protected function buildSPIUrlAlias(URLAlias $urlAlias)
     {
-        return new SPIURLAlias(
+        return new PersistenceURLAlias(
             [
                 'id' => $urlAlias->id,
                 'type' => $urlAlias->type,
@@ -654,7 +651,7 @@ class URLAliasService implements URLAliasServiceInterface
      * looks up the URLAlias for the given url.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the path does not exist or is not valid for the given language
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the path exceeded maximum depth level
+     * @throws APIInvalidArgumentException if the path exceeded maximum depth level
      *
      * @param string $url
      * @param string|null $languageCode
@@ -764,7 +761,7 @@ class URLAliasService implements URLAliasServiceInterface
      * @param Location $location
      *
      * @throws ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws APIUnauthorizedException
      * @throws Exception any unexpected exception that might come from custom Field Type implementation
      */
     public function refreshSystemUrlAliasesForLocation(Location $location): void
@@ -807,8 +804,8 @@ class URLAliasService implements URLAliasServiceInterface
      *
      * @return int Number of removed URL aliases
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws APIUnauthorizedException
+     * @throws APIInvalidArgumentException
      */
     public function deleteCorruptedUrlAliases(): int
     {
@@ -832,13 +829,13 @@ class URLAliasService implements URLAliasServiceInterface
     /**
      * Builds API UrlAlias object from given SPI UrlAlias object.
      *
-     * @param SPIURLAlias $spiUrlAlias
+     * @param PersistenceURLAlias $spiUrlAlias
      * @param string $path
      *
      * @return URLAlias
      */
     protected function buildUrlAliasDomainObject(
-        SPIURLAlias $spiUrlAlias,
+        PersistenceURLAlias $spiUrlAlias,
         string $path
     ): URLAlias {
         return new URLAlias(

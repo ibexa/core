@@ -30,13 +30,12 @@ class DoctrineStorage extends Gateway
     /**
      * Stores the keyword list from $field->value->externalData.
      *
-     * @param Field
      * @param int $contentTypeId
      */
     public function storeFieldData(
         Field $field,
         $contentTypeId
-    ) {
+    ): void {
         if (empty($field->value->externalData) && !empty($field->id)) {
             $this->deleteFieldData($field->id, $field->versionNo);
 

@@ -25,7 +25,7 @@ final class FieldDefinitionCollection implements FieldDefinitionCollectionInterf
     private $fieldDefinitionsByIdentifier;
 
     /**
-     * @param FieldDefinition[]
+     * @param FieldDefinition[] $fieldDefinitions
      */
     public function __construct(iterable $fieldDefinitions = [])
     {
