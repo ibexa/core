@@ -6230,6 +6230,76 @@ class ContentServiceTest extends BaseContentServiceTest
     }
 
     /**
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::hideContent
+
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\APIInvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
+     */
+    public function testHideContentDraft(): void
+    {
+        $publishedContent = $this->createContentForHideRevealDraftTests(false);
+        $location = $this->locationService->loadLocation($publishedContent->contentInfo->mainLocationId);
+
+        $content = $this->contentService->loadContent($publishedContent->contentInfo->id);
+        self::assertTrue($content->contentInfo->isHidden, 'Content is not hidden');
+        self::assertTrue($location->isHidden(), 'Location is visible');
+    }
+
+    /**
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::revealContent
+
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
+    public function testHideAndRevealContentDraft(): void
+    {
+        $publishedContent = $this->createContentForHideRevealDraftTests(true);
+        $location = $this->locationService->loadLocation($publishedContent->contentInfo->mainLocationId);
+
+        $content = $this->contentService->loadContent($publishedContent->contentInfo->id);
+        self::assertFalse($content->contentInfo->isHidden, 'Content is hidden');
+        self::assertFalse($location->isHidden(), 'Location is hidden');
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\APIInvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
+     */
+    private function createContentForHideRevealDraftTests(bool $hideAndRevel): Content
+    {
+        $contentTypeService = $this->getRepository()->getContentTypeService();
+
+        $locationCreateStructs = $this->locationService->newLocationCreateStruct(2);
+
+        $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
+
+        $contentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
+        $contentCreate->setField('name', 'Folder to hide');
+
+        $draft = $this->contentService->createContent(
+            $contentCreate,
+            [$locationCreateStructs]
+        );
+
+        $this->contentService->hideContent($draft->contentInfo);
+        if ($hideAndRevel) {
+            $this->contentService->revealContent($draft->contentInfo);
+        }
+
+        return $this->contentService->publishVersion($draft->versionInfo);
+    }
+
+    /**
      * @depends testRevealContent
      */
     public function testRevealContentWithHiddenParent()
