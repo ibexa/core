@@ -21,10 +21,10 @@ use Symfony\Component\Console\Output\BufferedOutput;
 
 final class BackwardCompatibleCommandListenerTest extends TestCase
 {
-    private const MORE_THAN_2_WHITESPACES_AND_NEW_LINES = '/\s{2,}|\\n/';
+    private const string MORE_THAN_2_WHITESPACES_AND_NEW_LINES = '/\s{2,}|\\n/';
 
-    private const EXAMPLE_NAME = 'ibexa:command';
-    private const EXAMPLE_DEPRECATED_ALIASES = [
+    private const string EXAMPLE_NAME = 'ibexa:command';
+    private const array EXAMPLE_DEPRECATED_ALIASES = [
         'ezplatform:command',
         'ezplatform-ee:command',
         'ezstudio:command',
@@ -32,8 +32,7 @@ final class BackwardCompatibleCommandListenerTest extends TestCase
         'ezpublish:command',
     ];
 
-    /** @var BackwardCompatibleCommandListener */
-    private $listener;
+    private BackwardCompatibleCommandListener $listener;
 
     protected function setUp(): void
     {
@@ -100,7 +99,7 @@ final class BackwardCompatibleCommandListenerTest extends TestCase
 
     private function assertOutputContainsDeprecationWarning(BufferedOutput $output): void
     {
-        $outputString = trim(preg_replace(self::MORE_THAN_2_WHITESPACES_AND_NEW_LINES, ' ', $output->fetch()));
+        $outputString = trim(preg_replace(self::MORE_THAN_2_WHITESPACES_AND_NEW_LINES, ' ', $output->fetch()) ?? '');
 
         self::assertEquals(
             '[WARNING] Command alias "ezplatform:command" is deprecated since 3.3 and will be removed in in 4.0. Use "ibexa:command" instead.',
@@ -109,7 +108,7 @@ final class BackwardCompatibleCommandListenerTest extends TestCase
     }
 
     /**
-     * @return BackwardCompatibleCommand|Command
+     * @param string[] $aliases
      */
     private function createBackwardCompatibleCommand(
         string $name,
@@ -117,8 +116,11 @@ final class BackwardCompatibleCommandListenerTest extends TestCase
     ): Command {
         return new class($name, $aliases) extends Command implements BackwardCompatibleCommand {
             /** @var string[] */
-            private $deprecatedAliases;
+            private array $deprecatedAliases;
 
+            /**
+             * @param string[] $deprecatedAliases
+             */
             public function __construct(
                 string $name,
                 array $deprecatedAliases
