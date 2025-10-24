@@ -87,8 +87,8 @@ final class LocationArgumentResolverTest extends TestCase
 
     /**
      * @return iterable<array{
-     *     \Symfony\Component\HttpFoundation\Request,
-     *     \Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata
+     *     Request,
+     *     ArgumentMetadata
      * }>
      */
     public function dataProviderForTestResolverForUnsupportedRequest(): iterable

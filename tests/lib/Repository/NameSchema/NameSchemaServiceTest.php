@@ -66,7 +66,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
 
     /**
      * @return iterable<string, array{
-     *  0: array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>>,
+     *  0: array<int|string, array<string, Value>>,
      *  1: array<string, array<string, string>>,
      *  2: array<string>,
      *  3: array<string, string>
@@ -149,7 +149,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
      * @return array<array{
      *  0: array<string, array<string>>,
      *  1: string,
-     *  2:  array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>>,
+     *  2:  array<int|string, array<string, Value>>,
      *  3: array<string, string>,
      *  4: array<string, array<string, string>>,
      *  5?: array{limit?: int, sequence?: string}

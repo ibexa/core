@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\MVC\Symfony\Component\Serializer;
 
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\SiteAccessGroup;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
@@ -77,9 +78,9 @@ final class SiteAccessNormalizer implements DenormalizerInterface, DenormalizerA
      * @return array{
      *     name: string,
      *     matchingType: string,
-     *     matcher: array{type: class-string<\Ibexa\Core\MVC\Symfony\SiteAccess\Matcher>, data: string|null}|null,
+     *     matcher: array{type: class-string<Matcher>, data: string|null}|null,
      *     provider: string|null,
-     *     groups: array<\Ibexa\Core\MVC\Symfony\SiteAccessGroup>
+     *     groups: array<SiteAccessGroup>
      * }
      */
     public function normalize(

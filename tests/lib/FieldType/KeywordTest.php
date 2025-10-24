@@ -145,7 +145,7 @@ class KeywordTest extends FieldTypeTestCase
     /**
      * @return iterable<string, array{
      *     0: array<string, mixed>,
-     *     1: \Ibexa\Core\FieldType\Keyword\Value,
+     *     1: KeywordValue,
      *     2: array<\Ibexa\Contracts\Core\FieldType\ValidationError>
      * }>
      */

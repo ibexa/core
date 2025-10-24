@@ -128,7 +128,7 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
 
     /**
      * @return iterable<array{
-     *     \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion,
+     *     Criterion,
      *     ?string,
      *     array<string>,
      *     int,

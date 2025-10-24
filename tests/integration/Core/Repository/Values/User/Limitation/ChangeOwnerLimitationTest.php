@@ -45,7 +45,7 @@ final class ChangeOwnerLimitationTest extends BaseLimitationTestCase
 
     /**
      * @return array<array{
-     *     0: \Ibexa\Contracts\Core\Repository\Values\User\User,
+     *     0: User,
      *     1: int,
      *     2: int[]
      * }>
@@ -66,7 +66,7 @@ final class ChangeOwnerLimitationTest extends BaseLimitationTestCase
 
     /**
      * @return array<array{
-     *     0: \Ibexa\Contracts\Core\Repository\Values\User\User,
+     *     0: User,
      *     1: int,
      *     2: int[]
      * }>

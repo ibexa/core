@@ -74,7 +74,7 @@ final class SearchServiceBookmarkTest extends RepositorySearchTestCase
     /**
      * @return iterable<array{
      *     int,
-     *     array<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion>
+     *     array<Criterion>
      * }>
      */
     public function provideDataForTestCriterion(): iterable
