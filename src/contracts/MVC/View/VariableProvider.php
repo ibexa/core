@@ -14,6 +14,9 @@ interface VariableProvider
 {
     public function getIdentifier(): string;
 
+    /**
+     * @param array<string, mixed> $options
+     */
     public function getTwigVariables(
         View $view,
         array $options = []

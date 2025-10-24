@@ -23,10 +23,7 @@ use PHPUnit\Framework\TestCase;
 
 final class ContentViewTwigVariablesSubscriberTest extends TestCase
 {
-    /**
-     * @return ContentView|MockObject
-     */
-    private function getContentViewMock(): ContentView
+    private function getContentViewMock(): ContentView & MockObject
     {
         $view = $this->createMock(ContentView::class);
 
@@ -46,7 +43,7 @@ final class ContentViewTwigVariablesSubscriberTest extends TestCase
     private function getProvider(string $identifier): VariableProvider
     {
         return new class($identifier) implements VariableProvider {
-            private $identifier;
+            private string $identifier;
 
             public function __construct(string $identifier)
             {
