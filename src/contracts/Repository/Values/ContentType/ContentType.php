@@ -17,8 +17,8 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 /**
  * this class represents a content type value.
  *
- * @property-read \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup[] $contentTypeGroups calls getContentTypeGroups
- * @property-read \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCollection $fieldDefinitions calls getFieldDefinitions() or on access getFieldDefinition($fieldDefIdentifier)
+ * @property-read ContentTypeGroup[] $contentTypeGroups calls getContentTypeGroups
+ * @property-read FieldDefinitionCollection $fieldDefinitions calls getFieldDefinitions() or on access getFieldDefinition($fieldDefIdentifier)
  * @property-read mixed $id the id of the content type
  * @property-read int $status the status of the content type. One of ContentType::STATUS_DEFINED|ContentType::STATUS_DRAFT|ContentType::STATUS_MODIFIED
  * @property-read string $identifier @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see ContentType::getIdentifier()} instead.
@@ -142,7 +142,7 @@ abstract class ContentType extends ValueObject implements MultiLanguageName, Mul
     /**
      * This method returns the content type groups this content type is assigned to.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup[]
+     * @return ContentTypeGroup[]
      */
     abstract public function getContentTypeGroups(): array;
 
@@ -161,7 +161,7 @@ abstract class ContentType extends ValueObject implements MultiLanguageName, Mul
      *
      * @param string $fieldDefinitionIdentifier
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition|null
+     * @return FieldDefinition|null
      */
     public function getFieldDefinition(string $fieldDefinitionIdentifier): ?FieldDefinition
     {

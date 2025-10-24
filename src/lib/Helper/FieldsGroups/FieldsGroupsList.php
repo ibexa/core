@@ -33,7 +33,7 @@ interface FieldsGroupsList
     public function getDefaultGroup();
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition
+     * @param FieldDefinition $fieldDefinition
      *
      * @return string
      */

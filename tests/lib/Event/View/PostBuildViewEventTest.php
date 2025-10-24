@@ -16,8 +16,7 @@ final class PostBuildViewEventTest extends TestCase
 {
     public function testEventConstruction(): void
     {
-        $view = new class() extends BaseView {
-        };
+        $view = new class() extends BaseView {};
 
         $event = new PostBuildViewEvent($view);
 

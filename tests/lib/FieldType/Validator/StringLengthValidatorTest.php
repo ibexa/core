@@ -51,7 +51,7 @@ final class StringLengthValidatorTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
+     * @throws PropertyNotFoundException
      */
     public function testConstraintsInitializeGet(): void
     {
@@ -283,8 +283,10 @@ final class StringLengthValidatorTest extends TestCase
      * @param array<string, mixed> $constraints
      * @param string[] $expectedMessages
      */
-    public function testValidateConstraintsWrongValues(array $constraints, array $expectedMessages): void
-    {
+    public function testValidateConstraintsWrongValues(
+        array $constraints,
+        array $expectedMessages
+    ): void {
         $validator = new StringLengthValidator();
         $messages = $validator->validateConstraints($constraints);
 

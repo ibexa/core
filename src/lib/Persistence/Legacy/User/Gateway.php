@@ -45,14 +45,14 @@ abstract class Gateway
     /**
      * Update the user password as specified by the user struct.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\User $user
+     * @param User $user
      */
     abstract public function updateUserPassword(User $user): void;
 
     /**
      * Update a User token specified by UserTokenUpdateStruct.
      *
-     * @see \Ibexa\Contracts\Core\Persistence\User\UserTokenUpdateStruct
+     * @see UserTokenUpdateStruct
      */
     abstract public function updateUserToken(UserTokenUpdateStruct $userTokenUpdateStruct): void;
 
@@ -66,12 +66,19 @@ abstract class Gateway
      *
      * @param array $limitation a map of the Limitation identifiers to raw Limitation values.
      */
-    abstract public function assignRole(int $contentId, int $roleId, array $limitation): void;
+    abstract public function assignRole(
+        int $contentId,
+        int $roleId,
+        array $limitation
+    ): void;
 
     /**
      * Remove a Role from User or User group.
      */
-    abstract public function removeRole(int $contentId, int $roleId): void;
+    abstract public function removeRole(
+        int $contentId,
+        int $roleId
+    ): void;
 
     /**
      * Remove a Role from User or User group, by assignment ID.

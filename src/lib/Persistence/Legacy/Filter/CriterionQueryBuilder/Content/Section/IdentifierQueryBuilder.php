@@ -39,7 +39,7 @@ final class IdentifierQueryBuilder implements CriterionQueryBuilder
                 'content.section_id = section.id'
             );
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\SectionIdentifier $criterion */
+        /** @var SectionIdentifier $criterion */
         return $queryBuilder->expr()->in(
             'section.identifier',
             $queryBuilder->createNamedParameter(

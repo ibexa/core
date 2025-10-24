@@ -18,8 +18,10 @@ final class BeforeUpdateContentTypeGroupEvent extends BeforeEvent
 
     private ContentTypeGroupUpdateStruct $contentTypeGroupUpdateStruct;
 
-    public function __construct(ContentTypeGroup $contentTypeGroup, ContentTypeGroupUpdateStruct $contentTypeGroupUpdateStruct)
-    {
+    public function __construct(
+        ContentTypeGroup $contentTypeGroup,
+        ContentTypeGroupUpdateStruct $contentTypeGroupUpdateStruct
+    ) {
         $this->contentTypeGroup = $contentTypeGroup;
         $this->contentTypeGroupUpdateStruct = $contentTypeGroupUpdateStruct;
     }

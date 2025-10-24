@@ -12,6 +12,4 @@ use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
 /**
  * Value for TextBlock field type.
  */
-class Value extends TextLineValue
-{
-}
+class Value extends TextLineValue {}

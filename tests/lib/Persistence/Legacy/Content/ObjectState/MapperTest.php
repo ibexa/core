@@ -111,7 +111,7 @@ class MapperTest extends LanguageAwareTestCase
     /**
      * Returns a Mapper.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper
+     * @return Mapper
      */
     protected function getMapper()
     {
@@ -166,7 +166,7 @@ class MapperTest extends LanguageAwareTestCase
     /**
      * Returns an object state fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState
+     * @return ObjectState
      */
     protected function getObjectStateFixture()
     {
@@ -183,7 +183,7 @@ class MapperTest extends LanguageAwareTestCase
     /**
      * Returns an object state group fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group
+     * @return Group
      */
     protected function getObjectStateGroupFixture()
     {
@@ -200,7 +200,7 @@ class MapperTest extends LanguageAwareTestCase
     /**
      * Returns the InputStruct fixture for creating object states.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct
+     * @return InputStruct
      */
     protected function getObjectStateInputStructFixture()
     {
@@ -217,7 +217,7 @@ class MapperTest extends LanguageAwareTestCase
     /**
      * Returns the InputStruct fixture for creating object state groups.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct
+     * @return InputStruct
      */
     protected function getObjectStateGroupInputStructFixture()
     {

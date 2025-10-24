@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\SiteAccess;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+
 /**
  * @internal
  *
@@ -15,10 +17,13 @@ namespace Ibexa\Bundle\Core\SiteAccess;
  */
 interface SiteAccessMatcherRegistryInterface
 {
-    public function setMatcher(string $identifier, Matcher $matcher): void;
+    public function setMatcher(
+        string $identifier,
+        Matcher $matcher
+    ): void;
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function getMatcher(string $identifier): Matcher;
 

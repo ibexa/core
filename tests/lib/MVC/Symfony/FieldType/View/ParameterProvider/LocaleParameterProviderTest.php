@@ -28,8 +28,10 @@ class LocaleParameterProviderTest extends TestCase
     /**
      * @dataProvider providerForTestGetViewParameters
      */
-    public function testGetViewParameters($hasRequestLocale, $expectedLocale)
-    {
+    public function testGetViewParameters(
+        $hasRequestLocale,
+        $expectedLocale
+    ) {
         $field = new Field(['languageCode' => 'cro-HR']);
         $parameterProvider = new LocaleParameterProvider($this->getLocaleConverterMock());
         $parameterProvider->setRequestStack($this->getRequestStackMock($hasRequestLocale));

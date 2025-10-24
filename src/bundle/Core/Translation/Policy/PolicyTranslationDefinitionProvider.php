@@ -16,7 +16,7 @@ final class PolicyTranslationDefinitionProvider implements TranslationContainerI
     private const TRANSLATION_DOMAIN = 'forms';
 
     /**
-     * @return array<\JMS\TranslationBundle\Model\Message>
+     * @return array<Message>
      */
     public static function getTranslationMessages(): array
     {

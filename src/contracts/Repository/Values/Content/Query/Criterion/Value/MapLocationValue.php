@@ -25,8 +25,10 @@ class MapLocationValue extends Value
      */
     public float $longitude;
 
-    public function __construct(float $latitude, float $longitude)
-    {
+    public function __construct(
+        float $latitude,
+        float $longitude
+    ) {
         $this->latitude = $latitude;
         $this->longitude = $longitude;
     }

@@ -15,18 +15,19 @@ use Ibexa\Contracts\Core\Repository\Values\URL\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\URL\URL;
 use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
 use Ibexa\Contracts\Core\Repository\Values\URL\URLUpdateStruct;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
 class URLCheckerTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\URLService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var URLService|MockObject */
     private $urlService;
 
-    /** @var \Ibexa\Bundle\Core\URLChecker\URLHandlerRegistryInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var URLHandlerRegistryInterface|MockObject */
     private $handlerRegistry;
 
-    /** @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var LoggerInterface|MockObject */
     private $logger;
 
     protected function setUp(): void
@@ -136,8 +137,10 @@ class URLCheckerTest extends TestCase
         ]);
     }
 
-    private function createGroupedUrls(array $schemes, $n = 10)
-    {
+    private function createGroupedUrls(
+        array $schemes,
+        $n = 10
+    ) {
         $results = [];
 
         foreach ($schemes as $i => $scheme) {
@@ -154,7 +157,7 @@ class URLCheckerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Bundle\Core\URLChecker\URLChecker
+     * @return URLChecker
      */
     private function createUrlChecker()
     {

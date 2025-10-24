@@ -7,11 +7,13 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Core\FieldType\Keyword\Value;
 use Ibexa\Core\FieldType\Keyword\Value as KeywordValue;
 
 /**
@@ -141,7 +143,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was stored and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     public function assertFieldDataLoadedCorrect(Field $field)
     {
@@ -211,7 +213,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was copied and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     public function assertCopiedFieldDataLoadedCorrectly(Field $field)
     {
@@ -333,8 +335,10 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
     /**
      * {@inheritdoc}
      */
-    protected function createContent($fieldData, $contentType = null)
-    {
+    protected function createContent(
+        $fieldData,
+        $contentType = null
+    ) {
         if ($contentType === null) {
             $contentType = $this->testCreateContentType();
         }
@@ -359,10 +363,12 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      * Check that the given Content Object contains proper Keywords.
      *
      * @param int $contentId
-     * @param \Ibexa\Core\FieldType\Keyword\Value $value
+     * @param Value $value
      */
-    private function assertContentFieldHasCorrectData($contentId, KeywordValue $value)
-    {
+    private function assertContentFieldHasCorrectData(
+        $contentId,
+        KeywordValue $value
+    ) {
         $contentService = $this->getRepository()->getContentService();
         $loadedContent = $contentService->loadContent($contentId, ['eng-US']);
         $dataField = $loadedContent->getField('data');
@@ -416,13 +422,16 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      * Create and publish content of $contentType with $fieldData.
      *
      * @param mixed $fieldData
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param ContentType $contentType
      * @param string $remoteId
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      */
-    protected function createAndPublishContent($fieldData, ContentType $contentType, $remoteId)
-    {
+    protected function createAndPublishContent(
+        $fieldData,
+        ContentType $contentType,
+        $remoteId
+    ) {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
 
@@ -520,7 +529,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
     /**
      * Create test Content with ibexa_keyword type.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content[]
+     * @return Content[]
      */
     protected function createKeywordContent()
     {

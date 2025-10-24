@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\Core\Imagine\VariationPurger;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Result;
 use Ibexa\Core\FieldType\Image\ImageStorage\Gateway\DoctrineStorage;
 use LogicException;
@@ -26,7 +27,7 @@ class LegacyStorageImageFileRowReader implements ImageFileRowReader
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function init(): void
     {
@@ -36,7 +37,7 @@ class LegacyStorageImageFileRowReader implements ImageFileRowReader
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function getRow(): ?string
     {
@@ -50,7 +51,7 @@ class LegacyStorageImageFileRowReader implements ImageFileRowReader
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function getCount(): int
     {

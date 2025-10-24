@@ -22,19 +22,19 @@ use Ibexa\Core\FieldType\ImageAsset\Value as ImageAssetValue;
  */
 class AliasGenerator implements VariationHandler
 {
-    /** @var \Ibexa\Contracts\Core\Variation\VariationHandler */
+    /** @var VariationHandler */
     private $innerAliasGenerator;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
+    /** @var ContentService */
     private $contentService;
 
-    /** @var \Ibexa\Core\FieldType\ImageAsset\AssetMapper */
+    /** @var AssetMapper */
     private $assetMapper;
 
     /**
-     * @param \Ibexa\Contracts\Core\Variation\VariationHandler $innerAliasGenerator
-     * @param \Ibexa\Contracts\Core\Repository\ContentService $contentService
-     * @param \Ibexa\Core\FieldType\ImageAsset\AssetMapper $assetMapper
+     * @param VariationHandler $innerAliasGenerator
+     * @param ContentService $contentService
+     * @param AssetMapper $assetMapper
      */
     public function __construct(
         VariationHandler $innerAliasGenerator,
@@ -49,8 +49,12 @@ class AliasGenerator implements VariationHandler
     /**
      * {@inheritdoc}
      */
-    public function getVariation(Field $field, VersionInfo $versionInfo, string $variationName, array $parameters = []): Variation
-    {
+    public function getVariation(
+        Field $field,
+        VersionInfo $versionInfo,
+        string $variationName,
+        array $parameters = []
+    ): Variation {
         if ($this->supportsValue($field->value)) {
             $destinationContent = $this->contentService->loadContent(
                 (int)$field->value->destinationContentId
@@ -70,7 +74,7 @@ class AliasGenerator implements VariationHandler
     /**
      * Returns TRUE if the value is supported by alias generator.
      *
-     * @param \Ibexa\Contracts\Core\FieldType\Value $value
+     * @param Value $value
      *
      * @return bool
      */

@@ -51,7 +51,7 @@ class UrlWildcardRouter implements ChainedRouterInterface, RequestMatcherInterfa
     /**
      * @return array<string, mixed> An array of parameters
      *
-     * @throws \Symfony\Component\Routing\Exception\ResourceNotFoundException
+     * @throws ResourceNotFoundException
      */
     public function matchRequest(Request $request): array
     {
@@ -74,7 +74,7 @@ class UrlWildcardRouter implements ChainedRouterInterface, RequestMatcherInterfa
     }
 
     /**
-     * @return \Symfony\Component\Routing\RouteCollection
+     * @return RouteCollection
      */
     public function getRouteCollection(): RouteCollection
     {
@@ -84,8 +84,11 @@ class UrlWildcardRouter implements ChainedRouterInterface, RequestMatcherInterfa
     /**
      * @param array<string, mixed> $parameters
      */
-    public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
-    {
+    public function generate(
+        string $name,
+        array $parameters = [],
+        int $referenceType = self::ABSOLUTE_PATH
+    ): string {
         throw new RouteNotFoundException('Could not match route');
     }
 
@@ -124,8 +127,10 @@ class UrlWildcardRouter implements ChainedRouterInterface, RequestMatcherInterfa
         return $name === static::URL_ALIAS_ROUTE_NAME;
     }
 
-    public function getRouteDebugMessage(string $name, array $parameters = []): string
-    {
+    public function getRouteDebugMessage(
+        string $name,
+        array $parameters = []
+    ): string {
         return $name;
     }
 }

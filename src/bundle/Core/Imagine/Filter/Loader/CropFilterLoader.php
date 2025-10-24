@@ -18,8 +18,10 @@ class CropFilterLoader extends FilterLoaderWrapped
 {
     public const IDENTIFIER = 'geometry/crop';
 
-    public function load(ImageInterface $image, array $options = []): ImageInterface
-    {
+    public function load(
+        ImageInterface $image,
+        array $options = []
+    ): ImageInterface {
         if (count($options) < 4) {
             throw new InvalidArgumentException('Invalid options for geometry/crop filter. You must provide array(width, height, offsetX, offsetY)');
         }

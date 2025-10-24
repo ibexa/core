@@ -26,7 +26,7 @@ class ParentLocationId extends CriterionHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ParentLocationId $criterion
+     * @param Criterion\ParentLocationId $criterion
      */
     public function handle(
         CriteriaConverter $converter,

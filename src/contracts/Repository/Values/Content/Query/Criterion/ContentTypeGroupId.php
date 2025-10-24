@@ -31,7 +31,7 @@ class ContentTypeGroupId extends Criterion implements FilteringCriterion
      *
      * @throws \InvalidArgumentException if the parameters don't match what the criterion expects
      */
-    public function __construct(int|array $value)
+    public function __construct(int | array $value)
     {
         parent::__construct(null, null, $value);
     }

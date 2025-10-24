@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Cache\Adapter;
 
 use Ibexa\Contracts\Core\Exception\InvalidArgumentException;
+use Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache;
 use Psr\Cache\CacheItemInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 use Symfony\Component\Cache\CacheItem;
@@ -18,13 +19,13 @@ use Symfony\Contracts\Cache\ItemInterface;
  * Internal proxy adapter invalidating our isolated in-memory cache, and defer shared pool changes during transactions.
  *
  * @internal For type hinting inside {@see \Ibexa\Core\Persistence\Cache\}. For external, type hint on
- * {@see \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface}.
+ * {@see TagAwareAdapterInterface}.
  */
 class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterface
 {
     protected TagAwareAdapterInterface $sharedPool;
 
-    /** @var iterable<\Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache> */
+    /** @var iterable<InMemoryCache> */
     private iterable $inMemoryPools;
 
     /** @var int */
@@ -40,8 +41,8 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
     protected \Closure $setCacheItemAsMiss;
 
     /**
-     * @param \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface $sharedPool
-     * @param \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache[] $inMemoryPools
+     * @param TagAwareAdapterInterface $sharedPool
+     * @param InMemoryCache[] $inMemoryPools
      * @param int $transactionDepth
      * @param array<string, true> $deferredTagsInvalidation
      * @param array<string, true> $deferredItemsDeletion
@@ -70,7 +71,7 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      * @throws \Psr\Cache\InvalidArgumentException
      */
     public function getItem($key): CacheItem
@@ -229,9 +230,9 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
     /**
      * For use by getItem(s) to mark items as a miss if it's going to be cleared on transaction commit.
      *
-     * @param iterable<string, \Symfony\Component\Cache\CacheItem> $items
+     * @param iterable<string, CacheItem> $items
      *
-     * @return iterable<string, \Symfony\Component\Cache\CacheItem>
+     * @return iterable<string, CacheItem>
      */
     private function markItemsAsDeferredMissIfNeeded(iterable $items): iterable
     {

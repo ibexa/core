@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
@@ -17,7 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 final class ContentInfoSearchAdapter extends AbstractSearchAdapter
 {
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function executeSearch(Query $query): SearchResult
     {

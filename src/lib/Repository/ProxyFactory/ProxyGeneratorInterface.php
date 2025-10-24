@@ -20,12 +20,16 @@ interface ProxyGeneratorInterface
      * @template T
      *
      * @param class-string<T> $className
-     * @param \Closure $initializer
+     * @param Closure $initializer
      * @param array<string, mixed> $proxyOptions
      *
-     * @return \ProxyManager\Proxy\VirtualProxyInterface&T
+     * @return VirtualProxyInterface&T
      */
-    public function createProxy(string $className, Closure $initializer, array $proxyOptions = []): VirtualProxyInterface;
+    public function createProxy(
+        string $className,
+        Closure $initializer,
+        array $proxyOptions = []
+    ): VirtualProxyInterface;
 
     public function warmUp(iterable $classes): void;
 }

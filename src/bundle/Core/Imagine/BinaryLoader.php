@@ -11,6 +11,7 @@ use Exception;
 use Ibexa\Core\IO\Exception\InvalidBinaryFileIdException;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\MissingBinaryFile;
+use Liip\ImagineBundle\Binary\BinaryInterface;
 use Liip\ImagineBundle\Binary\Loader\LoaderInterface;
 use Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException;
 use Liip\ImagineBundle\Model\Binary;
@@ -22,14 +23,16 @@ use Symfony\Component\Mime\MimeTypesInterface;
  */
 class BinaryLoader implements LoaderInterface
 {
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
+    /** @var IOServiceInterface */
     private $ioService;
 
-    /** @var \Symfony\Component\Mime\MimeTypesInterface */
+    /** @var MimeTypesInterface */
     private $mimeTypes;
 
-    public function __construct(IOServiceInterface $ioService, MimeTypesInterface $mimeTypes)
-    {
+    public function __construct(
+        IOServiceInterface $ioService,
+        MimeTypesInterface $mimeTypes
+    ) {
         $this->ioService = $ioService;
         $this->mimeTypes = $mimeTypes;
     }
@@ -37,7 +40,7 @@ class BinaryLoader implements LoaderInterface
     /**
      * @param string $path
      *
-     * @return \Liip\ImagineBundle\Binary\BinaryInterface
+     * @return BinaryInterface
      */
     public function find($path)
     {

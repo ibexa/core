@@ -17,7 +17,7 @@ class LogicalAnd extends Compound
 {
     public const string NAME = 'logicalAnd';
 
-    public function match(): string|bool
+    public function match(): string | bool
     {
         foreach ($this->config as $i => $rule) {
             foreach ($rule['matchers'] as $subMatcherClass => $matchingConfig) {

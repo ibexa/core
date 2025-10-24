@@ -8,7 +8,9 @@
 namespace Ibexa\Contracts\Core\FieldType;
 
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
 /**
  * The field type interface which all field types have to implement.
@@ -50,13 +52,17 @@ abstract class FieldType
      *
      * The used $value can be assumed to be already accepted by {@see FieldType::acceptValue()}.
      *
-     * @param \Ibexa\Contracts\Core\FieldType\Value $value
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition
+     * @param Value $value
+     * @param FieldDefinition $fieldDefinition
      * @param string $languageCode
      *
      * @return string
      */
-    abstract public function getName(Value $value, FieldDefinition $fieldDefinition, string $languageCode): string;
+    abstract public function getName(
+        Value $value,
+        FieldDefinition $fieldDefinition,
+        string $languageCode
+    ): string;
 
     /**
      * Returns a schema for the settings expected by the FieldType.
@@ -123,14 +129,17 @@ abstract class FieldType
     /**
      * Validates a field based on the validator configuration in the field definition.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDef The field definition of the field
-     * @param \Ibexa\Contracts\Core\FieldType\Value $value The field value for which an action is performed
+     * @param FieldDefinition $fieldDef The field definition of the field
+     * @param Value $value The field value for which an action is performed
      *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     * @return ValidationError[]
      */
-    abstract public function validate(FieldDefinition $fieldDef, Value $value);
+    abstract public function validate(
+        FieldDefinition $fieldDef,
+        Value $value
+    );
 
     /**
      * Validates the validatorConfiguration of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
@@ -141,14 +150,14 @@ abstract class FieldType
      *
      * @param mixed $validatorConfiguration
      *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     * @return ValidationError[]
      */
     abstract public function validateValidatorConfiguration($validatorConfiguration);
 
     /**
      * Applies the default values to the given $validatorConfiguration of a FieldDefinitionCreateStruct.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @param mixed $validatorConfiguration
      */
@@ -162,14 +171,14 @@ abstract class FieldType
      *
      * @param mixed $fieldSettings
      *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     * @return ValidationError[]
      */
     abstract public function validateFieldSettings($fieldSettings);
 
     /**
      * Applies the default values to the fieldSettings of a FieldDefinitionCreateStruct.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @param mixed $fieldSettings
      */
@@ -204,7 +213,7 @@ abstract class FieldType
      * also used to determine that a user intentionally (or unintentionally) did not
      * set a non-empty value.
      *
-     * @return \Ibexa\Contracts\Core\FieldType\Value
+     * @return Value
      */
     abstract public function getEmptyValue();
 
@@ -215,7 +224,7 @@ abstract class FieldType
      * considered empty. The given $value can be safely assumed to have already
      * been processed by {@see FieldType::acceptValue()}.
      *
-     * @param \Ibexa\Contracts\Core\FieldType\Value $value
+     * @param Value $value
      *
      * @return bool
      */
@@ -235,12 +244,12 @@ abstract class FieldType
      * Note that this method must also cope with the empty value for the field
      * type as e.g. returned by {@see FieldType::getEmptyValue()}.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the parameter is not of the supported value sub type
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the value does not match the expected structure
+     * @throws InvalidArgumentException if the parameter is not of the supported value sub type
+     * @throws InvalidArgumentException if the value does not match the expected structure
      *
      * @param mixed $inputValue
      *
-     * @return \Ibexa\Contracts\Core\FieldType\Value The potentially converted and structurally plausible value.
+     * @return Value The potentially converted and structurally plausible value.
      */
     abstract public function acceptValue($inputValue);
 
@@ -254,7 +263,7 @@ abstract class FieldType
      *
      * @param mixed $hash
      *
-     * @return \Ibexa\Contracts\Core\FieldType\Value
+     * @return Value
      */
     abstract public function fromHash($hash);
 
@@ -266,7 +275,7 @@ abstract class FieldType
      * support complex structures like objects. See the class level doc block
      * for additional information. See the class description for more details on a hash format.
      *
-     * @param \Ibexa\Contracts\Core\FieldType\Value $value
+     * @param Value $value
      *
      * @return mixed
      */
@@ -325,7 +334,7 @@ abstract class FieldType
      * into the property FieldValue::data. The format of $data is a primitive, an array (map) or an object, which
      * is then canonically converted to e.g. json/xml structures by future storage engines without
      * further conversions. For mapping the $data to the legacy database an appropriate Converter
-     * (implementing {@see \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter}) has implemented for the field
+     * (implementing {@see Converter}) has implemented for the field
      * type. Note: $data should only hold data which is actually stored in the field. It must not
      * hold data which is stored externally.
      *
@@ -334,11 +343,11 @@ abstract class FieldType
      *
      * The FieldValuer::sortKey is build by the field type for using by sort operations.
      *
-     * @see \Ibexa\Contracts\Core\Persistence\Content\FieldValue
+     * @see FieldValue
      *
-     * @param \Ibexa\Contracts\Core\FieldType\Value $value The value of the field type
+     * @param Value $value The value of the field type
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\FieldValue the value processed by the storage engine
+     * @return FieldValue the value processed by the storage engine
      */
     abstract public function toPersistenceValue(Value $value);
 
@@ -347,9 +356,9 @@ abstract class FieldType
      *
      * This method builds a field type value from the $data and $externalData properties.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
+     * @param FieldValue $fieldValue
      *
-     * @return \Ibexa\Contracts\Core\FieldType\Value
+     * @return Value
      */
     abstract public function fromPersistenceValue(FieldValue $fieldValue);
 
@@ -359,7 +368,7 @@ abstract class FieldType
      * Not intended for \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON type relations,
      * there is an API for handling those.
      *
-     * @param \Ibexa\Contracts\Core\FieldType\Value $value
+     * @param Value $value
      *
      * @return array Hash with relation type as key and array of destination content IDs as value.
      *

@@ -42,14 +42,20 @@ abstract class Flysystem implements ConfigurationFactory
             ->end();
     }
 
-    public function configureHandler(ContainerBuilder $container, ServiceDefinition $definition, array $config): void
-    {
+    public function configureHandler(
+        ContainerBuilder $container,
+        ServiceDefinition $definition,
+        array $config
+    ): void {
         $filesystemId = $this->createFilesystem($container, $config['name'], $config['adapter']);
         $definition->replaceArgument(0, new Reference($filesystemId));
     }
 
-    private function createFilesystem(ContainerBuilder $container, string $fileSystemName, string $adapterName): string
-    {
+    private function createFilesystem(
+        ContainerBuilder $container,
+        string $fileSystemName,
+        string $adapterName
+    ): string {
         $adapterId = sprintf('oneup_flysystem.%s_adapter', $adapterName);
         // has either definition or alias
         if (!$container->has($adapterId)) {

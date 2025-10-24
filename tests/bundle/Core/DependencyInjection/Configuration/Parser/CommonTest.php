@@ -174,8 +174,10 @@ class CommonTest extends AbstractParserTestCase
     /**
      * @dataProvider sessionSettingsProvider
      */
-    public function testSessionSettings(array $inputParams, array $expected)
-    {
+    public function testSessionSettings(
+        array $inputParams,
+        array $expected
+    ) {
         $this->load(
             [
                 'system' => [

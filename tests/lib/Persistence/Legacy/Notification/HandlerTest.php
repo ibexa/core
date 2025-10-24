@@ -17,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway;
 use Ibexa\Core\Persistence\Legacy\Notification\Handler;
 use Ibexa\Core\Persistence\Legacy\Notification\Mapper;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -26,13 +27,13 @@ class HandlerTest extends TestCase
 {
     public const NOTIFICATION_ID = 1;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Notification\Gateway|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Gateway|MockObject */
     private $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Notification\Mapper|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Mapper|MockObject */
     private $mapper;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Notification\Handler */
+    /** @var Handler */
     private $handler;
 
     protected function setUp(): void

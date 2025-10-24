@@ -85,8 +85,11 @@ class BorderFilterLoaderTest extends TestCase
     /**
      * @dataProvider loadProvider
      */
-    public function testLoad($thickX, $thickY, $color)
-    {
+    public function testLoad(
+        $thickX,
+        $thickY,
+        $color
+    ) {
         $image = $this->createMock(ImageInterface::class);
         $options = [$thickX, $thickY, $color];
 

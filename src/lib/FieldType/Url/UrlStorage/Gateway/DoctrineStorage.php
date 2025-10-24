@@ -8,6 +8,7 @@
 namespace Ibexa\Core\FieldType\Url\UrlStorage\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Core\FieldType\Url\UrlStorage\Gateway;
 use Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase;
@@ -18,7 +19,7 @@ class DoctrineStorage extends Gateway
     public const URL_TABLE = DoctrineDatabase::URL_TABLE;
     public const URL_LINK_TABLE = DoctrineDatabase::URL_LINK_TABLE;
 
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     protected $connection;
 
     public function __construct(Connection $connection)
@@ -99,7 +100,7 @@ class DoctrineStorage extends Gateway
      *
      * @param string $url The URL to insert in the database
      *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function insertUrl($url): int
     {
@@ -137,8 +138,11 @@ class DoctrineStorage extends Gateway
      * @param int $fieldId
      * @param int $versionNo
      */
-    public function linkUrl($urlId, $fieldId, $versionNo)
-    {
+    public function linkUrl(
+        $urlId,
+        $fieldId,
+        $versionNo
+    ) {
         $query = $this->connection->createQueryBuilder();
 
         $query
@@ -165,8 +169,11 @@ class DoctrineStorage extends Gateway
      * @param int $versionNo
      * @param int[] $excludeUrlIds
      */
-    public function unlinkUrl($fieldId, $versionNo, array $excludeUrlIds = []): void
-    {
+    public function unlinkUrl(
+        $fieldId,
+        $versionNo,
+        array $excludeUrlIds = []
+    ): void {
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
             ->select('link.url_id')

@@ -8,20 +8,20 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
 return SearchResult::__set_state([
-   'searchHits' => [
-    0 => SearchHit::__set_state([
-       'valueObject' => [
-        'id' => 58,
-        'title' => 'Contact Us',
-      ],
-       'score' => 1.3987858,
-       'index' => null,
-       'highlight' => null,
-    ]),
-  ],
-   'spellcheck' => null,
-   'time' => 1,
-   'timedOut' => null,
-   'maxScore' => 1.3987858,
-   'totalCount' => 1,
+    'searchHits' => [
+        0 => SearchHit::__set_state([
+            'valueObject' => [
+                'id' => 58,
+                'title' => 'Contact Us',
+            ],
+            'score' => 1.3987858,
+            'index' => null,
+            'highlight' => null,
+        ]),
+    ],
+    'spellcheck' => null,
+    'time' => 1,
+    'timedOut' => null,
+    'maxScore' => 1.3987858,
+    'totalCount' => 1,
 ]);

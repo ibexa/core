@@ -17,8 +17,10 @@ final class BeforeSetPriorityOfObjectStateEvent extends BeforeEvent
 
     private int $priority;
 
-    public function __construct(ObjectState $objectState, int $priority)
-    {
+    public function __construct(
+        ObjectState $objectState,
+        int $priority
+    ) {
         $this->objectState = $objectState;
         $this->priority = $priority;
     }

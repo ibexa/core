@@ -10,6 +10,4 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 
-interface Criterion extends CriterionInterface
-{
-}
+interface Criterion extends CriterionInterface {}

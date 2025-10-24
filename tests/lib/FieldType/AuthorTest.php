@@ -13,6 +13,7 @@ use Ibexa\Core\FieldType\Author\AuthorCollection;
 use Ibexa\Core\FieldType\Author\Type as AuthorType;
 use Ibexa\Core\FieldType\Author\Value as AuthorValue;
 use Ibexa\Core\FieldType\Value;
+use Random\RandomException;
 
 /**
  * @group fieldType
@@ -20,7 +21,7 @@ use Ibexa\Core\FieldType\Value;
  */
 class AuthorTest extends FieldTypeTestCase
 {
-    /** @var \Ibexa\Core\FieldType\Author\Author[] */
+    /** @var Author[] */
     private array $authors;
 
     protected function setUp(): void
@@ -303,7 +304,7 @@ class AuthorTest extends FieldTypeTestCase
     /**
      * @covers \Ibexa\Core\FieldType\Author\AuthorCollection::removeAuthorsById
      *
-     * @throws \Random\RandomException
+     * @throws RandomException
      */
     public function testRemoveAuthors(): void
     {

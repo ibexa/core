@@ -22,8 +22,10 @@ class IbexaLegacySearchEngineExtension extends Extension
     /**
      * @throws \Exception
      */
-    public function load(array $configs, ContainerBuilder $container): void
-    {
+    public function load(
+        array $configs,
+        ContainerBuilder $container
+    ): void {
         // Loading configuration from ./src/lib/Resources/settings/policies.yml
         $loader = new YamlFileLoader(
             $container,

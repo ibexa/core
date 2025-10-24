@@ -26,7 +26,7 @@ final class SourceUrl implements CriterionHandler
         QueryBuilder $queryBuilder,
         Criterion $criterion
     ) {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion\SourceUrl $criterion */
+        /** @var Criterion\SourceUrl $criterion */
         return $queryBuilder->expr()->like(
             'source_url',
             $queryBuilder->createNamedParameter(

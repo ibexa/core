@@ -19,25 +19,22 @@ use Ibexa\Core\MVC\Symfony\View\ViewManagerInterface;
  */
 class ViewManager implements ViewManagerInterface, SiteAccessAware
 {
-    public function setSiteAccess(?SiteAccess $siteAccess = null)
-    {
-    }
+    public function setSiteAccess(?SiteAccess $siteAccess = null) {}
 
     public function renderContent(
         Content $content,
         $viewType = ViewManagerInterface::VIEW_TYPE_FULL,
         $parameters = []
-    ) {
-    }
+    ) {}
 
     public function renderLocation(
         Location $location,
         $viewType = ViewManagerInterface::VIEW_TYPE_FULL,
         $parameters = []
-    ) {
-    }
+    ) {}
 
-    public function renderContentView(View $view, array $defaultParams = [])
-    {
-    }
+    public function renderContentView(
+        View $view,
+        array $defaultParams = []
+    ) {}
 }

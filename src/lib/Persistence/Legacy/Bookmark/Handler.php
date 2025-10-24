@@ -18,20 +18,22 @@ use Ibexa\Contracts\Core\Persistence\Content\Location;
  */
 class Handler implements HandlerInterface
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Bookmark\Gateway */
+    /** @var Gateway */
     private $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Bookmark\Mapper */
+    /** @var Mapper */
     private $mapper;
 
     /**
      * Handler constructor.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Bookmark\Gateway $gateway
-     * @param \Ibexa\Core\Persistence\Legacy\Bookmark\Mapper $mapper
+     * @param Gateway $gateway
+     * @param Mapper $mapper
      */
-    public function __construct(Gateway $gateway, Mapper $mapper)
-    {
+    public function __construct(
+        Gateway $gateway,
+        Mapper $mapper
+    ) {
         $this->gateway = $gateway;
         $this->mapper = $mapper;
     }
@@ -60,8 +62,10 @@ class Handler implements HandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function loadByUserIdAndLocationId(int $userId, array $locationIds): array
-    {
+    public function loadByUserIdAndLocationId(
+        int $userId,
+        array $locationIds
+    ): array {
         $bookmarks = $this->mapper->extractBookmarksFromRows(
             $this->gateway->loadBookmarkDataByUserIdAndLocationId($userId, $locationIds)
         );
@@ -77,8 +81,11 @@ class Handler implements HandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function loadUserBookmarks(int $userId, int $offset = 0, int $limit = -1): array
-    {
+    public function loadUserBookmarks(
+        int $userId,
+        int $offset = 0,
+        int $limit = -1
+    ): array {
         return $this->mapper->extractBookmarksFromRows(
             $this->gateway->loadUserBookmarks($userId, $offset, $limit)
         );
@@ -95,8 +102,10 @@ class Handler implements HandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function locationSwapped(int $location1Id, int $location2Id): void
-    {
+    public function locationSwapped(
+        int $location1Id,
+        int $location2Id
+    ): void {
         $this->gateway->locationSwapped($location1Id, $location2Id);
     }
 

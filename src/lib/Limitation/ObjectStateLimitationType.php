@@ -8,6 +8,7 @@
 namespace Ibexa\Core\Limitation;
 
 use Ibexa\Contracts\Core\Limitation\Type as SPILimitationTypeInterface;
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
@@ -18,8 +19,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation as APIObjectStateLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Base\Exceptions\BadStateException;
@@ -38,7 +41,7 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
      *
      * Makes sure LimitationValue object and ->limitationValues is of correct type.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
+     * @param Limitation $limitationValue
      *
      *@throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected type/structure
      */
@@ -64,7 +67,7 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
      *
      * Make sure {@link acceptValue()} is checked first!
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
+     * @param Limitation $limitationValue
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
@@ -94,7 +97,7 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @param mixed[] $limitationValues
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
+     * @return Limitation
      */
     public function buildValue(array $limitationValues): APILimitationValue
     {
@@ -104,10 +107,10 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
     /**
      * Evaluate permission against content & target(placement/parent/assignment).
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject[]|null $targets An array of location, parent or "assignment" value objects
+     * @param Limitation $value
+     * @param UserReference $currentUser
+     * @param ValueObject $object
+     * @param ValueObject[]|null $targets An array of location, parent or "assignment" value objects
      *
      * @return bool|null
      *
@@ -168,8 +171,10 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @return bool
      */
-    private function isStateGroupUsedForLimitation($stateGroupId, array $limitationValues): bool
-    {
+    private function isStateGroupUsedForLimitation(
+        $stateGroupId,
+        array $limitationValues
+    ): bool {
         $objectStateHandler = $this->persistence->objectStateHandler();
         $states = $objectStateHandler->loadObjectStates($stateGroupId);
 
@@ -207,13 +212,15 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
     /**
      * Returns Criterion for use in find() query.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
+     * @param Limitation $value
+     * @param UserReference $currentUser
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
+     * @return CriterionInterface
      */
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser): CriterionInterface
-    {
+    public function getCriterion(
+        APILimitationValue $value,
+        APIUserReference $currentUser
+    ): CriterionInterface {
         if (empty($value->limitationValues)) {
             // A Policy should not have empty limitationValues stored
             throw new RuntimeException('$value->limitationValues is empty');
@@ -267,9 +274,9 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
-    public function valueSchema(): array|int
+    public function valueSchema(): array | int
     {
         throw new NotImplementedException(__METHOD__);
     }
@@ -326,12 +333,14 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ObjectState[] $states
+     * @param ObjectState[] $states
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
-    private function getDefaultStateId(array $states, Group $stateGroup): int
-    {
+    private function getDefaultStateId(
+        array $states,
+        Group $stateGroup
+    ): int {
         $defaultStateId = null;
         $defaultStatePriority = -1;
         foreach ($states as $state) {

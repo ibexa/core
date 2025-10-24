@@ -28,8 +28,10 @@ class SearchField implements Indexable
         $this->countriesInfo = $countriesInfo;
     }
 
-    public function getIndexData(Field $field, FieldDefinition $fieldDefinition)
-    {
+    public function getIndexData(
+        Field $field,
+        FieldDefinition $fieldDefinition
+    ) {
         if (empty($field->value->data)) {
             return [];
         }

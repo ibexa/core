@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion\LogicalAnd;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\LogicalAnd as LogicalAndHandler;
@@ -29,7 +30,7 @@ class LogicalAndTest extends CriterionHandlerTestCase
     /**
      * {@inheritdoc}
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     public function testHandle(): void
     {

@@ -17,23 +17,25 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class APIContentExceptionEvent extends Event
 {
-    /** @var \Exception */
+    /** @var Exception */
     private $apiException;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\View */
+    /** @var View */
     private $contentView;
 
     /** @var array */
     private $contentMeta;
 
-    public function __construct(Exception $apiException, array $contentMeta)
-    {
+    public function __construct(
+        Exception $apiException,
+        array $contentMeta
+    ) {
         $this->apiException = $apiException;
         $this->contentMeta = $contentMeta;
     }
 
     /**
-     * @return \Exception
+     * @return Exception
      */
     public function getApiException()
     {
@@ -44,7 +46,7 @@ class APIContentExceptionEvent extends Event
      * Injects the ContentView object to display content from.
      * It is a good idea to call {@link stopPropagation()} after that so that other listeners won't override it.
      *
-     * @param \Ibexa\Core\MVC\Symfony\View\View $contentView
+     * @param View $contentView
      */
     public function setContentView(View $contentView)
     {
@@ -52,7 +54,7 @@ class APIContentExceptionEvent extends Event
     }
 
     /**
-     * @return \Ibexa\Core\MVC\Symfony\View\View
+     * @return View
      */
     public function getContentView()
     {

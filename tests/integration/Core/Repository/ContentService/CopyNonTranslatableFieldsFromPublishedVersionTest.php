@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 
 use DateTime;
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
@@ -25,7 +26,7 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
     private const TEXT_LINE_FIELD_TYPE_IDENTIFIER = 'ibexa_string';
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testCopyNonTranslatableFieldsFromPublishedVersionToDraft(): void
     {
@@ -75,7 +76,7 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testCopyNonTranslatableFieldsTwoParallelDrafts(): void
     {
@@ -118,7 +119,7 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testCopyNonTranslatableFieldsOverridesNonMainLanguageDrafts(): void
     {

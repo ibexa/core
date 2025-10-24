@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 final class URITextNormalizer implements NormalizerInterface, DenormalizerInterface
 {
     /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIText $data
+     * @param URIText $data
      * @param array<string, mixed> $context
      *
      * @phpstan-return array{siteAccessesConfiguration: array{prefix?: string, suffix?: string}}
@@ -34,13 +34,20 @@ final class URITextNormalizer implements NormalizerInterface, DenormalizerInterf
         ];
     }
 
-    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
-    {
+    public function supportsNormalization(
+        mixed $data,
+        ?string $format = null,
+        array $context = []
+    ): bool {
         return $data instanceof URIText;
     }
 
-    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
-    {
+    public function denormalize(
+        mixed $data,
+        string $type,
+        ?string $format = null,
+        array $context = []
+    ): mixed {
         return new URIText($data['siteAccessesConfiguration'] ?? []);
     }
 

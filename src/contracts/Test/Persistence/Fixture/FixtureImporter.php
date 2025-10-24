@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Test\Persistence\Fixture;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\DBAL\Schema\Column;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture;
@@ -31,7 +32,7 @@ final class FixtureImporter
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function import(Fixture $fixture): void
     {
@@ -61,7 +62,7 @@ final class FixtureImporter
     /**
      * @param string[] $tables a list of table names
      *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     private function truncateTables(array $tables): void
     {
@@ -85,7 +86,7 @@ final class FixtureImporter
      *
      * @param string[] $affectedTables
      *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     private function resetSequences(array $affectedTables): void
     {
@@ -104,7 +105,7 @@ final class FixtureImporter
      *
      * @return iterable<string, string> list of SQL statements
      *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     private function getSequenceResetStatements(array $affectedTables): iterable
     {
@@ -143,7 +144,7 @@ final class FixtureImporter
     }
 
     /**
-     * @param array<\Doctrine\DBAL\Schema\Column> $columns
+     * @param array<Column> $columns
      */
     private function findAutoincrementColumn(array $columns): ?Column
     {

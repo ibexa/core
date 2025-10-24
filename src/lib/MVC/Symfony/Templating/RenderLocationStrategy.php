@@ -24,8 +24,10 @@ final class RenderLocationStrategy extends BaseRenderStrategy implements RenderS
         return $valueObject instanceof Location;
     }
 
-    public function render(ValueObject $valueObject, RenderOptions $options): string
-    {
+    public function render(
+        ValueObject $valueObject,
+        RenderOptions $options
+    ): string {
         if (!$this->supports($valueObject)) {
             throw new InvalidArgumentException(
                 'valueObject',
@@ -33,7 +35,7 @@ final class RenderLocationStrategy extends BaseRenderStrategy implements RenderS
             );
         }
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location */
+        /** @var Location $location */
         $location = $valueObject;
         $content = $location->getContent();
 

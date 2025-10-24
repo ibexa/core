@@ -8,8 +8,11 @@
 namespace Ibexa\Bundle\Core\Command;
 
 use function count;
+
 use DateTime;
+
 use const DIRECTORY_SEPARATOR;
+
 use Ibexa\Bundle\Core\Command\Indexer\ContentIdListGeneratorStrategyInterface;
 use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler;
@@ -38,13 +41,13 @@ class ReindexCommand extends Command
     private const string IBEXA_CLOUD_CONFIG_FILE = '/run/config.json';
     private const string LINUX_CPUINFO_FILE = '/proc/cpuinfo';
 
-    /** @var \Ibexa\Core\Search\Common\Indexer|\Ibexa\Core\Search\Common\IncrementalIndexer */
+    /** @var Indexer|IncrementalIndexer */
     private $searchIndexer;
 
     /** @var string */
     private $phpPath;
 
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     private $logger;
 
     /** @var string */
@@ -59,10 +62,10 @@ class ReindexCommand extends Command
     /** @var string */
     private $projectDir;
 
-    /** @var \Ibexa\Contracts\Core\Search\Content\IndexerGateway */
+    /** @var IndexerGateway */
     private $gateway;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler */
+    /** @var Handler */
     private $locationHandler;
 
     private ContentIdListGeneratorStrategyInterface $contentIdListGeneratorStrategy;
@@ -97,11 +100,13 @@ class ReindexCommand extends Command
     /**
      * Initialize objects required by {@see execute()}.
      *
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param InputInterface $input
+     * @param OutputInterface $output
      */
-    public function initialize(InputInterface $input, OutputInterface $output): void
-    {
+    public function initialize(
+        InputInterface $input,
+        OutputInterface $output
+    ): void {
         parent::initialize($input, $output);
         if (!$this->searchIndexer instanceof Indexer) {
             throw new RuntimeException(
@@ -188,8 +193,10 @@ class ReindexCommand extends Command
     /**
      * @throws \Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $commit = !$input->getOption('no-commit');
         $iterationCount = $input->getOption('iteration-count');
         $this->siteaccess = $input->getOption('siteaccess');
@@ -345,10 +352,10 @@ class ReindexCommand extends Command
         bool $commit
     ): void {
         $generator = $this->buildGenerator($batchList);
-        /** @var \Symfony\Component\Process\Process[]|null[] $processes */
+        /** @var Process[]|null[] $processes */
         $processes = array_fill(0, $processCount, null);
         do {
-            /** @var \Symfony\Component\Process\Process $process */
+            /** @var Process $process */
             foreach ($processes as $key => $process) {
                 if ($process !== null && $process->isRunning()) {
                     continue;
@@ -390,8 +397,10 @@ class ReindexCommand extends Command
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    private function getPhpProcess(array $contentIds, bool $commit): Process
-    {
+    private function getPhpProcess(
+        array $contentIds,
+        bool $commit
+    ): Process {
         if (empty($contentIds)) {
             throw new InvalidArgumentException('--content-ids', '$contentIds cannot be empty');
         }

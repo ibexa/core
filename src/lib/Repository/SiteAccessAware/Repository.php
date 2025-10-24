@@ -33,37 +33,37 @@ use Ibexa\Contracts\Core\Repository\UserService as UserServiceInterface;
  */
 class Repository implements RepositoryInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var RepositoryInterface */
     protected $repository;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
+    /** @var ContentServiceInterface */
     protected $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\SectionService */
+    /** @var SectionServiceInterface */
     protected $sectionService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
+    /** @var SearchServiceInterface */
     protected $searchService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
+    /** @var UserServiceInterface */
     protected $userService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageService */
+    /** @var LanguageServiceInterface */
     protected $languageService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
+    /** @var LocationServiceInterface */
     protected $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\TrashService */
+    /** @var TrashServiceInterface */
     protected $trashService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
+    /** @var ContentTypeServiceInterface */
     protected $contentTypeService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ObjectStateService */
+    /** @var ObjectStateServiceInterface */
     protected $objectStateService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\URLAliasService */
+    /** @var URLAliasServiceInterface */
     protected $urlAliasService;
 
     /** @var \Ibexa\Core\Repository\NotificationService */
@@ -100,8 +100,10 @@ class Repository implements RepositoryInterface
         $this->notificationService = $notificationService;
     }
 
-    public function sudo(callable $callback, ?RepositoryInterface $outerRepository = null)
-    {
+    public function sudo(
+        callable $callback,
+        ?RepositoryInterface $outerRepository = null
+    ) {
         return $this->repository->sudo($callback, $outerRepository ?? $this);
     }
 

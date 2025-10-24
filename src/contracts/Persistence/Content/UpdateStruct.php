@@ -24,7 +24,7 @@ class UpdateStruct extends ValueObject
     /**
      * Contains fields to be updated.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Field[]
+     * @var Field[]
      */
     public $fields = [];
 

@@ -10,8 +10,10 @@ namespace Ibexa\Contracts\Core\FieldType\ValidationError;
 
 final class NonConfigurableValidationError extends AbstractValidationError
 {
-    public function __construct(string $fieldTypeValidatorIdentifier, string $target)
-    {
+    public function __construct(
+        string $fieldTypeValidatorIdentifier,
+        string $target
+    ) {
         parent::__construct(
             "FieldType '%fieldType%' does not accept settings",
             [

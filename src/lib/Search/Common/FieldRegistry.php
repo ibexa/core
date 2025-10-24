@@ -16,11 +16,11 @@ use OutOfBoundsException;
  */
 class FieldRegistry
 {
-    /** @var \Ibexa\Contracts\Core\FieldType\Indexable[] */
+    /** @var Indexable[] */
     protected $types = [];
 
     /**
-     * @param \Ibexa\Contracts\Core\FieldType\Indexable[] $types
+     * @param Indexable[] $types
      */
     public function __construct(array $types = [])
     {
@@ -29,8 +29,10 @@ class FieldRegistry
         }
     }
 
-    public function registerType(string $name, Indexable $type): void
-    {
+    public function registerType(
+        string $name,
+        Indexable $type
+    ): void {
         $this->types[$name] = $type;
     }
 

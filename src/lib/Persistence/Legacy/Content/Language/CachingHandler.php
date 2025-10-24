@@ -10,6 +10,7 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Language;
 use Ibexa\Contracts\Core\Persistence\Content\Language;
 use Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as BaseLanguageHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface;
 use Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache;
 
@@ -25,26 +26,26 @@ class CachingHandler implements BaseLanguageHandler
     /**
      * Inner Language handler.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\Handler
+     * @var Handler
      */
     protected $innerHandler;
 
     /**
      * Language cache.
      *
-     * @var \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache
+     * @var InMemoryCache
      */
     protected $cache;
 
-    /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface */
+    /** @var CacheIdentifierGeneratorInterface */
     protected $cacheIdentifierGenerator;
 
     /**
      * Creates a caching handler around $innerHandler.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Language\Handler $innerHandler
-     * @param \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache $cache
-     * @param \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface $cacheIdentifierGenerator
+     * @param BaseLanguageHandler $innerHandler
+     * @param InMemoryCache $cache
+     * @param CacheIdentifierGeneratorInterface $cacheIdentifierGenerator
      */
     public function __construct(
         BaseLanguageHandler $innerHandler,
@@ -59,9 +60,9 @@ class CachingHandler implements BaseLanguageHandler
     /**
      * Create a new language.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct $struct
+     * @param CreateStruct $struct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language
+     * @return Language
      */
     public function create(CreateStruct $struct)
     {
@@ -74,7 +75,7 @@ class CachingHandler implements BaseLanguageHandler
     /**
      * Update language.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Language $language
+     * @param Language $language
      */
     public function update(Language $language)
     {
@@ -87,9 +88,9 @@ class CachingHandler implements BaseLanguageHandler
      *
      * @param mixed $id
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If language could not be found by $id
+     * @throws NotFoundException If language could not be found by $id
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language
+     * @return Language
      */
     public function load($id)
     {
@@ -147,9 +148,9 @@ class CachingHandler implements BaseLanguageHandler
      *
      * @param string $languageCode
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If language could not be found by $languageCode
+     * @throws NotFoundException If language could not be found by $languageCode
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language
+     * @return Language
      */
     public function loadByLanguageCode($languageCode)
     {
@@ -193,7 +194,7 @@ class CachingHandler implements BaseLanguageHandler
     /**
      * Get all languages.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language[]
+     * @return Language[]
      */
     public function loadAll()
     {
@@ -237,8 +238,10 @@ class CachingHandler implements BaseLanguageHandler
      * @param array $languages
      * @param string|null $listIndex
      */
-    protected function storeCache(array $languages, ?string $listIndex = null): void
-    {
+    protected function storeCache(
+        array $languages,
+        ?string $listIndex = null
+    ): void {
         $generator = $this->cacheIdentifierGenerator;
 
         $this->cache->setMulti(

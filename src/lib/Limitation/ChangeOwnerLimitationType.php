@@ -101,8 +101,10 @@ final class ChangeOwnerLimitationType extends AbstractPersistenceLimitationType 
         return self::ACCESS_DENIED;
     }
 
-    public function getCriterion(Limitation $value, APIUserReference $currentUser): CriterionInterface
-    {
+    public function getCriterion(
+        Limitation $value,
+        APIUserReference $currentUser
+    ): CriterionInterface {
         return new Criterion\UserMetadata(
             Criterion\UserMetadata::OWNER,
             Criterion\Operator::IN,
@@ -111,9 +113,9 @@ final class ChangeOwnerLimitationType extends AbstractPersistenceLimitationType 
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
-    public function valueSchema(): array|int
+    public function valueSchema(): array | int
     {
         throw new NotImplementedException(__METHOD__);
     }

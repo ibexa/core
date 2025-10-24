@@ -23,7 +23,7 @@ use Ibexa\Core\Pagination\Pagerfanta\SearchResultAdapter;
  */
 final class SearchHitAdapterFactory implements SearchHitAdapterFactoryInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
+    /** @var SearchService */
     private SearchService $searchService;
 
     public function __construct(SearchService $searchService)
@@ -31,8 +31,10 @@ final class SearchHitAdapterFactory implements SearchHitAdapterFactoryInterface
         $this->searchService = $searchService;
     }
 
-    public function createAdapter(Query $query, array $languageFilter = []): SearchResultAdapter
-    {
+    public function createAdapter(
+        Query $query,
+        array $languageFilter = []
+    ): SearchResultAdapter {
         if ($query instanceof LocationQuery) {
             return new LocationSearchHitAdapter($query, $this->searchService, $languageFilter);
         }
@@ -40,8 +42,10 @@ final class SearchHitAdapterFactory implements SearchHitAdapterFactoryInterface
         return new ContentSearchHitAdapter($query, $this->searchService, $languageFilter);
     }
 
-    public function createFixedAdapter(Query $query, array $languageFilter = []): SearchResultAdapter
-    {
+    public function createFixedAdapter(
+        Query $query,
+        array $languageFilter = []
+    ): SearchResultAdapter {
         if ($query instanceof LocationQuery) {
             $searchResults = $this->searchService->findLocations($query, $languageFilter);
         } else {

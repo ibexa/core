@@ -10,7 +10,7 @@ namespace Ibexa\Contracts\Core\Repository\Values\Notification\Query;
 
 final class NotificationQuery
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface[] */
+    /** @var CriterionInterface[] */
     private array $criteria;
 
     private int $offset;
@@ -18,10 +18,13 @@ final class NotificationQuery
     private int $limit;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface[] $criteria
+     * @param CriterionInterface[] $criteria
      */
-    public function __construct(array $criteria = [], int $offset = 0, int $limit = 25)
-    {
+    public function __construct(
+        array $criteria = [],
+        int $offset = 0,
+        int $limit = 25
+    ) {
         $this->criteria = $criteria;
         $this->offset = $offset;
         $this->limit = $limit;
@@ -33,7 +36,7 @@ final class NotificationQuery
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Notification\Query\CriterionInterface[]
+     * @return CriterionInterface[]
      */
     public function getCriteria(): array
     {

@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\IO\Flysystem\VisibilityConverter;
 
+use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use League\Flysystem\UnixVisibility\VisibilityConverter;
 use League\Flysystem\Visibility;
 
@@ -18,9 +19,9 @@ use League\Flysystem\Visibility;
  * Relies on configured DFS permissions, fall-backing to Flysystem's native implementation of
  * a Visibility Converter, if not configured.
  *
- * @see \Ibexa\Core\IO\Flysystem\VisibilityConverter\BaseVisibilityConverter
- * @see \League\Flysystem\Visibility
- * @see \League\Flysystem\UnixVisibility\PortableVisibilityConverter
+ * @see BaseVisibilityConverter
+ * @see Visibility
+ * @see PortableVisibilityConverter
  */
 final class DFSVisibilityConverter extends BaseVisibilityConverter
 {

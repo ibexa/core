@@ -20,8 +20,10 @@ final class BeforeCopySubtreeEvent extends BeforeEvent
 
     private ?Location $location = null;
 
-    public function __construct(Location $subtree, Location $targetParentLocation)
-    {
+    public function __construct(
+        Location $subtree,
+        Location $targetParentLocation
+    ) {
         $this->subtree = $subtree;
         $this->targetParentLocation = $targetParentLocation;
     }

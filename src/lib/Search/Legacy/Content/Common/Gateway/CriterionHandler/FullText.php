@@ -120,8 +120,10 @@ class FullText extends CriterionHandler
      * converter wildcards are either transformed into the respective LIKE
      * queries, or everything is just compared using equal.
      */
-    protected function getWordExpression(QueryBuilder $query, string $token): string
-    {
+    protected function getWordExpression(
+        QueryBuilder $query,
+        string $token
+    ): string {
         if ($this->configuration['enableWildcards'] && $token[0] === '*') {
             return $query->expr()->like(
                 'word',
@@ -144,8 +146,10 @@ class FullText extends CriterionHandler
      *
      * @uses getStopWordThresholdValue To get threshold for words we would like to ignore in query.
      */
-    protected function getWordIdSubquery(QueryBuilder $query, string $string): string
-    {
+    protected function getWordIdSubquery(
+        QueryBuilder $query,
+        string $string
+    ): string {
         $subQuery = $this->connection->createQueryBuilder();
         $tokens = $this->tokenizeString(
             $this->processor->transform($string, $this->configuration['commands'])
@@ -180,7 +184,7 @@ class FullText extends CriterionHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\FullText $criterion
+     * @param Criterion\FullText $criterion
      *
      * @phpstan-param TSearchLanguageFilter $languageSettings
      */

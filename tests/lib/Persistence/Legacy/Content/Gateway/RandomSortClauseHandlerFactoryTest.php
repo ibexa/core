@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom;
@@ -18,8 +19,8 @@ use PHPUnit\Framework\TestCase;
 class RandomSortClauseHandlerFactoryTest extends TestCase
 {
     /**
-     * @throws \Doctrine\DBAL\Exception
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function testGetGateway(): void
     {
@@ -47,8 +48,8 @@ class RandomSortClauseHandlerFactoryTest extends TestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function testGetGatewayNotImplemented(): void
     {

@@ -37,8 +37,7 @@ class IOService implements IOServiceInterface
         protected readonly IOBinarydataHandler $binarydataHandler,
         protected readonly MimeTypeDetector $mimeTypeDetector,
         protected array $settings = []
-    ) {
-    }
+    ) {}
 
     public function setPrefix(string $prefix): void
     {

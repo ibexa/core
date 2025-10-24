@@ -26,7 +26,7 @@ class ObjectStateId extends CriterionHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ObjectStateId $criterion
+     * @param Criterion\ObjectStateId $criterion
      */
     public function handle(
         CriteriaConverter $converter,

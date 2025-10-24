@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Notification\Gateway;
 
+use Doctrine\DBAL\Exception;
 use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
 use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
@@ -228,7 +229,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Return a ready to test DoctrineStorage gateway.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Notification\Gateway\DoctrineDatabase
+     * @return DoctrineDatabase
      */
     protected function getGateway(): DoctrineDatabase
     {
@@ -249,7 +250,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * @return array<string,mixed>
      *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     private function loadNotification(int $id): array
     {

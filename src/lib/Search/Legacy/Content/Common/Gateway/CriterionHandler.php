@@ -8,7 +8,12 @@
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
@@ -30,14 +35,14 @@ abstract class CriterionHandler
         Operator::LIKE => 'like',
     ];
 
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     protected $connection;
 
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform|null */
+    /** @var AbstractPlatform|null */
     protected $dbPlatform;
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function __construct(Connection $connection)
     {
@@ -48,7 +53,7 @@ abstract class CriterionHandler
     /**
      * Check if this criterion handler accepts to handle the given criterion.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface $criterion
+     * @param CriterionInterface $criterion
      *
      * @return bool
      */
@@ -61,10 +66,10 @@ abstract class CriterionHandler
      *
      * @param array $languageSettings
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws NotImplementedException
+     * @throws InvalidArgumentException
      *
-     * @return \Doctrine\DBAL\Query\Expression\CompositeExpression|string
+     * @return CompositeExpression|string
      */
     abstract public function handle(
         CriteriaConverter $converter,
@@ -73,8 +78,10 @@ abstract class CriterionHandler
         array $languageSettings
     );
 
-    protected function hasJoinedTableAs(QueryBuilder $queryBuilder, string $tableAlias): bool
-    {
+    protected function hasJoinedTableAs(
+        QueryBuilder $queryBuilder,
+        string $tableAlias
+    ): bool {
         // find table name in a structure: ['fromAlias' => [['joinTable' => '<table_name>'], ...]]
         $joinedParts = $queryBuilder->getQueryPart('join');
         foreach ($joinedParts as $joinedTables) {

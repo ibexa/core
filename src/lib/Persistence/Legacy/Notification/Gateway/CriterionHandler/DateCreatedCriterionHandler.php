@@ -24,8 +24,10 @@ final class DateCreatedCriterionHandler implements CriterionHandlerInterface
         return $criterion instanceof DateCreated;
     }
 
-    public function apply(QueryBuilder $qb, CriterionInterface $criterion): void
-    {
+    public function apply(
+        QueryBuilder $qb,
+        CriterionInterface $criterion
+    ): void {
         if ($criterion->getFrom() !== null) {
             $qb->andWhere(
                 $qb->expr()->gte(

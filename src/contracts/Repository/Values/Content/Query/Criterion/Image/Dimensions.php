@@ -8,6 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Image;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+
 /**
  * @phpstan-import-type Range from \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Image\AbstractImageCompositeCriterion
  *
@@ -36,9 +39,9 @@ final class Dimensions extends AbstractImageCompositeCriterion
     /**
      * @phpstan-param ImageCriteria $imageCriteriaData
      *
-     * @return array<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion>
+     * @return array<Criterion>
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function buildCriteria(
         string $fieldDefIdentifier,

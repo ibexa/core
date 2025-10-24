@@ -14,7 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 /**
  * This class is used for creating a new content object.
  *
- * @property \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $fields
+ * @property Field[] $fields
  *
  * @internal Meant for internal use by Repository, type hint against API instead.
  */
@@ -23,7 +23,7 @@ class ContentCreateStruct extends APIContentCreateStruct
     /**
      * Field collection.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Field[]
+     * @var Field[]
      */
     public $fields = [];
 
@@ -39,8 +39,11 @@ class ContentCreateStruct extends APIContentCreateStruct
      *                     field type or an instance of a Value class provided by the field type
      * @param string|null $language If not given on a translatable field the initial language is used
      */
-    public function setField(string $fieldDefIdentifier, mixed $value, ?string $language = null): void
-    {
+    public function setField(
+        string $fieldDefIdentifier,
+        mixed $value,
+        ?string $language = null
+    ): void {
         if (!isset($language)) {
             $language = $this->mainLanguageCode;
         }

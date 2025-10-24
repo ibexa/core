@@ -15,7 +15,7 @@ abstract class Gateway
     /**
      * Store UserPreference ValueObject in persistent storage.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct $userPreference
+     * @param UserPreferenceSetStruct $userPreference
      *
      * @return int
      */
@@ -29,7 +29,10 @@ abstract class Gateway
      *
      * @return array
      */
-    abstract public function getUserPreferenceByUserIdAndName(int $userId, string $name): array;
+    abstract public function getUserPreferenceByUserIdAndName(
+        int $userId,
+        string $name
+    ): array;
 
     /**
      * @param int $userId
@@ -45,5 +48,9 @@ abstract class Gateway
      *
      * @return array
      */
-    abstract public function loadUserPreferences(int $userId, int $offset = 0, int $limit = -1): array;
+    abstract public function loadUserPreferences(
+        int $userId,
+        int $offset = 0,
+        int $limit = -1
+    ): array;
 }

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content;
 
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Sibling;
 use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
@@ -19,7 +20,7 @@ use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalAndQueryBu
  */
 final class SiblingQueryBuilder implements CriterionQueryBuilder
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalAndQueryBuilder */
+    /** @var LogicalAndQueryBuilder */
     private $logicalAndQueryBuilder;
 
     /**
@@ -39,8 +40,8 @@ final class SiblingQueryBuilder implements CriterionQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Sibling $criterion */
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd $_criterion */
+        /** @var Sibling $criterion */
+        /** @var LogicalAnd $_criterion */
         $_criterion = $criterion->criteria;
 
         return $this->logicalAndQueryBuilder->buildQueryConstraint($queryBuilder, $_criterion);

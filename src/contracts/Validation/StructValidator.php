@@ -20,12 +20,15 @@ final class StructValidator
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Validation\ValidationFailedException
+     * @throws ValidationFailedException
      *
      * @param string[] $groups
      */
-    public function assertValidStruct(string $name, object $struct, array $groups): void
-    {
+    public function assertValidStruct(
+        string $name,
+        object $struct,
+        array $groups
+    ): void {
         $errors = $this->validator->validate($struct, null, ['Default', ...$groups]);
         if ($errors->count() > 0) {
             throw new ValidationFailedException($name, $errors);

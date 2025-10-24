@@ -16,11 +16,7 @@ use Ibexa\Core\Search\Common\BackgroundIndexer as BackgroundIndexerInterface;
  */
 class NullIndexer implements BackgroundIndexerInterface
 {
-    public function registerContent(ContentInfo $contentInfo)
-    {
-    }
+    public function registerContent(ContentInfo $contentInfo) {}
 
-    public function registerLocation(Location $location)
-    {
-    }
+    public function registerLocation(Location $location) {}
 }

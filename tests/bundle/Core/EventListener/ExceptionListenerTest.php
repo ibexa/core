@@ -24,6 +24,8 @@ use Ibexa\Core\Base\Exceptions\NotFound\FieldTypeNotFoundException;
 use Ibexa\Core\Base\Exceptions\NotFound\LimitationNotFoundException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
+use Ibexa\Core\Base\Translatable;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,10 +40,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ExceptionListenerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Contracts\Translation\TranslatorInterface */
+    /** @var MockObject|TranslatorInterface */
     private $translator;
 
-    /** @var \Ibexa\Bundle\Core\EventListener\ExceptionListener */
+    /** @var ExceptionListener */
     private $listener;
 
     protected function setUp(): void
@@ -60,9 +62,9 @@ class ExceptionListenerTest extends TestCase
     }
 
     /**
-     * @param \Exception $exception
+     * @param Exception $exception
      *
-     * @return \Symfony\Component\HttpKernel\Event\ExceptionEvent
+     * @return ExceptionEvent
      */
     private function generateExceptionEvent(Exception $exception)
     {
@@ -123,7 +125,7 @@ class ExceptionListenerTest extends TestCase
     /**
      * @dataProvider badRequestExceptionProvider
      *
-     * @param \Exception|\Ibexa\Core\Base\Translatable $exception
+     * @param Exception|Translatable $exception
      */
     public function testBadRequestException(Exception $exception)
     {
@@ -160,7 +162,7 @@ class ExceptionListenerTest extends TestCase
     /**
      * @dataProvider otherExceptionProvider
      *
-     * @param \Exception|\Ibexa\Core\Base\Translatable $exception
+     * @param Exception|Translatable $exception
      */
     public function testOtherRepositoryException(Exception $exception)
     {

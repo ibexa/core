@@ -26,7 +26,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ExceptionListener implements EventSubscriberInterface
 {
-    /** @var \Symfony\Contracts\Translation\TranslatorInterface */
+    /** @var TranslatorInterface */
     private $translator;
 
     public function __construct(TranslatorInterface $translator)
@@ -65,7 +65,7 @@ class ExceptionListener implements EventSubscriberInterface
     /**
      * Translates the exception message if it is translatable.
      *
-     * @param \Exception $exception
+     * @param Exception $exception
      *
      * @return string
      */

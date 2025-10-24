@@ -22,8 +22,10 @@ final class BeforeCreateObjectStateEvent extends BeforeEvent
 
     private ?ObjectState $objectState = null;
 
-    public function __construct(ObjectStateGroup $objectStateGroup, ObjectStateCreateStruct $objectStateCreateStruct)
-    {
+    public function __construct(
+        ObjectStateGroup $objectStateGroup,
+        ObjectStateCreateStruct $objectStateCreateStruct
+    ) {
         $this->objectStateGroup = $objectStateGroup;
         $this->objectStateCreateStruct = $objectStateCreateStruct;
     }

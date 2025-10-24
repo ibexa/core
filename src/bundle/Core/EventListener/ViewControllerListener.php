@@ -12,25 +12,27 @@ use Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilderRegistry;
 use Ibexa\Core\MVC\Symfony\View\Event\FilterViewBuilderParametersEvent;
 use Ibexa\Core\MVC\Symfony\View\ViewEvents;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ViewControllerListener implements EventSubscriberInterface
 {
-    /** @var \Symfony\Component\HttpKernel\Controller\ControllerResolverInterface */
+    /** @var ControllerResolverInterface */
     private $controllerResolver;
 
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     private $logger;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilderRegistry */
+    /** @var ViewBuilderRegistry */
     private $viewBuilderRegistry;
 
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcher */
+    /** @var EventDispatcher */
     private $eventDispatcher;
 
     public function __construct(
@@ -53,9 +55,9 @@ class ViewControllerListener implements EventSubscriberInterface
     /**
      * Configures the View for Ibexa View controllers.
      *
-     * @param \Symfony\Component\HttpKernel\Event\ControllerEvent $event
+     * @param ControllerEvent $event
      *
-     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+     * @throws AccessDeniedException
      */
     public function getController(ControllerEvent $event)
     {

@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Pagination\Pagerfanta;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
@@ -20,16 +21,22 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
  */
 class LocationSearchHitAdapter extends AbstractSearchResultAdapter
 {
-    public function __construct(LocationQuery $query, SearchService $searchService, array $languageFilter = [])
-    {
+    public function __construct(
+        LocationQuery $query,
+        SearchService $searchService,
+        array $languageFilter = []
+    ) {
         parent::__construct($query, $searchService, $languageFilter);
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    protected function executeQuery(SearchService $searchService, Query $query, array $languageFilter): SearchResult
-    {
+    protected function executeQuery(
+        SearchService $searchService,
+        Query $query,
+        array $languageFilter
+    ): SearchResult {
         assert($query instanceof LocationQuery);
 
         return $searchService->findLocations($query, $languageFilter);

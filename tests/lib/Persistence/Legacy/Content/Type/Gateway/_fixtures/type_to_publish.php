@@ -168,7 +168,7 @@ return [
         ],
     ],
     Gateway::CONTENT_TYPE_NAME_TABLE => [
-         [
+        [
             'content_type_id' => 1,
             'content_type_status' => 1,
             'language_id' => 3,

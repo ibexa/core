@@ -54,7 +54,7 @@ abstract class ObjectState extends ValueObject implements MultiLanguageName, Mul
     /**
      * The object state group this object state belongs to.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup
+     * @return ObjectStateGroup
      */
     abstract public function getObjectStateGroup(): ObjectStateGroup;
 }

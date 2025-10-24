@@ -12,6 +12,7 @@ use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -22,13 +23,13 @@ class ConsoleCommandListener implements EventSubscriberInterface, SiteAccessAwar
     /** @var string */
     private $defaultSiteAccessName;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface */
+    /** @var SiteAccessProviderInterface */
     private $siteAccessProvider;
 
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface */
+    /** @var EventDispatcherInterface */
     private $eventDispatcher;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess|null */
+    /** @var SiteAccess|null */
     private $siteAccess;
 
     /** @var bool */
@@ -36,7 +37,7 @@ class ConsoleCommandListener implements EventSubscriberInterface, SiteAccessAwar
 
     public function __construct(
         string $defaultSiteAccessName,
-        SiteAccess\SiteAccessProviderInterface $siteAccessProvider,
+        SiteAccessProviderInterface $siteAccessProvider,
         EventDispatcherInterface $eventDispatcher,
         bool $debug = false
     ) {

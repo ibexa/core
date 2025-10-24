@@ -42,8 +42,8 @@ final class Handler implements HandlerInterface
     /**
      * @throws \Doctrine\DBAL\Driver\Exception
      * @throws \Doctrine\DBAL\Exception
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Core\Base\Exceptions\TokenExpiredException
+     * @throws NotFoundException
+     * @throws TokenExpiredException
      * @throws \Exception
      */
     public function getToken(
@@ -67,7 +67,7 @@ final class Handler implements HandlerInterface
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      * @throws \Doctrine\DBAL\Exception
      * @throws \Doctrine\DBAL\Driver\Exception
      */
@@ -80,7 +80,7 @@ final class Handler implements HandlerInterface
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      * @throws \Doctrine\DBAL\Driver\Exception
      * @throws \Doctrine\DBAL\Exception
      */
@@ -110,12 +110,14 @@ final class Handler implements HandlerInterface
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      * @throws \Doctrine\DBAL\Exception
      * @throws \Doctrine\DBAL\Driver\Exception
      */
-    public function revokeTokenByIdentifier(string $tokenType, ?string $identifier): void
-    {
+    public function revokeTokenByIdentifier(
+        string $tokenType,
+        ?string $identifier
+    ): void {
         $type = $this->getTokenType($tokenType);
         $this->tokenGateway->revokeByIdentifier(
             $type->id,

@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Container\ApiLoader;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+
 /**
  * @phpstan-type TRepositoryStorageConfiguration array{engine: string, connection: string, config?: array<string, mixed>}
  * @phpstan-type TRepositorySearchConfiguration array{engine: string, connection: string}
@@ -24,19 +26,19 @@ interface RepositoryConfigurationProviderInterface
     /**
      * @phpstan-return TRepositoryConfiguration
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function getRepositoryConfig(): array;
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function getCurrentRepositoryAlias(): string;
 
     public function getDefaultRepositoryAlias(): ?string;
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function getStorageConnectionName(): string;
 }

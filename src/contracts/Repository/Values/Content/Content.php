@@ -15,11 +15,11 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 /**
  * this class represents a content object in a specific version.
  *
- * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Content::getContentInfo()} instead.
+ * @property-read ContentInfo $contentInfo @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Content::getContentInfo()} instead.
  * @property-read int $id @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Content::getId()} instead.
- * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo calls getVersionInfo()
+ * @property-read VersionInfo $versionInfo calls getVersionInfo()
  * @property-read array<string, array<string, \Ibexa\Core\FieldType\Value>> $fields an array of <code>[field definition identifier => [language code => field value]]</code>
- * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\Thumbnail|null $thumbnail calls getThumbnail()
+ * @property-read Thumbnail|null $thumbnail calls getThumbnail()
  */
 abstract class Content extends ValueObject
 {
@@ -36,7 +36,7 @@ abstract class Content extends ValueObject
     /**
      * Returns the VersionInfo for this version.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo
+     * @return VersionInfo
      */
     abstract public function getVersionInfo(): VersionInfo;
 
@@ -69,14 +69,17 @@ abstract class Content extends ValueObject
      * @param string $fieldDefIdentifier
      * @param string|null $languageCode
      *
-     * @return \Ibexa\Contracts\Core\FieldType\Value|null a primitive type or a field type Value object depending on the field type.
+     * @return Value|null a primitive type or a field type Value object depending on the field type.
      */
-    abstract public function getFieldValue(string $fieldDefIdentifier, ?string $languageCode = null): ?Value;
+    abstract public function getFieldValue(
+        string $fieldDefIdentifier,
+        ?string $languageCode = null
+    ): ?Value;
 
     /**
      * This method returns the complete fields collection.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field[] An array of {@see \Ibexa\Contracts\Core\Repository\Values\Content\Field}
+     * @return Field[] An array of {@see Field}
      */
     abstract public function getFields(): iterable;
 
@@ -89,7 +92,7 @@ abstract class Content extends ValueObject
      *
      * @param string|null $languageCode
      *
-     * @return iterable<string, \Ibexa\Contracts\Core\Repository\Values\Content\Field>  An array of {@see \Ibexa\Contracts\Core\Repository\Values\Content\Field} with field identifier as keys
+     * @return iterable<string, Field>  An array of {@see Field} with field identifier as keys
      */
     abstract public function getFieldsByLanguage(?string $languageCode = null): iterable;
 
@@ -107,14 +110,17 @@ abstract class Content extends ValueObject
      * @param string $fieldDefIdentifier
      * @param string|null $languageCode
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field|null A {@see \Ibexa\Contracts\Core\Repository\Values\Content\Field} or null if nothing is found
+     * @return Field|null A {@see Field} or null if nothing is found
      */
-    abstract public function getField(string $fieldDefIdentifier, ?string $languageCode = null): ?Field;
+    abstract public function getField(
+        string $fieldDefIdentifier,
+        ?string $languageCode = null
+    ): ?Field;
 
     /**
      * Returns the ContentType for this content.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
+     * @return ContentType
      */
     abstract public function getContentType(): ContentType;
 

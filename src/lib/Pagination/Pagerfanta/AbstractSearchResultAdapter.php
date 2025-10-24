@@ -48,8 +48,11 @@ abstract class AbstractSearchResultAdapter implements AdapterInterface, SearchRe
     /**
      * @phpstan-param TSearchLanguageFilter $languageFilter
      */
-    public function __construct(Query $query, SearchService $searchService, array $languageFilter = [])
-    {
+    public function __construct(
+        Query $query,
+        SearchService $searchService,
+        array $languageFilter = []
+    ) {
         $this->query = $query;
         $this->searchService = $searchService;
         $this->languageFilter = $languageFilter;
@@ -79,8 +82,10 @@ abstract class AbstractSearchResultAdapter implements AdapterInterface, SearchRe
     /**
      * Returns a slice of the results, as SearchHit objects.
      */
-    public function getSlice(int $offset, int $length): iterable
-    {
+    public function getSlice(
+        int $offset,
+        int $length
+    ): iterable {
         $query = clone $this->query;
         $query->offset = $offset;
         $query->limit = $length;
@@ -164,7 +169,7 @@ abstract class AbstractSearchResultAdapter implements AdapterInterface, SearchRe
     /**
      * @phpstan-param TSearchLanguageFilter $languageFilter
      *
-     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<T>
+     * @phpstan-return SearchResult<T>
      */
     abstract protected function executeQuery(
         SearchService $searchService,

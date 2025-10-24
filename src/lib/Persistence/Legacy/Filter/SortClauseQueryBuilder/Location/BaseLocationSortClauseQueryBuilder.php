@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Location;
 
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause;
 use Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder;
 
@@ -26,7 +27,7 @@ abstract class BaseLocationSortClauseQueryBuilder implements SortClauseQueryBuil
             ->addSelect($this->getSortingExpression())
             ->joinAllLocations();
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause $sortClause */
+        /** @var SortClause $sortClause */
         $queryBuilder->addOrderBy($sort, $sortClause->direction);
     }
 

@@ -14,6 +14,7 @@ use InvalidArgumentException;
 use LogicException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
  * A modified version of HttpFoundation's BinaryFileResponse that accepts a stream as the input.
@@ -32,7 +33,7 @@ class BinaryStreamResponse extends Response
      * @param array<string, array<string>> $headers An array of response headers
      * @param bool $public Files are public by default
      *
-     * @phpstan-param \Symfony\Component\HttpFoundation\ResponseHeaderBag::DISPOSITION_*|null $contentDisposition The type of Content-Disposition to set automatically with the filename
+     * @phpstan-param ResponseHeaderBag::DISPOSITION_*|null $contentDisposition The type of Content-Disposition to set automatically with the filename
      *
      * @param bool $autoLastModified Whether the Last-Modified header should be automatically set
      */
@@ -57,12 +58,15 @@ class BinaryStreamResponse extends Response
     }
 
     /**
-     * @phpstan-param \Symfony\Component\HttpFoundation\ResponseHeaderBag::DISPOSITION_*|null $contentDisposition
+     * @phpstan-param ResponseHeaderBag::DISPOSITION_*|null $contentDisposition
      *
      * @return $this
      */
-    public function setFile(BinaryFile $file, ?string $contentDisposition = null, bool $autoLastModified = true): static
-    {
+    public function setFile(
+        BinaryFile $file,
+        ?string $contentDisposition = null,
+        bool $autoLastModified = true
+    ): static {
         $this->file = $file;
 
         if ($autoLastModified) {
@@ -96,15 +100,18 @@ class BinaryStreamResponse extends Response
     /**
      * Sets the Content-Disposition header with the given filename.
      *
-     * @phpstan-param \Symfony\Component\HttpFoundation\ResponseHeaderBag::DISPOSITION_* $disposition
+     * @phpstan-param ResponseHeaderBag::DISPOSITION_* $disposition
      *
      * @param string $filename Optionally use this filename instead of the real name of the file
      * @param string $filenameFallback A fallback filename, containing only ASCII characters. Defaults to an automatically encoded filename
      *
      * @return $this
      */
-    public function setContentDisposition(string $disposition, string $filename = '', string $filenameFallback = ''): BinaryStreamResponse
-    {
+    public function setContentDisposition(
+        string $disposition,
+        string $filename = '',
+        string $filenameFallback = ''
+    ): BinaryStreamResponse {
         if ($filename === '') {
             $filename = $this->file->getId();
         }
@@ -189,7 +196,7 @@ class BinaryStreamResponse extends Response
     }
 
     /**
-     * @throws \LogicException when the content is not null
+     * @throws LogicException when the content is not null
      *
      * @return $this
      */

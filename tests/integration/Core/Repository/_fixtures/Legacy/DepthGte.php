@@ -12,14 +12,14 @@ return SearchResult::__set_state(
         'searchHits' => [
             0 => SearchHit::__set_state(
                 [
-                        'valueObject' => [
-                            'id' => 10,
-                            'title' => 'Anonymous User',
-                        ],
-                        'score' => null,
-                        'index' => null,
-                        'highlight' => null,
-                    ]
+                    'valueObject' => [
+                        'id' => 10,
+                        'title' => 'Anonymous User',
+                    ],
+                    'score' => null,
+                    'index' => null,
+                    'highlight' => null,
+                ]
             ),
             1 => SearchHit::__set_state(
                 [

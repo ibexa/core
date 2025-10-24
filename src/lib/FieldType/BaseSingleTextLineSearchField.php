@@ -12,35 +12,38 @@ use Ibexa\Contracts\Core\FieldType\Indexable;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Search;
+use Ibexa\Contracts\Core\Search\FieldType;
 
 abstract class BaseSingleTextLineSearchField implements Indexable
 {
     /**
-     * @return \Ibexa\Contracts\Core\Search\Field[]
+     * @return Search\Field[]
      */
-    public function getIndexData(Field $field, FieldDefinition $fieldDefinition): array
-    {
+    public function getIndexData(
+        Field $field,
+        FieldDefinition $fieldDefinition
+    ): array {
         return [
             new Search\Field(
                 'value',
                 $field->value->data,
-                new Search\FieldType\StringField()
+                new FieldType\StringField()
             ),
             new Search\Field(
                 'fulltext',
                 $field->value->data,
-                new Search\FieldType\FullTextField()
+                new FieldType\FullTextField()
             ),
         ];
     }
 
     /**
-     * @return array<string, \Ibexa\Contracts\Core\Search\FieldType>
+     * @return array<string, FieldType>
      */
     public function getIndexDefinition(): array
     {
         return [
-            'value' => new Search\FieldType\StringField(),
+            'value' => new FieldType\StringField(),
         ];
     }
 

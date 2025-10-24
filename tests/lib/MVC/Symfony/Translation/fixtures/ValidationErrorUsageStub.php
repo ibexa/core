@@ -9,9 +9,10 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\MVC\Symfony\Translation\fixtures;
 
 use Ibexa\Core\FieldType\ValidationError;
+use Ibexa\Tests\Core\MVC\Symfony\Translation\ValidationErrorFileVisitorTest;
 
 /**
- * @see \Ibexa\Tests\Core\MVC\Symfony\Translation\ValidationErrorFileVisitorTest
+ * @see ValidationErrorFileVisitorTest
  */
 final class ValidationErrorUsageStub
 {

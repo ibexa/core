@@ -21,7 +21,7 @@ use Ibexa\Core\FieldType\ValidationError;
  */
 final class VersionValidator implements ContentValidator
 {
-    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
+    /** @var FieldTypeRegistry */
     private $fieldTypeRegistry;
 
     public function __construct(

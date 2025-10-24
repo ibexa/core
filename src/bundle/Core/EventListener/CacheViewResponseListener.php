@@ -20,7 +20,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class CacheViewResponseListener implements EventSubscriberInterface
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
     public function __construct(ConfigResolverInterface $configResolver)

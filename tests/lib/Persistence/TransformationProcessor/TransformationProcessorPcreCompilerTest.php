@@ -23,8 +23,10 @@ class TransformationProcessorPcreCompilerTest extends TestCase
      *
      * @return string
      */
-    protected function applyTransformations(array $transformations, $string)
-    {
+    protected function applyTransformations(
+        array $transformations,
+        $string
+    ) {
         foreach ($transformations as $rules) {
             foreach ($rules as $rule) {
                 $string = preg_replace_callback($rule['regexp'], $rule['callback'], $string);

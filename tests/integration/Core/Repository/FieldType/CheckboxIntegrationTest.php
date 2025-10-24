@@ -8,13 +8,18 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Core\FieldType\Checkbox\Value;
 use Ibexa\Core\FieldType\Checkbox\Value as CheckboxValue;
 
 /**
@@ -127,7 +132,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTestCase
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was stored and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     public function assertFieldDataLoadedCorrect(Field $field)
     {
@@ -199,7 +204,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTestCase
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was copied and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     public function assertCopiedFieldDataLoadedCorrectly(Field $field)
     {
@@ -325,9 +330,9 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testFindContentFieldCriterion(bool $isActive): void
     {
@@ -346,9 +351,9 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTestCase
 
         self::assertEquals(1, $searchResult->totalCount);
         $contentItem = $searchResult->searchHits[0]->valueObject;
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentItem */
+        /** @var Content $contentItem */
         $value = $contentItem->getField('is_active')->value;
-        /** @var \Ibexa\Core\FieldType\Checkbox\Value $value */
+        /** @var Value $value */
         self::assertSame($isActive, $value->bool);
     }
 
@@ -366,9 +371,9 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     protected function createCheckboxContentItems(Repository $repository): void
     {
@@ -395,9 +400,9 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     private function createContentTypeWithCheckboxField(Repository $repository): ContentType
     {

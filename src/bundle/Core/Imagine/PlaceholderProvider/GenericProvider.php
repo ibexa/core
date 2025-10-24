@@ -16,13 +16,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GenericProvider implements PlaceholderProvider
 {
-    /** @var \Imagine\Image\ImagineInterface */
+    /** @var ImagineInterface */
     private $imagine;
 
     /**
      * GenericProvider constructor.
      *
-     * @param \Imagine\Image\ImagineInterface $imagine
+     * @param ImagineInterface $imagine
      */
     public function __construct(ImagineInterface $imagine)
     {
@@ -32,8 +32,10 @@ class GenericProvider implements PlaceholderProvider
     /**
      * {@inheritdoc}
      */
-    public function getPlaceholder(ImageValue $value, array $options = []): string
-    {
+    public function getPlaceholder(
+        ImageValue $value,
+        array $options = []
+    ): string {
         $options = $this->resolveOptions($options);
 
         $palette = new Image\Palette\RGB();
@@ -75,8 +77,10 @@ class GenericProvider implements PlaceholderProvider
         return $path;
     }
 
-    private function getPlaceholderText(string $pattern, ImageValue $value): string
-    {
+    private function getPlaceholderText(
+        string $pattern,
+        ImageValue $value
+    ): string {
         return strtr($pattern, [
             '%width%' => $value->width,
             '%height%' => $value->height,
@@ -85,7 +89,7 @@ class GenericProvider implements PlaceholderProvider
     }
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue
+     * @throws InvalidArgumentValue
      */
     private function getTemporaryPath(): string
     {

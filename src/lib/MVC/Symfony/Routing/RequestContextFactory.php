@@ -8,13 +8,14 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\MVC\Symfony\Routing;
 
+use Ibexa\Bundle\Core\Routing\DefaultRouter;
 use Symfony\Component\Routing\RequestContext;
 
 /**
  * @internal
  *
- * @see \Ibexa\Bundle\Core\Routing\DefaultRouter
- * @see \Ibexa\Core\MVC\Symfony\Routing\Generator
+ * @see DefaultRouter
+ * @see Generator
  *
  * Encapsulates shared logic between Router and URL generator, meant to be lightweight and instantiated on the fly.
  */

@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\LocationResolver;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\LocationService;
@@ -20,7 +21,7 @@ use Ibexa\Core\Base\Exceptions\NotFoundException as CoreNotFoundException;
  */
 final class PermissionAwareLocationResolver implements LocationResolver
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
+    /** @var LocationService */
     private $locationService;
 
     public function __construct(LocationService $locationService)
@@ -29,9 +30,9 @@ final class PermissionAwareLocationResolver implements LocationResolver
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
+     * @throws BadStateException
      */
     public function resolveLocation(ContentInfo $contentInfo): Location
     {

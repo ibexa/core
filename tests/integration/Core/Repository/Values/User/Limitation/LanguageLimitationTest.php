@@ -8,8 +8,13 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
+use Ibexa\Contracts\Core\Limitation\Target;
 use Ibexa\Contracts\Core\Limitation\Target\Builder\VersionBuilder;
 use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
@@ -44,11 +49,11 @@ class LanguageLimitationTest extends BaseTestCase
      * @param array $allowedTranslationsList list of translations (language codes) which editor can modify.
      * @param string $login
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @return User
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     private function createEditorUserWithLanguageLimitation(
         array $allowedTranslationsList,
@@ -102,12 +107,14 @@ class LanguageLimitationTest extends BaseTestCase
      *
      * @dataProvider providerForCreateAndPublishContent
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
-    public function testCreateAndPublishContent(array $names, array $allowedTranslationsList): void
-    {
+    public function testCreateAndPublishContent(
+        array $names,
+        array $allowedTranslationsList
+    ): void {
         $repository = $this->getRepository();
         $repository->getPermissionResolver()->setCurrentUserReference(
             $this->createEditorUserWithLanguageLimitation($allowedTranslationsList)
@@ -130,12 +137,12 @@ class LanguageLimitationTest extends BaseTestCase
      *
      * @param array $folderNames names of a folder to create as test content
      * @param array $allowedTranslationsList a list of language codes of translations a user is allowed to edit
-     * @param \Ibexa\Contracts\Core\Limitation\Target[] $targets
+     * @param Target[] $targets
      * @param bool $expectedCanUserResult
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testCanUserWithLimitationTargets(
         string $policyModule,
@@ -174,7 +181,7 @@ class LanguageLimitationTest extends BaseTestCase
      *
      * @return array
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function providerForCanUserWithLimitationTargets(): array
     {
@@ -282,9 +289,9 @@ class LanguageLimitationTest extends BaseTestCase
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::publishVersion
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      * @throws \Exception
      */
     public function testPublishVersion(
@@ -336,9 +343,9 @@ class LanguageLimitationTest extends BaseTestCase
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::publishVersion
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testPublishVersionIsNotAllowedIfModifiedOtherTranslations(array $names): void
     {
@@ -364,9 +371,9 @@ class LanguageLimitationTest extends BaseTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testPublishVersionTranslation(): void
     {
@@ -399,9 +406,9 @@ class LanguageLimitationTest extends BaseTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testPublishVersionTranslationIsNotAllowed(): void
     {
@@ -424,9 +431,9 @@ class LanguageLimitationTest extends BaseTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testPublishVersionTranslationIsNotAllowedWithTwoEditors(): void
     {
@@ -467,9 +474,9 @@ class LanguageLimitationTest extends BaseTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testPublishVersionTranslationWhenUserHasNoAccessToAllLanguages(): void
     {
@@ -497,10 +504,10 @@ class LanguageLimitationTest extends BaseTestCase
     /**
      * @dataProvider providerForPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws UnauthorizedException
+     * @throws BadStateException
+     * @throws ForbiddenException
+     * @throws NotFoundException
      */
     public function testCopyContentWithLanguageLimitationAndDifferentContentTranslations(
         array $limitationValues,
@@ -530,11 +537,11 @@ class LanguageLimitationTest extends BaseTestCase
     /**
      * @dataProvider providerForPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws UnauthorizedException
+     * @throws BadStateException
+     * @throws ForbiddenException
+     * @throws InvalidArgumentException
+     * @throws NotFoundException
      */
     public function testCopySubtreeWithLanguageLimitationAndDifferentContentTranslations(
         array $limitationValues,
@@ -568,11 +575,11 @@ class LanguageLimitationTest extends BaseTestCase
     /**
      * @dataProvider providerForPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws UnauthorizedException
+     * @throws BadStateException
+     * @throws ForbiddenException
+     * @throws InvalidArgumentException
+     * @throws NotFoundException
      */
     public function testMoveSubtreeWithLanguageLimitationAndDifferentContentTranslations(
         array $limitationValues,
@@ -609,10 +616,10 @@ class LanguageLimitationTest extends BaseTestCase
     /**
      * @dataProvider providerForPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws UnauthorizedException
+     * @throws BadStateException
+     * @throws ForbiddenException
+     * @throws NotFoundException
      */
     public function testSwapLocationWithLanguageLimitationAndDifferentContentTranslations(
         array $limitationValues,
@@ -648,10 +655,10 @@ class LanguageLimitationTest extends BaseTestCase
     /**
      * @dataProvider providerForPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws UnauthorizedException
+     * @throws BadStateException
+     * @throws ForbiddenException
+     * @throws NotFoundException
      */
     public function testHideLocationWithLanguageLimitationAndDifferentContentTranslations(
         array $limitationValues,
@@ -685,10 +692,10 @@ class LanguageLimitationTest extends BaseTestCase
     /**
      * @dataProvider providerForPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws UnauthorizedException
+     * @throws BadStateException
+     * @throws ForbiddenException
+     * @throws NotFoundException
      */
     public function testUnhideLocationWithLanguageLimitationAndDifferentContentTranslations(
         array $limitationValues,
@@ -722,10 +729,10 @@ class LanguageLimitationTest extends BaseTestCase
     /**
      * @dataProvider providerForPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws UnauthorizedException
+     * @throws BadStateException
+     * @throws ForbiddenException
+     * @throws NotFoundException
      */
     public function testHideContentWithLanguageLimitationAndDifferentContentTranslations(
         array $limitationValues,
@@ -755,10 +762,10 @@ class LanguageLimitationTest extends BaseTestCase
     /**
      * @dataProvider providerForPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws UnauthorizedException
+     * @throws BadStateException
+     * @throws ForbiddenException
+     * @throws NotFoundException
      */
     public function testRevealContentWithLanguageLimitationAndDifferentContentTranslations(
         array $limitationValues,
@@ -788,10 +795,10 @@ class LanguageLimitationTest extends BaseTestCase
     /**
      * @dataProvider providerForPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws UnauthorizedException
+     * @throws BadStateException
+     * @throws ForbiddenException
+     * @throws NotFoundException
      */
     public function testUpdateLocationWithLanguageLimitationAndDifferentContentTranslations(
         array $limitationValues,
@@ -825,10 +832,10 @@ class LanguageLimitationTest extends BaseTestCase
     /**
      * @dataProvider providerForPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws NotFoundException
+     * @throws BadStateException
+     * @throws UnauthorizedException
+     * @throws ForbiddenException
      */
     public function testPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations(
         array $limitationValues,
@@ -864,13 +871,13 @@ class LanguageLimitationTest extends BaseTestCase
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\ContentService $contentService
+     * @param ContentService $contentService
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     private function createMultilingualFolderDraft(ContentService $contentService): Content
     {

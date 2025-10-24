@@ -17,7 +17,7 @@ class LogicalOr extends Compound
 {
     public const string NAME = 'logicalOr';
 
-    public function match(): false|string
+    public function match(): false | string
     {
         foreach ($this->config as $i => $rule) {
             foreach ($rule['matchers'] as $subMatcherClass => $matchingConfig) {

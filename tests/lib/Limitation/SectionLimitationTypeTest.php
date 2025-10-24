@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Limitation\Type as LimitationType;
 use Ibexa\Contracts\Core\Persistence\Content\Section as SPISection;
+use Ibexa\Contracts\Core\Persistence\Content\Section\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Section\Handler as SPISectionHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
@@ -26,13 +27,14 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Limitation\SectionLimitationType;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test Case for LimitationType.
  */
 class SectionLimitationTypeTest extends Base
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Section\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Handler|MockObject */
     private $sectionHandlerMock;
 
     /**
@@ -54,7 +56,7 @@ class SectionLimitationTypeTest extends Base
     }
 
     /**
-     * @return \Ibexa\Core\Limitation\SectionLimitationType
+     * @return SectionLimitationType
      */
     public function testConstruct()
     {
@@ -78,11 +80,13 @@ class SectionLimitationTypeTest extends Base
      *
      * @depends testConstruct
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation $limitation
-     * @param \Ibexa\Core\Limitation\SectionLimitationType $limitationType
+     * @param SectionLimitation $limitation
+     * @param SectionLimitationType $limitationType
      */
-    public function testAcceptValue(SectionLimitation $limitation, SectionLimitationType $limitationType)
-    {
+    public function testAcceptValue(
+        SectionLimitation $limitation,
+        SectionLimitationType $limitationType
+    ) {
         $limitationType->acceptValue($limitation);
     }
 
@@ -105,11 +109,13 @@ class SectionLimitationTypeTest extends Base
      *
      * @depends testConstruct
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
-     * @param \Ibexa\Core\Limitation\SectionLimitationType $limitationType
+     * @param Limitation $limitation
+     * @param SectionLimitationType $limitationType
      */
-    public function testAcceptValueException(Limitation $limitation, SectionLimitationType $limitationType)
-    {
+    public function testAcceptValueException(
+        Limitation $limitation,
+        SectionLimitationType $limitationType
+    ) {
         $this->expectException(InvalidArgumentException::class);
 
         $limitationType->acceptValue($limitation);
@@ -130,7 +136,7 @@ class SectionLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestValidatePass
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation $limitation
+     * @param SectionLimitation $limitation
      */
     public function testValidatePass(SectionLimitation $limitation)
     {
@@ -175,11 +181,13 @@ class SectionLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestValidateError
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation $limitation
+     * @param SectionLimitation $limitation
      * @param int $errorCount
      */
-    public function testValidateError(SectionLimitation $limitation, $errorCount)
-    {
+    public function testValidateError(
+        SectionLimitation $limitation,
+        $errorCount
+    ) {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
                 ->expects(self::any())
@@ -209,7 +217,7 @@ class SectionLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\SectionLimitationType $limitationType
+     * @param SectionLimitationType $limitationType
      */
     public function testBuildValue(SectionLimitationType $limitationType)
     {
@@ -429,7 +437,7 @@ class SectionLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\SectionLimitationType $limitationType
+     * @param SectionLimitationType $limitationType
      */
     public function testGetCriterionInvalidValue(SectionLimitationType $limitationType)
     {
@@ -444,7 +452,7 @@ class SectionLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\SectionLimitationType $limitationType
+     * @param SectionLimitationType $limitationType
      */
     public function testGetCriterionSingleValue(SectionLimitationType $limitationType)
     {
@@ -463,7 +471,7 @@ class SectionLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\SectionLimitationType $limitationType
+     * @param SectionLimitationType $limitationType
      */
     public function testGetCriterionMultipleValues(SectionLimitationType $limitationType)
     {
@@ -482,7 +490,7 @@ class SectionLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\SectionLimitationType $limitationType
+     * @param SectionLimitationType $limitationType
      */
     public function testValueSchema(SectionLimitationType $limitationType)
     {

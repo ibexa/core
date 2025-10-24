@@ -28,8 +28,10 @@ final class SiteAccessSerializer implements SiteAccessSerializerInterface
     /**
      * @throws \JsonException
      */
-    public function serializeSiteAccessAsControllerAttributes(SiteAccess $siteAccess, ControllerReference $controller): void
-    {
+    public function serializeSiteAccessAsControllerAttributes(
+        SiteAccess $siteAccess,
+        ControllerReference $controller
+    ): void {
         // Serialize the SiteAccess to get it back after. @see \Ibexa\Core\MVC\Symfony\EventListener\SiteAccessMatchListener
         $controller->attributes['serialized_siteaccess'] = json_encode($siteAccess, JSON_THROW_ON_ERROR);
         $controller->attributes['serialized_siteaccess_matcher'] = $this->serializer->serialize(

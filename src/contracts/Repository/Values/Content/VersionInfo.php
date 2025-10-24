@@ -16,10 +16,10 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 /**
  * This class holds version information data.
  *
- * It also contains the corresponding {@see \Ibexa\Contracts\Core\Repository\Values\Content\Content} to
+ * It also contains the corresponding {@see Content} to
  * which the version belongs to.
  *
- * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo calls getContentInfo()
+ * @property-read ContentInfo $contentInfo calls getContentInfo()
  * @property-read mixed $id the internal id of the version
  * @property-read int $versionNo @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see VersionInfo::getVersionNo()} instead.
  * @property-read \DateTime $modificationDate the last modified date of this version
@@ -84,7 +84,7 @@ abstract class VersionInfo extends ValueObject implements MultiLanguageName
     /**
      * Content of the content this version belongs to.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
+     * @return ContentInfo
      */
     abstract public function getContentInfo(): ContentInfo;
 
@@ -93,7 +93,7 @@ abstract class VersionInfo extends ValueObject implements MultiLanguageName
     abstract public function getInitialLanguage(): Language;
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Language[]
+     * @return Language[]
      */
     abstract public function getLanguages(): iterable;
 

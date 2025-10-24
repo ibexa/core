@@ -18,8 +18,7 @@ class URLWildcardServiceDecoratorTest extends TestCase
 {
     protected function createDecorator(MockObject $service): URLWildcardService
     {
-        return new class($service) extends URLWildcardServiceDecorator {
-        };
+        return new class($service) extends URLWildcardServiceDecorator {};
     }
 
     protected function createServiceMock(): MockObject

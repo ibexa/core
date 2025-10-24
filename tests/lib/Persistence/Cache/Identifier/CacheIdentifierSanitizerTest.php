@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class CacheIdentifierSanitizerTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierSanitizer */
+    /** @var CacheIdentifierSanitizer */
     private $cacheIdentifierSanitizer;
 
     public function setUp(): void
@@ -36,8 +36,10 @@ final class CacheIdentifierSanitizerTest extends TestCase
     /**
      * @dataProvider providerForTestEscapeCacheKey
      */
-    public function testEscapeCacheKey(array $arguments, string $resultKey): void
-    {
+    public function testEscapeCacheKey(
+        array $arguments,
+        string $resultKey
+    ): void {
         self::assertEquals(
             $resultKey,
             $this->cacheIdentifierSanitizer->escapeForCacheKey(...$arguments)

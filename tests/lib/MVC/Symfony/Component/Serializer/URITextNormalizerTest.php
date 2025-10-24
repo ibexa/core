@@ -12,6 +12,7 @@ use Ibexa\Core\MVC\Symfony\Component\Serializer\URITextNormalizer;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIText;
 use Ibexa\Tests\Core\Search\TestCase;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
@@ -21,7 +22,7 @@ use Symfony\Component\Serializer\Serializer;
 final class URITextNormalizerTest extends TestCase
 {
     /**
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function testNormalize(): void
     {

@@ -78,8 +78,11 @@ class DefaultRouter extends Router implements SiteAccessAware
     /**
      * @param array<string, mixed> $parameters
      */
-    public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
-    {
+    public function generate(
+        string $name,
+        array $parameters = [],
+        int $referenceType = self::ABSOLUTE_PATH
+    ): string {
         $siteAccess = $this->siteAccess;
         $originalContext = $context = $this->getContext();
         $isSiteAccessAware = $this->isSiteAccessAwareRoute($name);

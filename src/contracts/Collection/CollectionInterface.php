@@ -27,7 +27,7 @@ interface CollectionInterface extends Countable, IteratorAggregate
     public function toArray(): array;
 
     /**
-     * @return \Iterator
+     * @return Iterator
      */
     public function getIterator(): Iterator;
 }

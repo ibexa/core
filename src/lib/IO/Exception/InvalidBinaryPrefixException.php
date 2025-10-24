@@ -10,8 +10,11 @@ namespace Ibexa\Core\IO\Exception;
 
 class InvalidBinaryPrefixException extends InvalidBinaryFileIdException
 {
-    public function __construct(string $identifier, string $prefix, int $code = 0)
-    {
+    public function __construct(
+        string $identifier,
+        string $prefix,
+        int $code = 0
+    ) {
         parent::__construct($identifier);
 
         $this->setMessageTemplate(

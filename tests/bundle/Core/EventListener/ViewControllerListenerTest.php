@@ -12,14 +12,17 @@ use Ibexa\Contracts\Core\Event\View\PostBuildViewEvent;
 use Ibexa\Core\MVC\Symfony\View\BaseView;
 use Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilder;
 use Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilderRegistry;
+use Ibexa\Core\MVC\Symfony\View\Configurator;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
 use Ibexa\Core\MVC\Symfony\View\Event\FilterViewBuilderParametersEvent;
 use Ibexa\Core\MVC\Symfony\View\ViewEvents;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
+use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -27,31 +30,31 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class ViewControllerListenerTest extends TestCase
 {
-    /** @var \Symfony\Component\HttpKernel\Controller\ControllerResolver|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ControllerResolver|MockObject */
     private $controllerResolver;
 
-    /** @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var LoggerInterface|MockObject */
     private $logger;
 
-    /** @var \Ibexa\Bundle\Core\EventListener\ViewControllerListener */
+    /** @var ViewControllerListener */
     private $controllerListener;
 
-    /** @var \Symfony\Component\HttpKernel\Event\ControllerEvent */
+    /** @var ControllerEvent */
     private $event;
 
-    /** @var \Symfony\Component\HttpFoundation\Request */
+    /** @var Request */
     private $request;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilderRegistry|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ViewBuilderRegistry|MockObject */
     private $viewBuilderRegistry;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\Configurator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Configurator|MockObject */
     private $viewConfigurator;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilder|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ViewBuilder|MockObject */
     private $viewBuilderMock;
 
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var EventDispatcherInterface|MockObject */
     private $eventDispatcher;
 
     protected function setUp(): void
@@ -158,8 +161,7 @@ class ViewControllerListenerTest extends TestCase
 
     public function testGetControllerEmitsProperEvents(): void
     {
-        $viewObject = new class() extends BaseView {
-        };
+        $viewObject = new class() extends BaseView {};
 
         $this->viewBuilderRegistry
             ->expects(self::once())
@@ -190,7 +192,7 @@ class ViewControllerListenerTest extends TestCase
     }
 
     /**
-     * @return \Symfony\Component\HttpKernel\Event\ControllerEvent
+     * @return ControllerEvent
      */
     protected function createEvent()
     {

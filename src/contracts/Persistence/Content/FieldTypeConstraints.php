@@ -7,6 +7,7 @@
 
 namespace Ibexa\Contracts\Core\Persistence\Content;
 
+use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\Persistence\ValueObject;
 
 class FieldTypeConstraints extends ValueObject
@@ -18,7 +19,7 @@ class FieldTypeConstraints extends ValueObject
      * Note that contents of this property must be serializable and exportable
      * (i.e. no circular references, resources and friends).
      *
-     * @see \Ibexa\Contracts\Core\FieldType\FieldType
+     * @see FieldType
      *
      * @var mixed
      */
@@ -31,7 +32,7 @@ class FieldTypeConstraints extends ValueObject
      * Note that contents of this property must be serializable and exportable
      * (i.e. no circular references, resources and friends).
      *
-     * @see \Ibexa\Contracts\Core\FieldType\FieldType
+     * @see FieldType
      *
      * @var mixed
      */

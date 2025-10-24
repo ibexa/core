@@ -8,11 +8,14 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\PHPUnitConstraint;
 
+use Ibexa\Contracts\Core\FieldType\ValidationError;
+use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
+
 /**
  * PHPUnit constraint checking that the given ValidationError message occurs in asserted ContentFieldValidationException.
  *
- * @see \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
- * @see \Ibexa\Contracts\Core\FieldType\ValidationError
+ * @see ContentFieldValidationException
+ * @see ValidationError
  */
 class ValidationErrorOccurs extends AllValidationErrorsOccur
 {

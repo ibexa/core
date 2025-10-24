@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\User;
 
+use Doctrine\DBAL\Exception;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsUserBased;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
@@ -24,13 +25,13 @@ final class IsUserBasedQueryBuilder extends BaseUserCriterionQueryBuilder
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function buildQueryConstraint(
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsUserBased $criterion */
+        /** @var IsUserBased $criterion */
         // intentionally not using parent buildQueryConstraint
         $queryBuilder
             ->leftJoinOnce(

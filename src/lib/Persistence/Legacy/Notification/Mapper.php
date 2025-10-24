@@ -19,7 +19,7 @@ class Mapper
      *
      * @param array $rows
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Notification\Notification[]
+     * @return Notification[]
      */
     public function extractNotificationsFromRows(array $rows): array
     {
@@ -32,9 +32,9 @@ class Mapper
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct $updateStruct
+     * @param UpdateStruct $updateStruct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Notification\Notification
+     * @return Notification
      */
     public function createNotificationFromUpdateStruct(UpdateStruct $updateStruct): Notification
     {
@@ -49,7 +49,7 @@ class Mapper
      *
      * @param array $row
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Notification\Notification
+     * @return Notification
      */
     private function extractNotificationFromRow(array $row): Notification
     {

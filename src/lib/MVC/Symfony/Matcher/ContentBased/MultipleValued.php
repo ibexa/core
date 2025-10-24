@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\MVC\Symfony\Matcher\ContentBased;
 
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Core\MVC\RepositoryAware;
 
 /**
@@ -42,7 +43,7 @@ abstract class MultipleValued extends RepositoryAware implements MatcherInterfac
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Repository
+     * @return Repository
      */
     public function getRepository()
     {

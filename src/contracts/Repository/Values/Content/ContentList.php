@@ -22,7 +22,7 @@ final class ContentList implements IteratorAggregate, TotalCountAwareInterface
     /** @phpstan-var int<0, max> */
     private int $totalCount;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content[] */
+    /** @var Content[] */
     private array $contentItems;
 
     /**
@@ -30,10 +30,12 @@ final class ContentList implements IteratorAggregate, TotalCountAwareInterface
      *
      * @phpstan-param int<0, max> $totalCount
      *
-     * @param array<\Ibexa\Contracts\Core\Repository\Values\Content\Content> $contentItems
+     * @param array<Content> $contentItems
      */
-    public function __construct(int $totalCount, array $contentItems)
-    {
+    public function __construct(
+        int $totalCount,
+        array $contentItems
+    ) {
         $this->totalCount = $totalCount;
         $this->contentItems = $contentItems;
     }
@@ -47,7 +49,7 @@ final class ContentList implements IteratorAggregate, TotalCountAwareInterface
     }
 
     /**
-     * @return \ArrayIterator<int, \Ibexa\Contracts\Core\Repository\Values\Content\Content>
+     * @return ArrayIterator<int, Content>
      */
     public function getIterator(): ArrayIterator
     {

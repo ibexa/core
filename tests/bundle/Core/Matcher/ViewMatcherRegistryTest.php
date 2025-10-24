@@ -20,7 +20,7 @@ final class ViewMatcherRegistryTest extends TestCase
     private const MATCHER_NAME = 'test_matcher';
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function testGetMatcher(): void
     {
@@ -31,7 +31,7 @@ final class ViewMatcherRegistryTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function testSetMatcher(): void
     {
@@ -44,7 +44,7 @@ final class ViewMatcherRegistryTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function testSetMatcherOverride(): void
     {

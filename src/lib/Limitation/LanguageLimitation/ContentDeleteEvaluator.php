@@ -25,8 +25,10 @@ final class ContentDeleteEvaluator implements VersionTargetEvaluator
     /**
      * Allow access if all of the given language codes for content matches limitation values.
      */
-    public function evaluate(Target\Version $targetVersion, Limitation $limitationValue): ?bool
-    {
+    public function evaluate(
+        Target\Version $targetVersion,
+        Limitation $limitationValue
+    ): ?bool {
         $diff = array_diff(
             $targetVersion->getTranslationsToDelete(),
             $limitationValue->limitationValues

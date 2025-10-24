@@ -18,13 +18,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct;
  */
 class LanguageService implements LanguageServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageService */
+    /** @var LanguageServiceInterface */
     protected $service;
 
     /**
      * Construct service object from aggregated service.
      *
-     * @param \Ibexa\Contracts\Core\Repository\LanguageService $service
+     * @param LanguageServiceInterface $service
      */
     public function __construct(
         LanguageServiceInterface $service
@@ -37,8 +37,10 @@ class LanguageService implements LanguageServiceInterface
         return $this->service->createLanguage($languageCreateStruct);
     }
 
-    public function updateLanguageName(Language $language, string $newName): Language
-    {
+    public function updateLanguageName(
+        Language $language,
+        string $newName
+    ): Language {
         return $this->service->updateLanguageName($language, $newName);
     }
 

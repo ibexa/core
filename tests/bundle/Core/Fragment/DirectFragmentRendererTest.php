@@ -14,6 +14,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\Templating\Exception\InvalidResponseException;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
 use Ibexa\Core\MVC\Symfony\View\Renderer\TemplateRenderer;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -153,7 +154,7 @@ final class DirectFragmentRendererTest extends TestCase
     }
 
     /**
-     * @return \Symfony\Component\HttpKernel\Controller\ControllerResolverInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return ControllerResolverInterface|MockObject
      */
     private function getControllerResolverInterfaceMock(): ControllerResolverInterface
     {
@@ -161,7 +162,7 @@ final class DirectFragmentRendererTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\MVC\Symfony\View\Renderer\TemplateRenderer|\PHPUnit\Framework\MockObject\MockObject
+     * @return TemplateRenderer|MockObject
      */
     private function getTemplateRendererMock(): TemplateRenderer
     {

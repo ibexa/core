@@ -75,8 +75,10 @@ final class PasswordValidator implements PasswordValidatorInterface
         return $errors;
     }
 
-    public function getPasswordInfo(APIUser $user, FieldDefinition $fieldDefinition): PasswordInfo
-    {
+    public function getPasswordInfo(
+        APIUser $user,
+        FieldDefinition $fieldDefinition
+    ): PasswordInfo {
         $passwordUpdatedAt = $user->passwordUpdatedAt;
         if ($passwordUpdatedAt === null) {
             return new PasswordInfo();
@@ -106,8 +108,10 @@ final class PasswordValidator implements PasswordValidatorInterface
         return new PasswordInfo($expirationDate, $expirationWarningDate);
     }
 
-    private function userPasswordIsTheSame(string $password, APIUser $user): bool
-    {
+    private function userPasswordIsTheSame(
+        string $password,
+        APIUser $user
+    ): bool {
         return $this->passwordHashService->isValidPassword(
             $password,
             $user->passwordHash,

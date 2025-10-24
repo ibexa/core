@@ -20,8 +20,10 @@ final class BeforeRemoveContentTypeTranslationEvent extends BeforeEvent
 
     private ?ContentTypeDraft $newContentTypeDraft = null;
 
-    public function __construct(ContentTypeDraft $contentTypeDraft, string $languageCode)
-    {
+    public function __construct(
+        ContentTypeDraft $contentTypeDraft,
+        string $languageCode
+    ) {
         $this->contentTypeDraft = $contentTypeDraft;
         $this->languageCode = $languageCode;
     }

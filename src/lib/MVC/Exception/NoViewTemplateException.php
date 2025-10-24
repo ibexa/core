@@ -15,7 +15,7 @@ use Ibexa\Core\MVC\Symfony\View\View;
  */
 class NoViewTemplateException extends Exception
 {
-    /** @var \Ibexa\Core\MVC\Symfony\View\View */
+    /** @var View */
     private $view;
 
     public function __construct(View $view)

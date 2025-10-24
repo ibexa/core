@@ -20,7 +20,7 @@ abstract class AbstractRandom extends SortClauseHandler
     /**
      * Check if this sort clause handler accepts to handle the given sort clause.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause $sortClause
+     * @param SortClause $sortClause
      *
      * @return bool
      */

@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\Values\Content;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo as APIContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation as APIRelation;
 
@@ -16,8 +17,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Relation as APIRelation;
  *
  * @property-read mixed $id the internal id of the relation
  * @property-read string $sourceFieldDefinitionIdentifier the field definition identifier of the field where this relation is anchored if the relation is of type EMBED, LINK, or ATTRIBUTE
- * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $sourceContentInfo - calls {@link getSourceContentInfo()}
- * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $destinationContentInfo - calls {@link getDestinationContentInfo()}
+ * @property-read ContentInfo $sourceContentInfo - calls {@link getSourceContentInfo()}
+ * @property-read ContentInfo $destinationContentInfo - calls {@link getDestinationContentInfo()}
  * @property-read int $type The relation type bitmask containing one or more of Relation::COMMON, Relation::EMBED, Relation::LINK, Relation::FIELD
  *
  * @internal Meant for internal use by Repository, type hint against API object instead.
@@ -27,21 +28,21 @@ class Relation extends APIRelation
     /**
      * the content of the source content of the relation.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
+     * @var ContentInfo
      */
     protected $sourceContentInfo;
 
     /**
      * the content of the destination content of the relation.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
+     * @var ContentInfo
      */
     protected $destinationContentInfo;
 
     /**
      * the content of the source content of the relation.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
+     * @return ContentInfo
      */
     public function getSourceContentInfo(): APIContentInfo
     {
@@ -51,7 +52,7 @@ class Relation extends APIRelation
     /**
      * the content of the destination content of the relation.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
+     * @return ContentInfo
      */
     public function getDestinationContentInfo(): APIContentInfo
     {

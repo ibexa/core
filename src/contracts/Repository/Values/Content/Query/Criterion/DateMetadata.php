@@ -57,14 +57,17 @@ class DateMetadata extends Criterion implements TrashCriterion, FilteringCriteri
     /**
      * Creates a new DateMetadata criterion.
      *
-     * @throws \InvalidArgumentException If target is unknown
+     * @throws InvalidArgumentException If target is unknown
      *
      * @param string $target One of {@see DateMetadata::CREATED}, {@see DateMetadata::MODIFIED}, or {@see DateMetadata::TRASHED} (applies to {@see \Ibexa\Contracts\Core\Repository\TrashService::findTrashItems()} only)
      * @param string $operator One of the {@see Operator} constants
      * @param int|int[] $value The match value, either as an array of as a single value, depending on the operator
      */
-    public function __construct(string $target, string $operator, int|array $value)
-    {
+    public function __construct(
+        string $target,
+        string $operator,
+        int | array $value
+    ) {
         if (!in_array($target, self::TARGETS)) {
             throw new InvalidArgumentException(sprintf(
                 'Unknown DateMetadata target "%s". Expected one of: "%s"',

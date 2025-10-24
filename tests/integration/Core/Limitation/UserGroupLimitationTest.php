@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Limitation;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
@@ -52,7 +53,7 @@ final class UserGroupLimitationTest extends BaseLimitationIntegrationTestCase
 
         $results = $repository->getSearchService()->findLocations($query)->searchHits;
         $resultLocationIds = array_map(static function (SearchHit $hit): int {
-            /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location */
+            /** @var Location $location */
             $location = $hit->valueObject;
 
             return $location->id;

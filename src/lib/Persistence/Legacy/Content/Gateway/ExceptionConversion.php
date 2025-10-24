@@ -28,34 +28,38 @@ final class ExceptionConversion extends Gateway
     /**
      * The wrapped gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @var Gateway
      */
     protected $innerGateway;
 
     /**
      * Creates a new exception conversion gateway around $innerGateway.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Gateway $innerGateway
+     * @param Gateway $innerGateway
      */
     public function __construct(Gateway $innerGateway)
     {
         $this->innerGateway = $innerGateway;
     }
 
-    public function insertContentObject(CreateStruct $struct, int $currentVersionNo = 1): int
-    {
+    public function insertContentObject(
+        CreateStruct $struct,
+        int $currentVersionNo = 1
+    ): int {
         try {
             return $this->innerGateway->insertContentObject($struct, $currentVersionNo);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function insertVersion(VersionInfo $versionInfo, array $fields): int
-    {
+    public function insertVersion(
+        VersionInfo $versionInfo,
+        array $fields
+    ): int {
         try {
             return $this->innerGateway->insertVersion($versionInfo, $fields);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -67,7 +71,7 @@ final class ExceptionConversion extends Gateway
     ): void {
         try {
             $this->innerGateway->updateContent($contentId, $struct, $prePublishVersionInfo);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -75,11 +79,14 @@ final class ExceptionConversion extends Gateway
     /**
      * Updates version $versionNo for content identified by $contentId, in respect to $struct.
      */
-    public function updateVersion(int $contentId, int $versionNo, UpdateStruct $struct): void
-    {
+    public function updateVersion(
+        int $contentId,
+        int $versionNo,
+        UpdateStruct $struct
+    ): void {
         try {
             $this->innerGateway->updateVersion($contentId, $versionNo, $struct);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -90,34 +97,42 @@ final class ExceptionConversion extends Gateway
     ): void {
         try {
             $this->innerGateway->updateAlwaysAvailableFlag($contentId, $newAlwaysAvailable);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function setStatus(int $contentId, int $version, int $status): bool
-    {
+    public function setStatus(
+        int $contentId,
+        int $version,
+        int $status
+    ): bool {
         try {
             return $this->innerGateway->setStatus($contentId, $version, $status);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function setPublishedStatus(int $contentId, int $status): void
-    {
+    public function setPublishedStatus(
+        int $contentId,
+        int $status
+    ): void {
         try {
             $this->innerGateway->setPublishedStatus($contentId, $status);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function insertNewField(Content $content, Field $field, StorageFieldValue $value): int
-    {
+    public function insertNewField(
+        Content $content,
+        Field $field,
+        StorageFieldValue $value
+    ): int {
         try {
             return $this->innerGateway->insertNewField($content, $field, $value);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -129,16 +144,18 @@ final class ExceptionConversion extends Gateway
     ): void {
         try {
             $this->innerGateway->insertExistingField($content, $field, $value);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function updateField(Field $field, StorageFieldValue $value): void
-    {
+    public function updateField(
+        Field $field,
+        StorageFieldValue $value
+    ): void {
         try {
             $this->innerGateway->updateField($field, $value);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -150,25 +167,30 @@ final class ExceptionConversion extends Gateway
     ): void {
         try {
             $this->innerGateway->updateNonTranslatableField($field, $value, $contentId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function load(int $contentId, ?int $version = null, ?array $translations = null): array
-    {
+    public function load(
+        int $contentId,
+        ?int $version = null,
+        ?array $translations = null
+    ): array {
         try {
             return $this->innerGateway->load($contentId, $version, $translations);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function loadContentList(array $contentIds, ?array $translations = null): array
-    {
+    public function loadContentList(
+        array $contentIds,
+        ?array $translations = null
+    ): array {
         try {
             return $this->innerGateway->loadContentList($contentIds, $translations);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -177,7 +199,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadContentInfoByRemoteId($remoteId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -186,7 +208,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadContentInfoByLocationId($locationId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -195,7 +217,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadContentInfo($contentId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -204,16 +226,18 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadContentInfoList($contentIds);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function loadVersionInfo(int $contentId, ?int $versionNo = null): array
-    {
+    public function loadVersionInfo(
+        int $contentId,
+        ?int $versionNo = null
+    ): array {
         try {
             return $this->innerGateway->loadVersionInfo($contentId, $versionNo);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -221,20 +245,24 @@ final class ExceptionConversion extends Gateway
     /**
      * @return int[]
      */
-    public function loadVersionNoArchivedWithin(int $contentId, int $seconds): array
-    {
+    public function loadVersionNoArchivedWithin(
+        int $contentId,
+        int $seconds
+    ): array {
         try {
             return $this->innerGateway->loadVersionNoArchivedWithin($contentId, $seconds);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function countVersionsForUser(int $userId, int $status = VersionInfo::STATUS_DRAFT): int
-    {
+    public function countVersionsForUser(
+        int $userId,
+        int $status = VersionInfo::STATUS_DRAFT
+    ): int {
         try {
             return $this->innerGateway->countVersionsForUser($userId, $status);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -242,11 +270,13 @@ final class ExceptionConversion extends Gateway
     /**
      * @return string[][]
      */
-    public function listVersionsForUser(int $userId, int $status = VersionInfo::STATUS_DRAFT): array
-    {
+    public function listVersionsForUser(
+        int $userId,
+        int $status = VersionInfo::STATUS_DRAFT
+    ): array {
         try {
             return $this->innerGateway->listVersionsForUser($userId, $status);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -259,16 +289,19 @@ final class ExceptionConversion extends Gateway
     ): array {
         try {
             return $this->innerGateway->loadVersionsForUser($userId, $status, $offset, $limit);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function listVersions(int $contentId, ?int $status = null, int $limit = -1): array
-    {
+    public function listVersions(
+        int $contentId,
+        ?int $status = null,
+        int $limit = -1
+    ): array {
         try {
             return $this->innerGateway->listVersions($contentId, $status, $limit);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -277,7 +310,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->listVersionNumbers($contentId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -286,7 +319,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->getLastVersionNumber($contentId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -295,7 +328,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->getAllLocationIds($contentId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -307,16 +340,18 @@ final class ExceptionConversion extends Gateway
     ): array {
         try {
             return $this->innerGateway->getFieldIdsByType($contentId, $versionNo, $languageCode);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function deleteRelations(int $contentId, ?int $versionNo = null): void
-    {
+    public function deleteRelations(
+        int $contentId,
+        ?int $versionNo = null
+    ): void {
         try {
             $this->innerGateway->deleteRelations($contentId, $versionNo);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -325,7 +360,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->removeReverseFieldRelations($contentId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -334,7 +369,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->removeRelationsByFieldDefinitionId($fieldDefinitionId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -343,43 +378,53 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->deleteField($fieldId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function deleteFields(int $contentId, ?int $versionNo = null): void
-    {
+    public function deleteFields(
+        int $contentId,
+        ?int $versionNo = null
+    ): void {
         try {
             $this->innerGateway->deleteFields($contentId, $versionNo);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function deleteVersions(int $contentId, ?int $versionNo = null): void
-    {
+    public function deleteVersions(
+        int $contentId,
+        ?int $versionNo = null
+    ): void {
         try {
             $this->innerGateway->deleteVersions($contentId, $versionNo);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function deleteNames(int $contentId, ?int $versionNo = null): void
-    {
+    public function deleteNames(
+        int $contentId,
+        ?int $versionNo = null
+    ): void {
         try {
             $this->innerGateway->deleteNames($contentId, $versionNo);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function setName(int $contentId, int $version, string $name, string $languageCode): void
-    {
+    public function setName(
+        int $contentId,
+        int $version,
+        string $name,
+        string $languageCode
+    ): void {
         try {
             $this->innerGateway->setName($contentId, $version, $name, $languageCode);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -388,7 +433,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->deleteContent($contentId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -400,7 +445,7 @@ final class ExceptionConversion extends Gateway
     ): array {
         try {
             return $this->innerGateway->loadRelations($contentId, $contentVersionNo, $relationType);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -412,7 +457,7 @@ final class ExceptionConversion extends Gateway
     ): int {
         try {
             return $this->innerGateway->countRelations($contentId, $contentVersionNo, $relationType);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -432,25 +477,29 @@ final class ExceptionConversion extends Gateway
                 $contentVersionNo,
                 $relationType
             );
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function countReverseRelations(int $contentId, ?int $relationType = null): int
-    {
+    public function countReverseRelations(
+        int $contentId,
+        ?int $relationType = null
+    ): int {
         try {
             return $this->innerGateway->countReverseRelations($contentId, $relationType);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function loadReverseRelations(int $contentId, ?int $relationType = null): array
-    {
+    public function loadReverseRelations(
+        int $contentId,
+        ?int $relationType = null
+    ): array {
         try {
             return $this->innerGateway->loadReverseRelations($contentId, $relationType);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -468,16 +517,18 @@ final class ExceptionConversion extends Gateway
                 $limit,
                 $relationType
             );
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function deleteRelation(int $relationId, int $type): void
-    {
+    public function deleteRelation(
+        int $relationId,
+        int $type
+    ): void {
         try {
             $this->innerGateway->deleteRelation($relationId, $type);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -486,7 +537,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->insertRelation($struct);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -495,7 +546,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadRelation($relationId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -504,7 +555,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->getContentIdsByContentTypeId($contentTypeId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -513,7 +564,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadVersionedNameData($rows);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -525,16 +576,18 @@ final class ExceptionConversion extends Gateway
     ): void {
         try {
             $this->innerGateway->copyRelations($originalContentId, $copiedContentId, $versionNo);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function deleteTranslationFromContent(int $contentId, string $languageCode): void
-    {
+    public function deleteTranslationFromContent(
+        int $contentId,
+        string $languageCode
+    ): void {
         try {
             $this->innerGateway->deleteTranslationFromContent($contentId, $languageCode);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -550,7 +603,7 @@ final class ExceptionConversion extends Gateway
                 $contentId,
                 $versionNo
             );
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -566,7 +619,7 @@ final class ExceptionConversion extends Gateway
                 $versionNo,
                 $languageCode
             );
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -575,7 +628,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadVersionInfoList($contentIds);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }

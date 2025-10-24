@@ -20,17 +20,20 @@ use Symfony\Component\HttpKernel\EventListener\LocaleListener as BaseLocaleListe
  */
 class LocaleListener implements EventSubscriberInterface
 {
-    /** @var \Symfony\Component\HttpKernel\EventListener\LocaleListener */
+    /** @var BaseLocaleListener */
     private $innerListener;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface */
+    /** @var LocaleConverterInterface */
     private $localeConverter;
 
-    public function __construct(BaseLocaleListener $innerListener, ConfigResolverInterface $configResolver, LocaleConverterInterface $localeConverter)
-    {
+    public function __construct(
+        BaseLocaleListener $innerListener,
+        ConfigResolverInterface $configResolver,
+        LocaleConverterInterface $localeConverter
+    ) {
         $this->innerListener = $innerListener;
         $this->configResolver = $configResolver;
         $this->localeConverter = $localeConverter;

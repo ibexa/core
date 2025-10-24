@@ -39,8 +39,10 @@ final class MemberOfLimitationTest extends BaseLimitationIntegrationTestCase
     /**
      * @dataProvider userPermissionLimitationProvider
      */
-    public function testCanUserAssignRoleToUser(array $limitations, bool $expectedResult): void
-    {
+    public function testCanUserAssignRoleToUser(
+        array $limitations,
+        bool $expectedResult
+    ): void {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
         $userService = $repository->getUserService();

@@ -37,7 +37,7 @@ class Visibility extends Criterion implements FilteringCriterion
      *
      * @param int $value Visibility: self::VISIBLE, self::HIDDEN
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct(int $value)
     {

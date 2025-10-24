@@ -46,8 +46,12 @@ abstract class AbstractParserTestCase extends AbstractExtensionTestCase
      * @param string $scope SiteAccess name, group, default or global
      * @param bool $assertSame Set to false if you want to use assertEquals() instead of assertSame()
      */
-    protected function assertConfigResolverParameterValue($parameterName, $expectedValue, $scope, $assertSame = true)
-    {
+    protected function assertConfigResolverParameterValue(
+        $parameterName,
+        $expectedValue,
+        $scope,
+        $assertSame = true
+    ) {
         $chainConfigResolver = $this->getConfigResolver();
         $assertMethod = $assertSame ? 'assertSame' : 'assertEquals';
         $this->$assertMethod($expectedValue, $chainConfigResolver->getParameter($parameterName, 'ibexa.site_access.config', $scope));
@@ -99,8 +103,11 @@ abstract class AbstractParserTestCase extends AbstractExtensionTestCase
     /**
      * @param string[] $groupNames
      */
-    protected function getSiteAccess(string $name, string $provider, array $groupNames): SiteAccess
-    {
+    protected function getSiteAccess(
+        string $name,
+        string $provider,
+        array $groupNames
+    ): SiteAccess {
         $siteAccess = new SiteAccess($name, SiteAccess::DEFAULT_MATCHING_TYPE, null, $provider);
         $siteAccessGroups = [];
         foreach ($groupNames as $groupName) {

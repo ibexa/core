@@ -22,7 +22,7 @@ class ReduceNoiseFilterLoader implements LoaderInterface
 {
     public const IDENTIFIER = 'filter/noise';
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\FilterInterface */
+    /** @var FilterInterface */
     private $filter;
 
     public function __construct(FilterInterface $filter)
@@ -30,8 +30,10 @@ class ReduceNoiseFilterLoader implements LoaderInterface
         $this->filter = $filter;
     }
 
-    public function load(ImageInterface $image, array $options = []): ImageInterface
-    {
+    public function load(
+        ImageInterface $image,
+        array $options = []
+    ): ImageInterface {
         if (!$image instanceof ImagickImage && !$image instanceof GmagickImage) {
             throw new NotSupportedException('ReduceNoiseFilterLoader is only compatible with "imagick" and "gmagick" drivers');
         }

@@ -34,12 +34,19 @@ interface PasswordHashService
      *
      * If non-provided, the default password hash type will be used.
      */
-    public function createPasswordHash(string $plainPassword, ?int $hashType = null): string;
+    public function createPasswordHash(
+        string $plainPassword,
+        ?int $hashType = null
+    ): string;
 
     /**
      * Validates given $plainPassword against $passwordHash.
      *
      * If non-provided, the default password hash type will be used.
      */
-    public function isValidPassword(string $plainPassword, string $passwordHash, ?int $hashType = null): bool;
+    public function isValidPassword(
+        string $plainPassword,
+        string $passwordHash,
+        ?int $hashType = null
+    ): bool;
 }

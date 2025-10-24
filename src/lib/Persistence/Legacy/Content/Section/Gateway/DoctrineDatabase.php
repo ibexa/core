@@ -10,6 +10,7 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
+use Ibexa\Contracts\Core\Persistence\Content\Section\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
 use Ibexa\Core\Persistence\Legacy\User\Role\Gateway as RoleGateway;
@@ -17,16 +18,16 @@ use Ibexa\Core\Persistence\Legacy\User\Role\Gateway as RoleGateway;
 /**
  * @internal Gateway implementation is considered internal. Use Persistence Section Handler instead.
  *
- * @see \Ibexa\Contracts\Core\Persistence\Content\Section\Handler
+ * @see Handler
  */
 final class DoctrineDatabase extends Gateway
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
-    public function insertSection(string $name, string $identifier): int
-    {
+    public function insertSection(
+        string $name,
+        string $identifier
+    ): int {
         $query = $this->connection->createQueryBuilder();
         $query
             ->insert(self::CONTENT_SECTION_TABLE)
@@ -42,8 +43,11 @@ final class DoctrineDatabase extends Gateway
         return (int)$this->connection->lastInsertId(Gateway::CONTENT_SECTION_SEQ);
     }
 
-    public function updateSection(int $id, string $name, string $identifier): void
-    {
+    public function updateSection(
+        int $id,
+        string $name,
+        string $identifier
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->update(self::CONTENT_SECTION_TABLE)
@@ -193,8 +197,10 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
-    public function assignSectionToContent(int $sectionId, int $contentId): void
-    {
+    public function assignSectionToContent(
+        int $sectionId,
+        int $contentId
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->update(ContentGateway::CONTENT_ITEM_TABLE)

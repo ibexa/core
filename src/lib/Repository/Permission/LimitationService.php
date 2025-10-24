@@ -8,7 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\Permission;
 
+use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\Limitation\Type;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\NotFound\LimitationNotFoundException;
@@ -21,7 +23,7 @@ use Traversable;
  */
 class LimitationService
 {
-    /** @var \Ibexa\Contracts\Core\Limitation\Type[] */
+    /** @var Type[] */
     private $limitationTypes;
 
     public function __construct(?Traversable $limitationTypes = null)
@@ -37,7 +39,7 @@ class LimitationService
      * Returns the correct implementation of API Limitation value object
      * based on provided identifier
      *
-     * @throws \Ibexa\Core\Base\Exceptions\NotFound\LimitationNotFoundException
+     * @throws LimitationNotFoundException
      */
     public function getLimitationType(string $identifier): Type
     {
@@ -51,12 +53,12 @@ class LimitationService
     /**
      * Validates an array of Limitations.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation[] $limitations
+     * @param Limitation[] $limitations
      *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     * @return ValidationError[]
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function validateLimitations(array $limitations): array
     {
@@ -74,10 +76,10 @@ class LimitationService
     /**
      * Validates single Limitation.
      *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     * @return ValidationError[]
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If the Role settings is in a bad state*@throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If the Role settings is in a bad state*@throws InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function validateLimitation(Limitation $limitation): array
     {

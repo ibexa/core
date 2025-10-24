@@ -37,8 +37,7 @@ final readonly class RepositoryConfigurationProvider implements RepositoryConfig
     public function __construct(
         private ConfigResolverInterface $configResolver,
         private array $repositories,
-    ) {
-    }
+    ) {}
 
     public function getRepositoryConfig(): array
     {

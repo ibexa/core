@@ -56,7 +56,7 @@ class ArrayList extends AbstractInMemoryCollection implements ListInterface
     /**
      * @phpstan-param TValue[] $items
      *
-     * @phpstan-return \Ibexa\Contracts\Core\Collection\ArrayList<TValue>
+     * @phpstan-return ArrayList<TValue>
      */
     protected function createFrom(array $items): self
     {

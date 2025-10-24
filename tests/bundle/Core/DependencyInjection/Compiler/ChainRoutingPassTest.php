@@ -44,8 +44,10 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
      *
      * @dataProvider addRouterProvider
      */
-    public function testAddRouter($declaredPriority, $expectedPriority)
-    {
+    public function testAddRouter(
+        $declaredPriority,
+        $expectedPriority
+    ) {
         $resolverDef = new Definition();
         $serviceId = 'some_service_id';
         if ($declaredPriority !== null) {
@@ -70,8 +72,10 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
      *
      * @dataProvider addRouterProvider
      */
-    public function testAddRouterWithDefaultRouter($declaredPriority, $expectedPriority)
-    {
+    public function testAddRouterWithDefaultRouter(
+        $declaredPriority,
+        $expectedPriority
+    ) {
         $defaultRouter = new Definition();
         $this->setDefinition('router.default', $defaultRouter);
         $this->setDefinition(SiteAccess::class, new Definition());

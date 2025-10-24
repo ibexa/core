@@ -37,24 +37,24 @@ class AliasGenerator implements VariationHandler
 {
     public const ALIAS_ORIGINAL = 'original';
 
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     private $logger;
 
     /**
      * Loader used to retrieve the original image.
      * DataManager is not used to remain independent from ImagineBundle configuration.
      *
-     * @var \Liip\ImagineBundle\Binary\Loader\LoaderInterface
+     * @var LoaderInterface
      */
     private $dataLoader;
 
-    /** @var \Liip\ImagineBundle\Imagine\Filter\FilterManager */
+    /** @var FilterManager */
     private $filterManager;
 
-    /** @var \Liip\ImagineBundle\Imagine\Filter\FilterConfiguration */
+    /** @var FilterConfiguration */
     private $filterConfiguration;
 
-    /** @var \Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
+    /** @var ResolverInterface */
     private $ioResolver;
 
     public function __construct(
@@ -74,13 +74,17 @@ class AliasGenerator implements VariationHandler
     /**
      * {@inheritdoc}
      *
-     * @throws \InvalidArgumentException If field value is not an instance of {@see \Ibexa\Core\FieldType\Image\Value}.
-     * @throws \Ibexa\Core\MVC\Exception\SourceImageNotFoundException If source image cannot be found.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidVariationException If a problem occurs with generated variation.
+     * @throws InvalidArgumentException If field value is not an instance of {@see ImageValue}.
+     * @throws SourceImageNotFoundException If source image cannot be found.
+     * @throws InvalidVariationException If a problem occurs with generated variation.
      */
-    public function getVariation(Field $field, VersionInfo $versionInfo, string $variationName, array $parameters = []): Variation
-    {
-        /** @var \Ibexa\Core\FieldType\Image\Value $imageValue */
+    public function getVariation(
+        Field $field,
+        VersionInfo $versionInfo,
+        string $variationName,
+        array $parameters = []
+    ): Variation {
+        /** @var ImageValue $imageValue */
         $imageValue = $field->value;
         $fieldId = $field->id;
         $fieldDefIdentifier = $field->fieldDefIdentifier;
@@ -148,13 +152,15 @@ class AliasGenerator implements VariationHandler
      * In that case, reference's filters are applied first, recursively (a reference may also have another reference).
      * Reference must be a valid variation name, configured in Ibexa or in LiipImagineBundle.
      *
-     * @param \Liip\ImagineBundle\Binary\BinaryInterface $image
+     * @param BinaryInterface $image
      * @param string $variationName
      *
-     * @return \Liip\ImagineBundle\Binary\BinaryInterface
+     * @return BinaryInterface
      */
-    private function applyFilter(BinaryInterface $image, $variationName)
-    {
+    private function applyFilter(
+        BinaryInterface $image,
+        $variationName
+    ) {
         $filterConfig = $this->filterConfiguration->get($variationName);
         // If the variation has a reference, we recursively call this method to apply reference's filters.
         if (isset($filterConfig['reference']) && $filterConfig['reference'] !== IORepositoryResolver::VARIATION_ORIGINAL) {

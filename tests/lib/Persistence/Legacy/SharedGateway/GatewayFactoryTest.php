@@ -9,10 +9,13 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Persistence\Legacy\SharedGateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Ibexa\Core\Persistence\Legacy\SharedGateway\DatabasePlatform\FallbackGateway;
 use Ibexa\Core\Persistence\Legacy\SharedGateway\DatabasePlatform\SqliteGateway;
 use Ibexa\Core\Persistence\Legacy\SharedGateway\GatewayFactory;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Traversable;
 
@@ -21,11 +24,11 @@ use Traversable;
  */
 final class GatewayFactoryTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\SharedGateway\GatewayFactory */
+    /** @var GatewayFactory */
     private $factory;
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function setUp(): void
     {
@@ -42,10 +45,10 @@ final class GatewayFactoryTest extends TestCase
     /**
      * @dataProvider getTestBuildSharedGatewayData
      *
-     * @param \Doctrine\DBAL\Connection $connectionMock
+     * @param Connection $connectionMock
      * @param string $expectedInstance
      *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function testBuildSharedGateway(
         Connection $connectionMock,
@@ -58,7 +61,7 @@ final class GatewayFactoryTest extends TestCase
     }
 
     /**
-     * @return \Doctrine\DBAL\Connection[]|\PHPUnit\Framework\MockObject\MockObject[]|\Traversable
+     * @return Connection[]|MockObject[]|Traversable
      */
     public function getTestBuildSharedGatewayData(): Traversable
     {
@@ -71,7 +74,7 @@ final class GatewayFactoryTest extends TestCase
 
         foreach ($databasePlatformGatewayPairs as $databasePlatformGatewayPair) {
             [$databasePlatform, $sharedGateway] = $databasePlatformGatewayPair;
-            /** @var \Doctrine\DBAL\Platforms\AbstractPlatform $databasePlatform */
+            /** @var AbstractPlatform $databasePlatform */
             $connectionMock = $this
                 ->createMock(Connection::class);
             $connectionMock

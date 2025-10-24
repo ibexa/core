@@ -7,6 +7,8 @@
 
 namespace Ibexa\Bundle\Core\Routing;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter as BaseUrlAliasRouter;
@@ -25,7 +27,7 @@ class UrlAliasRouter extends BaseUrlAliasRouter
     /**
      * @return array<string, mixed> an array of parameters
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function matchRequest(Request $request): array
     {
@@ -41,8 +43,8 @@ class UrlAliasRouter extends BaseUrlAliasRouter
     /**
      * Will return the right UrlAlias with respect to configured root location.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws NotFoundException
+     * @throws InvalidArgumentException
      */
     protected function getUrlAlias(string $pathInfo): URLAlias
     {

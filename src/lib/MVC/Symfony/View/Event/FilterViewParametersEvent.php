@@ -21,7 +21,7 @@ class FilterViewParametersEvent extends Event
     /**
      * Copy of the view object that is being built.
      *
-     * @var \Ibexa\Core\MVC\Symfony\View\View
+     * @var View
      */
     private $view;
 
@@ -35,12 +35,14 @@ class FilterViewParametersEvent extends Event
     /**
      * ParameterBag used to manipulate the view parameters. Its contents will be injected as the view parameters.
      *
-     * @var \Symfony\Component\HttpFoundation\ParameterBag
+     * @var ParameterBag
      */
     private $parameterBag;
 
-    public function __construct(View $view, array $builderParameters)
-    {
+    public function __construct(
+        View $view,
+        array $builderParameters
+    ) {
         $this->view = clone $view;
         $this->builderParameters = $builderParameters;
         $this->parameterBag = new ParameterBag();
@@ -69,7 +71,7 @@ class FilterViewParametersEvent extends Event
     /**
      * Returns the ParameterBag used to manipulate the view parameters.
      *
-     * @return \Symfony\Component\HttpFoundation\ParameterBag
+     * @return ParameterBag
      */
     public function getParameterBag()
     {
@@ -79,7 +81,7 @@ class FilterViewParametersEvent extends Event
     /**
      * Returns the copy of the View object.
      *
-     * @return \Ibexa\Core\MVC\Symfony\View\View
+     * @return View
      */
     public function getView()
     {

@@ -16,8 +16,12 @@ class HiddenLocationException extends NotFoundHttpException
 {
     private Location $location;
 
-    public function __construct(Location $location, ?string $message = null, ?Throwable $previous = null, int $code = 0)
-    {
+    public function __construct(
+        Location $location,
+        ?string $message = null,
+        ?Throwable $previous = null,
+        int $code = 0
+    ) {
         $this->location = $location;
         parent::__construct($message ?? 'HTTP Not Found', $previous, $code);
     }

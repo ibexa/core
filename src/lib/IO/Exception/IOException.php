@@ -16,8 +16,10 @@ use Throwable;
  */
 class IOException extends RuntimeException
 {
-    public function __construct(string $message, ?Throwable $e = null)
-    {
+    public function __construct(
+        string $message,
+        ?Throwable $e = null
+    ) {
         parent::__construct($message, 0, $e);
     }
 }

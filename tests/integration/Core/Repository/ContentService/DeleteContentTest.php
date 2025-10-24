@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 use PHPUnit\Framework\Assert;
@@ -18,7 +19,7 @@ use PHPUnit\Framework\Assert;
 final class DeleteContentTest extends RepositoryTestCase
 {
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testDeleteContentDeletesChildrenDrafts(): void
     {
@@ -39,7 +40,7 @@ final class DeleteContentTest extends RepositoryTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testTrashLocationDeletesChildrenDrafts(): void
     {

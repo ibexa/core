@@ -18,14 +18,14 @@ use Iterator;
 
 final class FieldDefinitionCollection implements FieldDefinitionCollectionInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition[] */
+    /** @var FieldDefinition[] */
     private $fieldDefinitions;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition[] */
+    /** @var FieldDefinition[] */
     private $fieldDefinitionsByIdentifier;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition[]
+     * @param FieldDefinition[] $fieldDefinitions
      */
     public function __construct(iterable $fieldDefinitions = [])
     {
@@ -183,8 +183,10 @@ final class FieldDefinitionCollection implements FieldDefinitionCollectionInterf
         return $this->fieldDefinitions[$offset];
     }
 
-    public function offsetSet($offset, $value): void
-    {
+    public function offsetSet(
+        $offset,
+        $value
+    ): void {
         throw new BadMethodCallException(self::class . ' is read-only!');
     }
 

@@ -18,8 +18,10 @@ class GrayscaleFilterLoader implements LoaderInterface
 {
     public const IDENTIFIER = 'colorspace/gray';
 
-    public function load(ImageInterface $image, array $options = []): ImageInterface
-    {
+    public function load(
+        ImageInterface $image,
+        array $options = []
+    ): ImageInterface {
         $image->effects()->grayscale();
 
         return $image;

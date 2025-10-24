@@ -14,7 +14,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Regex as BaseRegex;
 final class RegexMatcher extends BaseRegex
 {
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     public function getName(): never
     {

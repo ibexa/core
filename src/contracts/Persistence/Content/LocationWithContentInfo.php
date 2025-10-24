@@ -14,22 +14,24 @@ use Ibexa\Contracts\Core\Persistence\ValueObject;
  * SPI\Persistence Location with Content Info Value Object.
  * A composite of Location and ContentInfo instances.
  *
- * @property-read \Ibexa\Contracts\Core\Persistence\Content\Location $location
- * @property-read \Ibexa\Contracts\Core\Persistence\Content\ContentInfo $contentInfo
+ * @property-read Location $location
+ * @property-read ContentInfo $contentInfo
  */
 class LocationWithContentInfo extends ValueObject
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location */
+    /** @var Location */
     protected $location;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\ContentInfo */
+    /** @var ContentInfo */
     protected $contentInfo;
 
     /**
      * @internal for internal use by Repository Storage abstraction
      */
-    public function __construct(Location $location, ContentInfo $contentInfo)
-    {
+    public function __construct(
+        Location $location,
+        ContentInfo $contentInfo
+    ) {
         parent::__construct([]);
         $this->location = $location;
         $this->contentInfo = $contentInfo;

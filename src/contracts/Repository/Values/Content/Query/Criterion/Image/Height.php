@@ -8,6 +8,4 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Image;
 
-final class Height extends AbstractImageRangeCriterion
-{
-}
+final class Height extends AbstractImageRangeCriterion {}

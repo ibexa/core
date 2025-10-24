@@ -41,7 +41,7 @@ class QueryParameterContentViewQueryTypeMapper implements ContentViewQueryTypeMa
     }
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\View\ContentView $contentView
+     * @param ContentView $contentView
      *
      * @return array
      */
@@ -60,13 +60,15 @@ class QueryParameterContentViewQueryTypeMapper implements ContentViewQueryTypeMa
     }
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\View\ContentView $contentView
+     * @param ContentView $contentView
      * @param array $queryParameterValue
      *
      * @return array|string
      */
-    private function extractParameters(ContentView $contentView, $queryParameterValue)
-    {
+    private function extractParameters(
+        ContentView $contentView,
+        $queryParameterValue
+    ) {
         if (is_array($queryParameterValue)) {
             $queryParameters = [];
             foreach ($queryParameterValue as $name => $value) {
@@ -80,13 +82,15 @@ class QueryParameterContentViewQueryTypeMapper implements ContentViewQueryTypeMa
     }
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\View\ContentView $contentView
+     * @param ContentView $contentView
      * @param string $queryParameterValue
      *
      * @return mixed
      */
-    private function evaluateExpression(ContentView $contentView, $queryParameterValue)
-    {
+    private function evaluateExpression(
+        ContentView $contentView,
+        $queryParameterValue
+    ) {
         if (is_string($queryParameterValue) && substr($queryParameterValue, 0, 2) === '@=') {
             $language = new ExpressionLanguage();
 

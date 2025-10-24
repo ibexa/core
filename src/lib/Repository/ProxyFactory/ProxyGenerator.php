@@ -21,7 +21,7 @@ use RuntimeException;
  */
 final class ProxyGenerator implements ProxyGeneratorInterface
 {
-    /** @var \ProxyManager\Factory\LazyLoadingValueHolderFactory|null */
+    /** @var LazyLoadingValueHolderFactory|null */
     private $lazyLoadingValueHolderFactory;
 
     /** @var string */

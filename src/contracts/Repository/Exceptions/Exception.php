@@ -13,6 +13,4 @@ use Throwable;
 /**
  * Marker interface for all Repository related exceptions.
  */
-interface Exception extends Throwable
-{
-}
+interface Exception extends Throwable {}

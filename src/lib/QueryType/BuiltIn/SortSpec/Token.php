@@ -29,8 +29,11 @@ final class Token
     /** @var int */
     private $position;
 
-    public function __construct(string $type, string $value = '', int $position = -1)
-    {
+    public function __construct(
+        string $type,
+        string $value = '',
+        int $position = -1
+    ) {
         $this->type = $type;
         $this->value = $value;
         $this->position = $position;

@@ -13,6 +13,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use RuntimeException;
@@ -27,7 +28,7 @@ class FieldRelation extends FieldBase
      *
      * c_rel: ContentGateway::CONTENT_RELATION_TABLE
      *
-     * @see \Ibexa\Core\Persistence\Legacy\Content\Gateway::CONTENT_RELATION_TABLE
+     * @see Gateway::CONTENT_RELATION_TABLE
      */
     private const CONTENT_ITEM_REL_COLUMN = 'c_rel.to_contentobject_id';
 
@@ -39,7 +40,7 @@ class FieldRelation extends FieldBase
     /**
      * Returns a list of IDs of searchable FieldDefinitions for the given criterion target.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException If no searchable fields are found for the given $fieldIdentifier.
+     * @throws InvalidArgumentException If no searchable fields are found for the given $fieldIdentifier.
      */
     protected function getFieldDefinitionsIds(?string $fieldDefinitionIdentifier): array
     {
@@ -73,7 +74,7 @@ class FieldRelation extends FieldBase
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\FieldRelation $criterion
+     * @param Criterion\FieldRelation $criterion
      */
     public function handle(
         CriteriaConverter $converter,

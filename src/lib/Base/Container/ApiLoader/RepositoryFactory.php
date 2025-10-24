@@ -140,15 +140,17 @@ final class RepositoryFactory implements LoggerAwareInterface
     /**
      * Returns a service based on a name string (content => contentService, etc).
      *
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
+     * @param Repository $repository
      * @param string $serviceName
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
      * @return mixed
      */
-    public function buildService(Repository $repository, $serviceName)
-    {
+    public function buildService(
+        Repository $repository,
+        $serviceName
+    ) {
         $methodName = 'get' . $serviceName . 'Service';
         if (!method_exists($repository, $methodName)) {
             throw new InvalidArgumentException($serviceName, 'No such service');

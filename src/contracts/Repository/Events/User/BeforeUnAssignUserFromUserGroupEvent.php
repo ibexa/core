@@ -18,8 +18,10 @@ final class BeforeUnAssignUserFromUserGroupEvent extends BeforeEvent
 
     private UserGroup $userGroup;
 
-    public function __construct(User $user, UserGroup $userGroup)
-    {
+    public function __construct(
+        User $user,
+        UserGroup $userGroup
+    ) {
         $this->user = $user;
         $this->userGroup = $userGroup;
     }

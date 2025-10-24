@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Trash\SearchResult;
@@ -27,10 +29,10 @@ interface TrashService
      *
      * @param int $trashItemId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to read the trashed location
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException - if the location with the given id does not exist
+     * @throws UnauthorizedException if the user is not allowed to read the trashed location
+     * @throws NotFoundException - if the location with the given id does not exist
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\TrashItem
+     * @return TrashItem
      */
     public function loadTrashItem(int $trashItemId): TrashItem;
 
@@ -40,11 +42,11 @@ interface TrashService
      * The current user may not have access to the returned trash item, check before using it.
      * Content is left untouched.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to trash the given location
+     * @throws UnauthorizedException if the user is not allowed to trash the given location
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\TrashItem|null null if location was deleted, otherwise TrashItem
+     * @return TrashItem|null null if location was deleted, otherwise TrashItem
      */
     public function trash(Location $location): ?TrashItem;
 
@@ -53,14 +55,17 @@ interface TrashService
      *
      * If $newParentLocation is provided, $trashedLocation will be restored under it.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to recover the trash item at the parent location location
+     * @throws UnauthorizedException if the user is not allowed to recover the trash item at the parent location location
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\TrashItem $trashItem
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $newParentLocation
+     * @param TrashItem $trashItem
+     * @param Location $newParentLocation
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location the newly created or recovered location
+     * @return Location the newly created or recovered location
      */
-    public function recover(TrashItem $trashItem, ?Location $newParentLocation = null): Location;
+    public function recover(
+        TrashItem $trashItem,
+        ?Location $newParentLocation = null
+    ): Location;
 
     /**
      * Empties trash.
@@ -68,9 +73,9 @@ interface TrashService
      * All locations contained in the trash will be removed. Content objects will be removed
      * if all locations of the content are gone.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to empty the trash
+     * @throws UnauthorizedException if the user is not allowed to empty the trash
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResultList
+     * @return TrashItemDeleteResultList
      */
     public function emptyTrash(): TrashItemDeleteResultList;
 
@@ -79,11 +84,11 @@ interface TrashService
      *
      * The corresponding content object will be removed
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\TrashItem $trashItem
+     * @param TrashItem $trashItem
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to delete this trash item
+     * @throws UnauthorizedException if the user is not allowed to delete this trash item
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult
+     * @return TrashItemDeleteResult
      */
     public function deleteTrashItem(TrashItem $trashItem): TrashItemDeleteResult;
 
@@ -92,9 +97,9 @@ interface TrashService
      *
      * $query allows to filter/sort the elements to be contained in the collection.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
+     * @param Query $query
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Trash\SearchResult
+     * @return SearchResult
      */
     public function findTrashItems(Query $query): SearchResult;
 }

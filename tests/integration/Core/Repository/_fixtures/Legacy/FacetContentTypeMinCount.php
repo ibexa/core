@@ -8,31 +8,31 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
 return SearchResult::__set_state([
-   'searchHits' => [
-    0 => SearchHit::__set_state([
-       'valueObject' => [
-        'id' => 57,
-        'title' => 'Home',
-      ],
-       'score' => null,
-       'index' => null,
-       'matchedTranslation' => 'eng-GB',
-       'highlight' => null,
-    ]),
-    1 => SearchHit::__set_state([
-       'valueObject' => [
-        'id' => 58,
-        'title' => 'Contact Us',
-      ],
-       'score' => null,
-       'index' => null,
-       'matchedTranslation' => 'eng-GB',
-       'highlight' => null,
-    ]),
-  ],
-   'spellcheck' => null,
-   'time' => 1,
-   'timedOut' => null,
-   'maxScore' => null,
-   'totalCount' => 2,
+    'searchHits' => [
+        0 => SearchHit::__set_state([
+            'valueObject' => [
+                'id' => 57,
+                'title' => 'Home',
+            ],
+            'score' => null,
+            'index' => null,
+            'matchedTranslation' => 'eng-GB',
+            'highlight' => null,
+        ]),
+        1 => SearchHit::__set_state([
+            'valueObject' => [
+                'id' => 58,
+                'title' => 'Contact Us',
+            ],
+            'score' => null,
+            'index' => null,
+            'matchedTranslation' => 'eng-GB',
+            'highlight' => null,
+        ]),
+    ],
+    'spellcheck' => null,
+    'time' => 1,
+    'timedOut' => null,
+    'maxScore' => null,
+    'totalCount' => 2,
 ]);

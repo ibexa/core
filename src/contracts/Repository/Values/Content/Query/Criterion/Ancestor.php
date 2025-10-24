@@ -25,10 +25,10 @@ class Ancestor extends Criterion implements FilteringCriterion
      *
      * @param string|string[] $value Location path string
      *
-     * @throws \InvalidArgumentException if a non integer or string id is given
-     * @throws \InvalidArgumentException if the value type doesn't match the operator
+     * @throws InvalidArgumentException if a non integer or string id is given
+     * @throws InvalidArgumentException if the value type doesn't match the operator
      */
-    public function __construct(string|array $value)
+    public function __construct(string | array $value)
     {
         foreach ((array)$value as $pathString) {
             if (preg_match('/^(\/\w+)+\/$/', $pathString) !== 1) {

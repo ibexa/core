@@ -19,7 +19,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 class AuthorCollection extends ArrayObject
 {
     /**
-     * @param \Ibexa\Core\FieldType\Author\Author[] $elements
+     * @param Author[] $elements
      */
     public function __construct(array $elements = [])
     {
@@ -34,13 +34,15 @@ class AuthorCollection extends ArrayObject
     /**
      * Adds a new author to the collection.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType When $value is not of type Author
+     * @throws InvalidArgumentType When $value is not of type Author
      *
      * @param int $offset
-     * @param \Ibexa\Core\FieldType\Author\Author $value
+     * @param Author $value
      */
-    public function offsetSet($offset, $value): void
-    {
+    public function offsetSet(
+        $offset,
+        $value
+    ): void {
         if (!$value instanceof Author) {
             throw new InvalidArgumentType(
                 '$value',

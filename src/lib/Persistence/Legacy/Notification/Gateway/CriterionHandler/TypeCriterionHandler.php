@@ -24,8 +24,10 @@ final class TypeCriterionHandler implements CriterionHandlerInterface
         return $criterion instanceof Type;
     }
 
-    public function apply(QueryBuilder $qb, CriterionInterface $criterion): void
-    {
+    public function apply(
+        QueryBuilder $qb,
+        CriterionInterface $criterion
+    ): void {
         $qb->andWhere($qb->expr()->eq(DoctrineDatabase::COLUMN_TYPE, ':type'));
         $qb->setParameter('type', $criterion->getValue());
     }

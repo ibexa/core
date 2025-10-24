@@ -49,7 +49,7 @@ abstract class BaseProviderTestCase extends TestCase
     }
 
     /**
-     * @phpstan-return list<array{class-string<\Symfony\Component\Security\Core\User\UserInterface>, bool}>
+     * @phpstan-return list<array{class-string<SymfonyUserInterface>, bool}>
      */
     public function supportsClassProvider(): array
     {
@@ -63,10 +63,12 @@ abstract class BaseProviderTestCase extends TestCase
     /**
      * @dataProvider supportsClassProvider
      *
-     * @phpstan-param class-string<\Symfony\Component\Security\Core\User\UserInterface> $class
+     * @phpstan-param class-string<SymfonyUserInterface> $class
      */
-    public function testSupportsClass(string $class, bool $supports): void
-    {
+    public function testSupportsClass(
+        string $class,
+        bool $supports
+    ): void {
         self::assertSame($supports, $this->userProvider->supportsClass($class));
     }
 
@@ -109,8 +111,10 @@ abstract class BaseProviderTestCase extends TestCase
         $this->userProvider->refreshUser($user);
     }
 
-    protected function createUserWrapperMockFromAPIUser(User $apiUser, int $userId): UserInterface & MockObject
-    {
+    protected function createUserWrapperMockFromAPIUser(
+        User $apiUser,
+        int $userId
+    ): UserInterface & MockObject {
         $refreshedAPIUser = clone $apiUser;
         $user = $this->createMock(UserInterface::class);
         $user

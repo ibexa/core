@@ -36,8 +36,10 @@ final class TranslatableExceptionsFileVisitorTest extends BaseMessageExtractorPh
         ];
     }
 
-    protected function buildVisitor(DocParser $docParser, FileSourceFactory $fileSourceFactory): FileVisitorInterface
-    {
+    protected function buildVisitor(
+        DocParser $docParser,
+        FileSourceFactory $fileSourceFactory
+    ): FileVisitorInterface {
         return new TranslatableExceptionsFileVisitor($docParser, $fileSourceFactory);
     }
 }

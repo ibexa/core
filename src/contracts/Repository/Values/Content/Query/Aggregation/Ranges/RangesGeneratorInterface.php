@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Ranges;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range;
+
 /**
  * Interface for generating ranges for aggregations.
  *
@@ -16,7 +18,7 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range
 interface RangesGeneratorInterface
 {
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<TValue>[]
+     * @return Range<TValue>[]
      */
     public function generate(): iterable;
 }

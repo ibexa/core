@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\Core\Fragment;
 use Ibexa\Bundle\Core\Fragment\DecoratedFragmentRenderer;
 use Ibexa\Bundle\Core\Fragment\SiteAccessSerializer;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -138,7 +139,7 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTestCase
     }
 
     /**
-     * @return \Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface&\Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware
+     * @return FragmentRendererInterface&SiteAccessAware
      */
     public function getRenderer(): FragmentRendererInterface
     {

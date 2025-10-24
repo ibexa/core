@@ -14,7 +14,7 @@ use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
 
 class LocationTest extends BaseTestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Location */
+    /** @var LocationIdMatcher */
     private $matcher;
 
     protected function setUp(): void
@@ -30,11 +30,14 @@ class LocationTest extends BaseTestCase
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
      * @param int|int[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Location $location, $expectedResult)
-    {
+    public function testMatchLocation(
+        $matchingConfig,
+        Location $location,
+        $expectedResult
+    ) {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchLocation($location));
     }
@@ -72,11 +75,14 @@ class LocationTest extends BaseTestCase
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
      * @param int|int[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
+     * @param ContentInfo $contentInfo
      * @param bool $expectedResult
      */
-    public function testMatchContentInfo($matchingConfig, ContentInfo $contentInfo, $expectedResult)
-    {
+    public function testMatchContentInfo(
+        $matchingConfig,
+        ContentInfo $contentInfo,
+        $expectedResult
+    ) {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchContentInfo($contentInfo));
     }

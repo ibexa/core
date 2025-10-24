@@ -18,7 +18,11 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class AbstractViewTestCase extends TestCase
 {
-    abstract protected function createViewUnderTest($template = null, array $parameters = [], $viewType = 'full'): View;
+    abstract protected function createViewUnderTest(
+        $template = null,
+        array $parameters = [],
+        $viewType = 'full'
+    ): View;
 
     /**
      * Returns parameters that are always returned by this view.

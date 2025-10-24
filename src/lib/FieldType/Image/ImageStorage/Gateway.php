@@ -18,7 +18,7 @@ abstract class Gateway extends StorageGateway
     /**
      * Returns the node path string of $versionInfo.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
+     * @param VersionInfo $versionInfo
      *
      * @return string
      */
@@ -27,17 +27,27 @@ abstract class Gateway extends StorageGateway
     /**
      * Stores a reference to the image in $path for $fieldId.
      */
-    abstract public function storeImageReference(string $uri, mixed $fieldId): void;
+    abstract public function storeImageReference(
+        string $uri,
+        mixed $fieldId
+    ): void;
 
     /**
      * Returns a the XML content stored for the given $fieldIds.
      */
-    abstract public function getXmlForImages(int $versionNo, array $fieldIds): array;
+    abstract public function getXmlForImages(
+        int $versionNo,
+        array $fieldIds
+    ): array;
 
     /**
      * Removes all references from $fieldId to a path that starts with $path.
      */
-    abstract public function removeImageReferences(string $uri, int $versionNo, mixed $fieldId): void;
+    abstract public function removeImageReferences(
+        string $uri,
+        int $versionNo,
+        mixed $fieldId
+    ): void;
 
     /**
      * Returns the number of recorded references to the given $path.
@@ -58,13 +68,27 @@ abstract class Gateway extends StorageGateway
 
     abstract public function getAllVersionsImageXmlForFieldId(int $fieldId): array;
 
-    abstract public function updateImageData(int $fieldId, int $versionNo, string $xml): void;
+    abstract public function updateImageData(
+        int $fieldId,
+        int $versionNo,
+        string $xml
+    ): void;
 
-    abstract public function getImagesData(int $offset, int $limit): array;
+    abstract public function getImagesData(
+        int $offset,
+        int $limit
+    ): array;
 
-    abstract public function updateImagePath(int $fieldId, string $oldPath, string $newPath): void;
+    abstract public function updateImagePath(
+        int $fieldId,
+        string $oldPath,
+        string $newPath
+    ): void;
 
     abstract public function countDistinctImagesData(): int;
 
-    abstract public function hasImageReference(string $uri, int $fieldId): bool;
+    abstract public function hasImageReference(
+        string $uri,
+        int $fieldId
+    ): bool;
 }

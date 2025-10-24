@@ -27,7 +27,7 @@ class ContentMapper
     /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\Handler */
     private $contentLanguageHandler;
 
-    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
+    /** @var FieldTypeRegistry */
     private $fieldTypeRegistry;
 
     public function __construct(
@@ -45,7 +45,7 @@ class ContentMapper
      *                                                                          or value is set for non-translatable field in language
      *                                                                          other than main
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct $contentCreateStruct
+     * @param ContentCreateStruct $contentCreateStruct
      *
      * @return array
      */
@@ -86,7 +86,7 @@ class ContentMapper
     /**
      * Returns all language codes used in given $fields.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct $contentCreateStruct
+     * @param ContentCreateStruct $contentCreateStruct
      *
      * @return string[]
      */
@@ -122,8 +122,8 @@ class ContentMapper
      *                                                                          or value is set for non-translatable field in language
      *                                                                          other than main
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentUpdateStruct $contentUpdateStruct
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param ContentUpdateStruct $contentUpdateStruct
+     * @param ContentType $contentType
      * @param string $mainLanguageCode
      *
      * @return array
@@ -212,13 +212,15 @@ class ContentMapper
     /**
      * Returns all language codes used in given $fields.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentUpdateStruct $contentUpdateStruct
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
+     * @param ContentUpdateStruct $contentUpdateStruct
+     * @param Content $content
      *
      * @return string[]
      */
-    public function getLanguageCodesForUpdate(ContentUpdateStruct $contentUpdateStruct, Content $content): array
-    {
+    public function getLanguageCodesForUpdate(
+        ContentUpdateStruct $contentUpdateStruct,
+        Content $content
+    ): array {
         $languageCodes = array_fill_keys($content->versionInfo->languageCodes, true);
         $languageCodes[$contentUpdateStruct->initialLanguageCode] = true;
 
@@ -233,7 +235,7 @@ class ContentMapper
     /**
      * Returns only updated language codes.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentUpdateStruct $contentUpdateStruct
+     * @param ContentUpdateStruct $contentUpdateStruct
      *
      * @return string[]
      */
@@ -257,13 +259,15 @@ class ContentMapper
     /**
      * Clones $field with overriding specific properties from given $overrides array.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      * @param array $overrides
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field
+     * @return Field
      */
-    private function cloneField(Field $field, array $overrides = []): Field
-    {
+    private function cloneField(
+        Field $field,
+        array $overrides = []
+    ): Field {
         $fieldData = array_merge(
             [
                 'id' => $field->id,
@@ -279,12 +283,14 @@ class ContentMapper
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $updatedFields
+     * @param Field[] $updatedFields
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field[]
+     * @return Field[]
      */
-    public function getFieldsForUpdate(array $updatedFields, Content $content): array
-    {
+    public function getFieldsForUpdate(
+        array $updatedFields,
+        Content $content
+    ): array {
         $contentType = $content->getContentType();
         $fields = [];
 
@@ -321,11 +327,13 @@ class ContentMapper
         return $fields;
     }
 
-    public function getFieldsForCreate(array $createdFields, ContentType $contentType): array
-    {
+    public function getFieldsForCreate(
+        array $createdFields,
+        ContentType $contentType
+    ): array {
         $fields = [];
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Field $createdField */
+        /** @var Field $createdField */
         foreach ($createdFields as $createdField) {
             $fieldDefinition = $contentType->getFieldDefinition($createdField->fieldDefIdentifier);
 

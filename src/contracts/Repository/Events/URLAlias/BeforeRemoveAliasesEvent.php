@@ -9,14 +9,15 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Repository\Events\URLAlias;
 
 use Ibexa\Contracts\Core\Repository\Event\BeforeEvent;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 
 final class BeforeRemoveAliasesEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias[] */
+    /** @var URLAlias[] */
     private array $aliasList;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias[] $aliasList
+     * @param URLAlias[] $aliasList
      */
     public function __construct(array $aliasList)
     {
@@ -24,7 +25,7 @@ final class BeforeRemoveAliasesEvent extends BeforeEvent
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias[]
+     * @return URLAlias[]
      */
     public function getAliasList(): array
     {

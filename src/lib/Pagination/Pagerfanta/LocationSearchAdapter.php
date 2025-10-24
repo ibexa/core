@@ -8,6 +8,7 @@
 namespace Ibexa\Core\Pagination\Pagerfanta;
 
 use Ibexa\Contracts\Core\Repository\SearchService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResultCollection;
 use Pagerfanta\Adapter\AdapterInterface;
@@ -28,18 +29,23 @@ class LocationSearchAdapter implements AdapterInterface, SearchResultAdapter
     /**
      * @phpstan-param TSearchLanguageFilter $languageFilter
      */
-    public function __construct(LocationQuery $query, SearchService $searchService, array $languageFilter = [])
-    {
+    public function __construct(
+        LocationQuery $query,
+        SearchService $searchService,
+        array $languageFilter = []
+    ) {
         $this->locationSearchHitAdapter = new LocationSearchHitAdapter($query, $searchService, $languageFilter);
     }
 
     /**
      * Returns a slice of the results as Location objects.
      *
-     * @phpstan-return iterable<int<0, max>, \Ibexa\Contracts\Core\Repository\Values\Content\Location>
+     * @phpstan-return iterable<int<0, max>, Location>
      */
-    public function getSlice(int $offset, int $length): iterable
-    {
+    public function getSlice(
+        int $offset,
+        int $length
+    ): iterable {
         $list = [];
         foreach ($this->locationSearchHitAdapter->getSlice($offset, $length) as $hit) {
             $list[] = $hit->valueObject;

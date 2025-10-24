@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\FieldType\TextBlock;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\BaseTextType;
 use Ibexa\Core\FieldType\ValidationError;
@@ -41,9 +42,9 @@ class Type extends BaseTextType implements TranslationContainerInterface
     }
 
     /**
-     * @param string|\Ibexa\Core\FieldType\TextBlock\Value $inputValue
+     * @param string|Value $inputValue
      *
-     * @return \Ibexa\Core\FieldType\TextBlock\Value The potentially converted and structurally plausible value.
+     * @return Value The potentially converted and structurally plausible value.
      */
     protected function createValueFromInput($inputValue)
     {
@@ -64,9 +65,9 @@ class Type extends BaseTextType implements TranslationContainerInterface
     /**
      * Returns information for FieldValue->$sortKey relevant to the field type.
      *
-     * @param \Ibexa\Core\FieldType\TextBlock\Value $value
+     * @param Value $value
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function getSortInfo(BaseValue $value): string
     {

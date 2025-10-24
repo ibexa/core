@@ -10,6 +10,7 @@ namespace Ibexa\Core\IO;
 
 use Ibexa\Contracts\Core\IO\BinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 
 /**
  * Provides reading & writing of files meta-data (size, modification time...).
@@ -19,7 +20,7 @@ interface IOMetadataHandler
     /**
      * Stores the file from $binaryFileCreateStruct.
      *
-     * @param \Ibexa\Contracts\Core\IO\BinaryFileCreateStruct $spiBinaryFileCreateStruct
+     * @param BinaryFileCreateStruct $spiBinaryFileCreateStruct
      *
      * @throws \RuntimeException if an error occurred creating the file
      */
@@ -28,14 +29,14 @@ interface IOMetadataHandler
     /**
      * Deletes file by its $binaryFileId.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If $spiBinaryFileId is not found
+     * @throws NotFoundException If $spiBinaryFileId is not found
      */
     public function delete(string $binaryFileId): void;
 
     /**
      * Loads and returns metadata for $spiBinaryFileId.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function load(string $spiBinaryFileId): BinaryFile;
 
@@ -47,7 +48,7 @@ interface IOMetadataHandler
     /**
      * Returns the file's mimetype. Example: text/plain.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function getMimeType(string $spiBinaryFileId): string;
 

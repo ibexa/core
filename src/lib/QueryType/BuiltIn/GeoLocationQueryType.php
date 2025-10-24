@@ -28,7 +28,10 @@ final class GeoLocationQueryType extends AbstractQueryType
 
         $resolver->setRequired('field');
         $resolver->setAllowedTypes('field', ['string', Field::class]);
-        $resolver->setNormalizer('field', static function (Options $options, $value) {
+        $resolver->setNormalizer('field', static function (
+            Options $options,
+            $value
+        ) {
             if ($value instanceof Field) {
                 $value = $value->fieldDefIdentifier;
             }

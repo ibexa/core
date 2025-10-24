@@ -8,8 +8,12 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreference;
 use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreferenceList;
+use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreferenceSetStruct;
 
 /**
  * User Preference Service.
@@ -21,10 +25,10 @@ interface UserPreferenceService
     /**
      * Set user preference.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreferenceSetStruct[] $userPreferenceSetStructs
+     * @param UserPreferenceSetStruct[] $userPreferenceSetStructs
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to set user preference
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the $userPreferenceSetStruct is invalid
+     * @throws UnauthorizedException If the current user user is not allowed to set user preference
+     * @throws InvalidArgumentException If the $userPreferenceSetStruct is invalid
      */
     public function setUserPreference(array $userPreferenceSetStructs): void;
 
@@ -33,10 +37,10 @@ interface UserPreferenceService
      *
      * @param string $userPreferenceName
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreference
+     * @return UserPreference
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the current user user is not allowed to fetch user preference
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws UnauthorizedException if the current user user is not allowed to fetch user preference
+     * @throws NotFoundException
      */
     public function getUserPreference(string $userPreferenceName): UserPreference;
 
@@ -46,11 +50,14 @@ interface UserPreferenceService
      * @param int $offset the start offset for paging
      * @param int $limit the number of user preferences returned
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreferenceList
+     * @return UserPreferenceList
      */
-    public function loadUserPreferences(int $offset = 0, int $limit = 25): UserPreferenceList;
+    public function loadUserPreferences(
+        int $offset = 0,
+        int $limit = 25
+    ): UserPreferenceList;
 
     /**
      * Get count of total preferences for currently logged user.

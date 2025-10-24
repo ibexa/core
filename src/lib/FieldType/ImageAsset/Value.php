@@ -30,8 +30,10 @@ class Value extends BaseValue
      * @param mixed|null $destinationContentId
      * @param string|null $alternativeText
      */
-    public function __construct($destinationContentId = null, ?string $alternativeText = null)
-    {
+    public function __construct(
+        $destinationContentId = null,
+        ?string $alternativeText = null
+    ) {
         parent::__construct([
             'destinationContentId' => $destinationContentId,
             'alternativeText' => $alternativeText,

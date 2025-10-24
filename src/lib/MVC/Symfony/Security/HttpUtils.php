@@ -31,8 +31,10 @@ class HttpUtils extends BaseHttpUtils implements SiteAccessAware
         return $path;
     }
 
-    public function generateUri(Request $request, string $path): string
-    {
+    public function generateUri(
+        Request $request,
+        string $path
+    ): string {
         if ($this->isRouteName($path)) {
             // Remove SiteAccess attribute to avoid triggering reverse SiteAccess lookup during link generation.
             $request->attributes->remove('siteaccess');
@@ -41,8 +43,10 @@ class HttpUtils extends BaseHttpUtils implements SiteAccessAware
         return parent::generateUri($request, $this->analyzeLink($path));
     }
 
-    public function checkRequestPath(Request $request, string $path): bool
-    {
+    public function checkRequestPath(
+        Request $request,
+        string $path
+    ): bool {
         return parent::checkRequestPath($request, $this->analyzeLink($path));
     }
 

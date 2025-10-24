@@ -15,14 +15,14 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause;
 use Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder;
 
 /**
- * @internal Type-hint {@see \Ibexa\Contracts\Core\Persistence\Filter\SortClauseVisitor} instead.
+ * @internal Type-hint {@see FilteringSortClauseVisitor} instead.
  */
 final class SortClauseVisitor implements FilteringSortClauseVisitor
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder[] */
+    /** @var SortClauseQueryBuilder[] */
     private $sortClauseQueryBuilders;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder[] */
+    /** @var SortClauseQueryBuilder[] */
     private static $queryBuildersForSortClauses = [];
 
     public function __construct(iterable $sortClauseQueryBuilders)
@@ -31,12 +31,14 @@ final class SortClauseVisitor implements FilteringSortClauseVisitor
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause[] $sortClauses
+     * @param FilteringSortClause[] $sortClauses
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException if there's no builder for a Sort Clause
+     * @throws NotImplementedException if there's no builder for a Sort Clause
      */
-    public function visitSortClauses(FilteringQueryBuilder $queryBuilder, array $sortClauses): void
-    {
+    public function visitSortClauses(
+        FilteringQueryBuilder $queryBuilder,
+        array $sortClauses
+    ): void {
         foreach ($sortClauses as $sortClause) {
             $this
                 ->getQueryBuilderForSortClause($sortClause)
@@ -47,7 +49,7 @@ final class SortClauseVisitor implements FilteringSortClauseVisitor
     /**
      * Cache Query Builders in-memory and get the one for the given Sort Clause.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     private function getQueryBuilderForSortClause(
         FilteringSortClause $sortClause

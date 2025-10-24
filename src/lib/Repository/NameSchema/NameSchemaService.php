@@ -74,15 +74,17 @@ class NameSchemaService implements NameSchemaServiceInterface
         $this->fieldTypeRegistry = $fieldTypeRegistry;
         // Union makes sure default settings are ignored if provided in argument
         $this->settings = $settings + [
-                'limit' => 150,
-                'sequence' => '...',
-            ];
+            'limit' => 150,
+            'sequence' => '...',
+        ];
         $this->eventDispatcher = $eventDispatcher;
         $this->schemaIdentifierExtractor = $schemaIdentifierExtractor;
     }
 
-    public function resolveUrlAliasSchema(Content $content, ?ContentType $contentType = null): array
-    {
+    public function resolveUrlAliasSchema(
+        Content $content,
+        ?ContentType $contentType = null
+    ): array {
         $contentType ??= $content->getContentType();
         $schemaName = $contentType->urlAliasSchema ?: $contentType->nameSchema;
         $schemaIdentifiers = $this->schemaIdentifierExtractor->extract($schemaName);
@@ -163,8 +165,11 @@ class NameSchemaService implements NameSchemaServiceInterface
      * a string. Meta strings denoting token groups are automatically
      * inferred.
      */
-    protected function resolveToken(string $token, array $titles, array $groupLookupTable): string
-    {
+    protected function resolveToken(
+        string $token,
+        array $titles,
+        array $groupLookupTable
+    ): string {
         $replaceString = '';
         $tokenParts = $this->tokenParts($token);
 
@@ -275,8 +280,10 @@ class NameSchemaService implements NameSchemaServiceInterface
      *
      * @return array<string, string>
      */
-    public function buildNames(array $tokenValues, string $nameSchema): array
-    {
+    public function buildNames(
+        array $tokenValues,
+        string $nameSchema
+    ): array {
         if (empty($tokenValues)) {
             throw new UnresolvedTokenNamesException('$tokenValues', 'is Empty');
         }

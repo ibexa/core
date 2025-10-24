@@ -16,13 +16,13 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 
 class NotificationService implements NotificationServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\NotificationService */
+    /** @var NotificationServiceInterface */
     protected $service;
 
     /**
      * Construct service object from aggregated service.
      *
-     * @param \Ibexa\Contracts\Core\Repository\NotificationService $service
+     * @param NotificationServiceInterface $service
      */
     public function __construct(
         NotificationServiceInterface $service
@@ -30,8 +30,10 @@ class NotificationService implements NotificationServiceInterface
         $this->service = $service;
     }
 
-    public function loadNotifications(int $offset, int $limit): NotificationList
-    {
+    public function loadNotifications(
+        int $offset,
+        int $limit
+    ): NotificationList {
         return $this->service->loadNotifications($offset, $limit);
     }
 
@@ -43,7 +45,7 @@ class NotificationService implements NotificationServiceInterface
     /**
      * @param int $notificationId
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Notification\Notification
+     * @return Notification
      */
     public function getNotification(int $notificationId): Notification
     {
@@ -61,7 +63,7 @@ class NotificationService implements NotificationServiceInterface
     /**
      * Mark notification as read so it no longer bother the user.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Notification $notification
+     * @param Notification $notification
      */
     public function markNotificationAsRead(Notification $notification): void
     {
@@ -89,7 +91,7 @@ class NotificationService implements NotificationServiceInterface
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Notification $notification
+     * @param Notification $notification
      */
     public function deleteNotification(Notification $notification): void
     {
@@ -97,9 +99,9 @@ class NotificationService implements NotificationServiceInterface
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Notification\CreateStruct $createStruct
+     * @param CreateStruct $createStruct
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Notification\Notification
+     * @return Notification
      */
     public function createNotification(CreateStruct $createStruct): Notification
     {

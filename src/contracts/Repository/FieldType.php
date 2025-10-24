@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository;
 
+use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 
@@ -28,7 +29,11 @@ interface FieldType
     /**
      * Returns a human readable string representation from the given $value.
      */
-    public function getName(Value $value, FieldDefinition $fieldDefinition, string $languageCode): string;
+    public function getName(
+        Value $value,
+        FieldDefinition $fieldDefinition,
+        string $languageCode
+    ): string;
 
     /**
      * Returns a schema for the settings expected by the FieldType.
@@ -202,7 +207,7 @@ interface FieldType
      *
      * @param mixed $validatorConfiguration
      *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     * @return ValidationError[]
      */
     public function validateValidatorConfiguration($validatorConfiguration): iterable;
 
@@ -214,17 +219,20 @@ interface FieldType
      *
      * @param mixed $fieldSettings
      *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     * @return ValidationError[]
      */
     public function validateFieldSettings($fieldSettings): iterable;
 
     /**
      * Validates a field value based on the validator configuration in the field definition.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDef The field definition of the field
-     * @param \Ibexa\Contracts\Core\FieldType\Value $value The field value for which an action is performed
+     * @param FieldDefinition $fieldDef The field definition of the field
+     * @param Value $value The field value for which an action is performed
      *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     * @return ValidationError[]
      */
-    public function validateValue(FieldDefinition $fieldDef, Value $value): iterable;
+    public function validateValue(
+        FieldDefinition $fieldDef,
+        Value $value
+    ): iterable;
 }

@@ -144,8 +144,11 @@ abstract class RoleServiceDecorator implements RoleService
         return $this->innerService->getRoleAssignments($role);
     }
 
-    public function loadRoleAssignments(Role $role, int $offset = 0, ?int $limit = null): iterable
-    {
+    public function loadRoleAssignments(
+        Role $role,
+        int $offset = 0,
+        ?int $limit = null
+    ): iterable {
         return $this->innerService->loadRoleAssignments($role, $offset, $limit);
     }
 

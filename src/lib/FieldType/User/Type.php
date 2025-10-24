@@ -11,7 +11,9 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
+use Ibexa\Contracts\Core\Persistence\User\Handler;
 use Ibexa\Contracts\Core\Persistence\User\Handler as SPIUserHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
@@ -91,13 +93,13 @@ class Type extends FieldType implements TranslationContainerInterface
         ],
     ];
 
-    /** @var \Ibexa\Contracts\Core\Persistence\User\Handler */
+    /** @var Handler */
     private $userHandler;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PasswordHashService */
+    /** @var PasswordHashService */
     private $passwordHashService;
 
-    /** @var \Ibexa\Core\Repository\User\PasswordValidatorInterface */
+    /** @var PasswordValidatorInterface */
     private $passwordValidator;
 
     public function __construct(
@@ -121,10 +123,13 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\User\Value|\Ibexa\Contracts\Core\FieldType\Value $value
+     * @param Value|SPIValue $value
      */
-    public function getName(SPIValue $value, FieldDefinition $fieldDefinition, string $languageCode): string
-    {
+    public function getName(
+        SPIValue $value,
+        FieldDefinition $fieldDefinition,
+        string $languageCode
+    ): string {
         return (string)$value->login;
     }
 
@@ -152,7 +157,7 @@ class Type extends FieldType implements TranslationContainerInterface
      * Returns the fallback default value of field type when no such default
      * value is provided in the field definition in content types.
      *
-     * @return \Ibexa\Core\FieldType\User\Value
+     * @return Value
      */
     public function getEmptyValue()
     {
@@ -162,9 +167,9 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Inspects given $inputValue and potentially converts it into a dedicated value object.
      *
-     * @param array|\Ibexa\Core\FieldType\User\Value $inputValue
+     * @param array|Value $inputValue
      *
-     * @return \Ibexa\Core\FieldType\User\Value The potentially converted and structurally plausible value.
+     * @return Value The potentially converted and structurally plausible value.
      */
     protected function createValueFromInput($inputValue)
     {
@@ -178,9 +183,9 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Throws an exception if value structure is not of expected format.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
+     * @throws InvalidArgumentException If the value does not match the expected structure.
      *
-     * @param \Ibexa\Core\FieldType\User\Value $value
+     * @param Value $value
      */
     protected function checkValueStructure(BaseValue $value)
     {
@@ -200,7 +205,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @param mixed $hash
      *
-     * @return \Ibexa\Core\FieldType\User\Value $value
+     * @return Value $value
      */
     public function fromHash($hash)
     {
@@ -218,7 +223,7 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Converts a $Value to a hash.
      *
-     * @param \Ibexa\Core\FieldType\User\Value $value
+     * @param Value $value
      *
      * @return mixed
      */
@@ -274,9 +279,9 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * This method builds a field type value from the $data and $externalData properties.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
+     * @param FieldValue $fieldValue
      *
-     * @return \Ibexa\Core\FieldType\User\Value
+     * @return Value
      */
     public function fromPersistenceValue(FieldValue $fieldValue)
     {
@@ -286,15 +291,17 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Validates a field based on the validators in the field definition.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
-     * @param \Ibexa\Core\FieldType\User\Value $fieldValue The field value for which an action is performed
+     * @param FieldDefinition $fieldDefinition The field definition of the field
+     * @param Value $fieldValue The field value for which an action is performed
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue)
-    {
+    public function validate(
+        FieldDefinition $fieldDefinition,
+        SPIValue $fieldValue
+    ) {
         $errors = [];
 
         if ($this->isEmptyValue($fieldValue)) {
@@ -486,8 +493,10 @@ class Type extends FieldType implements TranslationContainerInterface
         return $validationErrors;
     }
 
-    private function validatePasswordTTLSetting(string $name, $value): ?ValidationError
-    {
+    private function validatePasswordTTLSetting(
+        string $name,
+        $value
+    ): ?ValidationError {
         if ($value !== null && !is_int($value)) {
             return new ValidationError(
                 "Setting '%setting%' value must be of integer type",
@@ -502,8 +511,11 @@ class Type extends FieldType implements TranslationContainerInterface
         return null;
     }
 
-    private function validatePasswordTTLWarningSetting(string $name, $value, $fieldSettings): ?ValidationError
-    {
+    private function validatePasswordTTLWarningSetting(
+        string $name,
+        $value,
+        $fieldSettings
+    ): ?ValidationError {
         if ($value !== null) {
             if (!is_int($value)) {
                 return new ValidationError(

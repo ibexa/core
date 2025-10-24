@@ -10,6 +10,4 @@ namespace Ibexa\Core\Repository\SiteAccessAware;
 
 use Ibexa\Contracts\Core\Repository\Decorator\SettingServiceDecorator;
 
-class SettingService extends SettingServiceDecorator
-{
-}
+class SettingService extends SettingServiceDecorator {}

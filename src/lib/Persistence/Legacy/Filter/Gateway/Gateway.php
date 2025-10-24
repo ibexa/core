@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Filter\Gateway;
 
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
+use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause;
 
 /**
  * Repository filtering gateway.
@@ -26,7 +27,7 @@ interface Gateway
      * Return iterator for raw Repository data for the given Query result filtered by the given Criteria,
      * sorted by the given Sort Clauses and constrained by the given pagination limit & offset.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause[] $sortClauses
+     * @param FilteringSortClause[] $sortClauses
      */
     public function find(
         FilteringCriterion $criterion,

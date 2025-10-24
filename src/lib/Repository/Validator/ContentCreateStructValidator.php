@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\Validator\ContentValidator;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\Repository\Mapper\ContentMapper;
@@ -21,10 +22,10 @@ use Ibexa\Core\Repository\Mapper\ContentMapper;
  */
 final class ContentCreateStructValidator implements ContentValidator
 {
-    /** @var \Ibexa\Core\Repository\Mapper\ContentMapper */
+    /** @var ContentMapper */
     private $contentMapper;
 
-    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
+    /** @var FieldTypeRegistry */
     private $fieldTypeRegistry;
 
     public function __construct(
@@ -49,7 +50,7 @@ final class ContentCreateStructValidator implements ContentValidator
             throw new InvalidArgumentException('$object', 'Not supported');
         }
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct $contentCreateStruct */
+        /** @var ContentCreateStruct $contentCreateStruct */
         $contentCreateStruct = $object;
 
         $languageCodes = $this->contentMapper->getLanguageCodesForCreate($contentCreateStruct);
@@ -62,7 +63,7 @@ final class ContentCreateStructValidator implements ContentValidator
                 continue;
             }
 
-            /** @var \Ibexa\Core\FieldType\FieldType $fieldType */
+            /** @var FieldType $fieldType */
             $fieldType = $this->fieldTypeRegistry->getFieldType(
                 $fieldDefinition->fieldTypeIdentifier
             );

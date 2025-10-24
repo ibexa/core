@@ -7,6 +7,7 @@
 
 namespace Ibexa\Contracts\Core\Persistence\Content;
 
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\ValueObject;
 
 /**
@@ -169,7 +170,7 @@ class Type extends ValueObject
     /**
      * Definitions for Content fields in this type.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition[]
+     * @var FieldDefinition[]
      */
     public $fieldDefinitions = [];
 

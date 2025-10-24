@@ -27,8 +27,7 @@ final readonly class DoctrineGateway implements Gateway
         private Connection $connection,
         private CriterionVisitor $criterionVisitor,
         private SortClauseVisitor $sortClauseVisitor
-    ) {
-    }
+    ) {}
 
     public function count(FilteringCriterion $criterion): int
     {

@@ -17,14 +17,10 @@ use Ibexa\Core\MVC\Symfony\View\ViewProvider as ViewProviderInterface;
  */
 class ViewProvider implements ViewProviderInterface, SiteAccessAware
 {
-    public function setSiteAccess(?SiteAccess $siteAccess = null)
-    {
-    }
+    public function setSiteAccess(?SiteAccess $siteAccess = null) {}
 
     /**
-     * @return \Ibexa\Core\MVC\Symfony\View\View
+     * @return View
      */
-    public function getView(View $view)
-    {
-    }
+    public function getView(View $view) {}
 }

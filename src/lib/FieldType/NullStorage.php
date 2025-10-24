@@ -19,24 +19,30 @@ class NullStorage implements FieldStorage
     /**
      * @see \Ibexa\Contracts\Core\FieldType\FieldStorage::storeFieldData()
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field): bool
-    {
+    public function storeFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ): bool {
         return false;
     }
 
     /**
      * @see \Ibexa\Contracts\Core\FieldType\FieldStorage::getFieldData()
      */
-    public function getFieldData(VersionInfo $versionInfo, Field $field)
-    {
+    public function getFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ) {
         return;
     }
 
     /**
      * @see \Ibexa\Contracts\Core\FieldType\FieldStorage::deleteFieldData()
      */
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): bool
-    {
+    public function deleteFieldData(
+        VersionInfo $versionInfo,
+        array $fieldIds
+    ): bool {
         return true;
     }
 
@@ -57,14 +63,17 @@ class NullStorage implements FieldStorage
      * By default, the method falls back to the {@link \Ibexa\Contracts\Core\FieldType\FieldStorage::storeFieldData()}.
      * External storages implement this method as needed.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $originalField
+     * @param VersionInfo $versionInfo
+     * @param Field $field
+     * @param Field $originalField
      *
      * @return bool|null Same as {@link \Ibexa\Contracts\Core\FieldType\FieldStorage::storeFieldData()}.
      */
-    public function copyLegacyField(VersionInfo $versionInfo, Field $field, Field $originalField)
-    {
+    public function copyLegacyField(
+        VersionInfo $versionInfo,
+        Field $field,
+        Field $originalField
+    ) {
         return;
     }
 }

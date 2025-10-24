@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 final class MapNormalizer implements NormalizerInterface, DenormalizerInterface
 {
     /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Map $data
+     * @param Map $data
      *
      * @return array{
      *     type: class-string<\Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Map>,
@@ -28,10 +28,13 @@ final class MapNormalizer implements NormalizerInterface, DenormalizerInterface
      *     reverseMap: array{}
      * }
      *
-     * @see \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Map::__sleep
+     * @see Map::__sleep
      */
-    public function normalize(mixed $data, ?string $format = null, array $context = []): array
-    {
+    public function normalize(
+        mixed $data,
+        ?string $format = null,
+        array $context = []
+    ): array {
         return [
             'type' => $data::class,
             'key' => $data->getMapKey(),
@@ -40,13 +43,20 @@ final class MapNormalizer implements NormalizerInterface, DenormalizerInterface
         ];
     }
 
-    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
-    {
+    public function supportsNormalization(
+        mixed $data,
+        ?string $format = null,
+        array $context = []
+    ): bool {
         return $data instanceof Map;
     }
 
-    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): Map
-    {
+    public function denormalize(
+        mixed $data,
+        string $type,
+        ?string $format = null,
+        array $context = []
+    ): Map {
         $mapMatcherType = $data['type'] ?? throw new LogicException('Unknown Map matcher type');
         if (!is_a($mapMatcherType, Map::class, true)) {
             throw new LogicException(sprintf('%s is not a subtype of %s', $mapMatcherType, Map::class));

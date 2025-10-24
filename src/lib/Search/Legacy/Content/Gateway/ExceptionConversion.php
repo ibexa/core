@@ -20,7 +20,7 @@ use PDOException;
 class ExceptionConversion extends Gateway
 {
     /**
-     * @var \Ibexa\Core\Search\Legacy\Content\Gateway
+     * @var Gateway
      */
     protected $innerGateway;
 
@@ -39,7 +39,7 @@ class ExceptionConversion extends Gateway
     ): array {
         try {
             return $this->innerGateway->find($criterion, $offset, $limit, $sort, $languageFilter, $doCount);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }

@@ -28,7 +28,7 @@ final class ContainsFieldDefinitionId implements CriterionHandlerInterface
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContainsFieldDefinitionId $criterion
+     * @param ContainsFieldDefinitionIdCriterion $criterion
      */
     public function apply(
         CriterionVisitor $criterionVisitor,

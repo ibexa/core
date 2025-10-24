@@ -13,5 +13,8 @@ namespace Ibexa\Core\IO;
  */
 interface FilePathNormalizerInterface
 {
-    public function normalizePath(string $filePath, bool $doHash = true): string;
+    public function normalizePath(
+        string $filePath,
+        bool $doHash = true
+    ): string;
 }

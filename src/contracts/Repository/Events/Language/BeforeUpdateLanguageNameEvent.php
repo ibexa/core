@@ -20,8 +20,10 @@ final class BeforeUpdateLanguageNameEvent extends BeforeEvent
 
     private ?Language $updatedLanguage = null;
 
-    public function __construct(Language $language, string $newName)
-    {
+    public function __construct(
+        Language $language,
+        string $newName
+    ) {
         $this->language = $language;
         $this->newName = $newName;
     }

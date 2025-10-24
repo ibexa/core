@@ -21,8 +21,10 @@ final class BeforeUpdateRoleDraftEvent extends BeforeEvent
 
     private ?RoleDraft $updatedRoleDraft = null;
 
-    public function __construct(RoleDraft $roleDraft, RoleUpdateStruct $roleUpdateStruct)
-    {
+    public function __construct(
+        RoleDraft $roleDraft,
+        RoleUpdateStruct $roleUpdateStruct
+    ) {
         $this->roleDraft = $roleDraft;
         $this->roleUpdateStruct = $roleUpdateStruct;
     }

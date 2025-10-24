@@ -31,19 +31,34 @@ interface ProxyDomainMapperInterface
 
     public function createContentInfoProxy(int $contentId): ContentInfo;
 
-    public function createContentTypeProxy(int $contentTypeId, array $prioritizedLanguages = Language::ALL): ContentType;
+    public function createContentTypeProxy(
+        int $contentTypeId,
+        array $prioritizedLanguages = Language::ALL
+    ): ContentType;
 
-    public function createContentTypeGroupProxy(int $contentTypeGroupId, array $prioritizedLanguages = Language::ALL): ContentTypeGroup;
+    public function createContentTypeGroupProxy(
+        int $contentTypeGroupId,
+        array $prioritizedLanguages = Language::ALL
+    ): ContentTypeGroup;
 
-    public function createContentTypeGroupProxyList(array $contentTypeGroupIds, array $prioritizedLanguages = Language::ALL): array;
+    public function createContentTypeGroupProxyList(
+        array $contentTypeGroupIds,
+        array $prioritizedLanguages = Language::ALL
+    ): array;
 
     public function createLanguageProxy(string $languageCode): Language;
 
     public function createLanguageProxyList(array $languageCodes): array;
 
-    public function createLocationProxy(int $locationId, array $prioritizedLanguages = Language::ALL): Location;
+    public function createLocationProxy(
+        int $locationId,
+        array $prioritizedLanguages = Language::ALL
+    ): Location;
 
     public function createSectionProxy(int $sectionId): Section;
 
-    public function createUserProxy(int $userId, array $prioritizedLanguages = Language::ALL): User;
+    public function createUserProxy(
+        int $userId,
+        array $prioritizedLanguages = Language::ALL
+    ): User;
 }

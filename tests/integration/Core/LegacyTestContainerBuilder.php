@@ -133,7 +133,7 @@ final class LegacyTestContainerBuilder extends ContainerBuilder
     }
 
     /**
-     * @return \Symfony\Component\Config\Loader\LoaderInterface
+     * @return LoaderInterface
      */
     public function getCoreLoader(): LoaderInterface
     {

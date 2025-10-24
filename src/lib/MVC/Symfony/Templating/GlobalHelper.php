@@ -8,10 +8,12 @@
 namespace Ibexa\Core\MVC\Symfony\Templating;
 
 use Ibexa\Contracts\Core\Repository\LocationService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Helper\TranslationHelper;
 use Ibexa\Core\MVC\Symfony\RequestStackAware;
 use Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
@@ -22,16 +24,16 @@ class GlobalHelper
 {
     use RequestStackAware;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     protected $configResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
+    /** @var LocationService */
     protected $locationService;
 
-    /** @var \Symfony\Component\Routing\RouterInterface */
+    /** @var RouterInterface */
     protected $router;
 
-    /** @var \Ibexa\Core\Helper\TranslationHelper */
+    /** @var TranslationHelper */
     protected $translationHelper;
 
     public function __construct(
@@ -49,7 +51,7 @@ class GlobalHelper
     /**
      * Returns the current siteaccess.
      *
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess|null
+     * @return SiteAccess|null
      */
     public function getSiteaccess()
     {
@@ -131,7 +133,7 @@ class GlobalHelper
     /**
      * Returns the root location.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location
+     * @return Location
      */
     public function getRootLocation()
     {
@@ -165,7 +167,7 @@ class GlobalHelper
     /**
      * Returns the config resolver.
      *
-     * @return \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
+     * @return ConfigResolverInterface
      */
     public function getConfigResolver()
     {

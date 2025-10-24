@@ -7,19 +7,20 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\LanguageService;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy as LegacySetupFactory;
 
 /**
  * Test case for maximum number of languages supported in the LanguageService.
  *
- * @see \Ibexa\Contracts\Core\Repository\LanguageService
+ * @see LanguageService
  *
  * @group integration
  * @group language
  */
 class LanguageServiceMaximumSupportedLanguagesTest extends BaseTestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageService */
+    /** @var LanguageService */
     private $languageService;
 
     /** @var array */

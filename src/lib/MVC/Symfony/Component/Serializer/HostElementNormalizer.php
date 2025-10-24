@@ -17,13 +17,16 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 final class HostElementNormalizer implements NormalizerInterface, DenormalizerInterface
 {
-    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
-    {
+    public function supportsNormalization(
+        mixed $data,
+        ?string $format = null,
+        array $context = []
+    ): bool {
         return $data instanceof HostElement;
     }
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\HostElement $data
+     * @param HostElement $data
      *
      * @return array{elementNumber: int, hostElements: array<int, string>}
      */
@@ -46,8 +49,12 @@ final class HostElementNormalizer implements NormalizerInterface, DenormalizerIn
         ];
     }
 
-    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): HostElement
-    {
+    public function denormalize(
+        mixed $data,
+        string $type,
+        ?string $format = null,
+        array $context = []
+    ): HostElement {
         $hostElement = new HostElement($data['elementNumber']);
         if (!empty($data['hostElements'])) {
             $hostElement->setHostElements($data['hostElements']);

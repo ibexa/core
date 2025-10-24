@@ -50,7 +50,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class ContentService extends ContentServiceDecorator
 {
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
+    /** @var EventDispatcherInterface */
     protected $eventDispatcher;
 
     public function __construct(
@@ -200,8 +200,10 @@ class ContentService extends ContentServiceDecorator
         return $content;
     }
 
-    public function publishVersion(VersionInfo $versionInfo, array $translations = Language::ALL): Content
-    {
+    public function publishVersion(
+        VersionInfo $versionInfo,
+        array $translations = Language::ALL
+    ): Content {
         $eventData = [
             $versionInfo,
             $translations,

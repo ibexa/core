@@ -22,8 +22,11 @@ class LegacyPathGenerator extends PathGenerator
      *
      * @return string
      */
-    public function getStoragePathForField($fieldId, $versionNo, $languageCode): string
-    {
+    public function getStoragePathForField(
+        $fieldId,
+        $versionNo,
+        $languageCode
+    ): string {
         return sprintf(
             '%s/%s-%s-%s',
             $this->getDirectoryStructure($fieldId),

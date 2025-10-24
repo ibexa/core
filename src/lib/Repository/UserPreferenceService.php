@@ -9,9 +9,11 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository;
 
 use Exception;
+use Ibexa\Contracts\Core\Persistence\UserPreference\Handler;
 use Ibexa\Contracts\Core\Persistence\UserPreference\Handler as UserPreferenceHandler;
 use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreference;
 use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\UserPreferenceService as UserPreferenceServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreference as APIUserPreference;
@@ -20,18 +22,20 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 
 class UserPreferenceService implements UserPreferenceServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var Repository */
     private $repository;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\UserPreference\Handler */
+    /** @var Handler */
     private $userPreferenceHandler;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
-     * @param \Ibexa\Contracts\Core\Persistence\UserPreference\Handler $userPreferenceHandler
+     * @param Repository $repository
+     * @param Handler $userPreferenceHandler
      */
-    public function __construct(RepositoryInterface $repository, UserPreferenceHandler $userPreferenceHandler)
-    {
+    public function __construct(
+        RepositoryInterface $repository,
+        UserPreferenceHandler $userPreferenceHandler
+    ) {
         $this->repository = $repository;
         $this->userPreferenceHandler = $userPreferenceHandler;
     }
@@ -39,8 +43,10 @@ class UserPreferenceService implements UserPreferenceServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function loadUserPreferences(int $offset = 0, int $limit = 25): UserPreferenceList
-    {
+    public function loadUserPreferences(
+        int $offset = 0,
+        int $limit = 25
+    ): UserPreferenceList {
         $currentUserId = $this->getCurrentUserId();
 
         $list = new UserPreferenceList();
@@ -74,7 +80,7 @@ class UserPreferenceService implements UserPreferenceServiceInterface
 
             try {
                 $value = (string)$userPreferenceSetStruct->value;
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 throw new InvalidArgumentException('value', 'Cannot convert value to string at index ' . $key);
             }
 
@@ -126,9 +132,9 @@ class UserPreferenceService implements UserPreferenceServiceInterface
     /**
      * Builds UserPreference domain object from ValueObject returned by Persistence API.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\UserPreference\UserPreference $spiUserPreference
+     * @param UserPreference $spiUserPreference
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreference
+     * @return APIUserPreference
      */
     protected function buildDomainObject(UserPreference $spiUserPreference): APIUserPreference
     {

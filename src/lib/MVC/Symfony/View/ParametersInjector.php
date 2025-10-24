@@ -12,5 +12,8 @@ namespace Ibexa\Core\MVC\Symfony\View;
  */
 interface ParametersInjector
 {
-    public function injectViewParameters(View $view, array $parameters);
+    public function injectViewParameters(
+        View $view,
+        array $parameters
+    );
 }

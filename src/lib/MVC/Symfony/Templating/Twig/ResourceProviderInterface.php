@@ -8,25 +8,27 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\MVC\Symfony\Templating\Twig;
 
+use Twig\Template;
+
 interface ResourceProviderInterface
 {
     /**
-     * @return array|\Twig\Template[]
+     * @return array|Template[]
      */
     public function getFieldViewResources(): array;
 
     /**
-     * @return array|\Twig\Template[]
+     * @return array|Template[]
      */
     public function getFieldEditResources(): array;
 
     /**
-     * @return array|\Twig\Template[]
+     * @return array|Template[]
      */
     public function getFieldDefinitionViewResources(): array;
 
     /**
-     * @return array|\Twig\Template[]
+     * @return array|Template[]
      */
     public function getFieldDefinitionEditResources(): array;
 }

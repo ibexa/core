@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\SearchService\SortClause;
 
 use DateTime;
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -28,7 +29,7 @@ final class ContentTranslatedNameTest extends AbstractSortClauseTestCase
     /**
      * @param string[] $values
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      *
      * @dataProvider dataProviderForTestSortingByContentTranslatedName
      */
@@ -57,7 +58,7 @@ final class ContentTranslatedNameTest extends AbstractSortClauseTestCase
     /**
      * @param string[] $values
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      *
      * @dataProvider dataProviderForTestSortingByContentTranslatedName
      */

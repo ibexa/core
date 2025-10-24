@@ -102,8 +102,10 @@ abstract class Value extends BaseValue
         return parent::__get($propertyName);
     }
 
-    public function __set($propertyName, $propertyValue)
-    {
+    public function __set(
+        $propertyName,
+        $propertyValue
+    ) {
         // BC with 5.0 (EZP-20948)
         if ($propertyName === 'path') {
             $this->inputUri = $propertyValue;

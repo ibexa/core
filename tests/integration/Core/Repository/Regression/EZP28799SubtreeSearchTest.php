@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
@@ -16,7 +17,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 class EZP28799SubtreeSearchTest extends BaseTestCase
 {
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content[]
+     * @return Content[]
      */
     public function createTestContent()
     {

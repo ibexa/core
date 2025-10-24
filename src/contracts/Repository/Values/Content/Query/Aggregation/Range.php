@@ -38,8 +38,11 @@ final class Range extends ValueObject
      * @phpstan-param TValue|null $from beginning of the range (included).
      * @phpstan-param TValue|null $to end of the range (excluded).
      */
-    public function __construct(mixed $from, mixed $to, ?string $label = null)
-    {
+    public function __construct(
+        mixed $from,
+        mixed $to,
+        ?string $label = null
+    ) {
         parent::__construct();
 
         $this->from = $from;
@@ -94,7 +97,7 @@ final class Range extends ValueObject
     /**
      * Check if the range is equal to another range.
      *
-     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<TValue> $value
+     * @phpstan-param Range<TValue> $value
      */
     public function equalsTo(Range $value): bool
     {
@@ -126,30 +129,36 @@ final class Range extends ValueObject
     /**
      * Creates a range of integers.
      *
-     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<int>
+     * @phpstan-return Range<int>
      */
-    public static function ofInt(?int $from, ?int $to): self
-    {
+    public static function ofInt(
+        ?int $from,
+        ?int $to
+    ): self {
         return new self($from, $to);
     }
 
     /**
      * Creates a range of floats.
      *
-     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<float>
+     * @phpstan-return Range<float>
      */
-    public static function ofFloat(?float $from, ?float $to): self
-    {
+    public static function ofFloat(
+        ?float $from,
+        ?float $to
+    ): self {
         return new self($from, $to);
     }
 
     /**
      * Creates a range of dates.
      *
-     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<\DateTimeInterface>
+     * @phpstan-return Range<DateTimeInterface>
      */
-    public static function ofDateTime(?DateTimeInterface $from, ?DateTimeInterface $to): self
-    {
+    public static function ofDateTime(
+        ?DateTimeInterface $from,
+        ?DateTimeInterface $to
+    ): self {
         return new self($from, $to);
     }
 }

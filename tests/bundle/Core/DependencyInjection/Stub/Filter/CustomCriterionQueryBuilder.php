@@ -11,9 +11,10 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\Filter;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
+use Ibexa\Tests\Bundle\Core\DependencyInjection\IbexaCoreExtensionTest;
 
 /**
- * Stub for {@see \Ibexa\Tests\Bundle\Core\DependencyInjection\IbexaCoreExtensionTest::testFilteringQueryBuildersAutomaticConfiguration}.
+ * Stub for {@see IbexaCoreExtensionTest::testFilteringQueryBuildersAutomaticConfiguration}.
  */
 class CustomCriterionQueryBuilder implements CriterionQueryBuilder
 {

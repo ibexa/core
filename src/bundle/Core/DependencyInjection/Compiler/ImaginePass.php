@@ -38,8 +38,10 @@ class ImaginePass implements CompilerPassInterface
         }
     }
 
-    private function processReduceNoiseFilter(ContainerBuilder $container, string $driver): void
-    {
+    private function processReduceNoiseFilter(
+        ContainerBuilder $container,
+        string $driver
+    ): void {
         if ($driver === 'imagick') {
             $container->setAlias('ibexa.image_alias.imagine.filter.reduce_noise', new Alias(ImagickReduceNoiseFilter::class));
         } elseif ($driver === 'gmagick') {
@@ -47,8 +49,10 @@ class ImaginePass implements CompilerPassInterface
         }
     }
 
-    private function processSwirlFilter(ContainerBuilder $container, string $driver): void
-    {
+    private function processSwirlFilter(
+        ContainerBuilder $container,
+        string $driver
+    ): void {
         if ($driver === 'imagick') {
             $container->setAlias('ibexa.image_alias.imagine.filter.swirl', new Alias(ImagickSwirlFilter::class));
         } elseif ($driver === 'gmagick') {

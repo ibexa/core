@@ -22,7 +22,10 @@ interface OptionsBag
      *
      * If the option does not exist, returns $default.
      */
-    public function get(string $key, mixed $default = null): mixed;
+    public function get(
+        string $key,
+        mixed $default = null
+    ): mixed;
 
     /**
      * Checks if the option identified by $key exists.

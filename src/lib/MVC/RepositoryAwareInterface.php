@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Repository\Repository;
 interface RepositoryAwareInterface
 {
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
+     * @param Repository $repository
      */
     public function setRepository(Repository $repository);
 }

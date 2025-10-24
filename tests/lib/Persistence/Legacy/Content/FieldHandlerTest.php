@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
+use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
@@ -22,6 +23,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldHandler
@@ -31,35 +33,35 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @var Gateway
      */
     protected $contentGatewayMock;
 
     /**
      * Mapper mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Mapper
+     * @var Mapper
      */
     protected $mapperMock;
 
     /**
      * Storage handler mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
+     * @var StorageHandler
      */
     protected $storageHandlerMock;
 
     /**
      * Field type registry mock.
      *
-     * @var \Ibexa\Core\Persistence\FieldTypeRegistry
+     * @var FieldTypeRegistry
      */
     protected $fieldTypeRegistryMock;
 
     /**
      * Field type mock.
      *
-     * @var \Ibexa\Contracts\Core\FieldType\FieldType
+     * @var FieldType
      */
     protected $fieldTypeMock;
 
@@ -729,7 +731,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a Content fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
     protected function getContentPartialFieldsFixture()
     {
@@ -767,7 +769,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a Content fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
     protected function getContentNoFieldsFixture()
     {
@@ -787,7 +789,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a Content fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
     protected function getContentSingleLanguageFixture()
     {
@@ -819,7 +821,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a Content fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
     protected function getContentFixture()
     {
@@ -864,7 +866,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a ContentType fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
     protected function getContentTypeFixture()
     {
@@ -902,7 +904,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns an UpdateStruct fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UpdateStruct
+     * @return UpdateStruct
      */
     protected function getUpdateStructFixture()
     {
@@ -927,7 +929,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a FieldHandler to test.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\FieldHandler
+     * @return FieldHandler
      */
     protected function getFieldHandler()
     {
@@ -945,7 +947,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a StorageHandler mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\StorageHandler|\PHPUnit\Framework\MockObject\MockObject
+     * @return StorageHandler|MockObject
      */
     protected function getStorageHandlerMock()
     {
@@ -959,7 +961,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a Mapper mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Mapper|\PHPUnit\Framework\MockObject\MockObject
+     * @return Mapper|MockObject
      */
     protected function getMapperMock()
     {
@@ -973,7 +975,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a mock object for the Content Gateway.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Gateway|\PHPUnit\Framework\MockObject\MockObject
+     * @return Gateway|MockObject
      */
     protected function getContentGatewayMock()
     {
@@ -985,7 +987,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\FieldTypeRegistry|\PHPUnit\Framework\MockObject\MockObject
+     * @return FieldTypeRegistry|MockObject
      */
     protected function getFieldTypeRegistryMock()
     {
@@ -1007,7 +1009,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\FieldType|\PHPUnit\Framework\MockObject\MockObject
+     * @return SPIFieldType|MockObject
      */
     protected function getFieldTypeMock()
     {

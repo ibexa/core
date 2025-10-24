@@ -11,14 +11,14 @@ namespace Ibexa\Contracts\Core\Repository\Values\User;
 /**
  * This class represents a user group to role assignment.
  *
- * @property-read \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $userGroup calls getUserGroup()
+ * @property-read UserGroup $userGroup calls getUserGroup()
  */
 abstract class UserGroupRoleAssignment extends RoleAssignment
 {
     /**
      * Returns the user group to which the role is assigned to.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroup
+     * @return UserGroup
      */
     abstract public function getUserGroup(): UserGroup;
 }

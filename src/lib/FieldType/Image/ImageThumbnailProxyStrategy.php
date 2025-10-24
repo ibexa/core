@@ -17,10 +17,10 @@ use ProxyManager\Proxy\LazyLoadingInterface;
 
 final class ImageThumbnailProxyStrategy implements FieldTypeBasedThumbnailStrategy
 {
-    /** @var \Ibexa\Core\FieldType\Image\ImageThumbnailStrategy */
+    /** @var ImageThumbnailStrategy */
     private $imageThumbnailStrategy;
 
-    /** @var \Ibexa\Core\Repository\ProxyFactory\ProxyGeneratorInterface */
+    /** @var ProxyGeneratorInterface */
     private $proxyGenerator;
 
     public function __construct(
@@ -36,8 +36,10 @@ final class ImageThumbnailProxyStrategy implements FieldTypeBasedThumbnailStrate
         return $this->imageThumbnailStrategy->getFieldTypeIdentifier();
     }
 
-    public function getThumbnail(Field $field, ?VersionInfo $versionInfo = null): ?Thumbnail
-    {
+    public function getThumbnail(
+        Field $field,
+        ?VersionInfo $versionInfo = null
+    ): ?Thumbnail {
         $initializer = function (
             &$wrappedObject,
             LazyLoadingInterface $proxy,

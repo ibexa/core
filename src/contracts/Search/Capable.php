@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Search;
 
+use Ibexa\Contracts\Core\Repository\SearchService;
+
 /**
  * Capability interface for search engines.
  *
@@ -20,7 +22,7 @@ interface Capable
     /**
      * Query for supported capability of currently configured search engine.
      *
-     * @param int $capabilityFlag One of {@see \Ibexa\Contracts\Core\Repository\SearchService}::CAPABILITY_* constants.
+     * @param int $capabilityFlag One of {@see SearchService}::CAPABILITY_* constants.
      *
      * @return bool
      */

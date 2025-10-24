@@ -18,8 +18,7 @@ class BookmarkServiceDecoratorTest extends TestCase
 {
     protected function createDecorator(MockObject $service): BookmarkService
     {
-        return new class($service) extends BookmarkServiceDecorator {
-        };
+        return new class($service) extends BookmarkServiceDecorator {};
     }
 
     protected function createServiceMock(): MockObject

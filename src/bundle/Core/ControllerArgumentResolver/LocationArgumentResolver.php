@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\Core\ControllerArgumentResolver;
 
 use Ibexa\Contracts\Core\Exception\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,14 +32,16 @@ final class LocationArgumentResolver implements ValueResolverInterface
     }
 
     /**
-     * @return iterable<\Ibexa\Contracts\Core\Repository\Values\Content\Location>
+     * @return iterable<Location>
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws UnauthorizedException
      */
-    public function resolve(Request $request, ArgumentMetadata $argument): iterable
-    {
+    public function resolve(
+        Request $request,
+        ArgumentMetadata $argument
+    ): iterable {
         if (!$this->supports($request, $argument)) {
             return [];
         }
@@ -53,8 +57,10 @@ final class LocationArgumentResolver implements ValueResolverInterface
         yield $this->locationService->loadLocation((int)$locationId);
     }
 
-    private function supports(Request $request, ArgumentMetadata $argument): bool
-    {
+    private function supports(
+        Request $request,
+        ArgumentMetadata $argument
+    ): bool {
         return
             Location::class === $argument->getType()
             && !$request->attributes->has(self::PARAMETER_LOCATION_ID)

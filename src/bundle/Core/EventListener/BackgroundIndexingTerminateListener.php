@@ -9,6 +9,7 @@ namespace Ibexa\Bundle\Core\EventListener;
 
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
+use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
@@ -26,20 +27,22 @@ class BackgroundIndexingTerminateListener implements BackgroundIndexerInterface,
 {
     use LoggerAwareTrait;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
+    /** @var Handler */
     protected $persistenceHandler;
 
-    /** @var \Ibexa\Contracts\Core\Search\Handler */
+    /** @var SearchHandler */
     protected $searchHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\ContentInfo[] */
+    /** @var ContentInfo[] */
     protected $contentInfo = [];
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location[] */
+    /** @var Location[] */
     protected $locations = [];
 
-    public function __construct(PersistenceHandler $persistenceHandler, SearchHandler $searchHandler)
-    {
+    public function __construct(
+        PersistenceHandler $persistenceHandler,
+        SearchHandler $searchHandler
+    ) {
         $this->persistenceHandler = $persistenceHandler;
         $this->searchHandler = $searchHandler;
     }

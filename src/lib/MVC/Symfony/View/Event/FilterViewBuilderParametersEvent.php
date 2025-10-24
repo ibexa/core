@@ -16,13 +16,13 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class FilterViewBuilderParametersEvent extends Event
 {
-    /** @var \Symfony\Component\HttpFoundation\Request */
+    /** @var Request */
     private $request;
 
     /**
      * Parameters the ViewBuilder will use.
      *
-     * @var \Symfony\Component\HttpFoundation\ParameterBag
+     * @var ParameterBag
      */
     private $parameters;
 
@@ -33,7 +33,7 @@ class FilterViewBuilderParametersEvent extends Event
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Request
+     * @return Request
      */
     public function getRequest()
     {
@@ -43,7 +43,7 @@ class FilterViewBuilderParametersEvent extends Event
     /**
      * Returns the ParameterBag that holds the ViewBuilder's parameters.
      *
-     * @return \Symfony\Component\HttpFoundation\ParameterBag
+     * @return ParameterBag
      */
     public function getParameters()
     {

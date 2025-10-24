@@ -20,7 +20,10 @@ interface MutableMapInterface extends MapInterface
      * @param TKey $key
      * @param TValue $value
      */
-    public function set(mixed $key, mixed $value): void;
+    public function set(
+        mixed $key,
+        mixed $value
+    ): void;
 
     /**
      * @param TKey $key

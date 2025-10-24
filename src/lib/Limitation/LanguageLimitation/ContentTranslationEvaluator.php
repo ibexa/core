@@ -25,8 +25,10 @@ final class ContentTranslationEvaluator implements VersionTargetEvaluator
     /**
      * Allow access if any of the given language codes for translations matches any of the limitation values.
      */
-    public function evaluate(Target\Version $targetVersion, Limitation $limitationValue): ?bool
-    {
+    public function evaluate(
+        Target\Version $targetVersion,
+        Limitation $limitationValue
+    ): ?bool {
         $matchingTranslations = array_intersect(
             $targetVersion->allLanguageCodesList,
             $limitationValue->limitationValues

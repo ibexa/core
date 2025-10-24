@@ -20,8 +20,10 @@ class FragmentListenerFactoryTest extends TestCase
     /**
      * @dataProvider buildFragmentListenerProvider
      */
-    public function testBuildFragmentListener($requestUri, $isFragmentCandidate)
-    {
+    public function testBuildFragmentListener(
+        $requestUri,
+        $isFragmentCandidate
+    ) {
         $listenerClass = FragmentListener::class;
         $uriSigner = new UriSigner('my_precious_secret');
         $baseFragmentPath = '/_fragment';

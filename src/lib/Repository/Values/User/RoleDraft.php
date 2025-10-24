@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\Values\User;
 
+use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft;
+use Ibexa\Contracts\Core\Repository\Values\User\Role;
 use Ibexa\Contracts\Core\Repository\Values\User\RoleDraft as APIRoleDraft;
 
 /**
@@ -20,7 +22,7 @@ class RoleDraft extends APIRoleDraft
     /**
      * Holds internal role object.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\User\Role
+     * @var Role
      *
      * @todo document
      */
@@ -44,8 +46,10 @@ class RoleDraft extends APIRoleDraft
      * @param string $property
      * @param mixed $propertyValue
      */
-    public function __set($property, $propertyValue)
-    {
+    public function __set(
+        $property,
+        $propertyValue
+    ) {
         $this->innerRole->$property = $propertyValue;
     }
 
@@ -64,7 +68,7 @@ class RoleDraft extends APIRoleDraft
     /**
      * Returns the list of policies of this role.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft[]
+     * @return PolicyDraft[]
      */
     public function getPolicies(): iterable
     {

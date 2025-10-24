@@ -19,7 +19,7 @@ final class LoginFormViewTest extends AbstractViewTestCase
 {
     public function testSetLastUsername(): void
     {
-        /** @var \Ibexa\Core\MVC\Symfony\View\LoginFormView $view */
+        /** @var LoginFormView $view */
         $view = $this->createViewUnderTest();
         $view->setLastUsername('johndoe');
 
@@ -30,15 +30,18 @@ final class LoginFormViewTest extends AbstractViewTestCase
     {
         $exception = $this->createMock(AuthenticationException::class);
 
-        /** @var \Ibexa\Core\MVC\Symfony\View\LoginFormView $view */
+        /** @var LoginFormView $view */
         $view = $this->createViewUnderTest();
         $view->setLastAuthenticationError($exception);
 
         self::assertEquals($exception, $view->getLastAuthenticationException());
     }
 
-    protected function createViewUnderTest($template = null, array $parameters = [], $viewType = 'full'): View
-    {
+    protected function createViewUnderTest(
+        $template = null,
+        array $parameters = [],
+        $viewType = 'full'
+    ): View {
         return new LoginFormView($template, $parameters, $viewType);
     }
 

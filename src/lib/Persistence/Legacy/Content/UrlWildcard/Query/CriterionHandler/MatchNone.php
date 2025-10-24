@@ -21,7 +21,7 @@ final class MatchNone implements CriterionHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion\MatchNone $criterion
+     * @param Criterion\MatchNone $criterion
      */
     public function handle(
         CriteriaConverter $converter,

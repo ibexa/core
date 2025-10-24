@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\User;
 
 use DateInterval;
 use DateTime;
+use Doctrine\DBAL\Exception;
 use Ibexa\Contracts\Core\Persistence;
 use Ibexa\Contracts\Core\Persistence\User\Handler;
 use Ibexa\Contracts\Core\Persistence\User\Role;
@@ -30,7 +31,7 @@ class UserHandlerTest extends TestCase
     private const TEST_USER_ID = 42;
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     protected function getUserHandler(?User\Gateway $userGateway = null): Handler
     {
@@ -38,7 +39,7 @@ class UserHandlerTest extends TestCase
 
         return new User\Handler(
             $userGateway ?? new User\Gateway\DoctrineDatabase($connection),
-            new User\Role\Gateway\DoctrineDatabase($connection),
+            new Gateway\DoctrineDatabase($connection),
             new User\Mapper(),
             new LimitationConverter([new ObjectStateLimitationHandler($connection)])
         );
@@ -1174,7 +1175,7 @@ class UserHandlerTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     private function createTestRole(User\Handler $handler): Role
     {
@@ -1188,7 +1189,7 @@ class UserHandlerTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     private function createTestRoleWithTestPolicy(): void
     {

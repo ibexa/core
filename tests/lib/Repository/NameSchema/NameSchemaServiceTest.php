@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Event\NameSchema\AbstractSchemaEvent;
 use Ibexa\Contracts\Core\Event\NameSchema\ResolveContentNameSchemaEvent;
 use Ibexa\Contracts\Core\Event\NameSchema\ResolveNameSchemaEvent;
 use Ibexa\Contracts\Core\Event\NameSchema\ResolveUrlAliasSchemaEvent;
+use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCollection as APIFieldDefinitionCollection;
 use Ibexa\Core\FieldType\TextLine\Type as TextLineFieldType;
@@ -107,7 +108,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
     /**
      * @dataProvider getDataForTestResolveNameSchema
      *
-     * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>> $fieldMap
+     * @param array<int|string, array<string, Value>> $fieldMap
      * @param array<string, array<string, string>> $tokenValues
      * @param array<string> $languageCodes
      * @param array<string, string> $expectedNames
@@ -163,10 +164,10 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
                 ['field' => ['text1']],
                 '<text1>',
                 [
-                'text1' => ['cro-HR' => new TextLineValue('jedan'), 'eng-GB' => new TextLineValue('one')],
-                'text2' => ['cro-HR' => new TextLineValue('Dva'), 'eng-GB' => new TextLineValue('two')],
-                'text3' => ['eng-GB' => new TextLineValue('three')],
-],
+                    'text1' => ['cro-HR' => new TextLineValue('jedan'), 'eng-GB' => new TextLineValue('one')],
+                    'text2' => ['cro-HR' => new TextLineValue('Dva'), 'eng-GB' => new TextLineValue('two')],
+                    'text3' => ['eng-GB' => new TextLineValue('three')],
+                ],
                 [
                     'eng-GB' => 'one',
                     'cro-HR' => 'jedan',
@@ -180,10 +181,10 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
                 ['field' => ['text2']],
                 '<text2>',
                 [
-                'text1' => ['cro-HR' => new TextLineValue('jedan'), 'eng-GB' => new TextLineValue('one')],
-                'text2' => ['cro-HR' => new TextLineValue('Dva'), 'eng-GB' => new TextLineValue('two')],
-                'text3' => ['eng-GB' => new TextLineValue('three')],
-            ],
+                    'text1' => ['cro-HR' => new TextLineValue('jedan'), 'eng-GB' => new TextLineValue('one')],
+                    'text2' => ['cro-HR' => new TextLineValue('Dva'), 'eng-GB' => new TextLineValue('two')],
+                    'text3' => ['eng-GB' => new TextLineValue('three')],
+                ],
                 [
                     'eng-GB' => 'two',
                     'cro-HR' => 'dva',
@@ -197,10 +198,10 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
                 ['field' => ['text2', 'text2']],
                 'Hello, <text1> and <text2> and then goodbye and hello again',
                 [
-                'text1' => ['cro-HR' => new TextLineValue('jedan'), 'eng-GB' => new TextLineValue('one')],
-                'text2' => ['cro-HR' => new TextLineValue('Dva'), 'eng-GB' => new TextLineValue('two')],
-                'text3' => ['eng-GB' => new TextLineValue('three')],
-            ],
+                    'text1' => ['cro-HR' => new TextLineValue('jedan'), 'eng-GB' => new TextLineValue('one')],
+                    'text2' => ['cro-HR' => new TextLineValue('Dva'), 'eng-GB' => new TextLineValue('two')],
+                    'text3' => ['eng-GB' => new TextLineValue('three')],
+                ],
                 [
                     'eng-GB' => 'Hello, one and two and then goodbye...',
                     'cro-HR' => 'Hello, jedan and dva and then goodb...',
@@ -222,7 +223,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
      *
      * @param array<string, array<string>> $schemaIdentifiers
      * @param array<string> $languageFieldValues field value translations
-     * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>> $fieldMap
+     * @param array<int|string, array<string, Value>> $fieldMap
      * @param array<string, array<string, string>> $fieldTitles [language => [field_identifier => title]]
      * @param array{limit?: int, sequence?: string} $settings NameSchemaService settings
      */
@@ -262,7 +263,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
     }
 
     /**
-     * @return \Traversable<\Ibexa\Contracts\Core\Repository\Values\Content\Field>
+     * @return Traversable<Field>
      */
     protected function getFields(): Traversable
     {

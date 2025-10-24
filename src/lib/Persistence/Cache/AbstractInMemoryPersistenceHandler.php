@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Persistence\Cache;
 
+use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Core\Persistence\Cache\Adapter\TransactionAwareAdapterInterface;
 use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface;
@@ -20,16 +21,16 @@ use Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache;
  */
 abstract class AbstractInMemoryPersistenceHandler extends AbstractInMemoryHandler
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
+    /** @var Handler */
     protected $persistenceHandler;
 
-    /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface */
+    /** @var CacheIdentifierGeneratorInterface */
     protected $cacheIdentifierGenerator;
 
-    /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierSanitizer */
+    /** @var CacheIdentifierSanitizer */
     protected $cacheIdentifierSanitizer;
 
-    /** @var \Ibexa\Core\Persistence\Cache\LocationPathConverter */
+    /** @var LocationPathConverter */
     protected $locationPathConverter;
 
     public function __construct(

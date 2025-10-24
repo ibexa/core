@@ -21,6 +21,7 @@ use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler as UrlWildcardH
 use Ibexa\Contracts\Core\Persistence\Handler as HandlerInterface;
 use Ibexa\Contracts\Core\Persistence\Notification\Handler as NotificationHandler;
 use Ibexa\Contracts\Core\Persistence\Setting\Handler as SettingHandler;
+use Ibexa\Contracts\Core\Persistence\TransactionHandler;
 use Ibexa\Contracts\Core\Persistence\TransactionHandler as SPITransactionHandler;
 use Ibexa\Contracts\Core\Persistence\User\Handler as UserHandler;
 use Ibexa\Contracts\Core\Persistence\UserPreference\Handler as UserPreferenceHandler;
@@ -31,52 +32,52 @@ use Ibexa\Core\Persistence\Legacy\URL\Handler as UrlHandler;
  */
 class Handler implements HandlerInterface
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler */
+    /** @var ContentHandler */
     protected $contentHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler */
+    /** @var ContentTypeHandler */
     protected $contentTypeHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler */
+    /** @var LanguageHandler */
     protected $languageHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler */
+    /** @var LocationHandler */
     protected $locationHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler */
+    /** @var ObjectStateHandler */
     protected $objectStateHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Section\Handler */
+    /** @var SectionHandler */
     protected $sectionHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\TransactionHandler */
+    /** @var TransactionHandler */
     protected $transactionHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler */
+    /** @var TrashHandler */
     protected $trashHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\UrlAlias\Handler */
+    /** @var UrlAliasHandler */
     protected $urlAliasHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler */
+    /** @var UrlWildcardHandler */
     protected $urlWildcardHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\User\Handler */
+    /** @var UserHandler */
     protected $userHandler;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\URL\Handler */
+    /** @var UrlHandler */
     protected $urlHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Bookmark\Handler */
+    /** @var BookmarkHandler */
     protected $bookmarkHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Notification\Handler */
+    /** @var NotificationHandler */
     protected $notificationHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\UserPreference\Handler */
+    /** @var UserPreferenceHandler */
     protected $userPreferenceHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Setting\Handler */
+    /** @var SettingHandler */
     private $settingHandler;
 
     public function __construct(
@@ -181,7 +182,7 @@ class Handler implements HandlerInterface
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Notification\Handler
+     * @return NotificationHandler
      */
     public function notificationHandler(): NotificationHandler
     {
@@ -189,7 +190,7 @@ class Handler implements HandlerInterface
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\UserPreference\Handler
+     * @return UserPreferenceHandler
      */
     public function userPreferenceHandler(): UserPreferenceHandler
     {
@@ -197,7 +198,7 @@ class Handler implements HandlerInterface
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\TransactionHandler
+     * @return TransactionHandler
      */
     public function transactionHandler()
     {

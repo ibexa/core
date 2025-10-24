@@ -21,7 +21,7 @@ class UserCreateStruct extends APIUserCreateStruct
     /**
      * The list of fields added to the user.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Field[]
+     * @var Field[]
      */
     public $fields = [];
 
@@ -37,8 +37,11 @@ class UserCreateStruct extends APIUserCreateStruct
      *                     field type or an instance of a Value class provided by the field type
      * @param string|null $language If not given on a translatable field the initial language is used
      */
-    public function setField(string $fieldDefIdentifier, mixed $value, ?string $language = null): void
-    {
+    public function setField(
+        string $fieldDefIdentifier,
+        mixed $value,
+        ?string $language = null
+    ): void {
         if (!isset($language)) {
             $language = $this->mainLanguageCode;
         }

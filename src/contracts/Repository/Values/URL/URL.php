@@ -37,21 +37,21 @@ class URL extends ValueObject
     /**
      * Date of last check.
      *
-     * @var \DateTimeInterface
+     * @var DateTimeInterface
      */
     protected $lastChecked;
 
     /**
      * Creation date.
      *
-     * @var \DateTimeInterface
+     * @var DateTimeInterface
      */
     protected $created;
 
     /**
      * Modified date.
      *
-     * @var \DateTimeInterface
+     * @var DateTimeInterface
      */
     protected $modified;
 

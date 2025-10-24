@@ -17,8 +17,10 @@ final class BeforeSwapLocationEvent extends BeforeEvent
 
     private Location $location2;
 
-    public function __construct(Location $location1, Location $location2)
-    {
+    public function __construct(
+        Location $location1,
+        Location $location2
+    ) {
         $this->location1 = $location1;
         $this->location2 = $location2;
     }

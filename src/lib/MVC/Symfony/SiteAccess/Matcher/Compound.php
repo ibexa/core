@@ -8,6 +8,7 @@
 namespace Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
+use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilderInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\URILexer;
 
@@ -33,11 +34,11 @@ abstract class Compound implements CompoundInterface, URILexer
      * Matchers' map.
      * Consists of an array of matchers, grouped by ruleset (so an array of an array of matchers).
      *
-     * @phpstan-var array<int, array<class-string<\Ibexa\Core\MVC\Symfony\SiteAccess\Matcher> | literal-string, \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher>>
+     * @phpstan-var array<int, array<class-string<Matcher> | literal-string, Matcher>>
      */
     protected array $matchersMap;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher[] */
+    /** @var Matcher[] */
     protected array $subMatchers = [];
 
     protected MatcherBuilderInterface $matcherBuilder;

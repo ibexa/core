@@ -8,6 +8,7 @@
 namespace Ibexa\Core\FieldType\Float;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\BaseNumericType;
@@ -52,10 +53,13 @@ class Type extends BaseNumericType implements TranslationContainerInterface
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\Float\Value $value
+     * @param Value $value
      */
-    public function getName(SPIValue $value, FieldDefinition $fieldDefinition, string $languageCode): string
-    {
+    public function getName(
+        SPIValue $value,
+        FieldDefinition $fieldDefinition,
+        string $languageCode
+    ): string {
         return (string)$value;
     }
 
@@ -69,7 +73,7 @@ class Type extends BaseNumericType implements TranslationContainerInterface
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\Float\Value $value
+     * @param Value $value
      */
     public function isEmptyValue(SPIValue $value): bool
     {
@@ -79,9 +83,9 @@ class Type extends BaseNumericType implements TranslationContainerInterface
     /**
      * Inspects given $inputValue and potentially converts it into a dedicated value object.
      *
-     * @param int|float|\Ibexa\Core\FieldType\Float\Value $inputValue
+     * @param int|float|Value $inputValue
      *
-     * @return \Ibexa\Core\FieldType\Float\Value The potentially converted and structurally plausible value.
+     * @return Value The potentially converted and structurally plausible value.
      */
     protected function createValueFromInput($inputValue)
     {
@@ -96,9 +100,9 @@ class Type extends BaseNumericType implements TranslationContainerInterface
     /**
      * Throws an exception if value structure is not of expected format.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
+     * @throws InvalidArgumentException If the value does not match the expected structure.
      *
-     * @param \Ibexa\Core\FieldType\Float\Value $value
+     * @param Value $value
      */
     protected function checkValueStructure(BaseValue $value): void
     {
@@ -114,7 +118,7 @@ class Type extends BaseNumericType implements TranslationContainerInterface
     /**
      * {@inheritdoc}
      *
-     * @param \Ibexa\Core\FieldType\Float\Value $value
+     * @param Value $value
      */
     protected function getSortInfo(BaseValue $value)
     {
@@ -126,7 +130,7 @@ class Type extends BaseNumericType implements TranslationContainerInterface
      *
      * @param mixed $hash
      *
-     * @return \Ibexa\Core\FieldType\Float\Value $value
+     * @return Value $value
      */
     public function fromHash($hash): Value
     {
@@ -140,7 +144,7 @@ class Type extends BaseNumericType implements TranslationContainerInterface
     /**
      * Converts a $Value to a hash.
      *
-     * @param \Ibexa\Core\FieldType\Float\Value $value
+     * @param Value $value
      *
      * @return mixed
      */

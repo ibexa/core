@@ -17,7 +17,7 @@ interface Matcher
     /**
      * Injects the request object to match against.
      *
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
+     * @param SimplifiedRequest $request
      */
     public function setRequest(SimplifiedRequest $request);
 

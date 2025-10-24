@@ -55,8 +55,11 @@ class DecoratedFragmentRenderer implements FragmentRendererInterface, SiteAccess
      *
      * @param array<string, mixed> $options An array of options
      */
-    public function render(string|ControllerReference $uri, Request $request, array $options = []): Response
-    {
+    public function render(
+        string | ControllerReference $uri,
+        Request $request,
+        array $options = []
+    ): Response {
         if ($uri instanceof ControllerReference && $request->attributes->has('siteaccess')) {
             // Serialize a SiteAccess to get it back after.
             // @see \Ibexa\Core\MVC\Symfony\EventListener\SiteAccessMatchListener

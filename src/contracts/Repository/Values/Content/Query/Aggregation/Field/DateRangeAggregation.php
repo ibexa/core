@@ -17,7 +17,7 @@ use Traversable;
 final class DateRangeAggregation extends AbstractFieldRangeAggregation
 {
     /**
-     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Ranges\RangesGeneratorInterface<\DateTimeInterface> $generator
+     * @phpstan-param RangesGeneratorInterface<\DateTimeInterface> $generator
      */
     public static function fromGenerator(
         string $name,

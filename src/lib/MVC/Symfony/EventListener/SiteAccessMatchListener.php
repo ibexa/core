@@ -7,6 +7,8 @@
 
 namespace Ibexa\Core\MVC\Symfony\EventListener;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
@@ -25,7 +27,7 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class SiteAccessMatchListener implements EventSubscriberInterface
 {
-    protected SiteAccess\Router $siteAccessRouter;
+    protected SiteAccessRouter $siteAccessRouter;
 
     protected EventDispatcherInterface $eventDispatcher;
 
@@ -50,10 +52,10 @@ class SiteAccessMatchListener implements EventSubscriberInterface
     }
 
     /**
-     * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
+     * @param RequestEvent $event
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws NotFoundException
+     * @throws InvalidArgumentException
      */
     public function onKernelRequest(RequestEvent $event): void
     {
@@ -61,7 +63,7 @@ class SiteAccessMatchListener implements EventSubscriberInterface
 
         // We have a serialized siteaccess object from a fragment (sub-request), we need to get it back.
         if ($request->attributes->has('serialized_siteaccess')) {
-            /** @var \Ibexa\Core\MVC\Symfony\SiteAccess $siteAccess */
+            /** @var SiteAccess $siteAccess */
             $siteAccess = $this->serializer->deserialize(
                 $request->attributes->get('serialized_siteaccess'),
                 SiteAccess::class,
@@ -93,9 +95,9 @@ class SiteAccessMatchListener implements EventSubscriberInterface
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param Request $request
      *
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess
+     * @return SiteAccess
      */
     private function getSiteAccessFromRequest(Request $request)
     {

@@ -18,12 +18,13 @@ use Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator;
 use Ibexa\Core\MVC\Symfony\View\Manager as ViewManager;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Tests\Core\MVC\Symfony\Routing\UrlAliasRouterTest as BaseUrlAliasRouterTest;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\RequestContext;
 
 class UrlAliasRouterTest extends BaseUrlAliasRouterTest
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $configResolver;
 
     protected function setUp(): void
@@ -44,8 +45,13 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         parent::setUp();
     }
 
-    protected function getRouter(LocationService $locationService, URLAliasService $urlAliasService, ContentService $contentService, UrlAliasGenerator $urlAliasGenerator, RequestContext $requestContext)
-    {
+    protected function getRouter(
+        LocationService $locationService,
+        URLAliasService $urlAliasService,
+        ContentService $contentService,
+        UrlAliasGenerator $urlAliasGenerator,
+        RequestContext $requestContext
+    ) {
         $router = new UrlAliasRouter($locationService, $urlAliasService, $contentService, $urlAliasGenerator, $requestContext);
         $router->setConfigResolver($this->configResolver);
 
@@ -373,7 +379,7 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         $urlAlias = new URLAlias(
             [
                 'path' => $pathInfo,
-                'type' => UrlAlias::LOCATION,
+                'type' => URLAlias::LOCATION,
                 'destination' => $destinationId,
                 'isHistory' => false,
             ]

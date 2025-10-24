@@ -17,8 +17,10 @@ use Ibexa\Contracts\Core\Search;
  */
 class SearchField implements Indexable
 {
-    public function getIndexData(Field $field, FieldDefinition $fieldDefinition)
-    {
+    public function getIndexData(
+        Field $field,
+        FieldDefinition $fieldDefinition
+    ) {
         $width = isset($field->value->data['width']) && $field->value->data['width'] !== null
             ? (int)$field->value->data['width']
             : null;

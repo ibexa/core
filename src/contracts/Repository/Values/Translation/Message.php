@@ -28,7 +28,7 @@ class Message extends Translation
      * Translation value objects. May not contain any numbers, which might
      * result in requiring plural forms. Use `Plural` class for that.
      *
-     * @see \Ibexa\Contracts\Core\Repository\Values\Translation\Plural
+     * @see Plural
      *
      * @var array<string, scalar|null>
      */
@@ -39,8 +39,10 @@ class Message extends Translation
      *
      * @param array<string, scalar|null> $values
      */
-    public function __construct(string $message, array $values = [])
-    {
+    public function __construct(
+        string $message,
+        array $values = []
+    ) {
         $this->message = $message;
         $this->values = $values;
 

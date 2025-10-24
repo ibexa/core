@@ -17,8 +17,10 @@ use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
  */
 class OriginalDirectoryVariationPathGenerator implements VariationPathGenerator
 {
-    public function getVariationPath(string $path, string $variation): string
-    {
+    public function getVariationPath(
+        string $path,
+        string $variation
+    ): string {
         $info = pathinfo($path);
 
         return sprintf(

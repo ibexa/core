@@ -15,8 +15,10 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
  */
 final class MissingUserFieldTypeException extends ContentValidationException
 {
-    public function __construct(ContentType $contentType, string $fieldType)
-    {
+    public function __construct(
+        ContentType $contentType,
+        string $fieldType
+    ) {
         parent::__construct(
             'The provided content type "%contentType%" does not contain the %fieldType% Field Type',
             [

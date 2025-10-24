@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\IO\Flysystem\PathPrefixer;
 
 use const DIRECTORY_SEPARATOR;
+
 use Ibexa\Core\IO\IOConfigProvider;
 
 /**

@@ -58,8 +58,10 @@ class FilterConfiguration extends BaseFilterConfiguration
      *
      * @return array<mixed>
      */
-    private function getVariationFilters(string $variationName, array $configuredVariations): array
-    {
+    private function getVariationFilters(
+        string $variationName,
+        array $configuredVariations
+    ): array {
         if (!isset($configuredVariations[$variationName]['filters']) && !isset($this->filters[$variationName]['filters'])) {
             return [];
         }
@@ -78,8 +80,10 @@ class FilterConfiguration extends BaseFilterConfiguration
      *
      * @return array<mixed>
      */
-    private function getVariationPostProcessors(string $variationName, array $configuredVariations): array
-    {
+    private function getVariationPostProcessors(
+        string $variationName,
+        array $configuredVariations
+    ): array {
         return $configuredVariations[$variationName]['post_processors']
             ?? $this->filters[$variationName]['post_processors']
             ?? [];

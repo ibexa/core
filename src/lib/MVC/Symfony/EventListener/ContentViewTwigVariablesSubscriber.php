@@ -23,10 +23,10 @@ final class ContentViewTwigVariablesSubscriber implements EventSubscriberInterfa
 
     public const PARAMETERS_KEY = 'params';
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\VariableProviderRegistry */
+    /** @var VariableProviderRegistry */
     private $parameterProviderRegistry;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
     /** @var \Symfony\Component\ExpressionLanguage\ExpressionLanguage */
@@ -60,8 +60,10 @@ final class ContentViewTwigVariablesSubscriber implements EventSubscriberInterfa
         $view->setParameters(array_replace($view->getParameters() ?? [], $twigVariables));
     }
 
-    private function processParameterRecursive(&$twigVariable, View $view): void
-    {
+    private function processParameterRecursive(
+        &$twigVariable,
+        View $view
+    ): void {
         if ($this->isExpressionParameter($twigVariable)) {
             $twigVariable = $this->expressionLanguage->evaluate($this->getExpression($twigVariable), [
                 'parameters' => $view->getParameters(),

@@ -594,8 +594,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      *
      * @dataProvider getCreateLocationValues
      */
-    public function testCreateLocationValues($field, $value)
-    {
+    public function testCreateLocationValues(
+        $field,
+        $value
+    ) {
         if ($value === null) {
             self::markTestIncomplete('Proper value setting yet unknown.');
         }
@@ -653,8 +655,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      *
      * @dataProvider getCreateLocationReturnValues
      */
-    public function testCreateLocationReturnValues($field, $value)
-    {
+    public function testCreateLocationReturnValues(
+        $field,
+        $value
+    ) {
         if ($value === null) {
             self::markTestIncomplete('Proper value setting yet unknown.');
         }
@@ -697,8 +701,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * @dataProvider getUpdateLocationData
      */
-    public function testUpdateLocation($field, $value)
-    {
+    public function testUpdateLocation(
+        $field,
+        $value
+    ) {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
         $gateway->update(
@@ -806,8 +812,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      * @param string $field
      * @param array $expectedResult
      */
-    public function testCreateLocationNodeAssignmentCreation(string $field, array $expectedResult)
-    {
+    public function testCreateLocationNodeAssignmentCreation(
+        string $field,
+        array $expectedResult
+    ) {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $gateway = $this->getLocationGateway();
         $gateway->createNodeAssignment(
@@ -976,8 +984,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      *
      * @dataProvider getConvertNodeAssignmentsLocationValues
      */
-    public function testConvertNodeAssignments($field, $value)
-    {
+    public function testConvertNodeAssignments(
+        $field,
+        $value
+    ) {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
 
         $gateway = $this->getLocationGateway();

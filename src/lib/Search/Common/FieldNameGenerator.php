@@ -22,7 +22,7 @@ class FieldNameGenerator
      * We implement this mapping, because those dynamic fields are common to
      * search backend configurations.
      *
-     * @see \Ibexa\Contracts\Core\Search\FieldType
+     * @see FieldType
      *
      * Code example:
      *
@@ -54,8 +54,11 @@ class FieldNameGenerator
      *
      * @return string
      */
-    public function getName($name, $field = null, $type = null): string
-    {
+    public function getName(
+        $name,
+        $field = null,
+        $type = null
+    ): string {
         return implode('_', array_filter([$type, $field, $name]));
     }
 
@@ -70,8 +73,10 @@ class FieldNameGenerator
      *
      * Only the field with the name 'id' remains untouched.
      */
-    public function getTypedName(string $name, FieldType $type): string
-    {
+    public function getTypedName(
+        string $name,
+        FieldType $type
+    ): string {
         if ($name === 'id') {
             return $name;
         }

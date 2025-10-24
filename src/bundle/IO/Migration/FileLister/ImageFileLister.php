@@ -14,6 +14,8 @@ use Ibexa\Bundle\IO\Migration\FileListerInterface;
 use Ibexa\Bundle\IO\Migration\MigrationHandler;
 use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
+use Ibexa\Core\IO\IOBinarydataHandler;
+use Ibexa\Core\IO\IOMetadataHandler;
 use Liip\ImagineBundle\Imagine\Filter\FilterConfiguration;
 use LimitIterator;
 use Psr\Log\LoggerInterface;
@@ -29,8 +31,8 @@ class ImageFileLister extends MigrationHandler implements FileListerInterface
     private string $imagesDir;
 
     /**
-     * @param \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOMetadataHandler> $metadataHandlerRegistry
-     * @param \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOBinarydataHandler> $binarydataHandlerRegistry
+     * @param HandlerRegistry<IOMetadataHandler> $metadataHandlerRegistry
+     * @param HandlerRegistry<IOBinarydataHandler> $binarydataHandlerRegistry
      * @param string $imagesDir Directory where images are stored, within the storage dir. Example: 'images'
      */
     public function __construct(
@@ -57,8 +59,10 @@ class ImageFileLister extends MigrationHandler implements FileListerInterface
         return count($this->imageFileList);
     }
 
-    public function loadMetadataList(?int $limit = null, ?int $offset = null): array
-    {
+    public function loadMetadataList(
+        ?int $limit = null,
+        ?int $offset = null
+    ): array {
         $metadataList = [];
         $imageLimitList = new LimitIterator($this->imageFileList, $offset ?? 0, $limit ?? -1);
         $aliasNames = array_keys($this->filterConfiguration->all());

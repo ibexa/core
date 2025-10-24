@@ -22,11 +22,14 @@ use Ibexa\Contracts\Core\Persistence\Content\ObjectState as SPIObjectState;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group as SPIObjectStateGroup;
 use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct as SPIContentUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo as SPIVersionInfo;
+use Ibexa\Contracts\Core\Persistence\Handler;
+use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\ContentTypeService as APIContentTypeService;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\LocationService as APILocationService;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\Repository;
@@ -59,6 +62,7 @@ use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -84,7 +88,7 @@ class ContentTest extends BaseServiceMockTest
     public function testConstructor(): void
     {
         $repositoryMock = $this->getRepositoryMock();
-        /** @var \Ibexa\Contracts\Core\Persistence\Handler $persistenceHandlerMock */
+        /** @var Handler $persistenceHandlerMock */
         $persistenceHandlerMock = $this->getPersistenceMockHandler('Handler');
         $contentDomainMapperMock = $this->getContentDomainMapperMock();
         $relationProcessorMock = $this->getRelationProcessorMock();
@@ -124,7 +128,7 @@ class ContentTest extends BaseServiceMockTest
     public function testLoadVersionInfoById()
     {
         $contentServiceMock = $this->getPartlyMockedContentService(['loadContentInfo']);
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
+        /** @var MockObject $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
         $domainMapperMock = $this->getContentDomainMapperMock();
         $versionInfoMock = $this->createMock(APIVersionInfo::class);
@@ -175,7 +179,7 @@ class ContentTest extends BaseServiceMockTest
     {
         $permissionResolver = $this->getPermissionResolverMock();
         $contentServiceMock = $this->getPartlyMockedContentService(['loadContentInfo']);
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
+        /** @var MockObject $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
         $domainMapperMock = $this->getContentDomainMapperMock();
         $versionInfoMock = $this->createMock(APIVersionInfo::class);
@@ -223,7 +227,7 @@ class ContentTest extends BaseServiceMockTest
         $this->expectException(NotFoundException::class);
 
         $contentServiceMock = $this->getPartlyMockedContentService(['loadContentInfo']);
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
+        /** @var MockObject $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
 
         $contentHandler->expects(self::once())
@@ -256,7 +260,7 @@ class ContentTest extends BaseServiceMockTest
         $this->expectException(UnauthorizedException::class);
 
         $contentServiceMock = $this->getPartlyMockedContentService();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
+        /** @var MockObject $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
         $domainMapperMock = $this->getContentDomainMapperMock();
         $versionInfoMock = $this->createMock(APIVersionInfo::class);
@@ -299,7 +303,7 @@ class ContentTest extends BaseServiceMockTest
     public function testLoadVersionInfoByIdPublishedVersion()
     {
         $contentServiceMock = $this->getPartlyMockedContentService();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
+        /** @var MockObject $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
         $domainMapperMock = $this->getContentDomainMapperMock();
         $versionInfoMock = $this->createMock(APIVersionInfo::class);
@@ -344,7 +348,7 @@ class ContentTest extends BaseServiceMockTest
     public function testLoadVersionInfoByIdNonPublishedVersion()
     {
         $contentServiceMock = $this->getPartlyMockedContentService();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
+        /** @var MockObject $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
         $domainMapperMock = $this->getContentDomainMapperMock();
         $versionInfoMock = $this->createMock(APIVersionInfo::class);
@@ -544,8 +548,12 @@ class ContentTest extends BaseServiceMockTest
     /**
      * @dataProvider internalLoadContentProviderById
      */
-    public function testInternalLoadContentById(int $id, ?array $languages, ?int $versionNo, bool $useAlwaysAvailable): void
-    {
+    public function testInternalLoadContentById(
+        int $id,
+        ?array $languages,
+        ?int $versionNo,
+        bool $useAlwaysAvailable
+    ): void {
         if (!empty($languages) && $useAlwaysAvailable) {
             $spiContentInfo = new SPIContentInfo(['id' => $id, 'alwaysAvailable' => false]);
         } else {
@@ -561,7 +569,7 @@ class ContentTest extends BaseServiceMockTest
             ]),
         ]);
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
+        /** @var MockObject $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
         $contentHandler
             ->expects(self::once())
@@ -586,8 +594,12 @@ class ContentTest extends BaseServiceMockTest
     /**
      * @dataProvider internalLoadContentProviderByRemoteId
      */
-    public function testInternalLoadContentByRemoteId(string $remoteId, ?array $languages, ?int $versionNo, bool $useAlwaysAvailable)
-    {
+    public function testInternalLoadContentByRemoteId(
+        string $remoteId,
+        ?array $languages,
+        ?int $versionNo,
+        bool $useAlwaysAvailable
+    ) {
         $realId = 123;
 
         $spiContentInfo = new SPIContentInfo([
@@ -602,7 +614,7 @@ class ContentTest extends BaseServiceMockTest
         ]);
 
         $contentService = $this->getPartlyMockedContentService();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
+        /** @var MockObject $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
         $contentHandler
             ->expects(self::once())
@@ -662,13 +674,13 @@ class ContentTest extends BaseServiceMockTest
         $versionNo = 7;
         $languages = null;
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
+        /** @var MockObject $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
         $contentHandler
             ->expects(self::once())
             ->method('loadContentInfo')
             ->with($id)
-            ->willReturn(new SPIContent\ContentInfo(['id' => $id]));
+            ->willReturn(new SPIContentInfo(['id' => $id]));
 
         $contentHandler
             ->expects(self::once())
@@ -693,13 +705,13 @@ class ContentTest extends BaseServiceMockTest
         $versionNo = 7;
         $languages = null;
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
+        /** @var MockObject $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
         $contentHandler
             ->expects(self::once())
             ->method('loadContentInfoByRemoteId')
             ->with($remoteId)
-            ->willReturn(new SPIContent\ContentInfo(['id' => $id]));
+            ->willReturn(new SPIContentInfo(['id' => $id]));
 
         $contentHandler
             ->expects(self::once())
@@ -815,7 +827,7 @@ class ContentTest extends BaseServiceMockTest
                 ]
             );
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
+        /** @var MockObject $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
 
         $contentHandler
@@ -858,9 +870,9 @@ class ContentTest extends BaseServiceMockTest
             ->will(self::returnValue(true));
 
         $contentService = $this->getPartlyMockedContentService(['internalLoadContentInfoById']);
-        /** @var \PHPUnit\Framework\MockObject\MockObject $urlAliasHandler */
+        /** @var MockObject $urlAliasHandler */
         $urlAliasHandler = $this->getPersistenceMock()->urlAliasHandler();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $locationHandler */
+        /** @var MockObject $locationHandler */
         $locationHandler = $this->getPersistenceMock()->locationHandler();
         $contentInfo = $this->createMock(APIContentInfo::class);
 
@@ -878,7 +890,7 @@ class ContentTest extends BaseServiceMockTest
                 ]
             );
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
+        /** @var MockObject $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
 
         $contentHandler
@@ -925,7 +937,7 @@ class ContentTest extends BaseServiceMockTest
      */
     public function testDeleteContentWithRollback()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
 
         $repository = $this->getRepositoryMock();
         $permissionResolver = $this->getPermissionResolverMock();
@@ -936,7 +948,7 @@ class ContentTest extends BaseServiceMockTest
             ->will(self::returnValue(true));
 
         $contentService = $this->getPartlyMockedContentService(['internalLoadContentInfoById']);
-        /** @var \PHPUnit\Framework\MockObject\MockObject $locationHandler */
+        /** @var MockObject $locationHandler */
         $locationHandler = $this->getPersistenceMock()->locationHandler();
 
         $contentInfo = $this->createMock(APIContentInfo::class);
@@ -955,7 +967,7 @@ class ContentTest extends BaseServiceMockTest
                 ]
             );
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
+        /** @var MockObject $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
 
         $contentHandler
@@ -973,7 +985,7 @@ class ContentTest extends BaseServiceMockTest
         $locationHandler->expects(self::once())
             ->method('loadLocationsByContent')
             ->with(42)
-            ->will(self::throwException(new \Exception()));
+            ->will(self::throwException(new Exception()));
 
         $repository->expects(self::once())->method('rollback');
 
@@ -1003,7 +1015,7 @@ class ContentTest extends BaseServiceMockTest
             ->method('beginTransaction');
 
         $contentService = $this->getPartlyMockedContentService();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
+        /** @var MockObject $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
         $contentInfo = $this->createMock(APIContentInfo::class);
         $versionInfo = $this->createMock(APIVersionInfo::class);
@@ -1175,13 +1187,16 @@ class ContentTest extends BaseServiceMockTest
 
     /**
      * @param string $mainLanguageCode
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $structFields
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition[] $fieldDefinitions
+     * @param Field[] $structFields
+     * @param APIFieldDefinition[] $fieldDefinitions
      *
      * @return array
      */
-    protected function mapStructFieldsForCreate($mainLanguageCode, $structFields, $fieldDefinitions)
-    {
+    protected function mapStructFieldsForCreate(
+        $mainLanguageCode,
+        $structFields,
+        $fieldDefinitions
+    ) {
         $mappedFieldDefinitions = [];
         foreach ($fieldDefinitions as $fieldDefinition) {
             $mappedFieldDefinitions[$fieldDefinition->identifier] = $fieldDefinition;
@@ -1206,8 +1221,8 @@ class ContentTest extends BaseServiceMockTest
      * identifier and language code.
      *
      * @param string $mainLanguageCode
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $structFields
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition[] $fieldDefinitions
+     * @param Field[] $structFields
+     * @param APIFieldDefinition[] $fieldDefinitions
      * @param array $languageCodes
      *
      * @return array
@@ -1254,12 +1269,14 @@ class ContentTest extends BaseServiceMockTest
 
     /**
      * @param string $mainLanguageCode
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $structFields
+     * @param Field[] $structFields
      *
      * @return string[]
      */
-    protected function determineLanguageCodesForCreate($mainLanguageCode, array $structFields)
-    {
+    protected function determineLanguageCodesForCreate(
+        $mainLanguageCode,
+        array $structFields
+    ) {
         $languageCodes = [];
 
         foreach ($structFields as $field) {
@@ -1279,10 +1296,10 @@ class ContentTest extends BaseServiceMockTest
      * Asserts that calling createContent() with given API field set causes calling
      * Handler::createContent() with given SPI field set.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $structFields
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field[] $spiFields
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition[] $fieldDefinitions
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct[] $locationCreateStructs
+     * @param Field[] $structFields
+     * @param SPIField[] $spiFields
+     * @param APIFieldDefinition[] $fieldDefinitions
+     * @param LocationCreateStruct[] $locationCreateStructs
      */
     protected function assertForTestCreateContentNonRedundantFieldSet(
         string $mainLanguageCode,
@@ -1295,11 +1312,11 @@ class ContentTest extends BaseServiceMockTest
     ): ContentCreateStruct {
         $repositoryMock = $this->getRepositoryMock();
         $mockedService = $this->getPartlyMockedContentService();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandlerMock */
+        /** @var MockObject $contentHandlerMock */
         $contentHandlerMock = $this->getPersistenceMock()->contentHandler();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $languageHandlerMock */
+        /** @var MockObject $languageHandlerMock */
         $languageHandlerMock = $this->getPersistenceMock()->contentLanguageHandler();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $objectStateHandlerMock */
+        /** @var MockObject $objectStateHandlerMock */
         $objectStateHandlerMock = $this->getPersistenceMock()->objectStateHandler();
         $contentTypeServiceMock = $this->getContentTypeServiceMock();
         $domainMapperMock = $this->getContentDomainMapperMock();
@@ -1426,9 +1443,9 @@ class ContentTest extends BaseServiceMockTest
 
             $spiContent = new SPIContent(
                 [
-                    'versionInfo' => new SPIContent\VersionInfo(
+                    'versionInfo' => new SPIVersionInfo(
                         [
-                            'contentInfo' => new SPIContent\ContentInfo(['id' => 42]),
+                            'contentInfo' => new SPIContentInfo(['id' => 42]),
                             'versionNo' => 7,
                         ]
                     ),
@@ -1514,8 +1531,11 @@ class ContentTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestCreateContentNonRedundantFieldSet1
      */
-    public function testCreateContentNonRedundantFieldSet1($mainLanguageCode, $structFields, $spiFields)
-    {
+    public function testCreateContentNonRedundantFieldSet1(
+        $mainLanguageCode,
+        $structFields,
+        $spiFields
+    ) {
         $fieldDefinitions = [
             new FieldDefinition(
                 [
@@ -1619,8 +1639,11 @@ class ContentTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestCreateContentNonRedundantFieldSet2
      */
-    public function testCreateContentNonRedundantFieldSet2($mainLanguageCode, $structFields, $spiFields)
-    {
+    public function testCreateContentNonRedundantFieldSet2(
+        $mainLanguageCode,
+        $structFields,
+        $spiFields
+    ) {
         $fieldDefinitions = [
             new FieldDefinition(
                 [
@@ -1835,8 +1858,11 @@ class ContentTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestCreateContentNonRedundantFieldSetComplex
      */
-    public function testCreateContentNonRedundantFieldSetComplex($mainLanguageCode, $structFields, $spiFields)
-    {
+    public function testCreateContentNonRedundantFieldSetComplex(
+        $mainLanguageCode,
+        $structFields,
+        $spiFields
+    ) {
         $fieldDefinitions = $this->fixturesForTestCreateContentNonRedundantFieldSetComplex();
 
         $this->assertForTestCreateContentNonRedundantFieldSet(
@@ -1885,14 +1911,16 @@ class ContentTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestCreateContentWithInvalidLanguage
      */
-    public function testCreateContentWithInvalidLanguage($mainLanguageCode, $structFields)
-    {
+    public function testCreateContentWithInvalidLanguage(
+        $mainLanguageCode,
+        $structFields
+    ) {
         $this->expectException(APINotFoundException::class);
         $this->expectExceptionMessage('Could not find \'Language\' with identifier \'Klingon\'');
 
         $repositoryMock = $this->getRepositoryMock();
         $mockedService = $this->getPartlyMockedContentService();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $languageHandlerMock */
+        /** @var MockObject $languageHandlerMock */
         $languageHandlerMock = $this->getPersistenceMock()->contentLanguageHandler();
         $contentTypeServiceMock = $this->getContentTypeServiceMock();
         $domainMapperMock = $this->getContentDomainMapperMock();
@@ -2083,8 +2111,10 @@ class ContentTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestCreateContentThrowsContentValidationExceptionFieldDefinition
      */
-    public function testCreateContentThrowsContentValidationExceptionFieldDefinition($mainLanguageCode, $structFields)
-    {
+    public function testCreateContentThrowsContentValidationExceptionFieldDefinition(
+        $mainLanguageCode,
+        $structFields
+    ) {
         $this->expectException(ContentValidationException::class);
         $this->expectExceptionMessage('Field definition \'identifier\' does not exist in the given content type');
 
@@ -2122,8 +2152,10 @@ class ContentTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestCreateContentThrowsContentValidationExceptionTranslation
      */
-    public function testCreateContentThrowsContentValidationExceptionTranslation($mainLanguageCode, $structFields)
-    {
+    public function testCreateContentThrowsContentValidationExceptionTranslation(
+        $mainLanguageCode,
+        $structFields
+    ) {
         $this->expectException(ContentValidationException::class);
         $this->expectExceptionMessage('You cannot set a value for the non-translatable Field definition \'identifier\' in language \'eng-US\'');
 
@@ -2147,8 +2179,11 @@ class ContentTest extends BaseServiceMockTest
         );
     }
 
-    private function provideCommonCreateContentObjects(array $fieldDefinitions, array $structFields, $mainLanguageCode): array
-    {
+    private function provideCommonCreateContentObjects(
+        array $fieldDefinitions,
+        array $structFields,
+        $mainLanguageCode
+    ): array {
         $contentType = new ContentType(
             [
                 'id' => 123,
@@ -2171,9 +2206,9 @@ class ContentTest extends BaseServiceMockTest
     }
 
     private function commonContentCreateMocks(
-        \PHPUnit\Framework\MockObject\MockObject $languageHandlerMock,
-        \PHPUnit\Framework\MockObject\MockObject $contentTypeServiceMock,
-        \PHPUnit\Framework\MockObject\MockObject $repositoryMock,
+        MockObject $languageHandlerMock,
+        MockObject $contentTypeServiceMock,
+        MockObject $repositoryMock,
         ContentType $contentType
     ): void {
         $this->loadByLanguageCodeMock($languageHandlerMock);
@@ -2188,7 +2223,7 @@ class ContentTest extends BaseServiceMockTest
             ->will(self::returnValue($contentTypeServiceMock));
     }
 
-    private function loadByLanguageCodeMock(\PHPUnit\Framework\MockObject\MockObject $languageHandlerMock): void
+    private function loadByLanguageCodeMock(MockObject $languageHandlerMock): void
     {
         $languageHandlerMock->expects(self::any())
             ->method('loadByLanguageCode')
@@ -2207,8 +2242,8 @@ class ContentTest extends BaseServiceMockTest
      * field being empty.
      *
      * @param string $mainLanguageCode
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $structFields
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition[] $fieldDefinitions
+     * @param Field[] $structFields
+     * @param APIFieldDefinition[] $fieldDefinitions
      *
      * @return mixed
      */
@@ -2218,7 +2253,7 @@ class ContentTest extends BaseServiceMockTest
         array $fieldDefinitions
     ) {
         $repositoryMock = $this->getRepositoryMock();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $languageHandlerMock */
+        /** @var MockObject $languageHandlerMock */
         $languageHandlerMock = $this->getPersistenceMock()->contentLanguageHandler();
         $contentTypeServiceMock = $this->getContentTypeServiceMock();
         $domainMapperMock = $this->getContentDomainMapperMock();
@@ -2349,8 +2384,8 @@ class ContentTest extends BaseServiceMockTest
      * field not being valid.
      *
      * @param string $mainLanguageCode
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $structFields
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition[] $fieldDefinitions
+     * @param Field[] $structFields
+     * @param APIFieldDefinition[] $fieldDefinitions
      */
     protected function assertForTestCreateContentThrowsContentFieldValidationException(
         $mainLanguageCode,
@@ -2358,7 +2393,7 @@ class ContentTest extends BaseServiceMockTest
         array $fieldDefinitions
     ): array {
         $repositoryMock = $this->getRepositoryMock();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $languageHandlerMock */
+        /** @var MockObject $languageHandlerMock */
         $languageHandlerMock = $this->getPersistenceMock()->contentLanguageHandler();
         $contentTypeServiceMock = $this->getContentTypeServiceMock();
         $domainMapperMock = $this->getContentDomainMapperMock();
@@ -2492,8 +2527,10 @@ class ContentTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestCreateContentThrowsContentFieldValidationException
      */
-    public function testCreateContentThrowsContentFieldValidationException($mainLanguageCode, $structFields): void
-    {
+    public function testCreateContentThrowsContentFieldValidationException(
+        $mainLanguageCode,
+        $structFields
+    ): void {
         $this->expectException(ContentFieldValidationException::class);
         $this->expectExceptionMessage('Content fields did not validate');
 
@@ -2515,7 +2552,7 @@ class ContentTest extends BaseServiceMockTest
         }
     }
 
-    private function acceptFieldTypeValueMock(\PHPUnit\Framework\MockObject\MockObject $fieldTypeMock): void
+    private function acceptFieldTypeValueMock(MockObject $fieldTypeMock): void
     {
         $fieldTypeMock->expects(self::any())
             ->method('acceptValue')
@@ -2528,7 +2565,7 @@ class ContentTest extends BaseServiceMockTest
             );
     }
 
-    private function toHashFieldTypeMock(\PHPUnit\Framework\MockObject\MockObject $fieldTypeMock): void
+    private function toHashFieldTypeMock(MockObject $fieldTypeMock): void
     {
         $fieldTypeMock
             ->method('toHash')
@@ -2537,14 +2574,14 @@ class ContentTest extends BaseServiceMockTest
             });
     }
 
-    private function getFieldTypeFieldTypeRegistryMock(\PHPUnit\Framework\MockObject\MockObject $fieldTypeMock): void
+    private function getFieldTypeFieldTypeRegistryMock(MockObject $fieldTypeMock): void
     {
         $this->getFieldTypeRegistryMock()->expects(self::any())
             ->method('getFieldType')
             ->will(self::returnValue($fieldTypeMock));
     }
 
-    private function isEmptyValueFieldTypeMock(\PHPUnit\Framework\MockObject\MockObject $fieldTypeMock): void
+    private function isEmptyValueFieldTypeMock(MockObject $fieldTypeMock): void
     {
         $emptyValue = new ValueStub(self::EMPTY_FIELD_VALUE);
         $fieldTypeMock->expects(self::any())
@@ -2559,7 +2596,7 @@ class ContentTest extends BaseServiceMockTest
     }
 
     private function getUniqueHashDomainMapperMock(
-        \PHPUnit\Framework\MockObject\MockObject $domainMapperMock,
+        MockObject $domainMapperMock,
         self $that,
         ContentCreateStruct $contentCreateStruct
     ): void {
@@ -2628,7 +2665,7 @@ class ContentTest extends BaseServiceMockTest
         $repositoryMock = $this->getRepositoryMock();
         $mockedService = $this->getPartlyMockedContentService();
         $locationServiceMock = $this->getLocationServiceMock();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $handlerMock */
+        /** @var MockObject $handlerMock */
         $handlerMock = $this->getPersistenceMock()->contentHandler();
         $domainMapperMock = $this->getContentDomainMapperMock();
         $spiLocationCreateStruct = new SPILocation\CreateStruct();
@@ -2688,9 +2725,9 @@ class ContentTest extends BaseServiceMockTest
 
         $spiContent = new SPIContent(
             [
-                'versionInfo' => new SPIContent\VersionInfo(
+                'versionInfo' => new SPIVersionInfo(
                     [
-                        'contentInfo' => new SPIContent\ContentInfo(['id' => 42]),
+                        'contentInfo' => new SPIContentInfo(['id' => 42]),
                         'versionNo' => 7,
                     ]
                 ),
@@ -2748,7 +2785,7 @@ class ContentTest extends BaseServiceMockTest
         $contentTypeServiceMock = $this->getContentTypeServiceMock();
         $domainMapperMock = $this->getContentDomainMapperMock();
         $permissionResolver = $this->getPermissionResolverMock();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $languageHandlerMock */
+        /** @var MockObject $languageHandlerMock */
         $languageHandlerMock = $this->getPersistenceMock()->contentLanguageHandler();
         $spiLocationCreateStruct = new SPILocation\CreateStruct();
         $parentLocation = new Location(['id' => 321]);
@@ -2938,7 +2975,7 @@ class ContentTest extends BaseServiceMockTest
 
         $repositoryMock = $this->getRepositoryMock();
         $mockedService = $this->getPartlyMockedContentService();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $handlerMock */
+        /** @var MockObject $handlerMock */
         $handlerMock = $this->getPersistenceMock()->contentHandler();
         $domainMapperMock = $this->getContentDomainMapperMock();
 
@@ -2963,9 +3000,9 @@ class ContentTest extends BaseServiceMockTest
 
         $spiContent = new SPIContent(
             [
-                'versionInfo' => new SPIContent\VersionInfo(
+                'versionInfo' => new SPIVersionInfo(
                     [
-                        'contentInfo' => new SPIContent\ContentInfo(['id' => 42]),
+                        'contentInfo' => new SPIContentInfo(['id' => 42]),
                         'versionNo' => 7,
                     ]
                 ),
@@ -3003,7 +3040,7 @@ class ContentTest extends BaseServiceMockTest
      */
     public function testCreateContentWithRollback()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Store failed');
 
         $fieldDefinitions = [
@@ -3035,12 +3072,12 @@ class ContentTest extends BaseServiceMockTest
         $repositoryMock->expects(self::never())->method('commit');
         $repositoryMock->expects(self::once())->method('rollback');
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandlerMock */
+        /** @var MockObject $contentHandlerMock */
         $contentHandlerMock = $this->getPersistenceMock()->contentHandler();
         $contentHandlerMock->expects(self::once())
             ->method('create')
             ->with(self::anything())
-            ->will(self::throwException(new \Exception('Store failed')));
+            ->will(self::throwException(new Exception('Store failed')));
 
         // Execute
         $this->partlyMockedContentService->createContent($contentCreateStruct, []);
@@ -3157,13 +3194,16 @@ class ContentTest extends BaseServiceMockTest
 
     /**
      * @param string $initialLanguageCode
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $structFields
+     * @param Field[] $structFields
      * @param string[] $existingLanguages
      *
      * @return string[]
      */
-    protected function determineLanguageCodesForUpdate($initialLanguageCode, array $structFields, $existingLanguages)
-    {
+    protected function determineLanguageCodesForUpdate(
+        $initialLanguageCode,
+        array $structFields,
+        $existingLanguages
+    ) {
         $languageCodes = array_fill_keys($existingLanguages, true);
         if ($initialLanguageCode !== null) {
             $languageCodes[$initialLanguageCode] = true;
@@ -3182,14 +3222,18 @@ class ContentTest extends BaseServiceMockTest
 
     /**
      * @param string $initialLanguageCode
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $structFields
+     * @param Field[] $structFields
      * @param string $mainLanguageCode
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition[] $fieldDefinitions
+     * @param APIFieldDefinition[] $fieldDefinitions
      *
      * @return array
      */
-    protected function mapStructFieldsForUpdate($initialLanguageCode, $structFields, $mainLanguageCode, $fieldDefinitions)
-    {
+    protected function mapStructFieldsForUpdate(
+        $initialLanguageCode,
+        $structFields,
+        $mainLanguageCode,
+        $fieldDefinitions
+    ) {
         $initialLanguageCode = $initialLanguageCode ?: $mainLanguageCode;
 
         $mappedFieldDefinitions = [];
@@ -3220,9 +3264,9 @@ class ContentTest extends BaseServiceMockTest
      * identifier and language code.
      *
      * @param string $initialLanguageCode
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $structFields
-     * @param \Ibexa\Core\Repository\Values\Content\Content $content
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition[] $fieldDefinitions
+     * @param Field[] $structFields
+     * @param Content $content
+     * @param APIFieldDefinition[] $fieldDefinitions
      * @param array $languageCodes
      *
      * @return array
@@ -3290,10 +3334,10 @@ class ContentTest extends BaseServiceMockTest
      * Handler::updateContent() with given SPI field set.
      *
      * @param string $initialLanguageCode
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $structFields
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field[] $spiFields
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $existingFields
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition[] $fieldDefinitions
+     * @param Field[] $structFields
+     * @param SPIField[] $spiFields
+     * @param Field[] $existingFields
+     * @param APIFieldDefinition[] $fieldDefinitions
      * @param bool $execute
      *
      * @return mixed
@@ -3313,9 +3357,9 @@ class ContentTest extends BaseServiceMockTest
             ->method('getCurrentUserReference')
             ->willReturn(new UserReference(169));
         $mockedService = $this->getPartlyMockedContentService(['internalLoadContentById']);
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandlerMock */
+        /** @var MockObject $contentHandlerMock */
         $contentHandlerMock = $this->getPersistenceMock()->contentHandler();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $languageHandlerMock */
+        /** @var MockObject $languageHandlerMock */
         $languageHandlerMock = $this->getPersistenceMock()->contentLanguageHandler();
         $contentTypeServiceMock = $this->getContentTypeServiceMock();
         $domainMapperMock = $this->getContentDomainMapperMock();
@@ -3504,9 +3548,9 @@ class ContentTest extends BaseServiceMockTest
 
             $spiContent = new SPIContent(
                 [
-                    'versionInfo' => new SPIContent\VersionInfo(
+                    'versionInfo' => new SPIVersionInfo(
                         [
-                            'contentInfo' => new SPIContent\ContentInfo(['id' => 42]),
+                            'contentInfo' => new SPIContentInfo(['id' => 42]),
                             'versionNo' => 7,
                         ]
                     ),
@@ -3602,8 +3646,11 @@ class ContentTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestUpdateContentNonRedundantFieldSet1
      */
-    public function testUpdateContentNonRedundantFieldSet1($initialLanguageCode, $structFields, $spiFields)
-    {
+    public function testUpdateContentNonRedundantFieldSet1(
+        $initialLanguageCode,
+        $structFields,
+        $spiFields
+    ) {
         $existingFields = [
             new Field(
                 [
@@ -3819,8 +3866,11 @@ class ContentTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestUpdateContentNonRedundantFieldSet2
      */
-    public function testUpdateContentNonRedundantFieldSet2($initialLanguageCode, $structFields, $spiFields)
-    {
+    public function testUpdateContentNonRedundantFieldSet2(
+        $initialLanguageCode,
+        $structFields,
+        $spiFields
+    ) {
         $existingFields = [
             new Field(
                 [
@@ -4087,8 +4137,11 @@ class ContentTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestUpdateContentNonRedundantFieldSet3
      */
-    public function testUpdateContentNonRedundantFieldSet3($initialLanguageCode, $structFields, $spiFields)
-    {
+    public function testUpdateContentNonRedundantFieldSet3(
+        $initialLanguageCode,
+        $structFields,
+        $spiFields
+    ) {
         $existingFields = [
             new Field(
                 [
@@ -4399,8 +4452,11 @@ class ContentTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestUpdateContentNonRedundantFieldSet4
      */
-    public function testUpdateContentNonRedundantFieldSet4($initialLanguageCode, $structFields, $spiFields)
-    {
+    public function testUpdateContentNonRedundantFieldSet4(
+        $initialLanguageCode,
+        $structFields,
+        $spiFields
+    ) {
         $existingFields = [
             new Field(
                 [
@@ -4786,8 +4842,11 @@ class ContentTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestUpdateContentNonRedundantFieldSetComplex
      */
-    public function testUpdateContentNonRedundantFieldSetComplex($initialLanguageCode, $structFields, $spiFields)
-    {
+    public function testUpdateContentNonRedundantFieldSetComplex(
+        $initialLanguageCode,
+        $structFields,
+        $spiFields
+    ) {
         list($existingFields, $fieldDefinitions) = $this->fixturesForTestUpdateContentNonRedundantFieldSetComplex();
 
         $this->assertForTestUpdateContentNonRedundantFieldSet(
@@ -4837,15 +4896,17 @@ class ContentTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestUpdateContentWithInvalidLanguage
      */
-    public function testUpdateContentWithInvalidLanguage($initialLanguageCode, $structFields)
-    {
+    public function testUpdateContentWithInvalidLanguage(
+        $initialLanguageCode,
+        $structFields
+    ) {
         $this->expectException(APINotFoundException::class);
         $this->expectExceptionMessage('Could not find \'Language\' with identifier \'Klingon\'');
 
         $permissionResolverMock = $this->getPermissionResolverMock();
         $mockedService = $this->getPartlyMockedContentService(['loadContent', 'internalLoadContentById']);
         $fieldTypeMock = $this->createMock(SPIFieldType::class);
-        /** @var \PHPUnit\Framework\MockObject\MockObject $languageHandlerMock */
+        /** @var MockObject $languageHandlerMock */
         $languageHandlerMock = $this->getPersistenceMock()->contentLanguageHandler();
         $versionInfo = new VersionInfo(
             [
@@ -4949,7 +5010,7 @@ class ContentTest extends BaseServiceMockTest
     ) {
         $permissionResolverMock = $this->getPermissionResolverMock();
         $mockedService = $this->getPartlyMockedContentService(['internalLoadContentById', 'loadContent']);
-        /** @var \PHPUnit\Framework\MockObject\MockObject $languageHandlerMock */
+        /** @var MockObject $languageHandlerMock */
         $languageHandlerMock = $this->getPersistenceMock()->contentLanguageHandler();
         $versionInfo = new VersionInfo(
             [
@@ -5115,8 +5176,10 @@ class ContentTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestUpdateContentThrowsContentValidationExceptionFieldDefinition
      */
-    public function testUpdateContentThrowsContentValidationExceptionFieldDefinition($initialLanguageCode, $structFields)
-    {
+    public function testUpdateContentThrowsContentValidationExceptionFieldDefinition(
+        $initialLanguageCode,
+        $structFields
+    ) {
         $this->expectException(ContentValidationException::class);
         $this->expectExceptionMessage('Field definition \'identifier\' does not exist in given content type');
 
@@ -5154,8 +5217,10 @@ class ContentTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestUpdateContentThrowsContentValidationExceptionTranslation
      */
-    public function testUpdateContentThrowsContentValidationExceptionTranslation($initialLanguageCode, $structFields)
-    {
+    public function testUpdateContentThrowsContentValidationExceptionTranslation(
+        $initialLanguageCode,
+        $structFields
+    ) {
         $this->expectException(ContentValidationException::class);
         $this->expectExceptionMessage('You cannot set a value for the non-translatable Field definition \'identifier\' in language \'eng-US\'');
 
@@ -5187,7 +5252,7 @@ class ContentTest extends BaseServiceMockTest
     ) {
         $permissionResolver = $this->getPermissionResolverMock();
         $mockedService = $this->getPartlyMockedContentService(['internalLoadContentById', 'loadContent']);
-        /** @var \PHPUnit\Framework\MockObject\MockObject $languageHandlerMock */
+        /** @var MockObject $languageHandlerMock */
         $languageHandlerMock = $this->getPersistenceMock()->contentLanguageHandler();
         $fieldTypeMock = $this->createMock(SPIFieldType::class);
         $existingLanguageCodes = array_map(
@@ -5546,7 +5611,7 @@ class ContentTest extends BaseServiceMockTest
      */
     public function testUpdateContentTransactionRollback()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Store failed');
 
         $existingFields = [
@@ -5588,7 +5653,7 @@ class ContentTest extends BaseServiceMockTest
         $repositoryMock->expects(self::never())->method('commit');
         $repositoryMock->expects(self::once())->method('rollback');
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandlerMock */
+        /** @var MockObject $contentHandlerMock */
         $contentHandlerMock = $this->getPersistenceMock()->contentHandler();
         $contentHandlerMock->expects(self::once())
             ->method('updateContent')
@@ -5596,7 +5661,7 @@ class ContentTest extends BaseServiceMockTest
                 self::anything(),
                 self::anything(),
                 self::anything()
-            )->will(self::throwException(new \Exception('Store failed')));
+            )->will(self::throwException(new Exception('Store failed')));
 
         // Execute
         $this->partlyMockedContentService->updateContent($versionInfo, $contentUpdateStruct);
@@ -5723,7 +5788,7 @@ class ContentTest extends BaseServiceMockTest
             ->method('getContentInfo')
             ->will(self::returnValue($contentInfoMock));
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandlerMock */
+        /** @var MockObject $contentHandlerMock */
         $contentHandlerMock = $this->getPersistenceMock()->contentHandler();
         $domainMapperMock = $this->getContentDomainMapperMock();
 
@@ -5855,7 +5920,7 @@ class ContentTest extends BaseServiceMockTest
             ->method('getContentInfo')
             ->will(self::returnValue($contentInfoMock));
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandlerMock */
+        /** @var MockObject $contentHandlerMock */
         $contentHandlerMock = $this->getPersistenceMock()->contentHandler();
         $domainMapperMock = $this->getContentDomainMapperMock();
 
@@ -5925,12 +5990,12 @@ class ContentTest extends BaseServiceMockTest
      */
     public function testCopyContentWithRollback()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Handler threw an exception');
 
         $repositoryMock = $this->getRepositoryMock();
         $contentService = $this->getPartlyMockedContentService();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandlerMock */
+        /** @var MockObject $contentHandlerMock */
         $contentHandlerMock = $this->getPersistenceMock()->contentHandler();
         $locationCreateStruct = new LocationCreateStruct();
         $locationCreateStruct->parentLocationId = 2;
@@ -5991,14 +6056,17 @@ class ContentTest extends BaseServiceMockTest
      *
      * Plain usage as in when content type is loaded directly.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content $spiContent
+     * @param SPIContent $spiContent
      * @param array $translations
      * @param bool $useAlwaysAvailable
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return MockObject|APIContent
      */
-    private function mockBuildContentDomainObject(SPIContent $spiContent, ?array $translations = null, ?bool $useAlwaysAvailable = null)
-    {
+    private function mockBuildContentDomainObject(
+        SPIContent $spiContent,
+        ?array $translations = null,
+        ?bool $useAlwaysAvailable = null
+    ) {
         $contentTypeId = $spiContent->versionInfo->contentInfo->contentTypeId;
         $contentTypeServiceMock = $this->getContentTypeServiceMock();
         $repositoryMock = $this->getRepositoryMock();
@@ -6032,7 +6100,7 @@ class ContentTest extends BaseServiceMockTest
 
     protected function mockGetDefaultObjectStates()
     {
-        /** @var \PHPUnit\Framework\MockObject\MockObject $objectStateHandlerMock */
+        /** @var MockObject $objectStateHandlerMock */
         $objectStateHandlerMock = $this->getPersistenceMock()->objectStateHandler();
 
         $objectStateGroups = [
@@ -6072,7 +6140,7 @@ class ContentTest extends BaseServiceMockTest
 
     protected function mockSetDefaultObjectStates()
     {
-        /** @var \PHPUnit\Framework\MockObject\MockObject $objectStateHandlerMock */
+        /** @var MockObject $objectStateHandlerMock */
         $objectStateHandlerMock = $this->getPersistenceMock()->objectStateHandler();
 
         $defaultObjectStates = [
@@ -6095,10 +6163,13 @@ class ContentTest extends BaseServiceMockTest
      * @param int|null $modificationDate
      * @param bool $isHidden
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return APIContent
      */
-    protected function mockPublishVersion($publicationDate = null, $modificationDate = null, $isHidden = false)
-    {
+    protected function mockPublishVersion(
+        $publicationDate = null,
+        $modificationDate = null,
+        $isHidden = false
+    ) {
         $versionInfoMock = $this->createMock(APIVersionInfo::class);
         $contentInfoMock = $this->createMock(APIContentInfo::class);
         /* @var \PHPUnit\Framework\MockObject\MockObject $contentHandlerMock */
@@ -6176,12 +6247,12 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
+     * @param APIContent $content
      */
     protected function mockPublishUrlAliasesForContent(APIContent $content)
     {
         $nameSchemaServiceMock = $this->getNameSchemaServiceMock();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $urlAliasHandlerMock */
+        /** @var MockObject $urlAliasHandlerMock */
         $urlAliasHandlerMock = $this->getPersistenceMock()->urlAliasHandler();
         $locationServiceMock = $this->getLocationServiceMock();
         $location = $this->createMock(APILocation::class);
@@ -6228,7 +6299,7 @@ class ContentTest extends BaseServiceMockTest
     protected $relationProcessorMock;
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Helper\RelationProcessor
+     * @return MockObject|RelationProcessor
      */
     protected function getRelationProcessorMock()
     {
@@ -6240,13 +6311,13 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
+     * @var MockObject
      * &\Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface
      */
     protected NameSchemaServiceInterface $nameSchemaServiceMock;
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      * &\Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface
      */
     protected function getNameSchemaServiceMock(): NameSchemaServiceInterface
@@ -6261,7 +6332,7 @@ class ContentTest extends BaseServiceMockTest
     protected $contentTypeServiceMock;
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Repository\ContentTypeService
+     * @return MockObject|ContentTypeService
      */
     protected function getContentTypeServiceMock()
     {
@@ -6275,7 +6346,7 @@ class ContentTest extends BaseServiceMockTest
     protected $locationServiceMock;
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Repository\LocationService
+     * @return MockObject|LocationService
      */
     protected function getLocationServiceMock()
     {
@@ -6286,7 +6357,7 @@ class ContentTest extends BaseServiceMockTest
         return $this->locationServiceMock;
     }
 
-    /** @var \Ibexa\Core\Repository\ContentService */
+    /** @var ContentService */
     protected $partlyMockedContentService;
 
     /**
@@ -6296,10 +6367,12 @@ class ContentTest extends BaseServiceMockTest
      *
      * @param string[] $methods
      *
-     * @return \Ibexa\Core\Repository\ContentService|\PHPUnit\Framework\MockObject\MockObject
+     * @return ContentService|MockObject
      */
-    protected function getPartlyMockedContentService(?array $methods = null, int $gracePeriodInSeconds = 0)
-    {
+    protected function getPartlyMockedContentService(
+        ?array $methods = null,
+        int $gracePeriodInSeconds = 0
+    ) {
         if (!isset($this->partlyMockedContentService)) {
             $this->partlyMockedContentService = $this->getMockBuilder(ContentService::class)
                 ->setMethods($methods)
@@ -6329,7 +6402,7 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Repository|\PHPUnit\Framework\MockObject\MockObject
+     * @return Repository|MockObject
      */
     protected function getRepositoryMock(): Repository
     {

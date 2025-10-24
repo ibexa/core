@@ -32,8 +32,11 @@ class ConfigSuggestion
     /** @var bool */
     private $mandatory;
 
-    public function __construct($message = null, array $suggestion = [], $mandatory = false)
-    {
+    public function __construct(
+        $message = null,
+        array $suggestion = [],
+        $mandatory = false
+    ) {
         $this->message = $message;
         $this->suggestion = $suggestion;
         $this->mandatory = $mandatory;

@@ -24,8 +24,11 @@ final class LocationSearchAdapterTest extends BaseLocationSearchResultAdapterTes
     /**
      * @phpstan-param TSearchLanguageFilter $languageFilter
      */
-    protected function getAdapter(LocationQuery $query, SearchService $searchService, array $languageFilter = []): LocationSearchAdapter
-    {
+    protected function getAdapter(
+        LocationQuery $query,
+        SearchService $searchService,
+        array $languageFilter = []
+    ): LocationSearchAdapter {
         return new LocationSearchAdapter($query, $searchService, $languageFilter);
     }
 

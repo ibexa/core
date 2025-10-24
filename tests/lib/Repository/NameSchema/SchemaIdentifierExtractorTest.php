@@ -115,8 +115,10 @@ final class SchemaIdentifierExtractorTest extends TestCase
      *
      * @param array<string, array<string>> $expectedStrategyIdentifierMap
      */
-    public function testExtract(string $schemaString, array $expectedStrategyIdentifierMap): void
-    {
+    public function testExtract(
+        string $schemaString,
+        array $expectedStrategyIdentifierMap
+    ): void {
         $extracted = $this->extractor->extract($schemaString);
         self::assertSame($expectedStrategyIdentifierMap, $extracted);
     }

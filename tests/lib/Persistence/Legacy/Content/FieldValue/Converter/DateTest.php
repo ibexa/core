@@ -26,10 +26,10 @@ use PHPUnit\Framework\TestCase;
  */
 class DateTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\DateConverter */
+    /** @var DateConverter */
     protected $converter;
 
-    /** @var \DateTime */
+    /** @var DateTime */
     protected $date;
 
     protected function setUp(): void
@@ -44,7 +44,7 @@ class DateTest extends TestCase
         $value = new FieldValue();
         $value->data = [
             'timestamp' => $this->date->getTimestamp(),
-            'rfc850' => $this->date->format(\DateTime::RFC850),
+            'rfc850' => $this->date->format(DateTime::RFC850),
         ];
         $value->sortKey = $this->date->getTimestamp();
         $storageFieldValue = new StorageFieldValue();

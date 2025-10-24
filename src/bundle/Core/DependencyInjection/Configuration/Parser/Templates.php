@@ -16,7 +16,7 @@ class Templates extends AbstractParser
     /**
      * Adds semantic configuration definition.
      *
-     * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $nodeBuilder Node just under ezpublish.system.<siteaccess>
+     * @param NodeBuilder $nodeBuilder Node just under ezpublish.system.<siteaccess>
      */
     public function addSemanticConfig(NodeBuilder $nodeBuilder)
     {
@@ -37,8 +37,10 @@ class Templates extends AbstractParser
             ->end();
     }
 
-    public function preMap(array $config, ContextualizerInterface $contextualizer)
-    {
+    public function preMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    ) {
         foreach ($config['siteaccess']['groups'] as $group => $saArray) {
             if (!empty($config[$contextualizer->getSiteAccessNodeName()][$group][static::NODE_KEY])) {
                 $contextualizer->setContextualParameter(
@@ -52,8 +54,11 @@ class Templates extends AbstractParser
         $contextualizer->mapConfigArray(static::NODE_KEY, $config);
     }
 
-    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer)
-    {
+    public function mapConfig(
+        array &$scopeSettings,
+        $currentScope,
+        ContextualizerInterface $contextualizer
+    ) {
         // Nothing to do here.
     }
 }

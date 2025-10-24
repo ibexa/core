@@ -15,6 +15,4 @@ use Ibexa\Contracts\Core\Repository\Exceptions\Exception as RepositoryException;
  * An Exception which is thrown if an operation cannot be performed by a service
  * although the current user would have permission to perform this action.
  */
-abstract class ForbiddenException extends Exception implements RepositoryException
-{
-}
+abstract class ForbiddenException extends Exception implements RepositoryException {}

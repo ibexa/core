@@ -51,7 +51,7 @@ class ContentInfo extends ValueObject
     /**
      * The computed name (via name schema) in the main language of the Content object.
      *
-     * For names in other languages then main see {@see \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo}
+     * For names in other languages then main see {@see VersionInfo}
      */
     protected string $name;
 

@@ -16,15 +16,15 @@ use Ibexa\Core\IO\IOBinarydataHandler;
 /**
  * @internal
  */
-final class SiteAccessDependentBinaryDataHandler implements IOBinaryDataHandler
+final class SiteAccessDependentBinaryDataHandler implements IOBinarydataHandler
 {
     private ConfigResolverInterface $configResolver;
 
-    /** @phpstan-var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOBinarydataHandler> */
+    /** @phpstan-var HandlerRegistry<IOBinarydataHandler> */
     private HandlerRegistry $dataHandlerRegistry;
 
     /**
-     * @phpstan-param \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOBinarydataHandler> $dataHandlerRegistry
+     * @phpstan-param HandlerRegistry<IOBinarydataHandler> $dataHandlerRegistry
      */
     public function __construct(
         ConfigResolverInterface $configResolver,

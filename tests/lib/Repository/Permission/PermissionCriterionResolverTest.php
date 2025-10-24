@@ -16,6 +16,7 @@ use Ibexa\Core\Limitation\TargetOnlyLimitationType;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\Permission\PermissionCriterionResolver;
 use Ibexa\Core\Repository\Values\User\Policy;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -229,8 +230,11 @@ class PermissionCriterionResolverTest extends TestCase
         ];
     }
 
-    protected function mockServices($criterionMock, $limitationCount, $permissionSets)
-    {
+    protected function mockServices(
+        $criterionMock,
+        $limitationCount,
+        $permissionSets
+    ) {
         $userMock = $this->getMockBuilder(User::class)->getMockForAbstractClass();
         $limitationServiceMock = $this->getLimitationServiceMock(['getLimitationType']);
         $limitationTypeMock = $this->getMockBuilder(Type::class)->getMockForAbstractClass();
@@ -338,7 +342,7 @@ class PermissionCriterionResolverTest extends TestCase
      *
      * @param string[]|null $methods
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Permission\PermissionCriterionResolver
+     * @return MockObject|PermissionCriterionResolver
      */
     protected function getPermissionCriterionResolverMock($methods = [])
     {

@@ -15,29 +15,31 @@ use Ibexa\Contracts\Core\Variation\Values\Variation;
 use Ibexa\Contracts\Core\Variation\VariationHandler;
 use Ibexa\Core\FieldType\Image;
 use Ibexa\Core\FieldType\ImageAsset;
+use Ibexa\Core\FieldType\ImageAsset\AssetMapper;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class AliasGeneratorTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\Imagine\ImageAsset\AliasGenerator */
+    /** @var AliasGenerator */
     private $aliasGenerator;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationHandler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var VariationHandler|MockObject */
     private $innerAliasGenerator;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ContentService|MockObject */
     private $contentService;
 
-    /** @var \Ibexa\Core\FieldType\ImageAsset\AssetMapper|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var AssetMapper|MockObject */
     private $assetMapper;
 
     protected function setUp(): void
     {
         $this->innerAliasGenerator = $this->createMock(VariationHandler::class);
         $this->contentService = $this->createMock(ContentService::class);
-        $this->assetMapper = $this->createMock(ImageAsset\AssetMapper::class);
+        $this->assetMapper = $this->createMock(AssetMapper::class);
 
         $this->aliasGenerator = new AliasGenerator(
             $this->innerAliasGenerator,

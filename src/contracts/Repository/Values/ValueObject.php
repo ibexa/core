@@ -68,14 +68,16 @@ abstract class ValueObject
      *
      * @internal
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException When property does not exist
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException When property is readonly (protected)
+     * @throws PropertyNotFoundException When property does not exist
+     * @throws PropertyReadOnlyException When property is readonly (protected)
      *
      * @param string $property Name of the property
      * @param string $value
      */
-    public function __set($property, $value)
-    {
+    public function __set(
+        $property,
+        $value
+    ) {
         if (property_exists($this, $property)) {
             throw new PropertyReadOnlyException($property, static::class);
         }
@@ -89,7 +91,7 @@ abstract class ValueObject
      *
      * @internal
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException exception on all reads to undefined properties so typos are not silently accepted.
+     * @throws PropertyNotFoundException exception on all reads to undefined properties so typos are not silently accepted.
      *
      * @param string $property Name of the property
      *
@@ -124,8 +126,8 @@ abstract class ValueObject
      *
      * @internal
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException exception on all writes to undefined properties so typos are not silently accepted and
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException exception on readonly (protected) properties.
+     * @throws PropertyNotFoundException exception on all writes to undefined properties so typos are not silently accepted and
+     * @throws PropertyReadOnlyException exception on readonly (protected) properties.
      *
      * @uses ValueObject::__set()
      *

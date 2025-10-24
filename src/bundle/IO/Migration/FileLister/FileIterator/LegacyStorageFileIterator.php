@@ -23,9 +23,7 @@ final class LegacyStorageFileIterator implements FileIteratorInterface
     /** @var int Iteration cursor on statement. */
     private int $cursor;
 
-    public function __construct(private readonly FileRowReaderInterface $rowReader)
-    {
-    }
+    public function __construct(private readonly FileRowReaderInterface $rowReader) {}
 
     #[\ReturnTypeWillChange]
     public function current(): ?string

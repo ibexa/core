@@ -8,8 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Limitation\Target\Builder;
 
-use Ibexa\Contracts\Core\Limitation\Target;
 use Ibexa\Contracts\Core\Limitation\Target\Builder\VersionBuilder;
+use Ibexa\Contracts\Core\Limitation\Target\Version;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use PHPUnit\Framework\TestCase;
@@ -57,7 +58,7 @@ class VersionBuilderTest extends TestCase
             $publishLanguageCodes = [self::GER_DE, self::ENG_US];
 
             $data[] = [
-                new Target\Version(
+                new Version(
                     [
                         'newStatus' => $versionStatus,
                         'allLanguageCodesList' => $languagesList,
@@ -77,7 +78,7 @@ class VersionBuilderTest extends TestCase
 
             // no published content
             $data[] = [
-                new Target\Version(
+                new Version(
                     [
                         'newStatus' => $versionStatus,
                         'allLanguageCodesList' => $languagesList,
@@ -102,18 +103,18 @@ class VersionBuilderTest extends TestCase
     /**
      * @dataProvider providerForTestBuild
      *
-     * @param \Ibexa\Contracts\Core\Limitation\Target\Version $expectedTargetVersion
+     * @param Version $expectedTargetVersion
      * @param int $newStatus
      * @param string $initialLanguageCode
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $newFields
+     * @param Field[] $newFields
      * @param string[] $languagesList
      * @param int[] $contentTypeIdsList
      * @param string[] $publishLanguageCodes
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testBuild(
-        Target\Version $expectedTargetVersion,
+        Version $expectedTargetVersion,
         int $newStatus,
         string $initialLanguageCode,
         array $newFields,

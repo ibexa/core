@@ -19,7 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
  */
 final class LogicalOrQueryBuilder implements CriterionQueryBuilder
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor */
+    /** @var CriterionVisitor */
     private $criterionVisitor;
 
     public function __construct(CriterionVisitor $criterionVisitor)
@@ -37,9 +37,9 @@ final class LogicalOrQueryBuilder implements CriterionQueryBuilder
         FilteringCriterion $criterion
     ): ?string {
         $constraints = [];
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOr $criterion */
+        /** @var LogicalOr $criterion */
         foreach ($criterion->criteria as $_criterion) {
-            /** @var \Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion $_criterion */
+            /** @var FilteringCriterion $_criterion */
             $constraint = $this->criterionVisitor->visitCriteria($queryBuilder, $_criterion);
             if (null !== $constraint) {
                 $constraints[] = $constraint;

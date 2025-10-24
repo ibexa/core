@@ -7,11 +7,14 @@
 
 namespace Ibexa\Core\Search\Common;
 
+use Ibexa\Contracts\Core\FieldType\Indexable;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CustomFieldInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Contracts\Core\Search\FieldType;
 use RuntimeException;
 
 /**
@@ -23,30 +26,30 @@ class FieldNameResolver
     /**
      * Field registry.
      *
-     * @var \Ibexa\Core\Search\Common\FieldRegistry
+     * @var FieldRegistry
      */
     protected $fieldRegistry;
 
     /**
      * Content type handler.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
+     * @var Handler
      */
     protected $contentTypeHandler;
 
     /**
      * Field name generator.
      *
-     * @var \Ibexa\Core\Search\Common\FieldNameGenerator
+     * @var FieldNameGenerator
      */
     protected $nameGenerator;
 
     /**
      * Create from search field registry, content type handler and field name generator.
      *
-     * @param \Ibexa\Core\Search\Common\FieldRegistry $fieldRegistry
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\Handler $contentTypeHandler
-     * @param \Ibexa\Core\Search\Common\FieldNameGenerator $nameGenerator
+     * @param FieldRegistry $fieldRegistry
+     * @param Handler $contentTypeHandler
+     * @param FieldNameGenerator $nameGenerator
      */
     public function __construct(
         FieldRegistry $fieldRegistry,
@@ -91,14 +94,14 @@ class FieldNameResolver
      * $name specific field type and field from its Indexable implementation
      * can be targeted.
      *
-     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Query\CustomFieldInterface
-     * @see \Ibexa\Contracts\Core\FieldType\Indexable
+     * @see CustomFieldInterface
+     * @see Indexable
      *
      * @param string $fieldDefinitionIdentifier
      * @param string|null $fieldTypeIdentifier
      * @param string|null $name
      *
-     * @return array<string, \Ibexa\Contracts\Core\Search\FieldType>
+     * @return array<string, FieldType>
      */
     public function getFieldTypes(
         CriterionInterface $criterion,
@@ -151,10 +154,10 @@ class FieldNameResolver
      *
      * Will return null if no sortable field is found.
      *
-     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Query\CustomFieldInterface
-     * @see \Ibexa\Contracts\Core\FieldType\Indexable
+     * @see CustomFieldInterface
+     * @see Indexable
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause $sortClause
+     * @param SortClause $sortClause
      * @param string $contentTypeIdentifier
      * @param string $fieldDefinitionIdentifier
      * @param string|null $name

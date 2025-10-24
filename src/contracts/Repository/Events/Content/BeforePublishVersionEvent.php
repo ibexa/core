@@ -22,8 +22,10 @@ final class BeforePublishVersionEvent extends BeforeEvent
     /** @var string[] */
     private array $translations;
 
-    public function __construct(VersionInfo $versionInfo, array $translations)
-    {
+    public function __construct(
+        VersionInfo $versionInfo,
+        array $translations
+    ) {
         $this->versionInfo = $versionInfo;
         $this->translations = $translations;
     }

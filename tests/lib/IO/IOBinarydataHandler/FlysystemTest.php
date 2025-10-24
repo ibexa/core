@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\IO\IOBinarydataHandler;
 
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\IOBinarydataHandler;
 use Ibexa\Core\IO\IOBinarydataHandler\Flysystem;
@@ -85,7 +86,7 @@ class FlysystemTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException
+     * @throws BinaryFileNotFoundException
      */
     public function testGetContents(): void
     {
@@ -117,7 +118,7 @@ class FlysystemTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function testGetResource(): void
     {
@@ -137,7 +138,7 @@ class FlysystemTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function testGetResourceNotFound(): void
     {

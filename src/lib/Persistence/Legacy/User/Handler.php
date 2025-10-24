@@ -11,10 +11,12 @@ use Ibexa\Contracts\Core\Persistence\User;
 use Ibexa\Contracts\Core\Persistence\User\Handler as BaseUserHandler;
 use Ibexa\Contracts\Core\Persistence\User\Policy;
 use Ibexa\Contracts\Core\Persistence\User\Role;
+use Ibexa\Contracts\Core\Persistence\User\RoleAssignment;
 use Ibexa\Contracts\Core\Persistence\User\RoleCopyStruct;
 use Ibexa\Contracts\Core\Persistence\User\RoleCreateStruct;
 use Ibexa\Contracts\Core\Persistence\User\RoleUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\User\UserTokenUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use Ibexa\Core\Persistence\Legacy\Exception\RoleNotFound;
@@ -30,37 +32,41 @@ class Handler implements BaseUserHandler
     /**
      * Gateway for storing user data.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\User\Gateway
+     * @var Gateway
      */
     protected $userGateway;
 
     /**
      * Gateway for storing role data.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\User\Role\Gateway
+     * @var RoleGateway
      */
     protected $roleGateway;
 
     /**
      * Mapper for user related objects.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\User\Mapper
+     * @var Mapper
      */
     protected $mapper;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\User\Role\LimitationConverter */
+    /** @var LimitationConverter */
     protected $limitationConverter;
 
     /**
      * Construct from userGateway.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\User\Gateway $userGateway
-     * @param \Ibexa\Core\Persistence\Legacy\User\Role\Gateway $roleGateway
-     * @param \Ibexa\Core\Persistence\Legacy\User\Mapper $mapper
-     * @param \Ibexa\Core\Persistence\Legacy\User\Role\LimitationConverter $limitationConverter
+     * @param Gateway $userGateway
+     * @param RoleGateway $roleGateway
+     * @param Mapper $mapper
+     * @param LimitationConverter $limitationConverter
      */
-    public function __construct(Gateway $userGateway, RoleGateway $roleGateway, Mapper $mapper, LimitationConverter $limitationConverter)
-    {
+    public function __construct(
+        Gateway $userGateway,
+        RoleGateway $roleGateway,
+        Mapper $mapper,
+        LimitationConverter $limitationConverter
+    ) {
         $this->userGateway = $userGateway;
         $this->roleGateway = $roleGateway;
         $this->mapper = $mapper;
@@ -73,9 +79,9 @@ class Handler implements BaseUserHandler
      * The User struct used to create the user will contain an ID which is used
      * to reference the user.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\User $user
+     * @param User $user
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     public function create(User $user)
     {
@@ -87,9 +93,9 @@ class Handler implements BaseUserHandler
      *
      * @param mixed $userId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If user is not found
+     * @throws NotFoundException If user is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User
+     * @return User
      */
     public function load($userId)
     {
@@ -107,9 +113,9 @@ class Handler implements BaseUserHandler
      *
      * @param string $login
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If user is not found
+     * @throws NotFoundException If user is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User
+     * @return User
      */
     public function loadByLogin($login)
     {
@@ -132,7 +138,7 @@ class Handler implements BaseUserHandler
      *
      * @param string $email
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User
+     * @return User
      */
     public function loadByEmail(string $email): User
     {
@@ -155,7 +161,7 @@ class Handler implements BaseUserHandler
      *
      * @param string $email
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User[]
+     * @return User[]
      */
     public function loadUsersByEmail(string $email): array
     {
@@ -173,9 +179,9 @@ class Handler implements BaseUserHandler
      *
      * @param string $hash
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If user is not found
+     * @throws NotFoundException If user is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User
+     * @return User
      */
     public function loadUserByToken($hash)
     {
@@ -191,9 +197,9 @@ class Handler implements BaseUserHandler
     /**
      * Update the user information specified by the user struct.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\User $user
+     * @param User $user
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     public function update(User $user)
     {
@@ -208,7 +214,7 @@ class Handler implements BaseUserHandler
     /**
      * Update the user token information specified by the userToken struct.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\User\UserTokenUpdateStruct $userTokenUpdateStruct
+     * @param UserTokenUpdateStruct $userTokenUpdateStruct
      */
     public function updateUserToken(UserTokenUpdateStruct $userTokenUpdateStruct)
     {
@@ -230,7 +236,7 @@ class Handler implements BaseUserHandler
      *
      * @param mixed $userId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     public function delete($userId)
     {
@@ -242,9 +248,9 @@ class Handler implements BaseUserHandler
      *
      * Sets status to Role::STATUS_DRAFT on the new returned draft.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\User\RoleCreateStruct $createStruct
+     * @param RoleCreateStruct $createStruct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Role
+     * @return Role
      */
     public function createRole(RoleCreateStruct $createStruct)
     {
@@ -258,9 +264,9 @@ class Handler implements BaseUserHandler
      *
      * @param mixed $roleId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If role with defined status is not found
+     * @throws NotFoundException If role with defined status is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Role
+     * @return Role
      */
     public function createRoleDraft($roleId)
     {
@@ -276,13 +282,15 @@ class Handler implements BaseUserHandler
      *
      * Used by self::createRole() and self::createRoleDraft()
      *
-     * @param \Ibexa\Contracts\Core\Persistence\User\RoleCreateStruct $createStruct
+     * @param RoleCreateStruct $createStruct
      * @param mixed|null $roleId Used by self::createRoleDraft() to retain Role id in the draft
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Role
+     * @return Role
      */
-    protected function internalCreateRole(RoleCreateStruct $createStruct, $roleId = null)
-    {
+    protected function internalCreateRole(
+        RoleCreateStruct $createStruct,
+        $roleId = null
+    ) {
         $createStruct = clone $createStruct;
         $role = $this->mapper->createRoleFromCreateStruct(
             $createStruct
@@ -320,12 +328,14 @@ class Handler implements BaseUserHandler
      * @param mixed $roleId
      * @param int $status One of Role::STATUS_DEFINED|Role::STATUS_DRAFT
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If role with given status does not exist
+     * @throws NotFoundException If role with given status does not exist
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Role
+     * @return Role
      */
-    public function loadRole($roleId, $status = Role::STATUS_DEFINED)
-    {
+    public function loadRole(
+        $roleId,
+        $status = Role::STATUS_DEFINED
+    ) {
         $data = $this->roleGateway->loadRole($roleId, $status);
 
         if (empty($data)) {
@@ -346,12 +356,14 @@ class Handler implements BaseUserHandler
      * @param string $identifier
      * @param int $status One of Role::STATUS_DEFINED|Role::STATUS_DRAFT
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If role is not found
+     * @throws NotFoundException If role is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Role
+     * @return Role
      */
-    public function loadRoleByIdentifier($identifier, $status = Role::STATUS_DEFINED)
-    {
+    public function loadRoleByIdentifier(
+        $identifier,
+        $status = Role::STATUS_DEFINED
+    ) {
         $data = $this->roleGateway->loadRoleByIdentifier($identifier, $status);
 
         if (empty($data)) {
@@ -371,9 +383,9 @@ class Handler implements BaseUserHandler
      *
      * @param mixed $roleId ID of the role the draft was created from.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If role is not found
+     * @throws NotFoundException If role is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Role
+     * @return Role
      */
     public function loadRoleDraftByRoleId($roleId)
     {
@@ -394,7 +406,7 @@ class Handler implements BaseUserHandler
     /**
      * Loads all roles.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Role[]
+     * @return Role[]
      */
     public function loadRoles()
     {
@@ -413,7 +425,7 @@ class Handler implements BaseUserHandler
     /**
      * Update role (draft).
      *
-     * @param \Ibexa\Contracts\Core\Persistence\User\RoleUpdateStruct $role
+     * @param RoleUpdateStruct $role
      */
     public function updateRole(RoleUpdateStruct $role)
     {
@@ -426,8 +438,10 @@ class Handler implements BaseUserHandler
      * @param mixed $roleId
      * @param int $status One of Role::STATUS_DEFINED|Role::STATUS_DRAFT
      */
-    public function deleteRole($roleId, $status = Role::STATUS_DEFINED)
-    {
+    public function deleteRole(
+        $roleId,
+        $status = Role::STATUS_DEFINED
+    ) {
         $role = $this->loadRole($roleId, $status);
 
         foreach ($role->policies as $policy) {
@@ -474,12 +488,14 @@ class Handler implements BaseUserHandler
      * Adds a policy to a role draft.
      *
      * @param mixed $roleId
-     * @param \Ibexa\Contracts\Core\Persistence\User\Policy $policy
+     * @param Policy $policy
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Policy
+     * @return Policy
      */
-    public function addPolicyByRoleDraft($roleId, Policy $policy)
-    {
+    public function addPolicyByRoleDraft(
+        $roleId,
+        Policy $policy
+    ) {
         $legacyPolicy = clone $policy;
         $legacyPolicy->originalId = $policy->id;
         $this->limitationConverter->toLegacy($legacyPolicy);
@@ -496,12 +512,14 @@ class Handler implements BaseUserHandler
      * Adds a policy to a role.
      *
      * @param mixed $roleId
-     * @param \Ibexa\Contracts\Core\Persistence\User\Policy $policy
+     * @param Policy $policy
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Policy
+     * @return Policy
      */
-    public function addPolicy($roleId, Policy $policy)
-    {
+    public function addPolicy(
+        $roleId,
+        Policy $policy
+    ) {
         $legacyPolicy = clone $policy;
         $this->limitationConverter->toLegacy($legacyPolicy);
 
@@ -517,7 +535,7 @@ class Handler implements BaseUserHandler
      *
      * Replaces limitations values with new values.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\User\Policy $policy
+     * @param Policy $policy
      */
     public function updatePolicy(Policy $policy)
     {
@@ -534,8 +552,10 @@ class Handler implements BaseUserHandler
      * @param mixed $policyId
      * @param mixed $roleId
      */
-    public function deletePolicy($policyId, $roleId)
-    {
+    public function deletePolicy(
+        $policyId,
+        $roleId
+    ) {
         // Each policy can only be associated to exactly one role. Thus it is
         // sufficient to use the policyId for identification and just remove
         // the policy completely.
@@ -564,8 +584,11 @@ class Handler implements BaseUserHandler
      * @param mixed $roleId
      * @param array $limitation
      */
-    public function assignRole($contentId, $roleId, ?array $limitation = null)
-    {
+    public function assignRole(
+        $contentId,
+        $roleId,
+        ?array $limitation = null
+    ) {
         $limitation = $limitation ?: ['' => ['']];
         $this->userGateway->assignRole($contentId, $roleId, $limitation);
     }
@@ -576,8 +599,10 @@ class Handler implements BaseUserHandler
      * @param mixed $contentId The user or user group Id to un-assign the role from.
      * @param mixed $roleId
      */
-    public function unassignRole($contentId, $roleId)
-    {
+    public function unassignRole(
+        $contentId,
+        $roleId
+    ) {
         $this->userGateway->removeRole($contentId, $roleId);
     }
 
@@ -596,9 +621,9 @@ class Handler implements BaseUserHandler
      *
      * @param mixed $roleAssignmentId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If role assignment is not found
+     * @throws NotFoundException If role assignment is not found
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\RoleAssignment
+     * @return RoleAssignment
      */
     public function loadRoleAssignment($roleAssignmentId)
     {
@@ -618,7 +643,7 @@ class Handler implements BaseUserHandler
      *
      * @param mixed $roleId
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\RoleAssignment[]
+     * @return RoleAssignment[]
      */
     public function loadRoleAssignmentsByRoleId($roleId)
     {
@@ -632,10 +657,13 @@ class Handler implements BaseUserHandler
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\User\RoleAssignment[]
+     * @return RoleAssignment[]
      */
-    public function loadRoleAssignmentsByRoleIdWithOffsetAndLimit(int $roleId, int $offset, ?int $limit): array
-    {
+    public function loadRoleAssignmentsByRoleIdWithOffsetAndLimit(
+        int $roleId,
+        int $offset,
+        ?int $limit
+    ): array {
         $data = $this->roleGateway->loadRoleAssignmentsByRoleIdWithOffsetAndLimit($roleId, $offset, $limit);
 
         if (empty($data)) {
@@ -659,10 +687,12 @@ class Handler implements BaseUserHandler
      *                      By the nature of legacy this can currently also be used to get by $userId.
      * @param bool $inherit If true also return inherited role assignments from user groups.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\User\RoleAssignment[]
+     * @return RoleAssignment[]
      */
-    public function loadRoleAssignmentsByGroupId($groupId, $inherit = false)
-    {
+    public function loadRoleAssignmentsByGroupId(
+        $groupId,
+        $inherit = false
+    ) {
         $data = $this->roleGateway->loadRoleAssignmentsByGroupId($groupId, $inherit);
 
         if (empty($data)) {

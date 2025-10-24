@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 
 final class DefaultSortClauseParserTest extends TestCase
 {
-    /** @var \Ibexa\Core\QueryType\BuiltIn\SortSpec\SortClauseParser\DefaultSortClauseParser */
+    /** @var DefaultSortClauseParser */
     private $defaultSortClauseParser;
 
     protected function setUp(): void

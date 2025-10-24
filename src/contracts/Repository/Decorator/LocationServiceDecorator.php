@@ -105,8 +105,10 @@ abstract class LocationServiceDecorator implements LocationService
         return $this->innerService->updateLocation($location, $locationUpdateStruct);
     }
 
-    public function swapLocation(Location $location1, Location $location2): void
-    {
+    public function swapLocation(
+        Location $location1,
+        Location $location2
+    ): void {
         $this->innerService->swapLocation($location1, $location2);
     }
 
@@ -154,13 +156,17 @@ abstract class LocationServiceDecorator implements LocationService
         return $this->innerService->loadAllLocations($offset, $limit);
     }
 
-    public function find(Filter $filter, ?array $languages = null): LocationList
-    {
+    public function find(
+        Filter $filter,
+        ?array $languages = null
+    ): LocationList {
         return $this->innerService->find($filter, $languages);
     }
 
-    public function count(Filter $filter, ?array $languages = null): int
-    {
+    public function count(
+        Filter $filter,
+        ?array $languages = null
+    ): int {
         return $this->innerService->count($filter, $languages);
     }
 }

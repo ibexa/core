@@ -8,6 +8,7 @@
 namespace Ibexa\Core\MVC\Symfony\View\Builder;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
@@ -21,6 +22,7 @@ use Ibexa\Core\MVC\Symfony\View\Configurator;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
 use Ibexa\Core\MVC\Symfony\View\EmbedView;
 use Ibexa\Core\MVC\Symfony\View\ParametersInjector;
+use Ibexa\Core\MVC\Symfony\View\View;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -28,19 +30,19 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class ContentViewBuilder implements ViewBuilder
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var Repository */
     private $repository;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     private $permissionResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\Configurator */
+    /** @var Configurator */
     private $viewConfigurator;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\ParametersInjector */
+    /** @var ParametersInjector */
     private $viewParametersInjector;
 
-    /** @var \Symfony\Component\HttpFoundation\RequestStack */
+    /** @var RequestStack */
     private $requestStack;
 
     /**
@@ -50,7 +52,7 @@ class ContentViewBuilder implements ViewBuilder
      */
     private $defaultTemplates;
 
-    /** @var \Ibexa\Core\Helper\ContentInfoLocationLoader */
+    /** @var ContentInfoLocationLoader */
     private $locationLoader;
 
     public function __construct(
@@ -76,12 +78,12 @@ class ContentViewBuilder implements ViewBuilder
     /**
      * @param array $parameters
      *
-     * @return \Ibexa\Core\MVC\Symfony\View\ContentView|\Ibexa\Core\MVC\Symfony\View\View
+     * @return ContentView|View
      *         If both contentId and locationId parameters are missing
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      *         If both contentId and locationId parameters are missing
-     * @throws \Ibexa\Core\Base\Exceptions\UnauthorizedException
+     * @throws UnauthorizedException
      */
     public function buildView(array $parameters)
     {
@@ -181,12 +183,14 @@ class ContentViewBuilder implements ViewBuilder
      *
      * @param mixed $contentId
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      *
-     * @throws \Ibexa\Core\Base\Exceptions\UnauthorizedException
+     * @throws UnauthorizedException
      */
-    private function loadContent($contentId, ?string $languageCode = null)
-    {
+    private function loadContent(
+        $contentId,
+        ?string $languageCode = null
+    ) {
         return $this->repository->getContentService()->loadContent(
             $contentId,
             $languageCode ? [$languageCode] : null
@@ -199,14 +203,17 @@ class ContentViewBuilder implements ViewBuilder
      * if provided.
      *
      * @param mixed $contentId
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location|null $location
+     * @param Location|null $location
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      *
-     * @throws \Ibexa\Core\Base\Exceptions\UnauthorizedException
+     * @throws UnauthorizedException
      */
-    private function loadEmbeddedContent($contentId, ?Location $location = null, ?string $languageCode = null)
-    {
+    private function loadEmbeddedContent(
+        $contentId,
+        ?Location $location = null,
+        ?string $languageCode = null
+    ) {
         $content = $this->repository->sudo(
             static function (Repository $repository) use ($contentId, $languageCode) {
                 return $repository->getContentService()->loadContent($contentId, $languageCode ? [$languageCode] : null);
@@ -237,7 +244,7 @@ class ContentViewBuilder implements ViewBuilder
      *
      * @param $locationId
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location
+     * @return Location
      */
     private function loadLocation($locationId)
     {
@@ -260,14 +267,17 @@ class ContentViewBuilder implements ViewBuilder
     /**
      * Checks if a user can read a content, or view it as an embed.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location|null $location
+     * @param Content $content
+     * @param Location|null $location
      * @param bool $isEmbed
      *
      * @return bool
      */
-    private function canRead(Content $content, ?Location $location = null, bool $isEmbed = true): bool
-    {
+    private function canRead(
+        Content $content,
+        ?Location $location = null,
+        bool $isEmbed = true
+    ): bool {
         $targets = isset($location) ? [$location] : [];
 
         return

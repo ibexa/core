@@ -25,7 +25,7 @@ class SectionIdentifier extends CriterionHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\SectionIdentifier $criterion
+     * @param Criterion\SectionIdentifier $criterion
      */
     public function handle(
         CriteriaConverter $converter,

@@ -18,8 +18,10 @@ final class BeforeRemoveFieldDefinitionEvent extends BeforeEvent
 
     private FieldDefinition $fieldDefinition;
 
-    public function __construct(ContentTypeDraft $contentTypeDraft, FieldDefinition $fieldDefinition)
-    {
+    public function __construct(
+        ContentTypeDraft $contentTypeDraft,
+        FieldDefinition $fieldDefinition
+    ) {
         $this->contentTypeDraft = $contentTypeDraft;
         $this->fieldDefinition = $fieldDefinition;
     }

@@ -12,6 +12,7 @@ use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Exception;
 
 /**
  * Database connection factory for integration tests.
@@ -34,15 +35,17 @@ class DatabaseConnectionFactory
      *
      * An associative array mapping database URL to a Connection object.
      *
-     * @var \Doctrine\DBAL\Connection[]
+     * @var Connection[]
      */
     private static ?array $connectionPool = null;
 
     /**
      * @phpstan-param array<TIbexaDatabasePlatform> $databasePlatforms
      */
-    public function __construct(iterable $databasePlatforms, EventManager $eventManager)
-    {
+    public function __construct(
+        iterable $databasePlatforms,
+        EventManager $eventManager
+    ) {
         $this->databasePlatforms = [];
         foreach ($databasePlatforms as $databasePlatform) {
             $this->databasePlatforms[$databasePlatform->getDriverName()] = $databasePlatform;
@@ -54,7 +57,7 @@ class DatabaseConnectionFactory
     /**
      * Connect to a database described by URL (a.k.a. DSN).
      *
-     * @throws \Doctrine\DBAL\Exception if connection failed
+     * @throws Exception if connection failed
      */
     public function createConnection(string $databaseURL): Connection
     {

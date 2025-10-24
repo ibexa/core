@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Pool;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+
 /**
  * @template T of object
  */
@@ -16,7 +18,7 @@ interface PoolInterface
     public function has(string $alias): bool;
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @phpstan-return T
      */

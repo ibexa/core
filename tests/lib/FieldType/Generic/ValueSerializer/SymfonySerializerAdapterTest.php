@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\FieldType\Generic\ValueSerializer;
 
 use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Core\FieldType\ValueSerializer\SymfonySerializerAdapter;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
@@ -21,19 +22,19 @@ class SymfonySerializerAdapterTest extends TestCase
     private const TEST_FORMAT = 'csv';
     private const TEST_CONTEXT = ['foo' => 'bar'];
 
-    /** @var \Symfony\Component\Serializer\Normalizer\NormalizerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var NormalizerInterface|MockObject */
     private $normalizer;
 
-    /** @var \Symfony\Component\Serializer\Normalizer\DenormalizerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var DenormalizerInterface|MockObject */
     private $denomalizer;
 
-    /** @var \Symfony\Component\Serializer\Encoder\EncoderInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var EncoderInterface|MockObject */
     private $encoder;
 
-    /** @var \Symfony\Component\Serializer\Encoder\DecoderInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var DecoderInterface|MockObject */
     private $decoder;
 
-    /** @var \Ibexa\Core\FieldType\ValueSerializer\SymfonySerializerAdapter */
+    /** @var SymfonySerializerAdapter */
     private $adapter;
 
     protected function setUp(): void

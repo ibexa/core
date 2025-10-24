@@ -18,7 +18,7 @@ class StorageHandler
     /**
      * Storage registry.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\StorageRegistry
+     * @var StorageRegistry
      */
     protected $storageRegistry;
 
@@ -35,8 +35,10 @@ class StorageHandler
      * @param StorageRegistry $storageRegistry
      * @param array $context
      */
-    public function __construct(StorageRegistry $storageRegistry, array $context)
-    {
+    public function __construct(
+        StorageRegistry $storageRegistry,
+        array $context
+    ) {
         $this->storageRegistry = $storageRegistry;
         $this->context = $context;
     }
@@ -44,11 +46,13 @@ class StorageHandler
     /**
      * Stores data from $field in its corresponding external storage.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param VersionInfo $versionInfo
+     * @param Field $field
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field)
-    {
+    public function storeFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ) {
         return $this->storageRegistry->getStorage($field->type)->storeFieldData(
             $versionInfo,
             $field
@@ -56,12 +60,15 @@ class StorageHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $originalField
+     * @param VersionInfo $versionInfo
+     * @param Field $field
+     * @param Field $originalField
      */
-    public function copyFieldData(VersionInfo $versionInfo, Field $field, Field $originalField)
-    {
+    public function copyFieldData(
+        VersionInfo $versionInfo,
+        Field $field,
+        Field $originalField
+    ) {
         return $this->storageRegistry->getStorage($field->type)->copyLegacyField(
             $versionInfo,
             $field,
@@ -72,11 +79,13 @@ class StorageHandler
     /**
      * Fetches external data for $field from its corresponding external storage.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param VersionInfo $versionInfo
+     * @param Field $field
      */
-    public function getFieldData(VersionInfo $versionInfo, Field $field)
-    {
+    public function getFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ) {
         $storage = $this->storageRegistry->getStorage($field->type);
         if ($field->id !== null && $storage->hasFieldData()) {
             $storage->getFieldData($versionInfo, $field);
@@ -87,11 +96,14 @@ class StorageHandler
      * Deletes data for field $ids from external storage of $fieldType.
      *
      * @param string $fieldType
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
+     * @param VersionInfo $versionInfo
      * @param mixed[] $ids
      */
-    public function deleteFieldData($fieldType, VersionInfo $versionInfo, array $ids)
-    {
+    public function deleteFieldData(
+        $fieldType,
+        VersionInfo $versionInfo,
+        array $ids
+    ) {
         $this->storageRegistry->getStorage($fieldType)
             ->deleteFieldData($versionInfo, $ids);
     }

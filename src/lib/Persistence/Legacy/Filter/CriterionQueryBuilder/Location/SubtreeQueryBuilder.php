@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location;
 
 use function array_map;
+
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Subtree;
@@ -28,7 +29,7 @@ final class SubtreeQueryBuilder extends BaseLocationCriterionQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Subtree $criterion */
+        /** @var Subtree $criterion */
         parent::buildQueryConstraint($queryBuilder, $criterion);
 
         $expressionBuilder = $queryBuilder->expr();

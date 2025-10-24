@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository\Values\ObjectState;
 
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState as APIObjectState;
+use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup;
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup as APIObjectStateGroup;
 use Ibexa\Core\Repository\Values\MultiLanguageDescriptionTrait;
 use Ibexa\Core\Repository\Values\MultiLanguageNameTrait;
@@ -33,13 +34,13 @@ class ObjectState extends APIObjectState
     use MultiLanguageNameTrait;
     use MultiLanguageDescriptionTrait;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup */
+    /** @var ObjectStateGroup */
     protected $objectStateGroup;
 
     /**
      * The object state group this object state belongs to.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup
+     * @return ObjectStateGroup
      */
     public function getObjectStateGroup(): APIObjectStateGroup
     {

@@ -24,7 +24,7 @@ class UserId extends CriterionHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\UserId $criterion
+     * @param Criterion\UserId $criterion
      */
     public function handle(
         CriteriaConverter $converter,

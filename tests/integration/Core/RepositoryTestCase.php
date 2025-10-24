@@ -8,6 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
+use Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException;
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
@@ -35,10 +40,12 @@ abstract class RepositoryTestCase extends IbexaKernelTestCase
     /**
      * @param array<string, string> $names
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
-    public function createFolder(array $names, int $parentLocationId = self::CONTENT_TREE_ROOT_ID): Content
-    {
+    public function createFolder(
+        array $names,
+        int $parentLocationId = self::CONTENT_TREE_ROOT_ID
+    ): Content {
         $contentService = self::getContentService();
         $draft = $this->createFolderDraft($names, $parentLocationId);
 
@@ -47,13 +54,17 @@ abstract class RepositoryTestCase extends IbexaKernelTestCase
 
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws ContentValidationException
+     * @throws UnauthorizedException
+     * @throws ContentFieldValidationException
+     * @throws NotFoundException
      */
-    final protected function createUser(string $login, string $firstName, string $lastName, ?UserGroup $userGroup = null): User
-    {
+    final protected function createUser(
+        string $login,
+        string $firstName,
+        string $lastName,
+        ?UserGroup $userGroup = null
+    ): User {
         $userService = self::getUserService();
 
         if (null === $userGroup) {
@@ -79,10 +90,12 @@ abstract class RepositoryTestCase extends IbexaKernelTestCase
     /**
      * @param array<string, string> $names
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
-    public function createFolderDraft(array $names, int $parentLocationId = self::CONTENT_TREE_ROOT_ID): Content
-    {
+    public function createFolderDraft(
+        array $names,
+        int $parentLocationId = self::CONTENT_TREE_ROOT_ID
+    ): Content {
         if (empty($names)) {
             throw new InvalidArgumentException(__METHOD__ . ' requires $names to be not empty');
         }

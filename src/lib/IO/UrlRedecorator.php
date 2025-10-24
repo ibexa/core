@@ -17,8 +17,10 @@ class UrlRedecorator implements UrlRedecoratorInterface
 
     private UrlDecorator $targetDecorator;
 
-    public function __construct(UrlDecorator $sourceDecorator, UrlDecorator $targetDecorator)
-    {
+    public function __construct(
+        UrlDecorator $sourceDecorator,
+        UrlDecorator $targetDecorator
+    ) {
         $this->sourceDecorator = $sourceDecorator;
         $this->targetDecorator = $targetDecorator;
     }

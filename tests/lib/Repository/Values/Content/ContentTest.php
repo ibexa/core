@@ -20,10 +20,10 @@ use PHPUnit\Framework\TestCase;
  */
 final class ContentTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Field[] */
+    /** @var Field[] */
     private $internalFields;
 
-    /** @var \Ibexa\Core\Repository\Values\Content\Content */
+    /** @var Content */
     private $content;
 
     protected function setUp(): void

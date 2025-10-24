@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Doctrine;
 
 use function array_filter;
+
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -19,8 +20,10 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway;
+
 use function iterator_to_array;
 use function sprintf;
+
 use Traversable;
 
 /**
@@ -60,8 +63,7 @@ final class DoctrineGateway implements Gateway
         private readonly Connection $connection,
         private readonly CriterionVisitor $criterionVisitor,
         private readonly SortClauseVisitor $sortClauseVisitor
-    ) {
-    }
+    ) {}
 
     public function count(FilteringCriterion $criterion): int
     {
@@ -147,8 +149,11 @@ final class DoctrineGateway implements Gateway
      *
      * Process data fetched by {@see bulkFetchVersionNames}
      */
-    private function extractVersionNames(array $names, int $contentId, int $versionNo): array
-    {
+    private function extractVersionNames(
+        array $names,
+        int $contentId,
+        int $versionNo
+    ): array {
         $rawVersionNames = $this->extractVersionData($names, $contentId, $versionNo);
 
         $names = [];
@@ -159,16 +164,22 @@ final class DoctrineGateway implements Gateway
         return $names;
     }
 
-    private function extractFieldValues(array $fieldValues, int $contentId, int $versionNo): array
-    {
+    private function extractFieldValues(
+        array $fieldValues,
+        int $contentId,
+        int $versionNo
+    ): array {
         return $this->extractVersionData($fieldValues, $contentId, $versionNo);
     }
 
     /**
      * Extract Version-specific data from bulk-loaded rows.
      */
-    private function extractVersionData(array $rows, int $contentId, int $versionNo): array
-    {
+    private function extractVersionData(
+        array $rows,
+        int $contentId,
+        int $versionNo
+    ): array {
         return array_filter(
             $rows,
             static function (array $row) use ($contentId, $versionNo): bool {

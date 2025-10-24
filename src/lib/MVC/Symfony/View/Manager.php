@@ -20,16 +20,16 @@ use Twig\Environment;
 
 class Manager implements ViewManagerInterface
 {
-    /** @var \Twig\Environment */
+    /** @var Environment */
     protected $templateEngine;
 
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     protected $logger;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var Repository */
     protected $repository;
 
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface */
+    /** @var EventDispatcherInterface */
     protected $eventDispatcher;
 
     /**
@@ -40,10 +40,10 @@ class Manager implements ViewManagerInterface
      */
     protected $viewBaseLayout;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     protected $configResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\Configurator */
+    /** @var Configurator */
     private $viewConfigurator;
 
     public function __construct(
@@ -68,18 +68,21 @@ class Manager implements ViewManagerInterface
      * Renders $content by selecting the right template.
      * $content will be injected in the selected template.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
+     * @param Content $content
      * @param string $viewType Variation of display for your content. Default is 'full'.
      * @param array $parameters Parameters to pass to the template called to
      *        render the view. By default, it's empty. 'content' entry is
      *        reserved for the Content that is rendered.
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      *
      * @return string
      */
-    public function renderContent(Content $content, $viewType = ViewManagerInterface::VIEW_TYPE_FULL, $parameters = [])
-    {
+    public function renderContent(
+        Content $content,
+        $viewType = ViewManagerInterface::VIEW_TYPE_FULL,
+        $parameters = []
+    ) {
         $view = new ContentView(null, $parameters, $viewType);
         $view->setContent($content);
         if (isset($parameters['location'])) {
@@ -99,19 +102,22 @@ class Manager implements ViewManagerInterface
      * Renders $location by selecting the right template for $viewType.
      * $content and $location will be injected in the selected template.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      * @param string $viewType Variation of display for your content. Default is 'full'.
      * @param array $parameters Parameters to pass to the template called to
      *        render the view. By default, it's empty. 'location' and 'content'
      *        entries are reserved for the Location (and its Content) that is
      *        viewed.
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      *
      * @return string
      */
-    public function renderLocation(Location $location, $viewType = ViewManagerInterface::VIEW_TYPE_FULL, $parameters = [])
-    {
+    public function renderLocation(
+        Location $location,
+        $viewType = ViewManagerInterface::VIEW_TYPE_FULL,
+        $parameters = []
+    ) {
         if (!isset($parameters['location'])) {
             $parameters['location'] = $location;
         }
@@ -130,13 +136,15 @@ class Manager implements ViewManagerInterface
      * Renders passed ContentView object via the template engine.
      * If $view's template identifier is a closure, then it is called directly and the result is returned as is.
      *
-     * @param \Ibexa\Core\MVC\Symfony\View\View $view
+     * @param View $view
      * @param array $defaultParams
      *
      * @return string
      */
-    public function renderContentView(View $view, array $defaultParams = [])
-    {
+    public function renderContentView(
+        View $view,
+        array $defaultParams = []
+    ) {
         $defaultParams['view_base_layout'] = $this->viewBaseLayout;
         $view->addParameters($defaultParams);
         $this->eventDispatcher->dispatch(new PreContentViewEvent($view), MVCEvents::PRE_CONTENT_VIEW);

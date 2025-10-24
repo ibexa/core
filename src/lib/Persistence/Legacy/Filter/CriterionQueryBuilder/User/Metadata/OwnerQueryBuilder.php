@@ -28,7 +28,7 @@ final class OwnerQueryBuilder implements CriterionQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\UserMetadata $criterion */
+        /** @var UserMetadata $criterion */
         $value = (array)$criterion->value;
 
         return $queryBuilder->expr()->in(

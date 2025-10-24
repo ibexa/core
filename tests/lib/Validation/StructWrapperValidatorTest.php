@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\Validation;
 
 use Ibexa\Contracts\Core\Validation\StructWrapperValidator;
 use Ibexa\Contracts\Core\Validation\ValidationStructWrapperInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\Validator\ConstraintViolation;
@@ -23,7 +24,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 final class StructWrapperValidatorTest extends TestCase
 {
-    /** @var \Symfony\Component\Validator\Validator\ValidatorInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ValidatorInterface&MockObject */
     private ValidatorInterface $validator;
 
     private StructWrapperValidator $structValidator;

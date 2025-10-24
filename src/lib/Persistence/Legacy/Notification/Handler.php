@@ -14,22 +14,25 @@ use Ibexa\Contracts\Core\Persistence\Notification\Notification;
 use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification as APINotification;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 
 class Handler implements HandlerInterface
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Notification\Gateway */
+    /** @var Gateway */
     protected $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Notification\Mapper */
+    /** @var Mapper */
     protected $mapper;
 
     /**
-     * @param \Ibexa\Core\Persistence\Legacy\Notification\Gateway $gateway
-     * @param \Ibexa\Core\Persistence\Legacy\Notification\Mapper $mapper
+     * @param Gateway $gateway
+     * @param Mapper $mapper
      */
-    public function __construct(Gateway $gateway, Mapper $mapper)
-    {
+    public function __construct(
+        Gateway $gateway,
+        Mapper $mapper
+    ) {
         $this->gateway = $gateway;
         $this->mapper = $mapper;
     }
@@ -37,7 +40,7 @@ class Handler implements HandlerInterface
     /**
      * {@inheritdoc}
      *
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function createNotification(CreateStruct $createStruct): Notification
     {
@@ -57,7 +60,7 @@ class Handler implements HandlerInterface
     /**
      * {@inheritdoc}
      *
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function getNotificationById(int $notificationId): Notification
     {
@@ -84,11 +87,13 @@ class Handler implements HandlerInterface
     /**
      * {@inheritdoc}
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
+     * @throws InvalidArgumentException
+     * @throws NotFoundException
      */
-    public function updateNotification(APINotification $apiNotification, UpdateStruct $updateStruct): Notification
-    {
+    public function updateNotification(
+        APINotification $apiNotification,
+        UpdateStruct $updateStruct
+    ): Notification {
         $notification = $this->mapper->createNotificationFromUpdateStruct(
             $updateStruct
         );
@@ -99,20 +104,27 @@ class Handler implements HandlerInterface
         return $this->getNotificationById($notification->id);
     }
 
-    public function countNotifications(int $userId, ?NotificationQuery $query = null): int
-    {
+    public function countNotifications(
+        int $userId,
+        ?NotificationQuery $query = null
+    ): int {
         return $this->gateway->countUserNotifications($userId, $query);
     }
 
-    public function loadUserNotifications(int $userId, int $offset, int $limit): array
-    {
+    public function loadUserNotifications(
+        int $userId,
+        int $offset,
+        int $limit
+    ): array {
         return $this->mapper->extractNotificationsFromRows(
             $this->gateway->loadUserNotifications($userId, $offset, $limit)
         );
     }
 
-    public function findUserNotifications(int $userId, ?NotificationQuery $query = null): array
-    {
+    public function findUserNotifications(
+        int $userId,
+        ?NotificationQuery $query = null
+    ): array {
         return $this->mapper->extractNotificationsFromRows(
             $this->gateway->findUserNotifications($userId, $query)
         );

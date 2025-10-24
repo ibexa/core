@@ -45,7 +45,7 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
      *         "ezpublish.admin.dev" => "ibexa_demo_site_admin",
      *     ),
      *     // Using a custom matcher (class must begin with a '\', as a full qualified class name).
-     *     // The custom matcher must implement {@see \Ibexa\Core\MVC\Symfony\SiteAccess} interface.
+     *     // The custom matcher must implement {@see SiteAccess} interface.
      *     "\\My\\Custom\\Matcher" => array(
      *         "something_to_match_against" => "siteaccess_name"
      *     )
@@ -56,33 +56,33 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
      */
     protected $siteAccessesConfiguration;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface */
+    /** @var SiteAccessProviderInterface */
     protected $siteAccessProvider;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    /** @var SiteAccess */
     protected $siteAccess;
 
     /** @var string */
     protected $siteAccessClass;
 
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     protected $logger;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilderInterface */
+    /** @var MatcherBuilderInterface */
     protected $matcherBuilder;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest */
+    /** @var SimplifiedRequest */
     protected $request;
 
     /** @var bool */
     protected $debug;
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilderInterface $matcherBuilder
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param MatcherBuilderInterface $matcherBuilder
+     * @param LoggerInterface $logger
      * @param string $defaultSiteAccess
      * @param array $siteAccessesConfiguration
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface $siteAccessProvider
+     * @param SiteAccessProviderInterface $siteAccessProvider
      * @param string|null $siteAccessClass
      * @param bool $debug
      */
@@ -106,7 +106,7 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
     }
 
     /**
-     * @return \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest
+     * @return SimplifiedRequest
      */
     public function getRequest()
     {
@@ -116,9 +116,9 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
     /**
      * Performs SiteAccess matching given the $request.
      *
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
+     * @param SimplifiedRequest $request
      *
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess
+     * @return SiteAccess
      */
     public function match(SimplifiedRequest $request)
     {
@@ -173,9 +173,9 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
      * Returns the SiteAccess object matched against $request and the siteaccess configuration.
      * If nothing could be matched, the default siteaccess is returned, with "default" as matching type.
      *
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
+     * @param SimplifiedRequest $request
      *
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess
+     * @return SiteAccess
      */
     private function doMatch(SimplifiedRequest $request)
     {
@@ -208,7 +208,7 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
      *
      * @param string $siteAccessName
      *
-     * @throws \InvalidArgumentException If $siteAccessName is invalid (i.e. not present in configured list).
+     * @throws InvalidArgumentException If $siteAccessName is invalid (i.e. not present in configured list).
      */
     public function matchByName($siteAccessName): ?SiteAccess
     {
@@ -239,7 +239,7 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
                 continue;
             }
 
-            /** @var \Ibexa\Core\MVC\Symfony\SiteAccess $siteAccess */
+            /** @var SiteAccess $siteAccess */
             $siteAccess = new $siteAccessClass($siteAccessName);
             $siteAccess->matcher = $reverseMatcher;
             $siteAccess->matchingType = $reverseMatcher->getName();
@@ -254,7 +254,7 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
     }
 
     /**
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess|null
+     * @return SiteAccess|null
      */
     public function getSiteAccess()
     {
@@ -262,7 +262,7 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
     }
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess|null $siteAccess
+     * @param SiteAccess|null $siteAccess
      */
     public function setSiteAccess(?SiteAccess $siteAccess = null)
     {

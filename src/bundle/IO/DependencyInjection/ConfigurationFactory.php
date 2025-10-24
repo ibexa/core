@@ -33,7 +33,7 @@ interface ConfigurationFactory
      *   ->end();
      * ```
      *
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node The handler's configuration node.
+     * @param ArrayNodeDefinition $node The handler's configuration node.
      */
     public function addConfiguration(ArrayNodeDefinition $node): void;
 
@@ -52,5 +52,9 @@ interface ConfigurationFactory
      *
      * @param array<string, mixed> $config
      */
-    public function configureHandler(ContainerBuilder $container, ServiceDefinition $serviceDefinition, array $config): void;
+    public function configureHandler(
+        ContainerBuilder $container,
+        ServiceDefinition $serviceDefinition,
+        array $config
+    ): void;
 }

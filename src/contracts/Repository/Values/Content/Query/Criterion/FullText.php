@@ -83,8 +83,10 @@ class FullText extends Criterion implements CustomFieldInterface
     /**
      * @phpstan-param string|null $value Query string
      */
-    public function __construct(?string $value, array $properties = [])
-    {
+    public function __construct(
+        ?string $value,
+        array $properties = []
+    ) {
         parent::__construct(null, Operator::LIKE, $value ?? '');
 
         // Assign additional properties, ugly but with the existing constructor
@@ -110,8 +112,11 @@ class FullText extends Criterion implements CustomFieldInterface
      *
      * Set a custom field to query for a defined field in a defined type.
      */
-    public function setCustomField(string $type, string $field, string $customField): void
-    {
+    public function setCustomField(
+        string $type,
+        string $field,
+        string $customField
+    ): void {
         $this->customFields[$type][$field] = $customField;
     }
 
@@ -122,8 +127,10 @@ class FullText extends Criterion implements CustomFieldInterface
      *
      * @return string|null
      */
-    public function getCustomField(string $type, string $field): ?string
-    {
+    public function getCustomField(
+        string $type,
+        string $field
+    ): ?string {
         return $this->customFields[$type][$field] ?? null;
     }
 }

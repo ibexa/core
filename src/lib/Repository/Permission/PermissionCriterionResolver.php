@@ -9,12 +9,15 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository\Permission;
 
 use Ibexa\Contracts\Core\Repository\PermissionCriterionResolver as APIPermissionCriterionResolver;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\PermissionResolver as PermissionResolverInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOperator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOr;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
+use Ibexa\Contracts\Core\Repository\Values\User\Policy;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Core\Limitation\TargetOnlyLimitationType;
 use RuntimeException;
@@ -24,17 +27,17 @@ use RuntimeException;
  */
 class PermissionCriterionResolver implements APIPermissionCriterionResolver
 {
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     private $innerPermissionResolver;
 
-    /** @var \Ibexa\Core\Repository\Permission\LimitationService */
+    /** @var LimitationService */
     private $limitationService;
 
     /**
      * Constructor.
      *
-     * @param \Ibexa\Contracts\Core\Repository\PermissionResolver $innerPermissionResolver
-     * @param \Ibexa\Core\Repository\Permission\LimitationService $limitationService
+     * @param PermissionResolver $innerPermissionResolver
+     * @param LimitationService $limitationService
      */
     public function __construct(
         PermissionResolverInterface $innerPermissionResolver,
@@ -50,8 +53,11 @@ class PermissionCriterionResolver implements APIPermissionCriterionResolver
      * @uses \Ibexa\Contracts\Core\Repository\PermissionResolver::getCurrentUserReference()
      * @uses \Ibexa\Contracts\Core\Repository\PermissionResolver::hasAccess()
      */
-    public function getPermissionsCriterion(string $module = 'content', string $function = 'read', ?array $targets = null)
-    {
+    public function getPermissionsCriterion(
+        string $module = 'content',
+        string $function = 'read',
+        ?array $targets = null
+    ) {
         $permissionSets = $this->innerPermissionResolver->hasAccess($module, $function);
         if (is_bool($permissionSets)) {
             return $permissionSets;
@@ -72,7 +78,7 @@ class PermissionCriterionResolver implements APIPermissionCriterionResolver
         foreach ($permissionSets as $permissionSet) {
             // $permissionSet is a RoleAssignment, but in the form of role limitation & role policies hash
             $policyOrCriteria = [];
-            /** @var \Ibexa\Contracts\Core\Repository\Values\User\Policy */
+            /** @var Policy */
             foreach ($permissionSet['policies'] as $policy) {
                 $limitations = $policy->getLimitations();
                 if (empty($limitations)) {
@@ -95,7 +101,7 @@ class PermissionCriterionResolver implements APIPermissionCriterionResolver
             /**
              * Apply role limitations if there is one.
              *
-             * @var \Ibexa\Contracts\Core\Repository\Values\User\Limitation[]
+             * @var Limitation[]
              */
             if ($permissionSet['limitation'] instanceof Limitation) {
                 // We need to match both the limitation AND *one* of the policies, aka; roleLimit AND policies(OR)
@@ -133,14 +139,17 @@ class PermissionCriterionResolver implements APIPermissionCriterionResolver
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUserRef
+     * @param Limitation $limitation
+     * @param UserReference $currentUserRef
      * @param array|null $targets
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface|\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOperator
+     * @return CriterionInterface|LogicalOperator
      */
-    private function getCriterionForLimitation(Limitation $limitation, UserReference $currentUserRef, ?array $targets): CriterionInterface
-    {
+    private function getCriterionForLimitation(
+        Limitation $limitation,
+        UserReference $currentUserRef,
+        ?array $targets
+    ): CriterionInterface {
         $type = $this->limitationService->getLimitationType($limitation->getIdentifier());
         if ($type instanceof TargetOnlyLimitationType) {
             return $type->getCriterionByTarget($limitation, $currentUserRef, $targets);

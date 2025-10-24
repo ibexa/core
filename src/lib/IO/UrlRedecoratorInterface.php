@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\IO;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+
 /**
  * Converts an URL from one decorator to another.
  *
@@ -27,12 +29,12 @@ namespace Ibexa\Core\IO;
 interface UrlRedecoratorInterface
 {
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If $uri couldn't be interpreted by the target decorator
+     * @throws InvalidArgumentException If $uri couldn't be interpreted by the target decorator
      */
     public function redecorateFromSource(string $uri): string;
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If $uri couldn't be interpreted by the target decorator
+     * @throws InvalidArgumentException If $uri couldn't be interpreted by the target decorator
      */
     public function redecorateFromTarget(string $uri): string;
 }

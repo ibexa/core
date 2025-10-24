@@ -7,7 +7,9 @@
 
 namespace Ibexa\Core\Repository\Helper;
 
+use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
+use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\FieldType\Value as BaseValue;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as SPIRelationCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Handler;
@@ -26,13 +28,13 @@ class RelationProcessor
 {
     use LoggerAwareTrait;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
+    /** @var Handler */
     protected $persistenceHandler;
 
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Handler $handler
+     * @param Handler $handler
      */
     public function __construct(Handler $handler)
     {
@@ -47,8 +49,8 @@ class RelationProcessor
      *
      * @param array $relations
      * @param array $locationIdToContentIdMapping An array with Location Ids as keys and corresponding Content Id as values
-     * @param \Ibexa\Contracts\Core\FieldType\FieldType $fieldType
-     * @param \Ibexa\Contracts\Core\FieldType\Value $fieldValue Accepted field value.
+     * @param FieldType $fieldType
+     * @param Value $fieldValue Accepted field value.
      * @param string $fieldDefinitionId
      */
     public function appendFieldRelations(
@@ -104,7 +106,7 @@ class RelationProcessor
      * @param array $inputRelations
      * @param mixed $sourceContentId
      * @param mixed $sourceContentVersionNo
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param ContentType $contentType
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Relation[] $existingRelations An array of existing relations for Content version (empty when creating new content)
      */
     public function processFieldRelations(
@@ -194,7 +196,7 @@ class RelationProcessor
                 switch ($relationType) {
                     case Relation::FIELD:
                     case Relation::ASSET:
-                        /** @phpstan-var array<int, \Ibexa\Core\Repository\Values\Content\Relation> $relationEntry */
+                        /** @phpstan-var array<int, Relation> $relationEntry */
                         foreach ($relationEntry as $relation) {
                             $this->persistenceHandler->contentHandler()->removeRelation(
                                 $relation->id,
@@ -205,7 +207,7 @@ class RelationProcessor
                         break;
                     case Relation::LINK:
                     case Relation::EMBED:
-                        /** @phpstan-var \Ibexa\Core\Repository\Values\Content\Relation $relationEntry */
+                        /** @phpstan-var Relation $relationEntry */
                         $this->persistenceHandler->contentHandler()->removeRelation(
                             $relationEntry->id,
                             $relationType,

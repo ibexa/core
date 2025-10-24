@@ -18,7 +18,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
 /**
  * Content Language Code Criterion visitor query builder.
  *
- * @see \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode
+ * @see LanguageCode
  *
  * @internal for internal use by Repository Filtering
  */
@@ -33,7 +33,7 @@ final class LanguageCodeQueryBuilder implements CriterionQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode $criterion */
+        /** @var LanguageCode $criterion */
         $queryBuilder
             ->joinOnce(
                 'version',

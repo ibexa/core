@@ -12,13 +12,14 @@ use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
 use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 
 abstract class Gateway
 {
     /**
      * Store Notification ValueObject in persistent storage.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Notification\CreateStruct $notification
+     * @param CreateStruct $notification
      *
      * @return int
      */
@@ -37,9 +38,9 @@ abstract class Gateway
      * Update Notification ValueObject in persistent storage.
      * There's no edit feature but it's essential to mark Notification as read.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Notification\Notification $notification
+     * @param Notification $notification
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     abstract public function updateNotification(Notification $notification): void;
 
@@ -59,7 +60,10 @@ abstract class Gateway
     ): array;
 
     /** @phpstan-return int<0, max> */
-    abstract public function countUserNotifications(int $userId, ?NotificationQuery $query = null): int;
+    abstract public function countUserNotifications(
+        int $userId,
+        ?NotificationQuery $query = null
+    ): int;
 
     /**
      * Count users unread Notifications.
@@ -73,7 +77,11 @@ abstract class Gateway
     /**
      * @return array<int, array<string, mixed>>
      */
-    abstract public function loadUserNotifications(int $userId, int $offset = 0, int $limit = -1): array;
+    abstract public function loadUserNotifications(
+        int $userId,
+        int $offset = 0,
+        int $limit = -1
+    ): array;
 
     /**
      * @return array<int, array<string, mixed>>

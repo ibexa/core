@@ -24,8 +24,10 @@ final class VersionTranslationUpdateEvaluator implements VersionTargetEvaluator
             || null !== $targetVersion->forUpdateInitialLanguageCode;
     }
 
-    public function evaluate(Target\Version $targetVersion, Limitation $limitationValue): ?bool
-    {
+    public function evaluate(
+        Target\Version $targetVersion,
+        Limitation $limitationValue
+    ): ?bool {
         $accessVote = LanguageLimitationType::ACCESS_ABSTAIN;
 
         if (!empty($targetVersion->forUpdateLanguageCodesList)) {

@@ -95,8 +95,12 @@ class PersistenceLoggerTest extends TestCase
     /**
      * @return array<string, array<string, mixed>>
      */
-    private function buildExpectedCallTrace(string $callHash, string $method, int $miss, int $hit): array
-    {
+    private function buildExpectedCallTrace(
+        string $callHash,
+        string $method,
+        int $miss,
+        int $hit
+    ): array {
         return [
             $callHash => [
                 'method' => $method,

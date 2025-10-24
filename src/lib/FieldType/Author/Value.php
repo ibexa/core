@@ -17,14 +17,14 @@ class Value extends BaseValue
     /**
      * List of authors.
      *
-     * @var \Ibexa\Core\FieldType\Author\AuthorCollection
+     * @var AuthorCollection
      */
     public $authors;
 
     /**
      * Construct a new Value object and initialize with $authors.
      *
-     * @param \Ibexa\Core\FieldType\Author\Author[] $authors
+     * @param Author[] $authors
      */
     public function __construct(array $authors = [])
     {

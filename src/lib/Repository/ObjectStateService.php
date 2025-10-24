@@ -9,12 +9,14 @@ namespace Ibexa\Core\Repository;
 
 use Exception;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState as SPIObjectState;
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group as SPIObjectStateGroup;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\ObjectStateService as ObjectStateServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState as APIObjectState;
@@ -35,23 +37,23 @@ use Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup;
  */
 class ObjectStateService implements ObjectStateServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var Repository */
     protected $repository;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler */
+    /** @var Handler */
     protected $objectStateHandler;
 
     /** @var array */
     protected $settings;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     private $permissionResolver;
 
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler $objectStateHandler
+     * @param Repository $repository
+     * @param Handler $objectStateHandler
      * @param array $settings
      */
     public function __construct(
@@ -75,9 +77,9 @@ class ObjectStateService implements ObjectStateServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to create an object state group
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the object state group with provided identifier already exists
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroupCreateStruct $objectStateGroupCreateStruct
+     * @param ObjectStateGroupCreateStruct $objectStateGroupCreateStruct
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup
+     * @return APIObjectStateGroup
      */
     public function createObjectStateGroup(ObjectStateGroupCreateStruct $objectStateGroupCreateStruct): APIObjectStateGroup
     {
@@ -117,8 +119,10 @@ class ObjectStateService implements ObjectStateServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function loadObjectStateGroup(int $objectStateGroupId, array $prioritizedLanguages = []): APIObjectStateGroup
-    {
+    public function loadObjectStateGroup(
+        int $objectStateGroupId,
+        array $prioritizedLanguages = []
+    ): APIObjectStateGroup {
         $spiObjectStateGroup = $this->objectStateHandler->loadGroup($objectStateGroupId);
 
         return $this->buildDomainObjectStateGroupObject($spiObjectStateGroup, $prioritizedLanguages);
@@ -136,8 +140,11 @@ class ObjectStateService implements ObjectStateServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function loadObjectStateGroups(int $offset = 0, int $limit = -1, array $prioritizedLanguages = []): iterable
-    {
+    public function loadObjectStateGroups(
+        int $offset = 0,
+        int $limit = -1,
+        array $prioritizedLanguages = []
+    ): iterable {
         $spiObjectStateGroups = $this->objectStateHandler->loadAllGroups($offset, $limit);
 
         $objectStateGroups = [];
@@ -154,10 +161,10 @@ class ObjectStateService implements ObjectStateServiceInterface
     /**
      * This method returns the ordered list of object states of a group.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup $objectStateGroup
+     * @param APIObjectStateGroup $objectStateGroup
      * @param string[] $prioritizedLanguages
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState[]
+     * @return APIObjectState[]
      */
     public function loadObjectStates(
         APIObjectStateGroup $objectStateGroup,
@@ -183,13 +190,15 @@ class ObjectStateService implements ObjectStateServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to update an object state group
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the object state group with provided identifier already exists
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup $objectStateGroup
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroupUpdateStruct $objectStateGroupUpdateStruct
+     * @param APIObjectStateGroup $objectStateGroup
+     * @param ObjectStateGroupUpdateStruct $objectStateGroupUpdateStruct
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup
+     * @return APIObjectStateGroup
      */
-    public function updateObjectStateGroup(APIObjectStateGroup $objectStateGroup, ObjectStateGroupUpdateStruct $objectStateGroupUpdateStruct): APIObjectStateGroup
-    {
+    public function updateObjectStateGroup(
+        APIObjectStateGroup $objectStateGroup,
+        ObjectStateGroupUpdateStruct $objectStateGroupUpdateStruct
+    ): APIObjectStateGroup {
         if (!$this->permissionResolver->canUser('state', 'administrate', $objectStateGroup)) {
             throw new UnauthorizedException('state', 'administrate');
         }
@@ -238,7 +247,7 @@ class ObjectStateService implements ObjectStateServiceInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to delete an object state group
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup $objectStateGroup
+     * @param APIObjectStateGroup $objectStateGroup
      */
     public function deleteObjectStateGroup(APIObjectStateGroup $objectStateGroup): void
     {
@@ -267,13 +276,15 @@ class ObjectStateService implements ObjectStateServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to create an object state
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the object state with provided identifier already exists in the same group
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup $objectStateGroup
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateCreateStruct $objectStateCreateStruct
+     * @param APIObjectStateGroup $objectStateGroup
+     * @param ObjectStateCreateStruct $objectStateCreateStruct
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState
+     * @return APIObjectState
      */
-    public function createObjectState(APIObjectStateGroup $objectStateGroup, ObjectStateCreateStruct $objectStateCreateStruct): APIObjectState
-    {
+    public function createObjectState(
+        APIObjectStateGroup $objectStateGroup,
+        ObjectStateCreateStruct $objectStateCreateStruct
+    ): APIObjectState {
         if (!$this->permissionResolver->canUser('state', 'administrate', $objectStateCreateStruct, [$objectStateGroup])) {
             throw new UnauthorizedException('state', 'administrate');
         }
@@ -322,8 +333,10 @@ class ObjectStateService implements ObjectStateServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function loadObjectState(int $stateId, array $prioritizedLanguages = []): APIObjectState
-    {
+    public function loadObjectState(
+        int $stateId,
+        array $prioritizedLanguages = []
+    ): APIObjectState {
         $spiObjectState = $this->objectStateHandler->load($stateId);
 
         return $this->buildDomainObjectStateObject($spiObjectState, null, $prioritizedLanguages);
@@ -348,13 +361,15 @@ class ObjectStateService implements ObjectStateServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to update an object state
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the object state with provided identifier already exists in the same group
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState $objectState
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateUpdateStruct $objectStateUpdateStruct
+     * @param APIObjectState $objectState
+     * @param ObjectStateUpdateStruct $objectStateUpdateStruct
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState
+     * @return APIObjectState
      */
-    public function updateObjectState(APIObjectState $objectState, ObjectStateUpdateStruct $objectStateUpdateStruct): APIObjectState
-    {
+    public function updateObjectState(
+        APIObjectState $objectState,
+        ObjectStateUpdateStruct $objectStateUpdateStruct
+    ): APIObjectState {
         if (!$this->permissionResolver->canUser('state', 'administrate', $objectState)) {
             throw new UnauthorizedException('state', 'administrate');
         }
@@ -407,11 +422,13 @@ class ObjectStateService implements ObjectStateServiceInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to change priority on an object state
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState $objectState
+     * @param APIObjectState $objectState
      * @param int $priority
      */
-    public function setPriorityOfObjectState(APIObjectState $objectState, int $priority): void
-    {
+    public function setPriorityOfObjectState(
+        APIObjectState $objectState,
+        int $priority
+    ): void {
         if (!$this->permissionResolver->canUser('state', 'administrate', $objectState)) {
             throw new UnauthorizedException('state', 'administrate');
         }
@@ -437,7 +454,7 @@ class ObjectStateService implements ObjectStateServiceInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to delete an object state
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState $objectState
+     * @param APIObjectState $objectState
      */
     public function deleteObjectState(APIObjectState $objectState): void
     {
@@ -463,12 +480,15 @@ class ObjectStateService implements ObjectStateServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the object state does not belong to the given group
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to change the object state
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup $objectStateGroup
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState $objectState
+     * @param ContentInfo $contentInfo
+     * @param APIObjectStateGroup $objectStateGroup
+     * @param APIObjectState $objectState
      */
-    public function setContentState(ContentInfo $contentInfo, APIObjectStateGroup $objectStateGroup, APIObjectState $objectState): void
-    {
+    public function setContentState(
+        ContentInfo $contentInfo,
+        APIObjectStateGroup $objectStateGroup,
+        APIObjectState $objectState
+    ): void {
         if (!$this->permissionResolver->canUser('state', 'assign', $contentInfo, [$objectState])) {
             throw new UnauthorizedException('state', 'assign', ['contentId' => $contentInfo->id]);
         }
@@ -498,13 +518,15 @@ class ObjectStateService implements ObjectStateServiceInterface
      *
      * The $state is the id of the state within one group.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup $objectStateGroup
+     * @param ContentInfo $contentInfo
+     * @param APIObjectStateGroup $objectStateGroup
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState
+     * @return APIObjectState
      */
-    public function getContentState(ContentInfo $contentInfo, APIObjectStateGroup $objectStateGroup): APIObjectState
-    {
+    public function getContentState(
+        ContentInfo $contentInfo,
+        APIObjectStateGroup $objectStateGroup
+    ): APIObjectState {
         $spiObjectState = $this->objectStateHandler->getContentState(
             $contentInfo->id,
             $objectStateGroup->id
@@ -516,7 +538,7 @@ class ObjectStateService implements ObjectStateServiceInterface
     /**
      * Returns the number of objects which are in this state.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState $objectState
+     * @param APIObjectState $objectState
      *
      * @return int
      */
@@ -532,7 +554,7 @@ class ObjectStateService implements ObjectStateServiceInterface
      *
      * @param string $identifier
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroupCreateStruct
+     * @return ObjectStateGroupCreateStruct
      */
     public function newObjectStateGroupCreateStruct(string $identifier): ObjectStateGroupCreateStruct
     {
@@ -545,7 +567,7 @@ class ObjectStateService implements ObjectStateServiceInterface
     /**
      * Instantiates a new Object State Group Update Struct.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroupUpdateStruct
+     * @return ObjectStateGroupUpdateStruct
      */
     public function newObjectStateGroupUpdateStruct(): ObjectStateGroupUpdateStruct
     {
@@ -557,7 +579,7 @@ class ObjectStateService implements ObjectStateServiceInterface
      *
      * @param string $identifier
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateCreateStruct
+     * @return ObjectStateCreateStruct
      */
     public function newObjectStateCreateStruct(string $identifier): ObjectStateCreateStruct
     {
@@ -570,7 +592,7 @@ class ObjectStateService implements ObjectStateServiceInterface
     /**
      * Instantiates a new Object State Update Struct.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateUpdateStruct
+     * @return ObjectStateUpdateStruct
      */
     public function newObjectStateUpdateStruct(): ObjectStateUpdateStruct
     {
@@ -580,11 +602,11 @@ class ObjectStateService implements ObjectStateServiceInterface
     /**
      * Converts the object state SPI value object to API value object.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ObjectState $spiObjectState
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup|null $objectStateGroup
+     * @param SPIObjectState $spiObjectState
+     * @param APIObjectStateGroup|null $objectStateGroup
      * @param string[] $prioritizedLanguages
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState
+     * @return APIObjectState
      */
     protected function buildDomainObjectStateObject(
         SPIObjectState $spiObjectState,
@@ -611,10 +633,10 @@ class ObjectStateService implements ObjectStateServiceInterface
     /**
      * Converts the object state group SPI value object to API value object.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group $spiObjectStateGroup
+     * @param Group $spiObjectStateGroup
      * @param array $prioritizedLanguages
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup
+     * @return APIObjectStateGroup
      */
     protected function buildDomainObjectStateGroupObject(
         SPIObjectStateGroup $spiObjectStateGroup,
@@ -641,7 +663,7 @@ class ObjectStateService implements ObjectStateServiceInterface
      * @param string[] $names
      * @param string[]|null $descriptions
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct
+     * @return InputStruct
      */
     protected function buildCreateInputStruct(
         string $identifier,
@@ -699,13 +721,13 @@ class ObjectStateService implements ObjectStateServiceInterface
     /**
      * Validates input for updating object states and builds the InputStruct object.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState $objectState
+     * @param APIObjectState $objectState
      * @param string|null $identifier
      * @param string|null $defaultLanguageCode
      * @param string[]|null $names
      * @param string[]|null $descriptions
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct
+     * @return InputStruct
      */
     protected function buildObjectStateUpdateInputStruct(
         APIObjectState $objectState,
@@ -768,13 +790,13 @@ class ObjectStateService implements ObjectStateServiceInterface
     /**
      * Validates input for updating object state groups and builds the InputStruct object.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup $objectStateGroup
+     * @param APIObjectStateGroup $objectStateGroup
      * @param string|null $identifier
      * @param string|null $defaultLanguageCode
      * @param string[]|null $names
      * @param string[]|null $descriptions
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct
+     * @return InputStruct
      */
     protected function buildObjectStateGroupUpdateInputStruct(
         APIObjectStateGroup $objectStateGroup,

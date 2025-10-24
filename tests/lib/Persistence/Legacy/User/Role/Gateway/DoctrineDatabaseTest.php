@@ -22,7 +22,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Database gateway to test.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\User\Role\Gateway\DoctrineDatabase
+     * @var DoctrineDatabase
      */
     protected $databaseGateway;
 
@@ -196,7 +196,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Returns a ready to test DoctrineDatabase gateway.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\User\Role\Gateway\DoctrineDatabase
+     * @return DoctrineDatabase
      */
     protected function getDatabaseGateway(): DoctrineDatabase
     {

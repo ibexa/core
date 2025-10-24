@@ -27,7 +27,7 @@ class CreateStruct extends ValueObject
      * ContentId, contentVersion and mainLocationId are allowed to be left empty
      * when used on with this struct as these values are created by the create method.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct[]
+     * @var Location\CreateStruct[]
      */
     public $locations = [];
 

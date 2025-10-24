@@ -21,6 +21,4 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Subtree as AP
  *
  * @internal Meant for internal use by Repository.
  */
-class PermissionSubtree extends APISubtreeCriterion
-{
-}
+class PermissionSubtree extends APISubtreeCriterion {}

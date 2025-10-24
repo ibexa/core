@@ -23,7 +23,7 @@ class IsUserBased extends CriterionHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsUserBased $criterion
+     * @param Criterion\IsUserBased $criterion
      */
     public function handle(
         CriteriaConverter $converter,

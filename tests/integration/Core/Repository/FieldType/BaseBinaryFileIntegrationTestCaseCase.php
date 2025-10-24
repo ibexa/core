@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
+use Ibexa\Core\FieldType\BinaryBase\Value;
 use Ibexa\Core\FieldType\BinaryBase\Value as BinaryBaseValue;
 
 /**
@@ -40,12 +41,12 @@ abstract class BaseBinaryFileIntegrationTestCaseCase extends FileSearchBaseInteg
     abstract protected function buildBinaryFileValue(string $fileId): BinaryBaseValue;
 
     /**
-     * @phpstan-return list<array{TBaseBinaryFileFieldValueHash, \Ibexa\Core\FieldType\BinaryBase\Value}>
+     * @phpstan-return list<array{TBaseBinaryFileFieldValueHash, Value}>
      */
     abstract public function provideFromHashData(): array;
 
     /**
-     * @phpstan-return list<array{\Ibexa\Core\FieldType\BinaryBase\Value, TBaseBinaryFileFieldValueHash}>
+     * @phpstan-return list<array{Value, TBaseBinaryFileFieldValueHash}>
      */
     abstract public function provideToHashData(): array;
 
@@ -236,8 +237,10 @@ abstract class BaseBinaryFileIntegrationTestCaseCase extends FileSearchBaseInteg
     /**
      * @phpstan-param TBaseBinaryFileFieldValueHash $expectedData
      */
-    private function assertCreatedUpdatedBinaryFieldDataLoadedCorrectly(array $expectedData, Field $field): void
-    {
+    private function assertCreatedUpdatedBinaryFieldDataLoadedCorrectly(
+        array $expectedData,
+        Field $field
+    ): void {
         // Will change during storage
         unset($expectedData['id']);
         $expectedData['inputUri'] = null;

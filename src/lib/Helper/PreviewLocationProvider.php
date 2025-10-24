@@ -8,10 +8,13 @@
 namespace Ibexa\Core\Helper;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as PersistenceLocationHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
 use Ibexa\Core\Repository\Values\Content\Location;
+use Random\RandomException;
 
 /**
  * Provides location(s) for a content. Handles unpublished content that does not have an actual location yet.
@@ -38,9 +41,9 @@ class PreviewLocationProvider
      *
      * If the content doesn't have a location nor a location draft, null is returned.
      *
-     * @throws \Random\RandomException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws RandomException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function loadMainLocationByContent(APIContent $content): ?APILocation
     {

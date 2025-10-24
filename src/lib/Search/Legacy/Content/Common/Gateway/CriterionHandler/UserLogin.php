@@ -19,7 +19,7 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
 class UserLogin extends CriterionHandler
 {
-    /** @var \Ibexa\Core\Persistence\TransformationProcessor */
+    /** @var TransformationProcessor */
     private $transformationProcessor;
 
     public function __construct(
@@ -37,7 +37,7 @@ class UserLogin extends CriterionHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\UserLogin $criterion
+     * @param Criterion\UserLogin $criterion
      */
     public function handle(
         CriteriaConverter $converter,

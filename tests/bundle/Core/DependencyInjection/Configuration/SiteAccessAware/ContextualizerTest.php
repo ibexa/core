@@ -10,13 +10,14 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\SiteAccessAw
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Contextualizer;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ContextualizerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $container;
 
     /** @var string */
@@ -41,7 +42,7 @@ class ContextualizerTest extends TestCase
         'sa3' => ['sa_group1'],
     ];
 
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Contextualizer */
+    /** @var Contextualizer */
     private $contextualizer;
 
     protected function setUp(): void
@@ -61,8 +62,11 @@ class ContextualizerTest extends TestCase
     /**
      * @dataProvider setContextualParameterProvider
      */
-    public function testSetContextualParameter($parameterName, $scope, $value)
-    {
+    public function testSetContextualParameter(
+        $parameterName,
+        $scope,
+        $value
+    ) {
         $this->container
             ->expects(self::once())
             ->method('setParameter')

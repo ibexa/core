@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\Values\User;
 
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Policy as APIPolicy;
 
 /**
@@ -20,14 +21,14 @@ class Policy extends APIPolicy
     /**
      * Limitations assigned to this policy.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\User\Limitation[]
+     * @var Limitation[]
      */
     protected $limitations = [];
 
     /**
      * Returns the list of limitations for this policy.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation[]
+     * @return Limitation[]
      */
     public function getLimitations(): iterable
     {

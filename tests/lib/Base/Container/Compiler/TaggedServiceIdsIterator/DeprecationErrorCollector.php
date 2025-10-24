@@ -36,8 +36,12 @@ final class DeprecationErrorCollector
         return $this->errors;
     }
 
-    public function __invoke(int $code, string $message, string $file, int $line): bool
-    {
+    public function __invoke(
+        int $code,
+        string $message,
+        string $file,
+        int $line
+    ): bool {
         $this->errors[] = [
             'code' => $code,
             'message' => $message,

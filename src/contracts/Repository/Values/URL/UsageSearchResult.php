@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Repository\Values\URL;
 
 use ArrayIterator;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Traversable;
 
@@ -24,7 +25,7 @@ class UsageSearchResult extends ValueObject implements \IteratorAggregate
     /**
      * The value objects found for the query.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo[]
+     * @var ContentInfo[]
      */
     public $items = [];
 

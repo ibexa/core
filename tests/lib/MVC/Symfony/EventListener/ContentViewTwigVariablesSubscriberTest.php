@@ -18,14 +18,12 @@ use Ibexa\Core\MVC\Symfony\View\GenericVariableProviderRegistry;
 use Ibexa\Core\MVC\Symfony\View\View;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class ContentViewTwigVariablesSubscriberTest extends TestCase
 {
-    /**
-     * @return \Ibexa\Core\MVC\Symfony\View\ContentView|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function getContentViewMock(): ContentView
+    private function getContentViewMock(): ContentView & MockObject
     {
         $view = $this->createMock(ContentView::class);
 
@@ -45,7 +43,7 @@ final class ContentViewTwigVariablesSubscriberTest extends TestCase
     private function getProvider(string $identifier): VariableProvider
     {
         return new class($identifier) implements VariableProvider {
-            private $identifier;
+            private string $identifier;
 
             public function __construct(string $identifier)
             {
@@ -57,8 +55,10 @@ final class ContentViewTwigVariablesSubscriberTest extends TestCase
                 return $this->identifier;
             }
 
-            public function getTwigVariables(View $view, array $options = []): object
-            {
+            public function getTwigVariables(
+                View $view,
+                array $options = []
+            ): object {
                 return (object)[
                     $this->identifier . '_parameter' => $this->identifier . '_value',
                 ];

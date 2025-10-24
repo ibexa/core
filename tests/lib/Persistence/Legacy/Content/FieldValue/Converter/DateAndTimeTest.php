@@ -27,10 +27,10 @@ use SimpleXMLElement;
  */
 class DateAndTimeTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\DateAndTimeConverter */
+    /** @var DateAndTimeConverter */
     protected $converter;
 
-    /** @var \DateTime */
+    /** @var DateTime */
     protected $date;
 
     protected function setUp(): void
@@ -49,7 +49,7 @@ class DateAndTimeTest extends TestCase
         $value = new FieldValue();
         $value->data = [
             'timestamp' => $this->date->getTimestamp(),
-            'rfc850' => $this->date->format(\DateTime::RFC850),
+            'rfc850' => $this->date->format(DateTime::RFC850),
         ];
         $value->sortKey = $this->date->getTimestamp();
         $storageFieldValue = new StorageFieldValue();
@@ -318,7 +318,7 @@ class DateAndTimeTest extends TestCase
     /**
      * Generates XML string from $dateInterval.
      *
-     * @param \DateInterval $dateInterval
+     * @param DateInterval $dateInterval
      *
      * @return string
      */

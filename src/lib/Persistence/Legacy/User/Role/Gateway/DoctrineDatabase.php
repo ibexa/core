@@ -10,8 +10,10 @@ namespace Ibexa\Core\Persistence\Legacy\User\Role\Gateway;
 
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Persistence\User\Handler;
 use Ibexa\Contracts\Core\Persistence\User\Policy;
 use Ibexa\Contracts\Core\Persistence\User\Role;
 use Ibexa\Contracts\Core\Persistence\User\RoleUpdateStruct;
@@ -24,13 +26,11 @@ use Ibexa\Core\Persistence\Legacy\User\Role\Gateway;
  *
  * @internal Gateway implementation is considered internal. Use Persistence User Handler instead.
  *
- * @see \Ibexa\Contracts\Core\Persistence\User\Handler
+ * @see Handler
  */
 final class DoctrineDatabase extends Gateway
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function createRole(Role $role): Role
     {
@@ -128,11 +128,13 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      * @throws \Doctrine\DBAL\Driver\Exception
      */
-    public function loadRole(int $roleId, int $status = Role::STATUS_DEFINED): array
-    {
+    public function loadRole(
+        int $roleId,
+        int $status = Role::STATUS_DEFINED
+    ): array {
         $query = $this->getLoadRoleQueryBuilder();
         $query
             ->where(
@@ -152,7 +154,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      * @throws \Doctrine\DBAL\Driver\Exception
      */
     public function loadRoleByIdentifier(
@@ -268,8 +270,10 @@ final class DoctrineDatabase extends Gateway
         return $query->executeQuery()->fetchAllAssociative();
     }
 
-    public function loadRoleAssignmentsByGroupId(int $groupId, bool $inherited = false): array
-    {
+    public function loadRoleAssignmentsByGroupId(
+        int $groupId,
+        bool $inherited = false
+    ): array {
         $query = $this->connection->createQueryBuilder();
         $query->select(
             'id',
@@ -325,10 +329,13 @@ final class DoctrineDatabase extends Gateway
 
     /**
      * @throws \Doctrine\DBAL\Driver\Exception
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
-    public function loadRoleAssignmentsByRoleIdWithOffsetAndLimit(int $roleId, int $offset, ?int $limit): array
-    {
+    public function loadRoleAssignmentsByRoleIdWithOffsetAndLimit(
+        int $roleId,
+        int $offset,
+        ?int $limit
+    ): array {
         $query = $this
             ->buildLoadRoleAssignmentsQuery(
                 [
@@ -353,7 +360,7 @@ final class DoctrineDatabase extends Gateway
 
     /**
      * @throws \Doctrine\DBAL\Driver\Exception
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function countRoleAssignments(int $roleId): int
     {
@@ -368,8 +375,10 @@ final class DoctrineDatabase extends Gateway
     /**
      * @param array<string> $columns
      */
-    private function buildLoadRoleAssignmentsQuery(array $columns, int $roleId): QueryBuilder
-    {
+    private function buildLoadRoleAssignmentsQuery(
+        array $columns,
+        int $roleId
+    ): QueryBuilder {
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(...$columns)
@@ -449,8 +458,10 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
-    public function deleteRole(int $roleId, int $status = Role::STATUS_DEFINED): void
-    {
+    public function deleteRole(
+        int $roleId,
+        int $status = Role::STATUS_DEFINED
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
@@ -471,14 +482,18 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
-    public function publishRoleDraft(int $roleDraftId, ?int $originalRoleId = null): void
-    {
+    public function publishRoleDraft(
+        int $roleDraftId,
+        ?int $originalRoleId = null
+    ): void {
         $this->markRoleAsPublished($roleDraftId, $originalRoleId);
         $this->publishRolePolicies($roleDraftId, $originalRoleId);
     }
 
-    public function addPolicy(int $roleId, Policy $policy): Policy
-    {
+    public function addPolicy(
+        int $roleId,
+        Policy $policy
+    ): Policy {
         $query = $this->connection->createQueryBuilder();
         $query
             ->insert(self::POLICY_TABLE)
@@ -514,8 +529,10 @@ final class DoctrineDatabase extends Gateway
         return $policy;
     }
 
-    public function addPolicyLimitations(int $policyId, array $limitations): void
-    {
+    public function addPolicyLimitations(
+        int $policyId,
+        array $limitations
+    ): void {
         foreach ($limitations as $identifier => $values) {
             $query = $this->connection->createQueryBuilder();
             $query
@@ -731,8 +748,10 @@ final class DoctrineDatabase extends Gateway
         return $draftCondition;
     }
 
-    private function markRoleAsPublished(int $roleDraftId, ?int $originalRoleId): void
-    {
+    private function markRoleAsPublished(
+        int $roleDraftId,
+        ?int $originalRoleId
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->update(self::ROLE_TABLE)
@@ -757,8 +776,10 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
-    private function publishRolePolicies(int $roleDraftId, ?int $originalRoleId): void
-    {
+    private function publishRolePolicies(
+        int $roleDraftId,
+        ?int $originalRoleId
+    ): void {
         $policyQuery = $this->connection->createQueryBuilder();
         $policyQuery
             ->update(self::POLICY_TABLE)

@@ -35,8 +35,10 @@ class ContentFieldStrategyTest extends TestCase
                 return $this->fieldTypeIdentifier;
             }
 
-            public function getThumbnail(Field $field, ?VersionInfo $versionInfo = null): ?Thumbnail
-            {
+            public function getThumbnail(
+                Field $field,
+                ?VersionInfo $versionInfo = null
+            ): ?Thumbnail {
                 return new Thumbnail([
                     'resource' => $field->value,
                 ]);
