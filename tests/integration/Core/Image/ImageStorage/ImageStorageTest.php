@@ -204,8 +204,8 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
 
     /**
      * @return iterable<array{
-     *     \Ibexa\Contracts\Core\Persistence\Content\VersionInfo,
-     *     \Ibexa\Contracts\Core\Persistence\Content\Field
+     *     VersionInfo,
+     *     Field
      * }>
      */
     public function providerOfFieldData(): iterable

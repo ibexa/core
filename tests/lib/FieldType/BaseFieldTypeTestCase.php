@@ -185,7 +185,7 @@ abstract class BaseFieldTypeTestCase extends TestCase
      * Provides data for the getName() test.
      *
      * @phpstan-return array<array{
-     *     0: \Ibexa\Contracts\Core\FieldType\Value,
+     *     0: FieldTypeValue,
      *     1: string,
      *     2?: array<string, mixed>,
      *     3?: string
@@ -453,8 +453,8 @@ abstract class BaseFieldTypeTestCase extends TestCase
      *
      * @phpstan-return iterable<string, array{
      *     array<string, mixed>,
-     *     \Ibexa\Contracts\Core\FieldType\Value,
-     *     array<\Ibexa\Contracts\Core\FieldType\ValidationError>
+     *     FieldTypeValue,
+     *     array<ValidationError>
      * }>
      */
     public function provideInvalidDataForValidate(): iterable

@@ -197,7 +197,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
      *
      * @return array{
      *     StringLengthValidator: array{
-     *          minStringLength: \stdClass,
+     *          minStringLength: stdClass,
      *     },
      * }
      */
@@ -487,7 +487,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
 
     /**
      * @return array<array{
-     *     \Ibexa\Core\FieldType\Image\Value
+     *     ImageValue
      * }>
      */
     public function providerForTestIsEmptyValue(): array
@@ -499,7 +499,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTestCase
 
     /**
      * @return array<array{
-     *     \Ibexa\Core\FieldType\Image\Value
+     *     ImageValue
      * }>
      */
     public function providerForTestIsNotEmptyValue(): array

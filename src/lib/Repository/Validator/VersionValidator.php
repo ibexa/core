@@ -37,7 +37,7 @@ final class VersionValidator implements ContentValidator
 
     /**
      * @phpstan-param array{
-     *     content?: \Ibexa\Contracts\Core\Repository\Values\Content\Content,
+     *     content?: Content,
      *     translations?: string[],
      * } $context
      */

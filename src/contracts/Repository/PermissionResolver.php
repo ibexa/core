@@ -10,7 +10,9 @@ namespace Ibexa\Contracts\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\LookupLimitationResult;
+use Ibexa\Contracts\Core\Repository\Values\User\Policy;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 
 /**
@@ -48,8 +50,8 @@ interface PermissionResolver
      *
      * @phpstan-return bool|array<
      *     array{
-     *         limitation: \Ibexa\Contracts\Core\Repository\Values\User\Limitation|null,
-     *         policies: array<\Ibexa\Contracts\Core\Repository\Values\User\Policy>
+     *         limitation: Limitation|null,
+     *         policies: array<Policy>
      *     },
      * >
      */

@@ -22,7 +22,7 @@ final class MapNormalizer implements NormalizerInterface, DenormalizerInterface
      * @param Map $data
      *
      * @return array{
-     *     type: class-string<\Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Map>,
+     *     type: class-string<Map>,
      *     key: string|null,
      *     map: array{},
      *     reverseMap: array{}

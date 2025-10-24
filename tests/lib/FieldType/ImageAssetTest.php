@@ -308,7 +308,7 @@ class ImageAssetTest extends FieldTypeTestCase
     /**
      * @return iterable<array{
      *     int,
-     *     array<\Ibexa\Core\FieldType\ValidationError>,
+     *     array<ValidationError>,
      * }>
      */
     public function provideDataForTestValidateValidNonEmptyAssetValue(): iterable
