@@ -175,13 +175,12 @@ class Content extends APIContent
         return $this->prioritizedFieldLanguageCode ?? $this->versionInfo->contentInfo->mainLanguageCode;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getProperties(
-        $dynamicProperties = ['id',
-            'contentInfo']
-    ) {
+        $dynamicProperties = [
+            'id',
+            'contentInfo',
+        ]
+    ): array {
         return parent::getProperties($dynamicProperties);
     }
 

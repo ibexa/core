@@ -106,23 +106,14 @@ class User extends APIUser
         return $this->content->getField($fieldDefIdentifier, $languageCode);
     }
 
-    /**
-     * Function where list of properties are returned.
-     *
-     * Override to add dynamic properties
-     *
-     * @uses \parent::getProperties()
-     *
-     * @param array $dynamicProperties
-     *
-     * @return array
-     */
     protected function getProperties(
-        $dynamicProperties = ['id',
+        $dynamicProperties = [
+            'id',
             'contentInfo',
             'versionInfo',
-            'fields']
-    ) {
+            'fields',
+        ]
+    ): array {
         return parent::getProperties($dynamicProperties);
     }
 

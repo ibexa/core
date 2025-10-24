@@ -23,21 +23,12 @@ class ContentTypeDraft extends APIContentTypeDraft
 {
     use MultiLanguageTrait;
 
-    /**
-     * Function where list of properties are returned.
-     *
-     * Override to add dynamic properties
-     *
-     * @uses \parent::getProperties()
-     *
-     * @param array $dynamicProperties
-     *
-     * @return array
-     */
     protected function getProperties(
-        $dynamicProperties = ['contentTypeGroups',
-            'fieldDefinitions']
-    ) {
+        $dynamicProperties = [
+            'contentTypeGroups',
+            'fieldDefinitions',
+        ]
+    ): array {
         return parent::getProperties($dynamicProperties);
     }
 
