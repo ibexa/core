@@ -2528,14 +2528,17 @@ class ContentService implements ContentServiceInterface
      */
     public function hideContent(ContentInfo $contentInfo): void
     {
-        $locationTarget = (new DestinationLocationTarget($contentInfo->mainLocationId, $contentInfo));
-        if (!$this->permissionResolver->canUser(
-            'content',
-            'hide',
-            $contentInfo,
-            [$locationTarget]
-        )) {
-            throw new UnauthorizedException('content', 'hide', ['contentId' => $contentInfo->id]);
+        // If content is in draft state, mainLocationId is yet not set
+        if ($contentInfo->mainLocationId !== null) {
+            $locationTarget = (new DestinationLocationTarget($contentInfo->mainLocationId, $contentInfo));
+            if (!$this->permissionResolver->canUser(
+                'content',
+                'hide',
+                $contentInfo,
+                [$locationTarget]
+            )) {
+                throw new UnauthorizedException('content', 'hide', ['contentId' => $contentInfo->id]);
+            }
         }
 
         $this->repository->beginTransaction();
@@ -2568,14 +2571,17 @@ class ContentService implements ContentServiceInterface
      */
     public function revealContent(ContentInfo $contentInfo): void
     {
-        $locationTarget = (new DestinationLocationTarget($contentInfo->mainLocationId, $contentInfo));
-        if (!$this->permissionResolver->canUser(
-            'content',
-            'hide',
-            $contentInfo,
-            [$locationTarget]
-        )) {
-            throw new UnauthorizedException('content', 'hide', ['contentId' => $contentInfo->id]);
+        // If content is in draft state, mainLocationId is yet not set
+        if ($contentInfo->mainLocationId !== null) {
+            $locationTarget = (new DestinationLocationTarget($contentInfo->mainLocationId, $contentInfo));
+            if (!$this->permissionResolver->canUser(
+                'content',
+                'hide',
+                $contentInfo,
+                [$locationTarget]
+            )) {
+                throw new UnauthorizedException('content', 'hide', ['contentId' => $contentInfo->id]);
+            }
         }
 
         $this->repository->beginTransaction();
