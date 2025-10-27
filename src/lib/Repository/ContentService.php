@@ -2531,8 +2531,8 @@ class ContentService implements ContentServiceInterface
      */
     public function hideContent(ContentInfo $contentInfo): void
     {
-        // If content is in draft state, mainLocationId is yet not set
-        if ($contentInfo->mainLocationId !== null) {
+        // If ContentInfo is in draft state, mainLocationId is yet not set
+        if (!$contentInfo->isDraft()) {
             $locationTarget = (new DestinationLocationTarget($contentInfo->mainLocationId, $contentInfo));
             if (!$this->permissionResolver->canUser(
                 'content',
@@ -2574,8 +2574,8 @@ class ContentService implements ContentServiceInterface
      */
     public function revealContent(ContentInfo $contentInfo): void
     {
-        // If content is in draft state, mainLocationId is yet not set
-        if ($contentInfo->mainLocationId !== null) {
+        // If ContentInfo is in draft state, mainLocationId is yet not set
+        if (!$contentInfo->isDraft()) {
             $locationTarget = (new DestinationLocationTarget($contentInfo->mainLocationId, $contentInfo));
             if (!$this->permissionResolver->canUser(
                 'content',
