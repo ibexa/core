@@ -62,7 +62,7 @@ class ContentFieldValidationException extends APIContentFieldValidationException
         $exception->setMessageTemplate('Content%contentName%fields did not validate: %errors%');
         $exception->setParameters([
             '%errors%' => $exception->generateValidationErrorsMessages(),
-            '%contentName%' => $exception->contentName !== null ? ' "'. $exception->contentName. '" ' : ' ',
+            '%contentName%' => $exception->contentName !== null ? ' "' . $exception->contentName . '" ' : ' ',
         ]);
         $exception->message = $exception->getBaseTranslation();
 
