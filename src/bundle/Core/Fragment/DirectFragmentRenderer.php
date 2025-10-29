@@ -145,6 +145,8 @@ class DirectFragmentRenderer extends InlineFragmentRenderer implements FragmentR
         if ($response instanceof Response) {
             return $response;
         } elseif ($response instanceof View) {
+            $response->addParameters($options['params'] ?? []);
+
             return new Response($this->viewTemplateRenderer->render($response));
         } elseif (is_string($response)) {
             return new Response($response);
