@@ -245,7 +245,7 @@ class BinaryStreamResponse extends Response
 
                 $this->setStatusCode(Response::HTTP_PARTIAL_CONTENT);
                 $this->headers->set('Content-Range', sprintf('bytes %s-%s/%s', $start, $end, $fileSize));
-                $this->headers->set('Content-Length', $end - $start + 1);
+                $this->headers->set('Content-Length', (string)($end - $start + 1));
             }
         }
     }
