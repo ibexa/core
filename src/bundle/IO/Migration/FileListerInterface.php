@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\IO\Migration;
 
+use Ibexa\Contracts\Core\IO\BinaryFile;
+
 interface FileListerInterface extends MigrationHandlerInterface
 {
     /**
@@ -23,7 +25,10 @@ interface FileListerInterface extends MigrationHandlerInterface
      * @param int|null $limit The number of files to load data for, or null
      * @param int|null $offset The offset used when loading in batches, or null
      *
-     * @return \Ibexa\Contracts\Core\IO\BinaryFile[]
+     * @return BinaryFile[]
      */
-    public function loadMetadataList(?int $limit = null, ?int $offset = null): array;
+    public function loadMetadataList(
+        ?int $limit = null,
+        ?int $offset = null
+    ): array;
 }

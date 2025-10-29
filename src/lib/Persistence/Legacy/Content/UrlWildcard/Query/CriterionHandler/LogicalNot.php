@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriterionHandler;
 
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriteriaConverter;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriterionHandler;
@@ -21,9 +22,9 @@ final class LogicalNot implements CriterionHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion\LogicalNot $criterion
+     * @param Criterion\LogicalNot $criterion
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     public function handle(
         CriteriaConverter $converter,

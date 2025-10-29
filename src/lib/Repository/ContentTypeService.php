@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository;
 
 use Exception;
+use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
 use Ibexa\Contracts\Core\Persistence\Content\Type as SPIContentType;
 use Ibexa\Contracts\Core\Persistence\Content\Type\CreateStruct as SPIContentTypeCreateStruct;
@@ -20,16 +21,19 @@ use Ibexa\Contracts\Core\Repository\ContentTypeService as ContentTypeServiceInte
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException as APIBadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType as APIContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeCreateStruct as APIContentTypeCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft as APIContentTypeDraft;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup as APIContentTypeGroup;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct;
@@ -46,53 +50,55 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\FieldType\ValidationError;
+use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
+use Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper;
 use Ibexa\Core\Repository\Values\ContentType\ContentTypeCreateStruct;
 use Ibexa\Core\Repository\Values\ContentType\ContentTypeGroup;
 
 class ContentTypeService implements ContentTypeServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var Repository */
     protected $repository;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler */
+    /** @var Handler */
     protected $contentTypeHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\User\Handler */
+    /** @var UserHandler */
     protected $userHandler;
 
     /** @var array */
     protected $settings;
 
-    /** @var \Ibexa\Core\Repository\Mapper\ContentDomainMapper */
+    /** @var ContentDomainMapper */
     protected $contentDomainMapper;
 
-    /** @var \Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper */
+    /** @var ContentTypeDomainMapper */
     protected $contentTypeDomainMapper;
 
-    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
+    /** @var FieldTypeRegistry */
     protected $fieldTypeRegistry;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     private $permissionResolver;
 
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\Handler $contentTypeHandler
-     * @param \Ibexa\Contracts\Core\Persistence\User\Handler $userHandler
-     * @param \Ibexa\Core\Repository\Mapper\ContentDomainMapper $contentDomainMapper
-     * @param \Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper $contentTypeDomainMapper
-     * @param \Ibexa\Core\FieldType\FieldTypeRegistry $fieldTypeRegistry
-     * @param \Ibexa\Contracts\Core\Repository\PermissionResolver $permissionResolver
+     * @param Repository $repository
+     * @param Handler $contentTypeHandler
+     * @param UserHandler $userHandler
+     * @param ContentDomainMapper $contentDomainMapper
+     * @param ContentTypeDomainMapper $contentTypeDomainMapper
+     * @param FieldTypeRegistry $fieldTypeRegistry
+     * @param PermissionResolver $permissionResolver
      * @param array $settings
      */
     public function __construct(
         RepositoryInterface $repository,
         Handler $contentTypeHandler,
         UserHandler $userHandler,
-        Mapper\ContentDomainMapper $contentDomainMapper,
-        Mapper\ContentTypeDomainMapper $contentTypeDomainMapper,
+        ContentDomainMapper $contentDomainMapper,
+        ContentTypeDomainMapper $contentTypeDomainMapper,
         FieldTypeRegistry $fieldTypeRegistry,
         PermissionResolver $permissionResolver,
         array $settings = []
@@ -116,9 +122,9 @@ class ContentTypeService implements ContentTypeServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to create a content type group
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If a group with the same identifier already exists
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupCreateStruct $contentTypeGroupCreateStruct
+     * @param ContentTypeGroupCreateStruct $contentTypeGroupCreateStruct
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup
+     * @return APIContentTypeGroup
      */
     public function createContentTypeGroup(ContentTypeGroupCreateStruct $contentTypeGroupCreateStruct): APIContentTypeGroup
     {
@@ -181,8 +187,10 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function loadContentTypeGroup(int $contentTypeGroupId, array $prioritizedLanguages = []): APIContentTypeGroup
-    {
+    public function loadContentTypeGroup(
+        int $contentTypeGroupId,
+        array $prioritizedLanguages = []
+    ): APIContentTypeGroup {
         $spiGroup = $this->contentTypeHandler->loadGroup(
             $contentTypeGroupId
         );
@@ -193,8 +201,10 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function loadContentTypeGroupByIdentifier(string $contentTypeGroupIdentifier, array $prioritizedLanguages = []): APIContentTypeGroup
-    {
+    public function loadContentTypeGroupByIdentifier(
+        string $contentTypeGroupIdentifier,
+        array $prioritizedLanguages = []
+    ): APIContentTypeGroup {
         try {
             $spiGroup = $this->contentTypeHandler->loadGroupByIdentifier(
                 $contentTypeGroupIdentifier
@@ -227,11 +237,13 @@ class ContentTypeService implements ContentTypeServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to create a content type group
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the given identifier (if set) already exists
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup $contentTypeGroup the content type group to be updated
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupUpdateStruct $contentTypeGroupUpdateStruct
+     * @param APIContentTypeGroup $contentTypeGroup the content type group to be updated
+     * @param ContentTypeGroupUpdateStruct $contentTypeGroupUpdateStruct
      */
-    public function updateContentTypeGroup(APIContentTypeGroup $contentTypeGroup, ContentTypeGroupUpdateStruct $contentTypeGroupUpdateStruct): void
-    {
+    public function updateContentTypeGroup(
+        APIContentTypeGroup $contentTypeGroup,
+        ContentTypeGroupUpdateStruct $contentTypeGroupUpdateStruct
+    ): void {
         if (!$this->permissionResolver->canUser('class', 'update', $contentTypeGroup)) {
             throw new UnauthorizedException('ContentType', 'update');
         }
@@ -327,11 +339,11 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Validates input ContentType create struct.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue
+     * @throws InvalidArgumentException
+     * @throws InvalidArgumentType
+     * @throws InvalidArgumentValue
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeCreateStruct $contentTypeCreateStruct
+     * @param APIContentTypeCreateStruct $contentTypeCreateStruct
      */
     protected function validateInputContentTypeCreateStruct(APIContentTypeCreateStruct $contentTypeCreateStruct): void
     {
@@ -410,10 +422,10 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Validates input ContentTypeGroup array.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
+     * @throws InvalidArgumentException
+     * @throws InvalidArgumentType
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup[] $contentTypeGroups
+     * @param APIContentTypeGroup[] $contentTypeGroups
      */
     protected function validateInputContentTypeGroups(array $contentTypeGroups): void
     {
@@ -438,11 +450,11 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Validates input FieldDefinitionCreateStruct.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue
+     * @throws InvalidArgumentException
+     * @throws InvalidArgumentType
+     * @throws InvalidArgumentValue
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct $fieldDefinitionCreateStruct
+     * @param FieldDefinitionCreateStruct $fieldDefinitionCreateStruct
      * @param string $argumentName
      */
     protected function validateInputFieldDefinitionCreateStruct(
@@ -521,13 +533,15 @@ class ContentTypeService implements ContentTypeServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeValidationException
      *         if a multiple field definitions of a same singular type are given
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeCreateStruct $contentTypeCreateStruct
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup[] $contentTypeGroups Required array of {@link APIContentTypeGroup} to link type with (must contain one)
+     * @param APIContentTypeCreateStruct $contentTypeCreateStruct
+     * @param APIContentTypeGroup[] $contentTypeGroups Required array of {@link APIContentTypeGroup} to link type with (must contain one)
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft
+     * @return ContentTypeDraft
      */
-    public function createContentType(APIContentTypeCreateStruct $contentTypeCreateStruct, array $contentTypeGroups): APIContentTypeDraft
-    {
+    public function createContentType(
+        APIContentTypeCreateStruct $contentTypeCreateStruct,
+        array $contentTypeGroups
+    ): APIContentTypeDraft {
         if (!$this->permissionResolver->canUser('class', 'create', $contentTypeCreateStruct, $contentTypeGroups)) {
             throw new UnauthorizedException('ContentType', 'create');
         }
@@ -697,13 +711,15 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Validates FieldDefinitionCreateStruct.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct $fieldDefinitionCreateStruct
-     * @param \Ibexa\Contracts\Core\FieldType\FieldType $fieldType
+     * @param FieldDefinitionCreateStruct $fieldDefinitionCreateStruct
+     * @param FieldType $fieldType
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    protected function validateFieldDefinitionCreateStruct(FieldDefinitionCreateStruct $fieldDefinitionCreateStruct, SPIFieldType $fieldType): array
-    {
+    protected function validateFieldDefinitionCreateStruct(
+        FieldDefinitionCreateStruct $fieldDefinitionCreateStruct,
+        SPIFieldType $fieldType
+    ): array {
         $validationErrors = [];
 
         if ($fieldDefinitionCreateStruct->isSearchable && !$fieldType->isSearchable()) {
@@ -722,8 +738,10 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function loadContentType(int $contentTypeId, array $prioritizedLanguages = []): ContentType
-    {
+    public function loadContentType(
+        int $contentTypeId,
+        array $prioritizedLanguages = []
+    ): ContentType {
         $spiContentType = $this->contentTypeHandler->load($contentTypeId);
 
         return $this->contentTypeDomainMapper->buildContentTypeDomainObject(
@@ -735,8 +753,10 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function loadContentTypeByIdentifier(string $identifier, array $prioritizedLanguages = []): ContentType
-    {
+    public function loadContentTypeByIdentifier(
+        string $identifier,
+        array $prioritizedLanguages = []
+    ): ContentType {
         $spiContentType = $this->contentTypeHandler->loadByIdentifier(
             $identifier
         );
@@ -750,8 +770,10 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function loadContentTypeByRemoteId(string $remoteId, array $prioritizedLanguages = []): ContentType
-    {
+    public function loadContentTypeByRemoteId(
+        string $remoteId,
+        array $prioritizedLanguages = []
+    ): ContentType {
         $spiContentType = $this->contentTypeHandler->loadByRemoteId($remoteId);
 
         return $this->contentTypeDomainMapper->buildContentTypeDomainObject(
@@ -763,17 +785,19 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Get a content type object draft by id.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the content type draft owned by the current user can not be found
+     * @throws APINotFoundException If the content type draft owned by the current user can not be found
      *
      * @param int $contentTypeId
      * @param bool $ignoreOwnership if true, method will return draft even if the owner is different than currently logged in user
      *
      * @todo Use another exception when user of draft is someone else
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft
+     * @return ContentTypeDraft
      */
-    public function loadContentTypeDraft(int $contentTypeId, bool $ignoreOwnership = false): APIContentTypeDraft
-    {
+    public function loadContentTypeDraft(
+        int $contentTypeId,
+        bool $ignoreOwnership = false
+    ): APIContentTypeDraft {
         $spiContentType = $this->contentTypeHandler->load(
             $contentTypeId,
             SPIContentType::STATUS_DRAFT
@@ -786,8 +810,10 @@ class ContentTypeService implements ContentTypeServiceInterface
         return $this->contentTypeDomainMapper->buildContentTypeDraftDomainObject($spiContentType);
     }
 
-    public function loadContentTypeList(array $contentTypeIds, array $prioritizedLanguages = []): iterable
-    {
+    public function loadContentTypeList(
+        array $contentTypeIds,
+        array $prioritizedLanguages = []
+    ): iterable {
         $spiContentTypes = $this->contentTypeHandler->loadContentTypeList($contentTypeIds);
         $contentTypes = [];
         // @todo We could bulk load content type group proxies involved in the future & pass those relevant per type to mapper
@@ -801,8 +827,10 @@ class ContentTypeService implements ContentTypeServiceInterface
         return $contentTypes;
     }
 
-    public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): SearchResult
-    {
+    public function findContentTypes(
+        ?ContentTypeQuery $query = null,
+        array $prioritizedLanguages = []
+    ): SearchResult {
         $results = $this->contentTypeHandler->findContentTypes($query, $prioritizedLanguages);
 
         $items = [];
@@ -822,8 +850,10 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function loadContentTypes(APIContentTypeGroup $contentTypeGroup, array $prioritizedLanguages = []): iterable
-    {
+    public function loadContentTypes(
+        APIContentTypeGroup $contentTypeGroup,
+        array $prioritizedLanguages = []
+    ): iterable {
         $spiContentTypes = $this->contentTypeHandler->loadContentTypes(
             $contentTypeGroup->id,
             SPIContentType::STATUS_DEFINED
@@ -847,11 +877,11 @@ class ContentTypeService implements ContentTypeServiceInterface
      * type which has the state STATUS_DRAFT.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to edit a content type
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If there is already a draft assigned to another user
+     * @throws APIBadStateException If there is already a draft assigned to another user
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param APIContentType $contentType
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft
+     * @return ContentTypeDraft
      */
     public function createContentTypeDraft(APIContentType $contentType): APIContentTypeDraft
     {
@@ -895,11 +925,13 @@ class ContentTypeService implements ContentTypeServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the given identifier or remoteId already exists
      *         or there is no draft assigned to the authenticated user
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft $contentTypeDraft
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeUpdateStruct $contentTypeUpdateStruct
+     * @param ContentTypeDraft $contentTypeDraft
+     * @param ContentTypeUpdateStruct $contentTypeUpdateStruct
      */
-    public function updateContentTypeDraft(APIContentTypeDraft $contentTypeDraft, ContentTypeUpdateStruct $contentTypeUpdateStruct): void
-    {
+    public function updateContentTypeDraft(
+        APIContentTypeDraft $contentTypeDraft,
+        ContentTypeUpdateStruct $contentTypeUpdateStruct
+    ): void {
         if (!$this->permissionResolver->canUser('class', 'update', $contentTypeDraft)) {
             throw new UnauthorizedException('ContentType', 'update');
         }
@@ -971,10 +1003,10 @@ class ContentTypeService implements ContentTypeServiceInterface
      * given, only the draft content type will be deleted. Otherwise, if content type in state
      * STATUS_DEFINED is given, all content type data will be deleted.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If there exist content objects of this type
+     * @throws APIBadStateException If there exist content objects of this type
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to delete a content type
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param APIContentType $contentType
      */
     public function deleteContentType(APIContentType $contentType): void
     {
@@ -1011,13 +1043,15 @@ class ContentTypeService implements ContentTypeServiceInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the current-user is not allowed to copy a content type
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User|null $creator if null the current-user is used
+     * @param APIContentType $contentType
+     * @param User|null $creator if null the current-user is used
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
+     * @return APIContentType
      */
-    public function copyContentType(APIContentType $contentType, ?User $creator = null): ContentType
-    {
+    public function copyContentType(
+        APIContentType $contentType,
+        ?User $creator = null
+    ): ContentType {
         if (!$this->permissionResolver->canUser('class', 'create', $contentType)) {
             throw new UnauthorizedException('ContentType', 'create');
         }
@@ -1048,11 +1082,13 @@ class ContentTypeService implements ContentTypeServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to unlink a content type
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the content type is already assigned the given group
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup $contentTypeGroup
+     * @param APIContentType $contentType
+     * @param APIContentTypeGroup $contentTypeGroup
      */
-    public function assignContentTypeGroup(APIContentType $contentType, APIContentTypeGroup $contentTypeGroup): void
-    {
+    public function assignContentTypeGroup(
+        APIContentType $contentType,
+        APIContentTypeGroup $contentTypeGroup
+    ): void {
         if (!$this->permissionResolver->canUser('class', 'update', $contentType)) {
             throw new UnauthorizedException('ContentType', 'update');
         }
@@ -1088,13 +1124,15 @@ class ContentTypeService implements ContentTypeServiceInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to link a content type
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the content type is not assigned this the given group.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If $contentTypeGroup is the last group assigned to the content type
+     * @throws APIBadStateException If $contentTypeGroup is the last group assigned to the content type
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup $contentTypeGroup
+     * @param APIContentType $contentType
+     * @param APIContentTypeGroup $contentTypeGroup
      */
-    public function unassignContentTypeGroup(APIContentType $contentType, APIContentTypeGroup $contentTypeGroup): void
-    {
+    public function unassignContentTypeGroup(
+        APIContentType $contentType,
+        APIContentTypeGroup $contentTypeGroup
+    ): void {
         if (!$this->permissionResolver->canUser('class', 'update', $contentType, [$contentTypeGroup])) {
             throw new UnauthorizedException('ContentType', 'update');
         }
@@ -1141,16 +1179,18 @@ class ContentTypeService implements ContentTypeServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to edit a content type
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
      *         if a field definition in the $contentTypeCreateStruct is not valid
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If field definition of the same non-repeatable type is being
+     * @throws APIBadStateException If field definition of the same non-repeatable type is being
      *                                                                 added to the ContentType that already contains one
      *                                                                 or field definition that can't be added to a ContentType that
      *                                                                 has Content instances is being added to such ContentType
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft $contentTypeDraft
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct $fieldDefinitionCreateStruct
+     * @param ContentTypeDraft $contentTypeDraft
+     * @param FieldDefinitionCreateStruct $fieldDefinitionCreateStruct
      */
-    public function addFieldDefinition(APIContentTypeDraft $contentTypeDraft, FieldDefinitionCreateStruct $fieldDefinitionCreateStruct): void
-    {
+    public function addFieldDefinition(
+        APIContentTypeDraft $contentTypeDraft,
+        FieldDefinitionCreateStruct $fieldDefinitionCreateStruct
+    ): void {
         if (!$this->permissionResolver->canUser('class', 'update', $contentTypeDraft)) {
             throw new UnauthorizedException('ContentType', 'update');
         }
@@ -1226,11 +1266,13 @@ class ContentTypeService implements ContentTypeServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the given field definition does not belong to the given type
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to edit a content type
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft $contentTypeDraft
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition
+     * @param ContentTypeDraft $contentTypeDraft
+     * @param FieldDefinition $fieldDefinition
      */
-    public function removeFieldDefinition(APIContentTypeDraft $contentTypeDraft, APIFieldDefinition $fieldDefinition): void
-    {
+    public function removeFieldDefinition(
+        APIContentTypeDraft $contentTypeDraft,
+        APIFieldDefinition $fieldDefinition
+    ): void {
         if (!$this->permissionResolver->canUser('class', 'update', $contentTypeDraft)) {
             throw new UnauthorizedException('ContentType', 'update');
         }
@@ -1272,12 +1314,15 @@ class ContentTypeService implements ContentTypeServiceInterface
      *                                                                        If the given identifier is used in an existing field of the given content type
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to edit a content type
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft $contentTypeDraft the content type draft
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition the field definition which should be updated
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct
+     * @param ContentTypeDraft $contentTypeDraft the content type draft
+     * @param FieldDefinition $fieldDefinition the field definition which should be updated
+     * @param FieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct
      */
-    public function updateFieldDefinition(APIContentTypeDraft $contentTypeDraft, APIFieldDefinition $fieldDefinition, FieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct): void
-    {
+    public function updateFieldDefinition(
+        APIContentTypeDraft $contentTypeDraft,
+        APIFieldDefinition $fieldDefinition,
+        FieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct
+    ): void {
         if (!$this->permissionResolver->canUser('class', 'update', $contentTypeDraft)) {
             throw new UnauthorizedException('ContentType', 'update');
         }
@@ -1326,11 +1371,11 @@ class ContentTypeService implements ContentTypeServiceInterface
      *
      * This method updates content objects, depending on the changed field definitions.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If the content type has no draft
+     * @throws APIBadStateException If the content type has no draft
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the content type has no field definitions
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to publish a content type
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft $contentTypeDraft
+     * @param ContentTypeDraft $contentTypeDraft
      */
     public function publishContentTypeDraft(APIContentTypeDraft $contentTypeDraft): void
     {
@@ -1387,11 +1432,11 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Instantiates a new content type group create class.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue if given identifier is not a string
+     * @throws InvalidArgumentValue if given identifier is not a string
      *
      * @param string $identifier
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupCreateStruct
+     * @return ContentTypeGroupCreateStruct
      */
     public function newContentTypeGroupCreateStruct(string $identifier): ContentTypeGroupCreateStruct
     {
@@ -1405,11 +1450,11 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Instantiates a new content type create class.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue if given identifier is not a string
+     * @throws InvalidArgumentValue if given identifier is not a string
      *
      * @param string $identifier
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeCreateStruct
+     * @return APIContentTypeCreateStruct
      */
     public function newContentTypeCreateStruct(string $identifier): APIContentTypeCreateStruct
     {
@@ -1427,7 +1472,7 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Instantiates a new content type update struct.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeUpdateStruct
+     * @return ContentTypeUpdateStruct
      */
     public function newContentTypeUpdateStruct(): ContentTypeUpdateStruct
     {
@@ -1437,7 +1482,7 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Instantiates a new content type update struct.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupUpdateStruct
+     * @return ContentTypeGroupUpdateStruct
      */
     public function newContentTypeGroupUpdateStruct(): ContentTypeGroupUpdateStruct
     {
@@ -1447,16 +1492,18 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Instantiates a field definition create struct.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue if given identifier is not a string
+     * @throws InvalidArgumentValue if given identifier is not a string
      *          or given fieldTypeIdentifier is not a string
      *
      * @param string $fieldTypeIdentifier the required field type identifier
      * @param string $identifier the required identifier for the field definition
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct
+     * @return FieldDefinitionCreateStruct
      */
-    public function newFieldDefinitionCreateStruct(string $identifier, string $fieldTypeIdentifier): FieldDefinitionCreateStruct
-    {
+    public function newFieldDefinitionCreateStruct(
+        string $identifier,
+        string $fieldTypeIdentifier
+    ): FieldDefinitionCreateStruct {
         return new FieldDefinitionCreateStruct(
             [
                 'identifier' => $identifier,
@@ -1468,7 +1515,7 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Instantiates a field definition update class.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct
+     * @return FieldDefinitionUpdateStruct
      */
     public function newFieldDefinitionUpdateStruct(): FieldDefinitionUpdateStruct
     {
@@ -1480,7 +1527,7 @@ class ContentTypeService implements ContentTypeServiceInterface
      *
      * @since 6.0.1
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param APIContentType $contentType
      *
      * @return bool
      */
@@ -1490,17 +1537,19 @@ class ContentTypeService implements ContentTypeServiceInterface
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft $contentTypeDraft
+     * @param ContentTypeDraft $contentTypeDraft
      * @param string $languageCode
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft
+     * @return ContentTypeDraft
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws APIBadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function removeContentTypeTranslation(APIContentTypeDraft $contentTypeDraft, string $languageCode): APIContentTypeDraft
-    {
+    public function removeContentTypeTranslation(
+        APIContentTypeDraft $contentTypeDraft,
+        string $languageCode
+    ): APIContentTypeDraft {
         if (!$this->permissionResolver->canUser('class', 'update', $contentTypeDraft)) {
             throw new UnauthorizedException('ContentType', 'update');
         }

@@ -9,15 +9,17 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Id;
 
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentContentType;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentContentType as ParentContentTypeMatcher;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ParentContentTypeTest extends BaseTestCase
 {
     private const EXAMPLE_LOCATION_ID = 54;
     private const EXAMPLE_PARENT_LOCATION_ID = 2;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentContentType */
+    /** @var ParentContentType */
     private $matcher;
 
     protected function setUp(): void
@@ -31,7 +33,7 @@ class ParentContentTypeTest extends BaseTestCase
      *
      * @param int $contentTypeId
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     private function generateRepositoryMockForContentTypeId($contentTypeId)
     {
@@ -84,11 +86,14 @@ class ParentContentTypeTest extends BaseTestCase
      * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
      *
      * @param int|int[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
+     * @param Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Repository $repository, $expectedResult)
-    {
+    public function testMatchLocation(
+        $matchingConfig,
+        Repository $repository,
+        $expectedResult
+    ) {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame(
@@ -131,11 +136,14 @@ class ParentContentTypeTest extends BaseTestCase
      * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
      *
      * @param int|int[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
+     * @param Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchContentInfo($matchingConfig, Repository $repository, $expectedResult)
-    {
+    public function testMatchContentInfo(
+        $matchingConfig,
+        Repository $repository,
+        $expectedResult
+    ) {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
 

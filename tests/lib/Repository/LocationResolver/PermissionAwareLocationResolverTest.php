@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Core\Repository\LocationResolver\LocationResolver;
 use Ibexa\Core\Repository\LocationResolver\PermissionAwareLocationResolver;
 use Ibexa\Core\Repository\Values\Content\Location;
 use PHPUnit\Framework\TestCase;
@@ -22,10 +23,10 @@ use PHPUnit\Framework\TestCase;
  */
 final class PermissionAwareLocationResolverTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
+    /** @var LocationService */
     private $locationService;
 
-    /** @var \Ibexa\Core\Repository\LocationResolver\LocationResolver */
+    /** @var LocationResolver */
     private $locationResolver;
 
     public function setUp(): void

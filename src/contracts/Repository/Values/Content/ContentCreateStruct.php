@@ -14,7 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 /**
  * This class is used for creating a new content object.
  *
- * @property \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $fields
+ * @property Field[] $fields
  */
 abstract class ContentCreateStruct extends ContentStruct
 {

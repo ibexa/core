@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway;
 
+use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -20,14 +21,14 @@ class CriteriaConverter
     /**
      * Criterion handlers.
      *
-     * @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler[]
+     * @var CriterionHandler[]
      */
     protected $handlers;
 
     /**
      * Construct from an optional array of Criterion handlers.
      *
-     * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler[] $handlers
+     * @param CriterionHandler[] $handlers
      */
     public function __construct(array $handlers = [])
     {
@@ -37,7 +38,7 @@ class CriteriaConverter
     /**
      * Adds handler.
      *
-     * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler $handler
+     * @param CriterionHandler $handler
      */
     public function addHandler(CriterionHandler $handler)
     {
@@ -49,9 +50,9 @@ class CriteriaConverter
      *
      * @param array $languageSettings
      *
-     * @return \Doctrine\DBAL\Query\Expression\CompositeExpression|string
+     * @return CompositeExpression|string
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     public function convertCriteria(
         QueryBuilder $query,

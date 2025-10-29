@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Core\Pagination\Pagerfanta;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Pagerfanta\Adapter\AdapterInterface;
 
@@ -54,12 +56,14 @@ final class ContentFilteringAdapter implements AdapterInterface
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\ContentList
+     * @return ContentList
      */
-    public function getSlice($offset, $length): iterable
-    {
+    public function getSlice(
+        $offset,
+        $length
+    ): iterable {
         $selectFilter = clone $this->filter;
         $selectFilter->sliceBy($length, $offset);
 

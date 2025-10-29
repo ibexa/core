@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\Token;
 
 use Ibexa\Contracts\Core\Token\TokenGeneratorInterface;
 use Ibexa\Core\Token\WebSafeGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -19,7 +20,7 @@ final class WebSafeGeneratorTest extends TestCase
 {
     private TokenGeneratorInterface $tokenGenerator;
 
-    /** @var \Ibexa\Contracts\Core\Token\TokenGeneratorInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var TokenGeneratorInterface&MockObject */
     private TokenGeneratorInterface $randomBytesTokenGenerator;
 
     protected function setUp(): void

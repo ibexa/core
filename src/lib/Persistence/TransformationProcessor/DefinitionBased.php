@@ -18,7 +18,7 @@ class DefinitionBased extends TransformationProcessor
     /**
      * Transformation parser.
      *
-     * @var \Ibexa\Core\Persistence\TransformationProcessor\DefinitionBased\Parser
+     * @var Parser
      */
     protected $parser = null;
 
@@ -30,12 +30,15 @@ class DefinitionBased extends TransformationProcessor
      * {@link \Ibexa\Core\Persistence\TransformationProcessor\DefinitionBased\Parser}
      * and then used for normalization in the full text search.
      *
-     * @param \Ibexa\Core\Persistence\TransformationProcessor\DefinitionBased\Parser $parser
-     * @param \Ibexa\Core\Persistence\TransformationProcessor\PcreCompiler $compiler
+     * @param Parser $parser
+     * @param PcreCompiler $compiler
      * @param array $ruleFiles
      */
-    public function __construct(Parser $parser, PcreCompiler $compiler, array $ruleFiles = [])
-    {
+    public function __construct(
+        Parser $parser,
+        PcreCompiler $compiler,
+        array $ruleFiles = []
+    ) {
         parent::__construct($compiler, $ruleFiles);
         $this->parser = $parser;
     }

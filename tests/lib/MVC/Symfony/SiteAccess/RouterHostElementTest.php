@@ -85,8 +85,12 @@ class RouterHostElementTest extends RouterBaseTestCase
     /**
      * @dataProvider reverseMatchProvider
      */
-    public function testReverseMatch($siteAccessName, $elementNumber, SimplifiedRequest $request, $expectedHost)
-    {
+    public function testReverseMatch(
+        $siteAccessName,
+        $elementNumber,
+        SimplifiedRequest $request,
+        $expectedHost
+    ) {
         $matcher = new HostElement([$elementNumber]);
         $matcher->setRequest($request);
         $result = $matcher->reverseMatch($siteAccessName);
@@ -149,7 +153,7 @@ class RouterHostElementTest extends RouterBaseTestCase
     }
 
     /**
-     * @return \Ibexa\Tests\Core\MVC\Symfony\SiteAccess\SiteAccessSetting[]
+     * @return SiteAccessSetting[]
      */
     public function getSiteAccessProviderSettings(): array
     {

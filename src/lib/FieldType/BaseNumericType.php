@@ -9,12 +9,13 @@ declare(strict_types=1);
 namespace Ibexa\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 
 abstract class BaseNumericType extends FieldType
 {
     /**
-     * @return array<string, \Ibexa\Core\FieldType\Validator>
+     * @return array<string, Validator>
      */
     abstract protected function getValidators(): array;
 
@@ -60,10 +61,12 @@ abstract class BaseNumericType extends FieldType
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
+     * @throws PropertyNotFoundException
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $value): array
-    {
+    public function validate(
+        FieldDefinition $fieldDefinition,
+        SPIValue $value
+    ): array {
         if ($this->isEmptyValue($value)) {
             return [];
         }

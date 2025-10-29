@@ -13,9 +13,12 @@ interface URLHandlerRegistryInterface
      * Adds scheme handler.
      *
      * @param string $scheme
-     * @param \Ibexa\Bundle\Core\URLChecker\URLHandlerInterface $handler
+     * @param URLHandlerInterface $handler
      */
-    public function addHandler($scheme, URLHandlerInterface $handler);
+    public function addHandler(
+        $scheme,
+        URLHandlerInterface $handler
+    );
 
     /**
      * Is scheme supported ?
@@ -31,7 +34,7 @@ interface URLHandlerRegistryInterface
      *
      * @param string $scheme
      *
-     * @return \Ibexa\Bundle\Core\URLChecker\URLHandlerInterface
+     * @return URLHandlerInterface
      *
      * @throw \InvalidArgumentException When scheme isn't supported
      */

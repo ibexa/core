@@ -8,7 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Spellcheck;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
@@ -50,12 +52,12 @@ class Query extends ValueObject
     /**
      * Query sorting clauses.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[]
+     * @var SortClause[]
      */
     public array $sortClauses = [];
 
     /**
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation[]
+     * @var Aggregation[]
      */
     public array $aggregations = [];
 

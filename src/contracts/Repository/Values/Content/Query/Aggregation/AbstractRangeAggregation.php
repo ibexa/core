@@ -26,8 +26,10 @@ abstract class AbstractRangeAggregation implements Aggregation
     /**
      * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<covariant TValue>[] $ranges
      */
-    public function __construct(string $name, array $ranges = [])
-    {
+    public function __construct(
+        string $name,
+        array $ranges = []
+    ) {
         $this->name = $name;
         $this->ranges = $ranges;
     }

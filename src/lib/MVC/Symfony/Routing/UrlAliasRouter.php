@@ -9,6 +9,7 @@ namespace Ibexa\Core\MVC\Symfony\Routing;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\URLAliasService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
@@ -98,8 +99,10 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
         }
     }
 
-    protected function removePathPrefix(string $path, string $prefix): string
-    {
+    protected function removePathPrefix(
+        string $path,
+        string $prefix
+    ): string {
         if ($prefix !== '/' && mb_stripos($path, $prefix) === 0) {
             $path = mb_substr($path, mb_strlen($prefix));
         }
@@ -113,8 +116,11 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
      * Used to determine if redirect is needed because requested path is case-different
      * from the stored one.
      */
-    protected function needsCaseRedirect(URLAlias $loadedUrlAlias, string $requestedPath, string $pathPrefix): bool
-    {
+    protected function needsCaseRedirect(
+        URLAlias $loadedUrlAlias,
+        string $requestedPath,
+        string $pathPrefix
+    ): bool {
         // If requested path is excluded from tree root jail, compare it to loaded UrlAlias directly.
         if ($this->generator->isUriPrefixExcluded($requestedPath)) {
             return strcmp($loadedUrlAlias->path, $requestedPath) !== 0;
@@ -132,10 +138,10 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
     /**
      * Returns the UrlAlias object to use, starting from the request.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the path does not exist or is not valid for the given language
+     * @throws NotFoundException if the path does not exist or is not valid for the given language
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    protected function getUrlAlias(string $pathInfo): UrlAlias
+    protected function getUrlAlias(string $pathInfo): URLAlias
     {
         return $this->urlAliasService->lookup($pathInfo);
     }
@@ -143,7 +149,7 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
     /**
      * Gets the RouteCollection instance associated with this Router.
      *
-     * @return \Symfony\Component\Routing\RouteCollection A RouteCollection instance
+     * @return RouteCollection A RouteCollection instance
      */
     public function getRouteCollection(): RouteCollection
     {
@@ -153,13 +159,13 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
     /**
      * {@inheritDoc}
      *
-     * The "location" key in $parameters must be set to a valid {@see \Ibexa\Contracts\Core\Repository\Values\Content\Location} object.
+     * The "location" key in $parameters must be set to a valid {@see Location} object.
      * "locationId" parameter can also be provided.
      *
      * @param array<string, mixed> $parameters An array of parameters
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      *
      * @api
      */
@@ -233,7 +239,7 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
      *
      * @return array<string, mixed>
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function match(string $pathinfo): array
     {
@@ -251,7 +257,7 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
      *
      * @param string|object $name The route name or route object
      */
-    public function supports(string|object $name): bool
+    public function supports(string | object $name): bool
     {
         return $name === static::URL_ALIAS_ROUTE_NAME || (is_object($name) && $this->supportsObject($name));
     }
@@ -261,8 +267,10 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
         return $object instanceof Location;
     }
 
-    public function getRouteDebugMessage(string $name, array $parameters = []): string
-    {
+    public function getRouteDebugMessage(
+        string $name,
+        array $parameters = []
+    ): string {
         return $name;
     }
 

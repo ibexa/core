@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Token\Token;
 use Ibexa\Contracts\Core\Token\TokenGeneratorInterface;
 
@@ -26,7 +27,7 @@ interface TokenService
     ): bool;
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function generateToken(
         string $type,
@@ -38,7 +39,10 @@ interface TokenService
 
     public function revokeToken(Token $token): void;
 
-    public function revokeTokenByIdentifier(string $tokenType, ?string $identifier): void;
+    public function revokeTokenByIdentifier(
+        string $tokenType,
+        ?string $identifier
+    ): void;
 
     public function deleteToken(Token $token): void;
 }

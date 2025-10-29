@@ -27,7 +27,7 @@ final class ContentTypeId implements CriterionHandlerInterface
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeId $criterion
+     * @param ContentTypeIdCriterion $criterion
      */
     public function apply(
         CriterionVisitor $criterionVisitor,

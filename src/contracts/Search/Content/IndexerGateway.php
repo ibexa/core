@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Search\Content;
 
 use DateTimeInterface;
+use Doctrine\DBAL\Exception;
 use Generator;
 
 /**
@@ -17,38 +18,44 @@ use Generator;
 interface IndexerGateway
 {
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      *
-     * @return \Generator list of Content IDs for each iteration
+     * @return Generator list of Content IDs for each iteration
      */
-    public function getContentSince(DateTimeInterface $since, int $iterationCount): Generator;
+    public function getContentSince(
+        DateTimeInterface $since,
+        int $iterationCount
+    ): Generator;
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function countContentSince(DateTimeInterface $since): int;
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      *
-     * @return \Generator list of Content IDs for each iteration
+     * @return Generator list of Content IDs for each iteration
      */
-    public function getContentInSubtree(string $locationPath, int $iterationCount): Generator;
+    public function getContentInSubtree(
+        string $locationPath,
+        int $iterationCount
+    ): Generator;
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function countContentInSubtree(string $locationPath): int;
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      *
-     * @return \Generator list of Content IDs for each iteration
+     * @return Generator list of Content IDs for each iteration
      */
     public function getAllContent(int $iterationCount): Generator;
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function countAllContent(): int;
 }

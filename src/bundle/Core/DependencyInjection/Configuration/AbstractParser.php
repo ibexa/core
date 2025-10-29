@@ -19,13 +19,14 @@ abstract class AbstractParser implements ParserInterface
      * @see \Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface::mapConfigArray()
      *
      * @param array $config Complete parsed semantic configuration
-     * @param \Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface $contextualizer
+     * @param ContextualizerInterface $contextualizer
      *
      * @return mixed
      */
-    public function preMap(array $config, ContextualizerInterface $contextualizer)
-    {
-    }
+    public function preMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    ) {}
 
     /**
      * This method is called by the ConfigurationProcessor after looping over available scopes.
@@ -35,11 +36,12 @@ abstract class AbstractParser implements ParserInterface
      * @see \Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface::mapConfigArray()
      *
      * @param array $config Complete parsed semantic configuration
-     * @param \Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface $contextualizer
+     * @param ContextualizerInterface $contextualizer
      *
      * @return mixed
      */
-    public function postMap(array $config, ContextualizerInterface $contextualizer)
-    {
-    }
+    public function postMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    ) {}
 }

@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Search\Legacy\Content;
@@ -19,6 +20,7 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler as CommonCr
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler as CommonSortClauseHandler;
 use Ibexa\Core\Search\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Search\Legacy\Content\Handler;
 use Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler as LocationCriterionHandler;
 use Ibexa\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler as LocationSortClauseHandler;
 
@@ -44,13 +46,13 @@ class HandlerLocationSortTest extends AbstractTestCase
      *
      * This method returns a fully functional search handler to perform tests on.
      *
-     * @return \Ibexa\Core\Search\Legacy\Content\Handler
+     * @return Handler
      */
     protected function getContentSearchHandler()
     {
         $connection = $this->getDatabaseConnection();
 
-        return new Content\Handler(
+        return new Handler(
             $this->createMock(ContentGateway::class),
             new Content\Location\Gateway\DoctrineDatabase(
                 $connection,
@@ -108,7 +110,7 @@ class HandlerLocationSortTest extends AbstractTestCase
     /**
      * Returns a location mapper mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Location\Mapper
+     * @return Mapper
      */
     protected function getLocationMapperMock()
     {

@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\FieldType\FieldConstraintsStorage;
 
 final class StorageRegistry implements StorageRegistryInterface
 {
-    /** @var iterable<string,\Ibexa\Contracts\Core\FieldType\FieldConstraintsStorage> */
+    /** @var iterable<string,FieldConstraintsStorage> */
     private iterable $storages;
 
     public function __construct(iterable $storages)

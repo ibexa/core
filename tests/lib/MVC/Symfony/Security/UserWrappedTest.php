@@ -104,6 +104,4 @@ final class UserWrappedTest extends TestCase
 /**
  * @internal For use with tests only
  */
-interface UserEquatableInterface extends UserInterface, EquatableInterface
-{
-}
+interface UserEquatableInterface extends UserInterface, EquatableInterface {}

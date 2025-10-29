@@ -21,8 +21,10 @@ final class BeforeUpdateSettingEvent extends BeforeEvent
 
     private ?Setting $updatedSetting = null;
 
-    public function __construct(Setting $setting, SettingUpdateStruct $settingUpdateStruct)
-    {
+    public function __construct(
+        Setting $setting,
+        SettingUpdateStruct $settingUpdateStruct
+    ) {
         $this->setting = $setting;
         $this->settingUpdateStruct = $settingUpdateStruct;
     }

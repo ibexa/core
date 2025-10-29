@@ -15,7 +15,7 @@ use Symfony\Component\Process\Process;
 
 class ConsoleContext implements Context
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
     /** @var string[] */
@@ -34,7 +34,7 @@ class ConsoleContext implements Context
     private $it = [];
 
     /**
-     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
+     * @param ConfigResolverInterface $configResolver
      * @param string[] $siteaccessList
      * @param string $defaultSiteaccess
      */
@@ -90,8 +90,10 @@ class ConsoleContext implements Context
     /**
      * @Given /^that there is a "([^"]*)" siteaccess$/
      */
-    public function thereIsASiteaccess($expectedSiteaccessName, $default = false)
-    {
+    public function thereIsASiteaccess(
+        $expectedSiteaccessName,
+        $default = false
+    ) {
         $found = false;
 
         $siteaccessList = $this->getConfigResolver()->getParameter('siteaccess.list');
@@ -131,8 +133,10 @@ class ConsoleContext implements Context
         $this->it['siteaccess'] = $this->scriptOutput;
     }
 
-    private function iRunTheCommand($command, $siteaccess = null)
-    {
+    private function iRunTheCommand(
+        $command,
+        $siteaccess = null
+    ) {
         $phpFinder = new PhpExecutableFinder();
         if (!$phpPath = $phpFinder->find(false)) {
             throw new \RuntimeException('The php executable could not be found. Add it to your PATH environment variable and try again');
@@ -197,7 +201,7 @@ class ConsoleContext implements Context
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
+     * @return ConfigResolverInterface
      */
     private function getConfigResolver()
     {

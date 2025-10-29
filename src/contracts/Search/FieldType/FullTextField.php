@@ -35,8 +35,10 @@ class FullTextField extends FieldType
      */
     public $splitFlag;
 
-    public function __construct(array $transformationRules = [], bool $splitFlag = true)
-    {
+    public function __construct(
+        array $transformationRules = [],
+        bool $splitFlag = true
+    ) {
         $this->transformationRules = $transformationRules;
         $this->splitFlag = $splitFlag;
 

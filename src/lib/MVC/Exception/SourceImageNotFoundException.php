@@ -9,6 +9,4 @@ namespace Ibexa\Core\MVC\Exception;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 
-class SourceImageNotFoundException extends NotFoundException
-{
-}
+class SourceImageNotFoundException extends NotFoundException {}

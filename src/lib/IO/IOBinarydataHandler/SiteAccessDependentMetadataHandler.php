@@ -19,14 +19,14 @@ use Ibexa\Core\IO\IOMetadataHandler;
  */
 final class SiteAccessDependentMetadataHandler implements IOMetadataHandler
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private ConfigResolverInterface $configResolver;
 
-    /** @phpstan-var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOMetadataHandler> */
+    /** @phpstan-var HandlerRegistry<IOMetadataHandler> */
     private HandlerRegistry $dataHandlerRegistry;
 
     /**
-     * @phpstan-param \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOMetadataHandler> $dataHandlerRegistry
+     * @phpstan-param HandlerRegistry<IOMetadataHandler> $dataHandlerRegistry
      */
     public function __construct(
         ConfigResolverInterface $configResolver,

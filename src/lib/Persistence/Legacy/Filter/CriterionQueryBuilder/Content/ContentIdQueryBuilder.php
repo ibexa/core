@@ -28,7 +28,7 @@ final class ContentIdQueryBuilder implements CriterionQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentId $criterion */
+        /** @var ContentId $criterion */
         return $queryBuilder->expr()->in(
             'content.id',
             $queryBuilder->createNamedParameter(

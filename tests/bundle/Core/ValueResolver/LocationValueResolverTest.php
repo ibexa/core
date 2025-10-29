@@ -22,9 +22,9 @@ final class LocationValueResolverTest extends TestCase
 {
     private LocationValueResolver $resolver;
 
-    private MockObject&LocationService $locationServiceMock;
+    private MockObject & LocationService $locationServiceMock;
 
-    private MockObject&ContentPreviewHelper $contentPreviewHelperMock;
+    private MockObject & ContentPreviewHelper $contentPreviewHelperMock;
 
     protected function setUp(): void
     {

@@ -21,7 +21,7 @@ final class UsernameProvider extends BaseProvider
             return $this->createSecurityUser(
                 $this->userService->loadUserByLogin($identifier)
             );
-        } catch (NotFoundException|InvalidArgumentException $e) {
+        } catch (NotFoundException | InvalidArgumentException $e) {
             throw new UserNotFoundException($e->getMessage(), 0, $e);
         }
     }

@@ -11,13 +11,9 @@ use Ibexa\Core\QueryType\QueryType;
 
 class TestQueryType implements QueryType
 {
-    public function getQuery(array $parameters = [])
-    {
-    }
+    public function getQuery(array $parameters = []) {}
 
-    public function getSupportedParameters()
-    {
-    }
+    public function getSupportedParameters() {}
 
     public static function getName(): string
     {

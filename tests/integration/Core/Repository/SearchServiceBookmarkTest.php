@@ -9,9 +9,10 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\BookmarkService;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Tests\Integration\Core\RepositorySearchTestCase;
@@ -57,7 +58,7 @@ final class SearchServiceBookmarkTest extends RepositorySearchTestCase
     /**
      * @dataProvider provideDataForTestCriterion
      *
-     * @param array<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion> $criteria
+     * @param array<Criterion> $criteria
      * @param array<string> $remoteIds
      */
     public function testCriterion(
@@ -81,7 +82,7 @@ final class SearchServiceBookmarkTest extends RepositorySearchTestCase
         yield 'All bookmarked locations' => [
             self::ALL_BOOKMARKED_LOCATIONS,
             [
-                new Query\Criterion\Location\IsBookmarked(),
+                new Criterion\Location\IsBookmarked(),
             ],
             self::ALL_BOOKMARKED_CONTENT_REMOTE_IDS,
         ];
@@ -89,8 +90,8 @@ final class SearchServiceBookmarkTest extends RepositorySearchTestCase
         yield 'All bookmarked locations limited to folder content type' => [
             1,
             [
-                new Query\Criterion\ContentTypeIdentifier(self::FOLDER_CONTENT_TYPE_IDENTIFIER),
-                new Query\Criterion\Location\IsBookmarked(),
+                new Criterion\ContentTypeIdentifier(self::FOLDER_CONTENT_TYPE_IDENTIFIER),
+                new Criterion\Location\IsBookmarked(),
             ],
             [self::MEDIA_CONTENT_REMOTE_ID],
         ];
@@ -98,8 +99,8 @@ final class SearchServiceBookmarkTest extends RepositorySearchTestCase
         yield 'All bookmarked locations limited to user group content type' => [
             4,
             [
-                new Query\Criterion\ContentTypeIdentifier('user_group'),
-                new Query\Criterion\Location\IsBookmarked(),
+                new Criterion\ContentTypeIdentifier('user_group'),
+                new Criterion\Location\IsBookmarked(),
             ],
             [
                 '3c160cca19fb135f83bd02d911f04db2',
@@ -112,8 +113,8 @@ final class SearchServiceBookmarkTest extends RepositorySearchTestCase
         yield 'All bookmarked locations limited to user content type' => [
             1,
             [
-                new Query\Criterion\ContentTypeIdentifier('user'),
-                new Query\Criterion\Location\IsBookmarked(),
+                new Criterion\ContentTypeIdentifier('user'),
+                new Criterion\Location\IsBookmarked(),
             ],
             ['1bb4fe25487f05527efa8bfd394cecc7'],
         ];
@@ -121,7 +122,7 @@ final class SearchServiceBookmarkTest extends RepositorySearchTestCase
         yield 'All no bookmarked locations' => [
             12,
             [
-                new Query\Criterion\Location\IsBookmarked(false),
+                new Criterion\Location\IsBookmarked(false),
             ],
             self::ALL_NO_BOOKMARKED_CONTENT_REMOTE_IDS,
         ];
@@ -131,7 +132,7 @@ final class SearchServiceBookmarkTest extends RepositorySearchTestCase
     {
         $query = $this->createQuery(
             [
-                new Query\Criterion\Location\IsBookmarked(),
+                new Criterion\Location\IsBookmarked(),
             ]
         );
 
@@ -187,7 +188,7 @@ final class SearchServiceBookmarkTest extends RepositorySearchTestCase
     {
         $remoteIds = array_map(
             static function (SearchHit $searchHit): string {
-                /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location */
+                /** @var Location $location */
                 $location = $searchHit->valueObject;
 
                 return $location->getContentInfo()->remoteId;
@@ -201,14 +202,14 @@ final class SearchServiceBookmarkTest extends RepositorySearchTestCase
     }
 
     /**
-     * @param array<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion> $criteria
+     * @param array<Criterion> $criteria
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
+     * @throws InvalidCriterionArgumentException
      */
     private function createQuery(array $criteria): LocationQuery
     {
         $query = new LocationQuery();
-        $query->filter = new Query\Criterion\LogicalAnd(
+        $query->filter = new Criterion\LogicalAnd(
             $criteria
         );
 

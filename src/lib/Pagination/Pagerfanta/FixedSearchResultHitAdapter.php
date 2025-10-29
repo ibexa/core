@@ -18,11 +18,11 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
  */
 final class FixedSearchResultHitAdapter implements SearchResultAdapter
 {
-    /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<TSearchHitValueObject> */
+    /** @phpstan-var SearchResult<TSearchHitValueObject> */
     private SearchResult $searchResult;
 
     /**
-     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<TSearchHitValueObject> $searchResult
+     * @phpstan-param SearchResult<TSearchHitValueObject> $searchResult
      */
     public function __construct(SearchResult $searchResult)
     {
@@ -34,8 +34,10 @@ final class FixedSearchResultHitAdapter implements SearchResultAdapter
         return $this->searchResult->totalCount ?? -1;
     }
 
-    public function getSlice(int $offset, int $length): iterable
-    {
+    public function getSlice(
+        int $offset,
+        int $length
+    ): iterable {
         return $this->searchResult->searchHits;
     }
 

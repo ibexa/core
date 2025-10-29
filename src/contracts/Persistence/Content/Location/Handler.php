@@ -8,6 +8,7 @@
 namespace Ibexa\Contracts\Core\Persistence\Content\Location;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 
 /**
  * The Location Handler interface defines operations on Location elements in the storage engine.
@@ -21,11 +22,15 @@ interface Handler
      * @param string[]|null $translations If set, NotFound is thrown if content is not in given translation.
      * @param bool $useAlwaysAvailable Respect always available flag on content, where main language is valid translation fallback.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location
+     * @return Location
      */
-    public function load($locationId, ?array $translations = null, bool $useAlwaysAvailable = true);
+    public function load(
+        $locationId,
+        ?array $translations = null,
+        bool $useAlwaysAvailable = true
+    );
 
     /**
      * Return list of unique Locations, with location id as key.
@@ -37,16 +42,20 @@ interface Handler
      * @param string[]|null $translations If set, only locations with content in given translations are returned.
      * @param bool $useAlwaysAvailable Respect always available flag on content, where main language is valid translation fallback.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location[]|iterable
+     * @return Location[]|iterable
      */
-    public function loadList(array $locationIds, ?array $translations = null, bool $useAlwaysAvailable = true): iterable;
+    public function loadList(
+        array $locationIds,
+        ?array $translations = null,
+        bool $useAlwaysAvailable = true
+    ): iterable;
 
     /**
      * Loads the subtree ids of the location identified by $locationId.
      *
      * @param int $locationId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      *
      * @return array Location ids are in the index, Content ids in the value.
      */
@@ -59,11 +68,15 @@ interface Handler
      * @param string[]|null $translations If set, NotFound is thrown if content is not in given translation.
      * @param bool $useAlwaysAvailable Respect always available flag on content, where main language is valid translation fallback.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location
+     * @return Location
      */
-    public function loadByRemoteId($remoteId, ?array $translations = null, bool $useAlwaysAvailable = true);
+    public function loadByRemoteId(
+        $remoteId,
+        ?array $translations = null,
+        bool $useAlwaysAvailable = true
+    );
 
     /**
      * Loads all locations for $contentId, optionally limited to a sub tree
@@ -72,17 +85,23 @@ interface Handler
      * @param int $contentId
      * @param int $rootLocationId
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location[]
+     * @return Location[]
      */
-    public function loadLocationsByContent($contentId, $rootLocationId = null);
+    public function loadLocationsByContent(
+        $contentId,
+        $rootLocationId = null
+    );
 
     /**
      * Loads all locations for $contentId in trash, optionally limited to a sub tree
      * identified by $rootLocationId.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location[]
+     * @return Location[]
      */
-    public function loadLocationsByTrashContent(int $contentId, ?int $rootLocationId = null): array;
+    public function loadLocationsByTrashContent(
+        int $contentId,
+        ?int $rootLocationId = null
+    ): array;
 
     /**
      * Loads all parent Locations for unpublished Content by given $contentId.
@@ -90,7 +109,7 @@ interface Handler
      *
      * @param mixed $contentId
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location[]
+     * @return Location[]
      */
     public function loadParentLocationsForDraftContent($contentId);
 
@@ -105,11 +124,14 @@ interface Handler
      * @param mixed $sourceId
      * @param mixed $destinationParentId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If $sourceId or $destinationParentId are invalid
+     * @throws NotFoundException If $sourceId or $destinationParentId are invalid
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location the newly created Location.
+     * @return Location the newly created Location.
      */
-    public function copySubtree($sourceId, $destinationParentId);
+    public function copySubtree(
+        $sourceId,
+        $destinationParentId
+    );
 
     public function getSubtreeSize(string $path): int;
 
@@ -125,7 +147,10 @@ interface Handler
      *
      * @return bool
      */
-    public function move($sourceId, $destinationParentId);
+    public function move(
+        $sourceId,
+        $destinationParentId
+    );
 
     /**
      * Sets a location to be hidden, and it self + all children to invisible.
@@ -167,24 +192,30 @@ interface Handler
      *
      * @return bool
      */
-    public function swap($locationId1, $locationId2);
+    public function swap(
+        $locationId1,
+        $locationId2
+    );
 
     /**
      * Updates an existing location.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Location\UpdateStruct $location
+     * @param UpdateStruct $location
      * @param int $locationId
      */
-    public function update(UpdateStruct $location, $locationId);
+    public function update(
+        UpdateStruct $location,
+        $locationId
+    );
 
     /**
      * Creates a new location rooted at $location->parentId.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct $location
+     * @param CreateStruct $location
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location
+     * @return Location
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if parent Location does not exist
+     * @throws NotFoundException if parent Location does not exist
      */
     public function create(CreateStruct $location);
 
@@ -219,7 +250,10 @@ interface Handler
      * @param mixed $locationId
      * @param mixed $sectionId
      */
-    public function setSectionForSubtree($locationId, $sectionId);
+    public function setSectionForSubtree(
+        $locationId,
+        $sectionId
+    );
 
     /**
      * Changes main location of content identified by given $contentId to location identified by given $locationId.
@@ -227,7 +261,10 @@ interface Handler
      * @param mixed $contentId
      * @param mixed $locationId
      */
-    public function changeMainLocation($contentId, $locationId);
+    public function changeMainLocation(
+        $contentId,
+        $locationId
+    );
 
     /**
      * Get the total number of all existing Locations. Can be combined with loadAllLocations.
@@ -242,9 +279,12 @@ interface Handler
      * @param int $offset
      * @param int $limit
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location[]
+     * @return Location[]
      */
-    public function loadAllLocations($offset, $limit);
+    public function loadAllLocations(
+        $offset,
+        $limit
+    );
 
     /**
      * Counts locations for a given content represented by its id.

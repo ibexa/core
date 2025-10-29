@@ -7,8 +7,11 @@
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\UrlAlias;
 
+use Doctrine\DBAL\Exception;
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias;
 use Ibexa\Contracts\Core\Persistence\TransactionHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
@@ -16,6 +19,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase as ContentGat
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase as LanguageGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Handler as LanguageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Mapper as LanguageMapper;
+use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase as DoctrineDatabaseLocation;
@@ -24,12 +28,14 @@ use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
+use Ibexa\Core\Persistence\TransformationProcessor;
 use Ibexa\Core\Persistence\TransformationProcessor\DefinitionBased;
 use Ibexa\Core\Persistence\TransformationProcessor\DefinitionBased\Parser;
 use Ibexa\Core\Persistence\TransformationProcessor\PcreCompiler;
 use Ibexa\Core\Persistence\Utf8Converter;
 use Ibexa\Core\Search\Legacy\Content;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler
@@ -814,8 +820,10 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @group virtual
      */
-    public function testLookupVirtualUrlAlias($url, $id)
-    {
+    public function testLookupVirtualUrlAlias(
+        $url,
+        $id
+    ) {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_location_custom.php');
 
@@ -977,8 +985,10 @@ class UrlAliasHandlerTest extends TestCase
         self::assertInstanceOf(UrlAlias::class, $urlAlias);
     }
 
-    protected function assertVirtualUrlAliasValid(UrlAlias $urlAlias, $id)
-    {
+    protected function assertVirtualUrlAliasValid(
+        UrlAlias $urlAlias,
+        $id
+    ) {
         self::assertInstanceOf(UrlAlias::class, $urlAlias);
         self::assertEquals($id, $urlAlias->id);
         self::assertEquals(UrlAlias::VIRTUAL, $urlAlias->type);
@@ -2830,10 +2840,10 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws Exception
+     * @throws BadStateException
+     * @throws ForbiddenException
+     * @throws InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function testLocationMovedReparentWithCustomAlias(): void
@@ -3098,8 +3108,10 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @dataProvider providerForTestLookupVirtualUrlAlias
      */
-    public function testLoadVirtualUrlAlias($url, $id)
-    {
+    public function testLoadVirtualUrlAlias(
+        $url,
+        $id
+    ) {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_location_custom.php');
 
@@ -3195,8 +3207,10 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @group publish
      */
-    public function testPublishUrlAliasForLocationSkipsReservedWord($text, $alias)
-    {
+    public function testPublishUrlAliasForLocationSkipsReservedWord(
+        $text,
+        $alias
+    ) {
         $handler = $this->getHandler();
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/publish_base.php');
 
@@ -5340,19 +5354,19 @@ class UrlAliasHandlerTest extends TestCase
         return (int)$statement->fetchOne();
     }
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway */
+    /** @var LocationGateway */
     protected $locationGateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\Handler */
+    /** @var LanguageHandler */
     protected $languageHandler;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
+    /** @var MaskGenerator */
     protected $languageMaskGenerator;
 
     /**
      * @param array $methods
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler|\PHPUnit\Framework\MockObject\MockObject
+     * @return Handler|MockObject
      */
     protected function getPartlyMockedHandler(array $methods)
     {
@@ -5374,9 +5388,9 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler
+     * @return Handler
      *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     protected function getHandler(): Handler
     {
@@ -5424,7 +5438,7 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
+     * @return MaskGenerator
      */
     protected function getLanguageMaskGenerator()
     {
@@ -5438,7 +5452,7 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
+     * @return LocationGateway
      */
     protected function getLocationGateway()
     {
@@ -5455,7 +5469,7 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\TransformationProcessor
+     * @return TransformationProcessor
      */
     public function getProcessor()
     {

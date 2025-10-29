@@ -14,6 +14,4 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject as APIValueObject;
  *
  * All properties of SPI\ValueObject *must* be serializable for cache & NoSQL use.
  */
-abstract class ValueObject extends APIValueObject
-{
-}
+abstract class ValueObject extends APIValueObject {}

@@ -20,8 +20,11 @@ class RouterMapURITest extends TestCase
      *
      * @dataProvider setRequestProvider
      */
-    public function testSetGetRequest($config, $pathinfo, $expectedMapKey)
-    {
+    public function testSetGetRequest(
+        $config,
+        $pathinfo,
+        $expectedMapKey
+    ) {
         $request = new SimplifiedRequest('http', '', 80, $pathinfo);
         $matcher = new URIMapMatcher($config);
         $matcher->setRequest($request);
@@ -35,8 +38,10 @@ class RouterMapURITest extends TestCase
      *
      * @dataProvider fixupURIProvider
      */
-    public function testAnalyseURI($uri, $expectedFixedUpURI)
-    {
+    public function testAnalyseURI(
+        $uri,
+        $expectedFixedUpURI
+    ) {
         $matcher = new URIMapMatcher([]);
         $matcher->setRequest(
             new SimplifiedRequest('http', '', 80, $uri)
@@ -53,8 +58,10 @@ class RouterMapURITest extends TestCase
      *
      * @dataProvider fixupURIProvider
      */
-    public function testAnalyseLink($fullUri, $linkUri)
-    {
+    public function testAnalyseLink(
+        $fullUri,
+        $linkUri
+    ) {
         $matcher = new URIMapMatcher([]);
         $matcher->setRequest(
             new SimplifiedRequest('http', '', 80, $fullUri)

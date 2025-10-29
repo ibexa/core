@@ -20,14 +20,14 @@ class FieldTypeRegistry
      * Map of FieldTypes where key is field type identifier and value is FieldType object complying
      * to {@link \Ibexa\Contracts\Core\FieldType\FieldType} interface.
      *
-     * @var \Ibexa\Contracts\Core\FieldType\FieldType[]
+     * @var SPIFieldType[]
      */
     protected $coreFieldTypes;
 
     /**
      * Map of FieldTypes where key is field type identifier and value is FieldType object.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\FieldType[]
+     * @var FieldTypeInterface[]
      */
     protected $fieldTypes;
 
@@ -37,12 +37,14 @@ class FieldTypeRegistry
      * In $fieldTypes a mapping of field type identifier to object is expected.
      * The FieldType object must comply to the {@link \Ibexa\Contracts\Core\FieldType\FieldType} interface.
      *
-     * @param \Ibexa\Core\Persistence\FieldType[] $coreFieldTypes
-     * @param \Ibexa\Contracts\Core\FieldType\FieldType[] $fieldTypes A map where key is field type identifier and value is
+     * @param FieldType[] $coreFieldTypes
+     * @param SPIFieldType[] $fieldTypes A map where key is field type identifier and value is
      *                                                          a callable factory to get FieldType OR FieldType object.
      */
-    public function __construct(array $coreFieldTypes = [], array $fieldTypes = [])
-    {
+    public function __construct(
+        array $coreFieldTypes = [],
+        array $fieldTypes = []
+    ) {
         $this->coreFieldTypes = $coreFieldTypes;
         $this->fieldTypes = $fieldTypes;
     }
@@ -52,10 +54,10 @@ class FieldTypeRegistry
      *
      * @param string $identifier
      *
-     * @return \Ibexa\Contracts\Core\Persistence\FieldType
+     * @return FieldTypeInterface
      *
      * @throws \RuntimeException If field type for given $identifier is not instance or callable.
-     * @throws \Ibexa\Core\Base\Exceptions\NotFound\FieldTypeNotFoundException If field type for given $identifier is not found.
+     * @throws FieldTypeNotFoundException If field type for given $identifier is not found.
      */
     public function getFieldType(string $identifier): FieldTypeInterface
     {
@@ -66,8 +68,10 @@ class FieldTypeRegistry
         return $this->fieldTypes[$identifier];
     }
 
-    public function register(string $identifier, SPIFieldType $fieldType): void
-    {
+    public function register(
+        string $identifier,
+        SPIFieldType $fieldType
+    ): void {
         $this->coreFieldTypes[$identifier] = $fieldType;
     }
 

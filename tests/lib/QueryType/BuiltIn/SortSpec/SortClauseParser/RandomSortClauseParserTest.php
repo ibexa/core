@@ -19,7 +19,7 @@ final class RandomSortClauseParserTest extends TestCase
 {
     private const EXAMPLE_SEED = 1;
 
-    /** @var \Ibexa\Core\QueryType\BuiltIn\SortSpec\SortClauseParser\RandomSortClauseParser */
+    /** @var RandomSortClauseParser */
     private $randomSortClauseParser;
 
     protected function setUp(): void

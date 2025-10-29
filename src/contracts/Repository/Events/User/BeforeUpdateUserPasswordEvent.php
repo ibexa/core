@@ -20,8 +20,10 @@ final class BeforeUpdateUserPasswordEvent extends BeforeEvent
 
     private ?User $updatedUser = null;
 
-    public function __construct(User $user, string $newPassword)
-    {
+    public function __construct(
+        User $user,
+        string $newPassword
+    ) {
         $this->user = $user;
         $this->newPassword = $newPassword;
     }

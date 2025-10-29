@@ -28,7 +28,7 @@ final class VisibilityQueryBuilder extends BaseLocationCriterionQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Visibility $criterion */
+        /** @var Visibility $criterion */
         parent::buildQueryConstraint($queryBuilder, $criterion);
 
         $expressionBuilder = $queryBuilder->expr();

@@ -26,8 +26,13 @@ final class BeforeCreateGlobalUrlAliasEvent extends BeforeEvent
 
     private ?URLAlias $urlAlias = null;
 
-    public function __construct(string $resource, string $path, string $languageCode, bool $forwarding, bool $alwaysAvailable)
-    {
+    public function __construct(
+        string $resource,
+        string $path,
+        string $languageCode,
+        bool $forwarding,
+        bool $alwaysAvailable
+    ) {
         $this->resource = $resource;
         $this->path = $path;
         $this->languageCode = $languageCode;

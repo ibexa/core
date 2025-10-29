@@ -55,7 +55,7 @@ final class SiteAccessSerializerTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{\Ibexa\Core\MVC\Symfony\SiteAccess}>
+     * @return iterable<string, array{SiteAccess}>
      */
     public static function getDataForTestSerializeSiteAccessAsControllerAttributes(): iterable
     {

@@ -9,14 +9,18 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\User\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\User;
+use Ibexa\Contracts\Core\Persistence\User\Handler;
 use Ibexa\Contracts\Core\Persistence\User\UserTokenUpdateStruct;
 use Ibexa\Core\FieldType\User\UserStorage\Gateway\DoctrineStorage;
 use Ibexa\Core\Persistence\Legacy\User\Gateway;
 use Ibexa\Core\Persistence\Legacy\User\Role\Gateway as RoleGateway;
+
 use function time;
 
 /**
@@ -24,18 +28,18 @@ use function time;
  *
  * @internal Gateway implementation is considered internal. Use Persistence User Handler instead.
  *
- * @see \Ibexa\Contracts\Core\Persistence\User\Handler
+ * @see Handler
  */
 final class DoctrineDatabase extends Gateway
 {
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     private $connection;
 
-    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
+    /** @var AbstractPlatform */
     private $dbPlatform;
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function __construct(Connection $connection)
     {
@@ -192,8 +196,11 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
-    public function assignRole(int $contentId, int $roleId, array $limitation): void
-    {
+    public function assignRole(
+        int $contentId,
+        int $roleId,
+        array $limitation
+    ): void {
         foreach ($limitation as $identifier => $values) {
             foreach ($values as $value) {
                 $query = $this->connection->createQueryBuilder();
@@ -224,8 +231,10 @@ final class DoctrineDatabase extends Gateway
         }
     }
 
-    public function removeRole(int $contentId, int $roleId): void
-    {
+    public function removeRole(
+        int $contentId,
+        int $roleId
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query

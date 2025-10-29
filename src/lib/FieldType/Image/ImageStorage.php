@@ -11,8 +11,10 @@ use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
 use Ibexa\Contracts\Core\FieldType\StorageGatewayInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\ContentFieldValidationException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\Image\ImageStorage\Gateway;
 use Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator;
 use Ibexa\Core\IO\FilePathNormalizerInterface;
 use Ibexa\Core\IO\IOServiceInterface;
@@ -22,22 +24,22 @@ use Ibexa\Core\IO\IOServiceInterface;
  */
 class ImageStorage extends GatewayBasedStorage
 {
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
+    /** @var IOServiceInterface */
     protected $ioService;
 
-    /** @var \Ibexa\Core\FieldType\Image\PathGenerator */
+    /** @var PathGenerator */
     protected $pathGenerator;
 
-    /** @var \Ibexa\Core\FieldType\Image\AliasCleanerInterface */
+    /** @var AliasCleanerInterface */
     protected $aliasCleaner;
 
-    /** @var \Ibexa\Core\FieldType\Image\ImageStorage\Gateway */
+    /** @var Gateway */
     protected StorageGatewayInterface $gateway;
 
-    /** @var \Ibexa\Core\IO\FilePathNormalizerInterface */
+    /** @var FilePathNormalizerInterface */
     protected $filePathNormalizer;
 
-    /** @var \Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator */
+    /** @var FileExtensionBlackListValidator */
     protected $fileExtensionBlackListValidator;
 
     public function __construct(
@@ -57,12 +59,14 @@ class ImageStorage extends GatewayBasedStorage
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field): bool
-    {
+    public function storeFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ): bool {
         $contentMetaData = [
             'fieldId' => $field->id,
             'versionNo' => $versionInfo->versionNo,
@@ -147,8 +151,10 @@ class ImageStorage extends GatewayBasedStorage
         return true;
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field)
-    {
+    public function getFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ) {
         if ($field->value->data !== null) {
             $field->value->data['imageId'] = $this->buildImageId($versionInfo, $field);
             $binaryFile = $this->ioService->loadBinaryFile($field->value->data['id']);
@@ -158,8 +164,10 @@ class ImageStorage extends GatewayBasedStorage
         }
     }
 
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
-    {
+    public function deleteFieldData(
+        VersionInfo $versionInfo,
+        array $fieldIds
+    ) {
         $fieldXmls = $this->gateway->getXmlForImages($versionInfo->versionNo, $fieldIds);
 
         foreach ($fieldXmls as $fieldId => $xml) {
@@ -189,8 +197,10 @@ class ImageStorage extends GatewayBasedStorage
     /**
      * @return string
      */
-    private function buildImageId(VersionInfo $versionInfo, Field $field): string
-    {
+    private function buildImageId(
+        VersionInfo $versionInfo,
+        Field $field
+    ): string {
         return sprintf(
             '%s-%s-%s',
             $versionInfo->contentInfo->id,

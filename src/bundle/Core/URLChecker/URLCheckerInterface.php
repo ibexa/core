@@ -14,7 +14,7 @@ interface URLCheckerInterface
     /**
      * Checks URLs returned by given query.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\URL\URLQuery $query
+     * @param URLQuery $query
      */
     public function check(URLQuery $query);
 }

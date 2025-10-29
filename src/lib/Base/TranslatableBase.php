@@ -33,8 +33,10 @@ trait TranslatableBase
         $this->parameters = $parameters;
     }
 
-    public function addParameter(string $name, string $value): void
-    {
+    public function addParameter(
+        string $name,
+        string $value
+    ): void {
         $this->parameters[$name] = $value;
     }
 

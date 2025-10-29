@@ -25,8 +25,10 @@ final class RenderContentStrategy extends BaseRenderStrategy implements RenderSt
         return $valueObject instanceof Content;
     }
 
-    public function render(ValueObject $valueObject, RenderOptions $options): string
-    {
+    public function render(
+        ValueObject $valueObject,
+        RenderOptions $options
+    ): string {
         if (!$this->supports($valueObject)) {
             throw new InvalidArgumentException(
                 'valueObject',
@@ -34,7 +36,7 @@ final class RenderContentStrategy extends BaseRenderStrategy implements RenderSt
             );
         }
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $content */
+        /** @var Content $content */
         $content = $valueObject;
 
         $currentRequest = $this->requestStack->getCurrentRequest();

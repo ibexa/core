@@ -9,6 +9,4 @@ namespace Ibexa\Core\MVC\Symfony\Templating\Exception;
 
 use RuntimeException;
 
-class MissingFieldBlockException extends RuntimeException
-{
-}
+class MissingFieldBlockException extends RuntimeException {}

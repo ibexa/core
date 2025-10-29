@@ -7,11 +7,11 @@
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
 return SearchResult::__set_state([
-   'searchHits' => [
-  ],
-   'spellcheck' => null,
-   'time' => 1,
-   'timedOut' => null,
-   'maxScore' => 1.0,
-   'totalCount' => 0,
+    'searchHits' => [
+    ],
+    'spellcheck' => null,
+    'time' => 1,
+    'timedOut' => null,
+    'maxScore' => 1.0,
+    'totalCount' => 0,
 ]);

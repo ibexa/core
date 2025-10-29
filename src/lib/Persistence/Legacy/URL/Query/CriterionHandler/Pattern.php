@@ -31,7 +31,7 @@ class Pattern implements CriterionHandler
         QueryBuilder $queryBuilder,
         Criterion $criterion
     ) {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion\Pattern $criterion */
+        /** @var Criterion\Pattern $criterion */
         return $queryBuilder->expr()->like(
             'url',
             $queryBuilder->createNamedParameter(

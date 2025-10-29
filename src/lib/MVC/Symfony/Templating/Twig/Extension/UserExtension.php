@@ -20,8 +20,10 @@ final class UserExtension extends AbstractExtension
 
     private PermissionResolver $permissionResolver;
 
-    public function __construct(UserService $userService, PermissionResolver $permissionResolver)
-    {
+    public function __construct(
+        UserService $userService,
+        PermissionResolver $permissionResolver
+    ) {
         $this->userService = $userService;
         $this->permissionResolver = $permissionResolver;
     }

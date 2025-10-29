@@ -26,18 +26,18 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTestCase
 {
-    /** @var \Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Gateway|MockObject */
     protected $gateway;
 
-    protected PathGeneratorInterface&MockObject $pathGeneratorMock;
+    protected PathGeneratorInterface & MockObject $pathGeneratorMock;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var IOServiceInterface|MockObject */
     protected $ioServiceMock;
 
-    /** @var \Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var BinaryBaseStorage|MockObject */
     protected $storage;
 
-    /** @var \Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FileExtensionBlackListValidator&MockObject */
     protected $fileExtensionBlackListValidatorMock;
 
     protected function setUp(): void
@@ -77,8 +77,10 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTestCase
     /**
      * @dataProvider providerOfFieldData
      */
-    public function testStoreFieldData(VersionInfo $versionInfo, Field $field): void
-    {
+    public function testStoreFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ): void {
         $binaryFileIdentifier = 'qwerty12345';
         $binaryFileCreateStruct = new BinaryFileCreateStruct([
             'id' => $binaryFileIdentifier,
@@ -113,8 +115,10 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTestCase
      *
      * @dataProvider providerOfFieldData
      */
-    public function testCopyLegacyField(VersionInfo $versionInfo, Field $originalField): void
-    {
+    public function testCopyLegacyField(
+        VersionInfo $versionInfo,
+        Field $originalField
+    ): void {
         $field = clone $originalField;
         $field->id = 124;
         $field->versionNo = 2;

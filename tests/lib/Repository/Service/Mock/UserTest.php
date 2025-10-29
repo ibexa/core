@@ -8,12 +8,16 @@
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use Exception;
+use Ibexa\Contracts\Core\Persistence\User\Handler;
 use Ibexa\Contracts\Core\Persistence\User\Handler as PersistenceUserHandler;
 use Ibexa\Contracts\Core\Persistence\User\RoleAssignment;
+use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\ContentService as APIContentService;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\UserService as APIUserService;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo as APIContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
@@ -22,6 +26,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Repository\User\PasswordValidatorInterface;
 use Ibexa\Core\Repository\UserService;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @covers \Ibexa\Core\Repository\UserService
@@ -31,7 +36,7 @@ class UserTest extends BaseServiceMockTest
     private const MOCKED_USER_ID = 42;
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws UnauthorizedException
      */
     public function testDeleteUser(): void
     {
@@ -53,7 +58,7 @@ class UserTest extends BaseServiceMockTest
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws UnauthorizedException
      */
     public function testDeleteUserWithRollback(): void
     {
@@ -86,7 +91,7 @@ class UserTest extends BaseServiceMockTest
      *
      * @param string[] $methods
      *
-     * @return \Ibexa\Contracts\Core\Repository\UserService&\PHPUnit\Framework\MockObject\MockObject
+     * @return APIUserService&MockObject
      */
     protected function getPartlyMockedUserService(?array $methods = null): APIUserService
     {
@@ -107,12 +112,12 @@ class UserTest extends BaseServiceMockTest
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Repository&\PHPUnit\Framework\MockObject\MockObject $repository
-     * @param \Ibexa\Contracts\Core\Repository\UserService&\PHPUnit\Framework\MockObject\MockObject $userService
-     * @param \Ibexa\Contracts\Core\Repository\ContentService&\PHPUnit\Framework\MockObject\MockObject $contentService
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User&\PHPUnit\Framework\MockObject\MockObject $user
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo&\PHPUnit\Framework\MockObject\MockObject $contentInfo
-     * @param \Ibexa\Contracts\Core\Persistence\User\Handler&\PHPUnit\Framework\MockObject\MockObject $userHandler
+     * @param Repository&MockObject $repository
+     * @param APIUserService&MockObject $userService
+     * @param ContentService&MockObject $contentService
+     * @param APIUser&MockObject $user
+     * @param ContentInfo&MockObject $contentInfo
+     * @param Handler&MockObject $userHandler
      */
     private function mockDeleteUserFlow(
         Repository $repository,

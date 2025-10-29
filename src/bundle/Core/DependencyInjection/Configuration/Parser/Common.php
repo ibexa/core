@@ -19,7 +19,7 @@ class Common extends AbstractParser
     /**
      * Adds semantic configuration definition.
      *
-     * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $nodeBuilder Node just under ibexa.system.<siteaccess>
+     * @param NodeBuilder $nodeBuilder Node just under ibexa.system.<siteaccess>
      */
     public function addSemanticConfig(NodeBuilder $nodeBuilder): void
     {
@@ -107,13 +107,18 @@ class Common extends AbstractParser
             ->end();
     }
 
-    public function preMap(array $config, ContextualizerInterface $contextualizer)
-    {
+    public function preMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    ) {
         $contextualizer->mapConfigArray('session', $config);
     }
 
-    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer)
-    {
+    public function mapConfig(
+        array &$scopeSettings,
+        $currentScope,
+        ContextualizerInterface $contextualizer
+    ) {
         if (isset($scopeSettings['repository'])) {
             $contextualizer->setContextualParameter('repository', $currentScope, $scopeSettings['repository']);
         }

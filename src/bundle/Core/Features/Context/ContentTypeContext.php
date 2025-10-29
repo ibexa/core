@@ -11,6 +11,8 @@ use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Exceptions as ApiExceptions;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup;
 use PHPUnit\Framework\Assert as Assertion;
 
 /**
@@ -28,7 +30,7 @@ class ContentTypeContext implements Context
      */
     public const DEFAULT_LANGUAGE = 'eng-GB';
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
+    /** @var ContentTypeService */
     protected $contentTypeService;
 
     public function __construct(ContentTypeService $contentTypeService)
@@ -105,8 +107,10 @@ class ContentTypeContext implements Context
      *
      * Verifies that a content type with $identifier exists in group with identifier $groupIdentifier.
      */
-    public function assertContentTypeExistsByIdentifierOnGroup($identifier, $groupIdentifier)
-    {
+    public function assertContentTypeExistsByIdentifierOnGroup(
+        $identifier,
+        $groupIdentifier
+    ) {
         Assertion::assertTrue(
             $this->checkContentTypeExistenceByIdentifier($identifier, $groupIdentifier),
             "Couldn't find content type with identifier '$identifier' on '$groupIdentifier."
@@ -119,10 +123,12 @@ class ContentTypeContext implements Context
      * @param  string  $identifier       Content type identifier
      * @param  bool $throwIfNotFound  if true, throws an exception if it is not found.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup|null
+     * @return ContentTypeGroup|null
      */
-    protected function loadContentTypeByIdentifier($identifier, $throwIfNotFound = true)
-    {
+    protected function loadContentTypeByIdentifier(
+        $identifier,
+        $throwIfNotFound = true
+    ) {
         $contentType = null;
         try {
             $contentType = $this->contentTypeService->loadContentTypeByIdentifier($identifier);
@@ -145,10 +151,13 @@ class ContentTypeContext implements Context
      * @param  string $identifier      Content type identifier
      * @param  array $fields           Content type fields definitions
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
+     * @return ContentType
      */
-    public function createContentType($groupIdentifier, $identifier, $fields)
-    {
+    public function createContentType(
+        $groupIdentifier,
+        $identifier,
+        $fields
+    ) {
         $contentTypeService = $this->contentTypeService;
         $contentTypeGroup = $contentTypeService->loadContentTypeGroupByIdentifier($groupIdentifier);
         // convert 'some_type' to 'Some Type';
@@ -193,7 +202,7 @@ class ContentTypeContext implements Context
     /**
      * Remove the given 'ContentType' object.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param ContentType $contentType
      */
     protected function removeContentType($contentType)
     {
@@ -205,11 +214,13 @@ class ContentTypeContext implements Context
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup $contentTypeGroup
+     * @param ContentType $contentType
+     * @param ContentTypeGroup $contentTypeGroup
      */
-    protected function assignContentGroupTypeToContentType($contentType, $contentTypeGroup)
-    {
+    protected function assignContentGroupTypeToContentType(
+        $contentType,
+        $contentTypeGroup
+    ) {
         try {
             $this->contentTypeService->assignContentTypeGroup($contentType, $contentTypeGroup);
         } catch (ApiExceptions\InvalidArgumentException $exception) {
@@ -224,8 +235,10 @@ class ContentTypeContext implements Context
      *
      * @return bool
      */
-    protected function checkContentTypeExistenceByIdentifier($identifier, $groupIdentifier = null): bool
-    {
+    protected function checkContentTypeExistenceByIdentifier(
+        $identifier,
+        $groupIdentifier = null
+    ): bool {
         $contentType = $this->loadContentTypeByIdentifier($identifier, false);
         if ($contentType && $groupIdentifier) {
             $contentTypeGroups = $contentType->getContentTypeGroups();

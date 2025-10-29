@@ -20,7 +20,7 @@ abstract class AbstractFieldTypeParser extends AbstractParser implements FieldTy
     /**
      * Adds semantic configuration definition.
      *
-     * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $nodeBuilder Node just under ezpublish.<system>.<siteaccess>
+     * @param NodeBuilder $nodeBuilder Node just under ezpublish.<system>.<siteaccess>
      */
     public function addSemanticConfig(NodeBuilder $nodeBuilder)
     {

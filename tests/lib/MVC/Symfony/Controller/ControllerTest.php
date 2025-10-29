@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Core\MVC\Symfony\Controller;
 
 use Ibexa\Core\MVC\Symfony\Controller\Controller;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,13 +21,13 @@ use Symfony\Component\Templating\EngineInterface;
  */
 class ControllerTest extends TestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Controller\Controller */
+    /** @var Controller */
     protected $controller;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $templateEngineMock;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $containerMock;
 
     protected function setUp(): void

@@ -12,13 +12,14 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\MVC\Symfony\Controller\Content\ViewController;
 use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute;
 use Ibexa\Core\MVC\Symfony\Security\Authorization\Voter\CoreVoter;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class CoreVoterTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PermissionResolver|MockObject */
     private $permissionResolver;
 
     protected function setUp(): void
@@ -30,8 +31,10 @@ class CoreVoterTest extends TestCase
     /**
      * @dataProvider supportsAttributeProvider
      */
-    public function testSupportsAttribute($attribute, $expectedResult)
-    {
+    public function testSupportsAttribute(
+        $attribute,
+        $expectedResult
+    ) {
         $voter = new CoreVoter($this->permissionResolver);
         self::assertSame($expectedResult, $voter->supportsAttribute($attribute));
     }
@@ -113,8 +116,11 @@ class CoreVoterTest extends TestCase
     /**
      * @dataProvider voteProvider
      */
-    public function testVote(Attribute $attribute, $repositoryCanUser, $expectedResult)
-    {
+    public function testVote(
+        Attribute $attribute,
+        $repositoryCanUser,
+        $expectedResult
+    ) {
         $voter = new CoreVoter($this->permissionResolver);
         if ($repositoryCanUser !== null) {
             $this->permissionResolver

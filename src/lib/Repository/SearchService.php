@@ -33,32 +33,32 @@ use Ibexa\Core\Search\Common\BackgroundIndexer;
  */
 class SearchService implements SearchServiceInterface
 {
-    /** @var \Ibexa\Core\Repository\Repository */
+    /** @var Repository */
     protected $repository;
 
-    /** @var \Ibexa\Contracts\Core\Search\Handler */
+    /** @var Handler */
     protected $searchHandler;
 
     /** @var array */
     protected $settings;
 
-    /** @var \Ibexa\Core\Repository\Mapper\ContentDomainMapper */
+    /** @var ContentDomainMapper */
     protected $contentDomainMapper;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver */
+    /** @var PermissionCriterionResolver */
     protected $permissionCriterionResolver;
 
-    /** @var \Ibexa\Core\Search\Common\BackgroundIndexer */
+    /** @var BackgroundIndexer */
     protected $backgroundIndexer;
 
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
-     * @param \Ibexa\Contracts\Core\Search\Handler $searchHandler
-     * @param \Ibexa\Core\Repository\Mapper\ContentDomainMapper $contentDomainMapper
-     * @param \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver $permissionCriterionResolver
-     * @param \Ibexa\Core\Search\Common\BackgroundIndexer $backgroundIndexer
+     * @param RepositoryInterface $repository
+     * @param Handler $searchHandler
+     * @param ContentDomainMapper $contentDomainMapper
+     * @param PermissionCriterionResolver $permissionCriterionResolver
+     * @param BackgroundIndexer $backgroundIndexer
      * @param array $settings
      */
     public function __construct(
@@ -80,8 +80,11 @@ class SearchService implements SearchServiceInterface
         $this->backgroundIndexer = $backgroundIndexer;
     }
 
-    public function findContent(Query $query, array $languageFilter = [], bool $filterOnUserPermissions = true): SearchResult
-    {
+    public function findContent(
+        Query $query,
+        array $languageFilter = [],
+        bool $filterOnUserPermissions = true
+    ): SearchResult {
         $result = $this->internalFindContentInfo($query, $languageFilter, $filterOnUserPermissions);
         $missingContentList = $this->contentDomainMapper->buildContentDomainObjectsOnSearchResult($result, $languageFilter);
         foreach ($missingContentList as $missingContent) {
@@ -99,16 +102,19 @@ class SearchService implements SearchServiceInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if query is not valid
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
+     * @param Query $query
      * @param array $languageFilter - a map of filters for the returned fields.
      *        Currently supports: <code>array("languages" => array(<language1>,..), "useAlwaysAvailable" => bool)</code>
      *                            useAlwaysAvailable defaults to true to avoid exceptions on missing translations.
      * @param bool $filterOnUserPermissions if true (default) only the objects which is the user allowed to read are returned.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult
+     * @return SearchResult
      */
-    public function findContentInfo(Query $query, array $languageFilter = [], bool $filterOnUserPermissions = true): SearchResult
-    {
+    public function findContentInfo(
+        Query $query,
+        array $languageFilter = [],
+        bool $filterOnUserPermissions = true
+    ): SearchResult {
         $result = $this->internalFindContentInfo($query, $languageFilter, $filterOnUserPermissions);
         foreach ($result->searchHits as $hit) {
             $hit->valueObject = $this->contentDomainMapper->buildContentInfoDomainObject(
@@ -126,16 +132,19 @@ class SearchService implements SearchServiceInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if query is not valid
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
+     * @param Query $query
      * @param array $languageFilter - a map of filters for the returned fields.
      *        Currently supports: <code>array("languages" => array(<language1>,..), "useAlwaysAvailable" => bool)</code>
      *                            useAlwaysAvailable defaults to true to avoid exceptions on missing translations.
      * @param bool $filterOnUserPermissions if true only the objects which is the user allowed to read are returned.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult With "raw" SPI contentInfo objects in result
+     * @return SearchResult With "raw" SPI contentInfo objects in result
      */
-    protected function internalFindContentInfo(Query $query, array $languageFilter = [], $filterOnUserPermissions = true)
-    {
+    protected function internalFindContentInfo(
+        Query $query,
+        array $languageFilter = [],
+        $filterOnUserPermissions = true
+    ) {
         $query = clone $query;
         $query->filter = $query->filter ?: new Criterion\MatchAll();
 
@@ -155,11 +164,13 @@ class SearchService implements SearchServiceInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface[] $criteria
+     * @param CriterionInterface[] $criteria
      * @param string $argumentName
      */
-    protected function validateContentCriteria(array $criteria, $argumentName)
-    {
+    protected function validateContentCriteria(
+        array $criteria,
+        $argumentName
+    ) {
         foreach ($criteria as $criterion) {
             if ($criterion instanceof LocationCriterion) {
                 throw new InvalidArgumentException(
@@ -178,7 +189,7 @@ class SearchService implements SearchServiceInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
+     * @param Query $query
      */
     protected function validateContentSortClauses(Query $query)
     {
@@ -196,16 +207,19 @@ class SearchService implements SearchServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if criterion is not valid
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if there is more than one result matching the criterions
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface $filter
+     * @param CriterionInterface $filter
      * @param array $languageFilter Configuration for specifying prioritized languages query will be performed on.
      *        Currently supports: <code>array("languages" => array(<language1>,..), "useAlwaysAvailable" => bool)</code>
      *                            useAlwaysAvailable defaults to true to avoid exceptions on missing translations.
      * @param bool $filterOnUserPermissions if true only the objects which is the user allowed to read are returned.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      */
-    public function findSingle(CriterionInterface $filter, array $languageFilter = [], bool $filterOnUserPermissions = true): Content
-    {
+    public function findSingle(
+        CriterionInterface $filter,
+        array $languageFilter = [],
+        bool $filterOnUserPermissions = true
+    ): Content {
         $this->validateContentCriteria([$filter], '$filter');
 
         if ($filterOnUserPermissions && !$this->addPermissionsCriterion($filter)) {
@@ -227,25 +241,31 @@ class SearchService implements SearchServiceInterface
      *
      * @param string[] $fieldPaths
      */
-    public function suggest(string $prefix, array $fieldPaths = [], int $limit = 10, ?CriterionInterface $filter = null)
-    {
-    }
+    public function suggest(
+        string $prefix,
+        array $fieldPaths = [],
+        int $limit = 10,
+        ?CriterionInterface $filter = null
+    ) {}
 
     /**
      * Finds Locations for the given query.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if query is not valid
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery $query
+     * @param LocationQuery $query
      * @param array $languageFilter Configuration for specifying prioritized languages query will be performed on.
      *        Currently supports: <code>array("languages" => array(<language1>,..), "useAlwaysAvailable" => bool)</code>
      *                            useAlwaysAvailable defaults to true to avoid exceptions on missing translations
      * @param bool $filterOnUserPermissions if true only the objects which is the user allowed to read are returned.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult
+     * @return SearchResult
      */
-    public function findLocations(LocationQuery $query, array $languageFilter = [], bool $filterOnUserPermissions = true): SearchResult
-    {
+    public function findLocations(
+        LocationQuery $query,
+        array $languageFilter = [],
+        bool $filterOnUserPermissions = true
+    ): SearchResult {
         $query = clone $query;
         $query->filter = $query->filter ?: new Criterion\MatchAll();
 
@@ -268,7 +288,7 @@ class SearchService implements SearchServiceInterface
      *
      * @uses \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver::getPermissionsCriterion()
      */
-    protected function addPermissionsCriterion(Query\CriterionInterface &$criterion): bool
+    protected function addPermissionsCriterion(CriterionInterface &$criterion): bool
     {
         $permissionCriterion = $this->permissionCriterionResolver->getPermissionsCriterion('content', 'read');
         if ($permissionCriterion === true || $permissionCriterion === false) {

@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
  */
 abstract class AbstractConfigResolverBasedURLHandler extends AbstractURLHandler
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     protected $configResolver;
 
     /** @var string */

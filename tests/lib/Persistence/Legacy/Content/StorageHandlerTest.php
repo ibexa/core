@@ -14,18 +14,19 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\StorageRegistry;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
  */
 class StorageHandlerTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\StorageRegistry&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var StorageRegistry&MockObject */
     protected StorageRegistry $storageRegistryMock;
 
     protected StorageHandler $storageHandler;
 
-    /** @var \Ibexa\Contracts\Core\FieldType\FieldStorage&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FieldStorage&MockObject */
     protected FieldStorage $storageMock;
 
     protected VersionInfo $versionInfoMock;
@@ -157,7 +158,7 @@ class StorageHandlerTest extends TestCase
     /**
      * Returns the StorageHandler to test.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
+     * @return StorageHandler
      */
     protected function getStorageHandler(): StorageHandler
     {
@@ -184,7 +185,7 @@ class StorageHandlerTest extends TestCase
     /**
      * Returns a StorageRegistry mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\StorageRegistry&\PHPUnit\Framework\MockObject\MockObject
+     * @return StorageRegistry&MockObject
      */
     protected function getStorageRegistryMock(): StorageRegistry
     {
@@ -201,7 +202,7 @@ class StorageHandlerTest extends TestCase
     /**
      * Returns a Storage mock.
      *
-     * @return \Ibexa\Contracts\Core\FieldType\FieldStorage&\PHPUnit\Framework\MockObject\MockObject
+     * @return FieldStorage&MockObject
      */
     protected function getStorageMock(): FieldStorage
     {

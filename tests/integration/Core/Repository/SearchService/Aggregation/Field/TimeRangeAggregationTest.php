@@ -80,8 +80,14 @@ final class TimeRangeAggregationTest extends AbstractAggregationTestCase
         $this->refreshSearch($this->getRepository());
     }
 
-    private function mktime(int $hour, int $minute, int $second, int $month, int $day, int $year): int
-    {
+    private function mktime(
+        int $hour,
+        int $minute,
+        int $second,
+        int $month,
+        int $day,
+        int $year
+    ): int {
         $timestamp = mktime($hour, $minute, $second, $month, $day, $year);
         if ($timestamp === false) {
             throw new RuntimeException('Failed to create timestamp with mktime.');

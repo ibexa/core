@@ -21,14 +21,14 @@ class ExceptionConversion extends Gateway
     /**
      * The wrapped gateway.
      *
-     * @var \Ibexa\Core\Search\Legacy\Content\Location\Gateway
+     * @var Gateway
      */
     protected $innerGateway;
 
     /**
      * Creates a new exception conversion gateway around $innerGateway.
      *
-     * @param \Ibexa\Core\Search\Legacy\Content\Location\Gateway $innerGateway
+     * @param Gateway $innerGateway
      */
     public function __construct(Gateway $innerGateway)
     {
@@ -45,7 +45,7 @@ class ExceptionConversion extends Gateway
     ): array {
         try {
             return $this->innerGateway->find($criterion, $offset, $limit, $sortClauses, $languageFilter, $doCount);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }

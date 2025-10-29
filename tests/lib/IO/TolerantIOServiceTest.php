@@ -7,6 +7,8 @@
 
 namespace Ibexa\Tests\Core\IO;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\IO\TolerantIOService;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\MissingBinaryFile;
@@ -44,8 +46,8 @@ class TolerantIOServiceTest extends IOServiceTest
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws NotFoundException
+     * @throws InvalidArgumentException
      */
     public function testCreateMissingBinaryFile(): void
     {
@@ -60,7 +62,7 @@ class TolerantIOServiceTest extends IOServiceTest
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     #[Override]
     public function testDeleteBinaryFileNotFound(): void

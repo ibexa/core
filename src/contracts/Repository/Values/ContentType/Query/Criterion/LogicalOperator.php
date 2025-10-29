@@ -13,13 +13,13 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface;
 
 abstract class LogicalOperator implements CriterionInterface
 {
-    /** @var list<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface> */
+    /** @var list<CriterionInterface> */
     private array $criteria = [];
 
     /**
-     * @param list<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface> $criteria
+     * @param list<CriterionInterface> $criteria
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
+     * @throws InvalidCriterionArgumentException
      */
     public function __construct(array $criteria)
     {
@@ -33,7 +33,7 @@ abstract class LogicalOperator implements CriterionInterface
     }
 
     /**
-     * @return list<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\CriterionInterface>
+     * @return list<CriterionInterface>
      */
     public function getCriteria(): array
     {

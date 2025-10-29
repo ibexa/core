@@ -50,8 +50,11 @@ class Field extends Criterion implements CustomFieldInterface
      * @param string $field
      * @param string $customField
      */
-    public function setCustomField(string $type, string $field, string $customField): void
-    {
+    public function setCustomField(
+        string $type,
+        string $field,
+        string $customField
+    ): void {
         $this->customFields[$type][$field] = $customField;
     }
 
@@ -65,8 +68,10 @@ class Field extends Criterion implements CustomFieldInterface
      *
      * @return string|null
      */
-    public function getCustomField(string $type, string $field): ?string
-    {
+    public function getCustomField(
+        string $type,
+        string $field
+    ): ?string {
         if (!isset($this->customFields[$type]) ||
              !isset($this->customFields[$type][$field])) {
             return null;

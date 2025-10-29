@@ -14,7 +14,7 @@ use Symfony\Component\Routing\RouterInterface;
 
 class ContentDownloadUrlGenerator implements RouteAwarePathGenerator
 {
-    /** @var \Symfony\Component\Routing\RouterInterface */
+    /** @var RouterInterface */
     private $router;
 
     /** @var string */
@@ -25,23 +25,31 @@ class ContentDownloadUrlGenerator implements RouteAwarePathGenerator
         $this->router = $router;
     }
 
-    public function getStoragePathForField(Field $field, VersionInfo $versionInfo): string
-    {
+    public function getStoragePathForField(
+        Field $field,
+        VersionInfo $versionInfo
+    ): string {
         return $this->generate($this->route, $this->getParameters($field, $versionInfo));
     }
 
-    public function generate(string $route, ?array $parameters = []): string
-    {
+    public function generate(
+        string $route,
+        ?array $parameters = []
+    ): string {
         return $this->router->generate($route, $parameters ?? []);
     }
 
-    public function getRoute(Field $field, VersionInfo $versionInfo): string
-    {
+    public function getRoute(
+        Field $field,
+        VersionInfo $versionInfo
+    ): string {
         return $this->route;
     }
 
-    public function getParameters(Field $field, VersionInfo $versionInfo): array
-    {
+    public function getParameters(
+        Field $field,
+        VersionInfo $versionInfo
+    ): array {
         return [
             'contentId' => $versionInfo->contentInfo->id,
             'fieldId' => $field->id,

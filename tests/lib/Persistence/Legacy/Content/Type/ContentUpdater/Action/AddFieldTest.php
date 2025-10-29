@@ -9,12 +9,15 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action
 
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
+use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\AddField;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionObject;
 
@@ -26,31 +29,31 @@ class AddFieldTest extends TestCase
     /**
      * Content gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @var Gateway
      */
     protected $contentGatewayMock;
 
     /**
      * Content gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
+     * @var StorageHandler
      */
     protected $contentStorageHandlerMock;
 
     /**
      * FieldValue converter mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter
+     * @var Converter
      */
     protected $fieldValueConverterMock;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Mapper */
+    /** @var Mapper */
     protected $contentMapperMock;
 
     /**
      * AddField action to test.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\AddField
+     * @var AddField
      */
     protected $addFieldAction;
 
@@ -498,10 +501,12 @@ class AddFieldTest extends TestCase
      * @param int $versionNo
      * @param array $languageCodes
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
-    protected function getContentFixture($versionNo, array $languageCodes)
-    {
+    protected function getContentFixture(
+        $versionNo,
+        array $languageCodes
+    ) {
         $contentInfo = new Content\ContentInfo();
         $contentInfo->id = 'contentId';
         $versionInfo = new Content\VersionInfo();
@@ -524,7 +529,7 @@ class AddFieldTest extends TestCase
     /**
      * Returns a Content Gateway mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @return MockObject|Gateway
      */
     protected function getContentGatewayMock()
     {
@@ -538,7 +543,7 @@ class AddFieldTest extends TestCase
     /**
      * Returns a FieldValue converter mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter
+     * @return MockObject|Converter
      */
     protected function getFieldValueConverterMock()
     {
@@ -552,7 +557,7 @@ class AddFieldTest extends TestCase
     /**
      * Returns a Content StorageHandler mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\StorageHandler
+     * @return MockObject|StorageHandler
      */
     protected function getContentStorageHandlerMock()
     {
@@ -566,7 +571,7 @@ class AddFieldTest extends TestCase
     /**
      * Returns a Content mapper mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Mapper
+     * @return MockObject|Mapper
      */
     protected function getContentMapperMock()
     {
@@ -580,11 +585,11 @@ class AddFieldTest extends TestCase
     /**
      * Returns a FieldDefinition fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition
+     * @return FieldDefinition
      */
     protected function getFieldDefinitionFixture()
     {
-        $fieldDef = new Content\Type\FieldDefinition();
+        $fieldDef = new FieldDefinition();
         $fieldDef->id = 42;
         $fieldDef->isTranslatable = true;
         $fieldDef->fieldType = 'ibexa_string';
@@ -600,10 +605,13 @@ class AddFieldTest extends TestCase
      * @param int $versionNo
      * @param string $languageCode
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Field
+     * @return Field
      */
-    public function getFieldReference($id, $versionNo, $languageCode)
-    {
+    public function getFieldReference(
+        $id,
+        $versionNo,
+        $languageCode
+    ) {
         $field = new Field();
 
         $field->id = $id;
@@ -619,7 +627,7 @@ class AddFieldTest extends TestCase
     /**
      * @param $methods
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\AddField
+     * @return MockObject|AddField
      */
     protected function getMockedAction($methods = [])
     {

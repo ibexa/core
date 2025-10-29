@@ -32,7 +32,7 @@ class URIElement implements VersatileMatcher, URILexer
     /**
      * @param array<mixed>|int $elementNumber Number of elements to take into account.
      */
-    public function __construct(array|int $elementNumber)
+    public function __construct(array | int $elementNumber)
     {
         if (is_array($elementNumber)) {
             // DI config parser will create an array with 'value' => number
@@ -52,7 +52,7 @@ class URIElement implements VersatileMatcher, URILexer
      *
      * @return string|false SiteAccess matched or false.
      */
-    public function match(): string|bool
+    public function match(): string | bool
     {
         try {
             return implode('_', $this->getURIElements());
@@ -64,7 +64,7 @@ class URIElement implements VersatileMatcher, URILexer
     /**
      * Returns URI elements as an array.
      *
-     * @throws \LogicException
+     * @throws LogicException
      *
      * @return string[]
      */
@@ -106,7 +106,7 @@ class URIElement implements VersatileMatcher, URILexer
     /**
      * Injects the request object to match against.
      *
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
+     * @param SimplifiedRequest $request
      */
     public function setRequest(SimplifiedRequest $request): void
     {
@@ -177,7 +177,7 @@ class URIElement implements VersatileMatcher, URILexer
      *
      * @param string $siteAccessName
      *
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIElement|null
+     * @return URIElement|null
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if request is not set
      */

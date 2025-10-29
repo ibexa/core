@@ -8,13 +8,14 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Pagination\Pagerfanta;
 
+use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResultCollection;
 use Pagerfanta\Adapter\AdapterInterface;
 
 /**
  * Contract for SearchService based adapters.
  *
- * @see \Ibexa\Contracts\Core\Repository\SearchService
+ * @see SearchService
  *
  * @template-covariant T
  *

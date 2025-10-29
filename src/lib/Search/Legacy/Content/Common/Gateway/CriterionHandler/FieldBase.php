@@ -8,10 +8,13 @@
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
@@ -23,19 +26,19 @@ abstract class FieldBase extends CriterionHandler
     /**
      * Content type handler.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
+     * @var Handler
      */
     protected $contentTypeHandler;
 
     /**
      * Language handler.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
+     * @var LanguageHandler
      */
     protected $languageHandler;
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function __construct(
         Connection $connection,
@@ -53,10 +56,12 @@ abstract class FieldBase extends CriterionHandler
      *
      * @param array $languageSettings
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
-    protected function getFieldCondition(QueryBuilder $query, array $languageSettings): string
-    {
+    protected function getFieldCondition(
+        QueryBuilder $query,
+        array $languageSettings
+    ): string {
         // 1. Use main language(s) by default
         $expr = $query->expr();
         if (empty($languageSettings['languages'])) {
@@ -146,8 +151,8 @@ abstract class FieldBase extends CriterionHandler
      *
      * @return string
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotFoundException
+     * @throws NotImplementedException
      */
     protected function getInExpressionWithFieldConditions(
         QueryBuilder $query,

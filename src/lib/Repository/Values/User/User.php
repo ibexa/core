@@ -9,8 +9,10 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository\Values\User;
 
 use Ibexa\Contracts\Core\FieldType\Value;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Thumbnail;
+use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
@@ -25,14 +27,14 @@ class User extends APIUser
     /**
      * Internal content representation.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @var Content
      */
     protected $content;
 
     /**
      * Returns the VersionInfo for this version.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo
+     * @return VersionInfo
      */
     public function getVersionInfo(): APIVersionInfo
     {
@@ -56,15 +58,17 @@ class User extends APIUser
      *
      * @return mixed a primitive type or a field type Value object depending on the field type.
      */
-    public function getFieldValue(string $fieldDefIdentifier, ?string $languageCode = null): ?Value
-    {
+    public function getFieldValue(
+        string $fieldDefIdentifier,
+        ?string $languageCode = null
+    ): ?Value {
         return $this->content->getFieldValue($fieldDefIdentifier, $languageCode);
     }
 
     /**
      * This method returns the complete fields collection.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field[]
+     * @return Field[]
      */
     public function getFields(): iterable
     {
@@ -78,7 +82,7 @@ class User extends APIUser
      *
      * @param string $languageCode
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field[] with field identifier as keys
+     * @return Field[] with field identifier as keys
      */
     public function getFieldsByLanguage(?string $languageCode = null): iterable
     {
@@ -93,26 +97,23 @@ class User extends APIUser
      * @param string $fieldDefIdentifier
      * @param string|null $languageCode
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field|null A {@link Field} or null if nothing is found
+     * @return Field|null A {@link Field} or null if nothing is found
      */
-    public function getField(string $fieldDefIdentifier, ?string $languageCode = null): ?Field
-    {
+    public function getField(
+        string $fieldDefIdentifier,
+        ?string $languageCode = null
+    ): ?Field {
         return $this->content->getField($fieldDefIdentifier, $languageCode);
     }
 
-    /**
-     * Function where list of properties are returned.
-     *
-     * Override to add dynamic properties
-     *
-     * @uses \parent::getProperties()
-     *
-     * @param array $dynamicProperties
-     *
-     * @return array
-     */
-    protected function getProperties($dynamicProperties = ['id', 'contentInfo', 'versionInfo', 'fields'])
-    {
+    protected function getProperties(
+        $dynamicProperties = [
+            'id',
+            'contentInfo',
+            'versionInfo',
+            'fields',
+        ]
+    ): array {
         return parent::getProperties($dynamicProperties);
     }
 

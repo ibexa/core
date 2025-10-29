@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\ValueResolver;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
@@ -23,17 +25,18 @@ final class LocationValueResolver implements ValueResolverInterface
     public function __construct(
         private readonly LocationService $locationService,
         private readonly ContentPreviewHelper $contentPreviewHelper
-    ) {
-    }
+    ) {}
 
     /**
-     * @return iterable<\Ibexa\Contracts\Core\Repository\Values\Content\Location>
+     * @return iterable<Location>
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
-    public function resolve(Request $request, ArgumentMetadata $argument): iterable
-    {
+    public function resolve(
+        Request $request,
+        ArgumentMetadata $argument
+    ): iterable {
         if ($argument->getType() !== Location::class) {
             return [];
         }

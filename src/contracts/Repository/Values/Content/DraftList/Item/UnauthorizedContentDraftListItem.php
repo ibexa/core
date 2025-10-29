@@ -26,8 +26,11 @@ class UnauthorizedContentDraftListItem implements ContentDraftListItemInterface
     /**
      * @param array<string, mixed> $payload
      */
-    public function __construct(string $module, string $function, array $payload)
-    {
+    public function __construct(
+        string $module,
+        string $function,
+        array $payload
+    ) {
         $this->module = $module;
         $this->function = $function;
         $this->payload = $payload;

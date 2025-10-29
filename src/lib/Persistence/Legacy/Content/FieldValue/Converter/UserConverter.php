@@ -31,24 +31,30 @@ class UserConverter implements Converter
     /**
      * {@inheritdoc}
      */
-    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue): void
-    {
+    public function toStorageValue(
+        FieldValue $value,
+        StorageFieldValue $storageFieldValue
+    ): void {
         // There is no contained data. All data is external. So we just do nothing here.
     }
 
     /**
      * {@inheritdoc}
      */
-    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue): void
-    {
+    public function toFieldValue(
+        StorageFieldValue $value,
+        FieldValue $fieldValue
+    ): void {
         // There is no contained data. All data is external. So we just do nothing here.
     }
 
     /**
      * {@inheritdoc}
      */
-    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef): void
-    {
+    public function toStorageFieldDefinition(
+        FieldDefinition $fieldDef,
+        StorageFieldDefinition $storageDef
+    ): void {
         $validatorParameters = [];
         if (isset($fieldDef->fieldTypeConstraints->validators[self::PASSWORD_VALIDATOR_IDENTIFIER])) {
             $validatorParameters = $fieldDef->fieldTypeConstraints->validators[self::PASSWORD_VALIDATOR_IDENTIFIER];
@@ -90,8 +96,10 @@ class UserConverter implements Converter
     /**
      * {@inheritdoc}
      */
-    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef): void
-    {
+    public function toFieldDefinition(
+        StorageFieldDefinition $storageDef,
+        FieldDefinition $fieldDef
+    ): void {
         $validatorParameters = [];
 
         $rules = [

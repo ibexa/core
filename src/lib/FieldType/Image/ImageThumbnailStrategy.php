@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\Field\FieldTypeBas
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Thumbnail;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
+use Ibexa\Contracts\Core\Variation\Values\ImageVariation;
 use Ibexa\Contracts\Core\Variation\VariationHandler;
 use Ibexa\Core\MVC\Exception\SourceImageNotFoundException;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
@@ -28,7 +29,7 @@ class ImageThumbnailStrategy implements FieldTypeBasedThumbnailStrategy, LoggerA
     /** @var string */
     private $fieldTypeIdentifier;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationHandler */
+    /** @var VariationHandler */
     private $variationHandler;
 
     /** @var string */
@@ -51,10 +52,12 @@ class ImageThumbnailStrategy implements FieldTypeBasedThumbnailStrategy, LoggerA
         return $this->fieldTypeIdentifier;
     }
 
-    public function getThumbnail(Field $field, ?APIVersionInfo $versionInfo = null): ?Thumbnail
-    {
+    public function getThumbnail(
+        Field $field,
+        ?APIVersionInfo $versionInfo = null
+    ): ?Thumbnail {
         try {
-            /** @var \Ibexa\Contracts\Core\Variation\Values\ImageVariation $variation */
+            /** @var ImageVariation $variation */
             $variation = $this->variationHandler->getVariation(
                 $field,
                 $versionInfo ?? new VersionInfo(),

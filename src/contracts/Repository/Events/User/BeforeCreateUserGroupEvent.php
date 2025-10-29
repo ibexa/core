@@ -21,8 +21,10 @@ final class BeforeCreateUserGroupEvent extends BeforeEvent
 
     private ?UserGroup $userGroup = null;
 
-    public function __construct(UserGroupCreateStruct $userGroupCreateStruct, UserGroup $parentGroup)
-    {
+    public function __construct(
+        UserGroupCreateStruct $userGroupCreateStruct,
+        UserGroup $parentGroup
+    ) {
         $this->userGroupCreateStruct = $userGroupCreateStruct;
         $this->parentGroup = $parentGroup;
     }

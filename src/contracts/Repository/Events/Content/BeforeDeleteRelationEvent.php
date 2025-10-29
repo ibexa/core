@@ -18,8 +18,10 @@ final class BeforeDeleteRelationEvent extends BeforeEvent
 
     private ContentInfo $destinationContent;
 
-    public function __construct(VersionInfo $sourceVersion, ContentInfo $destinationContent)
-    {
+    public function __construct(
+        VersionInfo $sourceVersion,
+        ContentInfo $destinationContent
+    ) {
         $this->sourceVersion = $sourceVersion;
         $this->destinationContent = $destinationContent;
     }

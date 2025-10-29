@@ -9,8 +9,11 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Repository\Values\Filter;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOr;
 use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+
 use function sprintf;
 
 /**
@@ -18,10 +21,10 @@ use function sprintf;
  */
 final class Filter
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion|null */
+    /** @var FilteringCriterion|null */
     private $criterion;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause[] */
+    /** @var FilteringSortClause[] */
     private $sortClauses = [];
 
     /** @var int */
@@ -37,8 +40,10 @@ final class Filter
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException for invalid Sort Clause
      */
-    public function __construct(?FilteringCriterion $criterion = null, array $sortClauses = [])
-    {
+    public function __construct(
+        ?FilteringCriterion $criterion = null,
+        array $sortClauses = []
+    ) {
         $this->criterion = $criterion;
         foreach ($sortClauses as $idx => $sortClause) {
             if (!$sortClause instanceof FilteringSortClause) {
@@ -81,8 +86,8 @@ final class Filter
      * @see reset
      * @see andWithCriterion
      * @see orWithCriterion
-     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOr
-     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd
+     * @see LogicalOr
+     * @see LogicalAnd
      */
     public function withCriterion(FilteringCriterion $criterion): self
     {
@@ -108,10 +113,10 @@ final class Filter
         if (null === $this->criterion) {
             // for better DX allow operation on uninitialized Criterion by setting it as-is
             $this->criterion = $criterion;
-        } elseif ($this->criterion instanceof Criterion\LogicalAnd) {
+        } elseif ($this->criterion instanceof LogicalAnd) {
             $this->criterion->criteria[] = $criterion;
         } else {
-            $this->criterion = new Criterion\LogicalAnd([$this->criterion, $criterion]);
+            $this->criterion = new LogicalAnd([$this->criterion, $criterion]);
         }
 
         return $this;
@@ -125,10 +130,10 @@ final class Filter
         if (null === $this->criterion) {
             // for better DX allow operation on uninitialized Criterion by setting it as-is
             $this->criterion = $criterion;
-        } elseif ($this->criterion instanceof Criterion\LogicalOr) {
+        } elseif ($this->criterion instanceof LogicalOr) {
             $this->criterion->criteria[] = $criterion;
         } else {
-            $this->criterion = new Criterion\LogicalOr([$this->criterion, $criterion]);
+            $this->criterion = new LogicalOr([$this->criterion, $criterion]);
         }
 
         return $this;
@@ -163,8 +168,10 @@ final class Filter
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function sliceBy(int $limit, int $offset): self
-    {
+    public function sliceBy(
+        int $limit,
+        int $offset
+    ): self {
         if ($limit < 0) {
             throw new InvalidArgumentException(
                 '$limit',
@@ -191,7 +198,7 @@ final class Filter
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause[]
+     * @return FilteringSortClause[]
      */
     public function getSortClauses(): array
     {

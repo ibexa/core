@@ -72,8 +72,10 @@ class NotificationHandler extends AbstractHandler implements Handler
     /**
      * {@inheritdoc}
      */
-    public function updateNotification(APINotification $notification, UpdateStruct $updateStruct): Notification
-    {
+    public function updateNotification(
+        APINotification $notification,
+        UpdateStruct $updateStruct
+    ): Notification {
         $this->logger->logCall(__METHOD__, [
             'notificationId' => $notification->id,
         ]);
@@ -130,8 +132,10 @@ class NotificationHandler extends AbstractHandler implements Handler
         return $count;
     }
 
-    public function countNotifications(int $ownerId, ?NotificationQuery $query = null): int
-    {
+    public function countNotifications(
+        int $ownerId,
+        ?NotificationQuery $query = null
+    ): int {
         if ($query === null) {
             $cacheKeyParams = [$ownerId];
             $cacheItem = $this->cache->getItem(
@@ -184,8 +188,11 @@ class NotificationHandler extends AbstractHandler implements Handler
         return $notification;
     }
 
-    public function loadUserNotifications(int $userId, int $offset, int $limit): array
-    {
+    public function loadUserNotifications(
+        int $userId,
+        int $offset,
+        int $limit
+    ): array {
         $this->logger->logCall(__METHOD__, [
             'ownerId' => $userId,
             'offset' => $offset,
@@ -195,8 +202,10 @@ class NotificationHandler extends AbstractHandler implements Handler
         return $this->persistenceHandler->notificationHandler()->loadUserNotifications($userId, $offset, $limit);
     }
 
-    public function findUserNotifications(int $userId, ?NotificationQuery $query = null): array
-    {
+    public function findUserNotifications(
+        int $userId,
+        ?NotificationQuery $query = null
+    ): array {
         $this->logger->logCall(__METHOD__, [
             'ownerId' => $userId,
             'query' => $query,

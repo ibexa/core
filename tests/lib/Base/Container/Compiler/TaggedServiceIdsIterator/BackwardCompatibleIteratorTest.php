@@ -17,10 +17,10 @@ final class BackwardCompatibleIteratorTest extends TestCase
     private const EXAMPLE_SERVICE_TAG = 'current_tag';
     private const EXAMPLE_DEPRECATED_SERVICE_TAG = 'deprecated_tag';
 
-    /** @var \Ibexa\Tests\Core\Base\Container\Compiler\TaggedServiceIdsIterator\DeprecationErrorCollector */
+    /** @var DeprecationErrorCollector */
     private $deprecationErrorCollector;
 
-    /** @var \Symfony\Component\DependencyInjection\TaggedContainerInterface */
+    /** @var TaggedContainerInterface */
     private $container;
 
     protected function setUp(): void

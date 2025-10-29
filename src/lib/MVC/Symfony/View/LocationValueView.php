@@ -7,10 +7,12 @@
 
 namespace Ibexa\Core\MVC\Symfony\View;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+
 interface LocationValueView
 {
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location
+     * @return Location
      */
     public function getLocation();
 }

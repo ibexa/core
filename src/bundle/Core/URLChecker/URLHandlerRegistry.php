@@ -11,7 +11,7 @@ use InvalidArgumentException;
 
 class URLHandlerRegistry implements URLHandlerRegistryInterface
 {
-    /** @var \Ibexa\Bundle\Core\URLChecker\URLHandlerInterface[] */
+    /** @var URLHandlerInterface[] */
     private $handlers = [];
 
     /**
@@ -25,8 +25,10 @@ class URLHandlerRegistry implements URLHandlerRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function addHandler($scheme, URLHandlerInterface $handler)
-    {
+    public function addHandler(
+        $scheme,
+        URLHandlerInterface $handler
+    ) {
         $this->handlers[$scheme] = $handler;
     }
 

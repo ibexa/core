@@ -8,6 +8,12 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
+use Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentDraftList;
@@ -19,6 +25,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationList;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationList\Item\UnauthorizedRelationListItem;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
@@ -40,8 +47,8 @@ interface ContentService
      *
      * To load fields use loadContent
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to read the content.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the content with the given id doesn't exist.
+     * @throws UnauthorizedException if the user is not allowed to read the content.
+     * @throws NotFoundException if the content with the given id doesn't exist.
      */
     public function loadContentInfo(int $contentId): ContentInfo;
 
@@ -52,7 +59,7 @@ interface ContentService
      *
      * @param array<int, int> $contentIds
      *
-     * @return array<int, \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo> List of ContentInfo with content ids as keys
+     * @return array<int, ContentInfo> List of ContentInfo with content ids as keys
      */
     public function loadContentInfoList(array $contentIds): iterable;
 
@@ -61,8 +68,8 @@ interface ContentService
      *
      * To load fields use loadContent
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to read the content.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the content with the given remote id doesn't exist.
+     * @throws UnauthorizedException if the user is not allowed to read the content.
+     * @throws NotFoundException if the content with the given remote id doesn't exist.
      */
     public function loadContentInfoByRemoteId(string $remoteId): ContentInfo;
 
@@ -71,35 +78,41 @@ interface ContentService
      *
      * If no version number is given, the method returns the current version.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the version with the given number doesn't exist.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to load this version.
+     * @throws NotFoundException if the version with the given number doesn't exist.
+     * @throws UnauthorizedException if the user is not allowed to load this version.
      *
      * @param int|null $versionNo the version number. If not given the current version is returned.
      */
-    public function loadVersionInfo(ContentInfo $contentInfo, ?int $versionNo = null): VersionInfo;
+    public function loadVersionInfo(
+        ContentInfo $contentInfo,
+        ?int $versionNo = null
+    ): VersionInfo;
 
     /**
      * Loads a version info of the given content object id.
      *
      * If no version number is given, the method returns the current version.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the version with the given number doesn't exist.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to load this version.
+     * @throws NotFoundException if the version with the given number doesn't exist.
+     * @throws UnauthorizedException if the user is not allowed to load this version.
      *
      * @param int|null $versionNo the version number. If not given the current version is returned.
      */
-    public function loadVersionInfoById(int $contentId, ?int $versionNo = null): VersionInfo;
+    public function loadVersionInfoById(
+        int $contentId,
+        ?int $versionNo = null
+    ): VersionInfo;
 
     /**
      * Bulk-load VersionInfo items by the list of ContentInfo Value Objects.
      *
-     * @param array<int, \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo> $contentInfoList
+     * @param array<int, ContentInfo> $contentInfoList
      *
-     * @return array<int, \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo> List of VersionInfo items with Content Ids as keys
+     * @return array<int, VersionInfo> List of VersionInfo items with Content Ids as keys
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws BadStateException
+     * @throws InvalidArgumentException
+     * @throws NotFoundException
      */
     public function loadVersionInfoListByContentInfo(array $contentInfoList): array;
 
@@ -108,35 +121,44 @@ interface ContentService
      *
      * If no version number is given, the method returns the current version
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if version with the given number doesn't exist.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to load this version.
+     * @throws NotFoundException if version with the given number doesn't exist.
+     * @throws UnauthorizedException if the user is not allowed to load this version.
      *
      * @param array<int, string> $languages A language priority, filters returned fields and is used as prioritized language code on
      *                         returned value object. If not given all languages are returned.
      * @param int|null $versionNo The version number. If not given the current version is returned from $contentInfo.
      * @param bool $useAlwaysAvailable Add Main language to $languages if true (default) and if {@see ContentInfo::$alwaysAvailable} is true.
      */
-    public function loadContentByContentInfo(ContentInfo $contentInfo, ?array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): Content;
+    public function loadContentByContentInfo(
+        ContentInfo $contentInfo,
+        ?array $languages = null,
+        ?int $versionNo = null,
+        bool $useAlwaysAvailable = true
+    ): Content;
 
     /**
      * Loads content in the version given by version info.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to load this version.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws UnauthorizedException if the user is not allowed to load this version.
+     * @throws NotFoundException
      *
      * @param string[] $languages A language priority, filters returned fields and is used as prioritized language code on
      *                         returned value object. If not given all languages are returned.
      * @param bool $useAlwaysAvailable Add Main language to $languages if true (default) and if {@see ContentInfo::$alwaysAvailable} is true.
      */
-    public function loadContentByVersionInfo(VersionInfo $versionInfo, ?array $languages = null, bool $useAlwaysAvailable = true): Content;
+    public function loadContentByVersionInfo(
+        VersionInfo $versionInfo,
+        ?array $languages = null,
+        bool $useAlwaysAvailable = true
+    ): Content;
 
     /**
      * Loads content in a version of the given content object.
      *
      * If no version number is given, the method returns the current version
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the content or version with the given id and languages doesn't exist.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user lacks:
+     * @throws NotFoundException if the content or version with the given id and languages doesn't exist.
+     * @throws UnauthorizedException if the user lacks:
      *                         - `content/read` permission for published content, or
      *                         - `content/read` and `content/versionread` permissions for draft content.
      *
@@ -145,15 +167,20 @@ interface ContentService
      * @param int|null $versionNo The version number. If not given the current version is returned.
      * @param bool $useAlwaysAvailable Add Main language to $languages if true (default) and if {@see ContentInfo::$alwaysAvailable} is true.
      */
-    public function loadContent(int $contentId, ?array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): Content;
+    public function loadContent(
+        int $contentId,
+        ?array $languages = null,
+        ?int $versionNo = null,
+        bool $useAlwaysAvailable = true
+    ): Content;
 
     /**
      * Loads content in a version for the content object reference by the given remote id.
      *
      * If no version is given, the method returns the current version
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the content or version with the given remote id doesn't exist.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user lacks:
+     * @throws NotFoundException if the content or version with the given remote id doesn't exist.
+     * @throws UnauthorizedException if the user lacks:
      *                         - `content/read` permission for published content, or
      *                         - `content/read` and `content/versionread` permissions for draft content.
      *
@@ -162,7 +189,12 @@ interface ContentService
      * @param int|null $versionNo the version number. If not given the current version is returned
      * @param bool $useAlwaysAvailable Add Main language to \$languages if true (default) and if {@see ContentInfo::$alwaysAvailable} is true.
      */
-    public function loadContentByRemoteId(string $remoteId, ?array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): Content;
+    public function loadContentByRemoteId(
+        string $remoteId,
+        ?array $languages = null,
+        ?int $versionNo = null,
+        bool $useAlwaysAvailable = true
+    ): Content;
 
     /**
      * Bulk-load Content items by the list of ContentInfo Value Objects.
@@ -171,15 +203,19 @@ interface ContentService
      * Moreover, since the method works on pre-loaded ContentInfo list, it is assumed that user is
      * allowed to access every Content on the list.
      *
-     * @param array<int, \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo> $contentInfoList
+     * @param array<int, ContentInfo> $contentInfoList
      * @param array<int, string> $languages A language priority, filters returned fields and is used as prioritized language code on
      *                            returned value object. If not given all languages are returned.
      * @param bool $useAlwaysAvailable Add Main language to \$languages if true (default) and if {@see ContentInfo::$alwaysAvailable} is true,
      *                                 unless all languages have been asked for.
      *
-     * @return array<int, \Ibexa\Contracts\Core\Repository\Values\Content\Content> List of Content items with Content Ids as keys
+     * @return array<int, Content> List of Content items with Content Ids as keys
      */
-    public function loadContentListByContentInfo(array $contentInfoList, array $languages = [], bool $useAlwaysAvailable = true): iterable;
+    public function loadContentListByContentInfo(
+        array $contentInfoList,
+        array $languages = [],
+        bool $useAlwaysAvailable = true
+    ): iterable;
 
     /**
      * Creates a new content draft assigned to the authenticated user.
@@ -190,37 +226,44 @@ interface ContentService
      * have to authenticate with the user which created the content object in the source server).
      * The user has to publish the draft if it should be visible.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to create the content in the given location.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if there is a provided remote ID which exists in the system or multiple Locations
+     * @throws UnauthorizedException if the user is not allowed to create the content in the given location.
+     * @throws InvalidArgumentException if there is a provided remote ID which exists in the system or multiple Locations
      *                                                                        are under the same parent or if the a field value is not accepted by the field type
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException if a field in the $contentCreateStruct is not valid.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException if a required field is missing or is set to an empty value.
+     * @throws ContentFieldValidationException if a field in the $contentCreateStruct is not valid.
+     * @throws ContentValidationException if a required field is missing or is set to an empty value.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct[] $locationCreateStructs An array of {@see \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct} for each location parent under which a location should be created for the content.
+     * @param LocationCreateStruct[] $locationCreateStructs An array of {@see LocationCreateStruct} for each location parent under which a location should be created for the content.
      *                                                                                                While optional, it's highly recommended to use Locations for content as a lot of features in the system is usually tied to the tree structure (including default Role policies).
      * @param string[]|null $fieldIdentifiersToValidate List of field identifiers for partial validation or null
      *                      for case of full validation. Empty identifiers array is equal to no validation.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content The newly created content draft.
+     * @return Content The newly created content draft.
      */
-    public function createContent(ContentCreateStruct $contentCreateStruct, array $locationCreateStructs = [], ?array $fieldIdentifiersToValidate = null): Content;
+    public function createContent(
+        ContentCreateStruct $contentCreateStruct,
+        array $locationCreateStructs = [],
+        ?array $fieldIdentifiersToValidate = null
+    ): Content;
 
     /**
      * Updates the metadata.
      *
      * To update fields, use {@see ContentService::updateContent()}.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to update the content metadata.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the remoteId in $contentMetadataUpdateStruct is set but already exists.
+     * @throws UnauthorizedException if the user is not allowed to update the content metadata.
+     * @throws InvalidArgumentException if the remoteId in $contentMetadataUpdateStruct is set but already exists.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content The content with the updated attributes.
+     * @return Content The content with the updated attributes.
      */
-    public function updateContentMetadata(ContentInfo $contentInfo, ContentMetadataUpdateStruct $contentMetadataUpdateStruct): Content;
+    public function updateContentMetadata(
+        ContentInfo $contentInfo,
+        ContentMetadataUpdateStruct $contentMetadataUpdateStruct
+    ): Content;
 
     /**
      * Deletes a content object including all its versions and locations including their subtrees.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to delete the content (in one of the locations of the given content object).
+     * @throws UnauthorizedException if the user is not allowed to delete the content (in one of the locations of the given content object).
      *
      * @return array<int, int> Affected Location IDs (List of Location IDs of the Content that was deleted).
      */
@@ -233,12 +276,12 @@ interface ContentService
      * 4.x: The draft is created with the initialLanguage code of the source version or if not present with the main language.
      * It can be changed on updating the version.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the current user is not allowed to create the draft.
+     * @throws UnauthorizedException if the current user is not allowed to create the draft.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User|null $creator Used as creator of the draft if given; otherwise uses current user.
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language|null $language If not set the draft is created with the initialLanguage code of the source version or if not present with the main language.
+     * @param User|null $creator Used as creator of the draft if given; otherwise uses current user.
+     * @param Language|null $language If not set the draft is created with the initialLanguage code of the source version or if not present with the main language.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content The newly created content draft.
+     * @return Content The newly created content draft.
      */
     public function createContentDraft(
         ContentInfo $contentInfo,
@@ -252,11 +295,11 @@ interface ContentService
      *
      * If no user is given the number of drafts for the authenticated user are returned.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user The user to load drafts for, if defined, otherwise drafts for current user.
+     * @param User $user The user to load drafts for, if defined, otherwise drafts for current user.
      *
      * @return int The number of drafts ({@see VersionInfo}) owned by the given user.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function countContentDrafts(?User $user = null): int;
 
@@ -267,25 +310,33 @@ interface ContentService
      *
      * @since 7.5.5
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User|null $user The user to load drafts for, if defined; otherwise drafts for current user.
+     * @param User|null $user The user to load drafts for, if defined; otherwise drafts for current user.
      */
-    public function loadContentDraftList(?User $user = null, int $offset = 0, int $limit = -1): ContentDraftList;
+    public function loadContentDraftList(
+        ?User $user = null,
+        int $offset = 0,
+        int $limit = -1
+    ): ContentDraftList;
 
     /**
      * Updates the fields of a draft.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to update this version.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the version is not a draft.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException if a field in the $contentUpdateStruct is not valid.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException if a required field is set to an empty value.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if a field value is not accepted by the field type.
+     * @throws UnauthorizedException if the user is not allowed to update this version.
+     * @throws BadStateException if the version is not a draft.
+     * @throws ContentFieldValidationException if a field in the $contentUpdateStruct is not valid.
+     * @throws ContentValidationException if a required field is set to an empty value.
+     * @throws InvalidArgumentException if a field value is not accepted by the field type.
      *
      * @param array<int, string>|null $fieldIdentifiersToValidate List of field identifiers for partial validation or null
      *                      for case of full validation. Empty identifiers array is equal to no validation.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content The content draft with the updated fields.
+     * @return Content The content draft with the updated fields.
      */
-    public function updateContent(VersionInfo $versionInfo, ContentUpdateStruct $contentUpdateStruct, ?array $fieldIdentifiersToValidate = null): Content;
+    public function updateContent(
+        VersionInfo $versionInfo,
+        ContentUpdateStruct $contentUpdateStruct,
+        ?array $fieldIdentifiersToValidate = null
+    ): Content;
 
     /**
      * Publishes a content version.
@@ -295,8 +346,8 @@ interface ContentService
      *
      * @todo Introduce null|int ContentType->versionArchiveLimit to be able to let admins override this per type.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to publish this version.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the version is not a draft.
+     * @throws UnauthorizedException if the user is not allowed to publish this version.
+     * @throws BadStateException if the version is not a draft.
      *
      * @param array<int, string> $translations List of language codes of translations which will be included
      *                               in a published version.
@@ -305,46 +356,56 @@ interface ContentService
      *                               the missing ones will be copied from the currently published version,
      *                               overriding those in the current version.
      */
-    public function publishVersion(VersionInfo $versionInfo, array $translations = Language::ALL): Content;
+    public function publishVersion(
+        VersionInfo $versionInfo,
+        array $translations = Language::ALL
+    ): Content;
 
     /**
      * Removes the given version.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the version is in
+     * @throws BadStateException if the version is in
      *         published state or is a last version of Content in non-draft state.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to remove this version.
+     * @throws UnauthorizedException if the user is not allowed to remove this version.
      */
     public function deleteVersion(VersionInfo $versionInfo): void;
 
     /**
      * Loads all versions for the given content.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to list versions.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the given status is invalid.
+     * @throws UnauthorizedException if the user is not allowed to list versions.
+     * @throws InvalidArgumentException if the given status is invalid.
      *
-     * @return array<int, \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo> An array of {@see \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo} sorted by creation date.
+     * @return array<int, VersionInfo> An array of {@see VersionInfo} sorted by creation date.
      */
-    public function loadVersions(ContentInfo $contentInfo, ?int $status = null): iterable;
+    public function loadVersions(
+        ContentInfo $contentInfo,
+        ?int $status = null
+    ): iterable;
 
     /**
      * Copies the content to a new location. If no version is given,
      * all versions are copied, otherwise only the given version.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to copy the content to the given location.
+     * @throws UnauthorizedException if the user is not allowed to copy the content to the given location.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct $destinationLocationCreateStruct The target location where the content is copied to.
+     * @param LocationCreateStruct $destinationLocationCreateStruct The target location where the content is copied to.
      */
-    public function copyContent(ContentInfo $contentInfo, LocationCreateStruct $destinationLocationCreateStruct, ?VersionInfo $versionInfo = null): Content;
+    public function copyContent(
+        ContentInfo $contentInfo,
+        LocationCreateStruct $destinationLocationCreateStruct,
+        ?VersionInfo $versionInfo = null
+    ): Content;
 
     /**
      * Loads all outgoing relations for the given version.
      *
      * If the user is not allowed to read specific version then a returned `RelationList` will contain `UnauthorizedRelationListItem`
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws InvalidArgumentException
+     * @throws BadStateException
      *
-     * @see \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\Item\UnauthorizedRelationListItem
+     * @see UnauthorizedRelationListItem
      */
     public function loadRelationList(
         VersionInfo $versionInfo,
@@ -356,34 +417,43 @@ interface ContentService
     /**
      * Counts all outgoing relations for the given version.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws InvalidArgumentException
+     * @throws BadStateException
      */
-    public function countRelations(VersionInfo $versionInfo, ?RelationType $type = null): int;
+    public function countRelations(
+        VersionInfo $versionInfo,
+        ?RelationType $type = null
+    ): int;
 
     /**
      * Counts all incoming relations for the given content object.
      *
      * @return int The number of reverse relations ({@see Relation}).
      */
-    public function countReverseRelations(ContentInfo $contentInfo, ?RelationType $type = null): int;
+    public function countReverseRelations(
+        ContentInfo $contentInfo,
+        ?RelationType $type = null
+    ): int;
 
     /**
      * Loads all incoming relations for a content object.
      *
      * The relations come only from published versions of the source content objects
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to read this version.
+     * @throws UnauthorizedException if the user is not allowed to read this version.
      *
-     * @return array<int, \Ibexa\Contracts\Core\Repository\Values\Content\Relation>
+     * @return array<int, Relation>
      */
-    public function loadReverseRelations(ContentInfo $contentInfo, ?RelationType $type = null): iterable;
+    public function loadReverseRelations(
+        ContentInfo $contentInfo,
+        ?RelationType $type = null
+    ): iterable;
 
     /**
      * Loads all incoming relations for a content object.
      *
      * The relations come only from published versions of the source content objects.
-     * If the user is not allowed to read specific version then {@see \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\Item\UnauthorizedRelationListItem} is returned
+     * If the user is not allowed to read specific version then {@see UnauthorizedRelationListItem} is returned
      */
     public function loadReverseRelationList(
         ContentInfo $contentInfo,
@@ -398,44 +468,53 @@ interface ContentService
      * The source of the relation is the content and version
      * referenced by $sourceVersion.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to edit this version.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the version is not a draft.
+     * @throws UnauthorizedException if the user is not allowed to edit this version.
+     * @throws BadStateException if the version is not a draft.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $sourceVersion The source content's version in relation with the destination.
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $destinationContent The destination of the relation.
+     * @param VersionInfo $sourceVersion The source content's version in relation with the destination.
+     * @param ContentInfo $destinationContent The destination of the relation.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation The newly created relation.
+     * @return Relation The newly created relation.
      *
      * @see Relation::COMMON
      */
-    public function addRelation(VersionInfo $sourceVersion, ContentInfo $destinationContent): Relation;
+    public function addRelation(
+        VersionInfo $sourceVersion,
+        ContentInfo $destinationContent
+    ): Relation;
 
     /**
      * Removes a common relation from a draft.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed edit this version.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the version is not a draft.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if there is no relation of type {@see Relation::COMMON} for the given destination.
+     * @throws UnauthorizedException if the user is not allowed edit this version.
+     * @throws BadStateException if the version is not a draft.
+     * @throws InvalidArgumentException if there is no relation of type {@see Relation::COMMON} for the given destination.
      *
      * @see Relation::COMMON
      */
-    public function deleteRelation(VersionInfo $sourceVersion, ContentInfo $destinationContent): void;
+    public function deleteRelation(
+        VersionInfo $sourceVersion,
+        ContentInfo $destinationContent
+    ): void;
 
     /**
      * Delete Content item Translation from all Versions (including archived ones) of a Content Object.
      *
      * NOTE: this operation is risky and permanent, so user interface should provide a warning before performing it.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the specified Translation
+     * @throws BadStateException if the specified Translation
      *         is the Main Translation of a Content Item.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed
+     * @throws UnauthorizedException if the user is not allowed
      *         to delete the content (in one of the locations of the given Content Item).
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if $languageCode argument
+     * @throws InvalidArgumentException if $languageCode argument
      *         is invalid for the given content.
      *
      * @since 6.13
      */
-    public function deleteTranslation(ContentInfo $contentInfo, string $languageCode): void;
+    public function deleteTranslation(
+        ContentInfo $contentInfo,
+        string $languageCode
+    ): void;
 
     /**
      * Delete specified Translation from a Content Draft.
@@ -443,22 +522,25 @@ interface ContentService
      * When using together with {@see ContentService::publishVersion()} method, make sure to not provide deleted translation
      * in translations array, as it is going to be copied again from published version.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the specified Translation
+     * @throws BadStateException if the specified Translation
      *         is the only one the Content Draft has or it is the main Translation of a Content Object.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed
+     * @throws UnauthorizedException if the user is not allowed
      *         to edit the Content (in one of the locations of the given Content Object).
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if languageCode argument
+     * @throws InvalidArgumentException if languageCode argument
      *         is invalid for the given Draft.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if specified Version was not found.
+     * @throws NotFoundException if specified Version was not found.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo Content Version Draft.
+     * @param VersionInfo $versionInfo Content Version Draft.
      * @param string $languageCode Language code of the Translation to be removed.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content Content Draft without the specified Translation.
+     * @return Content Content Draft without the specified Translation.
      *
      * @since 6.12
      */
-    public function deleteTranslationFromDraft(VersionInfo $versionInfo, string $languageCode): Content;
+    public function deleteTranslationFromDraft(
+        VersionInfo $versionInfo,
+        string $languageCode
+    ): Content;
 
     /**
      * Hides Content by making all the Locations appear hidden.
@@ -485,7 +567,10 @@ interface ContentService
      *
      * {@see ContentCreateStruct::$alwaysAvailable} is set to the {@see ContentType::$defaultAlwaysAvailable}.
      */
-    public function newContentCreateStruct(ContentType $contentType, string $mainLanguageCode): ContentCreateStruct;
+    public function newContentCreateStruct(
+        ContentType $contentType,
+        string $mainLanguageCode
+    ): ContentCreateStruct;
 
     /**
      * Instantiates a new content meta data update struct.
@@ -507,9 +592,13 @@ interface ContentService
      * @return array Validation errors grouped by field definition and language code, in format:
      *           $returnValue[string|int $fieldDefinitionId][string $languageCode] = $fieldErrors;
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function validate(ValueObject $object, array $context, ?array $fieldIdentifiersToValidate = null): array;
+    public function validate(
+        ValueObject $object,
+        array $context,
+        ?array $fieldIdentifiersToValidate = null
+    ): array;
 
     /**
      * Fetches Content items from the Repository filtered by the given conditions.
@@ -518,7 +607,10 @@ interface ContentService
      *        If skipped, by default, unless SiteAccessAware layer has been disabled, languages set
      *        for a SiteAccess in a current context will be used.
      */
-    public function find(Filter $filter, ?array $languages = null): ContentList;
+    public function find(
+        Filter $filter,
+        ?array $languages = null
+    ): ContentList;
 
     /**
      * Gets the total number of fetchable Content items.
@@ -531,5 +623,8 @@ interface ContentService
      *
      * @phpstan-return int<0, max>
      */
-    public function count(Filter $filter, ?array $languages = null): int;
+    public function count(
+        Filter $filter,
+        ?array $languages = null
+    ): int;
 }

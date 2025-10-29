@@ -9,25 +9,25 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
 return SearchResult::__set_state([
     'searchHits' => [
-            0 => SearchHit::__set_state([
-                    'valueObject' => [
-                            'id' => 54,
-                            'title' => 'Ibexa Demo Design (without demo content)',
-                        ],
-                    'score' => null,
-                    'index' => null,
-                    'highlight' => null,
-                ]),
-            1 => SearchHit::__set_state([
-                    'valueObject' => [
-                            'id' => 56,
-                            'title' => 'Design',
-                        ],
-                    'score' => null,
-                    'index' => null,
-                    'highlight' => null,
-                ]),
-        ],
+        0 => SearchHit::__set_state([
+            'valueObject' => [
+                'id' => 54,
+                'title' => 'Ibexa Demo Design (without demo content)',
+            ],
+            'score' => null,
+            'index' => null,
+            'highlight' => null,
+        ]),
+        1 => SearchHit::__set_state([
+            'valueObject' => [
+                'id' => 56,
+                'title' => 'Design',
+            ],
+            'score' => null,
+            'index' => null,
+            'highlight' => null,
+        ]),
+    ],
     'spellcheck' => null,
     'time' => 1,
     'timedOut' => null,

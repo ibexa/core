@@ -291,7 +291,7 @@ class RelationTest extends FieldTypeTestCase
         array $fieldSettings = [],
         string $languageCode = 'en_GB'
     ): void {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition|\PHPUnit\Framework\MockObject\MockObject $fieldDefinitionMock */
+        /** @var FieldDefinition|MockObject $fieldDefinitionMock */
         $fieldDefinitionMock = $this->createMock(FieldDefinition::class);
         $fieldDefinitionMock->method('getFieldSettings')->willReturn($fieldSettings);
 

@@ -10,6 +10,8 @@ namespace Ibexa\Contracts\Core\Limitation\Target;
 
 use Ibexa\Contracts\Core\Limitation\Target;
 use Ibexa\Contracts\Core\Persistence\ValueObject;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 
 /**
  * Version Limitation target. Indicates an intent to create new Version.
@@ -20,7 +22,7 @@ use Ibexa\Contracts\Core\Persistence\ValueObject;
  * @property-read string $forUpdateInitialLanguageCode
  * @property-read string[] $forUpdateLanguageCodesList
  * @property-read string[] $forPublishLanguageCodesList
- * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $updatedFields
+ * @property-read Field[] $updatedFields
  */
 final class Version extends ValueObject implements Target
 {
@@ -60,15 +62,15 @@ final class Version extends ValueObject implements Target
     /**
      * One of the following: STATUS_DRAFT, STATUS_PUBLISHED, STATUS_ARCHIVED.
      *
-     * @see \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo::STATUS_DRAFT
-     * @see \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo::STATUS_PUBLISHED
-     * @see \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo::STATUS_ARCHIVED
+     * @see VersionInfo::STATUS_DRAFT
+     * @see VersionInfo::STATUS_PUBLISHED
+     * @see VersionInfo::STATUS_ARCHIVED
      *
      * @var int|null
      */
     protected ?int $newStatus = null;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Field[] */
+    /** @var Field[] */
     protected array $updatedFields = [];
 
     /**

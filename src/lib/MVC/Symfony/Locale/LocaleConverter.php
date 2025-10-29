@@ -26,11 +26,13 @@ class LocaleConverter implements LocaleConverterInterface
      */
     private $reverseConversionMap;
 
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     private $logger;
 
-    public function __construct(array $conversionMap, LoggerInterface $logger)
-    {
+    public function __construct(
+        array $conversionMap,
+        LoggerInterface $logger
+    ) {
         $this->conversionMap = $conversionMap;
         $this->reverseConversionMap = array_flip($conversionMap);
         $this->logger = $logger;

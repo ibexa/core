@@ -15,6 +15,4 @@ use Ibexa\Contracts\Core\Repository\Exceptions\Exception as RepositoryException;
  * This Exception is thrown if an object referenced by an id or identifier
  * could not be found in the repository.
  */
-abstract class NotFoundException extends Exception implements RepositoryException
-{
-}
+abstract class NotFoundException extends Exception implements RepositoryException {}

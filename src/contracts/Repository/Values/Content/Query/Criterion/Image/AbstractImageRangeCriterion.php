@@ -23,8 +23,8 @@ abstract class AbstractImageRangeCriterion extends Criterion
      */
     public function __construct(
         string $fieldDefIdentifier,
-        int|float|string|null $minValue = null,
-        int|float|string|null $maxValue = null
+        int | float | string | null $minValue = null,
+        int | float | string | null $maxValue = null
     ) {
         $this->validate($minValue, $maxValue);
         $value[] = $minValue ?? 0;
@@ -64,8 +64,10 @@ abstract class AbstractImageRangeCriterion extends Criterion
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    protected function validate(int|float|string|null $minValue, int|float|string|null $maxValue): void
-    {
+    protected function validate(
+        int | float | string | null $minValue,
+        int | float | string | null $maxValue
+    ): void {
         if (
             null === $minValue
             && null === $maxValue

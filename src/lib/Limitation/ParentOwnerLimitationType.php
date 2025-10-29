@@ -17,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentOwnerLimitation as APIParentOwnerLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -33,7 +34,7 @@ class ParentOwnerLimitationType extends AbstractPersistenceLimitationType implem
      *
      * Makes sure LimitationValue object and ->limitationValues is of correct type.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
+     * @param APILimitationValue $limitationValue
      *
      *@throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected type/structure
      */
@@ -60,7 +61,7 @@ class ParentOwnerLimitationType extends AbstractPersistenceLimitationType implem
      *
      * Make sure {@link acceptValue()} is checked first!
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
+     * @param APILimitationValue $limitationValue
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
@@ -88,7 +89,7 @@ class ParentOwnerLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @param mixed[] $limitationValues
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
+     * @return APILimitationValue
      */
     public function buildValue(array $limitationValues): APILimitationValue
     {
@@ -98,8 +99,8 @@ class ParentOwnerLimitationType extends AbstractPersistenceLimitationType implem
     /**
      * Evaluate permission against content & target(placement/parent/assignment).
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
+     * @param APILimitationValue $value
+     * @param UserReference $currentUser
      * @param object $object
      * @param object[]|null $targets The context of the $object, like Location of Content, if null none where provided by caller
      *
@@ -112,8 +113,12 @@ class ParentOwnerLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @todo Add support for $limitationValues[0] == 2 when session values can be injected somehow
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, object $object, ?array $targets = null): ?bool
-    {
+    public function evaluate(
+        APILimitationValue $value,
+        APIUserReference $currentUser,
+        object $object,
+        ?array $targets = null
+    ): ?bool {
         if (!$value instanceof APIParentOwnerLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: APIParentOwnerLimitation');
         }
@@ -170,13 +175,15 @@ class ParentOwnerLimitationType extends AbstractPersistenceLimitationType implem
     /**
      * Returns Criterion for use in find() query.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
+     * @param APILimitationValue $value
+     * @param UserReference $currentUser
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
+     * @return CriterionInterface
      */
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser): CriterionInterface
-    {
+    public function getCriterion(
+        APILimitationValue $value,
+        APIUserReference $currentUser
+    ): CriterionInterface {
         throw new NotImplementedException(__METHOD__);
     }
 
@@ -186,7 +193,7 @@ class ParentOwnerLimitationType extends AbstractPersistenceLimitationType implem
      * @return int|mixed[] In case of array, a hash with key as valid limitations value and value as human readable name
      *                     of that option, in case of int on of VALUE_SCHEMA_ constants.
      */
-    public function valueSchema(): array|int
+    public function valueSchema(): array | int
     {
         throw new NotImplementedException(__METHOD__);
     }

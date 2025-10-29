@@ -9,15 +9,20 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Persistence\Filter;
 
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
+use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause;
+use Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder;
 
 /**
  * @internal for internal use by Repository Filtering.
- * Visits instances of {@see \Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder}.
+ * Visits instances of {@see SortClauseQueryBuilder}.
  */
 interface SortClauseVisitor
 {
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause[] $sortClauses
+     * @param FilteringSortClause[] $sortClauses
      */
-    public function visitSortClauses(FilteringQueryBuilder $queryBuilder, array $sortClauses): void;
+    public function visitSortClauses(
+        FilteringQueryBuilder $queryBuilder,
+        array $sortClauses
+    ): void;
 }

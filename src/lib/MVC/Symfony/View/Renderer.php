@@ -13,7 +13,7 @@ namespace Ibexa\Core\MVC\Symfony\View;
 interface Renderer
 {
     /**
-     * @param \Ibexa\Core\MVC\Symfony\View\View $view
+     * @param View $view
      *
      * @return string
      */

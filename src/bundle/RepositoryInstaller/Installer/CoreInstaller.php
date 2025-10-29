@@ -9,9 +9,13 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\RepositoryInstaller\Installer;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema;
+use Ibexa\Bundle\RepositoryInstaller\Event\Subscriber\BuildSchemaSubscriber;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
+use Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 /**
@@ -19,15 +23,17 @@ use Symfony\Component\Console\Helper\ProgressBar;
  */
 class CoreInstaller extends DbBasedInstaller implements Installer
 {
-    /** @var \Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface */
+    /** @var SchemaBuilderInterface */
     protected $schemaBuilder;
 
     /**
-     * @param \Doctrine\DBAL\Connection $db
-     * @param \Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface $schemaBuilder
+     * @param Connection $db
+     * @param SchemaBuilderInterface $schemaBuilder
      */
-    public function __construct(Connection $db, SchemaBuilderInterface $schemaBuilder)
-    {
+    public function __construct(
+        Connection $db,
+        SchemaBuilderInterface $schemaBuilder
+    ) {
         parent::__construct($db);
 
         $this->schemaBuilder = $schemaBuilder;
@@ -38,10 +44,10 @@ class CoreInstaller extends DbBasedInstaller implements Installer
      *
      * If you wish to extend schema, implement your own EventSubscriber
      *
-     * @see \Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent
-     * @see \Ibexa\Bundle\RepositoryInstaller\Event\Subscriber\BuildSchemaSubscriber
+     * @see SchemaBuilderEvent
+     * @see BuildSchemaSubscriber
      *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function importSchema()
     {
@@ -79,8 +85,8 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function importData()
     {
@@ -88,8 +94,8 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     }
 
     /**
-     * @param \Doctrine\DBAL\Schema\Schema $newSchema
-     * @param \Doctrine\DBAL\Platforms\AbstractPlatform $databasePlatform
+     * @param Schema $newSchema
+     * @param AbstractPlatform $databasePlatform
      *
      * @return string[]
      */
@@ -114,7 +120,5 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     /**
      * Handle optional import of binary files to var folder.
      */
-    public function importBinaries()
-    {
-    }
+    public function importBinaries() {}
 }

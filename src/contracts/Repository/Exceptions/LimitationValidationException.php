@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Exceptions;
 
+use Ibexa\Contracts\Core\FieldType\ValidationError;
+
 /**
  * This Exception is thrown on create, update or assign policy or role
  * when one or more given limitations are not valid.
@@ -17,7 +19,7 @@ abstract class LimitationValidationException extends ForbiddenException
     /**
      * Returns an array of limitation validation error messages.
      *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     * @return ValidationError[]
      */
     abstract public function getLimitationErrors(): array;
 }

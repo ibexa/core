@@ -20,7 +20,7 @@ final class ContentValueResolverTest extends TestCase
 {
     private ContentValueResolver $resolver;
 
-    private MockObject&ContentService $contentServiceMock;
+    private MockObject & ContentService $contentServiceMock;
 
     protected function setUp(): void
     {

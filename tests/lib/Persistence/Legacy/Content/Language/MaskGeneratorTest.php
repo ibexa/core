@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Language;
 
 use Ibexa\Contracts\Core\Persistence\Content\Language;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
 
@@ -19,8 +20,11 @@ class MaskGeneratorTest extends LanguageAwareTestCase
      *
      * @dataProvider getLanguageMaskData
      */
-    public function testGenerateLanguageMaskFromLanguagesCodes(array $languages, bool $isAlwaysAvailable, int $expectedMask): void
-    {
+    public function testGenerateLanguageMaskFromLanguagesCodes(
+        array $languages,
+        bool $isAlwaysAvailable,
+        int $expectedMask
+    ): void {
         $generator = $this->getMaskGenerator();
 
         self::assertSame(
@@ -156,8 +160,10 @@ class MaskGeneratorTest extends LanguageAwareTestCase
      *
      * @dataProvider isAlwaysAvailableProvider
      */
-    public function testIsAlwaysAvailable($langMask, $expectedResult)
-    {
+    public function testIsAlwaysAvailable(
+        $langMask,
+        $expectedResult
+    ) {
         $generator = $this->getMaskGenerator();
         self::assertSame($expectedResult, $generator->isAlwaysAvailable($langMask));
     }
@@ -181,8 +187,10 @@ class MaskGeneratorTest extends LanguageAwareTestCase
     /**
      * @dataProvider removeAlwaysAvailableFlagProvider
      */
-    public function testRemoveAlwaysAvailableFlag($langMask, $expectedResult)
-    {
+    public function testRemoveAlwaysAvailableFlag(
+        $langMask,
+        $expectedResult
+    ) {
         $generator = $this->getMaskGenerator();
         self::assertSame($expectedResult, $generator->removeAlwaysAvailableFlag($langMask));
     }
@@ -208,8 +216,10 @@ class MaskGeneratorTest extends LanguageAwareTestCase
      *
      * @dataProvider languageIdsFromMaskProvider
      */
-    public function testExtractLanguageIdsFromMask($langMask, array $expectedResult)
-    {
+    public function testExtractLanguageIdsFromMask(
+        $langMask,
+        array $expectedResult
+    ) {
         $generator = $this->getMaskGenerator();
         self::assertSame($expectedResult, $generator->extractLanguageIdsFromMask($langMask));
     }
@@ -240,7 +250,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
     /**
      * Returns the mask generator to test.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
+     * @return MaskGenerator
      */
     protected function getMaskGenerator()
     {
@@ -250,7 +260,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
     /**
      * Returns a language handler mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Language\Handler
+     * @return Handler
      */
     protected function getLanguageHandler()
     {
@@ -280,10 +290,10 @@ class MaskGeneratorTest extends LanguageAwareTestCase
                                               if (in_array('eng-GB', $languageCodes, true)) {
                                                   $languages['eng-GB'] = new Language(
                                                       [
-                                                           'id' => 4,
-                                                           'languageCode' => 'eng-GB',
-                                                           'name' => 'British english',
-                                                       ]
+                                                          'id' => 4,
+                                                          'languageCode' => 'eng-GB',
+                                                          'name' => 'British english',
+                                                      ]
                                                   );
                                               }
 

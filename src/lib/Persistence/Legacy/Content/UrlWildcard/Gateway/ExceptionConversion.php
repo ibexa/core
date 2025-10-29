@@ -23,14 +23,14 @@ final class ExceptionConversion extends Gateway
     /**
      * The wrapped gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway
+     * @var Gateway
      */
     private $innerGateway;
 
     /**
      * Create a new exception conversion gateway around $innerGateway.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway $innerGateway
+     * @param Gateway $innerGateway
      */
     public function __construct(Gateway $innerGateway)
     {
@@ -41,7 +41,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->insertUrlWildcard($urlWildcard);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -59,7 +59,7 @@ final class ExceptionConversion extends Gateway
                 $destinationUrl,
                 $forward
             );
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -68,7 +68,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->deleteUrlWildcard($id);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -77,16 +77,18 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadUrlWildcardData($id);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function loadUrlWildcardsData(int $offset = 0, int $limit = -1): array
-    {
+    public function loadUrlWildcardsData(
+        int $offset = 0,
+        int $limit = -1
+    ): array {
         try {
             return $this->innerGateway->loadUrlWildcardsData($offset, $limit);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -100,7 +102,7 @@ final class ExceptionConversion extends Gateway
     ): array {
         try {
             return $this->innerGateway->find($criterion, $offset, $limit, $sortClauses, $doCount);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -109,7 +111,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadUrlWildcardBySourceUrl($sourceUrl);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -118,7 +120,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countAll();
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }

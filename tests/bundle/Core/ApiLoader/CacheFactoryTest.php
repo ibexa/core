@@ -18,9 +18,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 final class CacheFactoryTest extends TestCase
 {
-    private ConfigResolverInterface&MockObject $configResolver;
+    private ConfigResolverInterface & MockObject $configResolver;
 
-    private ContainerInterface&MockObject $container;
+    private ContainerInterface & MockObject $container;
 
     protected function setUp(): void
     {
@@ -44,8 +44,10 @@ final class CacheFactoryTest extends TestCase
     /**
      * @dataProvider providerGetService
      */
-    public function testGetService($name, $expected): void
-    {
+    public function testGetService(
+        $name,
+        $expected
+    ): void {
         $this->configResolver
             ->expects(self::once())
             ->method('getParameter')

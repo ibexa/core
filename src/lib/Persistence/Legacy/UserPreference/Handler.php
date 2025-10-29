@@ -15,18 +15,20 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 
 class Handler implements HandlerInterface
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\UserPreference\Gateway */
+    /** @var Gateway */
     protected $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\UserPreference\Mapper */
+    /** @var Mapper */
     protected $mapper;
 
     /**
-     * @param \Ibexa\Core\Persistence\Legacy\UserPreference\Gateway $gateway
-     * @param \Ibexa\Core\Persistence\Legacy\UserPreference\Mapper $mapper
+     * @param Gateway $gateway
+     * @param Mapper $mapper
      */
-    public function __construct(Gateway $gateway, Mapper $mapper)
-    {
+    public function __construct(
+        Gateway $gateway,
+        Mapper $mapper
+    ) {
         $this->gateway = $gateway;
         $this->mapper = $mapper;
     }
@@ -34,7 +36,7 @@ class Handler implements HandlerInterface
     /**
      * {@inheritdoc}
      *
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function setUserPreference(UserPreferenceSetStruct $setStruct): UserPreference
     {
@@ -46,10 +48,12 @@ class Handler implements HandlerInterface
     /**
      * {@inheritdoc}
      *
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
-    public function getUserPreferenceByUserIdAndName(int $userId, string $name): UserPreference
-    {
+    public function getUserPreferenceByUserIdAndName(
+        int $userId,
+        string $name
+    ): UserPreference {
         $userPreference = $this->mapper->extractUserPreferencesFromRows(
             $this->gateway->getUserPreferenceByUserIdAndName($userId, $name)
         );
@@ -72,8 +76,11 @@ class Handler implements HandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function loadUserPreferences(int $userId, int $offset, int $limit): array
-    {
+    public function loadUserPreferences(
+        int $userId,
+        int $offset,
+        int $limit
+    ): array {
         return $this->mapper->extractUserPreferencesFromRows(
             $this->gateway->loadUserPreferences($userId, $offset, $limit)
         );

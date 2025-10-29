@@ -70,8 +70,10 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function recover($trashedId, $newParentId)
-    {
+    public function recover(
+        $trashedId,
+        $newParentId
+    ) {
         $this->logger->logCall(__METHOD__, ['id' => $trashedId, 'newParentId' => $newParentId]);
 
         $return = $this->persistenceHandler->trashHandler()->recover($trashedId, $newParentId);
@@ -109,8 +111,12 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function findTrashItems(?CriterionInterface $criterion = null, $offset = 0, $limit = null, ?array $sort = null)
-    {
+    public function findTrashItems(
+        ?CriterionInterface $criterion = null,
+        $offset = 0,
+        $limit = null,
+        ?array $sort = null
+    ) {
         $this->logger->logCall(__METHOD__, ['criterion' => $criterion ? get_class($criterion) : 'null']);
 
         return $this->persistenceHandler->trashHandler()->findTrashItems($criterion, $offset, $limit, $sort);

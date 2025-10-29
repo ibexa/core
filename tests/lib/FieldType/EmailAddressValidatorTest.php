@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\FieldType;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Core\FieldType\EmailAddress\Value as EmailAddressValue;
 use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Validator\EmailAddressValidator;
@@ -33,7 +34,7 @@ class EmailAddressValidatorTest extends TestCase
     /**
      * Tests setting and getting constraints.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
+     * @throws PropertyNotFoundException
      */
     public function testConstraintsInitializeGet(): void
     {
