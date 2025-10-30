@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\FieldType\BinaryBase\RouteAwarePathGenerator;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue as PersistenceValue;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\Media\Value;
@@ -150,6 +151,8 @@ abstract class Type extends FieldType
      * Attempts to complete the data in $value.
      *
      * @param \Ibexa\Core\FieldType\BinaryBase\Value $value
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     protected function completeValue(BaseValue $value)
     {
@@ -163,7 +166,14 @@ abstract class Type extends FieldType
         }
 
         if (!isset($value->fileSize)) {
-            $value->fileSize = filesize($value->inputUri);
+            $fileSize = filesize($value->inputUri);
+            if (false === $fileSize) {
+                throw new InvalidArgumentException(
+                    '$value->inputUri',
+                    'Could not determine file size of ' . $value->inputUri
+                );
+            }
+            $value->fileSize = $fileSize;
         }
     }
 
