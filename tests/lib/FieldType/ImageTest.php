@@ -50,11 +50,7 @@ class ImageTest extends FieldTypeTestCase
 
     protected function getMimeTypeDetectorMock(): MimeTypeDetector & MockObject
     {
-        if (!isset($this->mimeTypeDetectorMock)) {
-            $this->mimeTypeDetectorMock = $this->createMock(MimeTypeDetector::class);
-        }
-
-        return $this->mimeTypeDetectorMock;
+        return $this->mimeTypeDetectorMock ??= $this->createMock(MimeTypeDetector::class);
     }
 
     protected function createFieldTypeUnderTest(): ImageType
