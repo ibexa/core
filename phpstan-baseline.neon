@@ -73993,12 +73993,6 @@ parameters:
 			path: tests/lib/Repository/Validator/TargetContentValidatorTest.php
 
 		-
-			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Language\:\:\$notDefined\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/lib/Repository/Values/Content/LanguageTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\LanguageTest\:\:assertPropertiesCorrect\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -74035,12 +74029,6 @@ parameters:
 			path: tests/lib/Repository/Values/Content/LanguageTest.php
 
 		-
-			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\Content\\Location\:\:\$notDefined\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/lib/Repository/Values/Content/LocationTest.php
-
-		-
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
 			identifier: staticMethod.alreadyNarrowedType
 			count: 1
@@ -74069,12 +74057,6 @@ parameters:
 			identifier: missingType.parameter
 			count: 1
 			path: tests/lib/Repository/Values/Content/Query/Criterion/DateMetadataTest.php
-
-		-
-			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Section\:\:\$notDefined\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/lib/Repository/Values/Content/SectionTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\Content\\SectionTest\:\:assertPropertiesCorrect\(\) has no return type specified\.$#'
@@ -74111,12 +74093,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/Repository/Values/Content/SectionTest.php
-
-		-
-			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\Content\\TrashItem\:\:\$notDefined\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/lib/Repository/Values/Content/TrashItemTest.php
 
 		-
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
@@ -74239,12 +74215,6 @@ parameters:
 			path: tests/lib/Repository/Values/Filter/FilterTest.php
 
 		-
-			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\ObjectState\\ObjectStateGroup\:\:\$notDefined\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/lib/Repository/Values/ObjectState/ObjectStateGroupTest.php
-
-		-
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
 			identifier: staticMethod.alreadyNarrowedType
 			count: 1
@@ -74317,12 +74287,6 @@ parameters:
 			path: tests/lib/Repository/Values/ObjectState/ObjectStateGroupTest.php
 
 		-
-			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\ObjectState\\ObjectState\:\:\$notDefined\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/lib/Repository/Values/ObjectState/ObjectStateTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\ObjectState\\ObjectStateTest\:\:assertPropertiesCorrect\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -74383,12 +74347,6 @@ parameters:
 			path: tests/lib/Repository/Values/ObjectState/ObjectStateTest.php
 
 		-
-			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\User\\Policy\:\:\$notDefined\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/lib/Repository/Values/User/PolicyTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\User\\PolicyTest\:\:assertPropertiesCorrect\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -74423,12 +74381,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/Repository/Values/User/PolicyTest.php
-
-		-
-			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\User\\Role\:\:\$notDefined\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/lib/Repository/Values/User/RoleTest.php
 
 		-
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
@@ -74479,12 +74431,6 @@ parameters:
 			path: tests/lib/Repository/Values/User/RoleTest.php
 
 		-
-			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\User\\UserGroup\:\:\$notDefined\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/lib/Repository/Values/User/UserGroupTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\User\\UserGroupTest\:\:assertPropertiesCorrect\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -74531,12 +74477,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/Repository/Values/User/UserGroupTest.php
-
-		-
-			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\User\\User\:\:\$notDefined\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/lib/Repository/Values/User/UserTest.php
 
 		-
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
