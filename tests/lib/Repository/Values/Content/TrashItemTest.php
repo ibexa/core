@@ -77,6 +77,7 @@ class TrashItemTest extends TestCase
     public function testIsPropertySet()
     {
         $trashItem = new TrashItem();
+        /** @phpstan-ignore property.notFound */
         $value = isset($trashItem->notDefined);
         self::assertFalse($value);
 

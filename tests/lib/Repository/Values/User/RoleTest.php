@@ -69,6 +69,7 @@ class RoleTest extends TestCase
     public function testIsPropertySet()
     {
         $role = new Role();
+        /** @phpstan-ignore property.notFound */
         $value = isset($role->notDefined);
         self::assertFalse($value);
 

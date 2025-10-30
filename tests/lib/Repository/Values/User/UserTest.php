@@ -71,7 +71,7 @@ class UserTest extends TestCase
         $this->expectException(PropertyNotFoundException::class);
 
         $user = new User();
-        /** @phpstan-ignore-next-line property.notFound */
+        /** @phpstan-ignore property.notFound */
         $value = $user->notDefined;
         self::fail('Succeeded getting non existing property');
     }
@@ -116,6 +116,7 @@ class UserTest extends TestCase
     public function testIsPropertySet()
     {
         $user = new User();
+        /** @phpstan-ignore property.notFound */
         $value = isset($user->notDefined);
         self::assertFalse($value);
 

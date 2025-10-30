@@ -70,6 +70,7 @@ class LanguageTest extends TestCase
     public function testIsPropertySet()
     {
         $language = new Language();
+        /** @phpstan-ignore property.notFound */
         $value = isset($language->notDefined);
         self::assertFalse($value);
 

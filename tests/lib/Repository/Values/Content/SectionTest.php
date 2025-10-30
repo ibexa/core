@@ -72,6 +72,7 @@ class SectionTest extends TestCase
     public function testIsPropertySet()
     {
         $section = new Section();
+        /** @phpstan-ignore property.notFound */
         $value = isset($section->notDefined);
         self::assertFalse($value);
 

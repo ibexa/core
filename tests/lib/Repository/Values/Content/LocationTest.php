@@ -146,6 +146,7 @@ final class LocationTest extends TestCase
     public function testIsPropertySet(): void
     {
         $location = new Location();
+        /** @phpstan-ignore property.notFound */
         $value = isset($location->notDefined);
         self::assertFalse($value);
 

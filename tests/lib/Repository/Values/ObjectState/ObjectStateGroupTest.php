@@ -106,6 +106,7 @@ class ObjectStateGroupTest extends TestCase
     public function testIsPropertySet()
     {
         $objectStateGroup = new ObjectStateGroup();
+        /** @phpstan-ignore property.notFound */
         $value = isset($objectStateGroup->notDefined);
         $this->assertFalse($value);
 
