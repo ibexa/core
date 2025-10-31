@@ -15,8 +15,6 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final class TrustedHeaderClientIpEventSubscriber implements EventSubscriberInterface
 {
-    private const PLATFORM_SH_TRUSTED_HEADER_CLIENT_IP = 'X-Client-IP';
-
     private ?string $trustedHeaderName;
 
     public function __construct(
@@ -40,9 +38,6 @@ final class TrustedHeaderClientIpEventSubscriber implements EventSubscriberInter
         $trustedHeaderSet = Request::getTrustedHeaderSet();
 
         $trustedHeaderName = $this->trustedHeaderName;
-        if (null === $trustedHeaderName && $this->isPlatformShProxy($request)) {
-            $trustedHeaderName = self::PLATFORM_SH_TRUSTED_HEADER_CLIENT_IP;
-        }
 
         if (null === $trustedHeaderName) {
             return;
@@ -58,10 +53,5 @@ final class TrustedHeaderClientIpEventSubscriber implements EventSubscriberInter
         }
 
         Request::setTrustedProxies($trustedProxies, $trustedHeaderSet);
-    }
-
-    private function isPlatformShProxy(Request $request): bool
-    {
-        return null !== $request->server->get('PLATFORM_RELATIONSHIPS');
     }
 }

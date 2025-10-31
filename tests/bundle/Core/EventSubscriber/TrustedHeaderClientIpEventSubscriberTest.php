@@ -19,15 +19,11 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
 {
-    private const PLATFORM_SH_TRUSTED_HEADER_CLIENT_IP = 'X-Client-IP';
-
     private ?string $originalRemoteAddr;
 
-    private const PROXY_IP = '127.100.100.1';
+    private const string PROXY_IP = '127.100.100.1';
 
-    private const REAL_CLIENT_IP = '98.76.123.234';
-
-    private const CUSTOM_CLIENT_IP = '234.123.78.98';
+    private const string REAL_CLIENT_IP = '98.76.123.234';
 
     /**
      * @param array<mixed> $data
@@ -74,40 +70,6 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
                 null,
                 ['X-Custom-Header' => self::REAL_CLIENT_IP],
             ],
-            'default platform.sh behaviour' => [
-                self::REAL_CLIENT_IP,
-                self::PROXY_IP,
-                null,
-                ['X-Client-IP' => self::REAL_CLIENT_IP],
-                ['PLATFORM_RELATIONSHIPS' => true],
-            ],
-            'use custom header name without valid value on platform.sh' => [
-                self::PROXY_IP,
-                self::PROXY_IP,
-                'X-Custom-Header',
-                [self::PLATFORM_SH_TRUSTED_HEADER_CLIENT_IP => self::REAL_CLIENT_IP],
-                ['PLATFORM_RELATIONSHIPS' => true],
-            ],
-            'use custom header with valid value on platform.sh' => [
-                self::CUSTOM_CLIENT_IP,
-                self::PROXY_IP,
-                'X-Custom-Header',
-                [
-                    self::PLATFORM_SH_TRUSTED_HEADER_CLIENT_IP => self::REAL_CLIENT_IP,
-                    'X-Custom-Header' => self::CUSTOM_CLIENT_IP,
-                ],
-                ['PLATFORM_RELATIONSHIPS' => true],
-            ],
-            'use valid value without custom header name on platform.sh' => [
-                self::REAL_CLIENT_IP,
-                self::PROXY_IP,
-                null,
-                [
-                    self::PLATFORM_SH_TRUSTED_HEADER_CLIENT_IP => self::REAL_CLIENT_IP,
-                    'X-Custom-Header' => self::CUSTOM_CLIENT_IP,
-                ],
-                ['PLATFORM_RELATIONSHIPS' => true],
-            ],
         ];
     }
 
@@ -120,10 +82,7 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
             new TrustedHeaderClientIpEventSubscriber('X-Custom-Header')
         );
 
-        $request = Request::create('/', Request::METHOD_GET, [], [], [], array_merge(
-            $_SERVER,
-            ['PLATFORM_RELATIONSHIPS' => true],
-        ));
+        $request = Request::create('/', Request::METHOD_GET, [], [], [], $_SERVER);
         $request->headers->add([
             'X-Custom-Header' => self::REAL_CLIENT_IP,
         ]);
@@ -147,8 +106,7 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
         string $expectedIp,
         string $remoteAddrIp,
         ?string $trustedHeaderName = null,
-        array $headers = [],
-        array $server = []
+        array $headers = []
     ): void {
         $_SERVER['REMOTE_ADDR'] = $remoteAddrIp;
         Request::setTrustedProxies(['REMOTE_ADDR'], Request::getTrustedHeaderSet());
@@ -158,10 +116,7 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
             new TrustedHeaderClientIpEventSubscriber($trustedHeaderName)
         );
 
-        $request = Request::create('/', Request::METHOD_GET, [], [], [], array_merge(
-            $server,
-            ['REMOTE_ADDR' => $remoteAddrIp],
-        ));
+        $request = Request::create('/', Request::METHOD_GET, [], [], [], ['REMOTE_ADDR' => $remoteAddrIp]);
         $request->headers->add($headers);
 
         $event = $eventDispatcher->dispatch(new RequestEvent(
