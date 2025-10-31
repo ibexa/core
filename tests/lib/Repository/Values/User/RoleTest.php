@@ -45,6 +45,7 @@ class RoleTest extends TestCase
         $this->expectException(PropertyNotFoundException::class);
 
         $role = new Role();
+        /** @phpstan-ignore-next-line property.notFound */
         $value = $role->notDefined;
         self::fail('Succeeded getting non existing property');
     }
@@ -69,6 +70,7 @@ class RoleTest extends TestCase
     public function testIsPropertySet(): void
     {
         $role = new Role();
+        /** @phpstan-ignore property.notFound */
         $value = isset($role->notDefined);
         self::assertFalse($value);
     }

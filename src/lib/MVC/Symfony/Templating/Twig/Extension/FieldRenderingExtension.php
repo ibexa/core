@@ -200,6 +200,6 @@ class FieldRenderingExtension extends AbstractExtension
             return $content;
         }
 
-            return $content->getContent();
+        return $content->getContent();
     }
 }

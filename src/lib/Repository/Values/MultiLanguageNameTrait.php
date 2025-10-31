@@ -38,7 +38,7 @@ trait MultiLanguageNameTrait
         }
 
         if (isset($this->mainLanguageCode, $this->names[$this->mainLanguageCode])) {
-              return $this->names[$this->mainLanguageCode];
+            return $this->names[$this->mainLanguageCode];
         }
 
         return $this->names[array_key_first($this->names)] ?? null;

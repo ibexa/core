@@ -63,6 +63,6 @@ final class RenderContentExtension extends AbstractExtension
             return $data;
         }
 
-            return $data->getContent();
+        return $data->getContent();
     }
 }

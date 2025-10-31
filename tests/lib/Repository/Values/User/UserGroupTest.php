@@ -65,6 +65,7 @@ class UserGroupTest extends TestCase
         $this->expectException(PropertyNotFoundException::class);
 
         $userGroup = new UserGroup();
+        /** @phpstan-ignore property.notFound */
         $value = $userGroup->notDefined;
         self::fail('Succeeded getting non existing property');
     }
@@ -109,6 +110,7 @@ class UserGroupTest extends TestCase
     public function testIsPropertySet()
     {
         $userGroup = new UserGroup();
+        /** @phpstan-ignore property.notFound */
         $value = isset($userGroup->notDefined);
         self::assertFalse($value);
 

@@ -260,7 +260,7 @@ class ContentExtension extends AbstractExtension
             return $data;
         }
 
-            return $data->getContent();
+        return $data->getContent();
     }
 
     private function getContent(Content|ContentAwareInterface $data): Content
@@ -269,6 +269,6 @@ class ContentExtension extends AbstractExtension
             return $data;
         }
 
-            return $data->getContent();
+        return $data->getContent();
     }
 }
