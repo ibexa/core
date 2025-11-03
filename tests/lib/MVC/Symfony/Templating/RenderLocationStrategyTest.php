@@ -9,9 +9,11 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\MVC\Symfony\Templating;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\Templating\RenderContentStrategy;
 use Ibexa\Core\MVC\Symfony\Templating\RenderLocationStrategy;
 use Ibexa\Core\MVC\Symfony\Templating\RenderOptions;
 use Symfony\Component\HttpFoundation\Request;
@@ -89,6 +91,51 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
             'method_b_rendered',
             $renderLocationStrategy->render($locationMock, new RenderOptions([
                 'method' => 'method_b',
+            ]))
+        );
+    }
+
+    public function testForwardOptionsToFragmentRenderer(): void
+    {
+        $params = [
+            'param1' => 'value1',
+            'param2' => 'value2',
+        ];
+
+        $fragmentRendererMock = $this->createMock(FragmentRendererInterface::class);
+        $fragmentRendererMock
+            ->method('getName')
+            ->willReturn('fragment_render_mock');
+        $fragmentRendererMock->expects($this->once())
+            ->method('render')
+            ->with(
+                $this->anything(),
+                $this->anything(),
+                $this->equalTo([
+                    'params' => $params,
+                ])
+            )
+            ->willReturn(new Response('fragment_render_mock_rendered'));
+
+        $renderContentStrategy = $this->createRenderStrategy(
+            RenderContentStrategy::class,
+            [
+                $fragmentRendererMock,
+            ],
+        );
+
+        $contentMock = $this->createMock(Content::class);
+        $this->assertTrue($renderContentStrategy->supports($contentMock));
+
+        $this->assertSame(
+            'fragment_render_mock_rendered',
+            $renderContentStrategy->render($contentMock, new RenderOptions([
+                'method' => 'fragment_render_mock',
+                'viewType' => 'awesome',
+                'params' => [
+                    'param1' => 'value1',
+                    'param2' => 'value2',
+                ],
             ]))
         );
     }

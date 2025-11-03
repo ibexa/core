@@ -93,6 +93,51 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
         );
     }
 
+    public function testForwardOptionsToFragmentRenderer(): void
+    {
+        $params = [
+            'param1' => 'value1',
+            'param2' => 'value2',
+        ];
+
+        $fragmentRendererMock = $this->createMock(FragmentRendererInterface::class);
+        $fragmentRendererMock
+            ->method('getName')
+            ->willReturn('fragment_render_mock');
+        $fragmentRendererMock->expects($this->once())
+            ->method('render')
+            ->with(
+                $this->anything(),
+                $this->anything(),
+                $this->equalTo([
+                    'params' => $params,
+                ])
+            )
+            ->willReturn(new Response('fragment_render_mock_rendered'));
+
+        $renderContentStrategy = $this->createRenderStrategy(
+            RenderContentStrategy::class,
+            [
+                $fragmentRendererMock,
+            ],
+        );
+
+        $contentMock = $this->createMock(Content::class);
+        $this->assertTrue($renderContentStrategy->supports($contentMock));
+
+        $this->assertSame(
+            'fragment_render_mock_rendered',
+            $renderContentStrategy->render($contentMock, new RenderOptions([
+                'method' => 'fragment_render_mock',
+                'viewType' => 'awesome',
+                'params' => [
+                    'param1' => 'value1',
+                    'param2' => 'value2',
+                ],
+            ]))
+        );
+    }
+
     public function testDuplicatedFragmentRenderers(): void
     {
         $renderContentStrategy = $this->createRenderStrategy(

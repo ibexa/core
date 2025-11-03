@@ -86,7 +86,24 @@ final class DirectFragmentRendererTest extends TestCase
         $this->assertSame('response_body', $response->getContent());
     }
 
-    public function testControllerViewResponse(): void
+    /**
+     * @return iterable<array{0: array<string, string>|null}>
+     */
+    public function controllerViewResponseDataProvider(): iterable
+    {
+        yield [[
+            'my_param1' => 'custom_data',
+            'my_param2' => 'foobar',
+        ]];
+
+        yield [null];
+    }
+
+    /**
+     * @param array<string, string>|null $params
+     * @dataProvider controllerViewResponseDataProvider
+     */
+    public function testControllerViewResponse(?array $params = null): void
     {
         $contentView = new ContentView();
         $contentView->setTemplateIdentifier('template_identifier');
@@ -105,16 +122,34 @@ final class DirectFragmentRendererTest extends TestCase
             ->expects($this->once())
             ->method('render')
             ->with($contentView)
-            ->willReturn('rendered_' . $contentView->getTemplateIdentifier());
+            ->willReturnCallback(
+                static function (ContentView $cV) use ($params): string {
+                    if ($params !== null) {
+                        foreach ($params as $key => $value) {
+                            self::assertArrayHasKey($key, $cV->getParameters());
+                        }
+                    }
+
+                    return 'rendered_' . $cV->getTemplateIdentifier();
+                }
+            );
 
         $directFragmentRenderer = $this->getDirectFragmentRenderer(
             $controllerResolverMock,
             $templateRendererMock
         );
-        $response = $directFragmentRenderer->render('', new Request(), []);
+        $response = $directFragmentRenderer->render(
+            '',
+            new Request(),
+            [
+                'viewType' => 'line',
+                'method' => 'direct',
+                'params' => $params,
+            ]
+        );
 
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertSame('rendered_template_identifier', $response->getContent());
+        self::assertInstanceOf(Response::class, $response);
+        self::assertSame('rendered_template_identifier', $response->getContent());
     }
 
     public function testControllerStringResponse(): void
