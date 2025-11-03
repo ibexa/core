@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\Templating\RenderContentStrategy;
 use Ibexa\Core\MVC\Symfony\Templating\RenderOptions;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
@@ -23,7 +24,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
 {
     public function testUnsupportedValueObject(): void
     {
-        $renderContentStrategy = $this->createRenderStrategy(
+        $renderContentStrategy = self::createRenderStrategy(
             RenderContentStrategy::class,
             [
                 $this->createFragmentRenderer(),
@@ -32,7 +33,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
 
         $valueObject = new class() extends ValueObject {
         };
-        $this->assertFalse($renderContentStrategy->supports($valueObject));
+        self::assertFalse($renderContentStrategy->supports($valueObject));
 
         $this->expectException(InvalidArgumentException::class);
         $renderContentStrategy->render($valueObject, new RenderOptions());
@@ -40,7 +41,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
 
     public function testDefaultFragmentRenderer(): void
     {
-        $renderContentStrategy = $this->createRenderStrategy(
+        $renderContentStrategy = self::createRenderStrategy(
             RenderContentStrategy::class,
             [
                 $this->createFragmentRenderer('inline'),
@@ -49,9 +50,9 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
         );
 
         $contentMock = $this->createMock(Content::class);
-        $this->assertTrue($renderContentStrategy->supports($contentMock));
+        self::assertTrue($renderContentStrategy->supports($contentMock));
 
-        $this->assertSame(
+        self::assertSame(
             'inline_rendered',
             $renderContentStrategy->render($contentMock, new RenderOptions())
         );
@@ -59,13 +60,13 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
 
     public function testUnknownFragmentRenderer(): void
     {
-        $renderContentStrategy = $this->createRenderStrategy(
+        $renderContentStrategy = self::createRenderStrategy(
             RenderContentStrategy::class,
             [],
         );
 
         $contentMock = $this->createMock(Content::class);
-        $this->assertTrue($renderContentStrategy->supports($contentMock));
+        self::assertTrue($renderContentStrategy->supports($contentMock));
 
         $this->expectException(InvalidArgumentException::class);
         $renderContentStrategy->render($contentMock, new RenderOptions());
@@ -73,7 +74,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
 
     public function testMultipleFragmentRenderers(): void
     {
-        $renderContentStrategy = $this->createRenderStrategy(
+        $renderContentStrategy = self::createRenderStrategy(
             RenderContentStrategy::class,
             [
                 $this->createFragmentRenderer('method_a'),
@@ -83,9 +84,9 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
         );
 
         $contentMock = $this->createMock(Content::class);
-        $this->assertTrue($renderContentStrategy->supports($contentMock));
+        self::assertTrue($renderContentStrategy->supports($contentMock));
 
-        $this->assertSame(
+        self::assertSame(
             'method_b_rendered',
             $renderContentStrategy->render($contentMock, new RenderOptions([
                 'method' => 'method_b',
@@ -93,9 +94,67 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
         );
     }
 
+    public function testForwardParamOptionsToFragmentRenderer(): void
+    {
+        static::forwardParamOptionsToFragmentRenderer(
+            $this->createMock(FragmentRendererInterface::class),
+            $this->createMock(Content::class),
+            RenderContentStrategy::class,
+        );
+    }
+
+    /**
+     * @param MockObject&FragmentRendererInterface $fragmentRendererMock
+     * @param MockObject&ValueObject $valueObjectMock
+     * @param class-string<RenderContentStrategy> $renderStrategyClass
+     */
+    public static function forwardParamOptionsToFragmentRenderer(MockObject $fragmentRendererMock, MockObject $valueObjectMock, string $renderStrategyClass): void
+    {
+        $params = [
+            'param1' => 'value1',
+            'param2' => 'value2',
+        ];
+
+        $fragmentRendererMock
+            ->method('getName')
+            ->willReturn('fragment_render_mock');
+        $fragmentRendererMock->expects(self::once())
+            ->method('render')
+            ->with(
+                self::callback(static function ($controllerReference) use ($params) {
+                    if (!$controllerReference instanceof ControllerReference) {
+                        return false;
+                    }
+
+                    return $controllerReference->attributes['params'] === $params;
+                }),
+                self::anything(),
+            )
+            ->willReturn(new Response('fragment_render_mock_rendered'));
+
+        $renderContentStrategy = self::createRenderStrategy(
+            $renderStrategyClass,
+            [
+                $fragmentRendererMock,
+            ],
+        );
+
+        /** @var \Ibexa\Contracts\Core\Repository\Values\ValueObject&\PHPUnit\Framework\MockObject\MockObject $valueObjectMock */
+        self::assertTrue($renderContentStrategy->supports($valueObjectMock));
+
+        self::assertSame(
+            'fragment_render_mock_rendered',
+            $renderContentStrategy->render($valueObjectMock, new RenderOptions([
+                'method' => 'fragment_render_mock',
+                'viewType' => 'awesome',
+                'params' => $params,
+            ]))
+        );
+    }
+
     public function testDuplicatedFragmentRenderers(): void
     {
-        $renderContentStrategy = $this->createRenderStrategy(
+        $renderContentStrategy = self::createRenderStrategy(
             RenderContentStrategy::class,
             [
                 $this->createFragmentRenderer('method_a', 'decorator service used'),
@@ -127,19 +186,19 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
             ->method('getName')
             ->willReturn('method_b');
 
-        $controllerReferenceCallback = $this->callback(function (ControllerReference $controllerReference) {
-            $this->assertInstanceOf(ControllerReference::class, $controllerReference);
-            $this->assertEquals('ibexa_content::viewAction', $controllerReference->controller);
-            $this->assertSame([
+        $controllerReferenceCallback = $this->callback(static function (ControllerReference $controllerReference) {
+            self::assertEquals('ibexa_content::viewAction', $controllerReference->controller);
+            self::assertSame([
                 'contentId' => 123,
                 'viewType' => 'awesome',
+                'params' => [],
             ], $controllerReference->attributes);
 
             return true;
         });
 
-        $requestCallback = $this->callback(function (Request $request) use ($siteAccess, $content): bool {
-            $this->assertSame('TEST/1.0', $request->headers->get('Surrogate-Capability'));
+        $requestCallback = $this->callback(static function (Request $request) use ($siteAccess, $content): bool {
+            self::assertSame('TEST/1.0', $request->headers->get('Surrogate-Capability'));
 
             return true;
         });
@@ -150,7 +209,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
             ->with($controllerReferenceCallback, $requestCallback)
             ->willReturn(new Response('some_rendered_content'));
 
-        $renderContentStrategy = $this->createRenderStrategy(
+        $renderContentStrategy = self::createRenderStrategy(
             RenderContentStrategy::class,
             [
                 $this->createFragmentRenderer('method_a'),
@@ -162,7 +221,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
             $request
         );
 
-        $this->assertSame('some_rendered_content', $renderContentStrategy->render(
+        self::assertSame('some_rendered_content', $renderContentStrategy->render(
             $content,
             new RenderOptions([
                 'method' => 'method_b',

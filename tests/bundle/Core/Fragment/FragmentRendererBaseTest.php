@@ -43,12 +43,12 @@ abstract class FragmentRendererBaseTest extends TestCase
             ->will($this->returnValue($expectedReturn));
 
         $renderer = $this->getRenderer();
-        $this->assertSame($expectedReturn, $renderer->render($reference, $request, $options));
-        $this->assertArrayHasKey('serialized_siteaccess', $reference->attributes);
+        self::assertSame($expectedReturn, $renderer->render($reference, $request, $options));
+        self::assertArrayHasKey('serialized_siteaccess', $reference->attributes);
         $serializedSiteAccess = json_encode($siteAccess);
-        $this->assertSame($serializedSiteAccess, $reference->attributes['serialized_siteaccess']);
-        $this->assertArrayHasKey('serialized_siteaccess_matcher', $reference->attributes);
-        $this->assertSame(
+        self::assertSame($serializedSiteAccess, $reference->attributes['serialized_siteaccess']);
+        self::assertArrayHasKey('serialized_siteaccess_matcher', $reference->attributes);
+        self::assertSame(
             $this->getSerializer()->serialize(
                 $siteAccess->matcher,
                 'json',
@@ -56,9 +56,9 @@ abstract class FragmentRendererBaseTest extends TestCase
             ),
             $reference->attributes['serialized_siteaccess_matcher']
         );
-        $this->assertArrayHasKey('serialized_siteaccess_sub_matchers', $reference->attributes);
+        self::assertArrayHasKey('serialized_siteaccess_sub_matchers', $reference->attributes);
         foreach ($siteAccess->matcher->getSubMatchers() as $subMatcher) {
-            $this->assertSame(
+            self::assertSame(
                 $this->getSerializer()->serialize(
                     $subMatcher,
                     'json',

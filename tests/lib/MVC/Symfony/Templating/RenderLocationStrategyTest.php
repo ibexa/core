@@ -23,7 +23,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
 {
     public function testUnsupportedValueObject(): void
     {
-        $renderLocationStrategy = $this->createRenderStrategy(
+        $renderLocationStrategy = self::createRenderStrategy(
             RenderLocationStrategy::class,
             [
                 $this->createFragmentRenderer(),
@@ -40,7 +40,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
 
     public function testDefaultFragmentRenderer(): void
     {
-        $renderLocationStrategy = $this->createRenderStrategy(
+        $renderLocationStrategy = self::createRenderStrategy(
             RenderLocationStrategy::class,
             [
                 $this->createFragmentRenderer('inline'),
@@ -59,7 +59,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
 
     public function testUnknownFragmentRenderer(): void
     {
-        $renderLocationStrategy = $this->createRenderStrategy(
+        $renderLocationStrategy = self::createRenderStrategy(
             RenderLocationStrategy::class,
             [],
         );
@@ -73,7 +73,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
 
     public function testMultipleFragmentRenderers(): void
     {
-        $renderLocationStrategy = $this->createRenderStrategy(
+        $renderLocationStrategy = self::createRenderStrategy(
             RenderLocationStrategy::class,
             [
                 $this->createFragmentRenderer('method_a'),
@@ -90,6 +90,15 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
             $renderLocationStrategy->render($locationMock, new RenderOptions([
                 'method' => 'method_b',
             ]))
+        );
+    }
+
+    public function testForwardParamOptionsToFragmentRenderer(): void
+    {
+        RenderContentStrategyTest::forwardParamOptionsToFragmentRenderer(
+            $this->createMock(FragmentRendererInterface::class),
+            $this->createMock(Location::class),
+            RenderLocationStrategy::class,
         );
     }
 
@@ -114,6 +123,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
                 'contentId' => 234,
                 'locationId' => 345,
                 'viewType' => 'awesome',
+                'params' => [],
             ], $controllerReference->attributes);
 
             return true;
@@ -131,7 +141,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
             ->with($controllerReferenceCallback, $requestCallback)
             ->willReturn(new Response('some_rendered_content'));
 
-        $renderLocationStrategy = $this->createRenderStrategy(
+        $renderLocationStrategy = self::createRenderStrategy(
             RenderLocationStrategy::class,
             [
                 $this->createFragmentRenderer('method_a'),
