@@ -24,6 +24,7 @@ use Ibexa\Core\Base\Exceptions\NotFound\LimitationNotFoundException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
@@ -85,7 +86,7 @@ class ExceptionListenerTest extends TestCase
         $translatedMessage = 'translated message';
         $this->mockTranslatorTrans($messageTemplate, $translationParams, $translatedMessage);
 
-        $this->assertExceptionSame(
+        $this->assertSameException(
             NotFoundHttpException::class,
             $event,
             $exception,
@@ -105,7 +106,7 @@ class ExceptionListenerTest extends TestCase
         $translatedMessage = 'translated message';
         $this->mockTranslatorTrans($messageTemplate, $translationParams, $translatedMessage);
 
-        $this->assertExceptionSame(
+        $this->assertSameException(
             AccessDeniedException::class,
             $event,
             $exception,
@@ -129,7 +130,7 @@ class ExceptionListenerTest extends TestCase
         $translatedMessage = 'translated message';
         $this->mockTranslatorTrans($messageTemplate, $translationParams, $translatedMessage);
 
-        $this->assertExceptionSame(
+        $this->assertSameException(
             BadRequestHttpException::class,
             $event,
             $exception,
@@ -142,7 +143,7 @@ class ExceptionListenerTest extends TestCase
      *
      * @param \Exception&\Ibexa\Core\Base\Translatable $exception
      */
-    public function testForbiddenException($exception): void
+    public function testForbiddenException(Exception $exception): void
     {
         $messageTemplate = 'some message template';
         $translationParams = ['some' => 'thing'];
@@ -153,7 +154,7 @@ class ExceptionListenerTest extends TestCase
         $translatedMessage = 'translated message';
         $this->mockTranslatorTrans($messageTemplate, $translationParams, $translatedMessage);
 
-        $this->assertExceptionSame(
+        $this->assertSameException(
             AccessDeniedHttpException::class,
             $event,
             $exception,
@@ -163,10 +164,10 @@ class ExceptionListenerTest extends TestCase
 
     public function testUntouchedException(): void
     {
-        $exception = new \RuntimeException('foo');
+        $exception = new RuntimeException('foo');
         $event = $this->generateExceptionEvent($exception);
         $this->translator
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('trans');
 
         $this->listener->onKernelException($event);
@@ -246,7 +247,7 @@ class ExceptionListenerTest extends TestCase
         string $translatedMessage
     ): void {
         $this->translator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('trans')
             ->with($messageTemplate, $translationParams)
             ->willReturn($translatedMessage);
@@ -256,7 +257,7 @@ class ExceptionListenerTest extends TestCase
      * @param class-string $expectedException
      * @param \Exception&\Ibexa\Core\Base\Translatable $exception
      */
-    private function assertExceptionSame(
+    private function assertSameException(
         string $expectedException,
         ExceptionEvent $event,
         $exception,
