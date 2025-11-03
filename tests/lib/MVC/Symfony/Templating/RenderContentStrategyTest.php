@@ -32,7 +32,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
 
         $valueObject = new class() extends ValueObject {
         };
-        $this->assertFalse($renderContentStrategy->supports($valueObject));
+        self::assertFalse($renderContentStrategy->supports($valueObject));
 
         $this->expectException(InvalidArgumentException::class);
         $renderContentStrategy->render($valueObject, new RenderOptions());
@@ -49,9 +49,9 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
         );
 
         $contentMock = $this->createMock(Content::class);
-        $this->assertTrue($renderContentStrategy->supports($contentMock));
+        self::assertTrue($renderContentStrategy->supports($contentMock));
 
-        $this->assertSame(
+        self::assertSame(
             'inline_rendered',
             $renderContentStrategy->render($contentMock, new RenderOptions())
         );
@@ -65,7 +65,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
         );
 
         $contentMock = $this->createMock(Content::class);
-        $this->assertTrue($renderContentStrategy->supports($contentMock));
+        self::assertTrue($renderContentStrategy->supports($contentMock));
 
         $this->expectException(InvalidArgumentException::class);
         $renderContentStrategy->render($contentMock, new RenderOptions());
@@ -83,13 +83,22 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
         );
 
         $contentMock = $this->createMock(Content::class);
-        $this->assertTrue($renderContentStrategy->supports($contentMock));
+        self::assertTrue($renderContentStrategy->supports($contentMock));
 
-        $this->assertSame(
+        self::assertSame(
             'method_b_rendered',
             $renderContentStrategy->render($contentMock, new RenderOptions([
                 'method' => 'method_b',
             ]))
+        );
+    }
+
+    public function testForwardParamOptionsToFragmentRenderer(): void
+    {
+        $this->forwardParamOptionsToFragmentRenderer(
+            $this->createMock(FragmentRendererInterface::class),
+            $this->createMock(Content::class),
+            RenderContentStrategy::class,
         );
     }
 
@@ -127,19 +136,19 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
             ->method('getName')
             ->willReturn('method_b');
 
-        $controllerReferenceCallback = $this->callback(function (ControllerReference $controllerReference) {
-            $this->assertInstanceOf(ControllerReference::class, $controllerReference);
-            $this->assertEquals('ibexa_content::viewAction', $controllerReference->controller);
-            $this->assertSame([
+        $controllerReferenceCallback = $this->callback(static function (ControllerReference $controllerReference): bool {
+            self::assertEquals('ibexa_content::viewAction', $controllerReference->controller);
+            self::assertSame([
                 'contentId' => 123,
                 'viewType' => 'awesome',
+                'params' => [],
             ], $controllerReference->attributes);
 
             return true;
         });
 
-        $requestCallback = $this->callback(function (Request $request) use ($siteAccess, $content): bool {
-            $this->assertSame('TEST/1.0', $request->headers->get('Surrogate-Capability'));
+        $requestCallback = $this->callback(static function (Request $request): bool {
+            self::assertSame('TEST/1.0', $request->headers->get('Surrogate-Capability'));
 
             return true;
         });
@@ -162,7 +171,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
             $request
         );
 
-        $this->assertSame('some_rendered_content', $renderContentStrategy->render(
+        self::assertSame('some_rendered_content', $renderContentStrategy->render(
             $content,
             new RenderOptions([
                 'method' => 'method_b',

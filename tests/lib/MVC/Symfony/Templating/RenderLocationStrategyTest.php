@@ -93,6 +93,15 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
         );
     }
 
+    public function testForwardParamOptionsToFragmentRenderer(): void
+    {
+        $this->forwardParamOptionsToFragmentRenderer(
+            $this->createMock(FragmentRendererInterface::class),
+            $this->createMock(Location::class),
+            RenderLocationStrategy::class,
+        );
+    }
+
     public function testExpectedMethodRenderRequestFormat(): void
     {
         $request = new Request();
@@ -114,6 +123,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
                 'contentId' => 234,
                 'locationId' => 345,
                 'viewType' => 'awesome',
+                'params' => [],
             ], $controllerReference->attributes);
 
             return true;

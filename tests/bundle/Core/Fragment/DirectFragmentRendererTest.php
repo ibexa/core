@@ -65,7 +65,6 @@ final class DirectFragmentRendererTest extends TestCase
         $directFragmentRenderer = $this->getDirectFragmentRenderer($controllerResolver);
         $response = $directFragmentRenderer->render($controllerReference, $request);
 
-        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame('rendered_response', $response->getContent());
     }
 
@@ -82,7 +81,6 @@ final class DirectFragmentRendererTest extends TestCase
         $directFragmentRenderer = $this->getDirectFragmentRenderer($controllerResolver);
         $response = $directFragmentRenderer->render('', new Request(), []);
 
-        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame('response_body', $response->getContent());
     }
 
@@ -113,7 +111,6 @@ final class DirectFragmentRendererTest extends TestCase
         );
         $response = $directFragmentRenderer->render('', new Request(), []);
 
-        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame('rendered_template_identifier', $response->getContent());
     }
 
@@ -130,7 +127,6 @@ final class DirectFragmentRendererTest extends TestCase
         $directFragmentRenderer = $this->getDirectFragmentRenderer($controllerResolver);
         $response = $directFragmentRenderer->render('', new Request(), []);
 
-        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame('some_prerendered_response', $response->getContent());
     }
 

@@ -30445,12 +30445,6 @@ parameters:
 			path: tests/bundle/Core/Fragment/DirectFragmentRendererTest.php
 
 		-
-			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Symfony\\\\Component\\\\HttpFoundation\\\\Response'' and Symfony\\Component\\HttpFoundation\\Response will always evaluate to true\.$#'
-			identifier: method.alreadyNarrowedType
-			count: 4
-			path: tests/bundle/Core/Fragment/DirectFragmentRendererTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Fragment\\FragmentListenerFactoryTest\:\:buildFragmentListenerProvider\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -58549,20 +58543,8 @@ parameters:
 			path: tests/lib/MVC/Symfony/Templating/BaseRenderStrategyTest.php
 
 		-
-			message: '#^Method Symfony\\Component\\HttpKernel\\Fragment\\FragmentRendererInterface@anonymous/tests/lib/MVC/Symfony/Templating/BaseRenderStrategyTest\.php\:51\:\:render\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			message: '#^Method Symfony\\Component\\HttpKernel\\Fragment\\FragmentRendererInterface@anonymous/tests/lib/MVC/Symfony/Templating/BaseRenderStrategyTest\.php\:53\:\:render\(\) has parameter \$options with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/MVC/Symfony/Templating/BaseRenderStrategyTest.php
-
-		-
-			message: '#^Property Symfony\\Component\\HttpKernel\\Fragment\\FragmentRendererInterface@anonymous/tests/lib/MVC/Symfony/Templating/BaseRenderStrategyTest\.php\:51\:\:\$rendered \(string\) does not accept string\|null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: tests/lib/MVC/Symfony/Templating/BaseRenderStrategyTest.php
-
-		-
-			message: '#^Property Symfony\\Component\\HttpKernel\\Fragment\\FragmentRendererInterface@anonymous/tests/lib/MVC/Symfony/Templating/BaseRenderStrategyTest\.php\:51\:\:\$rendered \(string\) on left side of \?\? is not nullable\.$#'
-			identifier: nullCoalesce.property
 			count: 1
 			path: tests/lib/MVC/Symfony/Templating/BaseRenderStrategyTest.php
 
@@ -58625,24 +58607,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/MVC/Symfony/Templating/GlobalHelperTest.php
-
-		-
-			message: '#^Anonymous function has an unused use \$content\.$#'
-			identifier: closure.unusedUse
-			count: 1
-			path: tests/lib/MVC/Symfony/Templating/RenderContentStrategyTest.php
-
-		-
-			message: '#^Anonymous function has an unused use \$siteAccess\.$#'
-			identifier: closure.unusedUse
-			count: 1
-			path: tests/lib/MVC/Symfony/Templating/RenderContentStrategyTest.php
-
-		-
-			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Symfony\\\\Component\\\\HttpKernel\\\\Controller\\\\ControllerReference'' and Symfony\\Component\\HttpKernel\\Controller\\ControllerReference will always evaluate to true\.$#'
-			identifier: method.alreadyNarrowedType
-			count: 1
-			path: tests/lib/MVC/Symfony/Templating/RenderContentStrategyTest.php
 
 		-
 			message: '#^Anonymous function has an unused use \$content\.$#'
