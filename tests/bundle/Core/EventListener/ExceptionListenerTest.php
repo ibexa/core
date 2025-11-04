@@ -60,8 +60,6 @@ class ExceptionListenerTest extends TestCase
     }
 
     /**
-     * @param \Exception $exception
-     *
      * @return \Symfony\Component\HttpKernel\Event\ExceptionEvent
      */
     private function generateExceptionEvent(Exception $exception): ExceptionEvent
@@ -119,7 +117,7 @@ class ExceptionListenerTest extends TestCase
      *
      * @param \Exception&\Ibexa\Core\Base\Translatable $exception
      */
-    public function testBadRequestException($exception): void
+    public function testBadRequestException(Exception $exception): void
     {
         $messageTemplate = 'some message template';
         $translationParams = ['some' => 'thing'];
@@ -260,7 +258,7 @@ class ExceptionListenerTest extends TestCase
     private function assertSameException(
         string $expectedException,
         ExceptionEvent $event,
-        $exception,
+        Exception $exception,
         string $translatedMessage
     ): void {
         $this->listener->onKernelException($event);
