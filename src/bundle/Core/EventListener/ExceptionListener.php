@@ -9,6 +9,7 @@ namespace Ibexa\Bundle\Core\EventListener;
 
 use Exception;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
@@ -17,6 +18,7 @@ use JMS\TranslationBundle\Annotation\Ignore;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -51,6 +53,8 @@ class ExceptionListener implements EventSubscriberInterface
             $event->setThrowable(new AccessDeniedException($this->getTranslatedMessage($exception), $exception));
         } elseif ($exception instanceof BadStateException || $exception instanceof InvalidArgumentException) {
             $event->setThrowable(new BadRequestHttpException($this->getTranslatedMessage($exception), $exception));
+        } elseif ($exception instanceof ForbiddenException) {
+            $event->setThrowable(new AccessDeniedHttpException($this->getTranslatedMessage($exception), $exception));
         } elseif ($exception instanceof Translatable) {
             $event->setThrowable(
                 new HttpException(
