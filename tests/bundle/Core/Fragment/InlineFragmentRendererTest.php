@@ -99,10 +99,10 @@ class InlineFragmentRendererTest extends DecoratedFragmentRendererTest
     {
         $reference = parent::testRendererControllerReferenceWithCompoundMatcher();
 
-        $this->assertArrayHasKey('semanticPathinfo', $reference->attributes);
-        $this->assertSame('/foo/bar', $reference->attributes['semanticPathinfo']);
-        $this->assertArrayHasKey('viewParametersString', $reference->attributes);
-        $this->assertSame('/(foo)/bar', $reference->attributes['viewParametersString']);
+        self::assertArrayHasKey('semanticPathinfo', $reference->attributes);
+        self::assertSame('/foo/bar', $reference->attributes['semanticPathinfo']);
+        self::assertArrayHasKey('viewParametersString', $reference->attributes);
+        self::assertSame('/(foo)/bar', $reference->attributes['viewParametersString']);
 
         return $reference;
     }
