@@ -9,11 +9,9 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\MVC\Symfony\Templating;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
-use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
-use Ibexa\Core\MVC\Symfony\Templating\RenderContentStrategy;
 use Ibexa\Core\MVC\Symfony\Templating\RenderLocationStrategy;
 use Ibexa\Core\MVC\Symfony\Templating\RenderOptions;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +23,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
 {
     public function testUnsupportedValueObject(): void
     {
-        $renderLocationStrategy = $this->createRenderStrategy(
+        $renderLocationStrategy = self::createRenderStrategy(
             RenderLocationStrategy::class,
             [
                 $this->createFragmentRenderer(),
@@ -42,7 +40,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
 
     public function testDefaultFragmentRenderer(): void
     {
-        $renderLocationStrategy = $this->createRenderStrategy(
+        $renderLocationStrategy = self::createRenderStrategy(
             RenderLocationStrategy::class,
             [
                 $this->createFragmentRenderer('inline'),
@@ -61,7 +59,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
 
     public function testUnknownFragmentRenderer(): void
     {
-        $renderLocationStrategy = $this->createRenderStrategy(
+        $renderLocationStrategy = self::createRenderStrategy(
             RenderLocationStrategy::class,
             [],
         );
@@ -75,7 +73,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
 
     public function testMultipleFragmentRenderers(): void
     {
-        $renderLocationStrategy = $this->createRenderStrategy(
+        $renderLocationStrategy = self::createRenderStrategy(
             RenderLocationStrategy::class,
             [
                 $this->createFragmentRenderer('method_a'),
@@ -97,46 +95,10 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
 
     public function testForwardOptionsToFragmentRenderer(): void
     {
-        $params = [
-            'param1' => 'value1',
-            'param2' => 'value2',
-        ];
-
-        $fragmentRendererMock = $this->createMock(FragmentRendererInterface::class);
-        $fragmentRendererMock
-            ->method('getName')
-            ->willReturn('fragment_render_mock');
-        $fragmentRendererMock->expects($this->once())
-            ->method('render')
-            ->with(
-                $this->anything(),
-                $this->anything(),
-                $this->equalTo([
-                    'params' => $params,
-                ])
-            )
-            ->willReturn(new Response('fragment_render_mock_rendered'));
-
-        $renderContentStrategy = $this->createRenderStrategy(
-            RenderContentStrategy::class,
-            [
-                $fragmentRendererMock,
-            ],
-        );
-
-        $contentMock = $this->createMock(Content::class);
-        $this->assertTrue($renderContentStrategy->supports($contentMock));
-
-        $this->assertSame(
-            'fragment_render_mock_rendered',
-            $renderContentStrategy->render($contentMock, new RenderOptions([
-                'method' => 'fragment_render_mock',
-                'viewType' => 'awesome',
-                'params' => [
-                    'param1' => 'value1',
-                    'param2' => 'value2',
-                ],
-            ]))
+        RenderContentStrategyTest::forwardOptionsToFragmentRenderer(
+            $this->createMock(FragmentRendererInterface::class),
+            $this->createMock(Location::class),
+            RenderLocationStrategy::class,
         );
     }
 
@@ -178,7 +140,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
             ->with($controllerReferenceCallback, $requestCallback)
             ->willReturn(new Response('some_rendered_content'));
 
-        $renderLocationStrategy = $this->createRenderStrategy(
+        $renderLocationStrategy = self::createRenderStrategy(
             RenderLocationStrategy::class,
             [
                 $this->createFragmentRenderer('method_a'),
