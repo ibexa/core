@@ -24,9 +24,11 @@ use Ibexa\Core\Base\Exceptions\NotFound\LimitationNotFoundException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -37,11 +39,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ExceptionListenerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Contracts\Translation\TranslatorInterface */
-    private $translator;
+    /** @var \PHPUnit\Framework\MockObject\MockObject&\Symfony\Contracts\Translation\TranslatorInterface */
+    private TranslatorInterface $translator;
 
-    /** @var \Ibexa\Bundle\Core\EventListener\ExceptionListener */
-    private $listener;
+    private ExceptionListener $listener;
 
     protected function setUp(): void
     {
@@ -50,7 +51,7 @@ class ExceptionListenerTest extends TestCase
         $this->listener = new ExceptionListener($this->translator);
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         self::assertSame(
             [KernelEvents::EXCEPTION => ['onKernelException', 10]],
@@ -59,21 +60,19 @@ class ExceptionListenerTest extends TestCase
     }
 
     /**
-     * @param \Exception $exception
-     *
      * @return \Symfony\Component\HttpKernel\Event\ExceptionEvent
      */
-    private function generateExceptionEvent(Exception $exception)
+    private function generateExceptionEvent(Exception $exception): ExceptionEvent
     {
         return new ExceptionEvent(
             $this->createMock(HttpKernelInterface::class),
             new Request(),
-            HttpKernelInterface::MASTER_REQUEST,
+            HttpKernelInterface::MAIN_REQUEST,
             $exception
         );
     }
 
-    public function testNotFoundException()
+    public function testNotFoundException(): void
     {
         $messageTemplate = 'some message template';
         $translationParams = ['some' => 'thing'];
@@ -83,20 +82,17 @@ class ExceptionListenerTest extends TestCase
         $event = $this->generateExceptionEvent($exception);
 
         $translatedMessage = 'translated message';
-        $this->translator
-            ->expects($this->once())
-            ->method('trans')
-            ->with($messageTemplate, $translationParams)
-            ->willReturn($translatedMessage);
+        $this->mockTranslatorTrans($messageTemplate, $translationParams, $translatedMessage);
 
-        $this->listener->onKernelException($event);
-        $convertedException = $event->getThrowable();
-        self::assertInstanceOf(NotFoundHttpException::class, $convertedException);
-        self::assertSame($exception, $convertedException->getPrevious());
-        self::assertSame($translatedMessage, $convertedException->getMessage());
+        $this->assertSameException(
+            NotFoundHttpException::class,
+            $event,
+            $exception,
+            $translatedMessage
+        );
     }
 
-    public function testUnauthorizedException()
+    public function testUnauthorizedException(): void
     {
         $messageTemplate = 'some message template';
         $translationParams = ['some' => 'thing'];
@@ -106,25 +102,22 @@ class ExceptionListenerTest extends TestCase
         $event = $this->generateExceptionEvent($exception);
 
         $translatedMessage = 'translated message';
-        $this->translator
-            ->expects($this->once())
-            ->method('trans')
-            ->with($messageTemplate, $translationParams)
-            ->willReturn($translatedMessage);
+        $this->mockTranslatorTrans($messageTemplate, $translationParams, $translatedMessage);
 
-        $this->listener->onKernelException($event);
-        $convertedException = $event->getThrowable();
-        self::assertInstanceOf(AccessDeniedException::class, $convertedException);
-        self::assertSame($exception, $convertedException->getPrevious());
-        self::assertSame($translatedMessage, $convertedException->getMessage());
+        $this->assertSameException(
+            AccessDeniedException::class,
+            $event,
+            $exception,
+            $translatedMessage
+        );
     }
 
     /**
      * @dataProvider badRequestExceptionProvider
      *
-     * @param \Exception|\Ibexa\Core\Base\Translatable $exception
+     * @param \Exception&\Ibexa\Core\Base\Translatable $exception
      */
-    public function testBadRequestException(Exception $exception)
+    public function testBadRequestException(Exception $exception): void
     {
         $messageTemplate = 'some message template';
         $translationParams = ['some' => 'thing'];
@@ -133,20 +126,80 @@ class ExceptionListenerTest extends TestCase
         $event = $this->generateExceptionEvent($exception);
 
         $translatedMessage = 'translated message';
+        $this->mockTranslatorTrans($messageTemplate, $translationParams, $translatedMessage);
+
+        $this->assertSameException(
+            BadRequestHttpException::class,
+            $event,
+            $exception,
+            $translatedMessage
+        );
+    }
+
+    /**
+     * @dataProvider provideDataForTestForbiddenException
+     *
+     * @param \Exception&\Ibexa\Core\Base\Translatable $exception
+     */
+    public function testForbiddenException(Exception $exception): void
+    {
+        $messageTemplate = 'some message template';
+        $translationParams = ['some' => 'thing'];
+        $exception->setMessageTemplate($messageTemplate);
+        $exception->setParameters($translationParams);
+        $event = $this->generateExceptionEvent($exception);
+
+        $translatedMessage = 'translated message';
+        $this->mockTranslatorTrans($messageTemplate, $translationParams, $translatedMessage);
+
+        $this->assertSameException(
+            AccessDeniedHttpException::class,
+            $event,
+            $exception,
+            $translatedMessage
+        );
+    }
+
+    public function testUntouchedException(): void
+    {
+        $exception = new RuntimeException('foo');
+        $event = $this->generateExceptionEvent($exception);
         $this->translator
-            ->expects($this->once())
-            ->method('trans')
-            ->with($messageTemplate, $translationParams)
-            ->willReturn($translatedMessage);
+            ->expects(self::never())
+            ->method('trans');
+
+        $this->listener->onKernelException($event);
+        self::assertSame($exception, $event->getThrowable());
+    }
+
+    /**
+     * @dataProvider otherExceptionProvider
+     *
+     * @param \Exception&\Ibexa\Core\Base\Translatable $exception
+     */
+    public function testOtherRepositoryException(Exception $exception): void
+    {
+        $messageTemplate = 'some message template';
+        $translationParams = ['some' => 'thing'];
+        $exception->setMessageTemplate($messageTemplate);
+        $exception->setParameters($translationParams);
+        $event = $this->generateExceptionEvent($exception);
+
+        $translatedMessage = 'translated message';
+        $this->mockTranslatorTrans($messageTemplate, $translationParams, $translatedMessage);
 
         $this->listener->onKernelException($event);
         $convertedException = $event->getThrowable();
-        self::assertInstanceOf(BadRequestHttpException::class, $convertedException);
+        self::assertInstanceOf(HttpException::class, $convertedException);
         self::assertSame($exception, $convertedException->getPrevious());
-        self::assertSame($translatedMessage, $convertedException->getMessage());
+        self::assertSame(get_class($exception) . ': ' . $translatedMessage, $convertedException->getMessage());
+        self::assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $convertedException->getStatusCode());
     }
 
-    public function badRequestExceptionProvider()
+    /**
+     * @return iterable<array{\Exception&\Ibexa\Core\Base\Translatable}>
+     */
+    public function badRequestExceptionProvider(): iterable
     {
         return [
             [new BadStateException('foo', 'bar')],
@@ -157,58 +210,63 @@ class ExceptionListenerTest extends TestCase
     }
 
     /**
-     * @dataProvider otherExceptionProvider
-     *
-     * @param \Exception|\Ibexa\Core\Base\Translatable $exception
+     * @return iterable<array{\Exception&\Ibexa\Core\Base\Translatable}>
      */
-    public function testOtherRepositoryException(Exception $exception)
-    {
-        $messageTemplate = 'some message template';
-        $translationParams = ['some' => 'thing'];
-        $exception->setMessageTemplate($messageTemplate);
-        $exception->setParameters($translationParams);
-        $event = $this->generateExceptionEvent($exception);
-
-        $translatedMessage = 'translated message';
-        $this->translator
-            ->expects($this->once())
-            ->method('trans')
-            ->with($messageTemplate, $translationParams)
-            ->willReturn($translatedMessage);
-
-        $this->listener->onKernelException($event);
-        $convertedException = $event->getThrowable();
-        self::assertInstanceOf(HttpException::class, $convertedException);
-        self::assertSame($exception, $convertedException->getPrevious());
-        self::assertSame(get_class($exception) . ': ' . $translatedMessage, $convertedException->getMessage());
-        self::assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $convertedException->getStatusCode());
-    }
-
-    public function otherExceptionProvider()
+    public function provideDataForTestForbiddenException(): iterable
     {
         return [
-            [new ForbiddenException('foo')],
+            [new ForbiddenException('foo "%param%"', ['%param%' => 'bar'])],
             [new LimitationValidationException([])],
-            [new MissingClass('foo')],
             [new ContentValidationException('foo')],
             [new ContentTypeValidationException('foo')],
             [new ContentFieldValidationException([])],
             [new ContentTypeFieldDefinitionValidationException([])],
+        ];
+    }
+
+    /**
+     * @return iterable<array{\Exception&\Ibexa\Core\Base\Translatable}>
+     */
+    public function otherExceptionProvider(): iterable
+    {
+        return [
+            [new MissingClass('foo')],
             [new FieldTypeNotFoundException('foo')],
             [new LimitationNotFoundException('foo')],
         ];
     }
 
-    public function testUntouchedException()
-    {
-        $exception = new \RuntimeException('foo');
-        $event = $this->generateExceptionEvent($exception);
+    /**
+     * @param array<string, mixed> $translationParams
+     */
+    private function mockTranslatorTrans(
+        string $messageTemplate,
+        array $translationParams,
+        string $translatedMessage
+    ): void {
         $this->translator
-            ->expects($this->never())
-            ->method('trans');
+            ->expects(self::once())
+            ->method('trans')
+            ->with($messageTemplate, $translationParams)
+            ->willReturn($translatedMessage);
+    }
 
+    /**
+     * @param class-string $expectedException
+     * @param \Exception&\Ibexa\Core\Base\Translatable $exception
+     */
+    private function assertSameException(
+        string $expectedException,
+        ExceptionEvent $event,
+        Exception $exception,
+        string $translatedMessage
+    ): void {
         $this->listener->onKernelException($event);
-        self::assertSame($exception, $event->getThrowable());
+        $convertedException = $event->getThrowable();
+
+        self::assertInstanceOf($expectedException, $convertedException);
+        self::assertSame($exception, $convertedException->getPrevious());
+        self::assertSame($translatedMessage, $convertedException->getMessage());
     }
 }
 
