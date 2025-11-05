@@ -4039,12 +4039,6 @@ parameters:
 			path: src/bundle/IO/BinaryStreamResponse.php
 
 		-
-			message: '#^Parameter \#2 \$values of method Symfony\\Component\\HttpFoundation\\ResponseHeaderBag\:\:set\(\) expects array\<string\>\|string\|null, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/bundle/IO/BinaryStreamResponse.php
-
-		-
 			message: '#^Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition\:\:children\(\)\.$#'
 			identifier: method.notFound
 			count: 1
