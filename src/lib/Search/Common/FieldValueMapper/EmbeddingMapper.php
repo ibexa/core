@@ -22,6 +22,9 @@ final class EmbeddingMapper extends FieldValueMapper
         return $field->getType() instanceof EmbeddingField;
     }
 
+    /**
+     * @return mixed
+     */
     public function map(Field $field)
     {
         return $field->getValue();
