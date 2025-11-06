@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContainsFieldDefinitionId;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeGroupId;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeGroupName;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeId;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeIdentifier;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\IsSystem;
@@ -192,6 +193,13 @@ final class FindContentTypesTest extends RepositoryTestCase
                 new ContentTypeId(1),
             ),
             ['folder'],
+        ];
+
+        yield 'content type group name' => [
+            new ContentTypeQuery(
+                new ContentTypeGroupName('Media'),
+            ),
+            ['file', 'image', 'video'],
         ];
 
         yield 'system group' => [
