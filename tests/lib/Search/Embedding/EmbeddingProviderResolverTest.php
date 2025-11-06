@@ -41,7 +41,7 @@ final class EmbeddingProviderResolverTest extends TestCase
         $mockProvider = $this->createMock(EmbeddingProviderInterface::class);
 
         $this->configuration
-            ->method('getDefaultEmbeddingProvider')
+            ->method('getDefaultProvider')
             ->willReturn($embeddingProviderIdentifier);
 
         $this->registry
@@ -64,7 +64,7 @@ final class EmbeddingProviderResolverTest extends TestCase
         $embeddingProviderIdentifier = 'foo';
 
         $this->configuration
-            ->method('getDefaultEmbeddingProvider')
+            ->method('getDefaultProvider')
             ->willReturn($embeddingProviderIdentifier);
 
         $this->registry

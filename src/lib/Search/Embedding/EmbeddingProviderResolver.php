@@ -30,7 +30,7 @@ final class EmbeddingProviderResolver implements EmbeddingProviderResolverInterf
 
     public function resolve(): EmbeddingProviderInterface
     {
-        $defaultEmbeddingProvider = $this->embeddingConfiguration->getDefaultEmbeddingProvider();
+        $defaultEmbeddingProvider = $this->embeddingConfiguration->getDefaultProvider();
 
         if (!$this->registry->hasEmbeddingProvider($defaultEmbeddingProvider)) {
             throw new EmbeddingResolverNotFoundException(

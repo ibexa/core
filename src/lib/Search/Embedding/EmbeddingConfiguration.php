@@ -25,7 +25,7 @@ final class EmbeddingConfiguration implements EmbeddingConfigurationInterface
     /**
      * @return array<string, array{name: string, dimensions: int, field_suffix: string, embedding_provider: string}>
      */
-    public function getEmbeddingModels(): array
+    public function getModels(): array
     {
         $models = $this->configResolver->getParameter('embedding_models');
 
@@ -44,17 +44,17 @@ final class EmbeddingConfiguration implements EmbeddingConfigurationInterface
     /**
      * @return string[]
      */
-    public function getEmbeddingModelIdentifiers(): array
+    public function getModelIdentifiers(): array
     {
-        return array_keys($this->getEmbeddingModels());
+        return array_keys($this->getModels());
     }
 
     /**
      * @return array{name: string, dimensions: int, field_suffix: string, embedding_provider: string}
      */
-    public function getEmbeddingModel(string $identifier): array
+    public function getModel(string $identifier): array
     {
-        $models = $this->getEmbeddingModels();
+        $models = $this->getModels();
 
         if (!isset($models[$identifier])) {
             throw new InvalidArgumentException(
@@ -65,7 +65,7 @@ final class EmbeddingConfiguration implements EmbeddingConfigurationInterface
         return $models[$identifier];
     }
 
-    public function getDefaultEmbeddingModelIdentifier(): string
+    public function getDefaultModelIdentifier(): string
     {
         $identifier = $this->configResolver->getParameter('default_embedding_model');
 
@@ -84,16 +84,16 @@ final class EmbeddingConfiguration implements EmbeddingConfigurationInterface
     /**
      * @return array{name: string, dimensions: int, field_suffix: string, embedding_provider: string}
      */
-    public function getDefaultEmbeddingModel(): array
+    public function getDefaultModel(): array
     {
-        return $this->getEmbeddingModel(
-            $this->getDefaultEmbeddingModelIdentifier()
+        return $this->getModel(
+            $this->getDefaultModelIdentifier()
         );
     }
 
-    public function getDefaultEmbeddingProvider(): string
+    public function getDefaultProvider(): string
     {
-        $provider = $this->getDefaultEmbeddingModel()['embedding_provider'];
+        $provider = $this->getDefaultModel()['embedding_provider'];
 
         if (!is_string($provider)) {
             throw new InvalidArgumentException(
@@ -107,9 +107,9 @@ final class EmbeddingConfiguration implements EmbeddingConfigurationInterface
         return $provider;
     }
 
-    public function getDefaultEmbeddingModelFieldSuffix(): string
+    public function getDefaultModelFieldSuffix(): string
     {
-        $fieldSuffix = $this->getDefaultEmbeddingModel()['field_suffix'];
+        $fieldSuffix = $this->getDefaultModel()['field_suffix'];
 
         if (!is_string($fieldSuffix)) {
             throw new InvalidArgumentException(

@@ -16,26 +16,26 @@ interface EmbeddingConfigurationInterface
     /**
      * @return array<string, array{name: string, dimensions: int, field_suffix: string, embedding_provider: string}>
      */
-    public function getEmbeddingModels(): array;
+    public function getModels(): array;
 
     /**
      * @return string[]
      */
-    public function getEmbeddingModelIdentifiers(): array;
+    public function getModelIdentifiers(): array;
 
     /**
      * @return array{name: string, dimensions: int, field_suffix: string, embedding_provider: string}
      */
-    public function getEmbeddingModel(string $identifier): array;
+    public function getModel(string $identifier): array;
 
-    public function getDefaultEmbeddingModelIdentifier(): string;
+    public function getDefaultModelIdentifier(): string;
 
     /**
-     * @return array{name: string, dimensions: int, field_suffix: string, 'embedding_provider': string}
+     * @return array{name: string, dimensions: int, field_suffix: string, embedding_provider: string}
      */
-    public function getDefaultEmbeddingModel(): array;
+    public function getDefaultModel(): array;
 
-    public function getDefaultEmbeddingProvider(): string;
+    public function getDefaultProvider(): string;
 
-    public function getDefaultEmbeddingModelFieldSuffix(): string;
+    public function getDefaultModelFieldSuffix(): string;
 }

@@ -25,7 +25,7 @@ final class EmbeddingFieldFactory
             return EmbeddingField::create($type);
         }
 
-        $suffix = $this->config->getDefaultEmbeddingModelFieldSuffix();
+        $suffix = $this->config->getDefaultModelFieldSuffix();
 
         return EmbeddingField::create('ibexa_dense_vector_' . $suffix);
     }
