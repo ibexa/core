@@ -793,40 +793,6 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
             ['content' => $contentIds]
         );
     }
-
-    public function getMissedVersionInfoIds(array $contentIds): array
-    {
-        $missedIds = [];
-
-        // Try to load the version info list from cache and see which values are missing
-        $this->getMultipleCacheValues(
-            $contentIds,
-            $this->cacheIdentifierGenerator->generateKey(
-                self::CONTENT_VERSION_INFO_IDENTIFIER,
-                [],
-                true
-            ) . '-',
-            static function (array $cacheMissIds) use (&$missedIds): void {
-                $missedIds = array_merge($missedIds, $cacheMissIds);
-            },
-            function (VersionInfo $versionInfo): array {
-                return $this->getCacheTagsForVersion($versionInfo);
-            },
-            function (VersionInfo $versionInfo) {
-                return [
-                    $this->cacheIdentifierGenerator->generateKey(
-                        self::CONTENT_VERSION_INFO_IDENTIFIER,
-                        [$versionInfo->contentInfo->id],
-                        true
-                    ),
-                ];
-            },
-            '',
-            ['content' => $contentIds]
-        );
-
-        return $missedIds;
-    }
 }
 
 class_alias(ContentHandler::class, 'eZ\Publish\Core\Persistence\Cache\ContentHandler');
