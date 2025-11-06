@@ -60,7 +60,7 @@ final class EmbeddingProviderRegistryTest extends TestCase
 
         $embeddingProviders = $registry->getEmbeddingProviders();
 
-        $this->assertIsArray(
+        self::assertIsArray(
             $embeddingProviders,
             'getProviders() should return an array of embedding providers'
         );
