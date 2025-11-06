@@ -40,8 +40,8 @@ final class ContentTypeGroupName implements CriterionHandlerInterface
             ->from(Gateway::CONTENT_TYPE_GROUP_TABLE, 'ctg')
             ->leftJoin('ctg', Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE, 'c_group', 'ctg.id = c_group.group_id')
             ->andWhere($subQuery->expr()->eq(
-                'ctg.name',
-                $qb->createNamedParameter($criterion->getValue(), ParameterType::STRING)
+                'LOWER(ctg.name)',
+                $qb->createNamedParameter(strtolower($criterion->getValue()), ParameterType::STRING)
             ))
             ->andWhere('c_group.contentclass_id = c.id');
 
