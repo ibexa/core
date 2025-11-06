@@ -27,7 +27,18 @@ final class EmbeddingConfiguration implements EmbeddingConfigurationInterface
      */
     public function getEmbeddingModels(): array
     {
-        return (array)$this->configResolver->getParameter('embedding_models');
+        $models = $this->configResolver->getParameter('embedding_models');
+
+        if (!is_array($models)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Config parameter "embedding_models" must be an array, %s given.',
+                    get_debug_type($models)
+                )
+            );
+        }
+
+        return $models;
     }
 
     /**
@@ -56,7 +67,18 @@ final class EmbeddingConfiguration implements EmbeddingConfigurationInterface
 
     public function getDefaultEmbeddingModelIdentifier(): string
     {
-        return (string)$this->configResolver->getParameter('default_embedding_model');
+        $identifier = $this->configResolver->getParameter('default_embedding_model');
+
+        if (!is_string($identifier)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Config parameter "default_embedding_model" must be a string, %s given.',
+                    get_debug_type($identifier)
+                )
+            );
+        }
+
+        return $identifier;
     }
 
     /**
@@ -71,11 +93,33 @@ final class EmbeddingConfiguration implements EmbeddingConfigurationInterface
 
     public function getDefaultEmbeddingProvider(): string
     {
-        return (string)$this->getDefaultEmbeddingModel()['embedding_provider'];
+        $provider = $this->getDefaultEmbeddingModel()['embedding_provider'];
+
+        if (!is_string($provider)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Default embedding model must define a string "embedding_provider", %s given.',
+                    get_debug_type($provider)
+                )
+            );
+        }
+
+        return $provider;
     }
 
     public function getDefaultEmbeddingModelFieldSuffix(): string
     {
-        return (string)$this->getDefaultEmbeddingModel()['field_suffix'];
+        $fieldSuffix = $this->getDefaultEmbeddingModel()['field_suffix'];
+
+        if (!is_string($fieldSuffix)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Default embedding model must define a string "field_suffix", %s given.',
+                    get_debug_type($fieldSuffix)
+                )
+            );
+        }
+
+        return $fieldSuffix;
     }
 }
