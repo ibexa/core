@@ -21,7 +21,7 @@ final class EmbeddingQuery extends Query
         return $this->embedding;
     }
 
-    public function setEmbedding(?Embedding $embedding): void
+    public function setEmbedding(?Embedding $embedding = null): void
     {
         $this->embedding = $embedding;
     }
