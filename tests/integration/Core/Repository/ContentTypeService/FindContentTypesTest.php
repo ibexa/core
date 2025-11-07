@@ -202,6 +202,13 @@ final class FindContentTypesTest extends RepositoryTestCase
             ['file', 'image', 'video'],
         ];
 
+        yield 'content type group name array' => [
+            new ContentTypeQuery(
+                new ContentTypeGroupName(['Media']),
+            ),
+            ['file', 'image', 'video'],
+        ];
+
         yield 'system group' => [
             new ContentTypeQuery(
                 new IsSystem(true),

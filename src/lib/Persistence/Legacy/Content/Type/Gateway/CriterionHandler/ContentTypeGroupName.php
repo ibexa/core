@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface;
@@ -35,14 +36,20 @@ final class ContentTypeGroupName implements CriterionHandlerInterface
         CriterionInterface $criterion
     ): string {
         $subQuery = $qb->getConnection()->createQueryBuilder();
+        $whereClause = is_array($criterion->getValue())
+            ? $subQuery->expr()->in(
+                'LOWER(ctg.name)',
+                $qb->createNamedParameter(array_map('strtolower', $criterion->getValue()), Connection::PARAM_STR_ARRAY)
+            ) : $subQuery->expr()->eq(
+                'LOWER(ctg.name)',
+                $qb->createNamedParameter(strtolower($criterion->getValue()), ParameterType::STRING)
+            );
+
         $subQuery
             ->select('g.contentclass_id')
             ->from(Gateway::CONTENT_TYPE_GROUP_TABLE, 'ctg')
             ->leftJoin('ctg', Gateway::CONTENT_TYPE_TO_GROUP_ASSIGNMENT_TABLE, 'c_group', 'ctg.id = c_group.group_id')
-            ->andWhere($subQuery->expr()->eq(
-                'LOWER(ctg.name)',
-                $qb->createNamedParameter(strtolower($criterion->getValue()), ParameterType::STRING)
-            ))
+            ->andWhere($whereClause)
             ->andWhere('c_group.contentclass_id = c.id');
 
         return sprintf('EXISTS (%s)', $subQuery->getSQL());
