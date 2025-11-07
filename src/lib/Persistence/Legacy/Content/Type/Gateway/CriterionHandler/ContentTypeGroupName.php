@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionHandler;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeGroupName as ContentTypeGroupNameCriterion;
@@ -36,14 +35,15 @@ final class ContentTypeGroupName implements CriterionHandlerInterface
         CriterionInterface $criterion
     ): string {
         $subQuery = $qb->getConnection()->createQueryBuilder();
-        $whereClause = is_array($criterion->getValue())
-            ? $subQuery->expr()->in(
-                'LOWER(ctg.name)',
-                $qb->createNamedParameter(array_map('strtolower', $criterion->getValue()), Connection::PARAM_STR_ARRAY)
-            ) : $subQuery->expr()->eq(
-                'LOWER(ctg.name)',
-                $qb->createNamedParameter(strtolower($criterion->getValue()), ParameterType::STRING)
-            );
+        $value = $criterion->getValue();
+        if (!is_array($value)) {
+            $value = [$value];
+        }
+
+        $whereClause = $subQuery->expr()->in(
+            'LOWER(ctg.name)',
+            $qb->createNamedParameter(array_map('strtolower', $value), Connection::PARAM_STR_ARRAY)
+        );
 
         $subQuery
             ->select('g.contentclass_id')
