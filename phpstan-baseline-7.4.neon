@@ -193,6 +193,12 @@ parameters:
 			path: src/lib/MVC/Symfony/Matcher/ContentBased/UrlAlias.php
 
 		-
+			message: '#^PHPDoc tag @throws with type Ibexa\\Contracts\\Core\\Repository\\Exceptions\\InvalidArgumentException\|Psr\\Cache\\InvalidArgumentException is not subtype of Throwable$#'
+			identifier: throws.notThrowable
+			count: 1
+			path: src/lib/Persistence/Cache/ContentHandler.php
+
+		-
 			message: '#^PHPDoc tag @throws with type Psr\\Cache\\InvalidArgumentException is not subtype of Throwable$#'
 			identifier: throws.notThrowable
 			count: 1

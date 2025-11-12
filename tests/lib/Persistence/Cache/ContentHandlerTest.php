@@ -10,6 +10,7 @@ use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as PersistenceLocationHandler;
 use Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Relation;
 use Ibexa\Contracts\Core\Persistence\Content\Relation as SPIRelation;
@@ -48,7 +49,8 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
             ['setStatus', [2, 0, 1], [['content_version', [2, 1], false]], null, ['c-2-v-1']],
             ['setStatus', [2, 1, 1], [['content', [2], false]], null, ['c-2']],
             ['updateMetadata', [2, new MetadataUpdateStruct()], [['content', [2], false]], null, ['c-2']],
-            ['updateContent', [2, 1, new UpdateStruct()], [['content_version', [2, 1], false]], null, ['c-2-v-1']],
+            //updateContent has its own test now due to relations complexity
+            //['updateContent', [2, 1, new UpdateStruct()], [['content_version', [2, 1], false]], null, ['c-2-v-1']],
             //['deleteContent', [2]], own tests for relations complexity
             ['deleteVersion', [2, 1], [['content_version', [2, 1], false]], null, ['c-2-v-1']],
             ['addRelation', [new RelationCreateStruct(['destinationContentId' => 2, 'sourceContentId' => 4])], [['content', [2], false], ['content', [4], false]], null, ['c-2', 'c-4']],
@@ -437,18 +439,111 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
         ];
     }
 
-    public function testDeleteContent()
+    public function testUpdateContent(): void
     {
         $this->loggerMock->expects($this->once())->method('logCall');
 
-        $innerHandlerMock = $this->createMock(SPIContentHandler::class);
-        $this->persistenceHandlerMock
-            ->expects($this->exactly(2))
-            ->method('contentHandler')
-            ->willReturn($innerHandlerMock);
+        $innerContentHandlerMock = $this->createMock(SPIContentHandler::class);
+        $innerLocationHandlerMock = $this->createMock(PersistenceLocationHandler::class);
 
-        $innerHandlerMock
-            ->expects($this->once())
+        $this->prepareHandlerMocks(
+            $innerContentHandlerMock,
+            $innerLocationHandlerMock,
+            1,
+            1,
+            0
+        );
+
+        $innerContentHandlerMock
+            ->expects(self::once())
+            ->method('updateContent')
+            ->with(2, 1, new UpdateStruct())
+            ->willReturn(new Content());
+
+        $this->cacheIdentifierGeneratorMock
+            ->expects(self::exactly(5))
+            ->method('generateTag')
+            ->willReturnMap(
+                [
+                    ['location', [3], false, 'l-3'],
+                    ['location', [4], false, 'l-4'],
+                    ['location_path', [3], false, 'lp-3'],
+                    ['location_path', [4], false, 'lp-4'],
+                    ['content_version', [2, 1], false, 'c-2-v-1'],
+                ]
+            );
+
+        $this->cacheMock
+            ->expects(self::once())
+            ->method('invalidateTags')
+            ->with(['l-3', 'l-4', 'lp-3', 'lp-4', 'c-2-v-1']);
+
+        $handler = $this->persistenceCacheHandler->contentHandler();
+        $handler->updateContent(2, 1, new UpdateStruct());
+    }
+
+    public function testDeleteContent(): void
+    {
+        $this->loggerMock->expects(self::once())->method('logCall');
+
+        $innerContentHandlerMock = $this->createMock(SPIContentHandler::class);
+        $innerLocationHandlerMock = $this->createMock(PersistenceLocationHandler::class);
+
+        $this->prepareHandlerMocks(
+            $innerContentHandlerMock,
+            $innerLocationHandlerMock,
+            2
+        );
+
+        $innerContentHandlerMock
+            ->expects(self::once())
+            ->method('deleteContent')
+            ->with(2)
+            ->willReturn(true);
+
+        $this->cacheMock
+            ->expects(self::never())
+            ->method('deleteItem');
+
+        $this->cacheIdentifierGeneratorMock
+            ->expects(self::exactly(4))
+            ->method('generateTag')
+            ->withConsecutive(
+                ['content', [42], false],
+                ['content', [2], false],
+                ['location', [3], false],
+                ['location', [4], false]
+            )
+            ->willReturnOnConsecutiveCalls('c-42', 'c-2', 'l-3', 'l-4');
+
+        $this->cacheMock
+            ->expects(self::once())
+            ->method('invalidateTags')
+            ->with(['c-42', 'c-2', 'l-3', 'l-4']);
+
+        $handler = $this->persistenceCacheHandler->contentHandler();
+        $handler->deleteContent(2);
+    }
+
+    /**
+     * @param \Ibexa\Contracts\Core\Persistence\Content\Handler|\PHPUnit\Framework\MockObject\MockObject $innerContentHandlerMock
+     * @param \Ibexa\Contracts\Core\Persistence\Content\Location\Handler|\PHPUnit\Framework\MockObject\MockObject $innerLocationHandlerMock
+     */
+    private function prepareHandlerMocks(
+        SPIContentHandler $innerContentHandlerMock,
+        PersistenceLocationHandler $innerLocationHandlerMock,
+        int $contentHandlerCount = 1,
+        int $locationHandlerCount = 1,
+        int $loadReverseRelationsCount = 1,
+        int $loadLocationsByContentCount = 1
+    ): void {
+        $this->persistenceHandlerMock
+            ->expects(self::exactly($contentHandlerCount))
+            ->method('contentHandler')
+            ->willReturn($innerContentHandlerMock);
+
+        $innerContentHandlerMock
+            ->expects(self::exactly($loadReverseRelationsCount))
             ->method('loadReverseRelations')
             ->with(2, APIRelation::FIELD | APIRelation::ASSET)
             ->willReturn(
@@ -457,32 +552,21 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ]
             );
 
-        $innerHandlerMock
-            ->expects($this->once())
-            ->method('deleteContent')
+        $this->persistenceHandlerMock
+            ->expects(self::exactly($locationHandlerCount))
+            ->method('locationHandler')
+            ->willReturn($innerLocationHandlerMock);
+
+        $innerLocationHandlerMock
+            ->expects(self::exactly($loadLocationsByContentCount))
+            ->method('loadLocationsByContent')
             ->with(2)
-            ->willReturn(true);
-
-        $this->cacheMock
-            ->expects($this->never())
-            ->method('deleteItem');
-
-        $this->cacheIdentifierGeneratorMock
-            ->expects($this->exactly(2))
-            ->method('generateTag')
-            ->withConsecutive(
-                ['content', [42], false],
-                ['content', [2], false]
-            )
-            ->willReturnOnConsecutiveCalls('c-42', 'c-2');
-
-        $this->cacheMock
-            ->expects($this->once())
-            ->method('invalidateTags')
-            ->with(['c-42', 'c-2']);
-
-        $handler = $this->persistenceCacheHandler->contentHandler();
-        $handler->deleteContent(2);
+            ->willReturn(
+                [
+                    new Content\Location(['id' => 3]),
+                    new Content\Location(['id' => 4]),
+                ]
+            );
     }
 }
 

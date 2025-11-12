@@ -337,18 +337,40 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Psr\Cache\InvalidArgumentException
      */
-    public function updateContent($contentId, $versionNo, UpdateStruct $struct)
+    public function updateContent($contentId, $versionNo, UpdateStruct $struct): Content
     {
         $this->logger->logCall(__METHOD__, ['content' => $contentId, 'version' => $versionNo, 'struct' => $struct]);
         $content = $this->persistenceHandler->contentHandler()->updateContent($contentId, $versionNo, $struct);
-        $this->cache->invalidateTags([
-            $this->cacheIdentifierGenerator->generateTag(
+        $locations = $this->persistenceHandler->locationHandler()->loadLocationsByContent($contentId);
+        $locationTags = array_map(function (Content\Location $location): string {
+            return $this->cacheIdentifierGenerator->generateTag(self::LOCATION_IDENTIFIER, [$location->id]);
+        }, $locations);
+        $locationPathTags = array_map(function (Content\Location $location): string {
+            return $this->cacheIdentifierGenerator->generateTag(self::LOCATION_PATH_IDENTIFIER, [$location->id]);
+        }, $locations);
+
+        $versionTags = [];
+        $versionTags[] = $this->cacheIdentifierGenerator->generateTag(
+            self::CONTENT_VERSION_IDENTIFIER,
+            [$contentId, $versionNo]
+        );
+
+        if ($versionNo > 1) {
+            $versionTags[] = $this->cacheIdentifierGenerator->generateTag(
                 self::CONTENT_VERSION_IDENTIFIER,
-                [$contentId, $versionNo]
-            ),
-        ]);
+                [$contentId, $versionNo - 1]
+            );
+        }
+
+        $tags = array_merge(
+            $locationTags,
+            $locationPathTags,
+            $versionTags
+        );
+        $this->cache->invalidateTags($tags);
 
         return $content;
     }
@@ -365,6 +387,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
             $contentId,
             APIRelation::FIELD | APIRelation::ASSET
         );
+        $contentLocations = $this->persistenceHandler->locationHandler()->loadLocationsByContent($contentId);
 
         $return = $this->persistenceHandler->contentHandler()->deleteContent($contentId);
 
@@ -380,6 +403,10 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
             $tags = [];
         }
         $tags[] = $this->cacheIdentifierGenerator->generateTag(self::CONTENT_IDENTIFIER, [$contentId]);
+        foreach ($contentLocations as $location) {
+            $tags[] = $this->cacheIdentifierGenerator->generateTag(self::LOCATION_IDENTIFIER, [$location->id]);
+        }
+
         $this->cache->invalidateTags($tags);
 
         return $return;
