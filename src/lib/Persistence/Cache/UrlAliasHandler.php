@@ -490,7 +490,7 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
      * @param int $locationId
      *
      * @throws \Ibexa\Core\Base\Exceptions\BadStateException
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \Psr\Cache\InvalidArgumentException&\Throwable
      */
     public function repairBrokenUrlAliasesForLocation(int $locationId)
     {

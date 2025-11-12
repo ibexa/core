@@ -45,7 +45,7 @@ class UrlWildcardHandler extends AbstractHandler implements UrlWildcardHandlerIn
     /**
      * {@inheritdoc}
      *
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \Psr\Cache\InvalidArgumentException&\Throwable
      */
     public function update(
         int $id,

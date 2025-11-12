@@ -27,7 +27,7 @@ abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
      * Overrides the default implementation to use the chain loader so that
      * templates used internally are correctly loaded.
      */
-    protected function doIntegrationTest($file, $message, $condition, $templates, $exception, $outputs, $deprecation = '')
+    protected function doIntegrationTest($file, $message, $condition, $templates, $exception, $outputs, $deprecation = ''): void
     {
         if ($condition) {
             eval('$ret = ' . $condition . ';');
