@@ -1399,7 +1399,7 @@ class SearchServiceLocationTest extends BaseTest
         if ($ignoreScore) {
             foreach ([$fixture, $result] as $result) {
                 $resultClass = get_class($result);
-                self::assertIsString($resultClass);;
+                self::assertIsString($resultClass);
                 $property = new \ReflectionProperty($resultClass, 'maxScore');
                 $property->setAccessible(true);
                 $property->setValue($result, 0.0);
