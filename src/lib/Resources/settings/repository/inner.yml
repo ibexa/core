@@ -157,7 +157,7 @@ services:
         alias: 'Ibexa\Core\Repository\ProxyFactory\ProxyGenerator'
 
     Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactory:
-        lazy: '@Ibexa\Contracts\Core\Repository\Repository\ProxyDomainMapperFactoryInterface'
+        lazy: 'Ibexa\Contracts\Core\Repository\Repository\ProxyDomainMapperFactoryInterface'
         arguments:
             $proxyGenerator: '@Ibexa\Core\Repository\ProxyFactory\ProxyGeneratorInterface'
 
