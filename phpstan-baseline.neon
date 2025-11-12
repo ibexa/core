@@ -45031,6 +45031,18 @@ parameters:
 			path: tests/integration/Core/Repository/SearchServiceTest.php
 
 		-
+			message: '#^Cannot access offset ''id'' on Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 3
+			path: tests/integration/Core/Repository/SearchServiceTest.php
+
+		-
+			message: '#^Cannot access offset ''title'' on Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceTest.php
+
+		-
 			message: '#^Cannot access property \$valueObject on Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\SearchHit\|null\.$#'
 			identifier: property.nonObject
 			count: 3

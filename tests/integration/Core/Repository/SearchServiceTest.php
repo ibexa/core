@@ -1734,10 +1734,6 @@ class SearchServiceTest extends BaseTest
                 usort(
                     $data->searchHits,
                     static function (SearchHit $a, SearchHit $b): int {
-                        if (!is_array($a->valueObject) || !is_array($b->valueObject)) {
-                            throw new \RuntimeException('Expected simplified search hit value objects to be arrays.');
-                        }
-
                         return $a->valueObject['id'] <=> $b->valueObject['id'];
                     }
                 );
@@ -1933,10 +1929,6 @@ class SearchServiceTest extends BaseTest
                     usort(
                         $data->searchHits,
                         static function ($a, $b) use ($map) {
-                            if (!is_array($a->valueObject) || !is_array($b->valueObject)) {
-                                throw new \RuntimeException('Expected simplified search hit value objects to be arrays.');
-                            }
-
                             return ($map[$a->valueObject['id']] < $map[$b->valueObject['id']]) ? -1 : 1;
                         }
                     );
@@ -4772,15 +4764,6 @@ class SearchServiceTest extends BaseTest
 
         $fixture = require $fixtureFilePath;
 
-        if (!$fixture instanceof SearchResult) {
-            self::fail(sprintf(
-                'Fixture "%s" must return an instance of %s, %s given.',
-                $fixtureFilePath,
-                SearchResult::class,
-                is_object($fixture) ? get_class($fixture) : gettype($fixture)
-            ));
-        }
-
         if ($closure !== null) {
             $closure($fixture);
             $closure($result);
@@ -4788,12 +4771,16 @@ class SearchServiceTest extends BaseTest
 
         if ($ignoreScore) {
             foreach ([$fixture, $result] as $set) {
-                $property = new \ReflectionProperty(get_class($set), 'maxScore');
+                $setClass = get_class($set);
+                self::assertIsString($setClass);
+                $property = new \ReflectionProperty($setClass, 'maxScore');
                 $property->setAccessible(true);
                 $property->setValue($set, 0.0);
 
                 foreach ($set->searchHits as $hit) {
-                    $property = new \ReflectionProperty(get_class($hit), 'score');
+                    $hitClass = get_class($hit);
+                    self::assertIsString($hitClass);
+                    $property = new \ReflectionProperty($hitClass, 'score');
                     $property->setAccessible(true);
                     $property->setValue($hit, 0.0);
                 }
@@ -4802,19 +4789,17 @@ class SearchServiceTest extends BaseTest
 
         foreach ([$fixture, $result] as $set) {
             foreach ($set->searchHits as $hit) {
-                $property = new \ReflectionProperty(get_class($hit), 'index');
+                $hitClass = get_class($hit);
+                self::assertIsString($hitClass);
+                $property = new \ReflectionProperty($hitClass, 'index');
                 $property->setAccessible(true);
                 $property->setValue($hit, null);
 
-                $property = new \ReflectionProperty(get_class($hit), 'matchedTranslation');
+                $property = new \ReflectionProperty($hitClass, 'matchedTranslation');
                 $property->setAccessible(true);
                 $property->setValue($hit, null);
 
                 if (!$id) {
-                    if (!is_array($hit->valueObject)) {
-                        throw new \RuntimeException('Expected simplified search hit value objects to be arrays.');
-                    }
-
                     $hit->valueObject['id'] = null;
                 }
             }
@@ -4839,10 +4824,6 @@ class SearchServiceTest extends BaseTest
     {
         $printed = '';
         foreach ($result->searchHits as $hit) {
-            if (!is_array($hit->valueObject)) {
-                throw new \RuntimeException('Expected simplified search hit value objects to be arrays.');
-            }
-
             $printed .= sprintf(" - %s (%s)\n", $hit->valueObject['title'], $hit->valueObject['id']);
         }
 
