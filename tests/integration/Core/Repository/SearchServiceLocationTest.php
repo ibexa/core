@@ -1444,7 +1444,7 @@ class SearchServiceLocationTest extends BaseTest
     {
         $printed = '';
         foreach ($result->searchHits as $hit) {
-            if (!isset($hit->valueObject['title']) || !isset($hit->valueObject['id'])) {
+            if (!isset($hit->valueObject['title'], $hit->valueObject['id'])) {
                 continue;
             }
 
