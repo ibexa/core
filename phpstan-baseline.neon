@@ -44833,6 +44833,12 @@ parameters:
 			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
 
 		-
+			message: '#^Cannot access offset ''id'' on Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
+
+		-
 			message: '#^Cannot access offset ''title'' on Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
