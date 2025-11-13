@@ -23,6 +23,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Tests\Core\Repository\Common;
 use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
+use RuntimeException;
 
 /**
  * Test case for operations in the SearchService.
@@ -1272,7 +1273,7 @@ class SearchServiceTest extends BaseTest
 
     public function testFindNoPerformCountException()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
 
         if (!$this->isRunningOnLegacySetup()) {
             $this->markTestSkipped('Only applicable to Legacy/DB based search');
@@ -1318,7 +1319,7 @@ class SearchServiceTest extends BaseTest
 
     public function testFindLocationsNoPerformCountException()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
 
         if (!$this->isRunningOnLegacySetup()) {
             $this->markTestSkipped('Only applicable to Legacy/DB based search');
@@ -4860,7 +4861,7 @@ class SearchServiceTest extends BaseTest
                     break;
 
                 default:
-                    throw new \RuntimeException('Unknown search result hit type: ' . get_class($hit->valueObject));
+                    throw new RuntimeException('Unknown search result hit type: ' . get_class($hit->valueObject));
             }
         }
     }
