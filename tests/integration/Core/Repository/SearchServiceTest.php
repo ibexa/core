@@ -23,6 +23,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Tests\Core\Repository\Common;
 use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
+use ReflectionProperty;
 use RuntimeException;
 
 /**
@@ -4774,14 +4775,14 @@ class SearchServiceTest extends BaseTest
             foreach ([$fixture, $result] as $set) {
                 $setClass = get_class($set);
                 self::assertIsString($setClass);
-                $property = new \ReflectionProperty($setClass, 'maxScore');
+                $property = new ReflectionProperty($setClass, 'maxScore');
                 $property->setAccessible(true);
                 $property->setValue($set, 0.0);
 
                 foreach ($set->searchHits as $hit) {
                     $hitClass = get_class($hit);
                     self::assertIsString($hitClass);
-                    $property = new \ReflectionProperty($hitClass, 'score');
+                    $property = new ReflectionProperty($hitClass, 'score');
                     $property->setAccessible(true);
                     $property->setValue($hit, 0.0);
                 }
@@ -4792,11 +4793,11 @@ class SearchServiceTest extends BaseTest
             foreach ($set->searchHits as $hit) {
                 $hitClass = get_class($hit);
                 self::assertIsString($hitClass);
-                $property = new \ReflectionProperty($hitClass, 'index');
+                $property = new ReflectionProperty($hitClass, 'index');
                 $property->setAccessible(true);
                 $property->setValue($hit, null);
 
-                $property = new \ReflectionProperty($hitClass, 'matchedTranslation');
+                $property = new ReflectionProperty($hitClass, 'matchedTranslation');
                 $property->setAccessible(true);
                 $property->setValue($hit, null);
 
