@@ -8653,12 +8653,6 @@ parameters:
 			path: src/contracts/Repository/Values/Content/Search/AggregationResultCollection.php
 
 		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\AggregationResultCollection\:\:toArray\(\) should return array\<Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\FieldDefinition\> but returns array\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\AggregationResult\>\.$#'
-			identifier: return.type
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/AggregationResultCollection.php
-
-		-
 			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\Facet\\ContentTypeFacet\:\:\$entries type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
