@@ -639,7 +639,9 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
             } else {
                 $missingContentList[] = $hit->valueObject;
                 unset($result->searchHits[$key]);
-                --$result->totalCount;
+                if ($result->totalCount !== null) {
+                    --$result->totalCount;
+                }
             }
         }
 
@@ -684,7 +686,9 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
             } else {
                 $missingLocations[] = $hit->valueObject;
                 unset($result->searchHits[$key]);
-                --$result->totalCount;
+                if ($result->totalCount !== null) {
+                    --$result->totalCount;
+                }
             }
         }
 

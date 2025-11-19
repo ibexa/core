@@ -41,28 +41,28 @@ class StorageFieldDefinition extends ValueObject
     /**
      * Data int 1.
      *
-     * @var int
+     * @var int|null
      */
     public $dataInt1;
 
     /**
      * Data int 2.
      *
-     * @var int
+     * @var int|null
      */
     public $dataInt2;
 
     /**
      * Data int 3.
      *
-     * @var int
+     * @var int|null
      */
     public $dataInt3;
 
     /**
      * Data int 4.
      *
-     * @var int
+     * @var int|null
      */
     public $dataInt4;
 
