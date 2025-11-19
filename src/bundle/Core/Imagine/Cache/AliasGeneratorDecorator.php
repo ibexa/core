@@ -71,7 +71,7 @@ class AliasGeneratorDecorator implements VariationHandler, SiteAccessAware
      *
      * @return \Ibexa\Contracts\Core\Variation\Values\Variation
      *
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \Psr\Cache\InvalidArgumentException&\Throwable
      */
     public function getVariation(Field $field, VersionInfo $versionInfo, string $variationName, array $parameters = []): Variation
     {

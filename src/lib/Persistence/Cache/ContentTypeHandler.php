@@ -613,7 +613,7 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type
      *
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \Psr\Cache\InvalidArgumentException&\Throwable
      */
     public function removeContentTypeTranslation(int $contentTypeId, string $languageCode): Type
     {

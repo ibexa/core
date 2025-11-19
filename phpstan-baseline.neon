@@ -11077,12 +11077,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/AuthorConverter.php
 
 		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataInt1 \(int\) on left side of \?\? is not nullable\.$#'
-			identifier: nullCoalesce.property
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/AuthorConverter.php
-
-		-
 			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldValue\:\:\$sortKeyString \(string\) does not accept bool\|float\|int\|string\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -11521,7 +11515,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/IntegerConverter.php
 
 		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataInt3 \(int\) does not accept array\|bool\|float\|int\|string\|null\.$#'
+			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataInt3 \(int\|null\) does not accept array\|bool\|float\|int\|string\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/IntegerConverter.php
@@ -11529,6 +11523,12 @@ parameters:
 		-
 			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldValue\:\:\$dataInt \(int\) does not accept array\|bool\|float\|int\|string\|null\.$#'
 			identifier: assign.propertyType
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/IntegerConverter.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between false and false will always evaluate to true\.$#'
+			identifier: identical.alwaysTrue
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/IntegerConverter.php
 
@@ -11905,18 +11905,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/TextLineConverter.php
 
 		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataInt1 \(int\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/TextLineConverter.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataInt2 \(int\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/TextLineConverter.php
-
-		-
 			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataText1 \(string\) does not accept array\|bool\|float\|int\|string\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -11987,12 +11975,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/UrlConverter.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataInt2 \(int\) does not accept null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/UserConverter.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\ConverterRegistry\:\:__construct\(\) has parameter \$converterMap with no value type specified in iterable type array\.$#'
@@ -13850,30 +13832,6 @@ parameters:
 
 		-
 			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataFloat4 \(float\) does not accept float\|null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Mapper.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataInt1 \(int\) does not accept int\|null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Mapper.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataInt2 \(int\) does not accept int\|null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Mapper.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataInt3 \(int\) does not accept int\|null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Mapper.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataInt4 \(int\) does not accept int\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Type/Mapper.php
@@ -35935,12 +35893,6 @@ parameters:
 			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
 
 		-
-			message: '#^Parameter \#1 \$class of class ReflectionProperty constructor expects object\|string, class\-string\|false given\.$#'
-			identifier: argument.type
-			count: 4
-			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
-
-		-
 			message: '#^Parameter \#1 \$locationId of method Ibexa\\Contracts\\Core\\Repository\\LocationService\:\:loadLocation\(\) expects int, int\|null given\.$#'
 			identifier: argument.type
 			count: 1
@@ -36898,12 +36850,6 @@ parameters:
 			message: '#^PHPDoc tag @var has invalid value \(\$data \\Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\SearchResult\)\: Unexpected token "\$data", expected type at offset 9 on line 1$#'
 			identifier: phpDoc.parseError
 			count: 1
-			path: tests/integration/Core/Repository/SearchServiceTest.php
-
-		-
-			message: '#^Parameter \#1 \$class of class ReflectionProperty constructor expects object\|string, class\-string\|false given\.$#'
-			identifier: argument.type
-			count: 4
 			path: tests/integration/Core/Repository/SearchServiceTest.php
 
 		-
@@ -57920,6 +57866,12 @@ parameters:
 
 		-
 			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\SearchResult\<Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject\>\:\:\$searchHits \(list\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\SearchHit\<Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject\>\>\) does not accept array\<int\<1, max\>, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\SearchHit\<Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject\>\>\.$#'
+			identifier: assign.propertyType
+			count: 2
+			path: tests/lib/Repository/Service/Mock/SearchTest.php
+
+		-
+			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\SearchResult\<Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject\>\:\:\$totalCount \(int\<0, max\>\|null\) does not accept int\<\-1, max\>\.$#'
 			identifier: assign.propertyType
 			count: 2
 			path: tests/lib/Repository/Service/Mock/SearchTest.php

@@ -22,7 +22,7 @@ final class SettingHandler extends AbstractInMemoryPersistenceHandler implements
     }
 
     /**
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \Psr\Cache\InvalidArgumentException&\Throwable
      */
     public function update(string $group, string $identifier, string $serializedValue): Setting
     {
@@ -36,7 +36,7 @@ final class SettingHandler extends AbstractInMemoryPersistenceHandler implements
     }
 
     /**
-     * @throws \Psr\Cache\CacheException
+     * @throws \Psr\Cache\CacheException&\Throwable
      */
     public function load(string $group, string $identifier): Setting
     {
@@ -58,7 +58,7 @@ final class SettingHandler extends AbstractInMemoryPersistenceHandler implements
     }
 
     /**
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws (\Psr\Cache\InvalidArgumentException&\Throwable)
      */
     public function delete(string $group, string $identifier): void
     {

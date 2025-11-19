@@ -23,6 +23,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
+use ReflectionProperty;
+use RuntimeException;
 
 /**
  * Test case for operations in the SearchService.
@@ -1251,7 +1253,7 @@ class SearchServiceTest extends BaseTestCase
 
     public function testFindNoPerformCountException()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
 
         if (!$this->isRunningOnLegacySetup()) {
             self::markTestSkipped('Only applicable to Legacy/DB based search');
@@ -1297,7 +1299,7 @@ class SearchServiceTest extends BaseTestCase
 
     public function testFindLocationsNoPerformCountException()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
 
         if (!$this->isRunningOnLegacySetup()) {
             self::markTestSkipped('Only applicable to Legacy/DB based search');
@@ -4745,12 +4747,16 @@ class SearchServiceTest extends BaseTestCase
 
         if ($ignoreScore) {
             foreach ([$fixture, $result] as $set) {
-                $property = new \ReflectionProperty(get_class($set), 'maxScore');
+                $setClass = get_class($set);
+                self::assertIsString($setClass);
+                $property = new ReflectionProperty($setClass, 'maxScore');
                 $property->setAccessible(true);
                 $property->setValue($set, 0.0);
 
                 foreach ($set->searchHits as $hit) {
-                    $property = new \ReflectionProperty(get_class($hit), 'score');
+                    $hitClass = get_class($hit);
+                    self::assertIsString($hitClass);
+                    $property = new ReflectionProperty($hitClass, 'score');
                     $property->setAccessible(true);
                     $property->setValue($hit, 0.0);
                 }
@@ -4759,11 +4765,13 @@ class SearchServiceTest extends BaseTestCase
 
         foreach ([$fixture, $result] as $set) {
             foreach ($set->searchHits as $hit) {
-                $property = new \ReflectionProperty(get_class($hit), 'index');
+                $hitClass = get_class($hit);
+                self::assertIsString($hitClass);
+                $property = new ReflectionProperty($hitClass, 'index');
                 $property->setAccessible(true);
                 $property->setValue($hit, null);
 
-                $property = new \ReflectionProperty(get_class($hit), 'matchedTranslation');
+                $property = new ReflectionProperty($hitClass, 'matchedTranslation');
                 $property->setAccessible(true);
                 $property->setValue($hit, null);
 
@@ -4834,7 +4842,7 @@ class SearchServiceTest extends BaseTestCase
                     break;
 
                 default:
-                    throw new \RuntimeException('Unknown search result hit type: ' . get_class($hit->valueObject));
+                    throw new RuntimeException('Unknown search result hit type: ' . get_class($hit->valueObject));
             }
         }
     }

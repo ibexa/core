@@ -1394,12 +1394,16 @@ class SearchServiceLocationTest extends BaseTestCase
 
         if ($ignoreScore) {
             foreach ([$fixture, $result] as $result) {
-                $property = new \ReflectionProperty(get_class($result), 'maxScore');
+                $resultClass = get_class($result);
+                self::assertIsString($resultClass);
+                $property = new \ReflectionProperty($resultClass, 'maxScore');
                 $property->setAccessible(true);
                 $property->setValue($result, 0.0);
 
                 foreach ($result->searchHits as $hit) {
-                    $property = new \ReflectionProperty(get_class($hit), 'score');
+                    $hitClass = get_class($hit);
+                    self::assertIsString($hitClass);
+                    $property = new \ReflectionProperty($hitClass, 'score');
                     $property->setAccessible(true);
                     $property->setValue($hit, 0.0);
                 }
@@ -1408,11 +1412,14 @@ class SearchServiceLocationTest extends BaseTestCase
 
         foreach ([$fixture, $result] as $set) {
             foreach ($set->searchHits as $hit) {
-                $property = new \ReflectionProperty(get_class($hit), 'index');
+                $hitClass = get_class($hit);
+                self::assertIsString($hitClass);
+
+                $property = new \ReflectionProperty($hitClass, 'index');
                 $property->setAccessible(true);
                 $property->setValue($hit, null);
 
-                $property = new \ReflectionProperty(get_class($hit), 'matchedTranslation');
+                $property = new \ReflectionProperty($hitClass, 'matchedTranslation');
                 $property->setAccessible(true);
                 $property->setValue($hit, null);
             }
@@ -1428,13 +1435,20 @@ class SearchServiceLocationTest extends BaseTestCase
 
     /**
      * Show a simplified view of the search result for manual introspection.
-     *
-     * @return string
      */
     protected function printResult(SearchResult $result): string
     {
         $printed = '';
         foreach ($result->searchHits as $hit) {
+            if (!isset($hit->valueObject['title'], $hit->valueObject['id'])) {
+                continue;
+            }
+
+            $printed .= sprintf(
+                "%s: %s\n",
+                $hit->valueObject['title'],
+                $hit->valueObject['description']
+            );
             $printed .= sprintf(" - %s (%s)\n", $hit->valueObject['title'], $hit->valueObject['id']);
         }
 
