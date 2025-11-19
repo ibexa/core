@@ -165,6 +165,7 @@ services:
             $proxyGenerator: '@Ibexa\Core\Repository\ProxyFactory\ProxyGeneratorInterface'
 
     Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapper:
+        lazy: 'Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface'
         factory: ['@Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactory', 'create']
         arguments:
             $repository: '@Ibexa\Core\Repository\Repository'
