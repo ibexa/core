@@ -244,7 +244,9 @@ class SearchTest extends BaseServiceMockTest
             ->with($this->equalTo($result), $this->equalTo([]))
             ->willReturnCallback(static function (SearchResult $spiResult) use ($info) {
                 unset($spiResult->searchHits[0]);
-                --$spiResult->totalCount;
+                if ($spiResult->totalCount !== null) {
+                    --$spiResult->totalCount;
+                }
 
                 return [$info];
             });
@@ -828,7 +830,9 @@ class SearchTest extends BaseServiceMockTest
             ->with($this->equalTo($result))
             ->willReturnCallback(static function (SearchResult $spiResult) use ($location) {
                 unset($spiResult->searchHits[0]);
-                --$spiResult->totalCount;
+                if ($spiResult->totalCount !== null) {
+                    --$spiResult->totalCount;
+                }
 
                 return [$location];
             });

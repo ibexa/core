@@ -18061,12 +18061,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/AuthorConverter.php
 
 		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataInt1 \(int\) on left side of \?\? is not nullable\.$#'
-			identifier: nullCoalesce.property
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/AuthorConverter.php
-
-		-
 			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldValue\:\:\$sortKeyString \(string\) does not accept bool\|float\|int\|string\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -18523,7 +18517,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/IntegerConverter.php
 
 		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataInt3 \(int\) does not accept array\|bool\|float\|int\|string\|null\.$#'
+			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataInt3 \(int\|null\) does not accept array\|bool\|float\|int\|string\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/IntegerConverter.php
@@ -18531,6 +18525,12 @@ parameters:
 		-
 			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldValue\:\:\$dataInt \(int\) does not accept array\|bool\|float\|int\|string\|null\.$#'
 			identifier: assign.propertyType
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/IntegerConverter.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between false and false will always evaluate to true\.$#'
+			identifier: identical.alwaysTrue
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/IntegerConverter.php
 
@@ -18919,18 +18919,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/TextLineConverter.php
 
 		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataInt1 \(int\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/TextLineConverter.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataInt2 \(int\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/TextLineConverter.php
-
-		-
 			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataText1 \(string\) does not accept array\|bool\|float\|int\|string\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -19001,12 +18989,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/UrlConverter.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataInt2 \(int\) does not accept null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/UserConverter.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\ConverterRegistry\:\:__construct\(\) has parameter \$converterMap with no value type specified in iterable type array\.$#'
@@ -21002,30 +20984,6 @@ parameters:
 
 		-
 			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataFloat4 \(float\) does not accept float\|null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Mapper.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataInt1 \(int\) does not accept int\|null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Mapper.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataInt2 \(int\) does not accept int\|null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Mapper.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataInt3 \(int\) does not accept int\|null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Mapper.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\StorageFieldDefinition\:\:\$dataInt4 \(int\) does not accept int\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Type/Mapper.php
