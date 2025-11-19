@@ -18535,6 +18535,12 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/IntegerConverter.php
 
 		-
+			message: '#^Strict comparison using \=\=\= between false and false will always evaluate to true\.$#'
+			identifier: identical.alwaysTrue
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/IntegerConverter.php
+
+		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\KeywordConverter\:\:toFieldDefinition\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -45037,6 +45043,12 @@ parameters:
 			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
 
 		-
+			message: '#^Parameter \#1 \$class of class ReflectionProperty constructor expects class\-string\|object, class\-string\|false given\.$#'
+			identifier: argument.type
+			count: 4
+			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
+
+		-
 			message: '#^Parameter \#1 \$locationId of method Ibexa\\Contracts\\Core\\Repository\\LocationService\:\:loadLocation\(\) expects int, int\|null given\.$#'
 			identifier: argument.type
 			count: 1
@@ -46048,6 +46060,12 @@ parameters:
 			message: '#^PHPDoc tag @var has invalid value \(\$data \\Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\SearchResult\)\: Unexpected token "\$data", expected type at offset 9 on line 1$#'
 			identifier: phpDoc.parseError
 			count: 1
+			path: tests/integration/Core/Repository/SearchServiceTest.php
+
+		-
+			message: '#^Parameter \#1 \$class of class ReflectionProperty constructor expects class\-string\|object, class\-string\|false given\.$#'
+			identifier: argument.type
+			count: 4
 			path: tests/integration/Core/Repository/SearchServiceTest.php
 
 		-
