@@ -95,7 +95,7 @@ final class AggregationResultCollection implements Countable, IteratorAggregate
     /**
      * Gets a native PHP array representation of the collection.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult[]
      */
     public function toArray(): array
     {
