@@ -75,7 +75,7 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTest
     protected function setUp(): void
     {
         parent::setUp();
-        $this->contentProvider = new TestContentProvider($this->getRepository(false), $this);
+        $this->contentProvider = new TestContentProvider($this->getRepository(true), $this);
     }
 
     /**
