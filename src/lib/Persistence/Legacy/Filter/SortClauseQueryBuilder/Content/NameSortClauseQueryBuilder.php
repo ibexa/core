@@ -25,7 +25,7 @@ class NameSortClauseQueryBuilder implements SortClauseQueryBuilder
         FilteringSortClause $sortClause
     ): void {
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause $sortClause */
-        $queryBuilder->addOrderBy('content.name', $sortClause->direction);
+        $queryBuilder->addOrderBy('content_name', $sortClause->direction);
     }
 }
 
