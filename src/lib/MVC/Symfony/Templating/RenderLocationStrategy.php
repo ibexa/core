@@ -46,7 +46,7 @@ final class RenderLocationStrategy extends BaseRenderStrategy implements RenderS
 
         $renderer = $this->getFragmentRenderer($options->get('method', $this->defaultRenderer));
 
-        return $renderer->render($controllerReference, $currentRequest)->getContent();
+        return $renderer->render($controllerReference, $currentRequest, $options->has('params') ? ['params' => $options->get('params')] : [])->getContent();
     }
 }
 

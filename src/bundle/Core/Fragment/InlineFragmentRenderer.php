@@ -58,6 +58,10 @@ class InlineFragmentRenderer extends BaseRenderer implements SiteAccessAware
             if ($request->attributes->has('viewParametersString')) {
                 $uri->attributes['viewParametersString'] = $request->attributes->get('viewParametersString');
             }
+            if ($options['params'] ?? false) {
+                $uri->attributes['params'] = $options['params'];
+                unset($options['params']);
+            }
         }
 
         return $this->innerRenderer->render($uri, $request, $options);
