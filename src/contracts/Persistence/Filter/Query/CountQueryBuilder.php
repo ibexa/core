@@ -7,8 +7,8 @@
 declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Persistence\Filter\Query;
-use Doctrine\DBAL\Query\QueryBuilder;
 
+use Doctrine\DBAL\Query\QueryBuilder;
 
 interface CountQueryBuilder
 {

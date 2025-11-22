@@ -41,7 +41,6 @@ final class DoctrineDatabase extends Gateway
 {
     public const string NODE_ASSIGNMENT_TABLE = 'ibexa_node_assignment';
 
-
     public function __construct(
         private readonly Connection $connection,
         private readonly MaskGenerator $languageMaskGenerator,

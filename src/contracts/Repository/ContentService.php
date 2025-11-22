@@ -528,11 +528,11 @@ interface ContentService
      * @phpstan-param TFilteringLanguageFilter|null $languages $languages A list of language codes to be added as additional constraints.
      *        If skipped, by default, unless SiteAccessAware layer has been disabled, languages set
      *        for a SiteAccess in a current context will be used.
+     *
      * @param int|null $limit If set, the count will be limited to first $limit items found.
      *        In some cases it can significantly speed up a count operation for more complex filters.
      *
      * @phpstan-return int<0, max>
-     * 
      */
     public function count(Filter $filter, ?array $languages = null, ?int $limit = null): int;
 }
