@@ -19,6 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway;
+use Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder;
 use function iterator_to_array;
 use function sprintf;
 use Traversable;
@@ -59,15 +60,25 @@ final class DoctrineGateway implements Gateway
     public function __construct(
         private readonly Connection $connection,
         private readonly CriterionVisitor $criterionVisitor,
-        private readonly SortClauseVisitor $sortClauseVisitor
+        private readonly SortClauseVisitor $sortClauseVisitor,
+        private readonly LimitedCountQueryBuilder $limitedCountQueryBuilder
     ) {
     }
 
-    public function count(FilteringCriterion $criterion): int
+    /**
+     * @phpstan-param positive-int $limit
+     */
+    public function count(FilteringCriterion $criterion, ?int $limit = null): int
     {
         $query = $this->buildQuery(
             ['COUNT(DISTINCT content.id)'],
             $criterion
+        );
+
+        $query = $this->limitedCountQueryBuilder->wrap(
+            $query,
+            'content.id',
+            $limit
         );
 
         return (int)$query->executeQuery()->fetch(FetchMode::COLUMN);

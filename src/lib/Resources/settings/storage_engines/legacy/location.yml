@@ -6,6 +6,7 @@ services:
             - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
             - '@ibexa.core.trash.search.legacy.gateway.criteria_converter'
             - '@ibexa.core.trash.search.legacy.gateway.sort_clause_converter'
+            - '@Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder'
 
     Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\ExceptionConversion:
         class: Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\ExceptionConversion

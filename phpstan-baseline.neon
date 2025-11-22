@@ -4681,6 +4681,12 @@ parameters:
 			path: src/contracts/Persistence/Content/VersionInfo.php
 
 		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$limit$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/contracts/Persistence/Filter/Content/Handler.php
+
+		-
 			message: '#^Method Ibexa\\Contracts\\Core\\Persistence\\Filter\\Doctrine\\FilteringQueryBuilder\:\:buildOperatorBasedCriterionConstraint\(\) has parameter \$criterionValue with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -4709,6 +4715,24 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/contracts/Persistence/Filter/LazyListIterator.php
+
+		-
+			message: '#^Method Ibexa\\Contracts\\Core\\Persistence\\Handler\:\:beginTransaction\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/contracts/Persistence/Handler.php
+
+		-
+			message: '#^Method Ibexa\\Contracts\\Core\\Persistence\\Handler\:\:commit\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/contracts/Persistence/Handler.php
+
+		-
+			message: '#^Method Ibexa\\Contracts\\Core\\Persistence\\Handler\:\:rollback\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/contracts/Persistence/Handler.php
 
 		-
 			message: '#^Property Ibexa\\Contracts\\Core\\Persistence\\Notification\\CreateStruct\:\:\$data type has no value type specified in iterable type array\.$#'
@@ -4849,6 +4873,18 @@ parameters:
 			path: src/contracts/Repository/ContentService.php
 
 		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$limit$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/contracts/Repository/ContentService.php
+
+		-
+			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\ContentService\:\:count\(\) invoked with 3 parameters, 1\-2 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/contracts/Repository/Decorator/ContentServiceDecorator.php
+
+		-
 			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Decorator\\ContentServiceDecorator\:\:validate\(\) has parameter \$context with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -4861,9 +4897,39 @@ parameters:
 			path: src/contracts/Repository/Decorator/ContentServiceDecorator.php
 
 		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$limit$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/contracts/Repository/Decorator/ContentServiceDecorator.php
+
+		-
 			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Decorator\\LocationServiceDecorator\:\:loadLocationList\(\) has parameter \$locationIds with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
+			path: src/contracts/Repository/Decorator/LocationServiceDecorator.php
+
+		-
+			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\LocationService\:\:count\(\) invoked with 3 parameters, 1\-2 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/contracts/Repository/Decorator/LocationServiceDecorator.php
+
+		-
+			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\LocationService\:\:getLocationChildCount\(\) invoked with 2 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/contracts/Repository/Decorator/LocationServiceDecorator.php
+
+		-
+			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\LocationService\:\:getSubtreeSize\(\) invoked with 2 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/contracts/Repository/Decorator/LocationServiceDecorator.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$limit$#'
+			identifier: parameter.notFound
+			count: 3
 			path: src/contracts/Repository/Decorator/LocationServiceDecorator.php
 
 		-
@@ -5398,6 +5464,12 @@ parameters:
 			message: '#^PHPDoc tag @param for parameter \$parentLocationId with type mixed is not subtype of native type int\.$#'
 			identifier: parameter.phpDocType
 			count: 1
+			path: src/contracts/Repository/LocationService.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$limit$#'
+			identifier: parameter.notFound
+			count: 3
 			path: src/contracts/Repository/LocationService.php
 
 		-
@@ -10346,6 +10418,12 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Contracts\\Core\\Persistence\\Content\\Location\\Handler\:\:copySubtree\(\) invoked with 3 parameters, 2 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/lib/Persistence/Cache/LocationHandler.php
+
+		-
+			message: '#^Method Ibexa\\Contracts\\Core\\Persistence\\Content\\Location\\Handler\:\:getSubtreeSize\(\) invoked with 2 parameters, 1 required\.$#'
 			identifier: arguments.count
 			count: 1
 			path: src/lib/Persistence/Cache/LocationHandler.php
@@ -16651,6 +16729,12 @@ parameters:
 			path: src/lib/Repository/ContentService.php
 
 		-
+			message: '#^Method Ibexa\\Contracts\\Core\\Persistence\\Filter\\Content\\Handler\:\:count\(\) invoked with 2 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/lib/Repository/ContentService.php
+
+		-
 			message: '#^Method Ibexa\\Core\\Repository\\ContentService\:\:__construct\(\) has parameter \$settings with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -16701,6 +16785,12 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\Repository\\ContentService\:\:validate\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
+			count: 1
+			path: src/lib/Repository/ContentService.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(\\Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Language\|null if not set the draft is created with the initialLanguage code of the source version or if not present with the main language\.\)\: Unexpected token "if", expected variable at offset 565 on line 9$#'
+			identifier: phpDoc.parseError
 			count: 1
 			path: src/lib/Repository/ContentService.php
 
@@ -16915,7 +17005,19 @@ parameters:
 			path: src/lib/Repository/LocationService.php
 
 		-
+			message: '#^Method Ibexa\\Contracts\\Core\\Persistence\\Content\\Location\\Handler\:\:getSubtreeSize\(\) invoked with 2 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/lib/Repository/LocationService.php
+
+		-
 			message: '#^Method Ibexa\\Contracts\\Core\\Persistence\\Content\\UrlAlias\\Handler\:\:publishUrlAliasForLocation\(\) invoked with 6 parameters, 4\-5 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/lib/Repository/LocationService.php
+
+		-
+			message: '#^Method Ibexa\\Contracts\\Core\\Persistence\\Filter\\Location\\Handler\:\:count\(\) invoked with 2 parameters, 1 required\.$#'
 			identifier: arguments.count
 			count: 1
 			path: src/lib/Repository/LocationService.php
@@ -16930,6 +17032,12 @@ parameters:
 			message: '#^Method Ibexa\\Core\\Repository\\LocationService\:\:loadLocationList\(\) has parameter \$locationIds with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
+			path: src/lib/Repository/LocationService.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$limit$#'
+			identifier: parameter.notFound
+			count: 2
 			path: src/lib/Repository/LocationService.php
 
 		-
@@ -17815,6 +17923,12 @@ parameters:
 			path: src/lib/Repository/SettingService.php
 
 		-
+			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\ContentService\:\:count\(\) invoked with 3 parameters, 1\-2 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/lib/Repository/SiteAccessAware/ContentService.php
+
+		-
 			message: '#^Method Ibexa\\Core\\Repository\\SiteAccessAware\\ContentService\:\:validate\(\) has parameter \$context with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -17823,6 +17937,12 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\Repository\\SiteAccessAware\\ContentService\:\:validate\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
+			count: 1
+			path: src/lib/Repository/SiteAccessAware/ContentService.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$limit$#'
+			identifier: parameter.notFound
 			count: 1
 			path: src/lib/Repository/SiteAccessAware/ContentService.php
 
@@ -17845,9 +17965,33 @@ parameters:
 			path: src/lib/Repository/SiteAccessAware/Language/LanguageResolver.php
 
 		-
+			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\LocationService\:\:count\(\) invoked with 3 parameters, 1\-2 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/lib/Repository/SiteAccessAware/LocationService.php
+
+		-
+			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\LocationService\:\:getLocationChildCount\(\) invoked with 2 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/lib/Repository/SiteAccessAware/LocationService.php
+
+		-
+			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\LocationService\:\:getSubtreeSize\(\) invoked with 2 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/lib/Repository/SiteAccessAware/LocationService.php
+
+		-
 			message: '#^Method Ibexa\\Core\\Repository\\SiteAccessAware\\LocationService\:\:loadLocationList\(\) has parameter \$locationIds with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
+			path: src/lib/Repository/SiteAccessAware/LocationService.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$limit$#'
+			identifier: parameter.notFound
+			count: 2
 			path: src/lib/Repository/SiteAccessAware/LocationService.php
 
 		-
@@ -32433,12 +32577,24 @@ parameters:
 		-
 			message: '#^Cannot access property \$id on Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\|null\.$#'
 			identifier: property.nonObject
-			count: 11
+			count: 9
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
 		-
 			message: '#^Cannot call method getContentInfo\(\) on Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\|null\.$#'
 			identifier: method.nonObject
+			count: 2
+			path: tests/integration/Core/Repository/LocationServiceTest.php
+
+		-
+			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\LocationService\:\:getLocationChildCount\(\) invoked with 2 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: tests/integration/Core/Repository/LocationServiceTest.php
+
+		-
+			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\LocationService\:\:getSubtreeSize\(\) invoked with 2 parameters, 1 required\.$#'
+			identifier: arguments.count
 			count: 2
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
@@ -32637,12 +32793,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\LocationServiceTest\:\:testGetLocationChildCount\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/LocationServiceTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\LocationServiceTest\:\:testGetSubtreeSize\(\) should return Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location but returns Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\|null\.$#'
-			identifier: return.type
 			count: 1
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
@@ -32896,12 +33046,6 @@ parameters:
 			message: '#^Parameter \#1 \$expectedLocations of method Ibexa\\Tests\\Integration\\Core\\Repository\\LocationServiceTest\:\:assertContentHasExpectedLocations\(\) expects array\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\>, array\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\|null\> given\.$#'
 			identifier: argument.type
 			count: 1
-			path: tests/integration/Core/Repository/LocationServiceTest.php
-
-		-
-			message: '#^Parameter \#1 \$location of method Ibexa\\Contracts\\Core\\Repository\\LocationService\:\:getSubtreeSize\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\|null given\.$#'
-			identifier: argument.type
-			count: 2
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
 		-
@@ -52771,6 +52915,12 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/LogicalOperatorQueryBuilderQueryBuilderTest.php
 
 		-
+			message: '#^Parameter \#3 \$limit of method Ibexa\\Core\\Persistence\\Legacy\\Filter\\Query\\LimitedCountQueryBuilder\:\:wrap\(\) expects int\<1, max\>\|null, 0 given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/lib/Persistence/Legacy/Filter/Query/LimitedCountQueryBuilderTest.php
+
+		-
 			message: '#^Call to an undefined method Ibexa\\Contracts\\Core\\Container\:\:get\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -54455,6 +54605,12 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: tests/lib/Repository/Decorator/LanguageServiceDecoratorTest.php
+
+		-
+			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\LocationService\:\:getLocationChildCount\(\) invoked with 2 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: tests/lib/Repository/Decorator/LocationServiceDecoratorTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Decorator\\LocationServiceDecoratorTest\:\:testCopySubtreeDecorator\(\) has no return type specified\.$#'

@@ -24,6 +24,7 @@ use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
+use Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
 use RuntimeException;
@@ -40,11 +41,13 @@ final class DoctrineDatabase extends Gateway
 {
     public const string NODE_ASSIGNMENT_TABLE = 'ibexa_node_assignment';
 
+
     public function __construct(
         private readonly Connection $connection,
         private readonly MaskGenerator $languageMaskGenerator,
         private readonly CriteriaConverter $trashCriteriaConverter,
-        private readonly SortClauseConverter $trashSortClauseConverter
+        private readonly SortClauseConverter $trashSortClauseConverter,
+        private readonly LimitedCountQueryBuilder $limitedCountQueryBuilder
     ) {
     }
 
@@ -249,7 +252,10 @@ final class DoctrineDatabase extends Gateway
         return $query->executeQuery()->fetchFirstColumn();
     }
 
-    public function getSubtreeSize(string $path): int
+    /**
+     * @phpstan-param positive-int $limit
+     */
+    public function getSubtreeSize(string $path, ?int $limit = null): int
     {
         $query = $this->createNodeQueryBuilder(['COUNT(node_id)']);
         $query->andWhere(
@@ -259,6 +265,12 @@ final class DoctrineDatabase extends Gateway
                     $path . '%',
                 )
             )
+        );
+
+        $query = $this->limitedCountQueryBuilder->wrap(
+            $query,
+            't.node_id',
+            $limit
         );
 
         return (int) $query->executeQuery()->fetchOne();

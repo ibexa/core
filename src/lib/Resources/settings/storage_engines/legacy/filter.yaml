@@ -56,3 +56,7 @@ services:
         arguments:
             $gateway: '@Ibexa\Core\Persistence\Legacy\Filter\Gateway\Location\Doctrine\DoctrineGateway'
             $locationMapper: '@Ibexa\Core\Persistence\Legacy\Content\Location\Mapper'
+    
+    Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder:
+        arguments:
+            $connection: '@ibexa.persistence.connection'

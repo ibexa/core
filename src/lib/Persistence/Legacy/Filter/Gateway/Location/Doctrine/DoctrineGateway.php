@@ -17,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway;
+use Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder;
 
 /**
  * @internal for internal use by Legacy Storage
@@ -26,15 +27,25 @@ final readonly class DoctrineGateway implements Gateway
     public function __construct(
         private Connection $connection,
         private CriterionVisitor $criterionVisitor,
-        private SortClauseVisitor $sortClauseVisitor
+        private SortClauseVisitor $sortClauseVisitor,
+        private LimitedCountQueryBuilder $limitedCountQueryBuilder
     ) {
     }
 
-    public function count(FilteringCriterion $criterion): int
+    /**
+     * @phpstan-param positive-int $limit
+     */
+    public function count(FilteringCriterion $criterion, ?int $limit = null): int
     {
         $query = $this->buildQuery($criterion);
 
         $query->select('COUNT(DISTINCT location.node_id)');
+
+        $query = $this->limitedCountQueryBuilder->wrap(
+            $query,
+            'location.node_id',
+            $limit
+        );
 
         return (int)$query->executeQuery()->fetch(FetchMode::COLUMN);
     }
