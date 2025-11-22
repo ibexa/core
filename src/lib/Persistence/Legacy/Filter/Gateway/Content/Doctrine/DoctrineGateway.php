@@ -8,21 +8,21 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Doctrine;
 
-use function array_filter;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
+use Ibexa\Contracts\Core\Persistence\Filter\Query\CountQueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\SortClauseVisitor;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway;
-use Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder;
+use Traversable;
+use function array_filter;
 use function iterator_to_array;
 use function sprintf;
-use Traversable;
 
 /**
  * @internal for internal use by Legacy Storage
@@ -61,7 +61,7 @@ final class DoctrineGateway implements Gateway
         private readonly Connection $connection,
         private readonly CriterionVisitor $criterionVisitor,
         private readonly SortClauseVisitor $sortClauseVisitor,
-        private readonly LimitedCountQueryBuilder $limitedCountQueryBuilder
+        private readonly CountQueryBuilder $countQueryBuilder
     ) {
     }
 
@@ -75,7 +75,7 @@ final class DoctrineGateway implements Gateway
             $criterion
         );
 
-        $query = $this->limitedCountQueryBuilder->wrap(
+        $query = $this->countQueryBuilder->wrap(
             $query,
             'content.id',
             $limit

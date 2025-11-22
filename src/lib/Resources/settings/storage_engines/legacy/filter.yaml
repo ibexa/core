@@ -22,6 +22,9 @@ services:
 
     Ibexa\Contracts\Core\Persistence\Filter\SortClauseVisitor:
         alias: Ibexa\Core\Persistence\Legacy\Filter\SortClauseVisitor
+    
+    Ibexa\Contracts\Core\Persistence\Filter\Query\CountQueryBuilder:
+        alias: Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder
 
     # implementations:
     Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Mapper\DoctrineGatewayDataMapper:

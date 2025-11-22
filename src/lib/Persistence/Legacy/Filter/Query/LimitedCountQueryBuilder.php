@@ -10,23 +10,18 @@ namespace Ibexa\Core\Persistence\Legacy\Filter\Query;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Persistence\Filter\Query\CountQueryBuilder;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 
 /**
- * Limited Count trait. Used to allow for proper limiting of count queries
+ * Limited Count query builder. Used to allow for proper limiting of count queries
  * when using Doctrine DBAL QueryBuilder.
  */
-final class LimitedCountQueryBuilder
+final readonly class LimitedCountQueryBuilder implements CountQueryBuilder
 {
-    /**
-     * @var \Doctrine\DBAL\Connection
-     */
-    private $connection;
-
     public function __construct(
-        Connection $connection
+        private readonly Connection $connection
     ) {
-        $this->connection = $connection;
     }
 
     /**
@@ -39,7 +34,6 @@ final class LimitedCountQueryBuilder
      * @phpstan-param positive-int $limit
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
-     * @throws \Doctrine\DBAL\Exception
      */
     public function wrap(
         QueryBuilder $queryBuilder,
@@ -63,7 +57,7 @@ final class LimitedCountQueryBuilder
 
         return $countQuery
             ->select(
-                'COUNT(*)'
+                'COUNT(1)'
             )
             ->from('(' . $querySql . ')', 'csub')
             ->setParameters($queryBuilder->getParameters(), $queryBuilder->getParameterTypes());

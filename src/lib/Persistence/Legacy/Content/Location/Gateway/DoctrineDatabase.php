@@ -17,6 +17,7 @@ use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Location\UpdateStruct;
+use Ibexa\Contracts\Core\Persistence\Filter\Query\CountQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
@@ -24,7 +25,6 @@ use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
-use Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
 use RuntimeException;
@@ -47,7 +47,7 @@ final class DoctrineDatabase extends Gateway
         private readonly MaskGenerator $languageMaskGenerator,
         private readonly CriteriaConverter $trashCriteriaConverter,
         private readonly SortClauseConverter $trashSortClauseConverter,
-        private readonly LimitedCountQueryBuilder $limitedCountQueryBuilder
+        private readonly CountQueryBuilder $countQueryBuilder
     ) {
     }
 
@@ -267,7 +267,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        $query = $this->limitedCountQueryBuilder->wrap(
+        $query = $this->countQueryBuilder->wrap(
             $query,
             't.node_id',
             $limit

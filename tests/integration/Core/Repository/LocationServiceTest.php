@@ -1127,8 +1127,6 @@ class LocationServiceTest extends BaseTestCase
      * Test for the getLocationChildCount() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::getLocationChildCount()
-     *
-     * @depends testLoadLocation
      */
     public function testGetLocationChildCount()
     {

@@ -15,7 +15,7 @@ use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder
  */
-class LimitedCountQueryBuilderTest extends TestCase
+final class LimitedCountQueryBuilderTest extends TestCase
 {
     private LimitedCountQueryBuilder $limitedCountQueryBuilder;
 
@@ -24,15 +24,12 @@ class LimitedCountQueryBuilderTest extends TestCase
         $this->limitedCountQueryBuilder = new LimitedCountQueryBuilder($this->getDatabaseConnection());
     }
 
-    /**
-     * @covers \Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder::wrap
-     */
     public function testWrapThrowsExceptionOnZeroLimit(): void
     {
+        $qb = $this->getDatabaseConnection()->createQueryBuilder();
+
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessageMatches('/Limit must be greater than 0/');
-
-        $qb = $this->getDatabaseConnection()->createQueryBuilder();
 
         $this->limitedCountQueryBuilder->wrap($qb, 'someField', 0);
     }
@@ -51,12 +48,9 @@ class LimitedCountQueryBuilderTest extends TestCase
         $wrappedQueryBuilder = $this->limitedCountQueryBuilder->wrap($qb, 'someField', null);
 
         // The original query should remain unchanged
-        $this->assertEquals($qb->getSQL(), $wrappedQueryBuilder->getSQL());
+        self::assertEquals($qb->getSQL(), $wrappedQueryBuilder->getSQL());
     }
 
-    /**
-     * @covers \Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder::wrap
-     */
     public function testWrapWrapsQueryBuilderCorrectly(): void
     {
         $qb = $this->getDatabaseConnection()->createQueryBuilder();
@@ -67,7 +61,8 @@ class LimitedCountQueryBuilderTest extends TestCase
 
         $wrappedQueryBuilder = $this->limitedCountQueryBuilder->wrap($qb, 'someField', 10);
 
-        $expectedSql = 'SELECT COUNT(*) FROM (SELECT someField FROM someTable WHERE someCondition = :condition LIMIT 10) csub';
-        $this->assertEquals($expectedSql, $wrappedQueryBuilder->getSQL());
+        $expectedSql = 'SELECT COUNT(1) FROM (SELECT someField FROM someTable WHERE someCondition = :condition LIMIT 10) csub';
+        self::assertEquals($expectedSql, $wrappedQueryBuilder->getSQL());
+        self::assertEquals($qb->getParameters(), $wrappedQueryBuilder->getParameters());
     }
 }
