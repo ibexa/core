@@ -25,6 +25,11 @@ final class IdQueryBuilder extends BaseLocationSortClauseQueryBuilder
     {
         return sprintf('%s.node_id', $locationAlias);
     }
+
+    protected function getSortFieldName(): string
+    {
+        return 'location_id';
+    }
 }
 
 class_alias(IdQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Location\IdQueryBuilder');

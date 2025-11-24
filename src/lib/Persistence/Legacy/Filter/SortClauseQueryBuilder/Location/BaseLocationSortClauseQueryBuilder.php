@@ -19,6 +19,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 abstract class BaseLocationSortClauseQueryBuilder implements SortClauseQueryBuilder
 {
     private const CONTENT_SORT_LOCATION_ALIAS = 'ibexa_sort_location';
+    private const SORT_FIELD_ALIAS_PREFIX = 'ibexa_filter_sort_';
 
     private string $locationAlias = self::CONTENT_SORT_LOCATION_ALIAS;
 
@@ -31,14 +32,15 @@ abstract class BaseLocationSortClauseQueryBuilder implements SortClauseQueryBuil
         $this->prepareLocationAlias($queryBuilder);
 
         $sort = $this->getSortingExpression($this->locationAlias);
-        $queryBuilder->addSelect($sort);
+        $sortAlias = $this->getSortFieldAlias();
+        $queryBuilder->addSelect(sprintf('%s AS %s', $sort, $sortAlias));
 
         if ($this->needsMainLocationJoin) {
             $this->joinMainLocationOnly($queryBuilder, $this->locationAlias);
         }
 
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause $sortClause */
-        $queryBuilder->addOrderBy($sort, $sortClause->direction);
+        $queryBuilder->addOrderBy($sortAlias, $sortClause->direction);
     }
 
     private function prepareLocationAlias(FilteringQueryBuilder $queryBuilder): void
@@ -81,6 +83,13 @@ abstract class BaseLocationSortClauseQueryBuilder implements SortClauseQueryBuil
     }
 
     abstract protected function getSortingExpression(string $locationAlias): string;
+
+    protected function getSortFieldAlias(): string
+    {
+        return self::SORT_FIELD_ALIAS_PREFIX . $this->getSortFieldName();
+    }
+
+    abstract protected function getSortFieldName(): string;
 }
 
 class_alias(BaseLocationSortClauseQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Location\BaseLocationSortClauseQueryBuilder');
