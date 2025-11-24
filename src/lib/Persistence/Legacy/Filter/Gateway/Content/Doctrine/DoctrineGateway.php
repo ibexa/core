@@ -281,13 +281,24 @@ final class DoctrineGateway implements Gateway
     private function wrapMainQuery(FilteringQueryBuilder $query): QueryBuilder
     {
         $wrappedQuery = $this->connection->createQueryBuilder();
+
+        $orderByParts = $query->getQueryPart('orderBy');
+        $selectColumns = array_keys(self::COLUMN_MAP);
+        if (!empty($orderByParts)) {
+            foreach ($orderByParts as $orderByPart) {
+                $orderExpression = preg_replace('/\\s+(ASC|DESC).*$/i', '', $orderByPart);
+                if (null !== $orderExpression && !in_array($orderExpression, $selectColumns, true)) {
+                    $selectColumns[] = $orderExpression;
+                }
+            }
+        }
+
         $wrappedQuery
-            ->select(array_keys(self::COLUMN_MAP))
+            ->select($selectColumns)
             ->distinct()
             ->from(sprintf('(%s)', $query->getSQL()), 'wrapped')
             ->setParameters($query->getParameters(), $query->getParameterTypes());
 
-        $orderByParts = $query->getQueryPart('orderBy');
         if (!empty($orderByParts)) {
             $wrappedQuery->add('orderBy', $orderByParts);
         }
