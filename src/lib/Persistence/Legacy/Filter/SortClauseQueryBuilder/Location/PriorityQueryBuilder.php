@@ -22,6 +22,11 @@ class PriorityQueryBuilder extends BaseLocationSortClauseQueryBuilder
     {
         return sprintf('%s.priority', $locationAlias);
     }
+
+    protected function getSortFieldName(): string
+    {
+        return 'location_priority';
+    }
 }
 
 class_alias(PriorityQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Location\PriorityQueryBuilder');

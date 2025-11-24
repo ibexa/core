@@ -25,6 +25,11 @@ final class DepthQueryBuilder extends BaseLocationSortClauseQueryBuilder
     {
         return sprintf('%s.depth', $locationAlias);
     }
+
+    protected function getSortFieldName(): string
+    {
+        return 'location_depth';
+    }
 }
 
 class_alias(DepthQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Location\DepthQueryBuilder');

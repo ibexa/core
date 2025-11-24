@@ -22,6 +22,11 @@ class VisibilityQueryBuilder extends BaseLocationSortClauseQueryBuilder
     {
         return sprintf('%s.is_invisible', $locationAlias);
     }
+
+    protected function getSortFieldName(): string
+    {
+        return 'location_visibility';
+    }
 }
 
 class_alias(VisibilityQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Location\VisibilityQueryBuilder');

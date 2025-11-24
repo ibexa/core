@@ -25,7 +25,7 @@ class DateModifiedSortClauseQueryBuilder implements SortClauseQueryBuilder
         FilteringSortClause $sortClause
     ): void {
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause $sortClause */
-        $queryBuilder->addOrderBy('content.modified', $sortClause->direction);
+        $queryBuilder->addOrderBy('content_modified', $sortClause->direction);
     }
 }
 

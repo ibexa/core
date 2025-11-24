@@ -287,6 +287,11 @@ final class DoctrineGateway implements Gateway
             ->from(sprintf('(%s)', $query->getSQL()), 'wrapped')
             ->setParameters($query->getParameters(), $query->getParameterTypes());
 
+        $orderByParts = $query->getQueryPart('orderBy');
+        if (!empty($orderByParts)) {
+            $wrappedQuery->add('orderBy', $orderByParts);
+        }
+
         return $wrappedQuery;
     }
 }
