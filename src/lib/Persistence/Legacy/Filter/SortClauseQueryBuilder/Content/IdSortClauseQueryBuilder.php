@@ -25,7 +25,7 @@ class IdSortClauseQueryBuilder implements SortClauseQueryBuilder
         FilteringSortClause $sortClause
     ): void {
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause $sortClause */
-        $queryBuilder->addOrderBy('content.id', $sortClause->direction);
+        $queryBuilder->addOrderBy('content_id', $sortClause->direction);
     }
 }
 

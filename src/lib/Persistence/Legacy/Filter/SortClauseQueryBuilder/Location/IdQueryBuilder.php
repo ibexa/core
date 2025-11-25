@@ -21,9 +21,14 @@ final class IdQueryBuilder extends BaseLocationSortClauseQueryBuilder
         return $sortClause instanceof Location\Id;
     }
 
-    protected function getSortingExpression(): string
+    protected function getSortingExpression(string $locationAlias): string
     {
-        return 'location.node_id';
+        return sprintf('%s.node_id', $locationAlias);
+    }
+
+    protected function getSortFieldName(): string
+    {
+        return 'location_id';
     }
 }
 

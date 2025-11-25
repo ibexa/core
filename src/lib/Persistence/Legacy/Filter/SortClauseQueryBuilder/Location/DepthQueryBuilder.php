@@ -21,9 +21,14 @@ final class DepthQueryBuilder extends BaseLocationSortClauseQueryBuilder
         return $sortClause instanceof Location\Depth;
     }
 
-    protected function getSortingExpression(): string
+    protected function getSortingExpression(string $locationAlias): string
     {
-        return 'location.depth';
+        return sprintf('%s.depth', $locationAlias);
+    }
+
+    protected function getSortFieldName(): string
+    {
+        return 'location_depth';
     }
 }
 

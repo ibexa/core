@@ -18,9 +18,14 @@ class PriorityQueryBuilder extends BaseLocationSortClauseQueryBuilder
         return $sortClause instanceof Location\Priority;
     }
 
-    protected function getSortingExpression(): string
+    protected function getSortingExpression(string $locationAlias): string
     {
-        return 'location.priority';
+        return sprintf('%s.priority', $locationAlias);
+    }
+
+    protected function getSortFieldName(): string
+    {
+        return 'location_priority';
     }
 }
 
