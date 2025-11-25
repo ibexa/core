@@ -403,7 +403,7 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
 
     public function getDataForTestFindContentWithLocationCriterion(): iterable
     {
-        yield 'Content items with secondary Location, sorted by Content ID' => [
+        yield 'Content items with secondary Location ignored in content filtering, sorted by Content ID' => [
             static function (Content $parentFolder): Filter {
                 return (new Filter())
                     ->withCriterion(
@@ -413,7 +413,7 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
                     )
                     ->withSortClause(new SortClause\ContentId(Query::SORT_ASC));
             },
-            [TestContentProvider::CONTENT_REMOTE_IDS['folder2']],
+            [],
         ];
 
         yield 'Folders with Location, sorted by Content ID' => [
