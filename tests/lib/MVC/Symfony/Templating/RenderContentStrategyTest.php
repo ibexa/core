@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\MVC\Symfony\Templating;
 
+use Ibexa\Contracts\Core\MVC\Templating\RenderStrategy;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
@@ -106,7 +107,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
     /**
      * @param MockObject&FragmentRendererInterface $fragmentRendererMock
      * @param MockObject&ValueObject $valueObjectMock
-     * @param class-string<RenderContentStrategy> $renderStrategyClass
+     * @param class-string<RenderStrategy> $renderStrategyClass
      */
     public static function forwardParamOptionsToFragmentRenderer(MockObject $fragmentRendererMock, MockObject $valueObjectMock, string $renderStrategyClass): void
     {
