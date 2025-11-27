@@ -42,11 +42,12 @@ final class RenderLocationStrategy extends BaseRenderStrategy implements RenderS
             'contentId' => $content->id,
             'locationId' => $location->id,
             'viewType' => $options->get('viewType', self::DEFAULT_VIEW_TYPE),
+            'params' => $options->get('params', []),
         ]);
 
         $renderer = $this->getFragmentRenderer($options->get('method', $this->defaultRenderer));
 
-        return $renderer->render($controllerReference, $currentRequest, $options->has('params') ? ['params' => $options->get('params')] : [])->getContent();
+        return $renderer->render($controllerReference, $currentRequest)->getContent();
     }
 }
 
