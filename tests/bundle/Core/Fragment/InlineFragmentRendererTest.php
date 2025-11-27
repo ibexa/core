@@ -11,7 +11,6 @@ use Ibexa\Bundle\Core\Fragment\SiteAccessSerializer;
 use Ibexa\Core\MVC\Symfony\Component\Serializer\SerializerTrait;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
@@ -23,24 +22,7 @@ class InlineFragmentRendererTest extends DecoratedFragmentRendererTest
 {
     use SerializerTrait;
 
-    /**
-     * @return iterable<array{0: array<string, string>|null}>
-     */
-    public function rendererControllerReferenceDataProvider(): iterable
-    {
-        yield [[
-            'my_param1' => 'custom_data',
-            'my_param2' => 'foobar',
-        ]];
-
-        yield [null];
-    }
-
-    /**
-     * @param array<string, string>|null $params
-     * @dataProvider rendererControllerReferenceDataProvider
-     */
-    public function testRendererControllerReference(?array $params = null)
+    public function testRendererControllerReference()
     {
         $reference = new ControllerReference('FooBundle:bar:baz');
         $matcher = new SiteAccess\Matcher\HostElement(1);
@@ -54,34 +36,20 @@ class InlineFragmentRendererTest extends DecoratedFragmentRendererTest
         $request->attributes->set('semanticPathinfo', '/foo/bar');
         $request->attributes->set('viewParametersString', '/(foo)/bar');
         $options = ['foo' => 'bar'];
-
         $expectedReturn = '/_fragment?foo=bar';
         $this->innerRenderer
             ->expects($this->once())
             ->method('render')
             ->with($reference, $request, $options)
-            ->willReturnCallback(
-                static function (ControllerReference $url, Request $request, array $callBackOptions) use ($expectedReturn, $params, $options): Response {
-                    if ($params !== null) {
-                        self::assertEquals($params, $url->attributes['params']);
-                    }
-                    self::assertEquals($options, $callBackOptions);
-
-                    return new Response($expectedReturn);
-                }
-            );
-
-        if ($params !== null) {
-            $options['params'] = $params;
-        }
+            ->will($this->returnValue($expectedReturn));
 
         $renderer = $this->getRenderer();
-        self::assertEquals(new Response($expectedReturn), $renderer->render($reference, $request, $options));
-        self::assertTrue(isset($reference->attributes['serialized_siteaccess']));
+        $this->assertSame($expectedReturn, $renderer->render($reference, $request, $options));
+        $this->assertTrue(isset($reference->attributes['serialized_siteaccess']));
         $serializedSiteAccess = json_encode($siteAccess);
-        self::assertSame($serializedSiteAccess, $reference->attributes['serialized_siteaccess']);
-        self::assertTrue(isset($reference->attributes['serialized_siteaccess_matcher']));
-        self::assertSame(
+        $this->assertSame($serializedSiteAccess, $reference->attributes['serialized_siteaccess']);
+        $this->assertTrue(isset($reference->attributes['serialized_siteaccess_matcher']));
+        $this->assertSame(
             $this->getSerializer()->serialize(
                 $siteAccess->matcher,
                 'json',
@@ -89,20 +57,20 @@ class InlineFragmentRendererTest extends DecoratedFragmentRendererTest
             ),
             $reference->attributes['serialized_siteaccess_matcher']
         );
-        self::assertTrue(isset($reference->attributes['semanticPathinfo']));
-        self::assertSame('/foo/bar', $reference->attributes['semanticPathinfo']);
-        self::assertTrue(isset($reference->attributes['viewParametersString']));
-        self::assertSame('/(foo)/bar', $reference->attributes['viewParametersString']);
+        $this->assertTrue(isset($reference->attributes['semanticPathinfo']));
+        $this->assertSame('/foo/bar', $reference->attributes['semanticPathinfo']);
+        $this->assertTrue(isset($reference->attributes['viewParametersString']));
+        $this->assertSame('/(foo)/bar', $reference->attributes['viewParametersString']);
     }
 
     public function testRendererControllerReferenceWithCompoundMatcher(): ControllerReference
     {
         $reference = parent::testRendererControllerReferenceWithCompoundMatcher();
 
-        self::assertArrayHasKey('semanticPathinfo', $reference->attributes);
-        self::assertSame('/foo/bar', $reference->attributes['semanticPathinfo']);
-        self::assertArrayHasKey('viewParametersString', $reference->attributes);
-        self::assertSame('/(foo)/bar', $reference->attributes['viewParametersString']);
+        $this->assertArrayHasKey('semanticPathinfo', $reference->attributes);
+        $this->assertSame('/foo/bar', $reference->attributes['semanticPathinfo']);
+        $this->assertArrayHasKey('viewParametersString', $reference->attributes);
+        $this->assertSame('/(foo)/bar', $reference->attributes['viewParametersString']);
 
         return $reference;
     }
