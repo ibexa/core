@@ -105,8 +105,8 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
     }
 
     /**
-     * @param MockObject&FragmentRendererInterface $fragmentRendererMock
-     * @param MockObject&ValueObject $valueObjectMock
+     * @param \PHPUnit\Framework\MockObject\MockObject&\Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface $fragmentRendererMock
+     * @param \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Contracts\Core\Repository\Values\ValueObject $valueObjectMock
      * @param class-string<RenderStrategy> $renderStrategyClass
      */
     public static function forwardParamOptionsToFragmentRenderer(MockObject $fragmentRendererMock, MockObject $valueObjectMock, string $renderStrategyClass): void
