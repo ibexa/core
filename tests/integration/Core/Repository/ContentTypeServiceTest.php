@@ -423,6 +423,41 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
     }
 
     /**
+     * Test that system ContentTypeGroups are returned only when explicitly requested.
+     *
+     * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::loadContentTypeGroups()
+     */
+    public function testLoadContentTypeGroupsIncludeSystem(): void
+    {
+        $repository = $this->getRepository();
+        $contentTypeService = $repository->getContentTypeService();
+
+        $systemGroupIdentifier = 'SystemGroup';
+        $contentTypeGroupCreateStruct = $contentTypeService->newContentTypeGroupCreateStruct($systemGroupIdentifier);
+        $contentTypeGroupCreateStruct->isSystem = true;
+
+        $systemGroup = $contentTypeService->createContentTypeGroup($contentTypeGroupCreateStruct);
+
+        try {
+            $defaultGroupsIterable = $contentTypeService->loadContentTypeGroups();
+            $defaultGroups = is_array($defaultGroupsIterable) ? $defaultGroupsIterable : iterator_to_array($defaultGroupsIterable);
+            /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup[] $defaultGroups */
+            $defaultIdentifiers = array_map(static fn (ContentTypeGroup $group): string => $group->identifier, $defaultGroups);
+
+            self::assertNotContains($systemGroupIdentifier, $defaultIdentifiers);
+
+            $allGroupsIterable = $contentTypeService->loadContentTypeGroups([], true);
+            $allGroups = is_array($allGroupsIterable) ? $allGroupsIterable : iterator_to_array($allGroupsIterable);
+            /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup[] $allGroups */
+            $allIdentifiers = array_map(static fn (ContentTypeGroup $group): string => $group->identifier, $allGroups);
+
+            self::assertContains($systemGroupIdentifier, $allIdentifiers);
+        } finally {
+            $contentTypeService->deleteContentTypeGroup($systemGroup);
+        }
+    }
+
+    /**
      * Test for the newContentTypeGroupUpdateStruct() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::newContentTypeGroupUpdateStruct()

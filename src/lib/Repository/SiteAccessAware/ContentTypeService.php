@@ -66,11 +66,11 @@ class ContentTypeService implements ContentTypeServiceInterface
         return $this->service->loadContentTypeGroupByIdentifier($contentTypeGroupIdentifier, $prioritizedLanguages);
     }
 
-    public function loadContentTypeGroups(?array $prioritizedLanguages = null): iterable
+    public function loadContentTypeGroups(?array $prioritizedLanguages = null, bool $includeSystem = false): iterable
     {
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
-        return $this->service->loadContentTypeGroups($prioritizedLanguages);
+        return $this->service->loadContentTypeGroups($prioritizedLanguages, $includeSystem);
     }
 
     public function updateContentTypeGroup(ContentTypeGroup $contentTypeGroup, ContentTypeGroupUpdateStruct $contentTypeGroupUpdateStruct): void

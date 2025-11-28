@@ -64,10 +64,11 @@ interface ContentTypeService
      * Get all content type groups.
      *
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
+     * @param bool $includeSystem When true also returns system ContentTypeGroups. Default false.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup[]
      */
-    public function loadContentTypeGroups(array $prioritizedLanguages = []): iterable;
+    public function loadContentTypeGroups(array $prioritizedLanguages = [], bool $includeSystem = false): iterable;
 
     /**
      * Update a content type group object.
