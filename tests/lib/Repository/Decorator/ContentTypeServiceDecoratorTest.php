@@ -84,7 +84,7 @@ class ContentTypeServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [['prioritized_language_value']];
+        $parameters = [['prioritized_language_value'], false];
 
         $serviceMock->expects($this->once())->method('loadContentTypeGroups')->with(...$parameters);
 

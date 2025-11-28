@@ -168,10 +168,10 @@ class Handler implements BaseContentTypeHandler
     /**
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group[]
      */
-    public function loadAllGroups()
+    public function loadAllGroups(bool $includeSystem = false)
     {
         return $this->mapper->extractGroupsFromRows(
-            $this->contentTypeGateway->loadAllGroupsData()
+            $this->contentTypeGateway->loadAllGroupsData($includeSystem)
         );
     }
 
