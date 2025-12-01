@@ -265,7 +265,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
     /**
      * Test for the loadContentTypeGroup() method.
-     *
      */
     public function testLoadContentTypeGroupThrowsNotFoundException()
     {
@@ -410,7 +409,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
     /**
      * Test that system ContentTypeGroups are returned only when explicitly requested.
-     *
      */
     public function testLoadContentTypeGroupsIncludeSystem(): void
     {
@@ -452,7 +450,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
     /**
      * Test for the newContentTypeGroupUpdateStruct() method.
-     *
      */
     public function testNewContentTypeGroupUpdateStruct()
     {
@@ -1241,7 +1238,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
     /**
      * Test for the newContentTypeUpdateStruct() method.
-     *
      */
     public function testNewContentTypeUpdateStruct()
     {
@@ -1322,7 +1318,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
     /**
      * Test for the loadContentTypeDraft() method.
-     *
      */
     public function testLoadContentTypeDraftThrowsNotFoundExceptionIfDiffrentOwner()
     {
@@ -1342,7 +1337,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
     /**
      * Test for the loadContentTypeDraft() method.
-     *
      */
     public function testCanLoadContentTypeDraftEvenIfDiffrentOwner()
     {
@@ -1363,7 +1357,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
     /**
      * Test for the updateContentTypeDraft() method.
-     *
      */
     public function testUpdateContentTypeDraft()
     {
@@ -1456,7 +1449,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
     }
 
     /**
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
@@ -1782,7 +1774,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
      *
      * Testing that field definition of non-repeatable field type can not be added multiple
      * times to the same ContentTypeCreateStruct.
-     *
      */
     public function testCreateContentThrowsContentTypeValidationException()
     {
@@ -2197,7 +2188,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
     /**
      * Test for the newFieldDefinitionUpdateStruct() method.
-     *
      */
     public function testNewFieldDefinitionUpdateStruct()
     {
@@ -2292,8 +2282,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         ];
     }
 
-    /**
-     */
     public function testUpdateFieldDefinitionWithNewTranslation()
     {
         $repository = $this->getRepository();
@@ -2390,7 +2378,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
     /**
      * Test for the updateFieldDefinition() method using an empty FieldDefinitionUpdateStruct.
-     *
      */
     public function testUpdateFieldDefinitionWithEmptyStruct()
     {
@@ -2417,7 +2404,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
     /**
      * Test for the updateFieldDefinition() method with already defined field identifier.
-     *
      */
     public function testUpdateFieldDefinitionThrowsInvalidArgumentExceptionFieldIdentifierExists()
     {
@@ -2543,7 +2529,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
     /**
      * Test that publishing content type Draft refreshes list of content types in content type groups.
-     *
      */
     public function testPublishContentTypeDraftRefreshesContentTypesList()
     {
@@ -4195,7 +4180,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
     /**
      * Test for the isContentTypeUsed() method.
-     *
      */
     public function testIsContentTypeUsed()
     {
@@ -4216,7 +4200,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
     }
 
     /**
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
@@ -4257,7 +4240,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
     }
 
     /**
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
@@ -4319,7 +4301,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
     }
 
     /**
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
@@ -4450,7 +4431,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
     /**
      * Test for the deleteUserDrafts() method.
-     *
      */
     public function testDeleteUserDrafts()
     {
