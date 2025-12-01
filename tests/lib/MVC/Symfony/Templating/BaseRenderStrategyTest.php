@@ -24,7 +24,7 @@ use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 
 abstract class BaseRenderStrategyTest extends TestCase
 {
-    public static function createRenderStrategy(
+    public function createRenderStrategy(
         string $typeClass,
         array $fragmentRenderers,
         string $defaultMethod = 'inline',

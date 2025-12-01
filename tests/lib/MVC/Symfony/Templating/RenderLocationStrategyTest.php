@@ -23,7 +23,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
 {
     public function testUnsupportedValueObject(): void
     {
-        $renderLocationStrategy = self::createRenderStrategy(
+        $renderLocationStrategy = $this->createRenderStrategy(
             RenderLocationStrategy::class,
             [
                 $this->createFragmentRenderer(),
@@ -40,7 +40,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
 
     public function testDefaultFragmentRenderer(): void
     {
-        $renderLocationStrategy = self::createRenderStrategy(
+        $renderLocationStrategy = $this->createRenderStrategy(
             RenderLocationStrategy::class,
             [
                 $this->createFragmentRenderer('inline'),
@@ -59,7 +59,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
 
     public function testUnknownFragmentRenderer(): void
     {
-        $renderLocationStrategy = self::createRenderStrategy(
+        $renderLocationStrategy = $this->createRenderStrategy(
             RenderLocationStrategy::class,
             [],
         );
@@ -73,7 +73,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
 
     public function testMultipleFragmentRenderers(): void
     {
-        $renderLocationStrategy = self::createRenderStrategy(
+        $renderLocationStrategy = $this->createRenderStrategy(
             RenderLocationStrategy::class,
             [
                 $this->createFragmentRenderer('method_a'),
@@ -141,7 +141,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
             ->with($controllerReferenceCallback, $requestCallback)
             ->willReturn(new Response('some_rendered_content'));
 
-        $renderLocationStrategy = self::createRenderStrategy(
+        $renderLocationStrategy = $this->createRenderStrategy(
             RenderLocationStrategy::class,
             [
                 $this->createFragmentRenderer('method_a'),

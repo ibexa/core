@@ -25,7 +25,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
 {
     public function testUnsupportedValueObject(): void
     {
-        $renderContentStrategy = self::createRenderStrategy(
+        $renderContentStrategy = $this->createRenderStrategy(
             RenderContentStrategy::class,
             [
                 $this->createFragmentRenderer(),
@@ -42,7 +42,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
 
     public function testDefaultFragmentRenderer(): void
     {
-        $renderContentStrategy = self::createRenderStrategy(
+        $renderContentStrategy = $this->createRenderStrategy(
             RenderContentStrategy::class,
             [
                 $this->createFragmentRenderer('inline'),
@@ -61,7 +61,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
 
     public function testUnknownFragmentRenderer(): void
     {
-        $renderContentStrategy = self::createRenderStrategy(
+        $renderContentStrategy = $this->createRenderStrategy(
             RenderContentStrategy::class,
             [],
         );
@@ -75,7 +75,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
 
     public function testMultipleFragmentRenderers(): void
     {
-        $renderContentStrategy = self::createRenderStrategy(
+        $renderContentStrategy = $this->createRenderStrategy(
             RenderContentStrategy::class,
             [
                 $this->createFragmentRenderer('method_a'),
@@ -155,7 +155,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
 
     public function testDuplicatedFragmentRenderers(): void
     {
-        $renderContentStrategy = self::createRenderStrategy(
+        $renderContentStrategy = $this->createRenderStrategy(
             RenderContentStrategy::class,
             [
                 $this->createFragmentRenderer('method_a', 'decorator service used'),
@@ -210,7 +210,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
             ->with($controllerReferenceCallback, $requestCallback)
             ->willReturn(new Response('some_rendered_content'));
 
-        $renderContentStrategy = self::createRenderStrategy(
+        $renderContentStrategy = $this->createRenderStrategy(
             RenderContentStrategy::class,
             [
                 $this->createFragmentRenderer('method_a'),
