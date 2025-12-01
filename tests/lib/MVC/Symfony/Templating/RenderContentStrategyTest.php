@@ -8,14 +8,12 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\MVC\Symfony\Templating;
 
-use Ibexa\Contracts\Core\MVC\Templating\RenderStrategy;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\Templating\RenderContentStrategy;
 use Ibexa\Core\MVC\Symfony\Templating\RenderOptions;
-use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
@@ -23,6 +21,8 @@ use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 
 class RenderContentStrategyTest extends BaseRenderStrategyTest
 {
+    use ForwardParamOptionsToFragmentRendererTrait;
+
     public function testUnsupportedValueObject(): void
     {
         $renderContentStrategy = $this->createRenderStrategy(
@@ -97,59 +97,10 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
 
     public function testForwardParamOptionsToFragmentRenderer(): void
     {
-        static::forwardParamOptionsToFragmentRenderer(
+        $this->forwardParamOptionsToFragmentRenderer(
             $this->createMock(FragmentRendererInterface::class),
             $this->createMock(Content::class),
             RenderContentStrategy::class,
-        );
-    }
-
-    /**
-     * @param \PHPUnit\Framework\MockObject\MockObject&\Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface $fragmentRendererMock
-     * @param \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Contracts\Core\Repository\Values\ValueObject $valueObjectMock
-     * @param class-string<RenderStrategy> $renderStrategyClass
-     */
-    public static function forwardParamOptionsToFragmentRenderer(MockObject $fragmentRendererMock, MockObject $valueObjectMock, string $renderStrategyClass): void
-    {
-        $params = [
-            'param1' => 'value1',
-            'param2' => 'value2',
-        ];
-
-        $fragmentRendererMock
-            ->method('getName')
-            ->willReturn('fragment_render_mock');
-        $fragmentRendererMock->expects(self::once())
-            ->method('render')
-            ->with(
-                self::callback(static function ($controllerReference) use ($params) {
-                    if (!$controllerReference instanceof ControllerReference) {
-                        return false;
-                    }
-
-                    return $controllerReference->attributes['params'] === $params;
-                }),
-                self::anything(),
-            )
-            ->willReturn(new Response('fragment_render_mock_rendered'));
-
-        $renderContentStrategy = self::createRenderStrategy(
-            $renderStrategyClass,
-            [
-                $fragmentRendererMock,
-            ],
-        );
-
-        /** @var \Ibexa\Contracts\Core\Repository\Values\ValueObject&\PHPUnit\Framework\MockObject\MockObject $valueObjectMock */
-        self::assertTrue($renderContentStrategy->supports($valueObjectMock));
-
-        self::assertSame(
-            'fragment_render_mock_rendered',
-            $renderContentStrategy->render($valueObjectMock, new RenderOptions([
-                'method' => 'fragment_render_mock',
-                'viewType' => 'awesome',
-                'params' => $params,
-            ]))
         );
     }
 
