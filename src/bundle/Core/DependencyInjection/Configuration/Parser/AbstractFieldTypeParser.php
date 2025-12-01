@@ -17,11 +17,6 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
  */
 abstract class AbstractFieldTypeParser extends AbstractParser implements FieldTypeParserInterface
 {
-    /**
-     * Adds semantic configuration definition.
-     *
-     * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $nodeBuilder Node just under ezpublish.<system>.<siteaccess>
-     */
     public function addSemanticConfig(NodeBuilder $nodeBuilder)
     {
         $fieldTypeNodeBuilder = $nodeBuilder->arrayNode($this->getFieldTypeIdentifier())->children();
