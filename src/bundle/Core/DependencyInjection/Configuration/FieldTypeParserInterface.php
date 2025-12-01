@@ -13,7 +13,7 @@ interface FieldTypeParserInterface extends ParserInterface
 {
     /**
      * Returns the fieldType identifier the config parser works for.
-     * Required to create configuration node under system.<siteaccess>.fieldtypes.
+     * Required to create configuration node under system.<site_access>.fieldtypes.
      *
      * @return string
      */
@@ -22,7 +22,7 @@ interface FieldTypeParserInterface extends ParserInterface
     /**
      * Adds fieldType semantic configuration definition.
      *
-     * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $nodeBuilder Node just under ezpublish.system.<siteaccess>.fieldtypes.<identifier>
+     * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $nodeBuilder Node just under ibexa.system.<site_access>.fieldtypes.<identifier>
      */
     public function addFieldTypeSemanticConfig(NodeBuilder $nodeBuilder);
 }

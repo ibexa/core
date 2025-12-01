@@ -13,7 +13,7 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 
 /**
  * Abstract parser class that field type parsers need to extend in order
- * to receive NodeBuilder at Node just under ezpublish.<system>.<siteaccess>.fieldtypes.<identifier>.
+ * to receive NodeBuilder at Node just under ibexa.system.<site_access>.fieldtypes.<identifier>.
  */
 abstract class AbstractFieldTypeParser extends AbstractParser implements FieldTypeParserInterface
 {
