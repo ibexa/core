@@ -491,7 +491,7 @@ EOT;
      *         entity_mappings:
      *              IbexaCoreBundle:
      *                  is_bundle: true
-     *                  type: annotation
+     *                  type: attribute
      *                  dir: Entity
      *                  prefix: Ibexa\Bundle\Core\Entity
      *
