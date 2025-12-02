@@ -391,74 +391,14 @@ parameters:
 			path: src/bundle/Core/DependencyInjection/Compiler/TranslationCollectorPass.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\:\:addHttpCacheSection\(\) has no return type specified\.$#'
+			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\AbstractParser\:\:postMap\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\:\:addImageMagickSection\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\:\:addImagePlaceholderSection\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\:\:addRepositoriesSection\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\:\:addRouterSection\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\:\:addSiteaccessSection\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\:\:setSiteAccessConfigurationFilters\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\:\:setSiteAccessConfigurationFilters\(\) has parameter \$filters with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration.php
-
-		-
-			message: '#^Property Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\:\:\$siteAccessConfigurationFilters \(array\<Ibexa\\Bundle\\Core\\SiteAccess\\SiteAccessConfigurationFilter\>\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration.php
-
-		-
-			message: '#^Property Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\:\:\$suggestionCollector is never read, only written\.$#'
-			identifier: property.onlyWritten
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\AbstractParser\:\:postMap\(\) has parameter \$config with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/AbstractParser.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\AbstractParser\:\:preMap\(\) has parameter \$config with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
+			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\AbstractParser\:\:preMap\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/AbstractParser.php
 
@@ -547,18 +487,6 @@ parameters:
 			path: src/bundle/Core/DependencyInjection/Configuration/ConfigBuilderInterface.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigParser\:\:__construct\(\) has parameter \$configParsers with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/ConfigParser.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigParser\:\:addSemanticConfig\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/ConfigParser.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigParser\:\:mapConfig\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -567,24 +495,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigParser\:\:mapConfig\(\) has parameter \$scopeSettings with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/ConfigParser.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigParser\:\:postMap\(\) has parameter \$config with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/ConfigParser.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigParser\:\:preMap\(\) has parameter \$config with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/ConfigParser.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigParser\:\:setConfigParsers\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/ConfigParser.php
 
@@ -727,12 +637,6 @@ parameters:
 			path: src/bundle/Core/DependencyInjection/Configuration/FieldTypeParserInterface.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\AbstractFieldTypeParser\:\:addSemanticConfig\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/AbstractFieldTypeParser.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\Common\:\:mapConfig\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -743,18 +647,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Common.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\Common\:\:preMap\(\) has parameter \$config with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Common.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\Content\:\:addSemanticConfig\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Content.php
 
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\Content\:\:mapConfig\(\) has no return type specified\.$#'
@@ -793,12 +685,6 @@ parameters:
 			path: src/bundle/Core/DependencyInjection/Configuration/Parser/IO.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\IO\:\:addSemanticConfig\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/IO.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\IO\:\:mapConfig\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -806,12 +692,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\IO\:\:mapConfig\(\) has parameter \$scopeSettings with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/IO.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\IO\:\:postMap\(\) has parameter \$config with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/Parser/IO.php
@@ -835,12 +715,6 @@ parameters:
 			path: src/bundle/Core/DependencyInjection/Configuration/Parser/IO.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\Image\:\:addSemanticConfig\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Image.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\Image\:\:mapConfig\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -851,18 +725,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Image.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\Image\:\:preMap\(\) has parameter \$config with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Image.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\Languages\:\:addSemanticConfig\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Languages.php
 
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\Languages\:\:mapConfig\(\) has no return type specified\.$#'
@@ -877,34 +739,10 @@ parameters:
 			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Languages.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\Languages\:\:postMap\(\) has parameter \$config with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Languages.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\Languages\:\:preMap\(\) has parameter \$config with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Languages.php
-
-		-
 			message: '#^Parameter \#1 \$array of function array_shift expects array, array\|bool\|float\|int\|string\|null given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Languages.php
-
-		-
-			message: '#^Property Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\Languages\:\:\$siteAccessesByLanguages has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Languages.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\LocationView\:\:preMap\(\) has parameter \$config with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/LocationView.php
 
 		-
 			message: '#^Access to undefined constant static\(Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\Templates\)\:\:INFO\.$#'
@@ -925,12 +763,6 @@ parameters:
 			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Templates.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\Templates\:\:addSemanticConfig\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Templates.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\Templates\:\:mapConfig\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -941,18 +773,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Templates.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\Templates\:\:preMap\(\) has parameter \$config with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Templates.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\TwigVariablesParser\:\:addSemanticConfig\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/TwigVariablesParser.php
 
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\TwigVariablesParser\:\:mapConfig\(\) has no return type specified\.$#'
@@ -967,12 +787,6 @@ parameters:
 			path: src/bundle/Core/DependencyInjection/Configuration/Parser/TwigVariablesParser.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\UrlChecker\:\:addSemanticConfig\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/UrlChecker.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\UrlChecker\:\:mapConfig\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -985,34 +799,10 @@ parameters:
 			path: src/bundle/Core/DependencyInjection/Configuration/Parser/UrlChecker.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\UserContentTypeIdentifier\:\:addSemanticConfig\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/UserContentTypeIdentifier.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\UserContentTypeIdentifier\:\:mapConfig\(\) has parameter \$scopeSettings with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/Parser/UserContentTypeIdentifier.php
-
-		-
-			message: '#^Access to undefined constant static\(Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\View\)\:\:INFO\.$#'
-			identifier: classConstant.notFound
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/View.php
-
-		-
-			message: '#^Access to undefined constant static\(Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\View\)\:\:NODE_KEY\.$#'
-			identifier: classConstant.notFound
-			count: 2
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/View.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\View\:\:addSemanticConfig\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/View.php
 
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\View\:\:mapConfig\(\) has no return type specified\.$#'
@@ -1022,12 +812,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\View\:\:mapConfig\(\) has parameter \$scopeSettings with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/View.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\View\:\:preMap\(\) has parameter \$config with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/Parser/View.php
@@ -1059,18 +843,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\SiteAccessAware\\ConfigurationProcessor\:\:__construct\(\) has parameter \$siteAcccessNodeName with no type specified\.$#'
 			identifier: missingType.parameter
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/SiteAccessAware/ConfigurationProcessor.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\SiteAccessAware\\ConfigurationProcessor\:\:mapConfig\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/SiteAccessAware/ConfigurationProcessor.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\SiteAccessAware\\ConfigurationProcessor\:\:mapConfig\(\) has parameter \$config with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/SiteAccessAware/ConfigurationProcessor.php
 
@@ -1453,14 +1225,14 @@ parameters:
 			path: src/bundle/Core/DependencyInjection/Configuration/SiteAccessAware/DynamicSettingParserInterface.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\SiteAccessAware\\HookableConfigurationMapperInterface\:\:postMap\(\) has parameter \$config with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
+			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\SiteAccessAware\\HookableConfigurationMapperInterface\:\:postMap\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/SiteAccessAware/HookableConfigurationMapperInterface.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\SiteAccessAware\\HookableConfigurationMapperInterface\:\:preMap\(\) has parameter \$config with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
+			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\SiteAccessAware\\HookableConfigurationMapperInterface\:\:preMap\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/SiteAccessAware/HookableConfigurationMapperInterface.php
 
@@ -4037,12 +3809,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: src/bundle/IO/BinaryStreamResponse.php
-
-		-
-			message: '#^Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition\:\:children\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/bundle/IO/DependencyInjection/Configuration.php
 
 		-
 			message: '#^Parameter \#3 \$length of function substr expects int\|null, int\<0, max\>\|false given\.$#'
@@ -20695,48 +20461,6 @@ parameters:
 			path: tests/bundle/Core/DependencyInjection/Configuration/ComplexSettings/ComplexSettingValueResolverTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigParserTest\:\:getConfigurationParserMock\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/DependencyInjection/Configuration/ConfigParserTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigParserTest\:\:testAddSemanticConfig\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/DependencyInjection/Configuration/ConfigParserTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigParserTest\:\:testConstruct\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/DependencyInjection/Configuration/ConfigParserTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigParserTest\:\:testConstructWrongInnerParser\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/DependencyInjection/Configuration/ConfigParserTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigParserTest\:\:testGetSetInnerParsers\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/DependencyInjection/Configuration/ConfigParserTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigParserTest\:\:testMapConfig\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/DependencyInjection/Configuration/ConfigParserTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigParserTest\:\:testPrePostMap\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/DependencyInjection/Configuration/ConfigParserTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigResolver\\ChainConfigResolverTest\:\:hasParameterProvider\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -21205,20 +20929,8 @@ parameters:
 			path: tests/bundle/Core/DependencyInjection/Configuration/SiteAccessAware/ConfigurationProcessorTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Configuration\\SiteAccessAware\\ConfigurationProcessorTest\:\:testMapConfigWrongMapper\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/DependencyInjection/Configuration/SiteAccessAware/ConfigurationProcessorTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Configuration\\SiteAccessAware\\ConfigurationProcessorTest\:\:testMapSetting\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/DependencyInjection/Configuration/SiteAccessAware/ConfigurationProcessorTest.php
-
-		-
-			message: '#^Parameter \#2 \$mapper of method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\SiteAccessAware\\ConfigurationProcessor\:\:mapConfig\(\) expects \(callable\(\)\: mixed\)\|Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\SiteAccessAware\\ConfigurationMapperInterface, stdClass given\.$#'
-			identifier: argument.type
 			count: 1
 			path: tests/bundle/Core/DependencyInjection/Configuration/SiteAccessAware/ConfigurationProcessorTest.php
 
