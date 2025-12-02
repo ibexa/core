@@ -149,7 +149,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
             return true;
         });
 
-        $requestCallback = $this->callback(static function (Request $request) use ($siteAccess, $content): bool {
+        $requestCallback = $this->callback(static function (Request $request): bool {
             self::assertSame('TEST/1.0', $request->headers->get('Surrogate-Capability'));
 
             return true;
