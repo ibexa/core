@@ -96,15 +96,15 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
         );
         $referenceContent = $this->createFolder(
             ['eng-GB' => 'Reference folder'],
-            $shallowParent->contentInfo->mainLocationId
+            $shallowParent->getContentInfo()->getMainLocationId()
         );
         $deepParent = $this->createFolder(
             ['eng-GB' => 'Deep Parent'],
-            $referenceContent->contentInfo->mainLocationId
+            $referenceContent->getContentInfo()->getMainLocationId()
         );
         $contentWithAdditionalLocation = $this->createFolder(
             ['eng-GB' => 'Folder with extra location'],
-            $deepParent->contentInfo->mainLocationId
+            $deepParent->getContentInfo()->getMainLocationId()
         );
         $locationService->createLocation(
             $contentWithAdditionalLocation->contentInfo,
@@ -114,7 +114,7 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
         $mainLocation = $this->loadMainLocation($locationService, $contentWithAdditionalLocation);
         $nonMainLocations = [];
         foreach ($locationService->loadLocations($contentWithAdditionalLocation->contentInfo) as $location) {
-            if ($location->id !== $contentWithAdditionalLocation->contentInfo->mainLocationId) {
+            if ($location->id !== $contentWithAdditionalLocation->getContentInfo()->getMainLocationId()) {
                 $nonMainLocations[] = $location;
             }
         }
@@ -161,19 +161,19 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
         );
         $referenceContent = $this->createFolder(
             ['eng-GB' => 'Ref folder'],
-            $shallowParent->contentInfo->mainLocationId
+            $shallowParent->getContentInfo()->getMainLocationId()
         );
         $middleContent = $this->createFolder(
             ['eng-GB' => 'Middle folder'],
-            $referenceContent->contentInfo->mainLocationId
+            $referenceContent->getContentInfo()->getMainLocationId()
         );
         $deepParent = $this->createFolder(
             ['eng-GB' => 'Deep intermediate'],
-            $middleContent->contentInfo->mainLocationId
+            $middleContent->getContentInfo()->getMainLocationId()
         );
         $contentWithAdditionalLocation = $this->createFolder(
             ['eng-GB' => 'Folder with randomizing location'],
-            $deepParent->contentInfo->mainLocationId
+            $deepParent->getContentInfo()->getMainLocationId()
         );
         $locationService->createLocation(
             $contentWithAdditionalLocation->contentInfo,
@@ -185,7 +185,7 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
         $mainLocation = $this->loadMainLocation($locationService, $contentWithAdditionalLocation);
         $nonMainLocations = [];
         foreach ($locationService->loadLocations($contentWithAdditionalLocation->contentInfo) as $location) {
-            if ($location->id !== $contentWithAdditionalLocation->contentInfo->mainLocationId) {
+            if ($location->id !== $contentWithAdditionalLocation->getContentInfo()->getMainLocationId()) {
                 $nonMainLocations[] = $location;
             }
         }
@@ -305,7 +305,7 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
     private function createMultiplePagesOfContentItems(int $pageSize, int $noOfPages): int
     {
         $parentFolder = $this->createFolder(['eng-GB' => 'Parent Folder'], 2);
-        $parentFolderMainLocationId = $parentFolder->contentInfo->mainLocationId;
+        $parentFolderMainLocationId = $parentFolder->getContentInfo()->getMainLocationId();
 
         $noOfItems = $pageSize * $noOfPages;
         for ($itemNo = 1; $itemNo <= $noOfItems; ++$itemNo) {
@@ -425,7 +425,7 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
                         )
                     )
                     ->andWithCriterion(
-                        new Criterion\ParentLocationId($parentFolder->contentInfo->mainLocationId)
+                        new Criterion\ParentLocationId($parentFolder->getContentInfo()->getMainLocationId())
                     )
                     ->andWithCriterion(
                         new Criterion\ContentTypeIdentifier('folder')
@@ -447,12 +447,12 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
         foreach ($list as $content) {
             /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $content */
             self::assertContainsEquals(
-                $content->contentInfo->remoteId,
+                $content->getContentInfo()->remoteId,
                 $expectedContentRemoteIds,
                 sprintf(
                     'Content %d (%s) was not supposed to be found',
                     $content->id,
-                    $content->contentInfo->remoteId
+                    $content->getContentInfo()->remoteId
                 )
             );
         }
@@ -597,7 +597,7 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
 
     private function loadMainLocation(LocationService $locationService, Content $content): Location
     {
-        $mainLocationId = $content->contentInfo->mainLocationId;
+        $mainLocationId = $content->getContentInfo()->getMainLocationId();
         self::assertNotNull($mainLocationId);
 
         return $locationService->loadLocation($mainLocationId);
