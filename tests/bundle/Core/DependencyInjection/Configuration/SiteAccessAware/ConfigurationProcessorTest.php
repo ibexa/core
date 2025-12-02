@@ -12,7 +12,6 @@ use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Configur
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\HookableConfigurationMapperInterface;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ConfigurationProcessorTest extends TestCase
@@ -58,18 +57,6 @@ class ConfigurationProcessorTest extends TestCase
         $newContextualizer = $this->getContextualizerMock();
         $processor->setContextualizer($newContextualizer);
         self::assertSame($newContextualizer, $processor->getContextualizer());
-    }
-
-    public function testMapConfigWrongMapper()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $namespace = 'ibexa_test';
-        $siteAccessNodeName = 'foo';
-        $container = $this->getContainerMock();
-        $processor = new ConfigurationProcessor($container, $namespace, $siteAccessNodeName);
-
-        $processor->mapConfig([], new stdClass());
     }
 
     public function testMapConfigClosure()

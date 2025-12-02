@@ -20,10 +20,7 @@ interface HookableConfigurationMapperInterface extends ConfigurationMapperInterf
      * @see ConfigurationProcessor::mapConfig()
      * @see ContextualizerInterface::mapConfigArray()
      *
-     * @param array $config Complete parsed semantic configuration
-     * @param ContextualizerInterface $contextualizer
-     *
-     * @return mixed
+     * @param array<string, mixed> $config Complete parsed semantic configuration
      */
     public function preMap(array $config, ContextualizerInterface $contextualizer);
 
@@ -34,10 +31,7 @@ interface HookableConfigurationMapperInterface extends ConfigurationMapperInterf
      * @see ConfigurationProcessor::mapConfig()
      * @see ContextualizerInterface::mapConfigArray()
      *
-     * @param array $config Complete parsed semantic configuration
-     * @param ContextualizerInterface $contextualizer
-     *
-     * @return mixed
+     * @param array<string, mixed> $config Complete parsed semantic configuration
      */
     public function postMap(array $config, ContextualizerInterface $contextualizer);
 }

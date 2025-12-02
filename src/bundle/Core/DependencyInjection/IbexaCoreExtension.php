@@ -175,8 +175,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
     {
         $configuration = new Configuration(
             $this->getMainConfigParser(),
-            $this->getMainRepositoryConfigParser(),
-            $this->suggestionCollector
+            $this->getMainRepositoryConfigParser()
         );
 
         $configuration->setSiteAccessConfigurationFilters($this->siteaccessConfigurationFilters);

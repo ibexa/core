@@ -9,6 +9,6 @@ namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser;
 
 class ContentView extends View
 {
-    public const NODE_KEY = 'content_view';
-    public const INFO = 'Template selection settings when displaying a content';
+    public const string NODE_KEY = 'content_view';
+    public const string INFO = 'Template selection settings when displaying a content';
 }

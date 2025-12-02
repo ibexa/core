@@ -16,7 +16,7 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
  */
 class Content extends AbstractParser
 {
-    public function addSemanticConfig(NodeBuilder $nodeBuilder)
+    public function addSemanticConfig(NodeBuilder $nodeBuilder): void
     {
         $nodeBuilder
             ->arrayNode('content')

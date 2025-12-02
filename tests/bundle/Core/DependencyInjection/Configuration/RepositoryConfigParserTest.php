@@ -10,13 +10,22 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\RepositoryConfigParser;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\RepositoryConfigParserInterface;
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Configuration as SiteAccessConfiguration;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 
+/**
+ * @phpstan-import-type TRootNode from SiteAccessConfiguration
+ */
 final class RepositoryConfigParserTest extends TestCase
 {
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
     public function testAddSemanticConfig(): void
     {
+        /** @phpstan-var NodeBuilder<TRootNode> & MockObject $nodeBuilder */
         $nodeBuilder = $this->createMock(NodeBuilder::class);
 
         $repositoryConfigParser = new RepositoryConfigParser([
@@ -28,6 +37,9 @@ final class RepositoryConfigParserTest extends TestCase
         $repositoryConfigParser->addSemanticConfig($nodeBuilder);
     }
 
+    /**
+     * @phpstan-param NodeBuilder<TRootNode> $nodeBuilder
+     */
     private function createRepositoryConfigParserMock(
         NodeBuilder $nodeBuilder
     ): RepositoryConfigParserInterface {

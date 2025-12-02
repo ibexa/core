@@ -17,7 +17,7 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
  */
 abstract class AbstractFieldTypeParser extends AbstractParser implements FieldTypeParserInterface
 {
-    public function addSemanticConfig(NodeBuilder $nodeBuilder)
+    public function addSemanticConfig(NodeBuilder $nodeBuilder): void
     {
         $fieldTypeNodeBuilder = $nodeBuilder->arrayNode($this->getFieldTypeIdentifier())->children();
 

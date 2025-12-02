@@ -8,9 +8,16 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration;
 
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Configuration as SiteAccessConfiguration;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 
+/**
+ * @phpstan-import-type TRootNode from SiteAccessConfiguration
+ */
 interface RepositoryConfigParserInterface
 {
+    /**
+     * @phpstan-param NodeBuilder<TRootNode> $nodeBuilder
+     */
     public function addSemanticConfig(NodeBuilder $nodeBuilder): void;
 }

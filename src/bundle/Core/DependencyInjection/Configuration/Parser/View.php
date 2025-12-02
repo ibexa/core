@@ -13,7 +13,10 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 
 class View extends AbstractParser
 {
-    public function addSemanticConfig(NodeBuilder $nodeBuilder)
+    public const string NODE_KEY = 'view';
+    public const string INFO = 'View selection settings';
+
+    public function addSemanticConfig(NodeBuilder $nodeBuilder): void
     {
         $nodeBuilder
             ->arrayNode(static::NODE_KEY)
@@ -64,7 +67,7 @@ EOT
             ->end();
     }
 
-    public function preMap(array $config, ContextualizerInterface $contextualizer)
+    public function preMap(array $config, ContextualizerInterface $contextualizer): void
     {
         $contextualizer->mapConfigArray(static::NODE_KEY, $config, ContextualizerInterface::MERGE_FROM_SECOND_LEVEL);
     }

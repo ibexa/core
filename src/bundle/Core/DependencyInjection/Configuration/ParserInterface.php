@@ -7,15 +7,19 @@
 
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration;
 
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Configuration as SiteAccessConfiguration;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\HookableConfigurationMapperInterface;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 
+/**
+ * @phpstan-import-type TRootNode from SiteAccessConfiguration
+ */
 interface ParserInterface extends HookableConfigurationMapperInterface
 {
     /**
      * Adds semantic configuration definition.
      *
-     * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $nodeBuilder Node just under ibexa.system.<site_access>
+     * @phpstan-param \Symfony\Component\Config\Definition\Builder\NodeBuilder<TRootNode> $nodeBuilder Node just under ibexa.system.<site_access>
      */
     public function addSemanticConfig(NodeBuilder $nodeBuilder);
 }

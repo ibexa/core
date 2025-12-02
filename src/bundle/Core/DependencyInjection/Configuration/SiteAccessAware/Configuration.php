@@ -8,6 +8,8 @@
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\NodeBuilder;
+use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
@@ -17,7 +19,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  * Example of scope (aka SiteAccesses) usage, "system" being the node under which scope based configuration take place.
  * Key is the context name.
  *
- * <code>
+ * ```
  * ibexa:
  *     system:
  *         eng:
@@ -28,21 +30,22 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  *             languages:
  *                 - fre-FR
  *                 - eng-GB
- * </code>
+ * ```
+ *
+ * @phpstan-type TRootNode ArrayNodeDefinition<TreeBuilder<'array'>>
  */
 abstract class Configuration implements ConfigurationInterface
 {
     /**
      * Generates the context node under which context based configuration will be defined.
      *
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode Node under which the generated node will be placed.
-     * @param string $scopeNodeName
+     * @phpstan-param TRootNode $rootNode Node under which the generated node will be placed.
      *
-     * @return \Symfony\Component\Config\Definition\Builder\NodeBuilder
+     * @phpstan-return NodeBuilder<TRootNode>
      */
-    public function generateScopeBaseNode(ArrayNodeDefinition $rootNode, $scopeNodeName = 'system')
+    public function generateScopeBaseNode(ArrayNodeDefinition $rootNode, string $scopeNodeName = 'system'): NodeBuilder
     {
-        $contextNode = $rootNode
+        return $rootNode
             ->children()
                 ->arrayNode($scopeNodeName)
                     ->info('System configuration. First key is always a siteaccess or siteaccess group name')
@@ -62,7 +65,5 @@ abstract class Configuration implements ConfigurationInterface
                     ->normalizeKeys(false)
                     ->prototype('array')
                         ->children();
-
-        return $contextNode;
     }
 }

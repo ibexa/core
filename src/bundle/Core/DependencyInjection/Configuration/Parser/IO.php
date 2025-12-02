@@ -23,7 +23,7 @@ class IO extends AbstractParser
         $this->complexSettingParser = $complexSettingParser;
     }
 
-    public function addSemanticConfig(NodeBuilder $nodeBuilder)
+    public function addSemanticConfig(NodeBuilder $nodeBuilder): void
     {
         $nodeBuilder
             ->arrayNode('io')
@@ -85,7 +85,7 @@ class IO extends AbstractParser
     /**
      * Post process configuration to add io_root_dir and io_prefix.
      */
-    public function postMap(array $config, ContextualizerInterface $contextualizer)
+    public function postMap(array $config, ContextualizerInterface $contextualizer): void
     {
         $container = $contextualizer->getContainer();
 

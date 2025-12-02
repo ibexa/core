@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\IO\DependencyInjection;
 
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Configuration as SiteAccessConfiguration;
 use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractContainerBuilderTestCase;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -17,6 +18,8 @@ use Symfony\Component\DependencyInjection\Definition;
  * Abstract class for testing ConfigurationFactory implementations.
  *
  * The part about the container can rely on the matthiasnoback/SymfonyDependencyInjectionTest assertContainer* methods.
+ *
+ * @phpstan-import-type TRootNode from SiteAccessConfiguration
  */
 abstract class ConfigurationFactoryTestCase extends AbstractContainerBuilderTestCase
 {
@@ -39,6 +42,7 @@ abstract class ConfigurationFactoryTestCase extends AbstractContainerBuilderTest
 
     public function testAddConfiguration(): void
     {
+        /** @phpstan-var TRootNode $node */
         $node = new ArrayNodeDefinition('handler');
         $this->factory->addConfiguration($node);
         self::assertNotEmpty($node->getChildNodeDefinitions());

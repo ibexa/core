@@ -10,37 +10,29 @@ namespace Ibexa\Bundle\Core\DependencyInjection;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ParserInterface;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\RepositoryConfigParserInterface;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Configuration as SiteAccessConfiguration;
-use Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollectorInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
+/**
+ * @phpstan-import-type TRootNode from SiteAccessConfiguration
+ */
 class Configuration extends SiteAccessConfiguration
 {
-    public const CUSTOM_TAG_ATTRIBUTE_TYPES = ['number', 'string', 'boolean', 'choice'];
-
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\ParserInterface */
-    private $mainSiteAccessConfigParser;
-
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\RepositoryConfigParserInterface */
-    private $mainRepositoryConfigParser;
-
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollectorInterface */
-    private $suggestionCollector;
+    public const array CUSTOM_TAG_ATTRIBUTE_TYPES = ['number', 'string', 'boolean', 'choice'];
 
     /** @var \Ibexa\Bundle\Core\SiteAccess\SiteAccessConfigurationFilter[] */
-    private $siteAccessConfigurationFilters;
+    private array $siteAccessConfigurationFilters;
 
     public function __construct(
-        ParserInterface $mainConfigParser,
-        RepositoryConfigParserInterface $mainRepositoryConfigParser,
-        SuggestionCollectorInterface $suggestionCollector
+        private readonly ParserInterface $mainSiteAccessConfigParser,
+        private readonly RepositoryConfigParserInterface $mainRepositoryConfigParser
     ) {
-        $this->mainSiteAccessConfigParser = $mainConfigParser;
-        $this->mainRepositoryConfigParser = $mainRepositoryConfigParser;
-        $this->suggestionCollector = $suggestionCollector;
     }
 
-    public function setSiteAccessConfigurationFilters(array $filters)
+    /**
+     * @param \Ibexa\Bundle\Core\SiteAccess\SiteAccessConfigurationFilter[] $filters
+     */
+    public function setSiteAccessConfigurationFilters(array $filters): void
     {
         $this->siteAccessConfigurationFilters = $filters;
     }
@@ -48,7 +40,7 @@ class Configuration extends SiteAccessConfiguration
     /**
      * Generates the configuration tree builder.
      *
-     * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder The tree builder
+     * @phpstan-return \Symfony\Component\Config\Definition\Builder\TreeBuilder<'array'> The tree builder
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
@@ -57,7 +49,7 @@ class Configuration extends SiteAccessConfiguration
         $rootNode = $treeBuilder->getRootNode();
 
         $this->addRepositoriesSection($rootNode);
-        $this->addSiteaccessSection($rootNode);
+        $this->addSiteAccessSection($rootNode);
         $this->addImageMagickSection($rootNode);
         $this->addHttpCacheSection($rootNode);
         $this->addRouterSection($rootNode);
@@ -73,7 +65,10 @@ class Configuration extends SiteAccessConfiguration
         return $treeBuilder;
     }
 
-    public function addRepositoriesSection(ArrayNodeDefinition $rootNode)
+    /**
+     * @phpstan-param TRootNode $rootNode
+     */
+    public function addRepositoriesSection(ArrayNodeDefinition $rootNode): void
     {
         $repositoriesNode = $rootNode
             ->children()
@@ -153,7 +148,10 @@ class Configuration extends SiteAccessConfiguration
         );
     }
 
-    public function addSiteaccessSection(ArrayNodeDefinition $rootNode)
+    /**
+     * @phpstan-param TRootNode $rootNode
+     */
+    public function addSiteAccessSection(ArrayNodeDefinition $rootNode): void
     {
         $rootNode
             ->children()
@@ -253,7 +251,10 @@ class Configuration extends SiteAccessConfiguration
             ->end();
     }
 
-    private function addImageMagickSection(ArrayNodeDefinition $rootNode)
+    /**
+     * @phpstan-param TRootNode $rootNode
+     */
+    private function addImageMagickSection(ArrayNodeDefinition $rootNode): void
     {
         $filtersInfo =
 <<<EOT
@@ -299,7 +300,10 @@ EOT;
             ->end();
     }
 
-    private function addHttpCacheSection(ArrayNodeDefinition $rootNode)
+    /**
+     * @phpstan-param TRootNode $rootNode
+     */
+    private function addHttpCacheSection(ArrayNodeDefinition $rootNode): void
     {
         $purgeTypeInfo = <<<EOT
 Http cache purge type.
@@ -349,7 +353,10 @@ EOT;
             ->end();
     }
 
-    private function addRouterSection(ArrayNodeDefinition $rootNode)
+    /**
+     * @phpstan-param TRootNode $rootNode
+     */
+    private function addRouterSection(ArrayNodeDefinition $rootNode): void
     {
         $nonSAAwareInfo = <<<EOT
 Route names that are not supposed to be SiteAccess aware, i.e. Routes pointing to asset generation (like assetic).
@@ -379,9 +386,9 @@ EOT;
     /**
      * Defines configuration the images placeholder generation.
      *
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode
+     * @phpstan-param TRootNode $rootNode
      */
-    private function addImagePlaceholderSection(ArrayNodeDefinition $rootNode)
+    private function addImagePlaceholderSection(ArrayNodeDefinition $rootNode): void
     {
         $rootNode
             ->children()
@@ -421,13 +428,11 @@ EOT;
      *                     cleanup_method: name_of_cleanup_method
      * </code>
      *
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode
-     *
-     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
+     * @phpstan-param TRootNode $rootNode
      */
-    private function addUrlAliasSection(ArrayNodeDefinition $rootNode)
+    private function addUrlAliasSection(ArrayNodeDefinition $rootNode): void
     {
-        return $rootNode
+        $rootNode
             ->children()
                 ->arrayNode('url_alias')
                     ->children()
@@ -462,13 +467,11 @@ EOT;
      *         enabled: true
      * </code>
      *
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode
-     *
-     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
+     * @phpstan-param TRootNode $rootNode
      */
-    private function addUrlWildcardsSection($rootNode): ArrayNodeDefinition
+    private function addUrlWildcardsSection(ArrayNodeDefinition $rootNode): void
     {
-        return $rootNode
+        $rootNode
             ->children()
                 ->arrayNode('url_wildcards')
                     ->children()
@@ -497,13 +500,11 @@ EOT;
      *
      * </code>
      *
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode
-     *
-     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
+     * @phpstan-param TRootNode $rootNode
      */
-    private function addOrmSection($rootNode): ArrayNodeDefinition
+    private function addOrmSection(ArrayNodeDefinition $rootNode): void
     {
-        return $rootNode
+        $rootNode
             ->children()
                 ->arrayNode('orm')
                     ->children()
@@ -544,11 +545,11 @@ EOT;
      *
      * </code>
      *
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode
+     * @phpstan-param TRootNode $rootNode
      */
-    private function addUITranslationsSection($rootNode): ArrayNodeDefinition
+    private function addUITranslationsSection(ArrayNodeDefinition $rootNode): void
     {
-        return $rootNode
+        $rootNode
             ->children()
                 ->arrayNode('ui')
                     ->children()

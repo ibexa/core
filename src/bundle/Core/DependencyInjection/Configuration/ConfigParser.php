@@ -18,8 +18,13 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 class ConfigParser implements ParserInterface
 {
     /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\ParserInterface[] */
-    private $configParsers;
+    private array $configParsers;
 
+    /**
+     * @param \Ibexa\Bundle\Core\DependencyInjection\Configuration\ParserInterface[] $configParsers
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
     public function __construct(array $configParsers = [])
     {
         foreach ($configParsers as $parser) {
@@ -38,7 +43,7 @@ class ConfigParser implements ParserInterface
     /**
      * @param \Ibexa\Bundle\Core\DependencyInjection\Configuration\ParserInterface[] $configParsers
      */
-    public function setConfigParsers($configParsers)
+    public function setConfigParsers(array $configParsers): void
     {
         $this->configParsers = $configParsers;
     }
@@ -58,21 +63,21 @@ class ConfigParser implements ParserInterface
         }
     }
 
-    public function preMap(array $config, ContextualizerInterface $contextualizer)
+    public function preMap(array $config, ContextualizerInterface $contextualizer): void
     {
         foreach ($this->configParsers as $parser) {
             $parser->preMap($config, $contextualizer);
         }
     }
 
-    public function postMap(array $config, ContextualizerInterface $contextualizer)
+    public function postMap(array $config, ContextualizerInterface $contextualizer): void
     {
         foreach ($this->configParsers as $parser) {
             $parser->postMap($config, $contextualizer);
         }
     }
 
-    public function addSemanticConfig(NodeBuilder $nodeBuilder)
+    public function addSemanticConfig(NodeBuilder $nodeBuilder): void
     {
         $fieldTypeNodeBuilder = $nodeBuilder
             ->arrayNode('fieldtypes')

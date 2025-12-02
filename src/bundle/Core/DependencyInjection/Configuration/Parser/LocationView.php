@@ -12,10 +12,10 @@ use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Contextu
 
 class LocationView extends View
 {
-    public const NODE_KEY = 'location_view';
-    public const INFO = 'Template selection settings when displaying a location. Deprecated from 5.4.5/2015.09, use content_view instead.';
+    public const string NODE_KEY = 'location_view';
+    public const string INFO = 'Template selection settings when displaying a location. Deprecated from 5.4.5/2015.09, use content_view instead.';
 
-    public function preMap(array $config, ContextualizerInterface $contextualizer)
+    public function preMap(array $config, ContextualizerInterface $contextualizer): void
     {
         $scopes = array_merge(
             [ConfigResolver::SCOPE_GLOBAL],

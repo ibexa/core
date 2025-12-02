@@ -23,9 +23,6 @@ class ImageAsset extends AbstractFieldTypeParser
         return ImageAssetFieldType::FIELD_TYPE_IDENTIFIER;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addFieldTypeSemanticConfig(NodeBuilder $nodeBuilder): void
     {
         $nodeBuilder

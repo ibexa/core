@@ -16,7 +16,7 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
  */
 class Image extends AbstractParser
 {
-    public function addSemanticConfig(NodeBuilder $nodeBuilder)
+    public function addSemanticConfig(NodeBuilder $nodeBuilder): void
     {
         $nodeBuilder
             ->arrayNode('image_variations')
@@ -100,7 +100,7 @@ class Image extends AbstractParser
             ->end();
     }
 
-    public function preMap(array $config, ContextualizerInterface $contextualizer)
+    public function preMap(array $config, ContextualizerInterface $contextualizer): void
     {
         $contextualizer->mapConfigArray('image_variations', $config);
         $contextualizer->mapSetting('image_host', $config);

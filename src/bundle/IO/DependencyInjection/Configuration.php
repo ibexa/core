@@ -9,7 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\IO\DependencyInjection;
 
 use ArrayObject;
-use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Configuration as SiteAccessConfiguration;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
@@ -18,6 +19,8 @@ use Symfony\Component\DependencyInjection\Exception\LogicException;
  * @internal
  *
  * @phpstan-type THandlerConfigurationFactoryList \ArrayObject<string, \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory>
+ *
+ * @phpstan-import-type TRootNode from SiteAccessConfiguration
  */
 class Configuration implements ConfigurationInterface
 {
@@ -43,6 +46,9 @@ class Configuration implements ConfigurationInterface
         $this->binarydataHandlerFactories = $factories;
     }
 
+    /**
+     * @phpstan-return TreeBuilder<'array'>
+     */
     public function getConfigTreeBuilder(): TreeBuilder
     {
         if (!isset($this->binarydataHandlerFactories, $this->metadataHandlerFactories)) {
@@ -72,10 +78,15 @@ class Configuration implements ConfigurationInterface
     }
 
     /**
+     * @phpstan-param TRootNode $node
      * @phpstan-param THandlerConfigurationFactoryList $factories
      */
-    private function addHandlersSection(NodeDefinition $node, string $name, string $info, ArrayObject $factories): void
-    {
+    private function addHandlersSection(
+        ArrayNodeDefinition $node,
+        string $name,
+        string $info,
+        ArrayObject $factories
+    ): void {
         $handlersNodeBuilder = $node
             ->children()
                 ->arrayNode($name)

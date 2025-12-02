@@ -7,6 +7,7 @@
 
 namespace Ibexa\Bundle\IO\DependencyInjection;
 
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Configuration as SiteAccessConfiguration;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition as ServiceDefinition;
@@ -18,6 +19,8 @@ use Symfony\Component\DependencyInjection\Definition as ServiceDefinition;
  * - register an io handler
  * - add custom semantic configuration below ez_io.xxx_handler.<name>.<type>
  * - customize the custom handler services, and initialize extra services definitions
+ *
+ * @phpstan-import-type TRootNode from SiteAccessConfiguration
  */
 interface ConfigurationFactory
 {
@@ -33,7 +36,7 @@ interface ConfigurationFactory
      *   ->end();
      * ```
      *
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node The handler's configuration node.
+     * @phpstan-param TRootNode $node The handler's configuration node.
      */
     public function addConfiguration(ArrayNodeDefinition $node): void;
 

@@ -7,13 +7,14 @@
 
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware;
 
-use InvalidArgumentException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Processor for SiteAccess aware configuration processing.
  * Use it when you want to map SiteAccess dependent semantic configuration to internal settings, readable
  * with the ConfigResolver.
+ *
+ * @phpstan-type TCallableConfigurationMapper callable(array<string, mixed>, string, ContextualizerInterface): void
  */
 class ConfigurationProcessor
 {
@@ -91,24 +92,27 @@ class ConfigurationProcessor
     /**
      * Triggers mapping process between semantic and internal configuration.
      *
-     * @param array $config Parsed semantic configuration
-     * @param ConfigurationMapperInterface|callable $mapper Mapper to use. Can be either an instance of ConfigurationMapper or a callable.
-     *                                                      HookableConfigurationMapper can also be used. In this case, preMap()
-     *                                                      and postMap() will be also called respectively before and after the mapping loop.
+     * @param array<string, mixed> $config Parsed semantic configuration
      *
-     *                                                      If $mapper is a callable, the same arguments as defined in the signature
-     *                                                      defined in ConfigurationMapper interface will be passed:
-     *                                                      `array $scopeSettings, $currentScope, ContextualizerInterface $contextualizer`
+     * @phpstan-param ConfigurationMapperInterface|TCallableConfigurationMapper $mapper
+     *      Mapper to use. Can be either an instance of ConfigurationMapper or a callable. HookableConfigurationMapper
+     *      can also be used. In this case, preMap() and postMap() will be also called respectively before and after
+     *      the mapping loop.
+     *      If $mapper is a callable, the same arguments as defined in the signature defined in ConfigurationMapper
+     *      interface will be passed:
+     *      ```
+     *          array<string, mixed> $scopeSettings,
+     *          string $currentScope,
+     *          ContextualizerInterface $contextualizer
+     *      ```
+     *
+     * @see \Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\HookableConfigurationMapperInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function mapConfig(array $config, $mapper)
+    public function mapConfig(array $config, callable|ConfigurationMapperInterface $mapper): void
     {
         $mapperCallable = is_callable($mapper);
-        if (!$mapperCallable && !$mapper instanceof ConfigurationMapperInterface) {
-            throw new InvalidArgumentException('Configuration mapper must either be a callable or an instance of ConfigurationMapper.');
-        }
-
         if ($mapper instanceof HookableConfigurationMapperInterface) {
             $mapper->preMap($config, $this->contextualizer);
         }

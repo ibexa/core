@@ -13,7 +13,7 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 
 class Templates extends AbstractParser
 {
-    public function addSemanticConfig(NodeBuilder $nodeBuilder)
+    public function addSemanticConfig(NodeBuilder $nodeBuilder): void
     {
         $nodeBuilder
             ->arrayNode(static::NODE_KEY)
@@ -32,7 +32,7 @@ class Templates extends AbstractParser
             ->end();
     }
 
-    public function preMap(array $config, ContextualizerInterface $contextualizer)
+    public function preMap(array $config, ContextualizerInterface $contextualizer): void
     {
         foreach ($config['siteaccess']['groups'] as $group => $saArray) {
             if (!empty($config[$contextualizer->getSiteAccessNodeName()][$group][static::NODE_KEY])) {
