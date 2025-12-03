@@ -8,28 +8,70 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\Filtering;
 
-use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
-use Ibexa\Core\Base\ServiceContainer;
 use Ibexa\Bundle\Core\DependencyInjection\ServiceTags;
+use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder as FilteringCriterionQueryBuilder;
+use Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder as FilteringSortClauseQueryBuilder;
+use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
+use Ibexa\Core\Base\Container\Compiler;
+use Ibexa\Core\Base\ServiceContainer;
+use Ibexa\Tests\Integration\Core\LegacyTestContainerBuilder;
 use Ibexa\Tests\Integration\Core\Repository\Filtering\Fixtures\LegacyLocationSortQueryBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 final class LegacyFilteringSetupFactory extends Legacy
 {
-    public function getServiceContainer()
+    public function getServiceContainer(): ServiceContainer
     {
-        // Force rebuilding the container to include test-only services.
-        self::$serviceContainer = null;
+        if (self::$serviceContainer instanceof ServiceContainer) {
+            return self::$serviceContainer;
+        }
 
-        return parent::getServiceContainer();
+        $installDir = self::getInstallationDir();
+
+        $containerBuilder = new LegacyTestContainerBuilder();
+        $loader = $containerBuilder->getCoreLoader();
+        $loader->load('search_engines/legacy.yml');
+        $loader->load('integration_legacy.yml');
+
+        $this->externalBuildContainer($containerBuilder);
+
+        $containerBuilder->setParameter(
+            'ibexa.persistence.legacy.dsn',
+            self::$dsn
+        );
+
+        $storageParam = $containerBuilder->hasParameter('ibexa.io.dir.storage')
+            ? $containerBuilder->getParameter('ibexa.io.dir.storage')
+            : null;
+        $storageDir = is_string($storageParam) ? $storageParam : 'storage';
+        $containerBuilder->setParameter(
+            'ibexa.io.dir.root',
+            self::$ioRootDir . '/' . $storageDir
+        );
+
+        $containerBuilder->addCompilerPass(new Compiler\Search\FieldRegistryPass());
+        $containerBuilder->registerForAutoconfiguration(FilteringCriterionQueryBuilder::class)
+            ->addTag(ServiceTags::FILTERING_CRITERION_QUERY_BUILDER);
+        $containerBuilder->registerForAutoconfiguration(FilteringSortClauseQueryBuilder::class)
+            ->addTag(ServiceTags::FILTERING_SORT_CLAUSE_QUERY_BUILDER);
+
+        $loader->load('override.yml');
+
+        self::$serviceContainer = new ServiceContainer(
+            $containerBuilder,
+            $installDir,
+            self::getCacheDir(),
+            true,
+            true
+        );
+
+        return self::$serviceContainer;
     }
 
-    protected function externalBuildContainer(ContainerBuilder $containerBuilder)
+    protected function externalBuildContainer(ContainerBuilder $containerBuilder): void
     {
-        parent::externalBuildContainer($containerBuilder);
-
         $loader = new YamlFileLoader(
             $containerBuilder,
             new FileLocator(__DIR__ . '/Resources/config')
