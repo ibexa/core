@@ -15,7 +15,6 @@ final class LegacyLocationSortClause extends SortClause implements FilteringSort
 {
     public function __construct(string $sortDirection)
     {
-        $this->targetData = ['sort_direction' => $sortDirection];
-        $this->direction = $sortDirection;
+        parent::__construct('legacy_location_depth', $sortDirection);
     }
 }

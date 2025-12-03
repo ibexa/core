@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\Filtering;
 
+use function array_map;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
@@ -15,7 +16,6 @@ use Ibexa\Contracts\Core\Test\Repository\SetupFactory;
 use Ibexa\Tests\Core\Repository\Filtering\TestContentProvider;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 use Ibexa\Tests\Integration\Core\Repository\Filtering\Fixtures\LegacyLocationSortClause;
-use function array_map;
 use function iterator_to_array;
 
 /**
@@ -39,7 +39,7 @@ final class LegacyContentFilteringTest extends BaseTest
 
         $filter = (new Filter())
             ->withCriterion(
-                new Criterion\ParentLocationId($parentFolder->getContentInfo()->getMainLocationId())
+                new Criterion\ParentLocationId((int)$parentFolder->getContentInfo()->getMainLocationId())
             )
             ->andWithCriterion(
                 new Criterion\ContentTypeIdentifier('folder')
