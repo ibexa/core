@@ -13,5 +13,5 @@ interface EmbeddingProviderInterface
     /**
      * @return float[]
      */
-    public function getEmbedding(string $content, ?string $model = null): array;
+    public function getEmbedding(string $content, ?string $model = null, ?int $maxTokens = null): array;
 }
