@@ -18,12 +18,17 @@ class PathQueryBuilder extends BaseLocationSortClauseQueryBuilder
         return $sortClause instanceof Location\Path;
     }
 
-    protected function getSortingExpression(string $locationAlias): string
+    protected function getSortingExpression(): string
+    {
+        return 'location.path_string';
+    }
+
+    protected function getSortingExpressionForAlias(string $locationAlias): string
     {
         return sprintf('%s.path_string', $locationAlias);
     }
 
-    protected function getSortFieldName(): string
+    protected function getSortFieldName(string $sortExpression): string
     {
         return 'location_path';
     }

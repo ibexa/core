@@ -31,8 +31,8 @@ abstract class BaseLocationSortClauseQueryBuilder implements SortClauseQueryBuil
     ): void {
         $this->prepareLocationAlias($queryBuilder);
 
-        $sort = $this->getSortingExpression($this->locationAlias);
-        $sortAlias = $this->getSortFieldAlias();
+        $sort = $this->getSortingExpressionForAlias($this->locationAlias);
+        $sortAlias = $this->getSortFieldAlias($sort);
         $queryBuilder->addSelect(sprintf('%s AS %s', $sort, $sortAlias));
 
         if ($this->needsMainLocationJoin) {
@@ -82,14 +82,36 @@ abstract class BaseLocationSortClauseQueryBuilder implements SortClauseQueryBuil
         );
     }
 
-    abstract protected function getSortingExpression(string $locationAlias): string;
+    /**
+     * Legacy entry point: implementations are expected to override this.
+     */
+    abstract protected function getSortingExpression(): string;
 
-    protected function getSortFieldAlias(): string
+    /**
+     * Optional alias-aware override; default falls back to legacy expression with alias swap.
+     */
+    protected function getSortingExpressionForAlias(string $locationAlias): string
     {
-        return self::SORT_FIELD_ALIAS_PREFIX . $this->getSortFieldName();
+        $expression = $this->getSortingExpression();
+
+        if ($locationAlias === 'location') {
+            return $expression;
+        }
+
+        $replaced = preg_replace('/\\blocation\\./', sprintf('%s.', $locationAlias), $expression);
+
+        return $replaced ?? $expression;
     }
 
-    abstract protected function getSortFieldName(): string;
+    protected function getSortFieldAlias(string $sortExpression): string
+    {
+        return self::SORT_FIELD_ALIAS_PREFIX . $this->getSortFieldName($sortExpression);
+    }
+
+    protected function getSortFieldName(string $sortExpression): string
+    {
+        return str_replace('.', '_', $sortExpression);
+    }
 }
 
 class_alias(BaseLocationSortClauseQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Location\BaseLocationSortClauseQueryBuilder');
