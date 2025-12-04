@@ -180,8 +180,6 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
             $locationService->newLocationCreateStruct(2)
         );
 
-        $referenceLocation = $this->loadMainLocation($locationService, $referenceContent);
-        $middleLocation = $this->loadMainLocation($locationService, $middleContent);
         $mainLocation = $this->loadMainLocation($locationService, $contentWithAdditionalLocation);
         $nonMainLocations = [];
         foreach ($locationService->loadLocations($contentWithAdditionalLocation->contentInfo) as $location) {
