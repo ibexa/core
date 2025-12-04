@@ -30463,12 +30463,6 @@ parameters:
 			path: tests/bundle/Core/Fragment/DirectFragmentRendererTest.php
 
 		-
-			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Symfony\\\\Component\\\\HttpFoundation\\\\Response'' and Symfony\\Component\\HttpFoundation\\Response will always evaluate to true\.$#'
-			identifier: method.alreadyNarrowedType
-			count: 4
-			path: tests/bundle/Core/Fragment/DirectFragmentRendererTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Fragment\\FragmentListenerFactoryTest\:\:buildFragmentListenerProvider\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -58653,12 +58647,6 @@ parameters:
 		-
 			message: '#^Anonymous function has an unused use \$siteAccess\.$#'
 			identifier: closure.unusedUse
-			count: 1
-			path: tests/lib/MVC/Symfony/Templating/RenderContentStrategyTest.php
-
-		-
-			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Symfony\\\\Component\\\\HttpKernel\\\\Controller\\\\ControllerReference'' and Symfony\\Component\\HttpKernel\\Controller\\ControllerReference will always evaluate to true\.$#'
-			identifier: method.alreadyNarrowedType
 			count: 1
 			path: tests/lib/MVC/Symfony/Templating/RenderContentStrategyTest.php
 
