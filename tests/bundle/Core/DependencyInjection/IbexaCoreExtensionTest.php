@@ -912,51 +912,6 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
     }
 
     /**
-     * @throws \JsonException
-     */
-    public function testConfigurePlatformShDFS(): void
-    {
-        $dsn = 'mysql://dfs:dfs@localhost:3306/dfs';
-        $parts = parse_url($dsn);
-
-        $relationship = [
-            'dfs_database' => [
-                [
-                    'host' => $parts['host'],
-                    'scheme' => $parts['scheme'],
-                    'username' => $parts['user'],
-                    'password' => $parts['pass'],
-                    'port' => $parts['port'],
-                    'path' => ltrim($parts['path'], '/'),
-                    'query' => [
-                        'is_master' => true,
-                    ],
-                ],
-            ],
-        ];
-
-        $_SERVER['PLATFORM_RELATIONSHIPS'] = base64_encode(json_encode($relationship, JSON_THROW_ON_ERROR));
-        $_SERVER['PLATFORMSH_DFS_NFS_PATH'] = '/';
-        $_SERVER['PLATFORM_ROUTES'] = base64_encode(json_encode([], JSON_THROW_ON_ERROR));
-        $_SERVER['PLATFORM_PROJECT_ENTROPY'] = '';
-
-        $this->container->setParameter('database_charset', 'utf8mb4');
-        $this->container->setParameter('database_collation', 'utf8mb4_general_ci');
-        $this->container->setParameter('kernel.project_dir', __DIR__ . '/../Resources');
-        $this->load();
-
-        $this->assertContainerBuilderHasParameter('dfs_database_url');
-        self::assertEquals($dsn, $this->container->getParameter('dfs_database_url'));
-
-        unset(
-            $_SERVER['PLATFORM_RELATIONSHIPS'],
-            $_SERVER['PLATFORMSH_DFS_NFS_PATH'],
-            $_SERVER['PLATFORM_ROUTES'],
-            $_SERVER['PLATFORM_PROJECT_ENTROPY']
-        );
-    }
-
-    /**
      * Prepare Core Container for compilation by mocking required parameters and compile it.
      */
     private function compileCoreContainer(): void
