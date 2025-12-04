@@ -1,5 +1,6 @@
 imports:
     - { resource: commands.yml }
+    - { resource: embeddings.yaml }
     - { resource: value_resolvers.yaml }
 
 parameters:

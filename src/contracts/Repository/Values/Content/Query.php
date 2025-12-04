@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 /**
  * This class is used to perform a Content query.
  */
-class Query extends ValueObject
+class Query extends ValueObject implements QueryValidatorInterface
 {
     public const string SORT_ASC = 'ascending';
     public const string SORT_DESC = 'descending';
@@ -83,4 +83,9 @@ class Query extends ValueObject
      * If true, search engine should perform count even if that means extra lookup.
      */
     public bool $performCount = true;
+
+    public function isValid(): bool
+    {
+        return true;
+    }
 }
