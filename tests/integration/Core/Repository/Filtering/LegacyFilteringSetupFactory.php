@@ -24,9 +24,8 @@ final class LegacyFilteringSetupFactory extends Legacy
 {
     public function getServiceContainer(): ServiceContainer
     {
-        if (self::$serviceContainer instanceof ServiceContainer) {
-            return self::$serviceContainer;
-        }
+        // Always rebuild to ensure test-only services are loaded, regardless of previous caches.
+        self::$serviceContainer = null;
 
         $installDir = self::getInstallationDir();
 
