@@ -9,13 +9,12 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\Filtering;
 
 use function array_map;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
-use Ibexa\Contracts\Core\Test\Repository\SetupFactory;
-use Ibexa\Tests\Core\Repository\Filtering\TestContentProvider;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 use Ibexa\Tests\Integration\Core\Repository\Filtering\Fixtures\LegacyLocationSortClause;
+use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 use function iterator_to_array;
 
 /**
@@ -23,19 +22,21 @@ use function iterator_to_array;
  *
  * @group repository
  */
-final class LegacyContentFilteringTest extends BaseTest
+final class LegacyContentFilteringTest extends RepositoryTestCase
 {
-    private TestContentProvider $contentProvider;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->contentProvider = new TestContentProvider($this->getRepository(), $this);
-    }
-
     public function testLegacyLocationSortClause(): void
     {
-        $parentFolder = $this->contentProvider->createSharedContentStructure();
+        $parentFolder = $this->createFolderWithRemoteId('legacy-parent', 'Legacy Parent');
+        $folder1 = $this->createFolderWithRemoteId(
+            'legacy-folder-1',
+            'Legacy Folder 1',
+            (int)$parentFolder->getContentInfo()->getMainLocationId()
+        );
+        $folder2 = $this->createFolderWithRemoteId(
+            'legacy-folder-2',
+            'Legacy Folder 2',
+            (int)$parentFolder->getContentInfo()->getMainLocationId()
+        );
 
         $filter = (new Filter())
             ->withCriterion(
@@ -46,7 +47,8 @@ final class LegacyContentFilteringTest extends BaseTest
             )
             ->withSortClause(new LegacyLocationSortClause(Query::SORT_ASC));
 
-        $list = $this->getRepository()->getContentService()->find($filter, []);
+        $contentService = self::getContentService();
+        $list = $contentService->find($filter, []);
 
         self::assertCount(2, $list);
         $remoteIds = array_map(
@@ -55,15 +57,40 @@ final class LegacyContentFilteringTest extends BaseTest
         );
         self::assertSame(
             [
-                TestContentProvider::CONTENT_REMOTE_IDS['folder1'],
-                TestContentProvider::CONTENT_REMOTE_IDS['folder2'],
+                $folder1->getContentInfo()->remoteId,
+                $folder2->getContentInfo()->remoteId,
             ],
             $remoteIds
         );
     }
 
-    protected function getSetupFactory(): SetupFactory
+    protected static function getKernelClass(): string
     {
-        return new LegacyFilteringSetupFactory();
+        return LegacyTestKernel::class;
+    }
+
+    private function createFolderWithRemoteId(
+        string $remoteId,
+        string $name,
+        int $parentLocationId = self::CONTENT_TREE_ROOT_ID
+    ): Content {
+        $contentService = self::getContentService();
+        $contentTypeService = self::getContentTypeService();
+        $locationService = self::getLocationService();
+
+        /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $folderType */
+        $folderType = $contentTypeService->loadContentTypeByIdentifier('folder');
+        $createStruct = $contentService->newContentCreateStruct($folderType, 'eng-GB');
+        $createStruct->setField('name', $name, 'eng-GB');
+        $createStruct->remoteId = $remoteId;
+
+        $locationCreateStruct = $locationService->newLocationCreateStruct($parentLocationId);
+
+        $draft = $contentService->createContent(
+            $createStruct,
+            [$locationCreateStruct]
+        );
+
+        return $contentService->publishVersion($draft->versionInfo);
     }
 }
