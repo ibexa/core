@@ -13,7 +13,6 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\SortClauseVisitor;
@@ -23,7 +22,6 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway;
 use function iterator_to_array;
-use function sprintf;
 use Traversable;
 
 /**
@@ -110,14 +108,12 @@ final class DoctrineGateway implements Gateway
         $names = $this->bulkFetchVersionNames(clone $query);
         $fieldValues = $this->bulkFetchFieldValues(clone $query);
 
-        // wrap query to avoid duplicate entries for multiple Locations
-        $wrappedQuery = $this->wrapMainQuery($query);
-        $wrappedQuery->setFirstResult($offset);
+        $query->setFirstResult($offset);
         if ($limit > 0) {
-            $wrappedQuery->setMaxResults($limit);
+            $query->setMaxResults($limit);
         }
 
-        $resultStatement = $wrappedQuery->execute();
+        $resultStatement = $query->execute();
         while (false !== ($row = $resultStatement->fetch(FetchMode::ASSOCIATIVE))) {
             $contentId = (int)$row['content_id'];
             $versionNo = (int)$row['content_version_no'];
@@ -273,21 +269,6 @@ final class DoctrineGateway implements Gateway
         foreach (self::COLUMN_MAP as $columnAlias => $columnName) {
             yield "{$columnName} AS {$columnAlias}";
         }
-    }
-
-    /**
-     * Wrap query to avoid duplicate entries for multiple Locations.
-     */
-    private function wrapMainQuery(FilteringQueryBuilder $query): QueryBuilder
-    {
-        $wrappedQuery = $this->connection->createQueryBuilder();
-        $wrappedQuery
-            ->select(array_keys(self::COLUMN_MAP))
-            ->distinct()
-            ->from(sprintf('(%s)', $query->getSQL()), 'wrapped')
-            ->setParameters($query->getParameters(), $query->getParameterTypes());
-
-        return $wrappedQuery;
     }
 }
 
