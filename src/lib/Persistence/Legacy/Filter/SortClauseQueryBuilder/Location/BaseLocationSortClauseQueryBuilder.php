@@ -21,40 +21,43 @@ abstract class BaseLocationSortClauseQueryBuilder implements SortClauseQueryBuil
     private const CONTENT_SORT_LOCATION_ALIAS = 'ibexa_sort_location';
     private const SORT_FIELD_ALIAS_PREFIX = 'ibexa_filter_sort_';
 
-    private string $locationAlias = self::CONTENT_SORT_LOCATION_ALIAS;
-
-    private bool $needsMainLocationJoin = true;
-
     public function buildQuery(
         FilteringQueryBuilder $queryBuilder,
         FilteringSortClause $sortClause
     ): void {
-        $this->prepareLocationAlias($queryBuilder);
+        $locationContext = $this->prepareLocationContext($queryBuilder);
+        $locationAlias = $locationContext['alias'];
 
-        $sort = $this->getSortingExpressionForAlias($this->locationAlias);
+        $sort = $this->getSortingExpressionForAlias($locationAlias);
         $sortAlias = $this->getSortFieldAlias($sort);
         $queryBuilder->addSelect(sprintf('%s AS %s', $sort, $sortAlias));
 
-        if ($this->needsMainLocationJoin) {
-            $this->joinMainLocationOnly($queryBuilder, $this->locationAlias);
+        if ($locationContext['needsMainLocationJoin']) {
+            $this->joinMainLocationOnly($queryBuilder, $locationAlias);
         }
 
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause $sortClause */
         $queryBuilder->addOrderBy($sortAlias, $sortClause->direction);
     }
 
-    private function prepareLocationAlias(FilteringQueryBuilder $queryBuilder): void
+    /**
+     * @return array{alias: string, needsMainLocationJoin: bool}
+     */
+    private function prepareLocationContext(FilteringQueryBuilder $queryBuilder): array
     {
         if ($this->isLocationFilteringContext($queryBuilder)) {
             $queryBuilder->joinAllLocations();
-            $this->locationAlias = 'location';
-            $this->needsMainLocationJoin = false;
 
-            return;
+            return [
+                'alias' => 'location',
+                'needsMainLocationJoin' => false,
+            ];
         }
 
-        $this->locationAlias = self::CONTENT_SORT_LOCATION_ALIAS;
-        $this->needsMainLocationJoin = true;
+        return [
+            'alias' => self::CONTENT_SORT_LOCATION_ALIAS,
+            'needsMainLocationJoin' => true,
+        ];
     }
 
     private function isLocationFilteringContext(FilteringQueryBuilder $queryBuilder): bool
