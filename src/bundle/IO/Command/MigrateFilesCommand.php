@@ -265,8 +265,10 @@ EOT
 
         foreach ($this->fileListers as $fileLister) {
             $pass = 0;
+            $fileCount = $fileLister->countFiles();
             do {
-                $metadataList = $fileLister->loadMetadataList($bulkCount, $pass * $bulkCount);
+                $offset = $pass * $bulkCount;
+                $metadataList = $fileLister->loadMetadataList($bulkCount, $offset);
 
                 foreach ($metadataList as $metadata) {
                     if (!$dryRun) {
@@ -292,7 +294,7 @@ EOT
                 }
 
                 ++$pass;
-            } while (count($metadataList) > 0);
+            } while ($offset + $bulkCount < $fileCount);
         }
 
         $progress->setMessage('');
