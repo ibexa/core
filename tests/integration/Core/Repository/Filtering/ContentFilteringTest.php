@@ -111,15 +111,17 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
             $locationService->newLocationCreateStruct(2)
         );
 
+        $mainLocationId = $contentWithAdditionalLocation->getContentInfo()->getMainLocationId();
         $mainLocation = $this->loadMainLocation($locationService, $contentWithAdditionalLocation);
-        $nonMainLocations = [];
+        $nonMainLocation = null;
         foreach ($locationService->loadLocations($contentWithAdditionalLocation->contentInfo) as $location) {
-            if ($location->id !== $contentWithAdditionalLocation->getContentInfo()->getMainLocationId()) {
-                $nonMainLocations[] = $location;
+            if ($location->id !== $mainLocationId) {
+                $nonMainLocation = $location;
+
+                break;
             }
         }
-        self::assertNotEmpty($nonMainLocations);
-        $nonMainLocation = $nonMainLocations[0];
+        self::assertNotNull($nonMainLocation);
         $referenceLocation = $this->loadMainLocation($locationService, $referenceContent);
 
         self::assertLessThan($referenceLocation->depth, $nonMainLocation->depth);
