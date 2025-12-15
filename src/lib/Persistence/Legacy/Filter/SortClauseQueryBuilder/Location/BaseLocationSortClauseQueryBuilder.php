@@ -78,7 +78,7 @@ abstract class BaseLocationSortClauseQueryBuilder implements SortClauseQueryBuil
             'content',
             LocationGateway::CONTENT_TREE_TABLE,
             $alias,
-            (string)$queryBuilder->expr()->andX(
+            (string)$queryBuilder->expr()->and(
                 sprintf('content.id = %s.contentobject_id', $alias),
                 sprintf('%s.node_id = %s.main_node_id', $alias, $alias)
             )
