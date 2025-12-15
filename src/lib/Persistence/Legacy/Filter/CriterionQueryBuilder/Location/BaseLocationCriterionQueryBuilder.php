@@ -31,7 +31,7 @@ abstract class BaseLocationCriterionQueryBuilder implements CriterionQueryBuilde
             'content',
             LocationGateway::CONTENT_TREE_TABLE,
             'location',
-            (string)$expressionBuilder->andX(
+            (string)$expressionBuilder->and(
                 'content.id = location.contentobject_id',
                 'location.node_id = location.main_node_id'
             )
