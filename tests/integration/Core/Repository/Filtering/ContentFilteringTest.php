@@ -10,8 +10,10 @@ namespace Ibexa\Tests\Integration\Core\Repository\Filtering;
 
 use function array_map;
 use function count;
+use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
@@ -22,6 +24,7 @@ use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroupCreateStruct;
 use Ibexa\Core\FieldType\Keyword;
 use Ibexa\Tests\Core\Repository\Filtering\TestContentProvider;
+use function iterator_to_array;
 use IteratorAggregate;
 use function sprintf;
 
@@ -78,6 +81,150 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
                 TestContentProvider::CONTENT_REMOTE_IDS['folder1'],
                 TestContentProvider::CONTENT_REMOTE_IDS['folder2'],
             ]
+        );
+    }
+
+    public function testLocationSortClausesUseMainLocationDuringContentFiltering(): void
+    {
+        $repository = $this->getRepository(false);
+        $locationService = $repository->getLocationService();
+        $contentService = $repository->getContentService();
+
+        $shallowParent = $this->createFolder(
+            ['eng-GB' => 'Shallow Parent'],
+            2
+        );
+        $referenceContent = $this->createFolder(
+            ['eng-GB' => 'Reference folder'],
+            $shallowParent->getContentInfo()->getMainLocationId()
+        );
+        $deepParent = $this->createFolder(
+            ['eng-GB' => 'Deep Parent'],
+            $referenceContent->getContentInfo()->getMainLocationId()
+        );
+        $contentWithAdditionalLocation = $this->createFolder(
+            ['eng-GB' => 'Folder with extra location'],
+            $deepParent->getContentInfo()->getMainLocationId()
+        );
+        $locationService->createLocation(
+            $contentWithAdditionalLocation->contentInfo,
+            $locationService->newLocationCreateStruct(2)
+        );
+
+        $mainLocationId = $contentWithAdditionalLocation->getContentInfo()->getMainLocationId();
+        $mainLocation = $this->loadMainLocation($locationService, $contentWithAdditionalLocation);
+        $nonMainLocation = null;
+        foreach ($locationService->loadLocations($contentWithAdditionalLocation->contentInfo) as $location) {
+            if ($location->id !== $mainLocationId) {
+                $nonMainLocation = $location;
+
+                break;
+            }
+        }
+        self::assertNotNull($nonMainLocation);
+        $referenceLocation = $this->loadMainLocation($locationService, $referenceContent);
+
+        self::assertLessThan($referenceLocation->depth, $nonMainLocation->depth);
+        self::assertLessThan($mainLocation->depth, $referenceLocation->depth);
+
+        $filter = (new Filter())
+            ->withCriterion(
+                new Criterion\ContentId(
+                    [
+                        $contentWithAdditionalLocation->id,
+                        $referenceContent->id,
+                    ]
+                )
+            )
+            ->withSortClause(new SortClause\Location\Depth(Query::SORT_ASC));
+
+        $contentList = $contentService->find($filter);
+
+        self::assertSame(
+            [$referenceContent->id, $contentWithAdditionalLocation->id],
+            array_map(
+                static function (Content $content): int {
+                    return $content->id;
+                },
+                iterator_to_array($contentList)
+            )
+        );
+    }
+
+    public function testLocationSortClausesStayDeterministicWithComplexCriteria(): void
+    {
+        $repository = $this->getRepository(false);
+        $locationService = $repository->getLocationService();
+        $contentService = $repository->getContentService();
+
+        $shallowParent = $this->createFolder(
+            ['eng-GB' => 'Complex Root'],
+            2
+        );
+        $referenceContent = $this->createFolder(
+            ['eng-GB' => 'Ref folder'],
+            $shallowParent->getContentInfo()->getMainLocationId()
+        );
+        $middleContent = $this->createFolder(
+            ['eng-GB' => 'Middle folder'],
+            $referenceContent->getContentInfo()->getMainLocationId()
+        );
+        $deepParent = $this->createFolder(
+            ['eng-GB' => 'Deep intermediate'],
+            $middleContent->getContentInfo()->getMainLocationId()
+        );
+        $contentWithAdditionalLocation = $this->createFolder(
+            ['eng-GB' => 'Folder with randomizing location'],
+            $deepParent->getContentInfo()->getMainLocationId()
+        );
+        $locationService->createLocation(
+            $contentWithAdditionalLocation->contentInfo,
+            $locationService->newLocationCreateStruct(2)
+        );
+
+        $mainLocation = $this->loadMainLocation($locationService, $contentWithAdditionalLocation);
+        $nonMainLocations = [];
+        foreach ($locationService->loadLocations($contentWithAdditionalLocation->contentInfo) as $location) {
+            if ($location->id !== $contentWithAdditionalLocation->getContentInfo()->getMainLocationId()) {
+                $nonMainLocations[] = $location;
+            }
+        }
+        self::assertNotEmpty($nonMainLocations);
+        $nonMainLocation = $nonMainLocations[0];
+        self::assertNotEquals($mainLocation->depth, $nonMainLocation->depth);
+
+        $shallowParentLocation = $this->loadMainLocation($locationService, $shallowParent);
+
+        $filter = (new Filter())
+            ->withCriterion(new Criterion\Subtree($shallowParentLocation->pathString))
+            ->andWithCriterion(new Criterion\ContentTypeIdentifier('folder'))
+            ->andWithCriterion(
+                new Criterion\ContentId(
+                    [
+                        $referenceContent->id,
+                        $middleContent->id,
+                        $contentWithAdditionalLocation->id,
+                    ]
+                )
+            )
+            ->withSortClause(new SortClause\Location\Depth(Query::SORT_ASC))
+            ->withSortClause(new SortClause\ContentId(Query::SORT_ASC))
+            ->withLimit(10);
+
+        $contentList = $contentService->find($filter);
+
+        self::assertSame(
+            [
+                $referenceContent->id,
+                $middleContent->id,
+                $contentWithAdditionalLocation->id,
+            ],
+            array_map(
+                static function (Content $content): int {
+                    return $content->id;
+                },
+                iterator_to_array($contentList)
+            )
         );
     }
 
@@ -158,7 +305,7 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
     private function createMultiplePagesOfContentItems(int $pageSize, int $noOfPages): int
     {
         $parentFolder = $this->createFolder(['eng-GB' => 'Parent Folder'], 2);
-        $parentFolderMainLocationId = $parentFolder->contentInfo->mainLocationId;
+        $parentFolderMainLocationId = $parentFolder->getContentInfo()->getMainLocationId();
 
         $noOfItems = $pageSize * $noOfPages;
         for ($itemNo = 1; $itemNo <= $noOfItems; ++$itemNo) {
@@ -256,7 +403,7 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
 
     public function getDataForTestFindContentWithLocationCriterion(): iterable
     {
-        yield 'Content items with secondary Location, sorted by Content ID' => [
+        yield 'Content items with secondary Location ignored in content filtering, sorted by Content ID' => [
             static function (Content $parentFolder): Filter {
                 return (new Filter())
                     ->withCriterion(
@@ -266,7 +413,7 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
                     )
                     ->withSortClause(new SortClause\ContentId(Query::SORT_ASC));
             },
-            [TestContentProvider::CONTENT_REMOTE_IDS['folder2']],
+            [],
         ];
 
         yield 'Folders with Location, sorted by Content ID' => [
@@ -278,7 +425,7 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
                         )
                     )
                     ->andWithCriterion(
-                        new Criterion\ParentLocationId($parentFolder->contentInfo->mainLocationId)
+                        new Criterion\ParentLocationId($parentFolder->getContentInfo()->getMainLocationId())
                     )
                     ->andWithCriterion(
                         new Criterion\ContentTypeIdentifier('folder')
@@ -300,12 +447,12 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
         foreach ($list as $content) {
             /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $content */
             self::assertContainsEquals(
-                $content->contentInfo->remoteId,
+                $content->getContentInfo()->remoteId,
                 $expectedContentRemoteIds,
                 sprintf(
                     'Content %d (%s) was not supposed to be found',
                     $content->id,
-                    $content->contentInfo->remoteId
+                    $content->getContentInfo()->remoteId
                 )
             );
         }
@@ -446,5 +593,13 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
                 'limit' => $limit > 0 ? $limit : 999,
             ]
         );
+    }
+
+    private function loadMainLocation(LocationService $locationService, Content $content): Location
+    {
+        $mainLocationId = $content->getContentInfo()->getMainLocationId();
+        self::assertNotNull($mainLocationId);
+
+        return $locationService->loadLocation($mainLocationId);
     }
 }

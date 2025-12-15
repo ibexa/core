@@ -22,4 +22,14 @@ class VisibilityQueryBuilder extends BaseLocationSortClauseQueryBuilder
     {
         return 'location.is_invisible';
     }
+
+    protected function getSortingExpressionForAlias(string $locationAlias): string
+    {
+        return sprintf('%s.is_invisible', $locationAlias);
+    }
+
+    protected function getSortFieldName(string $sortExpression): string
+    {
+        return 'location_visibility';
+    }
 }

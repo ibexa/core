@@ -25,8 +25,9 @@ class SectionNameSortClauseQueryBuilder implements SortClauseQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringSortClause $sortClause
     ): void {
+        $sortAlias = 'ibexa_filter_sort_section_name';
         $queryBuilder
-            ->addSelect('section.name')
+            ->addSelect(sprintf('section.name AS %s', $sortAlias))
             ->joinOnce(
                 'content',
                 SectionGateway::CONTENT_SECTION_TABLE,
@@ -35,6 +36,6 @@ class SectionNameSortClauseQueryBuilder implements SortClauseQueryBuilder
             );
 
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause $sortClause */
-        $queryBuilder->addOrderBy('section.name', $sortClause->direction);
+        $queryBuilder->addOrderBy($sortAlias, $sortClause->direction);
     }
 }

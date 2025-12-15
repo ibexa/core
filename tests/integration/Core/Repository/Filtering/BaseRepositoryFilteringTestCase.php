@@ -75,7 +75,7 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->contentProvider = new TestContentProvider($this->getRepository(false), $this);
+        $this->contentProvider = new TestContentProvider($this->getRepository(true), $this);
     }
 
     /**
@@ -268,7 +268,7 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTestCase
         yield 'Sibling IN 2, 1]' => new Criterion\Sibling(2, 1);
         yield 'Subtree=/1/2/' => new Criterion\Subtree('/1/2/');
         yield 'UserEmail=admin@link.invalid' => new Criterion\UserEmail('admin@link.invalid');
-        yield 'UserEmail=admin@*' => new Criterion\UserEmail('*@link.invalid', Criterion\Operator::LIKE);
+        yield 'UserEmail=admin@*' => new Criterion\UserEmail('admin@*', Criterion\Operator::LIKE);
         yield 'UserId=14' => new Criterion\UserId(14);
         yield 'UserLogin=admin' => new Criterion\UserLogin('admin');
         yield 'UserLogin=a*' => new Criterion\UserLogin('a*', Criterion\Operator::LIKE);
