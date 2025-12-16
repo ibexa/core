@@ -1,59 +1,82 @@
 services:
-    ibexa.core.mvc.serializer:
-        class: Symfony\Component\Serializer\Serializer
-        arguments:
-            $normalizers:
-                - '@ibexa.core.mvc.serializer.normalizer.array_denormalizer'
-                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\SiteAccessNormalizer'
-                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\MatcherDenormalizer'
-                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\CompoundMatcherNormalizer'
-                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\HostElementNormalizer'
-                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\MapNormalizer'
-                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\URITextNormalizer'
-                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\HostTextNormalizer'
-                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\RegexNormalizer'
-                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\URIElementNormalizer'
-                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\SimplifiedRequestNormalizer'
-                - '@ibexa.core.mvc.serializer.normalizer.json_serializable_normalizer'
-                - '@ibexa.core.mvc.serializer.normalizer.property_normalizer'
-            $encoders:
-                - '@ibexa.core.mvc.serializer.json_encoder'
+    Ibexa\Bundle\Core\Fragment\SiteAccessSerializerInterface:
+        alias: Ibexa\Bundle\Core\Fragment\SiteAccessSerializer
+
 
     Ibexa\Bundle\Core\Fragment\SiteAccessSerializer:
         arguments:
             $serializer: '@ibexa.core.mvc.serializer'
 
-    Ibexa\Bundle\Core\Fragment\SiteAccessSerializerInterface:
-        alias: Ibexa\Bundle\Core\Fragment\SiteAccessSerializer
+    ibexa.core.mvc.serializer.normalizer.array_denormalizer:
+        class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
+        tags:
+            - { name: 'ibexa.core.serializer.normalizer', priority: 1300 }
 
-    ibexa.core.mvc.serializer.json_encoder:
-        class: Symfony\Component\Serializer\Encoder\JsonEncoder
+    Ibexa\Core\MVC\Symfony\Component\Serializer\SiteAccessNormalizer:
+        tags:
+            - { name: 'ibexa.core.serializer.normalizer', priority: 1200 }
 
     Ibexa\Core\MVC\Symfony\Component\Serializer\MatcherDenormalizer:
         arguments:
             $registry: '@Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface'
+        tags:
+            - { name: 'ibexa.core.serializer.normalizer', priority: 1100 }
 
-    Ibexa\Core\MVC\Symfony\Component\Serializer\SiteAccessNormalizer: ~
+    Ibexa\Core\MVC\Symfony\Component\Serializer\CompoundMatcherNormalizer:
+        tags:
+            - { name: 'ibexa.core.serializer.normalizer', priority: 1000 }
 
-    Ibexa\Core\MVC\Symfony\Component\Serializer\HostElementNormalizer: ~
+    Ibexa\Core\MVC\Symfony\Component\Serializer\HostElementNormalizer:
+        tags:
+            - { name: 'ibexa.core.serializer.normalizer', priority: 900 }
 
-    Ibexa\Core\MVC\Symfony\Component\Serializer\MapNormalizer: ~
+    Ibexa\Core\MVC\Symfony\Component\Serializer\MapNormalizer:
+        tags:
+            - { name: 'ibexa.core.serializer.normalizer', priority: 800 }
 
-    Ibexa\Core\MVC\Symfony\Component\Serializer\URITextNormalizer: ~
+    Ibexa\Core\MVC\Symfony\Component\Serializer\URITextNormalizer:
+        tags:
+            - { name: 'ibexa.core.serializer.normalizer', priority: 700 }
 
-    Ibexa\Core\MVC\Symfony\Component\Serializer\HostTextNormalizer: ~
+    Ibexa\Core\MVC\Symfony\Component\Serializer\HostTextNormalizer:
+        tags:
+            - { name: 'ibexa.core.serializer.normalizer', priority: 600 }
 
-    Ibexa\Core\MVC\Symfony\Component\Serializer\RegexNormalizer: ~
+    Ibexa\Core\MVC\Symfony\Component\Serializer\RegexNormalizer:
+        tags:
+            - { name: 'ibexa.core.serializer.normalizer', priority: 500 }
 
-    Ibexa\Core\MVC\Symfony\Component\Serializer\URIElementNormalizer: ~
+    Ibexa\Core\MVC\Symfony\Component\Serializer\URIElementNormalizer:
+        tags:
+            - { name: 'ibexa.core.serializer.normalizer', priority: 400 }
 
-    Ibexa\Core\MVC\Symfony\Component\Serializer\SimplifiedRequestNormalizer: ~
+    Ibexa\Core\MVC\Symfony\Component\Serializer\SimplifiedRequestNormalizer:
+        tags:
+            - { name: 'ibexa.core.serializer.normalizer', priority: 300 }
 
     ibexa.core.mvc.serializer.normalizer.json_serializable_normalizer:
         class: Symfony\Component\Serializer\Normalizer\JsonSerializableNormalizer
+        tags:
+            - { name: 'ibexa.core.serializer.normalizer', priority: 200 }
 
     ibexa.core.mvc.serializer.normalizer.property_normalizer:
         class: Symfony\Component\Serializer\Normalizer\PropertyNormalizer
+        tags:
+            - { name: 'ibexa.core.serializer.normalizer', priority: 100 }
 
-    ibexa.core.mvc.serializer.normalizer.array_denormalizer:
-        class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
+    ibexa.core.mvc.serializer.json_encoder:
+        class: Symfony\Component\Serializer\Encoder\JsonEncoder
+        tags:
+            - { name: 'ibexa.core.serializer.encoder', priority: 100 }
+
+    Ibexa\Bundle\Core\Serializer\SerializerFactory:
+        class: Ibexa\Bundle\Core\Serializer\SerializerFactory
+        arguments:
+            - !tagged_iterator 'ibexa.core.serializer.normalizer'
+            - !tagged_iterator 'ibexa.core.serializer.encoder'
+
+    ibexa.core.mvc.serializer:
+        # Warning: Do NOT enable autoconfigure for Serializer and Normalizer services.
+        # They will be tagged with "serializer.normalizer" tag and injected to main app serializer service if done so.
+        class: Symfony\Component\Serializer\Serializer
+        factory: [ '@Ibexa\Bundle\Core\Serializer\SerializerFactory', 'create' ]
