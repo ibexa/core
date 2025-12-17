@@ -16,22 +16,21 @@ jobs:
                 php:
                     - '8.3'
         steps:
-            - uses: actions/checkout@v5
+            -   uses: actions/checkout@v5
 
-            - name: Setup PHP Action
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: ${{ matrix.php }}
-                  coverage: none
-                  extensions: 'pdo_sqlite, gd'
-                  tools: cs2pr
+            -   uses: ibexa/gh-workflows/actions/composer-install@main
+                with:
+                    gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
+                    gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
+                    satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
+                    satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
 
-            - uses: ramsey/composer-install@v3
-              with:
-                  dependency-versions: highest
+            -   uses: ramsey/composer-install@v3
+                with:
+                    dependency-versions: highest
 
-            - name: Run code style check
-              run: composer run-script check-cs -- --format=checkstyle | cs2pr
+            -   name: Run code style check
+                run: composer run-script check-cs -- --format=checkstyle | cs2pr
 
     tests:
         name: Unit tests & SQLite integration tests
@@ -45,38 +44,33 @@ jobs:
                     - '8.3'
 
         steps:
-            - uses: actions/checkout@v5
+            -   uses: actions/checkout@v5
 
-            - name: Setup PHP Action
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: ${{ matrix.php }}
-                  coverage: none
-                  extensions: pdo_sqlite, gd
-                  tools: cs2pr
+            -   uses: ibexa/gh-workflows/actions/composer-install@main
+                with:
+                    gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
+                    gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
+                    satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
+                    satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
 
-            - uses: ramsey/composer-install@v3
-              with:
-                  dependency-versions: highest
+            -   name: Setup problem matchers for PHPUnit
+                run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-            - name: Setup problem matchers for PHPUnit
-              run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+            -   name: Run PHPStan analysis
+                run: composer run-script phpstan
 
-            - name: Run PHPStan analysis
-              run: composer run-script phpstan
+            -   name: Run unit test suite
+                run: composer run-script unit
 
-            - name: Run unit test suite
-              run: composer run-script unit
-
-            - name: Run integration test suite
-              run: composer run-script integration
+            -   name: Run integration test suite
+                run: composer run-script integration
 
     integration-tests-postgres:
         name: PostgreSQL integration tests
         needs: tests
         services:
             postgres:
-                image: postgres:14
+                image: ${{ matrix.image }}
                 ports:
                     - 5432
                 env:
@@ -96,21 +90,19 @@ jobs:
             matrix:
                 php:
                     - '8.3'
+                image:
+                    - 'postgres:14'
+                    - 'postgres:18'
 
         steps:
             -   uses: actions/checkout@v5
 
-            -   name: Setup PHP Action
-                uses: shivammathur/setup-php@v2
+            -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
-                    php-version: ${{ matrix.php }}
-                    coverage: none
-                    extensions: pdo_pgsql, gd
-                    tools: cs2pr
-
-            -   uses: ramsey/composer-install@v3
-                with:
-                    dependency-versions: highest
+                    gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
+                    gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
+                    satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
+                    satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
 
             -   name: Setup problem matchers for PHPUnit
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
@@ -122,12 +114,12 @@ jobs:
                     # Required by old repository tests
                     DATABASE: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb"
 
-    integration-tests-mysql-80:
-        name: MySQL integration tests (8.0)
+    integration-tests-mysql:
+        name: MySQL integration tests
         needs: tests
         services:
             mysql:
-                image: mysql:8.0
+                image: ${{ matrix.image }}
                 ports:
                     - 3306/tcp
                 env:
@@ -149,73 +141,19 @@ jobs:
             matrix:
                 php:
                     - '8.3'
+                image:
+                    - 'mysql:8.0'
+                    - 'mysql:8.4'
 
         steps:
             -   uses: actions/checkout@v5
 
-            -   name: Setup PHP Action
-                uses: shivammathur/setup-php@v2
+            -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
-                    php-version: ${{ matrix.php }}
-                    coverage: none
-                    extensions: pdo_mysql, gd, redis
-                    tools: cs2pr
-
-            -   uses: ramsey/composer-install@v3
-                with:
-                    dependency-versions: highest
-
-            -   name: Setup problem matchers for PHPUnit
-                run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
-
-            -   name: Run integration test suite vs MySQL
-                run: composer run-script integration
-                env:
-                    DATABASE_URL: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
-                    DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
-
-    integration-tests-mysql-84:
-        name: MySQL integration tests (8.4)
-        needs: tests
-        services:
-            mysql:
-                image: mysql:8.4
-                ports:
-                    - 3306/tcp
-                env:
-                    MYSQL_RANDOM_ROOT_PASSWORD: true
-                    MYSQL_USER: mysql
-                    MYSQL_PASSWORD: mysql
-                    MYSQL_DATABASE: testdb
-                options: >-
-                    --health-cmd="mysqladmin ping"
-                    --health-interval=10s
-                    --health-timeout=5s
-                    --health-retries=5
-                    --tmpfs=/var/lib/mysql
-        runs-on: "ubuntu-24.04"
-        timeout-minutes: 60
-
-        strategy:
-            fail-fast: false
-            matrix:
-                php:
-                    - '8.3'
-
-        steps:
-            -   uses: actions/checkout@v5
-
-            -   name: Setup PHP Action
-                uses: shivammathur/setup-php@v2
-                with:
-                    php-version: ${{ matrix.php }}
-                    coverage: none
-                    extensions: pdo_mysql, gd, redis
-                    tools: cs2pr
-
-            -   uses: ramsey/composer-install@v3
-                with:
-                    dependency-versions: highest
+                    gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
+                    gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
+                    satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
+                    satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
 
             -   name: Setup problem matchers for PHPUnit
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
@@ -255,28 +193,28 @@ jobs:
                 php:
                     - '8.3'
         steps:
-            - uses: actions/checkout@v5
-              with:
-                  fetch-depth: 0
+            -   uses: actions/checkout@v5
+                with:
+                    fetch-depth: 0
 
-            - name: Setup PHP Action
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: ${{ matrix.php }}
-                  coverage: none
+            -   name: Setup PHP Action
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.php }}
+                    coverage: none
 
-            - name: Add solr dependency
-              run: |
-                VERSION=$(jq -r '.extra | ."branch-alias" | ."dev-main"' < composer.json)
-                composer require --no-update "ibexa/solr:$VERSION"
+            -   name: Add solr dependency
+                run: |
+                    VERSION=$(jq -r '.extra | ."branch-alias" | ."dev-main"' < composer.json)
+                    composer require --no-update "ibexa/solr:$VERSION"
 
-            - uses: ramsey/composer-install@v3
-              with:
-                  dependency-versions: highest
+            -   uses: ramsey/composer-install@v3
+                with:
+                    dependency-versions: "highest"
 
-            - name: Run integration test suite
-              run: composer test-integration-solr
-              env:
+            -   name: Run integration test suite
+                run: composer test-integration-solr
+                env:
                     CUSTOM_CACHE_POOL: singleredis
                     CACHE_HOST: 127.0.0.1
                     CORES_SETUP: single
