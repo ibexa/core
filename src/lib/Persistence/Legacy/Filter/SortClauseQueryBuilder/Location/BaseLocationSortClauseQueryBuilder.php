@@ -18,8 +18,8 @@ use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
  */
 abstract class BaseLocationSortClauseQueryBuilder implements SortClauseQueryBuilder
 {
-    private const CONTENT_SORT_LOCATION_ALIAS = 'ibexa_sort_location';
-    private const SORT_FIELD_ALIAS_PREFIX = 'ibexa_filter_sort_';
+    private const string CONTENT_SORT_LOCATION_ALIAS = 'ibexa_sort_location';
+    private const string SORT_FIELD_ALIAS_PREFIX = 'ibexa_filter_sort_';
 
     public function buildQuery(
         FilteringQueryBuilder $queryBuilder,
