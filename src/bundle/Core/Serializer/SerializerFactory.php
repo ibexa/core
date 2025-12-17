@@ -11,27 +11,16 @@ namespace Ibexa\Bundle\Core\Serializer;
 use Symfony\Component\Serializer\Serializer;
 use Traversable;
 
-final class SerializerFactory
+final readonly class SerializerFactory
 {
     /**
-     * @var iterable<\Symfony\Component\Serializer\Normalizer\NormalizerInterface|\Symfony\Component\Serializer\Normalizer\DenormalizerInterface>
-     */
-    private iterable $normalizers;
-
-    /**
-     * @var iterable<\Symfony\Component\Serializer\Encoder\EncoderInterface|\Symfony\Component\Serializer\Encoder\DecoderInterface>
-     */
-    private iterable $encoders;
-
-    /**
      * @param iterable<\Symfony\Component\Serializer\Normalizer\NormalizerInterface|\Symfony\Component\Serializer\Normalizer\DenormalizerInterface> $normalizers
-     * @param iterable<\Symfony\Component\Serializer\Encoder\EncoderInterface|\Symfony\Component\Serializer\Encoder\DecoderInterface>               $encoders
+     * @param iterable<\Symfony\Component\Serializer\Encoder\EncoderInterface|\Symfony\Component\Serializer\Encoder\DecoderInterface> $encoders
      */
-    public function __construct(iterable $normalizers, iterable $encoders)
-    {
-        $this->normalizers = $normalizers;
-        $this->encoders = $encoders;
-    }
+    public function __construct(
+        public iterable $normalizers,
+        public iterable $encoders
+    ) {}
 
     public function create(): Serializer
     {
