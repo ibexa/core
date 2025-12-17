@@ -22,6 +22,16 @@ class PathQueryBuilder extends BaseLocationSortClauseQueryBuilder
     {
         return 'location.path_string';
     }
+
+    protected function getSortingExpressionForAlias(string $locationAlias): string
+    {
+        return sprintf('%s.path_string', $locationAlias);
+    }
+
+    protected function getSortFieldName(string $sortExpression): string
+    {
+        return 'location_path';
+    }
 }
 
 class_alias(PathQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Location\PathQueryBuilder');

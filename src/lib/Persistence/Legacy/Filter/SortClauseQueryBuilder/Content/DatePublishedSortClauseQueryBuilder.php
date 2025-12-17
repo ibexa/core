@@ -25,7 +25,7 @@ class DatePublishedSortClauseQueryBuilder implements SortClauseQueryBuilder
         FilteringSortClause $sortClause
     ): void {
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause $sortClause */
-        $queryBuilder->addOrderBy('content.published', $sortClause->direction);
+        $queryBuilder->addOrderBy('content_published', $sortClause->direction);
     }
 }
 
