@@ -14,14 +14,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Thumbnail;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\ProxyFactory\ProxyGeneratorInterface;
 use ProxyManager\Proxy\LazyLoadingInterface;
+use RuntimeException;
 
 final class ImageThumbnailProxyStrategy implements FieldTypeBasedThumbnailStrategy
 {
-    /** @var \Ibexa\Core\FieldType\Image\ImageThumbnailStrategy */
-    private $imageThumbnailStrategy;
+    private ImageThumbnailStrategy $imageThumbnailStrategy;
 
-    /** @var \Ibexa\Core\Repository\ProxyFactory\ProxyGeneratorInterface */
-    private $proxyGenerator;
+    private ProxyGeneratorInterface $proxyGenerator;
 
     public function __construct(
         ImageThumbnailStrategy $imageThumbnailStrategy,
@@ -36,7 +35,7 @@ final class ImageThumbnailProxyStrategy implements FieldTypeBasedThumbnailStrate
         return $this->imageThumbnailStrategy->getFieldTypeIdentifier();
     }
 
-    public function getThumbnail(Field $field, ?VersionInfo $versionInfo = null): ?Thumbnail
+    public function getThumbnail(Field $field, ?VersionInfo $versionInfo = null): Thumbnail
     {
         $initializer = function (
             &$wrappedObject,
@@ -48,6 +47,15 @@ final class ImageThumbnailProxyStrategy implements FieldTypeBasedThumbnailStrate
             $initializer = null;
 
             $wrappedObject = $this->imageThumbnailStrategy->getThumbnail($field, $versionInfo);
+
+            if ($wrappedObject === null) {
+                throw new RuntimeException(sprintf(
+                    'Failed to prepare thumbnail for field type "%s" (ID: %s) using "%s" strategy.',
+                    $field->getId(),
+                    $field->getFieldTypeIdentifier(),
+                    get_debug_type($this->imageThumbnailStrategy),
+                ));
+            }
 
             return true;
         };

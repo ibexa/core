@@ -33,6 +33,26 @@ class Thumbnail extends ValueObject
 
     /** @var string|null */
     protected $mimeType;
+
+    public function getResource(): string
+    {
+        return $this->resource;
+    }
+
+    public function getWidth(): ?int
+    {
+        return $this->width;
+    }
+
+    public function getHeight(): ?int
+    {
+        return $this->height;
+    }
+
+    public function getMimeType(): ?string
+    {
+        return $this->mimeType;
+    }
 }
 
 class_alias(Thumbnail::class, 'eZ\Publish\API\Repository\Values\Content\Thumbnail');
