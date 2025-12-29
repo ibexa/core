@@ -54,6 +54,7 @@ final class ImageThumbnailProxyStrategyTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Failed to prepare thumbnail for field type "123" (ID: ezimage) using');
 
-        $thumbnail->getMimeType();
+        // Initialize proxy
+        $thumbnail->mimeType;
     }
 }
