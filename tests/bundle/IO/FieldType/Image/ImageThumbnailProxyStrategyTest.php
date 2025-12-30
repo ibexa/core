@@ -55,6 +55,7 @@ final class ImageThumbnailProxyStrategyTest extends TestCase
         $this->expectExceptionMessage('Failed to prepare thumbnail for field type "123" (ID: ezimage) using');
 
         // Initialize proxy
+        // @phpstan-ignore expr.resultUnused
         $thumbnail->mimeType;
     }
 }
