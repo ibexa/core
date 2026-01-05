@@ -5041,12 +5041,6 @@ parameters:
 			path: src/bundle/IO/BinaryStreamResponse.php
 
 		-
-			message: '#^Parameter \#2 \$values of method Symfony\\Component\\HttpFoundation\\ResponseHeaderBag\:\:set\(\) expects array\<string\>\|string\|null, int given\.$#'
-			identifier: argument.type
-			count: 2
-			path: src/bundle/IO/BinaryStreamResponse.php
-
-		-
 			message: '#^Property Ibexa\\Bundle\\IO\\BinaryStreamResponse\:\:\$file \(Ibexa\\Core\\IO\\Values\\BinaryFile\) does not accept SplFileInfo\|string\.$#'
 			identifier: assign.propertyType
 			count: 1
