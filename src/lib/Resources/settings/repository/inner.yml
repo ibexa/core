@@ -105,8 +105,6 @@ services:
         class: Ibexa\Core\Repository\LocationService
         factory: ['@Ibexa\Core\Repository\Repository', getLocationService]
         lazy: true
-        tags:
-            - { name: 'proxy', interface: 'Ibexa\Contracts\Core\Future\Repository\FutureLocationService' }
 
     Ibexa\Core\Repository\LanguageService:
         class: Ibexa\Core\Repository\LanguageService
