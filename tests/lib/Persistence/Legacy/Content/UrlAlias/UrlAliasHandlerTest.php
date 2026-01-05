@@ -5447,7 +5447,8 @@ class UrlAliasHandlerTest extends TestCase
                 $this->getDatabaseConnection(),
                 $this->getLanguageMaskGenerator(),
                 $this->getTrashCriteriaConverterDependency(),
-                $this->getTrashSortClauseConverterDependency()
+                $this->getTrashSortClauseConverterDependency(),
+                $this->getLimitedCountQueryBuilderDependency()
             );
         }
 

@@ -12,6 +12,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\FetchMode;
 use Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
+use Ibexa\Contracts\Core\Persistence\Filter\Query\CountQueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\SortClauseVisitor;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
@@ -26,15 +27,25 @@ final readonly class DoctrineGateway implements Gateway
     public function __construct(
         private Connection $connection,
         private CriterionVisitor $criterionVisitor,
-        private SortClauseVisitor $sortClauseVisitor
+        private SortClauseVisitor $sortClauseVisitor,
+        private CountQueryBuilder $countQueryBuilder
     ) {
     }
 
-    public function count(FilteringCriterion $criterion): int
+    /**
+     * @phpstan-param positive-int $limit
+     */
+    public function count(FilteringCriterion $criterion, ?int $limit = null): int
     {
         $query = $this->buildQuery($criterion);
 
         $query->select('COUNT(DISTINCT location.node_id)');
+
+        $query = $this->countQueryBuilder->wrap(
+            $query,
+            'location.node_id',
+            $limit
+        );
 
         return (int)$query->executeQuery()->fetch(FetchMode::COLUMN);
     }

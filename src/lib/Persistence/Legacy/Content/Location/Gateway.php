@@ -128,7 +128,7 @@ abstract class Gateway
      */
     abstract public function getSubtreeChildrenDraftContentIds(int $sourceId): array;
 
-    abstract public function getSubtreeSize(string $path): int;
+    abstract public function getSubtreeSize(string $path, ?int $limit = null): int;
 
     /**
      * Returns data for the first level children of the location identified by given $locationId.
