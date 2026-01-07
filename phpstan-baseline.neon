@@ -52459,12 +52459,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/LogicalOperatorQueryBuilderQueryBuilderTest.php
 
 		-
-			message: '#^Parameter \#3 \$limit of method Ibexa\\Core\\Persistence\\Legacy\\Filter\\Query\\LimitedCountQueryBuilder\:\:wrap\(\) expects int\<1, max\>\|null, 0 given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/lib/Persistence/Legacy/Filter/Query/LimitedCountQueryBuilderTest.php
-
-		-
 			message: '#^Call to an undefined method Ibexa\\Contracts\\Core\\Container\:\:get\(\)\.$#'
 			identifier: method.notFound
 			count: 1

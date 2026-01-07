@@ -31,6 +31,7 @@ final class LimitedCountQueryBuilderTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessageMatches('/Limit must be greater than 0/');
 
+        /**  @phpstan-ignore argument.type */
         $this->limitedCountQueryBuilder->wrap($qb, 'someField', 0);
     }
 
