@@ -23,6 +23,7 @@ services:
             - { name: 'ibexa.core.serializer.normalizer', priority: 1100 }
 
     Ibexa\Core\MVC\Symfony\Component\Serializer\CompoundMatcherNormalizer:
+        autoconfigure: false
         tags:
             - { name: 'ibexa.core.serializer.normalizer', priority: 1000 }
 
