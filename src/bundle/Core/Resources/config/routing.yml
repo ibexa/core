@@ -26,9 +26,6 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    Ibexa\Core\MVC\Symfony\Component\Serializer\CompoundMatcherNormalizer:
-        autoconfigure: false
-
     Ibexa\Core\MVC\Symfony\Routing\Generator:
         class: Ibexa\Core\MVC\Symfony\Routing\Generator
         abstract: true
