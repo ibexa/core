@@ -2,7 +2,6 @@ services:
     Ibexa\Bundle\Core\Fragment\SiteAccessSerializerInterface:
         alias: Ibexa\Bundle\Core\Fragment\SiteAccessSerializer
 
-
     Ibexa\Bundle\Core\Fragment\SiteAccessSerializer:
         arguments:
             $serializer: '@ibexa.core.mvc.serializer'
@@ -23,7 +22,6 @@ services:
             - { name: 'ibexa.core.serializer.normalizer', priority: 1100 }
 
     Ibexa\Core\MVC\Symfony\Component\Serializer\CompoundMatcherNormalizer:
-        autoconfigure: false
         tags:
             - { name: 'ibexa.core.serializer.normalizer', priority: 1000 }
 
