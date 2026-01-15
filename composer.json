@@ -23,7 +23,7 @@
         "doctrine/annotations": "^2.0",
         "doctrine/dbal": "^3.7.0",
         "doctrine/doctrine-bundle": "^2.11.0",
-        "doctrine/orm": "^2.7",
+        "doctrine/orm": "^2.7 || ^3.0",
         "friendsofphp/proxy-manager-lts": "^1.0",
         "friendsofsymfony/http-cache-bundle": "^3.0",
         "friendsofsymfony/jsrouting-bundle": "^3.5",

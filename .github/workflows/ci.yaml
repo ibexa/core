@@ -40,18 +40,22 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
+                orm:
+                    - 'doctrine/orm:^2.7'
+                    - 'doctrine/orm:^3'
                 php:
                     - '8.3'
 
         steps:
             -   uses: actions/checkout@v5
 
-            -   uses: ibexa/gh-workflows/actions/composer-install@main
+            -   uses: ibexa/gh-workflows/actions/composer-install@allow-custom-composer-options
                 with:
                     gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
                     gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
                     satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
                     satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
+                    composer-options: "--with ${{ matrix.orm }}"
 
             -   name: Setup problem matchers for PHPUnit
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
