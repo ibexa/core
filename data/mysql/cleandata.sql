@@ -236,7 +236,7 @@ VALUES (1,'standard','','Standard','ezcontentnavigationpart'),
        (3,'media','','Media','ezmedianavigationpart');
 
 INSERT INTO `ibexa_site_data` (`name`, `value`)
-VALUES ('ibexa-release','4.6');
+VALUES ('ibexa-release','5.0');
 
 INSERT INTO `ibexa_url_alias` (`destination_url`, `forward_to_id`, `id`, `is_imported`, `is_internal`, `is_wildcard`, `source_md5`, `source_url`)
 VALUES ('content/view/full/2',0,12,1,1,0,'d41d8cd98f00b204e9800998ecf8427e',''),
