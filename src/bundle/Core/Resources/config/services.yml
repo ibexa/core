@@ -390,3 +390,9 @@ services:
         decoration_priority: 500
         arguments:
             $inner: '@.inner'
+
+    Ibexa\Core\Persistence\Cache\EventSubscriber\RoleAssignmentCacheInvalidationListener:
+        autowire: true
+        autoconfigure: true
+        arguments:
+            $cache: '@ibexa.cache_pool'
