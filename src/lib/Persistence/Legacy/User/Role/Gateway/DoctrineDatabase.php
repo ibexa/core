@@ -15,6 +15,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\User\Policy;
 use Ibexa\Contracts\Core\Persistence\User\Role;
 use Ibexa\Contracts\Core\Persistence\User\RoleUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\User\Role\Gateway;
 
@@ -393,6 +394,7 @@ final class DoctrineDatabase extends Gateway
     private function buildLoadRoleAssignmentsQuery(array $columns, int $roleId): QueryBuilder
     {
         $query = $this->connection->createQueryBuilder();
+        $expr = $query->expr();
         $query
             ->select(...$columns)
             ->from(self::USER_ROLE_TABLE, 'user_role')
@@ -400,9 +402,12 @@ final class DoctrineDatabase extends Gateway
                 'user_role',
                 ContentGateway::CONTENT_ITEM_TABLE,
                 'content_object',
-                'user_role.contentobject_id = content_object.id'
+                (string) $expr->and(
+                    $expr->eq('user_role.contentobject_id', 'content_object.id'),
+                    $expr->eq('content_object.status', ContentInfo::STATUS_PUBLISHED)
+                )
             )->where(
-                $query->expr()->eq(
+                $expr->eq(
                     'role_id',
                     $query->createPositionalParameter($roleId, ParameterType::INTEGER)
                 )
