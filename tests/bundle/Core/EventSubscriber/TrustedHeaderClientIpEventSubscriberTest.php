@@ -21,6 +21,8 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
 {
     private ?string $originalRemoteAddr;
 
+    private const REAL_CLIENT_IP = '98.76.123.234';
+
     /**
      * @param array<mixed> $data
      */
@@ -76,7 +78,7 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
         array $headers = [],
         array $server = []
     ): void {
-        $_SERVER['REMOTE_ADDR'] = '1.2.3.4';
+        $_SERVER['REMOTE_ADDR'] = self::REAL_CLIENT_IP;
 
         $eventDispatcher = new EventDispatcher();
         $eventDispatcher->addSubscriber(
@@ -85,7 +87,7 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
 
         $request = Request::create('/', 'GET', [], [], [], array_merge(
             $server,
-            ['REMOTE_ADDR' => '1.2.3.4'],
+            ['REMOTE_ADDR' => self::REAL_CLIENT_IP],
         ));
         $request->headers->add($headers);
 
