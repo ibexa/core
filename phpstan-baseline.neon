@@ -5269,12 +5269,6 @@ parameters:
 			path: src/contracts/Repository/Values/Content/Search/AggregationResultCollection.php
 
 		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\AggregationResultCollection\:\:toArray\(\) should return array\<Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\FieldDefinition\> but returns array\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\AggregationResult\>\.$#'
-			identifier: return.type
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/AggregationResultCollection.php
-
-		-
 			message: '#^Template type T is declared as covariant, but occurs in invariant position in property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Search\\SearchHit\:\:\$valueObject\.$#'
 			identifier: generics.variance
 			count: 1
