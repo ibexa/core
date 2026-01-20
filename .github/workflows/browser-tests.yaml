@@ -10,7 +10,7 @@ on:
 jobs:
     core-behat:
         name: "Kernel Behat Core tests"
-        uses: ibexa/gh-workflows/.github/workflows/browser-tests.yml@main
+        uses: ibexa/gh-workflows/.github/workflows/browser-tests.yml@fix-ci-for-fork-oss
         with:
             project-edition: 'oss'
             test-setup-phase-1: '--mode=standard --profile=core --suite=setup'
