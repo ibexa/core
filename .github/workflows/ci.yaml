@@ -46,7 +46,7 @@ jobs:
         steps:
             -   uses: actions/checkout@v5
 
-            -   uses: ibexa/gh-workflows/actions/composer-install@main
+            -   uses: ibexa/gh-workflows/actions/composer-install@fix-ci-for-fork-oss
                 with:
                     gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
                     gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
@@ -97,7 +97,7 @@ jobs:
         steps:
             -   uses: actions/checkout@v5
 
-            -   uses: ibexa/gh-workflows/actions/composer-install@main
+            -   uses: ibexa/gh-workflows/actions/composer-install@fix-ci-for-fork-oss
                 with:
                     gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
                     gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
@@ -148,7 +148,7 @@ jobs:
         steps:
             -   uses: actions/checkout@v5
 
-            -   uses: ibexa/gh-workflows/actions/composer-install@main
+            -   uses: ibexa/gh-workflows/actions/composer-install@fix-ci-for-fork-oss
                 with:
                     gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
                     gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
