@@ -118,6 +118,10 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         // Note: this is where the transformation occurs
         $config = $this->processConfiguration($configuration, $configs);
 
+        if ($config['strict_mode']) {
+            $container->setParameter('ibexa.strict_mode', $config['strict_mode']);
+        }
+
         // Base services and services overrides
         $loader->load('services.yml');
         // Security services
