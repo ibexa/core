@@ -139,7 +139,7 @@ class BinaryStreamResponse extends Response
      */
     public function prepare(Request $request)
     {
-        $this->headers->set('Content-Length', $this->file->size);
+        $this->headers->set('Content-Length', (string) $this->file->size);
         $this->headers->set('Accept-Ranges', 'bytes');
         $this->headers->set('Content-Transfer-Encoding', 'binary');
 
@@ -178,15 +178,17 @@ class BinaryStreamResponse extends Response
 
                 if ($start <= $end) {
                     if ($start < 0 || $end > $fileSize - 1) {
-                        $this->setStatusCode(416); // HTTP_REQUESTED_RANGE_NOT_SATISFIABLE
-                    } elseif ($start !== 0 || $end !== $fileSize - 1) {
-                        $this->maxlen = $end < $fileSize ? $end - $start + 1 : -1;
-                        $this->offset = $start;
+                        $this->setStatusCode(Response::HTTP_REQUESTED_RANGE_NOT_SATISFIABLE);
 
-                        $this->setStatusCode(206); // HTTP_PARTIAL_CONTENT
-                        $this->headers->set('Content-Range', sprintf('bytes %s-%s/%s', $start, $end, $fileSize));
-                        $this->headers->set('Content-Length', $end - $start + 1);
+                        return $this;
                     }
+
+                    $this->maxlen = $end - $start + 1;
+                    $this->offset = $start;
+
+                    $this->setStatusCode(Response::HTTP_PARTIAL_CONTENT);
+                    $this->headers->set('Content-Range', sprintf('bytes %s-%s/%s', $start, $end, $fileSize));
+                    $this->headers->set('Content-Length', $this->maxlen);
                 }
             }
         }
