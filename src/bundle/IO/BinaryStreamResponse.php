@@ -239,13 +239,13 @@ class BinaryStreamResponse extends Response
                 $this->setStatusCode(
                     Response::HTTP_REQUESTED_RANGE_NOT_SATISFIABLE
                 );
-            } elseif ($start !== 0 || $end !== $fileSize - 1) {
-                $this->maxlen = $end < $fileSize ? $end - $start + 1 : -1;
+            } else {
+                $this->maxlen = $end - $start + 1;
                 $this->offset = $start;
 
                 $this->setStatusCode(Response::HTTP_PARTIAL_CONTENT);
                 $this->headers->set('Content-Range', sprintf('bytes %s-%s/%s', $start, $end, $fileSize));
-                $this->headers->set('Content-Length', (string)($end - $start + 1));
+                $this->headers->set('Content-Length', (string) $this->maxlen);
             }
         }
     }
