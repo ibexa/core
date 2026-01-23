@@ -31,6 +31,14 @@ class InMemoryCacheTest extends TestCase
             8
         );
     }
+    /**
+     * Tear down test (properties).
+     */
+    protected function tearDown(): void
+    {
+        unset($GLOBALS['override_time']);
+    }
+
 
     public function testGetByKey(): void
     {
