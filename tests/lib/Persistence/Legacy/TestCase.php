@@ -148,11 +148,6 @@ abstract class TestCase extends BaseTestCase
         }
     }
 
-    protected function tearDown(): void
-    {
-        unset($this->connection);
-    }
-
     /**
      * Get a text representation of a result set.
      *

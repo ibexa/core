@@ -32,18 +32,6 @@ class InMemoryCacheTest extends TestCase
         );
     }
 
-    /**
-     * Tear down test (properties).
-     */
-    protected function tearDown(): void
-    {
-        $this->cache->clear();
-
-        unset($this->cache);
-        unset($GLOBALS['override_time']);
-        parent::tearDown();
-    }
-
     public function testGetByKey(): void
     {
         self::assertNull($this->cache->get('first'));

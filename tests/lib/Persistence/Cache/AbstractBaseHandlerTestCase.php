@@ -127,25 +127,6 @@ abstract class AbstractBaseHandlerTestCase extends TestCase
         );
     }
 
-    /**
-     * Tear down test (properties).
-     */
-    protected function tearDown(): void
-    {
-        unset(
-            $this->cacheMock,
-            $this->persistenceHandlerMock,
-            $this->persistenceCacheHandler,
-            $this->loggerMock,
-            $this->cacheItemsClosure,
-            $this->inMemoryMock,
-            $this->cacheIdentifierGeneratorMock,
-            $this->cacheIdentifierSanitizer,
-            $this->locationPathConverter
-        );
-
-        parent::tearDown();
-    }
 
     /**
      * @param $key
