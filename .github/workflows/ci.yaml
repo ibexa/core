@@ -15,6 +15,7 @@ jobs:
             matrix:
                 php:
                     - '8.3'
+                    - '8.4'
         steps:
             -   uses: actions/checkout@v5
 
@@ -42,6 +43,7 @@ jobs:
             matrix:
                 php:
                     - '8.3'
+                    - '8.4'
 
         steps:
             -   uses: actions/checkout@v5
@@ -90,6 +92,7 @@ jobs:
             matrix:
                 php:
                     - '8.3'
+                    - '8.4'
                 image:
                     - 'postgres:14'
                     - 'postgres:18'
@@ -141,6 +144,7 @@ jobs:
             matrix:
                 php:
                     - '8.3'
+                    - '8.4'
                 image:
                     - 'mysql:8.0'
                     - 'mysql:8.4'
@@ -192,6 +196,7 @@ jobs:
             matrix:
                 php:
                     - '8.3'
+                    - '8.4'
         steps:
             -   uses: actions/checkout@v5
                 with:
