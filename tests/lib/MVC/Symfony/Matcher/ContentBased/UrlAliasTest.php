@@ -12,10 +12,11 @@ use Ibexa\Contracts\Core\Repository\URLAliasService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias as UrlAliasMatcher;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class UrlAliasTest extends BaseTestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias */
+    /** @var UrlAliasMatcher */
     private $matcher;
 
     protected function setUp(): void
@@ -33,8 +34,10 @@ class UrlAliasTest extends BaseTestCase
      * @param string $matchingConfig
      * @param string[] $expectedValues
      */
-    public function testSetMatchingConfig($matchingConfig, $expectedValues)
-    {
+    public function testSetMatchingConfig(
+        $matchingConfig,
+        $expectedValues
+    ) {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame(
             $this->matcher->getValues(),
@@ -58,7 +61,7 @@ class UrlAliasTest extends BaseTestCase
      *
      * @param string $path
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     private function generateRepositoryMockForUrlAlias($path)
     {
@@ -73,20 +76,27 @@ class UrlAliasTest extends BaseTestCase
         ];
 
         $urlAliasServiceMock = $this->createMock(URLAliasService::class);
-        $urlAliasServiceMock->expects(self::at(0))
+        $urlAliasServiceMock->expects(self::exactly(2))
             ->method('listLocationAliases')
-            ->with(
-                self::isInstanceOf(Location::class),
-                true
-            )
-            ->will(self::returnValue([]));
-        $urlAliasServiceMock->expects(self::at(1))
-            ->method('listLocationAliases')
-            ->with(
-                self::isInstanceOf(Location::class),
-                false
-            )
-            ->will(self::returnValue($urlAliasList));
+            ->willReturnCallback(static function (
+                $location,
+                $showAllTranslations
+            ) use ($urlAliasList) {
+                static $callCount = 0;
+                ++$callCount;
+
+                self::assertInstanceOf(Location::class, $location);
+
+                if ($callCount === 1) {
+                    self::assertTrue($showAllTranslations);
+
+                    return [];
+                }
+
+                self::assertFalse($showAllTranslations);
+
+                return $urlAliasList;
+            });
 
         $repository = $this->getRepositoryMock();
         $repository
@@ -105,11 +115,14 @@ class UrlAliasTest extends BaseTestCase
      * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
      *
      * @param string|string[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
+     * @param Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Repository $repository, $expectedResult)
-    {
+    public function testMatchLocation(
+        $matchingConfig,
+        Repository $repository,
+        $expectedResult
+    ) {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame(

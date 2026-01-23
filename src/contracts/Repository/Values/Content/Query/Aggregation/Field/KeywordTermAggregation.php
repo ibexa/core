@@ -8,6 +8,4 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Field;
 
-final class KeywordTermAggregation extends AbstractFieldTermAggregation
-{
-}
+final class KeywordTermAggregation extends AbstractFieldTermAggregation {}

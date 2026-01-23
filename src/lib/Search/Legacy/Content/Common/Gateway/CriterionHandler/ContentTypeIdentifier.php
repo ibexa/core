@@ -9,6 +9,7 @@ namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -26,12 +27,12 @@ class ContentTypeIdentifier extends CriterionHandler
     /**
      * Content type handler.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
+     * @var Handler
      */
     protected $contentTypeHandler;
 
     /**
-     * @var \Psr\Log\LoggerInterface
+     * @var LoggerInterface
      */
     protected $logger;
 
@@ -52,7 +53,7 @@ class ContentTypeIdentifier extends CriterionHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier $criterion
+     * @param Criterion\ContentTypeIdentifier $criterion
      */
     public function handle(
         CriteriaConverter $converter,

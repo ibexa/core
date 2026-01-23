@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\ConfigResolv
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -22,10 +23,10 @@ abstract class ConfigResolverTestCase extends TestCase
 
     protected const DEFAULT_NAMESPACE = 'ibexa.site_access.config';
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    /** @var SiteAccess */
     protected $siteAccess;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\DependencyInjection\ContainerInterface */
+    /** @var MockObject|ContainerInterface */
     protected $containerMock;
 
     protected function setUp(): void
@@ -61,8 +62,10 @@ abstract class ConfigResolverTestCase extends TestCase
     /**
      * @dataProvider parameterProvider
      */
-    public function testGetParameterGlobalScope(string $paramName, $expectedValue): void
-    {
+    public function testGetParameterGlobalScope(
+        string $paramName,
+        $expectedValue
+    ): void {
         $globalScopeParameter = sprintf('%s.%s.%s', $this->getNamespace(), $this->getScope(), $paramName);
         $this->containerMock
             ->expects(self::once())

@@ -40,8 +40,10 @@ class ExceptionMessageTemplateFileVisitor extends DefaultPhpFileExtractor
 
     private DocParser $docParser;
 
-    public function __construct(DocParser $docParser, FileSourceFactory $fileSourceFactory)
-    {
+    public function __construct(
+        DocParser $docParser,
+        FileSourceFactory $fileSourceFactory
+    ) {
         parent::__construct($docParser, $fileSourceFactory);
         $this->fileSourceFactory = $fileSourceFactory;
         $this->docParser = $docParser;
@@ -90,8 +92,11 @@ class ExceptionMessageTemplateFileVisitor extends DefaultPhpFileExtractor
         return null;
     }
 
-    public function visitPhpFile(SplFileInfo $file, MessageCatalogue $catalogue, array $ast): void
-    {
+    public function visitPhpFile(
+        SplFileInfo $file,
+        MessageCatalogue $catalogue,
+        array $ast
+    ): void {
         $this->file = $file;
         $this->catalogue = $catalogue;
         $this->traverser->traverse($ast);

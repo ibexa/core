@@ -33,7 +33,7 @@ class ArrayListTest extends AbstractCollectionTestCase
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Collection is empty');
 
-        /** @var \Ibexa\Contracts\Core\Collection\ArrayList $list */
+        /** @var ArrayList $list */
         $list = $this->createEmptyCollection();
         $list->first();
     }
@@ -43,7 +43,7 @@ class ArrayListTest extends AbstractCollectionTestCase
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Collection is empty');
 
-        /** @var \Ibexa\Contracts\Core\Collection\ArrayList $list */
+        /** @var ArrayList $list */
         $list = $this->createEmptyCollection();
         $list->last();
     }

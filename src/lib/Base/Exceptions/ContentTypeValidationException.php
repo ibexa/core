@@ -26,8 +26,10 @@ class ContentTypeValidationException extends APIContentTypeValidationException i
      * @param array<string, mixed> $parameters Hash map with param placeholder as a key and its corresponding value.
      *                          E.g., ['%contentId%' => 123].
      */
-    public function __construct(string $messageTemplate, array $parameters = [])
-    {
+    public function __construct(
+        string $messageTemplate,
+        array $parameters = []
+    ) {
         $this->setMessageTemplate(/** @Ignore */$messageTemplate);
         $this->setParameters($parameters);
 

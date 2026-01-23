@@ -43,9 +43,12 @@ abstract class AbstractImageCompositeCriterion extends CompositeCriterion
     /**
      * @phpstan-param TImageCriteria $imageCriteriaData
      *
-     * @return array<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion>
+     * @return array<Criterion>
      */
-    abstract protected function buildCriteria(string $fieldDefIdentifier, array $imageCriteriaData): array;
+    abstract protected function buildCriteria(
+        string $fieldDefIdentifier,
+        array $imageCriteriaData
+    ): array;
 
     /**
      * @return array<string>
@@ -95,7 +98,7 @@ abstract class AbstractImageCompositeCriterion extends CompositeCriterion
      *
      * @phpstan-return numeric
      */
-    protected function getMinValue(array $data): int|float|string
+    protected function getMinValue(array $data): int | float | string
     {
         return $data['min'] ?? 0;
     }
@@ -105,7 +108,7 @@ abstract class AbstractImageCompositeCriterion extends CompositeCriterion
      *
      * @phpstan-return numeric|null
      */
-    protected function getMaxValue(array $data): int|float|string|null
+    protected function getMaxValue(array $data): int | float | string | null
     {
         return $data['max'] ?? null;
     }

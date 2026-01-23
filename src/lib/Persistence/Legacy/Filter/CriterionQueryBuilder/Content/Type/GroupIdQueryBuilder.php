@@ -17,7 +17,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway as ContentTypeGateway;
 /**
  * Content type group ID Criterion visitor query builder.
  *
- * @see \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeGroupId
+ * @see ContentTypeGroupId
  *
  * @internal for internal use by Repository Filtering
  */
@@ -32,7 +32,7 @@ final class GroupIdQueryBuilder extends BaseQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeGroupId $criterion */
+        /** @var ContentTypeGroupId $criterion */
         $queryBuilder
             ->joinOnce(
                 'content',

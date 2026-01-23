@@ -8,17 +8,19 @@
 namespace Ibexa\Tests\Core\MVC\Symfony\Matcher;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Matcher\ClassNameMatcherFactory;
+use Ibexa\Core\MVC\Symfony\Matcher\ConfigurableMatcherFactoryInterface;
 use Ibexa\Core\MVC\Symfony\Matcher\DynamicallyConfiguredMatcherFactoryDecorator;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
 use PHPUnit\Framework\TestCase;
 
 class DynamicallyConfiguredMatcherFactoryDecoratorTest extends TestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ConfigurableMatcherFactoryInterface */
+    /** @var ConfigurableMatcherFactoryInterface */
     private $innerMatcherFactory;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
     public function setUp(): void
@@ -33,8 +35,13 @@ class DynamicallyConfiguredMatcherFactoryDecoratorTest extends TestCase
     /**
      * @dataProvider matchConfigProvider
      */
-    public function testMatch($parameterName, $namespace, $scope, $viewsConfiguration, $matchedConfig): void
-    {
+    public function testMatch(
+        $parameterName,
+        $namespace,
+        $scope,
+        $viewsConfiguration,
+        $matchedConfig
+    ): void {
         $view = $this->createMock(ContentView::class);
         $this->configResolver->expects(self::atLeastOnce())->method('getParameter')->with(
             $parameterName,

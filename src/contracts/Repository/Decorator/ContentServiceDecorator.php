@@ -147,8 +147,11 @@ abstract class ContentServiceDecorator implements ContentService
         return $this->innerService->countContentDrafts($user);
     }
 
-    public function loadContentDraftList(?User $user = null, int $offset = 0, int $limit = -1): ContentDraftList
-    {
+    public function loadContentDraftList(
+        ?User $user = null,
+        int $offset = 0,
+        int $limit = -1
+    ): ContentDraftList {
         return $this->innerService->loadContentDraftList($user, $offset, $limit);
     }
 
@@ -160,8 +163,10 @@ abstract class ContentServiceDecorator implements ContentService
         return $this->innerService->updateContent($versionInfo, $contentUpdateStruct, $fieldIdentifiersToValidate);
     }
 
-    public function publishVersion(VersionInfo $versionInfo, array $translations = Language::ALL): Content
-    {
+    public function publishVersion(
+        VersionInfo $versionInfo,
+        array $translations = Language::ALL
+    ): Content {
         return $this->innerService->publishVersion($versionInfo, $translations);
     }
 
@@ -170,8 +175,10 @@ abstract class ContentServiceDecorator implements ContentService
         $this->innerService->deleteVersion($versionInfo);
     }
 
-    public function loadVersions(ContentInfo $contentInfo, ?int $status = null): iterable
-    {
+    public function loadVersions(
+        ContentInfo $contentInfo,
+        ?int $status = null
+    ): iterable {
         return $this->innerService->loadVersions($contentInfo, $status);
     }
 
@@ -183,8 +190,10 @@ abstract class ContentServiceDecorator implements ContentService
         return $this->innerService->copyContent($contentInfo, $destinationLocationCreateStruct, $versionInfo);
     }
 
-    public function countRelations(VersionInfo $versionInfo, ?RelationType $type = null): int
-    {
+    public function countRelations(
+        VersionInfo $versionInfo,
+        ?RelationType $type = null
+    ): int {
         return $this->innerService->countRelations($versionInfo, $type);
     }
 
@@ -197,13 +206,17 @@ abstract class ContentServiceDecorator implements ContentService
         return $this->innerService->loadRelationList($versionInfo, $offset, $limit, $type);
     }
 
-    public function countReverseRelations(ContentInfo $contentInfo, ?RelationType $type = null): int
-    {
+    public function countReverseRelations(
+        ContentInfo $contentInfo,
+        ?RelationType $type = null
+    ): int {
         return $this->innerService->countReverseRelations($contentInfo, $type);
     }
 
-    public function loadReverseRelations(ContentInfo $contentInfo, ?RelationType $type = null): iterable
-    {
+    public function loadReverseRelations(
+        ContentInfo $contentInfo,
+        ?RelationType $type = null
+    ): iterable {
         return $this->innerService->loadReverseRelations($contentInfo, $type);
     }
 
@@ -279,13 +292,17 @@ abstract class ContentServiceDecorator implements ContentService
         return $this->innerService->validate($object, $context, $fieldIdentifiersToValidate);
     }
 
-    public function find(Filter $filter, ?array $languages = null): ContentList
-    {
+    public function find(
+        Filter $filter,
+        ?array $languages = null
+    ): ContentList {
         return $this->innerService->find($filter, $languages);
     }
 
-    public function count(Filter $filter, ?array $languages = null): int
-    {
+    public function count(
+        Filter $filter,
+        ?array $languages = null
+    ): int {
         return $this->innerService->count($filter, $languages);
     }
 }

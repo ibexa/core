@@ -25,7 +25,7 @@ class Ancestor extends CriterionHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Ancestor $criterion
+     * @param Criterion\Ancestor $criterion
      */
     public function handle(
         CriteriaConverter $converter,

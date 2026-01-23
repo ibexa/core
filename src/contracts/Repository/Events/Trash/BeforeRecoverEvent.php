@@ -15,14 +15,16 @@ use UnexpectedValueException;
 
 final class BeforeRecoverEvent extends BeforeEvent
 {
-    private \Ibexa\Contracts\Core\Repository\Values\Content\TrashItem $trashItem;
+    private TrashItem $trashItem;
 
-    private ?\Ibexa\Contracts\Core\Repository\Values\Content\Location $newParentLocation;
+    private ?Location $newParentLocation;
 
-    private ?\Ibexa\Contracts\Core\Repository\Values\Content\Location $location = null;
+    private ?Location $location = null;
 
-    public function __construct(TrashItem $trashItem, ?Location $newParentLocation = null)
-    {
+    public function __construct(
+        TrashItem $trashItem,
+        ?Location $newParentLocation = null
+    ) {
         $this->trashItem = $trashItem;
         $this->newParentLocation = $newParentLocation;
     }

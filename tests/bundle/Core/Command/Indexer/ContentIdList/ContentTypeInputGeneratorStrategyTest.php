@@ -27,8 +27,11 @@ final class ContentTypeInputGeneratorStrategyTest extends TestCase
      *
      * @param array<int, int[]> $expectedBatches
      */
-    public function testGetGenerator(ContentList $contentList, int $batchSize, array $expectedBatches): void
-    {
+    public function testGetGenerator(
+        ContentList $contentList,
+        int $batchSize,
+        array $expectedBatches
+    ): void {
         $contentServiceMock = $this->createMock(ContentService::class);
         $contentServiceMock->method('find')->willReturn($contentList);
 
@@ -44,7 +47,7 @@ final class ContentTypeInputGeneratorStrategyTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{\Ibexa\Contracts\Core\Repository\Values\Content\ContentList, int, array<int, int[]>}>
+     * @return iterable<string, array{ContentList, int, array<int, int[]>}>
      */
     public function getDataForTestGetGenerator(): iterable
     {

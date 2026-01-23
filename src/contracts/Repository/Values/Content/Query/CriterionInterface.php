@@ -11,6 +11,4 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query;
 /**
  * Base interface for Criterion implementations.
  */
-interface CriterionInterface
-{
-}
+interface CriterionInterface {}

@@ -26,7 +26,7 @@ use Ibexa\Core\Repository\Values\Content\Location;
 class BlockingLimitationTypeTest extends Base
 {
     /**
-     * @return \Ibexa\Core\Limitation\BlockingLimitationType
+     * @return BlockingLimitationType
      */
     public function testConstruct()
     {
@@ -49,11 +49,13 @@ class BlockingLimitationTypeTest extends Base
      *
      * @depends testConstruct
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\BlockingLimitation $limitation
-     * @param \Ibexa\Core\Limitation\BlockingLimitationType $limitationType
+     * @param BlockingLimitation $limitation
+     * @param BlockingLimitationType $limitationType
      */
-    public function testAcceptValue(BlockingLimitation $limitation, BlockingLimitationType $limitationType)
-    {
+    public function testAcceptValue(
+        BlockingLimitation $limitation,
+        BlockingLimitationType $limitationType
+    ) {
         $limitationType->acceptValue($limitation);
     }
 
@@ -72,11 +74,13 @@ class BlockingLimitationTypeTest extends Base
      *
      * @depends testConstruct
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
-     * @param \Ibexa\Core\Limitation\BlockingLimitationType $limitationType
+     * @param Limitation $limitation
+     * @param BlockingLimitationType $limitationType
      */
-    public function testAcceptValueException(Limitation $limitation, BlockingLimitationType $limitationType)
-    {
+    public function testAcceptValueException(
+        Limitation $limitation,
+        BlockingLimitationType $limitationType
+    ) {
         $this->expectException(InvalidArgumentException::class);
 
         $limitationType->acceptValue($limitation);
@@ -96,7 +100,7 @@ class BlockingLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestValidatePass
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\BlockingLimitation $limitation
+     * @param BlockingLimitation $limitation
      */
     public function testValidatePass(BlockingLimitation $limitation)
     {
@@ -122,11 +126,13 @@ class BlockingLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestValidateError
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\BlockingLimitation $limitation
+     * @param BlockingLimitation $limitation
      * @param int $errorCount
      */
-    public function testValidateError(BlockingLimitation $limitation, $errorCount)
-    {
+    public function testValidateError(
+        BlockingLimitation $limitation,
+        $errorCount
+    ) {
         $this->getPersistenceMock()
                 ->expects(self::never())
                 ->method(self::anything());
@@ -141,7 +147,7 @@ class BlockingLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\BlockingLimitationType $limitationType
+     * @param BlockingLimitationType $limitationType
      */
     public function testBuildValue(BlockingLimitationType $limitationType)
     {
@@ -281,7 +287,7 @@ class BlockingLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\BlockingLimitationType $limitationType
+     * @param BlockingLimitationType $limitationType
      */
     public function testGetCriterion(BlockingLimitationType $limitationType)
     {
@@ -296,7 +302,7 @@ class BlockingLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\BlockingLimitationType $limitationType
+     * @param BlockingLimitationType $limitationType
      */
     public function testValueSchema(BlockingLimitationType $limitationType)
     {

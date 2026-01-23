@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  */
 class InMemoryCacheTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache */
+    /** @var InMemoryCache */
     protected $cache;
 
     /**
@@ -31,6 +31,7 @@ class InMemoryCacheTest extends TestCase
             8
         );
     }
+
     /**
      * Tear down test (properties).
      */
@@ -38,7 +39,6 @@ class InMemoryCacheTest extends TestCase
     {
         unset($GLOBALS['override_time']);
     }
-
 
     public function testGetByKey(): void
     {

@@ -100,14 +100,18 @@ class Image extends AbstractParser
             ->end();
     }
 
-    public function preMap(array $config, ContextualizerInterface $contextualizer): void
-    {
+    public function preMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    ): void {
         $contextualizer->mapConfigArray('image_variations', $config);
         $contextualizer->mapSetting('image_host', $config);
         $contextualizer->mapSetting('variation_handler_identifier', $config);
     }
 
-    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer)
-    {
-    }
+    public function mapConfig(
+        array &$scopeSettings,
+        $currentScope,
+        ContextualizerInterface $contextualizer
+    ) {}
 }

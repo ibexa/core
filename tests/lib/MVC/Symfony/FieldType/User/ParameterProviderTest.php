@@ -16,19 +16,20 @@ use Ibexa\Contracts\Core\Repository\Values\User\PasswordInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Core\FieldType\User\Value;
 use Ibexa\Core\MVC\Symfony\FieldType\User\ParameterProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ParameterProviderTest extends TestCase
 {
     private const EXAMPLE_USER_ID = 1;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var UserService|MockObject */
     private $userService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var User|MockObject */
     private $user;
 
-    /** @var \Ibexa\Core\MVC\Symfony\FieldType\User\ParameterProvider */
+    /** @var ParameterProvider */
     private $parameterProvider;
 
     protected function setUp(): void

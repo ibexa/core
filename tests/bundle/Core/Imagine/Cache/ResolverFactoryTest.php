@@ -12,17 +12,18 @@ use Ibexa\Bundle\Core\Imagine\Cache\ResolverFactory;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Liip\ImagineBundle\Imagine\Cache\Resolver\ProxyResolver;
 use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ResolverFactoryTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var MockObject|ConfigResolverInterface */
     private $configResolver;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
+    /** @var MockObject|ResolverInterface */
     private $resolver;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Cache\ResolverFactory */
+    /** @var ResolverFactory */
     private $factory;
 
     protected function setUp(): void
@@ -40,16 +41,16 @@ class ResolverFactoryTest extends TestCase
 
     public function testCreateProxyCacheResolver()
     {
+        $host = 'http://ibexa.co';
+
         $this->configResolver
-            ->expects(self::at(0))
+            ->expects(self::once())
             ->method('hasParameter')
             ->with('image_host')
             ->willReturn(true);
 
-        $host = 'http://ibexa.co';
-
         $this->configResolver
-            ->expects(self::at(1))
+            ->expects(self::once())
             ->method('getParameter')
             ->with('image_host')
             ->willReturn($host);
@@ -61,16 +62,16 @@ class ResolverFactoryTest extends TestCase
 
     public function testCreateRelativeCacheResolver()
     {
+        $host = '/';
+
         $this->configResolver
-            ->expects(self::at(0))
+            ->expects(self::once())
             ->method('hasParameter')
             ->with('image_host')
             ->willReturn(true);
 
-        $host = '/';
-
         $this->configResolver
-            ->expects(self::at(1))
+            ->expects(self::once())
             ->method('getParameter')
             ->with('image_host')
             ->willReturn($host);

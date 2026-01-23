@@ -13,7 +13,7 @@ use Imagine\Image\ImageInterface;
 class UnsupportedFilter extends AbstractFilter
 {
     /**
-     * @throws \Imagine\Exception\NotSupportedException
+     * @throws NotSupportedException
      */
     public function apply(ImageInterface $image)
     {

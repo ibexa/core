@@ -22,10 +22,10 @@ final class PagerfantaTest extends TestCase
     private const float EXAMPLE_TIME_RESULT = 30.0;
     private const float EXAMPLE_MAX_SCORE_RESULT = 5.12354;
 
-    /** @phpstan-var \Ibexa\Core\Pagination\Pagerfanta\SearchResultAdapter<TSearchResultAdapter> & \PHPUnit\Framework\MockObject\MockObject */
+    /** @phpstan-var SearchResultAdapter<TSearchResultAdapter> & MockObject */
     private SearchResultAdapter & MockObject $adapter;
 
-    /** @var \Ibexa\Core\Pagination\Pagerfanta\Pagerfanta<TSearchResultAdapter> */
+    /** @var Pagerfanta<TSearchResultAdapter> */
     private Pagerfanta $pagerfanta;
 
     protected function setUp(): void

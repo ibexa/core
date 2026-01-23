@@ -32,7 +32,7 @@ use Twig\Test\IntegrationTestCase;
  */
 abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
 {
-    /** @var array<string, array<string, \Ibexa\Core\Repository\Values\ContentType\FieldDefinition>> */
+    /** @var array<string, array<string, FieldDefinition>> */
     protected array $fieldDefinitions = [];
 
     /**
@@ -56,8 +56,15 @@ abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
      *
      * @throws \Throwable
      */
-    protected function doIntegrationTest($file, $message, $condition, $templates, $exception, $outputs, $deprecation = ''): void
-    {
+    protected function doIntegrationTest(
+        $file,
+        $message,
+        $condition,
+        $templates,
+        $exception,
+        $outputs,
+        $deprecation = ''
+    ): void {
         $ret = false;
         if ($condition) {
             eval('$ret = ' . $condition . ';');
@@ -153,8 +160,10 @@ abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
         }
     }
 
-    protected function buildTwigErrorFromException(Exception $e, string $file): Error
-    {
+    protected function buildTwigErrorFromException(
+        Exception $e,
+        string $file
+    ): Error {
         $code = file_get_contents($file);
         self::assertNotFalse($code, sprintf('Unable to load "%s".', $file));
         $source = new Source($code, basename($file), $file);
@@ -165,10 +174,12 @@ abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
     /**
      * @phpstan-param TFieldsData $fieldsData
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field[]
+     * @return Field[]
      */
-    protected function buildFieldsFromData(array $fieldsData, string $contentTypeIdentifier): array
-    {
+    protected function buildFieldsFromData(
+        array $fieldsData,
+        string $contentTypeIdentifier
+    ): array {
         $fields = [];
         foreach ($fieldsData as $fieldTypeIdentifier => $fieldsArray) {
             $fieldsArray = isset($fieldsArray['id']) ? [$fieldsArray] : $fieldsArray;

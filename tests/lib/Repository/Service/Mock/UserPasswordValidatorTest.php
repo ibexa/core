@@ -20,8 +20,11 @@ class UserPasswordValidatorTest extends TestCase
     /**
      * @dataProvider dateProviderForValidate
      */
-    public function testValidate(array $constraints, string $password, array $expectedErrors)
-    {
+    public function testValidate(
+        array $constraints,
+        string $password,
+        array $expectedErrors
+    ) {
         $validator = new UserPasswordValidator($constraints);
 
         self::assertEqualsCanonicalizing($expectedErrors, $validator->validate($password), '');

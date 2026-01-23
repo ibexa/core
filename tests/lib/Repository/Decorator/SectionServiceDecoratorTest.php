@@ -24,8 +24,7 @@ class SectionServiceDecoratorTest extends TestCase
 
     protected function createDecorator(MockObject $service): SectionService
     {
-        return new class($service) extends SectionServiceDecorator {
-        };
+        return new class($service) extends SectionServiceDecorator {};
     }
 
     protected function createServiceMock(): MockObject

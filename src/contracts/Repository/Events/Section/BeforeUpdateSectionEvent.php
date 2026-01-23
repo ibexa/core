@@ -21,8 +21,10 @@ final class BeforeUpdateSectionEvent extends BeforeEvent
 
     private ?Section $updatedSection = null;
 
-    public function __construct(Section $section, SectionUpdateStruct $sectionUpdateStruct)
-    {
+    public function __construct(
+        Section $section,
+        SectionUpdateStruct $sectionUpdateStruct
+    ) {
         $this->section = $section;
         $this->sectionUpdateStruct = $sectionUpdateStruct;
     }

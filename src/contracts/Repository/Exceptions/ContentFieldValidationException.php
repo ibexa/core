@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Exceptions;
 
+use Ibexa\Contracts\Core\FieldType\ValidationError;
+
 /**
  * This Exception is thrown on create or update content one or more given fields are not valid.
  */
@@ -18,7 +20,7 @@ abstract class ContentFieldValidationException extends ForbiddenException
      *
      * The array is indexed by field definition ID and language code.
      *
-     * @return array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError[]>>
+     * @return array<int, array<string, ValidationError[]>>
      */
     abstract public function getFieldErrors(): array;
 }

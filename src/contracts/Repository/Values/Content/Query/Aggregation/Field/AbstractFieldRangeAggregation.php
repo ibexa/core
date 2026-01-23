@@ -10,6 +10,7 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Field
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\AbstractRangeAggregation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\FieldAggregation;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range;
 
 /**
  * @phpstan-template TValue
@@ -21,7 +22,7 @@ abstract class AbstractFieldRangeAggregation extends AbstractRangeAggregation im
     use FieldAggregationTrait;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<TValue>[] $ranges
+     * @param Range<TValue>[] $ranges
      */
     public function __construct(
         string $name,

@@ -17,7 +17,7 @@ class UrlAlias extends MultipleValued
     /**
      * Checks if a Location object matches.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      *
      * @return bool
      */
@@ -43,7 +43,7 @@ class UrlAlias extends MultipleValued
     /**
      * Not supported since UrlAlias is meaningful for location objects only.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
+     * @param ContentInfo $contentInfo
      *
      * @throws \RuntimeException
      *

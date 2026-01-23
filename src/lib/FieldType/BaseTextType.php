@@ -9,8 +9,10 @@ declare(strict_types=1);
 namespace Ibexa\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\Value as FieldTypeValueInterface;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Core\FieldType\TextLine\Value;
 use Ibexa\Core\FieldType\Value as BaseValue;
 
 /**
@@ -26,7 +28,7 @@ abstract class BaseTextType extends FieldType
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\TextLine\Value $value
+     * @param Value $value
      */
     public function getName(
         FieldTypeValueInterface $value,
@@ -37,7 +39,7 @@ abstract class BaseTextType extends FieldType
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\TextLine\Value $value
+     * @param Value $value
      */
     public function isEmptyValue(FieldTypeValueInterface $value): bool
     {
@@ -45,9 +47,9 @@ abstract class BaseTextType extends FieldType
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\TextLine\Value $value
+     * @param Value $value
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
+     * @throws InvalidArgumentException If the value does not match the expected structure.
      */
     protected function checkValueStructure(BaseValue $value): void
     {
@@ -60,8 +62,10 @@ abstract class BaseTextType extends FieldType
         }
     }
 
-    protected function buildUnknownValidatorError(string $parameterName, string $validatorIdentifier): ValidationError
-    {
+    protected function buildUnknownValidatorError(
+        string $parameterName,
+        string $validatorIdentifier
+    ): ValidationError {
         return new ValidationError(
             "Validator '$parameterName' is unknown",
             null,
@@ -72,7 +76,7 @@ abstract class BaseTextType extends FieldType
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\TextLine\Value $value
+     * @param Value $value
      */
     public function toHash(FieldTypeValueInterface $value): ?string
     {

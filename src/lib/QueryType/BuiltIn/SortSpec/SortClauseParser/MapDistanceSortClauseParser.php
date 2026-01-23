@@ -15,7 +15,7 @@ use Ibexa\Core\QueryType\BuiltIn\SortSpec\SortSpecParserInterface;
 use Ibexa\Core\QueryType\BuiltIn\SortSpec\Token;
 
 /**
- * Parser for {@see \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\MapLocationDistance}
+ * Parser for {@see MapLocationDistance}
  * sort clause.
  *
  * Example of correct input:
@@ -26,8 +26,10 @@ final class MapDistanceSortClauseParser implements SortClauseParserInterface
 {
     private const SUPPORTED_CLAUSE_NAME = 'map_distance';
 
-    public function parse(SortSpecParserInterface $parser, string $name): SortClause
-    {
+    public function parse(
+        SortSpecParserInterface $parser,
+        string $name
+    ): SortClause {
         $args = [];
         $args[] = $parser->match(Token::TYPE_ID)->getValue();
         $parser->match(Token::TYPE_DOT);

@@ -11,11 +11,11 @@ use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
 
 abstract class FilterLoaderWrapped implements LoaderInterface
 {
-    /** @var \Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface */
+    /** @var LoaderInterface */
     protected $innerLoader;
 
     /**
-     * @param \Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface $innerLoader
+     * @param LoaderInterface $innerLoader
      */
     public function setInnerLoader(LoaderInterface $innerLoader)
     {

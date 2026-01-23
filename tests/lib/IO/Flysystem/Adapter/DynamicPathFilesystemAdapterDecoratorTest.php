@@ -10,9 +10,12 @@ namespace Ibexa\Tests\Core\IO\Flysystem\Adapter;
 
 use Ibexa\Core\IO\Flysystem\Adapter\DynamicPathFilesystemAdapterDecorator;
 use Ibexa\Core\IO\Flysystem\PathPrefixer\PathPrefixerInterface;
+use Ibexa\Tests\Core\IO\Flysystem\PathPrefixer\DFSSiteAccessAwarePathPrefixerTest;
+use Ibexa\Tests\Core\IO\Flysystem\VisibilityConverter\BaseVisibilityConverterTestCase;
 use League\Flysystem\Config;
 use League\Flysystem\FileAttributes;
 use League\Flysystem\FilesystemAdapter;
+use League\Flysystem\FilesystemException;
 use League\Flysystem\Visibility;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -22,8 +25,8 @@ use PHPUnit\Framework\TestCase;
  *
  * Note: SiteAccess-aware dynamic settings resolving aspect has been tested via PathPrefixer
  * and Visibility converter test cases:
- * {@see \Ibexa\Tests\Core\IO\Flysystem\VisibilityConverter\BaseVisibilityConverterTestCase}
- * {@see \Ibexa\Tests\Core\IO\Flysystem\PathPrefixer\DFSSiteAccessAwarePathPrefixerTest}
+ * {@see BaseVisibilityConverterTestCase}
+ * {@see DFSSiteAccessAwarePathPrefixerTest}
  */
 final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
 {
@@ -37,7 +40,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
 
     private Config $config;
 
-    /** @var \League\Flysystem\FilesystemAdapter&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FilesystemAdapter&MockObject */
     private FilesystemAdapter $innerAdapterMock;
 
     protected function setUp(): void
@@ -57,7 +60,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testWrite(): void
     {
@@ -75,7 +78,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testWriteStream(): void
     {
@@ -101,7 +104,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testFileSize(): void
     {
@@ -124,7 +127,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testFileExists(): void
     {
@@ -141,7 +144,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testLastModified(): void
     {
@@ -164,7 +167,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testCopy(): void
     {
@@ -184,7 +187,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testMove(): void
     {
@@ -202,7 +205,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testListContents(): void
     {
@@ -240,7 +243,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testRead(): void
     {
@@ -259,7 +262,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     /**
      * @depends testWrite
      *
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testReadStream(): void
     {
@@ -279,7 +282,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testCreateDirectory(): void
     {
@@ -296,7 +299,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testDeleteDirectory(): void
     {
@@ -312,7 +315,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     }
 
     /**
-     * @throws \League\Flysystem\FilesystemException
+     * @throws FilesystemException
      */
     public function testVisibility(): void
     {
@@ -376,8 +379,10 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     /**
      * @param string|int $returnValue
      */
-    private function createFileAttributesMock(string $methodName, $returnValue): MockObject
-    {
+    private function createFileAttributesMock(
+        string $methodName,
+        $returnValue
+    ): MockObject {
         $fileAttributesMock = $this->createMock(FileAttributes::class);
         $fileAttributesMock
             ->expects(self::once())

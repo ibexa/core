@@ -20,8 +20,7 @@ class SearchServiceDecoratorTest extends TestCase
 {
     protected function createDecorator(MockObject $service): SearchService
     {
-        return new class($service) extends SearchServiceDecorator {
-        };
+        return new class($service) extends SearchServiceDecorator {};
     }
 
     protected function createServiceMock(): MockObject

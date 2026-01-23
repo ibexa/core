@@ -13,6 +13,7 @@ use Ibexa\Core\Query\QueryFactory;
 use Ibexa\Core\QueryType\QueryType;
 use Ibexa\Core\QueryType\QueryTypeRegistry;
 use Ibexa\Tests\Core\Search\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 final class QueryFactoryTest extends TestCase
 {
@@ -23,10 +24,10 @@ final class QueryFactoryTest extends TestCase
         'baz' => 'baz',
     ];
 
-    /** @var \Ibexa\Core\QueryType\QueryTypeRegistry|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var QueryTypeRegistry|MockObject */
     private $queryTypeRegistry;
 
-    /** @var \Ibexa\Core\Query\QueryFactory */
+    /** @var QueryFactory */
     private $queryFactory;
 
     protected function setUp(): void

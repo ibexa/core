@@ -9,13 +9,17 @@ declare(strict_types=1);
 namespace Ibexa\Core\QueryType\BuiltIn\SortSpec;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Core\QueryType\BuiltIn\SortSpec\Exception\UnsupportedSortClauseException;
 
 interface SortClauseParserInterface
 {
     /**
-     * @throws \Ibexa\Core\QueryType\BuiltIn\SortSpec\Exception\UnsupportedSortClauseException If sort clause is not supported by parser
+     * @throws UnsupportedSortClauseException If sort clause is not supported by parser
      */
-    public function parse(SortSpecParserInterface $parser, string $name): SortClause;
+    public function parse(
+        SortSpecParserInterface $parser,
+        string $name
+    ): SortClause;
 
     public function supports(string $name): bool;
 }

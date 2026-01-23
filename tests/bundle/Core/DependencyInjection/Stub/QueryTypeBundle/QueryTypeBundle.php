@@ -9,6 +9,4 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\QueryTypeBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class QueryTypeBundle extends Bundle
-{
-}
+class QueryTypeBundle extends Bundle {}

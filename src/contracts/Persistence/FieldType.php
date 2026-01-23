@@ -19,7 +19,7 @@ interface FieldType
     /**
      * Returns the empty value for the field type that can be processed by the storage engine.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\FieldValue
+     * @return FieldValue
      */
     public function getEmptyValue();
 

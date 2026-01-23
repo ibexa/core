@@ -53,7 +53,7 @@ final class ResolveVirtualFieldSubscriberTest extends TestCase
             ])
         );
 
-        $expected = new Content\Field([
+        $expected = new Field([
             'id' => null,
             'fieldDefinitionId' => 123,
             'type' => 'some_type',
@@ -89,7 +89,10 @@ final class ResolveVirtualFieldSubscriberTest extends TestCase
         $defaultFieldStorageMock
             ->method('getDefaultFieldData')
             ->willReturnCallback(
-                static function (VersionInfo $versionInfo, Field $field): void {
+                static function (
+                    VersionInfo $versionInfo,
+                    Field $field
+                ): void {
                     $field->value->externalData = [
                         'some_default' => 'external_data',
                     ];
@@ -114,7 +117,7 @@ final class ResolveVirtualFieldSubscriberTest extends TestCase
             ])
         );
 
-        $expected = new Content\Field([
+        $expected = new Field([
             'id' => null,
             'fieldDefinitionId' => 678,
             'type' => 'external_type_virtual',
@@ -148,7 +151,10 @@ final class ResolveVirtualFieldSubscriberTest extends TestCase
 
         $storage->expects(self::once())
             ->method('getFieldData')
-            ->willReturnCallback(static function (VersionInfo $versionInfo, Field $field) {
+            ->willReturnCallback(static function (
+                VersionInfo $versionInfo,
+                Field $field
+            ) {
                 $field->value->externalData = [
                     'some_default' => 'external_data',
                 ];
@@ -176,7 +182,7 @@ final class ResolveVirtualFieldSubscriberTest extends TestCase
             ])
         );
 
-        $expected = new Content\Field([
+        $expected = new Field([
             'id' => 567,
             'fieldDefinitionId' => 123,
             'type' => 'external_type',
@@ -212,7 +218,10 @@ final class ResolveVirtualFieldSubscriberTest extends TestCase
         $storage = $this->createMock(FieldStorage::class);
         $storage->expects(self::once())
             ->method('storeFieldData')
-            ->willReturnCallback(static function (VersionInfo $versionInfo, Field $field) {
+            ->willReturnCallback(static function (
+                VersionInfo $versionInfo,
+                Field $field
+            ) {
                 $field->value->externalData = $field->value->data;
             });
 
@@ -242,7 +251,7 @@ final class ResolveVirtualFieldSubscriberTest extends TestCase
             ])
         );
 
-        $expected = new Content\Field([
+        $expected = new Field([
             'id' => 456,
             'fieldDefinitionId' => 123,
             'type' => 'external_type',

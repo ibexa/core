@@ -18,8 +18,10 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
  */
 class Unindexed implements Indexable
 {
-    public function getIndexData(Field $field, FieldDefinition $fieldDefinition)
-    {
+    public function getIndexData(
+        Field $field,
+        FieldDefinition $fieldDefinition
+    ) {
         return [];
     }
 

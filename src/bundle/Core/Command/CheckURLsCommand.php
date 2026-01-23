@@ -32,16 +32,16 @@ class CheckURLsCommand extends Command
     private const DEFAULT_ITERATION_COUNT = 50;
     private const DEFAULT_REPOSITORY_USER = 'admin';
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
+    /** @var UserService */
     private $userService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     private $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\URLService */
+    /** @var URLService */
     private $urlService;
 
-    /** @var \Ibexa\Bundle\Core\URLChecker\URLCheckerInterface */
+    /** @var URLCheckerInterface */
     private $urlChecker;
 
     public function __construct(
@@ -77,8 +77,10 @@ class CheckURLsCommand extends Command
         );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $this->permissionResolver->setCurrentUserReference(
             $this->userService->loadUserByLogin($input->getOption('user'))
         );

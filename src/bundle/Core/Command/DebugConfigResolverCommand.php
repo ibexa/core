@@ -25,10 +25,10 @@ use Symfony\Component\VarDumper\Dumper\CliDumper;
 )]
 class DebugConfigResolverCommand extends Command
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    /** @var SiteAccess */
     private $siteAccess;
 
     public function __construct(
@@ -88,8 +88,10 @@ EOM
     /**
      * {@inheritdoc}.
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $parameter = $input->getArgument('parameter');
         $namespace = $input->getOption('namespace');
         $scope = $input->getOption('scope');

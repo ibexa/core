@@ -12,14 +12,15 @@ use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
 use Ibexa\Core\FieldType\Value;
 use Ibexa\Core\Repository\Values\ContentType\FieldType;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class APIFieldTypeTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $innerFieldType;
 
-    /** @var \Ibexa\Core\Repository\Values\ContentType\FieldType */
+    /** @var FieldType */
     private $fieldType;
 
     protected function setUp(): void

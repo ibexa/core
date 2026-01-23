@@ -23,10 +23,13 @@ class InvalidArgumentException extends APIInvalidArgumentException
      *
      * @param string $argumentName
      * @param string $whatIsWrong
-     * @param \Exception|null $previous
+     * @param Exception|null $previous
      */
-    public function __construct(string $argumentName, string $whatIsWrong, ?Exception $previous = null)
-    {
+    public function __construct(
+        string $argumentName,
+        string $whatIsWrong,
+        ?Exception $previous = null
+    ) {
         $message = sprintf("Argument '%s' is invalid: %s", $argumentName, $whatIsWrong);
 
         parent::__construct($message, 0, $previous);

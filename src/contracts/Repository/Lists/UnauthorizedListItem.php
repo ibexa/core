@@ -27,8 +27,11 @@ abstract class UnauthorizedListItem
      * @param string $function
      * @param array $payload
      */
-    public function __construct(string $module, string $function, array $payload)
-    {
+    public function __construct(
+        string $module,
+        string $function,
+        array $payload
+    ) {
         $this->module = $module;
         $this->function = $function;
         $this->payload = $payload;

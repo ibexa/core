@@ -108,15 +108,16 @@ class URLHandlerTest extends AbstractCacheHandlerTestCase
                 'c-5'
             );
 
+        $expectedInvalidateCalls = [['url-1'], ['c-2', 'c-3', 'c-5']];
         $this->cacheMock
-            ->expects(self::at(0))
+            ->expects(self::exactly(2))
             ->method('invalidateTags')
-            ->with(['url-1']);
+            ->willReturnCallback(static function (array $tags) use (&$expectedInvalidateCalls): bool {
+                $expected = array_shift($expectedInvalidateCalls);
+                self::assertSame($expected, $tags);
 
-        $this->cacheMock
-            ->expects(self::at(1))
-            ->method('invalidateTags')
-            ->with(['c-2', 'c-3', 'c-5']);
+                return true;
+            });
 
         $handler = $this->persistenceCacheHandler->urlHandler();
         $handler->updateUrl($urlId, $updateStruct);
@@ -147,9 +148,10 @@ class URLHandlerTest extends AbstractCacheHandlerTestCase
             ->willReturn('url-1');
 
         $this->cacheMock
-            ->expects(self::at(0))
+            ->expects(self::once())
             ->method('invalidateTags')
-            ->with(['url-1']);
+            ->with(['url-1'])
+            ->willReturn(true);
 
         $handler = $this->persistenceCacheHandler->urlHandler();
         $handler->updateUrl($urlId, $updateStruct);

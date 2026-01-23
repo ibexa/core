@@ -83,15 +83,23 @@ class ContentValidatorStrategyTest extends TestCase
         ], $errors);
     }
 
-    private function buildContentValidator(string $classSupport, array $validationReturn): ContentValidator
-    {
+    /**
+     * @param array<int|string, mixed> $validationReturn
+     */
+    private function buildContentValidator(
+        string $classSupport,
+        array $validationReturn
+    ): ContentValidator {
         return new class($classSupport, $validationReturn) implements ContentValidator {
             /** @var string */
             private $classSupport;
 
-            /** @var array */
+            /** @var array<int|string, mixed> */
             private $validationReturn;
 
+            /**
+             * @param array<int|string, mixed> $validationReturn
+             */
             public function __construct(
                 string $classSupport,
                 array $validationReturn
@@ -105,6 +113,12 @@ class ContentValidatorStrategyTest extends TestCase
                 return $object instanceof $this->classSupport;
             }
 
+            /**
+             * @param array<string, mixed> $context
+             * @param array<string>|null $fieldIdentifiers
+             *
+             * @return array<int|string, mixed>
+             */
             public function validate(
                 ValueObject $object,
                 array $context = [],

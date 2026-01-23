@@ -23,17 +23,17 @@ use PHPUnit\Framework\TestCase;
  */
 final class FileMigratorTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOMetadataHandler>&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var HandlerRegistry<IOMetadataHandler>&MockObject */
     private HandlerRegistry & MockObject $metadataHandlerRegistry;
 
-    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry<\Ibexa\Core\IO\IOBinarydataHandler>&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var HandlerRegistry<IOBinarydataHandler>&MockObject */
     private HandlerRegistry & MockObject $binaryHandlerRegistry;
 
     private FileMigrator $fileMigrator;
 
     private Flysystem & MockObject $metadataFlysystem;
 
-    private IOMetadataHandler\LegacyDFSCluster&MockObject $metadataLegacyDFSCluster;
+    private IOMetadataHandler\LegacyDFSCluster & MockObject $metadataLegacyDFSCluster;
 
     private IOBinarydataHandler & MockObject $binaryFlysystemFrom;
 

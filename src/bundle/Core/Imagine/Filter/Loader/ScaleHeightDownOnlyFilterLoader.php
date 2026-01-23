@@ -18,8 +18,10 @@ class ScaleHeightDownOnlyFilterLoader extends FilterLoaderWrapped
 {
     public const IDENTIFIER = 'geometry/scaleheightdownonly';
 
-    public function load(ImageInterface $image, array $options = []): ImageInterface
-    {
+    public function load(
+        ImageInterface $image,
+        array $options = []
+    ): ImageInterface {
         if (empty($options)) {
             throw new InvalidArgumentException('Missing height option');
         }

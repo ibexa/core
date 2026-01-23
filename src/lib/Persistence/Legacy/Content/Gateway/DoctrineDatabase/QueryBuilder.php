@@ -18,7 +18,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
  */
 final class QueryBuilder
 {
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     private $connection;
 
     public function __construct(Connection $connection)

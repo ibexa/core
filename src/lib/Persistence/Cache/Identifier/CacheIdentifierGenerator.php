@@ -18,9 +18,8 @@ use Psr\Log\NullLogger;
  */
 final class CacheIdentifierGenerator implements CacheIdentifierGeneratorInterface, LoggerAwareInterface
 {
-    private const PLACEHOLDER = '-%s';
-
     use LoggerAwareTrait;
+    private const PLACEHOLDER = '-%s';
 
     /** @var string */
     private $prefix;
@@ -31,8 +30,11 @@ final class CacheIdentifierGenerator implements CacheIdentifierGeneratorInterfac
     /** @var array<string,string> */
     private $keyPatterns;
 
-    public function __construct(string $prefix, array $tagPatterns, array $keyPatterns)
-    {
+    public function __construct(
+        string $prefix,
+        array $tagPatterns,
+        array $keyPatterns
+    ) {
         $this->prefix = $prefix;
         $this->tagPatterns = $tagPatterns;
         $this->keyPatterns = $keyPatterns;
@@ -42,8 +44,11 @@ final class CacheIdentifierGenerator implements CacheIdentifierGeneratorInterfac
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function generateTag(string $patternName, array $values = [], bool $withPrefix = false): string
-    {
+    public function generateTag(
+        string $patternName,
+        array $values = [],
+        bool $withPrefix = false
+    ): string {
         if (!isset($this->tagPatterns[$patternName])) {
             throw new InvalidArgumentException($patternName, sprintf(
                 'Undefined tag pattern "%s". Known pattern names are: "%s"',
@@ -58,8 +63,11 @@ final class CacheIdentifierGenerator implements CacheIdentifierGeneratorInterfac
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function generateKey(string $patternName, array $values = [], bool $withPrefix = false): string
-    {
+    public function generateKey(
+        string $patternName,
+        array $values = [],
+        bool $withPrefix = false
+    ): string {
         if (!isset($this->keyPatterns[$patternName])) {
             throw new InvalidArgumentException($patternName, sprintf(
                 'Undefined key pattern "%s". Known pattern names are: "%s"',
@@ -71,8 +79,11 @@ final class CacheIdentifierGenerator implements CacheIdentifierGeneratorInterfac
         return $this->generate($this->keyPatterns[$patternName], $values, $withPrefix);
     }
 
-    private function generate(string $pattern, array $values, bool $withPrefix = false): string
-    {
+    private function generate(
+        string $pattern,
+        array $values,
+        bool $withPrefix = false
+    ): string {
         if (empty($values)) {
             $cacheIdentifier = str_replace(self::PLACEHOLDER, '', $pattern);
         } else {

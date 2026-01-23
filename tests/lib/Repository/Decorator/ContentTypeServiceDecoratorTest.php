@@ -28,8 +28,7 @@ class ContentTypeServiceDecoratorTest extends TestCase
 {
     protected function createDecorator(MockObject $service): ContentTypeService
     {
-        return new class($service) extends ContentTypeServiceDecorator {
-        };
+        return new class($service) extends ContentTypeServiceDecorator {};
     }
 
     protected function createServiceMock(): MockObject

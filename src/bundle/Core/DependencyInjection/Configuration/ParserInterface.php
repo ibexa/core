@@ -19,7 +19,7 @@ interface ParserInterface extends HookableConfigurationMapperInterface
     /**
      * Adds semantic configuration definition.
      *
-     * @phpstan-param \Symfony\Component\Config\Definition\Builder\NodeBuilder<TRootNode> $nodeBuilder Node just under ibexa.system.<site_access>
+     * @phpstan-param NodeBuilder<TRootNode> $nodeBuilder Node just under ibexa.system.<site_access>
      */
     public function addSemanticConfig(NodeBuilder $nodeBuilder);
 }

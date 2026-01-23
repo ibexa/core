@@ -14,6 +14,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound;
 use Ibexa\Tests\Core\MVC\Symfony\Component\Serializer\Stubs\CompoundStub;
 use Ibexa\Tests\Core\MVC\Symfony\Component\Serializer\Stubs\MatcherStub;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -39,7 +40,7 @@ final class CompoundMatcherNormalizerTest extends TestCase
     /**
      * @phpstan-return TNormalizedData
      *
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function testNormalization(): array
     {
@@ -103,8 +104,11 @@ final class CompoundMatcherNormalizerTest extends TestCase
      * @phpstan-param TNormalizedData $data
      * @phpstan-param class-string $type
      */
-    public function testSupportsDenormalization(array $data, string $type, bool $supports): void
-    {
+    public function testSupportsDenormalization(
+        array $data,
+        string $type,
+        bool $supports
+    ): void {
         $normalizer = new CompoundMatcherNormalizer();
 
         self::assertSame($supports, $normalizer->supportsDenormalization($data, $type));
@@ -115,7 +119,7 @@ final class CompoundMatcherNormalizerTest extends TestCase
      *
      * @phpstan-param array{type: class-string, subMatchers: array<mixed>, config: array{}, matchersMap: array{}} $data
      *
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function testDenormalization(array $data): void
     {
@@ -135,7 +139,7 @@ final class CompoundMatcherNormalizerTest extends TestCase
     }
 
     /**
-     * @return array<string, \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher>
+     * @return array<string, Matcher>
      */
     private function getSubMatchers(): array
     {

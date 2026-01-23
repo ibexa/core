@@ -11,6 +11,7 @@ namespace Ibexa\Core\Repository;
 use DateTime;
 use DateTimeInterface;
 use Exception;
+use Ibexa\Contracts\Core\Persistence\URL\Handler;
 use Ibexa\Contracts\Core\Persistence\URL\Handler as URLHandler;
 use Ibexa\Contracts\Core\Persistence\URL\URL as SPIUrl;
 use Ibexa\Contracts\Core\Persistence\URL\URLUpdateStruct as SPIUrlUpdateStruct;
@@ -31,13 +32,13 @@ use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 
 class URLService implements URLServiceInterface
 {
-    /** @var \Ibexa\Core\Repository\Repository */
+    /** @var Repository */
     protected $repository;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\URL\Handler */
+    /** @var Handler */
     protected $urlHandler;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     private $permissionResolver;
 
     public function __construct(
@@ -83,8 +84,10 @@ class URLService implements URLServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function updateUrl(URL $url, URLUpdateStruct $struct): URL
-    {
+    public function updateUrl(
+        URL $url,
+        URLUpdateStruct $struct
+    ): URL {
         if (!$this->permissionResolver->canUser('url', 'update', $url)) {
             throw new UnauthorizedException('url', 'update');
         }
@@ -150,8 +153,11 @@ class URLService implements URLServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function findUsages(URL $url, int $offset = 0, int $limit = -1): UsageSearchResult
-    {
+    public function findUsages(
+        URL $url,
+        int $offset = 0,
+        int $limit = -1
+    ): UsageSearchResult {
         $contentIds = $this->urlHandler->findUsages($url->id);
         if (empty($contentIds)) {
             return new UsageSearchResult();
@@ -182,9 +188,9 @@ class URLService implements URLServiceInterface
     /**
      * Builds domain object from ValueObject returned by Persistence API.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\URL\URL $data
+     * @param SPIUrl $data
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\URL\URL
+     * @return URL
      */
     protected function buildDomainObject(SPIUrl $data): URL
     {
@@ -201,13 +207,15 @@ class URLService implements URLServiceInterface
     /**
      * Builds SPI update structure used by Persistence API.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\URL\URL $url
-     * @param \Ibexa\Contracts\Core\Repository\Values\URL\URLUpdateStruct $data
+     * @param URL $url
+     * @param URLUpdateStruct $data
      *
-     * @return \Ibexa\Contracts\Core\Persistence\URL\URLUpdateStruct
+     * @return SPIUrlUpdateStruct
      */
-    protected function buildUpdateStruct(URL $url, URLUpdateStruct $data): SPIUrlUpdateStruct
-    {
+    protected function buildUpdateStruct(
+        URL $url,
+        URLUpdateStruct $data
+    ): SPIUrlUpdateStruct {
         $updateStruct = new SPIUrlUpdateStruct();
 
         if ($data->url !== null && $url->url !== $data->url) {
@@ -246,8 +254,10 @@ class URLService implements URLServiceInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    protected function isUnique(int $id, string $url): bool
-    {
+    protected function isUnique(
+        int $id,
+        string $url
+    ): bool {
         try {
             return $this->loadByUrl($url)->id === $id;
         } catch (NotFoundException $e) {

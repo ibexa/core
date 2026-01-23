@@ -25,21 +25,21 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Object state handler.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler
+     * @var Handler
      */
     protected $objectStateHandler;
 
     /**
      * Object state gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway
+     * @var Gateway
      */
     protected $gatewayMock;
 
     /**
      * Object state mapper mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper
+     * @var Mapper
      */
     protected $mapperMock;
 
@@ -253,27 +253,23 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
                 )
             );
 
+        $deleteLinksCallIndex = 0;
         $gatewayMock->expects(self::exactly(2))
-            ->method('deleteObjectStateLinks');
+            ->method('deleteObjectStateLinks')
+            ->willReturnCallback(static function ($stateId) use (&$deleteLinksCallIndex): void {
+                $expectedIds = [1, 2];
+                self::assertSame($expectedIds[$deleteLinksCallIndex], $stateId);
+                ++$deleteLinksCallIndex;
+            });
 
+        $deleteStateCallIndex = 0;
         $gatewayMock->expects(self::exactly(2))
-            ->method('deleteObjectState');
-
-        $gatewayMock->expects(self::at(1))
-            ->method('deleteObjectStateLinks')
-            ->with(self::equalTo(1));
-
-        $gatewayMock->expects(self::at(2))
             ->method('deleteObjectState')
-            ->with(self::equalTo(1));
-
-        $gatewayMock->expects(self::at(3))
-            ->method('deleteObjectStateLinks')
-            ->with(self::equalTo(2));
-
-        $gatewayMock->expects(self::at(4))
-            ->method('deleteObjectState')
-            ->with(self::equalTo(2));
+            ->willReturnCallback(static function ($stateId) use (&$deleteStateCallIndex): void {
+                $expectedIds = [1, 2];
+                self::assertSame($expectedIds[$deleteStateCallIndex], $stateId);
+                ++$deleteStateCallIndex;
+            });
 
         $gatewayMock->expects(self::once())
             ->method('deleteObjectStateGroup')
@@ -451,20 +447,22 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
                 )
             );
 
+        $updatePriorityCallIndex = 0;
         $gatewayMock->expects(self::exactly(3))
-            ->method('updateObjectStatePriority');
-
-        $gatewayMock->expects(self::at(2))
             ->method('updateObjectStatePriority')
-            ->with(self::equalTo(2), self::equalTo(0));
-
-        $gatewayMock->expects(self::at(3))
-            ->method('updateObjectStatePriority')
-            ->with(self::equalTo(1), self::equalTo(1));
-
-        $gatewayMock->expects(self::at(4))
-            ->method('updateObjectStatePriority')
-            ->with(self::equalTo(3), self::equalTo(2));
+            ->willReturnCallback(static function (
+                $stateId,
+                $priority
+            ) use (&$updatePriorityCallIndex): void {
+                $expectedCalls = [
+                    [2, 0],
+                    [1, 1],
+                    [3, 2],
+                ];
+                self::assertSame($expectedCalls[$updatePriorityCallIndex][0], $stateId);
+                self::assertSame($expectedCalls[$updatePriorityCallIndex][1], $priority);
+                ++$updatePriorityCallIndex;
+            });
 
         $handler->setPriority(2, 0);
     }
@@ -581,7 +579,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Returns an object state.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState
+     * @return ObjectState
      */
     protected function getObjectStateFixture()
     {
@@ -591,7 +589,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Returns an object state group.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group
+     * @return Group
      */
     protected function getObjectStateGroupFixture()
     {
@@ -601,7 +599,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Returns the InputStruct.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct
+     * @return InputStruct
      */
     protected function getInputStructFixture()
     {
@@ -611,7 +609,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Returns the object state handler to test.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler
+     * @return Handler
      */
     protected function getObjectStateHandler()
     {
@@ -628,7 +626,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Returns an object state mapper mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper
+     * @return Mapper
      */
     protected function getMapperMock()
     {
@@ -645,7 +643,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a mock for the object state gateway.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway
+     * @return Gateway
      */
     protected function getGatewayMock()
     {

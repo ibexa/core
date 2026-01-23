@@ -20,7 +20,7 @@ final class SearchResult extends ValueObject implements IteratorAggregate
 {
     protected int $totalCount = 0;
 
-    /** @var array<int, \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType> */
+    /** @var array<int, ContentType> */
     protected array $items = [];
 
     public function getTotalCount(): int
@@ -29,7 +29,7 @@ final class SearchResult extends ValueObject implements IteratorAggregate
     }
 
     /**
-     * @return array<int, \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType>
+     * @return array<int, ContentType>
      */
     public function getContentTypes(): array
     {
@@ -37,7 +37,7 @@ final class SearchResult extends ValueObject implements IteratorAggregate
     }
 
     /**
-     * @return \Traversable<int, \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType>
+     * @return Traversable<int, ContentType>
      */
     public function getIterator(): Traversable
     {

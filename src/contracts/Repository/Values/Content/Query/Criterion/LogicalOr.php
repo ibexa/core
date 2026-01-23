@@ -15,6 +15,4 @@ use Ibexa\Contracts\Core\Repository\Values\Trash\Query\Criterion as TrashCriteri
  * This criterion implements a logical OR criterion and will only match
  * if AT LEAST ONE of the given criteria match.
  */
-class LogicalOr extends LogicalOperator implements FilteringCriterion, TrashCriterion
-{
-}
+class LogicalOr extends LogicalOperator implements FilteringCriterion, TrashCriterion {}

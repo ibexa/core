@@ -9,10 +9,12 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess\Provider;
 
 use function array_map;
+
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Provider\ChainSiteAccessProvider;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Provider\StaticSiteAccessProvider;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccessGroup;
 use PHPUnit\Framework\TestCase;
 
@@ -23,7 +25,7 @@ final class ChainSiteAccessProviderTest extends TestCase
     private const WITHOUT_GROUP_SA_NAME = 'without_group_sa';
     private const SA_GROUP = 'group';
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface[] */
+    /** @var SiteAccessProviderInterface[] */
     private $providers;
 
     /** @var array */
@@ -117,10 +119,12 @@ final class ChainSiteAccessProviderTest extends TestCase
      *
      * @param string[] $expectedGroups
      *
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
-    public function testGetExistingSiteAccess(string $siteAccessName, array $expectedGroups): void
-    {
+    public function testGetExistingSiteAccess(
+        string $siteAccessName,
+        array $expectedGroups
+    ): void {
         $chainSiteAccessProvider = $this->getChainSiteAccessProvider();
         $expectedSiteAccess = new SiteAccess(
             $siteAccessName,
@@ -154,8 +158,10 @@ final class ChainSiteAccessProviderTest extends TestCase
     /**
      * @param string[] $groupNames
      */
-    private function createSiteAcccess(string $name, array $groupNames = []): SiteAccess
-    {
+    private function createSiteAcccess(
+        string $name,
+        array $groupNames = []
+    ): SiteAccess {
         $undefinedSiteAccess = new SiteAccess(
             $name,
             SiteAccess::DEFAULT_MATCHING_TYPE,

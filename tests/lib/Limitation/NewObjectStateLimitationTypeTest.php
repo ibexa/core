@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\Limitation;
 
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler as SPIHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
@@ -21,13 +22,14 @@ use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\ObjectState\ObjectState;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test Case for LimitationType.
  */
 class NewObjectStateLimitationTypeTest extends Base
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Handler|MockObject */
     private $objectStateHandlerMock;
 
     /**
@@ -49,7 +51,7 @@ class NewObjectStateLimitationTypeTest extends Base
     }
 
     /**
-     * @return \Ibexa\Core\Limitation\NewObjectStateLimitationType
+     * @return NewObjectStateLimitationType
      */
     public function testConstruct()
     {
@@ -73,11 +75,13 @@ class NewObjectStateLimitationTypeTest extends Base
      *
      * @depends testConstruct
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewObjectStateLimitation $limitation
-     * @param \Ibexa\Core\Limitation\NewObjectStateLimitationType $limitationType
+     * @param NewObjectStateLimitation $limitation
+     * @param NewObjectStateLimitationType $limitationType
      */
-    public function testAcceptValue(NewObjectStateLimitation $limitation, NewObjectStateLimitationType $limitationType)
-    {
+    public function testAcceptValue(
+        NewObjectStateLimitation $limitation,
+        NewObjectStateLimitationType $limitationType
+    ) {
         $limitationType->acceptValue($limitation);
     }
 
@@ -97,11 +101,13 @@ class NewObjectStateLimitationTypeTest extends Base
      *
      * @depends testConstruct
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
-     * @param \Ibexa\Core\Limitation\NewObjectStateLimitationType $limitationType
+     * @param Limitation $limitation
+     * @param NewObjectStateLimitationType $limitationType
      */
-    public function testAcceptValueException(Limitation $limitation, NewObjectStateLimitationType $limitationType)
-    {
+    public function testAcceptValueException(
+        Limitation $limitation,
+        NewObjectStateLimitationType $limitationType
+    ) {
         $this->expectException(InvalidArgumentException::class);
 
         $limitationType->acceptValue($limitation);
@@ -122,7 +128,7 @@ class NewObjectStateLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestValidatePass
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewObjectStateLimitation $limitation
+     * @param NewObjectStateLimitation $limitation
      */
     public function testValidatePass(NewObjectStateLimitation $limitation)
     {
@@ -132,12 +138,14 @@ class NewObjectStateLimitationTypeTest extends Base
                 ->method('objectStateHandler')
                 ->will(self::returnValue($this->objectStateHandlerMock));
 
-            foreach ($limitation->limitationValues as $key => $value) {
-                $this->objectStateHandlerMock
-                    ->expects(self::at($key))
-                    ->method('load')
-                    ->with($value);
-            }
+            $expectedValues = $limitation->limitationValues;
+            $this->objectStateHandlerMock
+                ->expects(self::exactly(count($expectedValues)))
+                ->method('load')
+                ->willReturnCallback(static function ($value) use (&$expectedValues): void {
+                    $expectedValue = array_shift($expectedValues);
+                    self::assertSame($expectedValue, $value);
+                });
         }
 
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
@@ -162,24 +170,28 @@ class NewObjectStateLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestValidateError
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewObjectStateLimitation $limitation
+     * @param NewObjectStateLimitation $limitation
      * @param int $errorCount
      */
-    public function testValidateError(NewObjectStateLimitation $limitation, $errorCount)
-    {
+    public function testValidateError(
+        NewObjectStateLimitation $limitation,
+        $errorCount
+    ) {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
                 ->expects(self::any())
                 ->method('objectStateHandler')
                 ->will(self::returnValue($this->objectStateHandlerMock));
 
-            foreach ($limitation->limitationValues as $key => $value) {
-                $this->objectStateHandlerMock
-                    ->expects(self::at($key))
-                    ->method('load')
-                    ->with($value)
-                    ->will(self::throwException(new NotFoundException('contentType', $value)));
-            }
+            $expectedValues = $limitation->limitationValues;
+            $this->objectStateHandlerMock
+                ->expects(self::exactly(count($expectedValues)))
+                ->method('load')
+                ->willReturnCallback(static function ($value) use (&$expectedValues): void {
+                    $expectedValue = array_shift($expectedValues);
+                    self::assertSame($expectedValue, $value);
+                    throw new NotFoundException('contentType', $value);
+                });
         } else {
             $this->getPersistenceMock()
                 ->expects(self::never())
@@ -196,7 +208,7 @@ class NewObjectStateLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\NewObjectStateLimitationType $limitationType
+     * @param NewObjectStateLimitationType $limitationType
      */
     public function testBuildValue(NewObjectStateLimitationType $limitationType)
     {
@@ -354,7 +366,7 @@ class NewObjectStateLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\NewObjectStateLimitationType $limitationType
+     * @param NewObjectStateLimitationType $limitationType
      */
     public function testGetCriterion(NewObjectStateLimitationType $limitationType)
     {
@@ -369,7 +381,7 @@ class NewObjectStateLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\NewObjectStateLimitationType $limitationType
+     * @param NewObjectStateLimitationType $limitationType
      */
     public function testValueSchema(NewObjectStateLimitationType $limitationType)
     {

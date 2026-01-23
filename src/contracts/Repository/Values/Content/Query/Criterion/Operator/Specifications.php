@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
+
 /**
  * This class is used by Criteria to describe which operators they support.
  *
@@ -66,7 +68,7 @@ class Specifications
     /**
      * Creates a new Specifications object.
      *
-     * @param string $operator The specified operator, as one of the {@see \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator}::* constants
+     * @param string $operator The specified operator, as one of the {@see Operator}::* constants
      * @param int $valueFormat The accepted value format, either {@see Specifications::FORMAT_ARRAY} or {@see Specifications::FORMAT_SINGLE}
      * @param int|null $valueTypes The supported value types, as a bit field of the self::TYPE_* constants
      * @param int|null $valueCount The required number of values, when the accepted format is {@see Specifications::FORMAT_ARRAY}
@@ -77,8 +79,12 @@ class Specifications
      * @see Specifications::TYPE_STRING
      * @see Specifications::TYPE_BOOLEAN
      */
-    public function __construct(string $operator, int $valueFormat, ?int $valueTypes = null, ?int $valueCount = null)
-    {
+    public function __construct(
+        string $operator,
+        int $valueFormat,
+        ?int $valueTypes = null,
+        ?int $valueCount = null
+    ) {
         $this->operator = $operator;
         $this->valueFormat = $valueFormat;
         $this->valueTypes = $valueTypes;

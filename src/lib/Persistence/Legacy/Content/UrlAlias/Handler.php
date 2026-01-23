@@ -18,6 +18,7 @@ use Ibexa\Core\Base\Exceptions\ForbiddenException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\DTO\SwappedLocationProperties;
@@ -57,66 +58,66 @@ class Handler implements UrlAliasHandlerInterface
     /**
      * UrlAlias Gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway
+     * @var Gateway
      */
     protected $gateway;
 
     /**
      * Gateway for handling location data.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
+     * @var LocationGateway
      */
     protected $locationGateway;
 
     /**
      * UrlAlias Mapper.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper
+     * @var Mapper
      */
     protected $mapper;
 
     /**
      * Caching language handler.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler
+     * @var CachingHandler
      */
     protected $languageHandler;
 
     /**
      * URL slug converter.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter
+     * @var SlugConverter
      */
     protected $slugConverter;
 
     /**
      * Gateway for handling content data.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @var ContentGateway
      */
     protected $contentGateway;
 
     /**
      * Language mask generator.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
+     * @var MaskGenerator
      */
     protected $maskGenerator;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\TransactionHandler */
+    /** @var TransactionHandler */
     private $transactionHandler;
 
     /**
      * Creates a new UrlAlias Handler.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway $gateway
-     * @param \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper $mapper
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway $locationGateway
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Language\Handler $languageHandler
-     * @param \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter $slugConverter
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Gateway $contentGateway
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator $maskGenerator
-     * @param \Ibexa\Contracts\Core\Persistence\TransactionHandler $transactionHandler
+     * @param Gateway $gateway
+     * @param Mapper $mapper
+     * @param LocationGateway $locationGateway
+     * @param LanguageHandler $languageHandler
+     * @param SlugConverter $slugConverter
+     * @param ContentGateway $contentGateway
+     * @param MaskGenerator $maskGenerator
+     * @param TransactionHandler $transactionHandler
      */
     public function __construct(
         Gateway $gateway,
@@ -162,7 +163,7 @@ class Handler implements UrlAliasHandlerInterface
      * Internal publish method, accepting language ID instead of language code and optionally
      * new alias ID (used when swapping Locations).
      *
-     * @see \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler::locationSwapped
+     * @see Handler::locationSwapped
      *
      * @param int $locationId
      * @param int $parentLocationId
@@ -326,10 +327,15 @@ class Handler implements UrlAliasHandlerInterface
      * @param string $languageCode
      * @param bool $alwaysAvailable
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UrlAlias
+     * @return UrlAlias
      */
-    public function createCustomUrlAlias($locationId, $path, $forwarding = false, $languageCode = null, $alwaysAvailable = false)
-    {
+    public function createCustomUrlAlias(
+        $locationId,
+        $path,
+        $forwarding = false,
+        $languageCode = null,
+        $alwaysAvailable = false
+    ) {
         return $this->createUrlAlias(
             'eznode:' . $locationId,
             $path,
@@ -357,10 +363,15 @@ class Handler implements UrlAliasHandlerInterface
      * @param string $languageCode
      * @param bool $alwaysAvailable
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UrlAlias
+     * @return UrlAlias
      */
-    public function createGlobalUrlAlias($resource, $path, $forwarding = false, $languageCode = null, $alwaysAvailable = false)
-    {
+    public function createGlobalUrlAlias(
+        $resource,
+        $path,
+        $forwarding = false,
+        $languageCode = null,
+        $alwaysAvailable = false
+    ) {
         return $this->createUrlAlias(
             $resource,
             $path,
@@ -383,10 +394,15 @@ class Handler implements UrlAliasHandlerInterface
      * @param string|null $languageCode
      * @param bool $alwaysAvailable
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UrlAlias
+     * @return UrlAlias
      */
-    protected function createUrlAlias($action, $path, $forward, $languageCode, $alwaysAvailable): UrlAlias
-    {
+    protected function createUrlAlias(
+        $action,
+        $path,
+        $forward,
+        $languageCode,
+        $alwaysAvailable
+    ): UrlAlias {
         $pathElements = explode('/', $path);
         $topElement = array_pop($pathElements);
         $languageId = $this->languageHandler->loadByLanguageCode($languageCode)->id;
@@ -489,8 +505,11 @@ class Handler implements UrlAliasHandlerInterface
      *
      * @return mixed
      */
-    protected function insertNopEntry($parentId, $text, $textMD5)
-    {
+    protected function insertNopEntry(
+        $parentId,
+        $text,
+        $textMD5
+    ) {
         return $this->gateway->insertRow(
             [
                 'lang_mask' => 1,
@@ -510,10 +529,12 @@ class Handler implements UrlAliasHandlerInterface
      * @param mixed $locationId
      * @param bool $custom if true the user generated aliases are listed otherwise the autogenerated
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UrlAlias[]
+     * @return UrlAlias[]
      */
-    public function listURLAliasesForLocation($locationId, $custom = false)
-    {
+    public function listURLAliasesForLocation(
+        $locationId,
+        $custom = false
+    ) {
         $data = $this->gateway->loadLocationEntries($locationId, $custom);
         foreach ($data as &$entry) {
             $entry['raw_path_data'] = $this->gateway->loadPathData($entry['id']);
@@ -531,10 +552,13 @@ class Handler implements UrlAliasHandlerInterface
      * @param int $offset
      * @param int $limit
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UrlAlias[]
+     * @return UrlAlias[]
      */
-    public function listGlobalURLAliases($languageCode = null, $offset = 0, $limit = -1)
-    {
+    public function listGlobalURLAliases(
+        $languageCode = null,
+        $offset = 0,
+        $limit = -1
+    ) {
         $data = $this->gateway->listGlobalEntries($languageCode, $offset, $limit);
         foreach ($data as &$entry) {
             $entry['raw_path_data'] = $this->gateway->loadPathData($entry['id']);
@@ -548,7 +572,7 @@ class Handler implements UrlAliasHandlerInterface
      *
      * Autogenerated aliases are not removed by this method.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\UrlAlias[] $urlAliases
+     * @param UrlAlias[] $urlAliases
      *
      * @return bool
      */
@@ -575,7 +599,7 @@ class Handler implements UrlAliasHandlerInterface
      *
      * @param string $url
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UrlAlias
+     * @return UrlAlias
      */
     public function lookup($url)
     {
@@ -622,7 +646,7 @@ class Handler implements UrlAliasHandlerInterface
      *
      * @param string $id
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\UrlAlias
+     * @return UrlAlias
      */
     public function loadUrlAlias($id)
     {
@@ -651,8 +675,11 @@ class Handler implements UrlAliasHandlerInterface
      * @param mixed $oldParentId
      * @param mixed $newParentId
      */
-    public function locationMoved($locationId, $oldParentId, $newParentId)
-    {
+    public function locationMoved(
+        $locationId,
+        $oldParentId,
+        $newParentId
+    ) {
         if ($oldParentId === $newParentId) {
             return $newParentId;
         }
@@ -685,8 +712,11 @@ class Handler implements UrlAliasHandlerInterface
      * @param mixed $newLocationId
      * @param mixed $newParentId
      */
-    public function locationCopied($locationId, $newLocationId, $newParentId)
-    {
+    public function locationCopied(
+        $locationId,
+        $newLocationId,
+        $newParentId
+    ) {
         $newParentAliasId = $this->getRealAliasId($newLocationId);
         $oldParentAliasId = $this->getRealAliasId($locationId);
 
@@ -709,10 +739,14 @@ class Handler implements UrlAliasHandlerInterface
      * @param int $location2Id
      * @param int $location2ParentId
      *
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
-    public function locationSwapped($location1Id, $location1ParentId, $location2Id, $location2ParentId)
-    {
+    public function locationSwapped(
+        $location1Id,
+        $location1ParentId,
+        $location2Id,
+        $location2ParentId
+    ) {
         $location1 = new SwappedLocationProperties($location1Id, $location1ParentId);
         $location2 = new SwappedLocationProperties($location2Id, $location2ParentId);
 
@@ -797,13 +831,15 @@ class Handler implements UrlAliasHandlerInterface
      * We need to historize everything separately per language (mask), in case the entries
      * remain history future publishing reusages need to be able to take them over cleanly.
      *
-     * @see \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler::locationSwapped
+     * @see Handler::locationSwapped
      *
      * @param array $location1Entries
      * @param array $location2Entries
      */
-    private function historizeBeforeSwap($location1Entries, $location2Entries)
-    {
+    private function historizeBeforeSwap(
+        $location1Entries,
+        $location2Entries
+    ) {
         foreach ($location1Entries as $row) {
             $this->gateway->historizeBeforeSwap($row['action'], $row['lang_mask']);
         }
@@ -862,11 +898,11 @@ class Handler implements UrlAliasHandlerInterface
      *
      * @see shouldUrlAliasForSecondLocationBePublishedFirst
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Language $language
-     * @param \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\DTO\SwappedLocationProperties $location1
-     * @param \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\DTO\SwappedLocationProperties $location2
+     * @param Language $language
+     * @param SwappedLocationProperties $location1
+     * @param SwappedLocationProperties $location2
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\DTO\UrlAliasForSwappedLocation[]
+     * @return UrlAliasForSwappedLocation[]
      */
     private function getUrlAliasesForSwappedLocations(
         Language $language,
@@ -919,8 +955,10 @@ class Handler implements UrlAliasHandlerInterface
      *
      * @return array|null
      */
-    private function getLocationEntryInLanguage(array $locationEntries, $languageId)
-    {
+    private function getLocationEntryInLanguage(
+        array $locationEntries,
+        $languageId
+    ) {
         $entries = array_filter(
             $locationEntries,
             static function (array $row) use ($languageId): bool {
@@ -971,8 +1009,12 @@ class Handler implements UrlAliasHandlerInterface
      * @param mixed $newParentAliasId
      * @param string[] $alreadyGeneratedAliases
      */
-    protected function copySubtree($actionMap, $oldParentAliasId, $newParentAliasId, array $alreadyGeneratedAliases = []): array
-    {
+    protected function copySubtree(
+        $actionMap,
+        $oldParentAliasId,
+        $newParentAliasId,
+        array $alreadyGeneratedAliases = []
+    ): array {
         $rows = $this->gateway->loadAutogeneratedEntries($oldParentAliasId);
         $newIdsMap = [];
         foreach ($rows as $row) {
@@ -1012,8 +1054,10 @@ class Handler implements UrlAliasHandlerInterface
      *
      * @return array
      */
-    protected function getCopiedLocationsMap($oldParentId, $newParentId)
-    {
+    protected function getCopiedLocationsMap(
+        $oldParentId,
+        $newParentId
+    ) {
         $originalLocations = $this->locationGateway->getSubtreeContent($oldParentId);
         $copiedLocations = $this->locationGateway->getSubtreeContent($newParentId);
 
@@ -1050,8 +1094,10 @@ class Handler implements UrlAliasHandlerInterface
      * @param int[] $locationIds all Locations of the Content that got Translation removed
      * @param string $languageCode language code of the removed Translation
      */
-    public function translationRemoved(array $locationIds, $languageCode)
-    {
+    public function translationRemoved(
+        array $locationIds,
+        $languageCode
+    ) {
         $languageId = $this->languageHandler->loadByLanguageCode($languageCode)->id;
 
         $actions = [];
@@ -1070,8 +1116,11 @@ class Handler implements UrlAliasHandlerInterface
      * @param string $action
      * @param mixed $original
      */
-    protected function removeSubtree($id, $action, $original)
-    {
+    protected function removeSubtree(
+        $id,
+        $action,
+        $original
+    ) {
         // Remove first to avoid unnecessary recursion.
         if ($original) {
             // If entry is original remove all for action (history and custom entries included).
@@ -1104,8 +1153,11 @@ class Handler implements UrlAliasHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function archiveUrlAliasesForDeletedTranslations($locationId, $parentLocationId, array $languageCodes)
-    {
+    public function archiveUrlAliasesForDeletedTranslations(
+        $locationId,
+        $parentLocationId,
+        array $languageCodes
+    ) {
         $parentId = $this->getRealAliasId($parentLocationId);
 
         $data = $this->gateway->loadLocationEntries($locationId);
@@ -1162,7 +1214,7 @@ class Handler implements UrlAliasHandlerInterface
      *
      * @param int $locationId
      *
-     * @throws \Ibexa\Core\Base\Exceptions\BadStateException
+     * @throws BadStateException
      */
     public function repairBrokenUrlAliasesForLocation(int $locationId)
     {
@@ -1185,8 +1237,10 @@ class Handler implements UrlAliasHandlerInterface
      * Internal publish custom aliases method, accepting language mask to set correct language mask on url aliases
      * new alias ID (used when swapping Locations).
      */
-    private function internalPublishCustomUrlAliasForLocation(SwappedLocationProperties $location, int $languageMask)
-    {
+    private function internalPublishCustomUrlAliasForLocation(
+        SwappedLocationProperties $location,
+        int $languageMask
+    ) {
         foreach ($location->entries as $entry) {
             if ((int)$entry['is_alias'] === 0) {
                 continue;

@@ -22,7 +22,7 @@ use Twig\TwigFilter;
 class FileSizeExtension extends AbstractExtension
 {
     /**
-     * @param \Symfony\Contracts\Translation\TranslatorInterface $translator
+     * @param TranslatorInterface $translator
      */
     protected $translator;
 
@@ -32,23 +32,27 @@ class FileSizeExtension extends AbstractExtension
     protected $suffixes;
 
     /**
-     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
+     * @param ConfigResolverInterface $configResolver
      */
     protected $configResolver;
 
     /**
-     * @param  \Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface $localeConverter
+     * @param  LocaleConverterInterface $localeConverter
      */
     protected $localeConverter;
 
     /**
-     * @param \Symfony\Contracts\Translation\TranslatorInterface $translator
-     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
-     * @param \Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface $localeConverter
+     * @param TranslatorInterface $translator
+     * @param ConfigResolverInterface $configResolver
+     * @param LocaleConverterInterface $localeConverter
      * @param array $suffixes
      */
-    public function __construct(TranslatorInterface $translator, array $suffixes, ConfigResolverInterface $configResolver, LocaleConverterInterface $localeConverter)
-    {
+    public function __construct(
+        TranslatorInterface $translator,
+        array $suffixes,
+        ConfigResolverInterface $configResolver,
+        LocaleConverterInterface $localeConverter
+    ) {
         $this->translator = $translator;
         $this->suffixes = $suffixes;
         $this->configResolver = $configResolver;
@@ -91,8 +95,10 @@ class FileSizeExtension extends AbstractExtension
      *
      * @return string
      */
-    public function sizeFilter($number, $precision): string|false
-    {
+    public function sizeFilter(
+        $number,
+        $precision
+    ): string | false {
         $mod = 1024;
         $index = count($this->suffixes);
         if ($number < ($mod ** $index)) {

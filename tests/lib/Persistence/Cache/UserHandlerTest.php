@@ -522,12 +522,12 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTestCase
             ->willReturn($innerHandlerMock);
         $roleDraftId = 33;
         $innerHandlerMock
-            ->expects(self::at(0))
+            ->expects(self::once())
             ->method('loadRole')
             ->with($roleDraftId, Role::STATUS_DRAFT)
             ->willReturn(new Role(['originalId' => -1]));
         $innerHandlerMock
-            ->expects(self::at(1))
+            ->expects(self::once())
             ->method('publishRoleDraft')
             ->with($roleDraftId);
         $this->cacheMock

@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Contextualizer implements ContextualizerInterface
 {
-    /** @var \Symfony\Component\DependencyInjection\ContainerInterface */
+    /** @var ContainerInterface */
     private $container;
 
     /** @var string */
@@ -50,13 +50,18 @@ class Contextualizer implements ContextualizerInterface
         $this->groupsBySiteAccess = $groupsBySiteAccess;
     }
 
-    public function setContextualParameter($parameterName, $scope, $value)
-    {
+    public function setContextualParameter(
+        $parameterName,
+        $scope,
+        $value
+    ) {
         $this->container->setParameter("$this->namespace.$scope.$parameterName", $value);
     }
 
-    public function mapSetting($id, array $config)
-    {
+    public function mapSetting(
+        $id,
+        array $config
+    ) {
         foreach ($config[$this->siteAccessNodeName] as $currentScope => $scopeSettings) {
             if (isset($scopeSettings[$id])) {
                 $this->setContextualParameter($id, $currentScope, $scopeSettings[$id]);
@@ -64,8 +69,11 @@ class Contextualizer implements ContextualizerInterface
         }
     }
 
-    public function mapConfigArray($id, array $config, $options = 0)
-    {
+    public function mapConfigArray(
+        $id,
+        array $config,
+        $options = 0
+    ) {
         $this->mapReservedScopeArray($id, $config, ConfigResolver::SCOPE_DEFAULT);
         $this->mapReservedScopeArray($id, $config, ConfigResolver::SCOPE_GLOBAL);
         $defaultSettings = $this->getContainerParameter(
@@ -138,8 +146,10 @@ class Contextualizer implements ContextualizerInterface
      *
      * @return mixed
      */
-    protected function getContainerParameter($id, $default = null)
-    {
+    protected function getContainerParameter(
+        $id,
+        $default = null
+    ) {
         if ($this->container->hasParameter($id)) {
             return $this->container->getParameter($id);
         }
@@ -157,8 +167,12 @@ class Contextualizer implements ContextualizerInterface
      *
      * @return array
      */
-    private function groupsArraySetting(array $groups, $id, array $config, $options = 0)
-    {
+    private function groupsArraySetting(
+        array $groups,
+        $id,
+        array $config,
+        $options = 0
+    ) {
         $groupsSettings = [];
         sort($groups);
         foreach ($groups as $group) {
@@ -197,8 +211,11 @@ class Contextualizer implements ContextualizerInterface
      * @param string $id
      * @param string $scope
      */
-    private function mapReservedScopeArray($id, array $config, $scope)
-    {
+    private function mapReservedScopeArray(
+        $id,
+        array $config,
+        $scope
+    ) {
         if (
             isset($config[$this->siteAccessNodeName][$scope][$id])
             && !empty($config[$this->siteAccessNodeName][$scope][$id])

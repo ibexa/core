@@ -20,11 +20,13 @@ class ViewbaseLayout implements EventSubscriberInterface
     /** @var string */
     private $viewbaseLayout;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     private $configResolver;
 
-    public function __construct($viewbaseLayout, ConfigResolverInterface $configResolver)
-    {
+    public function __construct(
+        $viewbaseLayout,
+        ConfigResolverInterface $configResolver
+    ) {
         $this->viewbaseLayout = $viewbaseLayout;
         $this->configResolver = $configResolver;
     }

@@ -13,17 +13,18 @@ use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\UserExtension;
+use PHPUnit\Framework\MockObject\MockObject;
 use Twig\Test\IntegrationTestCase;
 
 final class UserExtensionTest extends IntegrationTestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PermissionResolver&MockObject */
     private PermissionResolver $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var UserService&MockObject */
     private UserService $userService;
 
-    /** @var array<int, \Ibexa\Contracts\Core\Repository\Values\User\User> */
+    /** @var array<int, User> */
     private array $users = [];
 
     private int $currentUserId;
@@ -60,8 +61,10 @@ final class UserExtensionTest extends IntegrationTestCase
         ];
     }
 
-    public function getUser(int $id, bool $isCurrent = false): User
-    {
+    public function getUser(
+        int $id,
+        bool $isCurrent = false
+    ): User {
         if (!isset($this->users[$id])) {
             $user = $this->createMock(User::class);
             $user->method('getUserId')->willReturn($id);

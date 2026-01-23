@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\Values\User;
 
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
+use Ibexa\Contracts\Core\Repository\Values\User\Policy;
 use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft as APIPolicyDraft;
 
 /**
@@ -17,7 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft as APIPolicyDraft;
  */
 class PolicyDraft extends APIPolicyDraft
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\Policy */
+    /** @var Policy */
     protected $innerPolicy;
 
     /**
@@ -36,8 +38,10 @@ class PolicyDraft extends APIPolicyDraft
         return $this->innerPolicy->$property;
     }
 
-    public function __set($property, $propertyValue)
-    {
+    public function __set(
+        $property,
+        $propertyValue
+    ) {
         if (isset($this->draftProperties[$property])) {
             parent::__set($property, $propertyValue);
         }
@@ -55,7 +59,7 @@ class PolicyDraft extends APIPolicyDraft
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation[]
+     * @return Limitation[]
      */
     public function getLimitations(): iterable
     {

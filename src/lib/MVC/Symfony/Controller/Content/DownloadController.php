@@ -10,6 +10,7 @@ namespace Ibexa\Core\MVC\Symfony\Controller\Content;
 
 use Ibexa\Bundle\IO\BinaryStreamResponse;
 use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -47,10 +48,13 @@ class DownloadController extends Controller
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the field $fieldId can't be found, or the translation can't be found.
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the content is trashed, or can't be found.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the user has no access to read content and in case of un-published content: read versions.
+     * @throws UnauthorizedException If the user has no access to read content and in case of un-published content: read versions.
      */
-    public function downloadBinaryFileByIdAction(Request $request, int $contentId, int $fieldId): BinaryStreamResponse
-    {
+    public function downloadBinaryFileByIdAction(
+        Request $request,
+        int $contentId,
+        int $fieldId
+    ): BinaryStreamResponse {
         $content = $this->contentService->loadContent($contentId);
         try {
             $field = $this->findFieldInContent($fieldId, $content);
@@ -66,8 +70,10 @@ class DownloadController extends Controller
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the field $fieldId can't be found, or the translation can't be found.
      */
-    protected function findFieldInContent(int $fieldId, Content $content): Field
-    {
+    protected function findFieldInContent(
+        int $fieldId,
+        Content $content
+    ): Field {
         foreach ($content->getFields() as $field) {
             if ($field->getId() === $fieldId) {
                 return $field;
@@ -85,10 +91,14 @@ class DownloadController extends Controller
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the field can't be found, or the translation can't be found.
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the content is trashed, or can't be found.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the user has no access to read content and in case of un-published content: read versions.
+     * @throws UnauthorizedException If the user has no access to read content and in case of un-published content: read versions.
      */
-    public function downloadBinaryFileAction(int $contentId, string $fieldIdentifier, string $filename, Request $request): BinaryStreamResponse
-    {
+    public function downloadBinaryFileAction(
+        int $contentId,
+        string $fieldIdentifier,
+        string $filename,
+        Request $request
+    ): BinaryStreamResponse {
         if ($request->query->has('version')) {
             $version = (int) $request->query->get('version');
             if ($version <= 0) {

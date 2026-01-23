@@ -23,22 +23,23 @@ use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class AssetMapperTest extends TestCase
 {
     public const EXAMPLE_CONTENT_ID = 487;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ContentService|MockObject */
     private $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var LocationService|MockObject */
     private $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService|MockObject */
     private $contentTypeService;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ConfigResolverInterface|MockObject */
     private $configResolver;
 
     /** @var array */
@@ -83,14 +84,23 @@ class AssetMapperTest extends TestCase
             ->willReturn($contentCreateStruct);
 
         $contentCreateStruct
-            ->expects(self::at(0))
+            ->expects(self::exactly(2))
             ->method('setField')
-            ->with($this->mappings['name_field_identifier'], $name);
+            ->willReturnCallback(function (
+                string $fieldIdentifier,
+                $fieldValue
+            ) use ($name, $value): void {
+                static $callCount = 0;
+                ++$callCount;
 
-        $contentCreateStruct
-            ->expects(self::at(1))
-            ->method('setField')
-            ->with($this->mappings['content_field_identifier'], $value);
+                if ($callCount === 1) {
+                    self::assertSame($this->mappings['name_field_identifier'], $fieldIdentifier);
+                    self::assertSame($name, $fieldValue);
+                } elseif ($callCount === 2) {
+                    self::assertSame($this->mappings['content_field_identifier'], $fieldIdentifier);
+                    self::assertSame($value, $fieldValue);
+                }
+            });
 
         $this->locationService
             ->expects(self::once())
@@ -211,8 +221,11 @@ class AssetMapperTest extends TestCase
     /**
      * @dataProvider dataProviderForIsAsset
      */
-    public function testIsAsset(int $contentContentTypeId, int $assetContentTypeId, bool $expected): void
-    {
+    public function testIsAsset(
+        int $contentContentTypeId,
+        int $assetContentTypeId,
+        bool $expected
+    ): void {
         $assetContentType = new ContentType([
             'id' => $assetContentTypeId,
         ]);
@@ -324,7 +337,7 @@ class AssetMapperTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return ConfigResolverInterface|MockObject
      */
     private function mockConfigResolver(): ConfigResolverInterface
     {

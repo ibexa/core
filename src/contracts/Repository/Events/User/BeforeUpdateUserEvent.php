@@ -21,8 +21,10 @@ final class BeforeUpdateUserEvent extends BeforeEvent
 
     private ?User $updatedUser = null;
 
-    public function __construct(User $user, UserUpdateStruct $userUpdateStruct)
-    {
+    public function __construct(
+        User $user,
+        UserUpdateStruct $userUpdateStruct
+    ) {
         $this->user = $user;
         $this->userUpdateStruct = $userUpdateStruct;
     }

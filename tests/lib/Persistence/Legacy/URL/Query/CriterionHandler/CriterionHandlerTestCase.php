@@ -13,6 +13,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
 use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 abstract class CriterionHandlerTestCase extends TestCase
@@ -24,27 +25,31 @@ abstract class CriterionHandlerTestCase extends TestCase
     /**
      * Check if critetion handler accepts specyfied criterion class.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler $handler
+     * @param CriterionHandler $handler
      * @param string $criterionClass
      */
-    protected function assertHandlerAcceptsCriterion(CriterionHandler $handler, $criterionClass)
-    {
+    protected function assertHandlerAcceptsCriterion(
+        CriterionHandler $handler,
+        $criterionClass
+    ) {
         self::assertTrue($handler->accept($this->createMock($criterionClass)));
     }
 
     /**
      * Check if critetion handler rejects specyfied criterion class.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler $handler
+     * @param CriterionHandler $handler
      * @param string $criterionClass
      */
-    protected function assertHandlerRejectsCriterion(CriterionHandler $handler, $criterionClass)
-    {
+    protected function assertHandlerRejectsCriterion(
+        CriterionHandler $handler,
+        $criterionClass
+    ) {
         self::assertFalse($handler->accept($this->createMock($criterionClass)));
     }
 
     /**
-     * @param \Doctrine\DBAL\Query\QueryBuilder|\PHPUnit\Framework\MockObject\MockObject $queryBuilder
+     * @param QueryBuilder|MockObject $queryBuilder
      */
     protected function mockConverterForLogicalOperator(
         string $expressionType,
@@ -75,15 +80,21 @@ abstract class CriterionHandlerTestCase extends TestCase
 
         $converter = $this->createMock(CriteriaConverter::class);
         $converter
-            ->expects(self::at(0))
+            ->expects(self::exactly(2))
             ->method('convertCriteria')
-            ->with($queryBuilder, $foo)
-            ->willReturn($fooExpr);
-        $converter
-            ->expects(self::at(1))
-            ->method('convertCriteria')
-            ->with($queryBuilder, $bar)
-            ->willReturn($barExpr);
+            ->willReturnCallback(static function (
+                $qb,
+                $criterion
+            ) use ($queryBuilder, $foo, $bar, $fooExpr, $barExpr) {
+                self::assertSame($queryBuilder, $qb);
+                if ($criterion === $foo) {
+                    return $fooExpr;
+                }
+                if ($criterion === $bar) {
+                    return $barExpr;
+                }
+                self::fail('Unexpected criterion');
+            });
 
         return $converter;
     }

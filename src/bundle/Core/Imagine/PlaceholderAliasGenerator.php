@@ -22,16 +22,16 @@ use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
 
 class PlaceholderAliasGenerator implements VariationHandler
 {
-    /** @var \Ibexa\Contracts\Core\Variation\VariationHandler */
+    /** @var VariationHandler */
     private $aliasGenerator;
 
-    /** @var \Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
+    /** @var ResolverInterface */
     private $ioResolver;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
+    /** @var IOServiceInterface */
     private $ioService;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\PlaceholderProvider|null */
+    /** @var PlaceholderProvider|null */
     private $placeholderProvider;
 
     /** @var array */
@@ -53,10 +53,14 @@ class PlaceholderAliasGenerator implements VariationHandler
     /**
      * {@inheritdoc}
      */
-    public function getVariation(Field $field, VersionInfo $versionInfo, string $variationName, array $parameters = []): Variation
-    {
+    public function getVariation(
+        Field $field,
+        VersionInfo $versionInfo,
+        string $variationName,
+        array $parameters = []
+    ): Variation {
         if ($this->placeholderProvider !== null) {
-            /** @var \Ibexa\Core\FieldType\Image\Value $imageValue */
+            /** @var ImageValue $imageValue */
             $imageValue = $field->value;
             if (!$this->supportsValue($imageValue)) {
                 throw new InvalidArgumentException("Value of Field with ID {$field->id} ($field->fieldDefIdentifier) cannot be used for generating an image placeholder.");
@@ -75,8 +79,10 @@ class PlaceholderAliasGenerator implements VariationHandler
         return $this->aliasGenerator->getVariation($field, $versionInfo, $variationName, $parameters);
     }
 
-    public function setPlaceholderProvider(PlaceholderProvider $provider, array $options = [])
-    {
+    public function setPlaceholderProvider(
+        PlaceholderProvider $provider,
+        array $options = []
+    ) {
         $this->placeholderProvider = $provider;
         $this->placeholderOptions = $options;
     }

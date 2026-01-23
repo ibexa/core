@@ -45,8 +45,10 @@ final class FindContentTypesTest extends RepositoryTestCase
      *
      * @dataProvider dataProviderForTestFindContentTypes
      */
-    public function testFindContentTypes(ContentTypeQuery $query, array $expectedIdentifiers): void
-    {
+    public function testFindContentTypes(
+        ContentTypeQuery $query,
+        array $expectedIdentifiers
+    ): void {
         $contentTypeService = self::getContentTypeService();
 
         $contentTypes = $contentTypeService->findContentTypes($query);
@@ -149,7 +151,7 @@ final class FindContentTypesTest extends RepositoryTestCase
     }
 
     /**
-     * @return iterable<array{\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery, list<string>}>
+     * @return iterable<array{ContentTypeQuery, list<string>}>
      */
     public function dataProviderForTestFindContentTypes(): iterable
     {

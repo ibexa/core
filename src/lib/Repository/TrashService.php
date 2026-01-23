@@ -13,6 +13,9 @@ use Exception;
 use Ibexa\Contracts\Core\Limitation\Target;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trashed;
 use Ibexa\Contracts\Core\Persistence\Handler;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException as APIUnauthorizedException;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionCriterionResolver;
@@ -42,10 +45,10 @@ use Ibexa\Core\Repository\Values\Content\TrashItem;
  */
 class TrashService implements TrashServiceInterface
 {
-    /** @var \Ibexa\Core\Repository\Repository */
+    /** @var Repository */
     protected $repository;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
+    /** @var Handler */
     protected $persistenceHandler;
 
     /** @var array */
@@ -53,22 +56,22 @@ class TrashService implements TrashServiceInterface
 
     protected NameSchemaServiceInterface $nameSchemaService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver */
+    /** @var PermissionCriterionResolver */
     private $permissionCriterionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     private $permissionResolver;
 
-    /** @var \Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface */
+    /** @var ProxyDomainMapperInterface */
     private $proxyDomainMapper;
 
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
-     * @param \Ibexa\Contracts\Core\Persistence\Handler $handler
-     * @param \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver $permissionCriterionResolver
-     * @param \Ibexa\Contracts\Core\Repository\PermissionResolver $permissionResolver
+     * @param RepositoryInterface $repository
+     * @param Handler $handler
+     * @param PermissionCriterionResolver $permissionCriterionResolver
+     * @param PermissionResolver $permissionResolver
      * @param array $settings
      */
     public function __construct(
@@ -99,10 +102,10 @@ class TrashService implements TrashServiceInterface
      *
      * @param mixed $trashItemId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to read the trashed location
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException - if the location with the given id does not exist
+     * @throws APIUnauthorizedException if the user is not allowed to read the trashed location
+     * @throws NotFoundException - if the location with the given id does not exist
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\TrashItem
+     * @return APITrashItem
      */
     public function loadTrashItem(int $trashItemId): APITrashItem
     {
@@ -128,11 +131,11 @@ class TrashService implements TrashServiceInterface
      * The current user may not have access to the returned trash item, check before using it.
      * Content is left untouched.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to trash the given location
+     * @throws APIUnauthorizedException if the user is not allowed to trash the given location
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\TrashItem|null null if location was deleted, otherwise TrashItem
+     * @return APITrashItem|null null if location was deleted, otherwise TrashItem
      */
     public function trash(Location $location): ?APITrashItem
     {
@@ -171,15 +174,17 @@ class TrashService implements TrashServiceInterface
     /**
      * Recovers the $trashedLocation at its original place if possible.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\TrashItem $trashItem
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location|null $newParentLocation
+     * @param APITrashItem $trashItem
+     * @param Location|null $newParentLocation
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to recover the trash item at the parent location location
+     * @throws APIUnauthorizedException if the user is not allowed to recover the trash item at the parent location location
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location the newly created or recovered location
+     * @return Location the newly created or recovered location
      */
-    public function recover(APITrashItem $trashItem, ?Location $newParentLocation = null): Location
-    {
+    public function recover(
+        APITrashItem $trashItem,
+        ?Location $newParentLocation = null
+    ): Location {
         if (!is_numeric($trashItem->id)) {
             throw new InvalidArgumentValue('id', $trashItem->id, 'TrashItem');
         }
@@ -238,9 +243,9 @@ class TrashService implements TrashServiceInterface
      * All locations contained in the trash will be removed. Content objects will be removed
      * if all locations of the content are gone.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to empty the trash
+     * @throws APIUnauthorizedException if the user is not allowed to empty the trash
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResultList
+     * @return TrashItemDeleteResultList
      */
     public function emptyTrash(): TrashItemDeleteResultList
     {
@@ -266,11 +271,11 @@ class TrashService implements TrashServiceInterface
      *
      * The corresponding content object will be removed
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\TrashItem $trashItem
+     * @param APITrashItem $trashItem
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to delete this trash item
+     * @throws APIUnauthorizedException if the user is not allowed to delete this trash item
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult
+     * @return TrashItemDeleteResult
      */
     public function deleteTrashItem(APITrashItem $trashItem): TrashItemDeleteResult
     {
@@ -299,9 +304,9 @@ class TrashService implements TrashServiceInterface
      *
      * $query allows to filter/sort the elements to be contained in the collection.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
+     * @param Query $query
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Trash\SearchResult
+     * @return SearchResult
      */
     public function findTrashItems(Query $query): SearchResult
     {
@@ -342,8 +347,10 @@ class TrashService implements TrashServiceInterface
         return $trashItems;
     }
 
-    protected function buildDomainTrashItemObject(Trashed $spiTrashItem, Content $content): APITrashItem
-    {
+    protected function buildDomainTrashItemObject(
+        Trashed $spiTrashItem,
+        Content $content
+    ): APITrashItem {
         return new TrashItem(
             [
                 'content' => $content,
@@ -370,7 +377,7 @@ class TrashService implements TrashServiceInterface
     /**
      * @param int $timestamp
      *
-     * @return \DateTime
+     * @return DateTime
      */
     protected function getDateTime($timestamp)
     {
@@ -381,16 +388,18 @@ class TrashService implements TrashServiceInterface
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param ContentInfo $contentInfo
+     * @param Location $location
      *
      * @return bool
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws BadStateException
+     * @throws InvalidArgumentException
      */
-    private function userHasPermissionsToRemove(ContentInfo $contentInfo, Location $location): bool
-    {
+    private function userHasPermissionsToRemove(
+        ContentInfo $contentInfo,
+        Location $location
+    ): bool {
         $versionInfo = $this->persistenceHandler->contentHandler()->loadVersionInfo(
             $contentInfo->id,
             $contentInfo->currentVersionNo

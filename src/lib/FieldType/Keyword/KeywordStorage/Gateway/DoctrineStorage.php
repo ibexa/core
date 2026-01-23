@@ -19,7 +19,7 @@ class DoctrineStorage extends Gateway
     public const KEYWORD_TABLE = 'ibexa_keyword';
     public const KEYWORD_ATTRIBUTE_LINK_TABLE = 'ibexa_keyword_field_link';
 
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     protected $connection;
 
     public function __construct(Connection $connection)
@@ -30,11 +30,12 @@ class DoctrineStorage extends Gateway
     /**
      * Stores the keyword list from $field->value->externalData.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field
      * @param int $contentTypeId
      */
-    public function storeFieldData(Field $field, $contentTypeId)
-    {
+    public function storeFieldData(
+        Field $field,
+        $contentTypeId
+    ) {
         if (empty($field->value->externalData) && !empty($field->id)) {
             $this->deleteFieldData($field->id, $field->versionNo);
 
@@ -66,7 +67,7 @@ class DoctrineStorage extends Gateway
     /**
      * Sets the list of assigned keywords into $field->value->externalData.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param Field $field
      */
     public function getFieldData(Field $field)
     {
@@ -76,7 +77,7 @@ class DoctrineStorage extends Gateway
     /**
      * Retrieve the ContentType ID for the given $field.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param Field $field
      *
      * @return int
      */
@@ -91,8 +92,10 @@ class DoctrineStorage extends Gateway
      * @param int $fieldId
      * @param int $versionNo
      */
-    public function deleteFieldData($fieldId, $versionNo)
-    {
+    public function deleteFieldData(
+        $fieldId,
+        $versionNo
+    ) {
         $this->deleteOldKeywordAssignments($fieldId, $versionNo);
         $this->deleteOrphanedKeywords();
     }
@@ -100,8 +103,10 @@ class DoctrineStorage extends Gateway
     /**
      * Returns a list of keywords assigned to $fieldId.
      */
-    protected function getAssignedKeywords(int $fieldId, int $versionNo): array
-    {
+    protected function getAssignedKeywords(
+        int $fieldId,
+        int $versionNo
+    ): array {
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
@@ -185,8 +190,10 @@ class DoctrineStorage extends Gateway
      *
      * @return int[]
      */
-    protected function getExistingKeywords($keywordList, $contentTypeId)
-    {
+    protected function getExistingKeywords(
+        $keywordList,
+        $contentTypeId
+    ) {
         // Retrieving potentially existing keywords
         $query = $this->connection->createQueryBuilder();
         $query
@@ -241,8 +248,10 @@ class DoctrineStorage extends Gateway
      *
      * @return int[]
      */
-    protected function insertKeywords(array $keywordsToInsert, $contentTypeId)
-    {
+    protected function insertKeywords(
+        array $keywordsToInsert,
+        $contentTypeId
+    ) {
         $keywordIdMap = [];
         // Inserting keywords not yet registered
         if (!empty($keywordsToInsert)) {
@@ -269,8 +278,10 @@ class DoctrineStorage extends Gateway
         return $keywordIdMap;
     }
 
-    protected function deleteOldKeywordAssignments(int $fieldId, int $versionNo): void
-    {
+    protected function deleteOldKeywordAssignments(
+        int $fieldId,
+        int $versionNo
+    ): void {
         $deleteQuery = $this->connection->createQueryBuilder();
         $deleteQuery
             ->delete($this->connection->quoteIdentifier(self::KEYWORD_ATTRIBUTE_LINK_TABLE))
@@ -303,8 +314,11 @@ class DoctrineStorage extends Gateway
      *  );
      * </code>
      */
-    protected function assignKeywords(int $fieldId, array $keywordMap, int $versionNo): void
-    {
+    protected function assignKeywords(
+        int $fieldId,
+        array $keywordMap,
+        int $versionNo
+    ): void {
         $insertQuery = $this->connection->createQueryBuilder();
         $insertQuery
             ->insert($this->connection->quoteIdentifier(self::KEYWORD_ATTRIBUTE_LINK_TABLE))

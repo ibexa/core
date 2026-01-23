@@ -15,8 +15,10 @@ class LocationView extends View
     public const string NODE_KEY = 'location_view';
     public const string INFO = 'Template selection settings when displaying a location. Deprecated from 5.4.5/2015.09, use content_view instead.';
 
-    public function preMap(array $config, ContextualizerInterface $contextualizer): void
-    {
+    public function preMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    ): void {
         $scopes = array_merge(
             [ConfigResolver::SCOPE_GLOBAL],
             $config['siteaccess']['list'],

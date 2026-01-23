@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Location;
 
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause;
 use Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
@@ -36,7 +37,7 @@ abstract class BaseLocationSortClauseQueryBuilder implements SortClauseQueryBuil
             $this->joinMainLocationOnly($queryBuilder, $locationAlias);
         }
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause $sortClause */
+        /** @var SortClause $sortClause */
         $queryBuilder->addOrderBy($sortAlias, $sortClause->direction);
     }
 
@@ -72,8 +73,10 @@ abstract class BaseLocationSortClauseQueryBuilder implements SortClauseQueryBuil
         return false;
     }
 
-    private function joinMainLocationOnly(FilteringQueryBuilder $queryBuilder, string $alias): void
-    {
+    private function joinMainLocationOnly(
+        FilteringQueryBuilder $queryBuilder,
+        string $alias
+    ): void {
         $queryBuilder->joinOnce(
             'content',
             LocationGateway::CONTENT_TREE_TABLE,

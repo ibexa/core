@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\Core;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,7 +18,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ChainConfigResolverTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver */
+    /** @var ChainConfigResolver */
     private $chainResolver;
 
     protected function setUp(): void
@@ -87,21 +88,11 @@ class ChainConfigResolverTest extends TestCase
             ['sortResolvers']
         );
         $resolver
-            ->expects(self::at(0))
+            ->expects(self::exactly(2))
             ->method('sortResolvers')
-            ->will(
-                self::returnValue(
-                    [$high, $medium, $low]
-                )
-            );
-        // The second time sortResolvers() is called, we're supposed to get the newly added router ($highest)
-        $resolver
-            ->expects(self::at(1))
-            ->method('sortResolvers')
-            ->will(
-                self::returnValue(
-                    [$highest, $high, $medium, $low]
-                )
+            ->willReturnOnConsecutiveCalls(
+                [$high, $medium, $low],
+                [$highest, $high, $medium, $low]
             );
 
         $resolver->addResolver($low, 10);
@@ -168,8 +159,12 @@ class ChainConfigResolverTest extends TestCase
      * @param string $scope
      * @param mixed $expectedValue
      */
-    public function testGetParameter($paramName, $namespace, $scope, $expectedValue)
-    {
+    public function testGetParameter(
+        $paramName,
+        $namespace,
+        $scope,
+        $expectedValue
+    ) {
         $resolver = $this->createMock(ConfigResolverInterface::class);
         $resolver
             ->expects(self::once())
@@ -240,7 +235,7 @@ class ChainConfigResolverTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject[]
+     * @return MockObject[]
      */
     private function createResolverMocks()
     {
@@ -251,8 +246,10 @@ class ChainConfigResolverTest extends TestCase
         ];
     }
 
-    private function buildMock($class, array $methods = [])
-    {
+    private function buildMock(
+        $class,
+        array $methods = []
+    ) {
         return $this
             ->getMockBuilder($class)
             ->disableOriginalConstructor()

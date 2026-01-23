@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo as SPIContentInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPIContentTypeHandler;
@@ -25,6 +26,7 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Limitation\ParentContentTypeLimitationType;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test Case for LimitationType.
@@ -33,13 +35,13 @@ class ParentContentTypeLimitationTypeTest extends Base
 {
     public const int EXAMPLE_CONTENT_INFO_ID = 24;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SPILocation\Handler|MockObject */
     private $locationHandlerMock;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SPIContentTypeHandler|MockObject */
     private $contentTypeHandlerMock;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Handler|MockObject */
     private $contentHandlerMock;
 
     /**
@@ -65,7 +67,7 @@ class ParentContentTypeLimitationTypeTest extends Base
     }
 
     /**
-     * @return \Ibexa\Core\Limitation\ParentContentTypeLimitationType
+     * @return ParentContentTypeLimitationType
      */
     public function testConstruct()
     {
@@ -89,11 +91,13 @@ class ParentContentTypeLimitationTypeTest extends Base
      *
      * @depends testConstruct
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentContentTypeLimitation $limitation
-     * @param \Ibexa\Core\Limitation\ParentContentTypeLimitationType $limitationType
+     * @param ParentContentTypeLimitation $limitation
+     * @param ParentContentTypeLimitationType $limitationType
      */
-    public function testAcceptValue(ParentContentTypeLimitation $limitation, ParentContentTypeLimitationType $limitationType)
-    {
+    public function testAcceptValue(
+        ParentContentTypeLimitation $limitation,
+        ParentContentTypeLimitationType $limitationType
+    ) {
         $limitationType->acceptValue($limitation);
     }
 
@@ -114,11 +118,13 @@ class ParentContentTypeLimitationTypeTest extends Base
      *
      * @depends testConstruct
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
-     * @param \Ibexa\Core\Limitation\ParentContentTypeLimitationType $limitationType
+     * @param Limitation $limitation
+     * @param ParentContentTypeLimitationType $limitationType
      */
-    public function testAcceptValueException(Limitation $limitation, ParentContentTypeLimitationType $limitationType)
-    {
+    public function testAcceptValueException(
+        Limitation $limitation,
+        ParentContentTypeLimitationType $limitationType
+    ) {
         $this->expectException(InvalidArgumentException::class);
 
         $limitationType->acceptValue($limitation);
@@ -139,7 +145,7 @@ class ParentContentTypeLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestValidatePass
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentContentTypeLimitation $limitation
+     * @param ParentContentTypeLimitation $limitation
      */
     public function testValidatePass(ParentContentTypeLimitation $limitation)
     {
@@ -149,13 +155,16 @@ class ParentContentTypeLimitationTypeTest extends Base
                 ->method('contentTypeHandler')
                 ->will(self::returnValue($this->contentTypeHandlerMock));
 
-            foreach ($limitation->limitationValues as $key => $value) {
-                $this->contentTypeHandlerMock
-                    ->expects(self::at($key))
-                    ->method('load')
-                    ->with($value)
-                    ->will(self::returnValue(42));
-            }
+            $expectedValues = $limitation->limitationValues;
+            $this->contentTypeHandlerMock
+                ->expects(self::exactly(count($expectedValues)))
+                ->method('load')
+                ->willReturnCallback(static function ($value) use (&$expectedValues) {
+                    $expectedValue = array_shift($expectedValues);
+                    self::assertSame($expectedValue, $value);
+
+                    return 42;
+                });
         }
 
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
@@ -180,24 +189,28 @@ class ParentContentTypeLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestValidateError
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentContentTypeLimitation $limitation
+     * @param ParentContentTypeLimitation $limitation
      * @param int $errorCount
      */
-    public function testValidateError(ParentContentTypeLimitation $limitation, $errorCount)
-    {
+    public function testValidateError(
+        ParentContentTypeLimitation $limitation,
+        $errorCount
+    ) {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
                 ->expects(self::any())
                 ->method('contentTypeHandler')
                 ->will(self::returnValue($this->contentTypeHandlerMock));
 
-            foreach ($limitation->limitationValues as $key => $value) {
-                $this->contentTypeHandlerMock
-                    ->expects(self::at($key))
-                    ->method('load')
-                    ->with($value)
-                    ->will(self::throwException(new NotFoundException('location', $value)));
-            }
+            $expectedValues = $limitation->limitationValues;
+            $this->contentTypeHandlerMock
+                ->expects(self::exactly(count($expectedValues)))
+                ->method('load')
+                ->willReturnCallback(static function ($value) use (&$expectedValues): void {
+                    $expectedValue = array_shift($expectedValues);
+                    self::assertSame($expectedValue, $value);
+                    throw new NotFoundException('location', $value);
+                });
         } else {
             $this->getPersistenceMock()
                 ->expects(self::never())
@@ -214,7 +227,7 @@ class ParentContentTypeLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\ParentContentTypeLimitationType $limitationType
+     * @param ParentContentTypeLimitationType $limitationType
      */
     public function testBuildValue(ParentContentTypeLimitationType $limitationType)
     {
@@ -455,18 +468,26 @@ class ParentContentTypeLimitationTypeTest extends Base
         ];
     }
 
-    protected function assertContentHandlerExpectations($callNo, $persistenceCalled, $contentId, $contentInfo)
+    protected function setupContentHandlerExpectations(array $expectations): void
     {
+        if (empty($expectations)) {
+            return;
+        }
+
         $this->getPersistenceMock()
-            ->expects(self::at($callNo + ($persistenceCalled ? 1 : 0)))
             ->method('contentHandler')
             ->will(self::returnValue($this->contentHandlerMock));
 
+        $expectedCalls = $expectations;
         $this->contentHandlerMock
-            ->expects(self::at($callNo))
+            ->expects(self::exactly(count($expectedCalls)))
             ->method('loadContentInfo')
-            ->with($contentId)
-            ->will(self::returnValue($contentInfo));
+            ->willReturnCallback(static function ($contentId) use (&$expectedCalls) {
+                $expected = array_shift($expectedCalls);
+                self::assertSame($expected['contentId'], $contentId);
+
+                return $expected['contentInfo'];
+            });
     }
 
     /**
@@ -499,31 +520,46 @@ class ParentContentTypeLimitationTypeTest extends Base
                 ->expects(self::never())
                 ->method(self::anything());
         } elseif (!empty($targets)) {
+            $expectedLocationLoads = [];
+            $contentHandlerExpectations = [];
+            $hasLocationCreateStruct = false;
+
             foreach ($targets as $index => $target) {
                 if ($target instanceof LocationCreateStruct) {
-                    $this->getPersistenceMock()
-                        ->expects(self::once())
-                        ->method('locationHandler')
-                        ->will(self::returnValue($this->locationHandlerMock));
-
-                    $this->locationHandlerMock
-                        ->expects(self::at($index))
-                        ->method('load')
-                        ->with($target->parentLocationId)
-                        ->will(self::returnValue($location = $persistence['locations'][$index]));
-
-                    $contentId = $location->contentId;
+                    $hasLocationCreateStruct = true;
+                    $expectedLocationLoads[] = [
+                        'arg' => $target->parentLocationId,
+                        'return' => $persistence['locations'][$index],
+                    ];
+                    $contentId = $persistence['locations'][$index]->contentId;
                 } else {
                     $contentId = $target->contentId;
                 }
 
-                $this->assertContentHandlerExpectations(
-                    $index,
-                    $target instanceof LocationCreateStruct,
-                    $contentId,
-                    $persistence['contentInfos'][$index]
-                );
+                $contentHandlerExpectations[] = [
+                    'contentId' => $contentId,
+                    'contentInfo' => $persistence['contentInfos'][$index],
+                ];
             }
+
+            if ($hasLocationCreateStruct) {
+                $this->getPersistenceMock()
+                    ->expects(self::once())
+                    ->method('locationHandler')
+                    ->will(self::returnValue($this->locationHandlerMock));
+
+                $this->locationHandlerMock
+                    ->expects(self::exactly(count($expectedLocationLoads)))
+                    ->method('load')
+                    ->willReturnCallback(static function ($arg) use (&$expectedLocationLoads) {
+                        $expected = array_shift($expectedLocationLoads);
+                        self::assertSame($expected['arg'], $arg);
+
+                        return $expected['return'];
+                    });
+            }
+
+            $this->setupContentHandlerExpectations($contentHandlerExpectations);
         } else {
             $this->getPersistenceMock()
                 ->method('locationHandler')
@@ -540,29 +576,31 @@ class ParentContentTypeLimitationTypeTest extends Base
                 ->with($object->id)
                 ->will(self::returnValue($persistence['locations']));
 
+            $loadContentInfoExpectations = [];
+
+            foreach ($persistence['locations'] as $index => $location) {
+                $loadContentInfoExpectations[$location->contentId] = $persistence['contentInfos'][$index];
+            }
+
             foreach ($persistence['locations'] as $location) {
                 if (!empty($persistence['parentLocations'][$location->parentId])) {
                     $this->locationHandlerMock
                             ->method('load')
                             ->with($location->parentId)
                             ->will(self::returnValue($persistence['parentLocations'][$location->parentId]));
-                }
 
-                if (!empty($persistence['parentLocations'][$location->parentId])) {
-                    $this->contentHandlerMock
-                            ->method('loadContentInfo')
-                            ->with($location->contentId)
-                            ->willReturn($persistence['parentContents'][$location->contentId]);
+                    $loadContentInfoExpectations[$location->contentId] = $persistence['parentContents'][$location->contentId];
                 }
             }
 
-            foreach ($persistence['locations'] as $index => $location) {
-                $this->assertContentHandlerExpectations(
-                    $index,
-                    true,
-                    $location->contentId,
-                    $persistence['contentInfos'][$index]
-                );
+            if (!empty($loadContentInfoExpectations)) {
+                $this->contentHandlerMock
+                    ->method('loadContentInfo')
+                    ->willReturnCallback(static function ($contentId) use ($loadContentInfoExpectations) {
+                        self::assertArrayHasKey($contentId, $loadContentInfoExpectations);
+
+                        return $loadContentInfoExpectations[$contentId];
+                    });
             }
         }
 
@@ -617,8 +655,11 @@ class ParentContentTypeLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestEvaluateInvalidArgument
      */
-    public function testEvaluateInvalidArgument(Limitation $limitation, ValueObject $object, $targets)
-    {
+    public function testEvaluateInvalidArgument(
+        Limitation $limitation,
+        ValueObject $object,
+        $targets
+    ) {
         $this->expectException(InvalidArgumentException::class);
 
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
@@ -645,7 +686,7 @@ class ParentContentTypeLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\ParentContentTypeLimitationType $limitationType
+     * @param ParentContentTypeLimitationType $limitationType
      */
     public function testGetCriterionInvalidValue(ParentContentTypeLimitationType $limitationType)
     {
@@ -660,7 +701,7 @@ class ParentContentTypeLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\ParentContentTypeLimitationType $limitationType
+     * @param ParentContentTypeLimitationType $limitationType
      */
     public function testValueSchema(ParentContentTypeLimitationType $limitationType)
     {

@@ -22,7 +22,7 @@ interface FieldTypeParserInterface extends ParserInterface
     /**
      * Adds fieldType semantic configuration definition.
      *
-     * @phpstan-param \Symfony\Component\Config\Definition\Builder\NodeBuilder<null> $nodeBuilder Node just under ibexa.system.<site_access>.fieldtypes.<identifier>
+     * @phpstan-param NodeBuilder<null> $nodeBuilder Node just under ibexa.system.<site_access>.fieldtypes.<identifier>
      */
     public function addFieldTypeSemanticConfig(NodeBuilder $nodeBuilder);
 }

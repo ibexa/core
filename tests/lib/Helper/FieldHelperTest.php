@@ -18,17 +18,18 @@ use Ibexa\Core\FieldType\TextLine\Value;
 use Ibexa\Core\Helper\FieldHelper;
 use Ibexa\Core\Helper\TranslationHelper;
 use Ibexa\Core\Repository\Values\ContentType\FieldType;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class FieldHelperTest extends TestCase
 {
-    /** @var \Ibexa\Core\Helper\FieldHelper */
+    /** @var FieldHelper */
     private $fieldHelper;
 
-    /** @var \Ibexa\Contracts\Core\Repository\FieldTypeService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FieldTypeService|MockObject */
     private $fieldTypeServiceMock;
 
-    /** @var \Ibexa\Core\Helper\TranslationHelper|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var TranslationHelper|MockObject */
     private $translationHelper;
 
     protected function setUp(): void

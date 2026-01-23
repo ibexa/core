@@ -30,7 +30,7 @@ class ConnectionFactory
     /**
      * Returns database connection used by database handler.
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function getConnection(): Connection
     {

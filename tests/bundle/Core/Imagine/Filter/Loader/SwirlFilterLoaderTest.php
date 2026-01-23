@@ -10,14 +10,15 @@ namespace Ibexa\Tests\Bundle\Core\Imagine\Filter\Loader;
 use Ibexa\Bundle\Core\Imagine\Filter\FilterInterface;
 use Ibexa\Bundle\Core\Imagine\Filter\Loader\SwirlFilterLoader;
 use Imagine\Image\ImageInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class SwirlFilterLoaderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $filter;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\SwirlFilterLoader */
+    /** @var SwirlFilterLoader */
     private $loader;
 
     protected function setUp(): void

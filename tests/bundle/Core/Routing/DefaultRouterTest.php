@@ -12,6 +12,7 @@ use Ibexa\Bundle\Core\SiteAccess\Matcher;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionObject;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -22,13 +23,13 @@ use Symfony\Component\Routing\RequestContext;
 
 class DefaultRouterTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\DependencyInjection\ContainerInterface */
+    /** @var MockObject|ContainerInterface */
     protected $container;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var MockObject|ConfigResolverInterface */
     protected $configResolver;
 
-    /** @var \Symfony\Component\Routing\RequestContext */
+    /** @var RequestContext */
     protected $requestContext;
 
     protected function setUp(): void
@@ -40,7 +41,7 @@ class DefaultRouterTest extends TestCase
     }
 
     /**
-     * @return class-string<\Ibexa\Bundle\Core\Routing\DefaultRouter>
+     * @return class-string<DefaultRouter>
      */
     protected function getRouterClass(): string
     {
@@ -50,11 +51,11 @@ class DefaultRouterTest extends TestCase
     /**
      * @param array<string> $mockedMethods
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Bundle\Core\Routing\DefaultRouter
+     * @return MockObject&DefaultRouter
      */
     protected function generateRouter(array $mockedMethods = [])
     {
-        /** @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Bundle\Core\Routing\DefaultRouter $router */
+        /** @var MockObject&DefaultRouter $router */
         $router = $this
             ->getMockBuilder($this->getRouterClass())
             ->setConstructorArgs([$this->container, 'foo', [], $this->requestContext])
@@ -72,7 +73,7 @@ class DefaultRouterTest extends TestCase
         $request = Request::create($pathinfo);
         $request->attributes->set('semanticPathinfo', $semanticPathinfo);
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Bundle\Core\Routing\DefaultRouter $router */
+        /** @var MockObject&DefaultRouter $router */
         $router = $this->generateRouter(['getMatcher']);
         $matchedParameters = ['_controller' => 'AcmeBundle:myAction'];
 
@@ -99,7 +100,7 @@ class DefaultRouterTest extends TestCase
 
         $this->configResolver->expects(self::never())->method('getParameter');
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Bundle\Core\Routing\DefaultRouter $router */
+        /** @var MockObject&DefaultRouter $router */
         $router = $this->generateRouter(['getMatcher']);
 
         $matcher = $this->createMock(UrlMatcherInterface::class);
@@ -128,7 +129,7 @@ class DefaultRouterTest extends TestCase
             ->with(__METHOD__)
             ->willReturn($url);
 
-        /** @var \Ibexa\Bundle\Core\Routing\DefaultRouter&\PHPUnit\Framework\MockObject\MockObject $router */
+        /** @var DefaultRouter&MockObject $router */
         $router = $this->generateRouter(['getGenerator']);
         $router
             ->expects(self::any())
@@ -159,8 +160,15 @@ class DefaultRouterTest extends TestCase
      * @param int $referenceType The type of reference to be generated (one of the constants)
      * @param string $routeName
      */
-    public function testGenerateWithSiteAccess($urlGenerated, $relevantUri, $expectedUrl, $saName, $isMatcherLexer, $referenceType, $routeName)
-    {
+    public function testGenerateWithSiteAccess(
+        $urlGenerated,
+        $relevantUri,
+        $expectedUrl,
+        $saName,
+        $isMatcherLexer,
+        $referenceType,
+        $routeName
+    ) {
         $routeName = $routeName ?: __METHOD__;
         $nonSiteAccessAwareRoutes = ['_dontwantsiteaccess'];
         $generator = $this->createMock(UrlGeneratorInterface::class);
@@ -170,7 +178,7 @@ class DefaultRouterTest extends TestCase
             ->with($routeName)
             ->willReturn($urlGenerated);
 
-        /** @var \Ibexa\Bundle\Core\Routing\DefaultRouter&\PHPUnit\Framework\MockObject\MockObject $router */
+        /** @var DefaultRouter&MockObject $router */
         $router = $this->generateRouter(['getGenerator']);
         $router
             ->expects(self::any())
@@ -259,18 +267,23 @@ class DefaultRouterTest extends TestCase
 
         $generator = $this->createMock(UrlGeneratorInterface::class);
         $generator
-            ->expects(self::at(0))
+            ->expects(self::exactly(2))
             ->method('setContext')
-            ->with(self::isInstanceOf(RequestContext::class));
+            ->willReturnCallback(function ($context) {
+                static $callCount = 0;
+                ++$callCount;
+
+                if ($callCount === 1) {
+                    self::assertInstanceOf(RequestContext::class, $context);
+                } elseif ($callCount === 2) {
+                    self::assertSame($this->requestContext, $context);
+                }
+            });
         $generator
-            ->expects(self::at(1))
+            ->expects(self::once())
             ->method('generate')
             ->with($routeName)
             ->willReturn($urlGenerated);
-        $generator
-            ->expects(self::at(2))
-            ->method('setContext')
-            ->with($this->requestContext);
 
         $router = new DefaultRouter($this->container, 'foo', [], $this->requestContext);
         $router->setConfigResolver($this->configResolver);

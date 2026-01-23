@@ -44,7 +44,7 @@ final class StorageRegistryTest extends TestCase
     public function testGetStorageForNonSupportedFieldType(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectErrorMessage('Argument \'$typeName\' is invalid: Undefined Ibexa\Contracts\Core\FieldType\FieldConstraintsStorage for "baz" field type');
+        $this->expectExceptionMessage('Argument \'$typeName\' is invalid: Undefined Ibexa\Contracts\Core\FieldType\FieldConstraintsStorage for "baz" field type');
 
         $registry = new StorageRegistry([
             'foo' => $this->createMock(FieldConstraintsStorage::class),

@@ -9,8 +9,11 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Doctrine\DBAL\Connection;
 use Exception;
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
@@ -100,9 +103,9 @@ class URLAliasServiceTest extends BaseTestCase
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createUrlAlias
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws InvalidArgumentException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testCreateSameAliasForDifferentLanguage()
     {
@@ -535,7 +538,7 @@ class URLAliasServiceTest extends BaseTestCase
     }
 
     /**
-     * @param array{\Ibexa\Contracts\Core\Repository\Values\Content\URLAlias, int} $testData
+     * @param array{URLAlias, int} $testData
      *
      * @depends testCreateGlobalUrlAliasForLocation
      */
@@ -561,7 +564,7 @@ class URLAliasServiceTest extends BaseTestCase
     }
 
     /**
-     * @param array{\Ibexa\Contracts\Core\Repository\Values\Content\URLAlias, int} $testData
+     * @param array{URLAlias, int} $testData
      *
      * @depends testCreateGlobalUrlAliasForLocationVariation
      */
@@ -1066,9 +1069,9 @@ class URLAliasServiceTest extends BaseTestCase
     /**
      * Test lookup on multilingual nested Locations returns proper UrlAlias Value.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testLookupOnMultilingualNestedLocations()
     {
@@ -1126,9 +1129,9 @@ class URLAliasServiceTest extends BaseTestCase
      * Test refreshSystemUrlAliasesForLocation historizes and changes current URL alias after
      * changing SlugConverter configuration.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      * @throws \ErrorException
      */
     public function testRefreshSystemUrlAliasesForLocationWithChangedSlugConverterConfiguration()
@@ -1189,15 +1192,15 @@ class URLAliasServiceTest extends BaseTestCase
     /**
      * Test that URL aliases are refreshed after changing URL alias schema Field name of a content type.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testRefreshSystemUrlAliasesForContentsWithUpdatedContentTypes()
     {
         [$topFolderLocation, $nestedFolderLocation] = $this->testLookupOnMultilingualNestedLocations();
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $topFolderLocation */
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $nestedFolderLocation */
+        /** @var Location $topFolderLocation */
+        /** @var Location $nestedFolderLocation */
         // Default URL Alias schema is <short_name|name> which messes up this test, so:
         $this->changeContentTypeUrlAliasSchema('folder', '<name>');
 
@@ -1242,9 +1245,9 @@ class URLAliasServiceTest extends BaseTestCase
     /**
      * Test that created non-latin aliases are non-empty and unique.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testCreateNonLatinNonEmptyUniqueAliases()
     {
@@ -1292,10 +1295,10 @@ class URLAliasServiceTest extends BaseTestCase
     /**
      * Test restoring missing current URL which has existing history.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Exception
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
+     * @throws Exception
      */
     public function testRefreshSystemUrlAliasesForMissingUrlWithHistory()
     {
@@ -1391,10 +1394,10 @@ class URLAliasServiceTest extends BaseTestCase
      *
      * @see https://issues.ibexa.co/browse/EZP-30004
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Exception
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
+     * @throws Exception
      */
     public function testRefreshSystemUrlAliasesForMovedLocation()
     {
@@ -1536,8 +1539,10 @@ class URLAliasServiceTest extends BaseTestCase
      * @param string $lookupUrl
      * @param int $expectedDestination Expected Location ID
      */
-    protected function assertUrlIsHistory($lookupUrl, $expectedDestination)
-    {
+    protected function assertUrlIsHistory(
+        $lookupUrl,
+        $expectedDestination
+    ) {
         $this->assertLookupHistory(true, $expectedDestination, $lookupUrl);
     }
 
@@ -1547,8 +1552,10 @@ class URLAliasServiceTest extends BaseTestCase
      * @param string $lookupUrl
      * @param int $expectedDestination Expected Location ID
      */
-    protected function assertUrlIsCurrent($lookupUrl, $expectedDestination)
-    {
+    protected function assertUrlIsCurrent(
+        $lookupUrl,
+        $expectedDestination
+    ) {
         $this->assertLookupHistory(false, $expectedDestination, $lookupUrl);
     }
 
@@ -1562,8 +1569,11 @@ class URLAliasServiceTest extends BaseTestCase
      * @param int $expectedDestination Expected Location ID
      * @param string $lookupUrl
      */
-    protected function assertLookupHistory($expectedIsHistory, $expectedDestination, $lookupUrl)
-    {
+    protected function assertLookupHistory(
+        $expectedIsHistory,
+        $expectedDestination,
+        $lookupUrl
+    ) {
         $urlAliasService = $this->getRepository(false)->getURLAliasService();
 
         try {
@@ -1584,17 +1594,20 @@ class URLAliasServiceTest extends BaseTestCase
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
+     * @param ContentInfo $contentInfo
      * @param $fieldDefinitionIdentifier
      * @param array $fieldValues
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws UnauthorizedException
      */
-    protected function updateContentField(ContentInfo $contentInfo, $fieldDefinitionIdentifier, array $fieldValues)
-    {
+    protected function updateContentField(
+        ContentInfo $contentInfo,
+        $fieldDefinitionIdentifier,
+        array $fieldValues
+    ) {
         $contentService = $this->getRepository(false)->getContentService();
 
         $contentUpdateStruct = $contentService->newContentUpdateStruct();
@@ -1654,10 +1667,12 @@ class URLAliasServiceTest extends BaseTestCase
      * @param string $value
      *
      * @throws \ErrorException
-     * @throws \Exception
+     * @throws Exception
      */
-    protected function changeSlugConverterConfiguration($key, $value)
-    {
+    protected function changeSlugConverterConfiguration(
+        $key,
+        $value
+    ) {
         $testSlugConverter = $this
             ->getSetupFactory()
             ->getServiceContainer()
@@ -1684,12 +1699,14 @@ class URLAliasServiceTest extends BaseTestCase
      * @param string $contentTypeIdentifier
      * @param string $newUrlAliasSchema
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
-    protected function changeContentTypeUrlAliasSchema($contentTypeIdentifier, $newUrlAliasSchema)
-    {
+    protected function changeContentTypeUrlAliasSchema(
+        $contentTypeIdentifier,
+        $newUrlAliasSchema
+    ) {
         $contentTypeService = $this->getRepository(false)->getContentTypeService();
 
         $contentType = $contentTypeService->loadContentTypeByIdentifier($contentTypeIdentifier);
@@ -1702,8 +1719,10 @@ class URLAliasServiceTest extends BaseTestCase
         $contentTypeService->publishContentTypeDraft($contentTypeDraft);
     }
 
-    private function assertUrlAliasPropertiesSame(array $expectedValues, URLAlias $urlAlias): void
-    {
+    private function assertUrlAliasPropertiesSame(
+        array $expectedValues,
+        URLAlias $urlAlias
+    ): void {
         self::assertSame(
             $expectedValues,
             [
@@ -1747,7 +1766,7 @@ class URLAliasServiceTest extends BaseTestCase
      *
      * @see testDeleteCorruptedUrlAliases
      *
-     * @param \Doctrine\DBAL\Connection $connection
+     * @param Connection $connection
      *
      * @return int Number of new rows
      */

@@ -8,6 +8,7 @@
 namespace Ibexa\Core\Helper\FieldsGroups;
 
 use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -23,7 +24,7 @@ final readonly class RepositoryConfigFieldsGroupsListFactory
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function build(TranslatorInterface $translator): FieldsGroupsList
     {

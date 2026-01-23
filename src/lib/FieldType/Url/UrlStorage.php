@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
 use Ibexa\Contracts\Core\FieldType\StorageGatewayInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Core\FieldType\Url\UrlStorage\Gateway;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -18,26 +19,30 @@ use Psr\Log\LoggerInterface;
  */
 class UrlStorage extends GatewayBasedStorage
 {
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     protected $logger;
 
-    /** @var \Ibexa\Core\FieldType\Url\UrlStorage\Gateway */
+    /** @var Gateway */
     protected StorageGatewayInterface $gateway;
 
     /**
      * Construct from gateways.
      *
-     * @param \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface $gateway
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param StorageGatewayInterface $gateway
+     * @param LoggerInterface $logger
      */
-    public function __construct(StorageGatewayInterface $gateway, ?LoggerInterface $logger = null)
-    {
+    public function __construct(
+        StorageGatewayInterface $gateway,
+        ?LoggerInterface $logger = null
+    ) {
         parent::__construct($gateway);
         $this->logger = $logger;
     }
 
-    public function storeFieldData(VersionInfo $versionInfo, Field $field): bool
-    {
+    public function storeFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ): bool {
         $url = $field->value->externalData;
 
         if (empty($url)) {
@@ -62,8 +67,10 @@ class UrlStorage extends GatewayBasedStorage
         return true;
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field)
-    {
+    public function getFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ) {
         $id = $field->value->data['urlId'];
         if (empty($id)) {
             $field->value->externalData = null;
@@ -81,8 +88,10 @@ class UrlStorage extends GatewayBasedStorage
         $field->value->externalData = isset($map[$id]) ? $map[$id] : '';
     }
 
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
-    {
+    public function deleteFieldData(
+        VersionInfo $versionInfo,
+        array $fieldIds
+    ) {
         foreach ($fieldIds as $fieldId) {
             $this->gateway->unlinkUrl($fieldId, $versionInfo->versionNo);
         }

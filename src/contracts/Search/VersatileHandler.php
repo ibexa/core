@@ -14,6 +14,4 @@ namespace Ibexa\Contracts\Core\Search;
  *
  * Note that in the next major VersatileHandler will be merged into Handler interface.
  */
-interface VersatileHandler extends Handler, Capable, ContentTranslationHandler
-{
-}
+interface VersatileHandler extends Handler, Capable, ContentTranslationHandler {}

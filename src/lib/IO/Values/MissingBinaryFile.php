@@ -12,6 +12,4 @@ namespace Ibexa\Core\IO\Values;
  *
  * Used for tolerance of var dir that does not match the database's content.
  */
-class MissingBinaryFile extends BinaryFile
-{
-}
+class MissingBinaryFile extends BinaryFile {}

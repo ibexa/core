@@ -17,20 +17,21 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\FieldType\ImageAsset\Value as ImageAssetValue;
 use Ibexa\Core\MVC\Symfony\FieldType\ImageAsset\ParameterProvider;
 use Ibexa\Core\Repository\SiteAccessAware\Repository;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ParameterProviderTest extends TestCase
 {
-    /** @var \Ibexa\Core\Repository\SiteAccessAware\Repository|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Repository|MockObject */
     private $repository;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PermissionResolver|MockObject */
     private $permissionsResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\FieldType\ImageAsset\ParameterProvider */
+    /** @var ParameterProvider */
     private $parameterProvider;
 
-    /** @var \Ibexa\Contracts\Core\Repository\FieldType|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FieldType|MockObject */
     private $fieldType;
 
     protected function setUp(): void
@@ -68,8 +69,10 @@ class ParameterProviderTest extends TestCase
     /**
      * @dataProvider dataProviderForTestGetViewParameters
      */
-    public function testGetViewParameters($status, array $expected): void
-    {
+    public function testGetViewParameters(
+        $status,
+        array $expected
+    ): void {
         $destinationContentId = 1;
 
         $this->fieldType
@@ -139,18 +142,27 @@ class ParameterProviderTest extends TestCase
         ;
 
         $this->permissionsResolver
-            ->expects(self::at(0))
+            ->expects(self::exactly(2))
             ->method('canUser')
-            ->with('content', 'read', $contentInfo)
-            ->willReturn(false)
-        ;
+            ->willReturnCallback(static function (
+                string $module,
+                string $function,
+                $object
+            ) use ($contentInfo): bool {
+                static $callCount = 0;
+                ++$callCount;
 
-        $this->permissionsResolver
-            ->expects(self::at(1))
-            ->method('canUser')
-            ->with('content', 'view_embed', $contentInfo)
-            ->willReturn(false)
-        ;
+                self::assertSame('content', $module);
+                self::assertSame($contentInfo, $object);
+
+                if ($callCount === 1) {
+                    self::assertSame('read', $function);
+                } elseif ($callCount === 2) {
+                    self::assertSame('view_embed', $function);
+                }
+
+                return false;
+            });
 
         $actual = $this->parameterProvider->getViewParameters(
             $this->createField($destinationContentId)
@@ -188,7 +200,7 @@ class ParameterProviderTest extends TestCase
     /**
      * @param int $destinationContentId
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field
+     * @return Field
      */
     private function createField(int $destinationContentId): Field
     {

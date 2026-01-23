@@ -21,8 +21,10 @@ final class BeforeUpdateUserTokenEvent extends BeforeEvent
 
     private ?User $updatedUser = null;
 
-    public function __construct(User $user, UserTokenUpdateStruct $userTokenUpdateStruct)
-    {
+    public function __construct(
+        User $user,
+        UserTokenUpdateStruct $userTokenUpdateStruct
+    ) {
         $this->user = $user;
         $this->userTokenUpdateStruct = $userTokenUpdateStruct;
     }

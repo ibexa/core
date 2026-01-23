@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query;
 
+use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion;
 
@@ -23,7 +24,7 @@ interface CriterionHandler
      *
      * accept() must be called before calling this method.
      *
-     * @return \Doctrine\DBAL\Query\Expression\CompositeExpression|string
+     * @return CompositeExpression|string
      */
     public function handle(
         CriteriaConverter $converter,

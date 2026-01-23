@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\QueryType\BuiltIn\SortClausesFactoryInterface;
 use Ibexa\Core\QueryType\QueryType;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractQueryTypeTestCase extends TestCase
@@ -22,16 +23,16 @@ abstract class AbstractQueryTypeTestCase extends TestCase
     protected const ROOT_LOCATION_ID = 2;
     protected const ROOT_LOCATION_PATH_STRING = '/1/2/';
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Repository|MockObject */
     private $repository;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ConfigResolverInterface|MockObject */
     private $configResolver;
 
-    /** @var \Ibexa\Core\QueryType\BuiltIn\SortClausesFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SortClausesFactoryInterface|MockObject */
     private $sortClausesFactory;
 
-    /** @var \Ibexa\Core\QueryType\QueryType */
+    /** @var QueryType */
     private $queryType;
 
     protected function setUp(): void
@@ -68,8 +69,10 @@ abstract class AbstractQueryTypeTestCase extends TestCase
     /**
      * @dataProvider dataProviderForGetQuery
      */
-    final public function testGetQuery(array $parameters, Query $expectedQuery): void
-    {
+    final public function testGetQuery(
+        array $parameters,
+        Query $expectedQuery
+    ): void {
         self::assertEquals($expectedQuery, $this->queryType->getQuery($parameters));
     }
 

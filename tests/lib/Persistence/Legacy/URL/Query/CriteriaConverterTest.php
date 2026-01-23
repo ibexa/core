@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 class CriteriaConverterTest extends TestCase
 {
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     public function testConvertCriteriaSuccess(): void
     {
@@ -69,7 +69,7 @@ class CriteriaConverterTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     public function testConvertCriteriaFailure(): void
     {

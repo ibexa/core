@@ -21,8 +21,7 @@ class NotificationServiceDecoratorTest extends TestCase
 {
     protected function createDecorator(MockObject $service): NotificationService
     {
-        return new class($service) extends NotificationServiceDecorator {
-        };
+        return new class($service) extends NotificationServiceDecorator {};
     }
 
     protected function createServiceMock(): MockObject

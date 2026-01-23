@@ -47,11 +47,14 @@ class InlineFragmentRenderer extends BaseRenderer implements SiteAccessAware, Fr
     /**
      * @param array<string, mixed> $options
      */
-    public function render(string|ControllerReference $uri, Request $request, array $options = []): Response
-    {
+    public function render(
+        string | ControllerReference $uri,
+        Request $request,
+        array $options = []
+    ): Response {
         if ($uri instanceof ControllerReference) {
             if ($request->attributes->has('siteaccess')) {
-                /** @var \Ibexa\Core\MVC\Symfony\SiteAccess $siteAccess */
+                /** @var SiteAccess $siteAccess */
                 $siteAccess = $request->attributes->get('siteaccess');
                 $this->siteAccessSerializer->serializeSiteAccessAsControllerAttributes($siteAccess, $uri);
             }

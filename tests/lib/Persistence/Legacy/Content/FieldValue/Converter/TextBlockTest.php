@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  */
 class TextBlockTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextBlockConverter */
+    /** @var TextBlockConverter */
     protected $converter;
 
     protected $longText;

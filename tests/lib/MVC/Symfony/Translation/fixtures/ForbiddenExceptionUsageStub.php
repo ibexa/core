@@ -9,9 +9,10 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\MVC\Symfony\Translation\fixtures;
 
 use Ibexa\Core\Base\Exceptions\ForbiddenException;
+use Ibexa\Tests\Core\MVC\Symfony\Translation\TranslatableExceptionsFileVisitorTest;
 
 /**
- * @see \Ibexa\Tests\Core\MVC\Symfony\Translation\TranslatableExceptionsFileVisitorTest
+ * @see TranslatableExceptionsFileVisitorTest
  */
 final class ForbiddenExceptionUsageStub
 {

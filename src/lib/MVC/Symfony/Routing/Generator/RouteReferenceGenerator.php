@@ -18,7 +18,7 @@ class RouteReferenceGenerator implements RouteReferenceGeneratorInterface
 {
     use RequestStackAware;
 
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface */
+    /** @var EventDispatcherInterface */
     private $dispatcher;
 
     public function __construct(EventDispatcherInterface $dispatcher)
@@ -33,10 +33,12 @@ class RouteReferenceGenerator implements RouteReferenceGeneratorInterface
      * @param mixed $resource The route name. Can be any resource supported by the different routers (e.g. Location object).
      * @param array $params Array of parameters, used to generate the final link along with $resource.
      *
-     * @return \Ibexa\Core\MVC\Symfony\Routing\RouteReference
+     * @return RouteReference
      */
-    public function generate($resource = null, array $params = [])
-    {
+    public function generate(
+        $resource = null,
+        array $params = []
+    ) {
         $request = $this->getCurrentRequest();
         if ($resource === null) {
             $resource = $request->attributes->get('_route');

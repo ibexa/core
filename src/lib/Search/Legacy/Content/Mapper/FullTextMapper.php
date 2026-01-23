@@ -9,7 +9,9 @@ namespace Ibexa\Core\Search\Legacy\Content\Mapper;
 
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\Type;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType;
 use Ibexa\Core\Search\Common\FieldRegistry;
@@ -25,20 +27,20 @@ class FullTextMapper
     /**
      * Field registry.
      *
-     * @var \Ibexa\Core\Search\Common\FieldRegistry
+     * @var FieldRegistry
      */
     protected $fieldRegistry;
 
     /**
      * Content type handler.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
+     * @var Handler
      */
     protected $contentTypeHandler;
 
     /**
-     * @param \Ibexa\Core\Search\Common\FieldRegistry $fieldRegistry
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\Handler $contentTypeHandler
+     * @param FieldRegistry $fieldRegistry
+     * @param Handler $contentTypeHandler
      */
     public function __construct(
         FieldRegistry $fieldRegistry,
@@ -51,9 +53,9 @@ class FullTextMapper
     /**
      * Map given Content to a FullTextValue.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content $content
+     * @param Content $content
      *
-     * @return \Ibexa\Core\Search\Legacy\Content\FullTextData
+     * @return FullTextData
      */
     public function mapContent(Content $content)
     {
@@ -72,11 +74,11 @@ class FullTextMapper
      * Returns an array of FullTextValue object containing searchable values of content object
      * fields for the given $content.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content $content
+     * @param Content $content
      *
-     * @return \Ibexa\Core\Search\Legacy\Content\FullTextValue[]
+     * @return FullTextValue[]
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     protected function getFullTextValues(Content $content): array
     {
@@ -84,7 +86,7 @@ class FullTextMapper
         foreach ($content->fields as $field) {
             $fieldDefinition = $this->contentTypeHandler->getFieldDefinition(
                 $field->fieldDefinitionId,
-                Content\Type::STATUS_DEFINED
+                Type::STATUS_DEFINED
             );
             if (!$fieldDefinition->isSearchable) {
                 continue;

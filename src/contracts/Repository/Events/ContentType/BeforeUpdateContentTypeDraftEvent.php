@@ -18,8 +18,10 @@ final class BeforeUpdateContentTypeDraftEvent extends BeforeEvent
 
     private ContentTypeUpdateStruct $contentTypeUpdateStruct;
 
-    public function __construct(ContentTypeDraft $contentTypeDraft, ContentTypeUpdateStruct $contentTypeUpdateStruct)
-    {
+    public function __construct(
+        ContentTypeDraft $contentTypeDraft,
+        ContentTypeUpdateStruct $contentTypeUpdateStruct
+    ) {
         $this->contentTypeDraft = $contentTypeDraft;
         $this->contentTypeUpdateStruct = $contentTypeUpdateStruct;
     }

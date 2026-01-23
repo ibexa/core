@@ -10,6 +10,8 @@ namespace Ibexa\Core\MVC\Symfony\EventListener;
 use Ibexa\Core\Helper\TranslationHelper;
 use Ibexa\Core\MVC\Symfony\Event\RouteReferenceGenerationEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
+use Ibexa\Core\MVC\Symfony\Routing\Generator;
+use Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -18,7 +20,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class LanguageSwitchListener implements EventSubscriberInterface
 {
-    /** @var \Ibexa\Core\Helper\TranslationHelper */
+    /** @var TranslationHelper */
     private $translationHelper;
 
     public function __construct(TranslationHelper $translationHelper)
@@ -38,10 +40,10 @@ class LanguageSwitchListener implements EventSubscriberInterface
      * If found, it will add "siteaccess" parameter to the RouteReference, to trigger SiteAccess switch when generating
      * the final link.
      *
-     * @see \Ibexa\Core\MVC\Symfony\Routing\Generator::generate
-     * @see \Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator::doGenerate
+     * @see Generator::generate
+     * @see UrlAliasGenerator::doGenerate
      *
-     * @param \Ibexa\Core\MVC\Symfony\Event\RouteReferenceGenerationEvent $event
+     * @param RouteReferenceGenerationEvent $event
      */
     public function onRouteReferenceGeneration(RouteReferenceGenerationEvent $event)
     {

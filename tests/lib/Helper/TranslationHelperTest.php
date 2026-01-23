@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Helper\TranslationHelper;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -22,21 +23,21 @@ class TranslationHelperTest extends TestCase
     private const int EXAMPLE_MAIN_LOCATION_ID = 999;
     private const string EXAMPLE_LANGUAGE_CODE = 'fre-FR';
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var MockObject|ConfigResolverInterface */
     private $configResolver;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Repository\ContentService */
+    /** @var MockObject|ContentService */
     private $contentService;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $logger;
 
-    /** @var \Ibexa\Core\Helper\TranslationHelper */
+    /** @var TranslationHelper */
     private $translationHelper;
 
     private $siteAccessByLanguages;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Field[] */
+    /** @var Field[] */
     private $translatedFields;
 
     /** @var string[] */
@@ -75,7 +76,7 @@ class TranslationHelperTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Repository\Values\Content\Content
+     * @return Content
      */
     private function generateContent()
     {
@@ -106,8 +107,10 @@ class TranslationHelperTest extends TestCase
      * @param array $prioritizedLanguages
      * @param string $expectedLocale
      */
-    public function testGetTranslatedName(array $prioritizedLanguages, $expectedLocale)
-    {
+    public function testGetTranslatedName(
+        array $prioritizedLanguages,
+        $expectedLocale
+    ) {
         $content = $this->generateContent();
         $this->configResolver
             ->expects(self::once())
@@ -124,8 +127,10 @@ class TranslationHelperTest extends TestCase
      * @param array $prioritizedLanguages
      * @param string $expectedLocale
      */
-    public function testGetTranslatedNameByContentInfo(array $prioritizedLanguages, $expectedLocale)
-    {
+    public function testGetTranslatedNameByContentInfo(
+        array $prioritizedLanguages,
+        $expectedLocale
+    ) {
         $versionInfo = $this->generateVersionInfo();
         $contentInfo = new ContentInfo([
             'id' => 123,
@@ -222,8 +227,10 @@ class TranslationHelperTest extends TestCase
      * @param array $prioritizedLanguages
      * @param string $expectedLocale
      */
-    public function getTranslatedField(array $prioritizedLanguages, $expectedLocale)
-    {
+    public function getTranslatedField(
+        array $prioritizedLanguages,
+        $expectedLocale
+    ) {
         $content = $this->generateContent();
         $this->configResolver
             ->expects(self::once())
@@ -269,8 +276,12 @@ class TranslationHelperTest extends TestCase
     /**
      * @dataProvider getTranslationSiteAccessProvider
      */
-    public function testGetTranslationSiteAccess($language, array $translationSiteAccesses, array $relatedSiteAccesses, $expectedResult)
-    {
+    public function testGetTranslationSiteAccess(
+        $language,
+        array $translationSiteAccesses,
+        array $relatedSiteAccesses,
+        $expectedResult
+    ) {
         $this->configResolver
             ->expects(self::exactly(2))
             ->method('getParameter')

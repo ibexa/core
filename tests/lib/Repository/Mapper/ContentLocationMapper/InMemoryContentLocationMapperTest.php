@@ -8,12 +8,13 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\Mapper\ContentLocationMapper;
 
+use Ibexa\Core\Repository\Mapper\ContentLocationMapper\ContentLocationMapper;
 use Ibexa\Core\Repository\Mapper\ContentLocationMapper\InMemoryContentLocationMapper;
 use PHPUnit\Framework\TestCase;
 
 class InMemoryContentLocationMapperTest extends TestCase
 {
-    /** @var \Ibexa\Core\Repository\Mapper\ContentLocationMapper\ContentLocationMapper */
+    /** @var ContentLocationMapper */
     private $mapper;
 
     protected function setUp(): void

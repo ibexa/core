@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\RepositoryConfigParser;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\RepositoryConfigParserInterface;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Configuration as SiteAccessConfiguration;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
@@ -21,7 +22,7 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 final class RepositoryConfigParserTest extends TestCase
 {
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testAddSemanticConfig(): void
     {

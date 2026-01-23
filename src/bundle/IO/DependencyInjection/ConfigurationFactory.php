@@ -55,5 +55,9 @@ interface ConfigurationFactory
      *
      * @param array<string, mixed> $config
      */
-    public function configureHandler(ContainerBuilder $container, ServiceDefinition $serviceDefinition, array $config): void;
+    public function configureHandler(
+        ContainerBuilder $container,
+        ServiceDefinition $serviceDefinition,
+        array $config
+    ): void;
 }

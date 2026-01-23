@@ -27,7 +27,7 @@ final class UserIdQueryBuilder extends BaseUserCriterionQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\UserId $criterion */
+        /** @var UserId $criterion */
         parent::buildQueryConstraint($queryBuilder, $criterion);
 
         $value = (array)$criterion->value;

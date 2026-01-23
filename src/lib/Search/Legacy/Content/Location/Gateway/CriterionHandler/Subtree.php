@@ -20,7 +20,7 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 class Subtree extends CriterionHandler
 {
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Subtree $criterion
+     * @param Criterion\Subtree $criterion
      */
     public function handle(
         CriteriaConverter $converter,

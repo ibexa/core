@@ -12,19 +12,21 @@ use Ibexa\Contracts\Core\Persistence\Content\LocationWithContentInfo;
 use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler;
 use Ibexa\Contracts\Core\Persistence\Filter\Location\LazyLocationListIterator;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationLegacyMapper;
+use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\GatewayDataMapper;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\GatewayDataMapper as ContentGatewayDataMapper;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway;
 
 class LocationFilteringHandler implements Handler
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway */
+    /** @var Gateway */
     private $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Location\Mapper */
+    /** @var Mapper */
     private $locationMapper;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\GatewayDataMapper */
+    /** @var GatewayDataMapper */
     private $contentGatewayDataMapper;
 
     public function __construct(

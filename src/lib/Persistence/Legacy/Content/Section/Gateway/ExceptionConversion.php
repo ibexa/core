@@ -21,34 +21,39 @@ final class ExceptionConversion extends Gateway
     /**
      * The wrapped gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway
+     * @var Gateway
      */
     private $innerGateway;
 
     /**
      * Creates a new exception conversion gateway around $innerGateway.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway $innerGateway
+     * @param Gateway $innerGateway
      */
     public function __construct(Gateway $innerGateway)
     {
         $this->innerGateway = $innerGateway;
     }
 
-    public function insertSection(string $name, string $identifier): int
-    {
+    public function insertSection(
+        string $name,
+        string $identifier
+    ): int {
         try {
             return $this->innerGateway->insertSection($name, $identifier);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function updateSection(int $id, string $name, string $identifier): void
-    {
+    public function updateSection(
+        int $id,
+        string $name,
+        string $identifier
+    ): void {
         try {
             $this->innerGateway->updateSection($id, $name, $identifier);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -57,7 +62,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadSectionData($id);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -66,7 +71,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadAllSectionData();
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -75,7 +80,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadSectionDataByIdentifier($identifier);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -84,7 +89,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countContentObjectsInSection($id);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -93,7 +98,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countPoliciesUsingSection($id);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -102,7 +107,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countRoleAssignmentsUsingSection($id);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -111,16 +116,18 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->deleteSection($id);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
 
-    public function assignSectionToContent(int $sectionId, int $contentId): void
-    {
+    public function assignSectionToContent(
+        int $sectionId,
+        int $contentId
+    ): void {
         try {
             $this->innerGateway->assignSectionToContent($sectionId, $contentId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }

@@ -25,8 +25,10 @@ class ExposedRoutesExtractor implements ExposedRoutesExtractorInterface
 
     private RequestStack $requestStack;
 
-    public function __construct(ExposedRoutesExtractorInterface $innerExtractor, RequestStack $requestStack)
-    {
+    public function __construct(
+        ExposedRoutesExtractorInterface $innerExtractor,
+        RequestStack $requestStack
+    ) {
         $this->innerExtractor = $innerExtractor;
         $this->requestStack = $requestStack;
     }
@@ -85,8 +87,10 @@ class ExposedRoutesExtractor implements ExposedRoutesExtractorInterface
         return $this->innerExtractor->getPort() ?? '';
     }
 
-    public function isRouteExposed(Route $route, string $name): bool
-    {
+    public function isRouteExposed(
+        Route $route,
+        string $name
+    ): bool {
         return $this->innerExtractor->isRouteExposed($route, $name);
     }
 }

@@ -33,6 +33,7 @@ use Ibexa\Core\Persistence\Cache\URLHandler as CacheUrlHandler;
 use Ibexa\Core\Persistence\Cache\UrlWildcardHandler as CacheUrlWildcardHandler;
 use Ibexa\Core\Persistence\Cache\UserHandler as CacheUserHandler;
 use Ibexa\Core\Persistence\Cache\UserPreferenceHandler as CacheUserPreferenceHandler;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\CacheItem;
 
@@ -41,34 +42,34 @@ use Symfony\Component\Cache\CacheItem;
  */
 abstract class AbstractBaseHandlerTestCase extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var TransactionalInMemoryCacheAdapter|MockObject */
     protected $cacheMock;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Handler|MockObject */
     protected $persistenceHandlerMock;
 
-    /** @var \Ibexa\Core\Persistence\Cache\Handler */
+    /** @var CacheHandler */
     protected $persistenceCacheHandler;
 
-    /** @var \Ibexa\Core\Persistence\Cache\PersistenceLogger|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PersistenceLogger|MockObject */
     protected $loggerMock;
 
-    /** @var \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var InMemoryCache|MockObject */
     protected $inMemoryMock;
 
     /** @var \Closure */
     protected $cacheItemsClosure;
 
-    /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var CacheIdentifierGeneratorInterface|MockObject */
     protected $cacheIdentifierGeneratorMock;
 
-    /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierSanitizer */
+    /** @var CacheIdentifierSanitizer */
     protected $cacheIdentifierSanitizer;
 
-    /** @var \Ibexa\Core\Persistence\Cache\LocationPathConverter */
+    /** @var LocationPathConverter */
     protected $locationPathConverter;
 
-    /** @var \Ibexa\Core\Persistence\Cache\CacheIndicesValidatorInterface */
+    /** @var CacheIndicesValidatorInterface */
     protected $cacheIndicesValidator;
 
     /**
@@ -112,7 +113,12 @@ abstract class AbstractBaseHandlerTestCase extends TestCase
         );
 
         $this->cacheItemsClosure = \Closure::bind(
-            static function ($key, $value, $isHit, $defaultLifetime = 0) {
+            static function (
+                $key,
+                $value,
+                $isHit,
+                $defaultLifetime = 0
+            ) {
                 $item = new CacheItem();
                 $item->key = $key;
                 $item->value = $value;
@@ -127,16 +133,18 @@ abstract class AbstractBaseHandlerTestCase extends TestCase
         );
     }
 
-
     /**
      * @param $key
      * @param null $value If null the cache item will be assumed to be a cache miss here.
      * @param int $defaultLifetime
      *
-     * @return \Symfony\Component\Cache\CacheItem
+     * @return CacheItem
      */
-    final protected function getCacheItem($key, $value = null, $defaultLifetime = 0)
-    {
+    final protected function getCacheItem(
+        $key,
+        $value = null,
+        $defaultLifetime = 0
+    ) {
         $cacheItemsClosure = $this->cacheItemsClosure;
 
         return $cacheItemsClosure($key, $value, (bool)$value, $defaultLifetime);

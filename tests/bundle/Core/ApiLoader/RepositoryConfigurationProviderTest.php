@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Bundle\Core\ApiLoader;
 
 use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidRepositoryException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -21,7 +22,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 final class RepositoryConfigurationProviderTest extends BaseRepositoryConfigurationProviderTestCase
 {
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testGetRepositoryConfigSpecifiedRepository(): void
     {
@@ -42,7 +43,7 @@ final class RepositoryConfigurationProviderTest extends BaseRepositoryConfigurat
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testGetRepositoryConfigNotSpecifiedRepository(): void
     {
@@ -65,7 +66,7 @@ final class RepositoryConfigurationProviderTest extends BaseRepositoryConfigurat
      *
      * @phpstan-param TRepositoryListConfiguration $repositories
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testGetRepositoryConfigUndefinedRepository(array $repositories): void
     {
@@ -87,7 +88,7 @@ final class RepositoryConfigurationProviderTest extends BaseRepositoryConfigurat
      *
      * @phpstan-param TRepositoryListConfiguration $repositories
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testGetDefaultRepositoryAlias(array $repositories): void
     {

@@ -218,13 +218,13 @@ class UrlWildcardHandlerTest extends TestCase
         ],
     ];
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase */
+    /** @var DoctrineDatabase */
     protected $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper */
+    /** @var Mapper */
     protected $mapper;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler */
+    /** @var UrlWildcard\Handler */
     protected $urlWildcardHandler;
 
     protected function getHandler(): UrlWildcard\Handler

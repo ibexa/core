@@ -9,12 +9,15 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\Filtering;
 
 use function array_map;
+
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Tests\Integration\Core\Repository\Filtering\Fixtures\LegacyLocationSortClause;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
+
 use function iterator_to_array;
 
 /**
@@ -78,7 +81,7 @@ final class LegacyContentFilteringTest extends RepositoryTestCase
         $contentTypeService = self::getContentTypeService();
         $locationService = self::getLocationService();
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $folderType */
+        /** @var ContentType $folderType */
         $folderType = $contentTypeService->loadContentTypeByIdentifier('folder');
         $createStruct = $contentService->newContentCreateStruct($folderType, 'eng-GB');
         $createStruct->setField('name', $name, 'eng-GB');

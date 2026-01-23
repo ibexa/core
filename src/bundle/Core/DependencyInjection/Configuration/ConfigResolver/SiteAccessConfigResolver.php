@@ -12,13 +12,14 @@ use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
 use Ibexa\Core\MVC\Symfony\Configuration\VersatileScopeInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface;
 
 abstract class SiteAccessConfigResolver implements VersatileScopeInterface, SiteAccessAware
 {
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface */
+    /** @var SiteAccessProviderInterface */
     protected $siteAccessProvider;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    /** @var SiteAccess */
     protected $currentSiteAccess;
 
     /** @var string */
@@ -28,15 +29,18 @@ abstract class SiteAccessConfigResolver implements VersatileScopeInterface, Site
     protected $defaultNamespace;
 
     public function __construct(
-        SiteAccess\SiteAccessProviderInterface $siteAccessProvider,
+        SiteAccessProviderInterface $siteAccessProvider,
         string $defaultNamespace
     ) {
         $this->siteAccessProvider = $siteAccessProvider;
         $this->defaultNamespace = $defaultNamespace;
     }
 
-    public function hasParameter(string $paramName, ?string $namespace = null, ?string $scope = null): bool
-    {
+    public function hasParameter(
+        string $paramName,
+        ?string $namespace = null,
+        ?string $scope = null
+    ): bool {
         [$namespace, $scope] = $this->resolveNamespaceAndScope($namespace, $scope);
         if (!$this->isSiteAccessScope($scope)) {
             return false;
@@ -50,8 +54,11 @@ abstract class SiteAccessConfigResolver implements VersatileScopeInterface, Site
         return $this->resolverHasParameter($siteAccess, $paramName, $namespace);
     }
 
-    public function getParameter(string $paramName, ?string $namespace = null, ?string $scope = null)
-    {
+    public function getParameter(
+        string $paramName,
+        ?string $namespace = null,
+        ?string $scope = null
+    ) {
         [$namespace, $scope] = $this->resolveNamespaceAndScope($namespace, $scope);
 
         if (!$this->isSiteAccessScope($scope)) {
@@ -104,22 +111,38 @@ abstract class SiteAccessConfigResolver implements VersatileScopeInterface, Site
         return true;
     }
 
-    protected function resolveScopeRelativeParamName(string $paramName, ?string $namespace = null, ?string $scope = null): string
-    {
+    protected function resolveScopeRelativeParamName(
+        string $paramName,
+        ?string $namespace = null,
+        ?string $scope = null
+    ): string {
         return $this->getScopeRelativeParamName($paramName, ...$this->resolveNamespaceAndScope($namespace, $scope));
     }
 
-    protected function resolveNamespaceAndScope(?string $namespace = null, ?string $scope = null): array
-    {
+    protected function resolveNamespaceAndScope(
+        ?string $namespace = null,
+        ?string $scope = null
+    ): array {
         return [$namespace ?: $this->getDefaultNamespace(), $scope ?: $this->getDefaultScope()];
     }
 
-    protected function getScopeRelativeParamName(string $paramName, string $namespace, string $scope): string
-    {
+    protected function getScopeRelativeParamName(
+        string $paramName,
+        string $namespace,
+        string $scope
+    ): string {
         return "$namespace.$scope.$paramName";
     }
 
-    abstract protected function resolverHasParameter(SiteAccess $siteAccess, string $paramName, string $namespace): bool;
+    abstract protected function resolverHasParameter(
+        SiteAccess $siteAccess,
+        string $paramName,
+        string $namespace
+    ): bool;
 
-    abstract protected function getParameterFromResolver(SiteAccess $siteAccess, string $paramName, string $namespace);
+    abstract protected function getParameterFromResolver(
+        SiteAccess $siteAccess,
+        string $paramName,
+        string $namespace
+    );
 }

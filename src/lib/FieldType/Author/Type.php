@@ -8,6 +8,7 @@
 namespace Ibexa\Core\FieldType\Author;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\FieldType;
@@ -56,10 +57,13 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\Author\Value $value
+     * @param Value $value
      */
-    public function getName(SPIValue $value, FieldDefinition $fieldDefinition, string $languageCode): string
-    {
+    public function getName(
+        SPIValue $value,
+        FieldDefinition $fieldDefinition,
+        string $languageCode
+    ): string {
         return $value->authors[0]->name ?? '';
     }
 
@@ -67,7 +71,7 @@ class Type extends FieldType implements TranslationContainerInterface
      * Returns the fallback default value of field type when no such default
      * value is provided in the field definition in content types.
      *
-     * @return \Ibexa\Core\FieldType\Author\Value
+     * @return Value
      */
     public function getEmptyValue()
     {
@@ -77,9 +81,9 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Inspects given $inputValue and potentially converts it into a dedicated value object.
      *
-     * @param array|\Ibexa\Core\FieldType\Author\Value $inputValue
+     * @param array|Value $inputValue
      *
-     * @return \Ibexa\Core\FieldType\Author\Value The potentially converted and structurally plausible value.
+     * @return Value The potentially converted and structurally plausible value.
      */
     protected function createValueFromInput($inputValue)
     {
@@ -93,9 +97,9 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Throws an exception if value structure is not of expected format.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
+     * @throws InvalidArgumentException If the value does not match the expected structure.
      *
-     * @param \Ibexa\Core\FieldType\Author\Value $value
+     * @param Value $value
      */
     protected function checkValueStructure(BaseValue $value)
     {
@@ -109,7 +113,7 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\Author\Value $value
+     * @param Value $value
      */
     protected function getSortInfo(BaseValue $value)
     {
@@ -132,7 +136,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @phpstan-param TAuthorHash $hash
      *
-     * @return \Ibexa\Core\FieldType\Author\Value $value
+     * @return Value $value
      */
     public function fromHash($hash)
     {
@@ -149,7 +153,7 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Converts a $Value to a hash.
      *
-     * @param \Ibexa\Core\FieldType\Author\Value $value
+     * @param Value $value
      *
      * @phpstan-return TAuthorHash
      */
@@ -235,8 +239,10 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError|null
      */
-    private function validateDefaultAuthorSetting($name, $value)
-    {
+    private function validateDefaultAuthorSetting(
+        $name,
+        $value
+    ) {
         $definedValues = [
             self::DEFAULT_VALUE_EMPTY,
             self::DEFAULT_CURRENT_USER,

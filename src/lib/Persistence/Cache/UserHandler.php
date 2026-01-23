@@ -190,7 +190,7 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
      */
     public function loadByEmail(string $email): User
     {
-        /** @var \Ibexa\Contracts\Core\Persistence\User $cachedValue */
+        /** @var User $cachedValue */
         $cachedValue = $this->getCacheValue(
             $this->cacheIdentifierSanitizer->escapeForCacheKey($email),
             $this->cacheIdentifierGenerator->generateKey(self::USER_IDENTIFIER, [], true) . '-',
@@ -396,8 +396,10 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
     /**
      * {@inheritdoc}
      */
-    public function loadRole($roleId, $status = Role::STATUS_DEFINED)
-    {
+    public function loadRole(
+        $roleId,
+        $status = Role::STATUS_DEFINED
+    ) {
         if ($status !== Role::STATUS_DEFINED) {
             $this->logger->logCall(__METHOD__, ['role' => $roleId]);
 
@@ -418,8 +420,10 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
     /**
      * {@inheritdoc}
      */
-    public function loadRoleByIdentifier($identifier, $status = Role::STATUS_DEFINED)
-    {
+    public function loadRoleByIdentifier(
+        $identifier,
+        $status = Role::STATUS_DEFINED
+    ) {
         if ($status !== Role::STATUS_DEFINED) {
             $this->logger->logCall(__METHOD__, ['role' => $identifier]);
 
@@ -497,8 +501,11 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
         );
     }
 
-    public function loadRoleAssignmentsByRoleIdWithOffsetAndLimit(int $roleId, int $offset, ?int $limit): array
-    {
+    public function loadRoleAssignmentsByRoleIdWithOffsetAndLimit(
+        int $roleId,
+        int $offset,
+        ?int $limit
+    ): array {
         return $this->getListCacheValue(
             $this->cacheIdentifierGenerator->generateKey(
                 self::ROLE_ASSIGNMENT_WITH_BY_ROLE_SUFFIX_OFFSET_LIMIT_IDENTIFIER,
@@ -537,8 +544,10 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
     /**
      * {@inheritdoc}
      */
-    public function loadRoleAssignmentsByGroupId($groupId, $inherit = false)
-    {
+    public function loadRoleAssignmentsByGroupId(
+        $groupId,
+        $inherit = false
+    ) {
         $innerHandler = $this->persistenceHandler;
         if ($inherit) {
             $key = $this->cacheIdentifierGenerator->generateKey(
@@ -598,8 +607,10 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
     /**
      * {@inheritdoc}
      */
-    public function deleteRole($roleId, $status = Role::STATUS_DEFINED)
-    {
+    public function deleteRole(
+        $roleId,
+        $status = Role::STATUS_DEFINED
+    ) {
         $this->logger->logCall(__METHOD__, ['role' => $roleId]);
         $return = $this->persistenceHandler->userHandler()->deleteRole($roleId, $status);
 
@@ -636,8 +647,10 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
     /**
      * {@inheritdoc}
      */
-    public function addPolicyByRoleDraft($roleId, Policy $policy)
-    {
+    public function addPolicyByRoleDraft(
+        $roleId,
+        Policy $policy
+    ) {
         $this->logger->logCall(__METHOD__, ['role' => $roleId, 'struct' => $policy]);
 
         return $this->persistenceHandler->userHandler()->addPolicyByRoleDraft($roleId, $policy);
@@ -646,8 +659,10 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
     /**
      * {@inheritdoc}
      */
-    public function addPolicy($roleId, Policy $policy)
-    {
+    public function addPolicy(
+        $roleId,
+        Policy $policy
+    ) {
         $this->logger->logCall(__METHOD__, ['role' => $roleId, 'struct' => $policy]);
         $return = $this->persistenceHandler->userHandler()->addPolicy($roleId, $policy);
 
@@ -677,8 +692,10 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
     /**
      * {@inheritdoc}
      */
-    public function deletePolicy($policyId, $roleId)
-    {
+    public function deletePolicy(
+        $policyId,
+        $roleId
+    ) {
         $this->logger->logCall(__METHOD__, ['policy' => $policyId]);
         $this->persistenceHandler->userHandler()->deletePolicy($policyId, $roleId);
 
@@ -691,8 +708,11 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
     /**
      * {@inheritdoc}
      */
-    public function assignRole($contentId, $roleId, ?array $limitation = null)
-    {
+    public function assignRole(
+        $contentId,
+        $roleId,
+        ?array $limitation = null
+    ) {
         $this->logger->logCall(__METHOD__, ['group' => $contentId, 'role' => $roleId, 'limitation' => $limitation]);
         $return = $this->persistenceHandler->userHandler()->assignRole($contentId, $roleId, $limitation);
 
@@ -714,8 +734,10 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
     /**
      * {@inheritdoc}
      */
-    public function unassignRole($contentId, $roleId)
-    {
+    public function unassignRole(
+        $contentId,
+        $roleId
+    ) {
         $this->logger->logCall(__METHOD__, ['group' => $contentId, 'role' => $roleId]);
         $return = $this->persistenceHandler->userHandler()->unassignRole($contentId, $roleId);
 

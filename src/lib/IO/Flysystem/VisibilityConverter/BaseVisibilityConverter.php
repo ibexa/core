@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\IO\Flysystem\VisibilityConverter;
 
 use League\Flysystem\PortableVisibilityGuard;
+use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use League\Flysystem\UnixVisibility\VisibilityConverter;
 use League\Flysystem\Visibility;
 
@@ -19,8 +20,8 @@ use League\Flysystem\Visibility;
  * settings from strategy-based Visibility Converter. For private visibility relies on Flysystem's
  * native implementation of a Visibility Converter.
  *
- * @see \League\Flysystem\Visibility
- * @see \League\Flysystem\UnixVisibility\PortableVisibilityConverter
+ * @see Visibility
+ * @see PortableVisibilityConverter
  */
 abstract class BaseVisibilityConverter implements VisibilityConverter
 {

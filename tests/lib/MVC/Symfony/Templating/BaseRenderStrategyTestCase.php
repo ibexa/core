@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\MVC\Symfony\Templating;
 
+use Ibexa\Contracts\Core\MVC\Templating\BaseRenderStrategy;
 use Ibexa\Contracts\Core\MVC\Templating\RenderStrategy;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
@@ -26,9 +27,9 @@ use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 abstract class BaseRenderStrategyTestCase extends TestCase
 {
     /**
-     * @phpstan-param class-string<\Ibexa\Contracts\Core\MVC\Templating\BaseRenderStrategy> $typeClass
+     * @phpstan-param class-string<BaseRenderStrategy> $typeClass
      *
-     * @param \Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface[] $fragmentRenderers
+     * @param FragmentRendererInterface[] $fragmentRenderers
      */
     public function createRenderStrategy(
         string $typeClass,
@@ -57,8 +58,7 @@ abstract class BaseRenderStrategyTestCase extends TestCase
             public function __construct(
                 private string $name,
                 private ?string $rendered
-            ) {
-            }
+            ) {}
 
             public function getName(): string
             {
@@ -69,7 +69,7 @@ abstract class BaseRenderStrategyTestCase extends TestCase
              * @param array<string, mixed> $options
              */
             public function render(
-                string|ControllerReference $uri,
+                string | ControllerReference $uri,
                 Request $request,
                 array $options = []
             ): Response {
@@ -78,8 +78,10 @@ abstract class BaseRenderStrategyTestCase extends TestCase
         };
     }
 
-    public function createLocation(APIContent $content, int $id): APILocation
-    {
+    public function createLocation(
+        APIContent $content,
+        int $id
+    ): APILocation {
         return new Location([
             'id' => $id,
             'contentInfo' => $content->versionInfo->contentInfo,

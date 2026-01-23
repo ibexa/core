@@ -16,5 +16,8 @@ use Symfony\Component\HttpKernel\Controller\ControllerReference;
  */
 interface SiteAccessSerializerInterface
 {
-    public function serializeSiteAccessAsControllerAttributes(SiteAccess $siteAccess, ControllerReference $controller): void;
+    public function serializeSiteAccessAsControllerAttributes(
+        SiteAccess $siteAccess,
+        ControllerReference $controller
+    ): void;
 }
