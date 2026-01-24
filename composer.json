@@ -33,7 +33,7 @@
         "liip/imagine-bundle": "^2.3",
         "nelmio/cors-bundle": "^2.0",
         "oneup/flysystem-bundle": "^4.4.2",
-        "pagerfanta/pagerfanta": "^3.6.2",
+        "pagerfanta/pagerfanta": "^3.6.2 || ^4.7",
         "psr/event-dispatcher": "^1.0",
         "symfony-cmf/routing": "^3.0",
         "symfony/cache": "^7.3",
