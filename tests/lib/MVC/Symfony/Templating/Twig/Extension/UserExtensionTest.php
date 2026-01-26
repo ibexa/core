@@ -79,7 +79,7 @@ final class UserExtensionTest extends IntegrationTestCase
         return $this->users[$id];
     }
 
-    protected function getFixturesDir(): string
+    protected static function getFixturesDirectory(): string
     {
         return __DIR__ . '/_fixtures/user_functions';
     }

@@ -180,7 +180,7 @@ class Content extends APIContent
      */
     protected function getProperties(
         $dynamicProperties = ['id',
-        'contentInfo']
+            'contentInfo']
     ) {
         return parent::getProperties($dynamicProperties);
     }

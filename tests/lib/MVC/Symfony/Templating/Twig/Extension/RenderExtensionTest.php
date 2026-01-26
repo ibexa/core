@@ -56,7 +56,7 @@ final class RenderExtensionTest extends IntegrationTestCase
         ];
     }
 
-    protected function getFixturesDir(): string
+    protected static function getFixturesDirectory(): string
     {
         return __DIR__ . '/_fixtures/render';
     }

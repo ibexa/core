@@ -69,7 +69,7 @@ class TrashItem extends APITrashItem
      */
     protected function getProperties(
         $dynamicProperties = ['contentId',
-        'path']
+            'path']
     ) {
         return parent::getProperties($dynamicProperties);
     }
