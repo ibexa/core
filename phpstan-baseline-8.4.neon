@@ -1,0 +1,37 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Cannot unset property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\:\:\$id because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: tests/lib/Repository/Values/Content/LocationTest.php
+
+		-
+			message: '#^Cannot unset property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\:\:\$id because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: tests/lib/Repository/Values/Content/TrashItemTest.php
+
+		-
+			message: '#^Cannot unset property Ibexa\\Contracts\\Core\\Repository\\Values\\User\\Policy\:\:\$id because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: tests/lib/Repository/Values/User/PolicyTest.php
+
+		-
+			message: '#^Cannot unset property Ibexa\\Contracts\\Core\\Repository\\Values\\User\\Role\:\:\$id because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: tests/lib/Repository/Values/User/RoleTest.php
+
+		-
+			message: '#^Cannot unset property Ibexa\\Contracts\\Core\\Repository\\Values\\User\\UserGroup\:\:\$parentId because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: tests/lib/Repository/Values/User/UserGroupTest.php
+
+		-
+			message: '#^Cannot unset property Ibexa\\Contracts\\Core\\Repository\\Values\\User\\User\:\:\$login because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: tests/lib/Repository/Values/User/UserTest.php
