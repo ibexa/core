@@ -119,7 +119,7 @@ class SelectionConverter implements Converter
         }
 
         foreach ($storageDef->multilingualData as $languageCode => $mlData) {
-            $xml = isset($mlData->dataText) ? simplexml_load_string($mlData->dataText) : false;
+            $xml = $mlData->dataText ? simplexml_load_string($mlData->dataText) : false;
             if ($xml !== false) {
                 foreach ($xml->options->option as $option) {
                     $multiLingualOptions[$languageCode][(int)$option['id']] = (string)$option['name'];
