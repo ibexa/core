@@ -54,8 +54,7 @@ abstract class BaseRenderStrategyTest extends TestCase
             /** @var string */
             private $name;
 
-            /** @var string|null */
-            private $rendered;
+            private ?string $rendered;
 
             public function __construct(
                 string $name,
@@ -101,8 +100,8 @@ abstract class BaseRenderStrategyTest extends TestCase
     }
 
     /**
-     * @param \Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface|\PHPUnit\Framework\MockObject\MockObject $fragmentRendererMock
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject|\PHPUnit\Framework\MockObject\MockObject $valueObjectMock
+     * @param \Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface&\PHPUnit\Framework\MockObject\MockObject $fragmentRendererMock
+     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject&\PHPUnit\Framework\MockObject\MockObject $valueObjectMock
      * @param class-string<RenderStrategy> $renderStrategyClass
      */
     public function forwardParamOptionsToFragmentRenderer(
@@ -140,9 +139,9 @@ abstract class BaseRenderStrategyTest extends TestCase
         );
 
         /** @var \Ibexa\Contracts\Core\Repository\Values\ValueObject&\PHPUnit\Framework\MockObject\MockObject $valueObjectMock */
-        TestCase::assertTrue($renderContentStrategy->supports($valueObjectMock));
+        self::assertTrue($renderContentStrategy->supports($valueObjectMock));
 
-        TestCase::assertSame(
+        self::assertSame(
             'fragment_render_mock_rendered',
             $renderContentStrategy->render($valueObjectMock, new RenderOptions([
                 'method' => 'fragment_render_mock',
