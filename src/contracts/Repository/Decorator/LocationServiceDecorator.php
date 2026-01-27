@@ -81,14 +81,14 @@ abstract class LocationServiceDecorator implements LocationService
         return $this->innerService->loadParentLocationsForDraftContent($versionInfo, $prioritizedLanguages);
     }
 
-    public function getLocationChildCount(Location $location): int
+    public function getLocationChildCount(Location $location, ?int $limit = null): int
     {
-        return $this->innerService->getLocationChildCount($location);
+        return $this->innerService->getLocationChildCount($location, $limit);
     }
 
-    public function getSubtreeSize(Location $location): int
+    public function getSubtreeSize(Location $location, ?int $limit = null): int
     {
-        return $this->innerService->getSubtreeSize($location);
+        return $this->innerService->getSubtreeSize($location, $limit);
     }
 
     public function createLocation(
@@ -159,8 +159,8 @@ abstract class LocationServiceDecorator implements LocationService
         return $this->innerService->find($filter, $languages);
     }
 
-    public function count(Filter $filter, ?array $languages = null): int
+    public function count(Filter $filter, ?array $languages = null, ?int $limit = null): int
     {
-        return $this->innerService->count($filter, $languages);
+        return $this->innerService->count($filter, $languages, $limit);
     }
 }

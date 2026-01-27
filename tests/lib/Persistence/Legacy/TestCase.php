@@ -17,6 +17,7 @@ use Ibexa\Contracts\Core\Test\Persistence\Fixture\FileFixtureFactory;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
+use Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder;
 use Ibexa\Core\Persistence\Legacy\SharedGateway;
 use Ibexa\Core\Search\Legacy\Content;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
@@ -346,5 +347,10 @@ abstract class TestCase extends BaseTestCase
                 new Content\Location\Gateway\SortClauseHandler\Location\Priority($connection),
             ]
         );
+    }
+
+    protected function getLimitedCountQueryBuilderDependency(): LimitedCountQueryBuilder
+    {
+        return new LimitedCountQueryBuilder($this->getDatabaseConnection());
     }
 }
