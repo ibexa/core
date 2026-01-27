@@ -127,7 +127,6 @@ abstract class BaseRenderStrategyTest extends TestCase
 
                     return $controllerReference->attributes['params'] === $params;
                 }),
-                self::anything(),
             )
             ->willReturn(new Response('fragment_render_mock_rendered'));
 
