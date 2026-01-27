@@ -59,14 +59,6 @@ abstract class AbstractServiceTestCase extends TestCase
         );
     }
 
-    protected function tearDown(): void
-    {
-        unset($this->service);
-        unset($this->languageResolverMock);
-        unset($this->innerApiServiceMock);
-        parent::tearDown();
-    }
-
     /**
      * @return array See signature on {@link testForPassTrough} for arguments and their type.
      */

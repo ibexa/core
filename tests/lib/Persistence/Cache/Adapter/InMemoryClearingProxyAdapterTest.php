@@ -63,18 +63,6 @@ class InMemoryClearingProxyAdapterTest extends TestCase
         );
     }
 
-    /**
-     * Tear down test (properties).
-     */
-    protected function tearDown(): void
-    {
-        unset($this->cache);
-        unset($this->innerPool);
-        unset($this->inMemory);
-
-        parent::tearDown();
-    }
-
     public function testGetItem()
     {
         $item = $this->createCacheItem('first');
