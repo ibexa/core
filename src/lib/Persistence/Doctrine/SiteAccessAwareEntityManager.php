@@ -19,6 +19,7 @@ use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Doctrine\ORM\NativeQuery;
 use Doctrine\ORM\Proxy\ProxyFactory;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\Query\FilterCollection;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\QueryBuilder;
@@ -47,7 +48,7 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface
         return $this->getWrapped()->getConnection();
     }
 
-    public function getExpressionBuilder(): Query\Expr
+    public function getExpressionBuilder(): Expr
     {
         return $this->getWrapped()->getExpressionBuilder();
     }
