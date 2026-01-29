@@ -367,8 +367,9 @@ services:
             - { name: console.command }
 
     ibexa.doctrine.orm.entity_manager:
-        class: Doctrine\ORM\EntityManager
-        factory: ['@ibexa.doctrine.orm.entity_manager_factory', 'getEntityManager']
+        class: Ibexa\Core\Persistence\Doctrine\SiteAccessAwareEntityManager
+        arguments:
+            $entityManagerFactory: '@ibexa.doctrine.orm.entity_manager_factory'
 
     ibexa.doctrine.orm.entity_manager_factory:
         class: Ibexa\Bundle\Core\Entity\EntityManagerFactory
