@@ -26,13 +26,6 @@ use Doctrine\ORM\UnitOfWork;
 use Ibexa\Bundle\Core\Entity\EntityManagerFactory;
 
 /**
- * A non-lazy decorator for EntityManager that resolves the actual EntityManager
- * lazily on first use via EntityManagerFactory.
- *
- * This decorator solves the PHP 8.4 lazy proxy compatibility issue where Symfony's
- * lazy proxy mechanism cannot handle nested lazy services. By implementing explicit
- * lazy resolution, we avoid the "Lazy proxy factory must return a non-lazy object" error.
- *
  * @internal
  */
 final class SiteAccessAwareEntityManager implements EntityManagerInterface
@@ -64,9 +57,6 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface
         $this->getWrapped()->beginTransaction();
     }
 
-    /**
-     * @deprecated Use {@see wrapInTransaction()} instead.
-     */
     public function transactional($func): mixed
     {
         return $this->getWrapped()->transactional($func);
@@ -92,9 +82,6 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface
         return $this->getWrapped()->createQuery($dql);
     }
 
-    /**
-     * @deprecated
-     */
     public function createNamedQuery($name): Query
     {
         return $this->getWrapped()->createNamedQuery($name);
@@ -105,9 +92,6 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface
         return $this->getWrapped()->createNativeQuery($sql, $rsm);
     }
 
-    /**
-     * @deprecated
-     */
     public function createNamedNativeQuery($name): NativeQuery
     {
         return $this->getWrapped()->createNamedNativeQuery($name);
@@ -131,8 +115,6 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface
     }
 
     /**
-     * @deprecated
-     *
      * @template T of object
      *
      * @param class-string<T> $entityName
@@ -150,16 +132,16 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface
     }
 
     /**
-     * @deprecated
-     *
      * @template T of object
      *
      * @param T $entity
+     * @param bool $deep
      *
      * @return T
      */
     public function copy($entity, $deep = false): object
     {
+        /** @var T */
         return $this->getWrapped()->copy($entity, $deep);
     }
 
@@ -188,9 +170,6 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface
         return $this->getWrapped()->getUnitOfWork();
     }
 
-    /**
-     * @deprecated
-     */
     public function getHydrator($hydrationMode): AbstractHydrator
     {
         return $this->getWrapped()->getHydrator($hydrationMode);
@@ -227,11 +206,8 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface
     }
 
     /**
-     * @template T of object
-     *
-     * @param class-string<T> $className
-     *
-     * @return T|null
+     * @param int|string|null $lockMode
+     * @param int|null $lockVersion
      */
     public function find($className, $id, $lockMode = null, $lockVersion = null): ?object
     {

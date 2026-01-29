@@ -17767,6 +17767,18 @@ parameters:
 			path: src/lib/Persistence/Cache/UserPreferenceHandler.php
 
 		-
+			message: '#^Method Doctrine\\Persistence\\ObjectManager\:\:find\(\) invoked with 4 parameters, 2 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/lib/Persistence/Doctrine/SiteAccessAwareEntityManager.php
+
+		-
+			message: '#^Return type \(Doctrine\\ORM\\Mapping\\ClassMetadataFactory\) of method Ibexa\\Core\\Persistence\\Doctrine\\SiteAccessAwareEntityManager\:\:getMetadataFactory\(\) should be compatible with return type \(Doctrine\\Persistence\\Mapping\\ClassMetadataFactory\<Doctrine\\Persistence\\Mapping\\ClassMetadata\<object\>\>\) of method Doctrine\\Persistence\\ObjectManager\:\:getMetadataFactory\(\)$#'
+			identifier: method.childReturnType
+			count: 2
+			path: src/lib/Persistence/Doctrine/SiteAccessAwareEntityManager.php
+
+		-
 			message: '#^Property Ibexa\\Core\\Persistence\\FieldTypeRegistry\:\:\$coreFieldTypes \(array\<Ibexa\\Contracts\\Core\\FieldType\\FieldType\>\) does not accept array\<Ibexa\\Core\\Persistence\\FieldType\>\.$#'
 			identifier: assign.propertyType
 			count: 1
