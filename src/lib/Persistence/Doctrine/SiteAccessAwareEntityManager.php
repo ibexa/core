@@ -206,13 +206,9 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface
         return $this->getWrapped()->getCache();
     }
 
-    /**
-     * @param int|string|null $lockMode
-     * @param int|null $lockVersion
-     */
-    public function find($className, $id, $lockMode = null, $lockVersion = null): ?object
+    public function find($className, $id): ?object
     {
-        return $this->getWrapped()->find($className, $id, $lockMode, $lockVersion);
+        return $this->getWrapped()->find($className, $id);
     }
 
     public function persist(object $object): void
