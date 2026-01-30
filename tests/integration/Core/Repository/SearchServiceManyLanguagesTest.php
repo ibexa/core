@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
  * @group integration
  * @group search
  */
-class SearchServiceManyLanguagesTest extends BaseTest
+final class SearchServiceManyLanguagesTest extends BaseTest
 {
     public function testFindContentWithManyLanguages(): void
     {
@@ -41,7 +41,6 @@ class SearchServiceManyLanguagesTest extends BaseTest
             $languages[] = $code;
         }
 
-        // Perform search with all languages
         $query = new Query();
         $query->filter = new Criterion\MatchAll();
         $query->limit = 1;
@@ -53,10 +52,10 @@ class SearchServiceManyLanguagesTest extends BaseTest
 
         // This should not throw maxBooleanClauses exception
         try {
-            $searchService->findContent($query, $languageSettings);
+            $result = $searchService->findContent($query, $languageSettings);
         } catch (Exception $e) {
             $this->fail('Search failed with many languages: ' . $e->getMessage());
         }
-        $this->expectNotToPerformAssertions();
+        $this->assertGreaterThan(0, $result->totalCount);
     }
 }
