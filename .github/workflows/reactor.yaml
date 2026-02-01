@@ -1,0 +1,22 @@
+name: Reactor Invoker
+
+on:
+    push: ~
+#        branches:
+#            - main
+#            - '[0-9]+.[0-9]+'
+    pull_request: ~
+
+jobs:
+    call-reactor-basic:
+        uses: ibexa/gh-workflows/.github/workflows/php/4.6-basic.yaml@shared-workflow
+        secrets: inherit
+#        with:
+#            feature_linter: true
+    call-reactor-postgres:
+        uses: ibexa/gh-workflows/.github/workflows/php/4.6-postgres.yaml@shared-workflow
+        secrets: inherit
+
+    call-reactor-mysql:
+        uses: ibexa/gh-workflows/.github/workflows/php/4.6-mysql.yaml@shared-workflow
+        secrets: inherit
