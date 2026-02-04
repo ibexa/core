@@ -34,11 +34,13 @@ use Symfony\Contracts\Service\ResetInterface;
  */
 final class SiteAccessAwareEntityManager implements EntityManagerInterface, ConfigScopeChangeSubscriber, ResetInterface
 {
+    private EntityManagerFactory $entityManagerFactory;
+
     private ?EntityManagerInterface $resolvedEntityManager = null;
 
-    public function __construct(
-        private readonly EntityManagerFactory $entityManagerFactory
-    ) {
+    public function __construct(EntityManagerFactory $entityManagerFactory)
+    {
+        $this->entityManagerFactory = $entityManagerFactory;
     }
 
     public function onConfigScopeChange(ScopeChangeEvent $event): void
@@ -71,12 +73,15 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         $this->getWrapped()->beginTransaction();
     }
 
-    public function transactional($func): mixed
+    public function transactional($func)
     {
         return $this->getWrapped()->transactional($func);
     }
 
-    public function wrapInTransaction(callable $func): mixed
+    /**
+     * @return mixed
+     */
+    public function wrapInTransaction(callable $func)
     {
         return $this->getWrapped()->wrapInTransaction($func);
     }
@@ -288,7 +293,10 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         $this->getWrapped()->initializeObject($obj);
     }
 
-    public function isUninitializedObject(mixed $value): bool
+    /**
+     * @param mixed $value
+     */
+    public function isUninitializedObject($value): bool
     {
         return $this->getWrapped()->isUninitializedObject($value);
     }
