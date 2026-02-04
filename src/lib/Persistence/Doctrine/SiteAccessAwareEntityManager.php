@@ -25,17 +25,30 @@ use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\UnitOfWork;
 use Ibexa\Bundle\Core\Entity\EntityManagerFactory;
+use Ibexa\Contracts\Core\MVC\EventSubscriber\ConfigScopeChangeSubscriber;
+use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
+use Symfony\Contracts\Service\ResetInterface;
 
 /**
  * @internal
  */
-final class SiteAccessAwareEntityManager implements EntityManagerInterface
+final class SiteAccessAwareEntityManager implements EntityManagerInterface, ConfigScopeChangeSubscriber, ResetInterface
 {
     private ?EntityManagerInterface $resolvedEntityManager = null;
 
     public function __construct(
-        private readonly EntityManagerFactory $entityManagerFactory,
+        private readonly EntityManagerFactory $entityManagerFactory
     ) {
+    }
+
+    public function onConfigScopeChange(ScopeChangeEvent $event): void
+    {
+        $this->resolvedEntityManager = null;
+    }
+
+    public function reset(): void
+    {
+        $this->resolvedEntityManager = null;
     }
 
     private function getWrapped(): EntityManagerInterface
