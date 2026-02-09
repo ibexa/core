@@ -1127,8 +1127,6 @@ class LocationServiceTest extends BaseTestCase
      * Test for the getLocationChildCount() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::getLocationChildCount()
-     *
-     * @depends testLoadLocation
      */
     public function testGetLocationChildCount()
     {
@@ -1139,6 +1137,25 @@ class LocationServiceTest extends BaseTestCase
             5,
             $locationService->getLocationChildCount(
                 $locationService->loadLocation($this->generateId('location', 5))
+            )
+        );
+    }
+
+    /**
+     * Test for the getLocationChildCount() method with a limitation on the number of children.
+     *
+     * @covers \Ibexa\Contracts\Core\Repository\LocationService::getLocationChildCount()
+     */
+    public function testGetLocationChildCountWithLimitation(): void
+    {
+        // $locationId is the ID of an existing location
+        $locationService = $this->getRepository()->getLocationService();
+        $location = $locationService->loadLocation($this->generateId('location', 5));
+        $this->assertSame(
+            2,
+            $locationService->getLocationChildCount(
+                $location,
+                2
             )
         );
     }
@@ -3604,12 +3621,56 @@ class LocationServiceTest extends BaseTestCase
 
         $folder = $this->createFolder(['eng-GB' => 'Parent Folder'], 2);
         $location = $folder->getVersionInfo()->getContentInfo()->getMainLocation();
+        self::assertNotNull($location);
+
+        // phpstan-ignore-next-line
         self::assertSame(1, $locationService->getSubtreeSize($location));
 
         $this->createFolder(['eng-GB' => 'Child 1'], $location->id);
         $this->createFolder(['eng-GB' => 'Child 2'], $location->id);
 
         self::assertSame(3, $locationService->getSubtreeSize($location));
+
+        return $location;
+    }
+
+    public function testGetSubtreeSizeWithLimit(): Location
+    {
+        $repository = $this->getRepository();
+        $locationService = $repository->getLocationService();
+
+        $folder = $this->createFolder(['eng-GB' => 'Parent Folder'], 2);
+        $location = $folder->getVersionInfo()->getContentInfo()->getMainLocation();
+        self::assertNotNull($location);
+
+        for ($i = 1; $i <= 10; ++$i) {
+            $this->createFolder(['eng-GB' => 'Child ' . $i], $location->id);
+        }
+
+        self::assertSame(3, $locationService->getSubtreeSize($location, 3));
+
+        return $location;
+    }
+
+    public function testGetSubtreeSizeWithInvalidLimitThrowsExpectedError(): Location
+    {
+        $repository = $this->getRepository();
+        $locationService = $repository->getLocationService();
+
+        $folder = $this->createFolder(['eng-GB' => 'Parent Folder'], 2);
+        $location = $folder->getVersionInfo()->getContentInfo()->getMainLocation();
+        self::assertNotNull($location);
+
+        self::assertSame(1, $locationService->getSubtreeSize($location));
+
+        for ($i = 1; $i <= 10; ++$i) {
+            $this->createFolder(['eng-GB' => 'Child ' . $i], $location->id);
+        }
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageMatches('/Limit must be greater than 0/');
+
+        self::assertSame(3, $locationService->getSubtreeSize($location, -42));
 
         return $location;
     }

@@ -123,17 +123,20 @@ interface LocationService
      * Returns the number of children which are readable by the current user of a location object.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param int|null $limit If set, the count will be limited to first $limit items found.
      *
      * @return int
      */
-    public function getLocationChildCount(Location $location): int;
+    public function getLocationChildCount(Location $location, ?int $limit = null): int;
 
     /**
      * Return the subtree size of a given location.
      *
      * Warning! This method is not permission aware by design.
+     *
+     * @param int|null $limit
      */
-    public function getSubtreeSize(Location $location): int;
+    public function getSubtreeSize(Location $location, ?int $limit = null): int;
 
     /**
      * Creates the new $location in the content repository for the given content.
@@ -280,6 +283,8 @@ interface LocationService
      * @param array<int, string>|null $languages a list of language codes to be added as additional constraints.
      *        If skipped, by default, unless SiteAccessAware layer has been disabled, languages set
      *        for a SiteAccess in a current context will be used.
+     * @param int|null $limit If set, the count will be limited to first $limit items found.
+     *        In some cases it can significantly speed up a count operation for more complex filters.
      */
-    public function count(Filter $filter, ?array $languages = null): int;
+    public function count(Filter $filter, ?array $languages = null, ?int $limit = null): int;
 }
