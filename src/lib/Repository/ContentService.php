@@ -2583,7 +2583,7 @@ class ContentService implements ContentServiceInterface
             'content',
             'hide',
             $contentInfo,
-            [$locationTarget]
+            $locationTarget
         )) {
             throw new UnauthorizedException('content', 'hide', ['contentId' => $contentInfo->id]);
         }
