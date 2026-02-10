@@ -6230,20 +6230,17 @@ class ContentServiceTest extends BaseContentServiceTest
     }
 
     /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::hideContent
-
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\APIInvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws BadStateException
+     * @throws ContentFieldValidationException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
      */
     public function testHideContentDraft(): void
     {
         $publishedContent = $this->createContentForHideRevealDraftTests(false);
-        $location = $this->locationService->loadLocation($publishedContent->contentInfo->mainLocationId);
+        self::assertNotNull($publishedContent->contentInfo->getMainLocationId(), 'Expected mainLocationId to be set for this test case.');
+        $location = $this->locationService->loadLocation($publishedContent->contentInfo->getMainLocationId());
 
         $content = $this->contentService->loadContent($publishedContent->contentInfo->id);
         self::assertTrue($content->contentInfo->isHidden, 'Content is not hidden');
@@ -6260,7 +6257,8 @@ class ContentServiceTest extends BaseContentServiceTest
     public function testHideAndRevealContentDraft(): void
     {
         $publishedContent = $this->createContentForHideRevealDraftTests(true);
-        $location = $this->locationService->loadLocation($publishedContent->contentInfo->mainLocationId);
+        self::assertNotNull($publishedContent->contentInfo->getMainLocationId(), 'Expected mainLocationId to be set for this test case.');
+        $location = $this->locationService->loadLocation($publishedContent->contentInfo->getMainLocationId());
 
         $content = $this->contentService->loadContent($publishedContent->contentInfo->id);
         self::assertFalse($content->contentInfo->isHidden, 'Content is hidden');
@@ -6268,11 +6266,11 @@ class ContentServiceTest extends BaseContentServiceTest
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\APIInvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws APIInvalidArgumentException
+     * @throws BadStateException
+     * @throws ContentFieldValidationException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
      */
     private function createContentForHideRevealDraftTests(bool $hideAndRevel): Content
