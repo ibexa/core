@@ -6239,10 +6239,10 @@ class ContentServiceTest extends BaseContentServiceTest
     }
 
     /**
-     * @throws BadStateException
-     * @throws ContentFieldValidationException
-     * @throws NotFoundException
-     * @throws UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
      */
     public function testHideContentDraft(): void
@@ -6275,11 +6275,11 @@ class ContentServiceTest extends BaseContentServiceTest
     }
 
     /**
-     * @throws APIInvalidArgumentException
-     * @throws BadStateException
-     * @throws ContentFieldValidationException
-     * @throws NotFoundException
-     * @throws UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
      */
     private function createContentForHideRevealDraftTests(bool $hideAndRevel): Content
