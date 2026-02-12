@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\SiteAccessAware\Language;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\OutOfBoundsException;
 use Ibexa\Core\Repository\SiteAccessAware\Language\LanguageResolver;
 use PHPUnit\Framework\TestCase;
 
@@ -48,6 +49,29 @@ class LanguageResolverTest extends TestCase
             $expectedPrioritizedLanguagesList,
             $languageResolver->getPrioritizedLanguages($forcedLanguages)
         );
+    }
+
+    public function testGetFirstPrioritizedLanguage(): void
+    {
+        $languageResolver = new LanguageResolver(
+            configLanguages: ['pol-PL', 'eng-GB'],
+            defaultUseAlwaysAvailable: true,
+            defaultShowAllTranslations: false
+        );
+
+        self::assertEquals('eng-GB', $languageResolver->getFirstPrioritizedLanguage());
+    }
+
+    public function testGetFirstPrioritizedLanguageThrowsExceptionWhenNoLanguageFound(): void
+    {
+        $this->expectException(OutOfBoundsException::class);
+
+        $languageResolver = new LanguageResolver(
+            configLanguages: [],
+            defaultUseAlwaysAvailable: true,
+            defaultShowAllTranslations: false
+        );
+        $languageResolver->getFirstPrioritizedLanguage();
     }
 
     /**
