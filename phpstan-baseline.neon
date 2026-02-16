@@ -33966,11 +33966,6 @@ parameters:
 			count: 4
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
-		-
-			message: '#^Parameter \#1 \$locationId of method Ibexa\\Contracts\\Core\\Repository\\LocationService\:\:loadLocation\(\) expects int, int\|null given\.$#'
-			identifier: argument.type
-			count: 12
-			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
 			message: '#^Parameter \#1 \$locations of method Ibexa\\Tests\\Integration\\Core\\Repository\\ContentServiceTest\:\:filterHiddenLocations\(\) expects array\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\>, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\> given\.$#'
