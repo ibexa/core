@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
  * @group integration
  * @group search
  */
-final class SearchServiceManyLanguagesTest extends BaseTest
+final class SearchServiceManyLanguagesTest extends BaseTestCase
 {
     public function testFindContentWithManyLanguages(): void
     {
