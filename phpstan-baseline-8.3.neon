@@ -1,0 +1,67 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Dead catch \- Ibexa\\Contracts\\Core\\Repository\\Exceptions\\NotFoundException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/bundle/Core/Features/Context/ContentTypeContext.php
+
+		-
+			message: '#^Dead catch \- Ibexa\\Contracts\\Core\\Repository\\Exceptions\\NotFoundException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/bundle/Core/Features/Context/UserContext.php
+
+		-
+			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/lib/Persistence/Legacy/Notification/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/lib/Persistence/Legacy/Notification/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/lib/Persistence/Legacy/URL/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/lib/Persistence/Legacy/URL/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- Exception is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/lib/Repository/UserPreferenceService.php
+
+		-
+			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/lib/Search/Legacy/Content/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/lib/Search/Legacy/Content/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/lib/Search/Legacy/Content/Location/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/lib/Search/Legacy/Content/Location/Gateway/ExceptionConversion.php

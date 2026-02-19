@@ -128,26 +128,6 @@ abstract class AbstractBaseHandlerTestCase extends TestCase
     }
 
     /**
-     * Tear down test (properties).
-     */
-    protected function tearDown(): void
-    {
-        unset(
-            $this->cacheMock,
-            $this->persistenceHandlerMock,
-            $this->persistenceCacheHandler,
-            $this->loggerMock,
-            $this->cacheItemsClosure,
-            $this->inMemoryMock,
-            $this->cacheIdentifierGeneratorMock,
-            $this->cacheIdentifierSanitizer,
-            $this->locationPathConverter
-        );
-
-        parent::tearDown();
-    }
-
-    /**
      * @param $key
      * @param null $value If null the cache item will be assumed to be a cache miss here.
      * @param int $defaultLifetime
