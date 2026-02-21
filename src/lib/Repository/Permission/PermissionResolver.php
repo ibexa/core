@@ -380,30 +380,21 @@ class PermissionResolver implements PermissionResolverInterface
 
     /**
      * @internal For internal use only, do not depend on this method.
-     *
-     * Allows API execution to be performed with full access sand-boxed.
-     *
-     * The closure sandbox will do a catch all on exceptions and rethrow after
-     * re-setting the sudo flag.
-     *
-     * Example use:
-     *     $location = $repository->sudo(
-     *         function ( Repository $repo ) use ( $locationId )
-     *         {
-     *             return $repo->getLocationService()->loadLocation( $locationId )
-     *         }
-     *     );
-     *
-     * @param \callable(\Ibexa\Contracts\Core\Repository\Repository): mixed $callback
-     * @param \Ibexa\Contracts\Core\Repository\Repository $outerRepository
-     *
-     * @throws \RuntimeException Thrown on recursive sudo() use.
-     * @throws \Exception Re throws exceptions thrown inside $callback
-     *
-     * @return mixed
      */
-    public function sudo(callable $callback, RepositoryInterface $outerRepository)
+    public function sudo(callable $callback, ?RepositoryInterface $outerRepository = null): mixed
     {
+        if (null !== $outerRepository) {
+            trigger_deprecation(
+                'ibexa/core',
+                '5.0',
+                sprintf(
+                    'Calling either Repository::sudo or %s() method with outer repository as the 2nd argument is deprecated, will be removed in 6.0. ' .
+                    'Use `PermissionResolver::sudo()` method and inject required Repository services through DI container instead',
+                    __METHOD__
+                )
+            );
+        }
+
         ++$this->sudoNestingLevel;
         try {
             $returnValue = $callback($outerRepository);
