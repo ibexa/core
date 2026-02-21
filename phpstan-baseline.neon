@@ -3619,18 +3619,6 @@ parameters:
 			path: src/bundle/Core/URLChecker/Handler/AbstractURLHandler.php
 
 		-
-			message: '#^Cannot call method error\(\) on Psr\\Log\\LoggerInterface\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/bundle/Core/URLChecker/Handler/AbstractURLHandler.php
-
-		-
-			message: '#^Cannot call method info\(\) on Psr\\Log\\LoggerInterface\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/bundle/Core/URLChecker/Handler/AbstractURLHandler.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\URLChecker\\Handler\\AbstractURLHandler\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -3683,12 +3671,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: src/bundle/Core/URLChecker/Handler/MailToHandler.php
-
-		-
-			message: '#^Cannot call method error\(\) on Psr\\Log\\LoggerInterface\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/bundle/Core/URLChecker/URLChecker.php
 
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\URLChecker\\URLChecker\:\:check\(\) has no return type specified\.$#'
@@ -10037,12 +10019,6 @@ parameters:
 			identifier: method.childReturnType
 			count: 1
 			path: src/lib/Persistence/Cache/Handler.php
-
-		-
-			message: '#^Cannot call method debug\(\) on Psr\\Log\\LoggerInterface\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/lib/Persistence/Cache/Identifier/CacheIdentifierGenerator.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Cache\\Identifier\\CacheIdentifierGenerator\:\:__construct\(\) has parameter \$keyPatterns with no value type specified in iterable type array\.$#'
@@ -16579,12 +16555,6 @@ parameters:
 			path: src/lib/Repository/ContentTypeService.php
 
 		-
-			message: '#^Cannot call method error\(\) on Psr\\Log\\LoggerInterface\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/lib/Repository/Helper/RelationProcessor.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Repository\\Helper\\RelationProcessor\:\:appendFieldRelations\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -16725,12 +16695,6 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject\:\:\$mainLanguageCode\.$#'
 			identifier: property.notFound
-			count: 1
-			path: src/lib/Repository/Mapper/ContentDomainMapper.php
-
-		-
-			message: '#^Cannot call method error\(\) on Psr\\Log\\LoggerInterface\|null\.$#'
-			identifier: method.nonObject
 			count: 1
 			path: src/lib/Repository/Mapper/ContentDomainMapper.php
 
@@ -17925,12 +17889,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\Repository\\UserService\:\:__construct\(\) has parameter \$settings with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Repository/UserService.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Repository\\UserService\:\:setLogger\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: src/lib/Repository/UserService.php
 
