@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location;
 
-use Generator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion as Criterion;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\BookmarkQueryBuilder;
 use Ibexa\Tests\Core\Persistence\Legacy\Filter\BaseCriterionVisitorQueryBuilderTestCase;
@@ -16,7 +15,7 @@ use Ibexa\Tests\Core\Persistence\Legacy\Filter\BaseCriterionVisitorQueryBuilderT
 final class BookmarkQueryBuilderTest extends BaseCriterionVisitorQueryBuilderTestCase
 {
     /**
-     * @return Generator<array-key, array{Criterion, string, array<string, int>}>
+     * @return iterable<array-key, array{Criterion, string, array<string, int>}>
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
      */
