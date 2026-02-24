@@ -27,7 +27,7 @@ final class BookmarkQueryBuilder extends BaseLocationCriterionQueryBuilder
     public function buildQueryConstraint(
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
-    ): ?string {
+    ): string {
         $queryBuilder
             ->joinOnce(
                 'location',
@@ -37,10 +37,19 @@ final class BookmarkQueryBuilder extends BaseLocationCriterionQueryBuilder
             );
 
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsBookmarked $criterion */
+        $value = $criterion->value;
+
+        if (\is_array($value)) {
+            if (!isset($value[0])) {
+                throw new \InvalidArgumentException('IsBookmarked criterion value must contain userId at index 0.');
+            }
+            $value = $value[0];
+        }
+
         return $queryBuilder->expr()->eq(
             'bookmark.user_id',
             $queryBuilder->createNamedParameter(
-                (int)$criterion->value[0],
+                (int)$value,
                 ParameterType::INTEGER
             )
         );
