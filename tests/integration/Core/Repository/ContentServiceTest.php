@@ -6248,9 +6248,11 @@ class ContentServiceTest extends BaseContentServiceTest
     public function testHideContentDraft(): void
     {
         $publishedContent = $this->createContentForHideRevealDraftTests(false);
+        self::assertNotNull($publishedContent->contentInfo->getMainLocationId(), 'Expected mainLocationId to be set for this test case.');
         $location = $this->locationService->loadLocation($publishedContent->contentInfo->getMainLocationId());
 
-        self::assertTrue($publishedContent->contentInfo->isHidden, 'Content is not hidden');
+        $content = $this->contentService->loadContent($publishedContent->contentInfo->id);
+        self::assertTrue($content->contentInfo->isHidden, 'Content is not hidden');
         self::assertTrue($location->isHidden(), 'Location is visible');
     }
 
@@ -6264,9 +6266,11 @@ class ContentServiceTest extends BaseContentServiceTest
     public function testHideAndRevealContentDraft(): void
     {
         $publishedContent = $this->createContentForHideRevealDraftTests(true);
+        self::assertNotNull($publishedContent->contentInfo->getMainLocationId(), 'Expected mainLocationId to be set for this test case.');
         $location = $this->locationService->loadLocation($publishedContent->contentInfo->getMainLocationId());
 
-        self::assertFalse($publishedContent->contentInfo->isHidden, 'Content is hidden');
+        $content = $this->contentService->loadContent($publishedContent->contentInfo->id);
+        self::assertFalse($content->contentInfo->isHidden, 'Content is hidden');
         self::assertFalse($location->isHidden(), 'Location is hidden');
     }
 
@@ -6278,7 +6282,7 @@ class ContentServiceTest extends BaseContentServiceTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
      */
-    private function createContentForHideRevealDraftTests(bool $hideAndReveal): Content
+    private function createContentForHideRevealDraftTests(bool $hideAndRevel): Content
     {
         $contentTypeService = $this->getRepository()->getContentTypeService();
 
@@ -6295,14 +6299,11 @@ class ContentServiceTest extends BaseContentServiceTest
         );
 
         $this->contentService->hideContent($draft->contentInfo);
-        if ($hideAndReveal) {
+        if ($hideAndRevel) {
             $this->contentService->revealContent($draft->contentInfo);
         }
 
-        $publishedContent = $this->contentService->publishVersion($draft->versionInfo);
-        self::assertNotNull($publishedContent->contentInfo->getMainLocationId(), 'Expected mainLocationId to be set for this test case.');
-
-        return $publishedContent;
+        return $this->contentService->publishVersion($draft->versionInfo);
     }
 
     /**
