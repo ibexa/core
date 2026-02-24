@@ -20,15 +20,7 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
  */
 final class IsBookmarked extends Criterion implements FilteringCriterion
 {
-    /**
-     * Creates a new IsBookmarked criterion.
-     *
-     * @param int $value user id for which bookmarked locations must be matched against
-     *
-     * @throws \InvalidArgumentException if a non numeric id is given
-     * @throws \InvalidArgumentException if the value type doesn't match the operator
-     */
-    public function __construct($value)
+    public function __construct(int $value)
     {
         parent::__construct(null, null, $value);
     }
