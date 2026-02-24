@@ -22306,12 +22306,6 @@ parameters:
 			message: '#^PHPDoc tag @var with type Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\SortClause is not subtype of native type Ibexa\\Contracts\\Core\\Repository\\Values\\Filter\\FilteringSortClause\.$#'
 			identifier: varTag.nativeType
 			count: 1
-			path: src/lib/Persistence/Legacy/Filter/SortClauseQueryBuilder/Bookmark/IdSortClauseQueryBuilder.php
-
-		-
-			message: '#^PHPDoc tag @var with type Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\SortClause is not subtype of native type Ibexa\\Contracts\\Core\\Repository\\Values\\Filter\\FilteringSortClause\.$#'
-			identifier: varTag.nativeType
-			count: 1
 			path: src/lib/Persistence/Legacy/Filter/SortClauseQueryBuilder/Content/DateModifiedSortClauseQueryBuilder.php
 
 		-

@@ -24,7 +24,14 @@ final class IdSortClauseQueryBuilder implements SortClauseQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringSortClause $sortClause
     ): void {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause $sortClause */
+        if (!$sortClause instanceof BookmarkId) {
+            throw new \InvalidArgumentException(sprintf(
+                'Expected %s, got %s',
+                BookmarkId::class,
+                get_class($sortClause),
+            ));
+        }
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\BookmarkId $sortClause */
         $queryBuilder->addSelect('bookmark.id');
         $queryBuilder->addOrderBy('bookmark.id', $sortClause->direction);
     }
