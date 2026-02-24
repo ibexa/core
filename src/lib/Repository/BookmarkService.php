@@ -26,14 +26,11 @@ use Psr\Log\NullLogger;
 
 class BookmarkService implements BookmarkServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    protected $repository;
+    protected RepositoryInterface $repository;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Bookmark\Handler */
-    protected $bookmarkHandler;
+    protected BookmarkHandler $bookmarkHandler;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * BookmarkService constructor.
