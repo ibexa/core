@@ -135,7 +135,7 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the path does not exist or is not valid for the given language
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    protected function getUrlAlias(string $pathInfo): UrlAlias
+    protected function getUrlAlias(string $pathInfo): URLAlias
     {
         return $this->urlAliasService->lookup($pathInfo);
     }
