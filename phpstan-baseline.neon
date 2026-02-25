@@ -25435,12 +25435,6 @@ parameters:
 			path: src/lib/Repository/TrashService.php
 
 		-
-			message: '#^Class Ibexa\\Contracts\\Core\\Persistence\\Content\\UrlAlias referenced with incorrect case\: Ibexa\\Contracts\\Core\\Persistence\\Content\\URLAlias\.$#'
-			identifier: class.nameCase
-			count: 7
-			path: src/lib/Repository/URLAliasService.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Repository\\URLAliasService\:\:choosePrioritizedLanguageCode\(\) has parameter \$entries with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
