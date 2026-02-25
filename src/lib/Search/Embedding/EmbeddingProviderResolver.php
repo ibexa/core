@@ -40,4 +40,18 @@ final class EmbeddingProviderResolver implements EmbeddingProviderResolverInterf
 
         return $this->registry->getEmbeddingProvider($defaultEmbeddingProvider);
     }
+
+    public function resolveByModelIdentifier(string $modelIdentifier): EmbeddingProviderInterface
+    {
+        $model = $this->embeddingConfiguration->getModel($modelIdentifier);
+        $providerIdentifier = $model['embedding_provider'];
+
+        if (!$this->registry->hasEmbeddingProvider($providerIdentifier)) {
+            throw new EmbeddingResolverNotFoundException(
+                $providerIdentifier
+            );
+        }
+
+        return $this->registry->getEmbeddingProvider($providerIdentifier);
+    }
 }
