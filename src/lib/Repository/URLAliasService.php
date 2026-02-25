@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository;
 
 use Exception;
-use Ibexa\Contracts\Core\Persistence\Content\URLAlias as SPIURLAlias;
+use Ibexa\Contracts\Core\Persistence\Content\UrlAlias as SPIURLAlias;
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias\Handler;
 use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
