@@ -79,4 +79,36 @@ final class EmbeddingProviderResolverTest extends TestCase
 
         $this->resolver->resolve();
     }
+
+    public function testResolveByModelIdentifierReturnsProviderConfiguredForModel(): void
+    {
+        $modelIdentifier = 'gemini_embedding_001_1536';
+        $embeddingProviderIdentifier = 'ibexa_gemini';
+        $mockProvider = $this->createMock(EmbeddingProviderInterface::class);
+
+        $this->configuration
+            ->expects(self::once())
+            ->method('getModel')
+            ->with($modelIdentifier)
+            ->willReturn([
+                'name' => 'models/gemini-embedding-001',
+                'dimensions' => 1536,
+                'field_suffix' => 'gemini_1536',
+                'embedding_provider' => $embeddingProviderIdentifier,
+            ]);
+
+        $this->registry
+            ->expects(self::once())
+            ->method('hasEmbeddingProvider')
+            ->with($embeddingProviderIdentifier)
+            ->willReturn(true);
+
+        $this->registry
+            ->expects(self::once())
+            ->method('getEmbeddingProvider')
+            ->with($embeddingProviderIdentifier)
+            ->willReturn($mockProvider);
+
+        self::assertSame($mockProvider, $this->resolver->resolveByModelIdentifier($modelIdentifier));
+    }
 }
