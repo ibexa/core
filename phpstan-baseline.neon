@@ -8461,6 +8461,12 @@ parameters:
 			path: src/lib/MVC/Symfony/Routing/SimplifiedRequest.php
 
 		-
+			message: '#^Class Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\URLAlias referenced with incorrect case\: Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\UrlAlias\.$#'
+			identifier: class.nameCase
+			count: 1
+			path: src/lib/MVC/Symfony/Routing/UrlAliasRouter.php
+
+		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Security\\Authorization\\Attribute\:\:__construct\(\) has parameter \$function with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
@@ -10565,6 +10571,12 @@ parameters:
 			identifier: return.type
 			count: 1
 			path: src/lib/Persistence/Cache/UserPreferenceHandler.php
+
+		-
+			message: '#^Return type \(Doctrine\\ORM\\Mapping\\ClassMetadataFactory\) of method Ibexa\\Core\\Persistence\\Doctrine\\SiteAccessAwareEntityManager\:\:getMetadataFactory\(\) should be compatible with return type \(Doctrine\\Persistence\\Mapping\\ClassMetadataFactory\<Doctrine\\Persistence\\Mapping\\ClassMetadata\<object\>\>\) of method Doctrine\\Persistence\\ObjectManager\:\:getMetadataFactory\(\)$#'
+			identifier: method.childReturnType
+			count: 2
+			path: src/lib/Persistence/Doctrine/SiteAccessAwareEntityManager.php
 
 		-
 			message: '#^Property Ibexa\\Core\\Persistence\\FieldTypeRegistry\:\:\$coreFieldTypes \(array\<Ibexa\\Contracts\\Core\\FieldType\\FieldType\>\) does not accept array\<Ibexa\\Core\\Persistence\\FieldType\>\.$#'
@@ -17765,12 +17777,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Repository/TrashService.php
-
-		-
-			message: '#^Class Ibexa\\Contracts\\Core\\Persistence\\Content\\UrlAlias referenced with incorrect case\: Ibexa\\Contracts\\Core\\Persistence\\Content\\URLAlias\.$#'
-			identifier: class.nameCase
-			count: 7
-			path: src/lib/Repository/URLAliasService.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Repository\\URLAliasService\:\:choosePrioritizedLanguageCode\(\) has parameter \$entries with no value type specified in iterable type array\.$#'
