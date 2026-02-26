@@ -229,12 +229,18 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         return $this->getWrapped()->find($className, $id);
     }
 
-    public function persist(object $object): void
+    /**
+     * @param object $object
+     */
+    public function persist($object): void
     {
         $this->getWrapped()->persist($object);
     }
 
-    public function remove(object $object): void
+    /**
+     * @param object $object
+     */
+    public function remove($object): void
     {
         $this->getWrapped()->remove($object);
     }
@@ -244,12 +250,18 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         $this->getWrapped()->clear();
     }
 
-    public function detach(object $object): void
+    /**
+     * @param object $object
+     */
+    public function detach($object): void
     {
         $this->getWrapped()->detach($object);
     }
 
-    public function refresh(object $object, ?int $lockMode = null): void
+    /**
+     * @param object $object
+     */
+    public function refresh($object, ?int $lockMode = null): void
     {
         $this->getWrapped()->refresh($object, $lockMode);
     }
@@ -288,7 +300,10 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         return $this->getWrapped()->getMetadataFactory();
     }
 
-    public function initializeObject(object $obj): void
+    /**
+     * @param object $obj
+     */
+    public function initializeObject($obj): void
     {
         $this->getWrapped()->initializeObject($obj);
     }
@@ -301,7 +316,10 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         return $this->getWrapped()->isUninitializedObject($value);
     }
 
-    public function contains(object $object): bool
+    /**
+     * @param object $object
+     */
+    public function contains($object): bool
     {
         return $this->getWrapped()->contains($object);
     }
