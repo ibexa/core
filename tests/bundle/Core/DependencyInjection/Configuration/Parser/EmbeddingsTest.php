@@ -43,6 +43,34 @@ final class EmbeddingsTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('default_embedding_model', 'text-embedding-ada-002', 'ibexa_demo_site');
     }
 
+    public function testDefaultEmbeddingModelSetInDefaultScopeIsNotMaterializedToOtherScopes(): void
+    {
+        $this->load([
+            'system' => [
+                'default' => [
+                    'default_embedding_model' => 'gemini_embedding_001_1536',
+                ],
+            ],
+        ]);
+
+        self::assertFalse(
+            $this->container->hasParameter('ibexa.site_access.config.ibexa_demo_group.default_embedding_model')
+        );
+        self::assertFalse(
+            $this->container->hasParameter('ibexa.site_access.config.ibexa_demo_site.default_embedding_model')
+        );
+
+        self::assertSame(
+            'gemini_embedding_001_1536',
+            $this->container->getParameter('ibexa.site_access.config.default.default_embedding_model')
+        );
+        $this->assertConfigResolverParameterValue(
+            'default_embedding_model',
+            'gemini_embedding_001_1536',
+            'ibexa_demo_site'
+        );
+    }
+
     /**
      * @param array<mixed> $config
      * @param array<mixed> $expected

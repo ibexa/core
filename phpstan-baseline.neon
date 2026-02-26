@@ -18481,18 +18481,6 @@ parameters:
 			path: src/lib/Search/Common/EventSubscriber/UserEventSubscriber.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Search\\Common\\FieldNameGenerator\:\:__construct\(\) has parameter \$fieldNameMapping with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Search/Common/FieldNameGenerator.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Search\\Common\\FieldNameGenerator\:\:\$fieldNameMapping type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Search/Common/FieldNameGenerator.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Search\\Common\\FieldNameResolver\:\:getAggregationFieldName\(\) should return string\|null but returns false\.$#'
 			identifier: return.type
 			count: 1

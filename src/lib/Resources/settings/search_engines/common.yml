@@ -25,6 +25,9 @@ parameters:
         ibexa_dense_vector_ada002: 'ada002_dv'
         ibexa_dense_vector_3small: '3small_dv'
         ibexa_dense_vector_3large: '3large_dv'
+    # Allows generic mapping of embedding field types (`ibexa_dense_vector_<suffix>`) without per-model entries.
+    ibexa.search.common.field_name_generator.fallback_prefixes:
+        - 'ibexa_dense_vector_'
 
 services:
     # Note: services tagged with 'ibexa.field_type.indexable'
@@ -37,6 +40,7 @@ services:
         class: Ibexa\Core\Search\Common\FieldNameGenerator
         arguments:
             - '%ibexa.search.common.field_name_generator.map%'
+            - '%ibexa.search.common.field_name_generator.fallback_prefixes%'
 
     Ibexa\Core\Search\Common\FieldNameResolver:
         class: Ibexa\Core\Search\Common\FieldNameResolver

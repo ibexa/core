@@ -34,13 +34,23 @@ class FieldNameGenerator
      *  )
      * </code>
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $fieldNameMapping;
 
-    public function __construct(array $fieldNameMapping)
+    /**
+     * @var string[]
+     */
+    private array $fallbackPrefixes;
+
+    /**
+     * @param array<string, string> $fieldNameMapping
+     * @param string[] $fallbackPrefixes
+     */
+    public function __construct(array $fieldNameMapping, array $fallbackPrefixes = [])
     {
         $this->fieldNameMapping = $fieldNameMapping;
+        $this->fallbackPrefixes = $fallbackPrefixes;
     }
 
     /**
@@ -76,8 +86,26 @@ class FieldNameGenerator
             return $name;
         }
 
-        $typeName = $this->fieldNameMapping[$type->getType()] ?? $type->getType();
+        $typeIdentifier = $type->getType();
+        $typeName = $this->fieldNameMapping[$typeIdentifier] ?? $this->normalizeUsingFallbackPrefixes($typeIdentifier);
 
         return $name . '_' . $typeName;
+    }
+
+    /**
+     * Generic fallback for field type families that encode backend suffix in the type identifier.
+     *
+     * Example:
+     * - `ibexa_dense_vector_gemini_embedding_001_1536_dv` => `gemini_embedding_001_1536_dv`
+     */
+    private function normalizeUsingFallbackPrefixes(string $typeIdentifier): string
+    {
+        foreach ($this->fallbackPrefixes as $prefix) {
+            if (str_starts_with($typeIdentifier, $prefix)) {
+                return substr($typeIdentifier, strlen($prefix));
+            }
+        }
+
+        return $typeIdentifier;
     }
 }
