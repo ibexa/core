@@ -40,6 +40,9 @@ jobs:
                     - '7.4'
                     - '8.0'
                     - '8.1'
+                doctrine-persistence:
+                    - 'doctrine/persistence:^2.0'
+                    - 'doctrine/persistence:^3.0'
 
         steps:
             -   uses: actions/checkout@v5
@@ -50,6 +53,7 @@ jobs:
                     gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
                     satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
                     satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
+                    composer-options: "--with ${{ matrix.doctrine-persistence }}"
 
             -   name: Setup problem matchers for PHPUnit
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
@@ -90,6 +94,9 @@ jobs:
                     - '7.4'
                     - '8.0'
                     - '8.1'
+                doctrine-persistence:
+                    - 'doctrine/persistence:^2.0'
+                    - 'doctrine/persistence:^3.0'
                 image:
                     - 'postgres:14'
                     - 'postgres:18'
@@ -103,6 +110,7 @@ jobs:
                     gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
                     satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
                     satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
+                    composer-options: "--with ${{ matrix.doctrine-persistence }}"
 
             -   name: Setup problem matchers for PHPUnit
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
@@ -143,6 +151,9 @@ jobs:
                     - '7.4'
                     - '8.0'
                     - '8.1'
+                doctrine-persistence:
+                    - 'doctrine/persistence:^2.0'
+                    - 'doctrine/persistence:^3.0'
                 image:
                     - 'mysql:8.0'
                     - 'mysql:8.4'
@@ -156,6 +167,7 @@ jobs:
                     gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
                     satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
                     satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
+                    composer-options: "--with ${{ matrix.doctrine-persistence }}"
 
             -   name: Setup problem matchers for PHPUnit
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
