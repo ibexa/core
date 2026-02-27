@@ -15,42 +15,19 @@ use Ibexa\Contracts\Core\Search\FieldType;
 class FieldNameGenerator
 {
     /**
-     * Simple mapping for our internal field types, consisting of an array
-     * of SPI Search FieldType identifier as key and search backend field type
-     * string as value.
+     * `$fieldNameMapping` maps internal search field type identifiers to backend
+     * suffixes (e.g. `ez_string` => `s`).
      *
-     * We implement this mapping, because those dynamic fields are common to
-     * search backend configurations.
+     * `$fallbackPrefixes` defines type prefixes for generic fallback normalization
+     * when no explicit mapping exists (e.g. `ibexa_dense_vector_<suffix>`).
      *
-     * @see \Ibexa\Contracts\Core\Search\FieldType
-     *
-     * Code example:
-     *
-     * <code>
-     *  array(
-     *      "ez_integer" => "i",
-     *      "ez_string" => "s",
-     *      ...
-     *  )
-     * </code>
-     *
-     * @var array<string, string>
-     */
-    protected $fieldNameMapping;
-
-    /**
-     * @var string[]
-     */
-    private array $fallbackPrefixes;
-
-    /**
      * @param array<string, string> $fieldNameMapping
      * @param string[] $fallbackPrefixes
      */
-    public function __construct(array $fieldNameMapping, array $fallbackPrefixes = [])
-    {
-        $this->fieldNameMapping = $fieldNameMapping;
-        $this->fallbackPrefixes = $fallbackPrefixes;
+    public function __construct(
+        protected array $fieldNameMapping,
+        private readonly array $fallbackPrefixes = []
+    ) {
     }
 
     /**

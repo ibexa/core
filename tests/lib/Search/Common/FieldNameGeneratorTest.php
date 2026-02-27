@@ -17,13 +17,13 @@ final class FieldNameGeneratorTest extends TestCase
     public function testGetTypedNameUsesConfiguredMapping(): void
     {
         $generator = new FieldNameGenerator([
-            'ez_string' => 's',
+            'ibexa_string' => 's',
         ]);
 
         $fieldType = $this->createMock(FieldType::class);
         $fieldType
             ->method('getType')
-            ->willReturn('ez_string');
+            ->willReturn('ibexa_string');
 
         self::assertSame('title_s', $generator->getTypedName('title', $fieldType));
     }
