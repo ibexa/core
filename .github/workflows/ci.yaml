@@ -49,7 +49,7 @@ jobs:
         steps:
             -   uses: actions/checkout@v5
 
-            -   uses: ibexa/gh-workflows/actions/composer-install@allow-custom-composer-options
+            -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
                     gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
                     gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
