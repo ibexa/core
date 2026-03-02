@@ -249,7 +249,7 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
      */
     public function clear($objectName = null): void
     {
-        $this->getWrapped()->clear();
+        $this->getWrapped()->clear($objectName);
     }
 
     /**
