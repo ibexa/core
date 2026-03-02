@@ -38,7 +38,7 @@ jobs:
             matrix:
                 php:
                     - '7.4'
-                    - '8.2'
+                    - '8.1'
 
         steps:
             -   uses: actions/checkout@v5
