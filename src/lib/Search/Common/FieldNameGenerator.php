@@ -16,7 +16,7 @@ class FieldNameGenerator
 {
     /**
      * `$fieldNameMapping` maps internal search field type identifiers to backend
-     * suffixes (e.g. `ez_string` => `s`).
+     * suffixes (e.g. `ibexa_string` => `s`).
      *
      * `$fallbackPrefixes` defines type prefixes for generic fallback normalization
      * when no explicit mapping exists (e.g. `ibexa_dense_vector_<suffix>`).
