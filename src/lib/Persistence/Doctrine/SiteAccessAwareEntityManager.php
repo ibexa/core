@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Doctrine;
 
+use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\Cache;
 use Doctrine\ORM\Configuration;
@@ -15,7 +16,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Internal\Hydration\AbstractHydrator;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Doctrine\ORM\NativeQuery;
 use Doctrine\ORM\Proxy\ProxyFactory;
 use Doctrine\ORM\Query;
@@ -24,6 +24,7 @@ use Doctrine\ORM\Query\FilterCollection;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\UnitOfWork;
+use Doctrine\Persistence\Mapping\ClassMetadataFactory;
 use Ibexa\Bundle\Core\Entity\EntityManagerFactory;
 use Ibexa\Contracts\Core\MVC\EventSubscriber\ConfigScopeChangeSubscriber;
 use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
@@ -78,10 +79,7 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         return $this->getWrapped()->transactional($func);
     }
 
-    /**
-     * @return mixed
-     */
-    public function wrapInTransaction(callable $func)
+    public function wrapInTransaction(callable $func): mixed
     {
         return $this->getWrapped()->wrapInTransaction($func);
     }
@@ -127,6 +125,8 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
      * @param class-string<T> $entityName
      *
      * @return T|null
+     *
+     * @throws \Doctrine\ORM\Exception\ORMException
      */
     public function getReference($entityName, $id): ?object
     {
@@ -169,7 +169,7 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         $this->getWrapped()->lock($entity, $lockMode, $lockVersion);
     }
 
-    public function getEventManager(): \Doctrine\Common\EventManager
+    public function getEventManager(): EventManager
     {
         return $this->getWrapped()->getEventManager();
     }
@@ -285,6 +285,7 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
 
     public function getMetadataFactory(): ClassMetadataFactory
     {
+        /** @phpstan-var ClassMetadataFactory<\Doctrine\Persistence\Mapping\ClassMetadata<object>> */
         return $this->getWrapped()->getMetadataFactory();
     }
 
@@ -293,10 +294,7 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         $this->getWrapped()->initializeObject($obj);
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function isUninitializedObject($value): bool
+    public function isUninitializedObject(mixed $value): bool
     {
         return $this->getWrapped()->isUninitializedObject($value);
     }
