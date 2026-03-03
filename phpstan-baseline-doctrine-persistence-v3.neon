@@ -1,0 +1,13 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to function method_exists\(\) with Doctrine\\ORM\\EntityManagerInterface and ''isUninitializedObje…'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/lib/Persistence/Doctrine/SiteAccessAwareEntityManager.php
+
+		-
+			message: '#^Method Doctrine\\Persistence\\ObjectManager\:\:clear\(\) invoked with 1 parameter, 0 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/lib/Persistence/Doctrine/SiteAccessAwareEntityManager.php

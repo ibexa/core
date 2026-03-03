@@ -31,6 +31,8 @@ use Symfony\Contracts\Service\ResetInterface;
 
 /**
  * @internal
+ *
+ * SiteAccessAwareEntityManager is a cross-compatible class supporting doctrine/persistence v2 and v3.
  */
 final class SiteAccessAwareEntityManager implements EntityManagerInterface, ConfigScopeChangeSubscriber, ResetInterface
 {
@@ -237,17 +239,17 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         $this->getWrapped()->persist($object);
     }
 
-    /**
-     * @param object $object
-     */
     public function remove($object): void
     {
         $this->getWrapped()->remove($object);
     }
 
-    public function clear(): void
+    /**
+     * @param string|null $objectName
+     */
+    public function clear($objectName = null): void
     {
-        $this->getWrapped()->clear();
+        $this->getWrapped()->clear($objectName);
     }
 
     /**
@@ -258,9 +260,6 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         $this->getWrapped()->detach($object);
     }
 
-    /**
-     * @param object $object
-     */
     public function refresh($object, ?int $lockMode = null): void
     {
         $this->getWrapped()->refresh($object, $lockMode);
@@ -271,25 +270,11 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         $this->getWrapped()->flush();
     }
 
-    /**
-     * @template T of object
-     *
-     * @param class-string<T> $className
-     *
-     * @return EntityRepository<T>
-     */
     public function getRepository($className): EntityRepository
     {
         return $this->getWrapped()->getRepository($className);
     }
 
-    /**
-     * @template T of object
-     *
-     * @param class-string<T> $className
-     *
-     * @return ClassMetadata<T>
-     */
     public function getClassMetadata($className): ClassMetadata
     {
         return $this->getWrapped()->getClassMetadata($className);
@@ -313,7 +298,12 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
      */
     public function isUninitializedObject($value): bool
     {
-        return $this->getWrapped()->isUninitializedObject($value);
+        $entityManager = $this->getWrapped();
+
+        // workaround for doctrine/persistence v2 and v3 cross-compatibility
+        return method_exists($entityManager, 'isUninitializedObject')
+            ? $entityManager->isUninitializedObject($value)
+            : false;
     }
 
     /**
@@ -322,5 +312,20 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
     public function contains($object): bool
     {
         return $this->getWrapped()->contains($object);
+    }
+
+    /**
+     * @param object $object
+     *
+     * @return object|null
+     */
+    public function merge($object)
+    {
+        $entityManager = $this->getWrapped();
+
+        // workaround for doctrine/persistence v2 and v3 cross-compatibility
+        return method_exists($entityManager, 'merge')
+            ? $entityManager->merge($object)
+            : null;
     }
 }
