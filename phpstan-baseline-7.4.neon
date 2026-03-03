@@ -264,18 +264,6 @@ parameters:
 			path: src/lib/Repository/UserService.php
 
 		-
-			message: '#^Parameter \#1 \$array of function reset expects array\|object, null given\.$#'
-			identifier: argument.type
-			count: 3
-			path: src/lib/Search/Common/FieldNameResolver.php
-
-		-
-			message: '#^Parameter \#1 \$input of function array_keys expects array, string given\.$#'
-			identifier: argument.type
-			count: 3
-			path: src/lib/Search/Common/FieldNameResolver.php
-
-		-
 			message: '#^Parameter \#1 \$str of function trim expects string, bool\|float\|int\|string given\.$#'
 			identifier: argument.type
 			count: 1
@@ -466,9 +454,3 @@ parameters:
 			identifier: argument.type
 			count: 12
 			path: tests/lib/Repository/Service/Mock/UrlAliasTest.php
-
-		-
-			message: '#^Parameter \#1 \$array_arg of function key expects array\|object, string given\.$#'
-			identifier: argument.type
-			count: 4
-			path: tests/lib/Search/FieldNameResolverTest.php
