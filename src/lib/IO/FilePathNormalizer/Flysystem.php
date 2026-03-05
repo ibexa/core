@@ -8,10 +8,10 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\IO\FilePathNormalizer;
 
+use const DIRECTORY_SEPARATOR;
 use Ibexa\Core\IO\FilePathNormalizerInterface;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
 use League\Flysystem\PathNormalizer;
-use const DIRECTORY_SEPARATOR;
 
 final class Flysystem implements FilePathNormalizerInterface
 {
