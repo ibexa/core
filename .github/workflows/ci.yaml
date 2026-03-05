@@ -97,6 +97,9 @@ jobs:
                 image:
                     - 'postgres:14'
                     - 'postgres:18'
+                orm:
+                    - 'doctrine/orm:^2.7'
+                    - 'doctrine/orm:^3'
 
         steps:
             -   uses: actions/checkout@v5
@@ -107,6 +110,7 @@ jobs:
                     gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
                     satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
                     satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
+                    composer-options: "--with ${{ matrix.orm }}"
 
             -   name: Setup problem matchers for PHPUnit
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
@@ -148,6 +152,9 @@ jobs:
                 image:
                     - 'mysql:8.0'
                     - 'mysql:8.4'
+                orm:
+                    - 'doctrine/orm:^2.7'
+                    - 'doctrine/orm:^3'
 
         steps:
             -   uses: actions/checkout@v5
@@ -158,6 +165,7 @@ jobs:
                     gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
                     satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
                     satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
+                    composer-options: "--with ${{ matrix.orm }}"
 
             -   name: Setup problem matchers for PHPUnit
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
