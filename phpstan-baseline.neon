@@ -1,30 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Offset ''uri'' might not exist on array\{timed_out\: bool, blocked\: bool, eof\: bool, unread_bytes\: int, stream_type\: string, wrapper_type\: string, wrapper_data\: mixed, mode\: string, \.\.\.\}\.$#'
-			identifier: offsetAccess.notFound
-			count: 1
-			path: src/bundle/Core/Command/ResizeOriginalImagesCommand.php
-
-		-
-			message: '#^Offset ''uri'' might not exist on array\{timed_out\: bool, blocked\: bool, eof\: bool, unread_bytes\: int, stream_type\: string, wrapper_type\: string, wrapper_data\: mixed, mode\: string, \.\.\.\}\.$#'
-			identifier: offsetAccess.notFound
-			count: 1
-			path: src/bundle/Core/Imagine/IORepositoryResolver.php
-
-		-
-			message: '#^Offset ''uri'' might not exist on array\{timed_out\: bool, blocked\: bool, eof\: bool, unread_bytes\: int, stream_type\: string, wrapper_type\: string, wrapper_data\: mixed, mode\: string, \.\.\.\}\.$#'
-			identifier: offsetAccess.notFound
-			count: 1
-			path: src/bundle/Core/Imagine/PlaceholderProvider/GenericProvider.php
-
-		-
-			message: '#^Offset ''uri'' might not exist on array\{timed_out\: bool, blocked\: bool, eof\: bool, unread_bytes\: int, stream_type\: string, wrapper_type\: string, wrapper_data\: mixed, mode\: string, \.\.\.\}\.$#'
-			identifier: offsetAccess.notFound
-			count: 1
-			path: src/bundle/Core/Imagine/PlaceholderProvider/RemoteProvider.php
-
-		-
 			message: '#^Cannot call method get\(\) on Symfony\\Component\\DependencyInjection\\ContainerInterface\|null\.$#'
 			identifier: method.nonObject
 			count: 1
@@ -3049,12 +3025,6 @@ parameters:
 			path: src/bundle/Core/Features/Context/ContentTypeContext.php
 
 		-
-			message: '#^Call to an undefined method Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentTypeGroup\:\:getContentTypeGroups\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentTypeContext.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:assertContentTypeDoesntExistsByIdentifier\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -3145,20 +3115,8 @@ parameters:
 			path: src/bundle/Core/Features/Context/ContentTypeContext.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:loadContentTypeByIdentifier\(\) should return Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentTypeGroup\|null but returns Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentType\|null\.$#'
-			identifier: return.type
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentTypeContext.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:removeContentType\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentTypeContext.php
-
-		-
-			message: '#^Parameter \#1 \$contentType of method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:removeContentType\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentType, Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentTypeGroup given\.$#'
-			identifier: argument.type
 			count: 1
 			path: src/bundle/Core/Features/Context/ContentTypeContext.php
 
@@ -9739,12 +9697,6 @@ parameters:
 			path: src/lib/Base/Exceptions/InvalidArgumentType.php
 
 		-
-			message: '#^Access to an undefined property Ibexa\\Core\\Base\\Exceptions\\LimitationValidationException\:\:\$validationErrors\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/lib/Base/Exceptions/LimitationValidationException.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Base\\Exceptions\\LimitationValidationException\:\:addParameter\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -13195,12 +13147,6 @@ parameters:
 			path: src/lib/IO/MimeTypeDetector/FileInfo.php
 
 		-
-			message: '#^Dead catch \- Ibexa\\Core\\IO\\Exception\\BinaryFileNotFoundException is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 1
-			path: src/lib/IO/TolerantIOService.php
-
-		-
 			message: '#^Method Ibexa\\Core\\IO\\TolerantIOService\:\:deleteBinaryFile\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -14639,12 +14585,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: src/lib/MVC/Symfony/Security/Authentication/RememberMeRepositoryAuthenticationProvider.php
-
-		-
-			message: '#^Dead catch \- Ibexa\\Core\\Repository\\User\\Exception\\UnsupportedPasswordHashType is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 1
-			path: src/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProvider.php
 
 		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Security\\Authentication\\RepositoryAuthenticationProvider\:\:checkAuthentication\(\) has no return type specified\.$#'
@@ -19279,18 +19219,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 14
-			path: src/lib/Persistence/Legacy/Content/Gateway/ExceptionConversion.php
-
-		-
-			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 14
-			path: src/lib/Persistence/Legacy/Content/Gateway/ExceptionConversion.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Gateway\\ExceptionConversion\:\:getContentIdsByContentTypeId\(\) has parameter \$contentTypeId with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
@@ -19849,18 +19777,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 8
-			path: src/lib/Persistence/Legacy/Content/Location/Gateway/ExceptionConversion.php
-
-		-
-			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 8
-			path: src/lib/Persistence/Legacy/Content/Location/Gateway/ExceptionConversion.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\\ExceptionConversion\:\:getBasicNodeData\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -20249,18 +20165,6 @@ parameters:
 			identifier: parameter.phpDocType
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/ObjectState/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 4
-			path: src/lib/Persistence/Legacy/Content/ObjectState/Gateway/ExceptionConversion.php
-
-		-
-			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 4
-			path: src/lib/Persistence/Legacy/Content/ObjectState/Gateway/ExceptionConversion.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\ObjectState\\Gateway\\ExceptionConversion\:\:loadObjectStateData\(\) return type has no value type specified in iterable type array\.$#'
@@ -20723,18 +20627,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Type/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 4
-			path: src/lib/Persistence/Legacy/Content/Type/Gateway/ExceptionConversion.php
-
-		-
-			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 4
-			path: src/lib/Persistence/Legacy/Content/Type/Gateway/ExceptionConversion.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\Gateway\\ExceptionConversion\:\:getSearchableFieldMapData\(\) return type has no value type specified in iterable type array\.$#'
@@ -21373,18 +21265,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 2
-			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway/ExceptionConversion.php
-
-		-
-			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 2
-			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway/ExceptionConversion.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\Gateway\\ExceptionConversion\:\:getAllChildrenAliases\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -21755,18 +21635,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/UrlWildcard/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/UrlWildcard/Gateway/ExceptionConversion.php
-
-		-
-			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/UrlWildcard/Gateway/ExceptionConversion.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\UrlWildcard\\Gateway\\ExceptionConversion\:\:find\(\) has parameter \$sortClauses with no value type specified in iterable type array\.$#'
@@ -22535,12 +22403,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Persistence/Legacy/Setting/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 5
-			path: src/lib/Persistence/Legacy/Setting/Gateway/ExceptionConversion.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Setting\\Gateway\\ExceptionConversion\:\:loadSetting\(\) return type has no value type specified in iterable type array\.$#'
@@ -28885,12 +28747,6 @@ parameters:
 			path: tests/bundle/Core/DependencyInjection/Configuration/Parser/ImageTest.php
 
 		-
-			message: '#^Access to an undefined property Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\LanguagesTest\:\:\$minimalConfig\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/bundle/Core/DependencyInjection/Configuration/Parser/LanguagesTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\LanguagesTest\:\:getMinimalConfiguration\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -29989,12 +29845,6 @@ parameters:
 			path: tests/bundle/Core/EventListener/RequestEventListenerTest.php
 
 		-
-			message: '#^Access to an undefined property Ibexa\\Tests\\Bundle\\Core\\EventListener\\RoutingListenerTest\:\:\$container\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/bundle/Core/EventListener/RoutingListenerTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\EventListener\\RoutingListenerTest\:\:testGetSubscribedEvents\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -30053,12 +29903,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: tests/bundle/Core/EventListener/SessionInitByPostListenerTest.php
-
-		-
-			message: '#^Access to an undefined property Ibexa\\Tests\\Bundle\\Core\\EventListener\\SessionSetDynamicNameListenerTest\:\:\$session\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/bundle/Core/EventListener/SessionSetDynamicNameListenerTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\EventListener\\SessionSetDynamicNameListenerTest\:\:onSiteAccessMatchProvider\(\) has no return type specified\.$#'
@@ -31403,12 +31247,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/bundle/Core/Routing/JsRouting/ExposedRoutesExtractorTest.php
-
-		-
-			message: '#^Access to an undefined property Ibexa\\Tests\\Bundle\\Core\\Routing\\UrlAliasRouterTest\:\:\$container\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/bundle/Core/Routing/UrlAliasRouterTest.php
 
 		-
 			message: '#^Call to an undefined method Ibexa\\Core\\MVC\\Symfony\\Routing\\UrlAliasRouter\:\:setConfigResolver\(\)\.$#'

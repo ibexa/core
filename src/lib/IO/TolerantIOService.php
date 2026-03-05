@@ -12,6 +12,7 @@ use Ibexa\Core\IO\Exception\InvalidBinaryAbsolutePathException;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\MissingBinaryFile;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 /**
  * An extended IOService that tolerates physically missing files.
@@ -110,13 +111,17 @@ class TolerantIOService extends IOService
 
         try {
             return $this->loadBinaryFile($binaryFileId);
-        } catch (BinaryFileNotFoundException $e) {
-            $this->logMissingFile($binaryFileUri);
+        } catch (Throwable $e) {
+            if ($e instanceof BinaryFileNotFoundException) {
+                $this->logMissingFile($binaryFileUri);
 
-            return new MissingBinaryFile([
-                'id' => $binaryFileId,
-                'uri' => $this->binarydataHandler->getUri($this->getPrefixedUri($binaryFileId)),
-            ]);
+                return new MissingBinaryFile([
+                    'id' => $binaryFileId,
+                    'uri' => $this->binarydataHandler->getUri($this->getPrefixedUri($binaryFileId)),
+                ]);
+            }
+
+            throw $e;
         }
     }
 

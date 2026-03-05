@@ -93,7 +93,9 @@ class IORepositoryResolver extends PathResolver implements ResolverInterface
         fwrite($tmpFile, $binary->getContent());
         $tmpMetadata = stream_get_meta_data($tmpFile);
 
-        $binaryCreateStruct = $this->ioService->newBinaryCreateStructFromLocalFile($tmpMetadata['uri']);
+        // @phpstan-ignore-next-line
+        $tmpPath = $tmpMetadata['uri'];
+        $binaryCreateStruct = $this->ioService->newBinaryCreateStructFromLocalFile($tmpPath);
         $binaryCreateStruct->id = $this->getFilePath($path, $filter);
         $this->ioService->createBinaryFile($binaryCreateStruct);
 

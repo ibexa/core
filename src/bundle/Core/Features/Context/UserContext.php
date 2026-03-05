@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use PHPUnit\Framework\Assert as Assertion;
+use Throwable;
 
 /**
  * Sentences for Users.
@@ -57,8 +58,12 @@ class UserContext implements Context
     {
         try {
             $user = $this->userService->loadUserByLogin($username);
-        } catch (ApiExceptions\NotFoundException $e) {
-            return null;
+        } catch (Throwable $e) {
+            if ($e instanceof ApiExceptions\NotFoundException) {
+                return null;
+            }
+
+            throw $e;
         }
 
         if ($user && $parentGroupId) {
@@ -130,8 +135,10 @@ class UserContext implements Context
         try {
             $existingUser = $this->userService->loadUserByLogin($username);
             $this->userService->deleteUser($existingUser);
-        } catch (NotFoundException $e) {
-            // do nothing
+        } catch (Throwable $e) {
+            if (!$e instanceof NotFoundException) {
+                throw $e;
+            }
         }
 
         if (!$parentGroup) {
@@ -237,15 +244,19 @@ class UserContext implements Context
         } else {
             try {
                 $user = $this->userService->loadUserByLogin($username);
-            } catch (ApiExceptions\NotFoundException $e) {
-                // nothing to do
+            } catch (Throwable $e) {
+                if (!$e instanceof ApiExceptions\NotFoundException) {
+                    throw $e;
+                }
             }
         }
         if ($user) {
             try {
                 $this->userService->deleteUser($user);
-            } catch (ApiExceptions\NotFoundException $e) {
-                // nothing to do
+            } catch (Throwable $e) {
+                if (!$e instanceof ApiExceptions\NotFoundException) {
+                    throw $e;
+                }
             }
         }
     }
