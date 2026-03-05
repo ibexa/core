@@ -53,3 +53,10 @@ services:
     Ibexa\Core\MVC\Symfony\Security\Authentication\EventSubscriber\OnAuthenticationTokenCreatedRepositoryUserSubscriber:
         autowire: true
         autoconfigure: true
+
+    Ibexa\Core\MVC\Symfony\Security\Authentication\AnonymousUserAccessListener:
+        autowire: true
+        autoconfigure: true
+        decorates: security.access_listener
+        arguments:
+            $innerListener: '@.inner'

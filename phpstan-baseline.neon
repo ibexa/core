@@ -8461,6 +8461,12 @@ parameters:
 			path: src/lib/MVC/Symfony/Routing/SimplifiedRequest.php
 
 		-
+			message: '#^Class Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\URLAlias referenced with incorrect case\: Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\UrlAlias\.$#'
+			identifier: class.nameCase
+			count: 1
+			path: src/lib/MVC/Symfony/Routing/UrlAliasRouter.php
+
+		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Security\\Authorization\\Attribute\:\:__construct\(\) has parameter \$function with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
@@ -17769,7 +17775,7 @@ parameters:
 		-
 			message: '#^Class Ibexa\\Contracts\\Core\\Persistence\\Content\\UrlAlias referenced with incorrect case\: Ibexa\\Contracts\\Core\\Persistence\\Content\\URLAlias\.$#'
 			identifier: class.nameCase
-			count: 7
+			count: 2
 			path: src/lib/Repository/URLAliasService.php
 
 		-
