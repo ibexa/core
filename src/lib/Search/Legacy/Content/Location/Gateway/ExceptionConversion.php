@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Search\Legacy\Content\Location\Gateway;
 use PDOException;
+use Throwable;
 
 /**
  * Base class for location gateways.
@@ -44,8 +45,12 @@ class ExceptionConversion extends Gateway
     ): array {
         try {
             return $this->innerGateway->find($criterion, $offset, $limit, $sortClauses, $languageFilter, $doCount);
-        } catch (DBALException | PDOException $e) {
-            throw DatabaseException::wrap($e);
+        } catch (Throwable $e) {
+            if ($e instanceof DBALException || $e instanceof PDOException) {
+                throw DatabaseException::wrap($e);
+            }
+
+            throw $e;
         }
     }
 }
