@@ -11,6 +11,7 @@ namespace Ibexa\Core\IO\FilePathNormalizer;
 use Ibexa\Core\IO\FilePathNormalizerInterface;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
 use League\Flysystem\PathNormalizer;
+use const DIRECTORY_SEPARATOR;
 
 final class Flysystem implements FilePathNormalizerInterface
 {
@@ -26,21 +27,28 @@ final class Flysystem implements FilePathNormalizerInterface
         $this->pathNormalizer = $pathNormalizer;
     }
 
-    public function normalizePath(string $filePath, bool $doHash = true): string
+    public function normalizePath(string $filePath, bool $doHash = true, ?string $realFilePath = null): string
     {
         $fileName = pathinfo($filePath, PATHINFO_BASENAME);
         $directory = pathinfo($filePath, PATHINFO_DIRNAME);
 
         $fileName = $this->slugConverter->convert($fileName, '_1', 'urlalias');
 
-        $hash = $doHash
-            ? (preg_match(self::HASH_PATTERN, $fileName) ? '' : bin2hex(random_bytes(6)) . '-')
+        $hash = $doHash && !preg_match(self::HASH_PATTERN, $fileName)
+            ? $this->generateFilePathHash($realFilePath)
             : '';
 
-        $filePath = $directory . \DIRECTORY_SEPARATOR . $hash;
+        $filePath = $directory . DIRECTORY_SEPARATOR . $hash;
         $normalizedFileName = $this->pathNormalizer->normalizePath($fileName);
 
         return $filePath . $normalizedFileName;
+    }
+
+    private function generateFilePathHash(?string $realFilePath = null): string
+    {
+        $hash = $realFilePath !== null ? md5_file($realFilePath) : false;
+
+        return ($hash !== false ? substr($hash, 0, 12) : bin2hex(random_bytes(6))) . '-';
     }
 }
 

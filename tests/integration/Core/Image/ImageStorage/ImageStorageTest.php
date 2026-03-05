@@ -173,6 +173,71 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
         self::assertSame(1, $this->gateway->countImageReferences($binaryFile->uri));
     }
 
+    /**
+     * @dataProvider providerOfFieldData
+     */
+    public function testStoreFieldDataWithSameImageOnAutosave(VersionInfo $versionInfo, Field $field): void
+    {
+        $targetPath = '1/8/6/232-eng-GB/' . $field->value->externalData['fileName'];
+
+        $binaryFile = new BinaryFile([
+            'id' => $targetPath,
+            'uri' => $targetPath,
+        ]);
+
+        $this->filePathNormalizer
+            ->expects(self::exactly(2))
+            ->method('normalizePath')
+            ->willReturn($targetPath);
+
+        $this->ioService
+            ->expects(self::exactly(2))
+            ->method('newBinaryCreateStructFromLocalFile')
+            ->with($field->value->externalData['inputUri'])
+            ->willReturn(new BinaryFileCreateStruct());
+
+        $this->ioService
+            ->expects(self::exactly(2))
+            ->method('createBinaryFile')
+            ->willReturn($binaryFile);
+
+        $this->ioService
+            ->expects(self::exactly(2))
+            ->method('getMimeType')
+            ->with($binaryFile->id)
+            ->willReturn('image/jpeg');
+
+        $this->redecorator
+            ->method('redecorateFromSource')
+            ->with($binaryFile->uri)
+            ->willReturn($binaryFile->uri);
+
+        // First save
+        $this->storage->storeFieldData($versionInfo, $field, $this->getContext());
+
+        // Simulate autosave with same image — rebuild externalData
+        $field->value = new FieldValue([
+            'externalData' => [
+                'id' => null,
+                'path' => $field->value->data['path'] ?? __DIR__ . '/image.jpg',
+                'inputUri' => __DIR__ . '/image.jpg',
+                'fileName' => 'image.jpg',
+                'fileSize' => '12345',
+                'mimeType' => 'image/jpeg',
+                'width' => null,
+                'height' => null,
+                'alternativeText' => null,
+                'imageId' => null,
+                'uri' => null,
+                'additionalData' => [],
+            ],
+        ]);
+
+        $this->storage->storeFieldData($versionInfo, $field, $this->getContext());
+
+        self::assertSame(1, $this->gateway->countImageReferences($binaryFile->uri));
+    }
+
     private function runCommonStoreFieldDataMocks(Field $field): BinaryFile
     {
         $this->filePathNormalizer
