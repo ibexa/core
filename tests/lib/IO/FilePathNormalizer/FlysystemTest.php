@@ -112,4 +112,53 @@ final class FlysystemTest extends TestCase
             ],
         ];
     }
+
+    public function testNormalizePathWithRealFilePath(): void
+    {
+        $tempFile = tempnam(sys_get_temp_dir(), 'test_image_');
+        file_put_contents($tempFile, 'test image content');
+
+        try {
+            $md5File = md5_file($tempFile);
+            self::assertNotFalse($md5File);
+            $expectedHash = substr($md5File, 0, 12);
+
+            $this->slugConverter
+                ->expects(self::once())
+                ->method('convert')
+                ->with('image.jpg')
+                ->willReturn('image.jpg');
+
+            $normalizedPath = $this->filePathNormalizer->normalizePath(
+                '4/3/2/234/1/image.jpg',
+                true,
+                $tempFile,
+            );
+
+            self::assertSame('4/3/2/234/1/' . $expectedHash . '-image.jpg', $normalizedPath);
+        } finally {
+            unlink($tempFile);
+        }
+    }
+
+    public function testNormalizePathWithRealFilePathIsDeterministic(): void
+    {
+        $tempFile = tempnam(sys_get_temp_dir(), 'test_image_');
+        file_put_contents($tempFile, 'test image content');
+
+        try {
+            $this->slugConverter
+                ->expects(self::exactly(2))
+                ->method('convert')
+                ->with('image.jpg')
+                ->willReturn('image.jpg');
+
+            $first = $this->filePathNormalizer->normalizePath('4/3/2/234/1/image.jpg', true, $tempFile);
+            $second = $this->filePathNormalizer->normalizePath('4/3/2/234/1/image.jpg', true, $tempFile);
+
+            self::assertSame($first, $second);
+        } finally {
+            unlink($tempFile);
+        }
+    }
 }
