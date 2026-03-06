@@ -47,7 +47,6 @@ final class Embeddings extends AbstractParser
             ->end()
             ->scalarNode('default_embedding_model')
                 ->info('Default embedding model identifier')
-                ->defaultValue('text-embedding-ada-002')
             ->end();
     }
 
@@ -57,6 +56,8 @@ final class Embeddings extends AbstractParser
     public function preMap(array $config, ContextualizerInterface $contextualizer): void
     {
         $contextualizer->mapConfigArray('embedding_models', $config);
+        // Keep the default value in default settings only. Defining a scalar default on the semantic node would
+        // materialize it into every siteaccess/group scope and block inheritance from `system.default` overrides.
         $contextualizer->mapSetting('default_embedding_model', $config);
     }
 
