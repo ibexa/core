@@ -1,0 +1,7 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to new Ibexa\\Core\\Repository\\URLAliasService\(\) on a separate line has no effect\.$#'
+			identifier: new.resultUnused
+			count: 1
+			path: tests/lib/Repository/Service/Mock/UrlAliasTest.php

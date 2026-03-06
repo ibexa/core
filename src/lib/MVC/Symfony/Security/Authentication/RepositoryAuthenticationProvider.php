@@ -90,11 +90,12 @@ class RepositoryAuthenticationProvider extends DaoAuthenticationProvider impleme
 
         try {
             $result = parent::authenticate($token);
-        } catch (UnsupportedPasswordHashType $exception) {
-            $this->sleepUsingConstantTimer($startTime);
-            throw new PasswordInUnsupportedFormatException($exception);
         } catch (\Exception $e) {
             $this->sleepUsingConstantTimer($startTime);
+            if ($e instanceof UnsupportedPasswordHashType) {
+                throw new PasswordInUnsupportedFormatException($e);
+            }
+
             throw $e;
         }
 
