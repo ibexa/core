@@ -17,7 +17,7 @@ use Symfony\Component\HttpKernel\Controller\ControllerReference;
 
 final class RenderLocationStrategy extends BaseRenderStrategy implements RenderStrategy
 {
-    private const DEFAULT_VIEW_TYPE = 'embed';
+    private const string DEFAULT_VIEW_TYPE = 'embed';
 
     public function supports(ValueObject $valueObject): bool
     {
@@ -42,6 +42,7 @@ final class RenderLocationStrategy extends BaseRenderStrategy implements RenderS
             'contentId' => $content->id,
             'locationId' => $location->id,
             'viewType' => $options->get('viewType', self::DEFAULT_VIEW_TYPE),
+            'params' => $options->get('params', []),
         ]);
 
         $renderer = $this->getFragmentRenderer($options->get('method', $this->defaultRenderer));
