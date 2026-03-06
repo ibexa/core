@@ -220,7 +220,8 @@ class ContentTypeHandlerTest extends TestCase
         $gatewayMock = $this->getGatewayMock();
         $gatewayMock->expects($this->once())
             ->method('loadAllGroupsData')
-            ->will($this->returnValue([]));
+            ->with(false)
+            ->willReturn([]);
 
         $mapperMock = $this->getMapperMock();
         $mapperMock->expects($this->once())
