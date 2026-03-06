@@ -93,6 +93,15 @@ class RenderContentStrategyTest extends BaseRenderStrategyTestCase
         );
     }
 
+    public function testForwardParamOptionsToFragmentRenderer(): void
+    {
+        $this->forwardParamOptionsToFragmentRenderer(
+            $this->createMock(FragmentRendererInterface::class),
+            $this->createMock(Content::class),
+            RenderContentStrategy::class,
+        );
+    }
+
     public function testDuplicatedFragmentRenderers(): void
     {
         $renderContentStrategy = $this->createRenderStrategy(
@@ -127,19 +136,19 @@ class RenderContentStrategyTest extends BaseRenderStrategyTestCase
             ->method('getName')
             ->willReturn('method_b');
 
-        $controllerReferenceCallback = self::callback(function (ControllerReference $controllerReference): bool {
-            $this->assertInstanceOf(ControllerReference::class, $controllerReference);
-            $this->assertEquals('ibexa_content::viewAction', $controllerReference->controller);
-            $this->assertSame([
+        $controllerReferenceCallback = self::callback(static function (ControllerReference $controllerReference): bool {
+            self::assertEquals('ibexa_content::viewAction', $controllerReference->controller);
+            self::assertSame([
                 'contentId' => 123,
                 'viewType' => 'awesome',
+                'params' => [],
             ], $controllerReference->attributes);
 
             return true;
         });
 
-        $requestCallback = self::callback(function (Request $request) use ($siteAccess, $content): bool {
-            $this->assertSame('TEST/1.0', $request->headers->get('Surrogate-Capability'));
+        $requestCallback = self::callback(static function (Request $request): bool {
+            self::assertSame('TEST/1.0', $request->headers->get('Surrogate-Capability'));
 
             return true;
         });
