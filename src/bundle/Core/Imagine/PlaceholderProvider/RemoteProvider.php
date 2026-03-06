@@ -79,7 +79,6 @@ class RemoteProvider implements PlaceholderProvider
     {
         $tmpMetadata = stream_get_meta_data(tmpfile());
 
-        // @phpstan-ignore-next-line
         return $tmpMetadata['uri'];
     }
 
