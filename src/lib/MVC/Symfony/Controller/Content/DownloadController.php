@@ -51,7 +51,14 @@ class DownloadController extends Controller
      */
     public function downloadBinaryFileByIdAction(Request $request, int $contentId, int $fieldId): BinaryStreamResponse
     {
-        $content = $this->contentService->loadContent($contentId);
+        $versionNo = $request->query->has('version') ? $request->query->getInt('version') : null;
+        $language = $request->query->has('inLanguage') ? $request->query->get('inLanguage') : null;
+
+        $content = $this->contentService->loadContent(
+            $contentId,
+            $language !== null ? [$language] : null,
+            $versionNo,
+        );
         try {
             $field = $this->findFieldInContent($fieldId, $content);
         } catch (InvalidArgumentException $e) {
