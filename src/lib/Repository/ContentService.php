@@ -2528,7 +2528,7 @@ class ContentService implements ContentServiceInterface
      */
     public function hideContent(ContentInfo $contentInfo): void
     {
-        // If ContentInfo is in draft state, mainocationId is yet not set
+        // If ContentInfo is in draft state, mainLocationId is yet not set
         $locationTarget = !$contentInfo->isDraft()
             ? [new DestinationLocationTarget($contentInfo->mainLocationId, $contentInfo)]
             : [];
