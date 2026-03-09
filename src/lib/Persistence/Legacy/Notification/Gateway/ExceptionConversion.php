@@ -16,7 +16,6 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Query\NotificationQuery;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Notification\Gateway;
 use PDOException;
-use Throwable;
 
 class ExceptionConversion extends Gateway
 {
@@ -41,12 +40,8 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->getNotificationById($notificationId);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -58,12 +53,8 @@ class ExceptionConversion extends Gateway
     ): array {
         try {
             return $this->innerGateway->bulkUpdateUserNotifications($ownerId, $updateStruct, $pendingOnly, $notificationIds);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -71,12 +62,8 @@ class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->updateNotification($notification);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -84,12 +71,8 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countUserNotifications($userId, $query);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -97,12 +80,8 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countUserPendingNotifications($userId);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -119,12 +98,8 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->findUserNotifications($userId, $query);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -132,12 +107,8 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->insert($notification);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -145,12 +116,8 @@ class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->delete($notificationId);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 }

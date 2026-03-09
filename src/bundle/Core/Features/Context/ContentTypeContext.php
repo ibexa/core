@@ -11,7 +11,6 @@ use Behat\Gherkin\Node\TableNode;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Exceptions as ApiExceptions;
 use PHPUnit\Framework\Assert as Assertion;
-use Throwable;
 
 /**
  * Sentences for content types.
@@ -123,15 +122,18 @@ class ContentTypeContext implements Context
      */
     protected function loadContentTypeByIdentifier($identifier, $throwIfNotFound = true)
     {
+        $contentType = null;
         try {
-            return $this->contentTypeService->loadContentTypeByIdentifier($identifier);
-        } catch (Throwable $e) {
-            if ($e instanceof ApiExceptions\NotFoundException && !$throwIfNotFound) {
-                return null;
-            }
-
-            throw $e;
+            $contentType = $this->contentTypeService->loadContentTypeByIdentifier($identifier);
+        } catch (ApiExceptions\NotFoundException $e) {
+            $notFoundException = $e;
         }
+
+        if (!$contentType && $throwIfNotFound) {
+            throw $notFoundException;
+        }
+
+        return $contentType;
     }
 
     /**
@@ -196,10 +198,8 @@ class ContentTypeContext implements Context
     {
         try {
             $this->contentTypeService->deleteContentType($contentType);
-        } catch (Throwable $e) {
-            if (!$e instanceof ApiExceptions\NotFoundException) {
-                throw $e;
-            }
+        } catch (ApiExceptions\NotFoundException $e) {
+            // nothing to do
         }
     }
 

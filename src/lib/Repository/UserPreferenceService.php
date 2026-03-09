@@ -72,7 +72,11 @@ class UserPreferenceService implements UserPreferenceServiceInterface
                 throw new InvalidArgumentException('value', 'Cannot convert value to string at index ' . $key);
             }
 
-            $value = (string)$userPreferenceSetStruct->value;
+            try {
+                $value = (string)$userPreferenceSetStruct->value;
+            } catch (\Exception $exception) {
+                throw new InvalidArgumentException('value', 'Cannot convert value to string at index ' . $key);
+            }
 
             $spiSetStruct = new UserPreferenceSetStruct();
             $spiSetStruct->userId = $this->getCurrentUserId();

@@ -14,7 +14,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 use PDOException;
-use Throwable;
 
 /**
  * @internal Internal exception conversion layer.
@@ -45,12 +44,8 @@ final class ExceptionConversion extends Gateway
     ): array {
         try {
             return $this->innerGateway->getBasicNodeData($nodeId, $translations, $useAlwaysAvailable);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -58,12 +53,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->getNodeDataList($locationIds, $translations, $useAlwaysAvailable);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -74,12 +65,8 @@ final class ExceptionConversion extends Gateway
     ): array {
         try {
             return $this->innerGateway->getBasicNodeDataByRemoteId($remoteId, $translations, $useAlwaysAvailable);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -87,12 +74,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadLocationDataByContent($contentId, $rootLocationId);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -100,12 +83,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadLocationDataByTrashContent($contentId, $rootLocationId);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -113,12 +92,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadParentLocationsDataForDraftContent($contentId);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -126,12 +101,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->getSubtreeContent($sourceId, $onlyIds);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -151,12 +122,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->getSubtreeSize($path);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -164,12 +131,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->getChildren($locationId);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -177,12 +140,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->moveSubtreeNodes($fromPathString, $toPathString);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -190,12 +149,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->updateSubtreeModificationTime($pathString, $timestamp);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -207,12 +162,8 @@ final class ExceptionConversion extends Gateway
     ): void {
         try {
             $this->innerGateway->updateNodeAssignment($contentObjectId, $oldParent, $newParent, $opcode);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -220,12 +171,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->createLocationsFromNodeAssignments($contentId, $versionNo);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -233,12 +180,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->updateLocationsContentVersionNo($contentId, $versionNo);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -246,12 +189,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->hideSubtree($pathString);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -259,12 +198,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->unHideSubtree($pathString);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -272,12 +207,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->setNodeWithChildrenInvisible($pathString);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -285,12 +216,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->setNodeHidden($pathString);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -298,12 +225,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->setNodeWithChildrenVisible($pathString);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -311,12 +234,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->setNodeUnhidden($pathString);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -324,12 +243,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->swap($locationId1, $locationId2);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -337,12 +252,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->create($createStruct, $parentNode);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -353,12 +264,8 @@ final class ExceptionConversion extends Gateway
     ): void {
         try {
             $this->innerGateway->createNodeAssignment($createStruct, $parentNodeId, $type);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -366,12 +273,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->deleteNodeAssignment($contentId, $versionNo);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -379,12 +282,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->update($location, $locationId);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -395,12 +294,8 @@ final class ExceptionConversion extends Gateway
     ): void {
         try {
             $this->innerGateway->updatePathIdentificationString($locationId, $parentLocationId, $text);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -408,12 +303,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->removeLocation($locationId);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -421,12 +312,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->getFallbackMainNodeData($contentId, $locationId);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -434,12 +321,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->trashLocation($locationId);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -447,12 +330,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->untrashLocation($locationId, $newParentId);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -460,12 +339,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadTrashByLocation($locationId);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -473,12 +348,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->cleanupTrash();
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -490,12 +361,8 @@ final class ExceptionConversion extends Gateway
     ): array {
         try {
             return $this->innerGateway->listTrashed($offset, $limit, $sort, $criterion);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -503,12 +370,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countTrashed($criterion);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -516,12 +379,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->removeElementFromTrash($id);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -529,12 +388,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->setSectionForSubtree($pathString, $sectionId);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -542,12 +397,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countLocationsByContentId($contentId);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -559,12 +410,8 @@ final class ExceptionConversion extends Gateway
     ): void {
         try {
             $this->innerGateway->changeMainLocation($contentId, $locationId, $versionNo, $parentLocationId);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -572,12 +419,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countAllLocations();
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -585,12 +428,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadAllLocationsData($offset, $limit);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 }

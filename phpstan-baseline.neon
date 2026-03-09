@@ -75479,3 +75479,93 @@ parameters:
 			identifier: phpDoc.parseError
 			count: 1
 			path: tests/lib/Validation/StructValidatorTest.php
+
+		-
+			message: '#^Dead catch \- Ibexa\\Core\\IO\\Exception\\BinaryFileNotFoundException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/lib/IO/TolerantIOService.php
+
+		-
+			message: '#^Dead catch \- Ibexa\\Core\\Repository\\User\\Exception\\UnsupportedPasswordHashType is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProvider.php
+
+		-
+			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 14
+			path: src/lib/Persistence/Legacy/Content/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 14
+			path: src/lib/Persistence/Legacy/Content/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 8
+			path: src/lib/Persistence/Legacy/Content/Location/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 8
+			path: src/lib/Persistence/Legacy/Content/Location/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 4
+			path: src/lib/Persistence/Legacy/Content/ObjectState/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 4
+			path: src/lib/Persistence/Legacy/Content/ObjectState/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 4
+			path: src/lib/Persistence/Legacy/Content/Type/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 4
+			path: src/lib/Persistence/Legacy/Content/Type/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 2
+			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 2
+			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/UrlWildcard/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/UrlWildcard/Gateway/ExceptionConversion.php
+
+		-
+			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 5
+			path: src/lib/Persistence/Legacy/Setting/Gateway/ExceptionConversion.php

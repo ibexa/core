@@ -12,7 +12,6 @@ use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\URL\Gateway;
 use PDOException;
-use Throwable;
 
 class ExceptionConversion extends Gateway
 {
@@ -37,12 +36,8 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->updateUrl($url);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -50,12 +45,8 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->find($criterion, $offset, $limit, $sortClauses, $doCount);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -63,12 +54,8 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->findUsages($id);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -76,12 +63,8 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadUrlData($id);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -89,12 +72,8 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadUrlDataByUrl($url);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 }

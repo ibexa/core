@@ -14,7 +14,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway;
 use PDOException;
-use Throwable;
 
 /**
  * @internal Internal exception conversion layer.
@@ -42,12 +41,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->insertUrlWildcard($urlWildcard);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -64,12 +59,8 @@ final class ExceptionConversion extends Gateway
                 $destinationUrl,
                 $forward
             );
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -77,12 +68,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->deleteUrlWildcard($id);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -90,12 +77,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadUrlWildcardData($id);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -103,12 +86,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadUrlWildcardsData($offset, $limit);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -121,12 +100,8 @@ final class ExceptionConversion extends Gateway
     ): array {
         try {
             return $this->innerGateway->find($criterion, $offset, $limit, $sortClauses, $doCount);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -134,12 +109,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadUrlWildcardBySourceUrl($sourceUrl);
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 
@@ -147,12 +118,8 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countAll();
-        } catch (Throwable $e) {
-            if ($e instanceof DBALException || $e instanceof PDOException) {
-                throw DatabaseException::wrap($e);
-            }
-
-            throw $e;
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
         }
     }
 }
