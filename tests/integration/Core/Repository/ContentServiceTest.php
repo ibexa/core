@@ -6432,7 +6432,7 @@ class ContentServiceTest extends BaseContentServiceTest
             $childContent->contentInfo->getMainLocationId(),
             'Expected mainLocationId to be set for this test case.'
         );
-        $childLocation = $this->locationService->loadLocation($childContent->contentInfo->mainLocationId);
+        $childLocation = $this->locationService->loadLocation($childContent->contentInfo->getMainLocationId());
         $childSublocations = $this->locationService->loadLocationList([
             $contents[3]->contentInfo->mainLocationId,
             $contents[4]->contentInfo->mainLocationId,
