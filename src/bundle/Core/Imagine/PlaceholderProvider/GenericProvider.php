@@ -84,9 +84,7 @@ class GenericProvider implements PlaceholderProvider
 
     private function getTemporaryPath(): string
     {
-        $tmpMetadata = stream_get_meta_data(tmpfile());
-
-        return $tmpMetadata['uri'];
+        return stream_get_meta_data(tmpfile())['uri'];
     }
 
     private function resolveOptions(array $options): array

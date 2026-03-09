@@ -302,8 +302,7 @@ class ResizeOriginalImagesCommand extends Command implements BackwardCompatibleC
         $tmpFile = tmpfile();
         fwrite($tmpFile, $binary->getContent());
         $tmpMetadata = stream_get_meta_data($tmpFile);
-        $tmpPath = $tmpMetadata['uri'];
-        $binaryCreateStruct = $this->ioService->newBinaryCreateStructFromLocalFile($tmpPath);
+        $binaryCreateStruct = $this->ioService->newBinaryCreateStructFromLocalFile($tmpMetadata['uri']);
         $binaryCreateStruct->id = $image->id;
         $newBinaryFile = $this->ioService->createBinaryFile($binaryCreateStruct);
         fclose($tmpFile);
