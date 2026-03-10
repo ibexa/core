@@ -160,7 +160,7 @@ class BookmarkServiceTest extends BaseTest
             ->withCriterion(new Criterion\IsBookmarked(14));
         $count = $repository->getLocationService()->count($filter, []);
 
-        $this->assertEquals(5, $count);
+        self::assertEquals(5, $count);
     }
 }
 
