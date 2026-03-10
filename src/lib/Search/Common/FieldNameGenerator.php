@@ -15,32 +15,19 @@ use Ibexa\Contracts\Core\Search\FieldType;
 class FieldNameGenerator
 {
     /**
-     * Simple mapping for our internal field types, consisting of an array
-     * of SPI Search FieldType identifier as key and search backend field type
-     * string as value.
+     * `$fieldNameMapping` maps internal search field type identifiers to backend
+     * suffixes (e.g. `ibexa_string` => `s`).
      *
-     * We implement this mapping, because those dynamic fields are common to
-     * search backend configurations.
+     * `$fallbackPrefixes` defines type prefixes for generic fallback normalization
+     * when no explicit mapping exists (e.g. `ibexa_dense_vector_<suffix>`).
      *
-     * @see \Ibexa\Contracts\Core\Search\FieldType
-     *
-     * Code example:
-     *
-     * <code>
-     *  array(
-     *      "ez_integer" => "i",
-     *      "ez_string" => "s",
-     *      ...
-     *  )
-     * </code>
-     *
-     * @var array
+     * @param array<string, string> $fieldNameMapping
+     * @param string[] $fallbackPrefixes
      */
-    protected $fieldNameMapping;
-
-    public function __construct(array $fieldNameMapping)
-    {
-        $this->fieldNameMapping = $fieldNameMapping;
+    public function __construct(
+        protected array $fieldNameMapping,
+        private readonly array $fallbackPrefixes = []
+    ) {
     }
 
     /**
@@ -76,8 +63,26 @@ class FieldNameGenerator
             return $name;
         }
 
-        $typeName = $this->fieldNameMapping[$type->getType()] ?? $type->getType();
+        $typeIdentifier = $type->getType();
+        $typeName = $this->fieldNameMapping[$typeIdentifier] ?? $this->normalizeUsingFallbackPrefixes($typeIdentifier);
 
         return $name . '_' . $typeName;
+    }
+
+    /**
+     * Generic fallback for field type families that encode backend suffix in the type identifier.
+     *
+     * Example:
+     * - `ibexa_dense_vector_gemini_embedding_001_1536_dv` => `gemini_embedding_001_1536_dv`
+     */
+    private function normalizeUsingFallbackPrefixes(string $typeIdentifier): string
+    {
+        foreach ($this->fallbackPrefixes as $prefix) {
+            if (str_starts_with($typeIdentifier, $prefix)) {
+                return substr($typeIdentifier, strlen($prefix));
+            }
+        }
+
+        return $typeIdentifier;
     }
 }
