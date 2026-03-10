@@ -34,7 +34,7 @@ class LimitationValidationException extends APILimitationValidationException imp
      */
     public function __construct(array $errors)
     {
-        $this->errors = $errors;
+        $this->validationErrors = $errors;
         $this->setMessageTemplate('Limitations did not validate');
         parent::__construct($this->getBaseTranslation());
     }

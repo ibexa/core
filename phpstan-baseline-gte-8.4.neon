@@ -41,3 +41,39 @@ parameters:
 			identifier: unset.possiblyHookedProperty
 			count: 1
 			path: tests/lib/Repository/Values/User/UserTest.php
+
+		-
+			message: '#^Cannot unset property .* because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 3
+			path: tests/bundle/Core/EventListener/BackgroundIndexingTerminateListenerTest.php
+
+		-
+			message: '#^Cannot unset property .* because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 9
+			path: tests/lib/Persistence/Cache/AbstractBaseHandlerTest.php
+
+		-
+			message: '#^Cannot unset property .* because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 3
+			path: tests/lib/Persistence/Cache/Adapter/InMemoryClearingProxyAdapterTest.php
+
+		-
+			message: '#^Cannot unset property .* because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: tests/lib/Persistence/Cache/InMemory/InMemoryCacheTest.php
+
+		-
+			message: '#^Cannot unset property .* because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 1
+			path: tests/lib/Persistence/Cache/PersistenceLoggerTest.php
+
+		-
+			message: '#^Cannot unset property .* because it might have hooks in a subclass\.$#'
+			identifier: unset.possiblyHookedProperty
+			count: 3
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
