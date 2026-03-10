@@ -1990,8 +1990,8 @@ class LocationServiceTest extends BaseTest
         $afterSwap = $bookmarkService->loadBookmarks();
         /* END: Use Case */
 
-        $this->assertEquals($contactUsLocationId, $afterSwap->items[0]->id);
-        $this->assertEquals($beforeSwap->items[1]->id, $afterSwap->items[1]->id);
+        self::assertEquals($contactUsLocationId, $afterSwap->items[0]->id);
+        self::assertEquals($beforeSwap->items[1]->id, $afterSwap->items[1]->id);
     }
 
     /**
