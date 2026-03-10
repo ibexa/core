@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
-use Ibexa\Contracts\Core\Repository\Values\Bookmark\BookmarkList;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 
