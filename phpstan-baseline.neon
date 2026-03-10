@@ -32431,12 +32431,6 @@ parameters:
 			path: tests/integration/Core/Repository/BaseURLServiceTest.php
 
 		-
-			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Bookmark\\\\BookmarkList'' and Ibexa\\Contracts\\Core\\Repository\\Values\\Bookmark\\BookmarkList will always evaluate to true\.$#'
-			identifier: method.alreadyNarrowedType
-			count: 1
-			path: tests/integration/Core/Repository/BookmarkServiceTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\BookmarkServiceTest\:\:testCreateBookmark\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
