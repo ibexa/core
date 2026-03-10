@@ -153,9 +153,6 @@ class BookmarkServiceTest extends BaseTest
         }, $bookmarks->items));
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::loadBookmarks
-     */
     public function testCountBookmarks(): void
     {
         $repository = $this->getRepository();
