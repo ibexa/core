@@ -111,7 +111,7 @@ class BookmarkService implements BookmarkServiceInterface
                 ->withSortClause(new SortClause\BookmarkId(Query::SORT_DESC))
                 ->sliceBy($limit, $offset);
 
-            $result = $this->repository->getlocationService()->find($filter, []);
+            $result = $this->repository->getLocationService()->find($filter, []);
         } catch (BadStateException $e) {
             $this->logger->debug($e->getMessage(), [
                 'exception' => $e,
