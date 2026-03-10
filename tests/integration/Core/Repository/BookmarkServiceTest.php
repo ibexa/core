@@ -145,10 +145,9 @@ class BookmarkServiceTest extends BaseTest
         $bookmarks = $repository->getBookmarkService()->loadBookmarks(1, 3);
         /* END: Use Case */
 
-        $this->assertInstanceOf(BookmarkList::class, $bookmarks);
-        $this->assertEquals($bookmarks->totalCount, 5);
+        self::assertEquals(5, $bookmarks->totalCount);
         // Assert bookmarks order: recently added should be first
-        $this->assertEquals([15, 13, 12], array_map(static function ($location) {
+        self::assertEquals([15, 13, 12], array_map(static function ($location) {
             return $location->id;
         }, $bookmarks->items));
     }
@@ -162,7 +161,7 @@ class BookmarkServiceTest extends BaseTest
             ->withCriterion(new Criterion\IsBookmarked(14));
         $count = $repository->getLocationService()->count($filter, []);
 
-        $this->assertEquals($count, 5);
+        $this->assertEquals(5, $count);
     }
 }
 
