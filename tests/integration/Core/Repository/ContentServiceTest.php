@@ -3938,7 +3938,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $this->contentService->publishVersion($mediaDraft->getVersionInfo());
         $this->contentService->publishVersion($demoDesignDraft->getVersionInfo());
 
-        $demoDesignLocationId = $demoDesignDraft->contentInfo->getMainLocationId();
+        $demoDesignLocationId = $demoDesignDraft->getContentInfo()->getMainLocationId();
         self::assertNotNull($demoDesignLocationId, 'Expected mainLocationId to be set for this test case.');
         $demoDesignLocation = $this->locationService->loadLocation($demoDesignLocationId);
 
@@ -4142,7 +4142,7 @@ class ContentServiceTest extends BaseContentServiceTest
             $draft3,
         ]);
 
-        $draft3MainLocationId = $draft3->contentInfo->getMainLocationId();
+        $draft3MainLocationId = $draft3->getContentInfo()->getMainLocationId();
         self::assertNotNull($draft3MainLocationId, 'Expected mainLocationId to be set for this test case.');
         $locationToTrash = $this->locationService->loadLocation($draft3MainLocationId);
 
@@ -6250,7 +6250,7 @@ class ContentServiceTest extends BaseContentServiceTest
     public function testHideContentDraft(): void
     {
         $publishedContent = $this->createContentForHideRevealDraftTests(false);
-        $publishedContentMainLocationId = $publishedContent->contentInfo->getMainLocationId();
+        $publishedContentMainLocationId = $publishedContent->getContentInfo()->getMainLocationId();
         self::assertNotNull(
             $publishedContentMainLocationId,
             'Expected mainLocationId to be set for this test case.'
@@ -6272,7 +6272,7 @@ class ContentServiceTest extends BaseContentServiceTest
     public function testHideAndRevealContentDraft(): void
     {
         $publishedContent = $this->createContentForHideRevealDraftTests(true);
-        $publishedContentMainLocationId = $publishedContent->contentInfo->getMainLocationId();
+        $publishedContentMainLocationId = $publishedContent->getContentInfo()->getMainLocationId();
         self::assertNotNull(
             $publishedContentMainLocationId,
             'Expected mainLocationId to be set for this test case.'
@@ -6355,7 +6355,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $this->contentService->revealContent($contents[2]->contentInfo);
 
         $parentContent = $this->contentService->loadContent($contents[0]->id);
-        $parentContentMainLocationId = $parentContent->contentInfo->getMainLocationId();
+        $parentContentMainLocationId = $parentContent->getContentInfo()->getMainLocationId();
 
         self::assertNotNull(
             $parentContentMainLocationId,
@@ -6419,7 +6419,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $this->contentService->revealContent($contents[0]->contentInfo);
 
         $directChildContent = $this->contentService->loadContent($contents[1]->id);
-        $directChildContentMainLocationId = $directChildContent->contentInfo->getMainLocationId();
+        $directChildContentMainLocationId = $directChildContent->getContentInfo()->getMainLocationId();
         self::assertNotNull(
             $directChildContentMainLocationId,
             'Expected mainLocationId to be set for this test case.'
@@ -6427,7 +6427,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $directChildLocation = $this->locationService->loadLocation($directChildContentMainLocationId);
 
         $childContent = $this->contentService->loadContent($contents[2]->id);
-        $childContentMainLocationId = $childContent->contentInfo->getMainLocationId();
+        $childContentMainLocationId = $childContent->getContentInfo()->getMainLocationId();
         self::assertNotNull(
             $childContentMainLocationId,
             'Expected mainLocationId to be set for this test case.'
