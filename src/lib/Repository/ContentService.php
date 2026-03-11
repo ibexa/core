@@ -2530,7 +2530,7 @@ class ContentService implements ContentServiceInterface
     {
         // If ContentInfo is in draft state, mainLocationId is yet not set
         $locationTarget = !$contentInfo->isDraft()
-            ? [new DestinationLocationTarget($contentInfo->mainLocationId, $contentInfo)]
+            ? [new DestinationLocationTarget($contentInfo->getMainLocationId(), $contentInfo)]
             : [];
         if (!$this->permissionResolver->canUser(
             'content',
@@ -2573,7 +2573,7 @@ class ContentService implements ContentServiceInterface
     {
         // If ContentInfo is in draft state, mainLocationId is yet not set
         $locationTarget = !$contentInfo->isDraft()
-            ? [new DestinationLocationTarget($contentInfo->mainLocationId, $contentInfo)]
+            ? [new DestinationLocationTarget($contentInfo->getMainLocationId(), $contentInfo)]
             : [];
 
         if (!$this->permissionResolver->canUser(
