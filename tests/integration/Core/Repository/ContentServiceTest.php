@@ -6257,8 +6257,8 @@ class ContentServiceTest extends BaseContentServiceTest
         );
         $location = $this->locationService->loadLocation($publishedContentMainLocationId);
 
-        $content = $this->contentService->loadContent($publishedContent->contentInfo->getId());
-        self::assertTrue($content->contentInfo->isHidden(), 'Content is not hidden');
+        $content = $this->contentService->loadContent($publishedContent->getContentInfo()->getId());
+        self::assertTrue($content->getContentInfo()->isHidden(), 'Content is not hidden');
         self::assertTrue($location->isHidden(), 'Location is visible');
     }
 
@@ -6279,8 +6279,8 @@ class ContentServiceTest extends BaseContentServiceTest
         );
         $location = $this->locationService->loadLocation($publishedContentMainLocationId);
 
-        $content = $this->contentService->loadContent($publishedContent->contentInfo->getId());
-        self::assertFalse($content->contentInfo->isHidden(), 'Content is hidden');
+        $content = $this->contentService->loadContent($publishedContent->getContentInfo()->getId());
+        self::assertFalse($content->getContentInfo()->isHidden(), 'Content is hidden');
         self::assertFalse($location->isHidden(), 'Location is hidden');
     }
 
@@ -6306,12 +6306,13 @@ class ContentServiceTest extends BaseContentServiceTest
             [$locationCreateStructs]
         );
 
-        $this->contentService->hideContent($draft->contentInfo);
+        $draftContentInfo = $draft->getContentInfo();
+        $this->contentService->hideContent($draftContentInfo);
         if ($revel) {
-            $this->contentService->revealContent($draft->contentInfo);
+            $this->contentService->revealContent($draftContentInfo);
         }
 
-        return $this->contentService->publishVersion($draft->versionInfo);
+        return $this->contentService->publishVersion($draft->getVersionInfo());
     }
 
     /**
