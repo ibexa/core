@@ -16,7 +16,7 @@ jobs:
                 php:
                     - '8.1'
         steps:
-            -   uses: actions/checkout@v5
+            -   uses: actions/checkout@v6
 
             -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
@@ -38,10 +38,11 @@ jobs:
             matrix:
                 php:
                     - '7.4'
-                    - '8.1'
+                    - '8.3'
+                    - '8.4'
 
         steps:
-            -   uses: actions/checkout@v5
+            -   uses: actions/checkout@v6
 
             -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
@@ -87,6 +88,8 @@ jobs:
             matrix:
                 php:
                     - '7.4'
+                    - '8.3'
+                    - '8.4'
                 doctrine-persistence:
                     - 'doctrine/persistence:^2.0'
                     - 'doctrine/persistence:^3.0'
@@ -95,7 +98,7 @@ jobs:
                     - 'postgres:18'
 
         steps:
-            -   uses: actions/checkout@v5
+            -   uses: actions/checkout@v6
 
             -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
@@ -142,6 +145,8 @@ jobs:
             matrix:
                 php:
                     - '7.4'
+                    - '8.3'
+                    - '8.4'
                 doctrine-persistence:
                     - 'doctrine/persistence:^2.0'
                     - 'doctrine/persistence:^3.0'
@@ -150,7 +155,7 @@ jobs:
                     - 'mysql:8.4'
 
         steps:
-            -   uses: actions/checkout@v5
+            -   uses: actions/checkout@v6
 
             -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
@@ -197,9 +202,10 @@ jobs:
             matrix:
                 php:
                     - '7.4'
-                    - '8.2'
+                    - '8.3'
+                    - '8.4'
         steps:
-            -   uses: actions/checkout@v5
+            -   uses: actions/checkout@v6
                 with:
                     fetch-depth: 0
 

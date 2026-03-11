@@ -118,7 +118,7 @@ class ContentTypeContext implements Context
      * @param  string  $identifier       Content type identifier
      * @param  bool $throwIfNotFound  if true, throws an exception if it is not found.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup|null
+     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType|null
      */
     protected function loadContentTypeByIdentifier($identifier, $throwIfNotFound = true)
     {
