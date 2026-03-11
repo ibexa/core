@@ -23,15 +23,6 @@ use Twig\Test\IntegrationTestCase;
  */
 abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
 {
-    private function normalizeOutput(string $value): string
-    {
-        return preg_replace(
-            '/(^|[\s(])\\\\([A-Za-z_\\\\][A-Za-z0-9_\\\\]*::__set_state\()/m',
-            '$1$2',
-            $value
-        ) ?? $value;
-    }
-
     /**
      * Overrides the default implementation to use the chain loader so that
      * templates used internally are correctly loaded.
@@ -124,8 +115,7 @@ abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
                 );
             }
 
-            $expected = $this->normalizeOutput(trim($match[3], "\n "));
-            $output = $this->normalizeOutput($output);
+            $expected = trim($match[3], "\n ");
 
             if ($expected != $output) {
                 echo 'Compiled template that failed:';
