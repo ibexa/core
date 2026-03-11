@@ -16,6 +16,9 @@ env:
 jobs:
     build-and-publish:
         runs-on: "ubuntu-22.04"
+        strategy:
+            matrix:
+                php-version: [8.3, 8.4]
         permissions:
             packages: write
         services:
@@ -26,7 +29,7 @@ jobs:
                   options:
                       --memory=60m
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v6
               with:
                   fetch-depth: 0
 
@@ -34,25 +37,25 @@ jobs:
               run: docker build -t "$IMAGE_NAME:latest" docker/solr
 
             - name: Start Solr image
-              run: | 
+              run: |
                 docker run --health-cmd "solr status" \
                 --health-interval 10s --health-timeout 5s --health-retries 10 \
                 -d -p 8983:8983 "$IMAGE_NAME:latest"
 
-            - name: Setup PHP Action
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: 8.3
-                  coverage: none
-
+            - uses: ibexa/gh-workflows/actions/setup-composer-root-version@main
+            
             - name: Add solr dependency
               run: |
                 VERSION=$(jq -r '.extra | ."branch-alias" | ."dev-main"' < composer.json)
                 composer require --no-update "ibexa/solr:$VERSION"
 
-            - uses: ramsey/composer-install@v3
+            - uses: ibexa/gh-workflows/actions/composer-install@main
               with:
-                  dependency-versions: highest
+                  gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
+                  gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
+                  satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
+                  satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
+                  php-version: ${{ matrix.php-version }}
 
             - name: Run integration test suite
               run: composer test-integration-solr
@@ -70,4 +73,5 @@ jobs:
                 password: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Push image
+              if: ${{ matrix.php-version == '8.4' }}
               run: docker push "$IMAGE_NAME"

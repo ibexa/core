@@ -354,7 +354,13 @@ EOT;
             $this->converter,
             $this->getXMLStringFromDateInterval($dateIntervalReference)
         );
-        self::assertEquals($dateIntervalReference, $generatedDateInterval);
+        self::assertSame($dateIntervalReference->y, $generatedDateInterval->y);
+        self::assertSame($dateIntervalReference->m, $generatedDateInterval->m);
+        self::assertSame($dateIntervalReference->d, $generatedDateInterval->d);
+        self::assertSame($dateIntervalReference->h, $generatedDateInterval->h);
+        self::assertSame($dateIntervalReference->i, $generatedDateInterval->i);
+        self::assertSame($dateIntervalReference->s, $generatedDateInterval->s);
+        self::assertSame($dateIntervalReference->invert, $generatedDateInterval->invert);
     }
 
     /**

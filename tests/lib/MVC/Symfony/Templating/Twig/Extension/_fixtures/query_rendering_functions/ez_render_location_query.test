@@ -1,7 +1,8 @@
+
 --TEST--
-"ibexa_render_content_query" function
+"ez_render_location_query" function
 --TEMPLATE--
-{{ ibexa_render_content_query({
+{{ ez_render_location_query({
     'query': {
         'query_type': 'LatestBlogPost',
     },

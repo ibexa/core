@@ -11,26 +11,26 @@
 return array()
 --EXPECT--
 array (
-  0 => 
-  \Symfony\Component\HttpKernel\Controller\ControllerReference::__set_state(array(
-     'attributes' => 
+  'reference' =>
+  array (
+    'controller' => 'ibexa_query_render::renderQuery',
+    'attributes' =>
     array (
-      'options' => 
+      'options' =>
       array (
-        'query' => 
+        'query' =>
         array (
           'query_type' => 'LatestBlogPost',
         ),
         'template' => 'latest_blog_post.html.twig',
       ),
     ),
-     'query' => 
+    'query' =>
     array (
     ),
-     'controller' => 'ibexa_query_render::renderQuery',
-  )),
-  1 => 'esi',
-  2 => 
+  ),
+  'renderer' => 'esi',
+  'options' =>
   array (
   ),
 )
