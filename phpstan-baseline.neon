@@ -26215,57 +26215,9 @@ parameters:
 			path: src/lib/Search/Common/FieldNameGenerator.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Search\\Common\\FieldNameResolver\:\:getAggregationFieldName\(\) should return string\|null but returns false\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/Search/Common/FieldNameResolver.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Search\\Common\\FieldNameResolver\:\:getFieldTypes\(\) should return array\<string, Ibexa\\Contracts\\Core\\Search\\FieldType\> but returns list\<mixed\>\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/Search/Common/FieldNameResolver.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Search\\Common\\FieldNameResolver\:\:getIndexFieldName\(\) should return string but returns array\<string, Ibexa\\Contracts\\Core\\Search\\FieldType\>\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/Search/Common/FieldNameResolver.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Search\\Common\\FieldNameResolver\:\:getIndexFieldName\(\) should return string but returns array\<string, null\>\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/Search/Common/FieldNameResolver.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Search\\Common\\FieldNameResolver\:\:getSearchableFieldMap\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: src/lib/Search/Common/FieldNameResolver.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Search\\Common\\FieldNameResolver\:\:getSortFieldName\(\) should return string\|null but returns false\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/Search/Common/FieldNameResolver.php
-
-		-
-			message: '#^Offset false does not exist on string\.$#'
-			identifier: offsetAccess.notFound
-			count: 1
-			path: src/lib/Search/Common/FieldNameResolver.php
-
-		-
-			message: '#^Parameter \#1 \$criterionOrSortClause of method Ibexa\\Core\\Search\\Common\\FieldNameResolver\:\:getIndexFieldName\(\) expects object, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/Search/Common/FieldNameResolver.php
-
-		-
-			message: '#^Parameter \#5 \$name of method Ibexa\\Core\\Search\\Common\\FieldNameResolver\:\:getIndexFieldName\(\) expects string, string\|null given\.$#'
-			identifier: argument.type
-			count: 2
 			path: src/lib/Search/Common/FieldNameResolver.php
 
 		-
@@ -74410,12 +74362,6 @@ parameters:
 			message: '#^Method Ibexa\\Tests\\Core\\Search\\FieldNameResolverTest\:\:testGetSortFieldNameReturnsNull\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: tests/lib/Search/FieldNameResolverTest.php
-
-		-
-			message: '#^Parameter \#5 \$name of method Ibexa\\Core\\Search\\Common\\FieldNameResolver\:\:getIndexFieldName\(\) expects string, null given\.$#'
-			identifier: argument.type
-			count: 4
 			path: tests/lib/Search/FieldNameResolverTest.php
 
 		-
