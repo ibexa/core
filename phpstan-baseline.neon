@@ -192,6 +192,7 @@ parameters:
 			count: 1
 			path: src/bundle/Core/Command/ResizeOriginalImagesCommand.php
 
+
 		-
 			message: '#^Parameter \#2 \$data of function fwrite expects string, string\|false given\.$#'
 			identifier: argument.type
@@ -2275,18 +2276,6 @@ parameters:
 			path: src/bundle/Core/Features/Context/ContentTypeContext.php
 
 		-
-			message: '#^Call to an undefined method Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentTypeGroup\:\:getContentTypeGroups\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentTypeContext.php
-
-		-
-			message: '#^Dead catch \- Ibexa\\Contracts\\Core\\Repository\\Exceptions\\NotFoundException is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentTypeContext.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:assertContentTypeDoesntExistsByIdentifier\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -2377,20 +2366,8 @@ parameters:
 			path: src/bundle/Core/Features/Context/ContentTypeContext.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:loadContentTypeByIdentifier\(\) should return Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentTypeGroup\|null but returns Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentType\|null\.$#'
-			identifier: return.type
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentTypeContext.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:removeContentType\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentTypeContext.php
-
-		-
-			message: '#^Parameter \#1 \$contentType of method Ibexa\\Bundle\\Core\\Features\\Context\\ContentTypeContext\:\:removeContentType\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentType, Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentTypeGroup given\.$#'
-			identifier: argument.type
 			count: 1
 			path: src/bundle/Core/Features/Context/ContentTypeContext.php
 
@@ -2736,11 +2713,6 @@ parameters:
 			count: 1
 			path: src/bundle/Core/Features/Context/RoleContext.php
 
-		-
-			message: '#^Dead catch \- Ibexa\\Contracts\\Core\\Repository\\Exceptions\\NotFoundException is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
 
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\UserContext\:\:assertUserWithNameDoesntExist\(\) has no return type specified\.$#'
@@ -3438,6 +3410,7 @@ parameters:
 			count: 1
 			path: src/bundle/Core/Imagine/PlaceholderProvider/GenericProvider.php
 
+
 		-
 			message: '#^Parameter \#1 \$width of class Imagine\\Image\\Box constructor expects int, int\|null given\.$#'
 			identifier: argument.type
@@ -3485,6 +3458,7 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/bundle/Core/Imagine/PlaceholderProvider/RemoteProvider.php
+
 
 		-
 			message: '#^Cannot access offset string on Ibexa\\Bundle\\Core\\Imagine\\PlaceholderProvider\.$#'
@@ -14982,17 +14956,6 @@ parameters:
 			count: 1
 			path: src/lib/Persistence/Legacy/Notification/Gateway/DoctrineDatabase.php
 
-		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 1
-			path: src/lib/Persistence/Legacy/Notification/Gateway/ExceptionConversion.php
-
-		-
-			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 1
-			path: src/lib/Persistence/Legacy/Notification/Gateway/ExceptionConversion.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Notification\\Mapper\:\:extractNotificationFromRow\(\) has parameter \$row with no value type specified in iterable type array\.$#'
@@ -15222,17 +15185,6 @@ parameters:
 			count: 1
 			path: src/lib/Persistence/Legacy/URL/Gateway/DoctrineDatabase.php
 
-		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 1
-			path: src/lib/Persistence/Legacy/URL/Gateway/ExceptionConversion.php
-
-		-
-			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 1
-			path: src/lib/Persistence/Legacy/URL/Gateway/ExceptionConversion.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\URL\\Gateway\\ExceptionConversion\:\:findUsages\(\) return type has no value type specified in iterable type array\.$#'
@@ -17892,11 +17844,6 @@ parameters:
 			count: 1
 			path: src/lib/Repository/User/PasswordValidator.php
 
-		-
-			message: '#^Dead catch \- Exception is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 1
-			path: src/lib/Repository/UserPreferenceService.php
 
 		-
 			message: '#^Call to an undefined method Ibexa\\Contracts\\Core\\Repository\\ContentService\:\:internalLoadContentById\(\)\.$#'
@@ -19398,17 +19345,6 @@ parameters:
 			count: 1
 			path: src/lib/Search/Legacy/Content/Gateway/DoctrineDatabase.php
 
-		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 1
-			path: src/lib/Search/Legacy/Content/Gateway/ExceptionConversion.php
-
-		-
-			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 1
-			path: src/lib/Search/Legacy/Content/Gateway/ExceptionConversion.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Gateway\\ExceptionConversion\:\:find\(\) has parameter \$languageFilter with no value type specified in iterable type array\.$#'
@@ -19686,17 +19622,6 @@ parameters:
 			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/DoctrineDatabase.php
 
-		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 1
-			path: src/lib/Search/Legacy/Content/Location/Gateway/ExceptionConversion.php
-
-		-
-			message: '#^Dead catch \- PDOException is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 1
-			path: src/lib/Search/Legacy/Content/Location/Gateway/ExceptionConversion.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\Location\\Gateway\\ExceptionConversion\:\:find\(\) has parameter \$languageFilter with no value type specified in iterable type array\.$#'

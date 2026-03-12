@@ -16,7 +16,7 @@ jobs:
                 php:
                     - '8.3'
         steps:
-            -   uses: actions/checkout@v5
+            -   uses: actions/checkout@v6
 
             -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
@@ -42,9 +42,10 @@ jobs:
             matrix:
                 php:
                     - '8.3'
+                    - '8.4'
 
         steps:
-            -   uses: actions/checkout@v5
+            -   uses: actions/checkout@v6
 
             -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
@@ -90,12 +91,13 @@ jobs:
             matrix:
                 php:
                     - '8.3'
+                    - '8.4'
                 image:
                     - 'postgres:14'
                     - 'postgres:18'
 
         steps:
-            -   uses: actions/checkout@v5
+            -   uses: actions/checkout@v6
 
             -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
@@ -141,12 +143,13 @@ jobs:
             matrix:
                 php:
                     - '8.3'
+                    - '8.4'
                 image:
                     - 'mysql:8.0'
                     - 'mysql:8.4'
 
         steps:
-            -   uses: actions/checkout@v5
+            -   uses: actions/checkout@v6
 
             -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
@@ -192,8 +195,9 @@ jobs:
             matrix:
                 php:
                     - '8.3'
+                    - '8.4'
         steps:
-            -   uses: actions/checkout@v5
+            -   uses: actions/checkout@v6
                 with:
                     fetch-depth: 0
 
