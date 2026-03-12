@@ -15,4 +15,5 @@ jobs:
             project-edition: 'oss'
             test-setup-phase-1: '--mode=standard --profile=core --suite=setup'
             test-suite: "--mode=standard --profile=core --tags='~@broken&&~@setup'"
+            ci-scripts-branch: 'symfony74'
         secrets: inherit
