@@ -52,7 +52,7 @@ parameters:
 			message: '#^Cannot unset property .* because it might have hooks in a subclass\.$#'
 			identifier: unset.possiblyHookedProperty
 			count: 9
-			path: tests/lib/Persistence/Cache/AbstractBaseHandlerTest.php
+			path: tests/lib/Persistence/Cache/AbstractBaseHandlerTestCase.php
 
 		-
 			message: '#^Cannot unset property .* because it might have hooks in a subclass\.$#'
@@ -76,4 +76,4 @@ parameters:
 			message: '#^Cannot unset property .* because it might have hooks in a subclass\.$#'
 			identifier: unset.possiblyHookedProperty
 			count: 3
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php

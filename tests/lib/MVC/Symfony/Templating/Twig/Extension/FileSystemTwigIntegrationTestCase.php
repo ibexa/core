@@ -155,11 +155,26 @@ abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
 
     protected function buildTwigErrorFromException(Exception $e, string $file): Error
     {
-        $code = file_get_contents($file);
-        self::assertNotFalse($code, sprintf('Unable to load "%s".', $file));
-        $source = new Source($code, basename($file), $file);
+        $fixturePath = $this->resolveFixturePath($file);
+        $code = file_get_contents($fixturePath);
+        self::assertNotFalse($code, sprintf('Unable to load "%s".', $fixturePath));
+        $source = new Source($code, basename($fixturePath), $fixturePath);
 
         return new Error(sprintf('%s: %s', get_class($e), $e->getMessage()), -1, $source, $e);
+    }
+
+    private function resolveFixturePath(string $file): string
+    {
+        if (is_file($file)) {
+            return $file;
+        }
+
+        $fixturePath = static::getFixturesDirectory() . $file;
+        if (is_file($fixturePath)) {
+            return $fixturePath;
+        }
+
+        return $file;
     }
 
     /**

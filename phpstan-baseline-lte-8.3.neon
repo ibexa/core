@@ -1,12 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Call to new Ibexa\\Core\\Repository\\URLAliasService\(\) on a separate line has no effect\.$#'
-			identifier: new.resultUnused
-			count: 1
-			path: tests/lib/Repository/Service/Mock/UrlAliasTest.php
-
-		-
 			message: '#^Dead catch \- Ibexa\\Contracts\\Core\\Repository\\Exceptions\\NotFoundException is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 1
@@ -19,7 +13,7 @@ parameters:
 			path: src/bundle/Core/Features/Context/UserContext.php
 
 		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
+			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 1
 			path: src/lib/Persistence/Legacy/Notification/Gateway/ExceptionConversion.php
@@ -31,7 +25,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/Notification/Gateway/ExceptionConversion.php
 
 		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
+			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 1
 			path: src/lib/Persistence/Legacy/URL/Gateway/ExceptionConversion.php
@@ -49,7 +43,7 @@ parameters:
 			path: src/lib/Repository/UserPreferenceService.php
 
 		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
+			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 1
 			path: src/lib/Search/Legacy/Content/Gateway/ExceptionConversion.php
@@ -61,7 +55,7 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Gateway/ExceptionConversion.php
 
 		-
-			message: '#^Dead catch \- Doctrine\\DBAL\\DBALException is never thrown in the try block\.$#'
+			message: '#^Dead catch \- Doctrine\\DBAL\\Exception is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/ExceptionConversion.php

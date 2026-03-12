@@ -11,26 +11,26 @@
 return array()
 --EXPECT--
 array (
-  'reference' =>
+  'reference' => 
   array (
     'controller' => 'ibexa_query_render::renderQuery',
-    'attributes' =>
+    'attributes' => 
     array (
-      'options' =>
+      'options' => 
       array (
-        'query' =>
+        'query' => 
         array (
           'query_type' => 'LatestBlogPost',
         ),
         'template' => 'latest_blog_post.html.twig',
       ),
     ),
-    'query' =>
+    'query' => 
     array (
     ),
   ),
   'renderer' => 'inline',
-  'options' =>
+  'options' => 
   array (
   ),
 )
