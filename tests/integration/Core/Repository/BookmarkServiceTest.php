@@ -9,7 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
-use Ibexa\Contracts\Core\Repository\Values\Bookmark\BookmarkList;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 
 /**
  * Test case for the BookmarkService.
@@ -143,12 +144,23 @@ class BookmarkServiceTest extends BaseTest
         $bookmarks = $repository->getBookmarkService()->loadBookmarks(1, 3);
         /* END: Use Case */
 
-        $this->assertInstanceOf(BookmarkList::class, $bookmarks);
-        $this->assertEquals($bookmarks->totalCount, 5);
+        self::assertEquals(5, $bookmarks->totalCount);
         // Assert bookmarks order: recently added should be first
-        $this->assertEquals([15, 13, 12], array_map(static function ($location) {
+        self::assertEquals([15, 13, 12], array_map(static function ($location) {
             return $location->id;
         }, $bookmarks->items));
+    }
+
+    public function testCountBookmarks(): void
+    {
+        $repository = $this->getRepository();
+
+        $filter = new Filter();
+        $filter
+            ->withCriterion(new Criterion\IsBookmarked(14));
+        $count = $repository->getLocationService()->count($filter, []);
+
+        self::assertEquals(5, $count);
     }
 }
 

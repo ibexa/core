@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationList;
 use Ibexa\Core\Repository\BookmarkService;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\User\UserReference;
@@ -220,28 +221,13 @@ class BookmarkTest extends BaseServiceMockTest
         $expectedItems = array_map(function ($locationId) {
             return $this->createLocation($locationId);
         }, range(1, $expectedTotalCount));
-
-        $this->bookmarkHandler
-            ->expects($this->once())
-            ->method('countUserBookmarks')
-            ->with(self::CURRENT_USER_ID)
-            ->willReturn($expectedTotalCount);
-
-        $this->bookmarkHandler
-            ->expects($this->once())
-            ->method('loadUserBookmarks')
-            ->with(self::CURRENT_USER_ID, $offset, $limit)
-            ->willReturn(array_map(static function ($locationId) {
-                return new Bookmark(['locationId' => $locationId]);
-            }, range(1, $expectedTotalCount)));
+        $locationList = new LocationList(['totalCount' => $expectedTotalCount, 'locations' => $expectedItems]);
 
         $locationServiceMock = $this->createMock(LocationService::class);
         $locationServiceMock
-            ->expects($this->exactly($expectedTotalCount))
-            ->method('loadLocation')
-            ->willReturnCallback(function ($locationId) {
-                return $this->createLocation($locationId);
-            });
+            ->expects(self::once())
+            ->method('find')
+            ->willReturn($locationList);
 
         $repository = $this->getRepositoryMock();
         $repository
@@ -253,27 +239,6 @@ class BookmarkTest extends BaseServiceMockTest
 
         $this->assertEquals($expectedTotalCount, $bookmarks->totalCount);
         $this->assertEquals($expectedItems, $bookmarks->items);
-    }
-
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::loadBookmarks
-     */
-    public function testLoadBookmarksEmptyList()
-    {
-        $this->bookmarkHandler
-            ->expects($this->once())
-            ->method('countUserBookmarks')
-            ->with(self::CURRENT_USER_ID)
-            ->willReturn(0);
-
-        $this->bookmarkHandler
-            ->expects($this->never())
-            ->method('loadUserBookmarks');
-
-        $bookmarks = $this->createBookmarkService()->loadBookmarks(0, 10);
-
-        $this->assertEquals(0, $bookmarks->totalCount);
-        $this->assertEmpty($bookmarks->items);
     }
 
     /**
@@ -290,9 +255,6 @@ class BookmarkTest extends BaseServiceMockTest
         $this->assertFalse($this->createBookmarkService()->isBookmarked($this->createLocation(self::LOCATION_ID)));
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::isBookmarked
-     */
     public function testLocationShouldBeBookmarked()
     {
         $this->bookmarkHandler
