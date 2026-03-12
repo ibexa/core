@@ -53,6 +53,7 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         $this->storeGroupCache([$group]);
         $this->cache->deleteMulti([
             $this->generator->generateKey(self::CONTENT_TYPE_GROUP_LIST, [], true),
+            $this->generator->generateKey(self::CONTENT_TYPE_GROUP_LIST, [true], true),
         ]);
 
         return $group;
@@ -64,6 +65,7 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         $this->storeGroupCache([$group]);
         $this->cache->deleteMulti([
             $this->generator->generateKey(self::CONTENT_TYPE_GROUP_LIST, [], true),
+            $this->generator->generateKey(self::CONTENT_TYPE_GROUP_LIST, [true], true),
         ]);
 
         return $group;
@@ -76,6 +78,7 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         $this->cache->deleteMulti([
             $this->generator->generateKey(self::CONTENT_TYPE_GROUP, [$groupId], true),
             $this->generator->generateKey(self::CONTENT_TYPE_GROUP_LIST, [], true),
+            $this->generator->generateKey(self::CONTENT_TYPE_GROUP_LIST, [true], true),
         ]);
     }
 
@@ -139,13 +142,13 @@ class MemoryCachingHandler implements BaseContentTypeHandler
     /**
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group[]
      */
-    public function loadAllGroups(): array
+    public function loadAllGroups(bool $includeSystem = false): array
     {
-        $contentTypeGroupListKey = $this->generator->generateKey(self::CONTENT_TYPE_GROUP_LIST, [], true);
+        $contentTypeGroupListKey = $this->generator->generateKey(self::CONTENT_TYPE_GROUP_LIST, [$includeSystem], true);
         $groups = $this->cache->get($contentTypeGroupListKey);
 
         if ($groups === null) {
-            $groups = $this->innerHandler->loadAllGroups();
+            $groups = $this->innerHandler->loadAllGroups($includeSystem);
             $this->storeGroupCache($groups, $contentTypeGroupListKey);
         }
 
