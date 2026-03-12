@@ -699,7 +699,7 @@ class ContentService implements ContentServiceInterface
         );
 
         if (!empty($errors)) {
-            throw new ContentFieldValidationException($errors);
+            throw ContentFieldValidationException::createNewWithMultiline($errors);
         }
 
         $spiLocationCreateStructs = $this->buildSPILocationCreateStructs(
