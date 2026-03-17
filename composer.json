@@ -29,7 +29,7 @@
         "friendsofsymfony/http-cache-bundle": "^3.0",
         "friendsofsymfony/jsrouting-bundle": "^3.5",
         "ibexa/doctrine-schema": "~5.0.x-dev",
-        "ibexa/jms-translation-bundle": "~2.6.x-dev",
+        "ibexa/jms-translation-bundle": "^1.0.0",
         "league/flysystem-memory": "^2.0.6",
         "liip/imagine-bundle": "^2.3",
         "nelmio/cors-bundle": "^2.0",
@@ -82,8 +82,7 @@
         "ezsystems/ezplatform-kernel": "*",
         "ezsystems/ezpublish-legacy": "*",
         "friendsofphp/php-cs-fixer": "3.5.0",
-        "phpunit/phpunit": "8.4.0",
-        "ibexa/jms-translation-bundle": "<= 2.6.0"
+        "phpunit/phpunit": "8.4.0"
     },
     "autoload": {
         "psr-4": {
