@@ -23,32 +23,25 @@ use Ibexa\Core\IO\UrlRedecoratorInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 use Ibexa\Tests\Integration\Core\BaseCoreFieldTypeIntegrationTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
 {
-    /** @var \Ibexa\Core\FieldType\Image\ImageStorage\Gateway */
-    private $gateway;
+    private DoctrineStorage $gateway;
 
-    /** @var \Ibexa\Core\IO\UrlRedecoratorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $redecorator;
+    private UrlRedecoratorInterface & MockObject $redecorator;
 
-    /** @var \Ibexa\Core\FieldType\Image\PathGenerator|\PHPUnit\Framework\MockObject\MockObject */
-    private $pathGenerator;
+    private PathGenerator & MockObject $pathGenerator;
 
-    /** @var \Ibexa\Core\FieldType\Image\AliasCleanerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $aliasCleaner;
+    private AliasCleanerInterface & MockObject $aliasCleaner;
 
-    /** @var \Ibexa\Core\IO\FilePathNormalizerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $filePathNormalizer;
+    private FilePathNormalizerInterface & MockObject $filePathNormalizer;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $ioService;
+    private IOServiceInterface & MockObject $ioService;
 
-    /** @var \Ibexa\Core\FieldType\Image\ImageStorage */
-    private $storage;
+    private ImageStorage $storage;
 
-    /** @var \Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator&\PHPUnit\Framework\MockObject\MockObject */
-    private $fileExtensionBlackListValidator;
+    private FileExtensionBlackListValidator & MockObject $fileExtensionBlackListValidator;
 
     protected function setUp(): void
     {
@@ -153,6 +146,71 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTestCase
             ->method('redecorateFromSource')
             ->with($binaryFile->uri)
             ->willReturn($binaryFile->uri);
+
+        $this->storage->storeFieldData($versionInfo, $field);
+
+        self::assertSame(1, $this->gateway->countImageReferences($binaryFile->uri));
+    }
+
+    /**
+     * @dataProvider providerOfFieldData
+     */
+    public function testStoreFieldDataWithSameImageOnAutosave(VersionInfo $versionInfo, Field $field): void
+    {
+        $targetPath = '1/8/6/232-eng-GB/' . $field->value->externalData['fileName'];
+
+        $binaryFile = new BinaryFile([
+            'id' => $targetPath,
+            'uri' => $targetPath,
+        ]);
+
+        $this->filePathNormalizer
+            ->expects(self::exactly(2))
+            ->method('normalizePath')
+            ->willReturn($targetPath);
+
+        $this->ioService
+            ->expects(self::exactly(2))
+            ->method('newBinaryCreateStructFromLocalFile')
+            ->with($field->value->externalData['inputUri'])
+            ->willReturn(new BinaryFileCreateStruct());
+
+        $this->ioService
+            ->expects(self::exactly(2))
+            ->method('createBinaryFile')
+            ->willReturn($binaryFile);
+
+        $this->ioService
+            ->expects(self::exactly(2))
+            ->method('getMimeType')
+            ->with($binaryFile->id)
+            ->willReturn('image/jpeg');
+
+        $this->redecorator
+            ->method('redecorateFromSource')
+            ->with($binaryFile->uri)
+            ->willReturn($binaryFile->uri);
+
+        // First save
+        $this->storage->storeFieldData($versionInfo, $field);
+
+        // Simulate autosave with same image — rebuild externalData
+        $field->value = new FieldValue([
+            'externalData' => [
+                'id' => null,
+                'path' => $field->value->data['path'] ?? __DIR__ . '/image.jpg',
+                'inputUri' => __DIR__ . '/image.jpg',
+                'fileName' => 'image.jpg',
+                'fileSize' => '12345',
+                'mimeType' => 'image/jpeg',
+                'width' => null,
+                'height' => null,
+                'alternativeText' => null,
+                'imageId' => null,
+                'uri' => null,
+                'additionalData' => [],
+            ],
+        ]);
 
         $this->storage->storeFieldData($versionInfo, $field);
 

@@ -91,7 +91,11 @@ class ImageStorage extends GatewayBasedStorage
                 ),
                 $field->value->externalData['fileName']
             );
-            $targetPath = $this->filePathNormalizer->normalizePath($targetPath);
+            $targetPath = $this->filePathNormalizer->normalizePath(
+                $targetPath,
+                true,
+                $field->value->externalData['inputUri'] ?? null,
+            );
 
             if (isset($field->value->externalData['inputUri'])) {
                 $localFilePath = $field->value->externalData['inputUri'];
