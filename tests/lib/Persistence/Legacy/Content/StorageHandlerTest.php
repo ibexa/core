@@ -178,7 +178,7 @@ class StorageHandlerTest extends TestCase
         $referenceAwareStorageMock
             ->expects(self::once())
             ->method('referenceLegacyField')
-            ->with($versionInfo, $field, $originalField, $this->getContextMock());
+            ->with($versionInfo, $field, $originalField);
 
         $handler = $this->getStorageHandler();
         $handler->referenceFieldData($versionInfo, $field, $originalField);

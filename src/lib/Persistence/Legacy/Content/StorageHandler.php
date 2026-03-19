@@ -101,8 +101,7 @@ class StorageHandler
             return $storage->referenceLegacyField(
                 $versionInfo,
                 $field,
-                $originalField,
-                $this->context
+                $originalField
             );
         }
 
