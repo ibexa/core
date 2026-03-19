@@ -280,7 +280,7 @@ class Handler implements BaseContentHandler
         );
 
         // Clone fields from previous version and append them to the new one
-        $this->fieldHandler->createExistingFieldsInNewVersion($content);
+        $this->fieldHandler->createExistingFieldsInNewVersion($content, $languageCode);
 
         // Persist virtual fields
         $contentType = $this->contentTypeHandler->load($content->versionInfo->contentInfo->contentTypeId);

@@ -148,14 +148,16 @@ class FieldHandler
      *
      * @param \Ibexa\Contracts\Core\Persistence\Content $content
      */
-    public function createExistingFieldsInNewVersion(Content $content): void
+    public function createExistingFieldsInNewVersion(Content $content, ?string $editedLanguageCode = null): void
     {
         foreach ($content->fields as $field) {
             if ($field->id === null) {
                 // Virtual field with default value, skip creating field as it has no id
                 continue;
             }
-            $this->createExistingFieldInNewVersion($field, $content);
+
+            $referenceOnly = $editedLanguageCode !== null && $field->languageCode !== $editedLanguageCode;
+            $this->createExistingFieldInNewVersion($field, $content, $referenceOnly);
         }
     }
 
@@ -274,7 +276,7 @@ class FieldHandler
      * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
      * @param \Ibexa\Contracts\Core\Persistence\Content $content
      */
-    protected function createExistingFieldInNewVersion(Field $field, Content $content)
+    protected function createExistingFieldInNewVersion(Field $field, Content $content, bool $referenceOnly = false)
     {
         $originalField = clone $field;
         $field->versionNo = $content->versionInfo->versionNo;
@@ -288,7 +290,11 @@ class FieldHandler
         // If the storage handler returns true, it means that $field value has been modified
         // So we need to update it in order to store those modifications
         // Field converter is called once again via the Mapper
-        if ($this->storageHandler->copyFieldData($content->versionInfo, $field, $originalField) === true) {
+        $storageResult = $referenceOnly
+            ? $this->storageHandler->referenceFieldData($content->versionInfo, $field, $originalField)
+            : $this->storageHandler->copyFieldData($content->versionInfo, $field, $originalField);
+
+        if ($storageResult === true) {
             $this->contentGateway->updateField(
                 $field,
                 $this->mapper->convertToStorageValue($field)
