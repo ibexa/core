@@ -352,9 +352,9 @@ class FieldHandlerTest extends LanguageAwareTestCase
                 continue;
             }
             if ($field->languageCode === $editedLanguageCode) {
-                $editedFieldCount++;
+                ++$editedFieldCount;
             } else {
-                $untouchedFieldCount++;
+                ++$untouchedFieldCount;
             }
         }
 
