@@ -36,6 +36,8 @@ ibexa.user_hash:
 ibexa.content.download:
     path: /content/download/{contentId}/{fieldIdentifier}/{filename}
     defaults: { _controller: Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController:downloadBinaryFileAction }
+    requirements:
+        contentId: '\d+'
 
 ibexa.content.download.field_id:
     path: /content/download/{contentId}/{fieldId}
