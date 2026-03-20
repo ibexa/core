@@ -22,7 +22,7 @@ interface ReferenceAwareExternalStorage
      *
      * Called for fields in languages not being edited during draft creation.
      * The implementation should store a lightweight pointer to $originalField's
-     * external data (identified by $originalField->versionNo) and resolve it
+     * external data (identified by `$originalField->versionNo`) and resolve it
      * in {@see FieldStorage::getFieldData()}.
      */
     public function referenceLegacyField(

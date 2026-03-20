@@ -272,12 +272,12 @@ class FieldHandler
      * External data is being copied here as some FieldTypes require original field external data.
      * By default copying falls back to storing, it is upon external storage implementation to override
      * the behaviour as needed.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     * @param \Ibexa\Contracts\Core\Persistence\Content $content
      */
-    protected function createExistingFieldInNewVersion(Field $field, Content $content, bool $referenceOnly = false)
-    {
+    protected function createExistingFieldInNewVersion(
+        Field $field,
+        Content $content,
+        bool $referenceOnly = false
+    ): void {
         $originalField = clone $field;
         $field->versionNo = $content->versionInfo->versionNo;
 
