@@ -6,24 +6,43 @@
  */
 namespace Ibexa\Bundle\Core\Imagine\Filter;
 
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Image;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Liip\ImagineBundle\Imagine\Filter\FilterConfiguration as BaseFilterConfiguration;
 
+/**
+ * @phpstan-import-type TImageVariations from Image
+ * @phpstan-import-type TFilters from Image
+ * @phpstan-import-type TPostProcessors from Image
+ */
 class FilterConfiguration extends BaseFilterConfiguration
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /**
-     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
-     */
-    public function setConfigResolver(ConfigResolverInterface $configResolver)
+    public function setConfigResolver(ConfigResolverInterface $configResolver): void
     {
         $this->configResolver = $configResolver;
     }
 
-    public function get($filter)
+    /**
+     * @phpstan-return array{
+     *     cache?: string|null,
+     *     data_loader?: string|null,
+     *     reference?: string|null,
+     *     filters?: TFilters,
+     *     post_processors?: TPostProcessors,
+     *     quality?: int|null,
+     *     jpeg_quality?: int|null,
+     *     png_compression_level?: int|null,
+     *     png_compression_filter?: int|null,
+     *     format?: string|null,
+     *     animated?: bool,
+     *     default_image?: string|null
+     * }
+     */
+    public function get($filter): array
     {
+        /** @phpstan-var TImageVariations $configuredVariations */
         $configuredVariations = $this->configResolver->getParameter('image_variations');
         if (!array_key_exists($filter, $configuredVariations)) {
             return parent::get($filter);
@@ -34,15 +53,21 @@ class FilterConfiguration extends BaseFilterConfiguration
         return [
             'cache' => 'ibexa',
             'data_loader' => 'ibexa',
-            'reference' => isset($configuredVariations[$filter]['reference']) ? $configuredVariations[$filter]['reference'] : null,
+            'reference' => $configuredVariations[$filter]['reference'] ?? null,
             'filters' => $this->getVariationFilters($filter, $configuredVariations),
             'post_processors' => $this->getVariationPostProcessors($filter, $configuredVariations),
         ] + $filterConfig;
     }
 
-    public function all()
+    /**
+     * @phpstan-return TImageVariations
+     */
+    public function all(): array
     {
-        return $this->configResolver->getParameter('image_variations') + parent::all();
+        /** @phpstan-var TImageVariations $configuredVariations */
+        $configuredVariations = $this->configResolver->getParameter('image_variations');
+
+        return $configuredVariations + parent::all();
     }
 
     /**
@@ -51,26 +76,18 @@ class FilterConfiguration extends BaseFilterConfiguration
      * Both variations configured in Ibexa (SiteAccess context) and LiipImagineBundle are used.
      * Ibexa variations always have precedence.
      *
-     * @param string $variationName
-     * @param array $configuredVariations Variations set in eZ.
+     * @phpstan-param TImageVariations $configuredVariations Variations' set.
      *
-     * @return array
+     * @phpstan-return TFilters
      */
-    private function getVariationFilters($variationName, array $configuredVariations)
+    private function getVariationFilters(string $variationName, array $configuredVariations): array
     {
         if (!isset($configuredVariations[$variationName]['filters']) && !isset($this->filters[$variationName]['filters'])) {
             return [];
         }
 
-        // Check variations configured in Ibexa config first.
-        if (isset($configuredVariations[$variationName]['filters'])) {
-            $filters = $configuredVariations[$variationName]['filters'];
-        } else {
-            // Falback to variations configured in LiipImagineBundle.
-            $filters = $this->filters[$variationName]['filters'];
-        }
-
-        return $filters;
+        // Prioritize variations configured in Ibexa config
+        return $configuredVariations[$variationName]['filters'] ?? $this->filters[$variationName]['filters'];
     }
 
     /**
@@ -79,20 +96,15 @@ class FilterConfiguration extends BaseFilterConfiguration
      * Both variations configured in Ibexa and LiipImagineBundle are used.
      * Ibexa variations always have precedence.
      *
-     * @param string $variationName
-     * @param array $configuredVariations Variations set in eZ.
+     * @phpstan-param TImageVariations $configuredVariations Variations set in eZ.
      *
-     * @return array
+     * @phpstan-return TPostProcessors
      */
-    private function getVariationPostProcessors($variationName, array $configuredVariations)
+    private function getVariationPostProcessors(string $variationName, array $configuredVariations): array
     {
-        if (isset($configuredVariations[$variationName]['post_processors'])) {
-            return $configuredVariations[$variationName]['post_processors'];
-        } elseif (isset($this->filters[$variationName]['post_processors'])) {
-            return $this->filters[$variationName]['post_processors'];
-        }
-
-        return [];
+        return $configuredVariations[$variationName]['post_processors']
+            ?? $this->filters[$variationName]['post_processors']
+            ?? [];
     }
 }
 

@@ -1327,18 +1327,6 @@ parameters:
 			path: src/bundle/Core/DependencyInjection/Configuration/Parser/IO.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\Image\:\:addSemanticConfig\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Image.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\Image\:\:mapConfig\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Image.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\Image\:\:mapConfig\(\) has parameter \$scopeSettings with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -1347,12 +1335,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\Image\:\:preMap\(\) has parameter \$config with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Image.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\Parser\\Image\:\:setSuggestionCollector\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Image.php
 
@@ -4055,48 +4037,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/bundle/Core/Imagine/Filter/AbstractFilter.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\Filter\\FilterConfiguration\:\:all\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/Imagine/Filter/FilterConfiguration.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\Filter\\FilterConfiguration\:\:get\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/Imagine/Filter/FilterConfiguration.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\Filter\\FilterConfiguration\:\:getVariationFilters\(\) has parameter \$configuredVariations with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/Imagine/Filter/FilterConfiguration.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\Filter\\FilterConfiguration\:\:getVariationFilters\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/Imagine/Filter/FilterConfiguration.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\Filter\\FilterConfiguration\:\:getVariationPostProcessors\(\) has parameter \$configuredVariations with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/Imagine/Filter/FilterConfiguration.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\Filter\\FilterConfiguration\:\:getVariationPostProcessors\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/Imagine/Filter/FilterConfiguration.php
-
-		-
-			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\Filter\\FilterConfiguration\:\:setConfigResolver\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/Imagine/Filter/FilterConfiguration.php
 
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\Filter\\FilterInterface\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'

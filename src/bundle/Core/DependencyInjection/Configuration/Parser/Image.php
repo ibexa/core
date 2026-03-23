@@ -15,23 +15,27 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 
 /**
  * Configuration parser handling all basic configuration (aka "Image").
+ *
+ * @phpstan-type TVariationOptions array<string|int, mixed>
+ * @phpstan-type TFilters array<string, TVariationOptions>
+ * @phpstan-type TPostProcessors array<string, TVariationOptions>
+ * @phpstan-type TImageVariation array{
+ *     reference?: string|null,
+ *     filters?: TFilters,
+ *     post_processors?: TPostProcessors
+ * }
+ * @phpstan-type TImageVariations array<string, TImageVariation>
  */
 class Image extends AbstractParser implements SuggestionCollectorAwareInterface
 {
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollectorInterface */
-    private $suggestionCollector;
+    private SuggestionCollectorInterface $suggestionCollector;
 
-    public function setSuggestionCollector(SuggestionCollectorInterface $suggestionCollector)
+    public function setSuggestionCollector(SuggestionCollectorInterface $suggestionCollector): void
     {
         $this->suggestionCollector = $suggestionCollector;
     }
 
-    /**
-     * Adds semantic configuration definition.
-     *
-     * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $nodeBuilder Node just under ezpublish.system.<siteaccess>
-     */
-    public function addSemanticConfig(NodeBuilder $nodeBuilder)
+    public function addSemanticConfig(NodeBuilder $nodeBuilder): void
     {
         $nodeBuilder
             ->arrayNode('imagemagick')
@@ -122,14 +126,14 @@ class Image extends AbstractParser implements SuggestionCollectorAwareInterface
             ->end();
     }
 
-    public function preMap(array $config, ContextualizerInterface $contextualizer)
+    public function preMap(array $config, ContextualizerInterface $contextualizer): void
     {
         $contextualizer->mapConfigArray('image_variations', $config);
         $contextualizer->mapSetting('image_host', $config);
         $contextualizer->mapSetting('variation_handler_identifier', $config);
     }
 
-    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer)
+    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer): void
     {
         if (isset($scopeSettings['imagemagick'])) {
             $suggestion = new ConfigSuggestion(
