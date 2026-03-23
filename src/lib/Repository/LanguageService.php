@@ -17,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct;
+use Ibexa\Contracts\Core\Validation\StructValidator;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
@@ -36,9 +37,6 @@ class LanguageService implements LanguageServiceInterface
     /** @var array */
     protected $settings;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    private $permissionResolver;
-
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
      *
@@ -49,12 +47,12 @@ class LanguageService implements LanguageServiceInterface
     public function __construct(
         RepositoryInterface $repository,
         Handler $languageHandler,
-        PermissionResolver $permissionResolver,
-        array $settings = []
+        private readonly PermissionResolver $permissionResolver,
+        private readonly StructValidator $validator,
+        array $settings = [],
     ) {
         $this->repository = $repository;
         $this->languageHandler = $languageHandler;
-        $this->permissionResolver = $permissionResolver;
         // Union makes sure default settings are ignored if provided in argument
         $this->settings = $settings + [
             'languages' => ['eng-GB'],
@@ -92,7 +90,7 @@ class LanguageService implements LanguageServiceInterface
                     sprintf('language with the "%s" language code already exists', $languageCreateStruct->languageCode)
                 );
             }
-        } catch (APINotFoundException $e) {
+        } catch (APINotFoundException) {
             // Do nothing
         }
 
@@ -103,6 +101,8 @@ class LanguageService implements LanguageServiceInterface
                 'isEnabled' => $languageCreateStruct->enabled,
             ]
         );
+
+        $this->validator->assertValidStruct('$languageCreateStruct', $createStruct, ['create']);
 
         $this->repository->beginTransaction();
         try {

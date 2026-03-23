@@ -10,8 +10,9 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 use Exception;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\LanguageService;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
-use Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct;
 
 /**
  * Test case for operations in the LanguageService using in memory storage.
@@ -21,27 +22,23 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct;
  * @group integration
  * @group language
  */
-class LanguageServiceTest extends BaseTestCase
+final class LanguageServiceTest extends BaseTestCase
 {
-    /**
-     * Test for the newLanguageCreateStruct() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::newLanguageCreateStruct
-     */
-    public function testNewLanguageCreateStruct()
+    private Repository $repository;
+
+    private LanguageService $languageService;
+
+    protected function setUp(): void
     {
-        $repository = $this->getRepository();
+        parent::setUp();
 
-        /* BEGIN: Use Case */
-        $languageService = $repository->getContentLanguageService();
+        $this->repository = $this->getRepository();
+        $this->languageService = $this->repository->getContentLanguageService();
+    }
 
-        $languageCreate = $languageService->newLanguageCreateStruct();
-        /* END: Use Case */
-
-        self::assertInstanceOf(
-            LanguageCreateStruct::class,
-            $languageCreate
-        );
+    public function testNewLanguageCreateStruct(): void
+    {
+        $languageCreate = $this->languageService->newLanguageCreateStruct();
 
         $this->assertPropertiesCorrect(
             [
@@ -54,61 +51,34 @@ class LanguageServiceTest extends BaseTestCase
     }
 
     /**
-     * Test for the createLanguage() method.
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Language
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
-     *
      * @depends testNewLanguageCreateStruct
      */
-    public function testCreateLanguage()
+    public function testCreateLanguage(): Language
     {
-        $repository = $this->getRepository();
-
-        /* BEGIN: Use Case */
-        $languageService = $repository->getContentLanguageService();
-
-        $languageCreate = $languageService->newLanguageCreateStruct();
+        $languageCreate = $this->languageService->newLanguageCreateStruct();
         $languageCreate->enabled = true;
         $languageCreate->name = 'English (New Zealand)';
         $languageCreate->languageCode = 'eng-NZ';
 
-        $language = $languageService->createLanguage($languageCreate);
-        /* END: Use Case */
+        $language = $this->languageService->createLanguage($languageCreate);
 
-        self::assertInstanceOf(
-            Language::class,
-            $language
-        );
+        $this->expectNotToPerformAssertions();
 
         return $language;
     }
 
     /**
-     * Test for the createLanguage() method.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language $language
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
-     *
      * @depends testCreateLanguage
      */
-    public function testCreateLanguageSetsIdPropertyOnReturnedLanguage($language)
+    public function testCreateLanguageSetsIdPropertyOnReturnedLanguage(Language $language): void
     {
         self::assertNotNull($language->id);
     }
 
     /**
-     * Test for the createLanguage() method.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language $language
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
-     *
      * @depends testCreateLanguage
      */
-    public function testCreateLanguageSetsExpectedProperties($language)
+    public function testCreateLanguageSetsExpectedProperties(Language $language): void
     {
         self::assertEquals(
             [
@@ -125,64 +95,39 @@ class LanguageServiceTest extends BaseTestCase
     }
 
     /**
-     * Test for the createLanguage() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
-     *
      * @depends testCreateLanguage
      */
-    public function testCreateLanguageThrowsInvalidArgumentException()
+    public function testCreateLanguageThrowsInvalidArgumentException(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Argument \'languageCreateStruct\' is invalid: language with the "nor-NO" language code already exists');
-
-        $repository = $this->getRepository();
-
-        /* BEGIN: Use Case */
-        $languageService = $repository->getContentLanguageService();
-
-        $languageCreate = $languageService->newLanguageCreateStruct();
+        $languageCreate = $this->languageService->newLanguageCreateStruct();
         $languageCreate->enabled = true;
         $languageCreate->name = 'Norwegian';
         $languageCreate->languageCode = 'nor-NO';
 
-        $languageService->createLanguage($languageCreate);
+        $this->languageService->createLanguage($languageCreate);
 
         // This call should fail with an InvalidArgumentException, because
         // the language code "nor-NO" already exists.
-        $languageService->createLanguage($languageCreate);
-        /* END: Use Case */
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Argument \'languageCreateStruct\' is invalid: language with the "nor-NO" language code already exists');
+        $this->languageService->createLanguage($languageCreate);
     }
 
     /**
-     * Test for the loadLanguageById() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageById
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageListById
-     *
      * @depends testCreateLanguage
      */
-    public function testLoadLanguageById()
+    public function testLoadLanguageById(): void
     {
-        $repository = $this->getRepository();
-
-        $languageService = $repository->getContentLanguageService();
-
-        $languageCreate = $languageService->newLanguageCreateStruct();
+        $languageCreate = $this->languageService->newLanguageCreateStruct();
         $languageCreate->enabled = false;
         $languageCreate->name = 'English';
         $languageCreate->languageCode = 'eng-NZ';
 
-        $languageId = $languageService->createLanguage($languageCreate)->id;
+        $languageId = $this->languageService->createLanguage($languageCreate)->id;
 
-        $language = $languageService->loadLanguageById($languageId);
+        $this->languageService->loadLanguageById($languageId);
 
-        self::assertInstanceOf(
-            Language::class,
-            $language
-        );
-
-        $languages = iterator_to_array($languageService->loadLanguageListById([$languageId]));
+        $languages = iterator_to_array($this->languageService->loadLanguageListById([$languageId]));
 
         self::assertIsIterable($languages);
         self::assertCount(1, $languages);
@@ -190,69 +135,43 @@ class LanguageServiceTest extends BaseTestCase
     }
 
     /**
-     * Test for the loadLanguageById() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageById
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageListById
-     *
      * @depends testLoadLanguageById
      */
-    public function testLoadLanguageByIdThrowsNotFoundException()
+    public function testLoadLanguageByIdThrowsNotFoundException(): void
     {
-        $repository = $this->getRepository();
-
         $nonExistentLanguageId = $this->generateId('language', 2342);
-        /* BEGIN: Use Case */
-        $languageService = $repository->getContentLanguageService();
 
-        $languages = $languageService->loadLanguageListById([$nonExistentLanguageId]);
+        $languages = $this->languageService->loadLanguageListById([$nonExistentLanguageId]);
 
         self::assertIsIterable($languages);
         self::assertCount(0, $languages);
 
         $this->expectException(NotFoundException::class);
 
-        $languageService->loadLanguageById($nonExistentLanguageId);
-        /* END: Use Case */
+        $this->languageService->loadLanguageById($nonExistentLanguageId);
     }
 
     /**
-     * Test for the updateLanguageName() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::updateLanguageName
-     *
      * @depends testLoadLanguageById
      */
-    public function testUpdateLanguageName()
+    public function testUpdateLanguageName(): void
     {
-        $repository = $this->getRepository();
-
-        /* BEGIN: Use Case */
-        $languageService = $repository->getContentLanguageService();
-
-        $languageCreate = $languageService->newLanguageCreateStruct();
+        $languageCreate = $this->languageService->newLanguageCreateStruct();
         $languageCreate->enabled = false;
         $languageCreate->name = 'English';
         $languageCreate->languageCode = 'eng-NZ';
 
-        $languageId = $languageService->createLanguage($languageCreate)->id;
+        $languageId = $this->languageService->createLanguage($languageCreate)->id;
 
-        $language = $languageService->loadLanguageById($languageId);
+        $language = $this->languageService->loadLanguageById($languageId);
 
-        $updatedLanguage = $languageService->updateLanguageName(
+        $this->languageService->updateLanguageName(
             $language,
             'New language name.'
         );
-        /* END: Use Case */
-
-        // Verify that the service returns an updated language instance.
-        self::assertInstanceOf(
-            Language::class,
-            $updatedLanguage
-        );
 
         // Verify that the service also persists the changes
-        $updatedLanguage = $languageService->loadLanguageById($languageId);
+        $updatedLanguage = $this->languageService->loadLanguageById($languageId);
         $this->assertPropertiesCorrect(
             [
                 'id' => $language->id,
@@ -264,108 +183,68 @@ class LanguageServiceTest extends BaseTestCase
         );
     }
 
-    /**
-     * Test service method for updating language name throwing InvalidArgumentException.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::updateLanguageName
-     */
-    public function testUpdateLanguageNameThrowsInvalidArgumentException()
+    public function testUpdateLanguageNameThrowsInvalidArgumentException(): void
     {
+        $language = $this->languageService->loadLanguage('eng-GB');
+
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'newName\' is invalid: \'\' is incorrect value');
-
-        $repository = $this->getRepository();
-        $languageService = $repository->getContentLanguageService();
-
-        $language = $languageService->loadLanguage('eng-GB');
-        $languageService->updateLanguageName($language, '');
+        $this->languageService->updateLanguageName($language, '');
     }
 
     /**
-     * Test for the enableLanguage() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::enableLanguage
-     *
      * @depends testLoadLanguageById
      */
-    public function testEnableLanguage()
+    public function testEnableLanguage(): void
     {
-        $repository = $this->getRepository();
-
-        /* BEGIN: Use Case */
-        $languageService = $repository->getContentLanguageService();
-
-        $languageCreate = $languageService->newLanguageCreateStruct();
+        $languageCreate = $this->languageService->newLanguageCreateStruct();
         $languageCreate->enabled = false;
         $languageCreate->name = 'English';
         $languageCreate->languageCode = 'eng-NZ';
 
-        $language = $languageService->createLanguage($languageCreate);
+        $language = $this->languageService->createLanguage($languageCreate);
 
         // Now lets enable the newly created language
-        $languageService->enableLanguage($language);
+        $this->languageService->enableLanguage($language);
 
-        $enabledLanguage = $languageService->loadLanguageById($language->id);
-        /* END: Use Case */
+        $enabledLanguage = $this->languageService->loadLanguageById($language->id);
 
         self::assertTrue($enabledLanguage->enabled);
     }
 
     /**
-     * Test for the disableLanguage() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::disableLanguage
-     *
      * @depends testLoadLanguageById
      */
-    public function testDisableLanguage()
+    public function testDisableLanguage(): void
     {
-        $repository = $this->getRepository();
-
-        /* BEGIN: Use Case */
-        $languageService = $repository->getContentLanguageService();
-
-        $languageCreate = $languageService->newLanguageCreateStruct();
+        $languageCreate = $this->languageService->newLanguageCreateStruct();
         $languageCreate->enabled = true;
         $languageCreate->name = 'English';
         $languageCreate->languageCode = 'eng-NZ';
 
-        $language = $languageService->createLanguage($languageCreate);
+        $language = $this->languageService->createLanguage($languageCreate);
 
         // Now lets disable the newly created language
-        $languageService->disableLanguage($language);
+        $this->languageService->disableLanguage($language);
 
-        $enabledLanguage = $languageService->loadLanguageById($language->id);
-        /* END: Use Case */
+        $enabledLanguage = $this->languageService->loadLanguageById($language->id);
 
         self::assertFalse($enabledLanguage->enabled);
     }
 
     /**
-     * Test for the loadLanguage() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguage
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageListByCode
-     *
      * @depends testCreateLanguage
      */
-    public function testLoadLanguage()
+    public function testLoadLanguage(): void
     {
-        $repository = $this->getRepository();
-
-        /* BEGIN: Use Case */
-        $languageService = $repository->getContentLanguageService();
-
-        $languageCreate = $languageService->newLanguageCreateStruct();
+        $languageCreate = $this->languageService->newLanguageCreateStruct();
         $languageCreate->enabled = true;
         $languageCreate->name = 'English';
         $languageCreate->languageCode = 'eng-NZ';
 
-        $languageId = $languageService->createLanguage($languageCreate)->id;
+        $languageId = $this->languageService->createLanguage($languageCreate)->id;
 
-        // Now load the newly created language by it's language code
-        $language = $languageService->loadLanguage('eng-NZ');
-        /* END: Use Case */
+        $language = $this->languageService->loadLanguage('eng-NZ');
 
         $this->assertPropertiesCorrect(
             [
@@ -377,7 +256,7 @@ class LanguageServiceTest extends BaseTestCase
             $language
         );
 
-        $languages = iterator_to_array($languageService->loadLanguageListByCode(['eng-NZ']));
+        $languages = iterator_to_array($this->languageService->loadLanguageListByCode(['eng-NZ']));
 
         self::assertIsIterable($languages);
         self::assertCount(1, $languages);
@@ -394,178 +273,120 @@ class LanguageServiceTest extends BaseTestCase
     }
 
     /**
-     * Test for the loadLanguage() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguage
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageListByCode
-     *
      * @depends testLoadLanguage
      */
-    public function testLoadLanguageThrowsNotFoundException()
+    public function testLoadLanguageThrowsNotFoundException(): void
     {
-        $repository = $this->getRepository();
-
-        $languageService = $repository->getContentLanguageService();
-
-        $languages = $languageService->loadLanguageListByCode(['fre-FR']);
+        $languages = $this->languageService->loadLanguageListByCode(['fre-FR']);
 
         self::assertIsIterable($languages);
         self::assertCount(0, $languages);
 
         $this->expectException(NotFoundException::class);
 
-        $languageService->loadLanguage('fre-FR');
+        $this->languageService->loadLanguage('fre-FR');
     }
 
-    /**
-     * Test service method for loading language throwing InvalidArgumentException.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguage
-     */
-    public function testLoadLanguageThrowsInvalidArgumentException()
+    public function testLoadLanguageThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'languageCode\' is invalid: language code has an invalid value');
 
-        $repository = $this->getRepository();
-
-        $repository->getContentLanguageService()->loadLanguage('');
+        $this->languageService->loadLanguage('');
     }
 
     /**
-     * Test for the loadLanguages() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguages
-     *
      * @depends testCreateLanguage
      * @depends testLoadLanguage
      */
-    public function testLoadLanguages()
+    public function testLoadLanguages(): void
     {
-        $repository = $this->getRepository();
-
-        /* BEGIN: Use Case */
-        $languageService = $repository->getContentLanguageService();
-
         // Create some languages
-        $languageCreateEnglish = $languageService->newLanguageCreateStruct();
+        $languageCreateEnglish = $this->languageService->newLanguageCreateStruct();
         $languageCreateEnglish->enabled = false;
         $languageCreateEnglish->name = 'English';
         $languageCreateEnglish->languageCode = 'eng-NZ';
 
-        $languageCreateFrench = $languageService->newLanguageCreateStruct();
+        $languageCreateFrench = $this->languageService->newLanguageCreateStruct();
         $languageCreateFrench->enabled = false;
         $languageCreateFrench->name = 'French';
         $languageCreateFrench->languageCode = 'fre-FR';
 
-        $languageService->createLanguage($languageCreateEnglish);
-        $languageService->createLanguage($languageCreateFrench);
+        $this->languageService->createLanguage($languageCreateEnglish);
+        $this->languageService->createLanguage($languageCreateFrench);
 
-        $languages = $languageService->loadLanguages();
+        $languages = $this->languageService->loadLanguages();
         self::assertIsArray($languages);
         foreach ($languages as $language) {
             self::assertInstanceOf(Language::class, $language);
-            $singleLanguage = $languageService->loadLanguage($language->languageCode);
+            $singleLanguage = $this->languageService->loadLanguage($language->languageCode);
             $this->assertStructPropertiesCorrect(
                 $singleLanguage,
                 $language,
                 ['id', 'languageCode', 'name', 'enabled']
             );
         }
-        /* END: Use Case */
 
         // eng-US, eng-GB, ger-DE + 2 newly created
         self::assertCount(5, $languages);
     }
 
     /**
-     * Test for the loadLanguages() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguages
-     *
      * @depends testCreateLanguage
      */
-    public function loadLanguagesReturnsAnEmptyArrayByDefault()
+    public function loadLanguagesReturnsAnEmptyArrayByDefault(): void
     {
-        $repository = $this->getRepository();
-
-        $languageService = $repository->getContentLanguageService();
-
-        self::assertSame([], $languageService->loadLanguages());
+        self::assertSame([], $this->languageService->loadLanguages());
     }
 
     /**
-     * Test for the deleteLanguage() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::deleteLanguage
-     *
      * @depends testLoadLanguages
      */
-    public function testDeleteLanguage()
+    public function testDeleteLanguage(): void
     {
-        $repository = $this->getRepository();
-        $languageService = $repository->getContentLanguageService();
+        $beforeCount = count($this->languageService->loadLanguages());
 
-        $beforeCount = count($languageService->loadLanguages());
-
-        /* BEGIN: Use Case */
-        $languageService = $repository->getContentLanguageService();
-
-        $languageCreateEnglish = $languageService->newLanguageCreateStruct();
+        $languageCreateEnglish = $this->languageService->newLanguageCreateStruct();
         $languageCreateEnglish->enabled = false;
         $languageCreateEnglish->name = 'English';
         $languageCreateEnglish->languageCode = 'eng-NZ';
 
-        $language = $languageService->createLanguage($languageCreateEnglish);
+        $language = $this->languageService->createLanguage($languageCreateEnglish);
 
         // Delete the newly created language
-        $languageService->deleteLanguage($language);
-        /* END: Use Case */
+        $this->languageService->deleteLanguage($language);
 
         // +1 -1
-        self::assertEquals($beforeCount, count($languageService->loadLanguages()));
+        self::assertEquals($beforeCount, count($this->languageService->loadLanguages()));
 
         $this->expectException(NotFoundException::class);
         $this->expectExceptionMessage('Could not find \'Language\' with identifier \'eng-NZ\'');
 
         // ensure just created & deleted language doesn't exist
-        $languageService->loadLanguage($languageCreateEnglish->languageCode);
-        self::fail('Language is still returned after being deleted');
+        $this->languageService->loadLanguage($languageCreateEnglish->languageCode);
     }
 
     /**
-     * Test for the deleteLanguage() method.
-     *
      * NOTE: This test has a dependency against several methods in the content
      * service, but because there is no topological sort for test dependencies
      * we cannot declare them here.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::deleteLanguage
-     *
      * @depends testDeleteLanguage
      */
-    public function testDeleteLanguageThrowsInvalidArgumentException()
+    public function testDeleteLanguageThrowsInvalidArgumentException(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Argument \'language\' is invalid: Cannot delete language: some content still references the language');
-
-        $repository = $this->getRepository();
-
         $editorsGroupId = $this->generateId('group', 13);
-        /* BEGIN: Use Case */
         // $editorsGroupId is the ID of the "Editors" user group in an Ibexa
         // Publish demo installation
 
-        $languageService = $repository->getContentLanguageService();
-
-        $languageCreateEnglish = $languageService->newLanguageCreateStruct();
+        $languageCreateEnglish = $this->languageService->newLanguageCreateStruct();
         $languageCreateEnglish->enabled = true;
         $languageCreateEnglish->name = 'English';
         $languageCreateEnglish->languageCode = 'eng-NZ';
 
-        $language = $languageService->createLanguage($languageCreateEnglish);
+        $language = $this->languageService->createLanguage($languageCreateEnglish);
 
-        $contentService = $repository->getContentService();
+        $contentService = $this->repository->getContentService();
 
         // Get metadata update struct and set new language as main language.
         $metadataUpdate = $contentService->newContentMetadataUpdateStruct();
@@ -579,188 +400,130 @@ class LanguageServiceTest extends BaseTestCase
 
         // This call will fail with an "InvalidArgumentException", because the
         // new language is used by a content object.
-        $languageService->deleteLanguage($language);
-        /* END: Use Case */
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Argument \'language\' is invalid: Cannot delete language: some content still references the language');
+        $this->languageService->deleteLanguage($language);
     }
 
-    /**
-     * Test for the getDefaultLanguageCode() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::getDefaultLanguageCode
-     */
-    public function testGetDefaultLanguageCode()
+    public function testGetDefaultLanguageCode(): void
     {
-        $repository = $this->getRepository();
-        $languageService = $repository->getContentLanguageService();
-
-        self::assertRegExp(
-            '(^[a-z]{3}\-[A-Z]{2}$)',
-            $languageService->getDefaultLanguageCode()
+        self::assertMatchesRegularExpression(
+            '(^[a-z]{3}-[A-Z]{2}$)',
+            $this->languageService->getDefaultLanguageCode()
         );
     }
 
     /**
-     * Test for the createLanguage() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
-     *
      * @depends testCreateLanguage
      */
-    public function testCreateLanguageInTransactionWithRollback()
+    public function testCreateLanguageInTransactionWithRollback(): void
     {
-        $repository = $this->getRepository();
-
-        /* BEGIN: Use Case */
-        $languageService = $repository->getContentLanguageService();
-
         // Start a new transaction
-        $repository->beginTransaction();
+        $this->repository->beginTransaction();
 
         try {
             // Get create struct and set properties
-            $languageCreate = $languageService->newLanguageCreateStruct();
+            $languageCreate = $this->languageService->newLanguageCreateStruct();
             $languageCreate->enabled = true;
             $languageCreate->name = 'English (New Zealand)';
             $languageCreate->languageCode = 'eng-NZ';
 
             // Create new language
-            $languageService->createLanguage($languageCreate);
+            $this->languageService->createLanguage($languageCreate);
         } catch (Exception $e) {
             // Cleanup hanging transaction on error
-            $repository->rollback();
+            $this->repository->rollback();
             throw $e;
         }
 
         // Rollback all changes
-        $repository->rollback();
+        $this->repository->rollback();
 
         try {
             // This call will fail with a "NotFoundException"
-            $languageService->loadLanguage('eng-NZ');
+            $this->languageService->loadLanguage('eng-NZ');
         } catch (NotFoundException $e) {
             // Expected execution path
         }
-        /* END: Use Case */
 
         self::assertTrue(isset($e), 'Can still load language after rollback');
     }
 
     /**
-     * Test for the createLanguage() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
-     *
      * @depends testCreateLanguage
      */
-    public function testCreateLanguageInTransactionWithCommit()
+    public function testCreateLanguageInTransactionWithCommit(): void
     {
-        $repository = $this->getRepository();
-
-        /* BEGIN: Use Case */
-        $languageService = $repository->getContentLanguageService();
-
-        // Start a new transaction
-        $repository->beginTransaction();
+        $this->repository->beginTransaction();
 
         try {
-            // Get create struct and set properties
-            $languageCreate = $languageService->newLanguageCreateStruct();
+            $languageCreate = $this->languageService->newLanguageCreateStruct();
             $languageCreate->enabled = true;
             $languageCreate->name = 'English (New Zealand)';
             $languageCreate->languageCode = 'eng-NZ';
 
             // Create new language
-            $languageService->createLanguage($languageCreate);
+            $this->languageService->createLanguage($languageCreate);
 
             // Commit all changes
-            $repository->commit();
+            $this->repository->commit();
         } catch (Exception $e) {
             // Cleanup hanging transaction on error
-            $repository->rollback();
+            $this->repository->rollback();
             throw $e;
         }
 
-        // Load new language
-        $language = $languageService->loadLanguage('eng-NZ');
-        /* END: Use Case */
+        $language = $this->languageService->loadLanguage('eng-NZ');
 
         self::assertEquals('eng-NZ', $language->languageCode);
     }
 
     /**
-     * Test for the updateLanguageName() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::updateLanguageName
-     *
      * @depends testUpdateLanguageName
      */
-    public function testUpdateLanguageNameInTransactionWithRollback()
+    public function testUpdateLanguageNameInTransactionWithRollback(): void
     {
-        $repository = $this->getRepository();
-
-        /* BEGIN: Use Case */
-        $languageService = $repository->getContentLanguageService();
-
-        // Start a new transaction
-        $repository->beginTransaction();
+        $this->repository->beginTransaction();
 
         try {
-            // Load an existing language
-            $language = $languageService->loadLanguage('eng-US');
+            $language = $this->languageService->loadLanguage('eng-US');
 
-            // Update the language name
-            $languageService->updateLanguageName($language, 'My English');
+            $this->languageService->updateLanguageName($language, 'My English');
         } catch (Exception $e) {
             // Cleanup hanging transaction on error
-            $repository->rollback();
+            $this->repository->rollback();
             throw $e;
         }
 
         // Rollback all changes
-        $repository->rollback();
+        $this->repository->rollback();
 
         // Load updated version, name will still be "English (American)"
-        $updatedLanguage = $languageService->loadLanguage('eng-US');
-        /* END: Use Case */
+        $updatedLanguage = $this->languageService->loadLanguage('eng-US');
 
         self::assertEquals('English (American)', $updatedLanguage->name);
     }
 
     /**
-     * Test for the updateLanguageName() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\LanguageService::updateLanguageName
-     *
      * @depends testUpdateLanguageName
      */
-    public function testUpdateLanguageNameInTransactionWithCommit()
+    public function testUpdateLanguageNameInTransactionWithCommit(): void
     {
-        $repository = $this->getRepository();
-
-        /* BEGIN: Use Case */
-        $languageService = $repository->getContentLanguageService();
-
-        // Start a new transaction
-        $repository->beginTransaction();
+        $this->repository->beginTransaction();
 
         try {
-            // Load an existing language
-            $language = $languageService->loadLanguage('eng-US');
+            $language = $this->languageService->loadLanguage('eng-US');
 
-            // Update the language name
-            $languageService->updateLanguageName($language, 'My English');
+            $this->languageService->updateLanguageName($language, 'My English');
 
-            // Commit all changes
-            $repository->commit();
+            $this->repository->commit();
         } catch (Exception $e) {
-            // Cleanup hanging transaction on error
-            $repository->rollback();
+            $this->repository->rollback();
             throw $e;
         }
 
         // Load updated version, name will be "My English"
-        $updatedLanguage = $languageService->loadLanguage('eng-US');
-        /* END: Use Case */
+        $updatedLanguage = $this->languageService->loadLanguage('eng-US');
 
         self::assertEquals('My English', $updatedLanguage->name);
     }
