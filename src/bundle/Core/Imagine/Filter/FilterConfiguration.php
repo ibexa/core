@@ -7,9 +7,15 @@
 
 namespace Ibexa\Bundle\Core\Imagine\Filter;
 
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Image;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Liip\ImagineBundle\Imagine\Filter\FilterConfiguration as BaseFilterConfiguration;
 
+/**
+ * @phpstan-import-type TImageVariations from Image
+ * @phpstan-import-type TFilters from Image
+ * @phpstan-import-type TPostProcessors from Image
+ */
 class FilterConfiguration extends BaseFilterConfiguration
 {
     private ConfigResolverInterface $configResolver;
@@ -20,10 +26,24 @@ class FilterConfiguration extends BaseFilterConfiguration
     }
 
     /**
-     * @return array<string, mixed>
+     * @phpstan-return array{
+     *     cache?: string|null,
+     *     data_loader?: string|null,
+     *     reference?: string|null,
+     *     filters?: TFilters,
+     *     post_processors?: TPostProcessors,
+     *     quality?: int|null,
+     *     jpeg_quality?: int|null,
+     *     png_compression_level?: int|null,
+     *     png_compression_filter?: int|null,
+     *     format?: string|null,
+     *     animated?: bool,
+     *     default_image?: string|null
+     * }
      */
     public function get($filter): array
     {
+        /** @phpstan-var TImageVariations $configuredVariations */
         $configuredVariations = $this->configResolver->getParameter('image_variations');
         if (!array_key_exists($filter, $configuredVariations)) {
             return parent::get($filter);
@@ -41,11 +61,14 @@ class FilterConfiguration extends BaseFilterConfiguration
     }
 
     /**
-     * @return array<string, mixed>
+     * @phpstan-return TImageVariations
      */
     public function all(): array
     {
-        return $this->configResolver->getParameter('image_variations') + parent::all();
+        /** @phpstan-var TImageVariations $configuredVariations */
+        $configuredVariations = $this->configResolver->getParameter('image_variations');
+
+        return $configuredVariations + parent::all();
     }
 
     /**
@@ -54,9 +77,9 @@ class FilterConfiguration extends BaseFilterConfiguration
      * Both variations configured in Ibexa (SiteAccess context) and LiipImagineBundle are used.
      * Ibexa variations always have precedence.
      *
-     * @param array<string, array{filters: array<mixed>}> $configuredVariations Variations set in eZ.
+     * @phpstan-param TImageVariations $configuredVariations Variations' set.
      *
-     * @return array<mixed>
+     * @phpstan-return TFilters
      */
     private function getVariationFilters(string $variationName, array $configuredVariations): array
     {
@@ -64,7 +87,7 @@ class FilterConfiguration extends BaseFilterConfiguration
             return [];
         }
 
-        // Check variations configured in Ibexa config first.
+        // Prioritize variations configured in Ibexa config
         return $configuredVariations[$variationName]['filters'] ?? $this->filters[$variationName]['filters'];
     }
 
@@ -74,9 +97,9 @@ class FilterConfiguration extends BaseFilterConfiguration
      * Both variations configured in Ibexa and LiipImagineBundle are used.
      * Ibexa variations always have precedence.
      *
-     * @param array<string, array{post_processor: array<mixed>}> $configuredVariations Variations set in Ibexa.
+     * @phpstan-param TImageVariations $configuredVariations Variations set in eZ.
      *
-     * @return array<mixed>
+     * @phpstan-return TPostProcessors
      */
     private function getVariationPostProcessors(string $variationName, array $configuredVariations): array
     {

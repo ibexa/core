@@ -13,6 +13,16 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 
 /**
  * Configuration parser handling all basic configuration (aka "Image").
+ *
+ * @phpstan-type TVariationOptions array<string|int, mixed>
+ * @phpstan-type TFilters array<string, TVariationOptions>
+ * @phpstan-type TPostProcessors array<string, TVariationOptions>
+ * @phpstan-type TImageVariation array{
+ *     reference?: string|null,
+ *     filters?: TFilters,
+ *     post_processors?: TPostProcessors
+ * }
+ * @phpstan-type TImageVariations array<string, TImageVariation>
  */
 class Image extends AbstractParser
 {
@@ -107,7 +117,7 @@ class Image extends AbstractParser
         $contextualizer->mapSetting('variation_handler_identifier', $config);
     }
 
-    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer)
+    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer): void
     {
     }
 }
