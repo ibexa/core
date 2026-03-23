@@ -3211,18 +3211,6 @@ parameters:
 			path: src/bundle/Core/Imagine/Filter/AbstractFilter.php
 
 		-
-			message: '#^Parameter \#2 \$configuredVariations of method Ibexa\\Bundle\\Core\\Imagine\\Filter\\FilterConfiguration\:\:getVariationFilters\(\) expects array\<string, array\{filters\: array\<mixed\>\}\>, non\-empty\-array given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/bundle/Core/Imagine/Filter/FilterConfiguration.php
-
-		-
-			message: '#^Parameter \#2 \$configuredVariations of method Ibexa\\Bundle\\Core\\Imagine\\Filter\\FilterConfiguration\:\:getVariationPostProcessors\(\) expects array\<string, array\{post_processor\: array\<mixed\>\}\>, non\-empty\-array given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/bundle/Core/Imagine/Filter/FilterConfiguration.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Imagine\\Filter\\FilterInterface\:\:getOptions\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
