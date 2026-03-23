@@ -141,13 +141,14 @@ final class LanguageServiceTest extends IbexaKernelTestCase
      * @testWith ["."]
      *           ["ąę"]
      *           ["%^"]
+     *           ["eng 123"]
      */
-    public function testCreateLanguageWithInvalidLanguageCode(): void
+    public function testCreateLanguageWithInvalidLanguageCode(string $languageCode): void
     {
         $languageCreate = $this->languageService->newLanguageCreateStruct();
         $languageCreate->enabled = true;
         $languageCreate->name = 'English';
-        $languageCreate->languageCode = 'eng 123';
+        $languageCreate->languageCode = $languageCode;
 
         $this->expectException(InvalidArgumentException::class);
         $this->languageService->createLanguage($languageCreate);
