@@ -35,8 +35,8 @@ class FilterConfiguration extends BaseFilterConfiguration
             'cache' => 'ibexa',
             'data_loader' => 'ibexa',
             'reference' => $configuredVariations[$filter]['reference'] ?? null,
-            'filters' => $this->getVariationFilters($filter, $configuredVariations),
-            'post_processors' => $this->getVariationPostProcessors($filter, $configuredVariations),
+            'filters' => $this->getVariationFilters($filter, $configuredVariations[$filter] ?? []),
+            'post_processors' => $this->getVariationPostProcessors($filter, $configuredVariations[$filter] ?? []),
         ] + $filterConfig;
     }
 
@@ -54,18 +54,18 @@ class FilterConfiguration extends BaseFilterConfiguration
      * Both variations configured in Ibexa (SiteAccess context) and LiipImagineBundle are used.
      * Ibexa variations always have precedence.
      *
-     * @param array<string, array{filters: array<mixed>}> $configuredVariations Variations set in eZ.
+     * @param array{filters?: array<mixed>} $configuredVariations Variations set in eZ.
      *
      * @return array<mixed>
      */
     private function getVariationFilters(string $variationName, array $configuredVariations): array
     {
-        if (!isset($configuredVariations[$variationName]['filters']) && !isset($this->filters[$variationName]['filters'])) {
+        if (!isset($configuredVariations['filters']) && !isset($this->filters[$variationName]['filters'])) {
             return [];
         }
 
         // Check variations configured in Ibexa config first.
-        return $configuredVariations[$variationName]['filters'] ?? $this->filters[$variationName]['filters'];
+        return $configuredVariations['filters'] ?? $this->filters[$variationName]['filters'];
     }
 
     /**
@@ -74,13 +74,13 @@ class FilterConfiguration extends BaseFilterConfiguration
      * Both variations configured in Ibexa and LiipImagineBundle are used.
      * Ibexa variations always have precedence.
      *
-     * @param array<string, array{post_processor: array<mixed>}> $configuredVariations Variations set in Ibexa.
+     * @param array{post_processors?: array<mixed>} $configuredVariations Variations set in Ibexa.
      *
      * @return array<mixed>
      */
     private function getVariationPostProcessors(string $variationName, array $configuredVariations): array
     {
-        return $configuredVariations[$variationName]['post_processors']
+        return $configuredVariations['post_processors']
             ?? $this->filters[$variationName]['post_processors']
             ?? [];
     }
