@@ -62,12 +62,9 @@ class LanguageService implements LanguageServiceInterface
     /**
      * Creates the a new Language in the content repository.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct $languageCreateStruct
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Language
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If user does not have access to content translations
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the languageCode already exists
+     * @throws \Ibexa\Contracts\Core\Validation\ValidationFailedException
      */
     public function createLanguage(LanguageCreateStruct $languageCreateStruct): Language
     {
