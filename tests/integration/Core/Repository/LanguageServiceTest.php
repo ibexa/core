@@ -44,7 +44,7 @@ final class LanguageServiceTest extends IbexaKernelTestCase
         $this->languageService = $this->repository->getContentLanguageService();
     }
 
-    private function generateId(string $type, string $rawId): string
+    private function generateId(string $type, int $rawId): int
     {
         return self::getServiceByClassName(IdManager::class)->generateId($type, $rawId);
     }

@@ -7,8 +7,6 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository;
 
-use ArrayObject;
-use DateTime;
 use Doctrine\DBAL\Connection;
 use ErrorException;
 use Exception;
@@ -25,7 +23,6 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
-use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy as LegacySetupFactory;
 use Ibexa\Tests\Core\Repository\PHPUnitConstraint;
