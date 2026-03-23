@@ -371,3 +371,10 @@ services:
         decoration_priority: 500
         arguments:
             $inner: '@.inner'
+
+
+    jms_translation.doc_parser:
+        class: Doctrine\Common\Annotations\DocParser
+        calls:
+            - [setImports, [{ desc: 'JMS\TranslationBundle\Annotation\Desc', domain: 'Ibexa\Core\MVC\Symfony\Translation\Annotation\Domain', ignore: 'JMS\TranslationBundle\Annotation\Ignore', meaning: 'JMS\TranslationBundle\Annotation\Meaning' }]]
+            - [setIgnoreNotImportedAnnotations, [true]]

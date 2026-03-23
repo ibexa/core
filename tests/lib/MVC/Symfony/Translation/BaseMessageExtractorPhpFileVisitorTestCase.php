@@ -9,6 +9,10 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\MVC\Symfony\Translation;
 
 use Doctrine\Common\Annotations\DocParser;
+use Ibexa\Core\MVC\Symfony\Translation\Annotation\Domain;
+use JMS\TranslationBundle\Annotation\Desc;
+use JMS\TranslationBundle\Annotation\Ignore;
+use JMS\TranslationBundle\Annotation\Meaning;
 use JMS\TranslationBundle\Model\MessageCatalogue;
 use JMS\TranslationBundle\Translation\Extractor\FileVisitorInterface;
 use JMS\TranslationBundle\Translation\FileSourceFactory;
@@ -38,6 +42,13 @@ abstract class BaseMessageExtractorPhpFileVisitorTestCase extends TestCase
     protected function setUp(): void
     {
         $docParser = new DocParser();
+        $docParser->setImports([
+            'desc' => Desc::class,
+            'domain' => Domain::class,
+            'ignore' => Ignore::class,
+            'meaning' => Meaning::class,
+        ]);
+
         $fileSourceFactory = new FileSourceFactory(self::FIXTURES_DIR);
         $factory = new ParserFactory();
         $this->phpParser = $factory->createForHostVersion();

@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
+use Ibexa\Contracts\Core\Repository\Values\Translation\Message;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SiteAccessLimitation;
@@ -175,6 +176,27 @@ class SiteAccessLimitationTypeTest extends Base
     {
         $validationErrors = $limitationType->validate($limitation);
         self::assertCount($errorCount, $validationErrors);
+    }
+
+    /**
+     * @depends testConstruct
+     */
+    public function testValidateErrorMessage(SiteAccessLimitationType $limitationType): void
+    {
+        $validationErrors = $limitationType->validate(
+            new SiteAccessLimitation(
+                [
+                    'limitationValues' => ['2339567439'],
+                ]
+            )
+        );
+
+        self::assertCount(1, $validationErrors);
+        self::assertInstanceOf(Message::class, $validationErrors[0]->getTranslatableMessage());
+        self::assertSame(
+            "\$limitationValue->limitationValues[0] => Invalid SiteAccess value '2339567439'",
+            (string) $validationErrors[0]->getTranslatableMessage()
+        );
     }
 
     /**
