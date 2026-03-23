@@ -19,15 +19,16 @@ class LanguageCreateStruct extends ValueObject
     /**
      * The languageCode code.
      *
-     * Needs to be a unique.
+     * Needs to be unique.
      */
     #[Assert\NotBlank]
-    #[Assert\Regex('^[a-zA-Z\_\-]+$')]
+    #[Assert\Regex('~^[a-zA-Z\_\-]+$~')]
     public ?string $languageCode = null;
 
     /**
      * Human-readable name of the language.
      */
+    #[Assert\NotBlank]
     public ?string $name = null;
 
     /**

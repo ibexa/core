@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\LanguageService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
+use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
 
 /**
  * Test case for operations in the LanguageService using in memory storage.
@@ -22,18 +23,30 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Language;
  * @group integration
  * @group language
  */
-final class LanguageServiceTest extends BaseTestCase
+final class LanguageServiceTest extends IbexaKernelTestCase
 {
+    use AssertPropertiesTrait;
+
     private Repository $repository;
 
     private LanguageService $languageService;
 
     protected function setUp(): void
     {
-        parent::setUp();
+        self::bootKernel();
 
-        $this->repository = $this->getRepository();
+        self::loadSchema();
+        self::loadFixtures();
+
+        self::setAdministratorUser();
+
+        $this->repository = self::getServiceByClassName(Repository::class);
         $this->languageService = $this->repository->getContentLanguageService();
+    }
+
+    private function generateId(string $type, string $rawId): string
+    {
+        return self::getServiceByClassName(IdManager::class)->generateId($type, $rawId);
     }
 
     public function testNewLanguageCreateStruct(): void
@@ -110,6 +123,33 @@ final class LanguageServiceTest extends BaseTestCase
         // the language code "nor-NO" already exists.
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'languageCreateStruct\' is invalid: language with the "nor-NO" language code already exists');
+        $this->languageService->createLanguage($languageCreate);
+    }
+
+    public function testCreateLanguageWithEmptyLanguageCode(): void
+    {
+        $languageCreate = $this->languageService->newLanguageCreateStruct();
+        $languageCreate->enabled = true;
+        $languageCreate->name = 'English';
+        $languageCreate->languageCode = '';
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->languageService->createLanguage($languageCreate);
+    }
+
+    /**
+     * @testWith ["."]
+     *           ["ąę"]
+     *           ["%^"]
+     */
+    public function testCreateLanguageWithInvalidLanguageCode(): void
+    {
+        $languageCreate = $this->languageService->newLanguageCreateStruct();
+        $languageCreate->enabled = true;
+        $languageCreate->name = 'English';
+        $languageCreate->languageCode = 'eng 123';
+
+        $this->expectException(InvalidArgumentException::class);
         $this->languageService->createLanguage($languageCreate);
     }
 

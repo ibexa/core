@@ -94,6 +94,8 @@ class LanguageService implements LanguageServiceInterface
             // Do nothing
         }
 
+        $this->validator->assertValidStruct('$languageCreateStruct', $languageCreateStruct, ['create']);
+
         $createStruct = new CreateStruct(
             [
                 'languageCode' => $languageCreateStruct->languageCode,
