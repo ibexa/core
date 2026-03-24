@@ -98,26 +98,24 @@ class CoreInstaller extends DbBasedInstaller implements Installer
         AbstractPlatform $databasePlatform
     ): array {
         $existingSchema = $this->db->getSchemaManager()->createSchema();
-        $statements = [];
+        $dropForeignKeyStatements = [];
+        $dropTableStatements =[];
         $tables = $newSchema->getTables();
-        if ($databasePlatform->supportsForeignKeyConstraints()) {
-            // cleanup pre-existing database: drop foreign keys
-            foreach ($tables as $table) {
-                if ($existingSchema->hasTable($table->getName())) {
-                    foreach ($this->db->getSchemaManager()->listTableForeignKeys($table->getName()) as $foreignKeyConstraint) {
-                        $statements[] = $databasePlatform->getDropForeignKeySQL($foreignKeyConstraint->getName(), $table->getName());
-                    }
-                }
-            }
-        }
-        // cleanup pre-existing database: drop tables
+        // cleanup pre-existing database
         foreach ($tables as $table) {
             if ($existingSchema->hasTable($table->getName())) {
-                $statements[] = $databasePlatform->getDropTableSQL($table);
+                if ($databasePlatform->supportsForeignKeyConstraints()) {
+                    // cleanup pre-existing database: drop foreign keys
+                    foreach ($this->db->getSchemaManager()->listTableForeignKeys($table->getName()) as $foreignKeyConstraint) {
+                        $dropForeignKeyStatements[] = $databasePlatform->getDropForeignKeySQL($foreignKeyConstraint->getName(), $table->getName());
+                    }
+                }
+                // cleanup pre-existing database: drop tables
+                $dropTableStatements[] = $databasePlatform->getDropTableSQL($table);
             }
         }
 
-        return $statements;
+        return array_merge($dropForeignKeyStatements, $dropTableStatements);
     }
 
     /**
