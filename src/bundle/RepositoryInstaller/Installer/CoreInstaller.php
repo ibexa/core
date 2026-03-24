@@ -99,7 +99,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     ): array {
         $existingSchema = $this->db->getSchemaManager()->createSchema();
         $dropForeignKeyStatements = [];
-        $dropTableStatements =[];
+        $dropTableStatements = [];
         $tables = $newSchema->getTables();
         // cleanup pre-existing database
         foreach ($tables as $table) {
