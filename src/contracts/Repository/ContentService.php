@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository;
 
+use Ibexa\Contracts\Core\Options\Context;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentDraftList;
@@ -241,7 +242,8 @@ interface ContentService
         ContentInfo $contentInfo,
         ?VersionInfo $versionInfo = null,
         ?User $creator = null,
-        ?Language $language = null
+        ?Language $language = null,
+        ?Context $context = null
     ): Content;
 
     /**

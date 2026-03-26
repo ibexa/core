@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Event;
 
+use Ibexa\Contracts\Core\Options\Context;
 use Ibexa\Contracts\Core\Repository\ContentService as ContentServiceInterface;
 use Ibexa\Contracts\Core\Repository\Decorator\ContentServiceDecorator;
 use Ibexa\Contracts\Core\Repository\Events\Content\AddRelationEvent;
@@ -144,7 +145,8 @@ class ContentService extends ContentServiceDecorator
         ContentInfo $contentInfo,
         ?VersionInfo $versionInfo = null,
         ?User $creator = null,
-        ?Language $language = null
+        ?Language $language = null,
+        ?Context $context = null
     ): Content {
         $eventData = [
             $contentInfo,
@@ -162,7 +164,7 @@ class ContentService extends ContentServiceDecorator
 
         $contentDraft = $beforeEvent->hasContentDraft()
             ? $beforeEvent->getContentDraft()
-            : $this->innerService->createContentDraft($contentInfo, $versionInfo, $creator, $language);
+            : $this->innerService->createContentDraft($contentInfo, $versionInfo, $creator, $language, $context);
 
         $this->eventDispatcher->dispatch(
             new CreateContentDraftEvent($contentDraft, ...$eventData)

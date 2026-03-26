@@ -17,6 +17,8 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
  */
 interface ReferenceAwareExternalStorage
 {
+    public const REFERENCE_LANGUAGE_CODE = 'reference-language-code';
+
     /**
      * Creates a reference to the original field's external data instead of copying it.
      *
