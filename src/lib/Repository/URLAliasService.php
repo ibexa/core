@@ -721,16 +721,17 @@ class URLAliasService implements URLAliasServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      *
      * @param string $id
+     * @param bool|null $showAllTranslations If enabled will include all alias as if they where always available.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias
      */
-    public function load(string $id): URLAlias
+    public function load(string $id, ?bool $showAllTranslations = null): URLAlias
     {
         $spiUrlAlias = $this->urlAliasHandler->loadUrlAlias($id);
         $path = $this->extractPath(
             $spiUrlAlias,
             null,
-            $this->languageResolver->getShowAllTranslations(),
+            $this->languageResolver->getShowAllTranslations($showAllTranslations),
             $this->languageResolver->getPrioritizedLanguages()
         );
 
