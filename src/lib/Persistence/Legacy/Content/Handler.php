@@ -288,7 +288,7 @@ class Handler implements BaseContentHandler
         // Clone fields from previous version and append them to the new one
         $this->fieldHandler->createExistingFieldsInNewVersion(
             $content,
-            $context[ReferenceAwareExternalStorage::REFERENCE_LANGUAGE_CODE] ?? null
+            $context[ReferenceAwareExternalStorage::REFERENCE_LANGUAGE_CODE] ?? $languageCode
         );
 
         // Persist virtual fields
