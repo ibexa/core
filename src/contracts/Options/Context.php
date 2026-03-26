@@ -15,9 +15,7 @@ use ArrayAccess;
  */
 final class Context implements OptionsBag, ArrayAccess
 {
-    /**
-     * @var array<string, mixed>
-     */
+    /** @var array<string, mixed> */
     private array $data;
 
     /**
@@ -63,6 +61,7 @@ final class Context implements OptionsBag, ArrayAccess
     /**
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->get($offset);
