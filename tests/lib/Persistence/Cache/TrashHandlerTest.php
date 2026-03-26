@@ -10,6 +10,8 @@ use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler as TrashHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trashed;
 use Ibexa\Contracts\Core\Persistence\Content\Relation;
+use Ibexa\Contracts\Core\Persistence\User\Handler as SPIUserHandler;
+use Ibexa\Contracts\Core\Persistence\User\RoleAssignment;
 use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult;
 use Ibexa\Core\Persistence\Cache\ContentHandler;
 use Ibexa\Core\Persistence\Cache\LocationHandler;
@@ -56,10 +58,12 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
         $originalLocationId = 6;
         $targetLocationId = 2;
         $contentId = 42;
+        $roleId = 1;
 
         $tags = [
             'c-' . $contentId,
             'lp-' . $originalLocationId,
+            'rarl-' . $roleId,
         ];
 
         $handlerMethodName = $this->getHandlerMethodName();
@@ -69,10 +73,16 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
         $innerHandler = $this->createMock($this->getHandlerClassName());
         $contentHandlerMock = $this->createMock(ContentHandler::class);
         $locationHandlerMock = $this->createMock(LocationHandler::class);
+        $userHandlerMock = $this->createMock(SPIUserHandler::class);
 
         $locationHandlerMock
             ->method('load')
             ->willReturn(new Location(['id' => $originalLocationId, 'contentId' => $contentId]));
+
+        $userHandlerMock
+            ->method('loadRoleAssignmentsByGroupId')
+            ->with($contentId)
+            ->willReturn([new RoleAssignment(['roleId' => $roleId, 'contentId' => $contentId])]);
 
         $this->persistenceHandlerMock
             ->method('contentHandler')
@@ -81,6 +91,10 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
         $this->persistenceHandlerMock
             ->method('locationHandler')
             ->willReturn($locationHandlerMock);
+
+        $this->persistenceHandlerMock
+            ->method('userHandler')
+            ->willReturn($userHandlerMock);
 
         $this->persistenceHandlerMock
             ->expects($this->once())
@@ -94,13 +108,15 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
             ->willReturn(null);
 
         $this->cacheIdentifierGeneratorMock
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(3))
             ->method('generateTag')
             ->withConsecutive(
+                ['role_assignment_role_list', [$roleId], false],
                 ['content', [$contentId], false],
                 ['location_path', [$originalLocationId], false]
             )
             ->willReturnOnConsecutiveCalls(
+                'rarl-' . $roleId,
                 'c-' . $contentId,
                 'lp-' . $originalLocationId
             );
@@ -118,10 +134,12 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
     {
         $locationId = 6;
         $contentId = 42;
+        $roleId = 1;
 
         $tags = [
             'c-' . $contentId,
             'lp-' . $locationId,
+            'rarl-' . $roleId,
         ];
 
         $handlerMethodName = $this->getHandlerMethodName();
@@ -131,10 +149,16 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
         $innerHandler = $this->createMock($this->getHandlerClassName());
         $contentHandlerMock = $this->createMock(ContentHandler::class);
         $locationHandlerMock = $this->createMock(LocationHandler::class);
+        $userHandlerMock = $this->createMock(SPIUserHandler::class);
 
         $locationHandlerMock
             ->method('load')
             ->willReturn(new Location(['id' => $locationId, 'contentId' => $contentId]));
+
+        $userHandlerMock
+            ->method('loadRoleAssignmentsByGroupId')
+            ->with($contentId)
+            ->willReturn([new RoleAssignment(['roleId' => $roleId, 'contentId' => $contentId])]);
 
         $this->persistenceHandlerMock
             ->method('contentHandler')
@@ -143,6 +167,10 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
         $this->persistenceHandlerMock
             ->method('locationHandler')
             ->willReturn($locationHandlerMock);
+
+        $this->persistenceHandlerMock
+            ->method('userHandler')
+            ->willReturn($userHandlerMock);
 
         $this->persistenceHandlerMock
             ->expects($this->once())
@@ -156,13 +184,18 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
             ->willReturn(null);
 
         $this->cacheIdentifierGeneratorMock
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(3))
             ->method('generateTag')
             ->withConsecutive(
+                ['role_assignment_role_list', [$roleId], false],
                 ['content', [$contentId], false],
                 ['location_path', [$locationId], false]
             )
-            ->willReturnOnConsecutiveCalls(...$tags);
+            ->willReturnOnConsecutiveCalls(
+                'rarl-' . $roleId,
+                'c-' . $contentId,
+                'lp-' . $locationId
+            );
 
         $this->cacheMock
             ->expects($this->once())
