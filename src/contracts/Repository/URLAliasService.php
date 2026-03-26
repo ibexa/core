@@ -166,10 +166,11 @@ interface URLAliasService
      * @throws NotFoundException
      *
      * @param string $id
+     * @param bool|null $showAllTranslations If enabled will include all alias as if they where always available.
      *
      * @return URLAlias
      */
-    public function load(string $id): URLAlias;
+    public function load(string $id, ?bool $showAllTranslations = null): URLAlias;
 
     /**
      * Refresh all system URL aliases for the given Location (and historize outdated if needed).

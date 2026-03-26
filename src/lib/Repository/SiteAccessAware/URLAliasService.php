@@ -108,9 +108,9 @@ class URLAliasService implements URLAliasServiceInterface
         );
     }
 
-    public function load(string $id): URLAlias
+    public function load(string $id, ?bool $showAllTranslations = null): URLAlias
     {
-        return $this->service->load($id);
+        return $this->service->load($id, $showAllTranslations);
     }
 
     public function refreshSystemUrlAliasesForLocation(Location $location): void
