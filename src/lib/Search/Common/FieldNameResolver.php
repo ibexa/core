@@ -98,7 +98,7 @@ class FieldNameResolver
      * @param string|null $fieldTypeIdentifier
      * @param string|null $name
      *
-     * @return array<string, \Ibexa\Contracts\Core\Search\FieldType>
+     * @return array<string, \Ibexa\Contracts\Core\Search\FieldType|null>
      */
     public function getFieldTypes(
         CriterionInterface $criterion,
@@ -134,6 +134,9 @@ class FieldNameResolver
 
             $fieldNames = array_keys($fieldNameWithSearchType);
             $fieldName = reset($fieldNames);
+            if ($fieldName === false) {
+                continue;
+            }
 
             $fieldTypeNameMap[$fieldName] = $fieldNameWithSearchType[$fieldName];
         }
@@ -183,20 +186,25 @@ class FieldNameResolver
             true
         ));
 
-        return reset($fieldName);
+        $resolvedFieldName = reset($fieldName);
+        if ($resolvedFieldName === false) {
+            return null;
+        }
+
+        return $resolvedFieldName;
     }
 
     /**
      * Returns index field name for the given parameters.
      *
-     * @param object $criterionOrSortClause
+     * @param object|null $criterionOrSortClause
      * @param string $contentTypeIdentifier
      * @param string $fieldDefinitionIdentifier
      * @param string $fieldTypeIdentifier
-     * @param string $name
+     * @param string|null $name
      * @param bool $isSortField
      *
-     * @return string
+     * @return array<string, \Ibexa\Contracts\Core\Search\FieldType|null>
      */
     public function getIndexFieldName(
         $criterionOrSortClause,
@@ -281,6 +289,11 @@ class FieldNameResolver
             )
         );
 
-        return reset($fieldName);
+        $resolvedFieldName = reset($fieldName);
+        if ($resolvedFieldName === false) {
+            return null;
+        }
+
+        return $resolvedFieldName;
     }
 }
