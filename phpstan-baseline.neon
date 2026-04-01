@@ -16495,30 +16495,6 @@ parameters:
 			path: src/lib/Repository/ContentTypeService.php
 
 		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentTypeCreateStruct\:\:\$defaultSortField \(int\) on left side of \?\? is not nullable\.$#'
-			identifier: nullCoalesce.property
-			count: 1
-			path: src/lib/Repository/ContentTypeService.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentTypeCreateStruct\:\:\$defaultSortOrder \(int\) on left side of \?\? is not nullable\.$#'
-			identifier: nullCoalesce.property
-			count: 1
-			path: src/lib/Repository/ContentTypeService.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentTypeCreateStruct\:\:\$descriptions \(array\<string, string\>\) on left side of \?\? is not nullable\.$#'
-			identifier: nullCoalesce.property
-			count: 1
-			path: src/lib/Repository/ContentTypeService.php
-
-		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\ContentTypeCreateStruct\:\:\$isContainer \(bool\) on left side of \?\? is not nullable\.$#'
-			identifier: nullCoalesce.property
-			count: 1
-			path: src/lib/Repository/ContentTypeService.php
-
-		-
 			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\FieldDefinitionCreateStruct\:\:\$names \(array\<string, string\>\) does not accept array\<string, bool\|string\>\.$#'
 			identifier: assign.propertyType
 			count: 1
