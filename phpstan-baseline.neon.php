@@ -6,6 +6,9 @@
  */
 declare(strict_types=1);
 
+use Composer\InstalledVersions;
+use Composer\Semver\VersionParser;
+
 $includes = [];
 if (PHP_VERSION_ID < 80000) {
     $includes[] = __DIR__ . '/phpstan-baseline-7.4.neon';
@@ -21,10 +24,17 @@ if (PHP_VERSION_ID < 80200) {
     $includes[] = __DIR__ . '/phpstan-baseline-lte-8.1.neon';
 }
 
-if (PHP_VERSION_ID >= 80300) {
-    $includes[] = __DIR__ . '/phpstan-baseline-gte-8.3.neon';
+if (PHP_VERSION_ID >= 80400) {
+    $includes[] = __DIR__ . '/phpstan-baseline-gte-8.4.neon';
 } else {
-    $includes[] = __DIR__ . '/phpstan-baseline-lte-8.2.neon';
+    $includes[] = __DIR__ . '/phpstan-baseline-lte-8.3.neon';
+}
+
+$versionParser = new VersionParser();
+if (InstalledVersions::satisfies($versionParser, 'doctrine/persistence', '2.*')) {
+    $includes[] = __DIR__ . '/phpstan-baseline-doctrine-persistence-v2.neon';
+} elseif (InstalledVersions::satisfies($versionParser, 'doctrine/persistence', '3.*')) {
+    $includes[] = __DIR__ . '/phpstan-baseline-doctrine-persistence-v3.neon';
 }
 
 $config = [];

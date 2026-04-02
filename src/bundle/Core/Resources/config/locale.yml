@@ -33,6 +33,7 @@ parameters:
         heb-IL: he_IL
         hin-IN: hi_IN
         hun-HU: hu_HU
+        ibo-NG: ig_NG
         ind-ID: id_ID
         ita-CH: it_CH
         ita-IT: it_IT
@@ -77,6 +78,7 @@ parameters:
         hr: ['cro-HR']
         hu: ['hun-HU']
         id: ['ind-ID']
+        ig: ['ibo-NG']
         il: ['heb-IL']
         in: ['hin-IN']
         it: ['ita-IT']

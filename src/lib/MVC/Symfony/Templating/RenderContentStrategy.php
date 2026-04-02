@@ -41,6 +41,7 @@ final class RenderContentStrategy extends BaseRenderStrategy implements RenderSt
         $controllerReference = new ControllerReference('ibexa_content::viewAction', [
             'contentId' => $content->id,
             'viewType' => $options->get('viewType', self::DEFAULT_VIEW_TYPE),
+            'params' => $options->get('params', []),
         ]);
 
         $renderer = $this->getFragmentRenderer($options->get('method', $this->defaultRenderer));

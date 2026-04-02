@@ -245,12 +245,17 @@ class NameSchemaService implements NameSchemaServiceInterface
     protected function filterNameSchema(string $nameSchema): array
     {
         $retNamePattern = $nameSchema;
-        $foundGroups = preg_match_all('/\((.+)\)/U', $nameSchema, $groupArray);
+        $foundGroups = preg_match_all('/<.*\((.*<.+>.*)\).*>/U', $nameSchema, $groupArray);
         $groupLookupTable = [];
 
         if ($foundGroups) {
             $i = 0;
             foreach ($groupArray[1] as $group) {
+                // Skip the group if it has no fields to parse
+                if (!preg_match('/<.*>/', $group)) {
+                    continue;
+                }
+
                 // Create meta-token for group
                 $metaToken = self::META_STRING . $i;
 

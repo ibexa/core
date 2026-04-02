@@ -16,9 +16,5 @@ services:
         arguments:
             $settings: '%ibexa.core.repository.name_schema.settings%'
 
-    Ibexa\Core\Repository\NameSchema\NameSchemaFilter: ~
-
-    Ibexa\Core\Repository\NameSchema\TokenHandler: ~
-
     Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface:
         alias: 'Ibexa\Core\Repository\NameSchema\NameSchemaService'

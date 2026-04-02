@@ -1,0 +1,4 @@
+services:
+    Ibexa\Tests\Integration\Core\Repository\Filtering\Fixtures\LegacyLocationSortQueryBuilder:
+        tags:
+            - { name: ibexa.filter.sort_clause.query.builder }

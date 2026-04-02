@@ -1,5 +1,6 @@
 imports:
     - { resource: commands.yml }
+    - { resource: embeddings.yaml }
 
 parameters:
     ibexa.site_access.default.name: default
@@ -366,9 +367,11 @@ services:
             - { name: console.command }
 
     ibexa.doctrine.orm.entity_manager:
-        class: Doctrine\ORM\EntityManager
-        lazy: true
-        factory: ['@ibexa.doctrine.orm.entity_manager_factory', 'getEntityManager']
+        class: Ibexa\Core\Persistence\Doctrine\SiteAccessAwareEntityManager
+        arguments:
+            $entityManagerFactory: '@ibexa.doctrine.orm.entity_manager_factory'
+        tags:
+            - { name: 'kernel.reset', method: 'reset' }
 
     ibexa.doctrine.orm.entity_manager_factory:
         class: Ibexa\Bundle\Core\Entity\EntityManagerFactory
