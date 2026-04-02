@@ -10633,12 +10633,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldHandler.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldHandler\:\:createExistingFieldInNewVersion\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldHandler.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldHandler\:\:createNewField\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
