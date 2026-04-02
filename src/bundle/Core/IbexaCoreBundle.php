@@ -142,8 +142,7 @@ final class IbexaCoreBundle extends Bundle
 
     private function validateIbexaCloudExistence(ContainerBuilder $container): void
     {
-        $bundles = $container->getParameter('kernel.bundles');
-        if (!isset($_SERVER['PLATFORM_RELATIONSHIPS']) || isset($bundles['IbexaCloudBundle'])) {
+        if (!isset($_SERVER['PLATFORM_RELATIONSHIPS']) || $container->hasExtension('ibexa_cloud')) {
             return;
         }
 

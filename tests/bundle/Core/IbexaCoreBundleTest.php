@@ -12,6 +12,7 @@ use Ibexa\Bundle\Core\IbexaCoreBundle;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\Extension;
 
 /**
  * @covers \Ibexa\Bundle\Core\IbexaCoreBundle
@@ -41,19 +42,19 @@ final class IbexaCoreBundleTest extends TestCase
         $this->expectNotToPerformAssertions();
     }
 
-    public function testBuildDoesNotThrowWhenOnCloudWithIbexaCloudBundle(): void
+    public function testBuildDoesNotThrowWhenOnCloudWithIbexaCloudExtension(): void
     {
         $_SERVER['PLATFORM_RELATIONSHIPS'] = 'some_value';
 
         $container = new ContainerBuilder();
-        $container->setParameter('kernel.bundles', ['IbexaCloudBundle' => 'Ibexa\Bundle\Cloud\IbexaCloudBundle']);
+        $container->registerExtension($this->createIbexaCloudExtension());
 
         $this->bundle->build($container);
 
         $this->expectNotToPerformAssertions();
     }
 
-    public function testBuildThrowsWhenOnCloudWithoutIbexaCloudBundle(): void
+    public function testBuildThrowsWhenOnCloudWithoutIbexaCloudExtension(): void
     {
         $_SERVER['PLATFORM_RELATIONSHIPS'] = 'some_value';
 
@@ -64,5 +65,19 @@ final class IbexaCoreBundleTest extends TestCase
         $this->expectExceptionMessage('The package `ibexa/cloud` is mandatory for Ibexa Cloud deployments.');
 
         $this->bundle->build($container);
+    }
+
+    private function createIbexaCloudExtension(): Extension
+    {
+        return new class() extends Extension {
+            public function getAlias(): string
+            {
+                return 'ibexa_cloud';
+            }
+
+            public function load(array $configs, ContainerBuilder $container): void
+            {
+            }
+        };
     }
 }
