@@ -7,6 +7,8 @@
 namespace Ibexa\Core\Persistence\Legacy\Content;
 
 use Exception;
+use Ibexa\Contracts\Core\FieldType\ReferenceAwareExternalStorage;
+use Ibexa\Contracts\Core\Options\Context;
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as BaseContentHandler;
@@ -257,14 +259,18 @@ class Handler implements BaseContentHandler
      * @param mixed $contentId
      * @param mixed $srcVersion
      * @param mixed $userId
-     * @param string|null $languageCode
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function createDraftFromVersion($contentId, $srcVersion, $userId, ?string $languageCode = null)
-    {
+    public function createDraftFromVersion(
+        $contentId,
+        $srcVersion,
+        $userId,
+        ?string $languageCode = null,
+        ?Context $context = null
+    ) {
         $content = $this->load($contentId, $srcVersion);
 
         // Create new version
@@ -280,7 +286,10 @@ class Handler implements BaseContentHandler
         );
 
         // Clone fields from previous version and append them to the new one
-        $this->fieldHandler->createExistingFieldsInNewVersion($content);
+        $this->fieldHandler->createExistingFieldsInNewVersion(
+            $content,
+            $context[ReferenceAwareExternalStorage::REFERENCE_LANGUAGE_CODE] ?? $languageCode
+        );
 
         // Persist virtual fields
         $contentType = $this->contentTypeHandler->load($content->versionInfo->contentInfo->contentTypeId);

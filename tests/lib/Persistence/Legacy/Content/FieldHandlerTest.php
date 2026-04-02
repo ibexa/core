@@ -335,6 +335,104 @@ class FieldHandlerTest extends LanguageAwareTestCase
         $fieldHandler->createExistingFieldsInNewVersion($this->getContentFixture());
     }
 
+    public function testCreateExistingFieldsInNewVersionWithEditedLanguageCode(): void
+    {
+        $fieldHandler = $this->getFieldHandler();
+        $contentGatewayMock = $this->getContentGatewayMock();
+        $storageHandlerMock = $this->getStorageHandlerMock();
+        $mapperMock = $this->getMapperMock();
+
+        $content = $this->getContentFixture();
+        $editedLanguageCode = 'eng-US';
+
+        $editedFieldCount = 0;
+        $untouchedFieldCount = 0;
+        foreach ($content->fields as $field) {
+            if ($field->id === null) {
+                continue;
+            }
+            if ($field->languageCode === $editedLanguageCode) {
+                ++$editedFieldCount;
+            } else {
+                ++$untouchedFieldCount;
+            }
+        }
+
+        $totalFieldCount = $editedFieldCount + $untouchedFieldCount;
+
+        $contentGatewayMock
+            ->expects(self::exactly($totalFieldCount))
+            ->method('insertExistingField');
+
+        $storageHandlerMock
+            ->expects(self::exactly($editedFieldCount))
+            ->method('copyFieldData')
+            ->willReturn(false);
+
+        $storageHandlerMock
+            ->expects(self::exactly($untouchedFieldCount))
+            ->method('referenceFieldData')
+            ->willReturn(false);
+
+        $mapperMock
+            ->expects(self::exactly($totalFieldCount))
+            ->method('convertToStorageValue')
+            ->willReturn(new StorageFieldValue());
+
+        $fieldHandler->createExistingFieldsInNewVersion($content, $editedLanguageCode);
+    }
+
+    public function testCreateExistingFieldsInNewVersionWithNullLanguageCodeCopiesAll(): void
+    {
+        $fieldHandler = $this->getFieldHandler();
+        $storageHandlerMock = $this->getStorageHandlerMock();
+        $mapperMock = $this->getMapperMock();
+
+        $this->assertCreateExistingFieldsInNewVersion();
+
+        $storageHandlerMock
+            ->expects(self::never())
+            ->method('referenceFieldData');
+
+        $mapperMock
+            ->expects(self::exactly(6))
+            ->method('convertToStorageValue')
+            ->willReturn(new StorageFieldValue());
+
+        $fieldHandler->createExistingFieldsInNewVersion($this->getContentFixture(), null);
+    }
+
+    public function testCreateExistingFieldsInNewVersionAllFieldsReferencedWhenEditedLanguageNotInContent(): void
+    {
+        $fieldHandler = $this->getFieldHandler();
+        $contentGatewayMock = $this->getContentGatewayMock();
+        $storageHandlerMock = $this->getStorageHandlerMock();
+        $mapperMock = $this->getMapperMock();
+
+        $content = $this->getContentSingleLanguageFixture();
+
+        // 3 real eng-GB fields, editing ger-DE which doesn't exist — all go through reference path
+        $contentGatewayMock
+            ->expects(self::exactly(3))
+            ->method('insertExistingField');
+
+        $storageHandlerMock
+            ->expects(self::exactly(3))
+            ->method('referenceFieldData')
+            ->willReturn(false);
+
+        $storageHandlerMock
+            ->expects(self::never())
+            ->method('copyFieldData');
+
+        $mapperMock
+            ->expects(self::exactly(3))
+            ->method('convertToStorageValue')
+            ->willReturn(new StorageFieldValue());
+
+        $fieldHandler->createExistingFieldsInNewVersion($content, 'ger-DE');
+    }
+
     public function testLoadExternalFieldData()
     {
         $fieldHandler = $this->getFieldHandler();

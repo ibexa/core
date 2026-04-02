@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Decorator;
 
+use Ibexa\Contracts\Core\Options\Context;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
@@ -137,9 +138,10 @@ abstract class ContentServiceDecorator implements ContentService
         ContentInfo $contentInfo,
         ?VersionInfo $versionInfo = null,
         ?User $creator = null,
-        ?Language $language = null
+        ?Language $language = null,
+        ?Context $context = null
     ): Content {
-        return $this->innerService->createContentDraft($contentInfo, $versionInfo, $creator, $language);
+        return $this->innerService->createContentDraft($contentInfo, $versionInfo, $creator, $language, $context);
     }
 
     public function countContentDrafts(?User $user = null): int
