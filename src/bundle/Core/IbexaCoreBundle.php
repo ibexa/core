@@ -47,6 +47,7 @@ use Ibexa\Core\Base\Container\Compiler\Search\FieldRegistryPass;
 use Ibexa\Core\Base\Container\Compiler\Storage\ExternalStorageRegistryPass;
 use Ibexa\Core\Base\Container\Compiler\Storage\Legacy\FieldValueConverterRegistryPass;
 use Ibexa\Core\Base\Container\Compiler\Storage\Legacy\RoleLimitationConverterPass;
+use RuntimeException;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
@@ -97,6 +98,8 @@ final class IbexaCoreBundle extends Bundle
         $container->addCompilerPass(new SlugConverterConfigurationPass());
 
         $container->registerForAutoconfiguration(VariableProvider::class)->addTag('ezplatform.view.variable_provider');
+
+        $this->validateIbexaCloudExistence($container);
     }
 
     public function getContainerExtension(): ExtensionInterface
@@ -135,5 +138,16 @@ final class IbexaCoreBundle extends Bundle
         }
 
         return $this->extension;
+    }
+
+    private function validateIbexaCloudExistence(ContainerBuilder $container): void
+    {
+        if (!isset($_SERVER['PLATFORM_RELATIONSHIPS']) || $container->hasExtension('ibexa_cloud')) {
+            return;
+        }
+
+        throw new RuntimeException(
+            'The package `ibexa/cloud` is mandatory for Ibexa Cloud deployments. Please install it according to the documentation: https://doc.ibexa.co/en/5.0/ibexa_cloud/install_on_ibexa_cloud/#1-prepare-configuration-files'
+        );
     }
 }
