@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\SiteAccessAware;
 
+use Ibexa\Contracts\Core\Options\Context;
 use Ibexa\Contracts\Core\Repository\ContentService as ContentServiceInterface;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
@@ -147,9 +148,10 @@ class ContentService implements ContentServiceInterface
         ContentInfo $contentInfo,
         ?VersionInfo $versionInfo = null,
         ?User $creator = null,
-        ?Language $language = null
+        ?Language $language = null,
+        ?Context $context = null
     ): Content {
-        return $this->service->createContentDraft($contentInfo, $versionInfo, $creator, $language);
+        return $this->service->createContentDraft($contentInfo, $versionInfo, $creator, $language, $context);
     }
 
     public function countContentDrafts(?User $user = null): int

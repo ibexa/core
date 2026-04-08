@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Persistence\Cache;
 
+use Ibexa\Contracts\Core\Options\Context;
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\CreateStruct;
@@ -106,10 +107,21 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     /**
      * {@inheritdoc}
      */
-    public function createDraftFromVersion($contentId, $srcVersion, $userId, ?string $languageCode = null)
-    {
+    public function createDraftFromVersion(
+        $contentId,
+        $srcVersion,
+        $userId,
+        ?string $languageCode = null,
+        ?Context $context = null
+    ) {
         $this->logger->logCall(__METHOD__, ['content' => $contentId, 'version' => $srcVersion, 'user' => $userId]);
-        $draft = $this->persistenceHandler->contentHandler()->createDraftFromVersion($contentId, $srcVersion, $userId, $languageCode);
+        $draft = $this->persistenceHandler->contentHandler()->createDraftFromVersion(
+            $contentId,
+            $srcVersion,
+            $userId,
+            $languageCode,
+            $context
+        );
         $this->cache->deleteItems([
             $this->cacheIdentifierGenerator->generateKey(self::CONTENT_VERSION_LIST_IDENTIFIER, [$contentId], true),
         ]);

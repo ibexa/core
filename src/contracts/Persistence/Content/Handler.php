@@ -8,6 +8,7 @@
 namespace Ibexa\Contracts\Core\Persistence\Content;
 
 // @todo We must verify whether we want to type cast on the "Criterion" interface or abstract class
+use Ibexa\Contracts\Core\Options\Context;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
 
 /**
@@ -42,11 +43,16 @@ interface Handler
      * @param mixed $contentId
      * @param mixed $srcVersion
      * @param mixed $userId
-     * @param string|null $languageCode
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content
      */
-    public function createDraftFromVersion($contentId, $srcVersion, $userId, ?string $languageCode = null);
+    public function createDraftFromVersion(
+        $contentId,
+        $srcVersion,
+        $userId,
+        ?string $languageCode = null,
+        ?Context $context = null
+    );
 
     /**
      * Returns the raw data of a content object identified by $id, in a struct.

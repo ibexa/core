@@ -7,6 +7,8 @@
 
 namespace Ibexa\Core\Persistence\Legacy\Content;
 
+use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
+use Ibexa\Contracts\Core\FieldType\ReferenceAwareExternalStorage;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 
@@ -81,6 +83,32 @@ class StorageHandler
         if ($field->id !== null && $storage->hasFieldData()) {
             $storage->getFieldData($versionInfo, $field);
         }
+    }
+
+    /**
+     * Creates a reference to the original field's external data instead of copying it.
+     *
+     * If the storage implements {@see ReferenceAwareExternalStorage}, it stores a lightweight
+     * reference. Otherwise, falls back to a full copy via {@see copyFieldData()}.
+     */
+    public function referenceFieldData(VersionInfo $versionInfo, Field $field, Field $originalField): ?bool
+    {
+        $storage = $this->storageRegistry->getStorage($field->type);
+
+        if ($storage instanceof ReferenceAwareExternalStorage) {
+            return $storage->referenceLegacyField(
+                $versionInfo,
+                $field,
+                $originalField
+            );
+        }
+
+        return $storage instanceof GatewayBasedStorage
+            ? $storage->copyLegacyField(
+                $versionInfo,
+                $field,
+                $originalField,
+            ) : false;
     }
 
     /**

@@ -8,6 +8,8 @@
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
 use Ibexa\Contracts\Core\FieldType\FieldStorage;
+use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
+use Ibexa\Contracts\Core\FieldType\ReferenceAwareExternalStorage;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
@@ -154,6 +156,61 @@ class StorageHandlerTest extends TestCase
         $handler->deleteFieldData('foobar', new VersionInfo(), [1, 2, 3]);
     }
 
+    public function testReferenceFieldDataWithReferenceAwareStorage(): void
+    {
+        $referenceAwareStorageMock = $this->createMock(ReferenceAwareFieldStorageStub::class);
+        $storageRegistryMock = $this->getStorageRegistryMock();
+        $versionInfo = $this->getVersionInfoMock();
+
+        $field = new Field();
+        $field->type = 'foobar';
+        $field->value = new FieldValue();
+        $originalField = clone $field;
+
+        $storageRegistryMock
+            ->expects(self::once())
+            ->method('getStorage')
+            ->with(self::equalTo('foobar'))
+            ->willReturn($referenceAwareStorageMock);
+
+        $referenceAwareStorageMock
+            ->expects(self::once())
+            ->method('referenceLegacyField')
+            ->with($versionInfo, $field, $originalField);
+
+        $handler = $this->getStorageHandler();
+        $handler->referenceFieldData($versionInfo, $field, $originalField);
+    }
+
+    public function testReferenceFieldDataFallsBackToCopyForNonReferenceAwareStorage(): void
+    {
+        $storageMock = $this->getMockBuilder(GatewayBasedStorage::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['copyLegacyField'])
+            ->getMockForAbstractClass();
+        $storageRegistryMock = $this->getStorageRegistryMock();
+        $versionInfo = $this->getVersionInfoMock();
+
+        $field = new Field();
+        $field->type = 'foobar';
+        $field->value = new FieldValue();
+        $originalField = clone $field;
+
+        $storageRegistryMock
+            ->expects(self::once())
+            ->method('getStorage')
+            ->with(self::equalTo('foobar'))
+            ->willReturn($storageMock);
+
+        $storageMock
+            ->expects(self::once())
+            ->method('copyLegacyField')
+            ->with($versionInfo, $field, $originalField);
+
+        $handler = $this->getStorageHandler();
+        $handler->referenceFieldData($versionInfo, $field, $originalField);
+    }
+
     /**
      * Returns the StorageHandler to test.
      *
@@ -221,3 +278,12 @@ class StorageHandlerTest extends TestCase
         return $this->versionInfoMock;
     }
 }
+
+/**
+ * Stub that combines FieldStorage and ReferenceAwareExternalStorage for mocking purposes.
+ */
+abstract class ReferenceAwareFieldStorageStub implements FieldStorage, ReferenceAwareExternalStorage
+{
+}
+
+class_alias(StorageHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\StorageHandlerTest');

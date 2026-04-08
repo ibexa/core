@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\Limitation\Target;
 use Ibexa\Contracts\Core\Limitation\Target\DestinationLocation as DestinationLocationTarget;
+use Ibexa\Contracts\Core\Options\Context;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo as SPIContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\CreateStruct as SPIContentCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Field as SPIField;
@@ -1087,7 +1088,8 @@ class ContentService implements ContentServiceInterface
         ContentInfo $contentInfo,
         ?APIVersionInfo $versionInfo = null,
         ?User $creator = null,
-        ?Language $language = null
+        ?Language $language = null,
+        ?Context $context = null
     ): APIContent {
         $contentInfo = $this->loadContentInfo($contentInfo->id);
 
@@ -1156,7 +1158,8 @@ class ContentService implements ContentServiceInterface
                 $contentInfo->id,
                 $versionNo,
                 $creator->getUserId(),
-                $languageCode
+                $languageCode,
+                $context,
             );
             $this->repository->commit();
         } catch (Exception $e) {
