@@ -364,8 +364,8 @@ EOT;
 
         $fieldSettings = $actualFieldDefinition->fieldTypeConstraints->fieldSettings;
 
-        $this->assertSame([0 => 'First'], $fieldSettings['multilingualOptions']['eng-GB']);
-        $this->assertSame([0 => 'Premier'], $fieldSettings['multilingualOptions']['fre-FR']);
+        self::assertSame([0 => 'First'], $fieldSettings['multilingualOptions']['eng-GB']);
+        self::assertSame([0 => 'Premier'], $fieldSettings['multilingualOptions']['fre-FR']);
     }
 }
 
