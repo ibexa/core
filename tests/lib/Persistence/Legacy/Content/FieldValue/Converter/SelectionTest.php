@@ -327,10 +327,6 @@ EOT;
         $this->assertEquals($expectedFieldDefinition, $actualFieldDefinition);
     }
 
-    /**
-     * @group fieldType
-     * @group selection
-     */
     public function testToFieldDefinitionWithMultilingualDataSkipsEmptyDataText(): void
     {
         $storageFieldDefinition = new StorageFieldDefinition();
