@@ -65,12 +65,21 @@ class ExceptionMessageTemplateFileVisitor extends DefaultPhpFileExtractor
 
         $ignore = $this->isIgnore($node);
 
+        if (!$node->args[0] instanceof Node\Arg) {
+            return;
+        }
+
         if (!$node->args[0]->value instanceof String_) {
             if ($ignore) {
                 return;
             }
 
-            $message = sprintf('Can only extract the translation id from a scalar string, but got "%s". Please refactor your code to make it extractable, or add the doc comment /** @Ignore */ to this code element (in %s on line %d).', get_class($node->args[0]->value), $this->file, $node->args[0]->value->getLine());
+            $message = sprintf(
+                'Can only extract the translation id from a scalar string, but got "%s". Please refactor your code to make it extractable, or add the doc comment /** @Ignore */ to this code element (in %s on line %d).',
+                get_class($node->args[0]->value),
+                $this->file,
+                $node->args[0]->value->getLine()
+            );
 
             $this->logger->error($message);
 
