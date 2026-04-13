@@ -166,12 +166,6 @@ parameters:
 			message: '#^Parameter \#1 \$string of function mb_substr expects string, string\|false given\.$#'
 			identifier: argument.type
 			count: 1
-			path: src/lib/FieldType/TextBlock/SearchField.php
-
-		-
-			message: '#^Parameter \#1 \$string of function mb_substr expects string, string\|false given\.$#'
-			identifier: argument.type
-			count: 1
 			path: src/lib/FieldType/TextBlock/Type.php
 
 		-
