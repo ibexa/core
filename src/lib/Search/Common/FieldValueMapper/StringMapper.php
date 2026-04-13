@@ -17,6 +17,7 @@ class StringMapper extends FieldValueMapper
 {
     public const REPLACE_WITH_SPACE_PATTERN = '([\x09\x0B\x0C]+)';
     public const REMOVE_PATTERN = '([\x00-\x08\x0E-\x1F]+)';
+    public const MAX_TERM_LENGTH = 32766;
 
     public function canMap(Field $field): bool
     {
@@ -43,11 +44,14 @@ class StringMapper extends FieldValueMapper
         );
 
         // Remove non-printable characters.
-        return preg_replace(
+        $value = preg_replace(
             self::REMOVE_PATTERN,
             '',
             (string)$value
         );
+
+        // Enforce Lucene's bytes MAX_TERM_LENGTH to avoid silent indexing failures
+        return mb_strcut((string)$value, 0, self::MAX_TERM_LENGTH);
     }
 }
 
