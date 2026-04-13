@@ -21,7 +21,7 @@ class SearchField implements Indexable
         return [
             new Search\Field(
                 'value',
-                $field->value->data,
+                $this->extractText($field->value->data),
                 new Search\FieldType\StringField()
             ),
             new Search\Field(
@@ -30,6 +30,20 @@ class SearchField implements Indexable
                 new Search\FieldType\FullTextField()
             ),
         ];
+    }
+
+    /**
+     * @param mixed $string
+     */
+    private function extractText($string): string
+    {
+        if (!is_string($string)) {
+            return '';
+        }
+
+        $tokenizedString = strtok(trim($string), "\r\n");
+
+        return $tokenizedString ?: '';
     }
 
     public function getIndexDefinition()
