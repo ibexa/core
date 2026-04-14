@@ -9,19 +9,22 @@ namespace Ibexa\Core\Search\Common\FieldValueMapper;
 use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType;
 use Ibexa\Core\Search\Common\FieldValueMapper;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 /**
  * Common string field value mapper implementation.
  */
-class StringMapper extends FieldValueMapper
+class StringMapper extends FieldValueMapper implements LoggerAwareInterface
 {
-    private LoggerInterface $logger;
+    use LoggerAwareTrait;
 
     public function __construct(
-        LoggerInterface $logger
+        ?LoggerInterface $logger = null
     ) {
-        $this->logger = $logger;
+        $this->logger = $logger ?? new NullLogger();
     }
 
     public const REPLACE_WITH_SPACE_PATTERN = '([\x09\x0B\x0C]+)';
