@@ -60,3 +60,4 @@ services:
         decorates: security.access_listener
         arguments:
             $innerListener: '@.inner'
+            $map: '@security.access_map'

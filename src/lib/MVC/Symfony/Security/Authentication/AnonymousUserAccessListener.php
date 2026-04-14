@@ -13,6 +13,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Http\AccessMapInterface;
 use Symfony\Component\Security\Http\Firewall\AbstractListener;
 use Symfony\Component\Security\Http\Firewall\AccessListener;
 
@@ -26,11 +27,14 @@ final class AnonymousUserAccessListener extends AbstractListener
         private readonly AccessListener $innerListener,
         private readonly Security $security,
         private readonly array $firewallLoginPaths,
+        private readonly AccessMapInterface $map,
     ) {
     }
 
     public function supports(Request $request): bool
     {
+        [$attributes] = $this->map->getPatterns($request);
+        $request->attributes->set('_access_control_attributes', $attributes);
         $pathInfo = $request->getPathInfo();
 
         // we skip the processing in case we are authorized already or the request is the x-user-context-hash

@@ -18,26 +18,52 @@ use Symfony\Bundle\SecurityBundle\Security\FirewallConfig;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Http\AccessMapInterface;
 use Symfony\Component\Security\Http\Firewall\AccessListener;
 
 final class AnonymousUserAccessListenerTest extends TestCase
 {
     private MockObject&PermissionResolver $permissionResolver;
 
-    private MockObject&AccessListener $innerListener;
+    private AccessListener $innerListener;
 
     private MockObject&Security $security;
 
     private AnonymousUserAccessListener $listener;
+
+    private MockObject&AccessDecisionManagerInterface $accessDecisionManager;
+
+    private MockObject&AccessMapInterface $accessMap;
+
+    /**
+     * @var array<mixed, mixed>
+     */
+    private array $patterns = [null, null];
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->permissionResolver = $this->createMock(PermissionResolver::class);
-        $this->innerListener = $this->createMock(AccessListener::class);
         $this->security = $this->createMock(Security::class);
+        $this->accessMap = $this->createMock(AccessMapInterface::class);
+        $this->accessDecisionManager = $this->createMock(AccessDecisionManagerInterface::class);
+
+        $token = new class() extends AbstractToken {
+        };
+        $tokenStorage = new TokenStorage();
+        $tokenStorage->setToken($token);
+
+        $this->innerListener = new AccessListener(
+            $tokenStorage,
+            $this->accessDecisionManager,
+            $this->accessMap
+        );
 
         // Configure firewall config mock to return 'main' firewall
         $firewallConfig = new FirewallConfig(
@@ -56,12 +82,14 @@ final class AnonymousUserAccessListenerTest extends TestCase
             $this->innerListener,
             $this->security,
             ['main' => '/login'],
+            $this->accessMap
         );
     }
 
     public function testSupportsWithAnonymousUser(): void
     {
         $request = Request::create('/some/path');
+        $this->mockAccessMapGetPatterns();
 
         self::assertTrue($this->listener->supports($request));
     }
@@ -69,6 +97,7 @@ final class AnonymousUserAccessListenerTest extends TestCase
     public function testSupportsWithAuthenticatedUser(): void
     {
         $request = Request::create('http://testuser:password@example.com/some/path');
+        $this->mockAccessMapGetPatterns();
 
         self::assertFalse($this->listener->supports($request));
     }
@@ -89,11 +118,6 @@ final class AnonymousUserAccessListenerTest extends TestCase
             ->with('user', 'login', $siteAccess)
             ->willReturn(true);
 
-        $this->innerListener
-            ->expects(self::once())
-            ->method('authenticate')
-            ->with($event);
-
         $this->listener->authenticate($event);
     }
 
@@ -112,10 +136,6 @@ final class AnonymousUserAccessListenerTest extends TestCase
             ->method('canUser')
             ->with('user', 'login', $siteAccess)
             ->willReturn(false);
-
-        $this->innerListener
-            ->expects(self::never())
-            ->method('authenticate');
 
         $this->expectException(AccessDeniedException::class);
         $this->expectExceptionMessage('Anonymous user cannot login to the current siteaccess');
@@ -137,10 +157,6 @@ final class AnonymousUserAccessListenerTest extends TestCase
             ->expects(self::never())
             ->method('canUser');
 
-        $this->innerListener
-            ->expects(self::never())
-            ->method('authenticate');
-
         $this->listener->authenticate($event);
     }
 
@@ -150,6 +166,7 @@ final class AnonymousUserAccessListenerTest extends TestCase
     public function testSupportsReturnsFalseForUnsupportedPaths(string $path): void
     {
         $request = Request::create($path);
+        $this->mockAccessMapGetPatterns();
 
         self::assertFalse($this->listener->supports($request));
     }
@@ -171,8 +188,39 @@ final class AnonymousUserAccessListenerTest extends TestCase
     public function testSupportsReturnsTrueForSupportedPaths(string $path): void
     {
         $request = Request::create($path);
+        $this->mockAccessMapGetPatterns();
 
         self::assertTrue($this->listener->supports($request));
+    }
+
+    public function testHandleWhenTheAccessDecisionManagerDecidesToRefuseAccess(): void
+    {
+        $this->patterns = [['foo' => 'bar'], null];
+        $event = $this->prepareForAccessListenerTests();
+
+        $this->expectException(AccessDeniedException::class);
+
+        $this->listener->authenticate($event);
+    }
+
+    public function testHandleWhenPublicAccessIsAllowed(): void
+    {
+        $this->patterns = [[AuthenticatedVoter::PUBLIC_ACCESS], null];
+        $event = $this->prepareForAccessListenerTests();
+
+        $this->accessDecisionManager->expects(self::once())
+            ->method('decide')
+            ->willReturn(true);
+
+        $this->listener->authenticate($event);
+    }
+
+    public function testHandleWhenAccessMapReturnsEmptyAttributes(): void
+    {
+        $this->patterns = [[], null];
+        $event = $this->prepareForAccessListenerTests();
+
+        $this->listener->authenticate($event);
     }
 
     /**
@@ -188,5 +236,37 @@ final class AnonymousUserAccessListenerTest extends TestCase
         yield 'login as a beginning of content name' => ['/login-as-part-of-content-name'];
         yield 'login as a part of content name' => ['/as-part-of-login-content-name'];
         yield 'login as an ending of content name' => ['/as-part-of-content-name-login'];
+    }
+
+    private function prepareForAccessListenerTests(): RequestEvent
+    {
+        $siteAccess = new SiteAccess('admin', 'default');
+        $request = new Request([], [], ['siteaccess' => $siteAccess]);
+
+        $this->permissionResolver
+            ->expects(self::once())
+            ->method('canUser')
+            ->with('user', 'login', $siteAccess)
+            ->willReturn(true);
+
+        $this->mockAccessMapGetPatterns();
+
+        $this->listener->supports($request);
+
+        return new RequestEvent(
+            $this->createMock(HttpKernelInterface::class),
+            $request,
+            HttpKernelInterface::MAIN_REQUEST
+        );
+    }
+
+    private function mockAccessMapGetPatterns(): void
+    {
+        $this->accessMap
+            ->expects(self::once())
+            ->method('getPatterns')
+            ->willReturnCallback(function (): array {
+                return $this->patterns;
+            });
     }
 }
