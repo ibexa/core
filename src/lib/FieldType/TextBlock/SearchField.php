@@ -41,9 +41,7 @@ class SearchField implements Indexable
             return '';
         }
 
-        $tokenizedString = strtok(trim($string), "\r\n");
-
-        return $tokenizedString ?: '';
+        return str_replace(["\r\n", "\r", "\n"], ' ', trim($string));
     }
 
     public function getIndexDefinition()
