@@ -62,6 +62,8 @@ services:
             - { name: ibexa.search.common.field_value.mapper, maps: Ibexa\Contracts\Core\Search\FieldType\PriceField }
 
     Ibexa\Core\Search\Common\FieldValueMapper\StringMapper:
+        arguments:
+            $logger: '@logger'
         class: Ibexa\Core\Search\Common\FieldValueMapper\StringMapper
         tags:
             - { name: ibexa.search.common.field_value.mapper, maps: Ibexa\Contracts\Core\Search\FieldType\StringField }

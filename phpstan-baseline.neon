@@ -15823,12 +15823,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Translation/ExceptionMessageTemplateFileVisitor.php
 
 		-
-			message: '#^Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\:\:\$value\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/lib/MVC/Symfony/Translation/ExceptionMessageTemplateFileVisitor.php
-
-		-
 			message: '#^Cannot call method error\(\) on Psr\\Log\\LoggerInterface\|null\.$#'
 			identifier: method.nonObject
 			count: 1
@@ -32035,12 +32029,6 @@ parameters:
 			path: tests/integration/Core/Repository/BaseTest.php
 
 		-
-			message: '#^Call to method commit\(\) on an unknown class Ibexa\\Solr\\Handler\.$#'
-			identifier: class.notFound
-			count: 1
-			path: tests/integration/Core/Repository/BaseTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\BaseTest\:\:assertPropertiesCorrect\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -32157,12 +32145,6 @@ parameters:
 		-
 			message: '#^PHPDoc tag @param references unknown parameter\: \$propertyNames$#'
 			identifier: parameter.notFound
-			count: 1
-			path: tests/integration/Core/Repository/BaseTest.php
-
-		-
-			message: '#^PHPDoc tag @var for variable \$searchHandler contains unknown class Ibexa\\Solr\\Handler\.$#'
-			identifier: class.notFound
 			count: 1
 			path: tests/integration/Core/Repository/BaseTest.php
 
@@ -42457,12 +42439,6 @@ parameters:
 			path: tests/integration/Core/Repository/PermissionResolverTest.php
 
 		-
-			message: '#^Class Ibexa\\Tests\\Solr\\SetupFactory\\LegacySetupFactory not found\.$#'
-			identifier: class.notFound
-			count: 1
-			path: tests/integration/Core/Repository/Regression/EZP20018LanguageTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\Regression\\EZP20018LanguageTest\:\:testSearchOnNotExistingLanguageGivesException\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -44641,12 +44617,6 @@ parameters:
 			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
 
 		-
-			message: '#^Class Ibexa\\Tests\\Solr\\SetupFactory\\LegacySetupFactory not found\.$#'
-			identifier: class.notFound
-			count: 1
-			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\SearchServiceLocationTest\:\:assertQueryFixture\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -44854,12 +44824,6 @@ parameters:
 			message: '#^Class Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\\ContentTypeIdentifier constructor invoked with 2 parameters, 1 required\.$#'
 			identifier: arguments.count
 			count: 2
-			path: tests/integration/Core/Repository/SearchServiceTest.php
-
-		-
-			message: '#^Class Ibexa\\Tests\\Solr\\SetupFactory\\LegacySetupFactory not found\.$#'
-			identifier: class.notFound
-			count: 5
 			path: tests/integration/Core/Repository/SearchServiceTest.php
 
 		-
@@ -45833,12 +45797,6 @@ parameters:
 			identifier: deadCode.unreachable
 			count: 3
 			path: tests/integration/Core/Repository/SearchServiceTest.php
-
-		-
-			message: '#^Class Ibexa\\Tests\\Solr\\SetupFactory\\LegacySetupFactory not found\.$#'
-			identifier: class.notFound
-			count: 3
-			path: tests/integration/Core/Repository/SearchServiceTranslationLanguageFallbackTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\SearchServiceTranslationLanguageFallbackTest\:\:assertIndexName\(\) has parameter \$indexMap with no value type specified in iterable type array\.$#'

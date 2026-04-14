@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType\StringField;
 use Ibexa\Core\Search\Common\FieldValueMapper\StringMapper;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 /**
  * @covers \Ibexa\Core\Search\Common\FieldValueMapper\StringMapper
@@ -22,7 +23,9 @@ final class StringMapperTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->mapper = new StringMapper();
+        $this->mapper = new StringMapper(
+            $this->createMock(LoggerInterface::class)
+        );
     }
 
     public function testCanMap(): void
