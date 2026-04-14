@@ -9087,7 +9087,13 @@ parameters:
 		-
 			message: '#^Access to an undefined property PhpParser\\Node\:\:\$args\.$#'
 			identifier: property.notFound
-			count: 5
+			count: 1
+			path: src/lib/MVC/Symfony/Translation/ExceptionMessageTemplateFileVisitor.php
+
+		-
+			message: '#^Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\:\:\$value\.$#'
+			identifier: property.notFound
+			count: 1
 			path: src/lib/MVC/Symfony/Translation/ExceptionMessageTemplateFileVisitor.php
 
 		-
