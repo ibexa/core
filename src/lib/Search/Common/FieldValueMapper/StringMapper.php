@@ -9,12 +9,21 @@ namespace Ibexa\Core\Search\Common\FieldValueMapper;
 use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType;
 use Ibexa\Core\Search\Common\FieldValueMapper;
+use Psr\Log\LoggerInterface;
 
 /**
  * Common string field value mapper implementation.
  */
 class StringMapper extends FieldValueMapper
 {
+    private LoggerInterface $logger;
+
+    public function __construct(
+        LoggerInterface $logger
+    ) {
+        $this->logger = $logger;
+    }
+
     public const REPLACE_WITH_SPACE_PATTERN = '([\x09\x0B\x0C]+)';
     public const REMOVE_PATTERN = '([\x00-\x08\x0E-\x1F]+)';
     public const MAX_TERM_LENGTH = 32766;
@@ -51,7 +60,21 @@ class StringMapper extends FieldValueMapper
         );
 
         // Enforce Lucene's bytes MAX_TERM_LENGTH to avoid silent indexing failures
-        return mb_strcut((string)$value, 0, self::MAX_TERM_LENGTH);
+        $value = (string)$value;
+        $truncated = mb_strcut($value, 0, self::MAX_TERM_LENGTH);
+
+        if (strlen($truncated) < strlen($value)) {
+            $this->logger->warning(
+                sprintf(
+                    'String field value was truncated from %d to %d bytes (max term length: %d).',
+                    strlen($value),
+                    strlen($truncated),
+                    self::MAX_TERM_LENGTH
+                )
+            );
+        }
+
+        return $truncated;
     }
 }
 
