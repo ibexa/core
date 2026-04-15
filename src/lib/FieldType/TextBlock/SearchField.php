@@ -41,7 +41,9 @@ class SearchField implements Indexable
             return '';
         }
 
-        return str_replace(["\r\n", "\r", "\n"], ' ', trim($string));
+        $lines = explode("\n", str_replace(["\r\n", "\r"], "\n", $string));
+
+        return implode(' ', array_map('trim', $lines));
     }
 
     public function getIndexDefinition()
