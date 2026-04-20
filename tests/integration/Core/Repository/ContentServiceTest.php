@@ -6292,7 +6292,7 @@ class ContentServiceTest extends BaseContentServiceTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
      */
-    private function createContentForHideRevealDraftTests(bool $revel): Content
+    private function createContentForHideRevealDraftTests(bool $reveal): Content
     {
         $contentTypeService = $this->getRepository()->getContentTypeService();
         $locationCreateStructs = $this->locationService->newLocationCreateStruct(2);
@@ -6308,7 +6308,7 @@ class ContentServiceTest extends BaseContentServiceTest
 
         $draftContentInfo = $draft->getContentInfo();
         $this->contentService->hideContent($draftContentInfo);
-        if ($revel) {
+        if ($reveal) {
             $this->contentService->revealContent($draftContentInfo);
         }
 
