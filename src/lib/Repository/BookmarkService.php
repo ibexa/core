@@ -120,7 +120,7 @@ class BookmarkService implements BookmarkServiceInterface
 
         $list = new BookmarkList();
         $list->totalCount = $result->totalCount;
-        $list->items = $result->locations;
+        $list->items = iterator_to_array($result->getIterator());
 
         return $list;
     }
