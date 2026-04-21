@@ -23,7 +23,6 @@ final class BookmarkQueryBuilder extends BaseLocationCriterionQueryBuilder
     public function __construct(
         private readonly PermissionResolver $permissionResolver,
     ) {
-
     }
 
     public function accepts(FilteringCriterion $criterion): bool
@@ -39,7 +38,7 @@ final class BookmarkQueryBuilder extends BaseLocationCriterionQueryBuilder
         $isBookmarked = $criterion->isBookmarked;
         $userId = $criterion->userId ?? $this->permissionResolver->getCurrentUserReference()->getUserId();
 
-        if ( $isBookmarked ) {
+        if ($isBookmarked) {
             $queryBuilder
                 ->joinOnce(
                     'location',

@@ -16,9 +16,15 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
  */
 final class IsBookmarked implements FilteringCriterion
 {
+    public bool $isBookmarked = true;
+
+    public ?int $userId = null;
+
     public function __construct(
-        readonly bool $isBookmarked = true,
-        readonly ?int $userId = null,
+        bool $isBookmarked = true,
+        ?int $userId = null,
     ) {
+        $this->isBookmarked = $isBookmarked;
+        $this->userId = $userId;
     }
 }
