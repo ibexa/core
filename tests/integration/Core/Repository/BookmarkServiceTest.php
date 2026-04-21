@@ -157,7 +157,7 @@ class BookmarkServiceTest extends BaseTest
 
         $filter = new Filter();
         $filter
-            ->withCriterion(new Criterion\IsBookmarked(14));
+            ->withCriterion(new Criterion\IsBookmarked(true, 14));
         $count = $repository->getLocationService()->count($filter, []);
 
         self::assertEquals(5, $count);

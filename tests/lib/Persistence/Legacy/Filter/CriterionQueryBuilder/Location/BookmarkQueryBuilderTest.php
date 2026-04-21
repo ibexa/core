@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Locat
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion as Criterion;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\BookmarkQueryBuilder;
+use Ibexa\Core\Repository\Permission\PermissionResolver;
 use Ibexa\Tests\Core\Persistence\Legacy\Filter\BaseCriterionVisitorQueryBuilderTestCase;
 
 final class BookmarkQueryBuilderTest extends BaseCriterionVisitorQueryBuilderTestCase
@@ -22,25 +23,20 @@ final class BookmarkQueryBuilderTest extends BaseCriterionVisitorQueryBuilderTes
     public function getFilteringCriteriaQueryData(): iterable
     {
         yield 'Bookmarks locations for user_id=14' => [
-            new Criterion\IsBookmarked(14),
+            new Criterion\IsBookmarked(true, 14),
             'bookmark.user_id = :dcValue1',
             ['dcValue1' => 14],
         ];
 
-        yield 'Bookmarks locations for user_id=14 OR user_id=7' => [
-            new Criterion\LogicalOr(
-                [
-                    new Criterion\IsBookmarked(14),
-                    new Criterion\IsBookmarked(7),
-                ]
-            ),
-            '(bookmark.user_id = :dcValue1) OR (bookmark.user_id = :dcValue2)',
-            ['dcValue1' => 14, 'dcValue2' => 7],
+        yield 'Bookmarks locations for user_id=7' => [
+                new Criterion\IsBookmarked(true, 7),
+            'bookmark.user_id = :dcValue1',
+            ['dcValue1' => 7],
         ];
     }
 
     protected function getCriterionQueryBuilders(): iterable
     {
-        return [new BookmarkQueryBuilder()];
+        return [new BookmarkQueryBuilder($this->createMock(PermissionResolver::class))];
     }
 }
