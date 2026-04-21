@@ -13,12 +13,19 @@ use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsBookmarked;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
+use Ibexa\Core\Repository\Permission\PermissionResolver;
 
 /**
  * @internal for internal use by Repository Filtering
  */
 final class BookmarkQueryBuilder extends BaseLocationCriterionQueryBuilder
 {
+    public function __construct(
+        private readonly PermissionResolver $permissionResolver,
+    ) {
+
+    }
+
     public function accepts(FilteringCriterion $criterion): bool
     {
         return $criterion instanceof IsBookmarked;
@@ -28,30 +35,37 @@ final class BookmarkQueryBuilder extends BaseLocationCriterionQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): string {
-        $queryBuilder
-            ->joinOnce(
-                'location',
-                DoctrineDatabase::TABLE_BOOKMARKS,
-                'bookmark',
-                'location.node_id = bookmark.node_id'
-            );
-
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsBookmarked $criterion */
-        $value = $criterion->value;
+        $isBookmarked = $criterion->isBookmarked;
+        $userId = $criterion->userId ?? $this->permissionResolver->getCurrentUserReference()->getUserId();
 
-        if (\is_array($value)) {
-            if (!isset($value[0])) {
-                throw new \InvalidArgumentException('IsBookmarked criterion value must contain userId at index 0.');
-            }
-            $value = $value[0];
+        if ( $isBookmarked ) {
+            $queryBuilder
+                ->joinOnce(
+                    'location',
+                    DoctrineDatabase::TABLE_BOOKMARKS,
+                    'bookmark',
+                    'location.node_id = bookmark.node_id'
+                );
+
+            return $queryBuilder->expr()->eq(
+                'bookmark.user_id',
+                $queryBuilder->createNamedParameter(
+                    $userId,
+                    ParameterType::INTEGER
+                )
+            );
+        } else {
+            $queryBuilder
+                ->leftJoinOnce(
+                    'location',
+                    DoctrineDatabase::TABLE_BOOKMARKS,
+                    'bookmark',
+                    'location.node_id = bookmark.node_id AND bookmark.user_id = :userId'
+                )
+            ->setParameter('userId', $userId);
+
+            return $queryBuilder->expr()->isNull('bookmark.id');
         }
-
-        return $queryBuilder->expr()->eq(
-            'bookmark.user_id',
-            $queryBuilder->createNamedParameter(
-                (int)$value,
-                ParameterType::INTEGER
-            )
-        );
     }
 }

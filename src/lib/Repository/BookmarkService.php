@@ -102,12 +102,10 @@ class BookmarkService implements BookmarkServiceInterface
      */
     public function loadBookmarks(int $offset = 0, int $limit = 25): BookmarkList
     {
-        $currentUserId = $this->getCurrentUserId();
-
         $filter = new Filter();
         try {
             $filter
-                ->withCriterion(new Criterion\IsBookmarked($currentUserId))
+                ->withCriterion(new Criterion\IsBookmarked())
                 ->withSortClause(new SortClause\BookmarkId(Query::SORT_DESC))
                 ->sliceBy($limit, $offset);
 

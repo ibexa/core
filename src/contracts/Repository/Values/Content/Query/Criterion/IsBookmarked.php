@@ -17,7 +17,8 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 final class IsBookmarked implements FilteringCriterion
 {
     public function __construct(
-        public readonly int $value
+        readonly bool $isBookmarked = true,
+        readonly ?int $userId = null,
     ) {
     }
 }
