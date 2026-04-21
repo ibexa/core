@@ -50,7 +50,7 @@ interface Handler
     /**
      * Loads bookmarks owned by user.
      *
-     * @deprecated The "Handler::loadUserBookmarks()" method is deprecated, will be removed in 6.0.0. Use "LocationService::find()" and "Criterion\IsBookmarked" instead.
+     * @deprecated 4.6.30 The "Handler::loadUserBookmarks()" method is deprecated, will be removed in 6.0.0. Use "LocationService::find()" and "Criterion\IsBookmarked" instead.
      *
      * @param int $userId
      * @param int $offset the start offset for paging
@@ -63,7 +63,7 @@ interface Handler
     /**
      * Count bookmarks owned by user.
      *
-     * @deprecated The "Handler::countUserBookmarks()" method is deprecated, will be removed in 6.0.0. Use "LocationService::count()" and "Criterion\IsBookmarked" instead.
+     * @deprecated 4.6.30 The "Handler::countUserBookmarks()" method is deprecated, will be removed in 6.0.0. Use "LocationService::count()" and "Criterion\IsBookmarked" instead.
      *
      * @param int $userId
      *

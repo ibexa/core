@@ -57,11 +57,6 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    /**
-     * @deprecated The "ExceptionConversion::loadUserBookmarks()" method is deprecated, will be removed in 6.0.0. Use "LocationService::find()" and "Criterion\IsBookmarked" instead.
-     *
-     * @return array
-     */
     public function loadUserBookmarks(int $userId, int $offset = 0, int $limit = -1): array
     {
         try {
@@ -71,9 +66,6 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    /**
-     * @deprecated The "ExceptionConversion::countUserBookmarks()" method is deprecated, will be removed in 6.0.0. Use "LocationService::count()" and "Criterion\IsBookmarked" instead.
-     */
     public function countUserBookmarks(int $userId): int
     {
         try {
