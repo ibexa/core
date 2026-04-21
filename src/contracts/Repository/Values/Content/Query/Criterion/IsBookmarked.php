@@ -9,12 +9,16 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 
 /**
  * A criterion that matches locations of bookmarks for a given user id.
+ *
+ * Supported operators:
+ * - EQ: matches against a unique user id
  */
-final class IsBookmarked implements FilteringCriterion
+final class IsBookmarked extends Criterion implements FilteringCriterion
 {
     public bool $isBookmarked = true;
 
@@ -26,5 +30,12 @@ final class IsBookmarked implements FilteringCriterion
     ) {
         $this->isBookmarked = $isBookmarked;
         $this->userId = $userId;
+    }
+
+    public function getSpecifications(): array
+    {
+        return [
+            new Specifications(Operator::EQ, Specifications::FORMAT_SINGLE, Specifications::TYPE_INTEGER),
+        ];
     }
 }
