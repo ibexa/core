@@ -28,8 +28,19 @@ final class BookmarkQueryBuilderTest extends BaseCriterionVisitorQueryBuilderTes
             ['dcValue1' => 14],
         ];
 
+        yield 'Bookmarks locations for user_id=14 OR user_id=7' => [
+            new Criterion\LogicalOr(
+                [
+                    new Criterion\IsBookmarked(true, 14),
+                    new Criterion\IsBookmarked(true, 7),
+               ]
+            ),
+            '(bookmark.user_id = :dcValue1) OR (bookmark.user_id = :dcValue2)',
+            ['dcValue1' => 14, 'dcValue2' => 7],
+        ];
+
         yield 'Bookmarks locations for user_id=7' => [
-                new Criterion\IsBookmarked(true, 7),
+            new Criterion\IsBookmarked(true, 7),
             'bookmark.user_id = :dcValue1',
             ['dcValue1' => 7],
         ];
