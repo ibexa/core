@@ -38,7 +38,7 @@ class BookmarkService implements BookmarkServiceInterface
      * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      * @param \Ibexa\Contracts\Core\Persistence\Bookmark\Handler $bookmarkHandler
      */
-    public function __construct(RepositoryInterface $repository, BookmarkHandler $bookmarkHandler, LoggerInterface $logger = null)
+    public function __construct(RepositoryInterface $repository, BookmarkHandler $bookmarkHandler, ?LoggerInterface $logger = null)
     {
         $this->repository = $repository;
         $this->bookmarkHandler = $bookmarkHandler;
