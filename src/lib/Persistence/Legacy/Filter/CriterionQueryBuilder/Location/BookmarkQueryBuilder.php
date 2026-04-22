@@ -20,9 +20,12 @@ use Ibexa\Core\Repository\Permission\PermissionResolver;
  */
 final class BookmarkQueryBuilder extends BaseLocationCriterionQueryBuilder
 {
+    private PermissionResolver $permissionResolver;
+
     public function __construct(
-        private readonly PermissionResolver $permissionResolver,
+        PermissionResolver $permissionResolver
     ) {
+        $this->permissionResolver = $permissionResolver;
     }
 
     public function accepts(FilteringCriterion $criterion): bool
