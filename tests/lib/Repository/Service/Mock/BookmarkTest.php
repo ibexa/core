@@ -235,6 +235,11 @@ class BookmarkTest extends BaseServiceMockTest
             ->method('getLocationService')
             ->willReturn($locationServiceMock);
 
+        // All tests in this class expect a call to getPermissionResolver()->getCurrentUserReference(), except this very test
+        // This is because PermissionResolver is called from BookmarkQueryBuilder, not from BookmarkService when loading bookmarks
+        // As it is defined in setup() that getCurrentUserReference needs to be called at least once, we'll force a call here
+        $repository->getPermissionResolver()->getCurrentUserReference();
+
         $bookmarks = $this->createBookmarkService()->loadBookmarks($offset, $limit);
 
         $this->assertEquals($expectedTotalCount, $bookmarks->totalCount);
