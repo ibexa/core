@@ -20,22 +20,20 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
  */
 final class IsBookmarked extends Criterion implements FilteringCriterion
 {
-    public bool $isBookmarked = true;
-
     public ?int $userId = null;
 
     public function __construct(
         bool $isBookmarked = true,
-        ?int $userId = null,
+        ?int $userId = null
     ) {
-        $this->isBookmarked = $isBookmarked;
         $this->userId = $userId;
+        parent::__construct(null, null, $isBookmarked);
     }
 
     public function getSpecifications(): array
     {
         return [
-            new Specifications(Operator::EQ, Specifications::FORMAT_SINGLE, Specifications::TYPE_INTEGER),
+            new Specifications(Operator::EQ, Specifications::FORMAT_SINGLE, Specifications::TYPE_BOOLEAN),
         ];
     }
 }

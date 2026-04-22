@@ -35,7 +35,7 @@ final class BookmarkQueryBuilder extends BaseLocationCriterionQueryBuilder
         FilteringCriterion $criterion
     ): string {
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsBookmarked $criterion */
-        $isBookmarked = $criterion->isBookmarked;
+        $isBookmarked = $criterion->value;
         $userId = $criterion->userId ?? $this->permissionResolver->getCurrentUserReference()->getUserId();
 
         if ($isBookmarked) {
