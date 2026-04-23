@@ -60093,13 +60093,13 @@ parameters:
 		-
 			message: '#^Parameter \#1 \$originalClassName of method PHPUnit\\Framework\\TestCase\:\:createMock\(\) expects class\-string\<mixed\>, string given\.$#'
 			identifier: argument.type
-			count: 4
+			count: 3
 			path: tests/lib/Persistence/Cache/TrashHandlerTest.php
 
 		-
 			message: '#^Unable to resolve the template type T in call to method PHPUnit\\Framework\\TestCase\:\:createMock\(\)$#'
 			identifier: argument.templateType
-			count: 4
+			count: 3
 			path: tests/lib/Persistence/Cache/TrashHandlerTest.php
 
 		-
