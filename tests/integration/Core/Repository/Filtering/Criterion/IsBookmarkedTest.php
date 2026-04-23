@@ -40,6 +40,9 @@ class IsBookmarkedTest extends BaseTest
         );
     }
 
+    /**
+     * @return iterable<string, array{bool, int, int, int}>
+     */
     public function isBookmarkedProvider(): iterable
     {
         // [isBookmarkedCriterion, initialCount, afterCreateCount, afterDeleteCount]
