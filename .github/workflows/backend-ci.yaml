@@ -212,9 +212,13 @@ jobs:
                     VERSION=$(jq -r '.extra | ."branch-alias" | ."dev-main"' < composer.json)
                     composer require --no-update "ibexa/solr:$VERSION"
 
-            -   uses: ramsey/composer-install@v3
+            -   name: Install Composer dependencies
+                uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
-                    dependency-versions: "highest"
+                    gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
+                    gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
+                    satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
+                    satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
 
             -   name: Run integration test suite
                 run: composer test-integration-solr

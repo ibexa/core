@@ -104,11 +104,11 @@ final class CountryTermAggregationTest extends AbstractAggregationTestCase
         $generator->setFieldDefinitionIdentifier('country');
         $generator->setFieldTypeIdentifier('ibexa_country');
         $generator->setValues([
-            ['PL', 'US'],
-            ['FR', 'US'],
-            ['US'],
+            ['PL', 'CA'],
+            ['FR', 'CA'],
+            ['CA'],
             ['GA', 'PL', 'FR'],
-            ['FR', 'BE', 'US'],
+            ['FR', 'BE', 'CA'],
         ]);
 
         $generator->setFieldDefinitionCreateStructConfigurator(
