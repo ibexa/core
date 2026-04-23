@@ -371,3 +371,4 @@ services:
         decoration_priority: 500
         arguments:
             $inner: '@.inner'
+

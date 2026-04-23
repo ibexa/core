@@ -11,6 +11,8 @@ use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler as TrashHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trashed;
 use Ibexa\Contracts\Core\Persistence\Content\Relation;
+use Ibexa\Contracts\Core\Persistence\User\Handler as PersistenceUserHandler;
+use Ibexa\Contracts\Core\Persistence\User\RoleAssignment;
 use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult;
 use Ibexa\Core\Persistence\Cache\ContentHandler;
 use Ibexa\Core\Persistence\Cache\LocationHandler;
@@ -57,36 +59,11 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
         $originalLocationId = 6;
         $targetLocationId = 2;
         $contentId = 42;
-
-        $tags = [
-            'c-' . $contentId,
-            'lp-' . $originalLocationId,
-        ];
-
-        $handlerMethodName = $this->getHandlerMethodName();
+        $roleId = 1;
 
         $this->loggerMock->expects(self::once())->method('logCall');
 
-        $innerHandler = $this->createMock($this->getHandlerClassName());
-        $contentHandlerMock = $this->createMock(ContentHandler::class);
-        $locationHandlerMock = $this->createMock(LocationHandler::class);
-
-        $locationHandlerMock
-            ->method('load')
-            ->willReturn(new Location(['id' => $originalLocationId, 'contentId' => $contentId]));
-
-        $this->persistenceHandlerMock
-            ->method('contentHandler')
-            ->willReturn($contentHandlerMock);
-
-        $this->persistenceHandlerMock
-            ->method('locationHandler')
-            ->willReturn($locationHandlerMock);
-
-        $this->persistenceHandlerMock
-            ->expects(self::once())
-            ->method($handlerMethodName)
-            ->willReturn($innerHandler);
+        $innerHandler = $this->setUpRoleAssignmentInvalidation($originalLocationId, $contentId, $roleId);
 
         $innerHandler
             ->expects(self::once())
@@ -94,24 +71,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
             ->with($originalLocationId, $targetLocationId)
             ->willReturn(null);
 
-        $this->cacheIdentifierGeneratorMock
-            ->expects(self::exactly(2))
-            ->method('generateTag')
-            ->withConsecutive(
-                ['content', [$contentId], false],
-                ['location_path', [$originalLocationId], false]
-            )
-            ->willReturnOnConsecutiveCalls(
-                'c-' . $contentId,
-                'lp-' . $originalLocationId
-            );
-
-        $this->cacheMock
-            ->expects(self::once())
-            ->method('invalidateTags')
-            ->with($tags);
-
-        $handler = $this->persistenceCacheHandler->$handlerMethodName();
+        $handler = $this->persistenceCacheHandler->{$this->getHandlerMethodName()}();
         $handler->recover($originalLocationId, $targetLocationId);
     }
 
@@ -119,10 +79,31 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
     {
         $locationId = 6;
         $contentId = 42;
+        $roleId = 1;
 
+        $this->loggerMock->expects($this->once())->method('logCall');
+
+        $innerHandler = $this->setUpRoleAssignmentInvalidation($locationId, $contentId, $roleId);
+
+        $innerHandler
+            ->expects(self::once())
+            ->method('trashSubtree')
+            ->with($locationId)
+            ->willReturn(null);
+
+        $handler = $this->persistenceCacheHandler->{$this->getHandlerMethodName()}();
+        $handler->trashSubtree($locationId);
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject
+     */
+    private function setUpRoleAssignmentInvalidation(int $locationId, int $contentId, int $roleId): object
+    {
         $tags = [
             'c-' . $contentId,
             'lp-' . $locationId,
+            'rarl-' . $roleId,
         ];
 
         $handlerMethodName = $this->getHandlerMethodName();
@@ -132,10 +113,16 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
         $innerHandler = $this->createMock($this->getHandlerClassName());
         $contentHandlerMock = $this->createMock(ContentHandler::class);
         $locationHandlerMock = $this->createMock(LocationHandler::class);
+        $userHandlerMock = $this->createMock(PersistenceUserHandler::class);
 
         $locationHandlerMock
             ->method('load')
             ->willReturn(new Location(['id' => $locationId, 'contentId' => $contentId]));
+
+        $userHandlerMock
+            ->method('loadRoleAssignmentsByGroupId')
+            ->with($contentId)
+            ->willReturn([new RoleAssignment(['roleId' => $roleId, 'contentId' => $contentId])]);
 
         $this->persistenceHandlerMock
             ->method('contentHandler')
@@ -146,32 +133,34 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
             ->willReturn($locationHandlerMock);
 
         $this->persistenceHandlerMock
+            ->method('userHandler')
+            ->willReturn($userHandlerMock);
+
+        $this->persistenceHandlerMock
             ->expects(self::once())
-            ->method($handlerMethodName)
+            ->method($this->getHandlerMethodName())
             ->willReturn($innerHandler);
 
-        $innerHandler
-            ->expects(self::once())
-            ->method('trashSubtree')
-            ->with($locationId)
-            ->willReturn(null);
-
         $this->cacheIdentifierGeneratorMock
-            ->expects(self::exactly(2))
+            ->expects(self::exactly(3))
             ->method('generateTag')
             ->withConsecutive(
+                ['role_assignment_role_list', [$roleId], false],
                 ['content', [$contentId], false],
                 ['location_path', [$locationId], false]
             )
-            ->willReturnOnConsecutiveCalls(...$tags);
+            ->willReturnOnConsecutiveCalls(
+                'rarl-' . $roleId,
+                'c-' . $contentId,
+                'lp-' . $locationId
+            );
 
         $this->cacheMock
             ->expects(self::once())
             ->method('invalidateTags')
             ->with($tags);
 
-        $handler = $this->persistenceCacheHandler->$handlerMethodName();
-        $handler->trashSubtree($locationId);
+        return $innerHandler;
     }
 
     public function testDeleteTrashItem()

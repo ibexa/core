@@ -134,9 +134,11 @@ return [
     ContentGateway::CONTENT_ITEM_TABLE => [
         [
             'id' => '11',
+            'status' => '1',
         ],
         [
             'id' => '42',
+            'status' => '1',
         ],
     ],
 ];

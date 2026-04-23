@@ -9,6 +9,7 @@ namespace Ibexa\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler as TrashHandlerInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Relation;
+use Ibexa\Contracts\Core\Persistence\User\RoleAssignment;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 
 class TrashHandler extends AbstractHandler implements TrashHandlerInterface
@@ -16,6 +17,7 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
     private const EMPTY_TRASH_BULK_SIZE = 100;
     private const CONTENT_IDENTIFIER = 'content';
     private const LOCATION_PATH_IDENTIFIER = 'location_path';
+    private const ROLE_ASSIGNMENT_ROLE_LIST_IDENTIFIER = 'role_assignment_role_list';
 
     /**
      * {@inheritdoc}
@@ -34,13 +36,14 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
     {
         $this->logger->logCall(__METHOD__, ['locationId' => $locationId]);
 
-        $location = $this->persistenceHandler->locationHandler()->load($locationId);
+        $contentId = $this->persistenceHandler->locationHandler()->load($locationId)->contentId;
+        $roleAssignments = $this->persistenceHandler->userHandler()->loadRoleAssignmentsByGroupId($contentId);
         $limit = $this->persistenceHandler->contentHandler()->countRelations(
-            $location->contentId
+            $contentId
         );
 
         $reverseRelations = $this->persistenceHandler->contentHandler()->loadRelationList(
-            $location->contentId,
+            $contentId,
             $limit
         );
         $return = $this->persistenceHandler->trashHandler()->trashSubtree($locationId);
@@ -55,12 +58,20 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
             }, $reverseRelations);
         }
 
+        $roleAssignmentTags = array_map(function (RoleAssignment $roleAssignment): string {
+            return $this->cacheIdentifierGenerator->generateTag(
+                self::ROLE_ASSIGNMENT_ROLE_LIST_IDENTIFIER,
+                [$roleAssignment->roleId]
+            );
+        }, $roleAssignments);
+
         $tags = array_merge(
             [
-                $this->cacheIdentifierGenerator->generateTag(self::CONTENT_IDENTIFIER, [$location->contentId]),
+                $this->cacheIdentifierGenerator->generateTag(self::CONTENT_IDENTIFIER, [$contentId]),
                 $this->cacheIdentifierGenerator->generateTag(self::LOCATION_PATH_IDENTIFIER, [$locationId]),
             ],
-            $relationTags
+            $relationTags,
+            $roleAssignmentTags
         );
         $this->cache->invalidateTags(array_values(array_unique($tags)));
 
@@ -76,14 +87,15 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
 
         $return = $this->persistenceHandler->trashHandler()->recover($trashedId, $newParentId);
 
-        $location = $this->persistenceHandler->locationHandler()->load($return);
+        $contentId = $this->persistenceHandler->locationHandler()->load($return)->contentId;
+        $roleAssignments = $this->persistenceHandler->userHandler()->loadRoleAssignmentsByGroupId($contentId);
 
         $limit = $this->persistenceHandler->contentHandler()->countRelations(
-            $location->contentId
+            $contentId
         );
 
         $reverseRelations = $this->persistenceHandler->contentHandler()->loadRelationList(
-            $location->contentId,
+            $contentId,
             $limit
         );
 
@@ -94,12 +106,20 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
             }, $reverseRelations);
         }
 
+        $roleAssignmentTags = array_map(function (RoleAssignment $roleAssignment): string {
+            return $this->cacheIdentifierGenerator->generateTag(
+                self::ROLE_ASSIGNMENT_ROLE_LIST_IDENTIFIER,
+                [$roleAssignment->roleId]
+            );
+        }, $roleAssignments);
+
         $tags = array_merge(
             [
-                $this->cacheIdentifierGenerator->generateTag(self::CONTENT_IDENTIFIER, [$location->contentId]),
+                $this->cacheIdentifierGenerator->generateTag(self::CONTENT_IDENTIFIER, [$contentId]),
                 $this->cacheIdentifierGenerator->generateTag(self::LOCATION_PATH_IDENTIFIER, [$trashedId]),
             ],
-            $relationTags
+            $relationTags,
+            $roleAssignmentTags
         );
         $this->cache->invalidateTags(array_values(array_unique($tags)));
 
