@@ -38,7 +38,10 @@ final class BookmarkQueryBuilder extends BaseLocationCriterionQueryBuilder
         FilteringCriterion $criterion
     ): string {
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsBookmarked $criterion */
-        $isBookmarked = $criterion->value[0];
+        $isBookmarked = $criterion->value[0] ?? null;
+        if (!is_bool($isBookmarked)) {
+            throw new \InvalidArgumentException('IsBookmarked criterion value must be boolean at index 0.');
+        }
         $userId = $criterion->userId ?? $this->permissionResolver->getCurrentUserReference()->getUserId();
 
         if ($isBookmarked) {
