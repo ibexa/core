@@ -9,22 +9,28 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository;
 
 use Exception;
-use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Handler as BookmarkHandler;
 use Ibexa\Contracts\Core\Repository\BookmarkService as BookmarkServiceInterface;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\Values\Bookmark\BookmarkList;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 class BookmarkService implements BookmarkServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    protected $repository;
+    protected RepositoryInterface $repository;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Bookmark\Handler */
-    protected $bookmarkHandler;
+    protected BookmarkHandler $bookmarkHandler;
+
+    private LoggerInterface $logger;
 
     /**
      * BookmarkService constructor.
@@ -32,10 +38,11 @@ class BookmarkService implements BookmarkServiceInterface
      * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      * @param \Ibexa\Contracts\Core\Persistence\Bookmark\Handler $bookmarkHandler
      */
-    public function __construct(RepositoryInterface $repository, BookmarkHandler $bookmarkHandler)
+    public function __construct(RepositoryInterface $repository, BookmarkHandler $bookmarkHandler, ?LoggerInterface $logger = null)
     {
         $this->repository = $repository;
         $this->bookmarkHandler = $bookmarkHandler;
+        $this->logger = $logger ?? new NullLogger();
     }
 
     /**
@@ -95,17 +102,25 @@ class BookmarkService implements BookmarkServiceInterface
      */
     public function loadBookmarks(int $offset = 0, int $limit = 25): BookmarkList
     {
-        $currentUserId = $this->getCurrentUserId();
+        $filter = new Filter();
+        try {
+            $filter
+                ->withCriterion(new Criterion\IsBookmarked())
+                ->withSortClause(new SortClause\BookmarkId(Query::SORT_DESC))
+                ->sliceBy($limit, $offset);
+
+            $result = $this->repository->getLocationService()->find($filter, []);
+        } catch (BadStateException $e) {
+            $this->logger->debug($e->getMessage(), [
+                'exception' => $e,
+            ]);
+
+            return new BookmarkList();
+        }
 
         $list = new BookmarkList();
-        $list->totalCount = $this->bookmarkHandler->countUserBookmarks($currentUserId);
-        if ($list->totalCount > 0) {
-            $bookmarks = $this->bookmarkHandler->loadUserBookmarks($currentUserId, $offset, $limit);
-
-            $list->items = array_map(function (Bookmark $bookmark) {
-                return $this->repository->getLocationService()->loadLocation($bookmark->locationId);
-            }, $bookmarks);
-        }
+        $list->totalCount = $result->totalCount;
+        $list->items = iterator_to_array($result->getIterator());
 
         return $list;
     }
