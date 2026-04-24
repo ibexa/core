@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition as PersistenceFieldDefinition;
 use Ibexa\Core\FieldType\FieldSettings;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\SelectionConverter;
+use Ibexa\Core\Persistence\Legacy\Content\MultilingualStorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use PHPUnit\Framework\TestCase;
@@ -324,6 +325,43 @@ EOT;
         $this->converter->toFieldDefinition($storageFieldDefinition, $actualFieldDefinition);
 
         $this->assertEquals($expectedFieldDefinition, $actualFieldDefinition);
+    }
+
+    public function testToFieldDefinitionWithMultilingualDataSkipsEmptyDataText(): void
+    {
+        $storageFieldDefinition = new StorageFieldDefinition();
+        $storageFieldDefinition->dataInt1 = 1;
+        $storageFieldDefinition->dataText5 = <<<EOT
+<?xml version="1.0" encoding="utf-8"?>
+<ezselection><options><option id="0" name="First"/></options></ezselection>
+EOT;
+
+        $mlDataEmpty = new MultilingualStorageFieldDefinition();
+        $mlDataEmpty->dataText = '';
+
+        $mlDataValid = new MultilingualStorageFieldDefinition();
+        $mlDataValid->dataText = <<<EOT
+<?xml version="1.0" encoding="utf-8"?>
+<ezselection><options><option id="0" name="Premier"/></options></ezselection>
+EOT;
+
+        $storageFieldDefinition->multilingualData = [
+            'eng-GB' => $mlDataEmpty,
+            'fre-FR' => $mlDataValid,
+        ];
+
+        $actualFieldDefinition = new PersistenceFieldDefinition(
+            [
+                'mainLanguageCode' => 'eng-GB',
+            ]
+        );
+
+        $this->converter->toFieldDefinition($storageFieldDefinition, $actualFieldDefinition);
+
+        $fieldSettings = $actualFieldDefinition->fieldTypeConstraints->fieldSettings;
+
+        self::assertSame([0 => 'First'], $fieldSettings['multilingualOptions']['eng-GB']);
+        self::assertSame([0 => 'Premier'], $fieldSettings['multilingualOptions']['fre-FR']);
     }
 }
 
