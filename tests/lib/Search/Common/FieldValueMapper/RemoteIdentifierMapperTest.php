@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Search\FieldType\RemoteIdentifierField;
 use Ibexa\Contracts\Core\Search\FieldType\StringField;
 use Ibexa\Core\Search\Common\FieldValueMapper\RemoteIdentifierMapper;
 use Ibexa\Tests\Core\Search\TestCase;
+use Psr\Log\LoggerInterface;
 
 /**
  * @covers \Ibexa\Core\Search\Common\FieldValueMapper\RemoteIdentifierMapper
@@ -26,7 +27,9 @@ final class RemoteIdentifierMapperTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->mapper = new RemoteIdentifierMapper();
+        $this->mapper = new RemoteIdentifierMapper(
+            $this->createMock(LoggerInterface::class)
+        );
     }
 
     /**

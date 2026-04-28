@@ -63,6 +63,8 @@ services:
 
     Ibexa\Core\Search\Common\FieldValueMapper\StringMapper:
         class: Ibexa\Core\Search\Common\FieldValueMapper\StringMapper
+        calls:
+            - [setLogger, ['@logger']]
         tags:
             - { name: ibexa.search.common.field_value.mapper, maps: Ibexa\Contracts\Core\Search\FieldType\StringField }
 

@@ -287,24 +287,24 @@ class TextBlockIntegrationTest extends SearchBaseIntegrationTest
 
     protected function getValidSearchValueOne()
     {
-        return 'caution is the " path to mediocrity' . PHP_EOL . 'something completely different';
+        return 'caution is the " path to mediocrity something completely different';
     }
 
     protected function getSearchTargetValueOne()
     {
         // ensure case-insensitivity
-        return strtoupper('caution is the " path to mediocrity');
+        return strtoupper('caution is the " path to mediocrity something completely different');
     }
 
     protected function getValidSearchValueTwo()
     {
-        return "truth suffers from ' too much analysis\n hello and goodbye";
+        return "truth suffers from ' too much analysis hello and goodbye";
     }
 
     protected function getSearchTargetValueTwo()
     {
         // ensure case-insensitivity
-        return strtoupper("truth suffers from ' too much analysis");
+        return strtoupper("truth suffers from ' too much analysis hello and goodbye");
     }
 
     protected function getFullTextIndexedFieldData()

@@ -11947,12 +11947,6 @@ parameters:
 			path: src/lib/FieldType/StorageGateway.php
 
 		-
-			message: '#^Parameter \#1 \$string of method Ibexa\\Core\\FieldType\\TextBlock\\SearchField\:\:extractShortText\(\) expects string, array\|bool\|float\|int\|string\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/FieldType/TextBlock/SearchField.php
-
-		-
 			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\FieldType\\Value\:\:\$text\.$#'
 			identifier: property.notFound
 			count: 2
@@ -15824,12 +15818,6 @@ parameters:
 
 		-
 			message: '#^Access to an undefined property PhpParser\\Node\:\:\$args\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/lib/MVC/Symfony/Translation/ExceptionMessageTemplateFileVisitor.php
-
-		-
-			message: '#^Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\:\:\$value\.$#'
 			identifier: property.notFound
 			count: 1
 			path: src/lib/MVC/Symfony/Translation/ExceptionMessageTemplateFileVisitor.php
@@ -26177,12 +26165,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Search/Common/FieldValueMapper/MultipleStringMapper.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Search\\Common\\FieldValueMapper\\StringMapper\:\:convert\(\) should return string but returns string\|null\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/Search/Common/FieldValueMapper/StringMapper.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Search\\Common\\IncrementalIndexer\:\:createSearchIndex\(\) has no return type specified\.$#'
