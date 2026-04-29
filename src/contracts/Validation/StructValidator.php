@@ -10,13 +10,11 @@ namespace Ibexa\Contracts\Core\Validation;
 
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final class StructValidator
+final readonly class StructValidator
 {
-    private ValidatorInterface $validator;
-
-    public function __construct(ValidatorInterface $validator)
-    {
-        $this->validator = $validator;
+    public function __construct(
+        private ValidatorInterface $validator
+    ) {
     }
 
     /**

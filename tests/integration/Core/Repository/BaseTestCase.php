@@ -7,8 +7,6 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository;
 
-use ArrayObject;
-use DateTime;
 use Doctrine\DBAL\Connection;
 use ErrorException;
 use Exception;
@@ -25,7 +23,6 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
-use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy as LegacySetupFactory;
 use Ibexa\Tests\Core\Repository\PHPUnitConstraint;
@@ -37,6 +34,8 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class BaseTestCase extends TestCase
 {
+    use AssertPropertiesTrait;
+
     /**
      * Maximum integer number accepted by the different backends.
      */
@@ -182,120 +181,6 @@ abstract class BaseTestCase extends TestCase
         }
 
         return $this->setupFactory;
-    }
-
-    /**
-     * Asserts that properties given in $expectedValues are correctly set in
-     * $actualObject.
-     *
-     * @param mixed[] $expectedValues
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $actualObject
-     */
-    protected function assertPropertiesCorrect(array $expectedValues, ValueObject $actualObject)
-    {
-        foreach ($expectedValues as $propertyName => $propertyValue) {
-            if ($propertyValue instanceof ValueObject) {
-                $this->assertStructPropertiesCorrect($propertyValue, $actualObject->$propertyName);
-            } elseif (is_array($propertyValue)) {
-                foreach ($propertyValue as $key => $value) {
-                    if ($value instanceof ValueObject) {
-                        $this->assertStructPropertiesCorrect($value, $actualObject->$propertyName[$key]);
-                    } else {
-                        $this->assertPropertiesEqual("$propertyName\[$key\]", $value, $actualObject->$propertyName[$key]);
-                    }
-                }
-            } else {
-                $this->assertPropertiesEqual($propertyName, $propertyValue, $actualObject->$propertyName);
-            }
-        }
-    }
-
-    /**
-     * Asserts that properties given in $expectedValues are correctly set in
-     * $actualObject.
-     *
-     * If the property type is array, it will be sorted before comparison.
-     *
-     * @TODO: introduced because of randomly failing tests, ref: https://issues.ibexa.co/browse/EZP-21734
-     *
-     * @param mixed[] $expectedValues
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $actualObject
-     */
-    protected function assertPropertiesCorrectUnsorted(array $expectedValues, ValueObject $actualObject)
-    {
-        foreach ($expectedValues as $propertyName => $propertyValue) {
-            if ($propertyValue instanceof ValueObject) {
-                $this->assertStructPropertiesCorrect($propertyValue, $actualObject->$propertyName);
-            } else {
-                $this->assertPropertiesEqual($propertyName, $propertyValue, $actualObject->$propertyName, true);
-            }
-        }
-    }
-
-    /**
-     * Asserts all properties from $expectedValues are correctly set in
-     * $actualObject. Additional (virtual) properties can be asserted using
-     * $additionalProperties.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $expectedValues
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $actualObject
-     * @param array $propertyNames
-     */
-    protected function assertStructPropertiesCorrect(ValueObject $expectedValues, ValueObject $actualObject, array $additionalProperties = [])
-    {
-        foreach ($expectedValues as $propertyName => $propertyValue) {
-            if ($propertyValue instanceof ValueObject) {
-                $this->assertStructPropertiesCorrect($propertyValue, $actualObject->$propertyName);
-            } else {
-                $this->assertPropertiesEqual($propertyName, $propertyValue, $actualObject->$propertyName);
-            }
-        }
-
-        foreach ($additionalProperties as $propertyName) {
-            $this->assertPropertiesEqual($propertyName, $expectedValues->$propertyName, $actualObject->$propertyName);
-        }
-    }
-
-    /**
-     * @param array $items An array of scalar values
-     *
-     * @see \Ibexa\Tests\Integration\Core\Repository\BaseTestCase::assertPropertiesCorrectUnsorted
-     */
-    private function sortItems(array &$items)
-    {
-        $sorter = function ($a, $b): int {
-            if (!is_scalar($a) || !is_scalar($b)) {
-                $this->fail('Wrong usage: method ' . __METHOD__ . ' accepts only an array of scalar values');
-            }
-
-            return strcmp($a, $b);
-        };
-        usort($items, $sorter);
-    }
-
-    private function assertPropertiesEqual($propertyName, $expectedValue, $actualValue, $sortArray = false)
-    {
-        if ($expectedValue instanceof ArrayObject) {
-            $expectedValue = $expectedValue->getArrayCopy();
-        } elseif ($expectedValue instanceof DateTime) {
-            $expectedValue = $expectedValue->format(DateTime::RFC850);
-        }
-        if ($actualValue instanceof ArrayObject) {
-            $actualValue = $actualValue->getArrayCopy();
-        } elseif ($actualValue instanceof DateTime) {
-            $actualValue = $actualValue->format(DateTime::RFC850);
-        }
-
-        if ($sortArray && is_array($actualValue) && is_array($expectedValue)) {
-            $this->sortItems($actualValue);
-            $this->sortItems($expectedValue);
-        }
-
-        self::assertEquals(
-            $expectedValue,
-            $actualValue,
-            sprintf('Object property "%s" incorrect.', $propertyName)
-        );
     }
 
     /**
