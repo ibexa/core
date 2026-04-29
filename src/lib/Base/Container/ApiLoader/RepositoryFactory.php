@@ -18,6 +18,7 @@ use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\PermissionService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Validator\ContentValidator;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -97,6 +98,11 @@ final class RepositoryFactory implements LoggerAwareInterface
         ValidatorInterface $validator,
     ): Repository {
         $config = $this->repositoryConfigurationProvider->getRepositoryConfig();
+
+        if (isset($config['password_hash'])) {
+            $passwordHashService->setDefaultHashType($config['password_hash']['default_type'] ?? User::PASSWORD_HASH_PHP_DEFAULT);
+            $passwordHashService->setUpdateTypeOnChange($config['password_hash']['update_type_on_change'] ?? false);
+        }
 
         return new CoreRepository(
             $persistenceHandler,
