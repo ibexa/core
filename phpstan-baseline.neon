@@ -18067,13 +18067,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/DateAndTimeConverter.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateAndTimeConverter\:\:getDateIntervalFromXML\(\) should return DateInterval but empty return statement found\.$#'
-			identifier: return.empty
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/DateAndTimeConverter.php
-
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateAndTimeConverter\:\:toFieldDefinition\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -32287,7 +32280,6 @@ parameters:
 			count: 1
 			path: tests/integration/Core/Repository/Common/SlugConverter.php
 
-
 		-
 			message: '#^Cannot call method getValue\(\) on Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Field\|null\.$#'
 			identifier: method.nonObject
@@ -41912,7 +41904,6 @@ parameters:
 			count: 1
 			path: tests/integration/Core/Repository/ObjectStateServiceTest.php
 
-
 		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\ObjectStateServiceTest\:\:assertObjectsLoadedByIdentifiers\(\) has no return type specified\.$#'
 			identifier: missingType.return
@@ -41942,7 +41933,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/integration/Core/Repository/ObjectStateServiceTest.php
-
 
 		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\ObjectStateServiceTest\:\:deleteExistingObjectStateGroups\(\) has no return type specified\.$#'
