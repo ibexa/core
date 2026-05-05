@@ -467,7 +467,7 @@ class ObjectStateServiceTest extends BaseTest
      * Creates a set of object state groups and returns an array of all
      * existing group identifiers after creation.
      *
-     * @return bool[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup[]
      */
     protected function createObjectStateGroups()
     {

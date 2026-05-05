@@ -185,6 +185,13 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: src/lib/MVC/Symfony/Matcher/ContentBased/UrlAlias.php
+
+		-
+			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateAndTimeConverter\:\:getDateIntervalFromXML\(\) should return DateInterval but returns DateInterval\|false\.$#'
+			identifier: return.type
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/DateAndTimeConverter.php
+
 		-
 			message: '#^Cannot access property \$ownerDocument on DOMElement\|false\.$#'
 			identifier: property.nonObject

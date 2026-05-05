@@ -18084,11 +18084,6 @@ parameters:
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/DateAndTimeConverter.php
 
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateAndTimeConverter\:\:getDateIntervalFromXML\(\) should return DateInterval but returns DateInterval\|false\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/DateAndTimeConverter.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateAndTimeConverter\:\:toFieldDefinition\(\) has no return type specified\.$#'
@@ -32310,11 +32305,6 @@ parameters:
 			count: 1
 			path: tests/integration/Core/Repository/Common/SlugConverter.php
 
-		-
-			message: '#^Variable \$definition might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: tests/integration/Core/Repository/Container/Compiler/SetAllServicesPublicPass.php
 
 		-
 			message: '#^Cannot call method getValue\(\) on Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Field\|null\.$#'
@@ -41940,11 +41930,6 @@ parameters:
 			count: 1
 			path: tests/integration/Core/Repository/ObjectStateServiceTest.php
 
-		-
-			message: '#^Cannot access property \$id on bool\.$#'
-			identifier: property.nonObject
-			count: 2
-			path: tests/integration/Core/Repository/ObjectStateServiceTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\ObjectStateServiceTest\:\:assertObjectsLoadedByIdentifiers\(\) has no return type specified\.$#'
@@ -41976,11 +41961,6 @@ parameters:
 			count: 1
 			path: tests/integration/Core/Repository/ObjectStateServiceTest.php
 
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\ObjectStateServiceTest\:\:createObjectStateGroups\(\) should return array\<bool\> but returns list\<Ibexa\\Contracts\\Core\\Repository\\Values\\ObjectState\\ObjectStateGroup\>\.$#'
-			identifier: return.type
-			count: 1
-			path: tests/integration/Core/Repository/ObjectStateServiceTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\ObjectStateServiceTest\:\:deleteExistingObjectStateGroups\(\) has no return type specified\.$#'
