@@ -18067,6 +18067,12 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/DateAndTimeConverter.php
 
 		-
+			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateAndTimeConverter\:\:getDateIntervalFromXML\(\) should return DateInterval but empty return statement found\.$#'
+			identifier: return.empty
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/DateAndTimeConverter.php
+
+		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateAndTimeConverter\:\:toFieldDefinition\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1

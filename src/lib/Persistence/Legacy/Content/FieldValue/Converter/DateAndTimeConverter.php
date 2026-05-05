@@ -98,11 +98,6 @@ class DateAndTimeConverter implements Converter
     {
         $useSeconds = (bool)$storageDef->dataInt2;
         $dateInterval = $this->getDateIntervalFromXML($storageDef->dataText5);
-        if ($dateInterval === false) {
-            $fieldDef->defaultValue->data = null;
-
-            return;
-        }
 
         $fieldDef->fieldTypeConstraints->fieldSettings = new FieldSettings(
             [
@@ -209,12 +204,12 @@ class DateAndTimeConverter implements Converter
      *
      * @param string $xmlText
      *
-     * @return \DateInterval|false
+     * @return \DateInterval
      */
     protected function getDateIntervalFromXML($xmlText)
     {
         if (empty($xmlText)) {
-            return false;
+            return;
         }
 
         $xml = new SimpleXMLElement($xmlText);
