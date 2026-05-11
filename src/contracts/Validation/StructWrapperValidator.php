@@ -62,8 +62,8 @@ final class StructWrapperValidator implements ValidatorInterface
                 $error->getInvalidValue(),
                 $error->getPlural(),
                 $error->getCode(),
-                $error->getConstraint(),
-                $error->getCause()
+                $error instanceof ConstraintViolation ? $error->getConstraint() : null,
+                $error instanceof ConstraintViolation ? $error->getCause() : null
             );
 
             $unwrappedErrors->add($unwrappedError);
