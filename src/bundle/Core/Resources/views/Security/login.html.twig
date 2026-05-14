@@ -29,7 +29,12 @@
                         is redirected to on success (more details below)
                         <input type="hidden" name="_target_path" value="/account" />
                     #}
-                    <button type="submit" class="ids-btn ids-btn--primary ids-btn--medium">{{ 'Login'|trans }}</button>
+                    <twig:ibexa:button
+    html_type="submit"
+    type="primary"
+>
+    {{ 'Login'|trans }}
+</twig:ibexa:button>
                 </fieldset>
             {% endblock %}
         </form>
