@@ -25,10 +25,6 @@ jobs:
                     satis-network-key: ${{ secrets.SATIS_NETWORK_KEY }}
                     satis-network-token: ${{ secrets.SATIS_NETWORK_TOKEN }}
 
-            -   uses: ramsey/composer-install@v3
-                with:
-                    dependency-versions: highest
-
             -   name: Run code style check
                 run: composer run-script check-cs -- --format=checkstyle | cs2pr
 
