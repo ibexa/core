@@ -11,7 +11,7 @@ use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Exceptions as ApiExceptions;
-use PHPUnit\Framework\Assert as Assertion;
+use Webmozart\Assert\Assert as Assertion;
 
 /**
  * Sentences for content types.
@@ -81,7 +81,7 @@ class ContentTypeContext implements Context
      */
     public function assertContentTypeExistsByIdentifier($identifier)
     {
-        Assertion::assertTrue(
+        Assertion::true(
             $this->checkContentTypeExistenceByIdentifier($identifier),
             "Couldn't find a content type with identifier '$identifier'."
         );
@@ -94,7 +94,7 @@ class ContentTypeContext implements Context
      */
     public function assertContentTypeDoesntExistsByIdentifier($identifier)
     {
-        Assertion::assertFalse(
+        Assertion::false(
             $this->checkContentTypeExistenceByIdentifier($identifier),
             "Found a content type with identifier '$identifier'."
         );
@@ -107,7 +107,7 @@ class ContentTypeContext implements Context
      */
     public function assertContentTypeExistsByIdentifierOnGroup($identifier, $groupIdentifier)
     {
-        Assertion::assertTrue(
+        Assertion::true(
             $this->checkContentTypeExistenceByIdentifier($identifier, $groupIdentifier),
             "Couldn't find content type with identifier '$identifier' on '$groupIdentifier."
         );

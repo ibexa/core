@@ -8,7 +8,7 @@
 namespace Ibexa\Bundle\Core\Features\Context;
 
 use Behat\MinkExtension\Context\RawMinkContext;
-use PHPUnit\Framework\Assert;
+use Webmozart\Assert\Assert;
 
 class QueryControllerContext extends RawMinkContext
 {
@@ -19,7 +19,7 @@ class QueryControllerContext extends RawMinkContext
     {
         $variableTypes = $this->getVariableTypesFromTemplate();
 
-        Assert::assertArrayHasKey($twigVariableName, $variableTypes, "The $twigVariableName twig variable was not set");
+        Assert::keyExists($variableTypes, $twigVariableName, "The $twigVariableName twig variable was not set");
     }
 
     /**
@@ -29,8 +29,8 @@ class QueryControllerContext extends RawMinkContext
     {
         $variableTypes = $this->getVariableTypesFromTemplate();
 
-        Assert::assertArrayHasKey($twigVariableName, $variableTypes, "The $twigVariableName twig variable was not set");
-        Assert::assertEquals($className, $variableTypes[$twigVariableName], "The $twigVariableName twig variable does not have $className type");
+        Assert::keyExists($variableTypes, $twigVariableName, "The $twigVariableName twig variable was not set");
+        Assert::eq($variableTypes[$twigVariableName], $className, "The $twigVariableName twig variable does not have $className type");
     }
 
     /**
@@ -59,12 +59,12 @@ class QueryControllerContext extends RawMinkContext
             }
         }
 
-        Assert::assertTrue(
+        Assert::true(
             $pageLimitFound,
             "The maxPerPage $pageLimit twig variable was not set"
         );
 
-        Assert::assertTrue(
+        Assert::true(
             $currentPageFound,
             "The currentPage $pageValue twig variable  was not set"
         );

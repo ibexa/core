@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
-use PHPUnit\Framework\Assert as Assertion;
+use Webmozart\Assert\Assert as Assertion;
 
 /**
  * Sentences for Users.
@@ -427,7 +427,7 @@ class UserContext implements Context
      */
     public function assertUserWithNameExists($username)
     {
-        Assertion::assertTrue(
+        Assertion::true(
             $this->checkUserExistenceByUsername($username),
             "Couldn't find User with name '$username'."
         );
@@ -440,7 +440,7 @@ class UserContext implements Context
      */
     public function assertUserWithNameDoesntExist($username)
     {
-        Assertion::assertFalse(
+        Assertion::false(
             $this->checkUserExistenceByUsername($username),
             "User with name '$username' was found."
         );
@@ -454,7 +454,7 @@ class UserContext implements Context
      */
     public function assertUserWithNameExistsInGroup($username, $parentGroup)
     {
-        Assertion::assertTrue(
+        Assertion::true(
             $this->checkUserExistenceByUsername($username, $parentGroup),
             "Couldn't find User with name '$username' in parent group '$parentGroup'."
         );
@@ -468,7 +468,7 @@ class UserContext implements Context
      */
     public function assertUserWithNameDoesntExistInGroup($username, $parentGroup)
     {
-        Assertion::assertFalse(
+        Assertion::false(
             $this->checkUserExistenceByUsername($username, $parentGroup),
             "User with name '$username' was found in parent group '$parentGroup'."
         );
@@ -490,7 +490,7 @@ class UserContext implements Context
         array_shift($groups);
         foreach ($groups as $group) {
             $parentGroupName = $group[0];
-            Assertion::assertFalse(
+            Assertion::false(
                 $this->checkUserExistenceByUsername($username, $parentGroupName),
                 "User with name '$username' was found in parent group '$parentGroupName'."
             );
@@ -510,7 +510,7 @@ class UserContext implements Context
      */
     public function assertUserWithNameExistsWithFields($username, TableNode $table)
     {
-        Assertion::assertTrue(
+        Assertion::true(
             $this->checkUserExistenceByUsername($username),
             "Couldn't find User with name '$username'."
         );
@@ -532,9 +532,9 @@ class UserContext implements Context
                 default:
                     $fieldValue = $user->getFieldValue($fieldName);
             }
-            Assertion::assertEquals(
-                $expectedValue,
+            Assertion::eq(
                 $fieldValue,
+                $expectedValue,
                 "Field '$fieldName' did not contain expected value '$expectedValue'."
             );
         }
