@@ -18,7 +18,7 @@ jobs:
         steps:
             -   uses: actions/checkout@v6
 
-            -   uses: ibexa/gh-workflows/actions/composer-install@main
+            -   uses: ibexa/gh-workflows/actions/composer-install@ibx-11717-composer-audit-ignore-action
                 with:
                     gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
                     gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
@@ -44,7 +44,7 @@ jobs:
         steps:
             -   uses: actions/checkout@v6
 
-            -   uses: ibexa/gh-workflows/actions/composer-install@main
+            -   uses: ibexa/gh-workflows/actions/composer-install@ibx-11717-composer-audit-ignore-action
                 with:
                     gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
                     gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
@@ -100,7 +100,7 @@ jobs:
         steps:
             -   uses: actions/checkout@v6
 
-            -   uses: ibexa/gh-workflows/actions/composer-install@main
+            -   uses: ibexa/gh-workflows/actions/composer-install@ibx-11717-composer-audit-ignore-action
                 with:
                     gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
                     gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
@@ -157,7 +157,7 @@ jobs:
         steps:
             -   uses: actions/checkout@v6
 
-            -   uses: ibexa/gh-workflows/actions/composer-install@main
+            -   uses: ibexa/gh-workflows/actions/composer-install@ibx-11717-composer-audit-ignore-action
                 with:
                     gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
                     gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
@@ -221,7 +221,7 @@ jobs:
                     composer require --no-update "ibexa/solr:$VERSION"
 
             -   name: Install Composer dependencies
-                uses: ibexa/gh-workflows/actions/composer-install@main
+                uses: ibexa/gh-workflows/actions/composer-install@ibx-11717-composer-audit-ignore-action
                 with:
                     gh-client-id: ${{ secrets.AUTOMATION_CLIENT_ID }}
                     gh-client-secret: ${{ secrets.AUTOMATION_CLIENT_SECRET }}
