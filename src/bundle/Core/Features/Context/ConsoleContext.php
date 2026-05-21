@@ -112,7 +112,7 @@ class ConsoleContext implements Context
     {
         $this->thereIsASiteaccess($expectedSiteaccessName, true);
         Assertion::eq(
-            $siteaccessList = $this->getConfigResolver()->getParameter('siteaccess.default_siteaccess'),
+            $this->getConfigResolver()->getParameter('siteaccess.default_siteaccess'),
             $expectedSiteaccessName
         );
     }
