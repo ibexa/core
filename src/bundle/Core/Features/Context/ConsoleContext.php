@@ -9,9 +9,9 @@ namespace Ibexa\Bundle\Core\Features\Context;
 
 use Behat\Behat\Context\Context;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
-use PHPUnit\Framework\Assert as Assertion;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
+use Webmozart\Assert\Assert as Assertion;
 
 class ConsoleContext implements Context
 {
@@ -70,9 +70,9 @@ class ConsoleContext implements Context
     public function iExpectItToBeExecutedWithTheSiteaccess($siteaccess)
     {
         $actualSiteaccess = trim($this->scriptOutput);
-        Assertion::assertEquals(
-            $siteaccess,
+        Assertion::eq(
             $actualSiteaccess,
+            $siteaccess,
             "The command was expected to be executed with the siteaccess \"$siteaccess\", but was executed with \"$actualSiteaccess\""
         );
     }
@@ -101,7 +101,7 @@ class ConsoleContext implements Context
             }
         }
 
-        Assertion::assertTrue($found, "No siteaccess named $expectedSiteaccessName was found");
+        Assertion::true($found, "No siteaccess named $expectedSiteaccessName was found");
         $this->it['siteaccess'] = $expectedSiteaccessName;
     }
 
@@ -111,9 +111,9 @@ class ConsoleContext implements Context
     public function thereIsADefaultSiteaccess($expectedSiteaccessName)
     {
         $this->thereIsASiteaccess($expectedSiteaccessName, true);
-        Assertion::assertEquals(
-            $expectedSiteaccessName,
-            $siteaccessList = $this->getConfigResolver()->getParameter('siteaccess.default_siteaccess')
+        Assertion::eq(
+            $this->getConfigResolver()->getParameter('siteaccess.default_siteaccess'),
+            $expectedSiteaccessName
         );
     }
 
@@ -167,7 +167,7 @@ class ConsoleContext implements Context
     public function thereIsASiteaccessThatIsNotTheDefaultOne()
     {
         $siteaccessName = $this->getNonDefaultSiteaccessName();
-        Assertion::assertNotNull($siteaccessName, 'There is no siteaccess other than the default one');
+        Assertion::notNull($siteaccessName, 'There is no siteaccess other than the default one');
         $this->it['siteaccess'] = $siteaccessName;
     }
 
@@ -176,7 +176,7 @@ class ConsoleContext implements Context
      */
     public function iExpectItToBeExecutedWithIt()
     {
-        Assertion::assertEquals($this->it['siteaccess'], $this->scriptOutput);
+        Assertion::eq($this->scriptOutput, $this->it['siteaccess']);
     }
 
     /**

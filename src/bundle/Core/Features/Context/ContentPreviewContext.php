@@ -10,7 +10,7 @@ namespace Ibexa\Bundle\Core\Features\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\MinkExtension\Context\RawMinkContext;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
-use PHPUnit\Framework\Assert as Assertion;
+use Webmozart\Assert\Assert as Assertion;
 
 class ContentPreviewContext extends RawMinkContext
 {
@@ -86,7 +86,7 @@ class ContentPreviewContext extends RawMinkContext
                 $exceptionLines[] = trim($html);
             }
             $message = 'An exception occured during rendering:' . implode("\n", $exceptionLines);
-            Assertion::assertTrue(false, $message);
+            Assertion::true(false, $message);
         }
     }
 

@@ -2197,12 +2197,6 @@ parameters:
 			path: src/bundle/Core/Features/Context/ContentPreviewContext.php
 
 		-
-			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with false and non\-falsy\-string will always evaluate to false\.$#'
-			identifier: staticMethod.impossibleType
-			count: 1
-			path: src/bundle/Core/Features/Context/ContentPreviewContext.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\ContentPreviewContext\:\:checkForExceptions\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
