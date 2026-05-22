@@ -2440,6 +2440,29 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         );
     }
 
+    public function testUpdateFieldDefinitionPreservesDefaultValueWhenNotInUpdateStruct(): void
+    {
+        $repository = $this->getRepository();
+        $contentTypeService = $repository->getContentTypeService();
+
+        $contentTypeDraft = $this->createContentTypeDraft();
+        $fieldDefinition = $contentTypeDraft->getFieldDefinition('body');
+
+        self::assertNotNull($fieldDefinition);
+        self::assertNotNull($fieldDefinition->defaultValue);
+
+        $updateStruct = $contentTypeService->newFieldDefinitionUpdateStruct();
+        $updateStruct->position = 100;
+
+        $contentTypeService->updateFieldDefinition($contentTypeDraft, $fieldDefinition, $updateStruct);
+        $contentTypeDraft = $contentTypeService->loadContentTypeDraft($contentTypeDraft->id);
+        $updatedFieldDefinition = $contentTypeDraft->getFieldDefinition('body');
+
+        self::assertNotNull($updatedFieldDefinition);
+        self::assertEquals($fieldDefinition->defaultValue, $updatedFieldDefinition->defaultValue);
+        self::assertSame(100, $updatedFieldDefinition->position);
+    }
+
     /**
      * Test for the updateFieldDefinition() method with already defined field identifier.
      *
