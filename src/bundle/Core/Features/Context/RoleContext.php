@@ -10,7 +10,7 @@ namespace Ibexa\Bundle\Core\Features\Context;
 use Behat\Behat\Context\Context;
 use Ibexa\Contracts\Core\Repository\Exceptions as ApiExceptions;
 use Ibexa\Contracts\Core\Repository\RoleService;
-use PHPUnit\Framework\Assert as Assertion;
+use Webmozart\Assert\Assert as Assertion;
 
 /**
  * Sentences for Roles.
@@ -85,7 +85,7 @@ class RoleContext implements Context
     public function iSeeRole($name)
     {
         $role = $this->getRole($name);
-        Assertion::assertNotNull(
+        Assertion::notNull(
             $role,
             "Couldn't find Role with name $name"
         );
@@ -97,12 +97,12 @@ class RoleContext implements Context
     public function noAssginedPolicies($name)
     {
         $role = $this->getRole($name);
-        Assertion::assertNotNull(
+        Assertion::notNull(
             $role,
             "Couldn't find Role with name $name"
         );
         $policies = $role->getPolicies();
-        Assertion::assertEmpty($policies, "Role $name has policies associated");
+        Assertion::isEmpty($policies, "Role $name has policies associated");
     }
 
     /**
@@ -111,12 +111,12 @@ class RoleContext implements Context
     public function noAssigneGroups($name)
     {
         $role = $this->getRole($name);
-        Assertion::assertNotNull(
+        Assertion::notNull(
             $role,
             "Couldn't find Role with name $name"
         );
         $roleAssigments = $this->roleService->getRoleAssignments($role);
-        Assertion::assertEmpty($roleAssigments, "Role $name has Users or groups associated");
+        Assertion::isEmpty($roleAssigments, "Role $name has Users or groups associated");
     }
 
     /**
@@ -127,7 +127,7 @@ class RoleContext implements Context
     public function iDontSeeRole($name)
     {
         $role = $this->getRole($name);
-        Assertion::assertNull(
+        Assertion::null(
             $role,
             "Found Role with name $name"
         );

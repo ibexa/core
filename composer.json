@@ -73,7 +73,8 @@
         "phpstan/phpstan-symfony": "^2.0",
         "phpunit/phpunit": "^9.6",
         "symfony/phpunit-bridge": "^7.4",
-        "symfony/runtime": "^7.4"
+        "symfony/runtime": "^7.4",
+        "webmozart/assert": "^2.3"
     },
     "conflict": {
         "doctrine/dbal": "2.7.0",
