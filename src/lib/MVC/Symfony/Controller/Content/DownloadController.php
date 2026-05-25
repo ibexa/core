@@ -116,6 +116,10 @@ class DownloadController extends Controller
             );
         }
 
+        if ($field->value->fileName !== $filename) {
+            throw new NotFoundException('File', $filename);
+        }
+
         $response = new BinaryStreamResponse($this->ioService->loadBinaryFile($field->value->id), $this->ioService);
         $response->setContentDisposition(
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,
