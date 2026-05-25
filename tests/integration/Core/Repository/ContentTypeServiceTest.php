@@ -2450,6 +2450,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
         self::assertNotNull($fieldDefinition);
         self::assertNotNull($fieldDefinition->defaultValue);
+        self::assertSame(2, $fieldDefinition->position);
 
         $updateStruct = $contentTypeService->newFieldDefinitionUpdateStruct();
         $updateStruct->position = 100;

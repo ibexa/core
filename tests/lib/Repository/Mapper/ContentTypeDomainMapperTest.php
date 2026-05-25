@@ -101,8 +101,16 @@ final class ContentTypeDomainMapperTest extends TestCase
         $fieldType->method('validateValidatorConfiguration')->willReturn([]);
         $fieldType->method('validateFieldSettings')->willReturn([]);
         $fieldType->method('isSearchable')->willReturn(true);
-        $fieldType->expects(self::once())->method('acceptValue')->with($expectedInput)->willReturn($expectedInput);
-        $fieldType->expects(self::once())->method('toPersistenceValue')->with($expectedInput)->willReturn($persistedValue);
+        $fieldType
+            ->expects(self::once())
+            ->method('acceptValue')
+            ->with($expectedInput)
+            ->willReturn($expectedInput);
+        $fieldType
+            ->expects(self::once())
+            ->method('toPersistenceValue')
+            ->with($expectedInput)
+            ->willReturn($persistedValue);
 
         $this->fieldTypeRegistry->method('getFieldType')->with('ezstring')->willReturn($fieldType);
     }
