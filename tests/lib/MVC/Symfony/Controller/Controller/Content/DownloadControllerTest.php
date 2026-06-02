@@ -29,13 +29,13 @@ use Symfony\Component\HttpFoundation\Request;
 final class DownloadControllerTest extends TestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\ContentService&\PHPUnit\Framework\MockObject\MockObject */
-    private $contentService;
+    private ContentService $contentService;
 
     /** @var \Ibexa\Core\IO\IOServiceInterface&\PHPUnit\Framework\MockObject\MockObject */
-    private $ioService;
+    private IOServiceInterface $ioService;
 
     /** @var \Ibexa\Core\Helper\TranslationHelper&\PHPUnit\Framework\MockObject\MockObject */
-    private $translationHelper;
+    private TranslationHelper $translationHelper;
 
     protected function setUp(): void
     {
@@ -61,17 +61,17 @@ final class DownloadControllerTest extends TestCase
         ]);
 
         $this->contentService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadContent')
             ->with(42)
             ->willReturn($content);
         $this->translationHelper
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTranslatedField')
             ->with($content, 'file', 'eng-GB')
             ->willReturn($field);
         $this->ioService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadBinaryFile')
             ->with('binary-file-id')
             ->willReturn($binaryFile);
@@ -84,8 +84,6 @@ final class DownloadControllerTest extends TestCase
 
     public function testDownloadBinaryFileActionReturnsNotFoundWhenFilenameDoesNotMatch(): void
     {
-        $this->expectException(NotFoundException::class);
-
         $content = $this->createContent();
         $field = $content->getField('file', 'eng-GB');
         self::assertInstanceOf(Field::class, $field);
@@ -93,12 +91,12 @@ final class DownloadControllerTest extends TestCase
         $request = new Request(['inLanguage' => 'eng-GB']);
 
         $this->contentService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadContent')
             ->with(42)
             ->willReturn($content);
         $this->translationHelper
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTranslatedField')
             ->with($content, 'file', 'eng-GB')
             ->willReturn($field);
@@ -106,6 +104,7 @@ final class DownloadControllerTest extends TestCase
             ->expects($this->never())
             ->method('loadBinaryFile');
 
+        $this->expectException(NotFoundException::class);
         $this->createController()->downloadBinaryFileAction(42, 'file', 'SomeRandomText.txt', $request);
     }
 

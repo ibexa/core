@@ -47,13 +47,13 @@ final class DownloadControllerRequestFlowTest extends IbexaKernelTestCase
     private const FILENAME = 'Q1 report #1 + 100%.jpg';
 
     /** @var \Ibexa\Contracts\Core\Repository\ContentService&\PHPUnit\Framework\MockObject\MockObject */
-    private $contentService;
+    private ContentService $contentService;
 
     /** @var \Ibexa\Core\IO\IOServiceInterface&\PHPUnit\Framework\MockObject\MockObject */
-    private $ioService;
+    private IOServiceInterface $ioService;
 
     /** @var \Ibexa\Core\Helper\TranslationHelper&\PHPUnit\Framework\MockObject\MockObject */
-    private $translationHelper;
+    private TranslationHelper $translationHelper;
 
     protected static function getKernelClass(): string
     {
@@ -99,17 +99,17 @@ final class DownloadControllerRequestFlowTest extends IbexaKernelTestCase
         ]);
 
         $this->contentService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadContent')
             ->with(42)
             ->willReturn($content);
         $this->translationHelper
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTranslatedField')
             ->with($content, 'file', 'eng-GB')
             ->willReturn($field);
         $this->ioService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadBinaryFile')
             ->with('binary-file-id')
             ->willReturn($binaryFile);
@@ -155,7 +155,12 @@ final class DownloadControllerRequestFlowTest extends IbexaKernelTestCase
         $controllerResolver = self::getContainer()->get('controller_resolver');
         self::assertInstanceOf(ControllerResolverInterface::class, $controllerResolver);
 
-        return new HttpKernel($dispatcher, $controllerResolver, $requestStack, new ArgumentResolver());
+        return new HttpKernel(
+            $dispatcher,
+            $controllerResolver,
+            $requestStack,
+            new ArgumentResolver()
+        );
     }
 
     private function createRouteCollection(): RouteCollection
