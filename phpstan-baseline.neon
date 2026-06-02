@@ -10849,12 +10849,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/CountryConverter.php
 
 		-
-			message: '#^Cannot access offset ''timestamp'' on array\|bool\|float\|int\|string\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/DateAndTimeConverter.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateAndTimeConverter\:\:getDateIntervalFromXML\(\) should return DateInterval but empty return statement found\.$#'
 			identifier: return.empty
 			count: 1
