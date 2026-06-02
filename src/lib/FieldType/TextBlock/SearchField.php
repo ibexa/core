@@ -21,7 +21,7 @@ class SearchField implements Indexable
         return [
             new Search\Field(
                 'value',
-                $this->extractShortText($field->value->data),
+                $this->extractText($field->value->data),
                 new Search\FieldType\StringField()
             ),
             new Search\Field(
@@ -33,15 +33,17 @@ class SearchField implements Indexable
     }
 
     /**
-     * Extracts short snippet of the given $string.
-     *
-     * @param string $string
-     *
-     * @return string
+     * @param mixed $string
      */
-    private function extractShortText($string)
+    private function extractText($string): string
     {
-        return mb_substr(strtok(trim((string)$string), "\r\n"), 0, 255);
+        if (!is_string($string)) {
+            return '';
+        }
+
+        $lines = explode("\n", str_replace(["\r\n", "\r"], "\n", $string));
+
+        return implode(' ', array_map('trim', $lines));
     }
 
     public function getIndexDefinition()

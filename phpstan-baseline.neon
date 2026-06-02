@@ -11947,12 +11947,6 @@ parameters:
 			path: src/lib/FieldType/StorageGateway.php
 
 		-
-			message: '#^Parameter \#1 \$string of method Ibexa\\Core\\FieldType\\TextBlock\\SearchField\:\:extractShortText\(\) expects string, array\|bool\|float\|int\|string\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/FieldType/TextBlock/SearchField.php
-
-		-
 			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\FieldType\\Value\:\:\$text\.$#'
 			identifier: property.notFound
 			count: 2
@@ -18083,7 +18077,6 @@ parameters:
 			identifier: return.empty
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/DateAndTimeConverter.php
-
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\DateAndTimeConverter\:\:toFieldDefinition\(\) has no return type specified\.$#'
@@ -26174,12 +26167,6 @@ parameters:
 			path: src/lib/Search/Common/FieldValueMapper/MultipleStringMapper.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Search\\Common\\FieldValueMapper\\StringMapper\:\:convert\(\) should return string but returns string\|null\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/Search/Common/FieldValueMapper/StringMapper.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Search\\Common\\IncrementalIndexer\:\:createSearchIndex\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -32304,7 +32291,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: tests/integration/Core/Repository/Common/SlugConverter.php
-
 
 		-
 			message: '#^Cannot call method getValue\(\) on Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Field\|null\.$#'
@@ -41930,7 +41916,6 @@ parameters:
 			count: 1
 			path: tests/integration/Core/Repository/ObjectStateServiceTest.php
 
-
 		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\ObjectStateServiceTest\:\:assertObjectsLoadedByIdentifiers\(\) has no return type specified\.$#'
 			identifier: missingType.return
@@ -41960,7 +41945,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/integration/Core/Repository/ObjectStateServiceTest.php
-
 
 		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\ObjectStateServiceTest\:\:deleteExistingObjectStateGroups\(\) has no return type specified\.$#'
@@ -66761,12 +66745,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/User/Role/LimitationConverterTest.php
 
 		-
-			message: '#^Instanceof between Ibexa\\Contracts\\Core\\Persistence\\User\\Policy and Ibexa\\Contracts\\Core\\Persistence\\User\\Policy will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: tests/lib/Persistence/Legacy/User/UserHandlerTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\User\\UserHandlerTest\:\:createRole\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -67082,12 +67060,6 @@ parameters:
 			message: '#^Parameter \#1 \$handler of method Ibexa\\Tests\\Core\\Persistence\\Legacy\\User\\UserHandlerTest\:\:createTestRole\(\) expects Ibexa\\Core\\Persistence\\Legacy\\User\\Handler, Ibexa\\Contracts\\Core\\Persistence\\User\\Handler given\.$#'
 			identifier: argument.type
 			count: 5
-			path: tests/lib/Persistence/Legacy/User/UserHandlerTest.php
-
-		-
-			message: '#^Right side of && is always true\.$#'
-			identifier: booleanAnd.rightAlwaysTrue
-			count: 1
 			path: tests/lib/Persistence/Legacy/User/UserHandlerTest.php
 
 		-
