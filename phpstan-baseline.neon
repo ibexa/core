@@ -66739,12 +66739,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/User/Role/LimitationConverterTest.php
 
 		-
-			message: '#^Instanceof between Ibexa\\Contracts\\Core\\Persistence\\User\\Policy and Ibexa\\Contracts\\Core\\Persistence\\User\\Policy will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: tests/lib/Persistence/Legacy/User/UserHandlerTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\User\\UserHandlerTest\:\:createRole\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -67060,12 +67054,6 @@ parameters:
 			message: '#^Parameter \#1 \$handler of method Ibexa\\Tests\\Core\\Persistence\\Legacy\\User\\UserHandlerTest\:\:createTestRole\(\) expects Ibexa\\Core\\Persistence\\Legacy\\User\\Handler, Ibexa\\Contracts\\Core\\Persistence\\User\\Handler given\.$#'
 			identifier: argument.type
 			count: 5
-			path: tests/lib/Persistence/Legacy/User/UserHandlerTest.php
-
-		-
-			message: '#^Right side of && is always true\.$#'
-			identifier: booleanAnd.rightAlwaysTrue
-			count: 1
 			path: tests/lib/Persistence/Legacy/User/UserHandlerTest.php
 
 		-
