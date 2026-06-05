@@ -11,6 +11,7 @@ namespace Ibexa\Bundle\Core\Command\Indexer\ContentIdList;
 use Generator;
 use Ibexa\Bundle\Core\Command\Indexer\ContentIdListGeneratorStrategyInterface;
 use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
@@ -24,9 +25,12 @@ final class ContentTypeInputGeneratorStrategy implements ContentIdListGeneratorS
 {
     private ContentService $contentService;
 
-    public function __construct(ContentService $contentService)
+    private Repository $repository;
+
+    public function __construct(ContentService $contentService, Repository $repository)
     {
         $this->contentService = $contentService;
+        $this->repository = $repository;
     }
 
     /**
@@ -74,6 +78,8 @@ final class ContentTypeInputGeneratorStrategy implements ContentIdListGeneratorS
             )
         ;
 
-        return $this->contentService->find($filter);
+        return  $this->repository->sudo(
+            fn (): ContentList => $this->contentService->find($filter)
+        );
     }
 }
