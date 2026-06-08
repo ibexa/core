@@ -41,8 +41,6 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTestCa
      */
     protected function supportsLikeWildcard($value): bool
     {
-        parent::supportsLikeWildcard($value);
-
         return false;
     }
 
