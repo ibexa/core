@@ -22677,7 +22677,7 @@ parameters:
 		-
 			message: '#^Offset ''scheme'' might not exist on array\{scheme\?\: string, host\: string, port\: int\<0, 65535\>, user\?\: string, pass\?\: string, path\?\: string, query\?\: string, fragment\?\: string\}\.$#'
 			identifier: offsetAccess.notFound
-			count: 4
+			count: 2
 			path: tests/bundle/Core/Routing/DefaultRouterTest.php
 
 		-
