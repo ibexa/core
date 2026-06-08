@@ -134,7 +134,7 @@ class ContentService implements ContentServiceInterface
             // Version archive limit (0-50), only enforced on publish, not on un-publish.
             'default_version_archive_limit' => 5,
             'remove_archived_versions_on_publish' => true,
-            'grace_period_in_seconds' => (int) ini_get('max_execution_time'),
+            'grace_period_in_seconds' => (int) ini_get('max_execution_time') * 2    ,
         ];
         $this->contentFilteringHandler = $contentFilteringHandler;
         $this->permissionResolver = $permissionService;
