@@ -37,8 +37,6 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      */
     protected function supportsLikeWildcard($value)
     {
-        parent::supportsLikeWildcard($value);
-
         return false;
     }
 
