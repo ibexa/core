@@ -372,7 +372,7 @@ services:
         arguments:
             $inner: '@.inner'
 
-    Ibexa\Bundle\Core\Message\PublishContentHandler:
+    Ibexa\Bundle\Core\Message\PublishContentAsyncHandler:
         autowire: true
         tags:
             - { name: messenger.message_handler, bus: ibexa.messenger.bus }
