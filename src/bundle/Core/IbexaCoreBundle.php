@@ -129,6 +129,7 @@ final class IbexaCoreBundle extends Bundle
                     new ConfigParser\Embeddings(),
                 ],
                 [
+                    new RepositoryConfigParser\AsyncContentPublish(),
                     new RepositoryConfigParser\Storage(),
                     new RepositoryConfigParser\Search(),
                     new RepositoryConfigParser\FieldGroups(),
