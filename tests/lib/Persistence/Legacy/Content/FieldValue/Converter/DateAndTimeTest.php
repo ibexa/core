@@ -88,6 +88,43 @@ class DateAndTimeTest extends TestCase
      * @group fieldType
      * @group dateTime
      */
+    public function testToStorageValueNoTimestampKey(): void
+    {
+        $value = new FieldValue();
+        $value->data = [
+            'current_time' => $this->date->getTimestamp(),
+            'rfc850' => $this->date->format(DateTime::RFC850),
+        ];
+        $value->sortKey = $this->date->getTimestamp();
+        $storageFieldValue = new StorageFieldValue();
+
+        $this->converter->toStorageValue($value, $storageFieldValue);
+        self::assertNull($storageFieldValue->dataInt);
+        self::assertSame($value->sortKey, $storageFieldValue->sortKeyInt);
+        self::assertSame('', $storageFieldValue->sortKeyString);
+    }
+
+    /**
+     * @group fieldType
+     * @group dateTime
+     */
+    public function testToStorageValueValueDataNull(): void
+    {
+        $value = new FieldValue();
+        $value->data = null;
+        $value->sortKey = $this->date->getTimestamp();
+        $storageFieldValue = new StorageFieldValue();
+
+        $this->converter->toStorageValue($value, $storageFieldValue);
+        self::assertNull($storageFieldValue->dataInt);
+        self::assertSame($value->sortKey, $storageFieldValue->sortKeyInt);
+        self::assertSame('', $storageFieldValue->sortKeyString);
+    }
+
+    /**
+     * @group fieldType
+     * @group dateTime
+     */
     public function testToStorageFieldDefinitionWithAdjustment()
     {
         $storageFieldDef = new StorageFieldDefinition();
