@@ -435,11 +435,11 @@ tables:
             type: { type: string, nullable: false, length: 128, options: { default: '' } }
             created: { type: integer, nullable: false, options: { default: '0' } }
             data: { type: text, nullable: true }
-    ibexa_async_publication_job:
+    ibexa_content_async_publication_job:
         uniqueConstraints:
-            ibexa_async_publication_content: { fields: [content_id] }
+            ibexa_content_async_publication_job_content: { fields: [content_id] }
         indexes:
-            ibexa_async_publication_status: { fields: [status] }
+            ibexa_content_async_publication_job_status: { fields: [status] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:

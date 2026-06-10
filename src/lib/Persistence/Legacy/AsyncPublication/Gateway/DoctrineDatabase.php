@@ -16,7 +16,7 @@ use Ibexa\Core\Persistence\Legacy\AsyncPublication\Gateway;
 
 class DoctrineDatabase extends Gateway
 {
-    public const string TABLE_ASYNC_PUBLICATION = 'ibexa_async_publication';
+    public const string TABLE_ASYNC_PUBLICATION = 'ibexa_content_async_publication_job';
     public const string COLUMN_ID = 'id';
     public const string COLUMN_CONTENT_ID = 'content_id';
     public const string COLUMN_VERSION_NO = 'version_no';

@@ -12,7 +12,6 @@ use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\AsyncPublicationJo
 use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\Handler as HandlerInterface;
 use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\UpdateStruct;
-use Ibexa\Core\Base\Exceptions\NotFoundException;
 
 class Handler implements HandlerInterface
 {

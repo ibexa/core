@@ -8,24 +8,16 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Message;
 
-use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Core\Repository\ContentService\AsyncPublicationService;
 
 final class PublishContentAsyncHandler
 {
-    public function __construct(
-        private ContentService $contentService,
-    ) {
+    public function __construct(private AsyncPublicationService $asyncPublicationService)
+    {
     }
 
     public function __invoke(PublishContentAsync $message): void
     {
-        $versionInfo = $this->contentService->loadVersionInfoById($message->contentId, $message->versionNo);
-
-        $this->contentService->publishVersion(
-            $versionInfo,
-            [$versionInfo->getInitialLanguage()->getLanguageCode()],
-        );
-
-        // todo handle "publishing in progress" status
+        $this->asyncPublicationService->processPublication($message->contentId, $message->versionNo, $message->translations);
     }
 }

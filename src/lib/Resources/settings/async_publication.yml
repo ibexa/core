@@ -1,6 +1,8 @@
 services:
     Ibexa\Core\Repository\ContentService\AsyncPublicationService:
+        autowire: true
         arguments:
             $persistenceHandler: '@ibexa.spi.persistence.legacy.async_publication.handler'
-            $permissionResolver: '@Ibexa\Contracts\Core\Repository\PermissionResolver'
+            $bus: '@ibexa.messenger.bus'
+
         lazy: true
