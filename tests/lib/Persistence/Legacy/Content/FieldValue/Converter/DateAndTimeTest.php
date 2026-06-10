@@ -90,15 +90,8 @@ class DateAndTimeTest extends TestCase
     public function providerForTestToStorageValueMissingData(): array
     {
         return [
-            [
-                [
-                    'current_time' => 1048633200,
-                    'rfc850' => 'Thu, 01 Jan 2003 00:00:00 GMT',
-                ],
-            ],
-            [
-                null,
-            ]
+            [['current_time' => 1048633200, 'rfc850' => 'Thu, 01 Jan 2003 00:00:00 GMT']],
+            [null],
         ];
     }
 
