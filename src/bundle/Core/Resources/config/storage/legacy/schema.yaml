@@ -435,6 +435,22 @@ tables:
             type: { type: string, nullable: false, length: 128, options: { default: '' } }
             created: { type: integer, nullable: false, options: { default: '0' } }
             data: { type: text, nullable: true }
+    ibexa_async_publication_job:
+        uniqueConstraints:
+            ibexa_async_publication_content: { fields: [content_id] }
+        indexes:
+            ibexa_async_publication_status: { fields: [status] }
+        id:
+            id: { type: integer, nullable: false, options: { autoincrement: true } }
+        fields:
+            content_id: { type: integer, nullable: false, options: { default: '0' } }
+            version_no: { type: integer, nullable: false, options: { default: '0' } }
+            status: { type: string, nullable: false, length: 32, options: { default: 'queued' } }
+            owner_id: { type: integer, nullable: false, options: { default: '0' } }
+            created: { type: integer, nullable: false, options: { default: '0' } }
+            modified: { type: integer, nullable: false, options: { default: '0' } }
+            error: { type: text, nullable: true }
+            data: { type: text, nullable: true }
     ibexa_package:
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }

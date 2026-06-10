@@ -1,0 +1,6 @@
+services:
+    Ibexa\Core\Repository\ContentService\AsyncPublicationService:
+        arguments:
+            $persistenceHandler: '@ibexa.spi.persistence.legacy.async_publication.handler'
+            $permissionResolver: '@Ibexa\Contracts\Core\Repository\PermissionResolver'
+        lazy: true
