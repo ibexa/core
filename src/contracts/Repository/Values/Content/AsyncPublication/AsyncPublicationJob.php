@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Contracts\Core\Repository\Values\AsyncPublication;
+namespace Ibexa\Contracts\Core\Repository\Values\Content\AsyncPublication;
 
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 

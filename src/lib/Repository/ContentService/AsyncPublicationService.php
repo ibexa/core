@@ -12,14 +12,15 @@ use DateTime;
 use Exception;
 use Ibexa\Bundle\Core\Message\PublishContentAsync;
 use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\AsyncPublicationJob as SPIAsyncPublicationJob;
-use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\AsyncPublicationJobStatus;
+use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\AsyncPublicationJobStatus as SPIAsyncPublicationJobStatusAlias;
 use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\TransactionHandler;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
-use Ibexa\Contracts\Core\Repository\Values\AsyncPublication\AsyncPublicationJob as APIAsyncPublicationJob;
+use Ibexa\Contracts\Core\Repository\Values\Content\AsyncPublication\AsyncPublicationJob as APIAsyncPublicationJob;
+use Ibexa\Contracts\Core\Repository\Values\Content\AsyncPublication\AsyncPublicationJobStatus as APIAsyncPublicationJobStatus;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -54,7 +55,7 @@ class AsyncPublicationService
         $createStruct = new CreateStruct();
         $createStruct->contentId = $contentId;
         $createStruct->versionNo = $versionNo;
-        $createStruct->status = AsyncPublicationJobStatus::QUEUED;
+        $createStruct->status = SPIAsyncPublicationJobStatusAlias::QUEUED;
         $createStruct->ownerId = $this->permissionResolver->getCurrentUserReference()->getUserId();
         $createStruct->created = $now;
         $createStruct->modified = $now;
@@ -112,7 +113,7 @@ class AsyncPublicationService
     private function markProcessing(int $contentId): void
     {
         $updateStruct = new UpdateStruct();
-        $updateStruct->status = AsyncPublicationJobStatus::PROCESSING;
+        $updateStruct->status = SPIAsyncPublicationJobStatusAlias::PROCESSING;
         $updateStruct->modified = (new DateTime())->getTimestamp();
 
         $this->persistenceHandler->update($contentId, $updateStruct);
@@ -132,7 +133,7 @@ class AsyncPublicationService
     public function markFailed(int $contentId, string $errorMessage): void
     {
         $updateStruct = new UpdateStruct();
-        $updateStruct->status = AsyncPublicationJobStatus::FAILED;
+        $updateStruct->status = SPIAsyncPublicationJobStatusAlias::FAILED;
         $updateStruct->errorMessage = $errorMessage;
         $updateStruct->modified = (new DateTime())->getTimestamp();
 
@@ -154,7 +155,7 @@ class AsyncPublicationService
     /**
      * Return the in-flight and failed jobs (observability surface).
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\AsyncPublication\AsyncPublicationJob[]
+     * @return APIAsyncPublicationJob[]
      */
     public function findActivePublications(int $offset = 0, int $limit = 25): array
     {
@@ -178,7 +179,7 @@ class AsyncPublicationService
             'id' => $spiAsyncPublication->id,
             'contentId' => $spiAsyncPublication->contentId,
             'versionNo' => $spiAsyncPublication->versionNo,
-            'status' => $spiAsyncPublication->status->value,
+            'status' => APIAsyncPublicationJobStatus::from($spiAsyncPublication->status->value),
             'ownerId' => $spiAsyncPublication->ownerId,
             'created' => new DateTime("@{$spiAsyncPublication->created}"),
             'modified' => new DateTime("@{$spiAsyncPublication->modified}"),

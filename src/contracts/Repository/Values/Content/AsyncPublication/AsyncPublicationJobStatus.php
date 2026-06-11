@@ -5,7 +5,7 @@
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 
-namespace Ibexa\Contracts\Core\Repository\Values\AsyncPublication;
+namespace Ibexa\Contracts\Core\Repository\Values\Content\AsyncPublication;
 
 enum AsyncPublicationJobStatus: string
 {
