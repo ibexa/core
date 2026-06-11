@@ -121,8 +121,7 @@ class AsyncPublicationService
     /**
      * Mark the job for the given content as failed, retaining the error details.
      */
-    // @phpstan-ignore method.unused
-    private function markFailed(int $contentId, string $errorMessage): void
+    public function markFailed(int $contentId, string $errorMessage): void
     {
         $updateStruct = new UpdateStruct();
         $updateStruct->status = AsyncPublicationJobStatus::FAILED;

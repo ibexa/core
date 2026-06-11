@@ -380,3 +380,7 @@ services:
     Ibexa\Bundle\Core\Messenger\MessageProvider:
         tags:
             - ibexa.messenger.sender_message_provider
+
+    Ibexa\Bundle\Core\EventSubscriber\PublishContentAsyncFailureSubscriber:
+        autowire: true
+        autoconfigure: true
