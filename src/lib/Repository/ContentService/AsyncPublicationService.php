@@ -155,7 +155,7 @@ class AsyncPublicationService
     /**
      * Return the in-flight and failed jobs (observability surface).
      *
-     * @return APIAsyncPublicationJob[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\AsyncPublication\AsyncPublicationJob[]
      */
     public function findActivePublications(int $offset = 0, int $limit = 25): array
     {
