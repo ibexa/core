@@ -9,12 +9,14 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository\ContentService;
 
 use DateTime;
+use Exception;
 use Ibexa\Bundle\Core\Message\PublishContentAsync;
 use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\AsyncPublicationJob as SPIAsyncPublicationJob;
 use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\AsyncPublicationJobStatus;
 use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\UpdateStruct;
+use Ibexa\Contracts\Core\Persistence\TransactionHandler;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\AsyncPublication\AsyncPublicationJob as APIAsyncPublicationJob;
@@ -34,11 +36,12 @@ class AsyncPublicationService
         private PermissionResolver $permissionResolver,
         private MessageBusInterface $bus,
         private ContentService $contentService,
+        private TransactionHandler $transactionHandler,
     ) {
     }
 
     /**
-     * Record (or supersede) a background publication job for the given content and mark it queued.
+     * Record a background publication job for the given content and mark it queued.
      *
      * Enforces "one active job per content".
      *
@@ -57,17 +60,23 @@ class AsyncPublicationService
         $createStruct->modified = $now;
         $createStruct->data = ['translations' => $translations];
 
-        // todo handle db transaction
+        $this->transactionHandler->beginTransaction();
+        try {
+            $this->persistenceHandler->register($createStruct);
 
-        $this->persistenceHandler->register($createStruct);
+            $this->bus->dispatch(
+                new PublishContentAsync(
+                    $contentId,
+                    $versionNo,
+                    $translations,
+                ),
+            );
 
-        $this->bus->dispatch(
-            new PublishContentAsync(
-                $contentId,
-                $versionNo,
-                $translations,
-            ),
-        );
+            $this->transactionHandler->commit();
+        } catch (Exception $exception) {
+            $this->transactionHandler->rollback();
+            throw $exception;
+        }
     }
 
     /**
@@ -79,23 +88,22 @@ class AsyncPublicationService
 
         $versionInfo = $this->contentService->loadVersionInfoById($contentId, $versionNo);
 
-        // todo handle db transaction
-        /** todo handle errors:
-         *   after EACH processing try:
-         *   - job stays in current processing status
-         *   - message is rejected then restarted accordingly to transport retry strategy
-         *   after LAST messenger handling try:
-         *   - job should be in failed status
-         *   - message should be rejected accordingly
-         */
-        $this->contentService->publishVersion(
-            $versionInfo,
-            $translations,
-        );
+        $this->transactionHandler->beginTransaction();
+        try {
+            $this->contentService->publishVersion(
+                $versionInfo,
+                $translations,
+            );
 
-        // The new published version now exists; clearing the job clears the AdminUI "in progress" indicator.
-        // On failure the job is left in place and marked failed by PublishContentAsyncFailureSubscriber.
-        $this->markCompleted($contentId);
+            // The new published version now exists; clearing the job clears the AdminUI "in progress" indicator.
+            // On failure the job is left in place and marked failed by PublishContentAsyncFailureSubscriber.
+            $this->markCompleted($contentId);
+
+            $this->transactionHandler->commit();
+        } catch (Exception $exception) {
+            $this->transactionHandler->rollback();
+            throw $exception;
+        }
     }
 
     /**
