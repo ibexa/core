@@ -65,6 +65,7 @@ class AsyncPublicationService
         try {
             $this->persistenceHandler->register($createStruct);
 
+            // todo dispatch after current bus? check flow order
             $this->bus->dispatch(
                 new PublishContentAsync(
                     $contentId,
@@ -81,36 +82,28 @@ class AsyncPublicationService
     }
 
     /**
+     * Perform the actual (heavy) publication of the given version.
+     *
+     * Job status transitions (processing/completed/failed) are driven separately by the AdminUI
+     * AsyncPublicationStatusSubscriber, which reacts to the Messenger worker lifecycle events
+     * surrounding this call and also notifies the UI via Mercure.
+     *
      * @param string[] $translations
      */
     public function processPublication(int $contentId, int $versionNo, array $translations): void
     {
-        $this->markProcessing($contentId);
-
         $versionInfo = $this->contentService->loadVersionInfoById($contentId, $versionNo);
 
-        $this->transactionHandler->beginTransaction();
-        try {
-            $this->contentService->publishVersion(
-                $versionInfo,
-                $translations,
-            );
-
-            // The new published version now exists; clearing the job clears the AdminUI "in progress" indicator.
-            // On failure the job is left in place and marked failed by PublishContentAsyncFailureSubscriber.
-            $this->markCompleted($contentId);
-
-            $this->transactionHandler->commit();
-        } catch (Exception $exception) {
-            $this->transactionHandler->rollback();
-            throw $exception;
-        }
+        $this->contentService->publishVersion(
+            $versionInfo,
+            $translations,
+        );
     }
 
     /**
      * Mark the job for the given content as being processed by a worker.
      */
-    private function markProcessing(int $contentId): void
+    public function markProcessing(int $contentId): void
     {
         $updateStruct = new UpdateStruct();
         $updateStruct->status = SPIAsyncPublicationJobStatusAlias::PROCESSING;
@@ -122,7 +115,7 @@ class AsyncPublicationService
     /**
      * Clear the job for the given content once its publication has completed successfully.
      */
-    private function markCompleted(int $contentId): void
+    public function markCompleted(int $contentId): void
     {
         $this->persistenceHandler->remove($contentId);
     }
