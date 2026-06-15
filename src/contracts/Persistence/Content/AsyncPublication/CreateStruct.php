@@ -18,6 +18,9 @@ class CreateStruct extends ValueObject
     /** @var int */
     public $versionNo;
 
+    /** @var int */
+    public $transportMessageId;
+
     public AsyncPublicationJobStatus $status;
 
     /** @var int */

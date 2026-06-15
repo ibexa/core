@@ -20,6 +20,7 @@ class DoctrineDatabase extends Gateway
     public const string COLUMN_ID = 'id';
     public const string COLUMN_CONTENT_ID = 'content_id';
     public const string COLUMN_VERSION_NO = 'version_no';
+    public const string COLUMN_TRANSPORT_MESSAGE_ID = 'transport_message_id';
     public const string COLUMN_STATUS = 'status';
     public const string COLUMN_OWNER_ID = 'owner_id';
     public const string COLUMN_CREATED = 'created';
@@ -40,6 +41,7 @@ class DoctrineDatabase extends Gateway
             ->values([
                 self::COLUMN_CONTENT_ID => ':content_id',
                 self::COLUMN_VERSION_NO => ':version_no',
+                self::COLUMN_TRANSPORT_MESSAGE_ID => ':transport_message_id',
                 self::COLUMN_STATUS => ':status',
                 self::COLUMN_OWNER_ID => ':owner_id',
                 self::COLUMN_CREATED => ':created',
@@ -48,6 +50,7 @@ class DoctrineDatabase extends Gateway
             ])
             ->setParameter('content_id', $createStruct->contentId, ParameterType::INTEGER)
             ->setParameter('version_no', $createStruct->versionNo, ParameterType::INTEGER)
+            ->setParameter('transport_message_id', $createStruct->transportMessageId, ParameterType::INTEGER)
             ->setParameter('status', $createStruct->status->value, ParameterType::STRING)
             ->setParameter('owner_id', $createStruct->ownerId, ParameterType::INTEGER)
             ->setParameter('created', $createStruct->created, ParameterType::INTEGER)

@@ -22,7 +22,9 @@ use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\AsyncPublication\AsyncPublicationJob as APIAsyncPublicationJob;
 use Ibexa\Contracts\Core\Repository\Values\Content\AsyncPublication\AsyncPublicationJobStatus as APIAsyncPublicationJobStatus;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
+use RuntimeException;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\TransportMessageIdStamp;
 
 /**
  * Tracks background (asynchronous) content publication jobs so that AdminUI can surface
@@ -52,27 +54,36 @@ class AsyncPublicationService
     {
         $now = (new DateTime())->getTimestamp();
 
-        $createStruct = new CreateStruct();
-        $createStruct->contentId = $contentId;
-        $createStruct->versionNo = $versionNo;
-        $createStruct->status = SPIAsyncPublicationJobStatusAlias::QUEUED;
-        $createStruct->ownerId = $this->permissionResolver->getCurrentUserReference()->getUserId();
-        $createStruct->created = $now;
-        $createStruct->modified = $now;
-        $createStruct->data = ['translations' => $translations];
-
         $this->transactionHandler->beginTransaction();
         try {
-            $this->persistenceHandler->register($createStruct);
-
-            // todo dispatch after current bus? check flow order
-            $this->bus->dispatch(
+            $envelope = $this->bus->dispatch(
                 new PublishContentAsync(
                     $contentId,
                     $versionNo,
                     $translations,
                 ),
             );
+
+            $transportMessageIdStamp = $envelope->last(TransportMessageIdStamp::class);
+            if ($transportMessageIdStamp === null) {
+                throw new RuntimeException(sprintf(
+                    'Expected a TransportMessageIdStamp on the dispatched PublishContentAsync message for content #%d. '
+                    . 'Asynchronous content publication requires the message to be routed to an asynchronous Messenger transport.',
+                    $contentId,
+                ));
+            }
+
+            $createStruct = new CreateStruct();
+            $createStruct->contentId = $contentId;
+            $createStruct->versionNo = $versionNo;
+            $createStruct->status = SPIAsyncPublicationJobStatusAlias::QUEUED;
+            $createStruct->ownerId = $this->permissionResolver->getCurrentUserReference()->getUserId();
+            $createStruct->created = $now;
+            $createStruct->modified = $now;
+            $createStruct->transportMessageId = (int) $transportMessageIdStamp->getId();
+            $createStruct->data = ['translations' => $translations];
+
+            $this->persistenceHandler->register($createStruct);
 
             $this->transactionHandler->commit();
         } catch (Exception $exception) {
