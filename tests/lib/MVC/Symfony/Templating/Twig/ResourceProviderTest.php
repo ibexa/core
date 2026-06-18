@@ -93,7 +93,7 @@ class ResourceProviderTest extends TestCase
      *
      * Make sure returned resource lists are not sorted as ResourceProvider is sorting them
      *
-     * @return \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     protected function getConfigResolverMock(): ConfigResolverInterface
     {

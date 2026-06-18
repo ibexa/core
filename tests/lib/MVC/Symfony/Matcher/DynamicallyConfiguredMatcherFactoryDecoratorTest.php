@@ -7,10 +7,11 @@
 
 namespace Ibexa\Tests\Core\MVC\Symfony\Matcher;
 
-use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Matcher\ClassNameMatcherFactory;
 use Ibexa\Core\MVC\Symfony\Matcher\DynamicallyConfiguredMatcherFactoryDecorator;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class DynamicallyConfiguredMatcherFactoryDecoratorTest extends TestCase
@@ -18,13 +19,12 @@ class DynamicallyConfiguredMatcherFactoryDecoratorTest extends TestCase
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ConfigurableMatcherFactoryInterface */
     private $innerMatcherFactory;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface & MockObject $configResolver;
 
     public function setUp(): void
     {
         $innerMatcherFactory = $this->createMock(ClassNameMatcherFactory::class);
-        $configResolver = $this->createMock(ConfigResolver::class);
+        $configResolver = $this->createMock(ConfigResolverInterface::class);
 
         $this->innerMatcherFactory = $innerMatcherFactory;
         $this->configResolver = $configResolver;

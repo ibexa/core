@@ -16,7 +16,7 @@ use League\Flysystem\Visibility;
  * @internal
  *
  * SiteAccess-aware Flysystem Visibility Converter (strategy of BaseVisibilityConverter).
- * Relies on ConfigResolver to fetch expected public files and directories permission configuration.
+ * Relies on ConfigResolverInterface to fetch expected public files and directories permission configuration.
  *
  * @see \Ibexa\Core\IO\Flysystem\VisibilityConverter\BaseVisibilityConverter
  * @see \League\Flysystem\Visibility

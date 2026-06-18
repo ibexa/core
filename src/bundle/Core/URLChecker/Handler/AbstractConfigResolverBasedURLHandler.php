@@ -11,7 +11,7 @@ use Ibexa\Contracts\Core\Repository\URLService;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 
 /**
- * URLHandler based on ConfigResolver configured using $parameterName, $namespace and $scope properties.
+ * URLHandler based on ConfigResolverInterface configured using $parameterName, $namespace and $scope properties.
  */
 abstract class AbstractConfigResolverBasedURLHandler extends AbstractURLHandler
 {

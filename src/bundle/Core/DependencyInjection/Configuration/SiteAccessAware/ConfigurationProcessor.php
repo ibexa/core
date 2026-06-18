@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Processor for SiteAccess aware configuration processing.
  * Use it when you want to map SiteAccess dependent semantic configuration to internal settings, readable
- * with the ConfigResolver.
+ * with the ConfigResolverInterface.
  *
  * @phpstan-type TCallableConfigurationMapper callable(array<string, mixed>, string, ContextualizerInterface): void
  */
