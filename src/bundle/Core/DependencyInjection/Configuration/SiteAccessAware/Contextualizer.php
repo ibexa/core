@@ -7,7 +7,7 @@
 
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware;
 
-use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Contextualizer implements ContextualizerInterface
