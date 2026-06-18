@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * @covers \Ibexa\Bundle\Core\DependencyInjection\Compiler\ChainConfigResolverPass
  */
-class ChainConfigResolverPassTest extends AbstractCompilerPassTestCase
+final class ChainConfigResolverPassTest extends AbstractCompilerPassTestCase
 {
     protected function setUp(): void
     {
@@ -37,12 +37,9 @@ class ChainConfigResolverPassTest extends AbstractCompilerPassTestCase
     }
 
     /**
-     * @param int|null $declaredPriority
-     * @param int $expectedPriority
-     *
      * @dataProvider addResolverProvider
      */
-    public function testAddResolver($declaredPriority, $expectedPriority)
+    public function testTaggedResolverAddedToConstructor(?int $declaredPriority, int $expectedPriority): void
     {
         $resolverDef = new Definition();
         $serviceId = 'some_service_id';
@@ -56,14 +53,17 @@ class ChainConfigResolverPassTest extends AbstractCompilerPassTestCase
         $this->setDefinition($serviceId, $resolverDef);
         $this->compile();
 
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
             ChainConfigResolver::class,
-            'addResolver',
-            [new Reference($serviceId), $expectedPriority]
+            '$resolvers',
+            [$expectedPriority => new Reference($serviceId)],
         );
     }
 
-    public function addResolverProvider()
+    /**
+     * @return iterable<array{int|null, int}>
+     */
+    public function addResolverProvider(): iterable
     {
         return [
             [null, 0],

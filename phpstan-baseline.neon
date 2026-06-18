@@ -19885,18 +19885,6 @@ parameters:
 			path: tests/bundle/Core/ConfigResolverTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Compiler\\ChainConfigResolverPassTest\:\:addResolverProvider\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/DependencyInjection/Compiler/ChainConfigResolverPassTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Compiler\\ChainConfigResolverPassTest\:\:testAddResolver\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/DependencyInjection/Compiler/ChainConfigResolverPassTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Compiler\\ChainRoutingPassTest\:\:addRouterProvider\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
