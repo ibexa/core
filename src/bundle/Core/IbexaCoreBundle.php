@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core;
 
+use Ibexa\Bundle\Core\DependencyInjection\Compiler\AsyncContentPublisherStrategyPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\AsyncContentPublishTransportGuardPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\BinaryContentDownloadPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\ChainConfigResolverPass;
@@ -98,6 +99,7 @@ final class IbexaCoreBundle extends Bundle
         $container->addCompilerPass(new TranslationCollectorPass());
         $container->addCompilerPass(new SlugConverterConfigurationPass());
         $container->addCompilerPass(new AsyncContentPublishTransportGuardPass());
+        $container->addCompilerPass(new AsyncContentPublisherStrategyPass());
 
         $container->registerForAutoconfiguration(VariableProvider::class)->addTag('ezplatform.view.variable_provider');
 
