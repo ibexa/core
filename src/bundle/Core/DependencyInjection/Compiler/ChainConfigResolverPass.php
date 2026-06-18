@@ -12,6 +12,9 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
+/**
+ * @deprecated 5.0.9 "ChainConfigResolverPass" is deprecated. Use service 'ibexa.site.config.resolver' tag instead.
+ */
 class ChainConfigResolverPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
@@ -21,9 +24,10 @@ class ChainConfigResolverPass implements CompilerPassInterface
         }
 
         $chainResolver = $container->getDefinition(ChainConfigResolver::class);
+        $references = [];
 
         foreach ($container->findTaggedServiceIds('ibexa.site.config.resolver') as $id => $attributes) {
-            $priority = isset($attributes[0]['priority']) ? (int)$attributes[0]['priority'] : 0;
+            $priority = (int)($attributes[0]['priority'] ?? 0);
             if ($priority > 255) {
                 $priority = 255;
             }
@@ -31,13 +35,9 @@ class ChainConfigResolverPass implements CompilerPassInterface
                 $priority = -255;
             }
 
-            $chainResolver->addMethodCall(
-                'addResolver',
-                [
-                    new Reference($id),
-                    $priority,
-                ]
-            );
+            $references[$priority] = new Reference($id);
         }
+
+        $chainResolver->setArgument('$resolvers', $references);
     }
 }

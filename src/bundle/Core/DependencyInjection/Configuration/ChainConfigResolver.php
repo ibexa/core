@@ -10,19 +10,44 @@ namespace Ibexa\Bundle\Core\DependencyInjection\Configuration;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
 
+/**
+ * @final "ChainConfigResolver" class will be final in 6.0
+ */
 class ChainConfigResolver implements ConfigResolverInterface
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface[] */
+    /**
+     * @private 5.0.9 "ChainConfigResolver::$resolvers" property will be private in 6.0
+     *
+     * @var array<int, array<\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface>>
+     */
     protected $resolvers = [];
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface[] */
+    /**
+     * @deprecated 5.0.9 "ChainConfigResolver::$sortedResolvers" property is deprecated, will be removed in 6.0
+     *
+     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface[]
+     */
     protected $sortedResolvers;
 
     /**
+     * Note: in 6.0, resolvers will be ordered by priority on injection, using tag with priority.
+     *
+     * @param iterable<int, \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface> $resolvers
+     */
+    public function __construct(
+        iterable $resolvers = [],
+    ) {
+        foreach ($resolvers as $priority => $resolver) {
+            $this->addResolver($resolver, $priority);
+        }
+    }
+
+    /**
+     * @deprecated 5.0.9 The "ChainConfigResolver::addResolver()" method is deprecated, will be removed in 6.0. Use service 'ibexa.site.config.resolver' tag instead.
+     *
      * Registers $mapper as a valid mapper to be used in the configuration mapping chain.
      * When this mapper will be called in the chain depends on $priority. The highest $priority is, the earliest the router will be called.
      *
-     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $resolver
      * @param int $priority
      */
     public function addResolver(ConfigResolverInterface $resolver, $priority = 0)
@@ -37,6 +62,8 @@ class ChainConfigResolver implements ConfigResolverInterface
     }
 
     /**
+     * @deprecated 5.0.9 "ChainConfigResolver::getAllResolvers" method is deprecated, will be removed in 6.0.
+     *
      * @return \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface[]
      */
     public function getAllResolvers()
@@ -49,6 +76,8 @@ class ChainConfigResolver implements ConfigResolverInterface
     }
 
     /**
+     * @deprecated 5.0.9 The "ChainConfigResolver::sortResolvers()" method is deprecated, will be removed in 6.0.
+     *
      * Sort the registered mappers by priority.
      * The highest priority number is the highest priority (reverse sorting).
      *

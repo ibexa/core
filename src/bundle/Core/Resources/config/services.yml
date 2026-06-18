@@ -54,6 +54,10 @@ services:
 
     Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver:
         public: true # @todo should be private
+        arguments:
+            $resolvers: !abstract configured in Ibexa\Bundle\Core\DependencyInjection\Compiler\ChainConfigResolverPass
+            # in 6.0
+            # $resolvers: !tagged_iterator ibexa.site.config.resolver
 
     ibexa.config.resolver:
         public: true # @todo should be private
