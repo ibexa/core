@@ -11,6 +11,7 @@ namespace Ibexa\Core\Repository\ContentService;
 use DateTime;
 use Exception;
 use Ibexa\Bundle\Core\Message\PublishContentAsync;
+use Ibexa\Bundle\Messenger\Stamp\UserPermissionStamp;
 use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\AsyncPublicationJob as SPIAsyncPublicationJob;
 use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\AsyncPublicationJobStatus as SPIAsyncPublicationJobStatusAlias;
 use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\CreateStruct;
@@ -53,6 +54,7 @@ class AsyncPublicationService
     public function registerPublication(int $contentId, int $versionNo, array $translations = Language::ALL): void
     {
         $now = (new DateTime())->getTimestamp();
+        $userId = $this->permissionResolver->getCurrentUserReference()->getUserId();
 
         $this->transactionHandler->beginTransaction();
         try {
@@ -62,6 +64,7 @@ class AsyncPublicationService
                     $versionNo,
                     $translations,
                 ),
+                [new UserPermissionStamp($userId)],
             );
 
             $transportMessageIdStamp = $envelope->last(TransportMessageIdStamp::class);
@@ -77,7 +80,7 @@ class AsyncPublicationService
             $createStruct->contentId = $contentId;
             $createStruct->versionNo = $versionNo;
             $createStruct->status = SPIAsyncPublicationJobStatusAlias::QUEUED;
-            $createStruct->ownerId = $this->permissionResolver->getCurrentUserReference()->getUserId();
+            $createStruct->ownerId = $userId;
             $createStruct->created = $now;
             $createStruct->modified = $now;
             $createStruct->transportMessageId = (int) $transportMessageIdStamp->getId();
