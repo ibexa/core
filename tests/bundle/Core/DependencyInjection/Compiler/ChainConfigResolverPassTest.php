@@ -41,22 +41,33 @@ final class ChainConfigResolverPassTest extends AbstractCompilerPassTestCase
      */
     public function testTaggedResolverAddedToConstructor(?int $declaredPriority, int $expectedPriority): void
     {
-        $resolverDef = new Definition();
-        $serviceId = 'some_service_id';
-        $resolverDef->addTag(
+        $resolverDef1 = new Definition();
+        $resolverDef1->addTag(
             'ibexa.site.config.resolver',
             null !== $declaredPriority
                 ? ['priority' => $declaredPriority]
                 : []
         );
 
-        $this->setDefinition($serviceId, $resolverDef);
+        $resolverDef2 = new Definition();
+        $resolverDef2->addTag(
+            'ibexa.site.config.resolver',
+            null !== $declaredPriority
+                ? ['priority' => $declaredPriority]
+                : []
+        );
+
+        $this->setDefinition('some_service_id', $resolverDef1);
+        $this->setDefinition('some_service_id_2', $resolverDef2);
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithArgument(
             ChainConfigResolver::class,
             '$resolvers',
-            [$expectedPriority => new Reference($serviceId)],
+            [$expectedPriority => [
+                new Reference('some_service_id'),
+                new Reference('some_service_id_2'),
+            ]],
         );
     }
 

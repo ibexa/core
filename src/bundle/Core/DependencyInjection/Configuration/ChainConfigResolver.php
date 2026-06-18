@@ -32,13 +32,15 @@ class ChainConfigResolver implements ConfigResolverInterface
     /**
      * Note: in 6.0, resolvers will be ordered by priority on injection, using tag with priority.
      *
-     * @param iterable<int, \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface> $resolvers
+     * @param iterable<int, array<\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface>> $resolvers
      */
     public function __construct(
         iterable $resolvers = [],
     ) {
-        foreach ($resolvers as $priority => $resolver) {
-            $this->addResolver($resolver, $priority);
+        foreach ($resolvers as $priority => $priorityResolvers) {
+            foreach ($priorityResolvers as $resolver) {
+                $this->addResolver($resolver, $priority);
+            }
         }
     }
 

@@ -35,7 +35,7 @@ class ChainConfigResolverPass implements CompilerPassInterface
                 $priority = -255;
             }
 
-            $references[$priority] = new Reference($id);
+            $references[$priority][] = new Reference($id);
         }
 
         $chainResolver->setArgument('$resolvers', $references);
