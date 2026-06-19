@@ -24,9 +24,9 @@ abstract class Gateway
     abstract public function findByContentId(int $contentId): array;
 
     /**
-     * Update the job tracked for the given content with the non-null values of $updateStruct.
+     * Update the job tracked for the given content version with the non-null values of $updateStruct.
      */
-    abstract public function updateByContentId(int $contentId, UpdateStruct $updateStruct): void;
+    abstract public function updateByContentIdAndVersion(int $contentId, int $versionNo, UpdateStruct $updateStruct): void;
 
     /**
      * @return array<int, array<string, mixed>>
@@ -38,5 +38,26 @@ abstract class Gateway
      */
     abstract public function countAll(): int;
 
-    abstract public function deleteByContentId(int $contentId): void;
+    abstract public function deleteByContentIdAndVersion(int $contentId, int $versionNo): void;
+
+    /**
+     * Return the content ids that have at least one job awaiting dispatch (queued with no transport
+     * message id) and no job currently in flight (dispatched or processing) for that content.
+     *
+     * @return int[]
+     */
+    abstract public function findContentIdsWithDispatchableWork(): array;
+
+    /**
+     * Return the oldest (by creation order) job for the content that is queued and not yet dispatched,
+     * or an empty array when there is none.
+     *
+     * @return array<string, mixed>
+     */
+    abstract public function findOldestQueuedForContent(int $contentId): array;
+
+    /**
+     * Record the Messenger transport message id on a job once its message has been sent.
+     */
+    abstract public function assignTransportMessageId(int $id, int $transportMessageId, int $modified): void;
 }

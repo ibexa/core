@@ -10,8 +10,6 @@ namespace Ibexa\Core\Repository\ContentService;
 
 use DateTime;
 use Exception;
-use Ibexa\Bundle\Core\Message\PublishContentAsync;
-use Ibexa\Bundle\Messenger\Stamp\UserPermissionStamp;
 use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\AsyncPublicationJob as SPIAsyncPublicationJob;
 use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\AsyncPublicationJobStatus as SPIAsyncPublicationJobStatusAlias;
 use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\CreateStruct;
@@ -23,31 +21,32 @@ use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\AsyncPublication\AsyncPublicationJob as APIAsyncPublicationJob;
 use Ibexa\Contracts\Core\Repository\Values\Content\AsyncPublication\AsyncPublicationJobStatus as APIAsyncPublicationJobStatus;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
-use RuntimeException;
-use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Messenger\Stamp\TransportMessageIdStamp;
 
 /**
  * Tracks background (asynchronous) content publication jobs so that AdminUI can surface
  * "publishing in progress" / "failed" state and operators can see in-flight and stuck jobs.
  *
  * The job store is the source of truth for the UI state; Symfony Messenger owns the actual queue.
+ * Registering a job only records it as queued; releasing the message onto the transport (one in
+ * flight per content at a time) is the {@see AsyncPublicationDispatcher}'s responsibility.
  */
 class AsyncPublicationService
 {
     public function __construct(
         private Handler $persistenceHandler,
         private PermissionResolver $permissionResolver,
-        private MessageBusInterface $bus,
+        private AsyncPublicationDispatcher $dispatcher,
         private ContentService $contentService,
         private TransactionHandler $transactionHandler,
     ) {
     }
 
     /**
-     * Record a background publication job for the given content and mark it queued.
+     * Record a background publication job for the given content version and mark it queued, then
+     * trigger the dispatcher to release the next eligible message onto the transport.
      *
-     * Enforces "one active job per content".
+     * Multiple versions of the same content may be queued; the dispatcher serialises them so only
+     * one is in flight per content at a time, in creation order.
      *
      * @param list<string> $translations
      */
@@ -58,24 +57,6 @@ class AsyncPublicationService
 
         $this->transactionHandler->beginTransaction();
         try {
-            $envelope = $this->bus->dispatch(
-                new PublishContentAsync(
-                    $contentId,
-                    $versionNo,
-                    $translations,
-                ),
-                [new UserPermissionStamp($userId)],
-            );
-
-            $transportMessageIdStamp = $envelope->last(TransportMessageIdStamp::class);
-            if ($transportMessageIdStamp === null) {
-                throw new RuntimeException(sprintf(
-                    'Expected a TransportMessageIdStamp on the dispatched PublishContentAsync message for content #%d. '
-                    . 'Asynchronous content publication requires the message to be routed to an asynchronous Messenger transport.',
-                    $contentId,
-                ));
-            }
-
             $createStruct = new CreateStruct();
             $createStruct->contentId = $contentId;
             $createStruct->versionNo = $versionNo;
@@ -83,7 +64,7 @@ class AsyncPublicationService
             $createStruct->ownerId = $userId;
             $createStruct->created = $now;
             $createStruct->modified = $now;
-            $createStruct->transportMessageId = (int) $transportMessageIdStamp->getId();
+            // transportMessageId stays null until the dispatcher actually sends the message.
             $createStruct->data = ['translations' => $translations];
 
             $this->persistenceHandler->register($createStruct);
@@ -93,6 +74,10 @@ class AsyncPublicationService
             $this->transactionHandler->rollback();
             throw $exception;
         }
+
+        // After commit (so the new job is visible) and outside the DB transaction (so the Messenger
+        // dispatch and its deduplication lock are not entangled with it), release the next message(s).
+        $this->dispatcher->dispatchQueued();
     }
 
     /**
@@ -115,48 +100,49 @@ class AsyncPublicationService
     }
 
     /**
-     * Mark the job for the given content as being processed by a worker.
+     * Mark the job for the given content version as being processed by a worker.
      */
-    public function markProcessing(int $contentId): void
+    public function markProcessing(int $contentId, int $versionNo): void
     {
         $updateStruct = new UpdateStruct();
         $updateStruct->status = SPIAsyncPublicationJobStatusAlias::PROCESSING;
         $updateStruct->modified = (new DateTime())->getTimestamp();
 
-        $this->persistenceHandler->update($contentId, $updateStruct);
+        $this->persistenceHandler->update($contentId, $versionNo, $updateStruct);
     }
 
     /**
-     * Clear the job for the given content once its publication has completed successfully.
+     * Clear the job for the given content version once its publication has completed successfully.
      */
-    public function markCompleted(int $contentId): void
+    public function markCompleted(int $contentId, int $versionNo): void
     {
-        $this->persistenceHandler->remove($contentId);
+        $this->persistenceHandler->remove($contentId, $versionNo);
     }
 
     /**
-     * Mark the job for the given content as failed, retaining the error details.
+     * Mark the job for the given content version as failed, retaining the error details.
      */
-    public function markFailed(int $contentId, string $errorMessage): void
+    public function markFailed(int $contentId, int $versionNo, string $errorMessage): void
     {
         $updateStruct = new UpdateStruct();
         $updateStruct->status = SPIAsyncPublicationJobStatusAlias::FAILED;
         $updateStruct->errorMessage = $errorMessage;
         $updateStruct->modified = (new DateTime())->getTimestamp();
 
-        $this->persistenceHandler->update($contentId, $updateStruct);
+        $this->persistenceHandler->update($contentId, $versionNo, $updateStruct);
     }
 
     /**
-     * Return the job tracked for the given content, or null when none is in flight.
+     * Return all jobs tracked for the given content (one per version), in creation order.
+     *
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\AsyncPublication\AsyncPublicationJob[]
      */
-    public function getPublicationForContent(int $contentId): ?APIAsyncPublicationJob
+    public function getPublicationsForContent(int $contentId): array
     {
-        $spiAsyncPublication = $this->persistenceHandler->getByContentId($contentId);
-
-        return $spiAsyncPublication !== null
-            ? $this->buildDomainObject($spiAsyncPublication)
-            : null;
+        return array_map(
+            fn (SPIAsyncPublicationJob $spiAsyncPublication): APIAsyncPublicationJob => $this->buildDomainObject($spiAsyncPublication),
+            $this->persistenceHandler->findByContentId($contentId)
+        );
     }
 
     /**

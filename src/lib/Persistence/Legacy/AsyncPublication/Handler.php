@@ -26,18 +26,16 @@ class Handler implements HandlerInterface
         $this->gateway->insert($createStruct);
     }
 
-    public function update(int $contentId, UpdateStruct $updateStruct): void
+    public function update(int $contentId, int $versionNo, UpdateStruct $updateStruct): void
     {
-        $this->gateway->updateByContentId($contentId, $updateStruct);
+        $this->gateway->updateByContentIdAndVersion($contentId, $versionNo, $updateStruct);
     }
 
-    public function getByContentId(int $contentId): ?AsyncPublicationJob
+    public function findByContentId(int $contentId): array
     {
-        $asyncPublications = $this->mapper->extractAsyncPublicationsFromRows(
+        return $this->mapper->extractAsyncPublicationsFromRows(
             $this->gateway->findByContentId($contentId)
         );
-
-        return $asyncPublications[0] ?? null;
     }
 
     public function find(int $offset = 0, int $limit = -1): array
@@ -52,8 +50,30 @@ class Handler implements HandlerInterface
         return $this->gateway->countAll();
     }
 
-    public function remove(int $contentId): void
+    public function remove(int $contentId, int $versionNo): void
     {
-        $this->gateway->deleteByContentId($contentId);
+        $this->gateway->deleteByContentIdAndVersion($contentId, $versionNo);
+    }
+
+    public function findContentIdsWithDispatchableWork(): array
+    {
+        return $this->gateway->findContentIdsWithDispatchableWork();
+    }
+
+    public function findOldestQueuedForContent(int $contentId): ?AsyncPublicationJob
+    {
+        $row = $this->gateway->findOldestQueuedForContent($contentId);
+        if ($row === []) {
+            return null;
+        }
+
+        $jobs = $this->mapper->extractAsyncPublicationsFromRows([$row]);
+
+        return $jobs[0] ?? null;
+    }
+
+    public function assignTransportMessageId(int $id, int $transportMessageId, int $modified): void
+    {
+        $this->gateway->assignTransportMessageId($id, $transportMessageId, $modified);
     }
 }

@@ -10,6 +10,7 @@ namespace Ibexa\Core\Persistence\Legacy\AsyncPublication\Gateway;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
+use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\AsyncPublicationJobStatus;
 use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\UpdateStruct;
 use Ibexa\Core\Persistence\Legacy\AsyncPublication\Gateway;
@@ -50,7 +51,11 @@ class DoctrineDatabase extends Gateway
             ])
             ->setParameter('content_id', $createStruct->contentId, ParameterType::INTEGER)
             ->setParameter('version_no', $createStruct->versionNo, ParameterType::INTEGER)
-            ->setParameter('transport_message_id', $createStruct->transportMessageId, ParameterType::INTEGER)
+            ->setParameter(
+                'transport_message_id',
+                $createStruct->transportMessageId,
+                $createStruct->transportMessageId === null ? ParameterType::NULL : ParameterType::INTEGER
+            )
             ->setParameter('status', $createStruct->status->value, ParameterType::STRING)
             ->setParameter('owner_id', $createStruct->ownerId, ParameterType::INTEGER)
             ->setParameter('created', $createStruct->created, ParameterType::INTEGER)
@@ -69,18 +74,22 @@ class DoctrineDatabase extends Gateway
             ->select(...$this->getColumns())
             ->from(self::TABLE_ASYNC_PUBLICATION)
             ->where($query->expr()->eq(self::COLUMN_CONTENT_ID, ':content_id'))
+            ->orderBy(self::COLUMN_CREATED, 'ASC')
+            ->addOrderBy(self::COLUMN_ID, 'ASC')
             ->setParameter('content_id', $contentId, ParameterType::INTEGER);
 
         return $query->executeQuery()->fetchAllAssociative();
     }
 
-    public function updateByContentId(int $contentId, UpdateStruct $updateStruct): void
+    public function updateByContentIdAndVersion(int $contentId, int $versionNo, UpdateStruct $updateStruct): void
     {
         $query = $this->connection->createQueryBuilder();
         $query
             ->update(self::TABLE_ASYNC_PUBLICATION)
             ->where($query->expr()->eq(self::COLUMN_CONTENT_ID, ':content_id'))
-            ->setParameter('content_id', $contentId, ParameterType::INTEGER);
+            ->andWhere($query->expr()->eq(self::COLUMN_VERSION_NO, ':version_no'))
+            ->setParameter('content_id', $contentId, ParameterType::INTEGER)
+            ->setParameter('version_no', $versionNo, ParameterType::INTEGER);
 
         $hasChange = false;
 
@@ -136,13 +145,77 @@ class DoctrineDatabase extends Gateway
         return (int) $query->executeQuery()->fetchOne();
     }
 
-    public function deleteByContentId(int $contentId): void
+    public function deleteByContentIdAndVersion(int $contentId, int $versionNo): void
     {
         $query = $this->connection->createQueryBuilder();
         $query
             ->delete(self::TABLE_ASYNC_PUBLICATION)
             ->where($query->expr()->eq(self::COLUMN_CONTENT_ID, ':content_id'))
-            ->setParameter('content_id', $contentId, ParameterType::INTEGER);
+            ->andWhere($query->expr()->eq(self::COLUMN_VERSION_NO, ':version_no'))
+            ->setParameter('content_id', $contentId, ParameterType::INTEGER)
+            ->setParameter('version_no', $versionNo, ParameterType::INTEGER);
+
+        $query->executeStatement();
+    }
+
+    public function findContentIdsWithDispatchableWork(): array
+    {
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->select('DISTINCT j.' . self::COLUMN_CONTENT_ID)
+            ->from(self::TABLE_ASYNC_PUBLICATION, 'j')
+            ->where($query->expr()->eq('j.' . self::COLUMN_STATUS, ':awaitingDispatch'))
+            ->andWhere($query->expr()->isNull('j.' . self::COLUMN_TRANSPORT_MESSAGE_ID))
+            ->andWhere(
+                <<<'SQL'
+                NOT EXISTS (
+                    SELECT 1 FROM ibexa_content_async_publication_job k
+                    WHERE k.content_id = j.content_id
+                    AND (
+                        k.status = :inFlightProcessing
+                        OR (k.status = :inFlightQueued AND k.transport_message_id IS NOT NULL)
+                    )
+                )
+                SQL
+            )
+            ->setParameter('awaitingDispatch', AsyncPublicationJobStatus::QUEUED->value, ParameterType::STRING)
+            ->setParameter('inFlightQueued', AsyncPublicationJobStatus::QUEUED->value, ParameterType::STRING)
+            ->setParameter('inFlightProcessing', AsyncPublicationJobStatus::PROCESSING->value, ParameterType::STRING);
+
+        return array_map('intval', $query->executeQuery()->fetchFirstColumn());
+    }
+
+    public function findOldestQueuedForContent(int $contentId): array
+    {
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->select(...$this->getColumns())
+            ->from(self::TABLE_ASYNC_PUBLICATION)
+            ->where($query->expr()->eq(self::COLUMN_CONTENT_ID, ':content_id'))
+            ->andWhere($query->expr()->eq(self::COLUMN_STATUS, ':queued'))
+            ->andWhere($query->expr()->isNull(self::COLUMN_TRANSPORT_MESSAGE_ID))
+            ->orderBy(self::COLUMN_CREATED, 'ASC')
+            ->addOrderBy(self::COLUMN_ID, 'ASC')
+            ->setMaxResults(1)
+            ->setParameter('content_id', $contentId, ParameterType::INTEGER)
+            ->setParameter('queued', AsyncPublicationJobStatus::QUEUED->value, ParameterType::STRING);
+
+        $row = $query->executeQuery()->fetchAssociative();
+
+        return $row === false ? [] : $row;
+    }
+
+    public function assignTransportMessageId(int $id, int $transportMessageId, int $modified): void
+    {
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->update(self::TABLE_ASYNC_PUBLICATION)
+            ->set(self::COLUMN_TRANSPORT_MESSAGE_ID, ':transport_message_id')
+            ->set(self::COLUMN_MODIFIED, ':modified')
+            ->where($query->expr()->eq(self::COLUMN_ID, ':id'))
+            ->setParameter('transport_message_id', $transportMessageId, ParameterType::INTEGER)
+            ->setParameter('modified', $modified, ParameterType::INTEGER)
+            ->setParameter('id', $id, ParameterType::INTEGER);
 
         $query->executeStatement();
     }

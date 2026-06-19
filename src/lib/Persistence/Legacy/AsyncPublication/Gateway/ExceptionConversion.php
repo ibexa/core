@@ -40,10 +40,10 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function updateByContentId(int $contentId, UpdateStruct $updateStruct): void
+    public function updateByContentIdAndVersion(int $contentId, int $versionNo, UpdateStruct $updateStruct): void
     {
         try {
-            $this->innerGateway->updateByContentId($contentId, $updateStruct);
+            $this->innerGateway->updateByContentIdAndVersion($contentId, $versionNo, $updateStruct);
         } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }
@@ -67,10 +67,37 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function deleteByContentId(int $contentId): void
+    public function deleteByContentIdAndVersion(int $contentId, int $versionNo): void
     {
         try {
-            $this->innerGateway->deleteByContentId($contentId);
+            $this->innerGateway->deleteByContentIdAndVersion($contentId, $versionNo);
+        } catch (DBALException|PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
+    public function findContentIdsWithDispatchableWork(): array
+    {
+        try {
+            return $this->innerGateway->findContentIdsWithDispatchableWork();
+        } catch (DBALException|PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
+    public function findOldestQueuedForContent(int $contentId): array
+    {
+        try {
+            return $this->innerGateway->findOldestQueuedForContent($contentId);
+        } catch (DBALException|PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
+    public function assignTransportMessageId(int $id, int $transportMessageId, int $modified): void
+    {
+        try {
+            $this->innerGateway->assignTransportMessageId($id, $transportMessageId, $modified);
         } catch (DBALException|PDOException $e) {
             throw DatabaseException::wrap($e);
         }

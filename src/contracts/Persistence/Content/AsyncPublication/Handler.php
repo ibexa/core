@@ -11,22 +11,24 @@ namespace Ibexa\Contracts\Core\Persistence\Content\AsyncPublication;
 interface Handler
 {
     /**
-     * Register a background publication job for the given content.
+     * Register a background publication job for the given content version.
      *
-     * Enforces "one active job per content": if a job already exists for the content
-     * exception is thrown.
+     * A content item may hold several jobs (one per version_no); uniqueness is on
+     * (content_id, version_no).
      */
     public function register(CreateStruct $createStruct): void;
 
     /**
-     * Update the job tracked for the given content.
+     * Update the job tracked for the given content version.
      */
-    public function update(int $contentId, UpdateStruct $updateStruct): void;
+    public function update(int $contentId, int $versionNo, UpdateStruct $updateStruct): void;
 
     /**
-     * Return the job tracked for the given content, or null when none is in flight.
+     * Return all jobs tracked for the given content (one per version), ordered by creation.
+     *
+     * @return \Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\AsyncPublicationJob[]
      */
-    public function getByContentId(int $contentId): ?AsyncPublicationJob;
+    public function findByContentId(int $contentId): array;
 
     /**
      * @return \Ibexa\Contracts\Core\Persistence\Content\AsyncPublication\AsyncPublicationJob[]
@@ -39,7 +41,24 @@ interface Handler
     public function count(): int;
 
     /**
-     * Remove the job tracked for the given content (e.g. once the publication completed).
+     * Remove the job tracked for the given content version (e.g. once the publication completed).
      */
-    public function remove(int $contentId): void;
+    public function remove(int $contentId, int $versionNo): void;
+
+    /**
+     * Return the content ids that have a job awaiting dispatch and nothing currently in flight.
+     *
+     * @return int[]
+     */
+    public function findContentIdsWithDispatchableWork(): array;
+
+    /**
+     * Return the oldest not-yet-dispatched (queued) job for the content, or null when there is none.
+     */
+    public function findOldestQueuedForContent(int $contentId): ?AsyncPublicationJob;
+
+    /**
+     * Record the Messenger transport message id on a job once its message has been sent.
+     */
+    public function assignTransportMessageId(int $id, int $transportMessageId, int $modified): void;
 }

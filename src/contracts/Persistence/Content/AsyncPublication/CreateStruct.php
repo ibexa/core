@@ -18,8 +18,11 @@ class CreateStruct extends ValueObject
     /** @var int */
     public $versionNo;
 
-    /** @var int */
-    public $transportMessageId;
+    /**
+     * Set by the dispatcher once the Messenger message is actually sent; NULL while the job is
+     * still queued and awaiting dispatch.
+     */
+    public ?int $transportMessageId = null;
 
     public AsyncPublicationJobStatus $status;
 

@@ -3,8 +3,18 @@ services:
         autowire: true
         arguments:
             $persistenceHandler: '@ibexa.spi.persistence.legacy.async_publication.handler'
-            $bus: '@ibexa.messenger.bus'
+            $dispatcher: '@Ibexa\Core\Repository\ContentService\AsyncPublicationDispatcher'
 
+        lazy: true
+
+    # Releases queued publication jobs onto the Messenger transport, one in flight per content at a
+    # time (enforced via DeduplicateStamp). Called from registerPublication and after every processed
+    # message (AsyncPublicationStatusSubscriber).
+    Ibexa\Core\Repository\ContentService\AsyncPublicationDispatcher:
+        autowire: true
+        arguments:
+            $persistenceHandler: '@ibexa.spi.persistence.legacy.async_publication.handler'
+            $bus: '@ibexa.messenger.bus'
         lazy: true
 
     # Content publishing strategies. The interface is aliased to the synchronous strategy by

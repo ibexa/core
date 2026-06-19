@@ -437,7 +437,7 @@ tables:
             data: { type: text, nullable: true }
     ibexa_content_async_publication_job:
         uniqueConstraints:
-            ibexa_content_async_publication_job_content: { fields: [content_id] }
+            ibexa_content_async_publication_job_content: { fields: [content_id, version_no] }
             ibexa_content_async_publication_job_transport_message_id: { fields: [transport_message_id] }
         indexes:
             ibexa_content_async_publication_job_status: { fields: [status] }
@@ -446,7 +446,7 @@ tables:
         fields:
             content_id: { type: integer, nullable: false, options: { default: '0' } }
             version_no: { type: integer, nullable: false, options: { default: '0' } }
-            transport_message_id: { type: integer, nullable: false }
+            transport_message_id: { type: integer, nullable: true }
             status: { type: string, nullable: false, length: 32, options: { default: 'queued' } }
             owner_id: { type: integer, nullable: false, options: { default: '0' } }
             created: { type: integer, nullable: false, options: { default: '0' } }
