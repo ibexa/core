@@ -33,13 +33,8 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         return 'ezobjectrelationlist';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function supportsLikeWildcard($value)
+    protected function supportsLikeWildcard($value): bool
     {
-        parent::supportsLikeWildcard($value);
-
         return false;
     }
 
