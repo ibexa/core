@@ -34,10 +34,8 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * If Selection is improved to be able to index + search for string also with LegacySearch, then adapt this too.
      */
-    protected function supportsLikeWildcard($value)
+    protected function supportsLikeWildcard($value): bool
     {
-        parent::supportsLikeWildcard($value);
-
         return false;
     }
 

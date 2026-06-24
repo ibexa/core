@@ -31,13 +31,8 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
         return 'ezdate';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function supportsLikeWildcard($value)
+    protected function supportsLikeWildcard($value): bool
     {
-        parent::supportsLikeWildcard($value);
-
         return false;
     }
 

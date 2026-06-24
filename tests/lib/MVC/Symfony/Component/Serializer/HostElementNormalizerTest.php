@@ -17,6 +17,9 @@ use PHPUnit\Framework\TestCase;
 
 final class HostElementNormalizerTest extends TestCase
 {
+    /**
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
     public function testNormalization(): void
     {
         $normalizer = new HostElementNormalizer();
@@ -25,9 +28,9 @@ final class HostElementNormalizerTest extends TestCase
         $matcher = new HostElement(2);
         // Set request and invoke match to initialize HostElement::$hostElements
         $matcher->setRequest(SimplifiedRequest::fromUrl('http://ibexa.dev/foo/bar'));
-        $matcher->match();
+        self::assertSame('dev', $matcher->match());
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'elementNumber' => 2,
                 'hostElements' => [
@@ -43,8 +46,8 @@ final class HostElementNormalizerTest extends TestCase
     {
         $normalizer = new HostElementNormalizer();
 
-        $this->assertTrue($normalizer->supportsNormalization($this->createMock(HostElement::class)));
-        $this->assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
+        self::assertTrue($normalizer->supportsNormalization($this->createMock(HostElement::class)));
+        self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
     }
 }
 

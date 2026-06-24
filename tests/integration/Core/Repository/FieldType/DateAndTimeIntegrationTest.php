@@ -30,13 +30,8 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
         return 'ezdatetime';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function supportsLikeWildcard($value)
+    protected function supportsLikeWildcard($value): bool
     {
-        parent::supportsLikeWildcard($value);
-
         return false;
     }
 
