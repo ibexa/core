@@ -56,7 +56,8 @@ class UrlAliasTest extends BaseServiceMockTest
     {
         $repositoryMock = $this->getRepositoryMock();
 
-        $service = new UrlALiasService(
+        /** @phpstan-ignore new.resultUnused */
+        new UrlALiasService(
             $repositoryMock,
             $this->urlAliasHandler,
             $this->getNameSchemaServiceMock(),

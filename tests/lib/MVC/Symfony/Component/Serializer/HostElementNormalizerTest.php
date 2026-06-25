@@ -46,7 +46,7 @@ final class HostElementNormalizerTest extends TestCase
         $matcher = new HostElement(2);
         // Set request and invoke match to initialize HostElement::$hostElements
         $matcher->setRequest(SimplifiedRequest::fromUrl('https://ibexa.dev/foo/bar'));
-        $matcher->match();
+        self::assertSame('dev', $matcher->match());
 
         self::assertEquals(
             self::DATA,
