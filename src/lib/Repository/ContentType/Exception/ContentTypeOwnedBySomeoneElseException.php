@@ -11,9 +11,6 @@ namespace Ibexa\Core\Repository\ContentType\Exception;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Throwable;
 
-/**
- * Exception thrown when a Content Type draft is owned by a different user than the current one.
- */
 final class ContentTypeOwnedBySomeoneElseException extends NotFoundException
 {
     public function __construct(int $contentTypeId, ?Throwable $previous = null)
