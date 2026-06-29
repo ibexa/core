@@ -45,6 +45,7 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\FieldType\ValidationError;
+use Ibexa\Core\Repository\ContentType\Exception\ContentTypeOwnedBySomeoneElseException;
 use Ibexa\Core\Repository\Values\ContentType\ContentTypeCreateStruct;
 use Ibexa\Core\Repository\Values\ContentType\ContentTypeGroup;
 
@@ -767,8 +768,6 @@ class ContentTypeService implements ContentTypeServiceInterface
      * @param int $contentTypeId
      * @param bool $ignoreOwnership if true, method will return draft even if the owner is different than currently logged in user
      *
-     * @todo Use another exception when user of draft is someone else
-     *
      * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft
      */
     public function loadContentTypeDraft(int $contentTypeId, bool $ignoreOwnership = false): APIContentTypeDraft
@@ -779,7 +778,7 @@ class ContentTypeService implements ContentTypeServiceInterface
         );
 
         if (!$ignoreOwnership && $spiContentType->modifierId != $this->permissionResolver->getCurrentUserReference()->getUserId()) {
-            throw new NotFoundException('The content type is owned by someone else', $contentTypeId);
+            throw new ContentTypeOwnedBySomeoneElseException($contentTypeId);
         }
 
         return $this->contentTypeDomainMapper->buildContentTypeDraftDomainObject($spiContentType);
