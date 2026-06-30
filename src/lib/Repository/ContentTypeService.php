@@ -37,6 +37,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\ContentTypeFieldDefinitionValidationException;
+use Ibexa\Core\Base\Exceptions\ContentTypeOwnedBySomeoneElseException;
 use Ibexa\Core\Base\Exceptions\ContentTypeValidationException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
@@ -45,7 +46,6 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\FieldType\ValidationError;
-use Ibexa\Core\Repository\ContentType\Exception\ContentTypeOwnedBySomeoneElseException;
 use Ibexa\Core\Repository\Values\ContentType\ContentTypeCreateStruct;
 use Ibexa\Core\Repository\Values\ContentType\ContentTypeGroup;
 

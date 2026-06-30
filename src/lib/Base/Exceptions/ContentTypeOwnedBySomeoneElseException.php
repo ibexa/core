@@ -6,12 +6,12 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Core\Repository\ContentType\Exception;
+namespace Ibexa\Core\Base\Exceptions;
 
-use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeOwnedBySomeoneElseException as APIContentTypeOwnedBySomeoneElseException;
 use Throwable;
 
-final class ContentTypeOwnedBySomeoneElseException extends NotFoundException
+final class ContentTypeOwnedBySomeoneElseException extends NotFoundException implements APIContentTypeOwnedBySomeoneElseException
 {
     public function __construct(int $contentTypeId, ?Throwable $previous = null)
     {
