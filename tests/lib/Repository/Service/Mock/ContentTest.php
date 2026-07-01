@@ -89,7 +89,6 @@ class ContentTest extends BaseServiceMockTest
             'remove_archived_versions_on_publish' => true,
         ];
 
-        /** @phpstan-ignore new.resultUnused */
         new ContentService(
             $repositoryMock,
             $persistenceHandlerMock,

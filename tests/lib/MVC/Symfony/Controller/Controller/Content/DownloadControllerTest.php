@@ -12,7 +12,7 @@ use DateTime;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
-use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Core\Base\Exceptions\NotFoundException as BaseNotFoundException;
 use Ibexa\Core\FieldType\BinaryFile\Value as BinaryFileValue;
 use Ibexa\Core\Helper\TranslationHelper;
 use Ibexa\Core\IO\IOServiceInterface;
@@ -22,6 +22,7 @@ use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @covers \Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController
@@ -104,8 +105,76 @@ final class DownloadControllerTest extends TestCase
             ->expects($this->never())
             ->method('loadBinaryFile');
 
-        $this->expectException(NotFoundException::class);
-        $this->createController()->downloadBinaryFileAction(42, 'file', 'SomeRandomText.txt', $request);
+        $this->assertFileNotFound(function () use ($request): void {
+            $this->createController()->downloadBinaryFileAction(42, 'file', 'SomeRandomText.txt', $request);
+        });
+    }
+
+    public function testDownloadBinaryFileActionReturnsNotFoundWhenFieldIdentifierDoesNotMatch(): void
+    {
+        $content = $this->createContent(393, 'New file');
+        $request = new Request(['inLanguage' => 'eng-GB']);
+
+        $this->contentService
+            ->expects(self::once())
+            ->method('loadContent')
+            ->with(393)
+            ->willReturn($content);
+        $this->translationHelper
+            ->expects(self::once())
+            ->method('getTranslatedField')
+            ->with($content, 'file5', 'eng-GB')
+            ->willReturn(null);
+        $this->ioService
+            ->expects($this->never())
+            ->method('loadBinaryFile');
+
+        $this->assertFileNotFound(function () use ($request): void {
+            $this->createController()->downloadBinaryFileAction(393, 'file5', 'snorelax_snooze.png', $request);
+        });
+    }
+
+    public function testDownloadBinaryFileActionReturnsNotFoundWhenContentDoesNotExist(): void
+    {
+        $request = new Request(['inLanguage' => 'eng-GB']);
+
+        $this->contentService
+            ->expects(self::once())
+            ->method('loadContent')
+            ->with(393)
+            ->willThrowException(new BaseNotFoundException('Content', 393));
+        $this->translationHelper
+            ->expects($this->never())
+            ->method('getTranslatedField');
+        $this->ioService
+            ->expects($this->never())
+            ->method('loadBinaryFile');
+
+        $this->assertFileNotFound(function () use ($request): void {
+            $this->createController()->downloadBinaryFileAction(393, 'file', 'snorelax_snooze.png', $request);
+        });
+    }
+
+    public function testDownloadBinaryFileByIdActionReturnsNotFoundWhenFieldIdDoesNotMatch(): void
+    {
+        $content = $this->createContent();
+        $request = new Request();
+
+        $this->contentService
+            ->expects(self::once())
+            ->method('loadContent')
+            ->with(42, null, null)
+            ->willReturn($content);
+        $this->translationHelper
+            ->expects($this->never())
+            ->method('getTranslatedField');
+        $this->ioService
+            ->expects($this->never())
+            ->method('loadBinaryFile');
+
+        $this->assertFileNotFound(function () use ($request): void {
+            $this->createController()->downloadBinaryFileByIdAction($request, 42, 123);
+        });
     }
 
     private function createController(): DownloadController
@@ -117,11 +186,22 @@ final class DownloadControllerTest extends TestCase
         );
     }
 
-    private function createContent(): Content
+    private function assertFileNotFound(callable $callback): void
+    {
+        try {
+            $callback();
+            self::fail(sprintf('Expected %s to be thrown.', NotFoundHttpException::class));
+        } catch (NotFoundHttpException $e) {
+            self::assertSame('File not found', $e->getMessage());
+        }
+    }
+
+    private function createContent(int $contentId = 42, string $contentName = 'Test content'): Content
     {
         return new Content([
             'internalFields' => [
                 new Field([
+                    'id' => 7,
                     'fieldDefIdentifier' => 'file',
                     'languageCode' => 'eng-GB',
                     'value' => new BinaryFileValue([
@@ -132,9 +212,9 @@ final class DownloadControllerTest extends TestCase
             ],
             'versionInfo' => new VersionInfo([
                 'contentInfo' => new ContentInfo([
-                    'id' => 42,
+                    'id' => $contentId,
                     'mainLanguageCode' => 'eng-GB',
-                    'name' => 'Test content',
+                    'name' => $contentName,
                     'status' => ContentInfo::STATUS_PUBLISHED,
                 ]),
             ]),
