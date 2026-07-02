@@ -507,10 +507,6 @@ class ContentService implements ContentServiceInterface
             $languages = [];
         }
 
-        if ($spiContentInfo->id == 14) {
-            //dd($spiContent);
-        }
-
         return $this->contentDomainMapper->buildContentDomainObject(
             $spiContent,
             $this->repository->getContentTypeService()->loadContentType(
