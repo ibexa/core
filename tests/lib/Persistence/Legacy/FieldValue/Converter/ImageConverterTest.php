@@ -223,6 +223,29 @@ XML,
                     ],
                 ]),
             ],
+            'with_empty_width_and_height' => [
+<<< XML
+<?xml version="1.0" encoding="utf-8"?>
+<ezimage serial_number="1" is_valid="1" filename="ibexa_fav.png"
+    suffix="png" basename="ibexa_fav" dirpath="{$dir}" url="{$pathToImg}"
+    original_filename="ibexa_fav.png" mime_type="image/png" width=""
+    height="" alternative_text="test" alias_key="1293033771" timestamp="{timestampToReplace}">
+  <original attribute_id="1" attribute_version="1" attribute_language="eng-GB"/>
+  <information Height="" Width="" IsColor="1"/>
+</ezimage>
+XML,
+                new FieldValue([
+                    'data' => [
+                        'width' => '',
+                        'height' => '',
+                        'alternativeText' => 'test',
+                        'mime' => 'image/png',
+                        'id' => 1,
+                        'fileName' => 'ibexa_fav.png',
+                        'additionalData' => [],
+                    ],
+                ]),
+            ],
         ];
     }
 }
