@@ -85,6 +85,38 @@ class DateAndTimeTest extends TestCase
     }
 
     /**
+     * @return mixed[]
+     */
+    public function providerForTestToStorageValueMissingData(): array
+    {
+        return [
+            [['current_time' => 1048633200, 'rfc850' => 'Thu, 01 Jan 2003 00:00:00 GMT']],
+            [null],
+        ];
+    }
+
+    /**
+     * @group fieldType
+     * @group dateTime
+     *
+     * @dataProvider providerForTestToStorageValueMissingData
+     *
+     * @param mixed[]|null $data
+     */
+    public function testToStorageValueNoTimestampKey(?array $data): void
+    {
+        $value = new FieldValue();
+        $value->data = $data;
+        $value->sortKey = $this->date->getTimestamp();
+        $storageFieldValue = new StorageFieldValue();
+
+        $this->converter->toStorageValue($value, $storageFieldValue);
+        self::assertNull($storageFieldValue->dataInt);
+        self::assertSame($value->sortKey, $storageFieldValue->sortKeyInt);
+        self::assertSame('', $storageFieldValue->sortKeyString);
+    }
+
+    /**
      * @group fieldType
      * @group dateTime
      */
