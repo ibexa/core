@@ -93,16 +93,16 @@ final class ImageConverterTest extends TestCase
                     ],
                 ]),
                 <<< XML
-<?xml version="1.0" encoding="utf-8"?>
-<ezimage serial_number="1" is_valid="1" filename="ibexa_fav.png"
-    suffix="png" basename="ibexa_fav" dirpath="{$dir}" url="{$pathToImg}"
-    original_filename="ibexa_fav.png" mime_type="image/png" width="100"
-    height="200" alternative_text="test" alias_key="1293033771" timestamp="{timestampToReplace}">
-  <original attribute_id="1" attribute_version="1" attribute_language="eng-GB"/>
-  <information Height="200" Width="100" IsColor="1"/>
-  <additional_data><attribute key="focalPointX">50</attribute><attribute key="focalPointY">100</attribute><attribute key="author">John Smith</attribute></additional_data>
-</ezimage>
-XML,
+                <?xml version="1.0" encoding="utf-8"?>
+                <ezimage serial_number="1" is_valid="1" filename="ibexa_fav.png"
+                    suffix="png" basename="ibexa_fav" dirpath="{$dir}" url="{$pathToImg}"
+                    original_filename="ibexa_fav.png" mime_type="image/png" width="100"
+                    height="200" alternative_text="test" alias_key="1293033771" timestamp="{timestampToReplace}">
+                  <original attribute_id="1" attribute_version="1" attribute_language="eng-GB"/>
+                  <information Height="200" Width="100" IsColor="1"/>
+                  <additional_data><attribute key="focalPointX">50</attribute><attribute key="focalPointY">100</attribute><attribute key="author">John Smith</attribute></additional_data>
+                </ezimage>
+                XML,
             ],
             'without_additional_data_stored' => [
                 new FieldValue([
@@ -118,16 +118,16 @@ XML,
                     ],
                 ]),
                 <<< XML
-<?xml version="1.0" encoding="utf-8"?>
-<ezimage serial_number="1" is_valid="1" filename="ibexa_fav.png"
-    suffix="png" basename="ibexa_fav" dirpath="{$dir}" url="{$pathToImg}"
-    original_filename="ibexa_fav.png" mime_type="image/png" width="100"
-    height="200" alternative_text="test" alias_key="1293033771" timestamp="{timestampToReplace}">
-  <original attribute_id="1" attribute_version="1" attribute_language="eng-GB"/>
-  <information Height="200" Width="100" IsColor="1"/>
-  <additional_data/>
-</ezimage>
-XML,
+                <?xml version="1.0" encoding="utf-8"?>
+                <ezimage serial_number="1" is_valid="1" filename="ibexa_fav.png"
+                    suffix="png" basename="ibexa_fav" dirpath="{$dir}" url="{$pathToImg}"
+                    original_filename="ibexa_fav.png" mime_type="image/png" width="100"
+                    height="200" alternative_text="test" alias_key="1293033771" timestamp="{timestampToReplace}">
+                  <original attribute_id="1" attribute_version="1" attribute_language="eng-GB"/>
+                  <information Height="200" Width="100" IsColor="1"/>
+                  <additional_data/>
+                </ezimage>
+                XML,
             ],
         ];
     }
@@ -169,21 +169,21 @@ XML,
 
         return [
             'with_additional_data' => [
-<<< XML
-<?xml version="1.0" encoding="utf-8"?>
-<ezimage serial_number="1" is_valid="1" filename="ibexa_fav.png"
-    suffix="png" basename="ibexa_fav" dirpath="{$dir}" url="{$pathToImg}"
-    original_filename="ibexa_fav.png" mime_type="image/png" width="100"
-    height="200" alternative_text="test" alias_key="1293033771" timestamp="{timestampToReplace}">
-  <original attribute_id="1" attribute_version="1" attribute_language="eng-GB"/>
-  <information Height="200" Width="100" IsColor="1"/>
-  <additional_data>
-    <attribute key="focalPointX">50</attribute>
-    <attribute key="focalPointY">100</attribute>
-    <attribute key="author">John Smith</attribute>
-  </additional_data>
-</ezimage>
-XML,
+                <<< XML
+                <?xml version="1.0" encoding="utf-8"?>
+                <ezimage serial_number="1" is_valid="1" filename="ibexa_fav.png"
+                    suffix="png" basename="ibexa_fav" dirpath="{$dir}" url="{$pathToImg}"
+                    original_filename="ibexa_fav.png" mime_type="image/png" width="100"
+                    height="200" alternative_text="test" alias_key="1293033771" timestamp="{timestampToReplace}">
+                  <original attribute_id="1" attribute_version="1" attribute_language="eng-GB"/>
+                  <information Height="200" Width="100" IsColor="1"/>
+                  <additional_data>
+                    <attribute key="focalPointX">50</attribute>
+                    <attribute key="focalPointY">100</attribute>
+                    <attribute key="author">John Smith</attribute>
+                  </additional_data>
+                </ezimage>
+                XML,
                 new FieldValue([
                     'data' => [
                         'width' => '100',
@@ -201,16 +201,16 @@ XML,
                 ]),
             ],
             'without_additional_data_stored' => [
-<<< XML
-<?xml version="1.0" encoding="utf-8"?>
-<ezimage serial_number="1" is_valid="1" filename="ibexa_fav.png"
-    suffix="png" basename="ibexa_fav" dirpath="{$dir}" url="{$pathToImg}"
-    original_filename="ibexa_fav.png" mime_type="image/png" width="100"
-    height="200" alternative_text="test" alias_key="1293033771" timestamp="{timestampToReplace}">
-  <original attribute_id="1" attribute_version="1" attribute_language="eng-GB"/>
-  <information Height="200" Width="100" IsColor="1"/>
-</ezimage>
-XML,
+                <<< XML
+                <?xml version="1.0" encoding="utf-8"?>
+                <ezimage serial_number="1" is_valid="1" filename="ibexa_fav.png"
+                    suffix="png" basename="ibexa_fav" dirpath="{$dir}" url="{$pathToImg}"
+                    original_filename="ibexa_fav.png" mime_type="image/png" width="100"
+                    height="200" alternative_text="test" alias_key="1293033771" timestamp="{timestampToReplace}">
+                  <original attribute_id="1" attribute_version="1" attribute_language="eng-GB"/>
+                  <information Height="200" Width="100" IsColor="1"/>
+                </ezimage>
+                XML,
                 new FieldValue([
                     'data' => [
                         'width' => '100',
@@ -224,16 +224,16 @@ XML,
                 ]),
             ],
             'with_empty_width_and_height' => [
-<<< XML
-<?xml version="1.0" encoding="utf-8"?>
-<ezimage serial_number="1" is_valid="1" filename="ibexa_fav.png"
-    suffix="png" basename="ibexa_fav" dirpath="{$dir}" url="{$pathToImg}"
-    original_filename="ibexa_fav.png" mime_type="image/png" width=""
-    height="" alternative_text="test" alias_key="1293033771" timestamp="{timestampToReplace}">
-  <original attribute_id="1" attribute_version="1" attribute_language="eng-GB"/>
-  <information Height="" Width="" IsColor="1"/>
-</ezimage>
-XML,
+                <<< XML
+                <?xml version="1.0" encoding="utf-8"?>
+                <ezimage serial_number="1" is_valid="1" filename="ibexa_fav.png"
+                    suffix="png" basename="ibexa_fav" dirpath="{$dir}" url="{$pathToImg}"
+                    original_filename="ibexa_fav.png" mime_type="image/png" width=""
+                    height="" alternative_text="test" alias_key="1293033771" timestamp="{timestampToReplace}">
+                  <original attribute_id="1" attribute_version="1" attribute_language="eng-GB"/>
+                  <information Height="" Width="" IsColor="1"/>
+                </ezimage>
+                XML,
                 new FieldValue([
                     'data' => [
                         'width' => '',
