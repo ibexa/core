@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\Core\Command\Indexer\ContentIdList;
 
 use Ibexa\Bundle\Core\Command\Indexer\ContentIdList\ContentTypeInputGeneratorStrategy;
 use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
@@ -32,10 +33,20 @@ final class ContentTypeInputGeneratorStrategyTest extends TestCase
         $contentServiceMock = $this->createMock(ContentService::class);
         $contentServiceMock->method('find')->willReturn($contentList);
 
+        $repositoryMock = $this->createMock(Repository::class);
+        $repositoryMock
+            ->method('sudo')
+            ->willReturnCallback(
+                static fn (callable $callback) => $callback()
+            );
+
         $inputMock = $this->createMock(InputInterface::class);
         $inputMock->method('getOption')->with('content-type')->willReturn(uniqid('type', true));
 
-        $strategy = new ContentTypeInputGeneratorStrategy($contentServiceMock);
+        $strategy = new ContentTypeInputGeneratorStrategy(
+            $contentServiceMock,
+            $repositoryMock
+        );
 
         self::assertSame(
             $expectedBatches,
