@@ -9349,7 +9349,7 @@ parameters:
 			path: src/lib/Base/Exceptions/ContentFieldValidationException.php
 
 		-
-			message: '#^PHPDoc tag @var with type callable\(Ibexa\\Contracts\\Core\\Repository\\Values\\Translation\|string\)\: string is not subtype of native type Closure\(mixed\)\: string\.$#'
+			message: '#^PHPDoc tag @var with type callable\(Ibexa\\Contracts\\Core\\Repository\\Values\\Translation\|string\)\: string is not subtype of native type static\-Closure\(mixed\)\: string\.$#'
 			identifier: varTag.nativeType
 			count: 1
 			path: src/lib/Base/Exceptions/ContentFieldValidationException.php
