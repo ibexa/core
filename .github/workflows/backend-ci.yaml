@@ -10,13 +10,13 @@ on:
 jobs:
     cs-fix:
         name: Run code style check
-        runs-on: "ubuntu-24.04"
+        runs-on: "ubuntu-26.04"
         strategy:
             matrix:
                 php:
                     - '8.1'
         steps:
-            -   uses: actions/checkout@v6
+            -   uses: actions/checkout@v7
 
             -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
@@ -30,7 +30,7 @@ jobs:
 
     tests:
         name: Unit tests & SQLite integration tests
-        runs-on: "ubuntu-24.04"
+        runs-on: "ubuntu-26.04"
         timeout-minutes: 15
 
         strategy:
@@ -42,7 +42,7 @@ jobs:
                     - '8.4'
 
         steps:
-            -   uses: actions/checkout@v6
+            -   uses: actions/checkout@v7
 
             -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
@@ -80,7 +80,7 @@ jobs:
                     --health-timeout 5s
                     --health-retries 5
                     --tmpfs /var/lib/postgres
-        runs-on: "ubuntu-24.04"
+        runs-on: "ubuntu-26.04"
         timeout-minutes: 60
 
         strategy:
@@ -98,7 +98,7 @@ jobs:
                     - 'postgres:18'
 
         steps:
-            -   uses: actions/checkout@v6
+            -   uses: actions/checkout@v7
 
             -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
@@ -137,7 +137,7 @@ jobs:
                     --health-timeout=5s
                     --health-retries=5
                     --tmpfs=/var/lib/mysql
-        runs-on: "ubuntu-24.04"
+        runs-on: "ubuntu-26.04"
         timeout-minutes: 60
 
         strategy:
@@ -155,7 +155,7 @@ jobs:
                     - 'mysql:8.4'
 
         steps:
-            -   uses: actions/checkout@v6
+            -   uses: actions/checkout@v7
 
             -   uses: ibexa/gh-workflows/actions/composer-install@main
                 with:
@@ -176,7 +176,7 @@ jobs:
 
     solr-integration:
         name: "Solr integration tests"
-        runs-on: "ubuntu-24.04"
+        runs-on: "ubuntu-26.04"
         timeout-minutes: 30
         permissions:
             packages: read
@@ -205,7 +205,7 @@ jobs:
                     - '8.3'
                     - '8.4'
         steps:
-            -   uses: actions/checkout@v6
+            -   uses: actions/checkout@v7
                 with:
                     fetch-depth: 0
 
