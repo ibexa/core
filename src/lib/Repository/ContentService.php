@@ -1528,6 +1528,12 @@ class ContentService implements ContentServiceInterface
         $versionInfo = $currentVersionContent->getVersionInfo();
         $contentType = $currentVersionContent->getContentType();
 
+        $currentVersionContent = $this->internalLoadContentById(
+            $versionInfo->getContentInfo()->getId(),
+            null,
+            $versionInfo->versionNo
+        );
+
         $publishedContent = $this->internalLoadContentById($versionInfo->getContentInfo()->getId());
         $publishedVersionInfo = $publishedContent->getVersionInfo();
 
