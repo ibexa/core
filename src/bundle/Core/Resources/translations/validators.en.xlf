@@ -8,7 +8,7 @@
     <body>
       <trans-unit id="cb73b740405234713ab9927dd526edf48a250f60" resname="ibexa.identifier_already_exists">
         <source>Identifier already exists.</source>
-        <target state="new">Identifier already exists.</target>
+        <target>Identifier already exists.</target>
         <note>key: ibexa.identifier_already_exists</note>
       </trans-unit>
     </body>
