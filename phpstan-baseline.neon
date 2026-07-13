@@ -403,32 +403,8 @@ parameters:
 			path: src/bundle/Core/DependencyInjection/Configuration/AbstractParser.php
 
 		-
-			message: '#^Cannot access an offset on array\|Ibexa\\Contracts\\Core\\SiteAccess\\ConfigResolverInterface\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/ChainConfigResolver.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\ChainConfigResolver\:\:addResolver\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/ChainConfigResolver.php
-
-		-
-			message: '#^Parameter \#2 \.\.\.\$arrays of function array_merge expects array, Ibexa\\Contracts\\Core\\SiteAccess\\ConfigResolverInterface given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/ChainConfigResolver.php
-
-		-
-			message: '#^Property Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\ChainConfigResolver\:\:\$resolvers \(array\<Ibexa\\Contracts\\Core\\SiteAccess\\ConfigResolverInterface\>\) does not accept array\<Ibexa\\Contracts\\Core\\SiteAccess\\ConfigResolverInterface\|list\<Ibexa\\Contracts\\Core\\SiteAccess\\ConfigResolverInterface\>\>\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/ChainConfigResolver.php
-
-		-
-			message: '#^Property Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\ChainConfigResolver\:\:\$resolvers \(array\<Ibexa\\Contracts\\Core\\SiteAccess\\ConfigResolverInterface\>\) does not accept array\<array\|Ibexa\\Contracts\\Core\\SiteAccess\\ConfigResolverInterface\>\.$#'
-			identifier: assign.propertyType
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/ChainConfigResolver.php
 
@@ -19711,96 +19687,6 @@ parameters:
 			path: tests/bundle/Core/ApiLoader/StorageConnectionFactoryTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\ChainConfigResolverTest\:\:buildMock\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/ChainConfigResolverTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\ChainConfigResolverTest\:\:buildMock\(\) has parameter \$class with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/bundle/Core/ChainConfigResolverTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\ChainConfigResolverTest\:\:buildMock\(\) has parameter \$methods with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/bundle/Core/ChainConfigResolverTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\ChainConfigResolverTest\:\:getParameterProvider\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/ChainConfigResolverTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\ChainConfigResolverTest\:\:testGetDefaultNamespace\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/ChainConfigResolverTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\ChainConfigResolverTest\:\:testGetParameter\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/ChainConfigResolverTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\ChainConfigResolverTest\:\:testGetParameterInvalid\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/ChainConfigResolverTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\ChainConfigResolverTest\:\:testHasParameterFalse\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/ChainConfigResolverTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\ChainConfigResolverTest\:\:testHasParameterTrue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/ChainConfigResolverTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\ChainConfigResolverTest\:\:testPriority\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/ChainConfigResolverTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\ChainConfigResolverTest\:\:testReSortResolvers\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/ChainConfigResolverTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\ChainConfigResolverTest\:\:testSetDefaultNamespace\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/ChainConfigResolverTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\ChainConfigResolverTest\:\:testSortResolvers\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/ChainConfigResolverTest.php
-
-		-
-			message: '#^Parameter \#1 \$resolver of method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\ChainConfigResolver\:\:addResolver\(\) expects Ibexa\\Contracts\\Core\\SiteAccess\\ConfigResolverInterface, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
-			identifier: argument.type
-			count: 4
-			path: tests/bundle/Core/ChainConfigResolverTest.php
-
-		-
-			message: '#^Unable to resolve the template type T in call to method PHPUnit\\Framework\\TestCase\:\:getMockBuilder\(\)$#'
-			identifier: argument.templateType
-			count: 1
-			path: tests/bundle/Core/ChainConfigResolverTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\ConfigResolverTest\:\:getResolver\(\) has parameter \$groupsBySiteAccess with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -19991,18 +19877,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: tests/bundle/Core/ConfigResolverTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Compiler\\ChainConfigResolverPassTest\:\:addResolverProvider\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/DependencyInjection/Compiler/ChainConfigResolverPassTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Compiler\\ChainConfigResolverPassTest\:\:testAddResolver\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/DependencyInjection/Compiler/ChainConfigResolverPassTest.php
 
 		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\DependencyInjection\\Compiler\\ChainRoutingPassTest\:\:addRouterProvider\(\) has no return type specified\.$#'

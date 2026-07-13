@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * @covers \Ibexa\Bundle\Core\DependencyInjection\Compiler\ChainConfigResolverPass
  */
-class ChainConfigResolverPassTest extends AbstractCompilerPassTestCase
+final class ChainConfigResolverPassTest extends AbstractCompilerPassTestCase
 {
     protected function setUp(): void
     {
@@ -37,33 +37,44 @@ class ChainConfigResolverPassTest extends AbstractCompilerPassTestCase
     }
 
     /**
-     * @param int|null $declaredPriority
-     * @param int $expectedPriority
-     *
      * @dataProvider addResolverProvider
      */
-    public function testAddResolver($declaredPriority, $expectedPriority)
+    public function testTaggedResolverAddedToConstructor(?int $declaredPriority, int $expectedPriority): void
     {
-        $resolverDef = new Definition();
-        $serviceId = 'some_service_id';
-        $resolverDef->addTag(
+        $resolverDef1 = new Definition();
+        $resolverDef1->addTag(
             'ibexa.site.config.resolver',
             null !== $declaredPriority
                 ? ['priority' => $declaredPriority]
                 : []
         );
 
-        $this->setDefinition($serviceId, $resolverDef);
+        $resolverDef2 = new Definition();
+        $resolverDef2->addTag(
+            'ibexa.site.config.resolver',
+            null !== $declaredPriority
+                ? ['priority' => $declaredPriority]
+                : []
+        );
+
+        $this->setDefinition('some_service_id', $resolverDef1);
+        $this->setDefinition('some_service_id_2', $resolverDef2);
         $this->compile();
 
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
             ChainConfigResolver::class,
-            'addResolver',
-            [new Reference($serviceId), $expectedPriority]
+            '$resolvers',
+            [$expectedPriority => [
+                new Reference('some_service_id'),
+                new Reference('some_service_id_2'),
+            ]],
         );
     }
 
-    public function addResolverProvider()
+    /**
+     * @return iterable<array{int|null, int}>
+     */
+    public function addResolverProvider(): iterable
     {
         return [
             [null, 0],
