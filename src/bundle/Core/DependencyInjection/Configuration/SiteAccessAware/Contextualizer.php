@@ -7,7 +7,7 @@
 
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware;
 
-use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Contextualizer implements ContextualizerInterface
@@ -66,14 +66,14 @@ class Contextualizer implements ContextualizerInterface
 
     public function mapConfigArray($id, array $config, $options = 0)
     {
-        $this->mapReservedScopeArray($id, $config, ConfigResolver::SCOPE_DEFAULT);
-        $this->mapReservedScopeArray($id, $config, ConfigResolver::SCOPE_GLOBAL);
+        $this->mapReservedScopeArray($id, $config, ConfigResolverInterface::SCOPE_DEFAULT);
+        $this->mapReservedScopeArray($id, $config, ConfigResolverInterface::SCOPE_GLOBAL);
         $defaultSettings = $this->getContainerParameter(
-            $this->namespace . '.' . ConfigResolver::SCOPE_DEFAULT . '.' . $id,
+            $this->namespace . '.' . ConfigResolverInterface::SCOPE_DEFAULT . '.' . $id,
             []
         );
         $globalSettings = $this->getContainerParameter(
-            $this->namespace . '.' . ConfigResolver::SCOPE_GLOBAL . '.' . $id,
+            $this->namespace . '.' . ConfigResolverInterface::SCOPE_GLOBAL . '.' . $id,
             []
         );
 
@@ -192,7 +192,7 @@ class Contextualizer implements ContextualizerInterface
 
     /**
      * Ensures settings array defined in a given "reserved scope" are registered properly.
-     * "Reserved scope" can typically be ConfigResolver::SCOPE_DEFAULT or ConfigResolver::SCOPE_GLOBAL.
+     * "Reserved scope" can typically be ConfigResolverInterface::SCOPE_DEFAULT or ConfigResolverInterface::SCOPE_GLOBAL.
      *
      * @param string $id
      * @param string $scope

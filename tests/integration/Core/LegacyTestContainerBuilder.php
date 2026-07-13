@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core;
 
+use Ibexa\Bundle\Core\DependencyInjection\Compiler\ChainConfigResolverPass;
 use Ibexa\Bundle\Core\SiteAccess\Config\ComplexConfigProcessor;
 use Ibexa\Contracts\Core\SiteAccess\ConfigProcessor;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -113,6 +114,8 @@ final class LegacyTestContainerBuilder extends ContainerBuilder
 
     private function registerCompilerPasses(): void
     {
+        $this->addCompilerPass(new ChainConfigResolverPass());
+
         $this->addCompilerPass(new Compiler\FieldTypeRegistryPass(), PassConfig::TYPE_OPTIMIZE);
         $this->addCompilerPass(
             new Compiler\Persistence\FieldTypeRegistryPass(),
