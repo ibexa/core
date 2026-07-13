@@ -322,7 +322,7 @@ tables:
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
-            contentobject_id: { type: integer, nullable: true }
+            contentobject_id: { type: integer, nullable: false }
             created: { type: integer, nullable: false, options: { default: '0' } }
             creator_id: { type: integer, nullable: false, options: { default: '0' } }
             initial_language_id: { type: bigint, nullable: false, options: { default: '0' } }
