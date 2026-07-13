@@ -7,6 +7,8 @@ parameters:
         - pht
         - phtml
         - pgif
+    ibexa.config.default_scope: ibexa.site_access.config
+    ibexa.site_access.groups: [admin, standard]
 
 services:
     logger:
@@ -57,19 +59,51 @@ services:
     Ibexa\Tests\Integration\Core\Persistence\Variation\InMemoryVariationHandler: ~
     Ibexa\Contracts\Core\Variation\VariationHandler: '@Ibexa\Tests\Integration\Core\Persistence\Variation\InMemoryVariationHandler'
 
-    ibexa.config.resolver:
-        class: Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver
+    Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver\DefaultScopeConfigResolver:
         arguments:
             - '@service_container'
-            - '@logger'
-            - []
-            - 'ibexa.site_access.config'
+            - '%ibexa.config.default_scope%'
+        lazy: true
+        tags:
+            - { name: ibexa.site.config.resolver, priority: 0 }
+
+    Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver\SiteAccessGroupConfigResolver:
+        arguments:
+            - '@service_container'
+            - '@ibexa.siteaccess.provider'
+            - '%ibexa.config.default_scope%'
+            - '%ibexa.site_access.groups%'
         calls:
-            - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
-            - [setDefaultScope, ['default']]
+            - [ setSiteAccess, [ '@Ibexa\Core\MVC\Symfony\SiteAccess' ] ]
+        lazy: true
+        tags:
+            - { name: ibexa.site.config.resolver, priority: 50 }
+
+    Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver\StaticSiteAccessConfigResolver:
+        arguments:
+            - '@service_container'
+            - '@ibexa.siteaccess.provider'
+            - '%ibexa.config.default_scope%'
+        calls:
+            - [ setSiteAccess, [ '@Ibexa\Core\MVC\Symfony\SiteAccess' ] ]
+        lazy: true
+        tags:
+            - { name: ibexa.site.config.resolver, priority: 100 }
+
+    Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver\GlobalScopeConfigResolver:
+        arguments:
+            - '@service_container'
+            - '%ibexa.config.default_scope%'
+        lazy: true
+        tags:
+            - { name: ibexa.site.config.resolver, priority: 255 }
+
+    Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver: ~
+
+    ibexa.config.resolver:
+        alias: Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver
 
     Ibexa\Core\MVC\Symfony\SiteAccess:
-        class: Ibexa\Core\MVC\Symfony\SiteAccess
         arguments: ['default', 'uninitialized']
 
     Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService:

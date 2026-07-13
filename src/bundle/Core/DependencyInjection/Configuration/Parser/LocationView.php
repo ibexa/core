@@ -7,8 +7,8 @@
 
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser;
 
-use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 
 class LocationView extends View
 {
@@ -18,10 +18,10 @@ class LocationView extends View
     public function preMap(array $config, ContextualizerInterface $contextualizer): void
     {
         $scopes = array_merge(
-            [ConfigResolver::SCOPE_GLOBAL],
+            [ConfigResolverInterface::SCOPE_GLOBAL],
             $config['siteaccess']['list'],
             array_keys($config['siteaccess']['groups']),
-            [ConfigResolver::SCOPE_DEFAULT]
+            [ConfigResolverInterface::SCOPE_DEFAULT]
         );
 
         foreach ($scopes as $scope) {

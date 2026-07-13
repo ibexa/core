@@ -18,12 +18,16 @@ namespace Ibexa\Contracts\Core\SiteAccess;
  */
 interface ConfigResolverInterface
 {
+    public const string SCOPE_GLOBAL = 'global';
+
+    public const string SCOPE_DEFAULT = 'default';
+
     /**
      * Returns value for $paramName, in $namespace.
      *
      * @param string $paramName The parameter name, without $prefix and the current scope (i.e. siteaccess name).
-     * @param string $namespace Namespace for the parameter name. If null, the default namespace should be used.
-     * @param string $scope The scope you need $paramName value for.
+     * @param string|null $namespace Namespace for the parameter name. If null, the default namespace should be used.
+     * @param string|null $scope The scope you need $paramName value for.
      *
      * @return mixed
      */
@@ -33,8 +37,8 @@ interface ConfigResolverInterface
      * Checks if $paramName exists in $namespace.
      *
      * @param string $paramName The parameter name, without $prefix and the current scope (i.e. siteaccess name).
-     * @param string $namespace Namespace for the parameter name. If null, the default namespace should be used.
-     * @param string $scope The scope you need $paramName value for.
+     * @param string|null $namespace Namespace for the parameter name. If null, the default namespace should be used.
+     * @param string|null $scope The scope you need $paramName value for.
      */
     public function hasParameter(string $paramName, ?string $namespace = null, ?string $scope = null): bool;
 

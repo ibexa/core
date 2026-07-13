@@ -7,9 +7,9 @@
 
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware;
 
-use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Contextualizer;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -458,22 +458,22 @@ class ContextualizerTest extends TestCase
 
         $hasParameterMap = [
             [
-                $this->namespace . '.' . ConfigResolver::SCOPE_DEFAULT . '.' . $testId,
+                $this->namespace . '.' . ConfigResolverInterface::SCOPE_DEFAULT . '.' . $testId,
                 true,
             ],
             [
-                $this->namespace . '.' . ConfigResolver::SCOPE_GLOBAL . '.' . $testId,
+                $this->namespace . '.' . ConfigResolverInterface::SCOPE_GLOBAL . '.' . $testId,
                 true,
             ],
         ];
 
         $getParameterMap = [
             [
-                $this->namespace . '.' . ConfigResolver::SCOPE_DEFAULT . '.' . $testId,
+                $this->namespace . '.' . ConfigResolverInterface::SCOPE_DEFAULT . '.' . $testId,
                 $defaultValue,
             ],
             [
-                $this->namespace . '.' . ConfigResolver::SCOPE_GLOBAL . '.' . $testId,
+                $this->namespace . '.' . ConfigResolverInterface::SCOPE_GLOBAL . '.' . $testId,
                 $globalValue,
             ],
         ];
