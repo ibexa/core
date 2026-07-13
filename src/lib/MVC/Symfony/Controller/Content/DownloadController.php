@@ -83,7 +83,7 @@ class DownloadController extends Controller
         }
 
         if ($filename !== null && $field->value->fileName !== $filename) {
-            throw new NotFoundException('File', $filename);
+            throw $this->createFileNotFoundException();
         }
 
         return $this->downloadBinaryFileAction($contentId, $field->fieldDefIdentifier, $field->value->fileName, $request);
