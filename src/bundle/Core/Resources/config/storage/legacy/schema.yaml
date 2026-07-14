@@ -318,7 +318,7 @@ tables:
             ibexa_content_version_idx_status: { fields: [contentobject_id, status] }
             ibexa_content_version_creator_id: { fields: [creator_id] }
         uniqueConstraints:
-            ibexa_content_version_idx_ver: { fields: [contentobject_id, version] }
+            uq_ibexa_content_version_coid_version: { fields: [contentobject_id, version] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
