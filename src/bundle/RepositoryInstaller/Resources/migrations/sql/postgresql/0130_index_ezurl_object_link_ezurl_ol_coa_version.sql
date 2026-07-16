@@ -1,0 +1,1 @@
+CREATE INDEX ezurl_ol_coa_version ON ezurl_object_link (contentobject_attribute_version);

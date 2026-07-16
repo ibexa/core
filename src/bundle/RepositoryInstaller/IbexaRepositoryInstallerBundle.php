@@ -7,7 +7,6 @@
 namespace Ibexa\Bundle\RepositoryInstaller;
 
 use Ibexa\Bundle\DoctrineSchema\DoctrineSchemaBundle;
-use Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\InstallerTagPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -29,7 +28,6 @@ class IbexaRepositoryInstallerBundle extends Bundle
         }
 
         parent::build($container);
-        $container->addCompilerPass(new InstallerTagPass());
     }
 }
 

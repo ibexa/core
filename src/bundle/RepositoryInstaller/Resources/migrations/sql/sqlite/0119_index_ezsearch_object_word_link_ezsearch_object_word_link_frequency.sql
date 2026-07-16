@@ -1,0 +1,1 @@
+CREATE INDEX ezsearch_object_word_link_frequency ON ezsearch_object_word_link (frequency);

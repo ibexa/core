@@ -1,0 +1,1 @@
+CREATE TABLE ezsection (id INT AUTO_INCREMENT NOT NULL, identifier VARCHAR(255) DEFAULT NULL, locale VARCHAR(255) DEFAULT NULL, name VARCHAR(255) DEFAULT NULL, navigation_part_identifier VARCHAR(100) DEFAULT 'ezcontentnavigationpart', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
