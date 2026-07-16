@@ -30,7 +30,6 @@ class DoctrineStorage extends Gateway
     /**
      * Stores the keyword list from $field->value->externalData.
      *
-     * @param Field
      * @param int $contentTypeId
      */
     public function storeFieldData(

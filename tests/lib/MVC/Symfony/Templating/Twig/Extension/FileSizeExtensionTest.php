@@ -30,17 +30,17 @@ class FileSizeExtensionTest extends IntegrationTestCase
     protected $suffixes = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB'];
 
     /**
-     * @param TranslatorInterface|MockObject
+     * @var TranslatorInterface|MockObject
      */
     protected $translatorMock;
 
     /**
-     * @param ConfigResolverInterface|MockObject
+     * @var ConfigResolverInterface|MockObject
      */
     protected $configResolverInterfaceMock;
 
     /**
-     * @param LocaleConverterInterface|MockObject
+     * @var LocaleConverterInterface|MockObject
      */
     protected $localeConverterInterfaceMock;
 

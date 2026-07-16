@@ -119,6 +119,7 @@ final class BackwardCompatibleCommandListenerTest extends TestCase
             /** @var string[] */
             private $deprecatedAliases;
 
+            /** @param string[] $deprecatedAliases */
             public function __construct(
                 string $name,
                 array $deprecatedAliases

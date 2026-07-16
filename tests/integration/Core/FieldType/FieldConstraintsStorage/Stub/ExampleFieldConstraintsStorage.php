@@ -23,7 +23,7 @@ final class ExampleFieldConstraintsStorage implements FieldConstraintsStorage
     private array $published = [];
 
     /**
-     * @param FieldTypeConstraints[]
+     * @param FieldTypeConstraints[] $fieldConstraints
      */
     public function __construct(array $fieldConstraints = [])
     {
