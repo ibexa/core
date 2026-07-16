@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Contracts\Core\Repository\Strategy\Publication;
+namespace Ibexa\Contracts\Core\Repository\Strategy\ContentPublication;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
@@ -21,7 +21,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 interface ContentPublicationStrategyInterface
 {
     /**
-     * Whether this strategy handles content publication for the current repository.
+     * Whether this strategy handles content publication.
      */
     public function supports(): bool;
 

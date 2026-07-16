@@ -11,7 +11,7 @@ namespace Ibexa\Tests\Core\Repository\Strategy\Publication;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
-use Ibexa\Core\Repository\Strategy\Publication\SynchronousContentPublicationStrategy;
+use Ibexa\Core\Repository\Strategy\ContentPublication\SynchronousContentPublicationStrategy;
 use PHPUnit\Framework\TestCase;
 
 final class SynchronousContentPublicationStrategyTest extends TestCase
@@ -19,7 +19,7 @@ final class SynchronousContentPublicationStrategyTest extends TestCase
     public function testSupportsAlwaysReturnsTrue(): void
     {
         $strategy = new SynchronousContentPublicationStrategy(
-            $this->createMock(ContentService::class)
+            $this->createStub(ContentService::class)
         );
 
         self::assertTrue($strategy->supports());
@@ -27,7 +27,7 @@ final class SynchronousContentPublicationStrategyTest extends TestCase
 
     public function testPublishVersionDelegatesToContentService(): void
     {
-        $versionInfo = $this->createMock(VersionInfo::class);
+        $versionInfo = $this->createStub(VersionInfo::class);
 
         $contentService = $this->createMock(ContentService::class);
         $contentService

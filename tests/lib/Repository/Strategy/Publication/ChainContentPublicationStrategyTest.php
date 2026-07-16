@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\Strategy\Publication;
 
-use Ibexa\Contracts\Core\Repository\Strategy\Publication\ContentPublicationStrategyInterface;
+use Ibexa\Contracts\Core\Repository\Strategy\ContentPublication\ContentPublicationStrategyInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
-use Ibexa\Core\Repository\Strategy\Publication\ChainContentPublicationStrategy;
+use Ibexa\Core\Repository\Strategy\ContentPublication\ChainContentPublicationStrategy;
 use LogicException;
 use PHPUnit\Framework\TestCase;
 
@@ -18,16 +18,22 @@ final class ChainContentPublicationStrategyTest extends TestCase
 {
     public function testPublishVersionExecutesFirstSupportingStrategy(): void
     {
-        $versionInfo = $this->createMock(VersionInfo::class);
+        $versionInfo = $this->createStub(VersionInfo::class);
 
         $notSupportingStrategy = $this->createMock(ContentPublicationStrategyInterface::class);
-        $notSupportingStrategy->method('supports')->willReturn(false);
+        $notSupportingStrategy
+            ->expects(self::once())
+            ->method('supports')
+            ->willReturn(false);
         $notSupportingStrategy
             ->expects(self::never())
             ->method('publishVersion');
 
         $supportingStrategy = $this->createMock(ContentPublicationStrategyInterface::class);
-        $supportingStrategy->method('supports')->willReturn(true);
+        $supportingStrategy
+            ->expects(self::once())
+            ->method('supports')
+            ->willReturn(true);
         $supportingStrategy
             ->expects(self::once())
             ->method('publishVersion')
@@ -53,10 +59,16 @@ final class ChainContentPublicationStrategyTest extends TestCase
     public function testSupportsReturnsTrueWhenAnyStrategySupports(): void
     {
         $notSupportingStrategy = $this->createMock(ContentPublicationStrategyInterface::class);
-        $notSupportingStrategy->method('supports')->willReturn(false);
+        $notSupportingStrategy
+            ->expects(self::once())
+            ->method('supports')
+            ->willReturn(false);
 
         $supportingStrategy = $this->createMock(ContentPublicationStrategyInterface::class);
-        $supportingStrategy->method('supports')->willReturn(true);
+        $supportingStrategy
+            ->expects(self::once())
+            ->method('supports')
+            ->willReturn(true);
 
         $chain = new ChainContentPublicationStrategy([$notSupportingStrategy, $supportingStrategy]);
 
@@ -73,7 +85,10 @@ final class ChainContentPublicationStrategyTest extends TestCase
     public function testPublishVersionThrowsLogicExceptionWhenNoStrategySupports(): void
     {
         $notSupportingStrategy = $this->createMock(ContentPublicationStrategyInterface::class);
-        $notSupportingStrategy->method('supports')->willReturn(false);
+        $notSupportingStrategy
+            ->expects(self::once())
+            ->method('supports')
+            ->willReturn(false);
         $notSupportingStrategy
             ->expects(self::never())
             ->method('publishVersion');

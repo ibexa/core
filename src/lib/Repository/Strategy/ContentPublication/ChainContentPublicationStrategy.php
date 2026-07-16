@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Core\Repository\Strategy\Publication;
+namespace Ibexa\Core\Repository\Strategy\ContentPublication;
 
-use Ibexa\Contracts\Core\Repository\Strategy\Publication\ContentPublicationStrategyInterface;
+use Ibexa\Contracts\Core\Repository\Strategy\ContentPublication\ContentPublicationStrategyInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use LogicException;
@@ -22,7 +22,7 @@ use LogicException;
 final readonly class ChainContentPublicationStrategy implements ContentPublicationStrategyInterface
 {
     /**
-     * @param iterable<\Ibexa\Contracts\Core\Repository\Strategy\Publication\ContentPublicationStrategyInterface> $strategies
+     * @param iterable<ContentPublicationStrategyInterface> $strategies
      */
     public function __construct(
         private iterable $strategies,

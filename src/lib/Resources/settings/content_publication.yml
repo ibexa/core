@@ -8,15 +8,15 @@ services:
     # returns true executes; the synchronous strategy is the always-applicable fallback.
     # Additional strategies (e.g. asynchronous publication) are provided by dedicated packages
     # via the "ibexa.repository.content.publication_strategy" tag with a higher priority.
-    Ibexa\Core\Repository\Strategy\Publication\SynchronousContentPublicationStrategy:
+    Ibexa\Core\Repository\Strategy\ContentPublication\SynchronousContentPublicationStrategy:
         arguments:
             $contentService: '@ibexa.api.service.content'
         tags:
             - { name: ibexa.repository.content.publication_strategy, priority: -100 }
 
-    Ibexa\Core\Repository\Strategy\Publication\ChainContentPublicationStrategy:
+    Ibexa\Core\Repository\Strategy\ContentPublication\ChainContentPublicationStrategy:
         arguments:
             $strategies: !tagged_iterator ibexa.repository.content.publication_strategy
 
-    Ibexa\Contracts\Core\Repository\Strategy\Publication\ContentPublicationStrategyInterface:
-        alias: Ibexa\Core\Repository\Strategy\Publication\ChainContentPublicationStrategy
+    Ibexa\Contracts\Core\Repository\Strategy\ContentPublication\ContentPublicationStrategyInterface:
+        alias: Ibexa\Core\Repository\Strategy\ContentPublication\ChainContentPublicationStrategy

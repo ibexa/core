@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Core\Repository\Strategy\Publication;
+namespace Ibexa\Core\Repository\Strategy\ContentPublication;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
-use Ibexa\Contracts\Core\Repository\Strategy\Publication\ContentPublicationStrategyInterface;
+use Ibexa\Contracts\Core\Repository\Strategy\ContentPublication\ContentPublicationStrategyInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 
@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
  * Synchronous publication strategy: publishes the version inside the current request.
  * Always-applicable fallback, registered with the lowest priority.
  *
- * @internal Meant for internal use by Repository
+ * @internal
  */
 final readonly class SynchronousContentPublicationStrategy implements ContentPublicationStrategyInterface
 {
