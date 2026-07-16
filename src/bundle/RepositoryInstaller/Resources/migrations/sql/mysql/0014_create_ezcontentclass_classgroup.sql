@@ -1,0 +1,1 @@
+CREATE TABLE ezcontentclass_classgroup (contentclass_id INT DEFAULT 0 NOT NULL, contentclass_version INT DEFAULT 0 NOT NULL, group_id INT DEFAULT 0 NOT NULL, group_name VARCHAR(255) DEFAULT NULL, PRIMARY KEY(contentclass_id, contentclass_version, group_id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;

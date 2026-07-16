@@ -1,0 +1,1 @@
+CREATE TABLE ezcontentobject_name (contentobject_id INTEGER DEFAULT 0 NOT NULL, content_version INTEGER DEFAULT 0 NOT NULL, content_translation VARCHAR(20) DEFAULT '' NOT NULL, language_id BIGINT DEFAULT 0 NOT NULL, name VARCHAR(255) DEFAULT NULL, real_translation VARCHAR(20) DEFAULT NULL, PRIMARY KEY(contentobject_id, content_version, content_translation));

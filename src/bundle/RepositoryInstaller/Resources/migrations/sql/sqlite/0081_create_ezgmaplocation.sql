@@ -1,0 +1,1 @@
+CREATE TABLE ezgmaplocation (contentobject_attribute_id INTEGER DEFAULT 0 NOT NULL, contentobject_version INTEGER DEFAULT 0 NOT NULL, latitude DOUBLE PRECISION DEFAULT '0' NOT NULL, longitude DOUBLE PRECISION DEFAULT '0' NOT NULL, address VARCHAR(150) DEFAULT NULL, PRIMARY KEY(contentobject_attribute_id, contentobject_version));

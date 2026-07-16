@@ -1,0 +1,1 @@
+CREATE TABLE ezsection (id SERIAL NOT NULL, identifier VARCHAR(255) DEFAULT NULL, locale VARCHAR(255) DEFAULT NULL, name VARCHAR(255) DEFAULT NULL, navigation_part_identifier VARCHAR(100) DEFAULT 'ezcontentnavigationpart', PRIMARY KEY(id));
