@@ -1,0 +1,1 @@
+CREATE TABLE ibexa_content_relation (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, content_type_field_definition_id INTEGER DEFAULT 0 NOT NULL, from_contentobject_id INTEGER DEFAULT 0 NOT NULL, from_contentobject_version INTEGER DEFAULT 0 NOT NULL, relation_type INTEGER DEFAULT 1 NOT NULL, to_contentobject_id INTEGER DEFAULT 0 NOT NULL);

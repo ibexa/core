@@ -1,0 +1,1 @@
+CREATE TABLE ibexa_content_type_field_definition_ml (content_type_field_definition_id INT NOT NULL, status INT NOT NULL, language_id BIGINT NOT NULL, name VARCHAR(255) NOT NULL, description TEXT DEFAULT NULL, data_text TEXT DEFAULT NULL, data_json TEXT DEFAULT NULL, PRIMARY KEY(content_type_field_definition_id, status, language_id));

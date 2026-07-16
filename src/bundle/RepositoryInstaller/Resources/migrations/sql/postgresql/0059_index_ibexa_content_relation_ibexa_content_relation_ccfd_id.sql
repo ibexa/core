@@ -1,0 +1,1 @@
+CREATE INDEX ibexa_content_relation_ccfd_id ON ibexa_content_relation (content_type_field_definition_id);

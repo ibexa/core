@@ -1,0 +1,1 @@
+CREATE TABLE ibexa_url_alias_ml_incr (id INT AUTO_INCREMENT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;

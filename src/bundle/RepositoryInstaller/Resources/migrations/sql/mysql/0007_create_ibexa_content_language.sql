@@ -1,0 +1,1 @@
+CREATE TABLE ibexa_content_language (id BIGINT DEFAULT 0 NOT NULL, disabled INT DEFAULT 0 NOT NULL, locale VARCHAR(20) DEFAULT '' NOT NULL, name VARCHAR(255) DEFAULT '' NOT NULL, INDEX ibexa_content_language_name (name(191)), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;

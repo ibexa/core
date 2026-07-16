@@ -1,0 +1,1 @@
+CREATE TABLE ibexa_policy_limitation_value (id INT AUTO_INCREMENT NOT NULL, limitation_id INT DEFAULT NULL, value VARCHAR(255) DEFAULT NULL, INDEX ibexa_policy_limit_value_limit_id (limitation_id), INDEX ibexa_policy_limitation_value_val (value(191)), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;

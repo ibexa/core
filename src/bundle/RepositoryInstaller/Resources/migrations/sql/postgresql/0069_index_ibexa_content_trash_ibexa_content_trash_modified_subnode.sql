@@ -1,0 +1,1 @@
+CREATE INDEX ibexa_content_trash_modified_subnode ON ibexa_content_trash (modified_subnode);

@@ -1,0 +1,1 @@
+CREATE INDEX ibexa_content_type_field_definition_ctid ON ibexa_content_type_field_definition (content_type_id);

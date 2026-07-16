@@ -1,0 +1,1 @@
+CREATE TABLE ibexa_user_preference (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(100) DEFAULT NULL, user_id INT DEFAULT 0 NOT NULL, value LONGTEXT DEFAULT NULL, INDEX ibexa_user_preference_user_id_idx (user_id, name), INDEX ibexa_user_preference_name (name), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;

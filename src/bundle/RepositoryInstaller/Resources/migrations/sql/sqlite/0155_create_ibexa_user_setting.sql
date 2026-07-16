@@ -1,0 +1,1 @@
+CREATE TABLE ibexa_user_setting (user_id INTEGER DEFAULT 0 NOT NULL, is_enabled INTEGER DEFAULT 0 NOT NULL, max_login INTEGER DEFAULT NULL, PRIMARY KEY(user_id));

@@ -1,0 +1,1 @@
+CREATE TABLE ibexa_site_data (name VARCHAR(60) DEFAULT '' NOT NULL, value CLOB NOT NULL, PRIMARY KEY(name));

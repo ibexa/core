@@ -1,0 +1,1 @@
+CREATE INDEX ibexa_search_object_word_link_integer_value ON ibexa_search_object_word_link (integer_value);
