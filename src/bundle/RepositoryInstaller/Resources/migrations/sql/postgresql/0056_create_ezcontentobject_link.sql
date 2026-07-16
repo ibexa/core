@@ -1,0 +1,1 @@
+CREATE TABLE ezcontentobject_link (id SERIAL NOT NULL, contentclassattribute_id INT DEFAULT 0 NOT NULL, from_contentobject_id INT DEFAULT 0 NOT NULL, from_contentobject_version INT DEFAULT 0 NOT NULL, relation_type INT DEFAULT 1 NOT NULL, to_contentobject_id INT DEFAULT 0 NOT NULL, PRIMARY KEY(id));

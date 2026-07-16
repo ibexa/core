@@ -1,0 +1,1 @@
+CREATE INDEX ezsearch_object_word_link_identifier ON ezsearch_object_word_link (identifier);

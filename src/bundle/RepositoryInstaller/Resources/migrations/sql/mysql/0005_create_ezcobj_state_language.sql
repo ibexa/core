@@ -1,0 +1,1 @@
+CREATE TABLE ezcobj_state_language (contentobject_state_id INT DEFAULT 0 NOT NULL, language_id BIGINT DEFAULT 0 NOT NULL, description LONGTEXT NOT NULL, name VARCHAR(45) DEFAULT '' NOT NULL, PRIMARY KEY(contentobject_state_id, language_id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
