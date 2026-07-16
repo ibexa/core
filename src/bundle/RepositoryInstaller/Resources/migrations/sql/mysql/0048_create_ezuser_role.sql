@@ -1,0 +1,1 @@
+CREATE TABLE ezuser_role (id INT AUTO_INCREMENT NOT NULL, contentobject_id INT DEFAULT NULL, limit_identifier VARCHAR(255) DEFAULT '', limit_value VARCHAR(255) DEFAULT '', role_id INT DEFAULT NULL, INDEX ezuser_role_role_id (role_id), INDEX ezuser_role_contentobject_id (contentobject_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;

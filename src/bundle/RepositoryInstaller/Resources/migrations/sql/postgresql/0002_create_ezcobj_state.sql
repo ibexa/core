@@ -1,0 +1,1 @@
+CREATE TABLE ezcobj_state (id SERIAL NOT NULL, default_language_id BIGINT DEFAULT 0 NOT NULL, group_id INT DEFAULT 0 NOT NULL, identifier VARCHAR(45) DEFAULT '' NOT NULL, language_mask BIGINT DEFAULT 0 NOT NULL, priority INT DEFAULT 0 NOT NULL, PRIMARY KEY(id));
