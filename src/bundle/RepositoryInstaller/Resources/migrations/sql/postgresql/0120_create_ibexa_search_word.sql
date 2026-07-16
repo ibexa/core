@@ -1,0 +1,1 @@
+CREATE TABLE ibexa_search_word (id SERIAL NOT NULL, object_count INT DEFAULT 0 NOT NULL, word VARCHAR(150) DEFAULT NULL, PRIMARY KEY(id));

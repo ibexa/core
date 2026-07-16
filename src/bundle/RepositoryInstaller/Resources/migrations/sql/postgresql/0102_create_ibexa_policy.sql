@@ -1,0 +1,1 @@
+CREATE TABLE ibexa_policy (id SERIAL NOT NULL, function_name VARCHAR(255) DEFAULT NULL, module_name VARCHAR(255) DEFAULT NULL, original_id INT DEFAULT 0 NOT NULL, role_id INT DEFAULT NULL, PRIMARY KEY(id));

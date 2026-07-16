@@ -1,0 +1,1 @@
+CREATE INDEX ibexa_policy_limitation_value_val ON ibexa_policy_limitation_value (value);

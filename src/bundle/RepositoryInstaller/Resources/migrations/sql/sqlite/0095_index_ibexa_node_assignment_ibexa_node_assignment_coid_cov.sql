@@ -1,0 +1,1 @@
+CREATE INDEX ibexa_node_assignment_coid_cov ON ibexa_node_assignment (contentobject_id, contentobject_version);

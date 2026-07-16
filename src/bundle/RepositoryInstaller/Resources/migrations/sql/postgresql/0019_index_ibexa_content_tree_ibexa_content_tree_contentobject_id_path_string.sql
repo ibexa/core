@@ -1,0 +1,1 @@
+CREATE INDEX ibexa_content_tree_contentobject_id_path_string ON ibexa_content_tree (path_string, contentobject_id);

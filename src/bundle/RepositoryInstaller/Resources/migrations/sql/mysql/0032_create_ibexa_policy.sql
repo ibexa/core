@@ -1,0 +1,1 @@
+CREATE TABLE ibexa_policy (id INT AUTO_INCREMENT NOT NULL, function_name VARCHAR(255) DEFAULT NULL, module_name VARCHAR(255) DEFAULT NULL, original_id INT DEFAULT 0 NOT NULL, role_id INT DEFAULT NULL, INDEX ibexa_policy_role_id (role_id), INDEX ibexa_policy_original_id (original_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;

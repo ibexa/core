@@ -1,0 +1,1 @@
+CREATE INDEX ibexa_content_relation_from ON ibexa_content_relation (from_contentobject_id, from_contentobject_version, content_type_field_definition_id);

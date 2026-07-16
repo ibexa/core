@@ -1,0 +1,1 @@
+ALTER TABLE ibexa_content_bookmark ADD CONSTRAINT ibexa_content_bookmark_location_fk FOREIGN KEY (node_id) REFERENCES ibexa_content_tree (node_id) ON UPDATE NO ACTION ON DELETE CASCADE;

@@ -1,0 +1,1 @@
+CREATE INDEX ibexa_search_object_word_link_word ON ibexa_search_object_word_link (word_id);

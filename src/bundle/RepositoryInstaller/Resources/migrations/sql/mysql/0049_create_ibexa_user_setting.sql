@@ -1,0 +1,1 @@
+CREATE TABLE ibexa_user_setting (user_id INT DEFAULT 0 NOT NULL, is_enabled INT DEFAULT 0 NOT NULL, max_login INT DEFAULT NULL, PRIMARY KEY(user_id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;

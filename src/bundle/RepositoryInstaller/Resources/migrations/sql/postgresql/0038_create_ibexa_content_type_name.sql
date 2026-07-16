@@ -1,0 +1,1 @@
+CREATE TABLE ibexa_content_type_name (content_type_id INT DEFAULT 0 NOT NULL, content_type_status INT DEFAULT 0 NOT NULL, language_id BIGINT DEFAULT 0 NOT NULL, language_locale VARCHAR(20) DEFAULT '' NOT NULL, name VARCHAR(255) DEFAULT '' NOT NULL, PRIMARY KEY(content_type_id, content_type_status, language_id));

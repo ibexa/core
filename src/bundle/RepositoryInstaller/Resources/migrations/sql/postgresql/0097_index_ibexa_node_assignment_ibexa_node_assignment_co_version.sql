@@ -1,0 +1,1 @@
+CREATE INDEX ibexa_node_assignment_co_version ON ibexa_node_assignment (contentobject_version);
