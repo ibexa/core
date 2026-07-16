@@ -26,7 +26,7 @@ interface ContentPublicationStrategyInterface
     public function supports(): bool;
 
     /**
-     * @param array<int, string> $translations List of language codes of translations which will be
+     * @param list<string> $translations List of language codes of translations which will be
      *                                         included in a published version
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
